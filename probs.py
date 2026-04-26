@@ -79,12 +79,15 @@ def p_above_traditional_oni(season_probs: dict, threshold_oni: float,
     return total
 
 
-def cpc_headline_buckets(season: str = "NDJ 2026-27") -> dict:
+def cpc_headline_buckets(strength_table: dict, season: str = "NDJ 2026-27") -> dict:
     """
     Return CPC-derived probabilities for the four headline buckets,
     converted to traditional ONI using the offset in sources.py.
+
+    `strength_table` is the full RONI strength table keyed by season,
+    e.g. fetched["cpc_strength"]["table"].
     """
-    probs = S.CPC_STRENGTH_RONI[season]
+    probs = strength_table[season]
     return {
         "moderate_>1.0": round(p_above_traditional_oni(probs, 1.0, S.RONI_TO_ONI_OFFSET)),
         "strong_>1.5":   round(p_above_traditional_oni(probs, 1.5, S.RONI_TO_ONI_OFFSET)),
@@ -93,7 +96,7 @@ def cpc_headline_buckets(season: str = "NDJ 2026-27") -> dict:
     }
 
 
-def cpc_headline_with_uncertainty(season: str = "NDJ 2026-27") -> dict:
+def cpc_headline_with_uncertainty(strength_table: dict, season: str = "NDJ 2026-27") -> dict:
     """
     Same as cpc_headline_buckets but returns a (lo, mid, hi) range to
     capture the discretization uncertainty within the open >=2.0 RONI bin.
@@ -104,8 +107,8 @@ def cpc_headline_with_uncertainty(season: str = "NDJ 2026-27") -> dict:
     The other thresholds (1.0, 1.5, 2.0) are not sensitive to this
     assumption because they sit at or below the 2.0 RONI edge.
     """
-    probs = S.CPC_STRENGTH_RONI[season]
-    base = cpc_headline_buckets(season)
+    probs = strength_table[season]
+    base = cpc_headline_buckets(strength_table, season)
 
     # For >2.5 only, recompute under different assumptions about where
     # the probability mass sits inside CPC's open-ended >=2.0 RONI bin.
@@ -133,7 +136,7 @@ def cpc_headline_with_uncertainty(season: str = "NDJ 2026-27") -> dict:
 
 if __name__ == "__main__":
     print("CPC RONI->trad headline buckets (NDJ 2026-27 peak):")
-    for k, v in cpc_headline_with_uncertainty().items():
+    for k, v in cpc_headline_with_uncertainty(S.CPC_STRENGTH_RONI).items():
         if "lo" in v:
             print(f"  {k}: {v['mid']}% (range {v['lo']}-{v['hi']}%)")
         else:

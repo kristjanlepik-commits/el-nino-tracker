@@ -38,19 +38,29 @@ def _to_jsonable(obj):
     return obj
 
 
-def current_snapshot() -> dict:
-    """Capture the current state of sources.py as a flat dict."""
+def current_snapshot(fetched: dict) -> dict:
+    """Capture the current state of inputs as a flat dict.
+
+    `fetched` is the live (or seed-fallback) dict produced by
+    fetch_all.fetch_all() with `_freshness` already popped off. It owns
+    the per-source fields; sources.py only owns methodology constants
+    and target-season identifiers.
+
+    The snapshot key shape is preserved as `cpc_strength`, `iri`, `bom`,
+    `ecmwf`, `physical_state` so the existing diff() keeps working. We
+    map fetched["ecmwf_seas5"] onto the legacy "ecmwf" key.
+    """
     return _to_jsonable({
         "brief_date": S.BRIEF_DATE,
         "methodology_version": S.METHODOLOGY_VERSION,
         "roni_to_oni_offset": S.RONI_TO_ONI_OFFSET,
         "target_season": S.TARGET_SEASON,
         "nearest_cpc_season": S.NEAREST_CPC_SEASON,
-        "cpc_strength": S.CPC_STRENGTH,
-        "iri": S.IRI,
-        "ecmwf": S.ECMWF,
-        "bom": S.BOM,
-        "physical_state": S.PHYSICAL_STATE,
+        "cpc_strength": fetched["cpc_strength"],
+        "iri": fetched["iri"],
+        "ecmwf": fetched["ecmwf_seas5"],
+        "bom": fetched["bom"],
+        "physical_state": fetched["physical_state"],
     })
 
 
@@ -225,7 +235,10 @@ def render_diff_markdown(d: dict) -> str:
 
 
 if __name__ == "__main__":
-    snap = current_snapshot()
+    import fetch_all as F
+    fetched = F.fetch_all()
+    fetched.pop("_freshness", None)
+    snap = current_snapshot(fetched)
     prev = load_prior_snapshot(before=date.fromisoformat(snap["brief_date"]))
     d = diff(prev, snap)
     print(render_diff_markdown(d))

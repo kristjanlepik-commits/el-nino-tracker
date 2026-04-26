@@ -34,10 +34,16 @@ def fmt_bucket(name: str, vals: dict) -> str:
     return f"**{name}**: {vals['mid']}%"
 
 
-def build_markdown(diff_md: str, freshness: dict, analyst_read_md: str) -> str:
-    headline = probs.cpc_headline_with_uncertainty("NDJ 2026-27")
-    iri_djf = S.IRI_3CAT["DJF 2026-27"]
-    phys = S.PHYSICAL_STATE
+def build_markdown(fetched: dict, diff_md: str, freshness: dict,
+                   analyst_read_md: str) -> str:
+    headline = probs.cpc_headline_with_uncertainty(
+        fetched["cpc_strength"]["table"], "NDJ 2026-27")
+    iri_djf = fetched["iri"]["three_cat"]["DJF 2026-27"]
+    phys = fetched["physical_state"]
+    bom = fetched["bom"]
+    ecmwf = fetched["ecmwf_seas5"]
+    cpc_ndj = fetched["cpc_strength"]["table"]["NDJ 2026-27"]
+    cpc_issued = fetched["cpc_strength"]["issued"]
     analog_same = S.ANALOG_SAME_WEEK
 
     md = []
@@ -69,16 +75,25 @@ def build_markdown(diff_md: str, freshness: dict, analyst_read_md: str) -> str:
     md.append("**Source-by-source check (qualitative where strength bins "
               "aren't broken out):**")
     md.append("")
-    md.append(f"- NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, "
-              f"strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, "
-              f"La Niña 0%. Issued 9 Apr 2026.")
+    cpc_super = cpc_ndj.get(">=2.0", 0)
+    cpc_strong = cpc_ndj.get("1.5to2.0", 0)
+    cpc_moderate = cpc_ndj.get("1.0to1.5", 0)
+    cpc_weak = cpc_ndj.get("0.5to1.0", 0)
+    cpc_neutral = cpc_ndj.get("neutral", 0)
+    cpc_la_nina = sum(cpc_ndj.get(k, 0) for k in
+                      ["<=-2.0", "-2.0to-1.5", "-1.5to-1.0", "-1.0to-0.5"])
+    md.append(f"- NOAA CPC strength table, NDJ 2026-27 (RONI): super "
+              f"{cpc_super}%, strong {cpc_strong}%, moderate {cpc_moderate}%, "
+              f"weak El Niño {cpc_weak}%, neutral {cpc_neutral}%, La Niña "
+              f"{cpc_la_nina}%. Issued {cpc_issued}.")
     md.append(f"- IRI plume, DJF 2026-27: El Niño {iri_djf[2]}%, "
-              f"neutral {iri_djf[1]}%, La Niña {iri_djf[0]}%. Issued mid-Apr "
-              f"2026. Strength not broken out in the public Quick Look.")
-    md.append(f"- BoM ENSO Outlook, week ending 12 Apr 2026: "
-              f"{S.BOM_QUALITATIVE['alert_status']}. Categorical only.")
-    md.append(f"- ECMWF SEAS5, April 2026 run: "
-              f"{S.ECMWF_QUALITATIVE['summary']}")
+              f"neutral {iri_djf[1]}%, La Niña {iri_djf[0]}%. Issued "
+              f"{fetched['iri']['issued']}. Strength not broken out in the "
+              f"public Quick Look.")
+    md.append(f"- BoM ENSO Outlook, issued {bom['issued']}: "
+              f"{bom['alert_status']}. Categorical only.")
+    md.append(f"- ECMWF SEAS5, run {ecmwf['issued']}: "
+              f"{ecmwf['summary']}")
     md.append("")
     md.append("**Caveats this issue:**")
     md.append("")
@@ -199,7 +214,7 @@ def main():
     analog.plot(str(BRIEF_DIR / "analog.png"))
 
     # 3. Snapshot current inputs and diff against last issue
-    snap = snapshot.current_snapshot()
+    snap = snapshot.current_snapshot(fetched)
     prev = snapshot.load_prior_snapshot(before=S.BRIEF_DATE)
     d = snapshot.diff(prev, snap)
     diff_md = snapshot.render_diff_markdown(d)
@@ -208,18 +223,19 @@ def main():
 
     # 4. Auto-generate the Analyst Read prose
     import editorial
-    headline = probs.cpc_headline_with_uncertainty("NDJ 2026-27")
+    headline = probs.cpc_headline_with_uncertainty(
+        fetched["cpc_strength"]["table"], "NDJ 2026-27")
     analyst_read_md = editorial.generate(
         headline=headline,
         diff=d,
-        physical_state=S.PHYSICAL_STATE,
+        physical_state=fetched["physical_state"],
         freshness=freshness,
         brief_date=S.BRIEF_DATE.isoformat(),
     )
 
     # 5. Brief
     out = BRIEF_DIR / "brief.md"
-    out.write_text(build_markdown(diff_md, freshness, analyst_read_md))
+    out.write_text(build_markdown(fetched, diff_md, freshness, analyst_read_md))
     print(f"wrote: {out}")
     print(f"wrote: {BRIEF_DIR / 'analog.png'}")
 
