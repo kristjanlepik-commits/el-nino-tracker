@@ -17,7 +17,7 @@ V1 first batch has one quantitative source for strength bins (NOAA CPC). Numbers
 **Source-by-source check (qualitative where strength bins aren't broken out):**
 
 - NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%. Issued 2026-04-09.
-- IRI plume, DJF 2026-27: El Niño 90%, neutral 10%, La Niña 0%. Issued 2026-04-16. Strength not broken out in the public Quick Look.
+- IRI plume, DJF 2026-27: El Niño 88%, neutral 11%, La Niña 1%. Issued 2026-04-20. Strength not broken out in the public Quick Look.
 - BoM ENSO Outlook, issued 2026-04-14: Increased chance of El Niño later in 2026. Categorical only.
 - ECMWF SEAS5, run 2026-04-05: Median ensemble path crosses traditional Niño 3.4 +2.0°C by autumn. Roughly 50% of members exceed +2.5°C for October. Implies meaningfully higher upper-tail probabilities than the CPC RONI strength table for the NDJ peak.
 
@@ -69,7 +69,7 @@ This week's brief was generated without analyst commentary because the editorial
 - **cpc_strength**: fetched live, issued 2026-04-09.
 - **oisst_weekly**: fetched live, issued 2026-04-15.
 - **heat_content**: not implemented or cache empty; using seed values from sources.py.
-- **iri**: not implemented or cache empty; using seed values from sources.py.
+- **iri**: fetched live, issued 2026-04-20.
 - **bom**: fetched live, issued 2026-04-14.
 - **ecmwf_seas5**: not implemented or cache empty; using seed values from sources.py.
 - **era5_wwe**: not implemented or cache empty; using seed values from sources.py.
