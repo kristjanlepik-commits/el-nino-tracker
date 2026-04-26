@@ -1,17 +1,17 @@
 {
   "bom": {
-    "alert_status": "El Ni\u00f1o Watch (ENSO neutral but warming)",
-    "fallback_note": "seeded from sources.py",
-    "fetched_at": "2026-04-26T10:39:31+00:00",
-    "issued": "2026-04-15",
+    "alert_status": "Increased chance of El Ni\u00f1o later in 2026",
+    "fallback_note": null,
+    "fetched_at": "2026-04-26T10:42:49+00:00",
+    "issued": "2026-04-14",
     "ok": true,
-    "summary": "All models warm to El Ni\u00f1o thresholds by July, with onset ranging from May to July across model groups. No strength guidance issued in the fortnightly bulletin.",
-    "used_fallback": true
+    "summary": "The El Ni\u00f1o\u2013Southern Oscillation (ENSO) is currently neutral. The latest relative Ni\u00f1o3.4 index value for the week ending 12 April 2026 is \u22120.27 \u00b0C, firmly within the ENSO-neutral range (\u22120.80 to +0.80 \u00b0C). Relative Ni\u00f1o3.4 index values have been steadily warming since the end of the southern hemisphere summer. A recent pulse of warming in the sub-surface suggests further warming of SSTs is likely in the coming weeks.",
+    "used_fallback": false
   },
   "brief_date": "2026-04-25",
   "cpc_strength": {
     "fallback_note": "seeded from sources.py (no fetcher result)",
-    "fetched_at": "2026-04-26T10:39:31+00:00",
+    "fetched_at": "2026-04-26T10:42:47+00:00",
     "issued": "2026-04-09",
     "ok": true,
     "table": {
@@ -120,7 +120,7 @@
   "ecmwf": {
     "approx_p_above_2.5_oct": 0.5,
     "fallback_note": "seeded from sources.py (qualitative only)",
-    "fetched_at": "2026-04-26T10:39:31+00:00",
+    "fetched_at": "2026-04-26T10:42:47+00:00",
     "issued": "2026-04-05",
     "ok": true,
     "summary": "Median ensemble path crosses traditional Ni\u00f1o 3.4 +2.0\u00b0C by autumn. Roughly 50% of members exceed +2.5\u00b0C for October. Implies meaningfully higher upper-tail probabilities than the CPC RONI strength table for the NDJ peak.",
@@ -128,7 +128,7 @@
   },
   "iri": {
     "fallback_note": "seeded from sources.py",
-    "fetched_at": "2026-04-26T10:39:31+00:00",
+    "fetched_at": "2026-04-26T10:42:47+00:00",
     "issued": "2026-04-16",
     "ok": true,
     "three_cat": {
@@ -184,7 +184,7 @@
   "nearest_cpc_season": "NDJ 2026-27",
   "physical_state": {
     "fallback_note": null,
-    "fetched_at": "2026-04-26T10:39:31+00:00",
+    "fetched_at": "2026-04-26T10:42:47+00:00",
     "heat_content_0_300m_estimate": 1.3,
     "heat_content_qualitative": "Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.",
     "issued": "2026-04-15",
