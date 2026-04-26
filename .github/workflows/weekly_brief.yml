@@ -1,0 +1,78 @@
+name: Weekly El Nino brief
+
+on:
+  schedule:
+    # Mondays at 13:00 UTC = ~16:00 EET (Tallinn). NOAA wksst9120 typically
+    # updates by 12:00 UTC Mondays; this gives it a buffer.
+    - cron: "0 13 * * 1"
+  workflow_dispatch:        # allow manual runs from the Actions tab
+
+permissions:
+  contents: write           # to commit snapshot + brief back to the repo
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # full history, so snapshots/ comparisons work
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Configure CDS API key
+        env:
+          CDS_API_KEY: ${{ secrets.CDS_API_KEY }}
+        run: |
+          # cdsapi reads ~/.cdsapirc; format is two lines:
+          #   url: https://cds.climate.copernicus.eu/api
+          #   key: <UID>:<API key>
+          if [ -n "$CDS_API_KEY" ]; then
+            cat > ~/.cdsapirc <<EOF
+          url: https://cds.climate.copernicus.eu/api
+          key: $CDS_API_KEY
+          EOF
+            chmod 600 ~/.cdsapirc
+          else
+            echo "CDS_API_KEY not set; ECMWF and ERA5 fetchers will fall back."
+          fi
+
+      - name: Run brief
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python run_brief.py
+
+      - name: Commit snapshot and brief
+        run: |
+          git config user.name "el-nino-tracker-bot"
+          git config user.email "actions@github.com"
+          git add snapshots/ briefs/
+          # Only commit if something changed
+          if ! git diff --cached --quiet; then
+            git commit -m "Weekly brief: $(date -u +'%Y-%m-%d')"
+            git push
+          else
+            echo "No changes to commit."
+          fi
+
+      - name: Email the brief
+        if: ${{ env.SMTP_HOST != '' }}
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          BRIEF_RECIPIENT: ${{ secrets.BRIEF_RECIPIENT }}
+        run: |
+          python scripts/send_email.py

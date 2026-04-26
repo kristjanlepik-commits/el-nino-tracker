@@ -1,0 +1,182 @@
+{
+  "bom": {
+    "alert_status": "El Ni\u00f1o Watch (ENSO neutral but warming)",
+    "issued": "2026-04-15",
+    "relative_nino34_week_ending_2026_04_12": -0.27,
+    "summary": "All models warm to El Ni\u00f1o thresholds by July, with onset ranging from May to July across model groups. No strength guidance issued in the fortnightly bulletin."
+  },
+  "brief_date": "2026-04-25",
+  "cpc_strength": {
+    "issued": "2026-04-09",
+    "table": {
+      "AMJ 2026": {
+        "-1.0to-0.5": 0,
+        "-1.5to-1.0": 0,
+        "-2.0to-1.5": 0,
+        "0.5to1.0": 20,
+        "1.0to1.5": 0,
+        "1.5to2.0": 0,
+        "<=-2.0": 0,
+        ">=2.0": 0,
+        "neutral": 80
+      },
+      "ASO 2026": {
+        "-1.0to-0.5": 0,
+        "-1.5to-1.0": 0,
+        "-2.0to-1.5": 0,
+        "0.5to1.0": 27,
+        "1.0to1.5": 36,
+        "1.5to2.0": 21,
+        "<=-2.0": 0,
+        ">=2.0": 6,
+        "neutral": 10
+      },
+      "JAS 2026": {
+        "-1.0to-0.5": 0,
+        "-1.5to-1.0": 0,
+        "-2.0to-1.5": 0,
+        "0.5to1.0": 38,
+        "1.0to1.5": 37,
+        "1.5to2.0": 11,
+        "<=-2.0": 0,
+        ">=2.0": 1,
+        "neutral": 13
+      },
+      "JJA 2026": {
+        "-1.0to-0.5": 0,
+        "-1.5to-1.0": 0,
+        "-2.0to-1.5": 0,
+        "0.5to1.0": 53,
+        "1.0to1.5": 24,
+        "1.5to2.0": 2,
+        "<=-2.0": 0,
+        ">=2.0": 0,
+        "neutral": 21
+      },
+      "MAM 2026": {
+        "-1.0to-0.5": 1,
+        "-1.5to-1.0": 0,
+        "-2.0to-1.5": 0,
+        "0.5to1.0": 0,
+        "1.0to1.5": 0,
+        "1.5to2.0": 0,
+        "<=-2.0": 0,
+        ">=2.0": 0,
+        "neutral": 99
+      },
+      "MJJ 2026": {
+        "-1.0to-0.5": 0,
+        "-1.5to-1.0": 0,
+        "-2.0to-1.5": 0,
+        "0.5to1.0": 56,
+        "1.0to1.5": 5,
+        "1.5to2.0": 0,
+        "<=-2.0": 0,
+        ">=2.0": 0,
+        "neutral": 39
+      },
+      "NDJ 2026-27": {
+        "-1.0to-0.5": 0,
+        "-1.5to-1.0": 0,
+        "-2.0to-1.5": 0,
+        "0.5to1.0": 15,
+        "1.0to1.5": 26,
+        "1.5to2.0": 26,
+        "<=-2.0": 0,
+        ">=2.0": 25,
+        "neutral": 8
+      },
+      "OND 2026": {
+        "-1.0to-0.5": 0,
+        "-1.5to-1.0": 0,
+        "-2.0to-1.5": 0,
+        "0.5to1.0": 16,
+        "1.0to1.5": 27,
+        "1.5to2.0": 27,
+        "<=-2.0": 0,
+        ">=2.0": 23,
+        "neutral": 7
+      },
+      "SON 2026": {
+        "-1.0to-0.5": 0,
+        "-1.5to-1.0": 0,
+        "-2.0to-1.5": 0,
+        "0.5to1.0": 20,
+        "1.0to1.5": 31,
+        "1.5to2.0": 26,
+        "<=-2.0": 0,
+        ">=2.0": 15,
+        "neutral": 8
+      }
+    }
+  },
+  "ecmwf": {
+    "approx_p_above_2.5_oct": 0.5,
+    "issued": "2026-04-05",
+    "summary": "Median ensemble path crosses traditional Ni\u00f1o 3.4 +2.0\u00b0C by autumn. Roughly 50% of members exceed +2.5\u00b0C for October. Implies meaningfully higher upper-tail probabilities than the CPC RONI strength table for the NDJ peak.",
+    "warm_bias_caveat": "ECMWF SEAS5 is known to run warm for ENSO (cf. Tippett et al. 2019; Johnson et al. 2019 SEAS5 paper). Treat the upper-tail split between CPC and ECMWF as a real disagreement to surface, not a number to average."
+  },
+  "iri": {
+    "issued": "2026-04-16",
+    "three_cat": {
+      "AMJ 2026": [
+        0,
+        30,
+        70
+      ],
+      "ASO 2026": [
+        0,
+        7,
+        93
+      ],
+      "DJF 2026-27": [
+        0,
+        10,
+        90
+      ],
+      "JAS 2026": [
+        0,
+        8,
+        92
+      ],
+      "JJA 2026": [
+        0,
+        9,
+        91
+      ],
+      "MJJ 2026": [
+        0,
+        12,
+        88
+      ],
+      "NDJ 2026-27": [
+        0,
+        8,
+        92
+      ],
+      "OND 2026": [
+        0,
+        7,
+        93
+      ],
+      "SON 2026": [
+        0,
+        6,
+        94
+      ]
+    }
+  },
+  "methodology_version": "1.0",
+  "nearest_cpc_season": "NDJ 2026-27",
+  "physical_state": {
+    "heat_content_0_300m_estimate": 1.3,
+    "heat_content_qualitative": "Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.",
+    "issued": "2026-04-22",
+    "nino34_weekly_roni": -0.3,
+    "nino34_weekly_traditional": 0.5,
+    "wwe_count_since_mar1_estimate": 1,
+    "wwe_qualitative": "Westerly wind anomalies strengthened in March and early April 2026 in the western Pacific and near the Date Line. McPhaden-defined count requires ERA5 daily winds; not computed this run."
+  },
+  "roni_to_oni_offset": 0.3,
+  "target_season": "DJF 2026-27"
+}

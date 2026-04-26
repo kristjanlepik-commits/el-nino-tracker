@@ -1,0 +1,18 @@
+# Core
+requests>=2.31
+pandas>=2.0
+matplotlib>=3.7
+numpy>=1.24
+
+# HTML/PDF parsing for fetchers
+beautifulsoup4>=4.12
+lxml>=4.9
+pdfplumber>=0.10
+
+# Climate data
+xarray>=2023.6
+netCDF4>=1.6
+cdsapi>=0.7        # Copernicus Climate Data Store
+
+# Editorial layer
+anthropic>=0.40
