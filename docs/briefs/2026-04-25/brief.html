@@ -1,103 +1,189 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8">
-<title>El Nino brief, 2026-04-25</title>
-<style>body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-         Arial, sans-serif; max-width: 820px; margin: 2em auto; padding: 0 1em;
-         color: #222; line-height: 1.5; }
-  h1 { border-bottom: 2px solid #888; padding-bottom: 0.2em; }
-  h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.1em; margin-top: 2em; }
-  h3 { margin-top: 1.5em; }
-  table { border-collapse: collapse; margin: 1em 0; }
-  th, td { border: 1px solid #ccc; padding: 0.4em 0.7em; text-align: left; }
-  th { background: #f4f4f4; }
-  tr:nth-child(even) td { background: #fafafa; }
-  blockquote { border-left: 4px solid #888; margin: 1em 0; padding: 0.2em 1em;
-               color: #555; background: #f7f7f7; }
-  code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px;
-         font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
-  img { max-width: 100%; height: auto; }
-  hr { border: none; border-top: 1px solid #ccc; margin: 2em 0; }</style>
-</head><body>
-<h1>El Niño Probability Tracker, week of 2026-04-25</h1>
-<p>Weekly probability tracker for the developing 2026-27 El Niño event, built from the official ENSO outlooks (NOAA CPC, IRI, BoM, ECMWF SEAS5) plus weekly Niño 3.4 observations. Numbers are reproduced from public sources and recombined into a single set of peak-strength buckets; the <a href="../../methodology.html">methodology page</a> documents every step. Forecast disagreements are surfaced rather than averaged.</p>
-<p>Target peak season: <strong>DJF 2026-27</strong>. CPC's longest-lead strength bin is NDJ 2026-27, used as the proxy for the DJF peak.</p>
-<h2>1. Headline probabilities</h2>
-<p>Peak Niño 3.4 (traditional ONI), DJF 2026-27 / NDJ 2026-27.
-Headline numbers below are CPC-derived after translating from RONI bins to traditional ONI thresholds, then fitting a skew-normal distribution to the nine bin probabilities and evaluating its survival function at each threshold. RONI-to-traditional-ONI offset is +0.40°C, the live tropical-mean SST anomaly observed for the week of 2026-04-15 (CPC). ECMWF SEAS5 member counts in caveat 2 are a second quantitative cross-check.</p>
-<ul>
-<li><strong>At least moderate (&gt;+1.0°C peak)</strong>: 90%</li>
-<li><strong>Strong (&gt;+1.5°C peak)</strong>: 72%</li>
-<li><strong>Very strong / super (&gt;+2.0°C peak)</strong>: 45%</li>
-<li><strong>1997/2015 magnitude (&gt;+2.5°C peak)</strong>: 21% (range 20-22%, see caveat)</li>
-</ul>
-<p><strong>Source-by-source check (qualitative where strength bins aren't broken out):</strong></p>
-<ul>
-<li>NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%. Issued 2026-04-09.</li>
-<li>IRI plume, DJF 2026-27: El Niño 88%, neutral 11%, La Niña 1%. Issued 2026-04-20. Strength not broken out in the public Quick Look.</li>
-<li>BoM ENSO Outlook, issued 2026-04-14: Increased chance of El Niño later in 2026. Categorical only.</li>
-<li>ECMWF SEAS5, run 2026-04-01: 51-member SEAS5 ensemble for 2026-10: median Niño 3.4 anomaly +2.21 deg C; 51/51 members above +1.5 (~76% above +2.0, ~25% above +2.5).</li>
-</ul>
-<p><strong>Caveats this issue:</strong></p>
-<ol>
-<li>The +2.5°C bucket carries a 20-22% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.</li>
-<li>ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 13/51 members (25%) at 2026-10 (max available lead). CPC's NDJ 2026-27 bucket lands at 20-22%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.</li>
-<li>Spring predictability barrier: April-May forecasts at any of these centers carry materially wider error bars than what we'll see in July-August. Treat all numbers as preliminary.</li>
-</ol>
-<h2>2. Physical state panel</h2>
-<table>
-<thead>
-<tr>
-<th>Indicator</th>
-<th>Current (week of ~22 Apr 2026)</th>
-<th>1997 same week</th>
-<th>2015 same week</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Niño 3.4 weekly (traditional)</td>
-<td>+0.5°C</td>
-<td>-0.1°C</td>
-<td>+0.6°C</td>
-</tr>
-<tr>
-<td>Niño 3.4 weekly (RONI)</td>
-<td>+0.1°C</td>
-<td>n/a (pre-RONI)</td>
-<td>n/a (pre-RONI)</td>
-</tr>
-<tr>
-<td>0-300m heat content anomaly</td>
-<td>+1.36°C (CPC monthly, 180W-100W, vs 1981-2010 climo)</td>
-<td>+0.7°C</td>
-<td>+1.6°C</td>
-</tr>
-<tr>
-<td>WWE count since Mar 1</td>
-<td>0 (simplified McPhaden, area-mean u850 anomaly &gt; 5 m/s sustained &gt; 5 days)</td>
-<td>1</td>
-<td>2</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Heat content note:</strong> Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.</p>
-<p><strong>WWE note:</strong> Live ERA5 1991-2020 climatology comparison through 2026-04-21. The simplified criterion (area-mean rather than spatial-peak detection) tends to undercount versus the full McPhaden definition; treat the count as a lower bound.</p>
-<h2>3. Analog tracker</h2>
-<p><img alt="Analog tracker" src="analog.png" /></p>
-<p>Three reference El Niño events (1997-98, 2015-16, 2023-24) vs current 2026-27 trajectory in 3-month-running-mean ONI. Common reference is March 1 of develop year.</p>
-<p><strong>Read this week:</strong> at the JFM tick (month -1 since Mar 1), 2026 sits at -0.4°C, very close to where 1997 was (-0.4°C) and 2023 was (-0.3°C) at the same calendar point. Both went on to become super events. 2015 was already running ahead at +0.6°C in JFM. The takeaway is that JFM position is a weak discriminator; the ramp speed through MAM-AMJ is what matters, and we won't see that until the next 1-2 ONI updates.</p>
-<p>Caveat: the analog plot uses 3-month running mean ONI. The current weekly Niño 3.4 (+0.5°C trad, week of Apr 15) is not directly plotted because it's not a 3-month mean. Adding a weekly trajectory to this chart is on the V1.5 list.</p>
-<h2>4. Sources and freshness</h2>
-<h3>Source freshness this issue</h3>
-<ul>
-<li><strong>NOAA CPC strength table</strong>: fetched live, issued 2026-04-09.</li>
-<li><strong>NOAA OISST weekly Niño 3.4</strong>: fetched live, issued 2026-04-15.</li>
-<li><strong>CPC 0-300m heat content</strong>: fetched live, issued 2026-03-31.</li>
-<li><strong>IRI plume</strong>: fetched live, issued 2026-04-20.</li>
-<li><strong>BoM ENSO Outlook</strong>: fetched live, issued 2026-04-14.</li>
-<li><strong>ECMWF SEAS5</strong>: fetched live, issued 2026-04-01.</li>
-<li><strong>ERA5 westerly wind events</strong>: fetched live, issued 2026-04-21.</li>
-</ul>
-<hr />
-<p><em>Methodology version 1.1. RONI offset +0.40°C (live, week of 2026-04-15). See <a href="../../methodology.html">methodology</a>.</em></p>
-</body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Niño Tracker, week of 2026-04-25</title>
+<meta property="og:title" content="El Niño Tracker, week of 2026-04-25">
+<meta property="og:description" content="Weekly probability tracker for the developing 2026-27 El Niño event. 21% chance of a 1997/2015-magnitude winter peak.">
+<meta property="og:image" content="https://kristjanlepik-commits.github.io/el-nino-tracker/briefs/2026-04-25/analog.png">
+<meta property="og:url" content="https://kristjanlepik-commits.github.io/el-nino-tracker/briefs/2026-04-25/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="El Niño Tracker, week of 2026-04-25">
+<meta name="twitter:description" content="Weekly probability tracker for the developing 2026-27 El Niño event. 21% chance of a 1997/2015-magnitude winter peak.">
+<meta name="twitter:image" content="https://kristjanlepik-commits.github.io/el-nino-tracker/briefs/2026-04-25/analog.png">
+<style>:root {
+    --bg: #ffffff;
+    --bg-soft: #fafafa;
+    --bg-card: #fbfbf9;
+    --border: #e5e5e0;
+    --border-strong: #cccac2;
+    --text: #1a1a1a;
+    --text-soft: #555;
+    --text-faint: #888;
+    --accent: #1f4068;
+    --neutral: #9ca3af;
+    --moderate: #f7c948;
+    --strong: #ef8b3a;
+    --super: #d94327;
+    --magn: #8b1a1a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+                 Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    font-size: 16px;
+  }
+  nav.top {
+    border-bottom: 1px solid var(--border);
+    padding: 14px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav.top .brand { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; }
+  nav.top .brand .dot { color: var(--super); }
+  nav.top ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
+  nav.top a { color: var(--text-soft); text-decoration: none; font-size: 14px; }
+  nav.top a.active {
+    color: var(--text); font-weight: 600;
+    border-bottom: 2px solid var(--accent); padding-bottom: 4px;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 36px 28px 80px; }
+  .issue-stamp {
+    color: var(--text-faint); font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  h1 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 36px; font-weight: 600; letter-spacing: -0.015em;
+    margin: 0 0 8px; line-height: 1.15;
+  }
+  .lede { color: var(--text-soft); font-size: 16px; margin: 0 0 18px; max-width: 640px; }
+  .lede.bottom-line { font-weight: 500; color: var(--text); margin-bottom: 32px; }
+
+  .ladder { display: flex; flex-direction: column; gap: 8px; margin: 28px 0 16px; }
+  .rung {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-left: 4px solid var(--border-strong);
+    border-radius: 6px; padding: 18px 24px 16px;
+    display: grid; grid-template-columns: 1fr auto;
+    column-gap: 24px; row-gap: 4px; align-items: baseline;
+  }
+  .rung .threshold {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 30px; font-weight: 600; letter-spacing: -0.015em;
+    color: var(--text); line-height: 1.1;
+  }
+  .rung .threshold .gt { color: var(--text-faint); margin-right: 2px; font-weight: 400; }
+  .rung .pct {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 22px; font-weight: 600; color: var(--text-soft);
+    font-feature-settings: "tnum"; white-space: nowrap;
+  }
+  .rung .pct .pct-sym { font-size: 14px; color: var(--text-faint); margin-left: 1px; }
+  .rung .pct .word { color: var(--text-faint); font-weight: 400; font-size: 13px; margin-left: 6px; }
+  .rung .label { font-size: 13px; color: var(--text-soft); }
+  .rung .label .sep { color: var(--text-faint); margin: 0 6px; }
+  .rung .label .range { color: var(--text-faint); }
+  .rung.magn     { border-left-color: var(--magn); }
+  .rung.super    { border-left-color: var(--super); }
+  .rung.strong   { border-left-color: var(--strong); }
+  .rung.moderate { border-left-color: var(--moderate); }
+  .buckets-note { font-size: 13px; color: var(--text-faint); margin: 0 0 32px; }
+
+  section { margin: 48px 0; }
+  h2 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 22px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em;
+  }
+  .section-sub { color: var(--text-faint); font-size: 13px; margin: 0 0 20px; }
+
+  .chart-card {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: 6px; padding: 20px;
+  }
+  .chart-card img { width: 100%; height: auto; display: block; }
+  .chart-caption { font-size: 13px; color: var(--text-soft); margin-top: 14px; line-height: 1.5; }
+  .chart-caption strong { color: var(--text); }
+
+  table.phys { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.phys th, table.phys td {
+    padding: 10px 12px; text-align: left;
+    border-bottom: 1px solid var(--border); vertical-align: top;
+  }
+  table.phys th {
+    background: var(--bg-soft); font-weight: 500; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-soft);
+  }
+  table.phys td.num { font-feature-settings: "tnum"; white-space: nowrap; }
+  .note {
+    font-size: 14px; color: var(--text-soft);
+    background: var(--bg-soft); border-left: 3px solid var(--border-strong);
+    padding: 12px 16px; margin: 14px 0 0;
+  }
+  .note strong { color: var(--text); }
+
+  .src-list { padding-left: 0; list-style: none; margin: 0; }
+  .src-list li {
+    padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+  }
+  .src-list li:last-child { border-bottom: none; }
+  .src-list .src-name { font-weight: 600; color: var(--text); }
+  .src-list .src-issued { color: var(--text-faint); font-size: 12px; margin-left: 8px; }
+  .src-list .src-detail { color: var(--text-soft); margin-top: 4px; }
+
+  ol.caveats { padding-left: 22px; margin: 0; }
+  ol.caveats li { margin-bottom: 14px; font-size: 14px; color: var(--text); line-height: 1.55; }
+
+  footer {
+    margin-top: 64px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--text-soft);
+  }
+  .freshness-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 6px 24px; margin: 12px 0 18px;
+  }
+  .freshness-grid .src { color: var(--text); font-weight: 500; }
+  .freshness-grid .meta { color: var(--text-faint); font-size: 12px; }
+  .footer-meta { color: var(--text-faint); font-size: 12px; line-height: 1.6; }
+  .footer-meta a { color: var(--accent); }
+
+  @media (max-width: 720px) {
+    main { padding: 24px 16px 60px; }
+    h1 { font-size: 28px; }
+    .freshness-grid { grid-template-columns: 1fr; }
+    nav.top { padding: 12px 16px; }
+    nav.top ul { gap: 14px; }
+    .rung { grid-template-columns: 1fr; }
+    .rung .pct { margin-top: 4px; }
+  }</style>
+</head>
+<body>
+<nav class="top">
+  <span class="brand">El Niño Tracker<span class="dot">.</span></span>
+  <ul>
+    <li><a href="./" class="active">Brief</a></li>
+    <li><a href="briefs/">Past briefs</a></li>
+    <li><a href="../../methodology.html">Methodology</a></li>
+  </ul>
+</nav>
+<main>
+  <div class="issue-stamp">Week of 2026-04-25 · Methodology v1.2</div>
+  <h1>How likely is a super<br>El Niño this winter?</h1>
+  <p class="lede">Updated each Monday from the four major ENSO outlooks (NOAA CPC, IRI, BoM, ECMWF SEAS5) and weekly Niño 3.4 observations. Peak season target: <strong>DJF 2026-27</strong>. Forecast disagreements are surfaced rather than averaged.</p>
+  <p class="lede bottom-line"><strong>Bottom line:</strong> 90% chance of at least a moderate El Niño this winter, 21% chance of a 1997 / 2015-magnitude event.</p>
+<section><div class="ladder"><div class="rung magn"><div class="threshold"><span class="gt">&gt;</span>+2.5°C peak</div><div class="pct">21<span class="pct-sym">%</span><span class="word">probability</span></div><div class="label">1997 / 2015 magnitude<span class="sep">·</span><span class="range">range 20–22%</span></div></div><div class="rung super"><div class="threshold"><span class="gt">&gt;</span>+2.0°C peak</div><div class="pct">45<span class="pct-sym">%</span><span class="word">probability</span></div><div class="label">Very strong / super</div></div><div class="rung strong"><div class="threshold"><span class="gt">&gt;</span>+1.5°C peak</div><div class="pct">72<span class="pct-sym">%</span><span class="word">probability</span></div><div class="label">Strong</div></div><div class="rung moderate"><div class="threshold"><span class="gt">&gt;</span>+1.0°C peak</div><div class="pct">90<span class="pct-sym">%</span><span class="word">probability</span></div><div class="label">At least moderate</div></div></div><p class="buckets-note">Probabilities are CPC-derived after RONI→trad-ONI translation (live offset +0.40°C, week of 2026-04-15) and a skew-normal fit on CPC's nine-bin strength table. ECMWF SEAS5 ensemble counts are a second cross-check.</p></section><section><h2>Analog tracker</h2><p class="section-sub">2026-27 trajectory vs reference El Niño events, plus the SEAS5 ensemble forecast (median + uncertainty bands) forward.</p><div class="chart-card"><img src="analog.png" alt="Analog tracker chart"><div class="chart-caption"><strong>Read this week:</strong> at the JFM tick (month -1 since Mar 1), 2026 sits at −0.16°C. Both 1997 (−0.4°C) and 2023 (−0.3°C) were similarly cool at the same calendar point and went on to become super events; 2015 was already running ahead at +0.6°C in JFM. The takeaway: JFM position is a weak discriminator, ramp speed through MAM–AMJ matters more, and we won't see that until the next 1–2 ONI updates. The dashed line marks the ECMWF SEAS5 ensemble median forward to 2026-10 (peak +2.2°C); the shaded bands show the 25–75 and 5–95 percentile spreads across the 51-member ensemble.</div></div></section><section><h2>Physical state</h2><p class="section-sub">Current observations vs the same calendar week in past super-event develop years.</p><table class="phys"><thead><tr><th>Indicator</th><th>Current<br><span style="font-weight:400">week of 2026-04-25</span></th><th>1997 same week</th><th>2015 same week</th></tr></thead><tbody><tr><td>Niño 3.4 weekly (traditional)</td><td class="num">+0.5°C</td><td class="num">−0.1°C</td><td class="num">+0.6°C</td></tr><tr><td>Niño 3.4 weekly (RONI)</td><td class="num">+0.1°C</td><td class="num">n/a (pre-RONI)</td><td class="num">n/a (pre-RONI)</td></tr><tr><td>0–300 m heat content anomaly</td><td class="num">+1.36°C</td><td class="num">+0.7°C</td><td class="num">+1.6°C</td></tr><tr><td>Cumulative westerly wind anomaly since Mar 1<br><span style="color:var(--text-faint); font-size:12px">CWWA, ERA5 5°N–5°S, 130°E–150°W, m/s·days</span></td><td class="num">131</td><td class="num">281</td><td class="num">200</td></tr></tbody></table><div class="note"><strong>Heat content:</strong> Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.</div><div class="note"><strong>CWWA:</strong> Live ERA5 daily 850 hPa zonal wind through 2026-04-21, area-meaned over 5°N–5°S, 130°E–150°W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (131) tracks closest to 2015 (200); other reference years: 1997 (281), 2023 (42), 2025 (0).</div></section><section><h2>Source-by-source check</h2><p class="section-sub">What each agency said this week, verbatim where useful.</p><ul class="src-list"><li><span class="src-name">NOAA CPC strength table, NDJ 2026-27 (RONI)</span><span class="src-issued">issued 2026-04-09</span><div class="src-detail">super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%.</div></li><li><span class="src-name">IRI plume, DJF 2026-27</span><span class="src-issued">issued 2026-04-20</span><div class="src-detail">El Niño 88%, neutral 11%, La Niña 1%. Strength not broken out in the public Quick Look.</div></li><li><span class="src-name">BoM ENSO Outlook</span><span class="src-issued">issued 2026-04-14</span><div class="src-detail">Increased chance of El Niño later in 2026. Categorical only.</div></li><li><span class="src-name">ECMWF SEAS5</span><span class="src-issued">run 2026-04-01</span><div class="src-detail">51-member SEAS5 ensemble for 2026-10: median Niño 3.4 anomaly +2.21 deg C; 51/51 members above +1.5 (~76% above +2.0, ~25% above +2.5).</div></li></ul></section><section><h2>Caveats this issue</h2><ol class="caveats"><li>The +2.5°C bucket carries a 20–22% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.</li><li>ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 13/51 members (25%) at 2026-10 (max available lead). CPC's NDJ 2026-27 bucket lands at 20–22%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.</li><li>Spring predictability barrier: April–May forecasts at any of these centers carry materially wider error bars than what we'll see in July–August. Treat all numbers as preliminary.</li></ol></section><footer><strong style="color:var(--text); font-weight:600">Source freshness this issue</strong><div class="freshness-grid"><div><span class="src">NOAA CPC strength table</span><span class="meta"> · live, issued 2026-04-09</span></div><div><span class="src">NOAA OISST weekly Niño 3.4</span><span class="meta"> · live, issued 2026-04-15</span></div><div><span class="src">CPC 0-300m heat content</span><span class="meta"> · live, issued 2026-03-31</span></div><div><span class="src">IRI plume</span><span class="meta"> · live, issued 2026-04-20</span></div><div><span class="src">BoM ENSO Outlook</span><span class="meta"> · live, issued 2026-04-14</span></div><div><span class="src">ECMWF SEAS5</span><span class="meta"> · live, issued 2026-04-01</span></div><div><span class="src">ERA5 cumulative westerly wind anomaly (CWWA)</span><span class="meta"> · live, issued 2026-04-21</span></div><div><span class="src">oni_history</span><span class="meta"> · live, issued 2026-03-31</span></div></div><p class="footer-meta">Methodology version 1.2. RONI to traditional ONI offset +0.40°C (live, week of 2026-04-15). See <a href="../../methodology.html">methodology</a> for the full audit trail.</p><p class="footer-meta" style="margin-top:18px;">By <strong style="color:var(--text)">Kristjan Lepik</strong>. Source on <a href="https://github.com/kristjanlepik-commits/el-nino-tracker">GitHub</a>.</p></footer>
+</main>
+</body>
+</html>
