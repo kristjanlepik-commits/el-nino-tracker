@@ -5,12 +5,16 @@ Context for Claude Code working on this repo. Read this first.
 ## What this is
 
 Internal weekly probability tracker for the 2026-27 El Niño event.
-Built and maintained by Kristjan. Output is a markdown brief plus an
-analog chart, generated each Monday and emailed to him.
+Built and maintained by Kristjan. Output is a markdown brief, an
+HTML rendering of the same, and an analog chart, generated each
+Monday and emailed to him.
 
-This is V1.5 in progress. V1 (hand-curated inputs) shipped and works.
-V1.5 (auto-fetched inputs, GitHub Actions cron, auto-generated analyst
-prose) is scaffolded but most fetchers are stubs.
+V1.5 is functionally complete as of 2026-04-26: all 7 fetchers run
+live (CPC strength, OISST weekly, CPC heat content, IRI, BoM, ECMWF
+SEAS5, ERA5 WWE). A `methodology.md` overview at the repo root is
+rendered to `methodology.html` on every run for sharing with external
+reviewers. The GitHub Actions workflow file exists but has not been
+run; that requires a remote push and secret config (user actions).
 
 ## Operator profile
 
@@ -48,24 +52,38 @@ Out of scope for V1/V1.5:
 ```
 sources.py        Hand-curated seed values + methodology constants.
                   Lives as fallback when fetchers fail.
-fetchers/         One module per data source. Returns FetchResult.
-                  All currently stubs except _common.py.
+fetchers/         One module per data source. All 7 implemented and live.
+                  _common.py provides FetchResult, http_get, safe_fetch,
+                  cache layer.
 fetch_all.py      Orchestrator. Runs all fetchers; falls back to
-                  sources.py seeds on failure.
+                  sources.py seeds on failure. Returns a sources-shaped
+                  dict plus a _freshness sub-dict for the brief.
 probs.py          RONI to traditional ONI conversion + headline buckets.
 snapshot.py       Save/load JSON snapshots, compute week-over-week diff.
-analog.py         Render the analog tracker chart.
+                  Snapshots reflect the fetched dict, not sources.py.
+analog.py         Render the analog tracker chart. 1997, 2015, 2023 are
+                  super-event peers; 2025 is plotted as a non-event
+                  (La Niña) reference; 2026 is current.
 editorial.py      Call Anthropic API to generate the Analyst Read prose.
                   Always prepends "AUTO-GENERATED, review before quoting"
-                  banner per Kristjan's choice (option C).
-run_brief.py      Entry point. Orchestrates everything.
+                  banner per Kristjan's choice (option C). Falls back
+                  to template prose if no API key.
+run_brief.py      Entry point. Orchestrates everything; renders both
+                  brief.md and brief.html, plus regenerates
+                  methodology.html from methodology.md.
 
-briefs/YYYY-MM-DD/   Output: brief.md and analog.png.
+methodology.md / .html   Standalone methodology overview at repo root,
+                         written for external reviewers reading cold.
+
+briefs/YYYY-MM-DD/   Output: brief.md, brief.html, analog.png.
 snapshots/YYYY-MM-DD.json   Frozen input state per issue (for diffing).
-.fetch_cache/        Last-good fetcher results (gitignored).
+.fetch_cache/        Last-good fetcher results plus SEAS5 and ERA5
+                     climatology caches (gitignored).
 
 .github/workflows/weekly_brief.yml   Mondays 13:00 UTC cron + manual.
-scripts/send_email.py                SMTP send of latest brief.
+                                     Has not yet run; needs remote push.
+scripts/send_email.py                SMTP send: multipart, plain-text +
+                                     HTML alternative + analog inline.
 ```
 
 ## Key invariants
@@ -104,13 +122,16 @@ Required GitHub Actions secrets:
 
 ## Working style
 
-- Run `python run_brief.py` after every meaningful change. It exercises
-  the full pipeline in <5 seconds with stub fetchers.
-- For each fetcher you implement, write a small live test:
-  `python -c "from fetchers import cpc_strength; print(cpc_strength.fetch())"`
+- Run `python run_brief.py` after every meaningful change. End-to-end
+  with cached climatologies and live fetchers, the pipeline finishes
+  in roughly 1-3 minutes (the SEAS5 forecast pull and the ERA5
+  observation pull dominate).
+- For any new fetcher, write a small live test first:
+  `python -c "from fetchers import <name>; print(<name>.fetch())"`
   before integrating into `fetch_all.py`.
 - Don't add abstractions until you have a second concrete use case.
-- After implementing a fetcher, manually compare its output to
-  Kristjan's hand-curated seed in sources.py for the same week. They
-  should be close; if they're not, find out why before trusting the
-  fetcher.
+- After implementing a fetcher, manually compare its output to the
+  hand-curated seed in sources.py for the same week. They should be
+  close; if not, find out why before trusting the fetcher.
+- The `.venv/` in the repo root is the working virtualenv. Use
+  `.venv/bin/python` (not `python`) for runs.
