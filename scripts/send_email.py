@@ -1,8 +1,10 @@
 """
 Send the latest brief by email. Invoked by the GitHub Actions workflow.
 
-Reads the most recently dated subdirectory under briefs/ and emails the
-brief.md as the body, with the analog.png as an attachment.
+Reads the most recently dated subdirectory under briefs/ and sends a
+multipart message with the markdown as the plain-text body, the
+generated brief.html as the HTML body, and the analog.png embedded
+inline (referenced as cid:analog so it renders inside the HTML).
 
 Configured by env vars (set as GitHub Actions secrets):
   SMTP_HOST          e.g. smtp.fastmail.com
@@ -36,6 +38,7 @@ def main():
 
     brief_dir = latest_brief_dir()
     brief_md = (brief_dir / "brief.md").read_text()
+    brief_html_path = brief_dir / "brief.html"
     chart = brief_dir / "analog.png"
 
     msg = EmailMessage()
@@ -44,7 +47,18 @@ def main():
     msg["To"] = recipient
     msg.set_content(brief_md)
 
-    if chart.exists():
+    if brief_html_path.exists():
+        html = brief_html_path.read_text()
+        # Rewrite the analog.png src to a cid reference so the inline
+        # image renders in the email client.
+        html = html.replace('src="analog.png"', 'src="cid:analog"')
+        msg.add_alternative(html, subtype="html")
+        if chart.exists():
+            html_part = msg.get_payload()[-1]
+            html_part.add_related(chart.read_bytes(), maintype="image",
+                                  subtype="png", cid="<analog>",
+                                  filename=chart.name)
+    elif chart.exists():
         msg.add_attachment(chart.read_bytes(), maintype="image",
                            subtype="png", filename=chart.name)
 

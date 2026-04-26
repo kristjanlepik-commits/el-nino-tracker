@@ -19,10 +19,46 @@ prose is the ceiling.
 
 from datetime import date
 from pathlib import Path
+
+import markdown as md_lib
+
 import sources as S
 import probs
 import analog
 import snapshot
+
+
+HTML_CSS = """
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+         Arial, sans-serif; max-width: 820px; margin: 2em auto; padding: 0 1em;
+         color: #222; line-height: 1.5; }
+  h1 { border-bottom: 2px solid #888; padding-bottom: 0.2em; }
+  h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.1em; margin-top: 2em; }
+  h3 { margin-top: 1.5em; }
+  table { border-collapse: collapse; margin: 1em 0; }
+  th, td { border: 1px solid #ccc; padding: 0.4em 0.7em; text-align: left; }
+  th { background: #f4f4f4; }
+  tr:nth-child(even) td { background: #fafafa; }
+  blockquote { border-left: 4px solid #888; margin: 1em 0; padding: 0.2em 1em;
+               color: #555; background: #f7f7f7; }
+  code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px;
+         font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  img { max-width: 100%; height: auto; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 2em 0; }
+""".strip()
+
+
+def render_html(markdown_text: str) -> str:
+    body = md_lib.markdown(markdown_text, extensions=["tables", "fenced_code"])
+    return (
+        "<!DOCTYPE html>\n"
+        "<html><head><meta charset=\"utf-8\">\n"
+        f"<title>El Nino brief, {S.BRIEF_DATE.isoformat()}</title>\n"
+        f"<style>{HTML_CSS}</style>\n"
+        "</head><body>\n"
+        f"{body}\n"
+        "</body></html>\n"
+    )
 
 
 BRIEF_DIR = Path(__file__).parent / "briefs" / S.BRIEF_DATE.isoformat()
@@ -260,10 +296,14 @@ def main():
         brief_date=S.BRIEF_DATE.isoformat(),
     )
 
-    # 5. Brief
-    out = BRIEF_DIR / "brief.md"
-    out.write_text(build_markdown(fetched, diff_md, freshness, analyst_read_md))
-    print(f"wrote: {out}")
+    # 5. Brief: markdown and HTML
+    md_text = build_markdown(fetched, diff_md, freshness, analyst_read_md)
+    out_md = BRIEF_DIR / "brief.md"
+    out_md.write_text(md_text)
+    print(f"wrote: {out_md}")
+    out_html = BRIEF_DIR / "brief.html"
+    out_html.write_text(render_html(md_text))
+    print(f"wrote: {out_html}")
     print(f"wrote: {BRIEF_DIR / 'analog.png'}")
 
 
