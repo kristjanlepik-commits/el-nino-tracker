@@ -49,7 +49,7 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md = []
     md.append(f"# El Niño Probability Tracker, week of {S.BRIEF_DATE.isoformat()}")
     md.append("")
-    md.append("Internal use. V1 first batch run.")
+    md.append("Internal use.")
     md.append("")
     md.append("Target peak season: **DJF 2026-27**. CPC's longest-lead "
               "strength bin is NDJ 2026-27, used as the proxy for the DJF peak.")
@@ -59,10 +59,10 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md.append("## 1. Headline probabilities")
     md.append("")
     md.append("Peak Niño 3.4 (traditional ONI), DJF 2026-27 / NDJ 2026-27.")
-    md.append("V1 first batch has one quantitative source for strength "
-              "bins (NOAA CPC). Numbers below are CPC-derived after "
-              f"translating from RONI to traditional ONI using a flat "
-              f"+{S.RONI_TO_ONI_OFFSET}°C offset (revisit each issue).")
+    md.append("Headline numbers below are CPC-derived after translating from "
+              f"RONI to traditional ONI using a flat +{S.RONI_TO_ONI_OFFSET}"
+              f"°C offset (revisit each issue). ECMWF SEAS5 member counts in "
+              f"caveat 2 are a second quantitative cross-check.")
     md.append("")
     for label, key in [
         ("At least moderate (>+1.0°C peak)", "moderate_>1.0"),
@@ -138,9 +138,13 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md.append(f"| Niño 3.4 weekly (RONI) | "
               f"{phys['nino34_weekly_roni']:+.1f}°C | n/a (pre-RONI) | "
               f"n/a (pre-RONI) |")
-    md.append(f"| 0-300m heat content anomaly | "
-              f"~{phys['heat_content_0_300m_estimate']:+.1f}°C "
-              f"(qualitative; placeholder) | "
+    hc_fresh = freshness.get("heat_content", {})
+    hc_live = hc_fresh.get("ok") and not hc_fresh.get("used_fallback")
+    hc_label = (f"{phys['heat_content_0_300m_estimate']:+.2f}°C (CPC monthly, "
+                f"180W-100W, vs 1981-2010 climo)" if hc_live
+                else f"~{phys['heat_content_0_300m_estimate']:+.1f}°C "
+                     f"(qualitative; placeholder)")
+    md.append(f"| 0-300m heat content anomaly | {hc_label} | "
               f"{analog_same['1997_apr_heat_content']:+.1f}°C | "
               f"{analog_same['2015_apr_heat_content']:+.1f}°C |")
     wwe_fresh = freshness.get("era5_wwe", {})

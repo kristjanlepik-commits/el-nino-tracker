@@ -1,13 +1,13 @@
 # El Niño Probability Tracker, week of 2026-04-25
 
-Internal use. V1 first batch run.
+Internal use.
 
 Target peak season: **DJF 2026-27**. CPC's longest-lead strength bin is NDJ 2026-27, used as the proxy for the DJF peak.
 
 ## 1. Headline probabilities
 
 Peak Niño 3.4 (traditional ONI), DJF 2026-27 / NDJ 2026-27.
-V1 first batch has one quantitative source for strength bins (NOAA CPC). Numbers below are CPC-derived after translating from RONI to traditional ONI using a flat +0.3°C offset (revisit each issue).
+Headline numbers below are CPC-derived after translating from RONI to traditional ONI using a flat +0.3°C offset (revisit each issue). ECMWF SEAS5 member counts in caveat 2 are a second quantitative cross-check.
 
 - **At least moderate (>+1.0°C peak)**: 86%
 - **Strong (>+1.5°C peak)**: 67%
@@ -33,7 +33,7 @@ V1 first batch has one quantitative source for strength bins (NOAA CPC). Numbers
 |---|---|---|---|
 | Niño 3.4 weekly (traditional) | +0.5°C | -0.1°C | +0.6°C |
 | Niño 3.4 weekly (RONI) | -0.3°C | n/a (pre-RONI) | n/a (pre-RONI) |
-| 0-300m heat content anomaly | ~+1.4°C (qualitative; placeholder) | +0.7°C | +1.6°C |
+| 0-300m heat content anomaly | +1.36°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
 | WWE count since Mar 1 | 0 (simplified McPhaden, area-mean u850 anomaly > 5 m/s sustained > 5 days) | 1 | 2 |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
