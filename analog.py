@@ -163,4 +163,4 @@ def plot(out_path: str):
 
 
 if __name__ == "__main__":
-    plot("/home/claude/eltracker/briefs/2026-04-25/analog.png")
+    plot(str(Path(__file__).parent / "briefs" / "2026-04-25" / "analog.png"))

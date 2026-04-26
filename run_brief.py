@@ -25,7 +25,7 @@ import analog
 import snapshot
 
 
-BRIEF_DIR = Path("/home/claude/eltracker/briefs") / S.BRIEF_DATE.isoformat()
+BRIEF_DIR = Path(__file__).parent / "briefs" / S.BRIEF_DATE.isoformat()
 
 
 def fmt_bucket(name: str, vals: dict) -> str:
