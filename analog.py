@@ -87,10 +87,11 @@ def load_trajectories():
     for r in rows:
         y = int(r["develop_year"])
         # Define event = first year of the develop-pair
-        if y in (1997, 2015, 2023, 2026):
+        if y in (1997, 2015, 2023, 2025, 2026):
             event_for_row[(y, r["season"])] = y
         elif y in (1998, 2016, 2024):
             event_for_row[(y, r["season"])] = y - 1
+        # 2025 has no decay-year rows; trajectory ends at NDJ (month 9).
         # 2026 has no follow-up rows yet, fine.
 
     series = {}
@@ -117,11 +118,13 @@ def plot(out_path: str):
         1997: {"color": "#c92020", "label": "1997-98 (super, peak 2.4)", "lw": 2.0},
         2015: {"color": "#7d2bb0", "label": "2015-16 (super, peak 2.8)", "lw": 2.0},
         2023: {"color": "#1f6fa6", "label": "2023-24 (recent super, peak 2.1)", "lw": 2.0},
+        2025: {"color": "#6b8e8a", "label": "2025-26 (La Niña, peak -0.5)",
+               "lw": 1.5, "linestyle": "--"},
         2026: {"color": "#000000", "label": "2026-27 (current)", "lw": 2.5,
                "marker": "o", "ms": 6},
     }
 
-    for event in [1997, 2015, 2023, 2026]:
+    for event in [1997, 2015, 2023, 2025, 2026]:
         if event not in series:
             continue
         xs = [pt[0] for pt in series[event]]
@@ -131,6 +134,8 @@ def plot(out_path: str):
         if "marker" in s:
             kwargs["marker"] = s["marker"]
             kwargs["markersize"] = s["ms"]
+        if "linestyle" in s:
+            kwargs["linestyle"] = s["linestyle"]
         ax.plot(xs, ys, **kwargs)
 
     # Bucket reference lines
