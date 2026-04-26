@@ -66,51 +66,61 @@ def months_since_march1(record_year: int, develop_year: int, season: str) -> int
     return absolute_month - 3          # March 1 = 0
 
 
-def load_trajectories():
-    """Return dict: develop_year -> list of (months_since_mar1, oni)."""
-    out = {}
-    # The CSV stores develop_year for each row. Recover the actual year
-    # from develop_year (rows in develop year and post-develop year).
-    # We treat the develop_year column as a label indicating which event the
-    # row belongs to; the actual record year is develop_year for in-year
-    # seasons (DJF=Jan-Feb of develop_year, ..., NDJ=Nov-Jan); but rows
-    # labeled (develop_year+1) are explicit in the CSV. So we infer from
-    # the CSV row label `develop_year` directly.
+DEVELOP_YEARS = (1997, 2015, 2023, 2025, 2026)
+DECAY_YEARS = (1998, 2016, 2024)
+
+
+def _event_for(year: int, season: str) -> int | None:
+    if year in DEVELOP_YEARS:
+        return year
+    if year in DECAY_YEARS:
+        return year - 1
+    return None
+
+
+def load_trajectories(live_oni_by_year: dict | None = None,
+                      override_year: int | None = None):
+    """Return dict: develop_year -> list of (months_since_mar1, oni).
+
+    `live_oni_by_year` is dict[int year -> dict[season -> oni]] from CPC's
+    oni.ascii.txt, used to override / extend the CSV rows for the current
+    calendar year. Historical years stay frozen in the CSV. If
+    `override_year` is given, only that year is overridden / extended.
+    """
     rows = []
     with open(CSV_PATH) as f:
-        # Skip leading comment lines (start with '#')
         lines = [ln for ln in f if not ln.lstrip().startswith("#")]
     import io
     for row in csv.DictReader(io.StringIO("".join(lines))):
         rows.append(row)
 
-    # We need to know which "event" each row belongs to. Group by event.
-    # Convention in the CSV: rows labeled 1997 belong to 1997-98 event,
-    # rows labeled 1998 belong to 1997-98 event, etc.
-    event_for_row = {}
+    series: dict[int, list[tuple[int, float]]] = {}
     for r in rows:
         y = int(r["develop_year"])
-        # Define event = first year of the develop-pair
-        if y in (1997, 2015, 2023, 2025, 2026):
-            event_for_row[(y, r["season"])] = y
-        elif y in (1998, 2016, 2024):
-            event_for_row[(y, r["season"])] = y - 1
-        # 2025 has no decay-year rows; trajectory ends at NDJ (month 9).
-        # 2026 has no follow-up rows yet, fine.
-
-    series = {}
-    for r in rows:
-        y = int(r["develop_year"])
+        if override_year is not None and y == override_year and live_oni_by_year:
+            # Skip CSV rows for the override year; we'll use live data instead.
+            continue
         season = r["season"]
-        oni = float(r["oni"])
-        event = event_for_row.get((y, season))
+        event = _event_for(y, season)
         if event is None:
             continue
         m = months_since_march1(record_year=y, develop_year=event, season=season)
-        series.setdefault(event, []).append((m, oni))
+        series.setdefault(event, []).append((m, float(r["oni"])))
+
+    if live_oni_by_year and override_year is not None:
+        for season, oni in live_oni_by_year.get(override_year, {}).items():
+            event = _event_for(override_year, season)
+            if event is None:
+                continue
+            try:
+                m = months_since_march1(record_year=override_year,
+                                        develop_year=event, season=season)
+            except KeyError:
+                continue
+            series.setdefault(event, []).append((m, float(oni)))
 
     for event in series:
-        series[event].sort()
+        series[event] = sorted(set(series[event]))
     return series
 
 
@@ -151,6 +161,44 @@ def _plot_oni(ax, series):
         if "linestyle" in s:
             kwargs["linestyle"] = s["linestyle"]
         ax.plot(xs, ys, **kwargs)
+
+
+def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
+    """Overlay ECMWF SEAS5 ensemble median trajectory as a dashed forecast line.
+
+    SEAS5 outputs monthly mean Niño 3.4 anomaly, which is a close-but-not-identical
+    cousin of the 3-month-running-mean ONI used for the analog series. Treated as
+    visually comparable; the caption flags the distinction.
+    """
+    if not per_lead:
+        return
+    xs, ys = [], []
+    for entry in per_lead:
+        cal = entry.get("calendar")
+        med = entry.get("median")
+        if cal is None or med is None:
+            continue
+        year, month = (int(x) for x in cal.split("-"))
+        offset = (year - current_develop_year) * 12 + (month - 3)
+        xs.append(offset)
+        ys.append(med)
+    if not xs:
+        return
+
+    ax.plot(xs, ys, color="#000000", linestyle="--", linewidth=1.6,
+            marker="D", markersize=5,
+            label=f"{current_develop_year}-{(current_develop_year + 1) % 100:02d} "
+                  "SEAS5 forecast (median)")
+
+    peak_idx = ys.index(max(ys))
+    ax.annotate(
+        f"+{ys[peak_idx]:.1f}°C ({per_lead[peak_idx]['calendar']})",
+        xy=(xs[peak_idx], ys[peak_idx]),
+        xytext=(10, 6), textcoords="offset points",
+        fontsize=8.5, color="#222",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
+                  edgecolor="#aaa", alpha=0.9),
+    )
 
     for y, lbl in [(1.0, "moderate"), (1.5, "strong"), (2.0, "super"), (2.5, "1997/2015")]:
         ax.axhline(y, color="grey", linestyle="--", alpha=0.4, linewidth=0.8)
@@ -212,14 +260,24 @@ def _plot_cwwa(ax, current_series, analogs, current_develop_year):
 
 
 def plot(out_path: str, cwwa_data: dict | None = None,
-         current_develop_year: int = 2026, today_offset: float | None = None):
+         seas5_per_lead: list | None = None,
+         current_develop_year: int = 2026, today_offset: float | None = None,
+         live_oni_by_year: dict | None = None):
     """Render the two-panel analog chart. If `cwwa_data` is supplied (with keys
     `cwwa_series` and `cwwa_analogs`), the bottom panel shows CWWA trajectories;
-    otherwise it stays empty with a placeholder message."""
-    series = load_trajectories()
+    otherwise it stays empty with a placeholder message. If `seas5_per_lead` is
+    supplied, overlay the SEAS5 ensemble median as a dashed forecast on the ONI
+    panel. If `live_oni_by_year` is supplied (CPC oni.ascii format,
+    dict[year -> dict[season -> oni]]), the current develop-year ONI rows on
+    the top panel are refreshed from that live data; historical rows stay
+    sourced from the CSV."""
+    series = load_trajectories(live_oni_by_year=live_oni_by_year,
+                               override_year=current_develop_year)
     fig, (ax_oni, ax_cwwa) = plt.subplots(2, 1, figsize=(10, 9), sharex=True,
                                           gridspec_kw={"height_ratios": [3, 2]})
     _plot_oni(ax_oni, series)
+    if seas5_per_lead:
+        _plot_seas5_forecast(ax_oni, seas5_per_lead, current_develop_year)
     _plot_cwwa(ax_cwwa, (cwwa_data or {}).get("cwwa_series"),
                (cwwa_data or {}).get("cwwa_analogs"), current_develop_year)
 

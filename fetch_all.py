@@ -17,7 +17,10 @@ from datetime import date
 from typing import Any
 
 from fetchers._common import safe_fetch, FetchResult, now_iso
-from fetchers import cpc_strength, oisst_weekly, heat_content, iri, bom, ecmwf_seas5, era5_wwe
+from fetchers import (
+    cpc_strength, oisst_weekly, heat_content, iri, bom,
+    ecmwf_seas5, era5_wwe, oni_history,
+)
 
 import sources as S   # used as seed/fallback
 
@@ -90,6 +93,7 @@ def fetch_all() -> dict:
         "bom":           safe_fetch("bom", bom.fetch),
         "ecmwf_seas5":   safe_fetch("ecmwf_seas5", ecmwf_seas5.fetch),
         "era5_wwe":      safe_fetch("era5_wwe", era5_wwe.fetch),
+        "oni_history":   safe_fetch("oni_history", oni_history.fetch),
     }
 
     out = dict(seeded)  # start from seed
@@ -174,6 +178,27 @@ def fetch_all() -> dict:
         elif wp.get("wwe_count_since_mar1") is not None:
             # Legacy payload from old caches.
             phys["wwe_count_since_mar1_estimate"] = wp["wwe_count_since_mar1"]
+
+    # ONI history is consumed only by analog.py to keep current-year ONI
+    # rows up to date with CPC's latest publication.
+    if results["oni_history"].ok and not results["oni_history"].used_fallback:
+        out["oni_history"] = {
+            "ok": True,
+            "issued": results["oni_history"].issued,
+            "by_year": results["oni_history"].payload.get("by_year", {}),
+            "latest_year": results["oni_history"].payload.get("latest_year"),
+            "latest_season": results["oni_history"].payload.get("latest_season"),
+            "used_fallback": False,
+            "fetched_at": results["oni_history"].fetched_at,
+        }
+    else:
+        out["oni_history"] = {
+            "ok": False, "used_fallback": True,
+            "by_year": {}, "issued": None,
+            "latest_year": None, "latest_season": None,
+            "fallback_note": "oni_history fetch failed; chart uses CSV defaults",
+            "fetched_at": now_iso(),
+        }
 
     # Per-source freshness summary for the brief
     out["_freshness"] = {

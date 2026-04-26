@@ -438,10 +438,13 @@ def main():
             "cwwa_analogs": phys_for_chart.get("cwwa_analogs", {}),
         }
     today_offset = (S.BRIEF_DATE.toordinal() - date(S.BRIEF_DATE.year, 3, 1).toordinal()) / 30.44
+    live_oni_by_year = fetched.get("oni_history", {}).get("by_year") or None
     analog.plot(str(BRIEF_DIR / "analog.png"),
                 cwwa_data=cwwa_data,
+                seas5_per_lead=fetched.get("ecmwf_seas5", {}).get("per_lead"),
                 current_develop_year=S.BRIEF_DATE.year,
-                today_offset=today_offset)
+                today_offset=today_offset,
+                live_oni_by_year=live_oni_by_year)
 
     # 3. Snapshot current inputs and diff against last issue
     snap = snapshot.current_snapshot(fetched)

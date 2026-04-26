@@ -73,6 +73,7 @@ This week's brief was generated without analyst commentary because the editorial
 - **bom**: fetched live, issued 2026-04-14.
 - **ecmwf_seas5**: fetched live, issued 2026-04-01.
 - **era5_wwe**: fetched live, issued 2026-04-21.
+- **oni_history**: fetched live, issued 2026-03-31.
 
 ---
 
