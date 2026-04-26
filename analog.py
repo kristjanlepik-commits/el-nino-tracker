@@ -1,16 +1,20 @@
 """
 Analog tracker: plot ONI trajectories for three reference El Niño events
 from a common calendar start (March 1 of develop year), with the current
-2026 trajectory overlaid.
+2026 trajectory overlaid. Optional second panel for CWWA.
 
 Plotted using the central month of each 3-month season for x-axis position.
 Visual gut check, not a quantitative forecast.
 """
 
+from __future__ import annotations
+
 import csv
 import os
-import matplotlib.pyplot as plt
+from datetime import date
 from pathlib import Path
+
+import matplotlib.pyplot as plt
 
 # Map season codes to month-from-March-1 (using the central month).
 # DJF center = January (so previous year). JFM = February, FMA = March,
@@ -110,27 +114,37 @@ def load_trajectories():
     return series
 
 
-def plot(out_path: str):
-    series = load_trajectories()
-    fig, ax = plt.subplots(figsize=(10, 6))
+STYLE = {
+    1997: {"color": "#c92020", "label_oni": "1997-98 (super, peak 2.4)",
+           "label_cwwa": "1997 develop year", "lw": 2.0},
+    2015: {"color": "#7d2bb0", "label_oni": "2015-16 (super, peak 2.8)",
+           "label_cwwa": "2015 develop year", "lw": 2.0},
+    2023: {"color": "#1f6fa6", "label_oni": "2023-24 (recent super, peak 2.1)",
+           "label_cwwa": "2023 develop year", "lw": 2.0},
+    2025: {"color": "#6b8e8a", "label_oni": "2025-26 (La Niña, peak -0.5)",
+           "label_cwwa": "2025 develop year (La Niña)",
+           "lw": 1.5, "linestyle": "--"},
+    2026: {"color": "#000000", "label_oni": "2026-27 (current)",
+           "label_cwwa": "2026 develop year (current)", "lw": 2.5,
+           "marker": "o", "ms": 6},
+}
 
-    style = {
-        1997: {"color": "#c92020", "label": "1997-98 (super, peak 2.4)", "lw": 2.0},
-        2015: {"color": "#7d2bb0", "label": "2015-16 (super, peak 2.8)", "lw": 2.0},
-        2023: {"color": "#1f6fa6", "label": "2023-24 (recent super, peak 2.1)", "lw": 2.0},
-        2025: {"color": "#6b8e8a", "label": "2025-26 (La Niña, peak -0.5)",
-               "lw": 1.5, "linestyle": "--"},
-        2026: {"color": "#000000", "label": "2026-27 (current)", "lw": 2.5,
-               "marker": "o", "ms": 6},
-    }
 
+def _months_from_mar1_for_dateiso(date_iso: str, develop_year: int) -> float:
+    """Fractional months elapsed since March 1 of develop_year."""
+    d = date.fromisoformat(date_iso)
+    days = (d - date(develop_year, 3, 1)).days
+    return days / 30.44   # average days per month
+
+
+def _plot_oni(ax, series):
     for event in [1997, 2015, 2023, 2025, 2026]:
         if event not in series:
             continue
         xs = [pt[0] for pt in series[event]]
         ys = [pt[1] for pt in series[event]]
-        s = style[event]
-        kwargs = {"color": s["color"], "label": s["label"], "linewidth": s["lw"]}
+        s = STYLE[event]
+        kwargs = {"color": s["color"], "label": s["label_oni"], "linewidth": s["lw"]}
         if "marker" in s:
             kwargs["marker"] = s["marker"]
             kwargs["markersize"] = s["ms"]
@@ -138,27 +152,81 @@ def plot(out_path: str):
             kwargs["linestyle"] = s["linestyle"]
         ax.plot(xs, ys, **kwargs)
 
-    # Bucket reference lines
     for y, lbl in [(1.0, "moderate"), (1.5, "strong"), (2.0, "super"), (2.5, "1997/2015")]:
         ax.axhline(y, color="grey", linestyle="--", alpha=0.4, linewidth=0.8)
-        ax.text(20, y + 0.04, lbl, fontsize=8, color="grey")
+        ax.text(13, y + 0.04, lbl, fontsize=8, color="grey")
 
     ax.axhline(0, color="black", linewidth=0.6)
     ax.set_xlim(-3, 14)
     ax.set_ylim(-1.0, 3.2)
-    ax.set_xlabel("Months since March 1 of develop year")
     ax.set_ylabel("Niño 3.4 ONI (traditional, °C)")
     ax.set_title(
-        "Analog tracker: 2026-27 vs reference El Niño events\n"
-        "ONI 3-month running mean, ERSST.v5, 1991-2020 climatology"
+        "Analog tracker: 2026-27 vs reference events\n"
+        "Top: ONI 3-month running mean (ERSST.v5, 1991-2020 climo). "
+        "Bottom: cumulative westerly wind anomaly (ERA5, 5N-5S, 130E-150W)."
     )
     ax.grid(True, alpha=0.3)
     ax.legend(loc="lower right", fontsize=9)
 
-    # Mark current position (Apr 25, 2026 = roughly month 1.8 since Mar 1)
-    ax.axvline(1.8, color="black", linestyle=":", alpha=0.5, linewidth=0.8)
-    ax.annotate("today\n(Apr 25)", xy=(1.8, -0.85), fontsize=8, color="black",
-                ha="center")
+
+def _plot_cwwa(ax, current_series, analogs, current_develop_year):
+    """Plot CWWA curves keyed by months-since-March-1.
+
+    `current_series` is a list of (date_iso, value) for the current develop year.
+    `analogs` is dict[year_int -> list[(date_iso, value)]] for reference years.
+    """
+    plotted_anything = False
+    for yr, ser in (analogs or {}).items():
+        if yr not in STYLE:
+            continue
+        xs = [_months_from_mar1_for_dateiso(d, yr) for d, _ in ser]
+        ys = [v for _, v in ser]
+        s = STYLE[yr]
+        kwargs = {"color": s["color"], "label": s["label_cwwa"], "linewidth": s["lw"]}
+        if "linestyle" in s:
+            kwargs["linestyle"] = s["linestyle"]
+        ax.plot(xs, ys, **kwargs)
+        plotted_anything = True
+
+    if current_series:
+        xs = [_months_from_mar1_for_dateiso(d, current_develop_year)
+              for d, _ in current_series]
+        ys = [v for _, v in current_series]
+        s = STYLE[2026]
+        ax.plot(xs, ys, color=s["color"], label=s["label_cwwa"],
+                linewidth=s["lw"], marker=s["marker"], markersize=s["ms"],
+                markevery=max(1, len(xs) // 8))
+        plotted_anything = True
+
+    ax.set_xlim(-3, 14)
+    if not plotted_anything:
+        ax.text(0.5, 0.5, "CWWA data not available", transform=ax.transAxes,
+                ha="center", va="center", fontsize=10, color="grey")
+        return
+
+    ax.axhline(0, color="black", linewidth=0.6)
+    ax.set_xlabel("Months since March 1 of develop year")
+    ax.set_ylabel("CWWA (m/s · days)")
+    ax.grid(True, alpha=0.3)
+    ax.legend(loc="upper left", fontsize=9)
+
+
+def plot(out_path: str, cwwa_data: dict | None = None,
+         current_develop_year: int = 2026, today_offset: float | None = None):
+    """Render the two-panel analog chart. If `cwwa_data` is supplied (with keys
+    `cwwa_series` and `cwwa_analogs`), the bottom panel shows CWWA trajectories;
+    otherwise it stays empty with a placeholder message."""
+    series = load_trajectories()
+    fig, (ax_oni, ax_cwwa) = plt.subplots(2, 1, figsize=(10, 9), sharex=True,
+                                          gridspec_kw={"height_ratios": [3, 2]})
+    _plot_oni(ax_oni, series)
+    _plot_cwwa(ax_cwwa, (cwwa_data or {}).get("cwwa_series"),
+               (cwwa_data or {}).get("cwwa_analogs"), current_develop_year)
+
+    if today_offset is not None:
+        for ax in (ax_oni, ax_cwwa):
+            ax.axvline(today_offset, color="black", linestyle=":", alpha=0.5,
+                       linewidth=0.8)
 
     fig.tight_layout()
     os.makedirs(os.path.dirname(out_path), exist_ok=True)

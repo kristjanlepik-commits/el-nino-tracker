@@ -164,8 +164,16 @@ def fetch_all() -> dict:
         phys["heat_content_0_300m_estimate"] = results["heat_content"].payload.get(
             "anomaly_c", phys["heat_content_0_300m_estimate"])
     if results["era5_wwe"].ok and not results["era5_wwe"].used_fallback:
-        phys["wwe_count_since_mar1_estimate"] = results["era5_wwe"].payload.get(
-            "wwe_count_since_mar1", phys["wwe_count_since_mar1_estimate"])
+        wp = results["era5_wwe"].payload
+        # CWWA replaces the legacy event-count metric (methodology v1.2).
+        if wp.get("cwwa_ms_days") is not None:
+            phys["cwwa_ms_days"] = wp["cwwa_ms_days"]
+            phys["cwwa_series"] = wp.get("cwwa_series", [])
+            phys["cwwa_analogs"] = wp.get("cwwa_analogs", {})
+            phys["cwwa_domain"] = wp.get("domain")
+        elif wp.get("wwe_count_since_mar1") is not None:
+            # Legacy payload from old caches.
+            phys["wwe_count_since_mar1_estimate"] = wp["wwe_count_since_mar1"]
 
     # Per-source freshness summary for the brief
     out["_freshness"] = {

@@ -17,6 +17,8 @@ commentary on top of the auto-diff. The auto-diff is the floor; your
 prose is the ceiling.
 """
 
+from __future__ import annotations
+
 from datetime import date
 import json
 import shutil
@@ -37,7 +39,7 @@ PUBLIC_SOURCE_NAMES = {
     "iri": "IRI plume",
     "bom": "BoM ENSO Outlook",
     "ecmwf_seas5": "ECMWF SEAS5",
-    "era5_wwe": "ERA5 westerly wind events",
+    "era5_wwe": "ERA5 cumulative westerly wind anomaly (CWWA)",
 }
 
 
@@ -89,6 +91,36 @@ def render_html(markdown_text: str, title: str = None) -> str:
 BRIEF_DIR = Path(__file__).parent / "briefs" / S.BRIEF_DATE.isoformat()
 DOCS_DIR = Path(__file__).parent / "docs"
 DOCS_BRIEF_DIR = DOCS_DIR / "briefs" / S.BRIEF_DATE.isoformat()
+
+
+def _cwwa_ranking(current_value: float, analogs: dict, target_iso: str | None) -> str:
+    """Describe where the current CWWA falls among the analog years at the same calendar date."""
+    if not target_iso or not analogs:
+        return ""
+    target_md = target_iso[5:]
+    refs = []
+    for yr_key, ser in analogs.items():
+        if not ser:
+            continue
+        try:
+            yr = int(yr_key)
+        except (TypeError, ValueError):
+            continue
+        match = None
+        for d_iso, v in ser:
+            if d_iso[5:] == target_md:
+                match = float(v)
+                break
+        if match is None:
+            match = float(ser[-1][1])
+        refs.append((yr, match))
+    if not refs:
+        return ""
+    refs.sort(key=lambda x: abs(x[1] - current_value))
+    closest_yr, closest_val = refs[0]
+    return (f"At the same calendar date, 2026 CWWA ({current_value:.0f}) tracks "
+            f"closest to {closest_yr} ({closest_val:.0f}); other reference years: "
+            + ", ".join(f"{y} ({v:.0f})" for y, v in sorted(refs) if y != closest_yr) + ".")
 
 
 def fmt_bucket(name: str, vals: dict) -> str:
@@ -230,27 +262,46 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
               f"{analog_same['2015_apr_heat_content']:+.1f}°C |")
     wwe_fresh = freshness.get("era5_wwe", {})
     wwe_live = wwe_fresh.get("ok") and not wwe_fresh.get("used_fallback")
-    if wwe_live:
-        wwe_label = (f"{phys['wwe_count_since_mar1_estimate']} "
-                     f"(simplified McPhaden, area-mean u850 anomaly > 5 m/s "
-                     f"sustained > 5 days)")
+    cwwa_value = phys.get("cwwa_ms_days") if wwe_live else None
+    cwwa_analogs = phys.get("cwwa_analogs", {}) if wwe_live else {}
+
+    def _analog_value_at(year_int_or_str: int | str, target_iso: str) -> float | None:
+        ser = cwwa_analogs.get(year_int_or_str) or cwwa_analogs.get(str(year_int_or_str))
+        if not ser:
+            return None
+        target_md = target_iso[5:]
+        for d_iso, v in ser:
+            if d_iso[5:] == target_md:
+                return float(v)
+        return float(ser[-1][1])
+
+    if wwe_live and cwwa_value is not None:
+        target_iso = wwe_fresh.get("issued") or ""
+        a97 = _analog_value_at(1997, target_iso)
+        a15 = _analog_value_at(2015, target_iso)
+        cell_curr = f"{cwwa_value:.0f} m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo)"
+        cell_97 = f"{a97:.0f}" if a97 is not None else "n/a"
+        cell_15 = f"{a15:.0f}" if a15 is not None else "n/a"
     else:
-        wwe_label = (f"~{phys['wwe_count_since_mar1_estimate']} (estimated; "
-                     f"not McPhaden-defined this run)")
-    md.append(f"| WWE count since Mar 1 | {wwe_label} | "
-              f"{analog_same['1997_wwe_to_apr22']} | "
-              f"{analog_same['2015_wwe_to_apr22']} |")
+        cell_curr = "(CWWA fetch failed; not computed this run)"
+        cell_97 = "n/a"
+        cell_15 = "n/a"
+    md.append(f"| Cumulative westerly wind anomaly since Mar 1 | "
+              f"{cell_curr} | {cell_97} | {cell_15} |")
     md.append("")
     md.append(f"**Heat content note:** {phys['heat_content_qualitative']}")
     md.append("")
-    if wwe_live:
-        md.append(f"**WWE note:** Live ERA5 1991-2020 climatology comparison "
-                  f"through {wwe_fresh.get('issued')}. The simplified criterion "
-                  f"(area-mean rather than spatial-peak detection) tends to "
-                  f"undercount versus the full McPhaden definition; treat the "
-                  f"count as a lower bound.")
+    if wwe_live and cwwa_value is not None:
+        ranking = _cwwa_ranking(cwwa_value, cwwa_analogs, wwe_fresh.get("issued"))
+        md.append(f"**CWWA note:** Live ERA5 daily 850 hPa zonal wind through "
+                  f"{wwe_fresh.get('issued')}, area-meaned over 5N-5S, 130E-150W "
+                  f"and integrated for positive (westerly) anomalies vs the "
+                  f"1991-2020 same-calendar-day climatology. Higher = more "
+                  f"cumulative westerly forcing on the equatorial Pacific, the "
+                  f"mechanism that excites downwelling Kelvin waves and drives "
+                  f"moderate-to-super event escalation. {ranking}")
     else:
-        md.append(f"**WWE note:** {phys['wwe_qualitative']}")
+        md.append(f"**CWWA note:** {phys.get('wwe_qualitative', '')}")
     md.append("")
 
     # --------- Section 3: Analog tracker ---------
@@ -378,8 +429,19 @@ def main():
     fetched = F.fetch_all()
     freshness = fetched.pop("_freshness", {})
 
-    # 2. Chart (idempotent; uses static analog CSV, doesn't depend on fetch)
-    analog.plot(str(BRIEF_DIR / "analog.png"))
+    # 2. Chart (uses static analog CSV plus the live CWWA series and analogs)
+    cwwa_data = None
+    phys_for_chart = fetched.get("physical_state", {})
+    if phys_for_chart.get("cwwa_series"):
+        cwwa_data = {
+            "cwwa_series": phys_for_chart["cwwa_series"],
+            "cwwa_analogs": phys_for_chart.get("cwwa_analogs", {}),
+        }
+    today_offset = (S.BRIEF_DATE.toordinal() - date(S.BRIEF_DATE.year, 3, 1).toordinal()) / 30.44
+    analog.plot(str(BRIEF_DIR / "analog.png"),
+                cwwa_data=cwwa_data,
+                current_develop_year=S.BRIEF_DATE.year,
+                today_offset=today_offset)
 
     # 3. Snapshot current inputs and diff against last issue
     snap = snapshot.current_snapshot(fetched)

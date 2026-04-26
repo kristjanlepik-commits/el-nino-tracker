@@ -49,7 +49,7 @@ re-released this week" from "agency stale, we're carrying forward".
 | IRI ENSO Quick Look | 3-category probabilities (La Niña / Neutral / El Niño) for 9 seasons | Monthly, ~19th |
 | BoM ENSO outlook | Australian Bureau categorical alert + summary | Fortnightly |
 | ECMWF SEAS5 (via Copernicus CDS) | 51-member Niño 3.4 SST forecast, leads 1-6 | Monthly, ~5th |
-| ERA5 westerly wind events | Count of westerly wind events since March 1 | Continuous (5-day lag) |
+| ERA5 cumulative westerly wind anomaly (CWWA) | Cumulative positive 850 hPa zonal-wind anomaly since March 1, m/s · days | Continuous (5-day lag) |
 
 If a fetcher fails, the brief falls back to the last successful cache
 for that source, then to a hand-curated seed value, and surfaces the
@@ -161,11 +161,19 @@ caveat text.
    for the following peak season carry materially wider error bars than
    what we'll see by July or August. All current numbers are preliminary
    in a way that won't be true later in the year.
-2. **WWE simplification.** Our westerly wind event count uses an
-   area-mean criterion over 5N-5S, 160E-120W (anomaly > 5 m/s sustained
-   > 5 days) sampled at 12 UTC, instead of McPhaden 1999's full
-   spatial-peak detection on daily means. This tends to undercount
-   events; the brief labels the figure as a lower bound.
+2. **CWWA in place of WWE event counting.** The brief originally
+   reported a discrete count of westerly wind events using a simplified
+   area-mean criterion (≥5 m/s sustained ≥5 days). In v1.2 we
+   replaced that with a continuous Cumulative Westerly Wind Anomaly
+   index (CWWA) over 5N-5S, 130E-150W (the standard equatorial WWE
+   source domain): the running sum of positive daily 850 hPa zonal
+   wind anomalies vs the 1991-2020 same-calendar-day climatology,
+   from March 1 of the develop year. The chart panel below the ONI
+   analog plot overlays the 2026 CWWA against 1997, 2015, 2023, and
+   2025 reference curves at the same calendar offset. Limitation: the
+   cumulative integral does not preserve which dates carried most of
+   the forcing, only the running total. A discrete spatial-peak event
+   count (Gemini's full method per WWE follow-up) is on the V2 list.
 3. **Heat content climatology mismatch.** CPC's published heat content
    series uses a 1981-2010 climatology, while the rest of the brief uses
    1991-2020. Difference is small at current magnitudes (~0.1-0.3 °C)
@@ -253,8 +261,21 @@ median).
   headline threshold; lo-hi range on +2.5 bucket now comes from a
   bootstrap that perturbs CPC's whole-percent bin probabilities by
   Gaussian noise.
+- **1.2** (2026-04-26): Replaced the discrete WWE event count with a
+  continuous Cumulative Westerly Wind Anomaly (CWWA) index over
+  5N-5S, 130E-150W (domain shifted west and contracted east relative
+  to the v1.1 area, per literature on WWE source regions). CWWA is
+  the running sum of positive daily 850 hPa zonal wind anomalies
+  since March 1 of the develop year, expressed in m/s · days. The
+  analog chart now has a second panel overlaying the 2026 CWWA
+  trajectory against 1997, 2015, 2023, and 2025 reference curves.
+  Replacing a count metric with a continuous index addresses the
+  reviewer concern that count-based metrics discard intensity data
+  and tend to undercount the persistent westerly forcing that drives
+  Kelvin-wave excitation.
 
 ---
 
-*Methodology version 1.1. RONI offset fetched live each week from CPC.
-ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).*
+*Methodology version 1.2. RONI offset fetched live each week from CPC.
+ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
+WWE forcing tracked via CWWA over 5N-5S, 130E-150W.*
