@@ -25,6 +25,15 @@ import sources as S   # used as seed/fallback
 def _seed_from_sources() -> dict:
     """Returns the same shape as the live fetched dict, using sources.py."""
     return {
+        "roni_to_oni_offset": {
+            "value": S.RONI_TO_ONI_OFFSET,
+            "issued": S.PHYSICAL_STATE["issued"].isoformat(),
+            "used_fallback": True,
+            "fallback_note": "seeded from sources.RONI_TO_ONI_OFFSET",
+            "fetched_at": now_iso(),
+            "weekly_traditional": None,
+            "weekly_relative": None,
+        },
         "cpc_strength": {
             "ok": True, "issued": S.CPC_STRENGTH["issued"].isoformat(),
             "table": S.CPC_STRENGTH["table"],
@@ -129,14 +138,28 @@ def fetch_all() -> dict:
             "fetched_at": results["ecmwf_seas5"].fetched_at,
         })
 
-    # Physical state is assembled from three weekly fetchers
+    # Physical state is assembled from three weekly fetchers. The OISST
+    # fetcher also drives the dynamic RONI-to-traditional-ONI offset.
     phys = out["physical_state"]
     if results["oisst_weekly"].ok and not results["oisst_weekly"].used_fallback:
-        phys["nino34_weekly_traditional"] = results["oisst_weekly"].payload.get(
+        p = results["oisst_weekly"].payload
+        phys["nino34_weekly_traditional"] = p.get(
             "weekly_traditional", phys["nino34_weekly_traditional"])
+        if p.get("weekly_relative") is not None:
+            phys["nino34_weekly_roni"] = p.get("weekly_relative")
         phys["issued"] = results["oisst_weekly"].issued or phys["issued"]
         phys["used_fallback"] = False
         phys["fallback_note"] = None
+        if p.get("roni_to_oni_offset") is not None:
+            out["roni_to_oni_offset"] = {
+                "value": p["roni_to_oni_offset"],
+                "issued": results["oisst_weekly"].issued,
+                "used_fallback": False,
+                "fallback_note": None,
+                "fetched_at": results["oisst_weekly"].fetched_at,
+                "weekly_traditional": p.get("weekly_traditional"),
+                "weekly_relative": p.get("weekly_relative"),
+            }
     if results["heat_content"].ok and not results["heat_content"].used_fallback:
         phys["heat_content_0_300m_estimate"] = results["heat_content"].payload.get(
             "anomaly_c", phys["heat_content_0_300m_estimate"])

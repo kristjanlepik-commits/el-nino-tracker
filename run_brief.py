@@ -18,6 +18,8 @@ prose is the ceiling.
 """
 
 from datetime import date
+import json
+import shutil
 from pathlib import Path
 
 import markdown as md_lib
@@ -26,6 +28,28 @@ import sources as S
 import probs
 import analog
 import snapshot
+
+
+PUBLIC_SOURCE_NAMES = {
+    "cpc_strength": "NOAA CPC strength table",
+    "oisst_weekly": "NOAA OISST weekly Niño 3.4",
+    "heat_content": "CPC 0-300m heat content",
+    "iri": "IRI plume",
+    "bom": "BoM ENSO Outlook",
+    "ecmwf_seas5": "ECMWF SEAS5",
+    "era5_wwe": "ERA5 westerly wind events",
+}
+
+
+def public_preamble(methodology_href: str) -> str:
+    return (
+        "Weekly probability tracker for the developing 2026-27 El Niño event, "
+        "built from the official ENSO outlooks (NOAA CPC, IRI, BoM, ECMWF SEAS5) "
+        "plus weekly Niño 3.4 observations. Numbers are reproduced from public "
+        f"sources and recombined into a single set of peak-strength buckets; the "
+        f"[methodology page]({methodology_href}) documents every step. Forecast "
+        "disagreements are surfaced rather than averaged."
+    )
 
 
 HTML_CSS = """
@@ -63,6 +87,8 @@ def render_html(markdown_text: str, title: str = None) -> str:
 
 
 BRIEF_DIR = Path(__file__).parent / "briefs" / S.BRIEF_DATE.isoformat()
+DOCS_DIR = Path(__file__).parent / "docs"
+DOCS_BRIEF_DIR = DOCS_DIR / "briefs" / S.BRIEF_DATE.isoformat()
 
 
 def fmt_bucket(name: str, vals: dict) -> str:
@@ -72,9 +98,15 @@ def fmt_bucket(name: str, vals: dict) -> str:
 
 
 def build_markdown(fetched: dict, diff_md: str, freshness: dict,
-                   analyst_read_md: str) -> str:
+                   analyst_read_md: str, diff_obj: dict = None,
+                   audience: str = "internal",
+                   methodology_href: str = "methodology.html") -> str:
+    is_public = (audience == "public")
+    offset_block = fetched.get("roni_to_oni_offset", {})
+    offset = offset_block.get("value", S.RONI_TO_ONI_OFFSET)
+    offset_live = (not offset_block.get("used_fallback", True)) and offset_block.get("issued")
     headline = probs.cpc_headline_with_uncertainty(
-        fetched["cpc_strength"]["table"], "NDJ 2026-27")
+        fetched["cpc_strength"]["table"], "NDJ 2026-27", offset=offset)
     iri_djf = fetched["iri"]["three_cat"]["DJF 2026-27"]
     phys = fetched["physical_state"]
     bom = fetched["bom"]
@@ -86,7 +118,7 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md = []
     md.append(f"# El Niño Probability Tracker, week of {S.BRIEF_DATE.isoformat()}")
     md.append("")
-    md.append("Internal use.")
+    md.append(public_preamble(methodology_href) if is_public else "Internal use.")
     md.append("")
     md.append("Target peak season: **DJF 2026-27**. CPC's longest-lead "
               "strength bin is NDJ 2026-27, used as the proxy for the DJF peak.")
@@ -96,10 +128,19 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md.append("## 1. Headline probabilities")
     md.append("")
     md.append("Peak Niño 3.4 (traditional ONI), DJF 2026-27 / NDJ 2026-27.")
-    md.append("Headline numbers below are CPC-derived after translating from "
-              f"RONI to traditional ONI using a flat +{S.RONI_TO_ONI_OFFSET}"
-              f"°C offset (revisit each issue). ECMWF SEAS5 member counts in "
-              f"caveat 2 are a second quantitative cross-check.")
+    if offset_live:
+        offset_note = (f"RONI-to-traditional-ONI offset is {offset:+.2f}°C, "
+                       f"the live tropical-mean SST anomaly observed for the "
+                       f"week of {offset_block['issued']} (CPC).")
+    else:
+        offset_note = (f"RONI-to-traditional-ONI offset assumed flat at "
+                       f"{offset:+.2f}°C (seed value).")
+    md.append(f"Headline numbers below are CPC-derived after translating from "
+              f"RONI bins to traditional ONI thresholds, then fitting a "
+              f"skew-normal distribution to the nine bin probabilities and "
+              f"evaluating its survival function at each threshold. {offset_note} "
+              f"ECMWF SEAS5 member counts in caveat 2 are a second quantitative "
+              f"cross-check.")
     md.append("")
     for label, key in [
         ("At least moderate (>+1.0°C peak)", "moderate_>1.0"),
@@ -134,12 +175,15 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md.append("")
     md.append("**Caveats this issue:**")
     md.append("")
-    md.append("1. The +2.5°C bucket range is wider than the others because "
-              "CPC's table doesn't separate >+2.5 from >+2.0 RONI; the "
-              "12-21% reflects how much of the open `>=+2.0` RONI bin sits "
-              "above +2.5°C trad ONI under different mass-distribution "
-              "assumptions. Honest answer: we don't know precisely without "
-              "the underlying ensemble.")
+    cpc_25_lo = headline["9715_>2.5"]["lo"]
+    cpc_25_hi = headline["9715_>2.5"]["hi"]
+    md.append(f"1. The +2.5°C bucket carries a {cpc_25_lo}-{cpc_25_hi}% range. "
+              f"It comes from a bootstrap that perturbs CPC's published bin "
+              f"probabilities by Gaussian noise (sigma 1 percentage point, "
+              f"matching CPC's whole-percent reporting precision) and refits "
+              f"the skew-normal each time. The range therefore reflects "
+              f"reporting-quantization uncertainty in CPC's table, not "
+              f"underlying forecast uncertainty.")
     if ecmwf.get("members_above") and ecmwf.get("member_count"):
         n_above = ecmwf["members_above"].get("2.5", 0)
         n_total = ecmwf["member_count"]
@@ -233,41 +277,101 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md.append("")
 
     # --------- Section 4: Editorial layer ---------
-    md.append("## 4. Editorial layer")
+    if is_public:
+        md.append("## 4. Sources and freshness")
+    else:
+        md.append("## 4. Editorial layer")
     md.append("")
-    md.append("### What changed week-over-week")
-    md.append("")
-    md.append(diff_md)
-    md.append("")
-    md.append("### Analyst read")
-    md.append("")
-    md.append(analyst_read_md)
-    md.append("")
+
+    suppress_diff = is_public and diff_obj is not None and diff_obj.get("is_first_issue")
+    if not suppress_diff:
+        md.append("### What changed week-over-week")
+        md.append("")
+        md.append(diff_md)
+        md.append("")
+
+    if not is_public:
+        md.append("### Analyst read")
+        md.append("")
+        md.append(analyst_read_md)
+        md.append("")
+
     md.append("### Source freshness this issue")
     md.append("")
     for src, info in freshness.items():
+        display = PUBLIC_SOURCE_NAMES.get(src, src) if is_public else src
         if info.get("ok") and not info.get("used_fallback"):
-            md.append(f"- **{src}**: fetched live, issued {info.get('issued')}.")
+            md.append(f"- **{display}**: fetched live, issued {info.get('issued')}.")
         elif info.get("used_fallback"):
-            md.append(f"- **{src}**: live fetch failed; using last-good cache "
-                      f"(issued {info.get('issued')}). Error: {info.get('error')}.")
+            if is_public:
+                md.append(f"- **{display}**: cached (issued {info.get('issued')}).")
+            else:
+                md.append(f"- **{display}**: live fetch failed; using last-good cache "
+                          f"(issued {info.get('issued')}). Error: {info.get('error')}.")
         else:
-            md.append(f"- **{src}**: not implemented or cache empty; using "
-                      f"seed values from sources.py.")
+            if is_public:
+                md.append(f"- **{display}**: placeholder.")
+            else:
+                md.append(f"- **{display}**: not implemented or cache empty; using "
+                          f"seed values from sources.py.")
     md.append("")
     md.append("---")
     md.append("")
-    md.append(f"*Generated by run_brief.py from sources.py + probs.py + "
-              f"analog.py. Methodology version {S.METHODOLOGY_VERSION}. "
-              f"RONI offset assumed flat at +{S.RONI_TO_ONI_OFFSET}°C. "
-              f"Next issue: Mon 4 May 2026 (per Monday cadence; first "
-              f"batch run is off-schedule).*")
+    if offset_live:
+        offset_footer = f"RONI offset {offset:+.2f}°C (live, week of {offset_block['issued']})"
+    else:
+        offset_footer = f"RONI offset {offset:+.2f}°C (seed)"
+    if is_public:
+        md.append(f"*Methodology version {S.METHODOLOGY_VERSION}. "
+                  f"{offset_footer}. See [methodology]({methodology_href}).*")
+    else:
+        md.append(f"*Generated by run_brief.py from sources.py + probs.py + "
+                  f"analog.py. Methodology version {S.METHODOLOGY_VERSION}. "
+                  f"{offset_footer}. Next issue: Mon 4 May 2026 (per Monday "
+                  f"cadence; first batch run is off-schedule).*")
+    md.append("")
+    return "\n".join(md)
+
+
+def build_archive_index() -> str:
+    """Render docs/briefs/index.html as markdown table from each meta.json."""
+    rows = []
+    briefs_root = DOCS_DIR / "briefs"
+    if briefs_root.exists():
+        for meta_path in sorted(briefs_root.glob("*/meta.json"), reverse=True):
+            try:
+                meta = json.loads(meta_path.read_text())
+            except (OSError, ValueError):
+                continue
+            d = meta.get("date", meta_path.parent.name)
+            h = meta.get("headline_buckets", {})
+            mod = h.get("moderate_>1.0", {}).get("mid", "")
+            strong = h.get("strong_>1.5", {}).get("mid", "")
+            sup = h.get("super_>2.0", {}).get("mid", "")
+            magn = h.get("9715_>2.5", {}).get("mid", "")
+            rows.append(
+                f"| [{d}]({d}/brief.html) | {mod}% | {strong}% | {sup}% | {magn}% |"
+            )
+
+    md = [
+        "# Past briefs",
+        "",
+        "Weekly El Niño probability tracker, archive of past issues. "
+        "Latest brief is on the [front page](../index.html); methodology "
+        "overview is [here](../methodology.html).",
+        "",
+        "| Date | At least moderate (>+1.0°C) | Strong (>+1.5°C) | "
+        "Super (>+2.0°C) | 1997/2015 magnitude (>+2.5°C) |",
+        "|---|---|---|---|---|",
+    ]
+    md.extend(rows)
     md.append("")
     return "\n".join(md)
 
 
 def main():
     BRIEF_DIR.mkdir(parents=True, exist_ok=True)
+    DOCS_BRIEF_DIR.mkdir(parents=True, exist_ok=True)
 
     # 1. Run all fetchers (with fallback to cache / sources.py seeds)
     import fetch_all as F
@@ -285,10 +389,11 @@ def main():
     snap_path = snapshot.save_snapshot(snap)
     print(f"snapshot: {snap_path}")
 
-    # 4. Auto-generate the Analyst Read prose
+    # 4. Auto-generate the Analyst Read prose (internal only)
     import editorial
+    offset = fetched.get("roni_to_oni_offset", {}).get("value", S.RONI_TO_ONI_OFFSET)
     headline = probs.cpc_headline_with_uncertainty(
-        fetched["cpc_strength"]["table"], "NDJ 2026-27")
+        fetched["cpc_strength"]["table"], "NDJ 2026-27", offset=offset)
     analyst_read_md = editorial.generate(
         headline=headline,
         diff=d,
@@ -297,8 +402,9 @@ def main():
         brief_date=S.BRIEF_DATE.isoformat(),
     )
 
-    # 5. Brief: markdown and HTML
-    md_text = build_markdown(fetched, diff_md, freshness, analyst_read_md)
+    # 5. Internal brief: markdown and HTML (unchanged outputs in briefs/)
+    md_text = build_markdown(fetched, diff_md, freshness, analyst_read_md,
+                             diff_obj=d, audience="internal")
     out_md = BRIEF_DIR / "brief.md"
     out_md.write_text(md_text)
     print(f"wrote: {out_md}")
@@ -307,10 +413,44 @@ def main():
     print(f"wrote: {out_html}")
     print(f"wrote: {BRIEF_DIR / 'analog.png'}")
 
-    # 6. Methodology overview HTML, regenerated from methodology.md if present
+    # 6. Public brief: render twice (latest at docs/index.html and archive
+    #    at docs/briefs/YYYY-MM-DD/brief.html) with different methodology
+    #    hrefs so the relative link resolves from each location.
+    public_md_index = build_markdown(
+        fetched, diff_md, freshness, analyst_read_md="",
+        diff_obj=d, audience="public",
+        methodology_href="methodology.html",
+    )
+    public_md_archive = build_markdown(
+        fetched, diff_md, freshness, analyst_read_md="",
+        diff_obj=d, audience="public",
+        methodology_href="../../methodology.html",
+    )
+    DOCS_DIR.mkdir(parents=True, exist_ok=True)
+    (DOCS_DIR / ".nojekyll").touch()
+    (DOCS_DIR / "index.html").write_text(render_html(public_md_index))
+    print(f"wrote: {DOCS_DIR / 'index.html'}")
+    (DOCS_BRIEF_DIR / "brief.html").write_text(render_html(public_md_archive))
+    print(f"wrote: {DOCS_BRIEF_DIR / 'brief.html'}")
+    shutil.copyfile(BRIEF_DIR / "analog.png", DOCS_DIR / "analog.png")
+    shutil.copyfile(BRIEF_DIR / "analog.png", DOCS_BRIEF_DIR / "analog.png")
+    (DOCS_BRIEF_DIR / "meta.json").write_text(json.dumps({
+        "date": S.BRIEF_DATE.isoformat(),
+        "headline_buckets": headline,
+    }, indent=2))
+    print(f"wrote: {DOCS_BRIEF_DIR / 'meta.json'}")
+
+    # 7. Archive index (regenerated each run from meta.json files)
+    archive_md = build_archive_index()
+    (DOCS_DIR / "briefs" / "index.html").write_text(
+        render_html(archive_md, title="El Nino tracker, past briefs")
+    )
+    print(f"wrote: {DOCS_DIR / 'briefs' / 'index.html'}")
+
+    # 8. Methodology overview HTML, regenerated from methodology.md if present
     meth_md = Path(__file__).parent / "methodology.md"
     if meth_md.exists():
-        meth_html = Path(__file__).parent / "methodology.html"
+        meth_html = DOCS_DIR / "methodology.html"
         meth_html.write_text(render_html(meth_md.read_text(),
                                          title="El Nino tracker, methodology"))
         print(f"wrote: {meth_html}")

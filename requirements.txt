@@ -3,6 +3,7 @@ requests>=2.31
 pandas>=2.0
 matplotlib>=3.7
 numpy>=1.24
+scipy>=1.10        # skew-normal fit + bootstrap for the upper-tail bucket
 
 # HTML/PDF parsing for fetchers
 beautifulsoup4>=4.12

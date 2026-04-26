@@ -68,23 +68,47 @@ ENSO measurement.
 
 For the brief, all headline buckets are stated in **traditional ONI**
 because that is what most readers and most analog references (1997-98,
-2015-16) are expressed in. We translate CPC's RONI strength bins to
-traditional ONI by adding a flat offset (currently +0.3 °C, estimated
-empirically from observed differences between RONI and traditional ONI
-in late 2025 and early 2026). The offset is expected to drift through
-the year.
+2015-16) are expressed in. By definition the offset
+`offset = ONI − RONI = tropical_mean_SST_anomaly`. We compute it
+**directly each week** from CPC's published indices: the difference
+between the most recent week's traditional Niño 3.4 anomaly
+(`wksst9120.for`) and relative Niño 3.4 anomaly (`rel_wksst9120.txt`)
+gives the offset, observed live. The brief reports it in the section 1
+preamble. The current offset around +0.4 °C reflects the present
+tropical-mean warmth; previously a static +0.3 °C had been used and
+would have drifted under the warming trend.
 
-CPC's strength table uses 0.5 °C-wide RONI bins. To compute the
-probability that traditional ONI exceeds +X °C, we adjust the threshold
-to RONI = X − 0.3 °C and integrate the bin probabilities, using **linear
-interpolation** within partially-overlapping bins (assuming uniform mass
-distribution).
+The forecast horizon (NDJ 2026-27) introduces a small additional
+uncertainty: we use the latest observed weekly offset as the best
+estimate for the offset at the target season, on the assumption that
+tropical-mean SST anomaly drifts only slowly (the 30-year trend is
+~+0.15 °C/decade; seasonal variability is small in the tropics). The
+brief flags whether the offset is live-fetched or seeded.
 
-The open-ended top bin (RONI >= +2.0 °C) requires an assumption about
-how its probability mass is distributed. We vary the assumed bin width
-between 0.4 °C (steeper decay above +2.0) and 1.3 °C (shallower decay)
-to produce a `lo`-`hi` range for the >+2.5 °C bucket. The mid value
-assumes a uniform distribution over a 1.0 °C span.
+### Bin-interior shape: skew-normal fit, not uniform mass
+
+CPC publishes a strength table in 0.5 °C-wide RONI bins, with the top
+bin open-ended at `>= +2.0 °C`. To convert these bin probabilities to
+the probability that traditional ONI exceeds a specific threshold (e.g.,
++2.5 °C), we need an assumption about how mass is distributed within
+each bin.
+
+The brief fits a **skew-normal distribution** to the nine bin
+probabilities (loc, scale, shape; minimized via BFGS to match observed
+bin masses) and evaluates the survival function at each headline
+threshold. This is more defensible than a uniform-within-bins assumption
+because peak Niño 3.4 anomaly distributions are inherently right-skewed
+(rare super events sit in the right tail with low probability mass that
+a uniform interpolation would misallocate).
+
+Sensitivity range on the +2.5 °C bucket comes from a bootstrap that
+jitters each bin probability by Gaussian noise (sigma = 1 percentage
+point, matching CPC's whole-percent reporting precision), refits the
+skew-normal, and reports the 5th and 95th percentile of the resulting
++2.5 °C survival probabilities. The range therefore captures
+**reporting-quantization uncertainty** in CPC's published table; it
+does not capture forecast uncertainty in the underlying CPC ensemble or
+methodological uncertainty in the choice of distribution family.
 
 ### ECMWF SEAS5 cross-check
 
@@ -152,10 +176,17 @@ caveat text.
    open-ended top bin width). It does not reflect uncertainty in the
    RONI offset, in the bin-interior interpolation, or in the agency
    forecasts themselves.
-5. **Single-offset RONI translation.** A flat +0.3 °C offset is an
-   approximation. The true RONI-to-ONI difference depends on the
-   global-warming signal and is technically state- and season-dependent.
-   The brief notes the offset and revisits it every issue.
+5. **Forecast-horizon offset stability.** The offset is now fetched live
+   each week, but applied unchanged to the target season several months
+   ahead. Tropical-mean SST anomaly varies on inter-annual timescales
+   that are smaller than seasonal Niño 3.4 swings, but a residual ±0.05
+   to ±0.10 °C uncertainty over an 8-month horizon translates into ±1
+   to ±2 percentage point shifts in the upper-tail headline buckets.
+6. **Distribution-family choice.** The skew-normal is one defensible
+   right-skewed family; generalized extreme value (GEV) and log-normal
+   would also fit. The brief commits to skew-normal for tractability
+   and predictability of fit; alternative families are not currently
+   reported as a sensitivity range.
 
 ## Snapshot and diff machinery
 
@@ -178,19 +209,23 @@ numbers are not strictly week-over-week comparable across the change.
 If you are reviewing this for methodological soundness, the highest-
 value places to push back are:
 
-1. **The flat +0.3 °C RONI-to-ONI offset.** Is this a reasonable
-   approximation, or should it be season-dependent or state-dependent?
-   How quickly should it be re-estimated as the year progresses?
-2. **The bin-interior interpolation assumption.** We assume uniform
-   mass within each 0.5 °C RONI bin. Is there a defensible empirical
-   shape (e.g., from past years' member-level CPC ensembles, if those
-   are available) that would give better interpolation?
-3. **The open-ended top bin width range (0.4 to 1.3 °C).** Is this the
-   right span for the `lo`-`hi` range on the +2.5 °C bucket, or
-   defensibly wider/narrower?
+1. **Forecast-horizon validity of the live offset.** We use the
+   most-recent observed tropical-mean SST anomaly as the offset for
+   the target season several months ahead. Is that defensible, or
+   should we project a seasonally-resolved tropical-mean trajectory?
+2. **Skew-normal as the parametric family.** Is this the right shape
+   for CPC's nine-bin probability distribution at the upper tail?
+   Generalized Pareto (for the tail alone) or GEV (full distribution)
+   are alternatives we did not adopt. Should we report a sensitivity
+   range across families instead of just the bootstrap?
+3. **The bootstrap range.** Sigma = 1 percentage point Gaussian noise
+   on bin probabilities matches CPC's reporting precision but does
+   not capture true forecast uncertainty (which is much larger).
+   Should the brief surface a separate "forecast uncertainty" range,
+   and how would we estimate it?
 4. **The model-vs-observational climatology choice for ECMWF.** Is
-   "model anomaly" the right framing for a "what's the chance peak ONI
-   exceeds X" question, given that the question is observational by
+   "model anomaly" the right framing for a "what's the chance peak
+   ONI exceeds X" question, given the question is observational by
    construction? Or should we report both and let the reader choose?
 5. **The bucket thresholds (+1.0/+1.5/+2.0/+2.5 °C).** Are these the
    right cuts for the audience the brief is written for?
@@ -202,8 +237,24 @@ individual agency forecast (we did not produce any of them) nor
 calibration evidence (we are not trying to outperform the agency
 median).
 
+## Methodology change log
+
+- **1.0** (2026-04-26): Initial methodology. Static +0.3 °C RONI offset.
+  Linear interpolation within bins; uniform-mass assumption; lo-hi range
+  on +2.5 bucket from varying assumed top-bin width (0.4-1.3 °C).
+- **1.1** (2026-04-26): Two changes following external methodology
+  review. Live RONI offset computed each week as `traditional weekly
+  Niño 3.4 anomaly − relative weekly Niño 3.4 anomaly` from CPC's
+  paired indices files; this equals the tropical-mean SST anomaly by
+  definition and avoids the drift inherent to a static estimate over
+  the 8-month forecast horizon. Within-bin redistribution switched
+  from uniform-mass-and-vary-bin-width to a skew-normal fit on the
+  nine bin probabilities, evaluated by survival function at each
+  headline threshold; lo-hi range on +2.5 bucket now comes from a
+  bootstrap that perturbs CPC's whole-percent bin probabilities by
+  Gaussian noise.
+
 ---
 
-*Methodology version 1.0. RONI to traditional ONI offset assumed flat
-at +0.3 °C. ECMWF anomaly subtracts SEAS5 model climatology
-(1993-2016 hindcasts).*
+*Methodology version 1.1. RONI offset fetched live each week from CPC.
+ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).*

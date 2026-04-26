@@ -50,10 +50,13 @@ def current_snapshot(fetched: dict) -> dict:
     `ecmwf`, `physical_state` so the existing diff() keeps working. We
     map fetched["ecmwf_seas5"] onto the legacy "ecmwf" key.
     """
+    offset_block = fetched.get("roni_to_oni_offset", {})
+    offset_value = offset_block.get("value", S.RONI_TO_ONI_OFFSET)
     return _to_jsonable({
         "brief_date": S.BRIEF_DATE,
         "methodology_version": S.METHODOLOGY_VERSION,
-        "roni_to_oni_offset": S.RONI_TO_ONI_OFFSET,
+        "roni_to_oni_offset": offset_value,
+        "roni_to_oni_offset_block": offset_block,
         "target_season": S.TARGET_SEASON,
         "nearest_cpc_season": S.NEAREST_CPC_SEASON,
         "cpc_strength": fetched["cpc_strength"],
