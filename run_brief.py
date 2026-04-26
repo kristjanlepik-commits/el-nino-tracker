@@ -143,15 +143,29 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
               f"(qualitative; placeholder) | "
               f"{analog_same['1997_apr_heat_content']:+.1f}°C | "
               f"{analog_same['2015_apr_heat_content']:+.1f}°C |")
-    md.append(f"| WWE count since Mar 1 | "
-              f"~{phys['wwe_count_since_mar1_estimate']} (estimated; not "
-              f"McPhaden-defined this run) | "
+    wwe_fresh = freshness.get("era5_wwe", {})
+    wwe_live = wwe_fresh.get("ok") and not wwe_fresh.get("used_fallback")
+    if wwe_live:
+        wwe_label = (f"{phys['wwe_count_since_mar1_estimate']} "
+                     f"(simplified McPhaden, area-mean u850 anomaly > 5 m/s "
+                     f"sustained > 5 days)")
+    else:
+        wwe_label = (f"~{phys['wwe_count_since_mar1_estimate']} (estimated; "
+                     f"not McPhaden-defined this run)")
+    md.append(f"| WWE count since Mar 1 | {wwe_label} | "
               f"{analog_same['1997_wwe_to_apr22']} | "
               f"{analog_same['2015_wwe_to_apr22']} |")
     md.append("")
     md.append(f"**Heat content note:** {phys['heat_content_qualitative']}")
     md.append("")
-    md.append(f"**WWE note:** {phys['wwe_qualitative']}")
+    if wwe_live:
+        md.append(f"**WWE note:** Live ERA5 1991-2020 climatology comparison "
+                  f"through {wwe_fresh.get('issued')}. The simplified criterion "
+                  f"(area-mean rather than spatial-peak detection) tends to "
+                  f"undercount versus the full McPhaden definition; treat the "
+                  f"count as a lower bound.")
+    else:
+        md.append(f"**WWE note:** {phys['wwe_qualitative']}")
     md.append("")
 
     # --------- Section 3: Analog tracker ---------

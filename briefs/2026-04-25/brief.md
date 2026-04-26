@@ -34,11 +34,11 @@ V1 first batch has one quantitative source for strength bins (NOAA CPC). Numbers
 | Niño 3.4 weekly (traditional) | +0.5°C | -0.1°C | +0.6°C |
 | Niño 3.4 weekly (RONI) | -0.3°C | n/a (pre-RONI) | n/a (pre-RONI) |
 | 0-300m heat content anomaly | ~+1.4°C (qualitative; placeholder) | +0.7°C | +1.6°C |
-| WWE count since Mar 1 | ~1 (estimated; not McPhaden-defined this run) | 1 | 2 |
+| WWE count since Mar 1 | 0 (simplified McPhaden, area-mean u850 anomaly > 5 m/s sustained > 5 days) | 1 | 2 |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
 
-**WWE note:** Westerly wind anomalies strengthened in March and early April 2026 in the western Pacific and near the Date Line. McPhaden-defined count requires ERA5 daily winds; not computed this run.
+**WWE note:** Live ERA5 1991-2020 climatology comparison through 2026-04-21. The simplified criterion (area-mean rather than spatial-peak detection) tends to undercount versus the full McPhaden definition; treat the count as a lower bound.
 
 ## 3. Analog tracker
 
@@ -72,7 +72,7 @@ This week's brief was generated without analyst commentary because the editorial
 - **iri**: fetched live, issued 2026-04-20.
 - **bom**: fetched live, issued 2026-04-14.
 - **ecmwf_seas5**: fetched live, issued 2026-04-01.
-- **era5_wwe**: not implemented or cache empty; using seed values from sources.py.
+- **era5_wwe**: fetched live, issued 2026-04-21.
 
 ---
 
