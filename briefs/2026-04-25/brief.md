@@ -66,7 +66,7 @@ This week's brief was generated without analyst commentary because the editorial
 
 ### Source freshness this issue
 
-- **cpc_strength**: not implemented or cache empty; using seed values from sources.py.
+- **cpc_strength**: fetched live, issued 2026-04-09.
 - **oisst_weekly**: fetched live, issued 2026-04-15.
 - **heat_content**: not implemented or cache empty; using seed values from sources.py.
 - **iri**: not implemented or cache empty; using seed values from sources.py.
