@@ -33,7 +33,7 @@ V1 first batch has one quantitative source for strength bins (NOAA CPC). Numbers
 |---|---|---|---|
 | Niño 3.4 weekly (traditional) | +0.5°C | -0.1°C | +0.6°C |
 | Niño 3.4 weekly (RONI) | -0.3°C | n/a (pre-RONI) | n/a (pre-RONI) |
-| 0-300m heat content anomaly | ~+1.3°C (qualitative; placeholder) | +0.7°C | +1.6°C |
+| 0-300m heat content anomaly | ~+1.4°C (qualitative; placeholder) | +0.7°C | +1.6°C |
 | WWE count since Mar 1 | ~1 (estimated; not McPhaden-defined this run) | 1 | 2 |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
@@ -68,7 +68,7 @@ This week's brief was generated without analyst commentary because the editorial
 
 - **cpc_strength**: fetched live, issued 2026-04-09.
 - **oisst_weekly**: fetched live, issued 2026-04-15.
-- **heat_content**: not implemented or cache empty; using seed values from sources.py.
+- **heat_content**: fetched live, issued 2026-03-31.
 - **iri**: fetched live, issued 2026-04-20.
 - **bom**: fetched live, issued 2026-04-14.
 - **ecmwf_seas5**: not implemented or cache empty; using seed values from sources.py.
