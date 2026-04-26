@@ -150,10 +150,87 @@ caveat text.
   retrospectively score the brief's probabilities against observed
   outcomes; the agency forecasts are not long-tracked enough at the
   brief's framing for that to be meaningful.
-- **No impact attribution.** Hurricane counts, food prices, drought
-  severity, energy demand, etc. are not modeled here. Those are
-  downstream questions handled in a separate effort.
+- **No impact modeling.** We do not model hurricane counts, food
+  prices, drought severity, or energy demand. Beginning v1.3, the brief
+  does aggregate institutional impact ranges (WMO, IMF, FAO, Allianz,
+  Swiss Re, OCHA, NASA SERVIR, IMD, etc.) in an "Impact outlook"
+  section; see "Impact aggregation" below for the policy and "What the
+  impact section does not do" for the explicit exclusions.
 - **No public dashboard or real-time updates faster than weekly.**
+
+## Impact aggregation
+
+Starting in v1.3, the brief includes an "Impact outlook" section after
+the analog tracker. This section aggregates institutional impact ranges
+for the developing event in the same posture as the headline ENSO
+numbers: we surface what major institutions and peer-reviewed regional
+analyses are saying, with named sources, and surface disagreement
+rather than averaging it away.
+
+**Method.** Regional probabilities are stated as the source states
+them (high, medium, ~70%, etc.). When multiple sources address the
+same region with materially different ranges, both are surfaced and the
+disagreement is noted. The probabilities are conditional on the
+headline strong-to-super case from section 1 materializing; we do not
+multiply them out, which would overstate confidence given that the
+headline probability is itself a 90 / 72 / 45 / 21 distribution across
+four buckets.
+
+**Sources.** The institutional sources for the impact section include
+WMO, NOAA CPC seasonal outlooks, IMF WEO and the Cashin-Mohaddes-Raissi
+(2017) framework, Allianz Research, FAO Food Price Index and Crop
+Prospects, Swiss Re sigma, IIF Capital Flows, OCHA and SADC
+humanitarian reporting, World Weather Attribution, NASA SERVIR and the
+Brazilian Geologic Service, IMD MMCFS, the International Coral Reef
+Initiative and NOAA Coral Reef Watch, the IEA Oil Market Report,
+IFPRI and IFA fertilizer-trade statistics, Lloyd's Market Association
+Joint War Committee, and sell-side framing notes (Goldman, JPMorgan)
+cited for analytical framing rather than for asset-price targets.
+Cadence ranges from continuous (heat stress, river gauges) to annual
+(IFA statistics). The impact section is currently re-curated by hand
+each issue (edit `impacts.md` at the project root); there are no
+impact fetchers in v1.3.
+
+**Editorial synthesis.** The section ends with one labeled subsection
+(currently: "Joint Iran + El Niño shocks") that goes beyond aggregation.
+This is the brief's one explicit deviation from aggregator posture.
+The label is structurally visible (the public template uses an
+`.editorial-synthesis` CSS class with a left border and tinted
+background so a cold reader sees immediately where aggregation ends).
+The synthesis names a transmission chain that no single source
+assembles end to end; it does not assign a pooled probability to the
+compound scenario.
+
+## What the impact section does not do
+
+The credibility of this brief depends on holding a strict aggregator
+line outside the labeled synthesis. Specifically, the impact section
+does not:
+
+- **Assign asset-price targets.** No price targets for crude, gold,
+  equity indices, currencies, agricultural futures, or any other
+  tradable instrument. The sources we cite (Goldman, Allianz, IMF) do
+  publish such targets; we do not reproduce them as endorsements.
+- **Issue trade recommendations.** No long-X / short-Y views, no
+  portfolio construction, no ETF or specific-security mentions, no
+  options structures or hedge ratios.
+- **Advocate for any digital asset or alternative store of value.**
+  Bitcoin, gold, and other inflation-hedge candidates are out of scope
+  as recommendations even when source documents discuss them.
+- **Forecast specific harvest tonnage or commodity-balance numbers.**
+  USDA, FAO, ICCO, Czarnikow, Cocoaintel and similar bodies publish
+  point estimates; we cite them but do not issue our own.
+- **Take sides on US or other domestic political horse-race
+  questions.** Climate salience and election-year framing are mentioned
+  only where peer-reviewed political-science or institutional sources
+  have discussed them first.
+
+The reason for these exclusions is reader-specific. The brief is read
+by climate scientists and policy-elite audiences who lose trust the
+moment the prose resembles a sell-side trade note or a political
+column. The aggregator posture is what makes the synthesis paragraph
+credible. The synthesis paragraph is the only place that posture is
+suspended, and it is structurally labeled.
 
 ## Known limitations
 
@@ -300,9 +377,21 @@ median).
   reviewer concern that count-based metrics discard intensity data
   and tend to undercount the persistent westerly forcing that drives
   Kelvin-wave excitation.
+- **1.3** (2026-04-26): Added an "Impact outlook" section after the
+  analog tracker, aggregating institutional regional impact ranges
+  (WMO, IMF, FAO, Allianz, Swiss Re, OCHA, NASA SERVIR, IMD, ICRI,
+  IEA, IFPRI/IFA, Lloyd's JWC, plus sell-side framing notes). Section
+  ends with a structurally labeled "Editorial synthesis: joint Iran +
+  El Niño shocks" subsection naming the Hormuz to sulfur to fertilizer
+  to El Niño-crops transmission chain. Two new methodology sub-sections
+  spell out the aggregation method and the explicit exclusions (no
+  asset-price targets, no trade recommendations, no specific harvest
+  tonnage forecasts). Impact content is curated by hand each issue in
+  `impacts.md` at the project root; no impact fetchers in v1.3.
 
 ---
 
-*Methodology version 1.2. RONI offset fetched live each week from CPC.
+*Methodology version 1.3. RONI offset fetched live each week from CPC.
 ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
-WWE forcing tracked via CWWA over 5N-5S, 130E-150W.*
+WWE forcing tracked via CWWA over 5N-5S, 130E-150W. Impact section
+added v1.3 as institutional aggregation plus labeled editorial synthesis.*

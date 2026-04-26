@@ -243,6 +243,55 @@ PUBLIC_CSS = """
   .footer-meta { color: var(--text-faint); font-size: 12px; line-height: 1.6; }
   .footer-meta a { color: var(--accent); }
 
+  /* ---------- Impact outlook section ---------- */
+  section.impacts h3 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 18px; font-weight: 600;
+    margin: 28px 0 8px; letter-spacing: -0.005em;
+  }
+  section.impacts > p:first-of-type {
+    color: var(--text-faint); font-size: 13px;
+    margin: 0 0 8px;
+  }
+  section.impacts ul {
+    list-style: none; padding-left: 0; margin: 8px 0 0;
+  }
+  section.impacts ul li {
+    padding: 14px 0; border-bottom: 1px solid var(--border);
+    font-size: 14px; line-height: 1.55; color: var(--text);
+  }
+  section.impacts ul li:last-child { border-bottom: none; }
+  section.impacts ul li strong { color: var(--text); }
+  section.impacts > p:not(:first-of-type) {
+    font-size: 14px; line-height: 1.55; color: var(--text); margin: 12px 0;
+  }
+
+  /* ---------- Editorial synthesis (labeled, visually distinct) ---------- */
+  .editorial-synthesis {
+    margin-top: 36px;
+    background: #fdf7e3;
+    border-left: 4px solid #b58900;
+    border-radius: 6px;
+    padding: 18px 24px 8px;
+  }
+  .editorial-synthesis h3 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 18px; font-weight: 600;
+    margin: 0 0 12px; color: #5b4d12;
+  }
+  .editorial-synthesis blockquote {
+    margin: 0 0 16px; padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.55);
+    border-left: 3px solid #b58900;
+    font-size: 13px; color: #5b4d12;
+  }
+  .editorial-synthesis blockquote p { margin: 0; }
+  .editorial-synthesis blockquote strong { color: #4a3f10; }
+  .editorial-synthesis p {
+    margin: 12px 0; font-size: 14px; line-height: 1.6; color: var(--text);
+  }
+  .editorial-synthesis p strong { color: var(--text); font-weight: 700; }
+
   @media (max-width: 720px) {
     main { padding: 24px 16px 60px; }
     h1 { font-size: 28px; }
@@ -275,6 +324,50 @@ def _signed_temp(value: float, decimals: int = 1) -> str:
     """Format a temperature with explicit sign and Unicode minus where negative."""
     formatted = f"{value:+.{decimals}f}"
     return formatted.replace("-", "−")  # U+2212 minus sign
+
+
+IMPACTS_FILE = Path(__file__).parent / "impacts.md"
+IMPACTS_SYNTHESIS_DIVIDER = "<!-- SYNTHESIS -->"
+
+
+def load_impacts() -> dict:
+    """Load impacts.md from project root, split on the synthesis divider.
+
+    Returns {"aggregation": str, "synthesis": str} when both halves present,
+    {"aggregation": str} when no divider, or {} when the file is missing
+    or empty. The brief omits the impacts section if the result is empty.
+    """
+    if not IMPACTS_FILE.exists():
+        return {}
+    raw = IMPACTS_FILE.read_text().strip()
+    if not raw:
+        return {}
+    if IMPACTS_SYNTHESIS_DIVIDER in raw:
+        agg, syn = raw.split(IMPACTS_SYNTHESIS_DIVIDER, 1)
+        return {"aggregation": agg.strip(), "synthesis": syn.strip()}
+    return {"aggregation": raw}
+
+
+def build_impacts_html_block(impacts: dict) -> str:
+    """Render the impacts section as a self-contained <section> for the public brief.
+
+    Aggregation content goes inline; synthesis is wrapped in
+    <div class="editorial-synthesis"> so a cold reader can see at a glance
+    where aggregation ends and the labeled editorial layer begins.
+    """
+    if not impacts:
+        return ""
+    parts = ['<section class="impacts"><h2>Impact outlook</h2>']
+    agg = impacts.get("aggregation", "").strip()
+    if agg:
+        parts.append(md_lib.markdown(agg, extensions=["tables", "fenced_code"]))
+    syn = impacts.get("synthesis", "").strip()
+    if syn:
+        parts.append('<div class="editorial-synthesis">')
+        parts.append(md_lib.markdown(syn, extensions=["tables", "fenced_code"]))
+        parts.append('</div>')
+    parts.append('</section>')
+    return ''.join(parts)
 
 
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
@@ -583,7 +676,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '</footer>'
     )
 
-    return head + ladder_html + chart_html + physical_html + sources_html + caveats_html + footer_html + '\n</main>\n</body>\n</html>\n'
+    impacts_html = build_impacts_html_block(load_impacts())
+
+    return (head + ladder_html + chart_html + physical_html
+            + impacts_html + sources_html + caveats_html + footer_html
+            + '\n</main>\n</body>\n</html>\n')
 
 
 BRIEF_DIR = Path(__file__).parent / "briefs" / S.BRIEF_DATE.isoformat()
@@ -825,11 +922,27 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
               "weekly trajectory to this chart is on the V1.5 list.")
     md.append("")
 
-    # --------- Section 4: Editorial layer ---------
+    # --------- Section 4: Impact outlook (if curated for this issue) -------
+    impacts_for_md = load_impacts()
+    next_section_num = 4
+    if impacts_for_md:
+        md.append("## 4. Impact outlook")
+        md.append("")
+        agg = impacts_for_md.get("aggregation", "").strip()
+        if agg:
+            md.append(agg)
+            md.append("")
+        syn = impacts_for_md.get("synthesis", "").strip()
+        if syn:
+            md.append(syn)
+            md.append("")
+        next_section_num = 5
+
+    # --------- Editorial layer (number depends on whether impacts present) ---
     if is_public:
-        md.append("## 4. Sources and freshness")
+        md.append(f"## {next_section_num}. Sources and freshness")
     else:
-        md.append("## 4. Editorial layer")
+        md.append(f"## {next_section_num}. Editorial layer")
     md.append("")
 
     suppress_diff = is_public and diff_obj is not None and diff_obj.get("is_first_issue")
