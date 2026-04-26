@@ -195,6 +195,32 @@ caveat text.
    would also fit. The brief commits to skew-normal for tractability
    and predictability of fit; alternative families are not currently
    reported as a sensitivity range.
+7. **Single-model ensemble breadth.** Our forecast cross-check pulls
+   from one model (ECMWF SEAS5, 51 members) and reports the 5-95
+   percentile band as the visualization of forecast uncertainty. This
+   captures *initial-condition* uncertainty (member-to-member
+   differences in starting state) but not *structural* uncertainty
+   (different ocean-atmosphere coupling, parameterizations, and bias
+   characteristics across forecast centers). A multi-model pool
+   (CFSv2, JMA, UKMO, NMME, etc., as on the Climate Brink dashboard)
+   captures both, and at October 2026 the multi-model 5-95 spread is
+   roughly three times wider than SEAS5's alone (a ~3°C span vs our
+   1°C). The single-model fan in the chart is therefore an
+   over-confident representation of total forecast uncertainty. The
+   central tendency is similar (within ~0.1°C of multi-model median
+   in observational-anomaly terms); the spread understatement is the
+   live methodological gap.
+8. **Forecast horizon limit.** ECMWF SEAS5 system 51 publishes 6-7
+   leads operationally, so an April issue cannot reach the DJF
+   2026-27 target peak season directly. Each successive monthly run
+   extends the visible window forward; full DJF coverage from SEAS5
+   alone arrives with the August 2026 brief. Public dashboards using
+   multi-model pools (CFSv2 and JMA both have 9-month leads) reach
+   January 2027 from an April issue. Adding a longer-lead second
+   model (CFSv2 the cleanest candidate, accessed via the same CDS
+   API with `originating_centre=ncep, system=2`) is queued for V2,
+   primarily for the breadth argument in #7 above rather than the
+   horizon argument alone.
 
 ## Snapshot and diff machinery
 
@@ -230,7 +256,8 @@ value places to push back are:
    on bin probabilities matches CPC's reporting precision but does
    not capture true forecast uncertainty (which is much larger).
    Should the brief surface a separate "forecast uncertainty" range,
-   and how would we estimate it?
+   and how would we estimate it? See limitation #7 (single-model
+   ensemble breadth) for the related concern on ECMWF.
 4. **The model-vs-observational climatology choice for ECMWF.** Is
    "model anomaly" the right framing for a "what's the chance peak
    ONI exceeds X" question, given the question is observational by
