@@ -58,7 +58,7 @@ jobs:
         run: |
           git config user.name "el-nino-tracker-bot"
           git config user.email "actions@github.com"
-          git add snapshots/ briefs/
+          git add snapshots/ briefs/ docs/
           # Only commit if something changed
           if ! git diff --cached --quiet; then
             git commit -m "Weekly brief: $(date -u +'%Y-%m-%d')"

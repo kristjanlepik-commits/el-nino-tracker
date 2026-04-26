@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>El Nino brief, 2026-04-25</title>
+<style>body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+         Arial, sans-serif; max-width: 820px; margin: 2em auto; padding: 0 1em;
+         color: #222; line-height: 1.5; }
+  h1 { border-bottom: 2px solid #888; padding-bottom: 0.2em; }
+  h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.1em; margin-top: 2em; }
+  h3 { margin-top: 1.5em; }
+  table { border-collapse: collapse; margin: 1em 0; }
+  th, td { border: 1px solid #ccc; padding: 0.4em 0.7em; text-align: left; }
+  th { background: #f4f4f4; }
+  tr:nth-child(even) td { background: #fafafa; }
+  blockquote { border-left: 4px solid #888; margin: 1em 0; padding: 0.2em 1em;
+               color: #555; background: #f7f7f7; }
+  code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px;
+         font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  img { max-width: 100%; height: auto; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 2em 0; }</style>
+</head><body>
+<h1>El Niño Probability Tracker, week of 2026-04-25</h1>
+<p>Weekly probability tracker for the developing 2026-27 El Niño event, built from the official ENSO outlooks (NOAA CPC, IRI, BoM, ECMWF SEAS5) plus weekly Niño 3.4 observations. Numbers are reproduced from public sources and recombined into a single set of peak-strength buckets; the <a href="methodology.html">methodology page</a> documents every step. Forecast disagreements are surfaced rather than averaged.</p>
+<p>Target peak season: <strong>DJF 2026-27</strong>. CPC's longest-lead strength bin is NDJ 2026-27, used as the proxy for the DJF peak.</p>
+<h2>1. Headline probabilities</h2>
+<p>Peak Niño 3.4 (traditional ONI), DJF 2026-27 / NDJ 2026-27.
+Headline numbers below are CPC-derived after translating from RONI bins to traditional ONI thresholds, then fitting a skew-normal distribution to the nine bin probabilities and evaluating its survival function at each threshold. RONI-to-traditional-ONI offset is +0.40°C, the live tropical-mean SST anomaly observed for the week of 2026-04-15 (CPC). ECMWF SEAS5 member counts in caveat 2 are a second quantitative cross-check.</p>
+<ul>
+<li><strong>At least moderate (&gt;+1.0°C peak)</strong>: 90%</li>
+<li><strong>Strong (&gt;+1.5°C peak)</strong>: 72%</li>
+<li><strong>Very strong / super (&gt;+2.0°C peak)</strong>: 45%</li>
+<li><strong>1997/2015 magnitude (&gt;+2.5°C peak)</strong>: 21% (range 20-22%, see caveat)</li>
+</ul>
+<p><strong>Source-by-source check (qualitative where strength bins aren't broken out):</strong></p>
+<ul>
+<li>NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%. Issued 2026-04-09.</li>
+<li>IRI plume, DJF 2026-27: El Niño 88%, neutral 11%, La Niña 1%. Issued 2026-04-20. Strength not broken out in the public Quick Look.</li>
+<li>BoM ENSO Outlook, issued 2026-04-14: Increased chance of El Niño later in 2026. Categorical only.</li>
+<li>ECMWF SEAS5, run 2026-04-01: 51-member SEAS5 ensemble for 2026-10: median Niño 3.4 anomaly +2.21 deg C; 51/51 members above +1.5 (~76% above +2.0, ~25% above +2.5).</li>
+</ul>
+<p><strong>Caveats this issue:</strong></p>
+<ol>
+<li>The +2.5°C bucket carries a 20-22% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.</li>
+<li>ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 13/51 members (25%) at 2026-10 (max available lead). CPC's NDJ 2026-27 bucket lands at 20-22%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.</li>
+<li>Spring predictability barrier: April-May forecasts at any of these centers carry materially wider error bars than what we'll see in July-August. Treat all numbers as preliminary.</li>
+</ol>
+<h2>2. Physical state panel</h2>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Current (week of ~22 Apr 2026)</th>
+<th>1997 same week</th>
+<th>2015 same week</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Niño 3.4 weekly (traditional)</td>
+<td>+0.5°C</td>
+<td>-0.1°C</td>
+<td>+0.6°C</td>
+</tr>
+<tr>
+<td>Niño 3.4 weekly (RONI)</td>
+<td>+0.1°C</td>
+<td>n/a (pre-RONI)</td>
+<td>n/a (pre-RONI)</td>
+</tr>
+<tr>
+<td>0-300m heat content anomaly</td>
+<td>+1.36°C (CPC monthly, 180W-100W, vs 1981-2010 climo)</td>
+<td>+0.7°C</td>
+<td>+1.6°C</td>
+</tr>
+<tr>
+<td>WWE count since Mar 1</td>
+<td>0 (simplified McPhaden, area-mean u850 anomaly &gt; 5 m/s sustained &gt; 5 days)</td>
+<td>1</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Heat content note:</strong> Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.</p>
+<p><strong>WWE note:</strong> Live ERA5 1991-2020 climatology comparison through 2026-04-21. The simplified criterion (area-mean rather than spatial-peak detection) tends to undercount versus the full McPhaden definition; treat the count as a lower bound.</p>
+<h2>3. Analog tracker</h2>
+<p><img alt="Analog tracker" src="analog.png" /></p>
+<p>Three reference El Niño events (1997-98, 2015-16, 2023-24) vs current 2026-27 trajectory in 3-month-running-mean ONI. Common reference is March 1 of develop year.</p>
+<p><strong>Read this week:</strong> at the JFM tick (month -1 since Mar 1), 2026 sits at -0.4°C, very close to where 1997 was (-0.4°C) and 2023 was (-0.3°C) at the same calendar point. Both went on to become super events. 2015 was already running ahead at +0.6°C in JFM. The takeaway is that JFM position is a weak discriminator; the ramp speed through MAM-AMJ is what matters, and we won't see that until the next 1-2 ONI updates.</p>
+<p>Caveat: the analog plot uses 3-month running mean ONI. The current weekly Niño 3.4 (+0.5°C trad, week of Apr 15) is not directly plotted because it's not a 3-month mean. Adding a weekly trajectory to this chart is on the V1.5 list.</p>
+<h2>4. Sources and freshness</h2>
+<h3>Source freshness this issue</h3>
+<ul>
+<li><strong>NOAA CPC strength table</strong>: fetched live, issued 2026-04-09.</li>
+<li><strong>NOAA OISST weekly Niño 3.4</strong>: fetched live, issued 2026-04-15.</li>
+<li><strong>CPC 0-300m heat content</strong>: fetched live, issued 2026-03-31.</li>
+<li><strong>IRI plume</strong>: fetched live, issued 2026-04-20.</li>
+<li><strong>BoM ENSO Outlook</strong>: fetched live, issued 2026-04-14.</li>
+<li><strong>ECMWF SEAS5</strong>: fetched live, issued 2026-04-01.</li>
+<li><strong>ERA5 westerly wind events</strong>: fetched live, issued 2026-04-21.</li>
+</ul>
+<hr />
+<p><em>Methodology version 1.1. RONI offset +0.40°C (live, week of 2026-04-15). See <a href="methodology.html">methodology</a>.</em></p>
+</body></html>
