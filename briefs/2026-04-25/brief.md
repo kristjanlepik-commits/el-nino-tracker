@@ -67,10 +67,10 @@ This week's brief was generated without analyst commentary because the editorial
 ### Source freshness this issue
 
 - **cpc_strength**: not implemented or cache empty; using seed values from sources.py.
-- **oisst_weekly**: not implemented or cache empty; using seed values from sources.py.
+- **oisst_weekly**: fetched live, issued 2026-04-15.
 - **heat_content**: not implemented or cache empty; using seed values from sources.py.
 - **iri**: not implemented or cache empty; using seed values from sources.py.
-- **bom**: live fetch failed; using last-good cache (issued 2026-04-29). Error: not implemented; see fetchers/bom.py docstring.
+- **bom**: not implemented or cache empty; using seed values from sources.py.
 - **ecmwf_seas5**: not implemented or cache empty; using seed values from sources.py.
 - **era5_wwe**: not implemented or cache empty; using seed values from sources.py.
 
