@@ -19,12 +19,12 @@ V1 first batch has one quantitative source for strength bins (NOAA CPC). Numbers
 - NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%. Issued 2026-04-09.
 - IRI plume, DJF 2026-27: El Niño 88%, neutral 11%, La Niña 1%. Issued 2026-04-20. Strength not broken out in the public Quick Look.
 - BoM ENSO Outlook, issued 2026-04-14: Increased chance of El Niño later in 2026. Categorical only.
-- ECMWF SEAS5, run 2026-04-05: Median ensemble path crosses traditional Niño 3.4 +2.0°C by autumn. Roughly 50% of members exceed +2.5°C for October. Implies meaningfully higher upper-tail probabilities than the CPC RONI strength table for the NDJ peak.
+- ECMWF SEAS5, run 2026-04-01: 51-member SEAS5 ensemble for 2026-10: median Niño 3.4 anomaly +2.21 deg C; 51/51 members above +1.5 (~76% above +2.0, ~25% above +2.5).
 
 **Caveats this issue:**
 
 1. The +2.5°C bucket range is wider than the others because CPC's table doesn't separate >+2.5 from >+2.0 RONI; the 12-21% reflects how much of the open `>=+2.0` RONI bin sits above +2.5°C trad ONI under different mass-distribution assumptions. Honest answer: we don't know precisely without the underlying ensemble.
-2. ECMWF SEAS5 implies a much warmer upper tail than CPC: roughly half the ensemble exceeds +2.5°C traditional Niño 3.4 for October. If that's representative of DJF, the +2.5°C bucket would be near 50%, not 12-21%. Treat as a real disagreement to surface, not a number to average. ECMWF has a known warm bias for ENSO; CPC may be slow to adjust to rising subsurface heat. We resolve once we wire up direct CDS member-counted pulls in V1.5.
+2. ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 13/51 members (25%) at 2026-10 (max available lead). CPC's NDJ 2026-27 bucket lands at 12-21%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.
 3. Spring predictability barrier: April-May forecasts at any of these centers carry materially wider error bars than what we'll see in July-August. Treat all numbers as preliminary.
 
 ## 2. Physical state panel
@@ -71,7 +71,7 @@ This week's brief was generated without analyst commentary because the editorial
 - **heat_content**: fetched live, issued 2026-03-31.
 - **iri**: fetched live, issued 2026-04-20.
 - **bom**: fetched live, issued 2026-04-14.
-- **ecmwf_seas5**: not implemented or cache empty; using seed values from sources.py.
+- **ecmwf_seas5**: fetched live, issued 2026-04-01.
 - **era5_wwe**: not implemented or cache empty; using seed values from sources.py.
 
 ---

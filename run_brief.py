@@ -103,14 +103,23 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
               "above +2.5°C trad ONI under different mass-distribution "
               "assumptions. Honest answer: we don't know precisely without "
               "the underlying ensemble.")
-    md.append("2. ECMWF SEAS5 implies a much warmer upper tail than CPC: "
-              "roughly half the ensemble exceeds +2.5°C traditional Niño "
-              "3.4 for October. If that's representative of DJF, the +2.5°C "
-              "bucket would be near 50%, not 12-21%. Treat as a real "
-              "disagreement to surface, not a number to average. ECMWF has "
-              "a known warm bias for ENSO; CPC may be slow to adjust to "
-              "rising subsurface heat. We resolve once we wire up direct "
-              "CDS member-counted pulls in V1.5.")
+    if ecmwf.get("members_above") and ecmwf.get("member_count"):
+        n_above = ecmwf["members_above"].get("2.5", 0)
+        n_total = ecmwf["member_count"]
+        pct = round(100 * n_above / n_total) if n_total else 0
+        cal = ecmwf.get("max_lead_calendar", "max lead")
+        cpc_lo = headline["9715_>2.5"]["lo"]
+        cpc_hi = headline["9715_>2.5"]["hi"]
+        md.append(f"2. ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: "
+                  f"SEAS5 has {n_above}/{n_total} members ({pct}%) at "
+                  f"{cal} (max available lead). CPC's NDJ 2026-27 bucket lands at "
+                  f"{cpc_lo}-{cpc_hi}%. We subtract SEAS5's own model climatology, "
+                  f"which removes its known ENSO warm bias; an observational-"
+                  f"climatology subtraction would put SEAS5 higher still. Real "
+                  f"disagreement to surface, not a number to average.")
+    else:
+        md.append("2. ECMWF SEAS5 vs CPC, upper tail: SEAS5 not member-counted "
+                  "this run; using qualitative read from sources.py.")
     md.append("3. Spring predictability barrier: April-May forecasts at any "
               "of these centers carry materially wider error bars than what "
               "we'll see in July-August. Treat all numbers as preliminary.")

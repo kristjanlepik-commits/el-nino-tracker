@@ -114,11 +114,16 @@ def fetch_all() -> dict:
         })
 
     if results["ecmwf_seas5"].ok and not results["ecmwf_seas5"].used_fallback:
+        p = results["ecmwf_seas5"].payload
         out["ecmwf_seas5"].update({
             "issued": results["ecmwf_seas5"].issued,
-            "members_above": results["ecmwf_seas5"].payload.get("members_above", {}),
-            "median_djf_oni": results["ecmwf_seas5"].payload.get("median_djf_oni"),
-            "member_count": results["ecmwf_seas5"].payload.get("member_count"),
+            "summary": p.get("summary", out["ecmwf_seas5"].get("summary")),
+            "members_above": p.get("members_above", {}),
+            "member_count": p.get("member_count"),
+            "median_anomaly": p.get("median_anomaly"),
+            "max_lead_calendar": p.get("max_lead_calendar"),
+            "max_lead_month": p.get("max_lead_month"),
+            "per_lead": p.get("per_lead", []),
             "used_fallback": False,
             "fallback_note": None,
             "fetched_at": results["ecmwf_seas5"].fetched_at,
