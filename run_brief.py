@@ -48,12 +48,13 @@ HTML_CSS = """
 """.strip()
 
 
-def render_html(markdown_text: str) -> str:
+def render_html(markdown_text: str, title: str = None) -> str:
     body = md_lib.markdown(markdown_text, extensions=["tables", "fenced_code"])
+    page_title = title or f"El Nino brief, {S.BRIEF_DATE.isoformat()}"
     return (
         "<!DOCTYPE html>\n"
         "<html><head><meta charset=\"utf-8\">\n"
-        f"<title>El Nino brief, {S.BRIEF_DATE.isoformat()}</title>\n"
+        f"<title>{page_title}</title>\n"
         f"<style>{HTML_CSS}</style>\n"
         "</head><body>\n"
         f"{body}\n"
@@ -305,6 +306,14 @@ def main():
     out_html.write_text(render_html(md_text))
     print(f"wrote: {out_html}")
     print(f"wrote: {BRIEF_DIR / 'analog.png'}")
+
+    # 6. Methodology overview HTML, regenerated from methodology.md if present
+    meth_md = Path(__file__).parent / "methodology.md"
+    if meth_md.exists():
+        meth_html = Path(__file__).parent / "methodology.html"
+        meth_html.write_text(render_html(meth_md.read_text(),
+                                         title="El Nino tracker, methodology"))
+        print(f"wrote: {meth_html}")
 
 
 if __name__ == "__main__":
