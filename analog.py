@@ -164,40 +164,58 @@ def _plot_oni(ax, series):
 
 
 def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
-    """Overlay ECMWF SEAS5 ensemble median trajectory as a dashed forecast line.
-
-    SEAS5 outputs monthly mean Niño 3.4 anomaly, which is a close-but-not-identical
-    cousin of the 3-month-running-mean ONI used for the analog series. Treated as
-    visually comparable; the caption flags the distinction.
-    """
+    """Overlay ECMWF SEAS5 ensemble forecast as a fan: 5-95 and 25-75 bands plus
+    median line. SEAS5 outputs monthly mean Niño 3.4 anomaly, which is a close-
+    but-not-identical cousin of the 3-month-running-mean ONI on the analog
+    series; the caption flags the distinction. Showing only the median would
+    hide the spread that's the whole point of running a 51-member ensemble."""
     if not per_lead:
         return
-    xs, ys = [], []
+    xs, med, p5, p25, p75, p95 = [], [], [], [], [], []
     for entry in per_lead:
         cal = entry.get("calendar")
-        med = entry.get("median")
-        if cal is None or med is None:
+        m = entry.get("median")
+        if cal is None or m is None:
             continue
         year, month = (int(x) for x in cal.split("-"))
         offset = (year - current_develop_year) * 12 + (month - 3)
         xs.append(offset)
-        ys.append(med)
+        med.append(m)
+        p5.append(entry.get("p5", m))
+        p25.append(entry.get("p25", m))
+        p75.append(entry.get("p75", m))
+        p95.append(entry.get("p95", m))
     if not xs:
         return
 
-    ax.plot(xs, ys, color="#000000", linestyle="--", linewidth=1.6,
-            marker="D", markersize=5,
-            label=f"{current_develop_year}-{(current_develop_year + 1) % 100:02d} "
-                  "SEAS5 forecast (median)")
+    member_count = per_lead[-1].get("member_count", 51)
+    label_year = f"{current_develop_year}-{(current_develop_year + 1) % 100:02d}"
 
-    peak_idx = ys.index(max(ys))
+    # 5-95 outer band, very faint
+    ax.fill_between(xs, p5, p95, color="#000000", alpha=0.10,
+                    linewidth=0,
+                    label=f"{label_year} SEAS5 5-95 percentile ({member_count} members)")
+    # 25-75 inner band, slightly darker
+    ax.fill_between(xs, p25, p75, color="#000000", alpha=0.18, linewidth=0,
+                    label=f"{label_year} SEAS5 25-75 percentile")
+    # Median on top
+    ax.plot(xs, med, color="#000000", linestyle="--", linewidth=1.6,
+            marker="D", markersize=5,
+            label=f"{label_year} SEAS5 median")
+
+    peak_idx = med.index(max(med))
+    peak_med = med[peak_idx]
+    peak_p5 = p5[peak_idx]
+    peak_p95 = p95[peak_idx]
+    cal = per_lead[peak_idx]["calendar"]
     ax.annotate(
-        f"+{ys[peak_idx]:.1f}°C ({per_lead[peak_idx]['calendar']})",
-        xy=(xs[peak_idx], ys[peak_idx]),
-        xytext=(10, 6), textcoords="offset points",
+        f"median +{peak_med:.1f}°C ({cal})\n5-95 band: +{peak_p5:.1f} to +{peak_p95:.1f}",
+        xy=(xs[peak_idx], peak_p95),
+        xytext=(8, 8), textcoords="offset points",
         fontsize=8.5, color="#222",
         bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
-                  edgecolor="#aaa", alpha=0.9),
+                  edgecolor="#aaa", alpha=0.92),
+        arrowprops=dict(arrowstyle="-", color="#888", lw=0.6),
     )
 
     for y, lbl in [(1.0, "moderate"), (1.5, "strong"), (2.0, "super"), (2.5, "1997/2015")]:

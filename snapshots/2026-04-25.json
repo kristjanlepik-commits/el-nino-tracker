@@ -2,7 +2,7 @@
   "bom": {
     "alert_status": "Increased chance of El Ni\u00f1o later in 2026",
     "fallback_note": null,
-    "fetched_at": "2026-04-26T14:24:18+00:00",
+    "fetched_at": "2026-04-26T15:28:45+00:00",
     "issued": "2026-04-14",
     "ok": true,
     "summary": "The El Ni\u00f1o\u2013Southern Oscillation (ENSO) is currently neutral. The latest relative Ni\u00f1o3.4 index value for the week ending 12 April 2026 is \u22120.27 \u00b0C, firmly within the ENSO-neutral range (\u22120.80 to +0.80 \u00b0C). Relative Ni\u00f1o3.4 index values have been steadily warming since the end of the southern hemisphere summer. A recent pulse of warming in the sub-surface suggests further warming of SSTs is likely in the coming weeks.",
@@ -11,7 +11,7 @@
   "brief_date": "2026-04-25",
   "cpc_strength": {
     "fallback_note": null,
-    "fetched_at": "2026-04-26T14:24:14+00:00",
+    "fetched_at": "2026-04-26T15:28:42+00:00",
     "issued": "2026-04-09",
     "ok": true,
     "table": {
@@ -120,7 +120,7 @@
   "ecmwf": {
     "approx_p_above_2.5_oct": 0.5,
     "fallback_note": null,
-    "fetched_at": "2026-04-26T14:24:42+00:00",
+    "fetched_at": "2026-04-26T15:29:12+00:00",
     "issued": "2026-04-01",
     "max_lead_calendar": "2026-10",
     "max_lead_month": 6,
@@ -144,7 +144,11 @@
           "1.5": 0,
           "2.0": 0,
           "2.5": 0
-        }
+        },
+        "p25": 0.473052978515625,
+        "p5": 0.398284912109375,
+        "p75": 0.5426483154296875,
+        "p95": 0.609527587890625
       },
       {
         "calendar": "2026-06",
@@ -156,7 +160,11 @@
           "1.5": 0,
           "2.0": 0,
           "2.5": 0
-        }
+        },
+        "p25": 0.90863037109375,
+        "p5": 0.79766845703125,
+        "p75": 1.0211334228515625,
+        "p95": 1.091400146484375
       },
       {
         "calendar": "2026-07",
@@ -168,7 +176,11 @@
           "1.5": 7,
           "2.0": 0,
           "2.5": 0
-        }
+        },
+        "p25": 1.20184326171875,
+        "p5": 1.13287353515625,
+        "p75": 1.4164276123046875,
+        "p95": 1.5586395263671875
       },
       {
         "calendar": "2026-08",
@@ -180,7 +192,11 @@
           "1.5": 38,
           "2.0": 2,
           "2.5": 0
-        }
+        },
+        "p25": 1.5226593017578125,
+        "p5": 1.3719635009765625,
+        "p75": 1.78387451171875,
+        "p95": 1.9515380859375
       },
       {
         "calendar": "2026-09",
@@ -192,7 +208,11 @@
           "1.5": 50,
           "2.0": 24,
           "2.5": 2
-        }
+        },
+        "p25": 1.7826995849609375,
+        "p5": 1.5796966552734375,
+        "p75": 2.134490966796875,
+        "p95": 2.3488311767578125
       },
       {
         "calendar": "2026-10",
@@ -204,7 +224,11 @@
           "1.5": 51,
           "2.0": 39,
           "2.5": 13
-        }
+        },
+        "p25": 2.0164031982421875,
+        "p5": 1.693695068359375,
+        "p75": 2.4894256591796875,
+        "p95": 2.713897705078125
       }
     ],
     "summary": "51-member SEAS5 ensemble for 2026-10: median Ni\u00f1o 3.4 anomaly +2.21 deg C; 51/51 members above +1.5 (~76% above +2.0, ~25% above +2.5).",
@@ -212,7 +236,7 @@
   },
   "iri": {
     "fallback_note": null,
-    "fetched_at": "2026-04-26T14:24:18+00:00",
+    "fetched_at": "2026-04-26T15:28:45+00:00",
     "issued": "2026-04-20",
     "ok": true,
     "three_cat": {
@@ -3434,7 +3458,7 @@
       ]
     ],
     "fallback_note": null,
-    "fetched_at": "2026-04-26T14:24:12+00:00",
+    "fetched_at": "2026-04-26T15:28:41+00:00",
     "heat_content_0_300m_estimate": 1.36,
     "heat_content_qualitative": "Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.",
     "issued": "2026-04-15",
@@ -3448,7 +3472,7 @@
   "roni_to_oni_offset": 0.4,
   "roni_to_oni_offset_block": {
     "fallback_note": null,
-    "fetched_at": "2026-04-26T14:24:17+00:00",
+    "fetched_at": "2026-04-26T15:28:44+00:00",
     "issued": "2026-04-15",
     "used_fallback": false,
     "value": 0.4,

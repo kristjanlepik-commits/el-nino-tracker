@@ -160,6 +160,10 @@ def fetch() -> FetchResult:
                 "calendar": _calendar_for_lead(run_year, run_month, int(fm)),
                 "member_count": int(arr.size),
                 "median": float(_safe_median(arr)),
+                "p5": float(_pctl(arr, 5)),
+                "p25": float(_pctl(arr, 25)),
+                "p75": float(_pctl(arr, 75)),
+                "p95": float(_pctl(arr, 95)),
                 "members_above": members_above,
             })
 
@@ -197,3 +201,8 @@ def fetch() -> FetchResult:
 def _safe_median(arr) -> float:
     import numpy as np
     return float(np.median(arr))
+
+
+def _pctl(arr, q: float) -> float:
+    import numpy as np
+    return float(np.percentile(arr, q))
