@@ -48,7 +48,7 @@ SYSTEM = "51"
 ORIGIN = "ecmwf"
 NINO34_AREA = [5, 190, -5, 240]   # N, W, S, E in 0-360 longitude
 HINDCAST_YEARS = [str(y) for y in range(1993, 2017)]  # 1993-2016, 24 years
-LEADS = ["1", "2", "3", "4", "5", "6"]
+LEADS = ["1", "2", "3", "4", "5", "6", "7"]
 THRESHOLDS = (1.0, 1.5, 2.0, 2.5)
 
 
