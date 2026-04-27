@@ -7,38 +7,38 @@ Target peak season: **DJF 2026-27**. CPC's longest-lead strength bin is NDJ 2026
 ## 1. Headline probabilities
 
 Peak Niño 3.4 (traditional ONI), DJF 2026-27 / NDJ 2026-27.
-Headline numbers below are CPC-derived after translating from RONI bins to traditional ONI thresholds, then fitting a skew-normal distribution to the nine bin probabilities and evaluating its survival function at each threshold. RONI-to-traditional-ONI offset is +0.40°C, the live tropical-mean SST anomaly observed for the week of 2026-04-15 (CPC). ECMWF SEAS5 member counts in caveat 2 are a second quantitative cross-check.
+Headline numbers below are CPC-derived after translating from RONI bins to traditional ONI thresholds, then fitting a skew-normal distribution to the nine bin probabilities and evaluating its survival function at each threshold. RONI-to-traditional-ONI offset is +0.50°C, the live tropical-mean SST anomaly observed for the week of 2026-04-22 (CPC). ECMWF SEAS5 member counts in caveat 2 are a second quantitative cross-check.
 
-- **At least moderate (>+1.0°C peak)**: 90%
-- **Strong (>+1.5°C peak)**: 72%
-- **Very strong / super (>+2.0°C peak)**: 45%
-- **1997/2015 magnitude (>+2.5°C peak)**: 21% (range 20-22%, see caveat)
+- **At least moderate (>+1.0°C peak)**: 92%
+- **Strong (>+1.5°C peak)**: 77%
+- **Very strong / super (>+2.0°C peak)**: 51%
+- **1997/2015 magnitude (>+2.5°C peak)**: 25% (range 24-26%, see caveat)
 
 **Source-by-source check (qualitative where strength bins aren't broken out):**
 
 - NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%. Issued 2026-04-09.
 - IRI plume, DJF 2026-27: El Niño 88%, neutral 11%, La Niña 1%. Issued 2026-04-20. Strength not broken out in the public Quick Look.
 - BoM ENSO Outlook, issued 2026-04-14: Increased chance of El Niño later in 2026. Categorical only.
-- ECMWF SEAS5, run 2026-04-01: 51-member SEAS5 ensemble for 2026-10: median Niño 3.4 anomaly +2.21 deg C; 51/51 members above +1.5 (~76% above +2.0, ~25% above +2.5).
+- ECMWF SEAS5, run 2026-04-05: Median ensemble path crosses traditional Niño 3.4 +2.0°C by autumn. Roughly 50% of members exceed +2.5°C for October. Implies meaningfully higher upper-tail probabilities than the CPC RONI strength table for the NDJ peak.
 
 **Caveats this issue:**
 
-1. The +2.5°C bucket carries a 20-22% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.
-2. ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 13/51 members (25%) at 2026-10 (max available lead). CPC's NDJ 2026-27 bucket lands at 20-22%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.
+1. The +2.5°C bucket carries a 24-26% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.
+2. ECMWF SEAS5 vs CPC, upper tail: SEAS5 not member-counted this run; using qualitative read from sources.py.
 3. Spring predictability barrier: April-May forecasts at any of these centers carry materially wider error bars than what we'll see in July-August. Treat all numbers as preliminary.
 
 ## 2. Physical state panel
 
 | Indicator | Current (week of ~22 Apr 2026) | 1997 same week | 2015 same week |
 |---|---|---|---|
-| Niño 3.4 weekly (traditional) | +0.5°C | -0.1°C | +0.6°C |
-| Niño 3.4 weekly (RONI) | +0.1°C | n/a (pre-RONI) | n/a (pre-RONI) |
+| Niño 3.4 weekly (traditional) | +0.7°C | -0.1°C | +0.6°C |
+| Niño 3.4 weekly (RONI) | +0.2°C | n/a (pre-RONI) | n/a (pre-RONI) |
 | 0-300m heat content anomaly | +1.36°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
-| Cumulative westerly wind anomaly since Mar 1 | 131 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 281 | 200 |
+| Cumulative westerly wind anomaly since Mar 1 | (CWWA fetch failed; not computed this run) | n/a | n/a |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
 
-**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-04-21, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (131) tracks closest to 2015 (200); other reference years: 1997 (281), 2023 (42), 2025 (0).
+**CWWA note:** Westerly wind anomalies strengthened in March and early April 2026 in the western Pacific and near the Date Line. McPhaden-defined count requires ERA5 daily winds; not computed this run.
 
 ## 3. Analog tracker
 
@@ -100,14 +100,14 @@ This week's brief was generated without analyst commentary because the editorial
 ### Source freshness this issue
 
 - **cpc_strength**: fetched live, issued 2026-04-09.
-- **oisst_weekly**: fetched live, issued 2026-04-15.
+- **oisst_weekly**: fetched live, issued 2026-04-22.
 - **heat_content**: fetched live, issued 2026-03-31.
 - **iri**: fetched live, issued 2026-04-20.
 - **bom**: fetched live, issued 2026-04-14.
-- **ecmwf_seas5**: fetched live, issued 2026-04-01.
-- **era5_wwe**: fetched live, issued 2026-04-21.
+- **ecmwf_seas5**: not implemented or cache empty; using seed values from sources.py.
+- **era5_wwe**: not implemented or cache empty; using seed values from sources.py.
 - **oni_history**: fetched live, issued 2026-03-31.
 
 ---
 
-*Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.3. RONI offset +0.40°C (live, week of 2026-04-15). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).*
+*Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.3. RONI offset +0.50°C (live, week of 2026-04-22). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).*
