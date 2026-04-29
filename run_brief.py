@@ -249,31 +249,52 @@ PUBLIC_CSS = """
     margin: 0 0 16px;
   }
 
-  /* World map: pale background, continent blobs, region hotspots */
+  /* World map: real Natural Earth-derived SVG referenced as <img>, with
+     hotspot markers absolutely positioned over it as <button> elements. */
   .impacts-map {
+    position: relative;
     margin: 16px 0 12px;
     border: 1px solid var(--border);
     border-radius: 6px;
     overflow: hidden;
+    background: #f5f4ee;
   }
-  .world-map { display: block; width: 100%; height: auto; max-height: 360px; }
-  .world-map .hotspot { cursor: pointer; outline: none; }
-  .world-map .hotspot-ring {
-    fill: rgba(217, 67, 39, 0.12); stroke: var(--super); stroke-width: 1.5;
+  .impacts-map .world-map-bg {
+    display: block; width: 100%; height: auto;
+  }
+  .impacts-map .map-hotspot {
+    position: absolute; transform: translate(-50%, -50%);
+    width: 22px; height: 22px;
+    background: transparent; border: 0; padding: 0;
+    cursor: pointer; outline: none;
+  }
+  .impacts-map .map-hotspot-ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: rgba(217, 67, 39, 0.15);
+    border: 1.5px solid var(--super);
     transition: all 0.18s ease;
   }
-  .world-map .hotspot-dot {
-    fill: var(--super); transition: all 0.18s ease;
+  .impacts-map .map-hotspot-dot {
+    position: absolute; inset: 7px;
+    border-radius: 50%;
+    background: var(--super);
+    transition: all 0.18s ease;
   }
-  .world-map .hotspot:hover .hotspot-ring { fill: rgba(217, 67, 39, 0.22); }
-  .world-map .hotspot.active .hotspot-ring {
-    fill: rgba(217, 67, 39, 0.30); stroke-width: 2.5; r: 16;
+  .impacts-map .map-hotspot:hover .map-hotspot-ring {
+    background: rgba(217, 67, 39, 0.25);
   }
-  .world-map .hotspot.active .hotspot-dot {
-    r: 7;
+  .impacts-map .map-hotspot.active .map-hotspot-ring {
+    background: rgba(217, 67, 39, 0.32);
+    border-width: 2.5px;
+    inset: -3px;
   }
-  .world-map .hotspot:focus-visible .hotspot-ring {
-    stroke: var(--accent); stroke-width: 2.5;
+  .impacts-map .map-hotspot.active .map-hotspot-dot {
+    inset: 5px;
+  }
+  .impacts-map .map-hotspot:focus-visible .map-hotspot-ring {
+    border-color: var(--accent);
+    border-width: 2.5px;
   }
 
   /* Region tabs strip */
@@ -305,32 +326,6 @@ PUBLIC_CSS = """
   .region-panel p {
     font-size: 14.5px; line-height: 1.6; color: var(--text); margin: 0 0 12px;
   }
-
-  /* ---------- Editorial synthesis (labeled, visually distinct) ---------- */
-  .editorial-synthesis {
-    margin-top: 36px;
-    background: #fdf7e3;
-    border-left: 4px solid #b58900;
-    border-radius: 6px;
-    padding: 18px 24px 8px;
-  }
-  .editorial-synthesis h3 {
-    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
-    font-size: 18px; font-weight: 600;
-    margin: 0 0 12px; color: #5b4d12;
-  }
-  .editorial-synthesis blockquote {
-    margin: 0 0 16px; padding: 10px 16px;
-    background: rgba(255, 255, 255, 0.55);
-    border-left: 3px solid #b58900;
-    font-size: 13px; color: #5b4d12;
-  }
-  .editorial-synthesis blockquote p { margin: 0; }
-  .editorial-synthesis blockquote strong { color: #4a3f10; }
-  .editorial-synthesis p {
-    margin: 12px 0; font-size: 14px; line-height: 1.6; color: var(--text);
-  }
-  .editorial-synthesis p strong { color: var(--text); font-weight: 700; }
 
   @media (max-width: 720px) {
     main { padding: 24px 16px 60px; }
@@ -370,17 +365,18 @@ IMPACTS_FILE = Path(__file__).parent / "impacts.md"
 IMPACTS_SYNTHESIS_DIVIDER = "<!-- SYNTHESIS -->"
 
 
-# Approximate coordinates on the 800x400 world-map SVG viewBox, by region slug.
-# Slugs are derived from the impacts.md h3 headings via _slugify().
+# Region marker positions as (left%, top%) over the docs/world-map.svg
+# (equirectangular projection, viewBox 800x400). Slugs match _slugify() of
+# the impacts.md h3 headings.
 REGION_MAP_COORDS = {
-    "mediterranean":                         (415, 130),
-    "amazon-basin":                          (260, 250),
-    "australia-and-the-great-barrier-reef":  (665, 290),
-    "southern-africa":                       (470, 285),
-    "india-and-south-asia":                  (560, 180),
-    "united-states":                         (180, 145),
-    "southeast-asia":                        (610, 220),
-    "global-coral":                          (730, 220),
+    "mediterranean":                         (52.7, 26.7),  # ~ Italy / Iberia
+    "amazon-basin":                          (33.4, 52.7),  # ~ Brazil
+    "australia-and-the-great-barrier-reef":  (90.5, 62.2),  # ~ NE Australia
+    "southern-africa":                       (57.0, 64.0),  # ~ Botswana / Zimbabwe
+    "india-and-south-asia":                  (71.6, 37.7),  # ~ central India
+    "united-states":                         (22.2, 27.7),  # ~ continental US
+    "southeast-asia":                        (82.0, 51.7),  # ~ Indonesia
+    "global-coral":                          (8.4,  50.0),  # ~ central Pacific
 }
 
 
@@ -426,65 +422,40 @@ def _split_aggregation_into_regions(agg_html: str):
     return lede_html, regions
 
 
-def _render_world_map_svg(regions, active_slug: str) -> str:
-    """Stylized world map: continent blobs in pale gray, hotspot markers at
-    each region. The active region's marker is filled in brand color, others
-    are outlined. Clickable via the inline JS attached to the impacts block.
-    """
-    continents = (
-        '<rect width="800" height="400" fill="#f5f4ee" rx="4"/>'
-        '<g class="continents" fill="#dcdad0" stroke="none">'
-        # North America
-        '<path d="M70,90 Q100,55 195,72 Q270,95 268,160 Q244,200 165,202 Q86,200 60,162 Q48,118 70,90 Z"/>'
-        # Central America connector
-        '<path d="M180,200 Q210,210 230,230 Q235,255 220,260 Q195,250 175,225 Z"/>'
-        # South America
-        '<path d="M225,225 Q260,225 285,250 Q302,300 268,348 Q245,365 232,340 Q210,290 220,250 Z"/>'
-        # Europe
-        '<path d="M388,90 Q420,78 458,90 Q470,118 452,142 Q425,150 400,140 Q380,120 388,90 Z"/>'
-        # Africa
-        '<path d="M398,162 Q442,148 495,170 Q514,212 502,265 Q480,308 450,316 Q418,300 405,262 Q388,212 398,162 Z"/>'
-        # Asia (large)
-        '<path d="M460,82 Q540,52 660,72 Q740,98 728,172 Q700,208 605,202 Q540,202 482,184 Q450,148 460,82 Z"/>'
-        # SE Asia archipelago
-        '<path d="M598,212 Q625,208 650,220 Q662,235 642,242 Q610,242 595,228 Z"/>'
-        # Australia
-        '<path d="M620,288 Q660,278 705,296 Q722,318 700,326 Q660,332 625,322 Q612,308 620,288 Z"/>'
-        '</g>'
+def _render_world_map_block(regions, active_slug: str, world_map_href: str) -> str:
+    """Real world map (Natural Earth-derived SVG) referenced as an <img>, with
+    region hotspots layered over it as absolute-positioned <button> elements.
+    The map asset lives at docs/world-map.svg and is shared across the public
+    index and the archive briefs (the href differs by depth)."""
+    parts = ['<div class="impacts-map">']
+    parts.append(
+        f'<img class="world-map-bg" src="{h(world_map_href)}" '
+        f'alt="World map of regional impact zones" loading="lazy"/>'
     )
-
-    hotspots = []
     for name, slug, _ in regions:
-        cx, cy = REGION_MAP_COORDS.get(slug, (400, 200))
+        left, top = REGION_MAP_COORDS.get(slug, (50.0, 50.0))
         active = " active" if slug == active_slug else ""
-        from html import escape as _h
-        hotspots.append(
-            f'<g class="hotspot{active}" data-region="{slug}" '
-            f'tabindex="0" role="button" aria-label="Show {_h(name)}">'
-            f'<circle cx="{cx}" cy="{cy}" r="13" class="hotspot-ring"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="5"  class="hotspot-dot"/>'
-            f'<title>{_h(name)}</title>'
-            f'</g>'
+        parts.append(
+            f'<button type="button" class="map-hotspot{active}" '
+            f'data-region="{slug}" '
+            f'style="left: {left}%; top: {top}%;" '
+            f'aria-label="{h(name)}">'
+            f'<span class="map-hotspot-ring"></span>'
+            f'<span class="map-hotspot-dot"></span>'
+            f'</button>'
         )
-
-    return (
-        '<svg class="world-map" viewBox="0 0 800 400" '
-        'xmlns="http://www.w3.org/2000/svg" '
-        'role="img" aria-label="World map of regional impact zones">'
-        + continents
-        + ''.join(hotspots)
-        + '</svg>'
-    )
+    parts.append('</div>')
+    return ''.join(parts)
 
 
-# Vanilla JS for tab + map switching. No framework. Reads URL hash on load.
+# Vanilla JS for tab + map-hotspot switching. No framework. Reads URL hash on load.
 IMPACTS_TAB_SCRIPT = """<script>
 (function () {
   var section = document.querySelector('.impacts');
   if (!section) return;
   var tabs = section.querySelectorAll('.region-tab');
   var panels = section.querySelectorAll('.region-panel');
-  var hotspots = section.querySelectorAll('.world-map .hotspot');
+  var hotspots = section.querySelectorAll('.impacts-map .map-hotspot');
   function activate(slug) {
     if (!slug) return;
     var ok = false;
@@ -514,12 +485,6 @@ IMPACTS_TAB_SCRIPT = """<script>
     h.addEventListener('click', function () {
       activate(h.getAttribute('data-region'));
     });
-    h.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        activate(h.getAttribute('data-region'));
-      }
-    });
   });
   var m = (location.hash || '').match(/region=([\\w-]+)/);
   if (m) activate(m[1]);
@@ -527,56 +492,50 @@ IMPACTS_TAB_SCRIPT = """<script>
 </script>"""
 
 
-def build_impacts_html_block(impacts: dict) -> str:
+def build_impacts_html_block(impacts: dict, world_map_href: str = "world-map.svg") -> str:
     """Render the impacts section as a self-contained <section> for the public
-    brief. Lede paragraph at top; regional content compressed into a world map
-    + tab strip + one-region-at-a-time panels (rather than a stacked bullet
-    list, which made the brief too long); editorial synthesis below in its own
-    visually distinct block.
+    brief. Lede paragraph at top; regional content compressed into a real
+    world map + tab strip + one-region-at-a-time panels.
     """
     if not impacts:
         return ""
     parts = ['<section class="impacts"><h2>Impact outlook</h2>']
     agg = impacts.get("aggregation", "").strip()
-    if agg:
-        agg_html = md_lib.markdown(agg, extensions=["tables", "fenced_code"])
-        lede_html, regions = _split_aggregation_into_regions(agg_html)
-        if lede_html:
-            parts.append(lede_html)
-        if regions:
-            default_slug = regions[0][1]
-            parts.append('<div class="impacts-map">')
-            parts.append(_render_world_map_svg(regions, default_slug))
-            parts.append('</div>')
+    if not agg:
+        parts.append('</section>')
+        return ''.join(parts)
 
-            parts.append('<div class="region-tabs" role="tablist" '
-                         'aria-label="Regional impacts">')
-            for name, slug, _ in regions:
-                selected = "true" if slug == default_slug else "false"
-                parts.append(
-                    f'<button type="button" class="region-tab" '
-                    f'data-region="{slug}" role="tab" '
-                    f'aria-selected="{selected}">{h(name)}</button>'
-                )
-            parts.append('</div>')
+    agg_html = md_lib.markdown(agg, extensions=["tables", "fenced_code"])
+    lede_html, regions = _split_aggregation_into_regions(agg_html)
+    if lede_html:
+        parts.append(lede_html)
+    if regions:
+        default_slug = regions[0][1]
+        parts.append(_render_world_map_block(regions, default_slug, world_map_href))
 
-            parts.append('<div class="region-content">')
-            for name, slug, content_html in regions:
-                cls = "region-panel active" if slug == default_slug else "region-panel"
-                parts.append(
-                    f'<div class="{cls}" data-region="{slug}" role="tabpanel" '
-                    f'aria-label="{h(name)}">'
-                )
-                parts.append(f'<h3>{h(name)}</h3>')
-                parts.append(content_html)
-                parts.append('</div>')
-            parts.append('</div>')
-
-    syn = impacts.get("synthesis", "").strip()
-    if syn:
-        parts.append('<div class="editorial-synthesis">')
-        parts.append(md_lib.markdown(syn, extensions=["tables", "fenced_code"]))
+        parts.append('<div class="region-tabs" role="tablist" '
+                     'aria-label="Regional impacts">')
+        for name, slug, _ in regions:
+            selected = "true" if slug == default_slug else "false"
+            parts.append(
+                f'<button type="button" class="region-tab" '
+                f'data-region="{slug}" role="tab" '
+                f'aria-selected="{selected}">{h(name)}</button>'
+            )
         parts.append('</div>')
+
+        parts.append('<div class="region-content">')
+        for name, slug, content_html in regions:
+            cls = "region-panel active" if slug == default_slug else "region-panel"
+            parts.append(
+                f'<div class="{cls}" data-region="{slug}" role="tabpanel" '
+                f'aria-label="{h(name)}">'
+            )
+            parts.append(f'<h3>{h(name)}</h3>')
+            parts.append(content_html)
+            parts.append('</div>')
+        parts.append('</div>')
+
     parts.append(IMPACTS_TAB_SCRIPT)
     parts.append('</section>')
     return ''.join(parts)
@@ -584,11 +543,14 @@ def build_impacts_html_block(impacts: dict) -> str:
 
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       methodology_href: str, brief_date_iso: str,
-                      canonical_url: str, og_image_url: str) -> str:
+                      canonical_url: str, og_image_url: str,
+                      world_map_href: str = "world-map.svg") -> str:
     """Render the public brief as structured HTML (bypasses markdown).
 
-    methodology_href is relative ("methodology.html" for index, "../../methodology.html"
-    for archive). canonical_url and og_image_url are absolute Pages URLs for the
+    methodology_href and world_map_href are both relative paths whose depth
+    differs between the index ("methodology.html", "world-map.svg") and the
+    archive briefs ("../../methodology.html", "../../world-map.svg").
+    canonical_url and og_image_url are absolute Pages URLs for the
     OG/Twitter card metadata.
     """
     iri_djf = fetched["iri"]["three_cat"]["DJF 2026-27"]
@@ -888,7 +850,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '</footer>'
     )
 
-    impacts_html = build_impacts_html_block(load_impacts())
+    impacts_html = build_impacts_html_block(load_impacts(), world_map_href=world_map_href)
 
     return (head + ladder_html + chart_html + physical_html
             + impacts_html + sources_html + caveats_html + footer_html
@@ -1311,6 +1273,7 @@ def main():
         brief_date_iso=S.BRIEF_DATE.isoformat(),
         canonical_url=f"{PAGES_BASE_URL}/",
         og_image_url=f"{PAGES_BASE_URL}/analog.png",
+        world_map_href="world-map.svg",
     )
     public_html_archive = build_public_html(
         fetched, freshness, headline,
@@ -1318,6 +1281,7 @@ def main():
         brief_date_iso=S.BRIEF_DATE.isoformat(),
         canonical_url=f"{PAGES_BASE_URL}/{archive_rel}",
         og_image_url=f"{PAGES_BASE_URL}/{archive_rel}analog.png",
+        world_map_href="../../world-map.svg",
     )
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (DOCS_DIR / ".nojekyll").touch()

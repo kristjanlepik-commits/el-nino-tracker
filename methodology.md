@@ -191,21 +191,10 @@ Cadence ranges from continuous (heat stress, river gauges) to annual
 each issue (edit `impacts.md` at the project root); there are no
 impact fetchers in v1.3.
 
-**Editorial synthesis.** The section ends with one labeled subsection
-(currently: "Joint Iran + El Niño shocks") that goes beyond aggregation.
-This is the brief's one explicit deviation from aggregator posture.
-The label is structurally visible (the public template uses an
-`.editorial-synthesis` CSS class with a left border and tinted
-background so a cold reader sees immediately where aggregation ends).
-The synthesis names a transmission chain that no single source
-assembles end to end; it does not assign a pooled probability to the
-compound scenario.
-
 ## What the impact section does not do
 
 The credibility of this brief depends on holding a strict aggregator
-line outside the labeled synthesis. Specifically, the impact section
-does not:
+line. Specifically, the impact section does not:
 
 - **Assign asset-price targets.** No price targets for crude, gold,
   equity indices, currencies, agricultural futures, or any other
@@ -228,9 +217,7 @@ does not:
 The reason for these exclusions is reader-specific. The brief is read
 by climate scientists and policy-elite audiences who lose trust the
 moment the prose resembles a sell-side trade note or a political
-column. The aggregator posture is what makes the synthesis paragraph
-credible. The synthesis paragraph is the only place that posture is
-suspended, and it is structurally labeled.
+column.
 
 ## Known limitations
 
@@ -380,18 +367,23 @@ median).
 - **1.3** (2026-04-26): Added an "Impact outlook" section after the
   analog tracker, aggregating institutional regional impact ranges
   (WMO, IMF, FAO, Allianz, Swiss Re, OCHA, NASA SERVIR, IMD, ICRI,
-  IEA, IFPRI/IFA, Lloyd's JWC, plus sell-side framing notes). Section
-  ends with a structurally labeled "Editorial synthesis: joint Iran +
-  El Niño shocks" subsection naming the Hormuz to sulfur to fertilizer
-  to El Niño-crops transmission chain. Two new methodology sub-sections
-  spell out the aggregation method and the explicit exclusions (no
-  asset-price targets, no trade recommendations, no specific harvest
-  tonnage forecasts). Impact content is curated by hand each issue in
-  `impacts.md` at the project root; no impact fetchers in v1.3.
+  IEA, IFPRI/IFA, Lloyd's JWC, plus sell-side framing notes). Two new
+  methodology sub-sections spell out the aggregation method and the
+  explicit exclusions (no asset-price targets, no trade recommendations,
+  no specific harvest tonnage forecasts). Impact content is curated by
+  hand each issue in `impacts.md` at the project root; no impact
+  fetchers in v1.3.
+- **1.4** (2026-04-29): Public template restructure for the impacts
+  section: regional content now renders as a real Natural Earth-derived
+  world map plus a tab strip, showing one region at a time, instead of
+  a stacked bullet list. Editorial-synthesis subsection (joint Iran +
+  El Niño shocks) removed for now; the brief stays in pure aggregator
+  posture. "Macro and cross-cutting" paragraph also removed. Internal
+  markdown brief renders the regions as linear h3 sections.
 
 ---
 
-*Methodology version 1.3. RONI offset fetched live each week from CPC.
+*Methodology version 1.4. RONI offset fetched live each week from CPC.
 ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
 WWE forcing tracked via CWWA over 5N-5S, 130E-150W. Impact section
-added v1.3 as institutional aggregation plus labeled editorial synthesis.*
+renders as institutional aggregation only (no editorial synthesis).*

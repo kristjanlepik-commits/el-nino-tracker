@@ -21,7 +21,7 @@ make this week's headline non-comparable to last week's.
 
 from datetime import date
 
-METHODOLOGY_VERSION = "1.3"
+METHODOLOGY_VERSION = "1.4"
 
 # Brief date and target peak season
 BRIEF_DATE = date(2026, 4, 25)

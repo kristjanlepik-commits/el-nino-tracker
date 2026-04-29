@@ -31,19 +31,3 @@ Significant drought in Indonesia: high (>70%); palm oil production decline: medi
 ### Global coral
 
 The 2023-25 fourth global bleaching event already affects ~84% of world reefs (International Coral Reef Initiative, April 2025). Continued mass bleaching across all tropical basins is essentially certain into 2026-27.
-
-<!-- SYNTHESIS -->
-
-### Editorial synthesis: joint Iran + El Niño shocks
-
-> **Editorial label.** This subsection is the brief's one explicit synthesis. It names a transmission chain that no single agency or institutional source assembles end to end. Read it as an analyst hypothesis, not a pooled probability.
-
-The Hormuz blockade and the developing super El Niño are not independent. They share three transmission lines.
-
-**Fertilizer.** The Middle East routes roughly 50% of seaborne sulfur trade and is the largest regional exporter of urea and ammonia (IFA, IFPRI). The Hormuz disruption doubled sulfur costs (Exiger, March 2026) and was followed by China's April 10 sulfuric acid export ban (StoneX, Fertilizer Daily). El Niño-stressed crops require more fertilizer, not less, to hold yield under drought or excess-moisture conditions. The compounded shock at the spring planting decision is what compresses 2026-27 yields beyond what either shock would do alone. Egypt FOB granular urea has gone from $400 to $700 per ton in six weeks (CNBC); only 60% of US farmers had nitrogen secured for the 2026 crop at the latest NCGA survey (AgWeb).
-
-**Twin-deficit Asia.** The Philippines (national energy emergency March 24), Pakistan, Egypt, and Bangladesh face simultaneous oil-import shock and El Niño-driven domestic food shortfall. The Cashin et al elasticity layered on a Hormuz oil shock compounds into the stagflationary import bills the IMF flagged in its April 2026 WEO.
-
-**Insurance and reinsurance capacity.** Marine war-risk premiums rose roughly 60-fold within 48 hours of the February 28 strikes (Lloyd's Market Association). A super El Niño Atlantic landfall combined with an active Hormuz war-risk catastrophe layer would compress global reinsurance capacity at the same renewal cycle, on top of the Swiss Re NatCat figures cited above. This is the asymmetric capital-stress channel that justifies labeling the synthesis.
-
-The brief does not assign a probability to the joint scenario. Component probabilities sit in section 1 (super El Niño) and the public Hormuz risk literature (Allianz, Goldman, IMF, IEA) for the geopolitical leg. The synthesis claim is narrower and harder to dismiss: the two shocks compound rather than substitute, and the compound has not been priced as a single risk.
