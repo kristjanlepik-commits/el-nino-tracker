@@ -91,8 +91,14 @@ def fetch_all() -> dict:
         "heat_content":  safe_fetch("heat_content", heat_content.fetch),
         "iri":           safe_fetch("iri", iri.fetch),
         "bom":           safe_fetch("bom", bom.fetch),
-        "ecmwf_seas5":   safe_fetch("ecmwf_seas5", ecmwf_seas5.fetch),
-        "era5_wwe":      safe_fetch("era5_wwe", era5_wwe.fetch),
+        # CDS-backed fetchers get a 25-minute budget each. CDS queue waits
+        # during busy periods can otherwise hang the workflow indefinitely;
+        # on timeout, safe_fetch falls back to the last-good cache so the
+        # brief still renders and commits.
+        "ecmwf_seas5":   safe_fetch("ecmwf_seas5", ecmwf_seas5.fetch,
+                                    timeout_seconds=25 * 60),
+        "era5_wwe":      safe_fetch("era5_wwe", era5_wwe.fetch,
+                                    timeout_seconds=25 * 60),
         "oni_history":   safe_fetch("oni_history", oni_history.fetch),
     }
 
