@@ -162,6 +162,24 @@ def _plot_oni(ax, series):
             kwargs["linestyle"] = s["linestyle"]
         ax.plot(xs, ys, **kwargs)
 
+    # Static styling for the ONI panel. Always runs, independent of whether
+    # SEAS5 data is overlaid (when SEAS5 is missing in CI, the panel must
+    # still have a title, legend, threshold lines, and axis labels).
+    for y, lbl in [(1.0, "moderate"), (1.5, "strong"), (2.0, "super"), (2.5, "1997/2015")]:
+        ax.axhline(y, color="grey", linestyle="--", alpha=0.4, linewidth=0.8)
+        ax.text(13, y + 0.04, lbl, fontsize=8, color="grey")
+    ax.axhline(0, color="black", linewidth=0.6)
+    ax.set_xlim(-3, 14)
+    ax.set_ylim(-1.0, 3.2)
+    ax.set_ylabel("Niño 3.4 ONI (traditional, °C)")
+    ax.set_title(
+        "Analog tracker: 2026-27 vs reference events\n"
+        "Top: ONI 3-month running mean (ERSST.v5, 1991-2020 climo). "
+        "Bottom: cumulative westerly wind anomaly (ERA5, 5N-5S, 130E-150W)."
+    )
+    ax.grid(True, alpha=0.3)
+    ax.legend(loc="lower right", fontsize=9)
+
 
 def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
     """Overlay ECMWF SEAS5 ensemble forecast as a fan: 5-95 and 25-75 bands plus
@@ -218,20 +236,8 @@ def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
         arrowprops=dict(arrowstyle="-", color="#888", lw=0.6),
     )
 
-    for y, lbl in [(1.0, "moderate"), (1.5, "strong"), (2.0, "super"), (2.5, "1997/2015")]:
-        ax.axhline(y, color="grey", linestyle="--", alpha=0.4, linewidth=0.8)
-        ax.text(13, y + 0.04, lbl, fontsize=8, color="grey")
-
-    ax.axhline(0, color="black", linewidth=0.6)
-    ax.set_xlim(-3, 14)
-    ax.set_ylim(-1.0, 3.2)
-    ax.set_ylabel("Niño 3.4 ONI (traditional, °C)")
-    ax.set_title(
-        "Analog tracker: 2026-27 vs reference events\n"
-        "Top: ONI 3-month running mean (ERSST.v5, 1991-2020 climo). "
-        "Bottom: cumulative westerly wind anomaly (ERA5, 5N-5S, 130E-150W)."
-    )
-    ax.grid(True, alpha=0.3)
+    # Refresh the legend so the SEAS5 entries (median + bands) are picked up;
+    # the static legend was already drawn by _plot_oni for the analog lines.
     ax.legend(loc="lower right", fontsize=9)
 
 
