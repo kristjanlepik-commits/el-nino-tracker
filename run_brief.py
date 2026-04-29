@@ -244,26 +244,66 @@ PUBLIC_CSS = """
   .footer-meta a { color: var(--accent); }
 
   /* ---------- Impact outlook section ---------- */
-  section.impacts h3 {
-    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
-    font-size: 18px; font-weight: 600;
-    margin: 28px 0 8px; letter-spacing: -0.005em;
-  }
   section.impacts > p:first-of-type {
     color: var(--text-faint); font-size: 13px;
-    margin: 0 0 8px;
+    margin: 0 0 16px;
   }
-  section.impacts ul {
-    list-style: none; padding-left: 0; margin: 8px 0 0;
+
+  /* World map: pale background, continent blobs, region hotspots */
+  .impacts-map {
+    margin: 16px 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
   }
-  section.impacts ul li {
-    padding: 14px 0; border-bottom: 1px solid var(--border);
-    font-size: 14px; line-height: 1.55; color: var(--text);
+  .world-map { display: block; width: 100%; height: auto; max-height: 360px; }
+  .world-map .hotspot { cursor: pointer; outline: none; }
+  .world-map .hotspot-ring {
+    fill: rgba(217, 67, 39, 0.12); stroke: var(--super); stroke-width: 1.5;
+    transition: all 0.18s ease;
   }
-  section.impacts ul li:last-child { border-bottom: none; }
-  section.impacts ul li strong { color: var(--text); }
-  section.impacts > p:not(:first-of-type) {
-    font-size: 14px; line-height: 1.55; color: var(--text); margin: 12px 0;
+  .world-map .hotspot-dot {
+    fill: var(--super); transition: all 0.18s ease;
+  }
+  .world-map .hotspot:hover .hotspot-ring { fill: rgba(217, 67, 39, 0.22); }
+  .world-map .hotspot.active .hotspot-ring {
+    fill: rgba(217, 67, 39, 0.30); stroke-width: 2.5; r: 16;
+  }
+  .world-map .hotspot.active .hotspot-dot {
+    r: 7;
+  }
+  .world-map .hotspot:focus-visible .hotspot-ring {
+    stroke: var(--accent); stroke-width: 2.5;
+  }
+
+  /* Region tabs strip */
+  .region-tabs {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin: 14px 0 16px;
+  }
+  .region-tab {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 14px;
+    font-size: 13px; color: var(--text-soft);
+    cursor: pointer; font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .region-tab:hover { border-color: var(--border-strong); color: var(--text); }
+  .region-tab[aria-selected="true"] {
+    background: var(--super); border-color: var(--super);
+    color: #fff; font-weight: 600;
+  }
+
+  /* Region content panels: only the active one shows */
+  .region-panel { display: none; }
+  .region-panel.active { display: block; }
+  .region-panel h3 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 22px; font-weight: 600;
+    margin: 0 0 10px; letter-spacing: -0.01em;
+  }
+  .region-panel p {
+    font-size: 14.5px; line-height: 1.6; color: var(--text); margin: 0 0 12px;
   }
 
   /* ---------- Editorial synthesis (labeled, visually distinct) ---------- */
@@ -330,6 +370,27 @@ IMPACTS_FILE = Path(__file__).parent / "impacts.md"
 IMPACTS_SYNTHESIS_DIVIDER = "<!-- SYNTHESIS -->"
 
 
+# Approximate coordinates on the 800x400 world-map SVG viewBox, by region slug.
+# Slugs are derived from the impacts.md h3 headings via _slugify().
+REGION_MAP_COORDS = {
+    "mediterranean":                         (415, 130),
+    "amazon-basin":                          (260, 250),
+    "australia-and-the-great-barrier-reef":  (665, 290),
+    "southern-africa":                       (470, 285),
+    "india-and-south-asia":                  (560, 180),
+    "united-states":                         (180, 145),
+    "southeast-asia":                        (610, 220),
+    "global-coral":                          (730, 220),
+}
+
+
+def _slugify(text: str) -> str:
+    """region-name → URL-safe slug. Match REGION_MAP_COORDS keys."""
+    import re
+    s = re.sub(r'[^\w\s-]', '', text.lower()).strip()
+    return re.sub(r'[\s_]+', '-', s)
+
+
 def load_impacts() -> dict:
     """Load impacts.md from project root, split on the synthesis divider.
 
@@ -348,24 +409,175 @@ def load_impacts() -> dict:
     return {"aggregation": raw}
 
 
-def build_impacts_html_block(impacts: dict) -> str:
-    """Render the impacts section as a self-contained <section> for the public brief.
+def _split_aggregation_into_regions(agg_html: str):
+    """Parse the rendered aggregation HTML into a lede + per-region list.
 
-    Aggregation content goes inline; synthesis is wrapped in
-    <div class="editorial-synthesis"> so a cold reader can see at a glance
-    where aggregation ends and the labeled editorial layer begins.
+    Returns (lede_html, [(name, slug, content_html), ...]).
+    """
+    import re
+    parts = re.split(r'(<h3>.*?</h3>)', agg_html, flags=re.DOTALL)
+    lede_html = parts[0].strip() if parts else ""
+    regions = []
+    for i in range(1, len(parts) - 1, 2):
+        h3_tag = parts[i]
+        content = parts[i + 1].strip()
+        name = re.sub(r'<[^>]+>', '', h3_tag).strip()
+        regions.append((name, _slugify(name), content))
+    return lede_html, regions
+
+
+def _render_world_map_svg(regions, active_slug: str) -> str:
+    """Stylized world map: continent blobs in pale gray, hotspot markers at
+    each region. The active region's marker is filled in brand color, others
+    are outlined. Clickable via the inline JS attached to the impacts block.
+    """
+    continents = (
+        '<rect width="800" height="400" fill="#f5f4ee" rx="4"/>'
+        '<g class="continents" fill="#dcdad0" stroke="none">'
+        # North America
+        '<path d="M70,90 Q100,55 195,72 Q270,95 268,160 Q244,200 165,202 Q86,200 60,162 Q48,118 70,90 Z"/>'
+        # Central America connector
+        '<path d="M180,200 Q210,210 230,230 Q235,255 220,260 Q195,250 175,225 Z"/>'
+        # South America
+        '<path d="M225,225 Q260,225 285,250 Q302,300 268,348 Q245,365 232,340 Q210,290 220,250 Z"/>'
+        # Europe
+        '<path d="M388,90 Q420,78 458,90 Q470,118 452,142 Q425,150 400,140 Q380,120 388,90 Z"/>'
+        # Africa
+        '<path d="M398,162 Q442,148 495,170 Q514,212 502,265 Q480,308 450,316 Q418,300 405,262 Q388,212 398,162 Z"/>'
+        # Asia (large)
+        '<path d="M460,82 Q540,52 660,72 Q740,98 728,172 Q700,208 605,202 Q540,202 482,184 Q450,148 460,82 Z"/>'
+        # SE Asia archipelago
+        '<path d="M598,212 Q625,208 650,220 Q662,235 642,242 Q610,242 595,228 Z"/>'
+        # Australia
+        '<path d="M620,288 Q660,278 705,296 Q722,318 700,326 Q660,332 625,322 Q612,308 620,288 Z"/>'
+        '</g>'
+    )
+
+    hotspots = []
+    for name, slug, _ in regions:
+        cx, cy = REGION_MAP_COORDS.get(slug, (400, 200))
+        active = " active" if slug == active_slug else ""
+        from html import escape as _h
+        hotspots.append(
+            f'<g class="hotspot{active}" data-region="{slug}" '
+            f'tabindex="0" role="button" aria-label="Show {_h(name)}">'
+            f'<circle cx="{cx}" cy="{cy}" r="13" class="hotspot-ring"/>'
+            f'<circle cx="{cx}" cy="{cy}" r="5"  class="hotspot-dot"/>'
+            f'<title>{_h(name)}</title>'
+            f'</g>'
+        )
+
+    return (
+        '<svg class="world-map" viewBox="0 0 800 400" '
+        'xmlns="http://www.w3.org/2000/svg" '
+        'role="img" aria-label="World map of regional impact zones">'
+        + continents
+        + ''.join(hotspots)
+        + '</svg>'
+    )
+
+
+# Vanilla JS for tab + map switching. No framework. Reads URL hash on load.
+IMPACTS_TAB_SCRIPT = """<script>
+(function () {
+  var section = document.querySelector('.impacts');
+  if (!section) return;
+  var tabs = section.querySelectorAll('.region-tab');
+  var panels = section.querySelectorAll('.region-panel');
+  var hotspots = section.querySelectorAll('.world-map .hotspot');
+  function activate(slug) {
+    if (!slug) return;
+    var ok = false;
+    panels.forEach(function (p) {
+      var match = p.getAttribute('data-region') === slug;
+      p.classList.toggle('active', match);
+      if (match) ok = true;
+    });
+    if (!ok) return;
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected',
+        t.getAttribute('data-region') === slug ? 'true' : 'false');
+    });
+    hotspots.forEach(function (h) {
+      h.classList.toggle('active', h.getAttribute('data-region') === slug);
+    });
+    if (history.replaceState) {
+      history.replaceState(null, '', '#region=' + slug);
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      activate(t.getAttribute('data-region'));
+    });
+  });
+  hotspots.forEach(function (h) {
+    h.addEventListener('click', function () {
+      activate(h.getAttribute('data-region'));
+    });
+    h.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activate(h.getAttribute('data-region'));
+      }
+    });
+  });
+  var m = (location.hash || '').match(/region=([\\w-]+)/);
+  if (m) activate(m[1]);
+})();
+</script>"""
+
+
+def build_impacts_html_block(impacts: dict) -> str:
+    """Render the impacts section as a self-contained <section> for the public
+    brief. Lede paragraph at top; regional content compressed into a world map
+    + tab strip + one-region-at-a-time panels (rather than a stacked bullet
+    list, which made the brief too long); editorial synthesis below in its own
+    visually distinct block.
     """
     if not impacts:
         return ""
     parts = ['<section class="impacts"><h2>Impact outlook</h2>']
     agg = impacts.get("aggregation", "").strip()
     if agg:
-        parts.append(md_lib.markdown(agg, extensions=["tables", "fenced_code"]))
+        agg_html = md_lib.markdown(agg, extensions=["tables", "fenced_code"])
+        lede_html, regions = _split_aggregation_into_regions(agg_html)
+        if lede_html:
+            parts.append(lede_html)
+        if regions:
+            default_slug = regions[0][1]
+            parts.append('<div class="impacts-map">')
+            parts.append(_render_world_map_svg(regions, default_slug))
+            parts.append('</div>')
+
+            parts.append('<div class="region-tabs" role="tablist" '
+                         'aria-label="Regional impacts">')
+            for name, slug, _ in regions:
+                selected = "true" if slug == default_slug else "false"
+                parts.append(
+                    f'<button type="button" class="region-tab" '
+                    f'data-region="{slug}" role="tab" '
+                    f'aria-selected="{selected}">{h(name)}</button>'
+                )
+            parts.append('</div>')
+
+            parts.append('<div class="region-content">')
+            for name, slug, content_html in regions:
+                cls = "region-panel active" if slug == default_slug else "region-panel"
+                parts.append(
+                    f'<div class="{cls}" data-region="{slug}" role="tabpanel" '
+                    f'aria-label="{h(name)}">'
+                )
+                parts.append(f'<h3>{h(name)}</h3>')
+                parts.append(content_html)
+                parts.append('</div>')
+            parts.append('</div>')
+
     syn = impacts.get("synthesis", "").strip()
     if syn:
         parts.append('<div class="editorial-synthesis">')
         parts.append(md_lib.markdown(syn, extensions=["tables", "fenced_code"]))
         parts.append('</div>')
+    parts.append(IMPACTS_TAB_SCRIPT)
     parts.append('</section>')
     return ''.join(parts)
 
