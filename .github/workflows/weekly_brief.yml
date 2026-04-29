@@ -13,7 +13,10 @@ permissions:
 jobs:
   brief:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # CDS queue waits can run 20-60 min during busy periods. 90 covers most
+    # of the distribution; if a run still times out, the previous good chart
+    # stays live (Pages keeps the last successful build).
+    timeout-minutes: 90
     steps:
       - name: Checkout
         uses: actions/checkout@v4
