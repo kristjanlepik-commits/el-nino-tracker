@@ -19,12 +19,29 @@ conversion math, the analog list, the offset, or any decision that would
 make this week's headline non-comparable to last week's.
 """
 
-from datetime import date
+from __future__ import annotations
+
+from datetime import date, timedelta
 
 METHODOLOGY_VERSION = "1.4"
 
-# Brief date and target peak season
-BRIEF_DATE = date(2026, 4, 25)
+
+def _most_recent_monday(today: date | None = None) -> date:
+    """Return the most-recent Monday on or before `today` (default: today).
+
+    The cron fires Monday 13:00 UTC, so on a scheduled run this resolves to
+    today itself. For manual runs on any other weekday, it lands on that
+    week's Monday, matching the operator's mental model of "which week's
+    brief is this".
+    """
+    today = today or date.today()
+    return today - timedelta(days=today.weekday())   # Monday=0
+
+
+# Brief date and target peak season. Computed at module import time so each
+# weekly run lands in its own dated directory (briefs/YYYY-MM-DD/) and the
+# issue stamp at the top of the brief reflects the current week.
+BRIEF_DATE = _most_recent_monday()
 TARGET_SEASON = "DJF 2026-27"   # canonical winter peak
 NEAREST_CPC_SEASON = "NDJ 2026-27"  # CPC's longest lead in current strength table
 
