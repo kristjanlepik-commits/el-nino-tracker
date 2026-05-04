@@ -1186,7 +1186,7 @@ def build_archive_index() -> str:
             sup = h.get("super_>2.0", {}).get("mid", "")
             magn = h.get("9715_>2.5", {}).get("mid", "")
             rows.append(
-                f"| [{d}]({d}/brief.html) | {mod}% | {strong}% | {sup}% | {magn}% |"
+                f"| [{d}]({d}/) | {mod}% | {strong}% | {sup}% | {magn}% |"
             )
 
     md = [
@@ -1287,8 +1287,10 @@ def main():
     (DOCS_DIR / ".nojekyll").touch()
     (DOCS_DIR / "index.html").write_text(public_html_index)
     print(f"wrote: {DOCS_DIR / 'index.html'}")
-    (DOCS_BRIEF_DIR / "brief.html").write_text(public_html_archive)
-    print(f"wrote: {DOCS_BRIEF_DIR / 'brief.html'}")
+    # Write as index.html so GitHub Pages serves the brief on the bare
+    # directory URL (briefs/YYYY-MM-DD/) without a 404.
+    (DOCS_BRIEF_DIR / "index.html").write_text(public_html_archive)
+    print(f"wrote: {DOCS_BRIEF_DIR / 'index.html'}")
     shutil.copyfile(BRIEF_DIR / "analog.png", DOCS_DIR / "analog.png")
     shutil.copyfile(BRIEF_DIR / "analog.png", DOCS_BRIEF_DIR / "analog.png")
     (DOCS_BRIEF_DIR / "meta.json").write_text(json.dumps({

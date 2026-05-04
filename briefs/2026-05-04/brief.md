@@ -34,11 +34,11 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 | Niño 3.4 weekly (traditional) | +0.9°C | -0.1°C | +0.6°C |
 | Niño 3.4 weekly (RONI) | +0.4°C | n/a (pre-RONI) | n/a (pre-RONI) |
 | 0-300m heat content anomaly | +2.23°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
-| Cumulative westerly wind anomaly since Mar 1 | 133 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 299 | 233 |
+| Cumulative westerly wind anomaly since Mar 1 | 134 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 301 | 238 |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
 
-**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-04-28, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (133) tracks closest to 2023 (42); other reference years: 1997 (299), 2015 (233), 2025 (0).
+**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-04-29, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (134) tracks closest to 2023 (42); other reference years: 1997 (301), 2015 (238), 2025 (0).
 
 ## 3. Analog tracker
 
@@ -92,7 +92,11 @@ The 2023-25 fourth global bleaching event already affects ~84% of world reefs (I
 
 **Unchanged since last issue:** cpc_strength, iri, ecmwf, bom.
 
-**Physical state:** no numerical changes from last issue. (Either truly unchanged or weekly update has not been ingested.)
+**Physical state deltas:**
+
+- nino34_weekly_traditional: 0.7 -> 0.9 (delta +0.2)
+- nino34_weekly_roni: 0.2 -> 0.4 (delta +0.2)
+- heat_content_0_300m_estimate: 1.36 -> 2.23 (delta +0.87)
 
 ### Analyst read
 
@@ -110,7 +114,7 @@ This week's brief was generated without analyst commentary because the editorial
 - **iri**: fetched live, issued 2026-04-20.
 - **bom**: fetched live, issued 2026-04-28.
 - **ecmwf_seas5**: fetched live, issued 2026-04-01.
-- **era5_wwe**: fetched live, issued 2026-04-28.
+- **era5_wwe**: fetched live, issued 2026-04-29.
 - **oni_history**: fetched live, issued 2026-04-30.
 
 ---
