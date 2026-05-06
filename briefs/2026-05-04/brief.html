@@ -35,12 +35,12 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 <li>NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%. Issued 2026-04-09.</li>
 <li>IRI plume, DJF 2026-27: El Niño 88%, neutral 11%, La Niña 1%. Issued 2026-04-20. Strength not broken out in the public Quick Look.</li>
 <li>BoM ENSO Outlook, issued 2026-04-28: Further warming in the tropical Pacific as models suggest El Niño by late winter. Categorical only.</li>
-<li>ECMWF SEAS5, run 2026-04-01: 51-member SEAS5 ensemble for 2026-10: median Niño 3.4 anomaly +2.21 deg C; 51/51 members above +1.5 (~76% above +2.0, ~25% above +2.5).</li>
+<li>ECMWF SEAS5, run 2026-05-01: 51-member SEAS5 ensemble for 2026-11: median Niño 3.4 anomaly +2.68 deg C; 51/51 members above +1.5 (~100% above +2.0, ~75% above +2.5).</li>
 </ul>
 <p><strong>Caveats this issue:</strong></p>
 <ol>
 <li>The +2.5°C bucket carries a 24-26% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.</li>
-<li>ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 13/51 members (25%) at 2026-10 (max available lead). CPC's NDJ 2026-27 bucket lands at 24-26%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.</li>
+<li>ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 38/51 members (75%) at 2026-11 (max available lead). CPC's NDJ 2026-27 bucket lands at 24-26%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.</li>
 <li>Spring predictability barrier: April-May forecasts at any of these centers carry materially wider error bars than what we'll see in July-August. Treat all numbers as preliminary.</li>
 </ol>
 <h2>2. Physical state panel</h2>
@@ -68,20 +68,20 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 </tr>
 <tr>
 <td>0-300m heat content anomaly</td>
-<td>+2.23°C (CPC monthly, 180W-100W, vs 1981-2010 climo)</td>
+<td>+2.24°C (CPC monthly, 180W-100W, vs 1981-2010 climo)</td>
 <td>+0.7°C</td>
 <td>+1.6°C</td>
 </tr>
 <tr>
 <td>Cumulative westerly wind anomaly since Mar 1</td>
-<td>134 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo)</td>
-<td>301</td>
-<td>238</td>
+<td>137 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo)</td>
+<td>306</td>
+<td>248</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Heat content note:</strong> Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.</p>
-<p><strong>CWWA note:</strong> Live ERA5 daily 850 hPa zonal wind through 2026-04-29, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (134) tracks closest to 2023 (42); other reference years: 1997 (301), 2015 (238), 2025 (0).</p>
+<p><strong>CWWA note:</strong> Live ERA5 daily 850 hPa zonal wind through 2026-05-01, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (137) tracks closest to 2023 (42); other reference years: 1997 (306), 2015 (248), 2025 (0).</p>
 <h2>3. Analog tracker</h2>
 <p><img alt="Analog tracker" src="analog.png" /></p>
 <p>Three reference El Niño events (1997-98, 2015-16, 2023-24) vs current 2026-27 trajectory in 3-month-running-mean ONI. Common reference is March 1 of develop year.</p>
@@ -107,12 +107,16 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 <p>The 2023-25 fourth global bleaching event already affects ~84% of world reefs (International Coral Reef Initiative, April 2025). Continued mass bleaching across all tropical basins is essentially certain into 2026-27.</p>
 <h2>5. Editorial layer</h2>
 <h3>What changed week-over-week</h3>
-<p><strong>Unchanged since last issue:</strong> cpc_strength, iri, ecmwf, bom.</p>
+<p><strong>New agency releases since last issue:</strong></p>
+<ul>
+<li><strong>ecmwf</strong>: prior issued 2026-04-01, now issued 2026-05-01.</li>
+</ul>
+<p><strong>Unchanged since last issue:</strong> cpc_strength, iri, bom.</p>
 <p><strong>Physical state deltas:</strong></p>
 <ul>
 <li>nino34_weekly_traditional: 0.7 -&gt; 0.9 (delta +0.2)</li>
 <li>nino34_weekly_roni: 0.2 -&gt; 0.4 (delta +0.2)</li>
-<li>heat_content_0_300m_estimate: 1.36 -&gt; 2.23 (delta +0.87)</li>
+<li>heat_content_0_300m_estimate: 1.36 -&gt; 2.24 (delta +0.88)</li>
 </ul>
 <h3>Analyst read</h3>
 <blockquote>
@@ -127,8 +131,8 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 <li><strong>heat_content</strong>: fetched live, issued 2026-04-30.</li>
 <li><strong>iri</strong>: fetched live, issued 2026-04-20.</li>
 <li><strong>bom</strong>: fetched live, issued 2026-04-28.</li>
-<li><strong>ecmwf_seas5</strong>: fetched live, issued 2026-04-01.</li>
-<li><strong>era5_wwe</strong>: fetched live, issued 2026-04-29.</li>
+<li><strong>ecmwf_seas5</strong>: fetched live, issued 2026-05-01.</li>
+<li><strong>era5_wwe</strong>: fetched live, issued 2026-05-01.</li>
 <li><strong>oni_history</strong>: fetched live, issued 2026-04-30.</li>
 </ul>
 <hr />

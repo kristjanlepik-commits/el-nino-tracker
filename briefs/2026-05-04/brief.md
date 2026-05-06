@@ -19,12 +19,12 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 - NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%. Issued 2026-04-09.
 - IRI plume, DJF 2026-27: El Niño 88%, neutral 11%, La Niña 1%. Issued 2026-04-20. Strength not broken out in the public Quick Look.
 - BoM ENSO Outlook, issued 2026-04-28: Further warming in the tropical Pacific as models suggest El Niño by late winter. Categorical only.
-- ECMWF SEAS5, run 2026-04-01: 51-member SEAS5 ensemble for 2026-10: median Niño 3.4 anomaly +2.21 deg C; 51/51 members above +1.5 (~76% above +2.0, ~25% above +2.5).
+- ECMWF SEAS5, run 2026-05-01: 51-member SEAS5 ensemble for 2026-11: median Niño 3.4 anomaly +2.68 deg C; 51/51 members above +1.5 (~100% above +2.0, ~75% above +2.5).
 
 **Caveats this issue:**
 
 1. The +2.5°C bucket carries a 24-26% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.
-2. ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 13/51 members (25%) at 2026-10 (max available lead). CPC's NDJ 2026-27 bucket lands at 24-26%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.
+2. ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 38/51 members (75%) at 2026-11 (max available lead). CPC's NDJ 2026-27 bucket lands at 24-26%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.
 3. Spring predictability barrier: April-May forecasts at any of these centers carry materially wider error bars than what we'll see in July-August. Treat all numbers as preliminary.
 
 ## 2. Physical state panel
@@ -33,12 +33,12 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 |---|---|---|---|
 | Niño 3.4 weekly (traditional) | +0.9°C | -0.1°C | +0.6°C |
 | Niño 3.4 weekly (RONI) | +0.4°C | n/a (pre-RONI) | n/a (pre-RONI) |
-| 0-300m heat content anomaly | +2.23°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
-| Cumulative westerly wind anomaly since Mar 1 | 134 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 301 | 238 |
+| 0-300m heat content anomaly | +2.24°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
+| Cumulative westerly wind anomaly since Mar 1 | 137 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 306 | 248 |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
 
-**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-04-29, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (134) tracks closest to 2023 (42); other reference years: 1997 (301), 2015 (238), 2025 (0).
+**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-01, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (137) tracks closest to 2023 (42); other reference years: 1997 (306), 2015 (248), 2025 (0).
 
 ## 3. Analog tracker
 
@@ -90,13 +90,17 @@ The 2023-25 fourth global bleaching event already affects ~84% of world reefs (I
 
 ### What changed week-over-week
 
-**Unchanged since last issue:** cpc_strength, iri, ecmwf, bom.
+**New agency releases since last issue:**
+
+- **ecmwf**: prior issued 2026-04-01, now issued 2026-05-01.
+
+**Unchanged since last issue:** cpc_strength, iri, bom.
 
 **Physical state deltas:**
 
 - nino34_weekly_traditional: 0.7 -> 0.9 (delta +0.2)
 - nino34_weekly_roni: 0.2 -> 0.4 (delta +0.2)
-- heat_content_0_300m_estimate: 1.36 -> 2.23 (delta +0.87)
+- heat_content_0_300m_estimate: 1.36 -> 2.24 (delta +0.88)
 
 ### Analyst read
 
@@ -113,8 +117,8 @@ This week's brief was generated without analyst commentary because the editorial
 - **heat_content**: fetched live, issued 2026-04-30.
 - **iri**: fetched live, issued 2026-04-20.
 - **bom**: fetched live, issued 2026-04-28.
-- **ecmwf_seas5**: fetched live, issued 2026-04-01.
-- **era5_wwe**: fetched live, issued 2026-04-29.
+- **ecmwf_seas5**: fetched live, issued 2026-05-01.
+- **era5_wwe**: fetched live, issued 2026-05-01.
 - **oni_history**: fetched live, issued 2026-04-30.
 
 ---

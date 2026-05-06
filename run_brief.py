@@ -361,6 +361,47 @@ def _signed_temp(value: float, decimals: int = 1) -> str:
     return formatted.replace("-", "−")  # U+2212 minus sign
 
 
+def _heat_content_compare(val: float, hc97: float, hc15: float) -> str:
+    """One-sentence quantitative comparison of current heat content vs the
+    1997 and 2015 super-event same-week analogs. Auto-banded above-both /
+    between / below-both. Empty string if any input is missing.
+    """
+    if val is None or hc97 is None or hc15 is None:
+        return ""
+    if val > max(hc97, hc15):
+        return (f" At {val:+.2f}°C, 2026 already exceeds both 1997 "
+                f"({hc97:+.1f}°C) and 2015 ({hc15:+.1f}°C) at this calendar "
+                f"week, running ahead of either super-event analog at this "
+                f"stage of development.")
+    if val > min(hc97, hc15):
+        return (f" At {val:+.2f}°C, 2026 sits between 1997 ({hc97:+.1f}°C) "
+                f"and 2015 ({hc15:+.1f}°C) at this calendar week.")
+    return (f" At {val:+.2f}°C, 2026 is below both 1997 ({hc97:+.1f}°C) and "
+            f"2015 ({hc15:+.1f}°C) at this calendar week.")
+
+
+def _cwwa_divergence(cwwa, cwwa97, cwwa15, sst, hc) -> str:
+    """When the current CWWA is conspicuously below super-event analogs while
+    surface SST and subsurface heat content are both running hot, append a
+    sentence flagging the divergence. The thresholds (0.6 * min analog;
+    SST >= +0.5; HC >= +1.0) are heuristic flags for "this is interesting to
+    mention", not a methodology calibration. Returns empty string when the
+    pattern doesn't fit.
+    """
+    if any(x is None for x in (cwwa, cwwa97, cwwa15, sst, hc)):
+        return ""
+    weak_wind = cwwa < min(cwwa97, cwwa15) * 0.6
+    hot_ocean = sst >= 0.5 and hc >= 1.0
+    if weak_wind and hot_ocean:
+        return (f" Wind forcing has not kept pace with the SST and heat-content "
+                f"rise: 2026 CWWA at this week ({cwwa:.0f}) is well below both "
+                f"super-event analogs (1997: {cwwa97:.0f}, 2015: {cwwa15:.0f}), "
+                f"suggesting recent warming is being driven more by accumulated "
+                f"subsurface heat (residual Kelvin-wave propagation) than by "
+                f"ongoing wind events.")
+    return ""
+
+
 IMPACTS_FILE = Path(__file__).parent / "impacts.md"
 IMPACTS_SYNTHESIS_DIVIDER = "<!-- SYNTHESIS -->"
 
@@ -758,17 +799,24 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<td class="num">{h(cwwa_15_str)}</td>'
         '</tr>'
         '</tbody></table>'
-        f'<div class="note"><strong>Heat content:</strong> {h(phys.get("heat_content_qualitative", ""))}</div>'
+        f'<div class="note"><strong>Heat content:</strong> {h(phys.get("heat_content_qualitative", ""))}'
+        f'{h(_heat_content_compare(phys.get("heat_content_0_300m_estimate"), analog_same.get("1997_apr_heat_content"), analog_same.get("2015_apr_heat_content")))}'
+        f'</div>'
     )
 
     if wwe_live and cwwa_value is not None:
+        cwwa_diverge = _cwwa_divergence(
+            cwwa_value, cwwa_97, cwwa_15,
+            phys.get("nino34_weekly_traditional"),
+            phys.get("heat_content_0_300m_estimate"),
+        )
         physical_html += (
             f'<div class="note"><strong>CWWA:</strong> Live ERA5 daily 850 hPa zonal wind through '
             f'{h(wwe_fresh.get("issued", ""))}, area-meaned over 5°N–5°S, 130°E–150°W and integrated '
             f'for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. '
             f'Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism '
             f'that excites downwelling Kelvin waves and drives moderate-to-super event '
-            f'escalation.{h(cwwa_ranking)}</div>'
+            f'escalation.{h(cwwa_ranking)}{h(cwwa_diverge)}</div>'
         )
     physical_html += '</section>'
 
@@ -816,7 +864,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'members ({seas5_25_pct}%) at {h(seas5_calendar)} (max available lead). CPC\'s NDJ 2026-27 '
         f'bucket lands at {cpc_25_lo}–{cpc_25_hi}%. We subtract SEAS5\'s own model climatology, which '
         f'removes its known ENSO warm bias; an observational-climatology subtraction would put '
-        f'SEAS5 higher still. Real disagreement to surface, not a number to average.</li>'
+        f'SEAS5 higher still. Real disagreement to surface, not a number to average. For broader '
+        f'context, multi-model pools (e.g., the <a href="https://dashboard.theclimatebrink.com/#enso">'
+        f'Climate Brink dashboard</a>\'s 13-model 637-member view) currently report a meaningfully '
+        f'higher probability for the same threshold; the gap reflects CPC\'s analyst-correction vs '
+        f'raw multi-model breadth, documented as methodology limitation #7.</li>'
         '<li>Spring predictability barrier: April–May forecasts at any of these centers carry materially '
         'wider error bars than what we\'ll see in July–August. Treat all numbers as preliminary.</li>'
         '</ol>'
