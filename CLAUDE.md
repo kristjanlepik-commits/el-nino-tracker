@@ -86,6 +86,65 @@ scripts/send_email.py                SMTP send: multipart, plain-text +
                                      HTML alternative + analog inline.
 ```
 
+## Ownership: which chat touches what
+
+This repo is maintained from two parallel chat sessions, each with a
+clear surface area. Read this before editing anything to avoid stepping
+on the other chat.
+
+### Methodology chat owns
+
+- `fetchers/` (all modules + `_common.py`)
+- `fetch_all.py` (orchestration over the fetchers)
+- `probs.py` (skew-normal fit, bucket computation, bootstrap)
+- `snapshot.py` (snapshot + diff logic)
+- `editorial.py` (Analyst Read prose generation, internal brief only)
+- `analog.py` chart math: SEAS5 fan computation, threshold gridlines,
+  projection logic, and in-figure annotations whose text is
+  auto-generated from data
+- `data/oni_historical.csv`
+- `methodology.md` (the scientific argument, including the "Impact
+  aggregation" subsection that describes the *method*; the *content*
+  in `impacts.md` is public-side)
+- `sources.py` data values (`METHODOLOGY_VERSION`, `RONI_TO_ONI_OFFSET`,
+  `ANALOG_SAME_WEEK`, `_most_recent_monday` helper). Note:
+  `RONI_TO_ONI_OFFSET = 0.3` is the static fallback only used when the
+  live `oisst_weekly` offset is unavailable. Production offset is
+  dynamic and comes from the fetcher.
+- `.github/workflows/weekly_brief.yml` (operational pipeline)
+
+### Public chat owns
+
+- `run_brief.py`: `build_public_html`, `build_impacts_html_block`,
+  `_render_world_map_block`, `_render_rung`,
+  `_split_aggregation_into_regions`, `PUBLIC_CSS`, `IMPACTS_TAB_SCRIPT`,
+  `REGION_MAP_COORDS`, `PUBLIC_SOURCE_NAMES`, `public_preamble`
+- `impacts.md` (curated regional content)
+- `docs/world-map.svg` (static asset)
+- HTML structure, CSS, OG/Twitter meta, footer (author, GitHub link,
+  methodology link), archive index layout
+- `analog.py` visual styling: colors (`#c92020` etc.), line widths,
+  marker sizes, font choices, legend label phrasing, chart-caption
+  text *outside* the figure (the section-sub paragraph in the public
+  HTML)
+- All page-level prose: lede, bottom-line copy, chart-caption framing
+
+### Shared seams (ping the other chat when touching)
+
+- `run_brief.py` `main()` (orchestration; methodology-side by default)
+- `run_brief.py` `build_markdown()` (internal brief; methodology-side)
+- `analog.py` chart math when methodology changes (public-chat caption
+  may need a refresh)
+- `methodology.md` "What a reviewer should focus on" section
+  (read by externals; public-chat may want input on framing)
+
+### Decision rule
+
+If you're not sure, the principle: **anything that ships INSIDE the
+matplotlib figure or that drives a probability number is methodology;
+anything wrapped AROUND the image in HTML, or that decides voice and
+audience framing, is public.**
+
 ## Key invariants
 
 1. **`run_brief.py` always produces a brief.** Even if every fetcher
