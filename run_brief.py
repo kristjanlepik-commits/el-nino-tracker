@@ -968,6 +968,14 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     cpc_issued = fetched["cpc_strength"]["issued"]
     analog_same = S.ANALOG_SAME_WEEK
 
+    # v1.5: smoothed headline (CPC anchor + bounded SEAS5 deflection).
+    # Internal brief reports both anchor and smoothed; public template
+    # decides on its own how to display these.
+    seas5_per_lead = fetched.get("ecmwf_seas5", {}).get("per_lead", []) or []
+    smoothed = probs.smoothed_headline_buckets(
+        fetched["cpc_strength"]["table"], seas5_per_lead,
+        "NDJ 2026-27", offset=offset)
+
     md = []
     md.append(f"# El Niño Probability Tracker, week of {S.BRIEF_DATE.isoformat()}")
     md.append("")
@@ -1001,7 +1009,26 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
         ("Very strong / super (>+2.0°C peak)", "super_>2.0"),
         ("1997/2015 magnitude (>+2.5°C peak)", "9715_>2.5"),
     ]:
-        md.append(f"- {fmt_bucket(label, headline[key])}")
+        s = smoothed.get(key, {})
+        smoothed_pct = s.get("mid")
+        anchor_pct = s.get("anchor")
+        deflection = s.get("deflection")
+        if smoothed_pct is not None and anchor_pct is not None:
+            if abs(deflection or 0) >= 0.5:
+                md.append(f"- **{label}**: {smoothed_pct}% "
+                          f"(CPC anchor {anchor_pct}%, SEAS5 deflection "
+                          f"{deflection:+.1f} ppt)")
+            else:
+                md.append(f"- **{label}**: {smoothed_pct}%")
+        else:
+            md.append(f"- {fmt_bucket(label, headline[key])}")
+    md.append("")
+    md.append("Headline values use the v1.5 smoothed estimator: CPC anchor "
+              "(monthly cadence) plus a bounded weekly deflection from the "
+              "SEAS5 ensemble (weight 0.2, capped at ±10 ppt per bucket per "
+              "week). The anchor and deflection are shown alongside the "
+              "smoothed value where they differ. See methodology.html for "
+              "the full rule.")
     md.append("")
     md.append("**Source-by-source check (qualitative where strength bins "
               "aren't broken out):**")

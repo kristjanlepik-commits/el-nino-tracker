@@ -110,6 +110,73 @@ skew-normal, and reports the 5th and 95th percentile of the resulting
 does not capture forecast uncertainty in the underlying CPC ensemble or
 methodological uncertainty in the choice of distribution family.
 
+### Headline smoothing: CPC anchor with bounded SEAS5 deflection (v1.5)
+
+CPC reissues the strength table monthly, on the 2nd Thursday with the
+ENSO Diagnostic Discussion. Between issuances, the raw skew-normal
+output is mathematically frozen for 4-5 weeks, and during that window
+new observational evidence and updated model ensembles can move the
+underlying probabilities materially. The brief's audience is climate-
+curious operators who read it weekly; a static headline reads as a
+brief that has stopped tracking the event between CPC's monthly
+releases.
+
+We close that gap by **deflecting CPC's anchor probability each week
+based on the current ECMWF SEAS5 ensemble**, while keeping CPC firmly
+in charge of the headline.
+
+For each headline bucket b, given anchor probability `p_anchor[b]`
+(the skew-normal-fitted CPC probability above threshold b in
+traditional-ONI terms) and current SEAS5 fraction `p_seas5[b]` (the
+share of the 51-member ensemble exceeding threshold b at the longest
+available lead, in traditional-ONI-equivalent terms after model-
+climatology subtraction):
+
+```
+deflection[b] = clamp(W × (p_seas5[b] − p_anchor[b]), −cap, +cap)
+headline[b]   = clamp(p_anchor[b] + deflection[b], 0, 100)
+```
+
+with **W = 0.2** (SEAS5 contributes 20% of the gap to the anchor) and
+**cap = ±10 percentage points** per bucket per week.
+
+When CPC reissues the strength table, `p_anchor` jumps to the new CPC
+value and the deflection is recomputed against the new anchor; there
+is no carryover. The diff section surfaces both the CPC anchor change
+and the new deflection separately so the reader can see where the
+weekly motion came from.
+
+**Why these specific values:**
+
+- **W = 0.2.** SEAS5 has a documented warm bias for ENSO development
+  (Tippett et al. 2019; Johnson et al. 2019); using its raw movement
+  at full weight would inherit that bias and turn the brief into a
+  thin SEAS5 wrapper. W = 0.2 reflects "give SEAS5 some credit for
+  recent observational evidence the model has incorporated, but
+  significantly temper its known optimism."
+- **Cap = ±10 ppt per bucket.** Models can swing 30-50 ppt in single
+  monthly issuances when the state is rapidly evolving. Capping the
+  per-week deflection prevents the headline from seesawing; it puts
+  a hard ceiling on how far one week's update can move a bucket.
+
+**What this is not:**
+
+- Not a forecast of CPC's next issuance. The deflection captures
+  observational evidence accumulated since CPC's last issuance, not a
+  prediction of what CPC will say next.
+- Not a multi-model pool. CPC remains the source of the underlying
+  bin probabilities and methodology; SEAS5 is one bounded source of
+  weekly motion, not a co-equal forecast.
+- Not designed to maximize agreement with raw multi-model pools (e.g.,
+  the Climate Brink dashboard). The bounded deflection still leaves
+  the brief more conservative than a 13-model average, and that's
+  intentional.
+
+**Audit trail:** every headline number can be reconstructed from
+(`p_anchor`, `p_seas5`, `W`, `cap`), all of which are reported in the
+brief's caveat section per issue. A reviewer can replicate the math
+without access to private state.
+
 ### ECMWF SEAS5 cross-check
 
 ECMWF's SEAS5 produces 51 ensemble members per monthly forecast. For
@@ -380,10 +447,24 @@ median).
   El Niño shocks) removed for now; the brief stays in pure aggregator
   posture. "Macro and cross-cutting" paragraph also removed. Internal
   markdown brief renders the regions as linear h3 sections.
+- **1.5** (2026-05-10): Headline buckets now use a smoothed estimator
+  (CPC anchor with bounded SEAS5 deflection, weight = 0.2, cap = ±10
+  ppt per bucket per week) instead of the raw CPC probabilities alone.
+  The change addresses the brief's structural lag between CPC monthly
+  issuances: under v1.4, the headline was mathematically frozen for
+  4-5 weeks at a time; under v1.5, weekly observational evidence
+  embedded in SEAS5's evolving ensemble can move the headline within
+  bounded limits, while CPC remains the dominant source of the
+  underlying probability. For NDJ 2026-27 at v1.5 introduction (CPC
+  issued 2026-04-09, SEAS5 May run): the +2.5 °C bucket moves from a
+  raw CPC anchor of 25% to a smoothed 35% (deflection capped at +10
+  ppt against an unbounded SEAS5 signal of 75%).
 
 ---
 
-*Methodology version 1.4. RONI offset fetched live each week from CPC.
+*Methodology version 1.5. RONI offset fetched live each week from CPC.
 ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
 WWE forcing tracked via CWWA over 5N-5S, 130E-150W. Impact section
-renders as institutional aggregation only (no editorial synthesis).*
+renders as institutional aggregation only (no editorial synthesis).
+Headline buckets are CPC-anchored and deflected weekly by SEAS5
+ensemble evidence within bounded limits.*

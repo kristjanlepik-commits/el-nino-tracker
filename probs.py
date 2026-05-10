@@ -219,6 +219,81 @@ def cpc_headline_with_uncertainty(strength_table: dict, season: str = "NDJ 2026-
     }
 
 
+# ---- v1.5: smoothed headline (CPC anchor + bounded SEAS5 deflection) ----
+
+SMOOTHING_WEIGHT = 0.2     # SEAS5 contributes 20% of the gap to CPC's anchor
+SMOOTHING_CAP_PPT = 10.0   # max ±10 ppt deflection per bucket
+
+
+def _seas5_p_above(seas5_per_lead: list, threshold_oni: float) -> float | None:
+    """Fraction of SEAS5 ensemble members exceeding the threshold at the max
+    available lead, in traditional-ONI-equivalent terms.
+
+    SEAS5 ensemble anomalies are computed against SEAS5 model climatology,
+    which removes the model's mean ENSO warm bias. The resulting anomalies
+    are then read as observational-frame anomalies (degrees C above
+    observational climatology), so the threshold lookup is direct: no RONI
+    offset adjustment is applied. Returns None when per-lead data is
+    unavailable.
+    """
+    if not seas5_per_lead:
+        return None
+    headline = seas5_per_lead[-1]
+    members_above = headline.get("members_above", {})
+    member_count = headline.get("member_count")
+    if not members_above or not member_count:
+        return None
+    n_above = members_above.get(f"{threshold_oni:.1f}")
+    if n_above is None:
+        return None
+    return 100.0 * float(n_above) / float(member_count)
+
+
+def smoothed_headline_buckets(
+    strength_table: dict,
+    seas5_per_lead: list | None,
+    season: str = "NDJ 2026-27",
+    offset: float | None = None,
+    weight: float = SMOOTHING_WEIGHT,
+    cap_ppt: float = SMOOTHING_CAP_PPT,
+) -> dict:
+    """v1.5 headline: CPC anchor with bounded deflection from SEAS5.
+
+    For each bucket, deflection = clamp(weight * (p_seas5 - p_anchor),
+    -cap_ppt, +cap_ppt). Headline = clamp(p_anchor + deflection, 0, 100).
+    Returns a dict with mid, anchor, seas5, and deflection per bucket so the
+    brief can show the math.
+    """
+    if offset is None:
+        offset = S.RONI_TO_ONI_OFFSET
+    anchor = cpc_headline_buckets(strength_table, season, offset)
+    thresholds = {
+        "moderate_>1.0": 1.0,
+        "strong_>1.5":   1.5,
+        "super_>2.0":    2.0,
+        "9715_>2.5":     2.5,
+    }
+    out: dict = {}
+    for key, threshold in thresholds.items():
+        p_anchor = float(anchor[key])
+        p_seas5 = _seas5_p_above(seas5_per_lead, threshold) if seas5_per_lead else None
+        if p_seas5 is None:
+            out[key] = {"mid": int(round(p_anchor)),
+                        "anchor": int(round(p_anchor)),
+                        "seas5": None, "deflection": 0}
+            continue
+        raw = weight * (p_seas5 - p_anchor)
+        capped = max(-cap_ppt, min(cap_ppt, raw))
+        smoothed = max(0.0, min(100.0, p_anchor + capped))
+        out[key] = {
+            "mid": int(round(smoothed)),
+            "anchor": int(round(p_anchor)),
+            "seas5": int(round(p_seas5)),
+            "deflection": round(capped, 1),
+        }
+    return out
+
+
 if __name__ == "__main__":
     print("CPC RONI->trad headline buckets (NDJ 2026-27 peak):")
     for k, v in cpc_headline_with_uncertainty(S.CPC_STRENGTH_RONI).items():
