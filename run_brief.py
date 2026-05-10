@@ -340,9 +340,30 @@ PUBLIC_CSS = """
 
 
 def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str) -> str:
-    """One probability-ladder row."""
+    """One probability-ladder row.
+
+    v1.5 ladder: `mid` is the smoothed headline (CPC anchor + bounded SEAS5
+    deflection). When `anchor` and/or `deflection` are present (smoothed
+    estimator output), surface the breakdown inline so the reader can see
+    where the headline came from. Falls back to legacy `lo`/`hi` range
+    rendering if those keys are present (pre-v1.5 callers).
+    """
     extras = ""
-    if "lo" in pct_dict and "hi" in pct_dict:
+    if "anchor" in pct_dict:
+        anchor = pct_dict["anchor"]
+        deflection = pct_dict.get("deflection", 0)
+        if pct_dict.get("seas5") is None:
+            tail = f"CPC anchor {anchor}% (SEAS5 unavailable)"
+        elif deflection == 0:
+            tail = f"CPC anchor {anchor}%"
+        else:
+            sign = "+" if deflection > 0 else "−"
+            mag = abs(deflection)
+            mag_str = f"{mag:.1f}" if mag != int(mag) else f"{int(mag)}"
+            tail = f"CPC anchor {anchor}% {sign}{mag_str}pp from SEAS5"
+        extras = (f'<span class="sep">·</span>'
+                  f'<span class="range">{h(tail)}</span>')
+    elif "lo" in pct_dict and "hi" in pct_dict:
         extras = (f'<span class="sep">·</span>'
                   f'<span class="range">range {pct_dict["lo"]}–{pct_dict["hi"]}%</span>')
     return (
@@ -679,9 +700,16 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     hc_str = (f"{phys['heat_content_0_300m_estimate']:+.2f}°C" if hc_live
               else f"~{phys['heat_content_0_300m_estimate']:+.1f}°C (placeholder)")
 
-    # Caveat numbers
-    cpc_25_lo = headline["9715_>2.5"]["lo"]
-    cpc_25_hi = headline["9715_>2.5"]["hi"]
+    # Caveat numbers. v1.5: `headline` is the smoothed estimator output and
+    # no longer carries lo/hi; fetch the CPC anchor's bootstrap range
+    # separately for the +2.5 caveats. Smoothed mid + deflection come from
+    # the headline dict.
+    anchor_with_range = probs.cpc_headline_with_uncertainty(
+        fetched["cpc_strength"]["table"], "NDJ 2026-27", offset=offset)
+    cpc_25_lo = anchor_with_range["9715_>2.5"]["lo"]
+    cpc_25_hi = anchor_with_range["9715_>2.5"]["hi"]
+    smoothed_25_mid = headline["9715_>2.5"]["mid"]
+    smoothed_25_def = headline["9715_>2.5"].get("deflection", 0)
     seas5_25_n = ecmwf.get("members_above", {}).get("2.5", 0)
     seas5_n = ecmwf.get("member_count", 0) or 0
     seas5_25_pct = round(100 * seas5_25_n / seas5_n) if seas5_n else 0
@@ -737,9 +765,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         + _render_rung("strong",   "+1.5°C peak", headline["strong_>1.5"], "Strong")
         + _render_rung("moderate", "+1.0°C peak", headline["moderate_>1.0"], "At least moderate")
         + '</div>'
-        + f'<p class="buckets-note">Probabilities are CPC-derived after RONI→trad-ONI translation '
-          f'({offset_phrase}) and a skew-normal fit on CPC\'s nine-bin strength table. '
-          f'ECMWF SEAS5 ensemble counts are a second cross-check.</p>'
+        + f'<p class="buckets-note">Probabilities use the v1.5 smoothed estimator: a CPC-derived '
+          f'anchor ({offset_phrase}, skew-normal fit on the nine-bin strength table) plus a '
+          f'bounded SEAS5 deflection (W = 0.2, capped at ±10pp per bucket per week). Each rung shows '
+          f'the anchor and deflection separately; see <a href="{h(methodology_href)}">methodology</a> '
+          f'for the full math.</p>'
         + '</section>'
     )
 
@@ -855,17 +885,20 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '<section>'
         '<h2>Caveats this issue</h2>'
         '<ol class="caveats">'
-        f'<li>The +2.5°C bucket carries a {cpc_25_lo}–{cpc_25_hi}% range. It comes from a bootstrap '
-        f'that perturbs CPC\'s published bin probabilities by Gaussian noise (sigma 1 percentage point, '
-        f'matching CPC\'s whole-percent reporting precision) and refits the skew-normal each time. '
-        f'The range therefore reflects reporting-quantization uncertainty in CPC\'s table, not '
-        f'underlying forecast uncertainty.</li>'
-        f'<li>ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has {seas5_25_n}/{seas5_n} '
-        f'members ({seas5_25_pct}%) at {h(seas5_calendar)} (max available lead). CPC\'s NDJ 2026-27 '
-        f'bucket lands at {cpc_25_lo}–{cpc_25_hi}%. We subtract SEAS5\'s own model climatology, which '
-        f'removes its known ENSO warm bias; an observational-climatology subtraction would put '
-        f'SEAS5 higher still. Real disagreement to surface, not a number to average. For broader '
-        f'context, multi-model pools (e.g., the <a href="https://dashboard.theclimatebrink.com/#enso">'
+        f'<li>The CPC anchor for the +2.5°C bucket carries a {cpc_25_lo}–{cpc_25_hi}% range. It '
+        f'comes from a bootstrap that perturbs CPC\'s published bin probabilities by Gaussian '
+        f'noise (sigma 1 percentage point, matching CPC\'s whole-percent reporting precision) and '
+        f'refits the skew-normal each time. The range reflects reporting-quantization uncertainty '
+        f'in CPC\'s table, not underlying forecast uncertainty. The smoothed headline '
+        f'({smoothed_25_mid}%) sits above this anchor range because the bounded SEAS5 deflection '
+        f'(+{smoothed_25_def}pp this issue) lifts it.</li>'
+        f'<li>ECMWF SEAS5 vs CPC anchor on the upper tail above +2.5°C trad ONI: SEAS5 has '
+        f'{seas5_25_n}/{seas5_n} members ({seas5_25_pct}%) at {h(seas5_calendar)} (max available '
+        f'lead); the CPC anchor lands at {cpc_25_lo}–{cpc_25_hi}%. The v1.5 smoothing absorbs 20% '
+        f'of this gap (capped at ±10pp/week), moving the smoothed headline to {smoothed_25_mid}%. '
+        f'We subtract SEAS5\'s own model climatology, which removes its known ENSO warm bias; an '
+        f'observational-climatology subtraction would put SEAS5 higher still. For broader context, '
+        f'multi-model pools (e.g., the <a href="https://dashboard.theclimatebrink.com/#enso">'
         f'Climate Brink dashboard</a>\'s 13-model 637-member view) currently report a meaningfully '
         f'higher probability for the same threshold; the gap reflects CPC\'s analyst-correction vs '
         f'raw multi-model breadth, documented as methodology limitation #7.</li>'
@@ -1323,6 +1356,14 @@ def main():
     offset = fetched.get("roni_to_oni_offset", {}).get("value", S.RONI_TO_ONI_OFFSET)
     headline = probs.cpc_headline_with_uncertainty(
         fetched["cpc_strength"]["table"], "NDJ 2026-27", offset=offset)
+    # v1.5: smoothed headline (CPC anchor + bounded SEAS5 deflection) for
+    # the public ladder and the archive meta.json. Internal build_markdown
+    # computes its own smoothed locally; we keep the legacy `headline`
+    # variable above so editorial.generate keeps its current input shape.
+    seas5_per_lead = fetched.get("ecmwf_seas5", {}).get("per_lead", []) or []
+    headline_smoothed = probs.smoothed_headline_buckets(
+        fetched["cpc_strength"]["table"], seas5_per_lead,
+        "NDJ 2026-27", offset=offset)
     analyst_read_md = editorial.generate(
         headline=headline,
         diff=d,
@@ -1347,7 +1388,7 @@ def main():
     #    so links/social cards resolve correctly from each location.
     archive_rel = f"briefs/{S.BRIEF_DATE.isoformat()}/"
     public_html_index = build_public_html(
-        fetched, freshness, headline,
+        fetched, freshness, headline_smoothed,
         methodology_href="methodology.html",
         brief_date_iso=S.BRIEF_DATE.isoformat(),
         canonical_url=f"{PAGES_BASE_URL}/",
@@ -1355,7 +1396,7 @@ def main():
         world_map_href="world-map.svg",
     )
     public_html_archive = build_public_html(
-        fetched, freshness, headline,
+        fetched, freshness, headline_smoothed,
         methodology_href="../../methodology.html",
         brief_date_iso=S.BRIEF_DATE.isoformat(),
         canonical_url=f"{PAGES_BASE_URL}/{archive_rel}",
@@ -1374,7 +1415,10 @@ def main():
     shutil.copyfile(BRIEF_DIR / "analog.png", DOCS_BRIEF_DIR / "analog.png")
     (DOCS_BRIEF_DIR / "meta.json").write_text(json.dumps({
         "date": S.BRIEF_DATE.isoformat(),
-        "headline_buckets": headline,
+        # v1.5: full smoothed structure (mid + anchor + seas5 + deflection
+        # per bucket) so the archive index AND any future audit can
+        # reconstruct the headline math from this single artifact.
+        "headline_buckets": headline_smoothed,
     }, indent=2))
     print(f"wrote: {DOCS_BRIEF_DIR / 'meta.json'}")
 
