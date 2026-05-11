@@ -37,6 +37,8 @@ PAGES_BASE_URL = "https://kristjanlepik-commits.github.io/el-nino-tracker"
 GITHUB_REPO_URL = "https://github.com/kristjanlepik-commits/el-nino-tracker"
 AUTHOR_NAME = "Kristjan Lepik"
 AUTHOR_CONTACT_URL = "https://www.linkedin.com/in/kristjanlepik/"
+LICENSE_NAME = "CC BY-NC 4.0"
+LICENSE_URL = "https://creativecommons.org/licenses/by-nc/4.0/"
 
 
 PUBLIC_SOURCE_NAMES = {
@@ -934,6 +936,12 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<p class="footer-meta" style="margin-top:18px;">By '
         f'<a href="{h(AUTHOR_CONTACT_URL)}"><strong style="color:var(--text)">{h(AUTHOR_NAME)}</strong></a>. '
         f'Source on <a href="{h(GITHUB_REPO_URL)}">GitHub</a>.</p>'
+        f'<p class="footer-meta" style="margin-top:6px;">'
+        f'Licensed <a href="{h(LICENSE_URL)}">{h(LICENSE_NAME)}</a>. '
+        f'Cite as: Lepik, K. (2026). El Niño Tracker. '
+        f'<a href="{h(PAGES_BASE_URL)}/">kristjanlepik-commits.github.io/el-nino-tracker</a>. '
+        f'Free to share and quote with attribution; commercial reuse requires permission.'
+        f'</p>'
         '</footer>'
     )
 
