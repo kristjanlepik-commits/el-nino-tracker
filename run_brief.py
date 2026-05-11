@@ -36,6 +36,7 @@ import snapshot
 PAGES_BASE_URL = "https://kristjanlepik-commits.github.io/el-nino-tracker"
 GITHUB_REPO_URL = "https://github.com/kristjanlepik-commits/el-nino-tracker"
 AUTHOR_NAME = "Kristjan Lepik"
+AUTHOR_CONTACT_URL = "https://www.linkedin.com/in/kristjanlepik/"
 
 
 PUBLIC_SOURCE_NAMES = {
@@ -930,7 +931,8 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<p class="footer-meta">Methodology version {h(str(S.METHODOLOGY_VERSION))}. '
         f'RONI to traditional ONI offset {offset:+.2f}°C ({"live, week of " + offset_block["issued"] if offset_live else "seed"}). '
         f'See <a href="{h(methodology_href)}">methodology</a> for the full audit trail.</p>'
-        f'<p class="footer-meta" style="margin-top:18px;">By <strong style="color:var(--text)">{h(AUTHOR_NAME)}</strong>. '
+        f'<p class="footer-meta" style="margin-top:18px;">By '
+        f'<a href="{h(AUTHOR_CONTACT_URL)}"><strong style="color:var(--text)">{h(AUTHOR_NAME)}</strong></a>. '
         f'Source on <a href="{h(GITHUB_REPO_URL)}">GitHub</a>.</p>'
         '</footer>'
     )
