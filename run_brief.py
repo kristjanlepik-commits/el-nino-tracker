@@ -1187,10 +1187,17 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
         md.append(f"**CWWA note:** Live ERA5 daily 850 hPa zonal wind through "
                   f"{wwe_fresh.get('issued')}, area-meaned over 5N-5S, 130E-150W "
                   f"and integrated for positive (westerly) anomalies vs the "
-                  f"1991-2020 same-calendar-day climatology. Higher = more "
-                  f"cumulative westerly forcing on the equatorial Pacific, the "
-                  f"mechanism that excites downwelling Kelvin waves and drives "
-                  f"moderate-to-super event escalation. {ranking}")
+                  f"1991-2020 same-calendar-day climatology. {ranking} "
+                  f"Caveat: CWWA is a cumulative-area-mean metric and "
+                  f"systematically understates transient localized westerly "
+                  f"wind bursts, including those occurring just outside the "
+                  f"5N-5S band. A short intense burst can generate a "
+                  f"downwelling Kelvin wave that does substantial physical "
+                  f"work even when it barely moves the cumulative integral. "
+                  f"For the operational read on whether ENSO development is "
+                  f"on track, the surfacing-Kelvin-wave evidence in heat "
+                  f"content (above) is at least as informative as this "
+                  f"metric. Spatial-peak burst detection is queued for v1.6.")
     else:
         md.append(f"**CWWA note:** {phys.get('wwe_qualitative', '')}")
     md.append("")

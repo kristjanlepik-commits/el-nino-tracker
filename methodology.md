@@ -337,8 +337,40 @@ column.
    puts 2026 closest to 2023; the wide-band ranking puts it closest
    to 2015. This is not a band-choice problem but a real observation:
    2026's wind forcing has different latitudinal structure than the
-   2015 super event — broader but weaker at the equator. Worth
+   2015 super event, broader but weaker at the equator. Worth
    watching whether this convergence holds as the season develops.
+
+   **Follow-up from Daniel Swain (2026-05-10), reframing the
+   limitation more substantively.** The cumulative-area-mean
+   framing systematically understates the operationally important
+   signal: transient localized westerly wind bursts. A burst lasting
+   5 days at 7N (just outside the production band) generates a
+   downwelling Kelvin wave that propagates east and surfaces 2
+   months later, doing physical work that 50 days of weak equatorial
+   westerlies of the same area-integrated magnitude would not. CWWA
+   scores them similarly because cumulative integrals are blind to
+   burst structure.
+
+   This is a real metric-design limitation, not just a band-choice
+   issue. The right diagnostic for "did a Kelvin-wave-generating
+   burst occur in the basin" is **spatial-peak event detection**
+   (moving 5x10 deg sub-region area-mean exceeding a threshold with
+   persistence and continuity), not a fixed-domain cumulative
+   integral. That method (per Gemini's earlier WWE follow-up,
+   independently re-motivated by Swain's input) is being added
+   alongside CWWA as a parallel indicator in v1.6; CWWA is being
+   retained because the cumulative scalar is more comparable across
+   analog years than a discrete event count and because the metrics
+   capture complementary aspects of forcing.
+
+   For 2026 specifically, Swain's operational read: the surfacing
+   Kelvin wave (visible in heat content jumping +1.36 to +2.24 C in
+   one issue, exceeding 1997 and 2015 at this calendar week, and
+   record-breaking warm water volume in some datasets) is a more
+   meaningful indicator of ENSO trajectory than the CWWA cumulative.
+   The brief should weight ocean response signals (heat content,
+   subsurface Kelvin wave evidence) at least as heavily as the wind
+   metric.
 3. **Heat content climatology mismatch.** CPC's published heat content
    series uses a 1981-2010 climatology, while the rest of the brief uses
    1991-2020. Difference is small at current magnitudes (~0.1-0.3 °C)

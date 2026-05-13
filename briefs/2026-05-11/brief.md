@@ -19,8 +19,8 @@ Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) pl
 **Source-by-source check (qualitative where strength bins aren't broken out):**
 
 - NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%. Issued 2026-04-09.
-- IRI plume, DJF 2026-27: El Niño 88%, neutral 11%, La Niña 1%. Issued 2026-04-20. Strength not broken out in the public Quick Look.
-- BoM ENSO Outlook, issued 2026-04-28: Further warming in the tropical Pacific as models suggest El Niño by late winter. Categorical only.
+- IRI plume, DJF 2026-27: El Niño 90%, neutral 10%, La Niña 0%. Issued 2026-04-16. Strength not broken out in the public Quick Look.
+- BoM ENSO Outlook, issued 2026-05-12: Tropical Pacific continues to warm as models suggest a transition to El Niño during winter. Categorical only.
 - ECMWF SEAS5, run 2026-05-01: 51-member SEAS5 ensemble for 2026-11: median Niño 3.4 anomaly +2.68 deg C; 51/51 members above +1.5 (~100% above +2.0, ~75% above +2.5).
 
 **Caveats this issue:**
@@ -36,11 +36,11 @@ Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) pl
 | Niño 3.4 weekly (traditional) | +0.9°C | -0.1°C | +0.6°C |
 | Niño 3.4 weekly (RONI) | +0.4°C | n/a (pre-RONI) | n/a (pre-RONI) |
 | 0-300m heat content anomaly | +2.24°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
-| Cumulative westerly wind anomaly since Mar 1 | 150 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 326 | 274 |
+| Cumulative westerly wind anomaly since Mar 1 | 151 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 333 | 284 |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
 
-**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-06, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (150) tracks closest to 2023 (42); other reference years: 1997 (326), 2015 (274), 2025 (0).
+**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-08, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (151) tracks closest to 2023 (42); other reference years: 1997 (333), 2015 (284), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. Spatial-peak burst detection is queued for v1.6.
 
 ## 3. Analog tracker
 
@@ -92,7 +92,13 @@ The 2023-25 fourth global bleaching event already affects ~84% of world reefs (I
 
 ### What changed week-over-week
 
-**Unchanged since last issue:** cpc_strength, iri, ecmwf, bom.
+**New agency releases since last issue:**
+
+- **iri**: prior issued 2026-04-20, now issued 2026-04-16.
+    - DJF (LN, N, EN): (1, 11, 88) -> (0, 10, 90)
+- **bom**: prior issued 2026-04-28, now issued 2026-05-12.
+
+**Unchanged since last issue:** cpc_strength, ecmwf.
 
 **Physical state:** no numerical changes from last issue. (Either truly unchanged or weekly update has not been ingested.)
 
@@ -109,10 +115,10 @@ This week's brief was generated without analyst commentary because the editorial
 - **cpc_strength**: fetched live, issued 2026-04-09.
 - **oisst_weekly**: fetched live, issued 2026-05-06.
 - **heat_content**: fetched live, issued 2026-04-30.
-- **iri**: fetched live, issued 2026-04-20.
-- **bom**: fetched live, issued 2026-04-28.
+- **iri**: live fetch failed; using last-good cache (issued 2026-04-20). Error: 3-category table not found on page.
+- **bom**: fetched live, issued 2026-05-12.
 - **ecmwf_seas5**: fetched live, issued 2026-05-01.
-- **era5_wwe**: fetched live, issued 2026-05-06.
+- **era5_wwe**: fetched live, issued 2026-05-08.
 - **oni_history**: fetched live, issued 2026-04-30.
 
 ---

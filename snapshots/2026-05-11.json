@@ -1,17 +1,17 @@
 {
   "bom": {
-    "alert_status": "Further warming in the tropical Pacific as models suggest El Ni\u00f1o by late winter",
+    "alert_status": "Tropical Pacific continues to warm as models suggest a transition to El Ni\u00f1o during winter",
     "fallback_note": null,
-    "fetched_at": "2026-05-11T18:00:42+00:00",
-    "issued": "2026-04-28",
+    "fetched_at": "2026-05-13T20:30:01+00:00",
+    "issued": "2026-05-12",
     "ok": true,
-    "summary": "The El Ni\u00f1o\u2013Southern Oscillation (ENSO) is currently neutral. The latest relative Ni\u00f1o3.4 index value for the week ending 26 April 2026 is 0.23 \u00b0C, within the ENSO-neutral range (\u22120.80 to +0.80 \u00b0C). There has been substantial warming in this region in recent weeks with the index warming by 0.5 \u00b0C in the past fortnight. Recent warming in the sub-surface suggests further warming of SSTs is likely in the coming weeks.",
+    "summary": "The El Ni\u00f1o\u2013Southern Oscillation (ENSO) is currently neutral although there are signs of possible El Ni\u00f1o development. The latest relative Ni\u00f1o3.4 index value for the week ending 10 May 2026 is +0.52 \u00b0C, within the ENSO-neutral range (\u22120.80 to +0.80 \u00b0C). There has been substantial warming in this region in recent weeks, with the index warming by about 0.3 \u00b0C in the past fortnight and by 1.0 \u00b0C since early March. Significant warmth in the sub-surface suggests further warming of SSTs is likely in the coming weeks.",
     "used_fallback": false
   },
   "brief_date": "2026-05-11",
   "cpc_strength": {
     "fallback_note": null,
-    "fetched_at": "2026-05-11T18:00:36+00:00",
+    "fetched_at": "2026-05-13T20:29:53+00:00",
     "issued": "2026-04-09",
     "ok": true,
     "table": {
@@ -120,7 +120,7 @@
   "ecmwf": {
     "approx_p_above_2.5_oct": 0.5,
     "fallback_note": null,
-    "fetched_at": "2026-05-11T18:01:02+00:00",
+    "fetched_at": "2026-05-13T20:30:37+00:00",
     "issued": "2026-05-01",
     "max_lead_calendar": "2026-11",
     "max_lead_month": 6,
@@ -235,9 +235,9 @@
     "used_fallback": false
   },
   "iri": {
-    "fallback_note": null,
-    "fetched_at": "2026-05-11T18:00:41+00:00",
-    "issued": "2026-04-20",
+    "fallback_note": "seeded from sources.py",
+    "fetched_at": "2026-05-13T20:29:51+00:00",
+    "issued": "2026-04-16",
     "ok": true,
     "three_cat": {
       "AMJ 2026": [
@@ -247,23 +247,23 @@
       ],
       "ASO 2026": [
         0,
-        8,
-        92
+        7,
+        93
       ],
       "DJF 2026-27": [
-        1,
-        11,
-        88
+        0,
+        10,
+        90
       ],
       "JAS 2026": [
         0,
-        6,
-        94
+        8,
+        92
       ],
       "JJA 2026": [
         0,
-        8,
-        92
+        9,
+        91
       ],
       "MJJ 2026": [
         0,
@@ -271,22 +271,22 @@
         88
       ],
       "NDJ 2026-27": [
-        1,
-        11,
-        88
-      ],
-      "OND 2026": [
-        1,
-        9,
-        90
-      ],
-      "SON 2026": [
         0,
         8,
         92
+      ],
+      "OND 2026": [
+        0,
+        7,
+        93
+      ],
+      "SON 2026": [
+        0,
+        6,
+        94
       ]
     },
-    "used_fallback": false
+    "used_fallback": true
   },
   "methodology_version": "1.5",
   "nearest_cpc_season": "NDJ 2026-27",
@@ -3246,7 +3246,7 @@
       ]
     },
     "cwwa_domain": "5N-5S, 130E-150W",
-    "cwwa_ms_days": 149.66,
+    "cwwa_ms_days": 150.79,
     "cwwa_series": [
       [
         "2026-03-01",
@@ -3515,10 +3515,18 @@
       [
         "2026-05-06",
         149.6576690673828
+      ],
+      [
+        "2026-05-07",
+        150.7935791015625
+      ],
+      [
+        "2026-05-08",
+        150.7935791015625
       ]
     ],
     "fallback_note": null,
-    "fetched_at": "2026-05-11T18:00:35+00:00",
+    "fetched_at": "2026-05-13T20:29:51+00:00",
     "heat_content_0_300m_estimate": 2.24,
     "heat_content_qualitative": "Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.",
     "issued": "2026-05-06",
@@ -3532,7 +3540,7 @@
   "roni_to_oni_offset": 0.5,
   "roni_to_oni_offset_block": {
     "fallback_note": null,
-    "fetched_at": "2026-05-11T18:00:40+00:00",
+    "fetched_at": "2026-05-13T20:29:55+00:00",
     "issued": "2026-05-06",
     "used_fallback": false,
     "value": 0.5,
