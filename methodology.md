@@ -50,6 +50,7 @@ re-released this week" from "agency stale, we're carrying forward".
 | BoM ENSO outlook | Australian Bureau categorical alert + summary | Fortnightly |
 | ECMWF SEAS5 (via Copernicus CDS) | 51-member Niño 3.4 SST forecast, leads 1-6 | Monthly, ~5th |
 | ERA5 cumulative westerly wind anomaly (CWWA) | Cumulative positive 850 hPa zonal-wind anomaly since March 1, m/s · days | Continuous (5-day lag) |
+| ERA5 spatial-peak WWB events | Count + detail of westerly wind bursts (sliding 5x10 deg sub-region area-mean, dual threshold) | Continuous (5-day lag) |
 
 If a fetcher fails, the brief falls back to the last successful cache
 for that source, then to a hand-curated seed value, and surfaces the
@@ -208,6 +209,83 @@ bias.
 We use the model approach for the brief's headline numbers and note
 the observational comparison would shift the count higher in the
 caveat text.
+
+### Spatial-peak westerly wind burst detection (v1.6)
+
+CWWA (above) gives a smooth cumulative scalar but is blind to burst
+structure: a 5-day intense burst at 7N generates a Kelvin wave that
+50 days of weak equatorial westerlies of the same area-integrated
+magnitude would not, yet CWWA scores them similarly. v1.6 adds a
+complementary discrete-event indicator that captures the burst
+structure directly.
+
+Method (`fetchers/era5_burst.py`):
+
+1. Pull ERA5 daily 850 hPa zonal wind at 12 UTC over the wider domain
+   10N-10S, 130E-150W (broader than CWWA's 5N-5S, per Daniel Swain's
+   2026-05-10 observation that productive bursts often sit just
+   outside the equatorial band).
+2. Build a full-field 1991-2020 same-calendar-day climatology over
+   the same domain (chunked monthly, 30y x 1mo per CDS call, six
+   chunks total). Cached on disk; re-pulled only when invalidated.
+3. For each observation day, compute the full anomaly field
+   `obs(lat, lon) - clim(mmdd, lat, lon)`.
+4. Slide a 5deg lat x 10deg lon window over the anomaly field; the
+   day's "spatial peak" is the maximum area-mean anomaly across all
+   window positions (computed via `scipy.ndimage.uniform_filter`
+   for efficiency, with edge pixels masked to avoid biased edge
+   windows).
+5. From the daily-spatial-peak time series, detect events with a
+   dual threshold inspired by McPhaden 1999 and refined per Gemini's
+   earlier WWE follow-up:
+   - **Base:** spatial peak > 5 m/s sustained for > 5 consecutive days
+   - **Peak:** at least one day within the run must exceed 7 m/s
+
+The dual threshold filters persistent-but-weak westerly periods (which
+the base threshold alone would catch) from genuine bursts (which the
+peak threshold confirms). Each detected event carries start date, end
+date, duration, and peak amplitude.
+
+The fetcher returns the current-year event count plus full event
+detail (start/end/peak) for each analog year (1997, 2015, 2023, 2025),
+cached once and reused.
+
+**Relationship to CWWA.** CWWA and WWB are presented as
+complementary, not as a swap. CWWA remains useful for season-on-
+season comparisons (a smooth cumulative scalar). WWB is the
+operationally important diagnostic for "did a Kelvin-wave-generating
+burst occur." Brief readers see both numbers; the case where CWWA is
+low but WWB count is non-zero is exactly the methodologically
+interesting one Swain flagged.
+
+**Known limitation (queued for v1.7).** The current v1.6 detector
+counts "consecutive runs of days above threshold" as single events.
+During persistently westerly periods (e.g., extended MJO active
+phase + 1-2 distinct WWBs riding on it), this merges what are
+physically several distinct burst episodes into one long event. The
+1997 first detected event runs 71 days (Mar 1 to May 10) and the
+2015 first runs 104 days; in reality each of these contains 3-5
+distinct WWBs separated by quieter periods that don't quite drop
+below the 5 m/s threshold. The peak amplitude within the merged
+event (1997: 27.7 m/s, 2015: 29.5 m/s) is the strongest single day
+across all the merged sub-bursts. A v1.7 refinement should switch
+from run-detection to peak-detection: identify local maxima
+separated by a "recovery" interval (e.g., spatial peak < 2 m/s for
+at least 3 days) and count each maximum as a distinct event. Until
+then, the WWB count is an under-count and the event durations are
+upper bounds.
+
+**Calibration check.** For 2026 through 2026-05-08 the detector
+finds 2 events (a 53-day Mar 1 - Apr 22 episode peaking at 23.85
+m/s, plus an 8-day May 1-8 burst peaking at 9.86 m/s). The first
+corresponds operationally to the major Kelvin wave Swain
+referenced as "comparable to late-spring KWs associated with
+previous SEN events." At the same calendar date (events with start
+date <= 05-08): 1997 has 1, 2015 has 1, 2023 has 3, 2025 has 3.
+The narrow super-event analogs (1997, 2015) appear under-counted
+relative to 2023 and 2025 here partly because their forcing was
+dominated by single very long episodes that the run-detection
+treats as one event; this is exactly the v1.7-queued limitation.
 
 ## What is explicitly out of scope
 
@@ -525,12 +603,34 @@ median).
   issued 2026-04-09, SEAS5 May run): the +2.5 °C bucket moves from a
   raw CPC anchor of 25% to a smoothed 35% (deflection capped at +10
   ppt against an unbounded SEAS5 signal of 75%).
+- **1.6** (2026-05-11): Added spatial-peak westerly wind burst (WWB)
+  event detection alongside CWWA. Addresses the methodology limitation
+  surfaced by Daniel Swain on X (2026-05-10): CWWA is a cumulative-
+  area-mean and systematically understates transient localized bursts,
+  including those occurring just outside the 5N-5S CWWA band.
+
+  Implementation: new fetcher `fetchers/era5_burst.py`. For each day
+  in Mar-onward, slide a 5deg lat x 10deg lon window over the search
+  domain 10N-10S, 130E-150W (wider than CWWA's 5N-5S, per Swain's
+  point that productive bursts sit just outside the equator). The
+  per-day "spatial peak" is the maximum area-mean u_850 anomaly across
+  all window positions. Event detection then applies a dual threshold
+  (5 m/s sustained > 5 days, with at least one day > 7 m/s within the
+  event), following McPhaden 1999 + Gemini's earlier follow-up.
+
+  CWWA is retained as a complementary indicator: it remains the
+  smoother, more comparable-across-years cumulative scalar, useful
+  for season-on-season comparisons. WWB event count is the
+  burst-structure indicator, useful for "did a Kelvin-wave-generating
+  burst occur in the basin." The brief shows both in the physical-
+  state section.
 
 ---
 
-*Methodology version 1.5. RONI offset fetched live each week from CPC.
+*Methodology version 1.6. RONI offset fetched live each week from CPC.
 ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
-WWE forcing tracked via CWWA over 5N-5S, 130E-150W. Impact section
-renders as institutional aggregation only (no editorial synthesis).
-Headline buckets are CPC-anchored and deflected weekly by SEAS5
-ensemble evidence within bounded limits.*
+WWE forcing tracked via CWWA (5N-5S, 130E-150W cumulative) AND
+spatial-peak WWB detection (10N-10S, 130E-150W, McPhaden-inspired
+dual threshold). Impact section renders as institutional aggregation
+only (no editorial synthesis). Headline buckets are CPC-anchored and
+deflected weekly by SEAS5 ensemble evidence within bounded limits.*

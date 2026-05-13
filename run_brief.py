@@ -1197,10 +1197,48 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
                   f"For the operational read on whether ENSO development is "
                   f"on track, the surfacing-Kelvin-wave evidence in heat "
                   f"content (above) is at least as informative as this "
-                  f"metric. Spatial-peak burst detection is queued for v1.6.")
+                  f"metric. See the WWB row below for the spatial-peak "
+                  f"event count (v1.6, complementary to CWWA).")
     else:
         md.append(f"**CWWA note:** {phys.get('wwe_qualitative', '')}")
     md.append("")
+
+    # Spatial-peak WWB row (methodology v1.6, complement to CWWA)
+    wwb_count = phys.get("wwb_events_since_mar1")
+    wwb_analogs_raw = phys.get("wwb_analogs", {})
+    if wwb_count is not None:
+        # Filter analog events to those that started before today's calendar
+        # date in each respective year (so 1997 events Mar 1 - May 11, etc.)
+        target_md = (wwe_fresh.get("issued") or "")[5:]
+        analog_counts = {}
+        for yr_key, events in (wwb_analogs_raw or {}).items():
+            try:
+                yr = int(yr_key)
+            except (TypeError, ValueError):
+                continue
+            if not target_md:
+                analog_counts[yr] = len(events)
+            else:
+                analog_counts[yr] = sum(
+                    1 for e in events if e.get("start", "")[5:] <= target_md
+                )
+        analog_str = ", ".join(
+            f"{y} ({analog_counts[y]})" for y in sorted(analog_counts)
+        )
+        md.append(f"**WWB events (spatial-peak detection, v1.6):** "
+                  f"{wwb_count} westerly wind burst event"
+                  f"{'s' if wwb_count != 1 else ''} detected since Mar 1, "
+                  f"2026. Detection: sliding 5x10 deg sub-region area-mean "
+                  f"anomaly over 10N-10S, 130E-150W; dual threshold (5 m/s "
+                  f"sustained > 5 days, with peak day > 7 m/s within the "
+                  f"event). Analogs (events to same calendar date): "
+                  f"{analog_str}.")
+        if phys.get("wwb_events_detail"):
+            for e in phys["wwb_events_detail"]:
+                md.append(f"  - {e.get('start')} to {e.get('end')}, "
+                          f"{e.get('duration_days')} days, peak "
+                          f"{e.get('peak_ms')} m/s")
+        md.append("")
 
     # --------- Section 3: Analog tracker ---------
     md.append("## 3. Analog tracker")

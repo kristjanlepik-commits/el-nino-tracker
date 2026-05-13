@@ -19,7 +19,7 @@ from typing import Any
 from fetchers._common import safe_fetch, FetchResult, now_iso
 from fetchers import (
     cpc_strength, oisst_weekly, heat_content, iri, bom,
-    ecmwf_seas5, era5_wwe, oni_history,
+    ecmwf_seas5, era5_wwe, era5_burst, oni_history,
 )
 
 import sources as S   # used as seed/fallback
@@ -99,6 +99,8 @@ def fetch_all() -> dict:
                                     timeout_seconds=25 * 60),
         "era5_wwe":      safe_fetch("era5_wwe", era5_wwe.fetch,
                                     timeout_seconds=25 * 60),
+        "era5_burst":    safe_fetch("era5_burst", era5_burst.fetch,
+                                    timeout_seconds=30 * 60),
         "oni_history":   safe_fetch("oni_history", oni_history.fetch),
     }
 
@@ -184,6 +186,14 @@ def fetch_all() -> dict:
         elif wp.get("wwe_count_since_mar1") is not None:
             # Legacy payload from old caches.
             phys["wwe_count_since_mar1_estimate"] = wp["wwe_count_since_mar1"]
+
+    # Spatial-peak WWB detection (methodology v1.6, complement to CWWA).
+    if results["era5_burst"].ok and not results["era5_burst"].used_fallback:
+        bp = results["era5_burst"].payload
+        phys["wwb_events_since_mar1"] = bp.get("events_since_mar1")
+        phys["wwb_events_detail"] = bp.get("events_detail", [])
+        phys["wwb_analogs"] = bp.get("analogs", {})
+        phys["wwb_domain"] = bp.get("domain")
 
     # ONI history is consumed only by analog.py to keep current-year ONI
     # rows up to date with CPC's latest publication.
