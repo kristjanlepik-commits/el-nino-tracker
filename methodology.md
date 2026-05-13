@@ -305,6 +305,40 @@ column.
    cumulative integral does not preserve which dates carried most of
    the forcing, only the running total. A discrete spatial-peak event
    count (Gemini's full method per WWE follow-up) is on the V2 list.
+
+   **Latitude-band sensitivity check (2026-05-09).** An external
+   reviewer flagged that some of the most anomalous westerlies sit
+   slightly off-equator and asked whether the 5N-5S band understates
+   forcing. We computed CWWA at 10N-10S for the same domain for 1997,
+   2015, 2023, 2025, and 2026 develop years (one-off script at
+   `scripts/cwwa_sensitivity.py`; pulls cached at `.fetch_cache/era5_cwwa_*_10NS*`).
+
+   Result: the wider band *reduces* the super-event CWWA values, not
+   raises them. At May 1 of the develop year: 1997 narrow 306 → wide
+   237 (−22%); 2015 narrow 248 → wide 177 (−29%); 2023 narrow 42 →
+   wide 49 (+16% but small absolute); 2026 narrow 137 → wide 121 (−12%).
+   The full-season totals (end-of-August) show the same pattern.
+   Physical interpretation: westerly wind bursts during super-event
+   development are equatorially confined within roughly ±3-5° latitude;
+   subequatorial bands (5-10°N and 5-10°S) are typically neutral-to-
+   easterly during ENSO development, so averaging the wider band
+   dilutes the dynamically relevant signal rather than capturing more
+   of it. The narrow band correctly isolates the Kelvin-wave forcing
+   region.
+
+   Conclusion: keep production at 5N-5S. McPhaden 1999 alignment plus
+   the Kelvin-wave physics both argue for the narrow band. No
+   methodology version change.
+
+   Noteworthy side finding: the wider band changes 2026's "closest
+   analog" assessment. 2015's forcing was tightly equatorially
+   confined (loses 29% when widening), while 2026's is more
+   latitudinally diffuse (loses only 12%). The narrow-band ranking
+   puts 2026 closest to 2023; the wide-band ranking puts it closest
+   to 2015. This is not a band-choice problem but a real observation:
+   2026's wind forcing has different latitudinal structure than the
+   2015 super event — broader but weaker at the equator. Worth
+   watching whether this convergence holds as the season develops.
 3. **Heat content climatology mismatch.** CPC's published heat content
    series uses a 1981-2010 climatology, while the rest of the brief uses
    1991-2020. Difference is small at current magnitudes (~0.1-0.3 °C)
