@@ -5,3 +5,5 @@ __pycache__/
 .fetch_cache/
 *.egg-info/
 .DS_Store
+# Preview briefs (run_brief.py --preview) are mid-week throwaway outputs.
+briefs/*-preview/

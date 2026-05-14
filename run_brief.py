@@ -999,9 +999,9 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             + '\n</main>\n</body>\n</html>\n')
 
 
-BRIEF_DIR = Path(__file__).parent / "briefs" / S.BRIEF_DATE.isoformat()
 DOCS_DIR = Path(__file__).parent / "docs"
-DOCS_BRIEF_DIR = DOCS_DIR / "briefs" / S.BRIEF_DATE.isoformat()
+# brief_dir and docs_brief_dir are computed inside main() so they can be
+# overridden by --date and --preview CLI args.
 
 
 def _wwb_analyst_read(current_events: list[dict], analogs: dict,
@@ -1534,23 +1534,58 @@ def main():
               "and docs/briefs/YYYY-MM-DD/ as published; methodology or "
               "prose changes only land in subsequent issues."),
     )
+    parser.add_argument(
+        "--date",
+        help=("Target brief date in YYYY-MM-DD form. Defaults to today's "
+              "most-recent Monday (the production cron behavior). Useful "
+              "with --preview to render a future Monday's brief from "
+              "current live data."),
+    )
+    parser.add_argument(
+        "--preview", action="store_true",
+        help=("Preview mode. Writes to briefs/<date>-preview/ instead of "
+              "briefs/<date>/, skips docs/ regeneration, skips snapshot "
+              "save, and bypasses the archive-immutability check. Use to "
+              "see how a future Monday's brief would look from current "
+              "live data without disturbing the production archive or "
+              "the diffing snapshot history."),
+    )
     args = parser.parse_args()
 
-    # Archive immutability: once a Monday's brief is written, it stays that
-    # Monday's brief. Methodology improvements, prose tweaks, or any other
-    # changes apply only to subsequent issues. The first run for a given
-    # Monday (typically the cron at 13:00 UTC) wins; later within-week
-    # regenerations are a no-op unless --force is passed.
-    archive_marker = DOCS_BRIEF_DIR / "index.html"
-    if archive_marker.exists() and not args.force:
-        print(f"Archive {DOCS_BRIEF_DIR.relative_to(Path(__file__).parent)} "
-              f"exists and is preserved as published.")
-        print(f"Methodology / prose changes apply to subsequent issues. "
-              f"Pass --force only when explicitly fixing a published archive.")
-        return
+    # Resolve target brief date. Monkey-patch sources.BRIEF_DATE so that
+    # downstream functions reading S.BRIEF_DATE (snapshot.current_snapshot,
+    # build_markdown header, render_html title, build_public_html, etc.)
+    # see the override without needing function-signature changes.
+    if args.date:
+        S.BRIEF_DATE = date.fromisoformat(args.date)
+    date_iso = S.BRIEF_DATE.isoformat()
 
-    BRIEF_DIR.mkdir(parents=True, exist_ok=True)
-    DOCS_BRIEF_DIR.mkdir(parents=True, exist_ok=True)
+    # Output directories. Preview mode lands at briefs/<date>-preview/ so
+    # it cannot collide with the production briefs/<date>/ artifact.
+    brief_dir = Path(__file__).parent / "briefs" / (
+        f"{date_iso}-preview" if args.preview else date_iso
+    )
+    docs_brief_dir = DOCS_DIR / "briefs" / date_iso
+
+    # Archive immutability: once a Monday's brief is written, it stays
+    # that Monday's brief. Methodology improvements, prose tweaks, or
+    # any other changes apply only to subsequent issues. The first run
+    # for a given Monday (typically the cron at 13:00 UTC) wins; later
+    # within-week regenerations are a no-op unless --force is passed.
+    # Preview mode bypasses this check (preview output is always
+    # regenerated and never overwrites the production archive).
+    if not args.preview:
+        archive_marker = docs_brief_dir / "index.html"
+        if archive_marker.exists() and not args.force:
+            print(f"Archive {docs_brief_dir.relative_to(Path(__file__).parent)} "
+                  f"exists and is preserved as published.")
+            print(f"Methodology / prose changes apply to subsequent issues. "
+                  f"Pass --force only when explicitly fixing a published archive.")
+            return
+
+    brief_dir.mkdir(parents=True, exist_ok=True)
+    if not args.preview:
+        docs_brief_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. Run all fetchers (with fallback to cache / sources.py seeds)
     import fetch_all as F
@@ -1567,20 +1602,26 @@ def main():
         }
     today_offset = (S.BRIEF_DATE.toordinal() - date(S.BRIEF_DATE.year, 3, 1).toordinal()) / 30.44
     live_oni_by_year = fetched.get("oni_history", {}).get("by_year") or None
-    analog.plot(str(BRIEF_DIR / "analog.png"),
+    analog.plot(str(brief_dir / "analog.png"),
                 cwwa_data=cwwa_data,
                 seas5_per_lead=fetched.get("ecmwf_seas5", {}).get("per_lead"),
                 current_develop_year=S.BRIEF_DATE.year,
                 today_offset=today_offset,
                 live_oni_by_year=live_oni_by_year)
 
-    # 3. Snapshot current inputs and diff against last issue
+    # 3. Snapshot current inputs and diff against last issue. The
+    # snapshot file is the source of truth for next week's diff, so we
+    # do NOT write it in preview mode (a preview run otherwise
+    # corrupts the production diff history).
     snap = snapshot.current_snapshot(fetched)
     prev = snapshot.load_prior_snapshot(before=S.BRIEF_DATE)
     d = snapshot.diff(prev, snap)
     diff_md = snapshot.render_diff_markdown(d)
-    snap_path = snapshot.save_snapshot(snap)
-    print(f"snapshot: {snap_path}")
+    if not args.preview:
+        snap_path = snapshot.save_snapshot(snap)
+        print(f"snapshot: {snap_path}")
+    else:
+        print("(preview) snapshot not saved")
 
     # 4. Auto-generate the Analyst Read prose (internal only)
     import editorial
@@ -1606,13 +1647,20 @@ def main():
     # 5. Internal brief: markdown and HTML (unchanged outputs in briefs/)
     md_text = build_markdown(fetched, diff_md, freshness, analyst_read_md,
                              diff_obj=d, audience="internal")
-    out_md = BRIEF_DIR / "brief.md"
+    out_md = brief_dir / "brief.md"
     out_md.write_text(md_text)
     print(f"wrote: {out_md}")
-    out_html = BRIEF_DIR / "brief.html"
+    out_html = brief_dir / "brief.html"
     out_html.write_text(render_html(md_text))
     print(f"wrote: {out_html}")
-    print(f"wrote: {BRIEF_DIR / 'analog.png'}")
+    print(f"wrote: {brief_dir / 'analog.png'}")
+
+    # In preview mode we stop here: docs/ regeneration and archive
+    # index are production-side concerns we don't want to disturb.
+    if args.preview:
+        print(f"(preview) docs/ regeneration skipped; "
+              f"preview output at briefs/{brief_dir.name}/")
+        return
 
     # 6. Public brief: structured-HTML render (bypasses markdown for the public
     #    path). Different methodology_href and og_image_url for index vs archive
@@ -1640,18 +1688,18 @@ def main():
     print(f"wrote: {DOCS_DIR / 'index.html'}")
     # Write as index.html so GitHub Pages serves the brief on the bare
     # directory URL (briefs/YYYY-MM-DD/) without a 404.
-    (DOCS_BRIEF_DIR / "index.html").write_text(public_html_archive)
-    print(f"wrote: {DOCS_BRIEF_DIR / 'index.html'}")
-    shutil.copyfile(BRIEF_DIR / "analog.png", DOCS_DIR / "analog.png")
-    shutil.copyfile(BRIEF_DIR / "analog.png", DOCS_BRIEF_DIR / "analog.png")
-    (DOCS_BRIEF_DIR / "meta.json").write_text(json.dumps({
+    (docs_brief_dir / "index.html").write_text(public_html_archive)
+    print(f"wrote: {docs_brief_dir / 'index.html'}")
+    shutil.copyfile(brief_dir / "analog.png", DOCS_DIR / "analog.png")
+    shutil.copyfile(brief_dir / "analog.png", docs_brief_dir / "analog.png")
+    (docs_brief_dir / "meta.json").write_text(json.dumps({
         "date": S.BRIEF_DATE.isoformat(),
         # v1.5: full smoothed structure (mid + anchor + seas5 + deflection
         # per bucket) so the archive index AND any future audit can
         # reconstruct the headline math from this single artifact.
         "headline_buckets": headline_smoothed,
     }, indent=2))
-    print(f"wrote: {DOCS_BRIEF_DIR / 'meta.json'}")
+    print(f"wrote: {docs_brief_dir / 'meta.json'}")
 
     # 7. Archive index (regenerated each run from meta.json files)
     archive_md = build_archive_index()
