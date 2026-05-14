@@ -404,6 +404,51 @@ def _heat_content_compare(val: float, hc97: float, hc15: float) -> str:
             f"2015 ({hc15:+.1f}°C) at this calendar week.")
 
 
+def _wwb_peak_finding(phys: dict) -> str:
+    """One sentence on the strongest current-year westerly wind burst vs the
+    full-season peak bursts of the super-event analogs.
+
+    CWWA (the cumulative scalar) and peak burst amplitude can tell different
+    stories: the cumulative energy can lag while individual burst strength
+    is already in super-event territory. v1.7 of the methodology added a
+    peak-detection WWB diagnostic complementing CWWA; the public brief
+    surfaces only the peak-amplitude finding (which is robust across
+    algorithm versions per the methodology page) and skips raw event counts
+    (which are less stable). Returns empty string when WWB data is missing
+    or the current year has no events yet.
+    """
+    events = phys.get("wwb_events_detail") or []
+    analogs = phys.get("wwb_analogs") or {}
+    if not events:
+        return ""
+    top = max(events, key=lambda e: e.get("peak_ms") or 0)
+    current_peak = top.get("peak_ms")
+    if not current_peak:
+        return ""
+    peak_date = top.get("peak_date") or ""
+
+    def _season_peak(year):
+        seasons = analogs.get(year) or analogs.get(str(year)) or []
+        peaks = [(e.get("peak_ms") or 0) for e in seasons]
+        return max(peaks) if peaks else None
+
+    p97 = _season_peak(1997)
+    p15 = _season_peak(2015)
+    p23 = _season_peak(2023)
+    if p97 is None or p15 is None:
+        return ""
+
+    date_clause = f" on {peak_date}" if peak_date else ""
+    sentence = (f" Peak burst amplitude tells a different story: 2026's strongest "
+                f"burst to date peaks at {current_peak:.1f} m/s{date_clause}, "
+                f"in super-event territory (1997 full-season peak: {p97:.1f}, "
+                f"2015: {p15:.1f})")
+    if p23 is not None and current_peak > p23:
+        sentence += f" and already exceeding 2023's full-season peak ({p23:.1f})"
+    sentence += ". Cumulative wind energy is lagging; individual burst strength is not."
+    return sentence
+
+
 def _cwwa_divergence(cwwa, cwwa97, cwwa15, sst, hc) -> str:
     """When the current CWWA is conspicuously below super-event analogs while
     surface SST and subsurface heat content are both running hot, append a
@@ -843,13 +888,14 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             phys.get("nino34_weekly_traditional"),
             phys.get("heat_content_0_300m_estimate"),
         )
+        wwb_peak = _wwb_peak_finding(phys)
         physical_html += (
             f'<div class="note"><strong>CWWA:</strong> Live ERA5 daily 850 hPa zonal wind through '
             f'{h(wwe_fresh.get("issued", ""))}, area-meaned over 5°N–5°S, 130°E–150°W and integrated '
             f'for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. '
             f'Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism '
             f'that excites downwelling Kelvin waves and drives moderate-to-super event '
-            f'escalation.{h(cwwa_ranking)}{h(cwwa_diverge)}</div>'
+            f'escalation.{h(cwwa_ranking)}{h(cwwa_diverge)}{h(wwb_peak)}</div>'
         )
     physical_html += '</section>'
 

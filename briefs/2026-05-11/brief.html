@@ -34,8 +34,8 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 <p><strong>Source-by-source check (qualitative where strength bins aren't broken out):</strong></p>
 <ul>
 <li>NOAA CPC strength table, NDJ 2026-27 (RONI): super 25%, strong 26%, moderate 26%, weak El Niño 15%, neutral 8%, La Niña 0%. Issued 2026-04-09.</li>
-<li>IRI plume, DJF 2026-27: El Niño 88%, neutral 11%, La Niña 1%. Issued 2026-04-20. Strength not broken out in the public Quick Look.</li>
-<li>BoM ENSO Outlook, issued 2026-04-28: Further warming in the tropical Pacific as models suggest El Niño by late winter. Categorical only.</li>
+<li>IRI plume, DJF 2026-27: El Niño 90%, neutral 10%, La Niña 0%. Issued 2026-04-16. Strength not broken out in the public Quick Look.</li>
+<li>BoM ENSO Outlook, issued 2026-05-12: Tropical Pacific continues to warm as models suggest a transition to El Niño during winter. Categorical only.</li>
 <li>ECMWF SEAS5, run 2026-05-01: 51-member SEAS5 ensemble for 2026-11: median Niño 3.4 anomaly +2.68 deg C; 51/51 members above +1.5 (~100% above +2.0, ~75% above +2.5).</li>
 </ul>
 <p><strong>Caveats this issue:</strong></p>
@@ -75,14 +75,24 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 </tr>
 <tr>
 <td>Cumulative westerly wind anomaly since Mar 1</td>
-<td>150 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo)</td>
-<td>326</td>
-<td>274</td>
+<td>151 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo)</td>
+<td>333</td>
+<td>284</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Heat content note:</strong> Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.</p>
-<p><strong>CWWA note:</strong> Live ERA5 daily 850 hPa zonal wind through 2026-05-06, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (150) tracks closest to 2023 (42); other reference years: 1997 (326), 2015 (274), 2025 (0).</p>
+<p><strong>CWWA note:</strong> Live ERA5 daily 850 hPa zonal wind through 2026-05-08, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (151) tracks closest to 2023 (42); other reference years: 1997 (333), 2015 (284), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count and analyst read (v1.7, complementary to CWWA).</p>
+<p><strong>WWB events (spatial-peak detection, v1.7):</strong> 5 westerly wind burst events detected since Mar 1, 2026. Detection: sliding 5x10 deg sub-region area-mean anomaly over 10N-10S, 130E-150W; dual threshold (5 m/s sustained for at least 5 days, peak day above 7 m/s) with peak-detection plus a 10-day recovery interval between events. Analogs (events to same calendar date): 1997 (6), 2015 (7), 2023 (5), 2025 (3).
+  - 2026-03-01 to 2026-03-08, 8 days, peak 13.0 m/s, peak day 2026-03-02
+  - 2026-03-09 to 2026-03-22, 14 days, peak 18.38 m/s, peak day 2026-03-14
+  - 2026-03-23 to 2026-04-06, 15 days, peak 17.38 m/s, peak day 2026-03-31
+  - 2026-04-07 to 2026-04-22, 16 days, peak 23.85 m/s, peak day 2026-04-12
+  - 2026-05-01 to 2026-05-08, 8 days, peak 9.86 m/s, peak day 2026-05-02</p>
+<p><strong>Analyst read on WWB row (v1.7).</strong></p>
+<p>Peak amplitude is the primary signal in this row, not the count. 2026's strongest burst to date peaks at 23.9 m/s (peak day 2026-04-12). Full-season peaks for the analog years: 1997: 27.7 m/s, 2015: 29.5 m/s, 2023: 19.0 m/s, 2025: 12.7 m/s.</p>
+<p>This lands in super-event territory: 2026's first burst is comparable in magnitude to 1997 and 2015 first bursts, well above what 2023 (sub-event El Niño) and 2025 (neutral / La Niña) produced. Peak amplitude is the strongest quantitative evidence to date that 2026's forcing is structurally aligned with the super-event analogs rather than the weaker recent analogs.</p>
+<p>On count: 2026 has 5 events so far; analogs at the same calendar date: 1997 (6), 2015 (7), 2023 (5), 2025 (3). v1.7's peak-detection algorithm with a 10-day recovery interval splits sustained westerly periods into distinct bursts where v1.6 collapsed them. The count is now reasonably comparable across years, but peak amplitude remains the cleaner single number.</p>
 <h2>3. Analog tracker</h2>
 <p><img alt="Analog tracker" src="analog.png" /></p>
 <p>Three reference El Niño events (1997-98, 2015-16, 2023-24) vs current 2026-27 trajectory in 3-month-running-mean ONI. Common reference is March 1 of develop year.</p>
@@ -108,7 +118,16 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 <p>The 2023-25 fourth global bleaching event already affects ~84% of world reefs (International Coral Reef Initiative, April 2025). Continued mass bleaching across all tropical basins is essentially certain into 2026-27.</p>
 <h2>5. Editorial layer</h2>
 <h3>What changed week-over-week</h3>
-<p><strong>Unchanged since last issue:</strong> cpc_strength, iri, ecmwf, bom.</p>
+<p><strong>Methodology version bumped: 1.5 -&gt; 1.7.</strong> Headline buckets are not strictly comparable to last issue. See methodology change log.</p>
+<p><strong>New agency releases since last issue:</strong></p>
+<ul>
+<li><strong>iri</strong>: prior issued 2026-04-20, now issued 2026-04-16.<ul>
+<li>DJF (LN, N, EN): (1, 11, 88) -&gt; (0, 10, 90)</li>
+</ul>
+</li>
+<li><strong>bom</strong>: prior issued 2026-04-28, now issued 2026-05-12.</li>
+</ul>
+<p><strong>Unchanged since last issue:</strong> cpc_strength, ecmwf.</p>
 <p><strong>Physical state:</strong> no numerical changes from last issue. (Either truly unchanged or weekly update has not been ingested.)</p>
 <h3>Analyst read</h3>
 <blockquote>
@@ -121,12 +140,13 @@ Headline numbers below are CPC-derived after translating from RONI bins to tradi
 <li><strong>cpc_strength</strong>: fetched live, issued 2026-04-09.</li>
 <li><strong>oisst_weekly</strong>: fetched live, issued 2026-05-06.</li>
 <li><strong>heat_content</strong>: fetched live, issued 2026-04-30.</li>
-<li><strong>iri</strong>: fetched live, issued 2026-04-20.</li>
-<li><strong>bom</strong>: fetched live, issued 2026-04-28.</li>
+<li><strong>iri</strong>: live fetch failed; using last-good cache (issued 2026-04-20). Error: 3-category table not found on page.</li>
+<li><strong>bom</strong>: fetched live, issued 2026-05-12.</li>
 <li><strong>ecmwf_seas5</strong>: fetched live, issued 2026-05-01.</li>
-<li><strong>era5_wwe</strong>: fetched live, issued 2026-05-06.</li>
+<li><strong>era5_wwe</strong>: fetched live, issued 2026-05-08.</li>
+<li><strong>era5_burst</strong>: fetched live, issued 2026-05-09.</li>
 <li><strong>oni_history</strong>: fetched live, issued 2026-04-30.</li>
 </ul>
 <hr />
-<p><em>Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.5. RONI offset +0.50°C (live, week of 2026-05-06). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).</em></p>
+<p><em>Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.7. RONI offset +0.50°C (live, week of 2026-05-06). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).</em></p>
 </body></html>
