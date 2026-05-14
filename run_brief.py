@@ -19,6 +19,7 @@ prose is the ceiling.
 
 from __future__ import annotations
 
+import argparse
 from datetime import date
 from html import escape as h
 import json
@@ -1524,6 +1525,30 @@ def build_archive_index() -> str:
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="Generate the weekly El Niño brief.")
+    parser.add_argument(
+        "--force", action="store_true",
+        help=("Overwrite this week's archive even if it already exists. "
+              "Default behavior preserves any existing briefs/YYYY-MM-DD/ "
+              "and docs/briefs/YYYY-MM-DD/ as published; methodology or "
+              "prose changes only land in subsequent issues."),
+    )
+    args = parser.parse_args()
+
+    # Archive immutability: once a Monday's brief is written, it stays that
+    # Monday's brief. Methodology improvements, prose tweaks, or any other
+    # changes apply only to subsequent issues. The first run for a given
+    # Monday (typically the cron at 13:00 UTC) wins; later within-week
+    # regenerations are a no-op unless --force is passed.
+    archive_marker = DOCS_BRIEF_DIR / "index.html"
+    if archive_marker.exists() and not args.force:
+        print(f"Archive {DOCS_BRIEF_DIR.relative_to(Path(__file__).parent)} "
+              f"exists and is preserved as published.")
+        print(f"Methodology / prose changes apply to subsequent issues. "
+              f"Pass --force only when explicitly fixing a published archive.")
+        return
+
     BRIEF_DIR.mkdir(parents=True, exist_ok=True)
     DOCS_BRIEF_DIR.mkdir(parents=True, exist_ok=True)
 

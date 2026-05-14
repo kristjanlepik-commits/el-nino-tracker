@@ -164,7 +164,17 @@ audience framing, is public.**
 4. **Snapshots are immutable.** They're the audit trail. If you need
    to fix one, write a new one with a later date, never edit the old.
 
-5. **No em-dashes anywhere.** Run `grep -rnP '\xe2\x80\x94' .` after every change; it should return 0 hits.
+5. **Past archives are immutable.** A brief, once written for a given
+   Monday, IS that Monday's brief. Methodology improvements, prose
+   tweaks, new dynamic sentences, or any other change apply only to
+   subsequent issues. `run_brief.py` enforces this: if
+   `docs/briefs/YYYY-MM-DD/index.html` already exists, it exits early
+   and writes nothing. Use `--force` only to fix a published archive
+   in genuine emergencies (factual error, broken link, etc.). The
+   front page `docs/index.html` and `docs/briefs/YYYY-MM-DD/` move
+   together — when the archive freezes, so does the front page.
+
+6. **No em-dashes anywhere.** Run `grep -rnP '\xe2\x80\x94' .` after every change; it should return 0 hits.
 
 ## How the brief gets to Kristjan each Monday
 
