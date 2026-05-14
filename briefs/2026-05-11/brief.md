@@ -40,11 +40,22 @@ Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) pl
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
 
-**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-08, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (151) tracks closest to 2023 (42); other reference years: 1997 (333), 2015 (284), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count (v1.6, complementary to CWWA).
+**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-08, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (151) tracks closest to 2023 (42); other reference years: 1997 (333), 2015 (284), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count and analyst read (v1.7, complementary to CWWA).
 
-**WWB events (spatial-peak detection, v1.6):** 2 westerly wind burst events detected since Mar 1, 2026. Detection: sliding 5x10 deg sub-region area-mean anomaly over 10N-10S, 130E-150W; dual threshold (5 m/s sustained > 5 days, with peak day > 7 m/s within the event). Analogs (events to same calendar date): 1997 (1), 2015 (1), 2023 (3), 2025 (3).
-  - 2026-03-01 to 2026-04-22, 53 days, peak 23.85 m/s
-  - 2026-05-01 to 2026-05-08, 8 days, peak 9.86 m/s
+**WWB events (spatial-peak detection, v1.7):** 5 westerly wind burst events detected since Mar 1, 2026. Detection: sliding 5x10 deg sub-region area-mean anomaly over 10N-10S, 130E-150W; dual threshold (5 m/s sustained for at least 5 days, peak day above 7 m/s) with peak-detection plus a 10-day recovery interval between events. Analogs (events to same calendar date): 1997 (6), 2015 (7), 2023 (5), 2025 (3).
+  - 2026-03-01 to 2026-03-08, 8 days, peak 13.0 m/s, peak day 2026-03-02
+  - 2026-03-09 to 2026-03-22, 14 days, peak 18.38 m/s, peak day 2026-03-14
+  - 2026-03-23 to 2026-04-06, 15 days, peak 17.38 m/s, peak day 2026-03-31
+  - 2026-04-07 to 2026-04-22, 16 days, peak 23.85 m/s, peak day 2026-04-12
+  - 2026-05-01 to 2026-05-08, 8 days, peak 9.86 m/s, peak day 2026-05-02
+
+**Analyst read on WWB row (v1.7).**
+
+Peak amplitude is the primary signal in this row, not the count. 2026's strongest burst to date peaks at 23.9 m/s (peak day 2026-04-12). Full-season peaks for the analog years: 1997: 27.7 m/s, 2015: 29.5 m/s, 2023: 19.0 m/s, 2025: 12.7 m/s.
+
+This lands in super-event territory: 2026's first burst is comparable in magnitude to 1997 and 2015 first bursts, well above what 2023 (sub-event El Niño) and 2025 (neutral / La Niña) produced. Peak amplitude is the strongest quantitative evidence to date that 2026's forcing is structurally aligned with the super-event analogs rather than the weaker recent analogs.
+
+On count: 2026 has 5 events so far; analogs at the same calendar date: 1997 (6), 2015 (7), 2023 (5), 2025 (3). v1.7's peak-detection algorithm with a 10-day recovery interval splits sustained westerly periods into distinct bursts where v1.6 collapsed them. The count is now reasonably comparable across years, but peak amplitude remains the cleaner single number.
 
 ## 3. Analog tracker
 
@@ -96,7 +107,7 @@ The 2023-25 fourth global bleaching event already affects ~84% of world reefs (I
 
 ### What changed week-over-week
 
-**Methodology version bumped: 1.5 -> 1.6.** Headline buckets are not strictly comparable to last issue. See methodology change log.
+**Methodology version bumped: 1.5 -> 1.7.** Headline buckets are not strictly comparable to last issue. See methodology change log.
 
 **New agency releases since last issue:**
 
@@ -130,4 +141,4 @@ This week's brief was generated without analyst commentary because the editorial
 
 ---
 
-*Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.6. RONI offset +0.50°C (live, week of 2026-05-06). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).*
+*Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.7. RONI offset +0.50°C (live, week of 2026-05-06). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).*

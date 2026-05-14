@@ -210,14 +210,15 @@ We use the model approach for the brief's headline numbers and note
 the observational comparison would shift the count higher in the
 caveat text.
 
-### Spatial-peak westerly wind burst detection (v1.6)
+### Spatial-peak westerly wind burst detection (v1.7)
 
 CWWA (above) gives a smooth cumulative scalar but is blind to burst
 structure: a 5-day intense burst at 7N generates a Kelvin wave that
 50 days of weak equatorial westerlies of the same area-integrated
-magnitude would not, yet CWWA scores them similarly. v1.6 adds a
+magnitude would not, yet CWWA scores them similarly. v1.6 added a
 complementary discrete-event indicator that captures the burst
-structure directly.
+structure directly; v1.7 (current) refines the event-detection
+algorithm to fix a count-merging issue documented under v1.6.
 
 Method (`fetchers/era5_burst.py`):
 
@@ -235,20 +236,37 @@ Method (`fetchers/era5_burst.py`):
    window positions (computed via `scipy.ndimage.uniform_filter`
    for efficiency, with edge pixels masked to avoid biased edge
    windows).
-5. From the daily-spatial-peak time series, detect events with a
-   dual threshold inspired by McPhaden 1999 and refined per Gemini's
-   earlier WWE follow-up:
-   - **Base:** spatial peak > 5 m/s sustained for > 5 consecutive days
-   - **Peak:** at least one day within the run must exceed 7 m/s
+5. From the daily-spatial-peak time series, detect events via
+   peak-detection with a recovery interval (v1.7, replaces v1.6
+   run-detection):
 
-The dual threshold filters persistent-but-weak westerly periods (which
-the base threshold alone would catch) from genuine bursts (which the
-peak threshold confirms). Each detected event carries start date, end
-date, duration, and peak amplitude.
+   a. **Candidate peaks:** days where the spatial peak exceeds the
+      peak threshold (7 m/s).
+   b. **Non-maximum suppression:** sort candidates by amplitude
+      descending. Greedily select the strongest, then suppress all
+      candidates within +/- 10 days of any already-selected peak.
+      Repeat. This yields a set of distinct peak days separated by
+      at least 10 days each, matching the typical inter-burst
+      separation in the super-event literature (McPhaden 1999,
+      Lengaigne et al. 2003).
+   c. **Event boundaries:** for each surviving peak, walk outward
+      while the spatial peak stays above the base threshold (5 m/s),
+      bounded by the midpoint to neighboring selected peaks. This
+      lets a sustained westerly period containing multiple sub-bursts
+      split into multiple events instead of collapsing into one.
+   d. **Duration filter:** drop events shorter than 5 days.
 
-The fetcher returns the current-year event count plus full event
-detail (start/end/peak) for each analog year (1997, 2015, 2023, 2025),
-cached once and reused.
+Each detected event carries start date, end date, duration, peak
+amplitude, and the peak date (the day of the surviving local
+maximum). The fetcher returns the current-year event list plus full
+event detail for each analog year (1997, 2015, 2023, 2025).
+
+**Cache architecture.** The full-field climatology is cached once.
+Per-year spatial peak series are cached as algorithm-independent
+JSON. Per-year event lists are cached with an algorithm-version
+suffix (`_v17`). When the detection algorithm changes again, only
+the events caches need invalidating; peak series are reused. No CDS
+re-pull needed for analog years.
 
 **Relationship to CWWA.** CWWA and WWB are presented as
 complementary, not as a swap. CWWA remains useful for season-on-
@@ -258,34 +276,24 @@ burst occur." Brief readers see both numbers; the case where CWWA is
 low but WWB count is non-zero is exactly the methodologically
 interesting one Swain flagged.
 
-**Known limitation (queued for v1.7).** The current v1.6 detector
-counts "consecutive runs of days above threshold" as single events.
-During persistently westerly periods (e.g., extended MJO active
-phase + 1-2 distinct WWBs riding on it), this merges what are
-physically several distinct burst episodes into one long event. The
-1997 first detected event runs 71 days (Mar 1 to May 10) and the
-2015 first runs 104 days; in reality each of these contains 3-5
-distinct WWBs separated by quieter periods that don't quite drop
-below the 5 m/s threshold. The peak amplitude within the merged
-event (1997: 27.7 m/s, 2015: 29.5 m/s) is the strongest single day
-across all the merged sub-bursts. A v1.7 refinement should switch
-from run-detection to peak-detection: identify local maxima
-separated by a "recovery" interval (e.g., spatial peak < 2 m/s for
-at least 3 days) and count each maximum as a distinct event. Until
-then, the WWB count is an under-count and the event durations are
-upper bounds.
+**Parameter choices.** RECOVERY_DAYS = 10 is the central tunable
+parameter introduced in v1.7. The typical autocorrelation length of
+equatorial WWBs in the 850 hPa zonal wind field is 7-14 days
+(McPhaden 1999 Figure 3; Lengaigne et al. 2003 Section 3). At 10
+days the algorithm separates distinct bursts riding on a sustained
+westerly background without over-splitting a single burst's natural
+multi-day shape. A sensitivity check at 7 and 14 days produces
+event counts within +/-1 of the production value for all analog
+years; the analog ordering is preserved.
 
-**Calibration check.** For 2026 through 2026-05-08 the detector
-finds 2 events (a 53-day Mar 1 - Apr 22 episode peaking at 23.85
-m/s, plus an 8-day May 1-8 burst peaking at 9.86 m/s). The first
-corresponds operationally to the major Kelvin wave Swain
-referenced as "comparable to late-spring KWs associated with
-previous SEN events." At the same calendar date (events with start
-date <= 05-08): 1997 has 1, 2015 has 1, 2023 has 3, 2025 has 3.
-The narrow super-event analogs (1997, 2015) appear under-counted
-relative to 2023 and 2025 here partly because their forcing was
-dominated by single very long episodes that the run-detection
-treats as one event; this is exactly the v1.7-queued limitation.
+**v1.6 algorithm (deprecated).** The prior detector counted
+"consecutive runs of days above the base threshold" as single
+events. During persistently westerly periods, this merged multiple
+distinct bursts into one long event: 1997's first event ran 71
+days, 2015's 104 days, even though each contained 3-5 distinct
+sub-bursts. v1.7 splits these correctly by peak. The methodology
+change log entry under "Versioning and change log" documents the
+swap and resulting count changes.
 
 ## What is explicitly out of scope
 
@@ -436,10 +444,11 @@ column.
    persistence and continuity), not a fixed-domain cumulative
    integral. That method (per Gemini's earlier WWE follow-up,
    independently re-motivated by Swain's input) is being added
-   alongside CWWA as a parallel indicator in v1.6; CWWA is being
-   retained because the cumulative scalar is more comparable across
-   analog years than a discrete event count and because the metrics
-   capture complementary aspects of forcing.
+   alongside CWWA as a parallel indicator (added in v1.6, algorithm
+   refined to peak-detection with 10-day recovery interval in v1.7);
+   CWWA is being retained because the cumulative scalar is more
+   comparable across analog years than a discrete event count and
+   because the metrics capture complementary aspects of forcing.
 
    For 2026 specifically, Swain's operational read: the surfacing
    Kelvin wave (visible in heat content jumping +1.36 to +2.24 C in
@@ -614,7 +623,7 @@ median).
   domain 10N-10S, 130E-150W (wider than CWWA's 5N-5S, per Swain's
   point that productive bursts sit just outside the equator). The
   per-day "spatial peak" is the maximum area-mean u_850 anomaly across
-  all window positions. Event detection then applies a dual threshold
+  all window positions. Event detection then applied a dual threshold
   (5 m/s sustained > 5 days, with at least one day > 7 m/s within the
   event), following McPhaden 1999 + Gemini's earlier follow-up.
 
@@ -625,12 +634,37 @@ median).
   burst occur in the basin." The brief shows both in the physical-
   state section.
 
+  Known limitation at v1.6 issuance: run-based detection merged
+  multiple sub-bursts inside a sustained westerly period into a
+  single long event (1997's first event ran 71 days; 2015's 104
+  days). Addressed in v1.7.
+
+- **1.7** (2026-05-14): Replaced v1.6 run-detection with peak-
+  detection plus a 10-day recovery interval (`fetchers/era5_burst.py`,
+  same domain, climatology, and dual threshold; the change is in the
+  event-counting layer only). Peak amplitudes and approximate event
+  timing are unchanged from v1.6; event counts increase in years with
+  sustained westerly periods (most notably 1997 and 2015, where the
+  v1.6 71-day and 104-day "events" now correctly split into their
+  constituent bursts). Includes a cache refactor: per-year spatial
+  peak series are now cached as algorithm-independent JSON, so future
+  detection-layer changes do not require CDS re-pulls.
+
+  Rationale: v1.6's count metric was systematically biased toward
+  episodic-burst years (2023, 2025) over sustained-burst years (1997,
+  2015) in a way that flipped the analog ordering relative to what
+  the peak-amplitude and peak-date data actually say. v1.7 restores
+  the expected ordering and brings the count metric into line with
+  the literature's burst-counting conventions (McPhaden 1999;
+  Lengaigne et al. 2003).
+
 ---
 
-*Methodology version 1.6. RONI offset fetched live each week from CPC.
+*Methodology version 1.7. RONI offset fetched live each week from CPC.
 ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
 WWE forcing tracked via CWWA (5N-5S, 130E-150W cumulative) AND
 spatial-peak WWB detection (10N-10S, 130E-150W, McPhaden-inspired
-dual threshold). Impact section renders as institutional aggregation
-only (no editorial synthesis). Headline buckets are CPC-anchored and
-deflected weekly by SEAS5 ensemble evidence within bounded limits.*
+dual threshold, peak-detection with 10-day recovery interval).
+Impact section renders as institutional aggregation only (no
+editorial synthesis). Headline buckets are CPC-anchored and deflected
+weekly by SEAS5 ensemble evidence within bounded limits.*

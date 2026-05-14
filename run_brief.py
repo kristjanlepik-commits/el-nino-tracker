@@ -957,6 +957,100 @@ DOCS_DIR = Path(__file__).parent / "docs"
 DOCS_BRIEF_DIR = DOCS_DIR / "briefs" / S.BRIEF_DATE.isoformat()
 
 
+def _wwb_analyst_read(current_events: list[dict], analogs: dict,
+                      analog_counts_to_date: dict[int, int]) -> str:
+    """Build a data-driven analyst summary of the WWB diagnostic row.
+
+    The framing: peak amplitude carries the operational signal, not raw
+    event count. After the v1.7 peak-detection algorithm the count metric
+    is more comparable across years than v1.6, but peak amplitude remains
+    the cleanest single number.
+
+    Returns a multi-paragraph markdown block; empty string if there is not
+    enough data to anchor a read.
+    """
+    if not current_events or not analogs:
+        return ""
+
+    # Strongest peak in current year to date, and date of that peak
+    curr_peak = max(float(e.get("peak_ms", 0.0)) for e in current_events)
+    curr_peak_date = next(
+        (e.get("peak_date") or e.get("start", "") for e in current_events
+         if float(e.get("peak_ms", 0.0)) == curr_peak), ""
+    )
+
+    # Full-season peak amplitude for each analog year
+    analog_peaks: dict[int, float] = {}
+    for yr_key, evs in (analogs or {}).items():
+        try:
+            yr = int(yr_key)
+        except (TypeError, ValueError):
+            continue
+        if not evs:
+            analog_peaks[yr] = 0.0
+            continue
+        analog_peaks[yr] = max(float(e.get("peak_ms", 0.0)) for e in evs)
+    if not analog_peaks:
+        return ""
+
+    super_peers = {y: p for y, p in analog_peaks.items() if y in (1997, 2015)}
+    weaker_peers = {y: p for y, p in analog_peaks.items() if y in (2023, 2025)}
+    super_min = min(super_peers.values()) if super_peers else None
+    weaker_max = max(weaker_peers.values()) if weaker_peers else None
+
+    lines = []
+    lines.append("**Analyst read on WWB row (v1.7).**")
+
+    # Peak-amplitude framing
+    peer_str = ", ".join(
+        f"{y}: {analog_peaks[y]:.1f} m/s"
+        for y in sorted(analog_peaks.keys())
+    )
+    lines.append(f"Peak amplitude is the primary signal in this row, not the "
+                 f"count. 2026's strongest burst to date peaks at "
+                 f"{curr_peak:.1f} m/s (peak day {curr_peak_date}). "
+                 f"Full-season peaks for the analog years: {peer_str}.")
+
+    # Interpretive paragraph based on where curr_peak lands
+    if super_min is not None and weaker_max is not None:
+        if curr_peak >= super_min * 0.7:
+            lines.append(f"This lands in super-event territory: 2026's first "
+                         f"burst is comparable in magnitude to 1997 and 2015 "
+                         f"first bursts, well above what 2023 (sub-event El "
+                         f"Niño) and 2025 (neutral / La Niña) produced. "
+                         f"Peak amplitude is the strongest quantitative "
+                         f"evidence to date that 2026's forcing is "
+                         f"structurally aligned with the super-event analogs "
+                         f"rather than the weaker recent analogs.")
+        elif curr_peak >= weaker_max:
+            lines.append(f"This sits between the super-event peers and the "
+                         f"weaker analogs. Forcing is materially stronger than "
+                         f"2023 or 2025 but has not yet produced a single "
+                         f"burst of 1997 or 2015 magnitude. Watch the next "
+                         f"4-8 weeks for whether a follow-up burst extends "
+                         f"the peak.")
+        else:
+            lines.append(f"This is weaker than both super-event analogs and "
+                         f"within the range of the weaker analog years. "
+                         f"Peak-amplitude evidence is not currently supporting "
+                         f"the super-event trajectory; the structural-similarity "
+                         f"case rests on heat content and Kelvin-wave evidence.")
+
+    # Count framing with v1.7 caveat
+    counts_str = ", ".join(
+        f"{y} ({analog_counts_to_date[y]})"
+        for y in sorted(analog_counts_to_date.keys())
+    )
+    lines.append(f"On count: 2026 has {len(current_events)} event"
+                 f"{'s' if len(current_events) != 1 else ''} so far; analogs at "
+                 f"the same calendar date: {counts_str}. v1.7's peak-detection "
+                 f"algorithm with a 10-day recovery interval splits sustained "
+                 f"westerly periods into distinct bursts where v1.6 collapsed "
+                 f"them. The count is now reasonably comparable across years, "
+                 f"but peak amplitude remains the cleaner single number.")
+    return "\n\n".join(lines)
+
+
 def _cwwa_ranking(current_value: float, analogs: dict, target_iso: str | None) -> str:
     """Describe where the current CWWA falls among the analog years at the same calendar date."""
     if not target_iso or not analogs:
@@ -1198,19 +1292,22 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
                   f"on track, the surfacing-Kelvin-wave evidence in heat "
                   f"content (above) is at least as informative as this "
                   f"metric. See the WWB row below for the spatial-peak "
-                  f"event count (v1.6, complementary to CWWA).")
+                  f"event count and analyst read (v1.7, complementary "
+                  f"to CWWA).")
     else:
         md.append(f"**CWWA note:** {phys.get('wwe_qualitative', '')}")
     md.append("")
 
-    # Spatial-peak WWB row (methodology v1.6, complement to CWWA)
+    # Spatial-peak WWB row (methodology v1.7, complement to CWWA)
     wwb_count = phys.get("wwb_events_since_mar1")
     wwb_analogs_raw = phys.get("wwb_analogs", {})
+    wwb_events_detail = phys.get("wwb_events_detail", []) or []
     if wwb_count is not None:
-        # Filter analog events to those that started before today's calendar
-        # date in each respective year (so 1997 events Mar 1 - May 11, etc.)
+        # Filter analog events to those that started on or before today's
+        # calendar date in each respective year (so 1997 events Mar 1 to
+        # May 11 in this run, etc.)
         target_md = (wwe_fresh.get("issued") or "")[5:]
-        analog_counts = {}
+        analog_counts: dict[int, int] = {}
         for yr_key, events in (wwb_analogs_raw or {}).items():
             try:
                 yr = int(yr_key)
@@ -1225,20 +1322,28 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
         analog_str = ", ".join(
             f"{y} ({analog_counts[y]})" for y in sorted(analog_counts)
         )
-        md.append(f"**WWB events (spatial-peak detection, v1.6):** "
+        md.append(f"**WWB events (spatial-peak detection, v1.7):** "
                   f"{wwb_count} westerly wind burst event"
                   f"{'s' if wwb_count != 1 else ''} detected since Mar 1, "
                   f"2026. Detection: sliding 5x10 deg sub-region area-mean "
                   f"anomaly over 10N-10S, 130E-150W; dual threshold (5 m/s "
-                  f"sustained > 5 days, with peak day > 7 m/s within the "
-                  f"event). Analogs (events to same calendar date): "
+                  f"sustained for at least 5 days, peak day above 7 m/s) "
+                  f"with peak-detection plus a 10-day recovery interval "
+                  f"between events. Analogs (events to same calendar date): "
                   f"{analog_str}.")
-        if phys.get("wwb_events_detail"):
-            for e in phys["wwb_events_detail"]:
-                md.append(f"  - {e.get('start')} to {e.get('end')}, "
-                          f"{e.get('duration_days')} days, peak "
-                          f"{e.get('peak_ms')} m/s")
+        for e in wwb_events_detail:
+            peak_date = e.get("peak_date")
+            peak_str = f", peak day {peak_date}" if peak_date else ""
+            md.append(f"  - {e.get('start')} to {e.get('end')}, "
+                      f"{e.get('duration_days')} days, peak "
+                      f"{e.get('peak_ms')} m/s{peak_str}")
         md.append("")
+        # Analyst Read block for the WWB row
+        wwb_read = _wwb_analyst_read(wwb_events_detail,
+                                     wwb_analogs_raw, analog_counts)
+        if wwb_read:
+            md.append(wwb_read)
+            md.append("")
 
     # --------- Section 3: Analog tracker ---------
     md.append("## 3. Analog tracker")

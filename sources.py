@@ -23,7 +23,7 @@ from __future__ import annotations
 
 from datetime import date, timedelta
 
-METHODOLOGY_VERSION = "1.6"
+METHODOLOGY_VERSION = "1.7"
 
 
 def _most_recent_monday(today: date | None = None) -> date:
