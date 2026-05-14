@@ -51,40 +51,50 @@ NEAREST_CPC_SEASON = "NDJ 2026-27"  # CPC's longest lead in current strength tab
 RONI_TO_ONI_OFFSET = 0.3
 
 # ---------------------------------------------------------------
-# Section 1 input: NOAA CPC ENSO Strength Probabilities, Apr 2026
-# Source: https://cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/strengths.php
-# Issued 9 April 2026 alongside the ENSO Diagnostic Discussion.
+# Section 1 input: NOAA CPC ENSO Strength Probabilities, May 2026
+# Source: https://cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/strengths/
+# Issued 14 May 2026 alongside the ENSO Diagnostic Discussion.
 # Probabilities are RONI-based (5N-5S, 170W-120W, minus tropical mean).
 # Each row is one 3-month season; values sum to 100 (rounding).
 # Update on the 2nd Thursday of each month when CPC re-issues.
+#
+# May 2026 issuance highlights vs April 9 issuance:
+# - MAM 2026 falls out of the table (CPC's 9-row window slides forward).
+# - DJF 2026-27 enters the table for the first time at this lead.
+# - Probability mass shifts upward at all leads JAS onward; the largest
+#   single move is the NDJ 2026-27 super (>=2.0 RONI) bucket from 25%
+#   to 37% (+12pp). DJF 2026-27 super = 31%.
 # ---------------------------------------------------------------
 CPC_STRENGTH = {
-    "issued": date(2026, 4, 9),
+    "issued": date(2026, 5, 14),
     "table": {
         # season label : {bin_label: pct, ...}
         # bin_label is in RONI, traditional ~ RONI + 0.3
-        "MAM 2026":     {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 1,
-                         "neutral": 99, "0.5to1.0": 0, "1.0to1.5": 0, "1.5to2.0": 0, ">=2.0": 0},
         "AMJ 2026":     {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 0,
-                         "neutral": 80, "0.5to1.0": 20, "1.0to1.5": 0, "1.5to2.0": 0, ">=2.0": 0},
+                         "neutral": 84, "0.5to1.0": 16, "1.0to1.5": 0, "1.5to2.0": 0, ">=2.0": 0},
         "MJJ 2026":     {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 0,
-                         "neutral": 39, "0.5to1.0": 56, "1.0to1.5": 5, "1.5to2.0": 0, ">=2.0": 0},
+                         "neutral": 18, "0.5to1.0": 72, "1.0to1.5": 10, "1.5to2.0": 0, ">=2.0": 0},
         "JJA 2026":     {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 0,
-                         "neutral": 21, "0.5to1.0": 53, "1.0to1.5": 24, "1.5to2.0": 2, ">=2.0": 0},
+                         "neutral": 8, "0.5to1.0": 52, "1.0to1.5": 37, "1.5to2.0": 3, ">=2.0": 0},
         "JAS 2026":     {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 0,
-                         "neutral": 13, "0.5to1.0": 38, "1.0to1.5": 37, "1.5to2.0": 11, ">=2.0": 1},
+                         "neutral": 4, "0.5to1.0": 30, "1.0to1.5": 48, "1.5to2.0": 17, ">=2.0": 1},
         "ASO 2026":     {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 0,
-                         "neutral": 10, "0.5to1.0": 27, "1.0to1.5": 36, "1.5to2.0": 21, ">=2.0": 6},
+                         "neutral": 2, "0.5to1.0": 17, "1.0to1.5": 41, "1.5to2.0": 31, ">=2.0": 9},
         "SON 2026":     {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 0,
-                         "neutral": 8, "0.5to1.0": 20, "1.0to1.5": 31, "1.5to2.0": 26, ">=2.0": 15},
+                         "neutral": 2, "0.5to1.0": 11, "1.0to1.5": 30, "1.5to2.0": 35, ">=2.0": 22},
         "OND 2026":     {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 0,
-                         "neutral": 7, "0.5to1.0": 16, "1.0to1.5": 27, "1.5to2.0": 27, ">=2.0": 23},
+                         "neutral": 2, "0.5to1.0": 9, "1.0to1.5": 24, "1.5to2.0": 32, ">=2.0": 33},
         "NDJ 2026-27": {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 0,
-                         "neutral": 8, "0.5to1.0": 15, "1.0to1.5": 26, "1.5to2.0": 26, ">=2.0": 25},
+                         "neutral": 2, "0.5to1.0": 9, "1.0to1.5": 22, "1.5to2.0": 30, ">=2.0": 37},
+        "DJF 2026-27": {"<=-2.0": 0, "-2.0to-1.5": 0, "-1.5to-1.0": 0, "-1.0to-0.5": 0,
+                         "neutral": 4, "0.5to1.0": 11, "1.0to1.5": 25, "1.5to2.0": 29, ">=2.0": 31},
     },
 }
-# CPC publishes 9 overlapping seasons; at this lead, NDJ 2026-27 is the
-# longest available and is our closest proxy for the DJF 2026-27 peak.
+# CPC publishes 9 overlapping seasons. From May 2026 onward DJF 2026-27
+# is in the table, so it is the direct (no-proxy) read for the brief's
+# target season. NEAREST_CPC_SEASON below is retained at NDJ for
+# continuity through this transition; switching to DJF is queued as a
+# separate methodology decision.
 
 # Convenience alias for backward compat with existing probs.py
 CPC_STRENGTH_RONI = CPC_STRENGTH["table"]

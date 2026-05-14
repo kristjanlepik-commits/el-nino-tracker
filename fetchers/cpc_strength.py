@@ -1,13 +1,20 @@
 """
 Fetch NOAA CPC ENSO Strength Probabilities table.
 
-URL:    https://cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/strengths.php
+URL:    https://cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/strengths/
 Cadence: monthly, 2nd Thursday alongside the ENSO Diagnostic Discussion.
+
+History: CPC migrated the endpoint from `.../strengths.php` to
+`.../strengths/` around the May 2026 issuance. The old `.php` URL now
+returns a meta-refresh redirect to the new path, so we point at the
+new path directly.
 
 The page renders one HTML table with 9 rows (overlapping 3-month seasons)
 and 9 RONI strength bin columns. The header text on the page is "Issued
 <Month> <Year>" (no day), so we set the issued date to the 2nd Thursday
-of that month, matching CPC's regular issuance day.
+of that month, matching CPC's regular issuance day. Note: the page
+keeps the prior month's "Issued" header inside an HTML comment, so we
+strip comments before regex-matching to avoid picking up the stale one.
 
 Bin label normalization (page header to canonical key in sources.py):
   "Index <= -2.0 C"           ->  "<=-2.0"
@@ -38,7 +45,11 @@ import pandas as pd
 
 from ._common import FetchResult, http_get, now_iso
 
-URL = "https://cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/strengths.php"
+URL = "https://cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/strengths/"
+
+# Match an HTML comment of any length (non-greedy) to strip prior-month
+# "Issued" leftovers that CPC keeps in the source as commented-out markup.
+_HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
 
 _MONTH_NAMES = {
     "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
@@ -68,8 +79,10 @@ def _second_thursday(year: int, month: int) -> date:
 def _normalize_bin_header(h: str) -> str:
     """Map a CPC column header to a canonical bin label, or empty string."""
     s = " ".join(h.split())
-    # Convert Unicode comparison operators to ASCII
-    s = s.replace("≤", "<=").replace("≥", ">=")
+    # Convert Unicode comparison operators and Unicode minus to ASCII.
+    # CPC sometimes uses U+2212 (minus sign) instead of U+002D (hyphen-
+    # minus) inside cell headers, notably around "neutral".
+    s = s.replace("≤", "<=").replace("≥", ">=").replace("−", "-")
     # Strip degree-C variants
     s = s.replace("°C", "").replace("°", "").replace(" C", "")
     s = s.replace(" ", "")
@@ -136,7 +149,11 @@ def fetch() -> FetchResult:
     try:
         r = http_get(URL, timeout=30)
 
-        m = _ISSUED_RE.search(r.text)
+        # Strip HTML comments so we don't read a prior-month leftover
+        # header (CPC keeps the previous "Issued <Month> <Year>" h2
+        # commented out in the source).
+        clean_html = _HTML_COMMENT_RE.sub("", r.text)
+        m = _ISSUED_RE.search(clean_html)
         if not m:
             return FetchResult(source="cpc_strength", ok=False, fetched_at=now_iso(),
                                error="'Issued <Month> <Year>' header not found on page")
@@ -144,7 +161,7 @@ def fetch() -> FetchResult:
         issued_year = int(m.group(2))
         issued_iso = _second_thursday(issued_year, issued_month).isoformat()
 
-        df = _pick_strength_table(r.text)
+        df = _pick_strength_table(clean_html)
         col_map = {col: _normalize_bin_header(str(col)) for col in df.columns
                    if str(col) != "Season"}
         # Build the table dict.
