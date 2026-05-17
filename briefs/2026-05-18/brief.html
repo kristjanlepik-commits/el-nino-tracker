@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>El Nino brief, 2026-05-18</title>
+<style>body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+         Arial, sans-serif; max-width: 820px; margin: 2em auto; padding: 0 1em;
+         color: #222; line-height: 1.5; }
+  h1 { border-bottom: 2px solid #888; padding-bottom: 0.2em; }
+  h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.1em; margin-top: 2em; }
+  h3 { margin-top: 1.5em; }
+  table { border-collapse: collapse; margin: 1em 0; }
+  th, td { border: 1px solid #ccc; padding: 0.4em 0.7em; text-align: left; }
+  th { background: #f4f4f4; }
+  tr:nth-child(even) td { background: #fafafa; }
+  blockquote { border-left: 4px solid #888; margin: 1em 0; padding: 0.2em 1em;
+               color: #555; background: #f7f7f7; }
+  code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px;
+         font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  img { max-width: 100%; height: auto; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 2em 0; }</style>
+</head><body>
+<h1>El Niño Probability Tracker, week of 2026-05-18</h1>
+<p>Internal use.</p>
+<p>Target peak season: <strong>DJF 2026-27</strong>. CPC's longest-lead strength bin is NDJ 2026-27, used as the proxy for the DJF peak.</p>
+<h2>1. Headline probabilities</h2>
+<p>Peak Niño 3.4 (traditional ONI), DJF 2026-27 / NDJ 2026-27.
+Headline numbers below are CPC-derived after translating from RONI bins to traditional ONI thresholds, then fitting a skew-normal distribution to the nine bin probabilities and evaluating its survival function at each threshold. RONI-to-traditional-ONI offset is +0.50°C, the live tropical-mean SST anomaly observed for the week of 2026-05-06 (CPC). ECMWF SEAS5 member counts in caveat 2 are a second quantitative cross-check.</p>
+<ul>
+<li><strong>At least moderate (&gt;+1.0°C peak)</strong>: 98%</li>
+<li><strong>Strong (&gt;+1.5°C peak)</strong>: 91% (CPC anchor 89%, SEAS5 deflection +2.2 ppt)</li>
+<li><strong>Very strong / super (&gt;+2.0°C peak)</strong>: 74% (CPC anchor 67%, SEAS5 deflection +6.6 ppt)</li>
+<li><strong>1997/2015 magnitude (&gt;+2.5°C peak)</strong>: 45% (CPC anchor 37%, SEAS5 deflection +7.5 ppt)</li>
+</ul>
+<p>Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) plus a bounded weekly deflection from the SEAS5 ensemble (weight 0.2, capped at ±10 ppt per bucket per week). The anchor and deflection are shown alongside the smoothed value where they differ. See methodology.html for the full rule.</p>
+<p><strong>Source-by-source check (qualitative where strength bins aren't broken out):</strong></p>
+<ul>
+<li>NOAA CPC strength table, NDJ 2026-27 (RONI): super 37%, strong 30%, moderate 22%, weak El Niño 9%, neutral 2%, La Niña 0%. Issued 2026-05-14.</li>
+<li>IRI plume, DJF 2026-27: El Niño 90%, neutral 10%, La Niña 0%. Issued 2026-04-16. Strength not broken out in the public Quick Look.</li>
+<li>BoM ENSO Outlook, issued 2026-05-12: Tropical Pacific continues to warm as models suggest a transition to El Niño during winter. Categorical only.</li>
+<li>ECMWF SEAS5, run 2026-05-01: 51-member SEAS5 ensemble for 2026-11: median Niño 3.4 anomaly +2.68 deg C; 51/51 members above +1.5 (~100% above +2.0, ~75% above +2.5).</li>
+</ul>
+<p><strong>Caveats this issue:</strong></p>
+<ol>
+<li>The +2.5°C bucket carries a 36-38% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.</li>
+<li>ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 38/51 members (75%) at 2026-11 (max available lead). CPC's NDJ 2026-27 bucket lands at 36-38%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.</li>
+<li>Spring predictability barrier: April-May forecasts at any of these centers carry materially wider error bars than what we'll see in July-August. Treat all numbers as preliminary.</li>
+</ol>
+<h2>2. Physical state panel</h2>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Current (week of ~22 Apr 2026)</th>
+<th>1997 same week</th>
+<th>2015 same week</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Niño 3.4 weekly (traditional)</td>
+<td>+0.9°C</td>
+<td>-0.1°C</td>
+<td>+0.6°C</td>
+</tr>
+<tr>
+<td>Niño 3.4 weekly (RONI)</td>
+<td>+0.4°C</td>
+<td>n/a (pre-RONI)</td>
+<td>n/a (pre-RONI)</td>
+</tr>
+<tr>
+<td>0-300m heat content anomaly</td>
+<td>+2.24°C (CPC monthly, 180W-100W, vs 1981-2010 climo)</td>
+<td>+0.7°C</td>
+<td>+1.6°C</td>
+</tr>
+<tr>
+<td>Cumulative westerly wind anomaly since Mar 1</td>
+<td>151 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo)</td>
+<td>336</td>
+<td>303</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Heat content note:</strong> Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.</p>
+<p><strong>CWWA note:</strong> Live ERA5 daily 850 hPa zonal wind through 2026-05-11, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (151) tracks closest to 2023 (42); other reference years: 1997 (336), 2015 (303), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count and analyst read (v1.7, complementary to CWWA).</p>
+<p><strong>WWB events (spatial-peak detection, v1.7):</strong> 5 westerly wind burst events detected since Mar 1, 2026. Detection: sliding 5x10 deg sub-region area-mean anomaly over 10N-10S, 130E-150W; dual threshold (5 m/s sustained for at least 5 days, peak day above 7 m/s) with peak-detection plus a 10-day recovery interval between events. Analogs (events to same calendar date): 1997 (6), 2015 (7), 2023 (6), 2025 (3).
+  - 2026-03-01 to 2026-03-08, 8 days, peak 13.0 m/s, peak day 2026-03-02
+  - 2026-03-09 to 2026-03-22, 14 days, peak 18.38 m/s, peak day 2026-03-14
+  - 2026-03-23 to 2026-04-06, 15 days, peak 17.38 m/s, peak day 2026-03-31
+  - 2026-04-07 to 2026-04-22, 16 days, peak 23.85 m/s, peak day 2026-04-12
+  - 2026-05-01 to 2026-05-08, 8 days, peak 9.86 m/s, peak day 2026-05-02</p>
+<p><strong>Analyst read on WWB row (v1.7).</strong></p>
+<p>Peak amplitude is the primary signal in this row, not the count. 2026's strongest burst to date peaks at 23.9 m/s (peak day 2026-04-12). Full-season peaks for the analog years: 1997: 27.7 m/s, 2015: 29.5 m/s, 2023: 19.0 m/s, 2025: 12.7 m/s.</p>
+<p>This lands in super-event territory: 2026's first burst is comparable in magnitude to 1997 and 2015 first bursts, well above what 2023 (sub-event El Niño) and 2025 (neutral / La Niña) produced. Peak amplitude is the strongest quantitative evidence to date that 2026's forcing is structurally aligned with the super-event analogs rather than the weaker recent analogs.</p>
+<p>On count: 2026 has 5 events so far; analogs at the same calendar date: 1997 (6), 2015 (7), 2023 (6), 2025 (3). v1.7's peak-detection algorithm with a 10-day recovery interval splits sustained westerly periods into distinct bursts where v1.6 collapsed them. The count is now reasonably comparable across years, but peak amplitude remains the cleaner single number.</p>
+<h2>3. Analog tracker</h2>
+<p><img alt="Analog tracker" src="analog.png" /></p>
+<p>Three reference El Niño events (1997-98, 2015-16, 2023-24) vs current 2026-27 trajectory in 3-month-running-mean ONI. Common reference is March 1 of develop year.</p>
+<p><strong>Read this week:</strong> at the JFM tick (month -1 since Mar 1), 2026 sits at -0.4°C, very close to where 1997 was (-0.4°C) and 2023 was (-0.3°C) at the same calendar point. Both went on to become super events. 2015 was already running ahead at +0.6°C in JFM. The takeaway is that JFM position is a weak discriminator; the ramp speed through MAM-AMJ is what matters, and we won't see that until the next 1-2 ONI updates.</p>
+<p>Caveat: the analog plot uses 3-month running mean ONI. The current weekly Niño 3.4 (+0.5°C trad, week of Apr 15) is not directly plotted because it's not a 3-month mean. Adding a weekly trajectory to this chart is on the V1.5 list.</p>
+<h2>4. Impact outlook</h2>
+<p>Aggregation of institutional impact ranges for the developing event. Probabilities below are from named external sources, conditional on the headline strong-to-super case in section 1 materializing.</p>
+<h3>Mediterranean</h3>
+<p>Spain, Portugal, Italy, Greece, southern France. Probability of severe summer 2026 heat and drought: high, &gt;70% Iberia, ~65% Italy/Greece/southern France. The 2024 July Mediterranean heatwave was characterized by World Weather Attribution as "virtually impossible without human-caused climate change". A 2003-magnitude European heat event (~70,000 excess deaths) is rated medium probability (~25-30%) on a strong El Niño compounded with the multi-year Mediterranean drought baseline.</p>
+<h3>Amazon basin</h3>
+<p>Probability of major drought 2026: high (&gt;70%); probability of fire season exceeding 2024 hotspot levels: medium-high (~50%). NASA SERVIR characterized the 2023-24 drought magnitude as "roughly double" the 2015-16 event. The 2024 fire season produced a 76% increase in hotspots vs 2023.</p>
+<h3>Australia and the Great Barrier Reef</h3>
+<p>Probability of severe bushfire season austral summer 2026-27: high (&gt;65%); GBR mass bleaching: very high (&gt;85%); agricultural drought: high (&gt;70%). The reef has bleached six times since 2016; another super event makes a sixth-in-eight-years bleaching baseline. Australian winter wheat is the cleanest El Niño short on record, with declines of 16% to 46% under prior strong events (1965, 1977, 1982, 1994, 1997, 2023).</p>
+<h3>Southern Africa</h3>
+<p>Probability of major drought repeat: ~70% if rains arrive late, per OCHA framing of the 2023-24 baseline ("worst impacts in 40 years"). Probability of a humanitarian appeal exceeding $5 billion: medium-high (~50%). Six SADC countries declared emergency in 2024; back-to-back is the asymmetric humanitarian risk.</p>
+<h3>India and South Asia</h3>
+<p>IMD's April 2026 monsoon outlook is 92% of the long-period average, the first below-normal April call since 2015. Of 16 historical El Niño years since 1950, 7 produced below-normal Indian monsoons (IMD MMCFS). Pre-monsoon heat already reached 43.8°C at Akola in mid-April 2026.</p>
+<h3>United States</h3>
+<p>California atmospheric river season: above-normal Pacific storm count winter 2026-27 high (~70%), with ~50% probability of a major atmospheric river damage event January-March 2027. Pacific Northwest: warmer-drier winter (~70%) with significant 2026 fire season (~50%). Atlantic hurricane season: high probability (~70%) of below-normal activity from El Niño wind shear, partially offset by warm Atlantic SSTs (2023 produced 20 named storms despite an El Niño base state). Southern Plains drought relief: low-medium (~25-30%); the 2023-24 super event underdelivered there.</p>
+<h3>Southeast Asia</h3>
+<p>Significant drought in Indonesia: high (&gt;70%); palm oil production decline: medium-high (~55%). The 2015-16 super event delivered a 13.2% Malaysian palm oil production decline at a 12-month lag. Vietnamese coffee output fell 20% in 2023-24.</p>
+<h3>Global coral</h3>
+<p>The 2023-25 fourth global bleaching event already affects ~84% of world reefs (International Coral Reef Initiative, April 2025). Continued mass bleaching across all tropical basins is essentially certain into 2026-27.</p>
+<h2>5. Editorial layer</h2>
+<h3>What changed week-over-week</h3>
+<p><strong>New agency releases since last issue:</strong></p>
+<ul>
+<li><strong>cpc_strength</strong>: prior issued 2026-04-09, now issued 2026-05-14.<ul>
+<li>NDJ neutral: 8% -&gt; 2% (Delta -6)</li>
+<li>NDJ 0.5to1.0: 15% -&gt; 9% (Delta -6)</li>
+<li>NDJ 1.0to1.5: 26% -&gt; 22% (Delta -4)</li>
+<li>NDJ 1.5to2.0: 26% -&gt; 30% (Delta +4)</li>
+<li>NDJ &gt;=2.0: 25% -&gt; 37% (Delta +12)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Unchanged since last issue:</strong> iri, ecmwf, bom.</p>
+<p><strong>Physical state:</strong> no numerical changes from last issue. (Either truly unchanged or weekly update has not been ingested.)</p>
+<h3>Analyst read</h3>
+<blockquote>
+<p><strong>AUTO-GENERATED:</strong> the prose below is written by Claude from this week's diff and physical state. Review before quoting externally; edit freely if the analysis warrants it.</p>
+</blockquote>
+<p><strong>(Fallback prose: API call failed. Falling back to mechanical summary of the diff. Replace before quoting.)</strong></p>
+<p>This week's brief was generated without analyst commentary because the editorial generator could not reach the Anthropic API. The auto-diff above is the floor; please read it directly and add interpretation manually for any week where the deltas matter materially.</p>
+<h3>Source freshness this issue</h3>
+<ul>
+<li><strong>cpc_strength</strong>: fetched live, issued 2026-05-14.</li>
+<li><strong>oisst_weekly</strong>: fetched live, issued 2026-05-06.</li>
+<li><strong>heat_content</strong>: fetched live, issued 2026-04-30.</li>
+<li><strong>iri</strong>: live fetch failed; using last-good cache (issued 2026-04-20). Error: 3-category table not found on page.</li>
+<li><strong>bom</strong>: fetched live, issued 2026-05-12.</li>
+<li><strong>ecmwf_seas5</strong>: fetched live, issued 2026-05-01.</li>
+<li><strong>era5_wwe</strong>: fetched live, issued 2026-05-11.</li>
+<li><strong>era5_burst</strong>: fetched live, issued 2026-05-12.</li>
+<li><strong>oni_history</strong>: fetched live, issued 2026-04-30.</li>
+</ul>
+<hr />
+<p><em>Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.7. RONI offset +0.50°C (live, week of 2026-05-06). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).</em></p>
+</body></html>

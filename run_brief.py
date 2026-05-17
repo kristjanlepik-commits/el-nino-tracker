@@ -189,6 +189,42 @@ PUBLIC_CSS = """
   .rung.moderate { border-left-color: var(--moderate); }
   .buckets-note { font-size: 13px; color: var(--text-faint); margin: 0 0 32px; }
 
+  /* Analyst section: tinted block directly under the ladder, only renders
+     when at least one observer fires. Reader gets "what changed / what does
+     it mean" before scrolling to the chart. */
+  section.analyst-read {
+    background: #fbf9f0;
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 22px 26px 16px;
+    margin: 32px 0;
+  }
+  section.analyst-read h2 {
+    margin: 0 0 4px;
+    color: var(--text);
+  }
+  section.analyst-read .section-sub {
+    margin: 0 0 14px;
+    color: var(--text-soft);
+  }
+  section.analyst-read ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  section.analyst-read li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+  section.analyst-read li:last-child { border-bottom: none; }
+  section.analyst-read li strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
   section { margin: 48px 0; }
   h2 {
     font-family: "Charter", "Iowan Old Style", "Georgia", serif;
@@ -498,6 +534,67 @@ def _slugify(text: str) -> str:
     return re.sub(r'[\s_]+', '-', s)
 
 
+DOCS_BRIEFS_ROOT = Path(__file__).parent / "docs" / "briefs"
+
+
+def _load_prev_headline_smoothed(current_brief_date: date) -> dict | None:
+    """Find the most recent docs/briefs/YYYY-MM-DD/meta.json strictly before
+    `current_brief_date` and return its `headline_buckets` dict (which has
+    the smoothed structure: mid + anchor + seas5 + deflection per bucket
+    since v1.5). Returns None if no prior archive is found or meta.json
+    doesn't have the expected fields.
+
+    Used by build_public_html to fire the Analyst-section observers that
+    compare this week to last (CPC re-issue delta, convergence).
+    """
+    if not DOCS_BRIEFS_ROOT.exists():
+        return None
+    candidates = []
+    for d in DOCS_BRIEFS_ROOT.iterdir():
+        if not d.is_dir():
+            continue
+        try:
+            d_date = date.fromisoformat(d.name)
+        except ValueError:
+            continue
+        if d_date < current_brief_date:
+            candidates.append((d_date, d))
+    if not candidates:
+        return None
+    candidates.sort()
+    latest_dir = candidates[-1][1]
+    meta_path = latest_dir / "meta.json"
+    if not meta_path.exists():
+        return None
+    try:
+        data = json.loads(meta_path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+    return data.get("headline_buckets")
+
+
+EDITORIAL_NOTE_FILE = Path(__file__).parent / "editorial_note.md"
+
+
+def load_editorial_note() -> str:
+    """Load the optional editorial_note.md at project root.
+
+    If present and non-empty, returns the raw markdown — caller renders it
+    to HTML and uses it in place of the auto-populated bottom-line copy.
+    If absent or empty, returns "" and the bottom line falls back to the
+    default "X% chance of at least a moderate El Niño this winter, Y%
+    chance of a 1997 / 2015-magnitude event."
+
+    The note is per-issue editorial copy: a short narrative paragraph
+    (1-3 sentences typically) used on weeks where a numeric bottom line
+    doesn't carry the story. Operator deletes the file or empties it
+    when the standard bottom line is right again.
+    """
+    if not EDITORIAL_NOTE_FILE.exists():
+        return ""
+    return EDITORIAL_NOTE_FILE.read_text().strip()
+
+
 def load_impacts() -> dict:
     """Load impacts.md from project root, split on the synthesis divider.
 
@@ -655,14 +752,18 @@ def build_impacts_html_block(impacts: dict, world_map_href: str = "world-map.svg
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       methodology_href: str, brief_date_iso: str,
                       canonical_url: str, og_image_url: str,
-                      world_map_href: str = "world-map.svg") -> str:
+                      world_map_href: str = "world-map.svg",
+                      prev_headline: dict | None = None,
+                      prev_snapshot: dict | None = None) -> str:
     """Render the public brief as structured HTML (bypasses markdown).
 
     methodology_href and world_map_href are both relative paths whose depth
     differs between the index ("methodology.html", "world-map.svg") and the
     archive briefs ("../../methodology.html", "../../world-map.svg").
     canonical_url and og_image_url are absolute Pages URLs for the
-    OG/Twitter card metadata.
+    OG/Twitter card metadata. prev_headline and prev_snapshot enable the
+    Analyst-section observers that compare this week to last; missing means
+    the comparison-based observers don't fire (fine on the first issue).
     """
     iri_djf = fetched["iri"]["three_cat"]["DJF 2026-27"]
     phys = fetched["physical_state"]
@@ -687,6 +788,24 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     description = (f"Weekly probability tracker for the developing 2026-27 El Niño "
                    f"event. {magn_pct}% chance of a 1997/2015-magnitude winter peak.")
     title = f"El Niño Tracker, week of {brief_date_iso}"
+
+    # Bottom-line slot: per-issue editorial note replaces the default copy
+    # when editorial_note.md exists and is non-empty. Otherwise fall back
+    # to the data-driven default ("X% chance of ... Y% chance of ...").
+    editorial_note = load_editorial_note()
+    if editorial_note:
+        bottom_line_html = (
+            '<div class="lede bottom-line">'
+            + md_lib.markdown(editorial_note,
+                              extensions=["tables", "fenced_code"])
+            + '</div>'
+        )
+    else:
+        bottom_line_html = (
+            f'<p class="lede bottom-line"><strong>Bottom line:</strong> '
+            f'{moderate_pct}% chance of at least a moderate El Niño this winter, '
+            f'{magn_pct}% chance of a 1997 / 2015-magnitude event.</p>'
+        )
 
     # CWWA from physical-state fetch
     wwe_fresh = freshness.get("era5_wwe", {})
@@ -804,7 +923,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
   <div class="issue-stamp">Week of {h(brief_date_iso)} · Methodology v{h(str(S.METHODOLOGY_VERSION))}</div>
   <h1>How likely is a super<br>El Niño this winter?</h1>
   <p class="lede">Updated each Monday from the four major ENSO outlooks (NOAA CPC, IRI, BoM, ECMWF SEAS5) and weekly Niño 3.4 observations. Peak season target: <strong>DJF 2026-27</strong>. Forecast disagreements are surfaced rather than averaged.</p>
-  <p class="lede bottom-line"><strong>Bottom line:</strong> {moderate_pct}% chance of at least a moderate El Niño this winter, {magn_pct}% chance of a 1997 / 2015-magnitude event.</p>
+  {bottom_line_html}
 '''
 
     ladder_html = (
@@ -878,25 +997,17 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<td class="num">{h(cwwa_15_str)}</td>'
         '</tr>'
         '</tbody></table>'
-        f'<div class="note"><strong>Heat content:</strong> {h(phys.get("heat_content_qualitative", ""))}'
-        f'{h(_heat_content_compare(phys.get("heat_content_0_300m_estimate"), analog_same.get("1997_apr_heat_content"), analog_same.get("2015_apr_heat_content")))}'
-        f'</div>'
+        f'<div class="note"><strong>Heat content:</strong> {h(phys.get("heat_content_qualitative", ""))}</div>'
     )
 
     if wwe_live and cwwa_value is not None:
-        cwwa_diverge = _cwwa_divergence(
-            cwwa_value, cwwa_97, cwwa_15,
-            phys.get("nino34_weekly_traditional"),
-            phys.get("heat_content_0_300m_estimate"),
-        )
-        wwb_peak = _wwb_peak_finding(phys)
         physical_html += (
             f'<div class="note"><strong>CWWA:</strong> Live ERA5 daily 850 hPa zonal wind through '
             f'{h(wwe_fresh.get("issued", ""))}, area-meaned over 5°N–5°S, 130°E–150°W and integrated '
             f'for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. '
             f'Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism '
             f'that excites downwelling Kelvin waves and drives moderate-to-super event '
-            f'escalation.{h(cwwa_ranking)}{h(cwwa_diverge)}{h(wwb_peak)}</div>'
+            f'escalation.{h(cwwa_ranking)}</div>'
         )
     physical_html += '</section>'
 
@@ -994,7 +1105,131 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 
     impacts_html = build_impacts_html_block(load_impacts(), world_map_href=world_map_href)
 
-    return (head + ladder_html + chart_html + physical_html
+    # ----------- Analyst section -----------
+    # "What's interesting this week" — six observers, each fires only when
+    # its condition is met. Section is omitted entirely on quiet weeks.
+    # Lives directly under the ladder so a reader who sees the headline
+    # numbers gets "what changed / what does it mean" before scrolling.
+    analyst_obs: list[str] = []
+    prev_cpc_issued = (prev_snapshot or {}).get("cpc_strength", {}).get("issued")
+    prev_cpc_table = (prev_snapshot or {}).get("cpc_strength", {}).get("table", {})
+    cpc_table_full = fetched.get("cpc_strength", {}).get("table", {})
+    super_cur = headline.get("super_>2.0", {})
+    super_prev = (prev_headline or {}).get("super_>2.0", {})
+
+    # 1. CPC re-issued the strength table this week
+    if (prev_cpc_issued and cpc_issued
+            and str(cpc_issued) != str(prev_cpc_issued)):
+        cur_anchor = super_cur.get("anchor")
+        prev_anchor = super_prev.get("anchor")
+        if cur_anchor is not None and prev_anchor is not None:
+            delta = cur_anchor - prev_anchor
+            sign = "+" if delta >= 0 else "−"
+            analyst_obs.append(
+                f"<strong>CPC re-issued the strength table.</strong> "
+                f"The super (>+2.0°C) anchor moved from {prev_anchor}% to "
+                f"{cur_anchor}% ({sign}{abs(delta)}pp). First CPC issuance "
+                f"since the previous brief; the smoothed headline updates "
+                f"accordingly."
+            )
+
+    # 2. CPC ↔ SEAS5 convergence (deflection was near cap, now shrank)
+    cur_defl = super_cur.get("deflection")
+    prev_defl = super_prev.get("deflection")
+    if (cur_defl is not None and prev_defl is not None
+            and prev_defl >= 8 and cur_defl < prev_defl - 2):
+        cur_anchor = super_cur.get("anchor")
+        prev_anchor = super_prev.get("anchor")
+        analyst_obs.append(
+            f"<strong>CPC and SEAS5 converged.</strong> "
+            f"Last week the smoothed super bucket was being pulled up by a "
+            f"SEAS5 deflection of +{prev_defl:.1f}pp (near the +10pp weekly "
+            f"cap). This week the deflection is +{cur_defl:.1f}pp — CPC's "
+            f"anchor moved up from {prev_anchor}% to {cur_anchor}%, closing "
+            f"most of the gap with what SEAS5 had been pointing at."
+        )
+
+    # 3. DJF 2026-27 in CPC's table for the first time
+    if ("DJF 2026-27" in cpc_table_full
+            and "DJF 2026-27" not in prev_cpc_table):
+        djf_super = cpc_table_full.get("DJF 2026-27", {}).get(">=2.0")
+        if djf_super is not None:
+            analyst_obs.append(
+                f"<strong>First direct DJF 2026-27 read from CPC.</strong> "
+                f"CPC's strength table now includes the peak season directly. "
+                f"Super (≥+2.0 RONI) on the direct DJF read: {djf_super}%. "
+                f"Brief still anchors on NDJ for continuity; switching to DJF "
+                f"is queued as a separate methodology decision."
+            )
+
+    # 4. Heat content above both Godzilla analogs at this calendar week
+    hc_val = phys.get("heat_content_0_300m_estimate")
+    hc97 = analog_same.get("1997_apr_heat_content")
+    hc15 = analog_same.get("2015_apr_heat_content")
+    if (hc_val is not None and hc97 is not None and hc15 is not None
+            and hc_val > max(hc97, hc15)):
+        analyst_obs.append(
+            f"<strong>Subsurface heat ahead of both Godzilla analogs.</strong> "
+            f"0–300 m heat content anomaly is now {hc_val:+.2f}°C, vs "
+            f"{hc97:+.1f}°C in 1997 and {hc15:+.1f}°C in 2015 at the same "
+            f"calendar week — running ahead of either super-event analog at "
+            f"this stage of development."
+        )
+
+    # 5. CWWA divergence (wind forcing lagging while ocean runs hot)
+    sst_cur = phys.get("nino34_weekly_traditional")
+    if (cwwa_value is not None and cwwa_97 is not None and cwwa_15 is not None
+            and cwwa_value < min(cwwa_97, cwwa_15) * 0.6
+            and sst_cur is not None and sst_cur >= 0.5
+            and hc_val is not None and hc_val >= 1.0):
+        analyst_obs.append(
+            f"<strong>Wind forcing has not kept pace.</strong> "
+            f"CWWA this week ({cwwa_value:.0f}) is well below both super-event "
+            f"analogs (1997: {cwwa_97:.0f}, 2015: {cwwa_15:.0f}), even as SST "
+            f"and subsurface heat run hot. Recent warming is being driven more "
+            f"by accumulated subsurface heat (residual Kelvin-wave propagation) "
+            f"than by ongoing wind events."
+        )
+
+    # 6. Strongest WWB peak in super-event territory
+    wwb_events = phys.get("wwb_events_detail") or []
+    wwb_analogs = phys.get("wwb_analogs") or {}
+    if wwb_events and wwb_analogs:
+        top_event = max(wwb_events, key=lambda e: e.get("peak_ms") or 0)
+        current_peak = top_event.get("peak_ms") or 0
+        if current_peak > 0:
+            def _season_peak(year):
+                seasons = wwb_analogs.get(year) or wwb_analogs.get(str(year)) or []
+                peaks = [(e.get("peak_ms") or 0) for e in seasons]
+                return max(peaks) if peaks else None
+            p97 = _season_peak(1997)
+            p15 = _season_peak(2015)
+            if p97 is not None and p15 is not None:
+                pd = top_event.get("peak_date", "")
+                date_clause = f" on {pd}" if pd else ""
+                analyst_obs.append(
+                    f"<strong>Strongest WWB already in super-event territory.</strong> "
+                    f"2026's strongest westerly wind burst peaks at "
+                    f"{current_peak:.1f} m/s{date_clause} — vs full-season peaks "
+                    f"of {p97:.1f} (1997) and {p15:.1f} (2015). Peak amplitude "
+                    f"is super-event-aligned even though cumulative wind energy "
+                    f"is lagging."
+                )
+
+    if analyst_obs:
+        items_html = "".join(f"<li>{obs}</li>" for obs in analyst_obs)
+        analyst_html = (
+            '<section class="analyst-read">'
+            '<h2>What\'s interesting this week</h2>'
+            '<p class="section-sub">Observations from this week\'s data, '
+            'beyond what the headline numbers say.</p>'
+            f'<ul>{items_html}</ul>'
+            '</section>'
+        )
+    else:
+        analyst_html = ''
+
+    return (head + ladder_html + analyst_html + chart_html + physical_html
             + impacts_html + sources_html + caveats_html + footer_html
             + '\n</main>\n</body>\n</html>\n')
 
@@ -1665,6 +1900,11 @@ def main():
     # 6. Public brief: structured-HTML render (bypasses markdown for the public
     #    path). Different methodology_href and og_image_url for index vs archive
     #    so links/social cards resolve correctly from each location.
+    # Load the previous week's headline_smoothed structure from the most
+    # recent prior archive meta.json. Enables the Analyst section observers
+    # that compare this week to last (CPC reissue delta, convergence).
+    prev_headline_smoothed = _load_prev_headline_smoothed(S.BRIEF_DATE)
+
     archive_rel = f"briefs/{S.BRIEF_DATE.isoformat()}/"
     public_html_index = build_public_html(
         fetched, freshness, headline_smoothed,
@@ -1673,6 +1913,8 @@ def main():
         canonical_url=f"{PAGES_BASE_URL}/",
         og_image_url=f"{PAGES_BASE_URL}/analog.png",
         world_map_href="world-map.svg",
+        prev_headline=prev_headline_smoothed,
+        prev_snapshot=prev,
     )
     public_html_archive = build_public_html(
         fetched, freshness, headline_smoothed,
@@ -1681,6 +1923,8 @@ def main():
         canonical_url=f"{PAGES_BASE_URL}/{archive_rel}",
         og_image_url=f"{PAGES_BASE_URL}/{archive_rel}analog.png",
         world_map_href="../../world-map.svg",
+        prev_headline=prev_headline_smoothed,
+        prev_snapshot=prev,
     )
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (DOCS_DIR / ".nojekyll").touch()
