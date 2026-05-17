@@ -7,3 +7,6 @@ __pycache__/
 .DS_Store
 # Preview briefs (run_brief.py --preview) are mid-week throwaway outputs.
 briefs/*-preview/
+# Claude Code editor-side bookkeeping (worktree gitlinks break Pages
+# checkout because they look like submodules without a .gitmodules entry).
+.claude/
