@@ -2,7 +2,7 @@
   "bom": {
     "alert_status": "Tropical Pacific continues to warm as models suggest a transition to El Ni\u00f1o during winter",
     "fallback_note": null,
-    "fetched_at": "2026-05-17T11:55:38+00:00",
+    "fetched_at": "2026-05-17T15:10:01+00:00",
     "issued": "2026-05-12",
     "ok": true,
     "summary": "The El Ni\u00f1o\u2013Southern Oscillation (ENSO) is currently neutral although there are signs of possible El Ni\u00f1o development. The latest relative Ni\u00f1o3.4 index value for the week ending 10 May 2026 is +0.52 \u00b0C, within the ENSO-neutral range (\u22120.80 to +0.80 \u00b0C). There has been substantial warming in this region in recent weeks, with the index warming by about 0.3 \u00b0C in the past fortnight and by 1.0 \u00b0C since early March. Significant warmth in the sub-surface suggests further warming of SSTs is likely in the coming weeks.",
@@ -11,7 +11,7 @@
   "brief_date": "2026-05-18",
   "cpc_strength": {
     "fallback_note": null,
-    "fetched_at": "2026-05-17T11:55:33+00:00",
+    "fetched_at": "2026-05-17T15:09:56+00:00",
     "issued": "2026-05-14",
     "ok": true,
     "table": {
@@ -120,7 +120,7 @@
   "ecmwf": {
     "approx_p_above_2.5_oct": 0.5,
     "fallback_note": null,
-    "fetched_at": "2026-05-17T11:56:59+00:00",
+    "fetched_at": "2026-05-17T15:10:32+00:00",
     "issued": "2026-05-01",
     "max_lead_calendar": "2026-11",
     "max_lead_month": 6,
@@ -236,7 +236,7 @@
   },
   "iri": {
     "fallback_note": "seeded from sources.py",
-    "fetched_at": "2026-05-17T11:55:32+00:00",
+    "fetched_at": "2026-05-17T15:09:55+00:00",
     "issued": "2026-04-16",
     "ok": true,
     "three_cat": {
@@ -3535,10 +3535,14 @@
       [
         "2026-05-11",
         150.7935791015625
+      ],
+      [
+        "2026-05-12",
+        150.7935791015625
       ]
     ],
     "fallback_note": null,
-    "fetched_at": "2026-05-17T11:55:32+00:00",
+    "fetched_at": "2026-05-17T15:09:55+00:00",
     "heat_content_0_300m_estimate": 2.24,
     "heat_content_qualitative": "Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.",
     "issued": "2026-05-06",
@@ -3937,7 +3941,7 @@
   "roni_to_oni_offset": 0.5,
   "roni_to_oni_offset_block": {
     "fallback_note": null,
-    "fetched_at": "2026-05-17T11:55:35+00:00",
+    "fetched_at": "2026-05-17T15:09:58+00:00",
     "issued": "2026-05-06",
     "used_fallback": false,
     "value": 0.5,

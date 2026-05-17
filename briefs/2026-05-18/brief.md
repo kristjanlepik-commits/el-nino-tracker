@@ -36,11 +36,11 @@ Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) pl
 | Niño 3.4 weekly (traditional) | +0.9°C | -0.1°C | +0.6°C |
 | Niño 3.4 weekly (RONI) | +0.4°C | n/a (pre-RONI) | n/a (pre-RONI) |
 | 0-300m heat content anomaly | +2.24°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
-| Cumulative westerly wind anomaly since Mar 1 | 151 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 336 | 303 |
+| Cumulative westerly wind anomaly since Mar 1 | 151 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 336 | 309 |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
 
-**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-11, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (151) tracks closest to 2023 (42); other reference years: 1997 (336), 2015 (303), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count and analyst read (v1.7, complementary to CWWA).
+**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-12, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (151) tracks closest to 2023 (43); other reference years: 1997 (336), 2015 (309), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count and analyst read (v1.7, complementary to CWWA).
 
 **WWB events (spatial-peak detection, v1.7):** 5 westerly wind burst events detected since Mar 1, 2026. Detection: sliding 5x10 deg sub-region area-mean anomaly over 10N-10S, 130E-150W; dual threshold (5 m/s sustained for at least 5 days, peak day above 7 m/s) with peak-detection plus a 10-day recovery interval between events. Analogs (events to same calendar date): 1997 (6), 2015 (7), 2023 (6), 2025 (3).
   - 2026-03-01 to 2026-03-08, 8 days, peak 13.0 m/s, peak day 2026-03-02
@@ -136,7 +136,7 @@ This week's brief was generated without analyst commentary because the editorial
 - **iri**: live fetch failed; using last-good cache (issued 2026-04-20). Error: 3-category table not found on page.
 - **bom**: fetched live, issued 2026-05-12.
 - **ecmwf_seas5**: fetched live, issued 2026-05-01.
-- **era5_wwe**: fetched live, issued 2026-05-11.
+- **era5_wwe**: fetched live, issued 2026-05-12.
 - **era5_burst**: fetched live, issued 2026-05-12.
 - **oni_history**: fetched live, issued 2026-04-30.
 

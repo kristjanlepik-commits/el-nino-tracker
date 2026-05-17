@@ -159,6 +159,34 @@ PUBLIC_CSS = """
   .lede { color: var(--text-soft); font-size: 16px; margin: 0 0 18px; max-width: 640px; }
   .lede.bottom-line { font-weight: 500; color: var(--text); margin-bottom: 32px; }
 
+  /* Editor's note: a quote-style block that signals "this is the author's voice"
+     rather than auto-generated prose. Sits in the same slot as the bottom-line. */
+  .editor-note {
+    margin: 0 0 32px;
+    padding: 16px 20px 14px;
+    background: #fbf5e6;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    max-width: 720px;
+  }
+  .editor-note .editor-note-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .editor-note p {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--text);
+    font-style: italic;
+  }
+  .editor-note p + p { margin-top: 10px; }
+  .editor-note strong { font-style: normal; }
+
   .ladder { display: flex; flex-direction: column; gap: 8px; margin: 28px 0 16px; }
   .rung {
     background: var(--bg-card); border: 1px solid var(--border);
@@ -180,6 +208,19 @@ PUBLIC_CSS = """
   }
   .rung .pct .pct-sym { font-size: 14px; color: var(--text-faint); margin-left: 1px; }
   .rung .pct .word { color: var(--text-faint); font-weight: 400; font-size: 13px; margin-left: 6px; }
+  .rung .pct .wow-delta {
+    display: block;
+    margin-top: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+                 Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--text-faint);
+    text-align: right;
+  }
+  .rung .pct .wow-delta.wow-up   { color: var(--super); }
+  .rung .pct .wow-delta.wow-down { color: var(--accent); }
   .rung .label { font-size: 13px; color: var(--text-soft); }
   .rung .label .sep { color: var(--text-faint); margin: 0 6px; }
   .rung .label .range { color: var(--text-faint); }
@@ -379,39 +420,36 @@ PUBLIC_CSS = """
 """.strip()
 
 
-def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str) -> str:
+def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str,
+                 prev_mid: int | None = None) -> str:
     """One probability-ladder row.
 
-    v1.5 ladder: `mid` is the smoothed headline (CPC anchor + bounded SEAS5
-    deflection). When `anchor` and/or `deflection` are present (smoothed
-    estimator output), surface the breakdown inline so the reader can see
-    where the headline came from. Falls back to legacy `lo`/`hi` range
-    rendering if those keys are present (pre-v1.5 callers).
+    Smoothed headline value (`mid`) is the prominent number. A small WoW
+    delta sits below it when last week's snapshot is available and the
+    change is non-zero; an arrow indicates direction. The methodology
+    breakdown (CPC anchor + SEAS5 deflection) is documented on the
+    methodology page rather than crammed into the rung label.
     """
-    extras = ""
-    if "anchor" in pct_dict:
-        anchor = pct_dict["anchor"]
-        deflection = pct_dict.get("deflection", 0)
-        if pct_dict.get("seas5") is None:
-            tail = f"CPC anchor {anchor}% (SEAS5 unavailable)"
-        elif deflection == 0:
-            tail = f"CPC anchor {anchor}%"
-        else:
-            sign = "+" if deflection > 0 else "−"
-            mag = abs(deflection)
-            mag_str = f"{mag:.1f}" if mag != int(mag) else f"{int(mag)}"
-            tail = f"CPC anchor {anchor}% {sign}{mag_str}pp from SEAS5"
-        extras = (f'<span class="sep">·</span>'
-                  f'<span class="range">{h(tail)}</span>')
-    elif "lo" in pct_dict and "hi" in pct_dict:
-        extras = (f'<span class="sep">·</span>'
-                  f'<span class="range">range {pct_dict["lo"]}–{pct_dict["hi"]}%</span>')
+    delta_html = ""
+    if prev_mid is not None:
+        try:
+            delta = int(round(pct_dict["mid"] - prev_mid))
+        except (TypeError, ValueError):
+            delta = 0
+        if delta != 0:
+            if delta > 0:
+                cls, arrow, sign = "wow-up", "▲", "+"
+            else:
+                cls, arrow, sign = "wow-down", "▼", "−"
+            delta_html = (
+                f'<span class="wow-delta {cls}">{arrow} {sign}{abs(delta)} pp this week</span>'
+            )
     return (
         f'<div class="rung {css_class}">'
         f'<div class="threshold"><span class="gt">&gt;</span>{h(threshold)}</div>'
         f'<div class="pct">{pct_dict["mid"]}<span class="pct-sym">%</span>'
-        f'<span class="word">probability</span></div>'
-        f'<div class="label">{h(label_main)}{extras}</div>'
+        f'<span class="word">probability</span>{delta_html}</div>'
+        f'<div class="label">{h(label_main)}</div>'
         f'</div>'
     )
 
@@ -795,10 +833,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     editorial_note = load_editorial_note()
     if editorial_note:
         bottom_line_html = (
-            '<div class="lede bottom-line">'
+            '<aside class="editor-note">'
+            '<div class="editor-note-label">Editor\'s note</div>'
             + md_lib.markdown(editorial_note,
                               extensions=["tables", "fenced_code"])
-            + '</div>'
+            + '</aside>'
         )
     else:
         bottom_line_html = (
@@ -926,18 +965,27 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
   {bottom_line_html}
 '''
 
+    def _prev_mid(key: str):
+        if not prev_headline:
+            return None
+        return (prev_headline.get(key) or {}).get("mid")
+
     ladder_html = (
         '<section><div class="ladder">'
-        + _render_rung("magn",     "+2.5°C peak", headline["9715_>2.5"], "1997 / 2015 magnitude")
-        + _render_rung("super",    "+2.0°C peak", headline["super_>2.0"], "Very strong / super")
-        + _render_rung("strong",   "+1.5°C peak", headline["strong_>1.5"], "Strong")
-        + _render_rung("moderate", "+1.0°C peak", headline["moderate_>1.0"], "At least moderate")
+        + _render_rung("magn",     "+2.5°C peak", headline["9715_>2.5"],
+                       "1997 / 2015 magnitude", _prev_mid("9715_>2.5"))
+        + _render_rung("super",    "+2.0°C peak", headline["super_>2.0"],
+                       "Very strong / super",   _prev_mid("super_>2.0"))
+        + _render_rung("strong",   "+1.5°C peak", headline["strong_>1.5"],
+                       "Strong",                _prev_mid("strong_>1.5"))
+        + _render_rung("moderate", "+1.0°C peak", headline["moderate_>1.0"],
+                       "At least moderate",     _prev_mid("moderate_>1.0"))
         + '</div>'
         + f'<p class="buckets-note">Probabilities use the v1.5 smoothed estimator: a CPC-derived '
           f'anchor ({offset_phrase}, skew-normal fit on the nine-bin strength table) plus a '
-          f'bounded SEAS5 deflection (W = 0.2, capped at ±10pp per bucket per week). Each rung shows '
-          f'the anchor and deflection separately; see <a href="{h(methodology_href)}">methodology</a> '
-          f'for the full math.</p>'
+          f'bounded SEAS5 deflection (W = 0.2, capped at ±10 pp per bucket per week). Week-over-week '
+          f'deltas next to each percentage show this week\'s move; the full estimator math is on the '
+          f'<a href="{h(methodology_href)}">methodology page</a>.</p>'
         + '</section>'
     )
 
