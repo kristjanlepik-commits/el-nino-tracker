@@ -442,7 +442,7 @@ def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str
             else:
                 cls, arrow, sign = "wow-down", "▼", "−"
             delta_html = (
-                f'<span class="wow-delta {cls}">{arrow} {sign}{abs(delta)} pp this week</span>'
+                f'<span class="wow-delta {cls}">{arrow} {sign}{abs(delta)} pp vs last month</span>'
             )
     return (
         f'<div class="rung {css_class}">'
@@ -607,6 +607,56 @@ def _load_prev_headline_smoothed(current_brief_date: date) -> dict | None:
     try:
         data = json.loads(meta_path.read_text())
     except (OSError, json.JSONDecodeError):
+        return None
+    return data.get("headline_buckets")
+
+
+def _load_month_prior_headline_smoothed(current_brief_date: date) -> dict | None:
+    """Find the most recent archive whose date is at least ~28 days before
+    `current_brief_date`, and return its `headline_buckets` ONLY IF its
+    methodology_version matches the current S.METHODOLOGY_VERSION.
+
+    This drives the public ladder's MoM delta. The 28-day window aligns with
+    CPC's monthly issuance cadence: when a delta shows on the ladder, the
+    reader can trust that the move reflects an actual agency re-issue rather
+    than mechanical drift in the RONI offset or bounded SEAS5 deflection
+    between CPC issuances.
+
+    Returns None when:
+      - No archive exists at least 28 days before `current_brief_date`
+      - The prior meta.json doesn't carry methodology_version (pre-v1.5
+        archives written before the field was added)
+      - The prior methodology_version differs from current (cross-version
+        comparison would mislead; the methodology-version-bump banner
+        already discloses non-comparability at the headline level)
+    """
+    if not DOCS_BRIEFS_ROOT.exists():
+        return None
+    from datetime import timedelta
+    cutoff = current_brief_date - timedelta(days=28)
+    candidates = []
+    for d in DOCS_BRIEFS_ROOT.iterdir():
+        if not d.is_dir():
+            continue
+        try:
+            d_date = date.fromisoformat(d.name)
+        except ValueError:
+            continue
+        if d_date <= cutoff:
+            candidates.append((d_date, d))
+    if not candidates:
+        return None
+    candidates.sort()
+    latest_dir = candidates[-1][1]
+    meta_path = latest_dir / "meta.json"
+    if not meta_path.exists():
+        return None
+    try:
+        data = json.loads(meta_path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+    prev_version = data.get("methodology_version")
+    if prev_version is None or str(prev_version) != str(S.METHODOLOGY_VERSION):
         return None
     return data.get("headline_buckets")
 
@@ -792,16 +842,23 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       canonical_url: str, og_image_url: str,
                       world_map_href: str = "world-map.svg",
                       prev_headline: dict | None = None,
-                      prev_snapshot: dict | None = None) -> str:
+                      prev_snapshot: dict | None = None,
+                      prev_headline_month: dict | None = None) -> str:
     """Render the public brief as structured HTML (bypasses markdown).
 
     methodology_href and world_map_href are both relative paths whose depth
     differs between the index ("methodology.html", "world-map.svg") and the
     archive briefs ("../../methodology.html", "../../world-map.svg").
     canonical_url and og_image_url are absolute Pages URLs for the
-    OG/Twitter card metadata. prev_headline and prev_snapshot enable the
-    Analyst-section observers that compare this week to last; missing means
-    the comparison-based observers don't fire (fine on the first issue).
+    OG/Twitter card metadata.
+
+    prev_headline (WoW): smoothed buckets from last week's archive. Used by
+    Analyst-section observers ("CPC re-issued, super +12pp from last week").
+
+    prev_headline_month (MoM, version-aware): smoothed buckets from ~28 days
+    prior, ONLY if same methodology version as current. Drives the ladder
+    delta indicator. None means no delta is shown on the rungs (first runs,
+    methodology-version mismatches, or no archive in the 4-week window).
     """
     iri_djf = fetched["iri"]["three_cat"]["DJF 2026-27"]
     phys = fetched["physical_state"]
@@ -966,9 +1023,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 '''
 
     def _prev_mid(key: str):
-        if not prev_headline:
+        # Ladder delta uses the MoM headline (28+ days back, same methodology
+        # version). prev_headline (WoW) is reserved for Analyst observers.
+        if not prev_headline_month:
             return None
-        return (prev_headline.get(key) or {}).get("mid")
+        return (prev_headline_month.get(key) or {}).get("mid")
 
     ladder_html = (
         '<section><div class="ladder">'
@@ -983,8 +1042,10 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         + '</div>'
         + f'<p class="buckets-note">Probabilities use the v1.5 smoothed estimator: a CPC-derived '
           f'anchor ({offset_phrase}, skew-normal fit on the nine-bin strength table) plus a '
-          f'bounded SEAS5 deflection (W = 0.2, capped at ±10 pp per bucket per week). Week-over-week '
-          f'deltas next to each percentage show this week\'s move; the full estimator math is on the '
+          f'bounded SEAS5 deflection (W = 0.2, capped at ±10 pp per bucket per week). Deltas next '
+          f'to each percentage compare to the issue four weeks prior, aligned with CPC\'s monthly '
+          f'issuance cadence; weeks where no comparable prior exists (early issues, methodology '
+          f'version changes) show no delta. Full estimator math on the '
           f'<a href="{h(methodology_href)}">methodology page</a>.</p>'
         + '</section>'
     )
@@ -1952,6 +2013,9 @@ def main():
     # recent prior archive meta.json. Enables the Analyst section observers
     # that compare this week to last (CPC reissue delta, convergence).
     prev_headline_smoothed = _load_prev_headline_smoothed(S.BRIEF_DATE)
+    # MoM (version-aware) drives the ladder delta. None when the 4-week
+    # comparison would cross a methodology-version bump or no archive exists.
+    prev_headline_smoothed_month = _load_month_prior_headline_smoothed(S.BRIEF_DATE)
 
     archive_rel = f"briefs/{S.BRIEF_DATE.isoformat()}/"
     public_html_index = build_public_html(
@@ -1963,6 +2027,7 @@ def main():
         world_map_href="world-map.svg",
         prev_headline=prev_headline_smoothed,
         prev_snapshot=prev,
+        prev_headline_month=prev_headline_smoothed_month,
     )
     public_html_archive = build_public_html(
         fetched, freshness, headline_smoothed,
@@ -1973,6 +2038,7 @@ def main():
         world_map_href="../../world-map.svg",
         prev_headline=prev_headline_smoothed,
         prev_snapshot=prev,
+        prev_headline_month=prev_headline_smoothed_month,
     )
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (DOCS_DIR / ".nojekyll").touch()
@@ -1986,6 +2052,10 @@ def main():
     shutil.copyfile(brief_dir / "analog.png", docs_brief_dir / "analog.png")
     (docs_brief_dir / "meta.json").write_text(json.dumps({
         "date": S.BRIEF_DATE.isoformat(),
+        # methodology_version pinned per-issue so the MoM delta loader can
+        # detect version mismatches across the 4-week comparison window
+        # and hide the delta when headlines are not strictly comparable.
+        "methodology_version": str(S.METHODOLOGY_VERSION),
         # v1.5: full smoothed structure (mid + anchor + seas5 + deflection
         # per bucket) so the archive index AND any future audit can
         # reconstruct the headline math from this single artifact.
