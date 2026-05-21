@@ -421,14 +421,18 @@ PUBLIC_CSS = """
 
 
 def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str,
-                 prev_mid: int | None = None) -> str:
+                 prev_mid: int | None = None,
+                 delta_label: str = "vs last month") -> str:
     """One probability-ladder row.
 
-    Smoothed headline value (`mid`) is the prominent number. A small WoW
-    delta sits below it when last week's snapshot is available and the
-    change is non-zero; an arrow indicates direction. The methodology
-    breakdown (CPC anchor + SEAS5 deflection) is documented on the
-    methodology page rather than crammed into the rung label.
+    Smoothed headline value (`mid`) is the prominent number. A small
+    delta sits below it when a comparable prior issue is available and
+    the change is non-zero; an arrow indicates direction. `delta_label`
+    sets the suffix copy ("vs last month" for the ≥28-day-back case,
+    "since first issue" for the fallback used in the brief's first
+    month). The methodology breakdown (CPC anchor + SEAS5 deflection)
+    is documented on the methodology page rather than crammed into the
+    rung label.
     """
     delta_html = ""
     if prev_mid is not None:
@@ -442,7 +446,7 @@ def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str
             else:
                 cls, arrow, sign = "wow-down", "▼", "−"
             delta_html = (
-                f'<span class="wow-delta {cls}">{arrow} {sign}{abs(delta)} pp vs last month</span>'
+                f'<span class="wow-delta {cls}">{arrow} {sign}{abs(delta)} pp {h(delta_label)}</span>'
             )
     return (
         f'<div class="rung {css_class}">'
@@ -612,29 +616,41 @@ def _load_prev_headline_smoothed(current_brief_date: date) -> dict | None:
 
 
 def _load_month_prior_headline_smoothed(current_brief_date: date) -> dict | None:
-    """Find the most recent archive whose date is at least ~28 days before
-    `current_brief_date`, and return its `headline_buckets` ONLY IF its
-    methodology_version matches the current S.METHODOLOGY_VERSION.
+    """Find a prior archive for the public ladder's delta indicator,
+    methodology-version gated. Returns a dict with keys:
+      - "buckets": headline_buckets from the chosen archive
+      - "date":    that archive's date (date object)
+      - "label":   human label for the delta suffix ("vs last month" when
+                   the prior is ≥28 days back, "since first issue" when
+                   we fell back to the oldest available archive)
+    or None if no comparable prior is available.
 
-    This drives the public ladder's MoM delta. The 28-day window aligns with
-    CPC's monthly issuance cadence: when a delta shows on the ladder, the
-    reader can trust that the move reflects an actual agency re-issue rather
-    than mechanical drift in the RONI offset or bounded SEAS5 deflection
-    between CPC issuances.
+    Selection rule:
+      1. Prefer the most recent archive whose date is at least 28 days
+         before `current_brief_date`. The 4-week window aligns with CPC's
+         monthly issuance cadence and filters mechanical drift in RONI
+         offset / SEAS5 deflection between CPC issuances.
+      2. If no such archive exists yet (the brief launched <4 weeks ago),
+         fall back to the OLDEST available archive (the "first issue").
+         A visible delta still tracks the brief's lifetime drift, which
+         is more honest than no signal at all; the label distinguishes
+         the two cases so readers know what they're seeing.
 
-    Returns None when:
-      - No archive exists at least 28 days before `current_brief_date`
-      - The prior meta.json doesn't carry methodology_version (pre-v1.5
-        archives written before the field was added)
-      - The prior methodology_version differs from current (cross-version
-        comparison would mislead; the methodology-version-bump banner
-        already discloses non-comparability at the headline level)
+    Either way the chosen archive's `methodology_version` must match
+    current S.METHODOLOGY_VERSION. Cross-version comparison would
+    mislead; the methodology-version-bump banner already discloses
+    non-comparability at the headline level.
     """
     if not DOCS_BRIEFS_ROOT.exists():
         return None
     from datetime import timedelta
     cutoff = current_brief_date - timedelta(days=28)
-    candidates = []
+
+    # Collect ALL prior archives whose meta.json carries a matching
+    # methodology_version. We filter on version FIRST so that older
+    # archives lacking the field (written before it was introduced)
+    # don't shadow newer matching ones via the 28-day preference below.
+    matching = []
     for d in DOCS_BRIEFS_ROOT.iterdir():
         if not d.is_dir():
             continue
@@ -642,23 +658,36 @@ def _load_month_prior_headline_smoothed(current_brief_date: date) -> dict | None
             d_date = date.fromisoformat(d.name)
         except ValueError:
             continue
-        if d_date <= cutoff:
-            candidates.append((d_date, d))
-    if not candidates:
+        if d_date >= current_brief_date:
+            continue
+        meta_path = d / "meta.json"
+        if not meta_path.exists():
+            continue
+        try:
+            data = json.loads(meta_path.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        prev_version = data.get("methodology_version")
+        if prev_version is None or str(prev_version) != str(S.METHODOLOGY_VERSION):
+            continue
+        buckets = data.get("headline_buckets")
+        if not buckets:
+            continue
+        matching.append((d_date, buckets))
+
+    if not matching:
         return None
-    candidates.sort()
-    latest_dir = candidates[-1][1]
-    meta_path = latest_dir / "meta.json"
-    if not meta_path.exists():
-        return None
-    try:
-        data = json.loads(meta_path.read_text())
-    except (OSError, json.JSONDecodeError):
-        return None
-    prev_version = data.get("methodology_version")
-    if prev_version is None or str(prev_version) != str(S.METHODOLOGY_VERSION):
-        return None
-    return data.get("headline_buckets")
+    matching.sort()  # ascending by date
+
+    month_or_older = [m for m in matching if m[0] <= cutoff]
+    if month_or_older:
+        chosen_date, chosen_buckets = month_or_older[-1]
+        label = "vs last month"
+    else:
+        chosen_date, chosen_buckets = matching[0]
+        label = "since first issue"
+
+    return {"buckets": chosen_buckets, "date": chosen_date, "label": label}
 
 
 EDITORIAL_NOTE_FILE = Path(__file__).parent / "editorial_note.md"
@@ -855,10 +884,12 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     prev_headline (WoW): smoothed buckets from last week's archive. Used by
     Analyst-section observers ("CPC re-issued, super +12pp from last week").
 
-    prev_headline_month (MoM, version-aware): smoothed buckets from ~28 days
-    prior, ONLY if same methodology version as current. Drives the ladder
-    delta indicator. None means no delta is shown on the rungs (first runs,
-    methodology-version mismatches, or no archive in the 4-week window).
+    prev_headline_month (version-aware ladder-delta info): an info dict
+    {"buckets": ..., "date": ..., "label": ...} from a prior archive
+    with matching methodology_version. Prefers ≥28 days back ("vs last
+    month"); falls back to the oldest available archive in the brief's
+    first month ("since first issue"). None means no delta is shown on
+    the rungs (methodology-version mismatch, or no prior archive at all).
     """
     iri_djf = fetched["iri"]["three_cat"]["DJF 2026-27"]
     phys = fetched["physical_state"]
@@ -1022,31 +1053,40 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
   {bottom_line_html}
 '''
 
+    # Unpack the version-aware ladder-delta info dict. prev_buckets is the
+    # smoothed headline buckets we compare against; delta_label is the
+    # human suffix ("vs last month" when the prior is ≥28 days back,
+    # "since first issue" for the fallback that runs while the brief is
+    # still in its first month).
+    prev_buckets = prev_headline_month["buckets"] if prev_headline_month else None
+    delta_label = prev_headline_month["label"] if prev_headline_month else "vs last month"
+
     def _prev_mid(key: str):
-        # Ladder delta uses the MoM headline (28+ days back, same methodology
-        # version). prev_headline (WoW) is reserved for Analyst observers.
-        if not prev_headline_month:
+        # Ladder delta uses the version-aware prior headline. prev_headline
+        # (WoW) is reserved for Analyst observers and stays separate.
+        if not prev_buckets:
             return None
-        return (prev_headline_month.get(key) or {}).get("mid")
+        return (prev_buckets.get(key) or {}).get("mid")
 
     ladder_html = (
         '<section><div class="ladder">'
         + _render_rung("magn",     "+2.5°C peak", headline["9715_>2.5"],
-                       "1997 / 2015 magnitude", _prev_mid("9715_>2.5"))
+                       "1997 / 2015 magnitude", _prev_mid("9715_>2.5"), delta_label)
         + _render_rung("super",    "+2.0°C peak", headline["super_>2.0"],
-                       "Very strong / super",   _prev_mid("super_>2.0"))
+                       "Very strong / super",   _prev_mid("super_>2.0"), delta_label)
         + _render_rung("strong",   "+1.5°C peak", headline["strong_>1.5"],
-                       "Strong",                _prev_mid("strong_>1.5"))
+                       "Strong",                _prev_mid("strong_>1.5"), delta_label)
         + _render_rung("moderate", "+1.0°C peak", headline["moderate_>1.0"],
-                       "At least moderate",     _prev_mid("moderate_>1.0"))
+                       "At least moderate",     _prev_mid("moderate_>1.0"), delta_label)
         + '</div>'
         + f'<p class="buckets-note">Probabilities use the v1.5 smoothed estimator: a CPC-derived '
           f'anchor ({offset_phrase}, skew-normal fit on the nine-bin strength table) plus a '
           f'bounded SEAS5 deflection (W = 0.2, capped at ±10 pp per bucket per week). Deltas next '
           f'to each percentage compare to the issue four weeks prior, aligned with CPC\'s monthly '
-          f'issuance cadence; weeks where no comparable prior exists (early issues, methodology '
-          f'version changes) show no delta. Full estimator math on the '
-          f'<a href="{h(methodology_href)}">methodology page</a>.</p>'
+          f'issuance cadence. In the brief\'s first month, the comparison falls back to the launch '
+          f'issue (labelled "since first issue") so a visible delta still tracks meaningful drift. '
+          f'Weeks where no comparable prior exists at all (methodology-version changes) show no '
+          f'delta. Full estimator math on the <a href="{h(methodology_href)}">methodology page</a>.</p>'
         + '</section>'
     )
 
@@ -2013,8 +2053,10 @@ def main():
     # recent prior archive meta.json. Enables the Analyst section observers
     # that compare this week to last (CPC reissue delta, convergence).
     prev_headline_smoothed = _load_prev_headline_smoothed(S.BRIEF_DATE)
-    # MoM (version-aware) drives the ladder delta. None when the 4-week
-    # comparison would cross a methodology-version bump or no archive exists.
+    # Version-aware prior headline drives the ladder delta. Returns an info
+    # dict {buckets, date, label} where label is "vs last month" for the
+    # primary ≥28-day-back path or "since first issue" for the brief's
+    # first-month fallback. None when no comparable prior exists at all.
     prev_headline_smoothed_month = _load_month_prior_headline_smoothed(S.BRIEF_DATE)
 
     archive_rel = f"briefs/{S.BRIEF_DATE.isoformat()}/"
