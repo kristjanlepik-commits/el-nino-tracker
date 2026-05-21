@@ -100,27 +100,34 @@ CPC_STRENGTH = {
 CPC_STRENGTH_RONI = CPC_STRENGTH["table"]
 
 # ---------------------------------------------------------------
-# Section 1 input: IRI ENSO plume, April 2026
+# Section 1 input: IRI ENSO plume, May 2026
 # Source: https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/
 # IRI publishes 3-category probabilities (La Niña / neutral / El Niño)
 # but does not publish strength bins directly in the Quick Look.
 # Below are the El-Niño-vs-other splits; can't decompose into strength
 # without parsing member-level plume data (deferred to V1.5).
 # Update around the 19th of each month.
+#
+# Page-format note (May 19 2026 onward): IRI removed the HTML 3-category
+# table; data is now visible only as PNG images plus prose. The fetcher
+# parses the prose ("97-98% narrow range" framing) and populates all 9
+# seasons with the same tuple. Per-season variation is collapsed by IRI's
+# own framing to 1-2 ppt and is not recoverable from prose alone. The
+# seed below mirrors that flat-curve assumption for the May 19 issuance.
 # ---------------------------------------------------------------
 IRI = {
-    "issued": date(2026, 4, 16),  # IRI Quick Look mid-Apr 2026
+    "issued": date(2026, 5, 19),  # IRI Quick Look May 2026
     "three_cat": {
         # season : (La Niña, Neutral, El Niño) percent
-        "AMJ 2026":     (0, 30, 70),
-        "MJJ 2026":     (0, 12, 88),
-        "JJA 2026":     (0, 9, 91),
-        "JAS 2026":     (0, 8, 92),
-        "ASO 2026":     (0, 7, 93),
-        "SON 2026":     (0, 6, 94),
-        "OND 2026":     (0, 7, 93),
-        "NDJ 2026-27": (0, 8, 92),
-        "DJF 2026-27": (0, 10, 90),
+        "MJJ 2026":     (0, 2, 98),
+        "JJA 2026":     (0, 2, 98),
+        "JAS 2026":     (0, 2, 98),
+        "ASO 2026":     (0, 2, 98),
+        "SON 2026":     (0, 2, 98),
+        "OND 2026":     (0, 2, 98),
+        "NDJ 2026-27": (0, 2, 98),
+        "DJF 2026-27": (0, 2, 98),
+        "JFM 2027":     (0, 2, 98),
     },
 }
 IRI_3CAT = IRI["three_cat"]   # alias
