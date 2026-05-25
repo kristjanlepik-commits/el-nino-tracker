@@ -1,30 +1,29 @@
 {
   "date": "2026-05-18",
-  "methodology_version": "1.7",
   "headline_buckets": {
     "moderate_>1.0": {
       "mid": 98,
-      "anchor": 97,
+      "anchor": 98,
       "seas5": 100,
-      "deflection": 0.6
+      "deflection": 0.4
     },
     "strong_>1.5": {
-      "mid": 89,
-      "anchor": 86,
+      "mid": 91,
+      "anchor": 89,
       "seas5": 100,
-      "deflection": 2.8
+      "deflection": 2.2
     },
     "super_>2.0": {
-      "mid": 69,
-      "anchor": 61,
+      "mid": 74,
+      "anchor": 67,
       "seas5": 100,
-      "deflection": 7.8
+      "deflection": 6.6
     },
     "9715_>2.5": {
-      "mid": 40,
-      "anchor": 31,
+      "mid": 45,
+      "anchor": 37,
       "seas5": 75,
-      "deflection": 8.7
+      "deflection": 7.5
     }
   }
 }

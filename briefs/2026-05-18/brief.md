@@ -7,26 +7,26 @@ Target peak season: **DJF 2026-27**. CPC's longest-lead strength bin is NDJ 2026
 ## 1. Headline probabilities
 
 Peak Niño 3.4 (traditional ONI), DJF 2026-27 / NDJ 2026-27.
-Headline numbers below are CPC-derived after translating from RONI bins to traditional ONI thresholds, then fitting a skew-normal distribution to the nine bin probabilities and evaluating its survival function at each threshold. RONI-to-traditional-ONI offset is +0.40°C, the live tropical-mean SST anomaly observed for the week of 2026-05-13 (CPC). ECMWF SEAS5 member counts in caveat 2 are a second quantitative cross-check.
+Headline numbers below are CPC-derived after translating from RONI bins to traditional ONI thresholds, then fitting a skew-normal distribution to the nine bin probabilities and evaluating its survival function at each threshold. RONI-to-traditional-ONI offset is +0.50°C, the live tropical-mean SST anomaly observed for the week of 2026-05-06 (CPC). ECMWF SEAS5 member counts in caveat 2 are a second quantitative cross-check.
 
-- **At least moderate (>+1.0°C peak)**: 98% (CPC anchor 97%, SEAS5 deflection +0.6 ppt)
-- **Strong (>+1.5°C peak)**: 89% (CPC anchor 86%, SEAS5 deflection +2.8 ppt)
-- **Very strong / super (>+2.0°C peak)**: 69% (CPC anchor 61%, SEAS5 deflection +7.8 ppt)
-- **1997/2015 magnitude (>+2.5°C peak)**: 40% (CPC anchor 31%, SEAS5 deflection +8.7 ppt)
+- **At least moderate (>+1.0°C peak)**: 98%
+- **Strong (>+1.5°C peak)**: 91% (CPC anchor 89%, SEAS5 deflection +2.2 ppt)
+- **Very strong / super (>+2.0°C peak)**: 74% (CPC anchor 67%, SEAS5 deflection +6.6 ppt)
+- **1997/2015 magnitude (>+2.5°C peak)**: 45% (CPC anchor 37%, SEAS5 deflection +7.5 ppt)
 
 Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) plus a bounded weekly deflection from the SEAS5 ensemble (weight 0.2, capped at ±10 ppt per bucket per week). The anchor and deflection are shown alongside the smoothed value where they differ. See methodology.html for the full rule.
 
 **Source-by-source check (qualitative where strength bins aren't broken out):**
 
 - NOAA CPC strength table, NDJ 2026-27 (RONI): super 37%, strong 30%, moderate 22%, weak El Niño 9%, neutral 2%, La Niña 0%. Issued 2026-05-14.
-- IRI plume, DJF 2026-27: El Niño 98%, neutral 2%, La Niña 0%. Issued 2026-05-19. Strength not broken out in the public Quick Look.
+- IRI plume, DJF 2026-27: El Niño 90%, neutral 10%, La Niña 0%. Issued 2026-04-16. Strength not broken out in the public Quick Look.
 - BoM ENSO Outlook, issued 2026-05-12: Tropical Pacific continues to warm as models suggest a transition to El Niño during winter. Categorical only.
 - ECMWF SEAS5, run 2026-05-01: 51-member SEAS5 ensemble for 2026-11: median Niño 3.4 anomaly +2.68 deg C; 51/51 members above +1.5 (~100% above +2.0, ~75% above +2.5).
 
 **Caveats this issue:**
 
-1. The +2.5°C bucket carries a 30-33% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.
-2. ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 38/51 members (75%) at 2026-11 (max available lead). CPC's NDJ 2026-27 bucket lands at 30-33%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.
+1. The +2.5°C bucket carries a 36-38% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.
+2. ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 38/51 members (75%) at 2026-11 (max available lead). CPC's NDJ 2026-27 bucket lands at 36-38%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.
 3. Spring predictability barrier: April-May forecasts at any of these centers carry materially wider error bars than what we'll see in July-August. Treat all numbers as preliminary.
 
 ## 2. Physical state panel
@@ -34,13 +34,13 @@ Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) pl
 | Indicator | Current (week of ~22 Apr 2026) | 1997 same week | 2015 same week |
 |---|---|---|---|
 | Niño 3.4 weekly (traditional) | +0.9°C | -0.1°C | +0.6°C |
-| Niño 3.4 weekly (RONI) | +0.5°C | n/a (pre-RONI) | n/a (pre-RONI) |
+| Niño 3.4 weekly (RONI) | +0.4°C | n/a (pre-RONI) | n/a (pre-RONI) |
 | 0-300m heat content anomaly | +2.24°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
-| Cumulative westerly wind anomaly since Mar 1 | 152 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 336 | 322 |
+| Cumulative westerly wind anomaly since Mar 1 | 151 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 336 | 309 |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
 
-**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-15, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (152) tracks closest to 2023 (45); other reference years: 1997 (336), 2015 (322), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count and analyst read (v1.7, complementary to CWWA).
+**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-12, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (151) tracks closest to 2023 (43); other reference years: 1997 (336), 2015 (309), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count and analyst read (v1.7, complementary to CWWA).
 
 **WWB events (spatial-peak detection, v1.7):** 5 westerly wind burst events detected since Mar 1, 2026. Detection: sliding 5x10 deg sub-region area-mean anomaly over 10N-10S, 130E-150W; dual threshold (5 m/s sustained for at least 5 days, peak day above 7 m/s) with peak-detection plus a 10-day recovery interval between events. Analogs (events to same calendar date): 1997 (6), 2015 (7), 2023 (6), 2025 (3).
   - 2026-03-01 to 2026-03-08, 8 days, peak 13.0 m/s, peak day 2026-03-02
@@ -107,8 +107,6 @@ The 2023-25 fourth global bleaching event already affects ~84% of world reefs (I
 
 ### What changed week-over-week
 
-**RONI->trad ONI offset changed: +0.5°C -> +0.4°C.** This shifts headline buckets even without underlying probability changes; flag in editorial.
-
 **New agency releases since last issue:**
 
 - **cpc_strength**: prior issued 2026-04-09, now issued 2026-05-14.
@@ -117,14 +115,10 @@ The 2023-25 fourth global bleaching event already affects ~84% of world reefs (I
     - NDJ 1.0to1.5: 26% -> 22% (Delta -4)
     - NDJ 1.5to2.0: 26% -> 30% (Delta +4)
     - NDJ >=2.0: 25% -> 37% (Delta +12)
-- **iri**: prior issued 2026-04-16, now issued 2026-05-19.
-    - DJF (LN, N, EN): (0, 10, 90) -> (0, 2, 98)
 
-**Unchanged since last issue:** ecmwf, bom.
+**Unchanged since last issue:** iri, ecmwf, bom.
 
-**Physical state deltas:**
-
-- nino34_weekly_roni: 0.4 -> 0.5 (delta +0.1)
+**Physical state:** no numerical changes from last issue. (Either truly unchanged or weekly update has not been ingested.)
 
 ### Analyst read
 
@@ -137,15 +131,15 @@ This week's brief was generated without analyst commentary because the editorial
 ### Source freshness this issue
 
 - **cpc_strength**: fetched live, issued 2026-05-14.
-- **oisst_weekly**: fetched live, issued 2026-05-13.
+- **oisst_weekly**: fetched live, issued 2026-05-06.
 - **heat_content**: fetched live, issued 2026-04-30.
-- **iri**: fetched live, issued 2026-05-19.
+- **iri**: live fetch failed; using last-good cache (issued 2026-04-20). Error: 3-category table not found on page.
 - **bom**: fetched live, issued 2026-05-12.
 - **ecmwf_seas5**: fetched live, issued 2026-05-01.
-- **era5_wwe**: fetched live, issued 2026-05-15.
-- **era5_burst**: fetched live, issued 2026-05-16.
+- **era5_wwe**: fetched live, issued 2026-05-12.
+- **era5_burst**: fetched live, issued 2026-05-12.
 - **oni_history**: fetched live, issued 2026-04-30.
 
 ---
 
-*Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.7. RONI offset +0.40°C (live, week of 2026-05-13). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).*
+*Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.7. RONI offset +0.50°C (live, week of 2026-05-06). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).*
