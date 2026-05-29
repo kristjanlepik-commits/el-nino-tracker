@@ -167,14 +167,40 @@ def diff(prev: dict, curr: dict) -> dict:
     p_phys = _safe_get(prev, "physical_state", default={})
     c_phys = _safe_get(curr, "physical_state", default={})
     for key in ["nino34_weekly_traditional", "nino34_weekly_roni",
-                "heat_content_0_300m_estimate", "wwe_count_since_mar1_estimate"]:
+                "heat_content_0_300m_estimate",
+                # WWE (legacy) plus CWWA (v1.2+) and WWB count (v1.6+)
+                "wwe_count_since_mar1_estimate",
+                "cwwa_ms_days",
+                "wwb_events_since_mar1"]:
         pv = p_phys.get(key)
         cv = c_phys.get(key)
         if pv is None or cv is None:
             continue
         if pv != cv:
-            out["physical_state_deltas"][key] = {"prev": pv, "curr": cv,
-                                                 "delta": round(cv - pv, 2)}
+            # Preserve int vs float typing so the rendered delta reads
+            # "+1" rather than "+1.0" when both sides are integers.
+            raw_delta = cv - pv
+            if isinstance(pv, int) and isinstance(cv, int):
+                delta = int(raw_delta)
+            else:
+                delta = round(raw_delta, 2)
+            out["physical_state_deltas"][key] = {
+                "prev": pv, "curr": cv, "delta": delta,
+            }
+
+    # Structural detection: new WWB events since last issue. Compare the
+    # set of event start dates rather than just the count so we can show
+    # the brief reader what specifically appeared (start, end, peak).
+    p_events = _safe_get(prev, "physical_state", "wwb_events_detail", default=[]) or []
+    c_events = _safe_get(curr, "physical_state", "wwb_events_detail", default=[]) or []
+    prev_starts = {e.get("start") for e in p_events if isinstance(e, dict)}
+    new_wwb = [
+        e for e in c_events
+        if isinstance(e, dict) and e.get("start") and e.get("start") not in prev_starts
+    ]
+    if new_wwb:
+        out["new_wwb_events"] = new_wwb
+
     return out
 
 
@@ -228,10 +254,26 @@ def render_diff_markdown(d: dict) -> str:
             lines.append(f"- {k}: {v['prev']} -> {v['curr']} "
                          f"(delta {v['delta']:+})")
         lines.append("")
-    else:
+    elif not d.get("new_wwb_events"):
+        # Only emit the "nothing changed" line when nothing under physical
+        # state moved AT ALL, structural or numerical.
         lines.append("**Physical state:** no numerical changes from last "
                      "issue. (Either truly unchanged or weekly update has "
                      "not been ingested.)")
+        lines.append("")
+
+    new_wwb = d.get("new_wwb_events") or []
+    if new_wwb:
+        plural = "s" if len(new_wwb) != 1 else ""
+        lines.append(f"**New WWB event{plural} since last issue "
+                     f"(spatial-peak detection):**")
+        lines.append("")
+        for e in new_wwb:
+            peak_date = e.get("peak_date")
+            peak_str = f", peak day {peak_date}" if peak_date else ""
+            lines.append(f"- {e.get('start')} to {e.get('end')}, "
+                         f"{e.get('duration_days')} days, peak "
+                         f"{e.get('peak_ms')} m/s{peak_str}")
         lines.append("")
 
     return "\n".join(lines).strip()
