@@ -256,59 +256,54 @@ def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
     if not xs:
         return
 
-    member_count = per_lead[-1].get("member_count", 51)
     label_year = f"{current_develop_year}-{(current_develop_year + 1) % 100:02d}"
 
-    # 5-95 outer band, very faint
-    ax.fill_between(xs, p5, p95, color="#000000", alpha=0.10,
-                    linewidth=0,
-                    label=f"{label_year} SEAS5 5-95 percentile ({member_count} members)")
-    # 25-75 inner band, slightly darker
+    # Near-term fan: SEAS5's real 5-95 (outer, faint) and 25-75 (inner) bands.
+    ax.fill_between(xs, p5, p95, color="#000000", alpha=0.10, linewidth=0,
+                    zorder=3)
     ax.fill_between(xs, p25, p75, color="#000000", alpha=0.18, linewidth=0,
-                    label=f"{label_year} SEAS5 25-75 percentile")
-    # Median on top
-    ax.plot(xs, med, color="#000000", linestyle="--", linewidth=1.6,
-            marker="D", markersize=5,
-            label=f"{label_year} SEAS5 median")
+                    zorder=3)
+    # Near-term median: dashed with diamond markers. The dashed style and
+    # markers cue the higher-confidence, multi-member near-term piece; the
+    # CFSv2 extension (drawn separately) continues this same black median
+    # dotted and marker-less. One merged legend entry covers both segments.
+    ax.plot(xs, med, color="#000000", linestyle="--", linewidth=1.8,
+            marker="D", markersize=5, zorder=4,
+            label=f"{label_year} forecast median + range "
+                  f"(SEAS5 dashed; CFSv2 extension dotted)")
 
-    peak_idx = med.index(max(med))
-    peak_med = med[peak_idx]
-    peak_p5 = p5[peak_idx]
-    peak_p95 = p95[peak_idx]
-    cal = per_lead[peak_idx]["calendar"]
-    ax.annotate(
-        f"median +{peak_med:.1f}°C ({cal})\n5-95 band: +{peak_p5:.1f} to +{peak_p95:.1f}",
-        xy=(xs[peak_idx], peak_p95),
-        xytext=(8, 8), textcoords="offset points",
-        fontsize=8.5, color="#222",
-        bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
-                  edgecolor="#aaa", alpha=0.92),
-        arrowprops=dict(arrowstyle="-", color="#888", lw=0.6),
-    )
-
-    # Refresh the legend so the SEAS5 entries (median + bands) are picked up;
-    # the static legend was already drawn by _plot_oni for the analog lines.
+    # Refresh the legend so the forecast entry is picked up; the static
+    # legend was already drawn by _plot_oni for the analog lines.
     ax.legend(loc="lower right", fontsize=9)
-    # Return the last SEAS5 offset so a longer-horizon model can be drawn
-    # as a continuation from exactly where the SEAS5 fan ends.
-    return max(xs) if xs else None
+    # Return the SEAS5 endpoint so the CFSv2 extension connects continuously
+    # from exactly where the SEAS5 fan ends (median + inner-band edges).
+    return {"offset": xs[-1], "median": med[-1],
+            "p25": p25[-1], "p75": p75[-1]}
 
 
 def _plot_cfsv2_extension(ax, trajectory, current_develop_year: int,
-                          seas5_last_offset: float | None):
-    """Draw the CFSv2 ensemble-median Niño 3.4 as a thin line extending
-    BEYOND SEAS5's horizon, through the DJF peak SEAS5 cannot reach from a
-    mid-year initialization.
+                          seas5_end: dict | None):
+    """Continue the single merged forecast fan past SEAS5's horizon using
+    CFSv2, drawn as one continuous line: the SEAS5 near-term median (dashed,
+    diamonds) hands off at November to a CFSv2 median segment that is DOTTED
+    and marker-less. The dotted style cues "longer-horizon, single-model
+    projection, softer." There is no separate legend entry and no distinct
+    tint; this is one merged multi-model forecast, not a competing line.
 
-    SEAS5's operational product on CDS stops at 6 forecast months (Nov 2026
-    from a May run), so the fan never shows the peak. CFSv2 forecasts
-    further out; we plot its median from the SEAS5 hand-off point forward
-    as an explicitly-labeled longer-horizon cross-check, not a second fan.
-    The line's data, position, and label are methodology-side; its color,
-    weight, and dash style are styling the public chat can adjust."""
-    if not trajectory:
+    SEAS5's operational CDS product stops at 6 forecast months (Nov 2026
+    from a May run), so it never reaches the DJF peak. CFSv2 forecasts
+    further out; we splice its Dec-onward months onto the SEAS5 endpoint.
+
+    Band: the extension carries a single grey band from CFSv2's own monthly
+    interquartile (p25-p75) spread, anchored to the SEAS5 inner-band edge at
+    the November hand-off. (A per-month SEAS5+NMME member pool would be the
+    ideal band and is a queued refinement; CFSv2's own IQR is the first cut.)
+    """
+    if not trajectory or not seas5_end:
         return
-    pts = []
+    end_off = seas5_end["offset"]
+    # CFSv2 months strictly beyond the SEAS5 horizon (Dec onward).
+    ext = []
     for entry in trajectory:
         cal = entry.get("calendar")
         med = entry.get("median")
@@ -316,52 +311,22 @@ def _plot_cfsv2_extension(ax, trajectory, current_develop_year: int,
             continue
         year, month = (int(x) for x in cal.split("-"))
         offset = (year - current_develop_year) * 12 + (month - 3)
-        pts.append((offset, med, entry.get("p25", med), entry.get("p75", med)))
-    if not pts:
+        if offset > end_off:
+            ext.append((offset, med, entry.get("p25", med), entry.get("p75", med)))
+    if not ext:
         return
-    pts.sort(key=lambda p: p[0])
-    # Only the portion at or beyond where SEAS5 ends, so the two forecasts
-    # do not visually compete over the overlap. Keep one point at the
-    # hand-off so the CFSv2 line connects cleanly to the SEAS5 median.
-    if seas5_last_offset is not None:
-        pts = [p for p in pts if p[0] >= seas5_last_offset]
-    if len(pts) < 2:
-        return
-    xs = [p[0] for p in pts]
-    ys = [p[1] for p in pts]
-    p25 = [p[2] for p in pts]
-    p75 = [p[3] for p in pts]
-    # A distinct purple tint (not the SEAS5 black fan) signals this is a
-    # different model on a longer horizon, not a seamless SEAS5 extension.
-    # Faint 25-75 interquartile band + dotted median.
-    ax.fill_between(xs, p25, p75, color="#7a3a9a", alpha=0.10, linewidth=0,
+    ext.sort(key=lambda p: p[0])
+    # Prepend the SEAS5 endpoint so the dotted median and the band connect
+    # continuously at November (no visual break, no double-counting Nov).
+    xs = [end_off] + [p[0] for p in ext]
+    ys = [seas5_end["median"]] + [p[1] for p in ext]
+    lo = [seas5_end["p25"]] + [p[2] for p in ext]
+    hi = [seas5_end["p75"]] + [p[3] for p in ext]
+    # Single grey extension band (same black tint as the near-term fan), and
+    # the dotted black median continuing the merged line. No separate label.
+    ax.fill_between(xs, lo, hi, color="#000000", alpha=0.10, linewidth=0,
                     zorder=3)
-    ax.plot(xs, ys, color="#7a3a9a", linestyle=(0, (4, 2)), linewidth=1.3,
-            alpha=0.85, zorder=4,
-            label=f"{current_develop_year}-{(current_develop_year + 1) % 100:02d} "
-                  f"CFSv2 median 25-75 (longer horizon)")
-
-    # Annotate the CFSv2 peak so the reader sees where it crosses the
-    # 1997/2015 record line.
-    peak_idx = ys.index(max(ys))
-    peak_y = ys[peak_idx]
-    peak_cal = None
-    for entry in trajectory:
-        y2, m2 = (int(x) for x in entry["calendar"].split("-"))
-        if (y2 - current_develop_year) * 12 + (m2 - 3) == xs[peak_idx]:
-            peak_cal = entry["calendar"]
-            break
-    cal_clause = f" ({peak_cal})" if peak_cal else ""
-    ax.annotate(
-        f"CFSv2 median peak +{peak_y:.1f}°C{cal_clause}",
-        xy=(xs[peak_idx], peak_y),
-        xytext=(6, -16), textcoords="offset points",
-        fontsize=8.5, color="#5a2a7a",
-        bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
-                  edgecolor="#b48ccc", alpha=0.92),
-        arrowprops=dict(arrowstyle="-", color="#9a6aba", lw=0.6),
-    )
-    ax.legend(loc="lower right", fontsize=9)
+    ax.plot(xs, ys, color="#000000", linestyle=":", linewidth=1.8, zorder=4)
 
 
 def _plot_obs_to_forecast_connector(ax, obs_series, per_lead,
@@ -384,8 +349,10 @@ def _plot_obs_to_forecast_connector(ax, obs_series, per_lead,
     # Only draw if there is an actual gap to bridge (fan starts after obs).
     if fan_start_offset <= obs_end[0]:
         return
+    # Dotted, matching the DJF/CFSv2 extension tail, so dotted reads
+    # consistently across the figure as "softer / bridged / projected."
     ax.plot([obs_end[0], fan_start_offset], [obs_end[1], med],
-            color="black", linestyle=":", linewidth=1.3, alpha=0.6, zorder=4)
+            color="black", linestyle=":", linewidth=1.4, alpha=0.7, zorder=4)
 
 
 def _plot_cwwa(ax, current_series, analogs, current_develop_year):
@@ -455,13 +422,13 @@ def plot(out_path: str, cwwa_data: dict | None = None,
     fig, (ax_oni, ax_cwwa) = plt.subplots(2, 1, figsize=(10, 9), sharex=True,
                                           gridspec_kw={"height_ratios": [3, 2]})
     _plot_oni(ax_oni, series)
-    seas5_last_offset = None
+    seas5_end = None
     if seas5_per_lead:
-        seas5_last_offset = _plot_seas5_forecast(ax_oni, seas5_per_lead,
-                                                 current_develop_year)
+        seas5_end = _plot_seas5_forecast(ax_oni, seas5_per_lead,
+                                         current_develop_year)
     if cfsv2_median:
         _plot_cfsv2_extension(ax_oni, cfsv2_median, current_develop_year,
-                              seas5_last_offset)
+                              seas5_end)
 
     # Dotted connector bridging the gap between where the 2026 observed ONI
     # line ends and where the SEAS5 forecast fan begins. The observed series
