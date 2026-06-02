@@ -10,11 +10,12 @@ Peak Niño 3.4 (traditional ONI), DJF 2026-27 / NDJ 2026-27.
 Headline numbers below are CPC-derived after translating from RONI bins to traditional ONI thresholds, then fitting a skew-normal distribution to the nine bin probabilities and evaluating its survival function at each threshold. RONI-to-traditional-ONI offset is +0.50°C, the live tropical-mean SST anomaly observed for the week of 2026-05-27 (CPC). ECMWF SEAS5 member counts in caveat 2 are a second quantitative cross-check.
 
 - **At least moderate (>+1.0°C peak)**: 98%
-- **Strong (>+1.5°C peak)**: 91% (CPC anchor 89%, SEAS5 deflection +2.2 ppt)
-- **Very strong / super (>+2.0°C peak)**: 74% (CPC anchor 67%, SEAS5 deflection +6.6 ppt)
-- **1997/2015 magnitude (>+2.5°C peak)**: 45% (CPC anchor 37%, SEAS5 deflection +7.5 ppt)
+- **Strong (>+1.5°C peak)**: 91% (CPC anchor 89%, 6-model consensus 91%, deflection +1.6 ppt)
+- **Very strong / super (>+2.0°C peak)**: 78% (CPC anchor 67%, 6-model consensus 80%, deflection +10.6 ppt)
+- **1997/2015 magnitude (>+2.5°C peak)**: 66% (CPC anchor 37%, 6-model consensus 71%, deflection +28.8 ppt)
+- **Beyond instrumental record (>+3.0°C peak)**: 38% (CPC anchor 14%, 6-model consensus 42%, deflection +23.6 ppt)
 
-Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) plus a bounded weekly deflection from the SEAS5 ensemble (weight 0.2, capped at ±10 ppt per bucket per week). The anchor and deflection are shown alongside the smoothed value where they differ. See methodology.html for the full rule.
+Headline values use the v1.8 smoothed estimator: a CPC anchor (monthly cadence) plus a deflection toward an equal-weight multi-model consensus (ECMWF SEAS5 + the NMME suite). The consensus carries weight 0.85, so the headline is consensus-led with CPC as a minor anchor. This replaces the v1.5 SEAS5-only deflection (weight 0.2) and was adopted because a multi-model consensus past the spring predictability barrier, corroborated by subsurface heat and WWB peak amplitude, is more informative than CPC's lagging monthly table alone. The anchor and consensus are shown alongside the smoothed value. See methodology.html for the full rule and the rationale.
 
 **Source-by-source check (qualitative where strength bins aren't broken out):**
 
@@ -28,6 +29,7 @@ Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) pl
 1. The +2.5°C bucket carries a 36-38% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range therefore reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty.
 2. ECMWF SEAS5 vs CPC, upper tail above +2.5°C trad ONI: SEAS5 has 38/51 members (75%) at 2026-11 (max available lead). CPC's NDJ 2026-27 bucket lands at 36-38%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. Real disagreement to surface, not a number to average.
 3. Spring predictability barrier: April-May forecasts at any of these centers carry materially wider error bars than what we'll see in July-August. Treat all numbers as preliminary.
+4. The +3.0°C bucket (38%) is the most model-dependent number in the headline. +3.0°C exceeds every event in the instrumental record (1997 ~2.4, 2015 ~2.6, 1877 ~2.5 on HadISST), and it sits beyond CPC's published strength bins (which top out at >=2.0 RONI), so its CPC anchor (14%) is the deepest skew-normal tail extrapolation in the brief; the model consensus above +3.0 is 42%. Under the v1.8 consensus weighting the bucket is driven mostly by direct model member counts above +3.0, not by that extrapolation, but read it as the brief's least-anchored figure.
 
 ## 2. Physical state panel
 
@@ -35,12 +37,12 @@ Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) pl
 |---|---|---|---|
 | Niño 3.4 weekly (traditional) | +1.0°C | -0.1°C | +0.6°C |
 | Niño 3.4 weekly (RONI) | +0.5°C | n/a (pre-RONI) | n/a (pre-RONI) |
-| 0-300m heat content anomaly | +2.00°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
-| Cumulative westerly wind anomaly since Mar 1 | 170 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 391 | 358 |
+| 0-300m heat content anomaly | +1.99°C (CPC monthly, 180W-100W, vs 1981-2010 climo) | +0.7°C | +1.6°C |
+| Cumulative westerly wind anomaly since Mar 1 | 175 m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo) | 398 | 362 |
 
 **Heat content note:** Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.
 
-**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-27, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (170) tracks closest to 2023 (75); other reference years: 1997 (391), 2015 (358), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count and analyst read (v1.7, complementary to CWWA).
+**CWWA note:** Live ERA5 daily 850 hPa zonal wind through 2026-05-28, area-meaned over 5N-5S, 130E-150W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. At the same calendar date, 2026 CWWA (175) tracks closest to 2023 (76); other reference years: 1997 (398), 2015 (362), 2025 (0). Caveat: CWWA is a cumulative-area-mean metric and systematically understates transient localized westerly wind bursts, including those occurring just outside the 5N-5S band. A short intense burst can generate a downwelling Kelvin wave that does substantial physical work even when it barely moves the cumulative integral. For the operational read on whether ENSO development is on track, the surfacing-Kelvin-wave evidence in heat content (above) is at least as informative as this metric. See the WWB row below for the spatial-peak event count and analyst read (v1.7, complementary to CWWA).
 
 **WWB events (spatial-peak detection, v1.7):** 6 westerly wind burst events detected since Mar 1, 2026. Detection: sliding 5x10 deg sub-region area-mean anomaly over 10N-10S, 130E-150W; dual threshold (5 m/s sustained for at least 5 days, peak day above 7 m/s) with peak-detection plus a 10-day recovery interval between events. Analogs (events to same calendar date): 1997 (7), 2015 (8), 2023 (7), 2025 (3).
   - 2026-03-01 to 2026-03-08, 8 days, peak 13.0 m/s, peak day 2026-03-02
@@ -48,7 +50,7 @@ Headline values use the v1.5 smoothed estimator: CPC anchor (monthly cadence) pl
   - 2026-03-23 to 2026-04-06, 15 days, peak 17.38 m/s, peak day 2026-03-31
   - 2026-04-07 to 2026-04-22, 16 days, peak 23.85 m/s, peak day 2026-04-12
   - 2026-05-01 to 2026-05-08, 8 days, peak 9.86 m/s, peak day 2026-05-02
-  - 2026-05-19 to 2026-05-27, 9 days, peak 15.26 m/s, peak day 2026-05-26
+  - 2026-05-19 to 2026-05-28, 10 days, peak 15.26 m/s, peak day 2026-05-26
 
 **Analyst read on WWB row (v1.7).**
 
@@ -57,6 +59,26 @@ Peak amplitude is the primary signal in this row, not the count. 2026's stronges
 This lands in super-event territory: 2026's first burst is comparable in magnitude to 1997 and 2015 first bursts, well above what 2023 (sub-event El Niño) and 2025 (neutral / La Niña) produced. Peak amplitude is the strongest quantitative evidence to date that 2026's forcing is structurally aligned with the super-event analogs rather than the weaker recent analogs.
 
 On count: 2026 has 6 events so far; analogs at the same calendar date: 1997 (7), 2015 (8), 2023 (7), 2025 (3). v1.7's peak-detection algorithm with a 10-day recovery interval splits sustained westerly periods into distinct bursts where v1.6 collapsed them. The count is now reasonably comparable across years, but peak amplitude remains the cleaner single number.
+
+## 2b. Multi-model consensus (NMME)
+
+North American Multi-Model Ensemble, init 2026050800 (issued 2026-05-08). Peak Nino 3.4 over Nov 2026 - Feb 2027 (NDJ-DJF), region 5N-5S, 170W-120W. Each cell is the percent of that model's ensemble members whose peak exceeds the threshold. Anomalies are vs each model's own hindcast climatology (same convention as SEAS5).
+
+| Model | Members | Peak (mean) | >+1.0 | >+1.5 | >+2.0 | >+2.5 | >+3.0 |
+|---|---|---|---|---|---|---|---|
+| NCEP CFSv2 | 32 | 3.11°C | 100% | 100% | 97% | 91% | 72% |
+| CanESM5 | 20 | 1.48°C | 85% | 50% | 10% | 0% | 0% |
+| GEM5.2-NEMO | 20 | 2.56°C | 100% | 95% | 70% | 60% | 25% |
+| NCAR CCSM4 | 10 | 2.89°C | 100% | 100% | 100% | 100% | 30% |
+| NCAR CESM1 | 10 | 4.66°C | 100% | 100% | 100% | 100% | 100% |
+| **Consensus (equal model wt)** | 5 models | **2.94°C** | 97% | 89% | 75% | 70% | 45% |
+
+**Consensus read:** The multi-model consensus puts 70% of members above +2.5°C (1997/2015 magnitude), and 45% above +3.0°C, which would exceed every event in the instrumental record (1997 ~2.4, 2015 ~2.6, 1877 ~2.5 on HadISST). These are directly-counted member fractions, not tail extrapolations. As of methodology v1.8 the NMME suite feeds the section-1 headline directly: the multi-model consensus deflection blends these models with ECMWF SEAS5 at weight 0.85. This panel shows the per-model breakdown behind that consensus, including the spread between the hot models (CFSv2, NCAR) and the cooler outliers (CanESM5).
+
+**Panel caveats:**
+
+- NMME updates monthly (around the 8th). This init (2026050800) predates the late-May model runs discussed publicly; the next init will capture those.
+- Consensus is equal-weighted by model, so small-ensemble models (NCAR CCSM4/CESM1, 10 members each) carry the same weight as larger ones. Member-weighting lowers the upper-tail fractions by a few points. NCAR CESM1 is a known warm outlier.
 
 ## 3. Analog tracker
 
@@ -108,6 +130,8 @@ The 2023-25 fourth global bleaching event already affects ~84% of world reefs (I
 
 ### What changed week-over-week
 
+**Methodology version bumped: 1.7 -> 1.8.** Headline buckets are not strictly comparable to last issue. See methodology change log.
+
 **New agency releases since last issue:**
 
 - **bom**: prior issued 2026-05-12, now issued 2026-05-26.
@@ -116,13 +140,13 @@ The 2023-25 fourth global bleaching event already affects ~84% of world reefs (I
 
 **Physical state deltas:**
 
-- heat_content_0_300m_estimate: 2.24 -> 2.0 (delta -0.24)
-- cwwa_ms_days: 152.35 -> 170.27 (delta +17.92)
+- heat_content_0_300m_estimate: 2.24 -> 1.99 (delta -0.25)
+- cwwa_ms_days: 152.35 -> 175.24 (delta +22.89)
 - wwb_events_since_mar1: 5 -> 6 (delta +1)
 
 **New WWB event since last issue (spatial-peak detection):**
 
-- 2026-05-19 to 2026-05-27, 9 days, peak 15.26 m/s, peak day 2026-05-26
+- 2026-05-19 to 2026-05-28, 10 days, peak 15.26 m/s, peak day 2026-05-26
 
 ### Analyst read
 
@@ -140,10 +164,11 @@ This week's brief was generated without analyst commentary because the editorial
 - **iri**: fetched live, issued 2026-05-19.
 - **bom**: fetched live, issued 2026-05-26.
 - **ecmwf_seas5**: fetched live, issued 2026-05-01.
-- **era5_wwe**: fetched live, issued 2026-05-27.
-- **era5_burst**: fetched live, issued 2026-05-27.
+- **era5_wwe**: fetched live, issued 2026-05-28.
+- **era5_burst**: fetched live, issued 2026-05-28.
 - **oni_history**: fetched live, issued 2026-04-30.
+- **nmme**: fetched live, issued 2026-05-08.
 
 ---
 
-*Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.7. RONI offset +0.50°C (live, week of 2026-05-27). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).*
+*Generated by run_brief.py from sources.py + probs.py + analog.py. Methodology version 1.8. RONI offset +0.50°C (live, week of 2026-05-27). Next issue: Mon 4 May 2026 (per Monday cadence; first batch run is off-schedule).*

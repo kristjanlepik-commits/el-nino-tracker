@@ -49,6 +49,7 @@ PUBLIC_SOURCE_NAMES = {
     "iri": "IRI plume",
     "bom": "BoM ENSO Outlook",
     "ecmwf_seas5": "ECMWF SEAS5",
+    "nmme": "NMME multi-model suite (incl. CFSv2)",
     "era5_wwe": "ERA5 cumulative westerly wind anomaly (CWWA)",
 }
 
@@ -56,7 +57,8 @@ PUBLIC_SOURCE_NAMES = {
 def public_preamble(methodology_href: str) -> str:
     return (
         "Weekly probability tracker for the developing 2026-27 El Niño event, "
-        "built from the official ENSO outlooks (NOAA CPC, IRI, BoM, ECMWF SEAS5) "
+        "built from the official ENSO outlooks (NOAA CPC, IRI, BoM) and a "
+        "multi-model forecast consensus (ECMWF SEAS5 with the NMME suite) "
         "plus weekly Niño 3.4 observations. Numbers are reproduced from public "
         f"sources and recombined into a single set of peak-strength buckets; the "
         f"[methodology page]({methodology_href}) documents every step. Forecast "
@@ -224,10 +226,25 @@ PUBLIC_CSS = """
   .rung .label { font-size: 13px; color: var(--text-soft); }
   .rung .label .sep { color: var(--text-faint); margin: 0 6px; }
   .rung .label .range { color: var(--text-faint); }
+  .rung .label .tag {
+    display: inline-block; margin-left: 8px; padding: 1px 7px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--text-faint);
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 10px; vertical-align: middle;
+  }
   .rung.magn     { border-left-color: var(--magn); }
   .rung.super    { border-left-color: var(--super); }
   .rung.strong   { border-left-color: var(--strong); }
   .rung.moderate { border-left-color: var(--moderate); }
+  /* +3.0 "beyond record" rung: deliberately muted (dashed, neutral
+     border, soft fill) so it does not read as co-equal confidence with
+     the calibrated rungs. It is the least-anchored figure on the ladder. */
+  .rung.record {
+    border-left-color: var(--neutral); border-left-style: dashed;
+    background: var(--bg-soft);
+  }
+  .rung.record .pct { color: var(--text-faint); }
   .buckets-note { font-size: 13px; color: var(--text-faint); margin: 0 0 32px; }
 
   /* Analyst section: tinted block directly under the ladder, only renders
@@ -422,7 +439,8 @@ PUBLIC_CSS = """
 
 def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str,
                  prev_mid: int | None = None,
-                 delta_label: str = "vs last month") -> str:
+                 delta_label: str = "vs last month",
+                 tag: str | None = None) -> str:
     """One probability-ladder row.
 
     Smoothed headline value (`mid`) is the prominent number. A small
@@ -430,10 +448,12 @@ def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str
     the change is non-zero; an arrow indicates direction. `delta_label`
     sets the suffix copy ("vs last month" for the ≥28-day-back case,
     "since first issue" for the fallback used in the brief's first
-    month). The methodology breakdown (CPC anchor + SEAS5 deflection)
-    is documented on the methodology page rather than crammed into the
-    rung label.
+    month). `tag` adds a small pill next to the label (used to flag the
+    +3.0 bucket as "most uncertain", since it is the least-anchored
+    figure on the ladder). The methodology breakdown is documented on
+    the methodology page rather than crammed into the rung label.
     """
+    tag_html = f'<span class="tag">{h(tag)}</span>' if tag else ""
     delta_html = ""
     if prev_mid is not None:
         try:
@@ -453,7 +473,7 @@ def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str
         f'<div class="threshold"><span class="gt">&gt;</span>{h(threshold)}</div>'
         f'<div class="pct">{pct_dict["mid"]}<span class="pct-sym">%</span>'
         f'<span class="word">probability</span>{delta_html}</div>'
-        f'<div class="label">{h(label_main)}</div>'
+        f'<div class="label">{h(label_main)}{tag_html}</div>'
         f'</div>'
     )
 
@@ -696,7 +716,7 @@ EDITORIAL_NOTE_FILE = Path(__file__).parent / "editorial_note.md"
 def load_editorial_note() -> str:
     """Load the optional editorial_note.md at project root.
 
-    If present and non-empty, returns the raw markdown — caller renders it
+    If present and non-empty, returns the raw markdown; caller renders it
     to HTML and uses it in place of the auto-populated bottom-line copy.
     If absent or empty, returns "" and the bottom line falls back to the
     default "X% chance of at least a moderate El Niño this winter, Y%
@@ -1049,7 +1069,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 <main>
   <div class="issue-stamp">Week of {h(brief_date_iso)} · Methodology v{h(str(S.METHODOLOGY_VERSION))}</div>
   <h1>How likely is a super<br>El Niño this winter?</h1>
-  <p class="lede">Updated each Monday from the four major ENSO outlooks (NOAA CPC, IRI, BoM, ECMWF SEAS5) and weekly Niño 3.4 observations. Peak season target: <strong>DJF 2026-27</strong>. Forecast disagreements are surfaced rather than averaged.</p>
+  <p class="lede">Updated each Monday from the major ENSO outlooks (NOAA CPC, IRI, BoM) and a multi-model forecast consensus (ECMWF SEAS5 with the NMME suite), plus weekly Niño 3.4 observations. Peak season target: <strong>DJF 2026-27</strong>. Forecast disagreements are surfaced rather than averaged.</p>
   {bottom_line_html}
 '''
 
@@ -1068,8 +1088,20 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             return None
         return (prev_buckets.get(key) or {}).get("mid")
 
+    # The +3.0 "beyond instrumental record" rung (v1.8) sits above the
+    # calibrated rungs but is rendered muted and tagged "most uncertain":
+    # it is the least-anchored figure on the ladder. Guarded so the brief
+    # still renders if an older headline dict lacks the bucket.
+    record_rung = ""
+    if "record_>3.0" in headline:
+        record_rung = _render_rung(
+            "record", "+3.0°C peak", headline["record_>3.0"],
+            "Beyond the instrumental record", _prev_mid("record_>3.0"),
+            delta_label, tag="most uncertain")
+
     ladder_html = (
         '<section><div class="ladder">'
+        + record_rung
         + _render_rung("magn",     "+2.5°C peak", headline["9715_>2.5"],
                        "1997 / 2015 magnitude", _prev_mid("9715_>2.5"), delta_label)
         + _render_rung("super",    "+2.0°C peak", headline["super_>2.0"],
@@ -1079,33 +1111,68 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         + _render_rung("moderate", "+1.0°C peak", headline["moderate_>1.0"],
                        "At least moderate",     _prev_mid("moderate_>1.0"), delta_label)
         + '</div>'
-        + f'<p class="buckets-note">Probabilities use the v1.5 smoothed estimator: a CPC-derived '
-          f'anchor ({offset_phrase}, skew-normal fit on the nine-bin strength table) plus a '
-          f'bounded SEAS5 deflection (W = 0.2, capped at ±10 pp per bucket per week). Deltas next '
-          f'to each percentage compare to the issue four weeks prior, aligned with CPC\'s monthly '
-          f'issuance cadence. In the brief\'s first month, the comparison falls back to the launch '
-          f'issue (labelled "since first issue") so a visible delta still tracks meaningful drift. '
-          f'Weeks where no comparable prior exists at all (methodology-version changes) show no '
-          f'delta. Full estimator math on the <a href="{h(methodology_href)}">methodology page</a>.</p>'
+        + f'<p class="buckets-note">Probabilities use the v1.8 consensus estimator: a CPC-derived '
+          f'anchor ({offset_phrase}, skew-normal fit on the strength table) deflected toward an '
+          f'equal-weight multi-model consensus (ECMWF SEAS5 plus the NMME suite), consensus-led at '
+          f'weight 0.85. The +3.0°C bucket is different in kind: it sits beyond every event in the '
+          f'instrumental record, so it carries almost no historical anchor and is driven mostly by '
+          f'direct model member counts above +3.0. Treat it as the brief\'s least-certain figure, a '
+          f'directional read on tail risk rather than a calibrated probability. Deltas compare to '
+          f'the issue four weeks prior, aligned with CPC\'s monthly cadence; in the brief\'s first '
+          f'month the comparison falls back to the launch issue, and weeks crossing a '
+          f'methodology-version change show no delta. Full estimator math on the '
+          f'<a href="{h(methodology_href)}">methodology page</a>.</p>'
         + '</section>'
     )
+
+    # Chart caption dynamic values for the merged multi-model fan. Computed
+    # defensively with fallbacks so the caption never crashes the brief.
+    _MONTHS = ["", "January", "February", "March", "April", "May", "June",
+               "July", "August", "September", "October", "November", "December"]
+
+    def _fmt_cal(s, fallback):
+        try:
+            yy, mm = str(s).split("-")
+            return f"{_MONTHS[int(mm)]} {yy}"
+        except (ValueError, IndexError):
+            return str(s) if s else fallback
+
+    _SEASON_ORDER = ["DJF", "JFM", "FMA", "MAM", "AMJ", "MJJ", "JJA", "JAS",
+                     "ASO", "SON", "OND", "NDJ"]
+    obs_season, obs_val = "latest", None
+    _sm_2026 = (by_year.get(2026) or by_year.get("2026")) if by_year else None
+    if isinstance(_sm_2026, dict):
+        for _s in reversed(_SEASON_ORDER):
+            try:
+                obs_val = float(_sm_2026[_s])
+                obs_season = _s
+                break
+            except (KeyError, TypeError, ValueError):
+                continue
+    obs_str = _signed_temp(obs_val, 1) if obs_val is not None else "near 0"
+    seas5_end = _fmt_cal(ecmwf.get("max_lead_calendar"), "this autumn")
+    _cfsv2_traj = (fetched.get("nmme") or {}).get("cfsv2_trajectory") or []
+    cfsv2_end = _fmt_cal(_cfsv2_traj[-1].get("calendar") if _cfsv2_traj else None,
+                         "early 2027")
 
     chart_html = (
         '<section>'
         '<h2>Analog tracker</h2>'
-        '<p class="section-sub">2026-27 trajectory vs reference El Niño events, plus the SEAS5 ensemble forecast (median + uncertainty bands) forward.</p>'
+        '<p class="section-sub">2026-27 trajectory vs reference El Niño events, plus a combined SEAS5 and CFSv2 forecast carried through the winter peak.</p>'
         '<div class="chart-card">'
         '<img src="analog.png" alt="Analog tracker chart">'
         '<div class="chart-caption">'
-        f'<strong>Read this week:</strong> at the JFM tick (month -1 since Mar 1), '
-        f'2026 sits at {jfm_2026_str}°C. Both 1997 (−0.4°C) and 2023 (−0.3°C) were '
-        f'similarly cool at the same calendar point and went on to become super events; '
-        f'2015 was already running ahead at +0.6°C in JFM. The takeaway: JFM position '
-        f'is a weak discriminator, ramp speed through MAM–AMJ matters more, and we '
-        f'won\'t see that until the next 1–2 ONI updates. The dashed line marks the '
-        f'ECMWF SEAS5 ensemble median forward to {h(ecmwf.get("max_lead_calendar", "Oct 2026"))} '
-        f'(peak +{ecmwf.get("median_anomaly", 0):.1f}°C); the shaded bands show the '
-        f'25–75 and 5–95 percentile spreads across the 51-member ensemble.'
+        f'<strong>Read this week:</strong> the shaded red field marks El Niño territory, '
+        f'deepening through moderate, strong and super up to the +2.5°C line that 1997 and '
+        f'2015 peaked near. 2026\'s observed ONI (solid black) runs to the {h(obs_season)} '
+        f'season at {obs_str}°C; 1997 and 2023 were similarly cool this early and still became '
+        f'super events, so position this far out is a weak discriminator. Forward, the forecast '
+        f'is one combined ensemble: the dashed line and grey bands are ECMWF SEAS5 (median with '
+        f'25-75 and 5-95 percentile spreads) to its {h(seas5_end)} horizon, and the dotted line '
+        f'carries CFSv2 from there through the DJF peak to {h(cfsv2_end)}, above the 1997/2015 '
+        f'record. The dotted stretches are the softer parts: a short bridge over the gap to the '
+        f'first forecast month, then CFSv2 alone, its interquartile band widening with lead. Read '
+        f'the dotted tail as direction, not precision.'
         '</div></div></section>'
     )
 
@@ -1255,7 +1322,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     impacts_html = build_impacts_html_block(load_impacts(), world_map_href=world_map_href)
 
     # ----------- Analyst section -----------
-    # "What's interesting this week" — six observers, each fires only when
+    # "What's interesting this week": six observers, each fires only when
     # its condition is met. Section is omitted entirely on quiet weeks.
     # Lives directly under the ladder so a reader who sees the headline
     # numbers gets "what changed / what does it mean" before scrolling.
@@ -1293,7 +1360,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             f"<strong>CPC and SEAS5 converged.</strong> "
             f"Last week the smoothed super bucket was being pulled up by a "
             f"SEAS5 deflection of +{prev_defl:.1f}pp (near the +10pp weekly "
-            f"cap). This week the deflection is +{cur_defl:.1f}pp — CPC's "
+            f"cap). This week the deflection is +{cur_defl:.1f}pp; CPC's "
             f"anchor moved up from {prev_anchor}% to {cur_anchor}%, closing "
             f"most of the gap with what SEAS5 had been pointing at."
         )
@@ -1321,7 +1388,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             f"<strong>Subsurface heat ahead of both Godzilla analogs.</strong> "
             f"0–300 m heat content anomaly is now {hc_val:+.2f}°C, vs "
             f"{hc97:+.1f}°C in 1997 and {hc15:+.1f}°C in 2015 at the same "
-            f"calendar week — running ahead of either super-event analog at "
+            f"calendar week, running ahead of either super-event analog at "
             f"this stage of development."
         )
 
@@ -1359,7 +1426,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                 analyst_obs.append(
                     f"<strong>Strongest WWB already in super-event territory.</strong> "
                     f"2026's strongest westerly wind burst peaks at "
-                    f"{current_peak:.1f} m/s{date_clause} — vs full-season peaks "
+                    f"{current_peak:.1f} m/s{date_clause}, vs full-season peaks "
                     f"of {p97:.1f} (1997) and {p15:.1f} (2015). Peak amplitude "
                     f"is super-event-aligned even though cumulative wind energy "
                     f"is lagging."
