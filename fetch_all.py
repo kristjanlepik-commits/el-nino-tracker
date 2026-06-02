@@ -19,7 +19,7 @@ from typing import Any
 from fetchers._common import safe_fetch, FetchResult, now_iso
 from fetchers import (
     cpc_strength, oisst_weekly, heat_content, iri, bom,
-    ecmwf_seas5, era5_wwe, era5_burst, oni_history,
+    ecmwf_seas5, era5_wwe, era5_burst, oni_history, nmme,
 )
 
 import sources as S   # used as seed/fallback
@@ -102,6 +102,11 @@ def fetch_all() -> dict:
         "era5_burst":    safe_fetch("era5_burst", era5_burst.fetch,
                                     timeout_seconds=30 * 60),
         "oni_history":   safe_fetch("oni_history", oni_history.fetch),
+        # NMME multi-model consensus. Cold cache pulls ~200MB across 5
+        # models over the CPC FTP; warm cache (same monthly init) is
+        # seconds. 15-minute budget covers a cold pull with margin.
+        "nmme":          safe_fetch("nmme", nmme.fetch,
+                                    timeout_seconds=15 * 60),
     }
 
     out = dict(seeded)  # start from seed
@@ -213,6 +218,36 @@ def fetch_all() -> dict:
             "by_year": {}, "issued": None,
             "latest_year": None, "latest_season": None,
             "fallback_note": "oni_history fetch failed; chart uses CSV defaults",
+            "fetched_at": now_iso(),
+        }
+
+    # NMME multi-model consensus panel (informational; not yet wired into
+    # the headline math). Top-level key like oni_history, consumed by the
+    # brief's model-consensus panel.
+    if results["nmme"].ok and not results["nmme"].used_fallback:
+        np_ = results["nmme"].payload
+        out["nmme"] = {
+            "ok": True,
+            "issued": results["nmme"].issued,
+            "init": np_.get("init"),
+            "models": np_.get("models", {}),
+            "ensemble_mean_peak": np_.get("ensemble_mean_peak"),
+            "ensemble_frac_above": np_.get("ensemble_frac_above", {}),
+            "thresholds_degC": np_.get("thresholds_degC", []),
+            "peak_window": np_.get("peak_window"),
+            "nino34_region": np_.get("nino34_region"),
+            "n_models_ok": np_.get("n_models_ok"),
+            "n_models_attempted": np_.get("n_models_attempted"),
+            "used_fallback": False,
+            "fetched_at": results["nmme"].fetched_at,
+        }
+    else:
+        out["nmme"] = {
+            "ok": False, "used_fallback": True,
+            "models": {}, "issued": None,
+            "ensemble_mean_peak": None, "ensemble_frac_above": {},
+            "fallback_note": "nmme fetch failed or unavailable; "
+                             "model-consensus panel omitted this issue",
             "fetched_at": now_iso(),
         }
 

@@ -1518,6 +1518,105 @@ def fmt_bucket(name: str, vals: dict) -> str:
     return f"**{name}**: {vals['mid']}%"
 
 
+# Friendly model display names for the NMME consensus panel.
+_NMME_MODEL_LABELS = {
+    "CFSv2": "NCEP CFSv2",
+    "CanESM5": "CanESM5",
+    "GEM5.2_NEMO": "GEM5.2-NEMO",
+    "NCAR_CCSM4": "NCAR CCSM4",
+    "NCAR_CESM1": "NCAR CESM1",
+}
+
+
+def build_nmme_panel_markdown(nmme: dict) -> list[str]:
+    """Render the NMME multi-model consensus panel as markdown lines.
+
+    Informational panel: shows per-model peak Nino 3.4 forecast and the
+    fraction of each model's members above a set of traditional-ONI
+    thresholds, plus an equal-model-weighted consensus row. Does NOT feed
+    the headline math (that is a separate methodology change, queued for
+    v1.8). Returns [] if NMME is unavailable this issue.
+    """
+    if not nmme or not nmme.get("ok") or not nmme.get("models"):
+        return []
+    models = nmme["models"]
+    ok_models = {k: v for k, v in models.items() if "error" not in v}
+    if not ok_models:
+        return []
+
+    # Threshold columns. Pull from the payload so a future threshold add
+    # flows through automatically; fall back to the canonical set.
+    thresholds = nmme.get("thresholds_degC") or [1.0, 1.5, 2.0, 2.5, 3.0]
+    thr_keys = [f"{t:.1f}" for t in thresholds]
+
+    md = []
+    md.append("## 2b. Multi-model consensus (NMME)")
+    md.append("")
+    md.append(f"North American Multi-Model Ensemble, init {nmme.get('init', 'n/a')} "
+              f"(issued {nmme.get('issued', 'n/a')}). Peak Nino 3.4 over "
+              f"{nmme.get('peak_window', 'NDJ-DJF')}, region "
+              f"{nmme.get('nino34_region', '5N-5S, 170W-120W')}. Each cell is "
+              f"the percent of that model's ensemble members whose peak "
+              f"exceeds the threshold. Anomalies are vs each model's own "
+              f"hindcast climatology (same convention as SEAS5).")
+    md.append("")
+
+    # Header row
+    header = "| Model | Members | Peak (mean) | " + " | ".join(
+        f">+{t}" for t in thr_keys) + " |"
+    sep = "|---|---|---|" + "---|" * len(thr_keys)
+    md.append(header)
+    md.append(sep)
+    for name, m in ok_models.items():
+        label = _NMME_MODEL_LABELS.get(name, name)
+        fa = m.get("frac_above", {})
+        cells = " | ".join(f"{fa.get(k, 0):.0f}%" for k in thr_keys)
+        md.append(f"| {label} | {m.get('n_members', '?')} | "
+                  f"{m.get('ensemble_mean_peak', float('nan')):.2f}°C | {cells} |")
+    # Consensus row (equal model weight)
+    cons_fa = nmme.get("ensemble_frac_above", {})
+    cons_cells = " | ".join(f"{cons_fa.get(k, 0):.0f}%" for k in thr_keys)
+    md.append(f"| **Consensus (equal model wt)** | {len(ok_models)} models | "
+              f"**{nmme.get('ensemble_mean_peak', float('nan')):.2f}°C** | {cons_cells} |")
+    md.append("")
+
+    # Interpretive note tying it back to the CPC-anchored headline.
+    cons_25 = cons_fa.get("2.5")
+    cons_30 = cons_fa.get("3.0")
+    note_bits = []
+    if cons_25 is not None:
+        note_bits.append(
+            f"The multi-model consensus puts {cons_25:.0f}% of members above "
+            f"+2.5°C (1997/2015 magnitude)")
+    if cons_30 is not None:
+        note_bits.append(
+            f"{cons_30:.0f}% above +3.0°C, which would exceed every event in "
+            f"the instrumental record (1997 ~2.4, 2015 ~2.6, 1877 ~2.5 on "
+            f"HadISST)")
+    if note_bits:
+        md.append("**Consensus read:** " + ", and ".join(note_bits) + ". "
+                  "This is a directly-counted member fraction, not a tail "
+                  "extrapolation. It runs materially hotter than the "
+                  "CPC-anchored headline in section 1, which is the "
+                  "disagreement to surface, not average away. NMME is shown "
+                  "here as an independent cross-check; it does not yet feed "
+                  "the smoothed headline (queued for methodology v1.8).")
+        md.append("")
+
+    # Caveats specific to the panel.
+    md.append("**Panel caveats:**")
+    md.append("")
+    md.append(f"- NMME updates monthly (around the 8th). This init "
+              f"({nmme.get('init', 'n/a')}) predates the late-May model runs "
+              f"discussed publicly; the next init will capture those.")
+    md.append("- Consensus is equal-weighted by model, so small-ensemble "
+              "models (NCAR CCSM4/CESM1, 10 members each) carry the same "
+              "weight as larger ones. Member-weighting lowers the upper-tail "
+              "fractions by a few points. NCAR CESM1 is a known warm outlier.")
+    md.append("")
+    return md
+
+
 def build_markdown(fetched: dict, diff_md: str, freshness: dict,
                    analyst_read_md: str, diff_obj: dict = None,
                    audience: str = "internal",
@@ -1775,6 +1874,9 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
         if wwb_read:
             md.append(wwb_read)
             md.append("")
+
+    # --------- Section 2b: Multi-model consensus (NMME) ---------
+    md.extend(build_nmme_panel_markdown(fetched.get("nmme", {})))
 
     # --------- Section 3: Analog tracker ---------
     md.append("## 3. Analog tracker")
