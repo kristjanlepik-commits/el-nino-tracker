@@ -124,19 +124,27 @@ def load_trajectories(live_oni_by_year: dict | None = None,
     return series
 
 
+# Emphasis hierarchy (public-side styling): 2026 is the hero line; the analog
+# years are reference-weight traces that recede so the reader's eye lands on
+# 2026 first. `alpha` + `zorder` carry the weighting; line width reinforces it.
+# This is the single biggest clarity lever the reference forecast charts use:
+# one line you look at, the rest as faint context.
 STYLE = {
     1997: {"color": "#c92020", "label_oni": "1997-98 (super, peak 2.4)",
-           "label_cwwa": "1997 develop year", "lw": 2.0},
+           "label_cwwa": "1997 develop year", "lw": 1.6, "alpha": 0.55,
+           "zorder": 2},
     2015: {"color": "#7d2bb0", "label_oni": "2015-16 (super, peak 2.8)",
-           "label_cwwa": "2015 develop year", "lw": 2.0},
+           "label_cwwa": "2015 develop year", "lw": 1.6, "alpha": 0.55,
+           "zorder": 2},
     2023: {"color": "#1f6fa6", "label_oni": "2023-24 (recent super, peak 2.1)",
-           "label_cwwa": "2023 develop year", "lw": 2.0},
+           "label_cwwa": "2023 develop year", "lw": 1.6, "alpha": 0.55,
+           "zorder": 2},
     2025: {"color": "#6b8e8a", "label_oni": "2025-26 (La Niña, peak -0.5)",
            "label_cwwa": "2025 develop year (La Niña)",
-           "lw": 1.5, "linestyle": "--"},
+           "lw": 1.3, "linestyle": "--", "alpha": 0.45, "zorder": 1},
     2026: {"color": "#000000", "label_oni": "2026-27 (current)",
-           "label_cwwa": "2026 develop year (current)", "lw": 2.5,
-           "marker": "o", "ms": 6},
+           "label_cwwa": "2026 develop year (current)", "lw": 2.8,
+           "marker": "o", "ms": 6, "alpha": 1.0, "zorder": 5},
 }
 
 
@@ -160,6 +168,10 @@ def _plot_oni(ax, series):
             kwargs["markersize"] = s["ms"]
         if "linestyle" in s:
             kwargs["linestyle"] = s["linestyle"]
+        if "alpha" in s:
+            kwargs["alpha"] = s["alpha"]
+        if "zorder" in s:
+            kwargs["zorder"] = s["zorder"]
         ax.plot(xs, ys, **kwargs)
 
     # Static styling for the ONI panel. Always runs, independent of whether
@@ -257,6 +269,10 @@ def _plot_cwwa(ax, current_series, analogs, current_develop_year):
         kwargs = {"color": s["color"], "label": s["label_cwwa"], "linewidth": s["lw"]}
         if "linestyle" in s:
             kwargs["linestyle"] = s["linestyle"]
+        if "alpha" in s:
+            kwargs["alpha"] = s["alpha"]
+        if "zorder" in s:
+            kwargs["zorder"] = s["zorder"]
         ax.plot(xs, ys, **kwargs)
         plotted_anything = True
 
@@ -267,7 +283,8 @@ def _plot_cwwa(ax, current_series, analogs, current_develop_year):
         s = STYLE[2026]
         ax.plot(xs, ys, color=s["color"], label=s["label_cwwa"],
                 linewidth=s["lw"], marker=s["marker"], markersize=s["ms"],
-                markevery=max(1, len(xs) // 8))
+                markevery=max(1, len(xs) // 8),
+                alpha=s.get("alpha", 1.0), zorder=s.get("zorder", 5))
         plotted_anything = True
 
     ax.set_xlim(-3, 14)
