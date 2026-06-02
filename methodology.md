@@ -708,6 +708,19 @@ median).
   SEAS5-only estimator applies if NMME is ever unavailable, always in
   the conservative (toward-CPC) direction.
 
+  v1.8 also adds a fifth headline bucket, "beyond instrumental record"
+  (>+3.0 °C), above the existing 1997/2015-magnitude (>+2.5 °C) bucket.
+  +3.0 °C exceeds every event in the instrumental record (1997 ~2.4,
+  2015 ~2.6, 1877 ~2.5 on HadISST), so it answers "probability of an
+  unprecedented event" directly. It is the most model-dependent bucket:
+  it sits beyond CPC's published strength bins (which top out at
+  >=2.0 RONI), so its CPC anchor is the deepest skew-normal tail
+  extrapolation in the brief. The consensus weighting (0.85) makes the
+  bucket driven mostly by direct member counts above +3.0 (SEAS5 now
+  reports this threshold alongside the NMME suite), not by that
+  extrapolation, but the brief flags it as its least-anchored figure.
+  At introduction: ~38% (CPC anchor 14%, six-model consensus 42%).
+
 ---
 
 *Methodology version 1.8. RONI offset fetched live each week from CPC.

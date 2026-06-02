@@ -1595,12 +1595,13 @@ def build_nmme_panel_markdown(nmme: dict) -> list[str]:
             f"HadISST)")
     if note_bits:
         md.append("**Consensus read:** " + ", and ".join(note_bits) + ". "
-                  "This is a directly-counted member fraction, not a tail "
-                  "extrapolation. It runs materially hotter than the "
-                  "CPC-anchored headline in section 1, which is the "
-                  "disagreement to surface, not average away. NMME is shown "
-                  "here as an independent cross-check; it does not yet feed "
-                  "the smoothed headline (queued for methodology v1.8).")
+                  "These are directly-counted member fractions, not tail "
+                  "extrapolations. As of methodology v1.8 the NMME suite "
+                  "feeds the section-1 headline directly: the multi-model "
+                  "consensus deflection blends these models with ECMWF SEAS5 "
+                  "at weight 0.85. This panel shows the per-model breakdown "
+                  "behind that consensus, including the spread between the hot "
+                  "models (CFSv2, NCAR) and the cooler outliers (CanESM5).")
         md.append("")
 
     # Caveats specific to the panel.
@@ -1675,6 +1676,7 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
         ("Strong (>+1.5°C peak)",            "strong_>1.5"),
         ("Very strong / super (>+2.0°C peak)", "super_>2.0"),
         ("1997/2015 magnitude (>+2.5°C peak)", "9715_>2.5"),
+        ("Beyond instrumental record (>+3.0°C peak)", "record_>3.0"),
     ]:
         s = smoothed.get(key, {})
         smoothed_pct = s.get("mid")
@@ -1778,6 +1780,23 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md.append("3. Spring predictability barrier: April-May forecasts at any "
               "of these centers carry materially wider error bars than what "
               "we'll see in July-August. Treat all numbers as preliminary.")
+    rec = smoothed.get("record_>3.0", {})
+    if rec.get("mid") is not None:
+        rec_anchor = rec.get("anchor")
+        rec_cons = rec.get("consensus")
+        cons_clause = (f"; the model consensus above +3.0 is {rec_cons}%"
+                       if rec_cons is not None else "")
+        md.append(f"4. The +3.0°C bucket ({rec.get('mid')}%) is the most "
+                  f"model-dependent number in the headline. +3.0°C exceeds "
+                  f"every event in the instrumental record (1997 ~2.4, 2015 "
+                  f"~2.6, 1877 ~2.5 on HadISST), and it sits beyond CPC's "
+                  f"published strength bins (which top out at >=2.0 RONI), so "
+                  f"its CPC anchor ({rec_anchor}%) is the deepest skew-normal "
+                  f"tail extrapolation in the brief{cons_clause}. Under the "
+                  f"v1.8 consensus weighting the bucket is driven mostly by "
+                  f"direct model member counts above +3.0, not by that "
+                  f"extrapolation, but read it as the brief's least-anchored "
+                  f"figure.")
     md.append("")
 
     # --------- Section 2: Physical state panel ---------

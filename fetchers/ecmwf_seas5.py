@@ -49,7 +49,11 @@ ORIGIN = "ecmwf"
 NINO34_AREA = [5, 190, -5, 240]   # N, W, S, E in 0-360 longitude
 HINDCAST_YEARS = [str(y) for y in range(1993, 2017)]  # 1993-2016, 24 years
 LEADS = ["1", "2", "3", "4", "5", "6", "7"]
-THRESHOLDS = (1.0, 1.5, 2.0, 2.5)
+# +3.0 added in v1.8: the headline gained a "beyond instrumental record"
+# bucket, so SEAS5 must report its member fraction above +3.0 to keep the
+# multi-model consensus complete at that threshold (the NMME suite already
+# reports it).
+THRESHOLDS = (1.0, 1.5, 2.0, 2.5, 3.0)
 
 
 def _cds_client():

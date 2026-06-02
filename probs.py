@@ -196,6 +196,12 @@ def cpc_headline_buckets(strength_table: dict, season: str = "NDJ 2026-27",
         "strong_>1.5":   round(p_above(loc, scale, shape, 1.5 - offset)),
         "super_>2.0":    round(p_above(loc, scale, shape, 2.0 - offset)),
         "9715_>2.5":     round(p_above(loc, scale, shape, 2.5 - offset)),
+        # v1.8: "beyond instrumental record" bucket. This is the deepest
+        # skew-normal tail extrapolation (CPC's table tops out at >=2.0
+        # RONI), so the CPC anchor here is the least reliable; in the v1.8
+        # consensus headline it is down-weighted to 0.15 and the bucket is
+        # driven mostly by direct model member counts above +3.0.
+        "record_>3.0":   round(p_above(loc, scale, shape, 3.0 - offset)),
     }
 
 
@@ -342,6 +348,7 @@ def smoothed_headline_buckets(
         "strong_>1.5":   1.5,
         "super_>2.0":    2.0,
         "9715_>2.5":     2.5,
+        "record_>3.0":   3.0,
     }
     # Mode selection: consensus when NMME is available, else SEAS5-only.
     consensus_mode = bool(nmme and nmme.get("ok"))
