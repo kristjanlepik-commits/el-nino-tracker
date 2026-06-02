@@ -111,7 +111,7 @@ skew-normal, and reports the 5th and 95th percentile of the resulting
 does not capture forecast uncertainty in the underlying CPC ensemble or
 methodological uncertainty in the choice of distribution family.
 
-### Headline smoothing: CPC anchor with bounded SEAS5 deflection (v1.5)
+### Headline smoothing: CPC anchor with multi-model consensus deflection (v1.8)
 
 CPC reissues the strength table monthly, on the 2nd Thursday with the
 ENSO Diagnostic Discussion. Between issuances, the raw skew-normal
@@ -122,60 +122,88 @@ curious operators who read it weekly; a static headline reads as a
 brief that has stopped tracking the event between CPC's monthly
 releases.
 
-We close that gap by **deflecting CPC's anchor probability each week
-based on the current ECMWF SEAS5 ensemble**, while keeping CPC firmly
-in charge of the headline.
+We close that gap by **deflecting CPC's anchor probability toward an
+equal-weight multi-model consensus.**
 
 For each headline bucket b, given anchor probability `p_anchor[b]`
 (the skew-normal-fitted CPC probability above threshold b in
-traditional-ONI terms) and current SEAS5 fraction `p_seas5[b]` (the
-share of the 51-member ensemble exceeding threshold b at the longest
-available lead, in traditional-ONI-equivalent terms after model-
-climatology subtraction):
+traditional-ONI terms) and the model-consensus fraction `p_model[b]`:
 
 ```
-deflection[b] = clamp(W × (p_seas5[b] − p_anchor[b]), −cap, +cap)
+deflection[b] = W × (p_model[b] − p_anchor[b])
 headline[b]   = clamp(p_anchor[b] + deflection[b], 0, 100)
 ```
 
-with **W = 0.2** (SEAS5 contributes 20% of the gap to the anchor) and
-**cap = ±10 percentage points** per bucket per week.
+`p_model[b]` is the **equal-weight consensus across all available
+models**: ECMWF SEAS5 (one model) and the NMME suite (CFSv2, CanESM5,
+GEM5.2-NEMO, NCAR CCSM4, NCAR CESM1). With one SEAS5 model and
+`n_nmme` NMME models, the consensus is
+`(p_seas5 + n_nmme × p_nmme_mean) / (1 + n_nmme)`. All member fractions
+are computed against each model's own hindcast climatology, so they sit
+on the same model-anomaly footing and require no RONI offset.
+
+The weight is **W = 0.85**: the headline is consensus-led, with CPC a
+minor anchor. No per-bucket cap is applied; the weight bounds the move
+(the result always lies between the anchor and the consensus).
 
 When CPC reissues the strength table, `p_anchor` jumps to the new CPC
 value and the deflection is recomputed against the new anchor; there
-is no carryover. The diff section surfaces both the CPC anchor change
-and the new deflection separately so the reader can see where the
-weekly motion came from.
+is no carryover. The diff section surfaces the CPC anchor change and
+the consensus separately so the reader can see where the motion came
+from.
 
-**Why these specific values:**
+**Why W = 0.85 (the change from v1.5's SEAS5-only W = 0.2):**
 
-- **W = 0.2.** SEAS5 has a documented warm bias for ENSO development
-  (Tippett et al. 2019; Johnson et al. 2019); using its raw movement
-  at full weight would inherit that bias and turn the brief into a
-  thin SEAS5 wrapper. W = 0.2 reflects "give SEAS5 some credit for
-  recent observational evidence the model has incorporated, but
-  significantly temper its known optimism."
-- **Cap = ±10 ppt per bucket.** Models can swing 30-50 ppt in single
-  monthly issuances when the state is rapidly evolving. Capping the
-  per-week deflection prevents the headline from seesawing; it puts
-  a hard ceiling on how far one week's update can move a bucket.
+v1.5 used SEAS5 alone at W = 0.2 with a ±10 ppt cap, deliberately
+small because it was one warm-biased model (Tippett et al. 2019;
+Johnson et al. 2019) and the only goal was to un-freeze the headline
+between CPC issuances. Three things changed that justify a much
+higher weight in v1.8:
 
-**What this is not:**
+- **It is now a consensus, not one model.** Agreement across six
+  independent models (SEAS5 + five NMME models) is far more
+  informative than any single model, and averaging across them damps
+  any one model's idiosyncratic bias.
+- **We are past the spring predictability barrier.** Seasonal models
+  are most over-confident in boreal spring; by early summer their
+  skill rises sharply, so the reason to heavily temper them weakens.
+- **Observations corroborate the consensus.** Subsurface heat content
+  and the spatial-peak WWB amplitude (both in section 2) independently
+  track the super-event analogs, so the hot model consensus is not
+  running ahead of the physical state.
 
-- Not a forecast of CPC's next issuance. The deflection captures
-  observational evidence accumulated since CPC's last issuance, not a
-  prediction of what CPC will say next.
-- Not a multi-model pool. CPC remains the source of the underlying
-  bin probabilities and methodology; SEAS5 is one bounded source of
-  weekly motion, not a co-equal forecast.
-- Not designed to maximize agreement with raw multi-model pools (e.g.,
-  the Climate Brink dashboard). The bounded deflection still leaves
-  the brief more conservative than a 13-model average, and that's
-  intentional.
+For NDJ 2026-27 at v1.8 introduction (CPC issued 2026-05-14; SEAS5 May
+run; NMME May 8 init): the +2.5 °C bucket moves from a CPC anchor of
+37% to a smoothed 66%, against a six-model consensus of 71%. Under the
+superseded v1.5 SEAS5-only estimator the same bucket sat at 45%.
+
+**The W = 0.85 choice is an explicit operator decision** documented
+here per our methodology-calls policy. The conservative alternative
+(stay nearer CPC) and the aggressive alternative (pure consensus, W = 1,
+which drops the CPC anchor entirely) were both considered; W = 0.85
+keeps CPC as a real, if minor, anchor so the brief is not a pure
+restatement of the hottest models.
+
+**Fallback.** If the NMME consensus is unavailable for an issue (total
+fetch failure with no cache), the estimator reverts to the v1.5
+SEAS5-only deflection (W = 0.2, ±10 ppt cap). This is the conservative
+direction (toward CPC), so a missing NMME pull can never inflate the
+headline. The brief states which mode produced the issue's numbers.
+
+**What this is and is not:**
+
+- It IS a multi-model consensus deflection. This is a deliberate change
+  from v1.5, which was explicitly not a multi-model pool. The brief is
+  now closer to a multi-model average than to CPC alone, by design.
+- It is still anchored: CPC supplies the underlying bin probabilities
+  and the skew-normal structure; the consensus deflects that anchor, it
+  does not replace it.
+- It is not a forecast of CPC's next issuance; it captures model and
+  observational evidence accumulated since CPC's last release.
 
 **Audit trail:** every headline number can be reconstructed from
-(`p_anchor`, `p_seas5`, `W`, `cap`), all of which are reported in the
-brief's caveat section per issue. A reviewer can replicate the math
+(`p_anchor`, `p_seas5`, the NMME consensus, the model count, and `W`),
+all reported in the brief per issue. A reviewer can replicate the math
 without access to private state.
 
 ### ECMWF SEAS5 cross-check
@@ -658,13 +686,36 @@ median).
   the literature's burst-counting conventions (McPhaden 1999;
   Lengaigne et al. 2003).
 
+- **1.8** (2026-06-02): Headline deflection switched from SEAS5-only
+  (v1.5, weight 0.2, ±10 ppt cap) to an equal-weight multi-model
+  consensus (ECMWF SEAS5 + the NMME suite: CFSv2, CanESM5,
+  GEM5.2-NEMO, NCAR CCSM4, NCAR CESM1) at weight 0.85, uncapped. The
+  headline is now consensus-led with CPC as a minor anchor. Adds
+  `fetchers/nmme.py` as a headline input (it shipped in v1.7-era as an
+  informational panel only); the panel and the headline now draw on
+  the same NMME data.
+
+  Rationale: the May 2026 model runs (CFSv2 ~3.1-3.9, multi-model mean
+  ~2.9) ran far hotter than CPC's lagging monthly table, and the v1.5
+  SEAS5-only deflection at weight 0.2 left the headline's +2.5 °C
+  bucket at 45% while the six-model consensus sat at 71%. The 0.2
+  weight and the warm-bias tempering that justified it were calibrated
+  for a single model in the spring barrier; by June, with a
+  multi-model consensus and corroborating subsurface and WWB evidence,
+  a much higher weight is warranted. Effect at introduction: the
+  +2.5 °C bucket moves 45% -> 66%, super (+2.0) 74% -> 78%. Weight is
+  an explicit operator choice (0.85); a graceful fallback to the v1.5
+  SEAS5-only estimator applies if NMME is ever unavailable, always in
+  the conservative (toward-CPC) direction.
+
 ---
 
-*Methodology version 1.7. RONI offset fetched live each week from CPC.
+*Methodology version 1.8. RONI offset fetched live each week from CPC.
 ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
 WWE forcing tracked via CWWA (5N-5S, 130E-150W cumulative) AND
 spatial-peak WWB detection (10N-10S, 130E-150W, McPhaden-inspired
 dual threshold, peak-detection with 10-day recovery interval).
 Impact section renders as institutional aggregation only (no
 editorial synthesis). Headline buckets are CPC-anchored and deflected
-weekly by SEAS5 ensemble evidence within bounded limits.*
+toward an equal-weight multi-model consensus (SEAS5 + NMME) at weight
+0.85; consensus-led with CPC as a minor anchor.*

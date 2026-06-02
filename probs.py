@@ -224,6 +224,65 @@ def cpc_headline_with_uncertainty(strength_table: dict, season: str = "NDJ 2026-
 SMOOTHING_WEIGHT = 0.2     # SEAS5 contributes 20% of the gap to CPC's anchor
 SMOOTHING_CAP_PPT = 10.0   # max ±10 ppt deflection per bucket
 
+# ---- v1.8: multi-model consensus deflection -----------------------------
+# v1.5 used SEAS5 alone at weight 0.2 with a +-10 ppt cap, deliberately
+# small because it was one warm-biased model and the goal was only to
+# un-freeze the headline between CPC's monthly re-issues. v1.8 replaces
+# that single signal with an equal-weight consensus across all available
+# models (SEAS5 + the NMME suite) and raises the weight, because:
+#   - it is now a multi-model consensus, not one model, so agreement
+#     across independent models is far more informative than one model;
+#   - by June we are past the worst of the spring predictability barrier,
+#     when seasonal models are most over-confident;
+#   - the subsurface heat content and WWB peak-amplitude evidence
+#     independently corroborate the hot model consensus.
+# CONSENSUS_WEIGHT is the operator-chosen trust the headline places in the
+# model consensus vs CPC's calibrated table. At 0.85 the headline is
+# consensus-led: CPC is a minor anchor. The deflection is governed by the
+# weight (result is always between the anchor and the consensus), so no
+# per-bucket cap is applied in consensus mode.
+CONSENSUS_WEIGHT = 0.85
+
+
+def _nmme_consensus_p_above(nmme: dict | None, threshold_oni: float):
+    """The NMME equal-model-weight consensus probability above a threshold,
+    as a percent, plus the number of NMME models behind it. Returns
+    (pct, n_models) or (None, 0) when unavailable.
+
+    Reads the pre-computed `ensemble_frac_above` (the mean across the NMME
+    models' member fractions) from the nmme payload, which is on the same
+    model-anomaly footing as SEAS5 (each model's anomalies are vs its own
+    hindcast climatology), so no RONI offset is applied.
+    """
+    if not nmme or not nmme.get("ok"):
+        return None, 0
+    frac = (nmme.get("ensemble_frac_above") or {}).get(f"{threshold_oni:.1f}")
+    n = nmme.get("n_models_ok") or 0
+    if frac is None or not n:
+        return None, 0
+    return float(frac), int(n)
+
+
+def _model_consensus_p_above(seas5_per_lead, nmme, threshold_oni: float):
+    """Equal-weight model-consensus probability above a threshold, pooling
+    SEAS5 (one model) with the NMME suite (n models). Each model gets equal
+    weight, so the consensus is (p_seas5 + n_nmme * p_nmme_mean) / (1 +
+    n_nmme). Returns (pct, n_total_models) or (None, 0).
+
+    Falls back gracefully: SEAS5 alone if NMME is missing, NMME alone if
+    SEAS5 is missing.
+    """
+    p_seas5 = _seas5_p_above(seas5_per_lead, threshold_oni) if seas5_per_lead else None
+    p_nmme, n_nmme = _nmme_consensus_p_above(nmme, threshold_oni)
+    if p_seas5 is None and p_nmme is None:
+        return None, 0
+    if p_nmme is None:
+        return p_seas5, 1
+    if p_seas5 is None:
+        return p_nmme, n_nmme
+    pooled = (p_seas5 + n_nmme * p_nmme) / (1 + n_nmme)
+    return pooled, 1 + n_nmme
+
 
 def _seas5_p_above(seas5_per_lead: list, threshold_oni: float) -> float | None:
     """Fraction of SEAS5 ensemble members exceeding the threshold at the max
@@ -254,15 +313,26 @@ def smoothed_headline_buckets(
     seas5_per_lead: list | None,
     season: str = "NDJ 2026-27",
     offset: float | None = None,
-    weight: float = SMOOTHING_WEIGHT,
-    cap_ppt: float = SMOOTHING_CAP_PPT,
+    nmme: dict | None = None,
+    weight: float | None = None,
+    cap_ppt: float | None = None,
 ) -> dict:
-    """v1.5 headline: CPC anchor with bounded deflection from SEAS5.
+    """Smoothed headline: CPC anchor with a model deflection.
 
-    For each bucket, deflection = clamp(weight * (p_seas5 - p_anchor),
-    -cap_ppt, +cap_ppt). Headline = clamp(p_anchor + deflection, 0, 100).
-    Returns a dict with mid, anchor, seas5, and deflection per bucket so the
-    brief can show the math.
+    v1.8 (consensus mode): when an NMME payload is supplied, the deflection
+    uses an equal-weight model consensus (SEAS5 + the NMME suite) at
+    CONSENSUS_WEIGHT (0.85), with no per-bucket cap (the weight bounds the
+    move; the result is always between the anchor and the consensus).
+
+    v1.5 (fallback mode): when NMME is unavailable, the deflection falls
+    back to SEAS5 alone at SMOOTHING_WEIGHT (0.2) with a +-SMOOTHING_CAP_PPT
+    cap, exactly as before. The fallback is the conservative direction
+    (toward CPC), so a missing NMME pull cannot inflate the headline.
+
+    Per bucket: deflection = weight * (p_model - p_anchor), optionally
+    capped; headline = clamp(p_anchor + deflection, 0, 100). Returns a dict
+    with mid, anchor, seas5, consensus, n_models, weight, mode, and
+    deflection per bucket so the brief can show the math.
     """
     if offset is None:
         offset = S.RONI_TO_ONI_OFFSET
@@ -273,23 +343,39 @@ def smoothed_headline_buckets(
         "super_>2.0":    2.0,
         "9715_>2.5":     2.5,
     }
+    # Mode selection: consensus when NMME is available, else SEAS5-only.
+    consensus_mode = bool(nmme and nmme.get("ok"))
+    if consensus_mode:
+        eff_weight = CONSENSUS_WEIGHT if weight is None else weight
+        eff_cap = cap_ppt   # None -> uncapped
+    else:
+        eff_weight = SMOOTHING_WEIGHT if weight is None else weight
+        eff_cap = SMOOTHING_CAP_PPT if cap_ppt is None else cap_ppt
+
     out: dict = {}
     for key, threshold in thresholds.items():
         p_anchor = float(anchor[key])
         p_seas5 = _seas5_p_above(seas5_per_lead, threshold) if seas5_per_lead else None
-        if p_seas5 is None:
+        p_model, n_models = _model_consensus_p_above(seas5_per_lead, nmme, threshold)
+        if p_model is None:
             out[key] = {"mid": int(round(p_anchor)),
                         "anchor": int(round(p_anchor)),
-                        "seas5": None, "deflection": 0}
+                        "seas5": None, "consensus": None, "n_models": 0,
+                        "weight": eff_weight, "mode": "anchor_only",
+                        "deflection": 0}
             continue
-        raw = weight * (p_seas5 - p_anchor)
-        capped = max(-cap_ppt, min(cap_ppt, raw))
-        smoothed = max(0.0, min(100.0, p_anchor + capped))
+        raw = eff_weight * (p_model - p_anchor)
+        applied = raw if eff_cap is None else max(-eff_cap, min(eff_cap, raw))
+        smoothed = max(0.0, min(100.0, p_anchor + applied))
         out[key] = {
             "mid": int(round(smoothed)),
             "anchor": int(round(p_anchor)),
-            "seas5": int(round(p_seas5)),
-            "deflection": round(capped, 1),
+            "seas5": int(round(p_seas5)) if p_seas5 is not None else None,
+            "consensus": int(round(p_model)),
+            "n_models": n_models,
+            "weight": eff_weight,
+            "mode": "consensus" if consensus_mode else "seas5_fallback",
+            "deflection": round(applied, 1),
         }
     return out
 

@@ -1635,13 +1635,13 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     cpc_issued = fetched["cpc_strength"]["issued"]
     analog_same = S.ANALOG_SAME_WEEK
 
-    # v1.5: smoothed headline (CPC anchor + bounded SEAS5 deflection).
-    # Internal brief reports both anchor and smoothed; public template
+    # v1.8: smoothed headline (CPC anchor + multi-model consensus deflection).
+    # Internal brief reports anchor, consensus, and smoothed; public template
     # decides on its own how to display these.
     seas5_per_lead = fetched.get("ecmwf_seas5", {}).get("per_lead", []) or []
     smoothed = probs.smoothed_headline_buckets(
         fetched["cpc_strength"]["table"], seas5_per_lead,
-        "NDJ 2026-27", offset=offset)
+        "NDJ 2026-27", offset=offset, nmme=fetched.get("nmme"))
 
     md = []
     md.append(f"# El Niño Probability Tracker, week of {S.BRIEF_DATE.isoformat()}")
@@ -1682,20 +1682,47 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
         deflection = s.get("deflection")
         if smoothed_pct is not None and anchor_pct is not None:
             if abs(deflection or 0) >= 0.5:
-                md.append(f"- **{label}**: {smoothed_pct}% "
-                          f"(CPC anchor {anchor_pct}%, SEAS5 deflection "
-                          f"{deflection:+.1f} ppt)")
+                mode = s.get("mode")
+                if mode == "consensus":
+                    n_models = s.get("n_models")
+                    consensus_pct = s.get("consensus")
+                    md.append(f"- **{label}**: {smoothed_pct}% "
+                              f"(CPC anchor {anchor_pct}%, {n_models}-model "
+                              f"consensus {consensus_pct}%, deflection "
+                              f"{deflection:+.1f} ppt)")
+                else:
+                    md.append(f"- **{label}**: {smoothed_pct}% "
+                              f"(CPC anchor {anchor_pct}%, SEAS5 deflection "
+                              f"{deflection:+.1f} ppt)")
             else:
                 md.append(f"- **{label}**: {smoothed_pct}%")
         else:
             md.append(f"- {fmt_bucket(label, headline[key])}")
     md.append("")
-    md.append("Headline values use the v1.5 smoothed estimator: CPC anchor "
-              "(monthly cadence) plus a bounded weekly deflection from the "
-              "SEAS5 ensemble (weight 0.2, capped at ±10 ppt per bucket per "
-              "week). The anchor and deflection are shown alongside the "
-              "smoothed value where they differ. See methodology.html for "
-              "the full rule.")
+    # Estimator description: reflect whichever mode actually ran this issue.
+    _mode = next((v.get("mode") for v in smoothed.values()
+                  if v.get("mode") in ("consensus", "seas5_fallback")), None)
+    if _mode == "consensus":
+        _wt = next((v.get("weight") for v in smoothed.values()
+                    if v.get("weight")), probs.CONSENSUS_WEIGHT)
+        md.append(f"Headline values use the v1.8 smoothed estimator: a CPC "
+                  f"anchor (monthly cadence) plus a deflection toward an "
+                  f"equal-weight multi-model consensus (ECMWF SEAS5 + the "
+                  f"NMME suite). The consensus carries weight {_wt:g}, so the "
+                  f"headline is consensus-led with CPC as a minor anchor. "
+                  f"This replaces the v1.5 SEAS5-only deflection (weight 0.2) "
+                  f"and was adopted because a multi-model consensus past the "
+                  f"spring predictability barrier, corroborated by subsurface "
+                  f"heat and WWB peak amplitude, is more informative than CPC's "
+                  f"lagging monthly table alone. The anchor and consensus are "
+                  f"shown alongside the smoothed value. See methodology.html "
+                  f"for the full rule and the rationale.")
+    else:
+        md.append("Headline values use the smoothed estimator in its v1.5 "
+                  "fallback mode (SEAS5-only deflection, weight 0.2, capped at "
+                  "±10 ppt per bucket): the NMME multi-model consensus was "
+                  "unavailable this issue, so the headline reverts to the "
+                  "conservative CPC-anchored estimate. See methodology.html.")
     md.append("")
     md.append("**Source-by-source check (qualitative where strength bins "
               "aren't broken out):**")
@@ -2115,14 +2142,15 @@ def main():
     offset = fetched.get("roni_to_oni_offset", {}).get("value", S.RONI_TO_ONI_OFFSET)
     headline = probs.cpc_headline_with_uncertainty(
         fetched["cpc_strength"]["table"], "NDJ 2026-27", offset=offset)
-    # v1.5: smoothed headline (CPC anchor + bounded SEAS5 deflection) for
-    # the public ladder and the archive meta.json. Internal build_markdown
-    # computes its own smoothed locally; we keep the legacy `headline`
-    # variable above so editorial.generate keeps its current input shape.
+    # v1.8: smoothed headline (CPC anchor + multi-model consensus deflection)
+    # for the public ladder and the archive meta.json. Internal
+    # build_markdown computes its own smoothed locally; we keep the legacy
+    # `headline` variable above so editorial.generate keeps its current
+    # input shape.
     seas5_per_lead = fetched.get("ecmwf_seas5", {}).get("per_lead", []) or []
     headline_smoothed = probs.smoothed_headline_buckets(
         fetched["cpc_strength"]["table"], seas5_per_lead,
-        "NDJ 2026-27", offset=offset)
+        "NDJ 2026-27", offset=offset, nmme=fetched.get("nmme"))
     analyst_read_md = editorial.generate(
         headline=headline,
         diff=d,
