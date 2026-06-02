@@ -2093,7 +2093,8 @@ def main():
                 seas5_per_lead=fetched.get("ecmwf_seas5", {}).get("per_lead"),
                 current_develop_year=S.BRIEF_DATE.year,
                 today_offset=today_offset,
-                live_oni_by_year=live_oni_by_year)
+                live_oni_by_year=live_oni_by_year,
+                cfsv2_median=fetched.get("nmme", {}).get("cfsv2_trajectory"))
 
     # 3. Snapshot current inputs and diff against last issue. The
     # snapshot file is the source of truth for next week's diff, so we

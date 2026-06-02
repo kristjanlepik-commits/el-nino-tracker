@@ -123,7 +123,10 @@ def _model_file_url(model: str, init: str) -> str:
 
 
 def _cache_path(model: str, init: str) -> str:
-    return str(CACHE_DIR / f"nmme_{model}_{init}_nino34_peaks.json")
+    # _v2: cache now also stores the per-target-month median trajectory
+    # (needed for the analog chart's CFSv2 extension line), not just the
+    # per-member peaks. Bumping the key forces a one-time rebuild.
+    return str(CACHE_DIR / f"nmme_{model}_{init}_nino34_peaks_v2.json")
 
 
 def _frac_above(peaks: list[float]) -> dict[str, float]:
@@ -194,6 +197,22 @@ def _raw_peaks(model: str, init: str) -> dict:
         peak_month_year, peak_month_month = _months_to_year_month(
             float(target_months[peak_window_idx[peak_month_idx]])
         )
+        # Per-target-month ensemble trajectory over the FULL forecast
+        # range (not just the peak window). The analog chart uses this to
+        # draw the model's median line beyond SEAS5's 6-month horizon.
+        trajectory = []
+        for i, mraw in enumerate(target_months):
+            ty, tm = _months_to_year_month(float(mraw))
+            col = nino34_per_target.isel(target=i).values
+            col = col[~np.isnan(col)]
+            if col.size == 0:
+                continue
+            trajectory.append({
+                "calendar": f"{ty:04d}-{tm:02d}",
+                "median": round(float(np.median(col)), 2),
+                "p25": round(float(np.percentile(col, 25)), 2),
+                "p75": round(float(np.percentile(col, 75)), 2),
+            })
         result = {
             "model": model,
             "init": init,
@@ -201,6 +220,7 @@ def _raw_peaks(model: str, init: str) -> dict:
             "n_members": n_members,
             "peak_month_iso": f"{peak_month_year:04d}-{peak_month_month:02d}-01",
             "peaks_per_member": [round(float(p), 2) for p in peaks.tolist()],
+            "trajectory": trajectory,
         }
     finally:
         try:
@@ -258,6 +278,13 @@ def fetch() -> FetchResult:
         # Convert to ISO date for the FetchResult.issued field.
         yyyy, mm, dd = int(init[:4]), int(init[4:6]), int(init[6:8])
         issued_iso = date(yyyy, mm, dd).isoformat()
+        # CFSv2 per-month median trajectory, surfaced top-level for the
+        # analog chart's extension line (it reaches the DJF peak that
+        # SEAS5's 6-month horizon cannot). Slim per-model dicts: the panel
+        # needs neither raw members nor the trajectory.
+        cfsv2 = next((m for m in model_results if m.get("model") == "CFSv2"
+                      and "error" not in m), None)
+        cfsv2_trajectory = cfsv2.get("trajectory") if cfsv2 else None
         return FetchResult(
             source="nmme",
             ok=True,
@@ -266,8 +293,10 @@ def fetch() -> FetchResult:
             payload={
                 "init": init,
                 "models": {m["model"]: {k: v for k, v in m.items()
-                                         if k != "peaks_per_member"}
+                                         if k not in ("peaks_per_member",
+                                                      "trajectory")}
                            for m in model_results},
+                "cfsv2_trajectory": cfsv2_trajectory,
                 "ensemble_mean_peak": avg_peak,
                 "ensemble_frac_above": avg_frac,
                 "thresholds_degC": THRESHOLDS,

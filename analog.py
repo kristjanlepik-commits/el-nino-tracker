@@ -147,6 +147,20 @@ STYLE = {
            "marker": "o", "ms": 6, "alpha": 1.0, "zorder": 5},
 }
 
+# ONI panel y-range. Top raised to 3.9 (from 3.2) so the CFSv2 longer-
+# horizon extension peak is visible above the +2.5 record line; this
+# matches the public chat's signed-off mock.
+Y_TOP_ONI = 3.9
+Y_BOT_ONI = -1.5
+
+# Calendar x-axis. The internal coordinate stays months-since-March-1 of
+# the develop year (so all existing trajectory math is untouched); these
+# ticks just relabel it to calendar months, killing the mental arithmetic.
+# Offsets: -3=Dec'25, 0=Mar'26, 3=Jun'26, 6=Sep'26, 9=Dec'26, 12=Mar'27.
+_CALENDAR_XTICKS = [-3, 0, 3, 6, 9, 12]
+_CALENDAR_XLABELS = ["Dec '25", "Mar '26", "Jun '26", "Sep '26",
+                     "Dec '26", "Mar '27"]
+
 
 def _months_from_mar1_for_dateiso(date_iso: str, develop_year: int) -> float:
     """Fractional months elapsed since March 1 of develop_year."""
@@ -174,22 +188,46 @@ def _plot_oni(ax, series):
             kwargs["zorder"] = s["zorder"]
         ax.plot(xs, ys, **kwargs)
 
+    # ENSO category background bands. Above the +0.5 ONI threshold is El
+    # Niño territory, below -0.5 is La Niña; the band between is neutral.
+    # The red field deepens with intensity via stacked semi-transparent
+    # overlays (each threshold adds another layer), giving "deeper in the
+    # red = stronger" at a glance. Drawn first (low zorder) so trajectory
+    # lines and gridlines sit on top. The +0.5 / -0.5 / intensity-step
+    # thresholds are the standard ONI definition (methodology-side); the
+    # tint colors and alphas are the public chat's design (ported from
+    # their signed-off mock).
+    ax.axhspan(0.5, Y_TOP_ONI, color="#d94327", alpha=0.05, zorder=0)
+    ax.axhspan(1.5, Y_TOP_ONI, color="#d94327", alpha=0.05, zorder=0)
+    ax.axhspan(2.0, Y_TOP_ONI, color="#d94327", alpha=0.06, zorder=0)
+    ax.axhspan(Y_BOT_ONI, -0.5, color="#1f6fa6", alpha=0.08, zorder=0)
+    ax.text(11.7, Y_TOP_ONI - 0.25, "EL NIÑO", ha="right", va="top",
+            fontsize=10, color="#a8321c", fontweight="bold", alpha=0.6)
+    ax.text(11.7, Y_BOT_ONI + 0.12, "LA NIÑA", ha="right", va="bottom",
+            fontsize=10, color="#1f6fa6", fontweight="bold", alpha=0.6)
+
+    # DJF 2026-27 peak-season target band (x ~ Dec/Jan/Feb).
+    ax.axvspan(9, 11, color="#1f4068", alpha=0.05, zorder=0)
+    ax.text(10, Y_BOT_ONI + 0.30, "DJF 2026-27\npeak target", ha="center",
+            va="bottom", fontsize=8, color="#1f4068", alpha=0.75)
+
     # Static styling for the ONI panel. Always runs, independent of whether
     # SEAS5 data is overlaid (when SEAS5 is missing in CI, the panel must
     # still have a title, legend, threshold lines, and axis labels).
-    for y, lbl in [(1.0, "moderate"), (1.5, "strong"), (2.0, "super"), (2.5, "1997/2015")]:
+    for y, lbl in [(1.0, "moderate"), (1.5, "strong"), (2.0, "super"),
+                   (2.5, "1997/2015 record")]:
         ax.axhline(y, color="grey", linestyle="--", alpha=0.4, linewidth=0.8)
-        ax.text(13, y + 0.04, lbl, fontsize=8, color="grey")
+        ax.text(-2.9, y + 0.05, lbl, fontsize=8, color="grey")
     ax.axhline(0, color="black", linewidth=0.6)
-    ax.set_xlim(-3, 14)
-    ax.set_ylim(-1.0, 3.2)
+    ax.set_xlim(-3, 12)
+    ax.set_ylim(Y_BOT_ONI, Y_TOP_ONI)
     ax.set_ylabel("Niño 3.4 ONI (traditional, °C)")
     ax.set_title(
         "Analog tracker: 2026-27 vs reference events\n"
         "Top: ONI 3-month running mean (ERSST.v5, 1991-2020 climo). "
         "Bottom: cumulative westerly wind anomaly (ERA5, 5N-5S, 130E-150W)."
     )
-    ax.grid(True, alpha=0.3)
+    ax.grid(True, axis="y", alpha=0.18)
     ax.legend(loc="lower right", fontsize=9)
 
 
@@ -251,6 +289,103 @@ def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
     # Refresh the legend so the SEAS5 entries (median + bands) are picked up;
     # the static legend was already drawn by _plot_oni for the analog lines.
     ax.legend(loc="lower right", fontsize=9)
+    # Return the last SEAS5 offset so a longer-horizon model can be drawn
+    # as a continuation from exactly where the SEAS5 fan ends.
+    return max(xs) if xs else None
+
+
+def _plot_cfsv2_extension(ax, trajectory, current_develop_year: int,
+                          seas5_last_offset: float | None):
+    """Draw the CFSv2 ensemble-median Niño 3.4 as a thin line extending
+    BEYOND SEAS5's horizon, through the DJF peak SEAS5 cannot reach from a
+    mid-year initialization.
+
+    SEAS5's operational product on CDS stops at 6 forecast months (Nov 2026
+    from a May run), so the fan never shows the peak. CFSv2 forecasts
+    further out; we plot its median from the SEAS5 hand-off point forward
+    as an explicitly-labeled longer-horizon cross-check, not a second fan.
+    The line's data, position, and label are methodology-side; its color,
+    weight, and dash style are styling the public chat can adjust."""
+    if not trajectory:
+        return
+    pts = []
+    for entry in trajectory:
+        cal = entry.get("calendar")
+        med = entry.get("median")
+        if cal is None or med is None:
+            continue
+        year, month = (int(x) for x in cal.split("-"))
+        offset = (year - current_develop_year) * 12 + (month - 3)
+        pts.append((offset, med, entry.get("p25", med), entry.get("p75", med)))
+    if not pts:
+        return
+    pts.sort(key=lambda p: p[0])
+    # Only the portion at or beyond where SEAS5 ends, so the two forecasts
+    # do not visually compete over the overlap. Keep one point at the
+    # hand-off so the CFSv2 line connects cleanly to the SEAS5 median.
+    if seas5_last_offset is not None:
+        pts = [p for p in pts if p[0] >= seas5_last_offset]
+    if len(pts) < 2:
+        return
+    xs = [p[0] for p in pts]
+    ys = [p[1] for p in pts]
+    p25 = [p[2] for p in pts]
+    p75 = [p[3] for p in pts]
+    # A distinct purple tint (not the SEAS5 black fan) signals this is a
+    # different model on a longer horizon, not a seamless SEAS5 extension.
+    # Faint 25-75 interquartile band + dotted median.
+    ax.fill_between(xs, p25, p75, color="#7a3a9a", alpha=0.10, linewidth=0,
+                    zorder=3)
+    ax.plot(xs, ys, color="#7a3a9a", linestyle=(0, (4, 2)), linewidth=1.3,
+            alpha=0.85, zorder=4,
+            label=f"{current_develop_year}-{(current_develop_year + 1) % 100:02d} "
+                  f"CFSv2 median 25-75 (longer horizon)")
+
+    # Annotate the CFSv2 peak so the reader sees where it crosses the
+    # 1997/2015 record line.
+    peak_idx = ys.index(max(ys))
+    peak_y = ys[peak_idx]
+    peak_cal = None
+    for entry in trajectory:
+        y2, m2 = (int(x) for x in entry["calendar"].split("-"))
+        if (y2 - current_develop_year) * 12 + (m2 - 3) == xs[peak_idx]:
+            peak_cal = entry["calendar"]
+            break
+    cal_clause = f" ({peak_cal})" if peak_cal else ""
+    ax.annotate(
+        f"CFSv2 median peak +{peak_y:.1f}°C{cal_clause}",
+        xy=(xs[peak_idx], peak_y),
+        xytext=(6, -16), textcoords="offset points",
+        fontsize=8.5, color="#5a2a7a",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="white",
+                  edgecolor="#b48ccc", alpha=0.92),
+        arrowprops=dict(arrowstyle="-", color="#9a6aba", lw=0.6),
+    )
+    ax.legend(loc="lower right", fontsize=9)
+
+
+def _plot_obs_to_forecast_connector(ax, obs_series, per_lead,
+                                    current_develop_year: int):
+    """Dotted line bridging the last observed 2026 ONI point to the first
+    SEAS5 forecast lead. Observed ONI (CPC seasons) typically runs a couple
+    of months behind the calendar, and the SEAS5 fan starts at its first
+    lead month, leaving a visual gap. This connector spans it so the
+    observed-to-forecast handoff reads as one continuous trajectory."""
+    if not obs_series or not per_lead:
+        return
+    obs_end = obs_series[-1]   # (offset, value)
+    first = per_lead[0]
+    cal = first.get("calendar")
+    med = first.get("median")
+    if cal is None or med is None:
+        return
+    year, month = (int(x) for x in cal.split("-"))
+    fan_start_offset = (year - current_develop_year) * 12 + (month - 3)
+    # Only draw if there is an actual gap to bridge (fan starts after obs).
+    if fan_start_offset <= obs_end[0]:
+        return
+    ax.plot([obs_end[0], fan_start_offset], [obs_end[1], med],
+            color="black", linestyle=":", linewidth=1.3, alpha=0.6, zorder=4)
 
 
 def _plot_cwwa(ax, current_series, analogs, current_develop_year):
@@ -287,23 +422,26 @@ def _plot_cwwa(ax, current_series, analogs, current_develop_year):
                 alpha=s.get("alpha", 1.0), zorder=s.get("zorder", 5))
         plotted_anything = True
 
-    ax.set_xlim(-3, 14)
+    ax.set_xlim(-3, 12)
     if not plotted_anything:
         ax.text(0.5, 0.5, "CWWA data not available", transform=ax.transAxes,
                 ha="center", va="center", fontsize=10, color="grey")
         return
 
     ax.axhline(0, color="black", linewidth=0.6)
-    ax.set_xlabel("Months since March 1 of develop year")
+    # X-axis is relabeled to calendar months at the plot() level (shared
+    # axis). No "months since March 1" label needed; the calendar ticks
+    # are self-explanatory.
     ax.set_ylabel("CWWA (m/s · days)")
-    ax.grid(True, alpha=0.3)
+    ax.grid(True, axis="y", alpha=0.18)
     ax.legend(loc="upper left", fontsize=9)
 
 
 def plot(out_path: str, cwwa_data: dict | None = None,
          seas5_per_lead: list | None = None,
          current_develop_year: int = 2026, today_offset: float | None = None,
-         live_oni_by_year: dict | None = None):
+         live_oni_by_year: dict | None = None,
+         cfsv2_median: list | None = None):
     """Render the two-panel analog chart. If `cwwa_data` is supplied (with keys
     `cwwa_series` and `cwwa_analogs`), the bottom panel shows CWWA trajectories;
     otherwise it stays empty with a placeholder message. If `seas5_per_lead` is
@@ -317,8 +455,21 @@ def plot(out_path: str, cwwa_data: dict | None = None,
     fig, (ax_oni, ax_cwwa) = plt.subplots(2, 1, figsize=(10, 9), sharex=True,
                                           gridspec_kw={"height_ratios": [3, 2]})
     _plot_oni(ax_oni, series)
+    seas5_last_offset = None
     if seas5_per_lead:
-        _plot_seas5_forecast(ax_oni, seas5_per_lead, current_develop_year)
+        seas5_last_offset = _plot_seas5_forecast(ax_oni, seas5_per_lead,
+                                                 current_develop_year)
+    if cfsv2_median:
+        _plot_cfsv2_extension(ax_oni, cfsv2_median, current_develop_year,
+                              seas5_last_offset)
+
+    # Dotted connector bridging the gap between where the 2026 observed ONI
+    # line ends and where the SEAS5 forecast fan begins. The observed series
+    # runs through the latest CPC ONI season; the fan starts at the first
+    # SEAS5 lead month. Without this, the eye reads a break between the two.
+    _plot_obs_to_forecast_connector(ax_oni, series.get(current_develop_year),
+                                    seas5_per_lead, current_develop_year)
+
     _plot_cwwa(ax_cwwa, (cwwa_data or {}).get("cwwa_series"),
                (cwwa_data or {}).get("cwwa_analogs"), current_develop_year)
 
@@ -326,6 +477,13 @@ def plot(out_path: str, cwwa_data: dict | None = None,
         for ax in (ax_oni, ax_cwwa):
             ax.axvline(today_offset, color="black", linestyle=":", alpha=0.5,
                        linewidth=0.8)
+
+    # Calendar x-axis: relabel the shared months-since-March-1 axis with
+    # calendar months so the reader does not have to do the arithmetic.
+    # Internal coordinates are unchanged; this is tick cosmetics only.
+    ax_cwwa.set_xlim(-3, 12)
+    ax_cwwa.set_xticks(_CALENDAR_XTICKS)
+    ax_cwwa.set_xticklabels(_CALENDAR_XLABELS)
 
     fig.tight_layout()
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
