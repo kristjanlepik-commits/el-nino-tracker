@@ -95,8 +95,13 @@ def fetch_all() -> dict:
         # during busy periods can otherwise hang the workflow indefinitely;
         # on timeout, safe_fetch falls back to the last-good cache so the
         # brief still renders and commits.
+        # 40-min budget: CDS queue waits run 20-60 min on busy days, so the
+        # earlier 25-min budget timed out too often. A timeout is now
+        # harmless (the merge above reuses the cached per_lead seamlessly),
+        # but the larger budget reduces how often we fall back to a stale
+        # SEAS5 run.
         "ecmwf_seas5":   safe_fetch("ecmwf_seas5", ecmwf_seas5.fetch,
-                                    timeout_seconds=25 * 60),
+                                    timeout_seconds=40 * 60),
         "era5_wwe":      safe_fetch("era5_wwe", era5_wwe.fetch,
                                     timeout_seconds=25 * 60),
         "era5_burst":    safe_fetch("era5_burst", era5_burst.fetch,
@@ -111,38 +116,57 @@ def fetch_all() -> dict:
 
     out = dict(seeded)  # start from seed
 
-    if results["cpc_strength"].ok and not results["cpc_strength"].used_fallback:
+    # All merges below use the fetched payload whenever ok, including a
+    # last-good cache fallback: the cache is a full prior live payload and
+    # is strictly better than the sources.py seed. _fallback_note() reports
+    # which path ran so the freshness panel stays accurate.
+    def _fallback_note(r):
+        return (None if not r.used_fallback else
+                f"live fetch failed; using last-good cache (issued {r.issued})")
+
+    if results["cpc_strength"].ok:
+        r = results["cpc_strength"]
         out["cpc_strength"].update({
-            "issued": results["cpc_strength"].issued,
-            "table": results["cpc_strength"].payload.get("table", out["cpc_strength"]["table"]),
-            "used_fallback": False,
-            "fallback_note": None,
-            "fetched_at": results["cpc_strength"].fetched_at,
+            "issued": r.issued,
+            "table": r.payload.get("table", out["cpc_strength"]["table"]),
+            "used_fallback": r.used_fallback,
+            "fallback_note": _fallback_note(r),
+            "fetched_at": r.fetched_at,
         })
 
-    if results["iri"].ok and not results["iri"].used_fallback:
+    if results["iri"].ok:
+        r = results["iri"]
         out["iri"].update({
-            "issued": results["iri"].issued,
-            "three_cat": results["iri"].payload.get("three_cat", out["iri"]["three_cat"]),
-            "used_fallback": False,
-            "fallback_note": None,
-            "fetched_at": results["iri"].fetched_at,
+            "issued": r.issued,
+            "three_cat": r.payload.get("three_cat", out["iri"]["three_cat"]),
+            "used_fallback": r.used_fallback,
+            "fallback_note": _fallback_note(r),
+            "fetched_at": r.fetched_at,
         })
 
-    if results["bom"].ok and not results["bom"].used_fallback:
+    if results["bom"].ok:
+        r = results["bom"]
         out["bom"].update({
-            "issued": results["bom"].issued,
-            "alert_status": results["bom"].payload.get("alert_status", out["bom"]["alert_status"]),
-            "summary": results["bom"].payload.get("summary", out["bom"]["summary"]),
-            "used_fallback": False,
-            "fallback_note": None,
-            "fetched_at": results["bom"].fetched_at,
+            "issued": r.issued,
+            "alert_status": r.payload.get("alert_status", out["bom"]["alert_status"]),
+            "summary": r.payload.get("summary", out["bom"]["summary"]),
+            "used_fallback": r.used_fallback,
+            "fallback_note": _fallback_note(r),
+            "fetched_at": r.fetched_at,
         })
 
-    if results["ecmwf_seas5"].ok and not results["ecmwf_seas5"].used_fallback:
-        p = results["ecmwf_seas5"].payload
+    # Use the fetched payload whenever the fetcher returned ok, INCLUDING a
+    # last-good cache fallback (used_fallback=True). The cache holds a full
+    # prior live payload (per_lead, member counts), which is strictly better
+    # than the sources.py seed (qualitative only, no per_lead). The previous
+    # `not used_fallback` guard discarded the cache on a timeout and left the
+    # seed in place, which dropped per_lead and broke both the analog
+    # forecast fan and the consensus headline's SEAS5 member counts.
+    if results["ecmwf_seas5"].ok:
+        r = results["ecmwf_seas5"]
+        p = r.payload
         out["ecmwf_seas5"].update({
-            "issued": results["ecmwf_seas5"].issued,
+            "issued": r.issued,
             "summary": p.get("summary", out["ecmwf_seas5"].get("summary")),
             "members_above": p.get("members_above", {}),
             "member_count": p.get("member_count"),
@@ -150,37 +174,43 @@ def fetch_all() -> dict:
             "max_lead_calendar": p.get("max_lead_calendar"),
             "max_lead_month": p.get("max_lead_month"),
             "per_lead": p.get("per_lead", []),
-            "used_fallback": False,
-            "fallback_note": None,
-            "fetched_at": results["ecmwf_seas5"].fetched_at,
+            "used_fallback": r.used_fallback,
+            "fallback_note": (None if not r.used_fallback else
+                              f"live fetch failed; using last-good cache "
+                              f"(issued {r.issued})"),
+            "fetched_at": r.fetched_at,
         })
 
     # Physical state is assembled from three weekly fetchers. The OISST
     # fetcher also drives the dynamic RONI-to-traditional-ONI offset.
     phys = out["physical_state"]
-    if results["oisst_weekly"].ok and not results["oisst_weekly"].used_fallback:
-        p = results["oisst_weekly"].payload
+    if results["oisst_weekly"].ok:
+        r = results["oisst_weekly"]
+        p = r.payload
         phys["nino34_weekly_traditional"] = p.get(
             "weekly_traditional", phys["nino34_weekly_traditional"])
         if p.get("weekly_relative") is not None:
             phys["nino34_weekly_roni"] = p.get("weekly_relative")
-        phys["issued"] = results["oisst_weekly"].issued or phys["issued"]
-        phys["used_fallback"] = False
-        phys["fallback_note"] = None
+        phys["issued"] = r.issued or phys["issued"]
+        phys["used_fallback"] = r.used_fallback
+        phys["fallback_note"] = (None if not r.used_fallback else
+                                 f"live fetch failed; using last-good cache "
+                                 f"(issued {r.issued})")
         if p.get("roni_to_oni_offset") is not None:
             out["roni_to_oni_offset"] = {
                 "value": p["roni_to_oni_offset"],
-                "issued": results["oisst_weekly"].issued,
-                "used_fallback": False,
-                "fallback_note": None,
-                "fetched_at": results["oisst_weekly"].fetched_at,
+                "issued": r.issued,
+                "used_fallback": r.used_fallback,
+                "fallback_note": (None if not r.used_fallback else
+                                  "live fetch failed; using last-good cache"),
+                "fetched_at": r.fetched_at,
                 "weekly_traditional": p.get("weekly_traditional"),
                 "weekly_relative": p.get("weekly_relative"),
             }
-    if results["heat_content"].ok and not results["heat_content"].used_fallback:
+    if results["heat_content"].ok:
         phys["heat_content_0_300m_estimate"] = results["heat_content"].payload.get(
             "anomaly_c", phys["heat_content_0_300m_estimate"])
-    if results["era5_wwe"].ok and not results["era5_wwe"].used_fallback:
+    if results["era5_wwe"].ok:
         wp = results["era5_wwe"].payload
         # CWWA replaces the legacy event-count metric (methodology v1.2).
         if wp.get("cwwa_ms_days") is not None:
@@ -193,7 +223,7 @@ def fetch_all() -> dict:
             phys["wwe_count_since_mar1_estimate"] = wp["wwe_count_since_mar1"]
 
     # Spatial-peak WWB detection (methodology v1.6, complement to CWWA).
-    if results["era5_burst"].ok and not results["era5_burst"].used_fallback:
+    if results["era5_burst"].ok:
         bp = results["era5_burst"].payload
         phys["wwb_events_since_mar1"] = bp.get("events_since_mar1")
         phys["wwb_events_detail"] = bp.get("events_detail", [])
@@ -202,15 +232,17 @@ def fetch_all() -> dict:
 
     # ONI history is consumed only by analog.py to keep current-year ONI
     # rows up to date with CPC's latest publication.
-    if results["oni_history"].ok and not results["oni_history"].used_fallback:
+    if results["oni_history"].ok:
+        r = results["oni_history"]
         out["oni_history"] = {
             "ok": True,
-            "issued": results["oni_history"].issued,
-            "by_year": results["oni_history"].payload.get("by_year", {}),
-            "latest_year": results["oni_history"].payload.get("latest_year"),
-            "latest_season": results["oni_history"].payload.get("latest_season"),
-            "used_fallback": False,
-            "fetched_at": results["oni_history"].fetched_at,
+            "issued": r.issued,
+            "by_year": r.payload.get("by_year", {}),
+            "latest_year": r.payload.get("latest_year"),
+            "latest_season": r.payload.get("latest_season"),
+            "used_fallback": r.used_fallback,
+            "fallback_note": _fallback_note(r),
+            "fetched_at": r.fetched_at,
         }
     else:
         out["oni_history"] = {
@@ -221,14 +253,16 @@ def fetch_all() -> dict:
             "fetched_at": now_iso(),
         }
 
-    # NMME multi-model consensus panel (informational; not yet wired into
-    # the headline math). Top-level key like oni_history, consumed by the
-    # brief's model-consensus panel.
-    if results["nmme"].ok and not results["nmme"].used_fallback:
-        np_ = results["nmme"].payload
+    # NMME multi-model consensus: feeds both the section-2b panel and the
+    # v1.8 consensus headline. Use the payload on a cache fallback too (the
+    # cache holds the full prior payload, cfsv2_trajectory included), so a
+    # timeout keeps the consensus and the chart's CFSv2 extension alive.
+    if results["nmme"].ok:
+        r = results["nmme"]
+        np_ = r.payload
         out["nmme"] = {
             "ok": True,
-            "issued": results["nmme"].issued,
+            "issued": r.issued,
             "init": np_.get("init"),
             "models": np_.get("models", {}),
             "cfsv2_trajectory": np_.get("cfsv2_trajectory"),
@@ -239,8 +273,11 @@ def fetch_all() -> dict:
             "nino34_region": np_.get("nino34_region"),
             "n_models_ok": np_.get("n_models_ok"),
             "n_models_attempted": np_.get("n_models_attempted"),
-            "used_fallback": False,
-            "fetched_at": results["nmme"].fetched_at,
+            "used_fallback": r.used_fallback,
+            "fallback_note": (None if not r.used_fallback else
+                              f"live fetch failed; using last-good cache "
+                              f"(issued {r.issued})"),
+            "fetched_at": r.fetched_at,
         }
     else:
         out["nmme"] = {

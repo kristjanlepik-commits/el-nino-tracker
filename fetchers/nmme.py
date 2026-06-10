@@ -151,7 +151,14 @@ def _raw_peaks(model: str, init: str) -> dict:
     THRESHOLDS can change without a re-download."""
     cache = _cache_path(model, init)
     if os.path.exists(cache):
-        return json.loads(open(cache).read())
+        cached = json.loads(open(cache).read())
+        # Treat a cache that predates the trajectory format (or is otherwise
+        # missing the per-month trajectory) as a miss and recompute, so
+        # cfsv2_trajectory is never silently empty. The _v2 key already
+        # forces this once; this guard also catches any stale or partial
+        # cache that slips through.
+        if cached.get("trajectory"):
+            return cached
 
     url = _model_file_url(model, init)
     r = http_get(url, timeout=180)
