@@ -2140,12 +2140,19 @@ def build_archive_index() -> str:
                 continue
             d = meta.get("date", meta_path.parent.name)
             h = meta.get("headline_buckets", {})
-            mod = h.get("moderate_>1.0", {}).get("mid", "")
-            strong = h.get("strong_>1.5", {}).get("mid", "")
-            sup = h.get("super_>2.0", {}).get("mid", "")
-            magn = h.get("9715_>2.5", {}).get("mid", "")
+
+            def _cell(key):
+                # Issues published before a bucket existed (e.g. +3.0
+                # pre-06-01, +3.5 pre-07-06) show a plain dash rather
+                # than implying a probability was computed and hidden.
+                mid = h.get(key, {}).get("mid")
+                return f"{mid}%" if mid is not None else "-"
+
             rows.append(
-                f"| [{d}]({d}/) | {mod}% | {strong}% | {sup}% | {magn}% |"
+                f"| [{d}]({d}/) | {_cell('moderate_>1.0')} | "
+                f"{_cell('strong_>1.5')} | {_cell('super_>2.0')} | "
+                f"{_cell('9715_>2.5')} | {_cell('record_>3.0')} | "
+                f"{_cell('record_>3.5')} |"
             )
 
     md = [
@@ -2156,8 +2163,9 @@ def build_archive_index() -> str:
         "overview is [here](../methodology.html).",
         "",
         "| Date | At least moderate (>+1.0°C) | Strong (>+1.5°C) | "
-        "Super (>+2.0°C) | 1997/2015 magnitude (>+2.5°C) |",
-        "|---|---|---|---|---|",
+        "Super (>+2.0°C) | 1997/2015 magnitude (>+2.5°C) | "
+        "Beyond record (>+3.0°C) | Far beyond record (>+3.5°C) |",
+        "|---|---|---|---|---|---|---|",
     ]
     md.extend(rows)
     md.append("")
