@@ -86,7 +86,7 @@ PEAK_WINDOW_LAST = (2027, 2)     # Feb 2027
 # members forecasting an unprecedented event. Unlike the CPC-anchored
 # headline (where +3.0 would be a deep skew-normal tail extrapolation
 # beyond CPC's published bins), here it is an empirical member count.
-THRESHOLDS = [1.0, 1.5, 2.0, 2.5, 3.0]   # traditional ONI degC
+THRESHOLDS = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5]   # traditional ONI degC
 
 # Months base for the NMME files' 'target' coordinate, which uses
 # "months since 1960-01-02 21:00:00".

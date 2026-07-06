@@ -1744,6 +1744,7 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
         ("Very strong / super (>+2.0°C peak)", "super_>2.0"),
         ("1997/2015 magnitude (>+2.5°C peak)", "9715_>2.5"),
         ("Beyond instrumental record (>+3.0°C peak)", "record_>3.0"),
+        ("Far beyond record (>+3.5°C peak)", "record_>3.5"),
     ]:
         s = smoothed.get(key, {})
         smoothed_pct = s.get("mid")
@@ -1848,22 +1849,30 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
               "of these centers carry materially wider error bars than what "
               "we'll see in July-August. Treat all numbers as preliminary.")
     rec = smoothed.get("record_>3.0", {})
+    rec35 = smoothed.get("record_>3.5", {})
     if rec.get("mid") is not None:
         rec_anchor = rec.get("anchor")
-        rec_cons = rec.get("consensus")
-        cons_clause = (f"; the model consensus above +3.0 is {rec_cons}%"
-                       if rec_cons is not None else "")
-        md.append(f"4. The +3.0°C bucket ({rec.get('mid')}%) is the most "
-                  f"model-dependent number in the headline. +3.0°C exceeds "
+        r35_clause = ""
+        if rec35.get("mid") is not None:
+            r35_clause = (f" The +3.5°C bucket ({rec35.get('mid')}%, added "
+                          f"2026-07-06 once the July SEAS5 run pushed the top "
+                          f"of the distribution past where +3.0 discriminates) "
+                          f"is even more model-driven: its CPC anchor "
+                          f"({rec35.get('anchor')}%) is effectively zero (that "
+                          f"threshold is ~+3.0 RONI, far past CPC's top bin), "
+                          f"so it is almost entirely direct model member counts "
+                          f"above +3.5. Read it as 'where the hot models "
+                          f"cluster,' not a calibrated probability, and note it "
+                          f"leans hardest on the July ECMWF run.")
+        md.append(f"4. The +3.0°C and +3.5°C buckets are the most "
+                  f"model-dependent numbers in the headline. +3.0°C exceeds "
                   f"every event in the instrumental record (1997 ~2.4, 2015 "
                   f"~2.6, 1877 ~2.5 on HadISST), and it sits beyond CPC's "
                   f"published strength bins (which top out at >=2.0 RONI), so "
-                  f"its CPC anchor ({rec_anchor}%) is the deepest skew-normal "
-                  f"tail extrapolation in the brief{cons_clause}. Under the "
-                  f"v1.8 consensus weighting the bucket is driven mostly by "
-                  f"direct model member counts above +3.0, not by that "
-                  f"extrapolation, but read it as the brief's least-anchored "
-                  f"figure.")
+                  f"its CPC anchor ({rec_anchor}%) is a deep skew-normal tail "
+                  f"extrapolation. Under the consensus weighting the +3.0 "
+                  f"bucket ({rec.get('mid')}%) is driven mostly by direct model "
+                  f"member counts, not that extrapolation.{r35_clause}")
     md.append("")
 
     # --------- Section 2: Physical state panel ---------
