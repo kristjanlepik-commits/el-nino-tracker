@@ -1877,9 +1877,16 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     else:
         md.append("2. ECMWF SEAS5 vs CPC, upper tail: SEAS5 not member-counted "
                   "this run; using qualitative read from sources.py.")
-    md.append("3. Spring predictability barrier: April-May forecasts at any "
-              "of these centers carry materially wider error bars than what "
-              "we'll see in July-August. Treat all numbers as preliminary.")
+    # Caveat 3 updated for v1.9 (2026-07-06): the spring predictability
+    # barrier is behind us, so the old "treat all numbers as preliminary"
+    # framing would understate current skill. The residual uncertainty has
+    # migrated to the top of the distribution.
+    md.append("3. Forecast skill note: mid-year forecasts for the DJF peak "
+              "are past the boreal-spring predictability barrier and carry "
+              "materially narrower error bars than the April-May issuances "
+              "did. The remaining uncertainty is concentrated in peak "
+              "magnitude at the top of the distribution (the +3.0 and +3.5 "
+              "buckets), not in whether a strong-to-super event occurs.")
     rec = smoothed.get("record_>3.0", {})
     rec35 = smoothed.get("record_>3.5", {})
     if rec.get("mid") is not None:
@@ -2256,7 +2263,12 @@ def main():
                 current_develop_year=S.BRIEF_DATE.year,
                 today_offset=today_offset,
                 live_oni_by_year=live_oni_by_year,
-                cfsv2_median=fetched.get("nmme", {}).get("cfsv2_trajectory"))
+                # v1.9: prefer the equal-model-weight pooled NMME trajectory
+                # (true member-pool band) for the extension; CFSv2-only is
+                # the fallback for pre-v1.9 caches. Same {calendar, median,
+                # p25, p75} shape either way.
+                cfsv2_median=(fetched.get("nmme", {}).get("pooled_trajectory")
+                              or fetched.get("nmme", {}).get("cfsv2_trajectory")))
 
     # 3. Snapshot current inputs and diff against last issue. The
     # snapshot file is the source of truth for next week's diff, so we

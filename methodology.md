@@ -331,6 +331,17 @@ swap and resulting count changes.
   retrospectively score the brief's probabilities against observed
   outcomes; the agency forecasts are not long-tracked enough at the
   brief's framing for that to be meaningful.
+
+  **Declared exception, announced 2026-07-06 (v1.9), before the outcome
+  is known:** once the 2026-27 event resolves (observed peak ONI known,
+  ~spring 2027), we WILL retrospectively score this brief's own weekly
+  headline buckets: Brier score per bucket per issue, evaluated against
+  the observed peak, and compared against two baselines computed from
+  the same archived snapshots (CPC-alone, and the raw unanchored
+  six-model consensus). The snapshots/ directory is the frozen audit
+  trail that makes this possible. We announce the test now, in advance,
+  so the eventual scoring cannot be accused of post-hoc selection; the
+  results will be published whichever way they fall.
 - **No impact modeling.** We do not model hurricane counts, food
   prices, drought severity, or energy demand. Beginning v1.3, the brief
   does aggregate institutional impact ranges (WMO, IMF, FAO, Allianz,
@@ -742,9 +753,39 @@ median).
   explicitly as "where the hot models cluster," not a calibrated
   probability. If the models cool, this bucket moves first and most.
 
+- **1.9** (2026-07-06): three refinements, none touching headline math
+  (all six buckets remain computed exactly as under v1.8 and stay
+  week-over-week comparable; the diff banner wording was generalised to
+  say so rather than assert non-comparability).
+
+  1. **Pooled extension band on the analog chart.** The forecast fan's
+     extension past SEAS5's horizon previously used CFSv2's own monthly
+     interquartile as a first cut. It now uses the equal-model-weight
+     pooled NMME member pool per month: every model's members enter with
+     weight 1/(n_models x n_members_of_model), and the band is the true
+     weighted p25-p75 of that mixture, with the median the weighted p50.
+     A mixture is wider than any single model's spread when models
+     disagree, so this corrects the known understatement of the
+     extension band (the v1.2-era "single-model fan is overconfident"
+     limitation, now closed). Fetcher caches were bumped to _v3 to store
+     per-member monthly values.
+
+  2. **Forecast-skill caveat updated.** The standing "spring
+     predictability barrier, treat all numbers as preliminary" caveat
+     was written in April. By July the barrier is behind us and model
+     skill for the DJF peak is materially higher; the caveat now says
+     so, and notes that residual uncertainty is concentrated in peak
+     magnitude at the top of the distribution, not event occurrence.
+
+  3. **Verification commitment.** Declared intention (see the amended
+     out-of-scope section) to retrospectively Brier-score the brief's
+     weekly headline buckets against the observed peak once the event
+     resolves, versus CPC-alone and raw-consensus baselines, announced
+     before the outcome is known.
+
 ---
 
-*Methodology version 1.8. RONI offset fetched live each week from CPC.
+*Methodology version 1.9. RONI offset fetched live each week from CPC.
 ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
 WWE forcing tracked via CWWA (5N-5S, 130E-150W cumulative) AND
 spatial-peak WWB detection (10N-10S, 130E-150W, McPhaden-inspired

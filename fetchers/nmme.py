@@ -123,10 +123,12 @@ def _model_file_url(model: str, init: str) -> str:
 
 
 def _cache_path(model: str, init: str) -> str:
-    # _v2: cache now also stores the per-target-month median trajectory
-    # (needed for the analog chart's CFSv2 extension line), not just the
-    # per-member peaks. Bumping the key forces a one-time rebuild.
-    return str(CACHE_DIR / f"nmme_{model}_{init}_nino34_peaks_v2.json")
+    # _v3 (methodology v1.9): cache now also stores per-member monthly
+    # values (members_by_month), enabling a true equal-model-weight pooled
+    # band for the analog chart's forecast extension instead of CFSv2's
+    # own IQR. _v2 added the per-model median trajectory. Bumping the key
+    # forces a one-time rebuild.
+    return str(CACHE_DIR / f"nmme_{model}_{init}_nino34_peaks_v3.json")
 
 
 def _frac_above(peaks: list[float]) -> dict[str, float]:
@@ -152,12 +154,12 @@ def _raw_peaks(model: str, init: str) -> dict:
     cache = _cache_path(model, init)
     if os.path.exists(cache):
         cached = json.loads(open(cache).read())
-        # Treat a cache that predates the trajectory format (or is otherwise
-        # missing the per-month trajectory) as a miss and recompute, so
-        # cfsv2_trajectory is never silently empty. The _v2 key already
-        # forces this once; this guard also catches any stale or partial
-        # cache that slips through.
-        if cached.get("trajectory"):
+        # Treat a cache that predates the current format (missing the
+        # trajectory or the per-member monthly values) as a miss and
+        # recompute, so downstream fields are never silently empty. The
+        # _v3 key already forces this once; this guard also catches any
+        # stale or partial cache that slips through.
+        if cached.get("trajectory") and cached.get("members_by_month"):
             return cached
 
     url = _model_file_url(model, init)
@@ -206,16 +208,22 @@ def _raw_peaks(model: str, init: str) -> dict:
         )
         # Per-target-month ensemble trajectory over the FULL forecast
         # range (not just the peak window). The analog chart uses this to
-        # draw the model's median line beyond SEAS5's 6-month horizon.
+        # draw the forecast line beyond SEAS5's horizon. members_by_month
+        # (v1.9) keeps the raw member values so the pooled multi-model
+        # band can be computed as true weighted percentiles, not an
+        # average of per-model percentiles.
         trajectory = []
+        members_by_month: dict = {}
         for i, mraw in enumerate(target_months):
             ty, tm = _months_to_year_month(float(mraw))
             col = nino34_per_target.isel(target=i).values
             col = col[~np.isnan(col)]
             if col.size == 0:
                 continue
+            cal_key = f"{ty:04d}-{tm:02d}"
+            members_by_month[cal_key] = [round(float(v), 2) for v in col.tolist()]
             trajectory.append({
-                "calendar": f"{ty:04d}-{tm:02d}",
+                "calendar": cal_key,
                 "median": round(float(np.median(col)), 2),
                 "p25": round(float(np.percentile(col, 25)), 2),
                 "p75": round(float(np.percentile(col, 75)), 2),
@@ -228,6 +236,7 @@ def _raw_peaks(model: str, init: str) -> dict:
             "peak_month_iso": f"{peak_month_year:04d}-{peak_month_month:02d}-01",
             "peaks_per_member": [round(float(p), 2) for p in peaks.tolist()],
             "trajectory": trajectory,
+            "members_by_month": members_by_month,
         }
     finally:
         try:
@@ -244,6 +253,60 @@ def _download_and_extract_peaks(model: str, init: str) -> dict:
     """Raw cached peaks plus freshly-computed threshold fractions."""
     raw = _raw_peaks(model, init)
     return {**raw, "frac_above": _frac_above(raw["peaks_per_member"])}
+
+
+def _weighted_percentile(values, weights, pct: float) -> float:
+    """Percentile of `values` under `weights` via the cumulative-weight
+    midpoint convention. values/weights are parallel lists."""
+    order = np.argsort(values)
+    v = np.asarray(values, dtype=float)[order]
+    w = np.asarray(weights, dtype=float)[order]
+    cum = np.cumsum(w) - 0.5 * w
+    cum /= np.sum(w)
+    return float(np.interp(pct / 100.0, cum, v))
+
+
+def _pooled_trajectory(model_results: list) -> list:
+    """Equal-model-weight pooled monthly forecast across the NMME suite.
+
+    For each target month, pool every model's members with weight
+    1/(n_models x n_members_of_that_model), so each MODEL contributes
+    equally regardless of ensemble size (the same convention as the
+    consensus threshold fractions). Returns a list of
+    {calendar, median, p25, p75, n_models, n_members} sorted by month.
+
+    This is the "per-month member pool" band for the analog chart's
+    forecast extension (methodology v1.9), replacing the earlier first
+    cut that used CFSv2's own IQR: a true mixture is wider than any one
+    model's spread when the models disagree, which is exactly the
+    uncertainty the extension should show.
+    """
+    ok = [m for m in model_results
+          if "error" not in m and m.get("members_by_month")]
+    if not ok:
+        return []
+    months = sorted({cal for m in ok for cal in m["members_by_month"]})
+    out = []
+    for cal in months:
+        vals, wts, n_models = [], [], 0
+        contributing = [m for m in ok if m["members_by_month"].get(cal)]
+        for m in contributing:
+            mv = m["members_by_month"][cal]
+            w = 1.0 / (len(contributing) * len(mv))
+            vals.extend(mv)
+            wts.extend([w] * len(mv))
+            n_models += 1
+        if not vals:
+            continue
+        out.append({
+            "calendar": cal,
+            "median": round(_weighted_percentile(vals, wts, 50), 2),
+            "p25": round(_weighted_percentile(vals, wts, 25), 2),
+            "p75": round(_weighted_percentile(vals, wts, 75), 2),
+            "n_models": n_models,
+            "n_members": len(vals),
+        })
+    return out
 
 
 def _ensemble_average(model_results: list[dict]) -> tuple[float, dict[str, float]]:
@@ -285,13 +348,16 @@ def fetch() -> FetchResult:
         # Convert to ISO date for the FetchResult.issued field.
         yyyy, mm, dd = int(init[:4]), int(init[4:6]), int(init[6:8])
         issued_iso = date(yyyy, mm, dd).isoformat()
-        # CFSv2 per-month median trajectory, surfaced top-level for the
-        # analog chart's extension line (it reaches the DJF peak that
-        # SEAS5's 6-month horizon cannot). Slim per-model dicts: the panel
-        # needs neither raw members nor the trajectory.
+        # Trajectories surfaced top-level for the analog chart's forecast
+        # extension (reaching past SEAS5's horizon). pooled_trajectory
+        # (v1.9) is the equal-model-weight member pool and is preferred;
+        # cfsv2_trajectory is retained as a fallback and for continuity.
+        # Slim per-model dicts: the panel needs neither raw members, the
+        # trajectory, nor members_by_month.
         cfsv2 = next((m for m in model_results if m.get("model") == "CFSv2"
                       and "error" not in m), None)
         cfsv2_trajectory = cfsv2.get("trajectory") if cfsv2 else None
+        pooled_traj = _pooled_trajectory(model_results)
         return FetchResult(
             source="nmme",
             ok=True,
@@ -301,9 +367,11 @@ def fetch() -> FetchResult:
                 "init": init,
                 "models": {m["model"]: {k: v for k, v in m.items()
                                          if k not in ("peaks_per_member",
-                                                      "trajectory")}
+                                                      "trajectory",
+                                                      "members_by_month")}
                            for m in model_results},
                 "cfsv2_trajectory": cfsv2_trajectory,
+                "pooled_trajectory": pooled_traj,
                 "ensemble_mean_peak": avg_peak,
                 "ensemble_frac_above": avg_frac,
                 "thresholds_degC": THRESHOLDS,

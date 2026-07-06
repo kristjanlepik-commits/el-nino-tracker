@@ -272,7 +272,7 @@ def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
     ax.plot(xs, med, color="#000000", linestyle="--", linewidth=1.8,
             marker="D", markersize=5, zorder=4,
             label=f"{label_year} forecast median + range "
-                  f"(SEAS5 dashed; CFSv2 extension dotted)")
+                  f"(SEAS5 dashed; NMME-pool extension dotted)")
 
     # Refresh the legend so the forecast entry is picked up; the static
     # legend was already drawn by _plot_oni for the analog lines.
@@ -285,21 +285,25 @@ def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
 
 def _plot_cfsv2_extension(ax, trajectory, current_develop_year: int,
                           seas5_end: dict | None):
-    """Continue the single merged forecast fan past SEAS5's horizon using
-    CFSv2, drawn as one continuous line: the SEAS5 near-term median (dashed,
-    diamonds) hands off at November to a CFSv2 median segment that is DOTTED
-    and marker-less. The dotted style cues "longer-horizon, single-model
-    projection, softer." There is no separate legend entry and no distinct
-    tint; this is one merged multi-model forecast, not a competing line.
+    """Continue the single merged forecast fan past SEAS5's horizon, drawn
+    as one continuous line: the SEAS5 near-term median (dashed, diamonds)
+    hands off at its last lead to an extension segment that is DOTTED and
+    marker-less. The dotted style cues "longer-horizon projection, softer."
+    There is no separate legend entry and no distinct tint; this is one
+    merged multi-model forecast, not a competing line.
 
-    SEAS5's operational CDS product stops at 6 forecast months (Nov 2026
-    from a May run), so it never reaches the DJF peak. CFSv2 forecasts
-    further out; we splice its Dec-onward months onto the SEAS5 endpoint.
+    SEAS5's operational CDS product stops at 6 forecast months, so months
+    past its horizon come from the NMME suite. As of methodology v1.9 the
+    `trajectory` passed in is the equal-model-weight POOLED NMME per-month
+    member pool (median + p25/p75 computed as weighted percentiles across
+    all models' members, each model weighted equally). Pre-v1.9 caches fall
+    back to CFSv2's own trajectory; the shape is identical either way.
 
-    Band: the extension carries a single grey band from CFSv2's own monthly
-    interquartile (p25-p75) spread, anchored to the SEAS5 inner-band edge at
-    the November hand-off. (A per-month SEAS5+NMME member pool would be the
-    ideal band and is a queued refinement; CFSv2's own IQR is the first cut.)
+    Band: single grey band from the trajectory's p25-p75, anchored to the
+    SEAS5 inner-band edge at the hand-off. With the pooled trajectory this
+    is a true mixture interquartile, wider than any single model's spread
+    when the models disagree, which is exactly the uncertainty the
+    extension should show.
     """
     if not trajectory or not seas5_end:
         return

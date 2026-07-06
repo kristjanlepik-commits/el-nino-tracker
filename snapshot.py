@@ -217,8 +217,10 @@ def render_diff_markdown(d: dict) -> str:
     if d["methodology_changed"]:
         lines.append(
             f"**Methodology version bumped: {d['methodology_prev']} -> "
-            f"{d['methodology_curr']}.** Headline buckets are not strictly "
-            "comparable to last issue. See methodology change log."
+            f"{d['methodology_curr']}.** Check the methodology change log "
+            "for whether headline-bucket comparability to last issue is "
+            "affected; math changes break comparability, chart or prose "
+            "changes do not."
         )
         lines.append("")
     if d["offset_changed"]:

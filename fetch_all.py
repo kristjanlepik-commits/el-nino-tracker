@@ -266,6 +266,7 @@ def fetch_all() -> dict:
             "init": np_.get("init"),
             "models": np_.get("models", {}),
             "cfsv2_trajectory": np_.get("cfsv2_trajectory"),
+            "pooled_trajectory": np_.get("pooled_trajectory"),
             "ensemble_mean_peak": np_.get("ensemble_mean_peak"),
             "ensemble_frac_above": np_.get("ensemble_frac_above", {}),
             "thresholds_degC": np_.get("thresholds_degC", []),
