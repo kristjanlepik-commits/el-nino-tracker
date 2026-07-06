@@ -1,0 +1,66 @@
+{
+  "date": "2026-07-06",
+  "methodology_version": "1.8",
+  "headline_buckets": {
+    "moderate_>1.0": {
+      "mid": 100,
+      "anchor": 100,
+      "seas5": 100,
+      "consensus": 100,
+      "n_models": 6,
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 0.0
+    },
+    "strong_>1.5": {
+      "mid": 100,
+      "anchor": 99,
+      "seas5": 100,
+      "consensus": 100,
+      "n_models": 6,
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 0.8
+    },
+    "super_>2.0": {
+      "mid": 95,
+      "anchor": 91,
+      "seas5": 100,
+      "consensus": 96,
+      "n_models": 6,
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 4.1
+    },
+    "9715_>2.5": {
+      "mid": 80,
+      "anchor": 69,
+      "seas5": 100,
+      "consensus": 82,
+      "n_models": 6,
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 11.5
+    },
+    "record_>3.0": {
+      "mid": 66,
+      "anchor": 37,
+      "seas5": 100,
+      "consensus": 72,
+      "n_models": 6,
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 29.3
+    },
+    "record_>3.5": {
+      "mid": 42,
+      "anchor": 13,
+      "seas5": 94,
+      "consensus": 47,
+      "n_models": 6,
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 29.1
+    }
+  }
+}

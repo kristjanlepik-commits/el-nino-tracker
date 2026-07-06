@@ -23,6 +23,7 @@ import argparse
 from datetime import date
 from html import escape as h
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -237,14 +238,22 @@ PUBLIC_CSS = """
   .rung.super    { border-left-color: var(--super); }
   .rung.strong   { border-left-color: var(--strong); }
   .rung.moderate { border-left-color: var(--moderate); }
-  /* +3.0 "beyond record" rung: deliberately muted (dashed, neutral
-     border, soft fill) so it does not read as co-equal confidence with
-     the calibrated rungs. It is the least-anchored figure on the ladder. */
+  /* Beyond-record rungs: deliberately muted so they do not read as
+     co-equal confidence with the calibrated rungs. +3.0 is dashed and
+     soft; +3.5 ("far beyond record") is the faintest thing on the
+     ladder: dotted border, plain background, softened threshold text.
+     The visual gradient mirrors the confidence gradient. */
   .rung.record {
     border-left-color: var(--neutral); border-left-style: dashed;
     background: var(--bg-soft);
   }
   .rung.record .pct { color: var(--text-faint); }
+  .rung.far {
+    border-left-color: var(--border-strong); border-left-style: dotted;
+    background: var(--bg);
+  }
+  .rung.far .pct { color: var(--text-faint); }
+  .rung.far .threshold { color: var(--text-soft); }
   .buckets-note { font-size: 13px; color: var(--text-faint); margin: 0 0 32px; }
 
   /* Analyst section: tinted block directly under the ladder, only renders
@@ -722,14 +731,25 @@ def load_editorial_note() -> str:
     default "X% chance of at least a moderate El Niño this winter, Y%
     chance of a 1997 / 2015-magnitude event."
 
-    The note is per-issue editorial copy: a short narrative paragraph
-    (1-3 sentences typically) used on weeks where a numeric bottom line
-    doesn't carry the story. Operator deletes the file or empties it
-    when the standard bottom line is right again.
+    The note is per-issue editorial copy. If the first line is an issue
+    stamp of the form `<!-- issue: YYYY-MM-DD -->`, the note only renders
+    when that date matches the brief being generated; otherwise it is
+    treated as stale and skipped. This exists because an un-cleared note
+    once leaked into two later cron issues (2026-06-22 and 06-29 carried
+    the 06-15 note). Un-stamped notes render unconditionally, preserving
+    the old behavior, but every new note should carry the stamp.
     """
     if not EDITORIAL_NOTE_FILE.exists():
         return ""
-    return EDITORIAL_NOTE_FILE.read_text().strip()
+    raw = EDITORIAL_NOTE_FILE.read_text().strip()
+    if not raw:
+        return ""
+    m = re.match(r"<!--\s*issue:\s*(\d{4}-\d{2}-\d{2})\s*-->\s*", raw)
+    if m:
+        if m.group(1) != S.BRIEF_DATE.isoformat():
+            return ""   # stamped for a different issue: stale, skip
+        raw = raw[m.end():].strip()
+    return raw
 
 
 def load_impacts() -> dict:
@@ -1088,19 +1108,29 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             return None
         return (prev_buckets.get(key) or {}).get("mid")
 
-    # The +3.0 "beyond instrumental record" rung (v1.8) sits above the
-    # calibrated rungs but is rendered muted and tagged "most uncertain":
-    # it is the least-anchored figure on the ladder. Guarded so the brief
-    # still renders if an older headline dict lacks the bucket.
+    # The two beyond-record rungs sit above the calibrated rungs and are
+    # rendered progressively muted: +3.0 ("beyond instrumental record",
+    # v1.8) dashed and tagged "highly uncertain"; +3.5 ("far beyond
+    # record", added 2026-07-06 when the July SEAS5 run saturated +3.0)
+    # dotted, faintest, tagged "most uncertain". +3.5 has effectively no
+    # agency anchor and is the least-anchored figure on the ladder. Both
+    # guarded so the brief still renders if a headline dict lacks them.
+    far_rung = ""
+    if "record_>3.5" in headline:
+        far_rung = _render_rung(
+            "far", "+3.5°C peak", headline["record_>3.5"],
+            "Far beyond the record", _prev_mid("record_>3.5"),
+            delta_label, tag="most uncertain")
     record_rung = ""
     if "record_>3.0" in headline:
         record_rung = _render_rung(
             "record", "+3.0°C peak", headline["record_>3.0"],
             "Beyond the instrumental record", _prev_mid("record_>3.0"),
-            delta_label, tag="most uncertain")
+            delta_label, tag="highly uncertain")
 
     ladder_html = (
         '<section><div class="ladder">'
+        + far_rung
         + record_rung
         + _render_rung("magn",     "+2.5°C peak", headline["9715_>2.5"],
                        "1997 / 2015 magnitude", _prev_mid("9715_>2.5"), delta_label)
@@ -1114,12 +1144,14 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         + f'<p class="buckets-note">Probabilities use the v1.8 consensus estimator: a CPC-derived '
           f'anchor ({offset_phrase}, skew-normal fit on the strength table) deflected toward an '
           f'equal-weight multi-model consensus (ECMWF SEAS5 plus the NMME suite), consensus-led at '
-          f'weight 0.85. The +3.0°C bucket is different in kind: it sits beyond every event in the '
-          f'instrumental record, so it carries almost no historical anchor and is driven mostly by '
-          f'direct model member counts above +3.0. Treat it as the brief\'s least-certain figure, a '
-          f'directional read on tail risk rather than a calibrated probability. Deltas compare to '
-          f'the issue four weeks prior, aligned with CPC\'s monthly cadence; in the brief\'s first '
-          f'month the comparison falls back to the launch issue, and weeks crossing a '
+          f'weight 0.85. The rungs above +2.5°C are different in kind: no event in the '
+          f'instrumental record has reached them, so they carry little to no agency anchor and are '
+          f'driven mostly by direct model member counts. The +3.5°C rung is the furthest out: no '
+          f'official agency forecasts a threshold that extreme, so read it as where the hottest '
+          f'dynamical runs are clustering, not a calibrated probability. Adding a rung does not '
+          f'recalculate the others, so their week-over-week deltas stay comparable. Deltas compare '
+          f'to the issue four weeks prior, aligned with CPC\'s monthly cadence; in the brief\'s '
+          f'first month the comparison falls back to the launch issue, and weeks crossing a '
           f'methodology-version change show no delta. Full estimator math on the '
           f'<a href="{h(methodology_href)}">methodology page</a>.</p>'
         + '</section>'

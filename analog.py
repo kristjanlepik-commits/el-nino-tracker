@@ -150,7 +150,9 @@ STYLE = {
 # ONI panel y-range. Top raised to 3.9 (from 3.2) so the CFSv2 longer-
 # horizon extension peak is visible above the +2.5 record line; this
 # matches the public chat's signed-off mock.
-Y_TOP_ONI = 3.9
+Y_TOP_ONI = 4.5   # raised 2026-07-06: July SEAS5 p95 reaches 4.28; a 3.9
+                  # ceiling clipped the fan, the exact "adjust the y-axis"
+                  # failure the CFSv2 chart tweets mocked NOAA for.
 Y_BOT_ONI = -1.5
 
 # Calendar x-axis. The internal coordinate stays months-since-March-1 of

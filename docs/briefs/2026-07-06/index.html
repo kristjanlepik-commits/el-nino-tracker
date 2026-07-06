@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Niño Tracker, week of 2026-07-06</title>
+<meta property="og:title" content="El Niño Tracker, week of 2026-07-06">
+<meta property="og:description" content="Weekly probability tracker for the developing 2026-27 El Niño event. 80% chance of a 1997/2015-magnitude winter peak.">
+<meta property="og:image" content="https://kristjanlepik-commits.github.io/el-nino-tracker/briefs/2026-07-06/analog.png">
+<meta property="og:url" content="https://kristjanlepik-commits.github.io/el-nino-tracker/briefs/2026-07-06/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="El Niño Tracker, week of 2026-07-06">
+<meta name="twitter:description" content="Weekly probability tracker for the developing 2026-27 El Niño event. 80% chance of a 1997/2015-magnitude winter peak.">
+<meta name="twitter:image" content="https://kristjanlepik-commits.github.io/el-nino-tracker/briefs/2026-07-06/analog.png">
+<style>:root {
+    --bg: #ffffff;
+    --bg-soft: #fafafa;
+    --bg-card: #fbfbf9;
+    --border: #e5e5e0;
+    --border-strong: #cccac2;
+    --text: #1a1a1a;
+    --text-soft: #555;
+    --text-faint: #888;
+    --accent: #1f4068;
+    --neutral: #9ca3af;
+    --moderate: #f7c948;
+    --strong: #ef8b3a;
+    --super: #d94327;
+    --magn: #8b1a1a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+                 Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    font-size: 16px;
+  }
+  nav.top {
+    border-bottom: 1px solid var(--border);
+    padding: 14px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav.top .brand { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; }
+  nav.top .brand .dot { color: var(--super); }
+  nav.top ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
+  nav.top a { color: var(--text-soft); text-decoration: none; font-size: 14px; }
+  nav.top a.active {
+    color: var(--text); font-weight: 600;
+    border-bottom: 2px solid var(--accent); padding-bottom: 4px;
+  }
+  main { max-width: 880px; margin: 0 auto; padding: 36px 28px 80px; }
+  .issue-stamp {
+    color: var(--text-faint); font-size: 13px;
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  h1 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 36px; font-weight: 600; letter-spacing: -0.015em;
+    margin: 0 0 8px; line-height: 1.15;
+  }
+  .lede { color: var(--text-soft); font-size: 16px; margin: 0 0 18px; max-width: 640px; }
+  .lede.bottom-line { font-weight: 500; color: var(--text); margin-bottom: 32px; }
+
+  /* Editor's note: a quote-style block that signals "this is the author's voice"
+     rather than auto-generated prose. Sits in the same slot as the bottom-line. */
+  .editor-note {
+    margin: 0 0 32px;
+    padding: 16px 20px 14px;
+    background: #fbf5e6;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    max-width: 720px;
+  }
+  .editor-note .editor-note-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .editor-note p {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--text);
+    font-style: italic;
+  }
+  .editor-note p + p { margin-top: 10px; }
+  .editor-note strong { font-style: normal; }
+
+  .ladder { display: flex; flex-direction: column; gap: 8px; margin: 28px 0 16px; }
+  .rung {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-left: 4px solid var(--border-strong);
+    border-radius: 6px; padding: 18px 24px 16px;
+    display: grid; grid-template-columns: 1fr auto;
+    column-gap: 24px; row-gap: 4px; align-items: baseline;
+  }
+  .rung .threshold {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 30px; font-weight: 600; letter-spacing: -0.015em;
+    color: var(--text); line-height: 1.1;
+  }
+  .rung .threshold .gt { color: var(--text-faint); margin-right: 2px; font-weight: 400; }
+  .rung .pct {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 22px; font-weight: 600; color: var(--text-soft);
+    font-feature-settings: "tnum"; white-space: nowrap;
+  }
+  .rung .pct .pct-sym { font-size: 14px; color: var(--text-faint); margin-left: 1px; }
+  .rung .pct .word { color: var(--text-faint); font-weight: 400; font-size: 13px; margin-left: 6px; }
+  .rung .pct .wow-delta {
+    display: block;
+    margin-top: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+                 Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--text-faint);
+    text-align: right;
+  }
+  .rung .pct .wow-delta.wow-up   { color: var(--super); }
+  .rung .pct .wow-delta.wow-down { color: var(--accent); }
+  .rung .label { font-size: 13px; color: var(--text-soft); }
+  .rung .label .sep { color: var(--text-faint); margin: 0 6px; }
+  .rung .label .range { color: var(--text-faint); }
+  .rung .label .tag {
+    display: inline-block; margin-left: 8px; padding: 1px 7px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--text-faint);
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 10px; vertical-align: middle;
+  }
+  .rung.magn     { border-left-color: var(--magn); }
+  .rung.super    { border-left-color: var(--super); }
+  .rung.strong   { border-left-color: var(--strong); }
+  .rung.moderate { border-left-color: var(--moderate); }
+  /* Beyond-record rungs: deliberately muted so they do not read as
+     co-equal confidence with the calibrated rungs. +3.0 is dashed and
+     soft; +3.5 ("far beyond record") is the faintest thing on the
+     ladder: dotted border, plain background, softened threshold text.
+     The visual gradient mirrors the confidence gradient. */
+  .rung.record {
+    border-left-color: var(--neutral); border-left-style: dashed;
+    background: var(--bg-soft);
+  }
+  .rung.record .pct { color: var(--text-faint); }
+  .rung.far {
+    border-left-color: var(--border-strong); border-left-style: dotted;
+    background: var(--bg);
+  }
+  .rung.far .pct { color: var(--text-faint); }
+  .rung.far .threshold { color: var(--text-soft); }
+  .buckets-note { font-size: 13px; color: var(--text-faint); margin: 0 0 32px; }
+
+  /* Analyst section: tinted block directly under the ladder, only renders
+     when at least one observer fires. Reader gets "what changed / what does
+     it mean" before scrolling to the chart. */
+  section.analyst-read {
+    background: #fbf9f0;
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 22px 26px 16px;
+    margin: 32px 0;
+  }
+  section.analyst-read h2 {
+    margin: 0 0 4px;
+    color: var(--text);
+  }
+  section.analyst-read .section-sub {
+    margin: 0 0 14px;
+    color: var(--text-soft);
+  }
+  section.analyst-read ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  section.analyst-read li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+  section.analyst-read li:last-child { border-bottom: none; }
+  section.analyst-read li strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  section { margin: 48px 0; }
+  h2 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 22px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em;
+  }
+  .section-sub { color: var(--text-faint); font-size: 13px; margin: 0 0 20px; }
+
+  .chart-card {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: 6px; padding: 20px;
+  }
+  .chart-card img { width: 100%; height: auto; display: block; }
+  .chart-caption { font-size: 13px; color: var(--text-soft); margin-top: 14px; line-height: 1.5; }
+  .chart-caption strong { color: var(--text); }
+
+  table.phys { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.phys th, table.phys td {
+    padding: 10px 12px; text-align: left;
+    border-bottom: 1px solid var(--border); vertical-align: top;
+  }
+  table.phys th {
+    background: var(--bg-soft); font-weight: 500; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-soft);
+  }
+  table.phys td.num { font-feature-settings: "tnum"; white-space: nowrap; }
+  .note {
+    font-size: 14px; color: var(--text-soft);
+    background: var(--bg-soft); border-left: 3px solid var(--border-strong);
+    padding: 12px 16px; margin: 14px 0 0;
+  }
+  .note strong { color: var(--text); }
+
+  .src-list { padding-left: 0; list-style: none; margin: 0; }
+  .src-list li {
+    padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+  }
+  .src-list li:last-child { border-bottom: none; }
+  .src-list .src-name { font-weight: 600; color: var(--text); }
+  .src-list .src-issued { color: var(--text-faint); font-size: 12px; margin-left: 8px; }
+  .src-list .src-detail { color: var(--text-soft); margin-top: 4px; }
+
+  ol.caveats { padding-left: 22px; margin: 0; }
+  ol.caveats li { margin-bottom: 14px; font-size: 14px; color: var(--text); line-height: 1.55; }
+
+  footer {
+    margin-top: 64px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--text-soft);
+  }
+  .freshness-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 6px 24px; margin: 12px 0 18px;
+  }
+  .freshness-grid .src { color: var(--text); font-weight: 500; }
+  .freshness-grid .meta { color: var(--text-faint); font-size: 12px; }
+  .footer-meta { color: var(--text-faint); font-size: 12px; line-height: 1.6; }
+  .footer-meta a { color: var(--accent); }
+
+  /* ---------- Impact outlook section ---------- */
+  section.impacts > p:first-of-type {
+    color: var(--text-faint); font-size: 13px;
+    margin: 0 0 16px;
+  }
+
+  /* World map: real Natural Earth-derived SVG referenced as <img>, with
+     hotspot markers absolutely positioned over it as <button> elements. */
+  .impacts-map {
+    position: relative;
+    margin: 16px 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f5f4ee;
+  }
+  .impacts-map .world-map-bg {
+    display: block; width: 100%; height: auto;
+  }
+  .impacts-map .map-hotspot {
+    position: absolute; transform: translate(-50%, -50%);
+    width: 22px; height: 22px;
+    background: transparent; border: 0; padding: 0;
+    cursor: pointer; outline: none;
+  }
+  .impacts-map .map-hotspot-ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: rgba(217, 67, 39, 0.15);
+    border: 1.5px solid var(--super);
+    transition: all 0.18s ease;
+  }
+  .impacts-map .map-hotspot-dot {
+    position: absolute; inset: 7px;
+    border-radius: 50%;
+    background: var(--super);
+    transition: all 0.18s ease;
+  }
+  .impacts-map .map-hotspot:hover .map-hotspot-ring {
+    background: rgba(217, 67, 39, 0.25);
+  }
+  .impacts-map .map-hotspot.active .map-hotspot-ring {
+    background: rgba(217, 67, 39, 0.32);
+    border-width: 2.5px;
+    inset: -3px;
+  }
+  .impacts-map .map-hotspot.active .map-hotspot-dot {
+    inset: 5px;
+  }
+  .impacts-map .map-hotspot:focus-visible .map-hotspot-ring {
+    border-color: var(--accent);
+    border-width: 2.5px;
+  }
+
+  /* Region tabs strip */
+  .region-tabs {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin: 14px 0 16px;
+  }
+  .region-tab {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 14px;
+    font-size: 13px; color: var(--text-soft);
+    cursor: pointer; font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .region-tab:hover { border-color: var(--border-strong); color: var(--text); }
+  .region-tab[aria-selected="true"] {
+    background: var(--super); border-color: var(--super);
+    color: #fff; font-weight: 600;
+  }
+
+  /* Region content panels: only the active one shows */
+  .region-panel { display: none; }
+  .region-panel.active { display: block; }
+  .region-panel h3 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 22px; font-weight: 600;
+    margin: 0 0 10px; letter-spacing: -0.01em;
+  }
+  .region-panel p {
+    font-size: 14.5px; line-height: 1.6; color: var(--text); margin: 0 0 12px;
+  }
+
+  @media (max-width: 720px) {
+    main { padding: 24px 16px 60px; }
+    h1 { font-size: 28px; }
+    .freshness-grid { grid-template-columns: 1fr; }
+    nav.top { padding: 12px 16px; }
+    nav.top ul { gap: 14px; }
+    .rung { grid-template-columns: 1fr; }
+    .rung .pct { margin-top: 4px; }
+  }</style>
+</head>
+<body>
+<nav class="top">
+  <span class="brand">El Niño Tracker<span class="dot">.</span></span>
+  <ul>
+    <li><a href="./" class="active">Brief</a></li>
+    <li><a href="briefs/">Past briefs</a></li>
+    <li><a href="../../methodology.html">Methodology</a></li>
+  </ul>
+</nav>
+<main>
+  <div class="issue-stamp">Week of 2026-07-06 · Methodology v1.8</div>
+  <h1>How likely is a super<br>El Niño this winter?</h1>
+  <p class="lede">Updated each Monday from the major ENSO outlooks (NOAA CPC, IRI, BoM) and a multi-model forecast consensus (ECMWF SEAS5 with the NMME suite), plus weekly Niño 3.4 observations. Peak season target: <strong>DJF 2026-27</strong>. Forecast disagreements are surfaced rather than averaged.</p>
+  <aside class="editor-note"><div class="editor-note-label">Editor's note</div><p><strong>Record ECMWF, and a new rung at +3.5°C.</strong> The July ECMWF forecast came in at its hottest yet: a median near +4°C in the central Pacific, with essentially every ensemble member above +3.5°C. The headline probabilities below barely moved, and that is by design; our number blends six forecast models, and one hot run cannot drag the consensus far on its own. With the strong-to-super picture now near-certain, the live question has shifted to how far beyond the record this event could go. So the ladder gains a sixth rung: the chance of a peak above +3.5°C, roughly a full degree beyond the 1997/2015 record, currently reading around two in five.</p>
+<p>Treat that number with the most caution of anything on the page. No official agency forecasts a threshold that extreme; it rests almost entirely on the dynamical models and leans hardest on that single record-hot ECMWF run. Read it as where the hot models are clustering, not a calibrated probability. If the models cool, it moves first and furthest. The observations, meanwhile, keep climbing into the forecast: weekly Niño 3.4 is around +1.7°C and westerly wind bursts are still firing.</p></aside>
+<section><div class="ladder"><div class="rung far"><div class="threshold"><span class="gt">&gt;</span>+3.5°C peak</div><div class="pct">42<span class="pct-sym">%</span><span class="word">probability</span></div><div class="label">Far beyond the record<span class="tag">most uncertain</span></div></div><div class="rung record"><div class="threshold"><span class="gt">&gt;</span>+3.0°C peak</div><div class="pct">66<span class="pct-sym">%</span><span class="word">probability</span><span class="wow-delta wow-up">▲ +25 pp vs last month</span></div><div class="label">Beyond the instrumental record<span class="tag">highly uncertain</span></div></div><div class="rung magn"><div class="threshold"><span class="gt">&gt;</span>+2.5°C peak</div><div class="pct">80<span class="pct-sym">%</span><span class="word">probability</span><span class="wow-delta wow-up">▲ +14 pp vs last month</span></div><div class="label">1997 / 2015 magnitude</div></div><div class="rung super"><div class="threshold"><span class="gt">&gt;</span>+2.0°C peak</div><div class="pct">95<span class="pct-sym">%</span><span class="word">probability</span><span class="wow-delta wow-up">▲ +20 pp vs last month</span></div><div class="label">Very strong / super</div></div><div class="rung strong"><div class="threshold"><span class="gt">&gt;</span>+1.5°C peak</div><div class="pct">100<span class="pct-sym">%</span><span class="word">probability</span><span class="wow-delta wow-up">▲ +11 pp vs last month</span></div><div class="label">Strong</div></div><div class="rung moderate"><div class="threshold"><span class="gt">&gt;</span>+1.0°C peak</div><div class="pct">100<span class="pct-sym">%</span><span class="word">probability</span><span class="wow-delta wow-up">▲ +3 pp vs last month</span></div><div class="label">At least moderate</div></div></div><p class="buckets-note">Probabilities use the v1.8 consensus estimator: a CPC-derived anchor (live offset +0.60°C, week of 2026-07-01, skew-normal fit on the strength table) deflected toward an equal-weight multi-model consensus (ECMWF SEAS5 plus the NMME suite), consensus-led at weight 0.85. The rungs above +2.5°C are different in kind: no event in the instrumental record has reached them, so they carry little to no agency anchor and are driven mostly by direct model member counts. The +3.5°C rung is the furthest out: no official agency forecasts a threshold that extreme, so read it as where the hottest dynamical runs are clustering, not a calibrated probability. Adding a rung does not recalculate the others, so their week-over-week deltas stay comparable. Deltas compare to the issue four weeks prior, aligned with CPC's monthly cadence; in the brief's first month the comparison falls back to the launch issue, and weeks crossing a methodology-version change show no delta. Full estimator math on the <a href="../../methodology.html">methodology page</a>.</p></section><section class="analyst-read"><h2>What's interesting this week</h2><p class="section-sub">Observations from this week's data, beyond what the headline numbers say.</p><ul><li><strong>Subsurface heat ahead of both Godzilla analogs.</strong> 0–300 m heat content anomaly is now +2.26°C, vs +0.7°C in 1997 and +1.6°C in 2015 at the same calendar week, running ahead of either super-event analog at this stage of development.</li><li><strong>Strongest WWB already in super-event territory.</strong> 2026's strongest westerly wind burst peaks at 23.9 m/s on 2026-04-12, vs full-season peaks of 27.7 (1997) and 29.5 (2015). Peak amplitude is super-event-aligned even though cumulative wind energy is lagging.</li></ul></section><section><h2>Analog tracker</h2><p class="section-sub">2026-27 trajectory vs reference El Niño events, plus a combined SEAS5 and CFSv2 forecast carried through the winter peak.</p><div class="chart-card"><img src="analog.png" alt="Analog tracker chart"><div class="chart-caption"><strong>Read this week:</strong> the shaded red field marks El Niño territory, deepening through moderate, strong and super up to the +2.5°C line that 1997 and 2015 peaked near. 2026's observed ONI (solid black) runs to the AMJ season at +1.0°C; 1997 and 2023 were similarly cool this early and still became super events, so position this far out is a weak discriminator. Forward, the forecast is one combined ensemble: the dashed line and grey bands are ECMWF SEAS5 (median with 25-75 and 5-95 percentile spreads) to its January 2027 horizon, and the dotted line carries CFSv2 from there through the DJF peak to February 2027, above the 1997/2015 record. The dotted stretches are the softer parts: a short bridge over the gap to the first forecast month, then CFSv2 alone, its interquartile band widening with lead. Read the dotted tail as direction, not precision.</div></div></section><section><h2>Physical state</h2><p class="section-sub">Current observations vs the same calendar week in past super-event develop years.</p><table class="phys"><thead><tr><th>Indicator</th><th>Current<br><span style="font-weight:400">week of 2026-07-06</span></th><th>1997 same week</th><th>2015 same week</th></tr></thead><tbody><tr><td>Niño 3.4 weekly (traditional)</td><td class="num">+1.8°C</td><td class="num">−0.1°C</td><td class="num">+0.6°C</td></tr><tr><td>Niño 3.4 weekly (RONI)</td><td class="num">+1.2°C</td><td class="num">n/a (pre-RONI)</td><td class="num">n/a (pre-RONI)</td></tr><tr><td>0–300 m heat content anomaly</td><td class="num">+2.26°C</td><td class="num">+0.7°C</td><td class="num">+1.6°C</td></tr><tr><td>Cumulative westerly wind anomaly since Mar 1<br><span style="color:var(--text-faint); font-size:12px">CWWA, ERA5 5°N–5°S, 130°E–150°W, m/s·days</span></td><td class="num">319</td><td class="num">589</td><td class="num">456</td></tr></tbody></table><div class="note"><strong>Heat content:</strong> Above-average and rising. Qualitatively the warmest since Jun 2023; comparable to spring of 2015, well short of spring 1997. New downwelling Kelvin wave initiated in March 2026.</div><div class="note"><strong>CWWA:</strong> Live ERA5 daily 850 hPa zonal wind through 2026-07-01, area-meaned over 5°N–5°S, 130°E–150°W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (319) tracks closest to 2015 (456); other reference years: 1997 (589), 2023 (99), 2025 (10).</div></section><section class="impacts"><h2>Impact outlook</h2><p>Aggregation of institutional impact ranges for the developing event. Probabilities below are from named external sources, conditional on the headline strong-to-super case in section 1 materializing.</p><div class="impacts-map"><img class="world-map-bg" src="../../world-map.svg" alt="World map of regional impact zones" loading="lazy"/><button type="button" class="map-hotspot active" data-region="mediterranean" style="left: 52.7%; top: 26.7%;" aria-label="Mediterranean"><span class="map-hotspot-ring"></span><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="amazon-basin" style="left: 33.4%; top: 52.7%;" aria-label="Amazon basin"><span class="map-hotspot-ring"></span><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="australia-and-the-great-barrier-reef" style="left: 90.5%; top: 62.2%;" aria-label="Australia and the Great Barrier Reef"><span class="map-hotspot-ring"></span><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="southern-africa" style="left: 57.0%; top: 64.0%;" aria-label="Southern Africa"><span class="map-hotspot-ring"></span><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="india-and-south-asia" style="left: 71.6%; top: 37.7%;" aria-label="India and South Asia"><span class="map-hotspot-ring"></span><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="united-states" style="left: 22.2%; top: 27.7%;" aria-label="United States"><span class="map-hotspot-ring"></span><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="southeast-asia" style="left: 82.0%; top: 51.7%;" aria-label="Southeast Asia"><span class="map-hotspot-ring"></span><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="global-coral" style="left: 8.4%; top: 50.0%;" aria-label="Global coral"><span class="map-hotspot-ring"></span><span class="map-hotspot-dot"></span></button></div><div class="region-tabs" role="tablist" aria-label="Regional impacts"><button type="button" class="region-tab" data-region="mediterranean" role="tab" aria-selected="true">Mediterranean</button><button type="button" class="region-tab" data-region="amazon-basin" role="tab" aria-selected="false">Amazon basin</button><button type="button" class="region-tab" data-region="australia-and-the-great-barrier-reef" role="tab" aria-selected="false">Australia and the Great Barrier Reef</button><button type="button" class="region-tab" data-region="southern-africa" role="tab" aria-selected="false">Southern Africa</button><button type="button" class="region-tab" data-region="india-and-south-asia" role="tab" aria-selected="false">India and South Asia</button><button type="button" class="region-tab" data-region="united-states" role="tab" aria-selected="false">United States</button><button type="button" class="region-tab" data-region="southeast-asia" role="tab" aria-selected="false">Southeast Asia</button><button type="button" class="region-tab" data-region="global-coral" role="tab" aria-selected="false">Global coral</button></div><div class="region-content"><div class="region-panel active" data-region="mediterranean" role="tabpanel" aria-label="Mediterranean"><h3>Mediterranean</h3><p>Spain, Portugal, Italy, Greece, southern France. Probability of severe summer 2026 heat and drought: high, &gt;70% Iberia, ~65% Italy/Greece/southern France. The 2024 July Mediterranean heatwave was characterized by World Weather Attribution as "virtually impossible without human-caused climate change". A 2003-magnitude European heat event (~70,000 excess deaths) is rated medium probability (~25-30%) on a strong El Niño compounded with the multi-year Mediterranean drought baseline.</p></div><div class="region-panel" data-region="amazon-basin" role="tabpanel" aria-label="Amazon basin"><h3>Amazon basin</h3><p>Probability of major drought 2026: high (&gt;70%); probability of fire season exceeding 2024 hotspot levels: medium-high (~50%). NASA SERVIR characterized the 2023-24 drought magnitude as "roughly double" the 2015-16 event. The 2024 fire season produced a 76% increase in hotspots vs 2023.</p></div><div class="region-panel" data-region="australia-and-the-great-barrier-reef" role="tabpanel" aria-label="Australia and the Great Barrier Reef"><h3>Australia and the Great Barrier Reef</h3><p>Probability of severe bushfire season austral summer 2026-27: high (&gt;65%); GBR mass bleaching: very high (&gt;85%); agricultural drought: high (&gt;70%). The reef has bleached six times since 2016; another super event makes a sixth-in-eight-years bleaching baseline. Australian winter wheat is the cleanest El Niño short on record, with declines of 16% to 46% under prior strong events (1965, 1977, 1982, 1994, 1997, 2023).</p></div><div class="region-panel" data-region="southern-africa" role="tabpanel" aria-label="Southern Africa"><h3>Southern Africa</h3><p>Probability of major drought repeat: ~70% if rains arrive late, per OCHA framing of the 2023-24 baseline ("worst impacts in 40 years"). Probability of a humanitarian appeal exceeding $5 billion: medium-high (~50%). Six SADC countries declared emergency in 2024; back-to-back is the asymmetric humanitarian risk.</p></div><div class="region-panel" data-region="india-and-south-asia" role="tabpanel" aria-label="India and South Asia"><h3>India and South Asia</h3><p>IMD's April 2026 monsoon outlook is 92% of the long-period average, the first below-normal April call since 2015. Of 16 historical El Niño years since 1950, 7 produced below-normal Indian monsoons (IMD MMCFS). Pre-monsoon heat already reached 43.8°C at Akola in mid-April 2026.</p></div><div class="region-panel" data-region="united-states" role="tabpanel" aria-label="United States"><h3>United States</h3><p>California atmospheric river season: above-normal Pacific storm count winter 2026-27 high (~70%), with ~50% probability of a major atmospheric river damage event January-March 2027. Pacific Northwest: warmer-drier winter (~70%) with significant 2026 fire season (~50%). Atlantic hurricane season: high probability (~70%) of below-normal activity from El Niño wind shear, partially offset by warm Atlantic SSTs (2023 produced 20 named storms despite an El Niño base state). Southern Plains drought relief: low-medium (~25-30%); the 2023-24 super event underdelivered there.</p></div><div class="region-panel" data-region="southeast-asia" role="tabpanel" aria-label="Southeast Asia"><h3>Southeast Asia</h3><p>Significant drought in Indonesia: high (&gt;70%); palm oil production decline: medium-high (~55%). The 2015-16 super event delivered a 13.2% Malaysian palm oil production decline at a 12-month lag. Vietnamese coffee output fell 20% in 2023-24.</p></div><div class="region-panel" data-region="global-coral" role="tabpanel" aria-label="Global coral"><h3>Global coral</h3><p>The 2023-25 fourth global bleaching event already affects ~84% of world reefs (International Coral Reef Initiative, April 2025). Continued mass bleaching across all tropical basins is essentially certain into 2026-27.</p></div></div><script>
+(function () {
+  var section = document.querySelector('.impacts');
+  if (!section) return;
+  var tabs = section.querySelectorAll('.region-tab');
+  var panels = section.querySelectorAll('.region-panel');
+  var hotspots = section.querySelectorAll('.impacts-map .map-hotspot');
+  function activate(slug) {
+    if (!slug) return;
+    var ok = false;
+    panels.forEach(function (p) {
+      var match = p.getAttribute('data-region') === slug;
+      p.classList.toggle('active', match);
+      if (match) ok = true;
+    });
+    if (!ok) return;
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected',
+        t.getAttribute('data-region') === slug ? 'true' : 'false');
+    });
+    hotspots.forEach(function (h) {
+      h.classList.toggle('active', h.getAttribute('data-region') === slug);
+    });
+    if (history.replaceState) {
+      history.replaceState(null, '', '#region=' + slug);
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      activate(t.getAttribute('data-region'));
+    });
+  });
+  hotspots.forEach(function (h) {
+    h.addEventListener('click', function () {
+      activate(h.getAttribute('data-region'));
+    });
+  });
+  var m = (location.hash || '').match(/region=([\w-]+)/);
+  if (m) activate(m[1]);
+})();
+</script></section><section><h2>Source-by-source check</h2><p class="section-sub">What each agency said this week, verbatim where useful.</p><ul class="src-list"><li><span class="src-name">NOAA CPC strength table, NDJ 2026-27 (RONI)</span><span class="src-issued">issued 2026-06-11</span><div class="src-detail">super 63%, strong 25%, moderate 10%, weak El Niño 2%, neutral 0%, La Niña 0%.</div></li><li><span class="src-name">IRI plume, DJF 2026-27</span><span class="src-issued">issued 2026-05-19</span><div class="src-detail">El Niño 98%, neutral 2%, La Niña 0%. Strength not broken out in the public Quick Look.</div></li><li><span class="src-name">BoM ENSO Outlook</span><span class="src-issued">issued 2026-06-30</span><div class="src-detail">El Niño in the tropical Pacific. Categorical only.</div></li><li><span class="src-name">ECMWF SEAS5</span><span class="src-issued">run 2026-07-01</span><div class="src-detail">51-member SEAS5 ensemble for 2027-01: median Niño 3.4 anomaly +3.93 deg C; 51/51 members above +1.5 (~100% above +2.0, ~100% above +2.5).</div></li></ul></section><section><h2>Caveats this issue</h2><ol class="caveats"><li>The CPC anchor for the +2.5°C bucket carries a 67–70% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty. The smoothed headline (80%) sits above this anchor range because the bounded SEAS5 deflection (+11.5pp this issue) lifts it.</li><li>ECMWF SEAS5 vs CPC anchor on the upper tail above +2.5°C trad ONI: SEAS5 has 51/51 members (100%) at 2027-01 (max available lead); the CPC anchor lands at 67–70%. The v1.5 smoothing absorbs 20% of this gap (capped at ±10pp/week), moving the smoothed headline to 80%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. For broader context, multi-model pools (e.g., the <a href="https://dashboard.theclimatebrink.com/#enso">Climate Brink dashboard</a>'s 13-model 637-member view) currently report a meaningfully higher probability for the same threshold; the gap reflects CPC's analyst-correction vs raw multi-model breadth, documented as methodology limitation #7.</li><li>Spring predictability barrier: April–May forecasts at any of these centers carry materially wider error bars than what we'll see in July–August. Treat all numbers as preliminary.</li></ol></section><footer><strong style="color:var(--text); font-weight:600">Source freshness this issue</strong><div class="freshness-grid"><div><span class="src">NOAA CPC strength table</span><span class="meta"> · live, issued 2026-06-11</span></div><div><span class="src">NOAA OISST weekly Niño 3.4</span><span class="meta"> · live, issued 2026-07-01</span></div><div><span class="src">CPC 0-300m heat content</span><span class="meta"> · live, issued 2026-06-30</span></div><div><span class="src">IRI plume</span><span class="meta"> · cached (issued 2026-05-19)</span></div><div><span class="src">BoM ENSO Outlook</span><span class="meta"> · live, issued 2026-06-30</span></div><div><span class="src">ECMWF SEAS5</span><span class="meta"> · live, issued 2026-07-01</span></div><div><span class="src">ERA5 cumulative westerly wind anomaly (CWWA)</span><span class="meta"> · live, issued 2026-07-01</span></div><div><span class="src">era5_burst</span><span class="meta"> · live, issued 2026-07-01</span></div><div><span class="src">oni_history</span><span class="meta"> · live, issued 2026-06-30</span></div><div><span class="src">NMME multi-model suite (incl. CFSv2)</span><span class="meta"> · live, issued 2026-06-08</span></div></div><p class="footer-meta">Methodology version 1.8. RONI to traditional ONI offset +0.60°C (live, week of 2026-07-01). See <a href="../../methodology.html">methodology</a> for the full audit trail.</p><p class="footer-meta" style="margin-top:18px;">By <a href="https://www.linkedin.com/in/kristjanlepik/"><strong style="color:var(--text)">Kristjan Lepik</strong></a>. Source on <a href="https://github.com/kristjanlepik-commits/el-nino-tracker">GitHub</a>.</p><p class="footer-meta" style="margin-top:6px;">Licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Cite as: Lepik, K. (2026). El Niño Tracker. <a href="https://kristjanlepik-commits.github.io/el-nino-tracker/">kristjanlepik-commits.github.io/el-nino-tracker</a>. Free to share and quote with attribution; commercial reuse requires permission.</p></footer>
+</main>
+</body>
+</html>
