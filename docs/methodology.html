@@ -343,14 +343,24 @@ swap and resulting count changes.</p>
   retrospectively score the brief's probabilities against observed
   outcomes; the agency forecasts are not long-tracked enough at the
   brief's framing for that to be meaningful.</li>
-<li><strong>No impact modeling.</strong> We do not model hurricane counts, food
+</ul>
+<p><strong>Declared exception, announced 2026-07-06 (v1.9), before the outcome
+  is known:</strong> once the 2026-27 event resolves (observed peak ONI known,
+  ~spring 2027), we WILL retrospectively score this brief's own weekly
+  headline buckets: Brier score per bucket per issue, evaluated against
+  the observed peak, and compared against two baselines computed from
+  the same archived snapshots (CPC-alone, and the raw unanchored
+  six-model consensus). The snapshots/ directory is the frozen audit
+  trail that makes this possible. We announce the test now, in advance,
+  so the eventual scoring cannot be accused of post-hoc selection; the
+  results will be published whichever way they fall.
+- <strong>No impact modeling.</strong> We do not model hurricane counts, food
   prices, drought severity, or energy demand. Beginning v1.3, the brief
   does aggregate institutional impact ranges (WMO, IMF, FAO, Allianz,
   Swiss Re, OCHA, NASA SERVIR, IMD, etc.) in an "Impact outlook"
   section; see "Impact aggregation" below for the policy and "What the
-  impact section does not do" for the explicit exclusions.</li>
-<li><strong>No public dashboard or real-time updates faster than weekly.</strong></li>
-</ul>
+  impact section does not do" for the explicit exclusions.
+- <strong>No public dashboard or real-time updates faster than weekly.</strong></p>
 <h2>Impact aggregation</h2>
 <p>Starting in v1.3, the brief includes an "Impact outlook" section after
 the analog tracker. This section aggregates institutional impact ranges
@@ -735,8 +745,44 @@ median).</p>
   almost entirely from the June-to-July SEAS5 run. The brief caveats it
   explicitly as "where the hot models cluster," not a calibrated
   probability. If the models cool, this bucket moves first and most.</p>
+<ul>
+<li>
+<p><strong>1.9</strong> (2026-07-06): three refinements, none touching headline math
+  (all six buckets remain computed exactly as under v1.8 and stay
+  week-over-week comparable; the diff banner wording was generalised to
+  say so rather than assert non-comparability).</p>
+</li>
+<li>
+<p><strong>Pooled extension band on the analog chart.</strong> The forecast fan's
+     extension past SEAS5's horizon previously used CFSv2's own monthly
+     interquartile as a first cut. It now uses the equal-model-weight
+     pooled NMME member pool per month: every model's members enter with
+     weight 1/(n_models x n_members_of_model), and the band is the true
+     weighted p25-p75 of that mixture, with the median the weighted p50.
+     A mixture is wider than any single model's spread when models
+     disagree, so this corrects the known understatement of the
+     extension band (the v1.2-era "single-model fan is overconfident"
+     limitation, now closed). Fetcher caches were bumped to _v3 to store
+     per-member monthly values.</p>
+</li>
+<li>
+<p><strong>Forecast-skill caveat updated.</strong> The standing "spring
+     predictability barrier, treat all numbers as preliminary" caveat
+     was written in April. By July the barrier is behind us and model
+     skill for the DJF peak is materially higher; the caveat now says
+     so, and notes that residual uncertainty is concentrated in peak
+     magnitude at the top of the distribution, not event occurrence.</p>
+</li>
+<li>
+<p><strong>Verification commitment.</strong> Declared intention (see the amended
+     out-of-scope section) to retrospectively Brier-score the brief's
+     weekly headline buckets against the observed peak once the event
+     resolves, versus CPC-alone and raw-consensus baselines, announced
+     before the outcome is known.</p>
+</li>
+</ul>
 <hr />
-<p><em>Methodology version 1.8. RONI offset fetched live each week from CPC.
+<p><em>Methodology version 1.9. RONI offset fetched live each week from CPC.
 ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
 WWE forcing tracked via CWWA (5N-5S, 130E-150W cumulative) AND
 spatial-peak WWB detection (10N-10S, 130E-150W, McPhaden-inspired

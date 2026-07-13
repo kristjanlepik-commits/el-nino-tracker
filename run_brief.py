@@ -912,7 +912,8 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       world_map_href: str = "world-map.svg",
                       prev_headline: dict | None = None,
                       prev_snapshot: dict | None = None,
-                      prev_headline_month: dict | None = None) -> str:
+                      prev_headline_month: dict | None = None,
+                      briefs_href: str = "briefs/") -> str:
     """Render the public brief as structured HTML (bypasses markdown).
 
     methodology_href and world_map_href are both relative paths whose depth
@@ -948,8 +949,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     else:
         offset_phrase = f"flat seed offset {offset:+.2f}°C"
 
-    # Bottom-line numbers from the headline
-    moderate_pct = headline["moderate_>1.0"]["mid"]
+    # Bottom-line numbers from the headline. The default copy quotes the
+    # super and magnitude buckets; the +1.0/+1.5 buckets were retired from
+    # the public surface 2026-07-13 after pinning at 100% (data still
+    # computed and archived).
+    super_pct = headline["super_>2.0"]["mid"]
     magn_pct = headline["9715_>2.5"]["mid"]
     description = (f"Weekly probability tracker for the developing 2026-27 El Niño "
                    f"event. {magn_pct}% chance of a 1997/2015-magnitude winter peak.")
@@ -970,7 +974,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     else:
         bottom_line_html = (
             f'<p class="lede bottom-line"><strong>Bottom line:</strong> '
-            f'{moderate_pct}% chance of at least a moderate El Niño this winter, '
+            f'{super_pct}% chance of a very strong / super El Niño this winter, '
             f'{magn_pct}% chance of a 1997 / 2015-magnitude event.</p>'
         )
 
@@ -1082,7 +1086,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
   <span class="brand">El Niño Tracker<span class="dot">.</span></span>
   <ul>
     <li><a href="./" class="active">Brief</a></li>
-    <li><a href="briefs/">Past briefs</a></li>
+    <li><a href="{h(briefs_href)}">Past briefs</a></li>
     <li><a href="{h(methodology_href)}">Methodology</a></li>
   </ul>
 </nav>
@@ -1128,6 +1132,14 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             "Beyond the instrumental record", _prev_mid("record_>3.0"),
             delta_label, tag="highly uncertain")
 
+    # Retired rungs (2026-07-13, Kristjan's call): +1.0 "at least moderate"
+    # and +1.5 "strong" had been pinned at 100% since mid-June and carried
+    # no information, so they are dropped from the PUBLIC render only. The
+    # headline computation, the internal brief, and meta.json keep all six
+    # buckets, so the archive time series and month-over-month deltas stay
+    # unbroken. The buckets-note carries a one-line retirement footnote for
+    # continuity; the event outgrowing the bottom of the scale is itself
+    # part of the story.
     ladder_html = (
         '<section><div class="ladder">'
         + far_rung
@@ -1136,12 +1148,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                        "1997 / 2015 magnitude", _prev_mid("9715_>2.5"), delta_label)
         + _render_rung("super",    "+2.0°C peak", headline["super_>2.0"],
                        "Very strong / super",   _prev_mid("super_>2.0"), delta_label)
-        + _render_rung("strong",   "+1.5°C peak", headline["strong_>1.5"],
-                       "Strong",                _prev_mid("strong_>1.5"), delta_label)
-        + _render_rung("moderate", "+1.0°C peak", headline["moderate_>1.0"],
-                       "At least moderate",     _prev_mid("moderate_>1.0"), delta_label)
         + '</div>'
-        + f'<p class="buckets-note">Probabilities use the v1.8 consensus estimator: a CPC-derived '
+        + f'<p class="buckets-note">The "at least moderate" (+1.0°C) and "strong" (+1.5°C) '
+          f'thresholds reached 100% in June and have been retired from the ladder; the event has '
+          f'outgrown the bottom of the scale. Their full history stays in the '
+          f'<a href="{h(briefs_href)}">archive</a>. Probabilities use the consensus estimator: a CPC-derived '
           f'anchor ({offset_phrase}, skew-normal fit on the strength table) deflected toward an '
           f'equal-weight multi-model consensus (ECMWF SEAS5 plus the NMME suite), consensus-led at '
           f'weight 0.85. The rungs above +2.5°C are different in kind: no event in the '
@@ -1183,14 +1194,17 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                 continue
     obs_str = _signed_temp(obs_val, 1) if obs_val is not None else "near 0"
     seas5_end = _fmt_cal(ecmwf.get("max_lead_calendar"), "this autumn")
-    _cfsv2_traj = (fetched.get("nmme") or {}).get("cfsv2_trajectory") or []
-    cfsv2_end = _fmt_cal(_cfsv2_traj[-1].get("calendar") if _cfsv2_traj else None,
-                         "early 2027")
+    # Extension end date: prefer the v1.9 pooled NMME trajectory, fall back
+    # to the older CFSv2-only key so pre-v1.9 data still captions cleanly.
+    _ext_traj = ((fetched.get("nmme") or {}).get("pooled_trajectory")
+                 or (fetched.get("nmme") or {}).get("cfsv2_trajectory") or [])
+    ext_end = _fmt_cal(_ext_traj[-1].get("calendar") if _ext_traj else None,
+                       "early 2027")
 
     chart_html = (
         '<section>'
         '<h2>Analog tracker</h2>'
-        '<p class="section-sub">2026-27 trajectory vs reference El Niño events, plus a combined SEAS5 and CFSv2 forecast carried through the winter peak.</p>'
+        '<p class="section-sub">2026-27 trajectory vs reference El Niño events, plus a combined SEAS5 and NMME multi-model forecast carried through the winter peak.</p>'
         '<div class="chart-card">'
         '<img src="analog.png" alt="Analog tracker chart">'
         '<div class="chart-caption">'
@@ -1201,10 +1215,10 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'super events, so position this far out is a weak discriminator. Forward, the forecast '
         f'is one combined ensemble: the dashed line and grey bands are ECMWF SEAS5 (median with '
         f'25-75 and 5-95 percentile spreads) to its {h(seas5_end)} horizon, and the dotted line '
-        f'carries CFSv2 from there through the DJF peak to {h(cfsv2_end)}, above the 1997/2015 '
-        f'record. The dotted stretches are the softer parts: a short bridge over the gap to the '
-        f'first forecast month, then CFSv2 alone, its interquartile band widening with lead. Read '
-        f'the dotted tail as direction, not precision.'
+        f'carries the NMME multi-model pool from there through the DJF peak to {h(ext_end)}, '
+        f'above the 1997/2015 record. The dotted stretches are the softer parts: a short bridge '
+        f'over the gap to the first forecast month, then the pooled extension, its member band '
+        f'widening with lead. Read the dotted tail as direction, not precision.'
         '</div></div></section>'
     )
 
@@ -1311,8 +1325,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'Climate Brink dashboard</a>\'s 13-model 637-member view) currently report a meaningfully '
         f'higher probability for the same threshold; the gap reflects CPC\'s analyst-correction vs '
         f'raw multi-model breadth, documented as methodology limitation #7.</li>'
-        '<li>Spring predictability barrier: April–May forecasts at any of these centers carry materially '
-        'wider error bars than what we\'ll see in July–August. Treat all numbers as preliminary.</li>'
+        '<li>Forecast skill note: mid-year forecasts for the DJF peak are past the boreal-spring '
+        'predictability barrier and carry materially narrower error bars than the April&ndash;May '
+        'issuances did. The remaining uncertainty is concentrated in peak magnitude at the top of '
+        'the distribution (the +3.0 and +3.5 rungs), not in whether a strong-to-super event '
+        'occurs.</li>'
         '</ol>'
         '</section>'
     )
@@ -2359,6 +2376,7 @@ def main():
         prev_headline=prev_headline_smoothed,
         prev_snapshot=prev,
         prev_headline_month=prev_headline_smoothed_month,
+        briefs_href="../",
     )
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (DOCS_DIR / ".nojekyll").touch()
