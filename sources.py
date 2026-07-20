@@ -116,18 +116,22 @@ CPC_STRENGTH_RONI = CPC_STRENGTH["table"]
 # seed below mirrors that flat-curve assumption for the May 19 issuance.
 # ---------------------------------------------------------------
 IRI = {
-    "issued": date(2026, 5, 19),  # IRI Quick Look May 2026
+    "issued": date(2026, 6, 22),  # IRI Quick Look June 2026
     "three_cat": {
         # season : (La Niña, Neutral, El Niño) percent
-        "MJJ 2026":     (0, 2, 98),
-        "JJA 2026":     (0, 2, 98),
-        "JAS 2026":     (0, 2, 98),
-        "ASO 2026":     (0, 2, 98),
-        "SON 2026":     (0, 2, 98),
-        "OND 2026":     (0, 2, 98),
-        "NDJ 2026-27": (0, 2, 98),
-        "DJF 2026-27": (0, 2, 98),
+        # Hand-curated from the June 22 prose ("assigned at 100% from JJA
+        # through SON... 99% [OND to DJF]... 98% and 97% for JFM and FMA").
+        # The live prose parser flat-fills at the max (100); this seed
+        # carries the accurate per-season decay.
+        "JJA 2026":     (0, 0, 100),
+        "JAS 2026":     (0, 0, 100),
+        "ASO 2026":     (0, 0, 100),
+        "SON 2026":     (0, 0, 100),
+        "OND 2026":     (0, 1, 99),
+        "NDJ 2026-27": (0, 1, 99),
+        "DJF 2026-27": (0, 1, 99),
         "JFM 2027":     (0, 2, 98),
+        "FMA 2027":     (0, 3, 97),
     },
 }
 IRI_3CAT = IRI["three_cat"]   # alias

@@ -135,12 +135,36 @@ def _extract_three_cat_from_prose(page_text: str) -> tuple[int, int, int] | None
         if 50 <= v <= 100:
             return (0, 100 - v, v)
 
+    # Tier 3 (added 2026-07-20 after the June 22 issuance dropped both the
+    # range phrasing and the "peaking at" phrasing, e.g. "El Niño
+    # probabilities are assigned at 100% from JJA through SON"): scan
+    # sentence by sentence for standalone percentages in an El Niño /
+    # probability context and take the maximum. Sentences mentioning the
+    # IOD are excluded; the page also carries Indian Ocean Dipole
+    # percentages ("~97% positive IOD") that must not be mistaken for
+    # ENSO numbers.
+    best = None
+    for sm in re.finditer(r"[^.!?]*\d{1,3}\s*%[^.!?]*[.!?]", page_text):
+        s = sm.group(0)
+        sl = s.lower()
+        if "iod" in sl or "dipole" in sl:
+            continue
+        if not any(w in sl for w in ("el niño", "el nino", "probabilit")):
+            continue
+        for pm in re.finditer(r"(\d{1,3})\s*%", s):
+            v = int(pm.group(1))
+            if 50 <= v <= 100 and (best is None or v > best):
+                best = v
+    if best is not None:
+        return (0, 100 - best, best)
+
     return None
 
 
 def _extract_qualitative_summary(page_text: str) -> str:
     """Return a short string summarising IRI's framing, for the brief."""
-    # Look for a sentence containing a probability range
+    # Prefer a sentence containing a probability range; fall back to any
+    # non-IOD El Niño sentence with a percentage (the June 2026 phrasing).
     sent_re = re.compile(
         r"[^.!?]*\b\d{1,3}\s*(?:[\-–—]|to)\s*\d{1,3}\s*%[^.!?]*[.!?]",
         re.IGNORECASE,
@@ -151,7 +175,51 @@ def _extract_qualitative_summary(page_text: str) -> str:
                                          "probabilit", "outlook")):
             # Trim and collapse whitespace
             return " ".join(s.split())[:300]
+    for m in re.finditer(r"[^.!?]*\d{1,3}\s*%[^.!?]*[.!?]", page_text):
+        s = m.group(0).strip()
+        sl = s.lower()
+        if "iod" in sl or "dipole" in sl:
+            continue
+        if any(w in sl for w in ("el niño", "el nino", "probabilit")):
+            return " ".join(s.split())[:300]
     return ""
+
+
+def _pick_three_cat_table(soup: BeautifulSoup):
+    """Return the table whose header row is Season / La Niña / Neutral /
+    El Niño, or None. IRI has oscillated between publishing this table
+    (pre-May 2026), removing it (May), and re-adding decorative tables
+    (June: a strength-definitions legend that this filter correctly
+    skips). Kept as tier 0 so the fetcher self-heals if the real
+    probability table returns."""
+    for t in soup.find_all("table"):
+        rows = t.find_all("tr")
+        if not rows:
+            continue
+        header = [c.get_text(strip=True) for c in rows[0].find_all(["th", "td"])]
+        if (len(header) >= 4
+                and header[0].lower().startswith("season")
+                and "Niña" in header[1]
+                and "Neutral" in header[2]
+                and "Niño" in header[3]):
+            return t
+    return None
+
+
+def _parse_three_cat_table(table, issued_year: int, issued_month: int):
+    """Parse the 3-category table into {season: (la, neu, en)}, or None."""
+    rows = table.find_all("tr")[1:]
+    three_cat: dict = {}
+    for i, row in enumerate(rows):
+        cells = [c.get_text(strip=True) for c in row.find_all(["th", "td"])]
+        if len(cells) < 4:
+            continue
+        try:
+            la, neu, en = int(cells[1]), int(cells[2]), int(cells[3])
+        except ValueError:
+            return None
+        three_cat[_season_label(issued_year, issued_month, i)] = (la, neu, en)
+    return three_cat if len(three_cat) == 9 else None
 
 
 def fetch() -> FetchResult:
@@ -167,6 +235,20 @@ def fetch() -> FetchResult:
         month_name, day_str, year_str = m.group(1), m.group(2), m.group(3)
         issued = date(int(year_str), _MONTH_NAMES[month_name], int(day_str)).isoformat()
         issued_year, issued_month = int(year_str), _MONTH_NAMES[month_name]
+
+        # Tier 0: if the real 3-category probability table is back on the
+        # page, use it directly (per-season detail, no flat-fill).
+        table = _pick_three_cat_table(soup)
+        if table is not None:
+            table_cats = _parse_three_cat_table(table, issued_year, issued_month)
+            if table_cats:
+                return FetchResult(
+                    source="iri", ok=True, issued=issued,
+                    fetched_at=now_iso(),
+                    payload={"three_cat": table_cats,
+                             "qualitative_summary":
+                                 _extract_qualitative_summary(page_text)},
+                )
 
         triple = _extract_three_cat_from_prose(page_text)
         if triple is None:
