@@ -1954,9 +1954,15 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
               f"{analog_same['1997_apr_heat_content']:+.1f}°C | "
               f"{analog_same['2015_apr_heat_content']:+.1f}°C |")
     wwe_fresh = freshness.get("era5_wwe", {})
-    wwe_live = wwe_fresh.get("ok") and not wwe_fresh.get("used_fallback")
-    cwwa_value = phys.get("cwwa_ms_days") if wwe_live else None
-    cwwa_analogs = phys.get("cwwa_analogs", {}) if wwe_live else {}
+    # Display gates on ok, NOT on used_fallback: a cache fallback carries a
+    # full valid payload (the fixed fetch_all merge puts it in phys), and
+    # hiding it while the WWB row renders from the same cached outage made
+    # the 2026-07-20 CDS-outage brief internally inconsistent. Fallback is
+    # disclosed in the note text instead of by omission.
+    wwe_ok = bool(wwe_fresh.get("ok"))
+    wwe_cached = bool(wwe_fresh.get("used_fallback"))
+    cwwa_value = phys.get("cwwa_ms_days") if wwe_ok else None
+    cwwa_analogs = phys.get("cwwa_analogs", {}) if wwe_ok else {}
 
     def _analog_value_at(year_int_or_str: int | str, target_iso: str) -> float | None:
         ser = cwwa_analogs.get(year_int_or_str) or cwwa_analogs.get(str(year_int_or_str))
@@ -1968,11 +1974,13 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
                 return float(v)
         return float(ser[-1][1])
 
-    if wwe_live and cwwa_value is not None:
+    if wwe_ok and cwwa_value is not None:
         target_iso = wwe_fresh.get("issued") or ""
         a97 = _analog_value_at(1997, target_iso)
         a15 = _analog_value_at(2015, target_iso)
-        cell_curr = f"{cwwa_value:.0f} m/s·days (CWWA, ERA5 130E-150W, vs 1991-2020 climo)"
+        cached_tag = " (cached)" if wwe_cached else ""
+        cell_curr = (f"{cwwa_value:.0f} m/s·days (CWWA, ERA5 130E-150W, "
+                     f"vs 1991-2020 climo){cached_tag}")
         cell_97 = f"{a97:.0f}" if a97 is not None else "n/a"
         cell_15 = f"{a15:.0f}" if a15 is not None else "n/a"
     else:
@@ -1984,9 +1992,12 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md.append("")
     md.append(f"**Heat content note:** {phys['heat_content_qualitative']}")
     md.append("")
-    if wwe_live and cwwa_value is not None:
+    if wwe_ok and cwwa_value is not None:
         ranking = _cwwa_ranking(cwwa_value, cwwa_analogs, wwe_fresh.get("issued"))
-        md.append(f"**CWWA note:** Live ERA5 daily 850 hPa zonal wind through "
+        lead_in = ("Live ERA5" if not wwe_cached else
+                   "ERA5 (live fetch failed this run; carried from the "
+                   "last-good pull)")
+        md.append(f"**CWWA note:** {lead_in} daily 850 hPa zonal wind through "
                   f"{wwe_fresh.get('issued')}, area-meaned over 5N-5S, 130E-150W "
                   f"and integrated for positive (westerly) anomalies vs the "
                   f"1991-2020 same-calendar-day climatology. {ranking} "
