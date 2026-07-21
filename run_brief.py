@@ -154,6 +154,8 @@ PUBLIC_CSS = """
     color: var(--text-faint); font-size: 13px;
     text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
   }
+  .issue-stamp a.card-link { color: var(--accent); text-decoration: none; }
+  .issue-stamp a.card-link:hover { text-decoration: underline; }
   h1 {
     font-family: "Charter", "Iowan Old Style", "Georgia", serif;
     font-size: 36px; font-weight: 600; letter-spacing: -0.015em;
@@ -1091,7 +1093,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
   </ul>
 </nav>
 <main>
-  <div class="issue-stamp">Week of {h(brief_date_iso)} · Methodology v{h(str(S.METHODOLOGY_VERSION))}</div>
+  <div class="issue-stamp">Week of {h(brief_date_iso)} · Methodology v{h(str(S.METHODOLOGY_VERSION))} · <a class="card-link" href="card.png">one-page card ↓</a></div>
   <h1>How likely is a super<br>El Niño this winter?</h1>
   <p class="lede">Updated each Monday from the major ENSO outlooks (NOAA CPC, IRI, BoM) and a multi-model forecast consensus (ECMWF SEAS5 with the NMME suite), plus weekly Niño 3.4 observations. Peak season target: <strong>DJF 2026-27</strong>. Forecast disagreements are surfaced rather than averaged.</p>
   {bottom_line_html}
@@ -2426,6 +2428,20 @@ def main():
         meth_html.write_text(render_html(meth_md.read_text(),
                                          title="El Nino tracker, methodology"))
         print(f"wrote: {meth_html}")
+
+    # 9. Weekly situation card (card.py, public-side): a one-page PNG
+    # summary composed entirely from the artifacts written above, so it is
+    # reproducible from the archive alone. docs/card.png is the rolling
+    # front-page artifact (also linked from the brief); the per-issue copy
+    # freezes with its archive like everything else in it. Non-fatal per
+    # invariant #1: a card failure must never kill the Monday brief.
+    try:
+        import card
+        card.render(S.BRIEF_DATE.isoformat(), DOCS_DIR / "card.png")
+        shutil.copyfile(DOCS_DIR / "card.png", docs_brief_dir / "card.png")
+        print(f"wrote: {docs_brief_dir / 'card.png'}")
+    except Exception as e:
+        print(f"situation card failed (non-fatal, brief unaffected): {e}")
 
 
 if __name__ == "__main__":
