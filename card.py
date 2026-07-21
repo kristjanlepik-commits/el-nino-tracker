@@ -158,7 +158,7 @@ def collect(date_iso: str) -> dict:
     if prev_meta and cur_cpc and prev_cpc and cur_cpc != prev_cpc:
         da = (hb.get("super_>2.0", {}).get("anchor") or 0) - \
              (prev_meta["headline_buckets"].get("super_>2.0", {}).get("anchor") or 0)
-        chips.append(f"CPC re-issue: super anchor {da:+.0f}pp")
+        chips.append((f"CPC re-issue: super anchor {da:+.0f}pp", "up" if da >= 0 else "down"))
     elif prev_meta:
         deltas = [(abs((hb.get(k, {}).get("mid") or 0) -
                        (prev_meta["headline_buckets"].get(k, {}).get("mid") or 0)),
@@ -168,21 +168,21 @@ def collect(date_iso: str) -> dict:
         deltas.sort(reverse=True)
         if deltas and deltas[0][0] > 0:
             _, d, k = deltas[0]
-            chips.append(f"Odds {RUNG_LABEL[k][0]} moved {d:+.0f}pp on the week")
+            chips.append((f"Odds {RUNG_LABEL[k][0]} moved {d:+.0f}pp on the week", "up" if d > 0 else "down"))
         else:
-            chips.append("Headline steady on the week")
+            chips.append(("Headline steady on the week", "flat"))
     if prev_snap and sst is not None:
         psst = (prev_snap.get("physical_state") or {}).get("nino34_weekly_traditional")
         if psst is not None:
             d = sst - psst
             if abs(d) < 0.05:
-                chips.append("Niño 3.4 flat on the week")
+                chips.append(("Niño 3.4 flat on the week", "flat"))
             else:
                 word = "up" if d > 0 else "down"
-                chips.append(f"Niño 3.4 {word} {_signed(abs(d))} on the week")
+                chips.append((f"Niño 3.4 {word} {_signed(abs(d))} on the week", "up" if d > 0 else "down"))
     if peak_med is not None and peak_cal:
         y, m = (int(x) for x in peak_cal.split("-"))
-        chips.append(f"Forecast peak near {_signed(peak_med)} in {MONTHS[m]}")
+        chips.append((f"Forecast peak near {_signed(peak_med)} in {MONTHS[m]}", "up"))
     chips = chips[:3]
 
     # --- momentum vs first issue ---
@@ -315,10 +315,14 @@ def render(date_iso: str, out_path) -> Path:
     fig.text(ML, cy, "This week", fontsize=11, color=NAVY, family=F,
              fontweight="bold", va="top")
     xs = [0.185, 0.44, 0.675][:len(d["chips"])]
-    for x, t in zip(xs, d["chips"]):
+    for x, (t, kind) in zip(xs, d["chips"]):
+        marker, mcol = {"up": ("^", RED), "down": ("v", NAVY),
+                        "flat": ("o", SLATE)}[kind]
         fig.add_artist(plt.Line2D([x + 0.004], [cy - 0.0055],
-                                  transform=fig.transFigure, color=RED,
-                                  marker="^", markersize=7, linestyle="none"))
+                                  transform=fig.transFigure, color=mcol,
+                                  marker=marker,
+                                  markersize=7 if kind != "flat" else 5,
+                                  linestyle="none"))
         fig.text(x + 0.017, cy, t, fontsize=12, color=INK, family=F, va="top")
     hline(0.8935)
 
