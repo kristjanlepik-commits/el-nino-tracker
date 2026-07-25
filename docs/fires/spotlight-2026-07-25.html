@@ -94,26 +94,26 @@
 </style>
 
 <main>
-  <div class="stamp">Fire tracker &middot; country spotlight &middot; real data, assembled 2026-07-25</div>
-  <h1>France, the UK, and Spain are each having an extraordinary fire week by their own history</h1>
-  <p class="lede">VIIRS satellite fire detections for the calendar week Jul 18-24, in every year of the single-sensor record (SNPP, 2012-2026). Each country is compared only to itself; the dashed line is its own 14-year mean for this week of the year.</p>
+  <div class="stamp">Fire tracker &middot; country spotlight &middot; real data, updated 2026-07-25 18:45 UTC</div>
+  <h1>France, the UK, and Spain are each at their highest fire week in the 15-year satellite record</h1>
+  <p class="lede">VIIRS satellite fire detections for the calendar week Jul 19-25, in every year of the single-sensor record (SNPP, 2012-2026), including today: Europe's Jul 25 satellite day completed processing this afternoon. Each country is compared only to itself; the dashed line is its own 14-year mean for this week of the year.</p>
 
   <div class="cards" id="cards"></div>
 
-  <p class="foot">Counts are 375 m VIIRS fire pixels (NASA FIRMS), SNPP satellite only for cross-year consistency, low-confidence detections excluded, points assigned to countries by national boundary polygons applied identically in all years. 2026 comes from the near-real-time product; 2012-2025 from the science-quality archive; NRT counts are typically revised slightly when the archive catches up. Detections measure fire activity seen from orbit, not burned area and not severity. France's week includes the Gironde/Landes complex; Spain's 2022 spike is the Sierra de la Culebra summer. UK counts are small in absolute terms; its record is relative to a low base.</p>
+  <p class="foot">Counts are 375 m VIIRS fire pixels (NASA FIRMS), SNPP satellite only for cross-year consistency, low-confidence detections excluded, points assigned to countries by national boundary polygons applied identically in all years. 2026 comes from the near-real-time product; 2012-2025 from the science-quality archive; NRT counts are typically revised slightly when the archive catches up, and Jul 25 may still gain a few late-arriving detections. Detections measure fire activity seen from orbit, not burned area and not severity. France's week is dominated by the Gironde/Landes complex; Spain's 2022 comparison bar is the Sierra de la Culebra summer. UK counts are small in absolute terms; its record is relative to a low base.</p>
 </main>
 
 <script>
   var DATA = [
-    { name: "France", mult: "6.0", verdict: "Highest Jul 18-24 week in the 15-year record; double the 2022 heatwave week",
-      years: {2012:399, 2013:439, 2014:288, 2015:353, 2016:355, 2017:349, 2018:464, 2019:548, 2020:315, 2021:475, 2022:1248, 2023:227, 2024:230, 2025:161, 2026:2514},
-      mean: 418, label: [2022, 2026] },
-    { name: "Spain", mult: "5.3", verdict: "2nd of 15, behind only the 2022 Sierra de la Culebra week",
-      years: {2012:842, 2013:202, 2014:239, 2015:301, 2016:268, 2017:252, 2018:130, 2019:161, 2020:258, 2021:310, 2022:3596, 2023:174, 2024:228, 2025:378, 2026:2791},
-      mean: 524, label: [2022, 2026] },
-    { name: "United Kingdom", mult: "2.6", verdict: "Highest Jul 18-24 week in the 15-year record, from a low base",
-      years: {2012:116, 2013:250, 2014:247, 2015:150, 2016:167, 2017:104, 2018:204, 2019:145, 2020:109, 2021:248, 2022:208, 2023:66, 2024:89, 2025:81, 2026:399},
-      mean: 156, label: [2013, 2026] }
+    { name: "Spain", mult: "8.1", verdict: "Highest Jul 19-25 week on record; passes even the 2022 Sierra de la Culebra week",
+      years: {2012:885, 2013:197, 2014:250, 2015:278, 2016:261, 2017:215, 2018:126, 2019:182, 2020:295, 2021:364, 2022:2314, 2023:189, 2024:198, 2025:358, 2026:3549},
+      mean: 437, label: [2022, 2026] },
+    { name: "France", mult: "7.6", verdict: "Highest Jul 19-25 week on record; 4x the previous best (2019)",
+      years: {2012:439, 2013:431, 2014:287, 2015:407, 2016:298, 2017:532, 2018:474, 2019:760, 2020:320, 2021:436, 2022:700, 2023:172, 2024:182, 2025:135, 2026:3015},
+      mean: 398, label: [2019, 2026] },
+    { name: "United Kingdom", mult: "3.3", verdict: "Highest Jul 19-25 week on record, from a low base",
+      years: {2012:155, 2013:204, 2014:267, 2015:88, 2016:171, 2017:98, 2018:260, 2019:186, 2020:104, 2021:218, 2022:193, 2023:69, 2024:85, 2025:63, 2026:509},
+      mean: 154, label: [2014, 2026] }
   ];
   var wrap = document.getElementById("cards");
   DATA.forEach(function (c) {
