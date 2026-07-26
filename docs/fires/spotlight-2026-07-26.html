@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Country spotlight: France, UK, Spain fire week vs 2012-2025</title>
+</head>
+<body>
+
+<style>
+  :root {
+    --bg: #ffffff; --bg-card: #fbfbf9; --border: #e5e5e0;
+    --border-strong: #cccac2; --text: #1a1a1a; --text-soft: #555;
+    --text-faint: #888; --accent: #1f4068; --neutral: #9ca3af;
+    --super: #d94327; --partial: #e8875a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161613; --bg-card: #1f1e1a; --border: #33322c;
+      --border-strong: #4a483f; --text: #ece9e2; --text-soft: #b5b1a6;
+      --text-faint: #85816f; --accent: #8db3dd; --neutral: #8b8fa0;
+      --super: #e05b41; --partial: #c9744a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161613; --bg-card: #1f1e1a; --border: #33322c;
+    --border-strong: #4a483f; --text: #ece9e2; --text-soft: #b5b1a6;
+    --text-faint: #85816f; --accent: #8db3dd; --neutral: #8b8fa0;
+    --super: #e05b41; --partial: #c9744a;
+  }
+  :root[data-theme="light"] {
+    --bg: #ffffff; --bg-card: #fbfbf9; --border: #e5e5e0;
+    --border-strong: #cccac2; --text: #1a1a1a; --text-soft: #555;
+    --text-faint: #888; --accent: #1f4068; --neutral: #9ca3af;
+    --super: #d94327; --partial: #e8875a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+                 Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.55; font-size: 16px; margin: 0;
+  }
+  main { max-width: 820px; margin: 0 auto; padding: 36px 24px 72px; }
+  .stamp {
+    color: var(--text-faint); font-size: 12.5px; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  h1 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 30px; font-weight: 600; letter-spacing: -0.015em;
+    margin: 0 0 10px; line-height: 1.15; text-wrap: balance;
+  }
+  .lede { color: var(--text-soft); font-size: 15.5px; max-width: 660px; margin: 0 0 24px; }
+  .cards { display: flex; flex-direction: column; gap: 18px; }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px 22px 16px;
+  }
+  .card .head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px; margin-bottom: 3px; }
+  .card h2 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 21px; font-weight: 600; margin: 0;
+  }
+  .card .mult { font-size: 15px; color: var(--text-soft); font-variant-numeric: tabular-nums; }
+  .card .mult b { color: var(--super); font-size: 19px; }
+  .card .mult .atleast { color: var(--text-faint); font-size: 13px; }
+  .card .verdict { font-size: 13px; color: var(--text-faint); margin-bottom: 16px; }
+  .chart { position: relative; height: 172px; }
+  .meanline { position: absolute; left: 0; right: 0; border-top: 1.5px dashed var(--border-strong); z-index: 1; }
+  .meanline span {
+    position: absolute; left: 0; top: -16px; font-size: 10.5px;
+    color: var(--text-faint); background: var(--bg-card); padding-right: 6px;
+  }
+  .bars { display: flex; align-items: flex-end; gap: 6px; height: 142px; position: relative; z-index: 2; }
+  .bcol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+  .bar { width: 100%; max-width: 34px; background: var(--neutral); opacity: 0.6; border-radius: 3px 3px 0 0; min-height: 2px; }
+  .bcol.now .bar { background: var(--super); opacity: 1; }
+  .bcol.now.partial .bar {
+    background: repeating-linear-gradient(
+      -45deg, var(--super), var(--super) 5px,
+      var(--partial) 5px, var(--partial) 10px);
+    border-top: 2px dotted var(--text-faint);
+  }
+  .bcol .val {
+    font-size: 10.5px; color: var(--text-soft); margin-bottom: 3px;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .bcol.now .val { color: var(--text); font-weight: 700; font-size: 11.5px; }
+  .years { display: flex; gap: 6px; margin-top: 6px; }
+  .years span {
+    flex: 1; text-align: center; font-size: 9.5px; color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .years span.now { color: var(--text); font-weight: 700; }
+  .daily {
+    margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--border);
+  }
+  .daily .dlabel {
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-faint); margin-bottom: 8px;
+  }
+  .dbars { display: flex; align-items: flex-end; gap: 5px; height: 42px; }
+  .dcol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+  .dbar { width: 100%; max-width: 46px; background: var(--neutral); opacity: 0.55; border-radius: 2px 2px 0 0; min-height: 2px; }
+  .dcol.today .dbar { background: var(--super); opacity: 0.95; }
+  .dcol.today.partial .dbar {
+    background: repeating-linear-gradient(
+      -45deg, var(--super), var(--super) 4px,
+      var(--partial) 4px, var(--partial) 8px);
+  }
+  .ddays { display: flex; gap: 5px; margin-top: 5px; }
+  .ddays span {
+    flex: 1; text-align: center; font-size: 9.5px; color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .ddays span.today { color: var(--text); font-weight: 700; }
+  .partial-note {
+    margin-top: 10px; font-size: 12px; color: var(--text-soft);
+    background: var(--bg); border-left: 3px solid var(--partial);
+    padding: 8px 12px; border-radius: 0 4px 4px 0;
+  }
+  .foot { margin-top: 26px; font-size: 12.5px; color: var(--text-faint); max-width: 680px; }
+  .foot p { margin: 0 0 10px; }
+</style>
+
+<main>
+  <div class="stamp">Fire tracker &middot; country spotlight &middot; real data, 2026-07-26 15:30 UTC</div>
+  <h1>Spain, France, and the UK are each at their highest fire week in the 15-year satellite record</h1>
+  <p class="lede">VIIRS satellite fire detections for the calendar week Jul 20-26, in every year of the single-sensor record (SNPP, 2012-2026). Each country is compared only to itself; the dashed line is its own 14-year mean for this week of the year. Spain and the UK have only had their night satellite pass today, so their 2026 bars are hatched: those totals are floors that will rise this evening.</p>
+
+  <div class="cards" id="cards"></div>
+
+  <div class="foot">
+    <p><strong>What a detection is.</strong> One detection is one ~375 m satellite pixel observed actively burning on one overpass. A large fire front counts as many pixels at once, and a fire that keeps burning is counted again on every twice-daily pass it stays hot, so weekly counts measure extent and persistence together, not the number of fires. Detections are not burned area and not severity.</p>
+    <p><strong>Method.</strong> NASA FIRMS, VIIRS on Suomi-NPP only for cross-year consistency, low-confidence detections excluded, points assigned to countries by national boundary polygons applied identically in all years. 2026 comes from the near-real-time product; 2012-2025 from the science-quality archive, which typically revises NRT counts slightly when it catches up.</p>
+    <p><strong>Context.</strong> France's week is dominated by the Gironde and Landes complex, which peaked on Jul 24. Spain's 2022 comparison bar is the Sierra de la Culebra summer. UK counts are small in absolute terms; its record is relative to its own low base. Southern Europe's fire season is driven by heat and drought in the Mediterranean, which this tracker treats as a non-El Nino control region: these fires are not presented as an El Nino signal.</p>
+  </div>
+</main>
+
+<script>
+  var DATA = [
+    { name: "Spain", mult: "11.7", partial: true,
+      verdict: "Highest Jul 20-26 week on record, already 2.7x the 2022 Sierra de la Culebra week",
+      years: {2012:878, 2013:234, 2014:228, 2015:357, 2016:339, 2017:206, 2018:155, 2019:155, 2020:307, 2021:363, 2022:1678, 2023:136, 2024:169, 2025:222, 2026:4524},
+      mean: 388, label: [2022, 2026],
+      daily: [433, 489, 179, 413, 708, 1038, 1264],
+      note: "Only the night pass has landed for today. Even so, today alone (1,264) already exceeds yesterday's complete day (1,038): Spain is still accelerating." },
+    { name: "France", mult: "9.6", partial: false,
+      verdict: "Highest Jul 20-26 week on record; 4.7x the previous best (2019)",
+      years: {2012:488, 2013:394, 2014:314, 2015:435, 2016:272, 2017:595, 2018:496, 2019:758, 2020:298, 2021:373, 2022:291, 2023:198, 2024:152, 2025:162, 2026:3592},
+      mean: 373, label: [2019, 2026],
+      daily: [85, 117, 284, 586, 1317, 558, 645],
+      note: null },
+    { name: "United Kingdom", mult: "3.3", partial: true,
+      verdict: "Highest Jul 20-26 week on record, from a low base",
+      years: {2012:165, 2013:159, 2014:328, 2015:99, 2016:123, 2017:93, 2018:337, 2019:200, 2020:104, 2021:222, 2022:111, 2023:63, 2024:53, 2025:59, 2026:492},
+      mean: 151, label: [2018, 2026],
+      daily: [44, 128, 39, 40, 81, 157, 3],
+      note: "Only the night pass has landed for today, which is why today's bar is near zero. It is not a die-down." }
+  ];
+  var DAYS = ["Jul 20", "21", "22", "23", "24", "25", "26"];
+  var wrap = document.getElementById("cards");
+
+  DATA.forEach(function (c) {
+    var years = Object.keys(c.years).map(Number).sort();
+    var max = Math.max.apply(null, years.map(function (y) { return c.years[y]; }));
+    var card = document.createElement("div");
+    card.className = "card";
+
+    var bars = years.map(function (y) {
+      var v = c.years[y];
+      var h = Math.max(2, v / max * 130);
+      var isNow = y === 2026;
+      var cls = "bcol" + (isNow ? " now" : "") + (isNow && c.partial ? " partial" : "");
+      var val = c.label.indexOf(y) >= 0
+        ? '<span class="val">' + v.toLocaleString("en-US") +
+          (isNow && c.partial ? "+" : "") + "</span>" : "";
+      var tip = y + ": " + v.toLocaleString("en-US") + " detections" +
+        (isNow && c.partial ? " so far (night pass only)" : "");
+      return '<div class="' + cls + '" title="' + tip + '">' + val +
+             '<div class="bar" style="height:' + h.toFixed(0) + 'px"></div></div>';
+    }).join("");
+
+    var yearRow = years.map(function (y) {
+      return '<span' + (y === 2026 ? ' class="now"' : "") + ">&rsquo;" +
+             String(y).slice(2) + "</span>";
+    }).join("");
+
+    var dmax = Math.max.apply(null, c.daily);
+    var dbars = c.daily.map(function (v, i) {
+      var isToday = i === c.daily.length - 1;
+      var cls = "dcol" + (isToday ? " today" : "") +
+                (isToday && c.partial ? " partial" : "");
+      var tip = DAYS[i] + ": " + v.toLocaleString("en-US") +
+        (isToday && c.partial ? " so far (night pass only)" : "");
+      return '<div class="' + cls + '" title="' + tip + '">' +
+             '<div class="dbar" style="height:' + Math.max(2, v / dmax * 38).toFixed(0) +
+             'px"></div></div>';
+    }).join("");
+    var ddays = DAYS.map(function (d, i) {
+      return '<span' + (i === DAYS.length - 1 ? ' class="today"' : "") + ">" + d + "</span>";
+    }).join("");
+
+    var meanTop = 142 - (c.mean / max * 130);
+    card.innerHTML =
+      '<div class="head"><h2>' + c.name + "</h2>" +
+      '<span class="mult">' + (c.partial ? '<span class="atleast">at least </span>' : "") +
+        "<b>&times;" + c.mult + "</b> its 14-yr mean for this week</span></div>" +
+      '<div class="verdict">' + c.verdict + "</div>" +
+      '<div class="chart"><div class="meanline" style="top:' + meanTop.toFixed(0) +
+        'px"><span>14-yr mean ' + c.mean.toLocaleString("en-US") + "</span></div>" +
+      '<div class="bars">' + bars + "</div></div>" +
+      '<div class="years">' + yearRow + "</div>" +
+      '<div class="daily"><div class="dlabel">This week, day by day</div>' +
+      '<div class="dbars">' + dbars + "</div>" +
+      '<div class="ddays">' + ddays + "</div>" +
+      (c.note ? '<div class="partial-note">' + c.note + "</div>" : "") +
+      "</div>";
+    wrap.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
