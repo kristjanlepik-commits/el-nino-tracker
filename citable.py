@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import glob
 import math
+import textwrap
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -59,7 +60,9 @@ ATTR = {
     "pending": ("ATTRIBUTION PENDING", T.TAG_PENDING_BG, T.TAG_PENDING_FG),
 }
 
-SITE_URL_DISPLAY = "kristjanlepik-commits.github.io/el-nino-tracker"
+# Canonical host lives in tokens so the two distributed image
+# surfaces cannot drift apart again.
+SITE_URL_DISPLAY = T.SITE_HOST_DISPLAY
 
 
 def _mark(fig, x, y, s, W, H):
@@ -114,11 +117,26 @@ def render(out_path, *, title: str, number: str, number_label: str,
              bbox=dict(facecolor=tag_bg, edgecolor="none",
                        boxstyle="square,pad=0.55"))
 
-    # Claim (serif) + the number (mono, warm)
-    fig.text(ML, 0.884, title, fontsize=21, color=T.INK, family=SERIF,
-             fontweight="semibold", va="top", wrap=True)
+    # Claim (serif) left, the number (mono, in the channel hue) right.
+    # The two live in separate columns and the claim is hard-wrapped to
+    # its own, because an unwrapped long title used to run straight
+    # through the number and still render, which is the worst kind of
+    # failure: silent. Reported by the Fire chat, which bisected the
+    # collision at 63 characters.
+    TITLE_WRAP = 52          # characters per line at 21px in this column
+    if "\n" in title:
+        title_lines = title.split("\n")
+    else:
+        title_lines = textwrap.wrap(title, TITLE_WRAP) or [title]
+    fig.text(ML, 0.884, "\n".join(title_lines), fontsize=21, color=T.INK,
+             family=SERIF, fontweight="semibold", va="top",
+             linespacing=1.28)
+    # Body drops when the claim needs a third line, so a long headline
+    # costs vertical space rather than legibility.
+    body_top = 0.20 if len(title_lines) <= 2 else 0.17
     if subtitle:
-        fig.text(ML, 0.812, subtitle, fontsize=12.5, color=T.INK_SOFT,
+        sub_y = 0.884 - 0.052 * len(title_lines) - 0.02
+        fig.text(ML, sub_y, subtitle, fontsize=12.5, color=T.INK_SOFT,
                  family=SERIF, va="top")
     fig.text(MR, 0.884, number, fontsize=44, color=hue, family=MONO,
              fontweight="medium", ha="right", va="top")
@@ -126,7 +144,7 @@ def render(out_path, *, title: str, number: str, number_label: str,
              family=MONO, ha="right", va="top")
 
     # Bar body
-    ax = fig.add_axes([ML, 0.20, MR - ML, 0.54])
+    ax = fig.add_axes([ML, body_top, MR - ML, 0.54])
     ax.set_facecolor(T.PAPER)
     labels = [b[0] for b in bars]
     values = [b[1] for b in bars]

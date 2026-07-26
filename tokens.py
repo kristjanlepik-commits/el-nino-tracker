@@ -319,6 +319,21 @@ def mark_band(max_multiple: float, channel: str | None = None,
     return opacities, color
 
 # ---------------------------------------------------------------------------
+# Site identity printed on distributed images.
+#
+# The card and the citable chart travel off-site, so this is the string
+# in the whole system that most needs to be right. It lived as a bare
+# literal in two modules and went stale the moment D-011 made
+# thelongswell.com canonical; now there is one copy.
+#
+# The VALUE is the platform chat's to change (they own the domain
+# migration). The design chat only owns that the images read from here
+# rather than hardcoding it.
+# ---------------------------------------------------------------------------
+
+SITE_HOST_DISPLAY = "thelongswell.com"
+
+# ---------------------------------------------------------------------------
 # CSS emission
 # ---------------------------------------------------------------------------
 

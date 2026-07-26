@@ -513,13 +513,13 @@ def render(date_iso: str, out_path) -> Path:
                  fontsize=10, color=GREY, family=M, va="top")
     fig.text(ML, 0.143, "Odds are a CPC anchor deflected toward a six-model consensus, weight 0.85. Disagreements are surfaced, not averaged. Every issue archived, immutable.",
              fontsize=10.5, color=GREY, family=F, va="top")
-    # House sign-off. The URL literal follows run_brief.PAGES_BASE_URL;
-    # single-constant change at domain migration (platform chat).
+    # House sign-off. Host string comes from tokens.SITE_HOST_DISPLAY,
+    # the single copy shared with the citable chart.
     mark(ML - 0.006, 0.1065, 0.0145)
     fig.text(ML + 0.022, 0.1205, "The Long Swell",
              fontsize=13, color=INK, family=F, fontweight="medium",
              va="top")
-    fig.text(ML + 0.020, 0.1055, "kristjanlepik-commits.github.io/el-nino-tracker",
+    fig.text(ML + 0.022, 0.1055, T.SITE_HOST_DISPLAY,
              fontsize=11.5, color=GREY, family=M, va="top")
 
     out_path = Path(out_path)
