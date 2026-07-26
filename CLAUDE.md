@@ -273,6 +273,10 @@ Required GitHub Actions secrets:
 
 ## Working style
 
+- Run `.venv/bin/python scripts/qa_check.py` before any push that
+  publishes to `docs/`. It enforces invariants 4, 5, and 6 plus link
+  and structure checks; CI (`.github/workflows/qa.yml`) runs the same
+  script on every push as a backstop.
 - Run `python run_brief.py` after every meaningful change. End-to-end
   with cached climatologies and live fetchers, the pipeline finishes
   in roughly 1-3 minutes (the SEAS5 forecast pull and the ERA5
