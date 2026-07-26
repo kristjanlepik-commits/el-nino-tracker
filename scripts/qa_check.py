@@ -152,9 +152,12 @@ def check_links(violations):
 
 def check_structure(violations):
     docs = ROOT / "docs"
-    for required in ("index.html", "methodology.html", "CNAME"):
+    for required in ("index.html", "methodology.html"):
         if not (docs / required).is_file():
             violations.append(f"structure: docs/{required} missing")
+    # docs/CNAME is what sets the Pages custom domain. Absent is valid
+    # (serving from github.io); present with the wrong host silently
+    # hands the site to another domain, so that is a failure.
     cname = docs / "CNAME"
     if cname.is_file():
         content = cname.read_text(encoding="utf-8").strip()
