@@ -270,21 +270,28 @@ SHADOW = None        # not a variable
 # week, computed in the same pass that builds the page. Stroke widths
 # never change; only opacity moves.
 #
-# TWO THINGS ARE DELIBERATELY NOT WIRED UP YET, pending Kristjan's call:
+# RULING (D-017, Kristjan delegated the call): the opacity bands are
+# adopted; the channel-hue-at-record rule is NOT. Three reasons the mark
+# stays ink at every band:
 #
-#  1. The addendum lets the mark take the driving channel's hue at the
-#     record band. That reverses the earlier rule that the mark inks in
-#     INK or PAPER only. It also means a record fire week turns the
-#     HOUSE mark red site-wide, including on the El Nino page, where a
-#     reader would connect red to El Nino while the item beside it is
-#     tagged "not ENSO-linked". Those two signals fight, which is the
-#     over-attribution risk T9 exists to prevent. `allow_hue` defaults
-#     to False until that is resolved.
-#  2. The bands are expressed in multiples, which do not exist for El
-#     Nino: its magnitude is an anomaly in degrees, not a ratio. So the
-#     input must be the largest multiple among EVENT-channel items only.
-#     Passing an ONI value would read +2.1 degrees as merely "notable",
-#     which is wrong by a wide margin.
+#  1. Attribution leak. A record fire week would turn the HOUSE mark red
+#     site-wide, including on the El Nino page, directly above items
+#     tagged "not ENSO-linked". The mark and the tag would make opposite
+#     claims and the mark is larger. That is the over-attribution risk
+#     T9 exists to prevent, arriving through the logo rather than copy.
+#  2. Brand architecture. The house/product split is the thing the type
+#     split makes visible (D-001, D-016). A house mark wearing a
+#     channel's hue collapses it.
+#  3. The mark is also the favicon. Tab identity should be stable; a
+#     weekly color change reads as a different site.
+#
+# `allow_hue` is kept as a parameter so the decision is reversible in one
+# place, and defaults to False. Nothing in production passes it.
+#
+# The band input is the largest multiple among EVENT-channel items only.
+# El Nino has no multiple: its magnitude is an anomaly in degrees, not a
+# ratio. Passing an ONI value would read +2.1 degrees as merely
+# "notable", which is wrong by a wide margin.
 # ---------------------------------------------------------------------------
 
 MARK_BANDS = [

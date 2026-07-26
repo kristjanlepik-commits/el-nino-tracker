@@ -154,26 +154,52 @@ _HTML_CSS_TEMPLATE = """
 """.strip()
 
 
-def _mark_svg(size: int = 26) -> str:
+def _week_mark_opacities(events: list[dict]) -> tuple:
+    """Arc opacities for this week's mark, from the largest published
+    multiple among event-channel items.
+
+    The mark reports the week: how far the signal reaches is set by the
+    biggest thing on the site. Stroke widths never move, only opacity,
+    and the mark stays ink at every band (D-017). Event `stat` values
+    look like "8.1x"; anything unparseable is ignored rather than
+    guessed at.
+    """
+    best = 0.0
+    for e in events or []:
+        raw = str(e.get("stat", "")).strip().lower().rstrip("x")
+        try:
+            best = max(best, float(raw))
+        except ValueError:
+            continue
+    opacities, _color = T.mark_band(best)
+    return opacities
+
+
+def _mark_svg(size: int = 26, opacities: tuple | None = None) -> str:
     """The propagation mark: a filled square (the source) and three arcs
     attenuating outward (the signal weakening as it travels).
 
     It inks in currentColor so it takes INK or PAPER from context, never
     a channel hue: the mark belongs to the house, not to a variable.
+    `opacities` sets the three arcs from inner to outer, so the mark can
+    report the week (see _week_mark_opacities); the default is the
+    canonical resting ratio used on pages that do not know the week.
     Geometry per the visual language, viewBox 0 0 42 40.
     """
+    o1, o2, o3 = opacities or (1.0, 0.45, 0.2)
     h_px = size
     w_px = round(size * 42 / 40)
     return (
         f'<svg width="{w_px}" height="{h_px}" viewBox="0 0 42 40" '
         f'fill="none" aria-hidden="true">'
-        f'<rect x="4" y="14" width="12" height="12" fill="currentColor"/>'
+        f'<rect x="4" y="14" width="12" height="12" fill="currentColor" '
+        f'opacity="{o1:g}"/>'
         f'<path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" '
-        f'stroke-width="3"/>'
+        f'stroke-width="3" opacity="{o1:g}"/>'
         f'<path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" '
-        f'stroke-width="2.4" opacity="0.45"/>'
+        f'stroke-width="2.4" opacity="{o2:g}"/>'
         f'<path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" '
-        f'stroke-width="1.8" opacity="0.2"/>'
+        f'stroke-width="1.8" opacity="{o3:g}"/>'
         f'</svg>'
     )
 
@@ -1422,14 +1448,15 @@ def _load_events() -> list[dict]:
 
 
 def _masthead_html(root_prefix: str, methodology_href: str,
-                   briefs_href: str, active: str = "elnino") -> str:
+                   briefs_href: str, active: str = "elnino",
+                   mark_opacities: tuple | None = None) -> str:
     home = root_prefix if root_prefix else "./"
     on = lambda key: ' class="on"' if key == active else ""
     return (
         '<header class="field"><div class="field-shell">'
         '<div class="masthead">'
         f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
-        f'{_mark_svg(26)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
+        f'{_mark_svg(26, mark_opacities)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
         '<nav class="prodnav" aria-label="Channels">'
         f'<a{on("elnino")} href="{h(home)}#issue">{h(PRODUCT_NAV_LABEL)}</a>'
         f'<a{on("fire")} href="{h(root_prefix)}fires/">Fire</a>'
@@ -1775,7 +1802,10 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 </head>
 <body>
 '''
-    head += _masthead_html(root_prefix, methodology_href, briefs_href)
+    week_events = _load_events()
+    mark_ops = _week_mark_opacities(week_events)
+    head += _masthead_html(root_prefix, methodology_href, briefs_href,
+                           mark_opacities=mark_ops)
 
     # Shared stamp line for the issue. The card link resolves in both
     # the docs root and the archive dir (card.png sits alongside each).
@@ -1797,7 +1827,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     if is_front:
         # T10 hybrid front page: the break leads, the wave strip carries
         # the tracker headline, and the full issue follows on paper.
-        head += _break_html(_load_events())
+        head += _break_html(week_events)
         head += _wave_strip_html(magn_pct, brief_date_iso)
         issue_open = (
             '<div class="shell">'
@@ -2112,7 +2142,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '<footer class="field"><div class="field-shell"><div class="foot">'
         '<div class="foot-top">'
         f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
-        f'{_mark_svg(26)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
+        f'{_mark_svg(26, mark_ops)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
         '<div class="foot-links">'
         f'<a href="#issue">{h(PRODUCT_NAME)}</a>'
         f'<a href="{h(root_prefix)}fires/">Fire</a>'
