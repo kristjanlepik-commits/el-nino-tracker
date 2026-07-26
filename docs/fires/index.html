@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Fire | The Long Swell</title>
+<style>
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/plexmono-600.woff2") format("woff2");
+}
+:root {
+    --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #66665F;
+    --shell: 1180px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+  }
+}
+:root[data-theme="dark"] {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+}
+:root[data-theme="light"] {
+    --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #66665F;
+    --shell: 1180px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Spectral", Georgia, serif;
+  font-size: 17px; line-height: 1.55;
+}
+main { max-width: 760px; margin: 0 auto; padding: 28px 24px 80px; }
+
+.masthead {
+  display: flex; align-items: baseline; gap: 14px;
+  padding-bottom: 10px; border-bottom: 2px solid var(--ink);
+}
+.house { font-size: 19px; letter-spacing: -0.01em; }
+.product {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.18em; color: var(--fire);
+}
+.masthead .when {
+  margin-left: auto;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+
+h1 {
+  font-size: 34px; font-weight: 500; line-height: 1.16;
+  letter-spacing: -0.015em; margin: 26px 0 12px; text-wrap: balance;
+}
+.standfirst {
+  color: var(--ink-soft); margin: 0 0 6px; max-width: 60ch;
+}
+.sectionlabel {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-faint);
+  margin: 38px 0 0; padding-bottom: 8px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 5.2rem 1fr auto;
+  gap: 18px; align-items: baseline;
+  padding: 15px 0; border-bottom: 1px solid var(--rule);
+  text-decoration: none; color: inherit;
+}
+.row:hover .claim { text-decoration: underline; }
+.row:focus-visible { outline: 2px solid var(--fire); outline-offset: 3px; }
+.stat {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 30px; font-weight: 600; color: var(--fire);
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.rowmain { display: flex; flex-direction: column; gap: 2px; }
+.region { font-size: 19px; font-weight: 500; }
+.claim { color: var(--ink-soft); font-size: 15.5px; }
+.tag {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10.5px; letter-spacing: 0.04em; white-space: nowrap;
+  padding: 3px 8px; align-self: center;
+}
+.tag-non_enso { background: var(--tag-notlink-bg); color: var(--tag-notlink-fg); }
+.tag-enso { background: var(--tag-loaded-bg); color: var(--tag-loaded-fg); }
+.tag-pending { background: var(--tag-pending-bg); color: var(--tag-pending-fg); }
+
+.note {
+  margin: 22px 0 0; font-size: 14px; color: var(--ink-soft);
+  max-width: 62ch;
+}
+.foot {
+  margin-top: 44px; padding-top: 14px;
+  border-top: 1px solid var(--ink);
+  font-size: 13px; color: var(--ink-faint); max-width: 66ch;
+}
+.foot p { margin: 0 0 9px; }
+.foot b { color: var(--ink-soft); font-weight: 500; }
+@media (max-width: 560px) {
+  .row { grid-template-columns: 4.2rem 1fr; }
+  .tag { grid-column: 2; justify-self: start; margin-top: 4px; }
+  h1 { font-size: 27px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="masthead">
+    <span class="house">The Long Swell</span>
+    <span class="product">Fire</span>
+    <span class="when">NASA FIRMS SNPP, wk Jul 19-25</span>
+  </div>
+
+  <h1>Five countries are burning well above their own seasonal normal</h1>
+  <p class="standfirst">Every figure below compares a country only with
+  itself, against the same calendar week in each year since 2012. That
+  is what separates an unusual week from a merely busy one.</p>
+
+  <p class="sectionlabel">Against their own record</p>
+  
+      <a class="row" href="fires/spain/">
+        <span class="stat">8.1x</span>
+        <span class="rowmain">
+          <span class="region">Spain</span>
+          <span class="claim">Well clear of its 2022 record week</span>
+        </span>
+        <span class="tag tag-non_enso">not ENSO-linked</span>
+      </a>
+      <a class="row" href="fires/france/">
+        <span class="stat">7.6x</span>
+        <span class="rowmain">
+          <span class="region">France</span>
+          <span class="claim">4.0x its previous record week</span>
+        </span>
+        <span class="tag tag-non_enso">not ENSO-linked</span>
+      </a>
+      <a class="row" href="fires/uk/">
+        <span class="stat">3.3x</span>
+        <span class="rowmain">
+          <span class="region">United Kingdom</span>
+          <span class="claim">Well clear of its 2014 record week</span>
+        </span>
+        <span class="tag tag-non_enso">not ENSO-linked</span>
+      </a>
+      <a class="row" href="fires/canada/">
+        <span class="stat">2.3x</span>
+        <span class="rowmain">
+          <span class="region">Canada</span>
+          <span class="claim">Fourth-heaviest fire week since 2012</span>
+        </span>
+        <span class="tag tag-non_enso">not ENSO-linked</span>
+      </a>
+      <a class="row" href="fires/italy/">
+        <span class="stat">1.9x</span>
+        <span class="rowmain">
+          <span class="region">Italy</span>
+          <span class="claim">Just past its 2023 record week</span>
+        </span>
+        <span class="tag tag-non_enso">not ENSO-linked</span>
+      </a>
+
+  <p class="note">Ranked by how far above normal, not by size. Canada
+  recorded more than twenty times Spain's detections this week, but
+  Canada burns on that scale most summers and Spain does not.</p>
+
+  <div class="foot">
+    <p><b>What a detection is.</b> One satellite pixel, about 375 m
+    across, seen radiating enough heat to be flagged as actively
+    burning on a single overpass. A large fire front registers as many
+    pixels at once, and a fire that keeps burning is counted again on
+    every pass it stays hot. Detections are not burned area.</p>
+    <p><b>Method.</b> NASA FIRMS, VIIRS on Suomi-NPP only so that every
+    year is measured by the same sensor, low-confidence detections
+    excluded, detections assigned to countries by national boundary
+    polygons applied identically in all years. The window is seven
+    whole UTC days, refreshed once daily at 06:00 UTC, so no figure
+    here is a partial day.</p>
+    <p><b>Attribution.</b> Southern and western European fires are
+    driven by heat, drought and wind, and people supply nearly all
+    ignitions. Canadian boreal fire has its own drivers. None of this
+    week's items is presented as an El Nino signal; each carries its
+    own tag.</p>
+  </div>
+</main>
+</body>
+</html>
