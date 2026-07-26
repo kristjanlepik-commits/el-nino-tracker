@@ -8,14 +8,16 @@ Public-side module (design, composition, prose). Called by run_brief.py
 after the issue's docs and snapshot are written; also runnable
 standalone:  .venv/bin/python card.py 2026-07-13 out.png
 
-Design: "Scandinavian clean" (signed off 2026-07-21): bright paper,
-hairline rules, navy structural color, a four-step heat ramp across the
-odds rungs (amber to plum as thresholds rise), Inter / Avenir Next
-type, no boxes, no fills beyond the table header tint.
+Design: visual language v1.0 "Bulletin" (D-016; see tokens.py). Bone
+ground, hairline print rules, the El Nino channel hue for structure,
+and the diverging anomaly scale for physical magnitude. Spectral sets
+the house wordmark and all prose; IBM Plex Mono sets every figure,
+label and stamp. Confidence is rendered on the odds rungs rather than
+stated.
 
-Font note: Inter is vendored under assets/fonts/inter (OFL license) so
-the GitHub Actions cron renders the same design as local runs; Avenir
-Next is preferred when the OS provides it.
+Font note: Spectral and IBM Plex Mono are vendored as static TTFs
+under assets/fonts/ (both SIL OFL) so the GitHub Actions cron renders
+the same design as local runs.
 """
 
 from __future__ import annotations
@@ -27,27 +29,35 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
-from matplotlib.patches import Rectangle
+from matplotlib.patches import Arc, Rectangle
+
+import tokens as T
 
 ROOT = Path(__file__).parent
 DOCS = ROOT / "docs"
 BRIEFS = DOCS / "briefs"
 SNAPS = ROOT / "snapshots"
 
-# Register vendored Inter so CI (Ubuntu, no Avenir) matches local output.
-for _f in glob.glob(str(ROOT / "assets" / "fonts" / "inter" / "*.otf")):
-    try:
-        font_manager.fontManager.addfont(_f)
-    except Exception:
-        pass
+# Register the vendored brand faces so CI (Ubuntu) matches local output.
+for _pat in ("spectral/*.ttf", "ibm-plex-mono/*.ttf"):
+    for _f in glob.glob(str(ROOT / "assets" / "fonts" / _pat)):
+        try:
+            font_manager.fontManager.addfont(_f)
+        except Exception:
+            pass
 _available = {f.name for f in font_manager.fontManager.ttflist}
-FONT = "Avenir Next" if "Avenir Next" in _available else (
-    "Inter" if "Inter" in _available else "DejaVu Sans")
+SERIF = T.FONT_PROSE if T.FONT_PROSE in _available else "DejaVu Serif"
+MONO = T.FONT_DATA if T.FONT_DATA in _available else "DejaVu Sans Mono"
 
-PAPER = "#fcfbf8"; INK = "#1b1b1b"; GREY = "#6f6a62"; HAIR = "#e2ded6"
-NAVY = "#1f4068"; RED = "#c0392b"; SLATE = "#8a8f98"; AMBER = "#c98a2d"
-RAMP = {"super_>2.0": "#e28532", "9715_>2.5": "#cf3f28",
-        "record_>3.0": "#99304e", "record_>3.5": "#5b2d63"}
+PAPER = T.PAPER; INK = T.INK; GREY = T.INK_SOFT; HAIR = T.RULE
+# NAVY is the structural/label color, now the El Nino channel hue since
+# this card is the El Nino product. RED marks warm anomaly and comes
+# from the diverging scale, never from the Fire channel (D-016 #4).
+NAVY = T.NINO; RED = T.ANOMALY[7]; SLATE = T.INK_FAINT; AMBER = T.ANOMALY[6]
+# Ladder bars: confidence is rendered. Solid for the calibrated rungs,
+# fading for the two beyond the instrumental record.
+RAMP = {k: v["bar"] for k, v in T.LADDER.items()}
+RAMP_TEXT = {k: v["text"] for k, v in T.LADDER.items()}
 RUNG_ORDER = ["record_>3.5", "record_>3.0", "9715_>2.5", "super_>2.0"]
 RUNG_LABEL = {"record_>3.5": ("+3.5°", "far beyond the record ²"),
               "record_>3.0": ("+3.0°", "beyond the record ¹"),
@@ -275,8 +285,40 @@ def render(date_iso: str, out_path) -> Path:
     W, H = 16, 20
     fig = plt.figure(figsize=(W, H), dpi=100)
     fig.patch.set_facecolor(PAPER)
-    F = FONT
+    # Two voices: serif (F) for prose, mono (M) for numbers, labels,
+    # stamps, and the house wordmark. The split is the brand.
+    F = SERIF
+    M = MONO
     ML, MR = 0.08, 0.92
+
+    def label(x, y, text, **kw):
+        """Section label: mono, uppercase, tracked-out feel at small size."""
+        kw.setdefault("color", NAVY)
+        kw.setdefault("va", "top")
+        fig.text(x, y, text.upper(), fontsize=9.5, family=M,
+                 fontweight="medium", **kw)
+
+    def mark(x, y, s):
+        """The propagation mark (on-paper colorway), lower-left anchored
+        at figure coords (x, y); s is the mark height as a figure-height
+        fraction. Geometry matches assets/brand/mark-on-light.svg: each
+        arc is a chord at chord_x spanning 13 +/- half, radius r."""
+        import math
+        ax = fig.add_axes([x, y, s * (H / W), s])
+        ax.set_xlim(0, 26)
+        ax.set_ylim(26, 0)
+        ax.set_aspect("equal")
+        ax.axis("off")
+        ax.add_patch(Rectangle((1, 10), 6, 6, facecolor=T.WARM,
+                               edgecolor="none"))
+        for chord_x, half, r, col in [(10, 9.8, 13.5, INK),
+                                      (15, 7.4, 10.0, GREY),
+                                      (20, 4.9, 6.4, SLATE)]:
+            cx = chord_x - math.sqrt(r * r - half * half)
+            ang = math.degrees(math.asin(half / r))
+            ax.add_patch(Arc((cx, 13), 2 * r, 2 * r, angle=0,
+                             theta1=-ang, theta2=ang,
+                             edgecolor=col, lw=1.6))
 
     def hline(y, x0=ML, x1=MR, lw=0.8, color=HAIR):
         fig.add_artist(plt.Line2D([x0, x1], [y, y], color=color, lw=lw))
@@ -284,53 +326,50 @@ def render(date_iso: str, out_path) -> Path:
     def vline(x, y0, y1, lw=0.8, color=HAIR):
         fig.add_artist(plt.Line2D([x, x], [y0, y1], color=color, lw=lw))
 
-    def sq(x, y, size, color):
+    def sq(x, y, size, color, alpha=1.0):
         fig.add_artist(Rectangle((x, y), size, size * (W / H), facecolor=color,
-                                 edgecolor="none", transform=fig.transFigure))
-
-    # top band + ramp strip
-    fig.add_artist(Rectangle((0, 0.988), 1.0, 0.012, facecolor=NAVY,
-                             edgecolor="none", transform=fig.transFigure))
-    rx = 0.0
-    for key in reversed(RUNG_ORDER):
-        fig.add_artist(Rectangle((rx, 0.984), 0.25, 0.004,
-                                 facecolor=RAMP[key], edgecolor="none",
+                                 edgecolor="none", alpha=alpha,
                                  transform=fig.transFigure))
-        rx += 0.25
 
-    # header
-    fig.text(ML, 0.962, "El Niño Tracker", fontsize=19, color=INK, family=F,
-             fontweight="bold", va="top")
-    fig.text(ML, 0.944, "Weekly situation", fontsize=12, color=GREY, family=F,
-             va="top")
-    fig.text(MR, 0.962, f"No {d['issue_no']}", fontsize=14, color=NAVY,
-             family=F, fontweight="bold", ha="right", va="top")
-    fig.text(MR, 0.944,
-             f"{bd.day} {MONTHS[bd.month]} {bd.year} · methodology v{d['version']}",
-             fontsize=12, color=GREY, family=F, ha="right", va="top")
-    hline(0.928, lw=1.2, color="#c9c4ba")
+    # Masthead rule. The heaviest of the three permitted weights, in
+    # INK, sitting above the wordmark. The old colored band and its
+    # four-step ramp strip are gone: the language allows three rule
+    # weights and one filled surface, and this is neither.
+    fig.add_artist(Rectangle((0, 0.9905), 1.0, 0.0035, facecolor=INK,
+                             edgecolor="none", transform=fig.transFigure))
+
+    # header: house in mono, product in serif (the split is the brand)
+    mark(ML - 0.006, 0.9555, 0.017)
+    fig.text(ML + 0.026, 0.9665, "The Long Swell", fontsize=17, color=INK,
+             family=F, fontweight="medium", va="top")
+    fig.text(ML, 0.9445, "EL NIÑO 2026-27", fontsize=11, color=NAVY,
+             family=M, fontweight="medium", va="top")
+    fig.text(MR, 0.9655, f"NO {d['issue_no']}", fontsize=13, color=NAVY,
+             family=M, fontweight="semibold", ha="right", va="top")
+    fig.text(MR, 0.9465,
+             f"{bd.isoformat()} · methodology v{d['version']}",
+             fontsize=11.5, color=GREY, family=M, ha="right", va="top")
+    hline(0.928, lw=T.RULE_MASTHEAD * 0.6, color=T.INK)
 
     # this week
     cy = 0.9115
-    fig.text(ML, cy, "This week", fontsize=11, color=NAVY, family=F,
-             fontweight="bold", va="top")
+    label(ML, cy, "This week")
     xs = [0.185, 0.44, 0.675][:len(d["chips"])]
     for x, (t, kind) in zip(xs, d["chips"]):
-        marker, mcol = {"up": ("^", RED), "down": ("v", NAVY),
+        marker, mcol = {"up": ("^", RED), "down": ("v", T.COLD),
                         "flat": ("o", SLATE)}[kind]
         fig.add_artist(plt.Line2D([x + 0.004], [cy - 0.0055],
                                   transform=fig.transFigure, color=mcol,
                                   marker=marker,
                                   markersize=7 if kind != "flat" else 5,
                                   linestyle="none"))
-        fig.text(x + 0.017, cy, t, fontsize=12, color=INK, family=F, va="top")
+        fig.text(x + 0.017, cy, t, fontsize=11, color=INK, family=M, va="top")
     hline(0.8935)
 
     # hero left
-    fig.text(ML, 0.875, "Observed now", fontsize=11, color=NAVY, family=F,
-             fontweight="bold", va="top")
+    label(ML, 0.875, "Observed now")
     fig.text(ML - 0.005, 0.864, _signed(d["sst"]) if d["sst"] is not None else "n/a",
-             fontsize=100, color=INK, family=F, fontweight="light", va="top")
+             fontsize=92, color=INK, family=M, fontweight="regular", va="top")
     sq(ML, 0.7565, 0.011, RED)
     fig.text(ML + 0.020, 0.7655, d["status"], fontsize=17.5, color=INK,
              family=F, fontweight="medium", va="top")
@@ -346,10 +385,8 @@ def render(date_iso: str, out_path) -> Path:
     vline(0.475, 0.708, 0.882)
 
     # hero right: odds
-    fig.text(0.52, 0.875, "Odds the winter peak exceeds", fontsize=11,
-             color=NAVY, family=F, fontweight="bold", va="top")
-    fig.text(MR, 0.875, "arc since April", fontsize=10, color=GREY, family=F,
-             ha="right", va="top")
+    label(0.52, 0.875, "Odds the winter peak exceeds")
+    label(MR, 0.875, "arc since April", color=SLATE, ha="right")
     rows = [k for k in RUNG_ORDER if k in d["hb"]]
     y = 0.8455
     any_footnote = False
@@ -358,25 +395,37 @@ def render(date_iso: str, out_path) -> Path:
         thr, lbl = RUNG_LABEL[key]
         if "¹" in lbl or "²" in lbl:
             any_footnote = True
-        c = RAMP[key]
-        sq(0.52, y - 0.0065, 0.009, c)
-        fig.text(0.538, y, thr, fontsize=15, color=INK, family=F,
+        # Confidence is rendered, not stated: the marker loses substance
+        # and the supporting text steps down the ink ramp as certainty
+        # falls. The two rungs above +2.5 are beyond the instrumental
+        # record and must never look as solid as the two below.
+        spec = T.LADDER[key]
+        c = spec["bar"]
+        marker_alpha = {None: 1.0, (4, 4): 0.55, (2, 6): 0.30}.get(
+            spec["dash"], 1.0)
+        sq(0.52, y - 0.0065, 0.009, c, alpha=marker_alpha)
+        fig.text(0.538, y, thr, fontsize=14, color=spec["text"], family=M,
                  fontweight="medium", va="center")
-        fig.text(0.655, y, f"{mid}%", fontsize=28, color=c, family=F,
-                 fontweight="light", ha="right", va="center")
-        fig.text(0.672, y - 0.0015, lbl, fontsize=11, color=GREY, family=F,
-                 va="center")
+        fig.text(0.655, y, f"{mid}%", fontsize=26, color=c, family=M,
+                 fontweight="regular", ha="right", va="center",
+                 alpha=marker_alpha if marker_alpha > 0.5 else 0.62)
+        fig.text(0.672, y - 0.0015, lbl, fontsize=11, color=spec["text"],
+                 family=F, va="center")
         s = d["series"][key]
         if len(s) >= 2:
             sx0, sw, sy0, sh = 0.847, 0.073, y - 0.0115, 0.024
             n = len(s) - 1
             lx = [sx0 + (i / n) * sw for i in range(len(s))]
             ly = [sy0 + (v / 105.0) * sh for v in s]
-            fig.add_artist(plt.Line2D(lx, ly, transform=fig.transFigure,
-                                      color=c, lw=1.5, alpha=0.65))
+            dash = spec["dash"]
+            fig.add_artist(plt.Line2D(
+                lx, ly, transform=fig.transFigure, color=c, lw=1.5,
+                alpha=0.65 * marker_alpha + 0.2,
+                linestyle="solid" if dash is None else (0, dash)))
             fig.add_artist(plt.Line2D([lx[-1]], [ly[-1]],
                                       transform=fig.transFigure, color=c,
                                       marker="o", markersize=4.4,
+                                      alpha=marker_alpha,
                                       linestyle="none"))
         y -= 0.0405
         if key != rows[-1]:
@@ -391,34 +440,33 @@ def render(date_iso: str, out_path) -> Path:
         ax = fig.add_axes([0.075, 0.430, 0.85, 0.255])
         ax.imshow(crop)
         ax.axis("off")
-    fig.text(ML, 0.424, "2026 in black against the three strongest events on record. Combined SEAS5 and NMME forecast through the winter peak; dotted segments are the softer, longer-horizon parts.",
+    fig.text(ML, 0.424, "2026 in red against the three strongest events on record. Combined SEAS5 and NMME forecast through the winter peak; dotted segments are the softer, longer-horizon parts.",
              fontsize=11, color=GREY, family=F, va="top")
     hline(0.402)
 
     # bottom left: race table
     top = 0.385
-    fig.text(ML, top, "The race", fontsize=11, color=NAVY, family=F,
-             fontweight="bold", va="top")
+    label(ML, top, "The race")
     fig.text(ML + 0.062, top, "vs 1997 and 2015, same calendar week",
              fontsize=11, color=GREY, family=F, va="top")
     tx_name, tx_26, tx_97, tx_15, tx_ver = ML, 0.288, 0.352, 0.416, 0.545
     th_y = 0.362
     fig.add_artist(Rectangle((ML - 0.006, th_y - 0.0245), tx_ver - ML + 0.018,
-                             0.030, facecolor="#eef1f6", edgecolor="none",
+                             0.030, facecolor=T.PAPER_SUNK, edgecolor="none",
                              transform=fig.transFigure))
-    for x, htxt, ha in [(tx_name, "Indicator", "left"), (tx_26, "2026", "right"),
+    for x, htxt, ha in [(tx_name, "INDICATOR", "left"), (tx_26, "2026", "right"),
                         (tx_97, "1997", "right"), (tx_15, "2015", "right"),
-                        (tx_ver, "Verdict", "right")]:
-        fig.text(x, th_y - 0.0035, htxt, fontsize=11, color=NAVY, family=F,
+                        (tx_ver, "VERDICT", "right")]:
+        fig.text(x, th_y - 0.0035, htxt, fontsize=9.5, color=NAVY, family=M,
                  fontweight="medium", ha=ha, va="top")
     y = th_y - 0.040
     for name, v26, v97, v15, verdict, vc in d["race"]:
         fig.text(tx_name, y, name, fontsize=12.5, color=INK, family=F, va="top")
-        fig.text(tx_26, y, v26, fontsize=12.5, color=INK, family=F,
+        fig.text(tx_26, y, v26, fontsize=11.5, color=INK, family=M,
                  fontweight="medium", ha="right", va="top")
-        fig.text(tx_97, y, v97, fontsize=12.5, color=GREY, family=F,
+        fig.text(tx_97, y, v97, fontsize=11.5, color=GREY, family=M,
                  ha="right", va="top")
-        fig.text(tx_15, y, v15, fontsize=12.5, color=GREY, family=F,
+        fig.text(tx_15, y, v15, fontsize=11.5, color=GREY, family=M,
                  ha="right", va="top")
         fig.text(tx_ver, y, verdict, fontsize=12.5, color=vc, family=F,
                  fontweight="medium", ha="right", va="top")
@@ -432,20 +480,18 @@ def render(date_iso: str, out_path) -> Path:
     vline(0.60, 0.225, 0.385)
 
     # bottom right: watch next + if verifies
-    fig.text(0.635, top, "Watch next", fontsize=11, color=NAVY, family=F,
-             fontweight="bold", va="top")
+    label(0.635, top, "Watch next")
     watch = [(_fmt_day(_next_monthly(bd, 5)), "ECMWF SEAS5 run"),
              (_fmt_day(_next_monthly(bd, 8)), "NMME initialisation"),
              (_fmt_day(_next_second_thursday(bd)), "CPC strength table"),
              ("Nov to Jan", "peak window")]
     y = 0.360
     for dt, ev in watch:
-        fig.text(0.635, y, dt, fontsize=12.5, color=NAVY, family=F,
-                 fontweight="bold", va="top")
+        fig.text(0.635, y, dt, fontsize=11.5, color=NAVY, family=M,
+                 fontweight="semibold", va="top")
         fig.text(0.715, y, ev, fontsize=12.5, color=INK, family=F, va="top")
         y -= 0.0265
-    fig.text(0.635, 0.248, "If the forecast verifies", fontsize=11,
-             color=NAVY, family=F, fontweight="bold", va="top")
+    label(0.635, 0.248, "If the forecast verifies")
     if d["peak_med"] is not None and d["peak_med"] > RECORD_PEAK:
         vtext = (f"The strongest El Niño in the instrumental\nrecord, roughly "
                  f"{d['peak_med'] - RECORD_PEAK:.1f}° above 2015-16, and beyond\n"
@@ -461,14 +507,20 @@ def render(date_iso: str, out_path) -> Path:
                  fontsize=10, color=GREY, family=F, va="top")
 
     # footer
-    hline(0.172, lw=1.2, color="#c9c4ba")
+    hline(0.172, lw=T.RULE_SECTION * 0.7, color=T.INK)
     if d["sources"]:
         fig.text(ML, 0.159, "Sources this issue: " + " · ".join(d["sources"]),
-                 fontsize=10.5, color=GREY, family=F, va="top")
+                 fontsize=10, color=GREY, family=M, va="top")
     fig.text(ML, 0.143, "Odds are a CPC anchor deflected toward a six-model consensus, weight 0.85. Disagreements are surfaced, not averaged. Every issue archived, immutable.",
              fontsize=10.5, color=GREY, family=F, va="top")
-    fig.text(ML, 0.119, "kristjanlepik-commits.github.io/el-nino-tracker",
-             fontsize=13, color=NAVY, family=F, fontweight="medium", va="top")
+    # House sign-off. The URL literal follows run_brief.PAGES_BASE_URL;
+    # single-constant change at domain migration (platform chat).
+    mark(ML - 0.006, 0.1065, 0.0145)
+    fig.text(ML + 0.022, 0.1205, "The Long Swell",
+             fontsize=13, color=INK, family=F, fontweight="medium",
+             va="top")
+    fig.text(ML + 0.020, 0.1055, "kristjanlepik-commits.github.io/el-nino-tracker",
+             fontsize=11.5, color=GREY, family=M, va="top")
 
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)

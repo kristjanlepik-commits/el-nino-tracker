@@ -20,7 +20,7 @@ prose is the ceiling.
 from __future__ import annotations
 
 import argparse
-from datetime import date
+from datetime import date, timedelta
 from html import escape as h
 import json
 import re
@@ -30,6 +30,7 @@ from pathlib import Path
 import markdown as md_lib
 
 import sources as S
+import tokens as T
 import probs
 import analog
 import snapshot
@@ -41,6 +42,17 @@ AUTHOR_NAME = "Kristjan Lepik"
 AUTHOR_CONTACT_URL = "https://www.linkedin.com/in/kristjanlepik/"
 LICENSE_NAME = "CC BY-NC 4.0"
 LICENSE_URL = "https://creativecommons.org/licenses/by-nc/4.0/"
+
+# Brand (The Long Swell rebrand, 2026-07-26). The house sets in mono,
+# products in serif; see tokens.py and research/handover_design.md.
+SITE_NAME = "The Long Swell"
+PRODUCT_NAME = "El Niño 2026-27"
+# Display form of the site URL for citation lines. Derived so the
+# platform chat's domain migration is a one-constant change.
+DISPLAY_HOST = PAGES_BASE_URL.split("//", 1)[-1]
+# Email capture (T10 retention layer). Empty string disables the block;
+# the platform chat wires the real signup URL here.
+EMAIL_SIGNUP_URL = ""
 
 
 PUBLIC_SOURCE_NAMES = {
@@ -67,385 +79,834 @@ def public_preamble(methodology_href: str) -> str:
     )
 
 
-HTML_CSS = """
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-         Arial, sans-serif; max-width: 820px; margin: 2em auto; padding: 0 1em;
-         color: #222; line-height: 1.5; }
-  h1 { border-bottom: 2px solid #888; padding-bottom: 0.2em; }
-  h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.1em; margin-top: 2em; }
-  h3 { margin-top: 1.5em; }
-  table { border-collapse: collapse; margin: 1em 0; }
-  th, td { border: 1px solid #ccc; padding: 0.4em 0.7em; text-align: left; }
-  th { background: #f4f4f4; }
-  tr:nth-child(even) td { background: #fafafa; }
-  blockquote { border-left: 4px solid #888; margin: 1em 0; padding: 0.2em 1em;
-               color: #555; background: #f7f7f7; }
-  code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px;
-         font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
-  img { max-width: 100%; height: auto; }
-  hr { border: none; border-top: 1px solid #ccc; margin: 2em 0; }
-""".strip()
-
-
-def render_html(markdown_text: str, title: str = None) -> str:
-    body = md_lib.markdown(markdown_text, extensions=["tables", "fenced_code"])
-    page_title = title or f"El Nino brief, {S.BRIEF_DATE.isoformat()}"
-    return (
-        "<!DOCTYPE html>\n"
-        "<html><head><meta charset=\"utf-8\">\n"
-        f"<title>{page_title}</title>\n"
-        f"<style>{HTML_CSS}</style>\n"
-        "</head><body>\n"
-        f"{body}\n"
-        "</body></html>\n"
-    )
-
-
-# Full editorial-style stylesheet for the public brief. Curly braces are
-# CSS-literal; this is a plain string, not an f-string.
-PUBLIC_CSS = """
+# Reading-page stylesheet for markdown-rendered pages (methodology,
+# archive index, internal brief). Same visual language as PUBLIC_CSS,
+# reduced to prose needs. External reviewers read methodology.html, so
+# it gets the same furniture as everything else.
+_HTML_CSS_TEMPLATE = """
   :root {
-    --bg: #ffffff;
-    --bg-soft: #fafafa;
-    --bg-card: #fbfbf9;
-    --border: #e5e5e0;
-    --border-strong: #cccac2;
-    --text: #1a1a1a;
-    --text-soft: #555;
-    --text-faint: #888;
-    --accent: #1f4068;
-    --neutral: #9ca3af;
-    --moderate: #f7c948;
-    --strong: #ef8b3a;
-    --super: #d94327;
-    --magn: #8b1a1a;
+/*VARS_LIGHT*/
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+/*VARS_DARK*/
+    }
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
-                 Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.55;
-    font-size: 16px;
+    background: var(--paper); color: var(--ink);
+    font-family: var(--serif); font-size: 17.5px; line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
   }
-  nav.top {
-    border-bottom: 1px solid var(--border);
-    padding: 14px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    background: var(--bg);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  .masthead-lite { border-bottom: 3px solid var(--ink); }
+  .masthead-lite .inner {
+    max-width: 820px; margin: 0 auto; padding: 18px 40px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
   }
-  nav.top .brand { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; }
-  nav.top .brand .dot { color: var(--super); }
-  nav.top ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
-  nav.top a { color: var(--text-soft); text-decoration: none; font-size: 14px; }
-  nav.top a.active {
-    color: var(--text); font-weight: 600;
-    border-bottom: 2px solid var(--accent); padding-bottom: 4px;
+  .masthead-lite .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .masthead-lite .brand svg { color: var(--ink); }
+  .masthead-lite .brand-name {
+    font-family: var(--serif); font-size: 19px; font-weight: 500;
+    color: var(--ink); white-space: nowrap;
   }
-  main { max-width: 880px; margin: 0 auto; padding: 36px 28px 80px; }
-  .issue-stamp {
-    color: var(--text-faint); font-size: 13px;
-    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+  .masthead-lite a.back {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-faint); text-decoration: none;
   }
-  .issue-stamp a.card-link { color: var(--accent); text-decoration: none; }
-  .issue-stamp a.card-link:hover { text-decoration: underline; }
-  h1 {
-    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
-    font-size: 36px; font-weight: 600; letter-spacing: -0.015em;
-    margin: 0 0 8px; line-height: 1.15;
+  .masthead-lite a.back:hover { color: var(--ink); }
+  main { max-width: 820px; margin: 0 auto; padding: 40px 40px 80px; }
+  h1 { font-size: clamp(32px, 4vw, 44px); font-weight: 500;
+       letter-spacing: -0.018em; line-height: 1.10; margin: 0 0 20px; }
+  h2 { font-size: 20px; font-weight: 500; line-height: 1.30;
+       margin: 2.2em 0 10px; padding-bottom: 10px;
+       border-bottom: 2px solid var(--ink); }
+  h3 { font-size: 17.5px; font-weight: 500; margin: 1.8em 0 6px; }
+  p, li { max-width: 62ch; }
+  a { color: inherit; border-bottom: 1px solid var(--rule); text-decoration: none; }
+  a:hover { color: var(--fire); border-bottom-color: var(--fire); }
+  table { border-collapse: collapse; margin: 1.4em 0; width: 100%; font-size: 14px; }
+  th, td { padding: 12px 12px 12px 0; text-align: left;
+           border-bottom: 1px solid var(--rule); vertical-align: top; }
+  thead th { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em;
+       text-transform: uppercase; color: var(--ink-faint); font-weight: 400;
+       border-bottom: 2px solid var(--ink); }
+  tbody tr:last-child td { border-bottom: 2px solid var(--ink); }
+  blockquote { border-left: 3px solid var(--nino); margin: 1.2em 0;
+               padding: 2px 0 2px 20px; color: var(--ink-soft); }
+  code { font-family: var(--mono); font-size: 0.85em;
+         background: var(--paper-sunk); padding: 2px 5px; }
+  pre { background: var(--paper-sunk); padding: 14px 16px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  img { max-width: 100%; height: auto; display: block; }
+  hr { border: none; border-top: 2px solid var(--ink); margin: 2.4em 0; }
+  @media (max-width: 760px) {
+    .masthead-lite .inner, main { padding-left: 20px; padding-right: 20px; }
+    body { font-size: 17px; }
   }
-  .lede { color: var(--text-soft); font-size: 16px; margin: 0 0 18px; max-width: 640px; }
-  .lede.bottom-line { font-weight: 500; color: var(--text); margin-bottom: 32px; }
+""".strip()
 
-  /* Editor's note: a quote-style block that signals "this is the author's voice"
-     rather than auto-generated prose. Sits in the same slot as the bottom-line. */
+
+def _mark_svg(size: int = 26) -> str:
+    """The propagation mark: a filled square (the source) and three arcs
+    attenuating outward (the signal weakening as it travels).
+
+    It inks in currentColor so it takes INK or PAPER from context, never
+    a channel hue: the mark belongs to the house, not to a variable.
+    Geometry per the visual language, viewBox 0 0 42 40.
+    """
+    h_px = size
+    w_px = round(size * 42 / 40)
+    return (
+        f'<svg width="{w_px}" height="{h_px}" viewBox="0 0 42 40" '
+        f'fill="none" aria-hidden="true">'
+        f'<rect x="4" y="14" width="12" height="12" fill="currentColor"/>'
+        f'<path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" '
+        f'stroke-width="3"/>'
+        f'<path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" '
+        f'stroke-width="2.4" opacity="0.45"/>'
+        f'<path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" '
+        f'stroke-width="1.8" opacity="0.2"/>'
+        f'</svg>'
+    )
+
+
+def _favicon_links(root_prefix: str) -> str:
+    return (
+        f'<link rel="icon" href="{h(root_prefix)}favicon.svg" type="image/svg+xml">\n'
+        f'<link rel="icon" href="{h(root_prefix)}favicon.ico" sizes="48x48">\n'
+        f'<link rel="apple-touch-icon" href="{h(root_prefix)}apple-touch-icon.png">\n'
+    )
+
+
+def render_html(markdown_text: str, title: str = None,
+                root_prefix: str = None, home_href: str = None) -> str:
+    """Markdown page in the house reading style.
+
+    root_prefix is the relative path back to the docs root ("" for
+    docs/methodology.html, "../" for docs/briefs/index.html); it wires
+    the self-hosted fonts and favicon. None means a standalone render
+    (internal briefs/ pages, emailed HTML) with no docs/ asset links;
+    those fall back to the system font stacks.
+    """
+    body = md_lib.markdown(markdown_text, extensions=["tables", "fenced_code"])
+    page_title = title or f"El Nino brief, {S.BRIEF_DATE.isoformat()}"
+    head_assets = ""
+    masthead = ""
+    if root_prefix is not None:
+        head_assets = (
+            f"<style>{T.font_faces_css(root_prefix + 'fonts/')}</style>\n"
+            + _favicon_links(root_prefix)
+        )
+        home = home_href if home_href is not None else root_prefix or "./"
+        masthead = (
+            '<div class="masthead-lite"><div class="inner">'
+            f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
+            f'{_mark_svg(22)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
+            f'<a class="back" href="{h(home)}">Front page</a>'
+            '</div></div>\n'
+        )
+    return (
+        "<!DOCTYPE html>\n"
+        "<html lang=\"en\"><head><meta charset=\"utf-8\">\n"
+        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+        f"<title>{page_title}</title>\n"
+        f"{head_assets}"
+        f"<style>{HTML_CSS}</style>\n"
+        "</head><body>\n"
+        f"{masthead}"
+        "<main>\n"
+        f"{body}\n"
+        "</main>\n</body></html>\n"
+    )
+
+
+# Visual language v1.0 "Bulletin" (D-016). Token values come from
+# tokens.py; the template below carries structure only. Curly braces
+# are CSS-literal, so this is a plain string and not an f-string.
+#
+# The rules that outrank convenience: radius is 0, there are no shadows
+# and no gradients, nothing is enclosed on four sides, and the only
+# filled surface is PAPER_SUNK behind the tracker strip. Three rule
+# weights exist (1px between rows, 2px opening and closing a block,
+# 3px above a masthead or major section) and no others.
+_PUBLIC_CSS_TEMPLATE = """
+  :root {
+/*VARS_LIGHT*/
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+/*VARS_DARK*/
+    }
+  }
+  :root[data-theme="dark"] {
+/*VARS_DARK*/
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17.5px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  main a:not(.attr):not(.card-link),
+  .foot-cite a, .src-list a, .buckets-note a, .section-sub a {
+    border-bottom: 1px solid var(--rule);
+    transition: color .12s, border-color .12s;
+  }
+  main a:hover, .foot-cite a:hover, .src-list a:hover,
+  .buckets-note a:hover, .section-sub a:hover {
+    color: var(--fire);
+    border-bottom-color: var(--fire);
+  }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--nino);
+    outline-offset: 3px;
+  }
+  p, li, td, th { text-wrap: pretty; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 500; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ---------- the six type steps, no more ---------- */
+  .eyebrow, .issue-stamp, .rail-block .eyebrow, .foot-fresh-label,
+  .break-head .eyebrow, .chan .meta, .ws-label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 400;
+    line-height: 2.0;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .num, td.num, .rung .pct, .ev-stat, .ws-num, .wow-delta,
+  .src-list .src-issued, .footer-meta, .rail-block .val {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- shell ---------- */
+  .field-shell, .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .shell { padding-bottom: 8px; }
+
+  /* ---------- masthead ---------- */
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a[href*="fires"] { color: var(--fire); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+
+  /* ---------- lead block ---------- */
+  .field, .wave-strip { background: var(--paper); color: var(--ink); }
+  .field::after { display: none; }
+  .hero, .issue-head { padding: 40px 0 0; }
+  .hero-stamp, .issue-stamp {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-bottom: 20px;
+    color: var(--ink-faint);
+  }
+  .hero-stamp span:not(:last-child)::after,
+  .issue-stamp span:not(:last-child)::after {
+    content: " \00b7";
+    color: var(--rule);
+  }
+  .issue-stamp a, .hero-stamp a { color: var(--ink-soft); }
+  .hero h1, .issue-head h1 {
+    font-size: clamp(34px, 4.2vw, 50px);
+    line-height: 1.10;
+    letter-spacing: -0.018em;
+    margin: 0 0 18px;
+    max-width: 24ch;
+  }
+  .hero .lede, .issue-head .lede {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    line-height: 1.62;
+    max-width: 48ch;
+    margin: 0 0 28px;
+  }
+  .lede.bottom-line { color: var(--ink); margin-bottom: 36px; max-width: 56ch; }
+
+  /* Readout: the figure is the subject of the block. Physical anomaly
+     magnitude reads from the diverging scale, never a channel hue. */
+  .readout {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 22px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .readout-main .v, .readout-side div .v {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+  }
+  .readout-main .v { font-size: 40px; color: var(--nino); }
+  .readout-main .v small { font-size: 20px; }
+  .readout-side div .v { font-size: 24px; color: var(--ink); }
+  .readout-side div .v small { font-size: 13px; }
+  .readout-main .k, .readout-side div .k {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--ink-faint);
+    margin-top: 8px;
+    max-width: 28ch;
+  }
+  .readout-side { display: flex; gap: 32px; }
+
+  /* ---------- the break: event list ---------- */
+  .break-head { padding: 34px 0 0; display: flex; align-items: baseline; gap: 14px; }
+  .break-lede {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    max-width: 56ch;
+    margin: 8px 0 4px;
+  }
+  .events { display: flex; flex-direction: column; padding: 20px 0 46px; }
+  /* The fixed magnitude column is the point: a reader scanning it sees
+     only sizes, which answers the house question before any prose. */
+  .event {
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr) auto;
+    gap: 6px 24px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .event:first-child { border-top: 2px solid var(--ink); }
+  .event:last-child { border-bottom: 2px solid var(--ink); }
+  .event .ev-stat {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--fire);
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .event .ev-stat small { display: none; }
+  .event .ev-body { grid-column: 2; grid-row: 1; }
+  .event h3 { font-size: 20px; font-weight: 500; line-height: 1.30; }
+  .event h3 .ev-region { font-weight: 500; }
+  .event h3 .ev-claim { color: var(--ink-soft); font-weight: 400; }
+  .event .ev-src {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.75;
+    color: var(--ink-faint);
+    margin-top: 4px;
+  }
+  .event .attr { grid-column: 3; grid-row: 1; justify-self: end; }
+
+  /* ---------- attribution tags ---------- */
+  /* Three states, worded verbatim, never removed or softened.
+     Prominence descends with claim strength. */
+  .attr {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 8px;
+    white-space: nowrap;
+  }
+  .attr.attr-enso    { background: var(--tag-loaded-bg);  color: var(--tag-loaded-fg); }
+  .attr.attr-none    { background: var(--tag-notlink-bg); color: var(--tag-notlink-fg); }
+  .attr.attr-pending { background: var(--tag-pending-bg); color: var(--tag-pending-fg); }
+
+  /* ---------- tracker strip: the credential, visible and secondary ---------- */
+  .wave-strip { padding: 0 0 46px; }
+  .wave-strip .field-shell {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 10px 22px;
+    background: var(--paper-sunk);
+    border-left: 3px solid var(--nino);
+    padding: 18px 22px;
+    max-width: 1100px;
+  }
+  .wave-strip .ws-label { color: var(--nino); }
+  .wave-strip .ws-read { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .wave-strip .ws-num { font-size: 24px; font-weight: 500; color: var(--nino); }
+  .wave-strip .ws-num small { font-size: 13px; }
+  .wave-strip .ws-desc { font-size: 17px; color: var(--ink); }
+  .wave-strip a.ws-go {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  .wave-strip a.ws-go:hover { color: var(--ink); }
+
+  /* ---------- rail + body ---------- */
+  .shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 56px;
+  }
+  .rail { grid-column: 2; padding-top: 44px; order: 2; }
+  .rail-inner {
+    position: sticky;
+    top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-left: 1px solid var(--rule);
+    padding-left: 22px;
+  }
+  .rail-block { display: flex; flex-direction: column; gap: 3px; }
+  .rail-block .eyebrow { color: var(--ink-faint); }
+  .rail-block .val { font-size: 13px; line-height: 1.75; color: var(--ink-soft); }
+  .rail-block .val b { font-weight: 500; color: var(--ink); }
+  .body { grid-column: 1; padding: 44px 0 0; min-width: 0; order: 1; }
+
+  main.body section { margin: 0; padding-bottom: 48px; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .sec-head .eyebrow { color: var(--ink-faint); flex: none; }
+  .sec-head h2 { font-size: 20px; font-weight: 500; line-height: 1.30; }
+  .section-sub {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    margin: -8px 0 22px;
+    max-width: 62ch;
+  }
+
+  /* ---------- editor's note ---------- */
   .editor-note {
-    margin: 0 0 32px;
-    padding: 16px 20px 14px;
-    background: #fbf5e6;
-    border-left: 3px solid var(--accent);
-    border-radius: 0 6px 6px 0;
-    max-width: 720px;
+    margin: 0 0 36px;
+    padding: 0 0 0 22px;
+    border-left: 3px solid var(--nino);
+    max-width: 62ch;
   }
   .editor-note .editor-note-label {
-    font-size: 11px;
-    font-weight: 600;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    margin-bottom: 6px;
+    color: var(--nino);
+    margin-bottom: 8px;
   }
-  .editor-note p {
-    margin: 0;
-    font-size: 15.5px;
-    line-height: 1.55;
-    color: var(--text);
-    font-style: italic;
-  }
-  .editor-note p + p { margin-top: 10px; }
-  .editor-note strong { font-style: normal; }
+  .editor-note p { margin: 0; font-size: 17.5px; font-style: italic; }
+  .editor-note p + p { margin-top: 12px; }
+  .editor-note strong { font-style: normal; font-weight: 500; }
 
-  .ladder { display: flex; flex-direction: column; gap: 8px; margin: 28px 0 16px; }
+  /* ---------- probability ladder ---------- */
+  /* Confidence is rendered, not stated: the bar loses substance as
+     certainty falls and the text steps down the ink ramp with it. */
+  .ladder { display: flex; flex-direction: column; margin: 0 0 18px; }
   .rung {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-left: 4px solid var(--border-strong);
-    border-radius: 6px; padding: 18px 24px 16px;
-    display: grid; grid-template-columns: 1fr auto;
-    column-gap: 24px; row-gap: 4px; align-items: baseline;
+    display: grid;
+    grid-template-columns: 120px 80px minmax(0, 1fr);
+    align-items: center;
+    gap: 6px 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
   }
+  .rung:first-child { border-top: 2px solid var(--ink); }
+  .rung:last-child { border-bottom: 2px solid var(--ink); }
   .rung .threshold {
-    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
-    font-size: 30px; font-weight: 600; letter-spacing: -0.015em;
-    color: var(--text); line-height: 1.1;
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    grid-column: 1;
   }
-  .rung .threshold .gt { color: var(--text-faint); margin-right: 2px; font-weight: 400; }
+  .rung .threshold .gt { color: var(--ink-faint); font-weight: 400; }
   .rung .pct {
-    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
-    font-size: 22px; font-weight: 600; color: var(--text-soft);
-    font-feature-settings: "tnum"; white-space: nowrap;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink);
+    grid-column: 2;
+    text-align: right;
+    white-space: nowrap;
   }
-  .rung .pct .pct-sym { font-size: 14px; color: var(--text-faint); margin-left: 1px; }
-  .rung .pct .word { color: var(--text-faint); font-weight: 400; font-size: 13px; margin-left: 6px; }
+  .rung .pct .pct-sym { font-size: 13px; color: var(--ink-faint); }
+  .rung .pct .word { display: none; }
+  .rung .label {
+    grid-column: 3;
+    font-size: 15px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  /* The bar: solid for the calibrated rungs, losing substance above. */
+  .rung .label::before {
+    content: "";
+    flex: none;
+    width: 84px;
+    height: 8px;
+    background: var(--nino);
+    align-self: center;
+  }
+  .rung.record .label::before {
+    background: repeating-linear-gradient(90deg,
+      var(--nino) 0 4px, transparent 4px 8px);
+  }
+  .rung.far .label::before {
+    background: repeating-linear-gradient(90deg,
+      #7B88AF 0 2px, transparent 2px 8px);
+  }
+  .rung.record .pct, .rung.record .label { color: var(--ink-soft); }
+  .rung.far .pct, .rung.far .label { color: var(--ink-faint); }
+  .rung.record .threshold { color: var(--ink-soft); }
+  .rung.far .threshold { color: var(--ink-faint); }
+  .rung .label .tag {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 4px 7px;
+    background: var(--paper-sunk);
+  }
   .rung .pct .wow-delta {
     display: block;
-    margin-top: 4px;
-    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
-                 Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    color: var(--text-faint);
+    font-size: 10.5px;
+    font-weight: 400;
+    color: var(--ink-faint);
+    margin-top: 5px;
+  }
+  .rung .pct .wow-delta.wow-up { color: var(--fire); }
+  .rung .pct .wow-delta.wow-down { color: var(--flood); }
+  .rung .label .sep, .rung .label .range { color: var(--ink-faint); }
+  .buckets-note {
+    font-size: 13px;
+    font-family: var(--mono);
+    line-height: 1.75;
+    color: var(--ink-faint);
+    margin: 0;
+    max-width: 78ch;
+  }
+
+  /* ---------- analyst read ---------- */
+  section.analyst-read {
+    padding: 0 0 48px 22px;
+    border-left: 3px solid var(--nino);
+    margin-bottom: 0;
+  }
+  section.analyst-read h2 { font-size: 20px; margin: 0 0 4px; }
+  section.analyst-read .section-sub { margin: 0 0 12px; }
+  section.analyst-read ul { list-style: none; padding: 0; margin: 0; }
+  section.analyst-read li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 17.5px;
+  }
+  section.analyst-read li:last-child { border-bottom: none; padding-bottom: 0; }
+  section.analyst-read li strong { font-weight: 500; }
+
+  /* ---------- chart ---------- */
+  .chart-card { border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 18px 0; }
+  .chart-caption {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    line-height: 1.62;
+    max-width: 68ch;
+  }
+  .chart-caption strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- tables ---------- */
+  table.phys { width: 100%; border-collapse: collapse; font-size: 15px; }
+  table.phys th, table.phys td {
+    padding: 14px 12px 14px 0;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  table.phys thead th {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 400;
+    border-bottom: 2px solid var(--ink);
+    vertical-align: bottom;
+  }
+  table.phys td.num { white-space: nowrap; font-size: 14px; }
+  table.phys tbody tr:last-child td { border-bottom: 2px solid var(--ink); }
+  .note {
+    font-size: 15px;
+    color: var(--ink-soft);
+    border-left: 1px solid var(--rule);
+    padding: 4px 0 4px 18px;
+    margin: 18px 0 0;
+    max-width: 68ch;
+  }
+  .note strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- sources ---------- */
+  .src-list { padding: 0; list-style: none; margin: 0; }
+  .src-list li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 20px;
+    align-items: baseline;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px;
+  }
+  .src-list li:first-child { border-top: 2px solid var(--ink); }
+  .src-list li:last-child { border-bottom: 2px solid var(--ink); }
+  .src-list .src-name { font-weight: 500; }
+  .src-list .src-issued {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    white-space: nowrap;
     text-align: right;
   }
-  .rung .pct .wow-delta.wow-up   { color: var(--super); }
-  .rung .pct .wow-delta.wow-down { color: var(--accent); }
-  .rung .label { font-size: 13px; color: var(--text-soft); }
-  .rung .label .sep { color: var(--text-faint); margin: 0 6px; }
-  .rung .label .range { color: var(--text-faint); }
-  .rung .label .tag {
-    display: inline-block; margin-left: 8px; padding: 1px 7px;
-    font-size: 11px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.05em; color: var(--text-faint);
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: 10px; vertical-align: middle;
+  .src-list .src-detail {
+    grid-column: 1 / -1;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-top: 2px;
   }
-  .rung.magn     { border-left-color: var(--magn); }
-  .rung.super    { border-left-color: var(--super); }
-  .rung.strong   { border-left-color: var(--strong); }
-  .rung.moderate { border-left-color: var(--moderate); }
-  /* Beyond-record rungs: deliberately muted so they do not read as
-     co-equal confidence with the calibrated rungs. +3.0 is dashed and
-     soft; +3.5 ("far beyond record") is the faintest thing on the
-     ladder: dotted border, plain background, softened threshold text.
-     The visual gradient mirrors the confidence gradient. */
-  .rung.record {
-    border-left-color: var(--neutral); border-left-style: dashed;
-    background: var(--bg-soft);
-  }
-  .rung.record .pct { color: var(--text-faint); }
-  .rung.far {
-    border-left-color: var(--border-strong); border-left-style: dotted;
-    background: var(--bg);
-  }
-  .rung.far .pct { color: var(--text-faint); }
-  .rung.far .threshold { color: var(--text-soft); }
-  .buckets-note { font-size: 13px; color: var(--text-faint); margin: 0 0 32px; }
 
-  /* Analyst section: tinted block directly under the ladder, only renders
-     when at least one observer fires. Reader gets "what changed / what does
-     it mean" before scrolling to the chart. */
-  section.analyst-read {
-    background: #fbf9f0;
-    border-left: 4px solid var(--accent);
-    border-radius: 6px;
-    padding: 22px 26px 16px;
-    margin: 32px 0;
+  ol.caveats { padding-left: 20px; margin: 0; }
+  ol.caveats li { margin-bottom: 16px; font-size: 15px; line-height: 1.62; }
+  ol.caveats li::marker { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
+
+  /* ---------- channels ---------- */
+  .chans { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 0; }
+  .chan {
+    padding: 0 22px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-left: 1px solid var(--rule);
+    padding-left: 20px;
   }
-  section.analyst-read h2 {
-    margin: 0 0 4px;
-    color: var(--text);
+  .chan:first-child { border-left: none; padding-left: 0; }
+  .chan-top { display: flex; align-items: center; gap: 9px; }
+  .dot { width: 8px; height: 8px; flex: none; }
+  .chan h3 { font-size: 20px; font-weight: 500; }
+  .chan p { margin: 0; font-size: 15px; color: var(--ink-soft); line-height: 1.55; }
+  .chan.next h3, .chan.next p { color: var(--ink-faint); }
+
+  /* ---------- email capture ---------- */
+  .email-cap {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 26px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px 40px;
+    flex-wrap: wrap;
   }
-  section.analyst-read .section-sub {
-    margin: 0 0 14px;
-    color: var(--text-soft);
+  .email-cap .ec-pitch { max-width: 46ch; }
+  .email-cap .ec-pitch .eyebrow { display: block; color: var(--ink-faint); margin-bottom: 6px; }
+  .email-cap .ec-pitch p { margin: 0; font-size: 17.5px; }
+  .email-cap a.ec-btn {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 14px 24px;
+    white-space: nowrap;
   }
-  section.analyst-read ul {
-    list-style: none;
-    padding-left: 0;
+  .email-cap a.ec-btn:hover { background: var(--nino); }
+
+  /* ---------- footer ---------- */
+  footer.field { border-top: 3px solid var(--ink); margin-top: 8px; }
+  .foot { padding: 32px 0 44px; display: flex; flex-direction: column; gap: 26px; }
+  .foot-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px 40px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .foot-links { display: flex; gap: 22px; flex-wrap: wrap; }
+  .foot-links a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .foot-links a:hover { color: var(--ink); }
+  .foot-cite {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--ink-faint);
+    max-width: 68ch;
     margin: 0;
   }
-  section.analyst-read li {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 14.5px;
-    line-height: 1.55;
-    color: var(--text);
-  }
-  section.analyst-read li:last-child { border-bottom: none; }
-  section.analyst-read li strong {
-    color: var(--text);
-    font-weight: 700;
-  }
-
-  section { margin: 48px 0; }
-  h2 {
-    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
-    font-size: 22px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em;
-  }
-  .section-sub { color: var(--text-faint); font-size: 13px; margin: 0 0 20px; }
-
-  .chart-card {
-    background: var(--bg-soft); border: 1px solid var(--border);
-    border-radius: 6px; padding: 20px;
-  }
-  .chart-card img { width: 100%; height: auto; display: block; }
-  .chart-caption { font-size: 13px; color: var(--text-soft); margin-top: 14px; line-height: 1.5; }
-  .chart-caption strong { color: var(--text); }
-
-  table.phys { width: 100%; border-collapse: collapse; font-size: 14px; }
-  table.phys th, table.phys td {
-    padding: 10px 12px; text-align: left;
-    border-bottom: 1px solid var(--border); vertical-align: top;
-  }
-  table.phys th {
-    background: var(--bg-soft); font-weight: 500; font-size: 12px;
-    text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-soft);
-  }
-  table.phys td.num { font-feature-settings: "tnum"; white-space: nowrap; }
-  .note {
-    font-size: 14px; color: var(--text-soft);
-    background: var(--bg-soft); border-left: 3px solid var(--border-strong);
-    padding: 12px 16px; margin: 14px 0 0;
-  }
-  .note strong { color: var(--text); }
-
-  .src-list { padding-left: 0; list-style: none; margin: 0; }
-  .src-list li {
-    padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px;
-  }
-  .src-list li:last-child { border-bottom: none; }
-  .src-list .src-name { font-weight: 600; color: var(--text); }
-  .src-list .src-issued { color: var(--text-faint); font-size: 12px; margin-left: 8px; }
-  .src-list .src-detail { color: var(--text-soft); margin-top: 4px; }
-
-  ol.caveats { padding-left: 22px; margin: 0; }
-  ol.caveats li { margin-bottom: 14px; font-size: 14px; color: var(--text); line-height: 1.55; }
-
-  footer {
-    margin-top: 64px; padding-top: 24px;
-    border-top: 1px solid var(--border);
-    font-size: 13px; color: var(--text-soft);
-  }
+  .foot-cite b { color: var(--ink-soft); font-weight: 500; }
+  .foot-fresh-label { display: block; color: var(--ink-faint); margin-bottom: 10px; }
   .freshness-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 6px 24px; margin: 12px 0 18px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 32px;
+    margin: 0;
   }
-  .freshness-grid .src { color: var(--text); font-weight: 500; }
-  .freshness-grid .meta { color: var(--text-faint); font-size: 12px; }
-  .footer-meta { color: var(--text-faint); font-size: 12px; line-height: 1.6; }
-  .footer-meta a { color: var(--accent); }
+  .freshness-grid .src { color: var(--ink-soft); font-size: 13px; }
+  .freshness-grid .meta { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+  .footer-meta { font-size: 12px; line-height: 1.85; color: var(--ink-faint); margin: 0; max-width: 78ch; }
+  .footer-meta strong { color: var(--ink-soft); font-weight: 500; }
 
-  /* ---------- Impact outlook section ---------- */
-  section.impacts > p:first-of-type {
-    color: var(--text-faint); font-size: 13px;
-    margin: 0 0 16px;
-  }
-
-  /* World map: real Natural Earth-derived SVG referenced as <img>, with
-     hotspot markers absolutely positioned over it as <button> elements. */
+  /* ---------- impact outlook ---------- */
+  section.impacts > p:first-of-type { color: var(--ink-soft); font-size: 17.5px; margin: -8px 0 18px; }
   .impacts-map {
     position: relative;
-    margin: 16px 0 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    background: #f5f4ee;
+    margin: 18px 0 14px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
   }
-  .impacts-map .world-map-bg {
-    display: block; width: 100%; height: auto;
-  }
+  .impacts-map .world-map-bg { width: 100%; }
   .impacts-map .map-hotspot {
     position: absolute; transform: translate(-50%, -50%);
     width: 22px; height: 22px;
-    background: transparent; border: 0; padding: 0;
-    cursor: pointer; outline: none;
+    background: transparent; border: 0; padding: 0; cursor: pointer;
   }
   .impacts-map .map-hotspot-ring {
     position: absolute; inset: 0;
     border-radius: 50%;
-    background: rgba(217, 67, 39, 0.15);
-    border: 1.5px solid var(--super);
-    transition: all 0.18s ease;
+    border: 1.5px solid var(--fire);
+    transition: all .15s ease;
   }
   .impacts-map .map-hotspot-dot {
     position: absolute; inset: 7px;
     border-radius: 50%;
-    background: var(--super);
-    transition: all 0.18s ease;
+    background: var(--fire);
+    transition: all .15s ease;
   }
-  .impacts-map .map-hotspot:hover .map-hotspot-ring {
-    background: rgba(217, 67, 39, 0.25);
-  }
-  .impacts-map .map-hotspot.active .map-hotspot-ring {
-    background: rgba(217, 67, 39, 0.32);
-    border-width: 2.5px;
-    inset: -3px;
-  }
-  .impacts-map .map-hotspot.active .map-hotspot-dot {
-    inset: 5px;
-  }
-  .impacts-map .map-hotspot:focus-visible .map-hotspot-ring {
-    border-color: var(--accent);
-    border-width: 2.5px;
-  }
-
-  /* Region tabs strip */
-  .region-tabs {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    margin: 14px 0 16px;
-  }
+  .impacts-map .map-hotspot.active .map-hotspot-ring { border-width: 2.5px; inset: -3px; }
+  .impacts-map .map-hotspot.active .map-hotspot-dot { inset: 5px; }
+  .impacts-map .map-hotspot:focus-visible .map-hotspot-ring { border-color: var(--nino); }
+  .region-tabs { display: flex; flex-wrap: wrap; gap: 0; margin: 16px 0 18px; border-bottom: 1px solid var(--rule); }
   .region-tab {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 999px; padding: 6px 14px;
-    font-size: 13px; color: var(--text-soft);
-    cursor: pointer; font-family: inherit;
-    transition: all 0.15s ease;
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    padding: 8px 14px 8px 0;
+    margin-right: 18px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    cursor: pointer;
   }
-  .region-tab:hover { border-color: var(--border-strong); color: var(--text); }
-  .region-tab[aria-selected="true"] {
-    background: var(--super); border-color: var(--super);
-    color: #fff; font-weight: 600;
-  }
-
-  /* Region content panels: only the active one shows */
+  .region-tab:hover { color: var(--ink); }
+  .region-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
   .region-panel { display: none; }
   .region-panel.active { display: block; }
-  .region-panel h3 {
-    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
-    font-size: 22px; font-weight: 600;
-    margin: 0 0 10px; letter-spacing: -0.01em;
-  }
-  .region-panel p {
-    font-size: 14.5px; line-height: 1.6; color: var(--text); margin: 0 0 12px;
-  }
+  .region-panel h3 { font-size: 20px; font-weight: 500; margin: 0 0 10px; }
+  .region-panel p { font-size: 17.5px; line-height: 1.62; margin: 0 0 12px; max-width: 62ch; }
 
-  @media (max-width: 720px) {
-    main { padding: 24px 16px 60px; }
-    h1 { font-size: 28px; }
-    .freshness-grid { grid-template-columns: 1fr; }
-    nav.top { padding: 12px 16px; }
-    nav.top ul { gap: 14px; }
-    .rung { grid-template-columns: 1fr; }
-    .rung .pct { margin-top: 4px; }
+  /* ---------- one breakpoint ---------- */
+  @media (max-width: 760px) {
+    .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
+    .shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .rail { grid-column: 1; order: 2; padding-top: 8px; }
+    .rail-inner {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 18px 30px;
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+      padding: 22px 0 0;
+    }
+    .body { grid-column: 1; order: 1; padding-top: 32px; }
+    body { font-size: 17px; }
+    .hero h1, .issue-head h1 { font-size: 34px; }
+    .event { grid-template-columns: minmax(0, 1fr) auto; }
+    .event .ev-stat { grid-column: 1; grid-row: 1; font-size: 32px; }
+    .event .ev-body { grid-column: 1 / -1; grid-row: 2; }
+    .event .attr { grid-column: 2; grid-row: 1; align-self: center; }
+    .wave-strip .field-shell { grid-template-columns: minmax(0, 1fr); }
+    .rung { grid-template-columns: minmax(0, 1fr) auto; }
+    .rung .threshold { grid-column: 1; }
+    .rung .pct { grid-column: 2; }
+    .rung .label { grid-column: 1 / -1; }
+    .rung .label::before { display: none; }
+    .freshness-grid { grid-template-columns: minmax(0, 1fr); }
+    .readout { gap: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
   }
 """.strip()
+
+PUBLIC_CSS = (_PUBLIC_CSS_TEMPLATE
+              .replace("/*VARS_LIGHT*/", T.css_vars_light())
+              .replace("/*VARS_DARK*/", T.css_vars_dark()))
+
+HTML_CSS = (_HTML_CSS_TEMPLATE
+            .replace("/*VARS_LIGHT*/", T.css_vars_light())
+            .replace("/*VARS_DARK*/", T.css_vars_dark()))
 
 
 def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str,
@@ -908,6 +1369,208 @@ def build_impacts_html_block(impacts: dict, world_map_href: str = "world-map.svg
     return ''.join(parts)
 
 
+# Attribution tags (T9, hard requirement): every event item carries a
+# visible status. The three states are fixed vocabulary; subsection
+# chats pick one per item in data/events.json, never invent new ones.
+ATTR_LABELS = {
+    "enso": "ENSO-loaded window",
+    "non_enso": "Not ENSO-linked",
+    "pending": "Attribution pending",
+}
+_ATTR_CLASSES = {"enso": "attr-enso", "non_enso": "attr-none",
+                 "pending": "attr-pending"}
+
+
+def _attr_tag(status: str) -> str:
+    """The attribution tag component. Unknown statuses render as pending
+    rather than crashing or silently vanishing; saying less than we know
+    beats implying more."""
+    key = status if status in ATTR_LABELS else "pending"
+    return (f'<span class="attr {_ATTR_CLASSES[key]}">'
+            f'{h(ATTR_LABELS[key])}</span>')
+
+
+def _load_events() -> list[dict]:
+    """Front-page event items from data/events.json (editor-curated).
+    Defensive: a malformed file means no break section, never a crash."""
+    path = Path(__file__).parent / "data" / "events.json"
+    try:
+        payload = json.loads(path.read_text())
+        events = payload.get("events", [])
+        return [e for e in events if isinstance(e, dict) and e.get("title")]
+    except (OSError, ValueError):
+        return []
+
+
+def _masthead_html(root_prefix: str, methodology_href: str,
+                   briefs_href: str, active: str = "elnino") -> str:
+    home = root_prefix if root_prefix else "./"
+    on = lambda key: ' class="on"' if key == active else ""
+    return (
+        '<header class="field"><div class="field-shell">'
+        '<div class="masthead">'
+        f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
+        f'{_mark_svg(26)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
+        '<nav class="prodnav" aria-label="Products">'
+        f'<a{on("elnino")} href="{h(home)}#issue">{h(PRODUCT_NAME)}</a>'
+        f'<a{on("fire")} href="{h(root_prefix)}fires/">Fire</a>'
+        f'<a class="util" href="{h(methodology_href)}">Methodology</a>'
+        f'<a class="util" href="{h(briefs_href)}">Archive</a>'
+        '</nav></div></div></header>\n'
+    )
+
+
+def _break_html(events: list[dict]) -> str:
+    """The break (T10): current events lead the front page, each with its
+    baseline number and attribution tag. Renders nothing when the events
+    file is empty; no placeholder slots."""
+    if not events:
+        return ""
+    items = []
+    for e in events:
+        href = e.get("href", "")
+        region = h(e.get("region", ""))
+        claim = h(e.get("title", ""))
+        # Region carries the weight, the claim runs on the same line in
+        # softer ink. Linked as one unit so the whole line is the target.
+        head = (f'<span class="ev-region">{region}</span> '
+                f'<span class="ev-claim">{claim}</span>')
+        if href:
+            head = f'<a href="{h(href)}">{head}</a>'
+        stat = e.get("stat", "")
+        stat_html = f'<div class="ev-stat num">{h(stat)}</div>' if stat else ""
+        baseline = e.get("stat_label", "")
+        src_bits = " · ".join(
+            b for b in (e.get("source", ""), f"baseline: {baseline}" if baseline
+                        else "") if b)
+        items.append(
+            '<article class="event">'
+            f'{stat_html}'
+            f'<div class="ev-body"><h3>{head}</h3>'
+            f'<span class="ev-src">{h(src_bits)}</span></div>'
+            f'{_attr_tag(e.get("attribution", "pending"))}'
+            '</article>'
+        )
+    return (
+        '<div class="field"><div class="field-shell">'
+        '<div class="break-head">'
+        '<div class="eyebrow">The break &middot; in the news now</div>'
+        '</div>'
+        '<p class="break-lede">Current events, each sized against its own '
+        'historical baseline. The link to the El Ni&ntilde;o window is '
+        'stated per item, never assumed.</p>'
+        f'<div class="events">{"".join(items)}</div>'
+        '</div></div>\n'
+    )
+
+
+def _wave_strip_html(magn_pct, brief_date_iso: str) -> str:
+    """The wave (T10): the tracker's headline stays persistent but
+    secondary; the full issue is further down the same page."""
+    return (
+        '<div class="wave-strip"><div class="field-shell">'
+        '<span class="ws-label eyebrow">The wave &middot; '
+        f'{h(PRODUCT_NAME)}</span>'
+        '<span class="ws-read">'
+        f'<span class="ws-num num">{magn_pct}<small>%</small></span>'
+        '<span class="ws-desc">chance of a 1997 / 2015-magnitude winter '
+        f'peak &middot; issue of {h(brief_date_iso)}</span>'
+        '</span>'
+        '<a class="ws-go" href="#issue">This week\'s issue &darr;</a>'
+        '</div></div>\n'
+    )
+
+
+def _rail_html(brief_date_iso: str, offset_phrase: str, freshness: dict,
+               methodology_href: str) -> str:
+    """Sticky mono metadata rail beside the issue body."""
+    live = sum(1 for i in freshness.values()
+               if i.get("ok") and not i.get("used_fallback"))
+    total = len(freshness) or 1
+    try:
+        next_iso = (date.fromisoformat(brief_date_iso)
+                    + timedelta(days=7)).isoformat()
+    except ValueError:
+        next_iso = "next Monday"
+    return (
+        '<aside class="rail"><div class="rail-inner">'
+        '<div class="rail-block"><div class="eyebrow">Issue</div>'
+        f'<div class="val"><b>{h(brief_date_iso)}</b></div></div>'
+        '<div class="rail-block"><div class="eyebrow">Methodology</div>'
+        f'<div class="val"><a href="{h(methodology_href)}">'
+        f'v<b>{h(str(S.METHODOLOGY_VERSION))}</b></a></div></div>'
+        '<div class="rail-block"><div class="eyebrow">RONI offset</div>'
+        f'<div class="val">{h(offset_phrase)}</div></div>'
+        '<div class="rail-block"><div class="eyebrow">Sources</div>'
+        f'<div class="val"><b>{live}</b> of {total} live</div></div>'
+        '<div class="rail-block"><div class="eyebrow">Next issue</div>'
+        f'<div class="val">{h(next_iso)}</div></div>'
+        '</div></aside>'
+    )
+
+
+def _channels_html(root_prefix: str) -> str:
+    """Products grid (front page). Channels are siblings under the house
+    question, per T9; the tracker is one of them, not the source signal."""
+    return (
+        '<section>'
+        '<h2>Channels</h2>'
+        '<p class="section-sub">Each channel reads one domain against its '
+        'own baselines, as its own publication.</p>'
+        '<div class="chans">'
+        '<div class="chan">'
+        f'<div class="chan-top"><span class="dot" style="background:{T.NINO}"></span>'
+        '<span class="meta">Live &middot; weekly</span></div>'
+        f'<h3><a href="#issue">{h(PRODUCT_NAME)}</a></h3>'
+        '<p>Weekly probability tracker for the DJF winter peak, aggregated '
+        'across seven agency and model sources. Every issue archived, '
+        'immutable.</p></div>'
+        '<div class="chan">'
+        f'<div class="chan-top"><span class="dot" style="background:{T.FIRE}"></span>'
+        '<span class="meta">First issue 2026-08-03</span></div>'
+        f'<h3><a href="{h(root_prefix)}fires/">Fire</a></h3>'
+        '<p>Hotspot activity against same-week satellite baselines across '
+        'five regions, plus a vintage-tracked damage ledger.</p></div>'
+        '<div class="chan next">'
+        '<div class="chan-top"><span class="dot" '
+        f'style="background:{T.RULE}"></span>'
+        '<span class="meta">Not scheduled</span></div>'
+        '<h3>Next channel</h3>'
+        '<p>Candidates: floods and crops. Each needs its own baseline '
+        'before it ships.</p></div>'
+        '</div></section>'
+    )
+
+
+def _email_capture_html() -> str:
+    if not EMAIL_SIGNUP_URL:
+        return ""
+    return (
+        '<section><div class="email-cap">'
+        '<div class="ec-pitch">'
+        '<span class="eyebrow">Weekly, Mondays</span>'
+        '<p>One email per week: the updated probabilities and what changed. '
+        'No more than that.</p></div>'
+        f'<a class="ec-btn" href="{h(EMAIL_SIGNUP_URL)}">Get the brief</a>'
+        '</div></section>'
+    )
+
+
+def _number_sections(html_text: str) -> str:
+    """Give plain and impacts sections the numbered sec-head treatment.
+    Callout sections (analyst-read) keep their unnumbered headings."""
+    counter = {"n": 0}
+
+    def repl(m):
+        counter["n"] += 1
+        return (f'<section{m.group(1)}><div class="sec-head">'
+                f'<div class="eyebrow">{counter["n"]:02d}</div>'
+                f'<h2>{m.group(2)}</h2></div>')
+
+    return re.sub(r'<section((?: class="impacts")?)><h2>(.*?)</h2>',
+                  repl, html_text)
+
+
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       methodology_href: str, brief_date_iso: str,
                       canonical_url: str, og_image_url: str,
@@ -915,7 +1578,9 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       prev_headline: dict | None = None,
                       prev_snapshot: dict | None = None,
                       prev_headline_month: dict | None = None,
-                      briefs_href: str = "briefs/") -> str:
+                      briefs_href: str = "briefs/",
+                      root_prefix: str = "",
+                      is_front: bool = False) -> str:
     """Render the public brief as structured HTML (bypasses markdown).
 
     methodology_href and world_map_href are both relative paths whose depth
@@ -957,9 +1622,13 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # computed and archived).
     super_pct = headline["super_>2.0"]["mid"]
     magn_pct = headline["9715_>2.5"]["mid"]
+    far_pct = headline.get("record_>3.5", {}).get("mid")
     description = (f"Weekly probability tracker for the developing 2026-27 El Niño "
                    f"event. {magn_pct}% chance of a 1997/2015-magnitude winter peak.")
-    title = f"El Niño Tracker, week of {brief_date_iso}"
+    if is_front:
+        title = f"{SITE_NAME} · how big is this, actually?"
+    else:
+        title = f"{PRODUCT_NAME}, week of {brief_date_iso} · {SITE_NAME}"
 
     # Bottom-line slot: per-issue editorial note replaces the default copy
     # when editorial_note.md exists and is non-empty. Otherwise fall back
@@ -1081,23 +1750,85 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 <meta name="twitter:title" content="{h(title)}">
 <meta name="twitter:description" content="{h(description)}">
 <meta name="twitter:image" content="{h(og_image_url)}">
-<style>{PUBLIC_CSS}</style>
+<style>{T.font_faces_css(root_prefix + "fonts/")}</style>
+{_favicon_links(root_prefix)}<style>{PUBLIC_CSS}</style>
 </head>
 <body>
-<nav class="top">
-  <span class="brand">El Niño Tracker<span class="dot">.</span></span>
-  <ul>
-    <li><a href="./" class="active">Brief</a></li>
-    <li><a href="{h(briefs_href)}">Past briefs</a></li>
-    <li><a href="{h(methodology_href)}">Methodology</a></li>
-  </ul>
-</nav>
-<main>
-  <div class="issue-stamp">Week of {h(brief_date_iso)} · Methodology v{h(str(S.METHODOLOGY_VERSION))} · <a class="card-link" href="card.png">one-page card ↓</a></div>
-  <h1>How likely is a super<br>El Niño this winter?</h1>
-  <p class="lede">Updated each Monday from the major ENSO outlooks (NOAA CPC, IRI, BoM) and a multi-model forecast consensus (ECMWF SEAS5 with the NMME suite), plus weekly Niño 3.4 observations. Peak season target: <strong>DJF 2026-27</strong>. Forecast disagreements are surfaced rather than averaged.</p>
-  {bottom_line_html}
 '''
+    head += _masthead_html(root_prefix, methodology_href, briefs_href)
+
+    # Shared stamp line for the issue. The card link resolves in both
+    # the docs root and the archive dir (card.png sits alongside each).
+    stamp_html = (
+        '<div class="issue-stamp">'
+        f'<span>Week of {h(brief_date_iso)}</span>'
+        f'<span>Methodology v{h(str(S.METHODOLOGY_VERSION))}</span>'
+        '<span><a class="card-link" href="card.png">one-page card &darr;</a></span>'
+        '</div>'
+    )
+    lede_text = (
+        'Updated each Monday from the major ENSO outlooks (NOAA CPC, IRI, '
+        'BoM) and a multi-model forecast consensus (ECMWF SEAS5 with the '
+        'NMME suite), plus weekly Niño 3.4 observations. Peak season '
+        'target: <strong>DJF 2026-27</strong>. Forecast disagreements are '
+        'surfaced rather than averaged.'
+    )
+
+    if is_front:
+        # T10 hybrid front page: the break leads, the wave strip carries
+        # the tracker headline, and the full issue follows on paper.
+        head += _break_html(_load_events())
+        head += _wave_strip_html(magn_pct, brief_date_iso)
+        issue_open = (
+            '<div class="shell">'
+            + _rail_html(brief_date_iso, offset_phrase, freshness,
+                         methodology_href)
+            + '<main class="body" id="issue">'
+            + '<div class="issue-head">'
+            + stamp_html
+            + '<h1>How likely is a super El Niño this winter?</h1>'
+            + f'<p class="lede">{lede_text}</p>'
+            + bottom_line_html
+            + '</div>'
+        )
+    else:
+        # Archive issue page: the tracker hero on the field, then paper.
+        far_side = ""
+        if far_pct is not None:
+            far_side = (
+                f'<div><div class="v num">{far_pct}<small>%</small></div>'
+                '<div class="k">&gt; +3.5&nbsp;&deg;C</div></div>'
+            )
+        head += (
+            '<div class="field"><div class="field-shell">'
+            '<div class="hero">'
+            '<div class="hero-stamp eyebrow">'
+            f'<span>Week of {h(brief_date_iso)}</span>'
+            f'<span>Methodology v{h(str(S.METHODOLOGY_VERSION))}</span>'
+            '<span><a href="card.png">one-page card &darr;</a></span>'
+            '</div>'
+            '<h1>How likely is a super El Niño this winter?</h1>'
+            f'<p class="lede">{lede_text}</p>'
+            '<div class="readout">'
+            '<div class="readout-main">'
+            f'<div class="v num">{magn_pct}<small>%</small></div>'
+            '<div class="k">chance of a 1997 / 2015-magnitude peak</div>'
+            '</div>'
+            '<div class="readout-side">'
+            f'<div><div class="v num">{super_pct}<small>%</small></div>'
+            '<div class="k">&gt; +2.0&nbsp;&deg;C</div></div>'
+            f'{far_side}'
+            '</div></div>'
+            '</div></div></div>\n'
+        )
+        issue_open = (
+            '<div class="shell">'
+            + _rail_html(brief_date_iso, offset_phrase, freshness,
+                         methodology_href)
+            + '<main class="body" id="issue">'
+            + bottom_line_html
+        )
+    head += issue_open
 
     # Unpack the version-aware ladder-delta info dict. prev_buckets is the
     # smoothed headline buckets we compare against; delta_label is the
@@ -1143,7 +1874,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # continuity; the event outgrowing the bottom of the scale is itself
     # part of the story.
     ladder_html = (
-        '<section><div class="ladder">'
+        '<section><h2>Probability ladder</h2>'
+        '<p class="section-sub">Peak three-month ONI, DJF 2026-27. Each rung '
+        'is computed independently; adding one does not recalculate the '
+        'others.</p>'
+        '<div class="ladder">'
         + far_rung
         + record_rung
         + _render_rung("magn",     "+2.5°C peak", headline["9715_>2.5"],
@@ -1212,7 +1947,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '<div class="chart-caption">'
         f'<strong>Read this week:</strong> the shaded red field marks El Niño territory, '
         f'deepening through moderate, strong and super up to the +2.5°C line that 1997 and '
-        f'2015 peaked near. 2026\'s observed ONI (solid black) runs to the {h(obs_season)} '
+        f'2015 peaked near. 2026\'s observed ONI (the solid red line) runs to the {h(obs_season)} '
         f'season at {obs_str}°C; 1997 and 2023 were similarly cool this early and still became '
         f'super events, so position this far out is a weak discriminator. Forward, the forecast '
         f'is one combined ensemble: the dashed line and grey bands are ECMWF SEAS5 (median with '
@@ -1351,23 +2086,37 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             f'<span class="meta"> · {h(meta)}</span></div>'
         )
 
+    home = root_prefix if root_prefix else "./"
     footer_html = (
-        '<footer>'
-        '<strong style="color:var(--text); font-weight:600">Source freshness this issue</strong>'
+        '</main></div>\n'
+        '<footer class="field"><div class="field-shell"><div class="foot">'
+        '<div class="foot-top">'
+        f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
+        f'{_mark_svg(26)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
+        '<div class="foot-links">'
+        f'<a href="#issue">{h(PRODUCT_NAME)}</a>'
+        f'<a href="{h(root_prefix)}fires/">Fire</a>'
+        f'<a href="{h(methodology_href)}">Methodology</a>'
+        f'<a href="{h(briefs_href)}">Archive</a>'
+        f'<a href="{h(GITHUB_REPO_URL)}">GitHub</a>'
+        '</div></div>'
+        '<div>'
+        '<span class="foot-fresh-label">Source freshness this issue</span>'
         f'<div class="freshness-grid">{"".join(fresh_rows)}</div>'
+        '</div>'
         f'<p class="footer-meta">Methodology version {h(str(S.METHODOLOGY_VERSION))}. '
         f'RONI to traditional ONI offset {offset:+.2f}°C ({"live, week of " + offset_block["issued"] if offset_live else "seed"}). '
         f'See <a href="{h(methodology_href)}">methodology</a> for the full audit trail.</p>'
-        f'<p class="footer-meta" style="margin-top:18px;">By '
-        f'<a href="{h(AUTHOR_CONTACT_URL)}"><strong style="color:var(--text)">{h(AUTHOR_NAME)}</strong></a>. '
-        f'Source on <a href="{h(GITHUB_REPO_URL)}">GitHub</a>.</p>'
-        f'<p class="footer-meta" style="margin-top:6px;">'
-        f'Licensed <a href="{h(LICENSE_URL)}">{h(LICENSE_NAME)}</a>. '
-        f'Cite as: Lepik, K. (2026). El Niño Tracker. '
-        f'<a href="{h(PAGES_BASE_URL)}/">kristjanlepik-commits.github.io/el-nino-tracker</a>. '
-        f'Free to share and quote with attribution; commercial reuse requires permission.'
-        f'</p>'
-        '</footer>'
+        '<p class="foot-cite">'
+        f'<b>By <a href="{h(AUTHOR_CONTACT_URL)}">{h(AUTHOR_NAME)}</a>.</b> '
+        f'Licensed <a href="{h(LICENSE_URL)}">{h(LICENSE_NAME)}</a>.<br>'
+        f'Cite as: Lepik, K. (2026). <b>{h(SITE_NAME)}: {h(PRODUCT_NAME)}.</b> '
+        f'<a href="{h(PAGES_BASE_URL)}/">{h(DISPLAY_HOST)}</a>.<br>'
+        'Free to share and quote with attribution; commercial reuse requires '
+        'permission. Every issue archived, immutable. Disagreements are '
+        'surfaced, not averaged.'
+        '</p>'
+        '</div></div></footer>'
     )
 
     impacts_html = build_impacts_html_block(load_impacts(), world_map_href=world_map_href)
@@ -1496,9 +2245,13 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     else:
         analyst_html = ''
 
-    return (head + ladder_html + analyst_html + chart_html + physical_html
-            + impacts_html + sources_html + caveats_html + footer_html
-            + '\n</main>\n</body>\n</html>\n')
+    body_sections = (ladder_html + analyst_html + chart_html + physical_html
+                     + impacts_html + sources_html + caveats_html)
+    if is_front:
+        body_sections += _channels_html(root_prefix) + _email_capture_html()
+    body_sections = _number_sections(body_sections)
+    return (head + body_sections + footer_html
+            + '\n</body>\n</html>\n')
 
 
 DOCS_DIR = Path(__file__).parent / "docs"
@@ -2373,23 +3126,27 @@ def main():
         methodology_href="methodology.html",
         brief_date_iso=S.BRIEF_DATE.isoformat(),
         canonical_url=f"{PAGES_BASE_URL}/",
-        og_image_url=f"{PAGES_BASE_URL}/analog.png",
+        og_image_url=f"{PAGES_BASE_URL}/card.png",
         world_map_href="world-map.svg",
         prev_headline=prev_headline_smoothed,
         prev_snapshot=prev,
         prev_headline_month=prev_headline_smoothed_month,
+        root_prefix="",
+        is_front=True,
     )
     public_html_archive = build_public_html(
         fetched, freshness, headline_smoothed,
         methodology_href="../../methodology.html",
         brief_date_iso=S.BRIEF_DATE.isoformat(),
         canonical_url=f"{PAGES_BASE_URL}/{archive_rel}",
-        og_image_url=f"{PAGES_BASE_URL}/{archive_rel}analog.png",
+        og_image_url=f"{PAGES_BASE_URL}/{archive_rel}card.png",
         world_map_href="../../world-map.svg",
         prev_headline=prev_headline_smoothed,
         prev_snapshot=prev,
         prev_headline_month=prev_headline_smoothed_month,
         briefs_href="../",
+        root_prefix="../../",
+        is_front=False,
     )
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (DOCS_DIR / ".nojekyll").touch()
@@ -2417,7 +3174,9 @@ def main():
     # 7. Archive index (regenerated each run from meta.json files)
     archive_md = build_archive_index()
     (DOCS_DIR / "briefs" / "index.html").write_text(
-        render_html(archive_md, title="El Nino tracker, past briefs")
+        render_html(archive_md,
+                    title=f"Archive, {PRODUCT_NAME} · {SITE_NAME}",
+                    root_prefix="../")
     )
     print(f"wrote: {DOCS_DIR / 'briefs' / 'index.html'}")
 
@@ -2425,8 +3184,10 @@ def main():
     meth_md = Path(__file__).parent / "methodology.md"
     if meth_md.exists():
         meth_html = DOCS_DIR / "methodology.html"
-        meth_html.write_text(render_html(meth_md.read_text(),
-                                         title="El Nino tracker, methodology"))
+        meth_html.write_text(render_html(
+            meth_md.read_text(),
+            title=f"Methodology, {PRODUCT_NAME} · {SITE_NAME}",
+            root_prefix=""))
         print(f"wrote: {meth_html}")
 
     # 9. Weekly situation card (card.py, public-side): a one-page PNG

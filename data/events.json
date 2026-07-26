@@ -1,0 +1,45 @@
+{
+  "_readme": [
+    "Front-page event items (the break, T10). Rendered by run_brief.py",
+    "on the front page only; newest first; keep to the six most",
+    "current items. Content is editor-chat surface; the schema and",
+    "rendering are design-chat surface. attribution must be one of:",
+    "enso (ENSO-loaded window), non_enso (not ENSO-linked),",
+    "pending (attribution pending). stat is the one baseline number,",
+    "stat_label its unit line, source the named source with vintage.",
+    "Seeded 2026-07-26 from the published fires spotlight; editor to",
+    "review wording before the 2026-08-03 issue."
+  ],
+  "events": [
+    {
+      "date": "2026-07-25",
+      "region": "Spain",
+      "title": "Spain's fire week is the highest on the 15-year satellite record",
+      "stat": "8.1x",
+      "stat_label": "same-week 2012-25 mean",
+      "attribution": "non_enso",
+      "source": "NASA FIRMS SNPP, wk Jul 19-25",
+      "href": "fires/spotlight-2026-07-25.html"
+    },
+    {
+      "date": "2026-07-25",
+      "region": "France",
+      "title": "France's fire week is 4x its previous best, led by the Gironde/Landes complex",
+      "stat": "7.6x",
+      "stat_label": "same-week 2012-25 mean",
+      "attribution": "non_enso",
+      "source": "NASA FIRMS SNPP, wk Jul 19-25",
+      "href": "fires/spotlight-2026-07-25.html"
+    },
+    {
+      "date": "2026-07-25",
+      "region": "United Kingdom",
+      "title": "The UK set its highest fire week on record, from a low base",
+      "stat": "3.3x",
+      "stat_label": "same-week 2012-25 mean",
+      "attribution": "non_enso",
+      "source": "NASA FIRMS SNPP, wk Jul 19-25",
+      "href": "fires/spotlight-2026-07-25.html"
+    }
+  ]
+}

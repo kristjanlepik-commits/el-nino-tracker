@@ -1,0 +1,328 @@
+"""The Long Swell visual language v1.0 "Bulletin". Single source of truth.
+
+Drives the static site generator and matplotlib alike, so nothing here
+is expressible only in CSS. Role-named, never blue1.
+
+Adopted 2026-07-26 as D-016 from the visual-language task chat, with
+four design-chat amendments recorded in that entry:
+  1. Wordmark register inverted: house in Spectral at natural fit,
+     product names in tracked Plex Mono. Supersedes D-003's split.
+  2. TAG_PENDING_FG corrected for WCAG AA (delivered value was 3.14:1
+     on its own background, which fails for 9.5px text).
+  3. Trajectory traces corrected to the real methodology years and
+     extended to cover the forecast fan and the wind panel.
+  4. Channel hue marks channel identity only; physical anomaly
+     magnitude uses the diverging scale, so an ENSO datum can never
+     read as a Fire datum.
+
+Two rules that outrank convenience:
+  Color is earned by departure from a baseline. An unremarkable number
+  stays in INK. Coloring a figure to make a page look designed breaks
+  the only signal the palette carries.
+  Nothing is ever enclosed on four sides. RADIUS is 0 and SHADOW is
+  None so a contributor has to delete a line rather than add one.
+
+No em-dashes anywhere, including these comments.
+"""
+
+# ---------------------------------------------------------------------------
+# Color: light theme, the reading environment
+# ---------------------------------------------------------------------------
+
+PAPER = "#F1F0EC"        # bone reading ground
+PAPER_SUNK = "#E7E6DF"   # tracker strip, table zebra, the only fill allowed
+INK = "#1A1A18"          # display, headings, heavy rules
+INK_SOFT = "#3A3A36"     # body prose
+INK_FAINT = "#6E6E67"    # labels, baselines, folios. 4.50:1, see note
+RULE = "#CFCEC7"         # hairlines, non-text only
+
+# INK_FAINT clears WCAG AA against PAPER with no margin at all (4.50).
+# Cap it at 11px and above, and never let it carry a sentence the
+# reader has to follow. Standalone 9.5px labels use INK_SOFT.
+
+# ---------------------------------------------------------------------------
+# Color: dark theme. The override plus masthead and footer furniture,
+# not the reading environment. Hue is held constant between themes and
+# only lightness moves, so channel identity survives a theme switch.
+# ---------------------------------------------------------------------------
+
+PAPER_DARK = "#1A1A18"
+PAPER_SUNK_DARK = "#252521"
+INK_DARK = "#EDECE6"
+INK_SOFT_DARK = "#B4B3AB"
+INK_FAINT_DARK = "#86857D"
+RULE_DARK = "#3A3A36"
+
+# ---------------------------------------------------------------------------
+# Channels: one flat saturated hue per variable, used at full strength
+# in small doses. All five clear AA as body text on PAPER in both
+# directions, deliberately, so a hue may set a word and not only fill
+# a rectangle.
+# ---------------------------------------------------------------------------
+
+NINO = "#173F9E"     # El Nino 2026-27
+FIRE = "#B32E10"     # Fire
+FLOOD = "#0A5C66"    # Floods
+CROP = "#2E5C16"     # Crops
+DAMAGE = "#5C2C96"   # cross-channel damage ledger
+
+NINO_DARK = "#6E97E8"
+FIRE_DARK = "#E8714E"
+FLOOD_DARK = "#4CB3BF"
+CROP_DARK = "#7CB84E"
+DAMAGE_DARK = "#A87BE8"
+
+CHANNEL = {"nino": NINO, "fire": FIRE, "flood": FLOOD, "crop": CROP,
+           "damage": DAMAGE}
+
+# ---------------------------------------------------------------------------
+# Attribution tags. Exactly three states, worded verbatim, never
+# removed or softened to tidy a layout. Prominence descends with claim
+# strength.
+# ---------------------------------------------------------------------------
+
+TAG_LOADED_BG = NINO
+TAG_LOADED_FG = PAPER
+TAG_NOTLINK_BG = "#E3E2DB"
+TAG_NOTLINK_FG = INK_SOFT
+TAG_PENDING_BG = "#EAE9E3"
+TAG_PENDING_FG = "#66665F"   # amendment 2: was #83837B at 3.14:1
+
+# ---------------------------------------------------------------------------
+# Diverging anomaly scale. Nine steps, symmetric, index 4 neutral and
+# sitting within 1.09 of PAPER so an unremarkable value visually
+# disappears into the page. That is the color rule made literal.
+#
+# Amendment 4: this scale, not a channel hue, carries physical anomaly
+# magnitude. Ocean heat, SST departure, and similar quantities read
+# from here.
+# ---------------------------------------------------------------------------
+
+ANOMALY = [
+    "#0A4A57", "#417785", "#85A7B0", "#C3D2D5",
+    "#E8E7E2",
+    "#EFC9BD", "#DC957E", "#C05B3D", "#8E240A",
+]
+ANOMALY_NEUTRAL = ANOMALY[4]
+COLD = ANOMALY[0]
+WARM = ANOMALY[8]
+
+
+def anomaly_color(value: float, full_scale: float = 3.0) -> str:
+    """Diverging-scale step for an anomaly in degrees C.
+
+    full_scale is the magnitude that saturates the ramp. Values beyond
+    it clamp rather than wrapping, because a saturated color must not
+    imply a value it does not have.
+    """
+    if full_scale <= 0:
+        return ANOMALY_NEUTRAL
+    t = max(-1.0, min(1.0, value / full_scale))
+    idx = int(round(4 + t * 4))
+    return ANOMALY[max(0, min(8, idx))]
+
+
+# ---------------------------------------------------------------------------
+# Trajectory chart (amendment 3).
+#
+# The rule from the delivered language: only the current year carries a
+# hue. Peers separate by line weight and dash so the chart survives
+# being screenshotted, reposted, printed grey, or read with a color
+# vision deficiency, and so the peers read as context rather than five
+# competing claims.
+#
+# The delivered spec covered four line styles. The production chart
+# needs the set below. Dash tuples are matplotlib specifications and
+# translate to stroke-dasharray without reinterpretation. Peer years
+# are the real methodology years; 1982 is not in the dataset.
+# ---------------------------------------------------------------------------
+
+TRACE_CURRENT = {"color": NINO, "lw": 2.4, "dash": "solid"}
+
+TRACE_PEERS = {
+    2015: {"color": INK_SOFT, "lw": 1.3, "dash": "solid",
+           "label": "2015-16 (super, peak 2.8)"},
+    1997: {"color": INK_SOFT, "lw": 1.3, "dash": (0, (6, 3)),
+           "label": "1997-98 (super, peak 2.4)"},
+    2023: {"color": INK_FAINT, "lw": 1.2, "dash": (0, (2, 3)),
+           "label": "2023-24 (recent super, peak 2.1)"},
+    2025: {"color": INK_FAINT, "lw": 1.1, "dash": (0, (1, 2, 4, 2)),
+           "label": "2025-26 (La Nina, peak -0.5)"},
+}
+
+# The forecast continues the current-year line, so it keeps NINO and
+# separates by dash: dashed while multi-member and well constrained,
+# dotted once past the SEAS5 horizon or bridging a gap.
+TRACE_FORECAST = {"color": NINO, "lw": 1.8, "dash": (0, (5, 2))}
+TRACE_EXTENSION = {"color": NINO, "lw": 1.8, "dash": (0, (1, 2))}
+TRACE_CONNECTOR = {"color": NINO, "lw": 1.4, "dash": (0, (1, 2)),
+                   "alpha": 0.7}
+BAND_OUTER_ALPHA = 0.08   # 5 to 95 percentile
+BAND_INNER_ALPHA = 0.16   # 25 to 75 percentile
+
+TRACE_BASELINE = {"color": "#8B8B83", "lw": 0.8, "dash": "solid"}
+
+# Chart furniture. Structural, never decorative.
+CHART_GRID = RULE
+CHART_ZERO = INK
+CHART_THRESHOLD = INK_FAINT     # gridlines and their labels
+CHART_TARGET_BAND = PAPER_SUNK  # DJF peak-season window
+CHART_TODAY = INK_FAINT
+
+# ---------------------------------------------------------------------------
+# Probability ladder. Confidence is rendered, not stated: the bar loses
+# substance as certainty falls and the text steps down the ink ramp
+# alongside it. The two upper rungs are beyond the instrumental record
+# and must never look as solid as the two below.
+# ---------------------------------------------------------------------------
+
+LADDER = {
+    "super_>2.0":  {"bar": NINO, "dash": None, "text": INK, "weight": 600},
+    "9715_>2.5":   {"bar": NINO, "dash": None, "text": INK, "weight": 600},
+    "record_>3.0": {"bar": NINO, "dash": (4, 4), "text": INK_SOFT,
+                    "weight": 500},
+    "record_>3.5": {"bar": "#7B88AF", "dash": (2, 6), "text": INK_FAINT,
+                    "weight": 400},
+}
+
+# ---------------------------------------------------------------------------
+# Type. The same font files feed CSS and matplotlib.
+#
+# Spectral never sets a figure. Every number, unit, date, percentage,
+# multiple, issue stamp, source line and attribution tag sets in Plex
+# Mono. Plex Mono is monospaced so tabular figures are structural, but
+# tabular-nums is set anyway so the intent survives a font fallback.
+#
+# Amendment 1: the house wordmark sets in Spectral at natural fit;
+# product names set in Plex Mono uppercase tracked 0.18em, which keeps
+# the house and its channels visibly different in kind.
+# ---------------------------------------------------------------------------
+
+FONT_PROSE = "Spectral"        # SIL OFL 1.1
+FONT_DATA = "IBM Plex Mono"    # SIL OFL 1.1
+
+SERIF_FAMILY = FONT_PROSE      # names kept for existing call sites
+MONO_FAMILY = FONT_DATA
+
+SERIF_STACK = '"Spectral", "Iowan Old Style", Palatino, Georgia, serif'
+MONO_STACK = ('"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, '
+              '"DejaVu Sans Mono", monospace')
+
+# Six steps, no more. px for CSS, pt for matplotlib, one ladder.
+SIZE_DISPLAY = 50
+SIZE_HEADING = 20
+SIZE_PROSE = 17.5
+SIZE_FIGURE = 40
+SIZE_DATUM = 13
+SIZE_LABEL = 9.5
+TRACK_LABEL = 0.22      # em, uppercase only
+TRACK_PRODUCT = 0.18    # em, product names in mono
+
+SIZE_DISPLAY_SM = 34
+SIZE_PROSE_SM = 17
+
+LEADING_DISPLAY = 1.10
+LEADING_HEADING = 1.30
+LEADING_PROSE = 1.62
+MEASURE_PROSE = 62      # ch, hard maximum
+
+# ---------------------------------------------------------------------------
+# Space and rules. One unit, 4px, everything a multiple.
+# ---------------------------------------------------------------------------
+
+UNIT = 4
+GUTTER = 40
+GUTTER_SM = 20
+COLUMN_GAP = 56
+COLUMN_SECOND = 300
+BREAKPOINT = 760
+SHELL_MAX = 1180
+
+RULE_HAIR = 1        # between rows, column dividers
+RULE_SECTION = 2     # opening and closing a table or list
+RULE_MASTHEAD = 3    # above a masthead or major section
+
+RADIUS = 0           # not a variable
+SHADOW = None        # not a variable
+
+# ---------------------------------------------------------------------------
+# CSS emission
+# ---------------------------------------------------------------------------
+
+_VAR_NAMES = [
+    "PAPER", "PAPER_SUNK", "INK", "INK_SOFT", "INK_FAINT", "RULE",
+    "NINO", "FIRE", "FLOOD", "CROP", "DAMAGE",
+]
+
+
+def css_variables(dark: bool = False, indent: str = "    ") -> str:
+    """Custom properties for one theme.
+
+    Names are the constants lowercased and hyphenated: PAPER becomes
+    --paper, INK_SOFT becomes --ink-soft. The dark theme emits the same
+    property names with the _DARK values, so no stylesheet rule needs a
+    theme conditional.
+    """
+    suffix = "_DARK" if dark else ""
+    lines = []
+    for name in _VAR_NAMES:
+        value = globals()[name + suffix]
+        prop = name.lower().replace("_", "-")
+        lines.append(f"{indent}--{prop}: {value};")
+    if not dark:
+        lines.append(f"{indent}--serif: {SERIF_STACK};")
+        lines.append(f"{indent}--mono: {MONO_STACK};")
+        lines.append(f"{indent}--tag-loaded-bg: {TAG_LOADED_BG};")
+        lines.append(f"{indent}--tag-loaded-fg: {TAG_LOADED_FG};")
+        lines.append(f"{indent}--tag-notlink-bg: {TAG_NOTLINK_BG};")
+        lines.append(f"{indent}--tag-notlink-fg: {TAG_NOTLINK_FG};")
+        lines.append(f"{indent}--tag-pending-bg: {TAG_PENDING_BG};")
+        lines.append(f"{indent}--tag-pending-fg: {TAG_PENDING_FG};")
+        lines.append(f"{indent}--shell: {SHELL_MAX}px;")
+    else:
+        # Tag surfaces need dark equivalents; hue holds, lightness moves.
+        lines.append(f"{indent}--tag-notlink-bg: #2E2E2A;")
+        lines.append(f"{indent}--tag-notlink-fg: {INK_SOFT_DARK};")
+        lines.append(f"{indent}--tag-pending-bg: #262622;")
+        lines.append(f"{indent}--tag-pending-fg: {INK_FAINT_DARK};")
+    return "\n".join(lines)
+
+
+# Older call sites in run_brief.py used these two names.
+def css_vars_light() -> str:
+    return css_variables(dark=False)
+
+
+def css_vars_dark() -> str:
+    return css_variables(dark=True)
+
+
+_FACES = [
+    (FONT_PROSE, "normal", "400", "spectral-400.woff2"),
+    (FONT_PROSE, "italic", "400", "spectral-400-italic.woff2"),
+    (FONT_PROSE, "normal", "500", "spectral-500.woff2"),
+    (FONT_DATA, "normal", "400", "plexmono-400.woff2"),
+    (FONT_DATA, "italic", "400", "plexmono-400-italic.woff2"),
+    (FONT_DATA, "normal", "500", "plexmono-500.woff2"),
+    (FONT_DATA, "normal", "600", "plexmono-600.woff2"),
+]
+
+
+def font_faces_css(prefix: str = "fonts/") -> str:
+    """@font-face block for the self-hosted faces.
+
+    prefix is the path from the page to docs/fonts/, so "fonts/" for a
+    root page and "../../fonts/" for an archive issue page.
+    """
+    out = []
+    for family, style, weight, fname in _FACES:
+        out.append(
+            "@font-face {\n"
+            f'  font-family: "{family}";\n'
+            f"  font-style: {style};\n"
+            f"  font-weight: {weight};\n"
+            "  font-display: swap;\n"
+            f'  src: url("{prefix}{fname}") format("woff2");\n'
+            "}"
+        )
+    return "\n".join(out)

@@ -10,11 +10,26 @@ Visual gut check, not a quantitative forecast.
 from __future__ import annotations
 
 import csv
+import glob
 import os
 from datetime import date
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
+
+import tokens as T
+
+# Brand faces (The Long Swell, 2026-07-26): IBM Plex Mono carries every
+# number and label on the chart; vendored so CI matches local output.
+for _pat in ("ibm-plex-mono/*.ttf", "spectral/*.ttf"):
+    for _f in glob.glob(str(Path(__file__).parent / "assets" / "fonts" / _pat)):
+        try:
+            font_manager.fontManager.addfont(_f)
+        except Exception:
+            pass
+if T.MONO_FAMILY in {f.name for f in font_manager.fontManager.ttflist}:
+    plt.rcParams["font.family"] = T.MONO_FAMILY
 
 # Map season codes to month-from-March-1 (using the central month).
 # DJF center = January (so previous year). JFM = February, FMA = March,
@@ -124,28 +139,41 @@ def load_trajectories(live_oni_by_year: dict | None = None,
     return series
 
 
-# Emphasis hierarchy (public-side styling): 2026 is the hero line; the analog
-# years are reference-weight traces that recede so the reader's eye lands on
-# 2026 first. `alpha` + `zorder` carry the weighting; line width reinforces it.
-# This is the single biggest clarity lever the reference forecast charts use:
-# one line you look at, the rest as faint context.
-STYLE = {
-    1997: {"color": "#c92020", "label_oni": "1997-98 (super, peak 2.4)",
-           "label_cwwa": "1997 develop year", "lw": 1.6, "alpha": 0.55,
-           "zorder": 2},
-    2015: {"color": "#7d2bb0", "label_oni": "2015-16 (super, peak 2.8)",
-           "label_cwwa": "2015 develop year", "lw": 1.6, "alpha": 0.55,
-           "zorder": 2},
-    2023: {"color": "#1f6fa6", "label_oni": "2023-24 (recent super, peak 2.1)",
-           "label_cwwa": "2023 develop year", "lw": 1.6, "alpha": 0.55,
-           "zorder": 2},
-    2025: {"color": "#6b8e8a", "label_oni": "2025-26 (La Niña, peak -0.5)",
-           "label_cwwa": "2025 develop year (La Niña)",
-           "lw": 1.3, "linestyle": "--", "alpha": 0.45, "zorder": 1},
-    2026: {"color": "#000000", "label_oni": "2026-27 (current)",
-           "label_cwwa": "2026 develop year (current)", "lw": 2.8,
-           "marker": "o", "ms": 6, "alpha": 1.0, "zorder": 5},
+# Visual language v1.0 (D-016): only the current year carries a hue.
+# The peers separate by line weight and dash pattern, not by color, so
+# the chart survives being screenshotted, reposted, printed grey, or
+# read with a color vision deficiency. It also keeps the page honest:
+# the peers are context, not five competing claims. Styling only; the
+# trajectory math above and below is methodology-owned.
+_CWWA_LABEL = {
+    1997: "1997 develop year",
+    2015: "2015 develop year",
+    2023: "2023 develop year",
+    2025: "2025 develop year (La Niña)",
 }
+
+STYLE = {}
+for _yr, _spec in T.TRACE_PEERS.items():
+    STYLE[_yr] = {
+        "color": _spec["color"],
+        "label_oni": _spec["label"].replace("La Nina", "La Niña"),
+        "label_cwwa": _CWWA_LABEL[_yr],
+        "lw": _spec["lw"],
+        "linestyle": _spec["dash"],
+        "zorder": 2,
+    }
+STYLE[2026] = {
+    "color": T.TRACE_CURRENT["color"],
+    "label_oni": "2026-27 (current)",
+    "label_cwwa": "2026 develop year (current)",
+    "lw": T.TRACE_CURRENT["lw"],
+    "linestyle": T.TRACE_CURRENT["dash"],
+    "marker": "o", "ms": 5, "zorder": 5,
+}
+
+# The merged multi-model forecast continues the current-year line, so
+# it keeps the same hue and separates by dash instead.
+FORECAST_COLOR = T.TRACE_CURRENT["color"]
 
 # ONI panel y-range. Top raised to 3.9 (from 3.2) so the CFSv2 longer-
 # horizon extension peak is visible above the +2.5 record line; this
@@ -199,38 +227,42 @@ def _plot_oni(ax, series):
     # thresholds are the standard ONI definition (methodology-side); the
     # tint colors and alphas are the public chat's design (ported from
     # their signed-off mock).
-    ax.axhspan(0.5, Y_TOP_ONI, color="#d94327", alpha=0.05, zorder=0)
-    ax.axhspan(1.5, Y_TOP_ONI, color="#d94327", alpha=0.05, zorder=0)
-    ax.axhspan(2.0, Y_TOP_ONI, color="#d94327", alpha=0.06, zorder=0)
-    ax.axhspan(Y_BOT_ONI, -0.5, color="#1f6fa6", alpha=0.08, zorder=0)
+    # One light wash per side at the actual ENSO definition boundaries,
+    # not a stack of intensity layers. The threshold gridlines and their
+    # labels below already carry "how strong"; stacked fills only added a
+    # decorative gradient, and on a bone ground they swamped the traces.
+    ax.axhspan(0.5, Y_TOP_ONI, color=T.ANOMALY[6], alpha=0.055, zorder=0)
+    ax.axhspan(Y_BOT_ONI, -0.5, color=T.ANOMALY[2], alpha=0.055, zorder=0)
     ax.text(11.7, Y_TOP_ONI - 0.25, "EL NIÑO", ha="right", va="top",
-            fontsize=10, color="#a8321c", fontweight="bold", alpha=0.6)
+            fontsize=10, color=T.ANOMALY[8], fontweight="bold", alpha=0.75)
     ax.text(11.7, Y_BOT_ONI + 0.12, "LA NIÑA", ha="right", va="bottom",
-            fontsize=10, color="#1f6fa6", fontweight="bold", alpha=0.6)
+            fontsize=10, color=T.ANOMALY[0], fontweight="bold", alpha=0.75)
 
     # DJF 2026-27 peak-season target band (x ~ Dec/Jan/Feb).
-    ax.axvspan(9, 11, color="#1f4068", alpha=0.05, zorder=0)
+    ax.axvspan(9, 11, color=T.CHART_TARGET_BAND, alpha=0.55, zorder=0)
     ax.text(10, Y_BOT_ONI + 0.30, "DJF 2026-27\npeak target", ha="center",
-            va="bottom", fontsize=8, color="#1f4068", alpha=0.75)
+            va="bottom", fontsize=8, color=T.INK_FAINT, alpha=1.0)
 
     # Static styling for the ONI panel. Always runs, independent of whether
     # SEAS5 data is overlaid (when SEAS5 is missing in CI, the panel must
     # still have a title, legend, threshold lines, and axis labels).
     for y, lbl in [(1.0, "moderate"), (1.5, "strong"), (2.0, "super"),
                    (2.5, "1997/2015 record")]:
-        ax.axhline(y, color="grey", linestyle="--", alpha=0.4, linewidth=0.8)
-        ax.text(-2.9, y + 0.05, lbl, fontsize=8, color="grey")
-    ax.axhline(0, color="black", linewidth=0.6)
+        ax.axhline(y, color=T.CHART_THRESHOLD, linestyle="--", alpha=0.45, linewidth=0.8)
+        ax.text(-2.9, y + 0.05, lbl, fontsize=8, color=T.INK_FAINT)
+    ax.axhline(0, color=T.CHART_ZERO, linewidth=0.8)
     ax.set_xlim(-3, 12)
     ax.set_ylim(Y_BOT_ONI, Y_TOP_ONI)
     ax.set_ylabel("Niño 3.4 ONI (traditional, °C)")
     ax.set_title(
         "Analog tracker: 2026-27 vs reference events\n"
         "Top: ONI 3-month running mean (ERSST.v5, 1991-2020 climo). "
-        "Bottom: cumulative westerly wind anomaly (ERA5, 5N-5S, 130E-150W)."
+        "Bottom: cumulative westerly wind anomaly (ERA5, 5N-5S, 130E-150W).",
+        fontsize=11,
     )
-    ax.grid(True, axis="y", alpha=0.18)
-    ax.legend(loc="lower right", fontsize=9)
+    ax.grid(True, axis="y", color=T.CHART_GRID, alpha=0.9, linewidth=0.7)
+    ax.legend(loc="lower right", fontsize=9, facecolor=T.PAPER,
+              edgecolor=T.RULE, framealpha=1.0, borderpad=0.7)
 
 
 def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
@@ -261,22 +293,24 @@ def _plot_seas5_forecast(ax, per_lead, current_develop_year: int):
     label_year = f"{current_develop_year}-{(current_develop_year + 1) % 100:02d}"
 
     # Near-term fan: SEAS5's real 5-95 (outer, faint) and 25-75 (inner) bands.
-    ax.fill_between(xs, p5, p95, color="#000000", alpha=0.10, linewidth=0,
+    ax.fill_between(xs, p5, p95, color=FORECAST_COLOR, alpha=T.BAND_OUTER_ALPHA, linewidth=0,
                     zorder=3)
-    ax.fill_between(xs, p25, p75, color="#000000", alpha=0.18, linewidth=0,
+    ax.fill_between(xs, p25, p75, color=FORECAST_COLOR, alpha=T.BAND_INNER_ALPHA, linewidth=0,
                     zorder=3)
     # Near-term median: dashed with diamond markers. The dashed style and
     # markers cue the higher-confidence, multi-member near-term piece; the
     # CFSv2 extension (drawn separately) continues this same black median
     # dotted and marker-less. One merged legend entry covers both segments.
-    ax.plot(xs, med, color="#000000", linestyle="--", linewidth=1.8,
-            marker="D", markersize=5, zorder=4,
+    ax.plot(xs, med, color=FORECAST_COLOR, linestyle=T.TRACE_FORECAST["dash"],
+            linewidth=T.TRACE_FORECAST["lw"], marker="D", markersize=4.5,
+            zorder=4,
             label=f"{label_year} forecast median + range "
                   f"(SEAS5 dashed; NMME-pool extension dotted)")
 
     # Refresh the legend so the forecast entry is picked up; the static
     # legend was already drawn by _plot_oni for the analog lines.
-    ax.legend(loc="lower right", fontsize=9)
+    ax.legend(loc="lower right", fontsize=9, facecolor=T.PAPER,
+              edgecolor=T.RULE, framealpha=1.0, borderpad=0.7)
     # Return the SEAS5 endpoint so the CFSv2 extension connects continuously
     # from exactly where the SEAS5 fan ends (median + inner-band edges).
     return {"offset": xs[-1], "median": med[-1],
@@ -330,9 +364,10 @@ def _plot_cfsv2_extension(ax, trajectory, current_develop_year: int,
     hi = [seas5_end["p75"]] + [p[3] for p in ext]
     # Single grey extension band (same black tint as the near-term fan), and
     # the dotted black median continuing the merged line. No separate label.
-    ax.fill_between(xs, lo, hi, color="#000000", alpha=0.10, linewidth=0,
+    ax.fill_between(xs, lo, hi, color=FORECAST_COLOR, alpha=T.BAND_OUTER_ALPHA, linewidth=0,
                     zorder=3)
-    ax.plot(xs, ys, color="#000000", linestyle=":", linewidth=1.8, zorder=4)
+    ax.plot(xs, ys, color=FORECAST_COLOR, linestyle=T.TRACE_EXTENSION["dash"],
+            linewidth=T.TRACE_EXTENSION["lw"], zorder=4)
 
 
 def _plot_obs_to_forecast_connector(ax, obs_series, per_lead,
@@ -358,7 +393,9 @@ def _plot_obs_to_forecast_connector(ax, obs_series, per_lead,
     # Dotted, matching the DJF/CFSv2 extension tail, so dotted reads
     # consistently across the figure as "softer / bridged / projected."
     ax.plot([obs_end[0], fan_start_offset], [obs_end[1], med],
-            color="black", linestyle=":", linewidth=1.4, alpha=0.7, zorder=4)
+            color=T.TRACE_CONNECTOR["color"], linestyle=T.TRACE_CONNECTOR["dash"],
+            linewidth=T.TRACE_CONNECTOR["lw"], alpha=T.TRACE_CONNECTOR["alpha"],
+            zorder=4)
 
 
 def _plot_cwwa(ax, current_series, analogs, current_develop_year):
@@ -398,16 +435,17 @@ def _plot_cwwa(ax, current_series, analogs, current_develop_year):
     ax.set_xlim(-3, 12)
     if not plotted_anything:
         ax.text(0.5, 0.5, "CWWA data not available", transform=ax.transAxes,
-                ha="center", va="center", fontsize=10, color="grey")
+                ha="center", va="center", fontsize=10, color=T.INK_FAINT)
         return
 
-    ax.axhline(0, color="black", linewidth=0.6)
+    ax.axhline(0, color=T.INK, linewidth=0.6)
     # X-axis is relabeled to calendar months at the plot() level (shared
     # axis). No "months since March 1" label needed; the calendar ticks
     # are self-explanatory.
     ax.set_ylabel("CWWA (m/s · days)")
     ax.grid(True, axis="y", alpha=0.18)
-    ax.legend(loc="upper left", fontsize=9)
+    ax.legend(loc="upper left", fontsize=9, facecolor=T.PAPER,
+              edgecolor=T.RULE, framealpha=1.0, borderpad=0.7)
 
 
 def plot(out_path: str, cwwa_data: dict | None = None,
@@ -448,7 +486,7 @@ def plot(out_path: str, cwwa_data: dict | None = None,
 
     if today_offset is not None:
         for ax in (ax_oni, ax_cwwa):
-            ax.axvline(today_offset, color="black", linestyle=":", alpha=0.5,
+            ax.axvline(today_offset, color=T.CHART_TODAY, linestyle=":", alpha=0.5,
                        linewidth=0.8)
 
     # Calendar x-axis: relabel the shared months-since-March-1 axis with
@@ -460,7 +498,15 @@ def plot(out_path: str, cwwa_data: dict | None = None,
 
     fig.tight_layout()
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    fig.savefig(out_path, dpi=150, bbox_inches="tight")
+    fig.patch.set_facecolor(T.PAPER)
+    for _ax in (ax_oni, ax_cwwa):
+        _ax.set_facecolor(T.PAPER)
+        for _sp in ("top", "right"):
+            _ax.spines[_sp].set_visible(False)
+        for _sp in ("left", "bottom"):
+            _ax.spines[_sp].set_color(T.INK)
+    fig.savefig(out_path, dpi=150, bbox_inches="tight",
+                facecolor=T.PAPER)
     plt.close(fig)
     print(f"saved: {out_path}")
 
