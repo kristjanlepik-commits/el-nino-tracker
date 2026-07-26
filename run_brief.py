@@ -46,7 +46,13 @@ LICENSE_URL = "https://creativecommons.org/licenses/by-nc/4.0/"
 # Brand (The Long Swell rebrand, 2026-07-26). The house sets in mono,
 # products in serif; see tokens.py and research/handover_design.md.
 SITE_NAME = "The Long Swell"
+# The product is event-scoped by D-001 and keeps its full name on its own
+# masthead, in page titles and in the citation line. The nav carries a
+# short label instead, for legibility. Do not collapse these into one
+# constant: renaming the product is a brand decision, shortening a menu
+# item is not.
 PRODUCT_NAME = "El Niño 2026-27"
+PRODUCT_NAV_LABEL = "El Niño"
 # Display form of the site URL for citation lines. Derived so the
 # platform chat's domain migration is a one-constant change.
 DISPLAY_HOST = PAGES_BASE_URL.split("//", 1)[-1]
@@ -228,9 +234,16 @@ def render_html(markdown_text: str, title: str = None,
 #
 # The rules that outrank convenience: radius is 0, there are no shadows
 # and no gradients, nothing is enclosed on four sides, and the only
-# filled surface is PAPER_SUNK behind the tracker strip. Three rule
-# weights exist (1px between rows, 2px opening and closing a block,
-# 3px above a masthead or major section) and no others.
+# filled surface is PAPER_SUNK behind the tracker strip.
+#
+# Three rule weights, carrying the mark's own attenuation ratio so the
+# site is recognizable from a cropped screenshot with no logo in frame:
+#   3px   at full ink, opens a section or a list
+#   2.4px at 45% ink,  divides items within a list
+#   1px   at 20% ink,  divides rows within a table
+# No other weights exist. The ratio is furniture only: it never appears
+# on a mark that carries data, because concentric rings on a map marker
+# would read as an epicenter, which is a causal claim.
 _PUBLIC_CSS_TEMPLATE = """
   :root {
 /*VARS_LIGHT*/
@@ -420,10 +433,10 @@ _PUBLIC_CSS_TEMPLATE = """
     gap: 6px 24px;
     align-items: baseline;
     padding: 18px 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 2.4px solid var(--rule-45);
   }
-  .event:first-child { border-top: 2px solid var(--ink); }
-  .event:last-child { border-bottom: 2px solid var(--ink); }
+  .event:first-child { border-top: 3px solid var(--ink); }
+  .event:last-child { border-bottom: 3px solid var(--ink); }
   .event .ev-stat {
     font-size: 40px;
     font-weight: 500;
@@ -522,7 +535,7 @@ _PUBLIC_CSS_TEMPLATE = """
     gap: 14px;
     padding-bottom: 10px;
     margin-bottom: 20px;
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
   }
   .sec-head .eyebrow { color: var(--ink-faint); flex: none; }
   .sec-head h2 { font-size: 20px; font-weight: 500; line-height: 1.30; }
@@ -562,10 +575,10 @@ _PUBLIC_CSS_TEMPLATE = """
     align-items: center;
     gap: 6px 20px;
     padding: 16px 0;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 2.4px solid var(--rule-45);
   }
-  .rung:first-child { border-top: 2px solid var(--ink); }
-  .rung:last-child { border-bottom: 2px solid var(--ink); }
+  .rung:first-child { border-top: 3px solid var(--ink); }
+  .rung:last-child { border-bottom: 3px solid var(--ink); }
   .rung .threshold {
     font-family: var(--mono);
     font-variant-numeric: tabular-nums;
@@ -661,7 +674,7 @@ _PUBLIC_CSS_TEMPLATE = """
   section.analyst-read li strong { font-weight: 500; }
 
   /* ---------- chart ---------- */
-  .chart-card { border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 18px 0; }
+  .chart-card { border-top: 3px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 18px 0; }
   .chart-caption {
     font-size: 15px;
     color: var(--ink-soft);
@@ -686,11 +699,11 @@ _PUBLIC_CSS_TEMPLATE = """
     text-transform: uppercase;
     color: var(--ink-faint);
     font-weight: 400;
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
     vertical-align: bottom;
   }
   table.phys td.num { white-space: nowrap; font-size: 14px; }
-  table.phys tbody tr:last-child td { border-bottom: 2px solid var(--ink); }
+  table.phys tbody tr:last-child td { border-bottom: 3px solid var(--ink); }
   .note {
     font-size: 15px;
     color: var(--ink-soft);
@@ -712,8 +725,8 @@ _PUBLIC_CSS_TEMPLATE = """
     border-bottom: 1px solid var(--rule);
     font-size: 15px;
   }
-  .src-list li:first-child { border-top: 2px solid var(--ink); }
-  .src-list li:last-child { border-bottom: 2px solid var(--ink); }
+  .src-list li:first-child { border-top: 3px solid var(--ink); }
+  .src-list li:last-child { border-bottom: 3px solid var(--ink); }
   .src-list .src-name { font-weight: 500; }
   .src-list .src-issued {
     font-size: 12.5px;
@@ -733,7 +746,13 @@ _PUBLIC_CSS_TEMPLATE = """
   ol.caveats li::marker { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
 
   /* ---------- channels ---------- */
-  .chans { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 0; }
+  .chans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    gap: 0;
+    border-top: 3px solid var(--ink);
+    padding-top: 22px;
+  }
   .chan {
     padding: 0 22px 0 0;
     display: flex;
@@ -752,7 +771,7 @@ _PUBLIC_CSS_TEMPLATE = """
   /* ---------- email capture ---------- */
   .email-cap {
     border-top: 3px solid var(--ink);
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 2.4px solid var(--rule-45);
     padding: 26px 0;
     display: flex;
     align-items: center;
@@ -1411,11 +1430,9 @@ def _masthead_html(root_prefix: str, methodology_href: str,
         '<div class="masthead">'
         f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
         f'{_mark_svg(26)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
-        '<nav class="prodnav" aria-label="Products">'
-        f'<a{on("elnino")} href="{h(home)}#issue">{h(PRODUCT_NAME)}</a>'
+        '<nav class="prodnav" aria-label="Channels">'
+        f'<a{on("elnino")} href="{h(home)}#issue">{h(PRODUCT_NAV_LABEL)}</a>'
         f'<a{on("fire")} href="{h(root_prefix)}fires/">Fire</a>'
-        f'<a class="util" href="{h(methodology_href)}">Methodology</a>'
-        f'<a class="util" href="{h(briefs_href)}">Archive</a>'
         '</nav></div></div></header>\n'
     )
 
@@ -1482,7 +1499,7 @@ def _wave_strip_html(magn_pct, brief_date_iso: str) -> str:
 
 
 def _rail_html(brief_date_iso: str, offset_phrase: str, freshness: dict,
-               methodology_href: str) -> str:
+               methodology_href: str, briefs_href: str = "briefs/") -> str:
     """Sticky mono metadata rail beside the issue body."""
     live = sum(1 for i in freshness.values()
                if i.get("ok") and not i.get("used_fallback"))
@@ -1505,6 +1522,9 @@ def _rail_html(brief_date_iso: str, offset_phrase: str, freshness: dict,
         f'<div class="val"><b>{live}</b> of {total} live</div></div>'
         '<div class="rail-block"><div class="eyebrow">Next issue</div>'
         f'<div class="val">{h(next_iso)}</div></div>'
+        '<div class="rail-block"><div class="eyebrow">Archive</div>'
+        f'<div class="val"><a href="{h(briefs_href)}">every issue, '
+        'immutable</a></div></div>'
         '</div></aside>'
     )
 
@@ -1782,7 +1802,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         issue_open = (
             '<div class="shell">'
             + _rail_html(brief_date_iso, offset_phrase, freshness,
-                         methodology_href)
+                         methodology_href, briefs_href)
             + '<main class="body" id="issue">'
             + '<div class="issue-head">'
             + stamp_html
@@ -1824,7 +1844,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         issue_open = (
             '<div class="shell">'
             + _rail_html(brief_date_iso, offset_phrase, freshness,
-                         methodology_href)
+                         methodology_href, briefs_href)
             + '<main class="body" id="issue">'
             + bottom_line_html
         )

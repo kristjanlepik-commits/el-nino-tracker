@@ -25,6 +25,9 @@ Two rules that outrank convenience:
 No em-dashes anywhere, including these comments.
 """
 
+# The venv runs Python 3.9, so PEP 604 unions in annotations need this.
+from __future__ import annotations
+
 # ---------------------------------------------------------------------------
 # Color: light theme, the reading environment
 # ---------------------------------------------------------------------------
@@ -238,12 +241,75 @@ COLUMN_SECOND = 300
 BREAKPOINT = 760
 SHELL_MAX = 1180
 
-RULE_HAIR = 1        # between rows, column dividers
-RULE_SECTION = 2     # opening and closing a table or list
-RULE_MASTHEAD = 3    # above a masthead or major section
+# The attenuation ratio is a system property, not a logo property
+# (visual language v1.0 addendum). The mark's 3 / 2.4 / 1.8 strokes at
+# 100% / 45% / 20% carry into section rules, list dividers and the
+# tracker keyline, so a cropped screenshot with no logo in frame is
+# still recognizable.
+#
+# One hard limit: the ratio applies to FURNITURE ONLY, never to a mark
+# that carries data. Concentric rings on a map marker would read as an
+# epicenter, which is a causal claim the text does not make. Map
+# markers stay plain discs whose area encodes magnitude.
+ATTENUATION = [(3.0, 1.0), (2.4, 0.45), (1.8, 0.2)]
+
+RULE_HAIR = 1        # table row, printable hairline
+RULE_STEP = 2.4      # list divider, at 45%
+RULE_MASTHEAD = 3    # full, opens a section or list
+RULE_SECTION = 2.4   # retained name for the step weight
+RULE_45 = "#8E8E88"  # INK at 45% composited over PAPER
+RULE_20 = "#C6C5C2"  # INK at 20% composited over PAPER
 
 RADIUS = 0           # not a variable
 SHADOW = None        # not a variable
+
+# ---------------------------------------------------------------------------
+# "The mark reports the week" (visual language v1.0 addendum).
+#
+# The reach of the signal is set by the largest magnitude published that
+# week, computed in the same pass that builds the page. Stroke widths
+# never change; only opacity moves.
+#
+# TWO THINGS ARE DELIBERATELY NOT WIRED UP YET, pending Kristjan's call:
+#
+#  1. The addendum lets the mark take the driving channel's hue at the
+#     record band. That reverses the earlier rule that the mark inks in
+#     INK or PAPER only. It also means a record fire week turns the
+#     HOUSE mark red site-wide, including on the El Nino page, where a
+#     reader would connect red to El Nino while the item beside it is
+#     tagged "not ENSO-linked". Those two signals fight, which is the
+#     over-attribution risk T9 exists to prevent. `allow_hue` defaults
+#     to False until that is resolved.
+#  2. The bands are expressed in multiples, which do not exist for El
+#     Nino: its magnitude is an anomaly in degrees, not a ratio. So the
+#     input must be the largest multiple among EVENT-channel items only.
+#     Passing an ONI value would read +2.1 degrees as merely "notable",
+#     which is wrong by a wide margin.
+# ---------------------------------------------------------------------------
+
+MARK_BANDS = [
+    # (floor multiple, arc opacities inner to outer, record band)
+    (0.0, (1.0, 0.16, 0.16), False),   # quiet
+    (2.0, (1.0, 0.75, 0.16), False),   # notable
+    (6.0, (1.0, 0.75, 0.55), True),    # record
+]
+
+
+def mark_band(max_multiple: float, channel: str | None = None,
+              allow_hue: bool = False):
+    """Arc opacities and ink color for a week's mark.
+
+    max_multiple is the largest multiple among event-channel items, so
+    fires and floods but never an ONI anomaly. channel names the channel
+    that drove it. Returns (opacities, color) where color is None to
+    mean "inherit currentColor", the default.
+    """
+    opacities, is_record = MARK_BANDS[0][1], MARK_BANDS[0][2]
+    for floor, ops, record in MARK_BANDS:
+        if max_multiple >= floor:
+            opacities, is_record = ops, record
+    color = CHANNEL.get(channel) if (is_record and allow_hue) else None
+    return opacities, color
 
 # ---------------------------------------------------------------------------
 # CSS emission
@@ -278,6 +344,8 @@ def css_variables(dark: bool = False, indent: str = "    ") -> str:
         lines.append(f"{indent}--tag-notlink-fg: {TAG_NOTLINK_FG};")
         lines.append(f"{indent}--tag-pending-bg: {TAG_PENDING_BG};")
         lines.append(f"{indent}--tag-pending-fg: {TAG_PENDING_FG};")
+        lines.append(f"{indent}--rule-45: {RULE_45};")
+        lines.append(f"{indent}--rule-20: {RULE_20};")
         lines.append(f"{indent}--shell: {SHELL_MAX}px;")
     else:
         # Tag surfaces need dark equivalents; hue holds, lightness moves.
@@ -285,6 +353,8 @@ def css_variables(dark: bool = False, indent: str = "    ") -> str:
         lines.append(f"{indent}--tag-notlink-fg: {INK_SOFT_DARK};")
         lines.append(f"{indent}--tag-pending-bg: #262622;")
         lines.append(f"{indent}--tag-pending-fg: {INK_FAINT_DARK};")
+        lines.append(f"{indent}--rule-45: #6A6A64;")
+        lines.append(f"{indent}--rule-20: #333330;")
     return "\n".join(lines)
 
 
