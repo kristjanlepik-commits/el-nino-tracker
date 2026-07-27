@@ -63,18 +63,13 @@ CANONICAL_DOMAIN = "thelongswell.com"
 LINK_RE = re.compile(r"""(?:href|src)=["']([^"']+)["']""")
 SKIP_SCHEMES = ("http://", "https://", "mailto:", "data:", "//", "#", "javascript:")
 
-# Broken links shipped inside frozen archives (invariant 5). The nav
-# 'briefs/' link in these issues resolves nowhere; generator fixed from
-# 2026-07-13 on. Fixing the frozen files needs a Kristjan-ratified
-# surgical --force edit; until then these are suppressed, not endorsed.
-KNOWN_FROZEN_DEFECTS = {
-    (f"docs/briefs/{day}/index.html", "briefs/")
-    for day in (
-        "2026-04-25", "2026-05-04", "2026-05-11", "2026-05-18",
-        "2026-05-25", "2026-06-01", "2026-06-08", "2026-06-15",
-        "2026-06-22", "2026-06-29", "2026-07-06",
-    )
-}
+# Empty, and it should stay that way. It once held the eleven archives
+# whose 'Past briefs' nav link resolved nowhere; those were repaired on
+# 2026-07-27 under Kristjan's ruling that immutability protects the
+# CONTENT of a report, not its navigation or styling. A suppression here
+# is a defect we have agreed to keep shipping, so each entry needs a
+# dated reason and an owner, not just a key.
+KNOWN_FROZEN_DEFECTS: set[tuple[str, str]] = set()
 
 
 def git(*args):
