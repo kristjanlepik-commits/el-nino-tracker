@@ -110,6 +110,38 @@ ANOMALY_NEUTRAL = ANOMALY[4]
 COLD = ANOMALY[0]
 WARM = ANOMALY[8]
 
+# Which text colour, if any, may legally print ON each step. Computed,
+# not estimated: the pairs below are the WCAG AA survivors at 4.5:1.
+#
+#   step 0  #0A4A57   PAPER 8.65   INK 1.77   -> PAPER
+#   step 1  #417785   PAPER 4.38   INK 3.49   -> NEITHER
+#   step 2  #85A7B0   PAPER 2.26   INK 6.77   -> INK
+#   step 3  #C3D2D5   PAPER 1.36   INK 11.20  -> INK
+#   step 4  #E8E7E2   PAPER 1.09   INK 14.08  -> INK
+#   step 5  #EFC9BD   PAPER 1.34   INK 11.42  -> INK
+#   step 6  #DC957E   PAPER 2.13   INK 7.17   -> INK
+#   step 7  #C05B3D   PAPER 3.83   INK 3.99   -> NEITHER
+#   step 8  #8E240A   PAPER 7.65   INK 2.00   -> PAPER
+#
+# Note this is NOT "only the two end steps": five middle steps take INK
+# comfortably. The two that take nothing are 1 and 7, one on each flank,
+# where the fill is dark enough to kill INK and light enough to kill
+# PAPER. On those, print the value beside the fill rather than inside it.
+ANOMALY_TEXT = [PAPER, None, INK, INK, INK, INK, INK, None, PAPER]
+
+
+def anomaly_fill(value: float, full_scale: float = 3.0):
+    """Diverging step for a value, with the text colour it can carry.
+
+    Returns (fill, text_colour). text_colour is None when no legal text
+    colour exists for that step, which means: print the value BESIDE the
+    fill, never inside it. Use this instead of anomaly_color() anywhere a
+    number might end up on top of the swatch, so a future call site
+    cannot inherit a contrast failure by accident.
+    """
+    fill = anomaly_color(value, full_scale)
+    return fill, ANOMALY_TEXT[ANOMALY.index(fill)]
+
 
 def anomaly_color(value: float, full_scale: float = 3.0) -> str:
     """Diverging-scale step for an anomaly in degrees C.
@@ -158,8 +190,13 @@ TRACE_PEERS = {
 # dotted once past the SEAS5 horizon or bridging a gap.
 TRACE_FORECAST = {"color": NINO, "lw": 1.8, "dash": (0, (5, 2))}
 TRACE_EXTENSION = {"color": NINO, "lw": 1.8, "dash": (0, (1, 2))}
-TRACE_CONNECTOR = {"color": NINO, "lw": 1.4, "dash": (0, (1, 2)),
-                   "alpha": 0.7}
+# The connector bridges a gap in OBSERVATION; the extension is a
+# projection past the model horizon. Different meanings, so they must
+# not look the same: these were both (0, (1, 2)) in NINO, separated only
+# by alpha, which is not a distinction a reader can make. The connector
+# is now much sparser, because nothing at all was measured across it.
+TRACE_CONNECTOR = {"color": NINO, "lw": 1.2, "dash": (0, (1, 5)),
+                   "alpha": 0.6}
 BAND_OUTER_ALPHA = 0.08   # 5 to 95 percentile
 BAND_INNER_ALPHA = 0.16   # 25 to 75 percentile
 
@@ -179,6 +216,12 @@ CHART_TODAY = INK_FAINT
 # and must never look as solid as the two below.
 # ---------------------------------------------------------------------------
 
+# Keys are the methodology's bucket identifiers from probs.py, not
+# design names, and they are written into 13 published meta.json files
+# that are immutable. "9715" is 1997/2015, the two super events the
+# +2.5 threshold marks. It reads oddly against this file's role-naming
+# rule, and it stays: renaming it would break the archive contract, and
+# the vocabulary belongs to the methodology chat rather than this one.
 LADDER = {
     "super_>2.0":  {"bar": NINO, "dash": None, "text": INK, "weight": 600},
     "9715_>2.5":   {"bar": NINO, "dash": None, "text": INK, "weight": 600},
@@ -259,6 +302,12 @@ RULE_MASTHEAD = 3    # full, opens a section or list
 RULE_SECTION = 2.4   # retained name for the step weight
 RULE_45 = "#8E8E88"  # INK at 45% composited over PAPER
 RULE_20 = "#C6C5C2"  # INK at 20% composited over PAPER
+# Coastlines are the same weight of statement as a table hairline, so
+# they take the same value rather than one two units away from it.
+LAND = "#D9D8D0"
+LAND_LINE = RULE_20
+LAND_DARK = "#2E2E2A"
+LAND_LINE_DARK = "#333330"
 
 RADIUS = 0           # not a variable
 SHADOW = None        # not a variable
@@ -370,19 +419,30 @@ def css_variables(dark: bool = False, indent: str = "    ") -> str:
         lines.append(f"{indent}--rule-20: {RULE_20};")
         # Map land: a step off PAPER, so coastlines read without the
         # map competing with the markers on it.
-        lines.append(f"{indent}--land: #D9D8D0;")
-        lines.append(f"{indent}--land-line: #C4C3BA;")
+        lines.append(f"{indent}--land: {LAND};")
+        lines.append(f"{indent}--land-line: {LAND_LINE};")
         lines.append(f"{indent}--shell: {SHELL_MAX}px;")
     else:
         # Tag surfaces need dark equivalents; hue holds, lightness moves.
+        # The loaded chip was previously omitted here, so it inherited the
+        # light NINO while every other blue on the page lightened, and read
+        # as noticeably heavier than its surroundings. PAPER_DARK on
+        # NINO_DARK is 6.02:1.
+        lines.append(f"{indent}--tag-loaded-bg: {NINO_DARK};")
+        lines.append(f"{indent}--tag-loaded-fg: {PAPER_DARK};")
         lines.append(f"{indent}--tag-notlink-bg: #2E2E2A;")
         lines.append(f"{indent}--tag-notlink-fg: {INK_SOFT_DARK};")
         lines.append(f"{indent}--tag-pending-bg: #262622;")
         lines.append(f"{indent}--tag-pending-fg: {INK_FAINT_DARK};")
+        # Emitted in both branches so a standalone dark block is complete
+        # rather than silently depending on the light block preceding it.
+        lines.append(f"{indent}--serif: {SERIF_STACK};")
+        lines.append(f"{indent}--mono: {MONO_STACK};")
+        lines.append(f"{indent}--shell: {SHELL_MAX}px;")
         lines.append(f"{indent}--rule-45: #6A6A64;")
         lines.append(f"{indent}--rule-20: #333330;")
-        lines.append(f"{indent}--land: #2E2E2A;")
-        lines.append(f"{indent}--land-line: #3A3A36;")
+        lines.append(f"{indent}--land: {LAND_DARK};")
+        lines.append(f"{indent}--land-line: {LAND_LINE_DARK};")
     return "\n".join(lines)
 
 
