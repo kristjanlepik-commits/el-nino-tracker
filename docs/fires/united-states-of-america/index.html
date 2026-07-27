@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>United States of America | Fire | The Long Swell</title>
+<title>United States of America | Fires | The Long Swell</title>
 <style>
 @font-face {
   font-family: "Spectral";
@@ -75,6 +75,10 @@
     --tag-notlink-fg: #3A3A36;
     --tag-pending-bg: #EAE9E3;
     --tag-pending-fg: #66665F;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
     --shell: 1180px;
 }
 @media (prefers-color-scheme: dark) { :root {
@@ -89,10 +93,19 @@
     --flood: #4CB3BF;
     --crop: #7CB84E;
     --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
     --tag-notlink-bg: #2E2E2A;
     --tag-notlink-fg: #B4B3AB;
     --tag-pending-bg: #262622;
     --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
 } }
 :root[data-theme="dark"] {
     --paper: #1A1A18;
@@ -106,10 +119,19 @@
     --flood: #4CB3BF;
     --crop: #7CB84E;
     --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
     --tag-notlink-bg: #2E2E2A;
     --tag-notlink-fg: #B4B3AB;
     --tag-pending-bg: #262622;
     --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
 }
 :root[data-theme="light"] {
     --paper: #F1F0EC;
@@ -131,6 +153,10 @@
     --tag-notlink-fg: #3A3A36;
     --tag-pending-bg: #EAE9E3;
     --tag-pending-fg: #66665F;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
     --shell: 1180px;
 }
 * { box-sizing: border-box; }
@@ -139,6 +165,50 @@ body { margin:0; background:var(--paper); color:var(--ink);
   line-height:1.55; }
 main { max-width:760px; margin:0 auto; padding:28px 24px 80px; }
 a { color:inherit; }
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
 .masthead { display:flex; align-items:baseline; gap:14px;
   padding-bottom:10px; border-bottom:2px solid var(--ink); }
 .house { font-size:19px; }
@@ -220,10 +290,11 @@ plausible.init()
 </script>
 </head>
 <body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../../briefs/2026-07-27/">El Niño</a><a class="ch-fire on" href="../../fires/">Fires</a><a class="util" href="../../about.html">About</a></nav></div></div></header>
+
 <main>
   <div class="masthead">
-    <span class="house">The Long Swell</span>
-    <a class="product" href="../">Fire</a>
+    <a class="product" href="../">Fires</a>
     <span class="when">wk Jul 20-26</span>
   </div>
 
