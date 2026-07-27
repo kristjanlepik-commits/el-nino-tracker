@@ -36,6 +36,15 @@ import snapshot
 
 
 PAGES_BASE_URL = "https://thelongswell.com"
+# Analytics (platform-owned seam; D-020). Plausible is cookieless and
+# stores no personal data, so no consent banner is required and the
+# page stays clean. Public pages only: never the internal brief, which
+# is emailed. Set ANALYTICS_SNIPPET = "" to disable site-wide.
+ANALYTICS_DOMAIN = "thelongswell.com"
+ANALYTICS_SNIPPET = (
+    f'<script defer data-domain="{ANALYTICS_DOMAIN}" '
+    'src="https://plausible.io/js/script.js"></script>'
+)
 GITHUB_REPO_URL = "https://github.com/kristjanlepik-commits/el-nino-tracker"
 AUTHOR_NAME = "Kristjan Lepik"
 AUTHOR_CONTACT_URL = "https://www.linkedin.com/in/kristjanlepik/"
@@ -87,14 +96,23 @@ HTML_CSS = """
 """.strip()
 
 
-def render_html(markdown_text: str, title: str = None) -> str:
+def render_html(markdown_text: str, title: str = None,
+                analytics: bool = False) -> str:
+    """Render markdown to a standalone page.
+
+    analytics defaults to False because this same helper renders the
+    internal brief that gets emailed to Kristjan; a tracker belongs
+    only on pages served from docs/. Public callers opt in.
+    """
     body = md_lib.markdown(markdown_text, extensions=["tables", "fenced_code"])
     page_title = title or f"El Nino brief, {S.BRIEF_DATE.isoformat()}"
+    tracker = f"{ANALYTICS_SNIPPET}\n" if analytics else ""
     return (
         "<!DOCTYPE html>\n"
         "<html><head><meta charset=\"utf-8\">\n"
         f"<title>{page_title}</title>\n"
         f"<style>{HTML_CSS}</style>\n"
+        f"{tracker}"
         "</head><body>\n"
         f"{body}\n"
         "</body></html>\n"
@@ -1094,6 +1112,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 <meta name="twitter:description" content="{h(description)}">
 <meta name="twitter:image" content="{h(og_image_url)}">
 <style>{PUBLIC_CSS}</style>
+{ANALYTICS_SNIPPET}
 </head>
 <body>
 <nav class="top">
@@ -2429,7 +2448,8 @@ def main():
     # 7. Archive index (regenerated each run from meta.json files)
     archive_md = build_archive_index()
     (DOCS_DIR / "briefs" / "index.html").write_text(
-        render_html(archive_md, title="El Nino tracker, past briefs")
+        render_html(archive_md, title="El Nino tracker, past briefs",
+                    analytics=True)
     )
     print(f"wrote: {DOCS_DIR / 'briefs' / 'index.html'}")
 
@@ -2438,7 +2458,8 @@ def main():
     if meth_md.exists():
         meth_html = DOCS_DIR / "methodology.html"
         meth_html.write_text(render_html(meth_md.read_text(),
-                                         title="El Nino tracker, methodology"))
+                                         title="El Nino tracker, methodology",
+                                         analytics=True))
         print(f"wrote: {meth_html}")
 
     # 9. Weekly situation card (card.py, public-side): a one-page PNG
