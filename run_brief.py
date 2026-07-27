@@ -31,6 +31,7 @@ import markdown as md_lib
 
 import sources as S
 import tokens as T
+T_LADDER = T.LADDER
 import probs
 import analog
 import snapshot
@@ -1284,12 +1285,71 @@ _PUBLIC_CSS_TEMPLATE = """
   }
   .swell-row dd { margin: 0; color: var(--ink-soft); max-width: 56ch; }
 
+  /* ---------- archive ---------- */
+  .ar-chart { display: block; width: 100%; height: auto; margin: 4px 0 10px; }
+  .ar-grid { stroke: var(--rule); stroke-width: 1; }
+  .ar-ax {
+    font-family: var(--mono); font-size: 9.5px; fill: var(--ink-faint);
+  }
+  .ar-line { fill: none; stroke-width: 2; stroke-linejoin: round; }
+  /* A version bump is a caveat, not decoration: deltas either side of
+     one are not comparable, so it gets a rule and a label. */
+  .ar-bump { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 3; }
+  .ar-bump-lb {
+    font-family: var(--mono); font-size: 9px; fill: var(--ink-faint);
+  }
+  .ar-legend {
+    display: flex; flex-wrap: wrap; gap: 8px 22px;
+    padding: 10px 0 4px; border-top: 1px solid var(--rule);
+  }
+  .ar-key {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft);
+  }
+  .ar-swatch { width: 16px; height: 3px; flex: none; }
+
+  .ar-head, .ar-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 320px) 62px;
+    gap: 6px 20px;
+    align-items: baseline;
+  }
+  .ar-head {
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--ink);
+    font-family: var(--mono); font-size: 9.5px; line-height: 2;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .ar-vals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .ar-head .ar-vals > span { text-align: right; }
+  .ar-row {
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+    color: inherit;
+  }
+  .ar-row:last-child { border-bottom: 3px solid var(--ink); }
+  .ar-row:hover { background: var(--paper-sunk); }
+  .ar-row:hover .ar-date { color: var(--fire); }
+  .ar-date { font-size: 15px; font-weight: 500; }
+  .ar-val { font-size: 14px; color: var(--ink-soft); text-align: right; }
+  .ar-ver {
+    font-family: var(--mono); font-size: 11px; color: var(--ink-faint);
+    text-align: right;
+  }
+  /* The issue where the arithmetic changed is the one worth finding. */
+  .ar-ver.bumped { color: var(--ink); font-weight: 500; }
+  .ar-ver.bumped::before { content: "\2022 "; color: var(--nino); }
+
   /* ---------- one breakpoint ---------- */
   @media (max-width: 760px) {
     .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
     .about-sec, .swell-row, .refusal {
       grid-template-columns: minmax(0, 1fr); gap: 8px;
     }
+    .ar-head, .ar-row { grid-template-columns: minmax(0, 1fr) auto; }
+    .ar-head > span:nth-child(2), .ar-vals { grid-column: 1 / -1; }
+    .ar-vals { gap: 8px; padding-top: 4px; }
     .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
     .heat, .two .note-side {
       border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
@@ -3882,6 +3942,221 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
             + '</p></div></div></footer>\n</body>\n</html>\n')
 
 
+# Thresholds shown on the archive trend, in ladder order. The visual
+# treatment is lifted straight from LADDER so a reader who learned the
+# ladder on an issue page reads this chart without re-learning: solid
+# for the calibrated rungs, losing substance for the two beyond the
+# instrumental record.
+ARCHIVE_SERIES = [
+    ("super_>2.0", "> +2.0 \u00b0C"),
+    ("9715_>2.5", "> +2.5 \u00b0C"),
+    ("record_>3.0", "> +3.0 \u00b0C"),
+    ("record_>3.5", "> +3.5 \u00b0C"),
+]
+
+
+def _archive_rows() -> list[dict]:
+    """Every published issue, oldest first, from its frozen meta.json."""
+    rows = []
+    for meta_path in sorted((DOCS_DIR / "briefs").glob("*/meta.json")):
+        try:
+            meta = json.loads(meta_path.read_text())
+        except (OSError, ValueError):
+            continue
+        rows.append({
+            "date": meta.get("date", meta_path.parent.name),
+            "version": meta.get("methodology_version"),
+            "buckets": meta.get("headline_buckets", {}),
+        })
+    return rows
+
+
+def _archive_trend_svg(rows: list[dict]) -> str:
+    """The trend across issues, which is the whole point of an archive.
+
+    Drawn as inline SVG rather than a matplotlib PNG so it follows the
+    theme and needs no build artefact. A rung that did not exist yet
+    starts where it was introduced instead of being backfilled with
+    zeros: two of these were added because the event outgrew the scale,
+    and pretending otherwise would invent readings nobody published.
+    """
+    if len(rows) < 2:
+        return ""
+    W, H = 760, 250
+    PAD_L, PAD_R, PAD_T, PAD_B = 46, 14, 16, 30
+    n = len(rows)
+
+    def x(i):
+        return PAD_L + i * (W - PAD_L - PAD_R) / (n - 1)
+
+    def y(v):
+        return PAD_T + (100 - v) * (H - PAD_T - PAD_B) / 100
+
+    grid = "".join(
+        f'<line class="ar-grid" x1="{PAD_L}" y1="{y(v):.1f}" x2="{W - PAD_R}" '
+        f'y2="{y(v):.1f}"/><text class="ar-ax" x="{PAD_L - 8}" y="{y(v) + 3:.1f}" '
+        f'text-anchor="end">{v}%</text>'
+        for v in (0, 50, 100))
+
+    # Methodology-version bumps. Deltas across one are not comparable
+    # (invariant 3), so an archive that hides them is hiding the caveat.
+    bumps = []
+    for i in range(1, n):
+        prev, cur = rows[i - 1]["version"], rows[i]["version"]
+        if cur and prev and cur != prev:
+            bumps.append(
+                f'<line class="ar-bump" x1="{x(i):.1f}" y1="{PAD_T}" '
+                f'x2="{x(i):.1f}" y2="{H - PAD_B}"/>'
+                f'<text class="ar-bump-lb" x="{x(i):.1f}" y="{PAD_T - 4}" '
+                f'text-anchor="middle">v{h(str(cur))}</text>')
+
+    lines = []
+    for key, _label in ARCHIVE_SERIES:
+        spec = T_LADDER.get(key, {})
+        pts = [(x(i), y(r["buckets"].get(key, {}).get("mid")))
+               for i, r in enumerate(rows)
+               if r["buckets"].get(key, {}).get("mid") is not None]
+        if len(pts) < 2:
+            continue
+        d = " ".join(f"{px:.1f},{py:.1f}" for px, py in pts)
+        dash = spec.get("dash")
+        dash_attr = (f' stroke-dasharray="{dash[0]} {dash[1]}"'
+                     if dash else "")
+        colour = spec.get("bar", T.NINO)
+        lines.append(
+            f'<polyline class="ar-line" points="{d}" '
+            f'stroke="{colour}"{dash_attr}/>'
+            f'<circle class="ar-end" cx="{pts[-1][0]:.1f}" '
+            f'cy="{pts[-1][1]:.1f}" r="3" fill="{colour}"/>')
+
+    first, last = rows[0]["date"], rows[-1]["date"]
+    return (
+        f'<svg class="ar-chart" viewBox="0 0 {W} {H}" role="img" '
+        f'aria-label="Probability of each threshold across every published '
+        f'issue, {h(first)} to {h(last)}">'
+        f'{grid}{"".join(bumps)}{"".join(lines)}'
+        f'<text class="ar-ax" x="{PAD_L}" y="{H - 8}">{h(first)}</text>'
+        f'<text class="ar-ax" x="{W - PAD_R}" y="{H - 8}" '
+        f'text-anchor="end">{h(last)}</text>'
+        f'</svg>')
+
+
+def build_archive_html(root_prefix: str = "../",
+                       methodology_href: str = "../methodology.html") -> str:
+    """The archive index.
+
+    The credential surface. A bare table of percentages hid the one thing
+    an archive is for: what changed, when, and whether anything was
+    quietly revised. The trend leads, the version bumps are marked
+    because deltas across one are not comparable, and every issue links
+    to the frozen copy that produced its numbers.
+    """
+    rows = _archive_rows()
+    title = f"Archive, {PRODUCT_NAME} \u00b7 {SITE_NAME}"
+    desc = (f"Every issue of {PRODUCT_NAME}, {len(rows)} so far, each "
+            f"frozen as published.")
+
+    DASH = "\u2013"
+    items = []
+    for i, r in enumerate(reversed(rows)):
+        prev = rows[len(rows) - i - 2] if i < len(rows) - 1 else None
+        bumped = (prev and r["version"] and prev["version"]
+                  and r["version"] != prev["version"])
+        cells = "".join(
+            f'<span class="ar-val num">'
+            f'{r["buckets"].get(k, {}).get("mid", DASH)}'
+            f'{"%" if r["buckets"].get(k, {}).get("mid") is not None else ""}'
+            f'</span>'
+            for k, _ in ARCHIVE_SERIES)
+        ver = (f'<span class="ar-ver{" bumped" if bumped else ""}">'
+               f'v{h(str(r["version"]))}</span>' if r["version"] else
+               '<span class="ar-ver">' + DASH + '</span>')
+        items.append(
+            f'<a class="ar-row" href="{h(r["date"])}/">'
+            f'<span class="ar-date num">{h(r["date"])}</span>'
+            f'<span class="ar-vals">{cells}</span>'
+            f'{ver}</a>')
+
+    head = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{h(title)}</title>
+<meta property="og:title" content="{h(title)}">
+<meta property="og:description" content="{h(desc)}">
+<style>{T.font_faces_css(root_prefix + "fonts/")}</style>
+{_favicon_links(root_prefix)}<style>{PUBLIC_CSS}</style>
+{ANALYTICS_SNIPPET}
+</head>
+<body>
+'''
+    head += _masthead_html(root_prefix, methodology_href, "./", active="elnino")
+    home = root_prefix if root_prefix else "./"
+    def _swatch(key):
+        spec = T_LADDER.get(key, {})
+        colour = spec.get("bar", T.NINO)
+        dash = spec.get("dash")
+        if not dash:
+            return f"background:{colour}"
+        on, off = dash
+        return (f"background:repeating-linear-gradient(90deg,{colour} 0 "
+                f"{on}px,transparent {on}px {on + off}px)")
+
+    legend = "".join(
+        f'<span class="ar-key"><span class="ar-swatch" '
+        f'style="{_swatch(k)}"></span>{lb}</span>'
+        for k, lb in ARCHIVE_SERIES)
+    return (head
+        + '<div class="shell"><main class="body">'
+        + '<div class="issue-head">'
+        + '<h1>Every issue, exactly as it was published.</h1>'
+        + f'<p class="lede">{len(rows)} issues since {h(rows[0]["date"])}. '
+          'Nothing here has been edited after the fact, including the '
+          'weeks a later issue proved wrong. That is what makes the '
+          'trend below worth reading.</p>'
+        + '</div>'
+        + '<section class="about-sec about-open about-close">'
+        + '<div><span class="about-num">01</span><h2>The trend</h2></div>'
+        + f'<div class="about-body">{_archive_trend_svg(rows)}'
+        + f'<div class="ar-legend">{legend}</div>'
+        + '<p class="about-aside">Line weight and dash carry the same '
+          'meaning as on the ladder: the two upper thresholds are beyond '
+          'the instrumental record and are drawn as less solid because '
+          'they are less certain. A threshold begins where it was first '
+          'published rather than at zero, because two of these were '
+          'added as the event outgrew the scale. Vertical rules mark '
+          'methodology-version changes, across which week-over-week '
+          'deltas are not comparable.</p></div>'
+        + '</section>'
+        + '<section><h2>Issues</h2>'
+        + '<p class="section-sub">Newest first. Each links to the frozen '
+          'copy that produced its numbers.</p>'
+        + '<div class="ar-head"><span>Issue</span><span class="ar-vals">'
+        + "".join(f'<span>{lb}</span>' for _, lb in ARCHIVE_SERIES)
+        + '</span><span>Method</span></div>'
+        + f'<div class="ar-list">{"".join(items)}</div>'
+        + '<p class="buckets-note">The +1.0 and +1.5 thresholds reached '
+          '100% in June and were retired from the public ladder; the '
+          'event outgrew the bottom of the scale. Their full history '
+          'stays in each issue\u2019s own page.</p>'
+        + '</section>'
+        + '</main></div>\n'
+        + '<footer class="field"><div class="field-shell"><div class="foot">'
+        + '<div class="foot-top">'
+        + f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
+        + f'{_mark_svg(26)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
+        + '</div>'
+        + '<p class="foot-cite">'
+        + f'<b>By <a href="{h(AUTHOR_CONTACT_URL)}">{h(AUTHOR_NAME)}</a>.</b> '
+        + f'Licensed <a href="{h(LICENSE_URL)}">{h(LICENSE_NAME)}</a>. '
+        + f'<a href="https://{h(T.SITE_HOST_DISPLAY)}/">'
+        + f'{h(T.SITE_HOST_DISPLAY)}</a><br>'
+        + 'Every issue archived, immutable. Disagreements are surfaced, '
+          'not averaged.'
+        + '</p></div></div></footer>\n</body>\n</html>\n')
+
+
 def build_archive_index() -> str:
     """Render docs/briefs/index.html as markdown table from each meta.json."""
     rows = []
@@ -4136,12 +4411,7 @@ def main():
     print(f"wrote: {docs_brief_dir / 'meta.json'}")
 
     # 7. Archive index (regenerated each run from meta.json files)
-    archive_md = build_archive_index()
-    (DOCS_DIR / "briefs" / "index.html").write_text(
-        render_html(archive_md,
-                    title=f"Archive, {PRODUCT_NAME} · {SITE_NAME}",
-                    root_prefix="../", analytics=True)
-    )
+    (DOCS_DIR / "briefs" / "index.html").write_text(build_archive_html())
     print(f"wrote: {DOCS_DIR / 'briefs' / 'index.html'}")
 
     # 7b. About page. A credibility surface: it leads with what the site

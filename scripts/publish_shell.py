@@ -105,10 +105,11 @@ def main() -> None:
             meth.read_text(),
             title=f"Methodology, {R.PRODUCT_NAME} · {R.SITE_NAME}",
             root_prefix="", analytics=True)
-    pages["briefs/index.html"] = R.render_html(
-        R.build_archive_index(),
-        title=f"Archive, {R.PRODUCT_NAME} · {R.SITE_NAME}",
-        root_prefix="../", analytics=True)
+    # build_archive_html, not the markdown table. The archive is now a
+    # real page with the trend across issues, and main() builds it the
+    # same way; calling render_html here would publish a different
+    # archive depending on which path ran.
+    pages["briefs/index.html"] = R.build_archive_html()
 
     front = pages["index.html"]
     published = meta["headline_buckets"].get("9715_>2.5", {}).get("mid")
