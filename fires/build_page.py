@@ -12,10 +12,16 @@ a settled one.
 """
 import json
 import os
+import sys
 
 import tokens as T
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# run_brief.py lives at the repo root and holds the single copy of the
+# analytics tag. Import it rather than pasting a duplicate, so there is
+# one source of truth to disable or rotate.
+sys.path.insert(0, REPO)
+from run_brief import ANALYTICS_SNIPPET  # noqa: E402
 EVENTS = os.path.join(REPO, "data", "events.json")
 OUT = os.path.join(REPO, "docs", "fires", "index.html")
 
@@ -31,8 +37,15 @@ def build(events_doc, font_prefix="../fonts/"):
     window = ev[0]["source"] if ev else ""
     rows = []
     for e in ev:
+        # events.json hrefs are root-relative because the landing page
+        # consumes them from the site root. This page already sits at
+        # /fires/, so the prefix has to come off or the link resolves to
+        # /fires/fires/<country>/.
+        href = e["href"]
+        if href.startswith("fires/"):
+            href = href[len("fires/"):]
         rows.append(f"""
-      <a class="row" href="{e['href']}">
+      <a class="row" href="{href}">
         <span class="stat">{e['stat']}</span>
         <span class="rowmain">
           <span class="region">{e['region']}</span>
@@ -153,6 +166,7 @@ h1 {{
   h1 {{ font-size: 27px; }}
 }}
 </style>
+{ANALYTICS_SNIPPET}
 </head>
 <body>
 <main>

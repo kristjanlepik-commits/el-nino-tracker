@@ -234,7 +234,7 @@ def main():
 
     isos = list(hist_doc["countries"])
     rings = load_rings(isos)
-    rows = []
+    rows, detail = [], {}
     for iso in isos:
         h = hist_doc["countries"][iso]
         df = fetch_window(key, tuple(h["box"]), rings[iso], start,
@@ -244,6 +244,11 @@ def main():
         multiple = count / mean
         rank = 1 + sum(1 for v in h["hist"].values() if v > count)
         lat, lon, basis = centroid(df, rings[iso])
+        daily = (df.groupby("acq_date").size().to_dict() if len(df) else {})
+        detail[iso] = {"name": h["name"], "count": count,
+                       "mean": h["mean"], "hist": h["hist"],
+                       "daily": {k: int(v) for k, v in sorted(daily.items())},
+                       "lat": lat, "lon": lon, "basis": basis}
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
         rows.append({
@@ -311,6 +316,10 @@ def main():
             "centroid_basis": r["centroid_basis"], "href": r["href"],
         } for r in eligible],
     }
+    with open(os.path.join(REPO, "fires", "data",
+                           "current_week.json"), "w") as f:
+        json.dump({"window": win_key, "source": source,
+                   "countries": detail}, f, indent=1)
     os.makedirs(os.path.join(REPO, "data"), exist_ok=True)
     with open(os.path.join(REPO, "data", "events.json"), "w") as f:
         json.dump(events, f, indent=2)
