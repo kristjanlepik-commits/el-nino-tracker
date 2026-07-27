@@ -1235,8 +1235,8 @@ _PUBLIC_CSS_TEMPLATE = """
      markers and every other list is rule-separated rows, so discs would
      be the one exception. The refusals in particular carry more weight as
      rows than as a bulleted aside. */
-  .refusals { margin: 0; }
   .refusals {
+    margin: 0;
     /* Opens and closes at 3px like .src-list, .event, .rung and
        .swell-row. This is the block the page's credibility argument
        leans on, so it reads as a closed list rather than trailing off.
@@ -2834,14 +2834,19 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<a href="{h(briefs_href)}">Archive</a>'
         f'<a href="{h(GITHUB_REPO_URL)}">GitHub</a>'
         '</div></div>'
-        '<div>'
-        '<span class="foot-fresh-label">Source freshness this issue</span>'
-        f'<div class="freshness-grid">{"".join(fresh_rows)}</div>'
-        '</div>'
-        f'<p class="footer-meta">Methodology version {h(str(S.METHODOLOGY_VERSION))}. '
-        f'RONI to traditional ONI offset {offset:+.2f}°C ({"live, week of " + offset_block["issued"] if offset_live else "seed"}). '
-        f'See <a href="{h(methodology_href)}">methodology</a> for the full audit trail.</p>'
-        '<p class="foot-cite">'
+        + ("" if is_front else
+           '<div>'
+           '<span class="foot-fresh-label">Source freshness this issue</span>'
+           f'<div class="freshness-grid">{"".join(fresh_rows)}</div>'
+           '</div>')
+        + ("" if is_front else
+           f'<p class="footer-meta">Methodology version '
+           f'{h(str(S.METHODOLOGY_VERSION))}. RONI to traditional ONI offset '
+           f'{offset:+.2f}°C '
+           f'({"live, week of " + offset_block["issued"] if offset_live else "seed"}). '
+           f'See <a href="{h(methodology_href)}">methodology</a> for the full '
+           f'audit trail.</p>')
+        + '<p class="foot-cite">'
         f'<b>By <a href="{h(AUTHOR_CONTACT_URL)}">{h(AUTHOR_NAME)}</a>.</b> '
         f'Licensed <a href="{h(LICENSE_URL)}">{h(LICENSE_NAME)}</a>.<br>'
         f'Cite as: Lepik, K. (2026). <b>{h(SITE_NAME)}: {h(PRODUCT_NAME)}.</b> '

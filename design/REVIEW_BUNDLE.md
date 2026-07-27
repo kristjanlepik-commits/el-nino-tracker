@@ -10,8 +10,8 @@ from the exact bytes embedded below.
 | Source | sha256, first 12 |
 |---|---|
 | `tokens.py` | `5555808c7441` |
-| `run_brief.py` | `7a646466a159` |
-| `PUBLIC_CSS` as extracted | `49e934d569b5` |
+| `run_brief.py` | `d849a5e54230` |
+| `PUBLIC_CSS` as extracted | `4083fe804086` |
 
 **Fetch with a sha-pinned URL, never the branch name.** Raw URLs on a
 branch are cached for a few minutes and can serve a stale copy; a
@@ -1487,8 +1487,8 @@ Token values are substituted in at build time from `tokens.py`; the
      markers and every other list is rule-separated rows, so discs would
      be the one exception. The refusals in particular carry more weight as
      rows than as a bulleted aside. */
-  .refusals { margin: 0; }
   .refusals {
+    margin: 0;
     /* Opens and closes at 3px like .src-list, .event, .rung and
        .swell-row. This is the block the page's credibility argument
        leans on, so it reads as a closed list rather than trailing off.
