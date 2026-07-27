@@ -71,7 +71,7 @@ def build(events_doc, font_prefix="../fonts/"):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Fire | The Long Swell</title>
+<title>Fires | The Long Swell</title>
 <style>
 {T.font_faces_css(font_prefix)}
 :root {{
@@ -178,7 +178,7 @@ h1 {{
 {house_masthead}
 <main>
   <div class="masthead">
-    <span class="product">Fire</span>
+    <span class="product">Fires</span>
     <span class="when">{window}</span>
   </div>
 

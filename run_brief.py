@@ -112,7 +112,7 @@ LICENSE_URL = "https://creativecommons.org/licenses/by-nc/4.0/"
 # something to show), which is why Floods and Damages are absent.
 CHANNELS = [
     ("elnino", "El Ni\u00f1o", None),   # None: resolved to the current issue
-    ("fire", "Fire", "fires/"),
+    ("fire", "Fires", "fires/"),
 ]
 
 SITE_NAME = "The Long Swell"
@@ -2364,7 +2364,7 @@ def _channels_html(root_prefix: str) -> str:
         '<div class="chan">'
         f'<div class="chan-top"><span class="dot" style="background:{T.FIRE}"></span>'
         '<span class="meta">First issue 2026-08-03</span></div>'
-        f'<h3><a href="{h(root_prefix)}fires/">Fire</a></h3>'
+        f'<h3><a href="{h(root_prefix)}fires/">Fires</a></h3>'
         '<p>Hotspot activity against same-week satellite baselines across '
         'five regions, plus a vintage-tracked damage ledger.</p></div>'
         '<div class="chan next">'
@@ -2940,7 +2940,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'{_mark_svg(26, mark_ops)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
         '<div class="foot-links">'
         f'<a href="#issue">{h(PRODUCT_NAME)}</a>'
-        f'<a href="{h(root_prefix)}fires/">Fire</a>'
+        f'<a href="{h(root_prefix)}fires/">Fires</a>'
         f'<a href="{h(methodology_href)}">Methodology</a>'
         f'<a href="{h(briefs_href)}">Archive</a>'
         f'<a href="{h(GITHUB_REPO_URL)}">GitHub</a>'
@@ -3894,7 +3894,7 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
         'its own publication. A channel ships only once it has a baseline '
         'it can be measured against, which is why the list is short.</p>'
         '<p><strong>El Ni&ntilde;o 2026-27</strong>, a weekly probability '
-        'brief. <strong>Fire</strong>, hotspot activity against same-week '
+        'brief. <strong>Fires</strong>, hotspot activity against same-week '
         'satellite baselines, first issue 3 August 2026. Floods and a '
         'cross-channel damage ledger are planned and not yet '
         'published.</p>'))
