@@ -2302,6 +2302,19 @@ def _wave_strip_html(magn_pct, brief_date_iso: str,
 
 
 
+def _basis(label: str) -> str:
+    """The comparison basis for one row of the physical-state table.
+
+    Set small and faint under the indicator name, in the same slot the
+    CWWA row already uses for its units. A table whose rows compare on
+    different bases has to say so per row; the alternative is a column
+    header that is true for some rows and false for others, which is
+    what this table shipped with.
+    """
+    return ('<br><span style="color:var(--text-faint); font-size:12px">'
+            f'vs {h(label)}</span>')
+
+
 def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
     """The hero's right column: subsurface heat now against the two
     super-event analogs, on whatever basis the analog constants are
@@ -2326,14 +2339,18 @@ def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
     now = phys.get("heat_content_0_300m_estimate")
     if now is None:
         return ""
-    same_week = ("1997_same_week_heat_content" in analog_same
-                 and "2015_same_week_heat_content" in analog_same)
-    suffix = "same_week_heat_content" if same_week else "apr_heat_content"
-    basis = ("same calendar week" if same_week
-             else "2026 this week, analogs at late April")
-    rows = [("2026", float(now), True),
-            ("2015", analog_same.get(f"2015_{suffix}"), False),
-            ("1997", analog_same.get(f"1997_{suffix}"), False)]
+    same_month = phys.get("heat_content_analogs_same_month") or {}
+    month = phys.get("heat_content_data_month")
+    if same_month.get("1997") is not None:
+        basis = f"same month{f', {month}' if month else ''}"
+        v97, v15 = same_month.get("1997"), same_month.get("2015")
+    else:
+        basis = "2026 this week, analogs at late April"
+        v97 = analog_same.get("1997_apr_heat_content")
+        v15 = analog_same.get("2015_apr_heat_content")
+    same_basis = bool(same_month.get("1997") is not None)
+    rows = [("2026", float(now), True), ("2015", v15, False),
+            ("1997", v97, False)]
     rows = [(y, float(v), cur) for y, v, cur in rows if v is not None]
 
     # Bars diverge from zero and are normalised on the SAME absolute
@@ -2369,11 +2386,11 @@ def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
         '<p class="hnote">Degrees Celsius anomaly, diverging from zero. '
         'Bar colour is the position on the anomaly scale, not a channel '
         'hue.'
-        + ('' if same_week else
-           ' The two analog values are late-April readings, so this is '
-           'not a like-for-like comparison against the same week: 1997 '
-           'rose steeply through its summer, and the gap shown here '
-           'would narrow on a same-week basis.')
+        + ('' if same_basis else
+           ' The two analog values are late-April readings set against a '
+           'current value from this week, so the comparison is not '
+           'like-for-like and the small gap shown should not be read as '
+           'a lead.')
         + '</p></div>')
     return "".join(out)
 
@@ -2868,22 +2885,51 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '</div></section>'
     )
 
+    # Comparison basis, per row, read off the data rather than asserted.
+    # This table headed both analog columns "same week" while the Nino
+    # 3.4 cells read *_apr22_* constants and the heat-content cells read
+    # *_apr_* ones, so a July current column was set against April
+    # analogs under a header saying the weeks matched. ENSO tracker has
+    # moved heat content to same-calendar-month (f1a7477); Nino 3.4 is
+    # still April and is theirs to fix. Until every row is on one basis
+    # the column header cannot name one, so it names the year and each
+    # row carries its own.
+    same_month = phys.get("heat_content_analogs_same_month") or {}
+    hc_month = phys.get("heat_content_data_month")
+    if same_month.get("1997") is not None:
+        hc_97, hc_15 = same_month.get("1997"), same_month.get("2015")
+        hc_basis = f"same month{f', {hc_month}' if hc_month else ''}"
+    else:
+        hc_97 = analog_same.get("1997_apr_heat_content")
+        hc_15 = analog_same.get("2015_apr_heat_content")
+        hc_basis = "late April"
+    if "1997_same_week_nino34_weekly" in analog_same:
+        n34_97, n34_15 = ("1997_same_week_nino34_weekly",
+                          "2015_same_week_nino34_weekly")
+        n34_basis = "same week"
+    else:
+        n34_97, n34_15 = ("1997_apr22_nino34_weekly",
+                          "2015_apr22_nino34_weekly")
+        n34_basis = "week of Apr 22"
+
     physical_html = (
         '<section>'
         '<h2>Physical state</h2>'
-        '<p class="section-sub">Current observations vs the same calendar week in past super-event develop years.</p>'
+        '<p class="section-sub">Current observations against the same '
+        'super-event develop years. The rows do not all compare on the '
+        'same basis, so each one states its own.</p>'
         '<table class="phys">'
         '<thead><tr>'
         '<th>Indicator</th>'
         f'<th>Current<br><span style="font-weight:400">week of {h(brief_date_iso)}</span></th>'
-        '<th>1997 same week</th>'
-        '<th>2015 same week</th>'
+        '<th>1997</th>'
+        '<th>2015</th>'
         '</tr></thead><tbody>'
         '<tr>'
-        '<td>Niño 3.4 weekly (traditional)</td>'
+        f'<td>Niño 3.4 weekly (traditional){_basis(n34_basis)}</td>'
         f'<td class="num">{_signed_temp(phys["nino34_weekly_traditional"])}°C</td>'
-        f'<td class="num">{_signed_temp(analog_same["1997_apr22_nino34_weekly"])}°C</td>'
-        f'<td class="num">{_signed_temp(analog_same["2015_apr22_nino34_weekly"])}°C</td>'
+        f'<td class="num">{_signed_temp(analog_same[n34_97])}°C</td>'
+        f'<td class="num">{_signed_temp(analog_same[n34_15])}°C</td>'
         '</tr>'
         '<tr>'
         '<td>Niño 3.4 weekly (RONI)</td>'
@@ -2892,10 +2938,10 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '<td class="num">n/a (pre-RONI)</td>'
         '</tr>'
         '<tr>'
-        '<td>0–300 m heat content anomaly</td>'
+        f'<td>0–300 m heat content anomaly{_basis(hc_basis)}</td>'
         f'<td class="num">{h(hc_str)}</td>'
-        f'<td class="num">{_signed_temp(analog_same["1997_apr_heat_content"])}°C</td>'
-        f'<td class="num">{_signed_temp(analog_same["2015_apr_heat_content"])}°C</td>'
+        f'<td class="num">{_signed_temp(hc_97)}°C</td>'
+        f'<td class="num">{_signed_temp(hc_15)}°C</td>'
         '</tr>'
         '<tr>'
         '<td>Cumulative westerly wind anomaly since Mar 1<br>'
@@ -2905,7 +2951,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<td class="num">{h(cwwa_15_str)}</td>'
         '</tr>'
         '</tbody></table>'
-        f'<div class="note"><strong>Heat content:</strong> {h(phys.get("heat_content_qualitative", ""))}</div>'
+        # The heat_content_qualitative note is gone. It was a static seed
+        # that had not moved since April while the computed sentence
+        # tracked the data, so the page contradicted itself; ENSO tracker
+        # removed the seed in f1a7477 and this rendered an empty note div
+        # after that. The computed comparison already carries it.
     )
 
     if wwe_live and cwwa_value is not None:
