@@ -51,6 +51,13 @@ TEXT_SUFFIXES = {
 
 FROZEN_PREFIXES = ("docs/briefs/", "snapshots/")
 
+# What is actually immutable inside those prefixes: a dated archive
+# directory, and a dated snapshot. NOT docs/briefs/index.html, which is
+# the rolling archive listing that every weekly run rewrites by design
+# (run_brief.py step 7); treating it as frozen would fail every Monday.
+FROZEN_PATH_RE = re.compile(
+    r"^(docs/briefs/\d{4}-\d{2}-\d{2}/|snapshots/\d{4}-\d{2}-\d{2}\.json$)")
+
 CANONICAL_DOMAIN = "thelongswell.com"
 
 LINK_RE = re.compile(r"""(?:href|src)=["']([^"']+)["']""")
@@ -117,6 +124,8 @@ def check_frozen(violations, base):
                  *[p.rstrip("/") for p in FROZEN_PREFIXES])
     for line in out.splitlines():
         status, _, rel = line.partition("\t")
+        if not FROZEN_PATH_RE.match(rel):
+            continue
         violations.append(f"immutable surface modified ({status}): {rel}")
 
 
