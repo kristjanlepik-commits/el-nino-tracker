@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>France: fire week vs the satellite record</title>
+</head>
+<body>
+
+<style>
+  :root {
+    --bg: #ffffff; --bg-card: #fbfbf9; --border: #e5e5e0;
+    --border-strong: #cccac2; --text: #1a1a1a; --text-soft: #555;
+    --text-faint: #888; --accent: #1f4068; --neutral: #9ca3af;
+    --super: #d94327; --partial: #e8875a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161613; --bg-card: #1f1e1a; --border: #33322c;
+      --border-strong: #4a483f; --text: #ece9e2; --text-soft: #b5b1a6;
+      --text-faint: #85816f; --accent: #8db3dd; --neutral: #8b8fa0;
+      --super: #e05b41; --partial: #c9744a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161613; --bg-card: #1f1e1a; --border: #33322c;
+    --border-strong: #4a483f; --text: #ece9e2; --text-soft: #b5b1a6;
+    --text-faint: #85816f; --accent: #8db3dd; --neutral: #8b8fa0;
+    --super: #e05b41; --partial: #c9744a;
+  }
+  :root[data-theme="light"] {
+    --bg: #ffffff; --bg-card: #fbfbf9; --border: #e5e5e0;
+    --border-strong: #cccac2; --text: #1a1a1a; --text-soft: #555;
+    --text-faint: #888; --accent: #1f4068; --neutral: #9ca3af;
+    --super: #d94327; --partial: #e8875a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+                 Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.55; font-size: 16px; margin: 0;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 34px 24px 72px; }
+  .stamp {
+    color: var(--text-faint); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.09em; margin-bottom: 10px;
+  }
+  h1 {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 33px; font-weight: 600; letter-spacing: -0.017em;
+    margin: 0 0 12px; line-height: 1.14; text-wrap: balance;
+  }
+  .standfirst {
+    color: var(--text-soft); font-size: 17px; margin: 0 0 26px;
+    line-height: 1.5;
+  }
+  .hero {
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+    padding: 18px 20px; margin-bottom: 22px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-left: 4px solid var(--super); border-radius: 0 8px 8px 0;
+  }
+  .hero .big {
+    font-family: "Charter", "Iowan Old Style", "Georgia", serif;
+    font-size: 46px; font-weight: 700; color: var(--super);
+    line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .hero .qual { font-size: 14px; color: var(--text-faint); }
+  .hero .cap { font-size: 14.5px; color: var(--text-soft); flex: 1; min-width: 220px; }
+  .hero .cap b { color: var(--text); font-weight: 600; }
+  .panel {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px 22px 16px; margin-bottom: 18px;
+  }
+  .panel h2 {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--text-faint); margin: 0 0 16px;
+  }
+  .chart { position: relative; height: 186px; }
+  .meanline { position: absolute; left: 0; right: 0; border-top: 1.5px dashed var(--border-strong); z-index: 1; }
+  .meanline span {
+    position: absolute; left: 0; top: -16px; font-size: 10.5px;
+    color: var(--text-faint); background: var(--bg-card); padding-right: 6px;
+  }
+  .bars { display: flex; align-items: flex-end; gap: 6px; height: 156px; position: relative; z-index: 2; }
+  .bcol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+  .bar { width: 100%; max-width: 32px; background: var(--neutral); opacity: 0.6; border-radius: 3px 3px 0 0; min-height: 2px; }
+  .bcol.now .bar { background: var(--super); opacity: 1; }
+  .bcol.now.partial .bar {
+    background: repeating-linear-gradient(-45deg, var(--super), var(--super) 5px,
+                var(--partial) 5px, var(--partial) 10px);
+    border-top: 2px dotted var(--text-faint);
+  }
+  .bcol .val {
+    font-size: 10.5px; color: var(--text-soft); margin-bottom: 3px;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .bcol.now .val { color: var(--text); font-weight: 700; font-size: 12px; }
+  .axis { display: flex; gap: 6px; margin-top: 6px; }
+  .axis span {
+    flex: 1; text-align: center; font-size: 9.5px; color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .axis span.now { color: var(--text); font-weight: 700; }
+  .dbars { display: flex; align-items: flex-end; gap: 6px; height: 76px; }
+  .dcol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+  .dbar { width: 100%; max-width: 60px; background: var(--neutral); opacity: 0.55; border-radius: 3px 3px 0 0; min-height: 2px; }
+  .dcol.today .dbar { background: var(--super); opacity: 0.95; }
+  .dcol.today.partial .dbar {
+    background: repeating-linear-gradient(-45deg, var(--super), var(--super) 4px,
+                var(--partial) 4px, var(--partial) 8px);
+  }
+  .dcol .dval {
+    font-size: 10px; color: var(--text-soft); margin-bottom: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+  .dcol.today .dval { color: var(--text); font-weight: 700; }
+  .status {
+    margin: 16px 0 0; font-size: 13px; color: var(--text-soft);
+    background: var(--bg); border-left: 3px solid var(--partial);
+    padding: 10px 14px; border-radius: 0 4px 4px 0;
+  }
+  .context { font-size: 15px; color: var(--text-soft); margin: 0 0 22px; }
+  .foot { font-size: 12.5px; color: var(--text-faint); }
+  .foot p { margin: 0 0 10px; }
+  .foot a { color: var(--accent); }
+</style>
+<main>
+  <div class="stamp">Fire tracker &middot; country spotlight &middot; 2026-07-26 16:20 UTC</div>
+  <h1>France has just had its largest fire week in the satellite record</h1>
+  <p class="standfirst">Satellites detected more of France burning in the week to July 26 than in any equivalent week since the record began in 2012, by a factor of nearly five.</p>
+
+  <div class="hero">
+    <div><span class="big">&times;10.1</span></div>
+    <div class="cap">the normal amount of fire for this week of the year
+      in France. <b>3,753
+      detections</b> in the
+      week to July 26, against a 2012-2025 average of
+      373 for the same week.</div>
+  </div>
+
+  <div class="panel">
+    <h2>The same week, every year since 2012</h2>
+    <div class="chart">
+      <div class="meanline" style="top:142px">
+        <span>14-yr mean 373</span></div>
+      <div class="bars"><div class="bcol" title="2012: 488 detections"><div class="bar" style="height:18px"></div></div><div class="bcol" title="2013: 394 detections"><div class="bar" style="height:15px"></div></div><div class="bcol" title="2014: 314 detections"><div class="bar" style="height:12px"></div></div><div class="bcol" title="2015: 435 detections"><div class="bar" style="height:16px"></div></div><div class="bcol" title="2016: 272 detections"><div class="bar" style="height:10px"></div></div><div class="bcol" title="2017: 595 detections"><div class="bar" style="height:23px"></div></div><div class="bcol" title="2018: 496 detections"><div class="bar" style="height:19px"></div></div><div class="bcol" title="2019: 758 detections"><span class="val">758</span><div class="bar" style="height:29px"></div></div><div class="bcol" title="2020: 298 detections"><div class="bar" style="height:11px"></div></div><div class="bcol" title="2021: 373 detections"><div class="bar" style="height:14px"></div></div><div class="bcol" title="2022: 291 detections"><div class="bar" style="height:11px"></div></div><div class="bcol" title="2023: 198 detections"><div class="bar" style="height:7px"></div></div><div class="bcol" title="2024: 152 detections"><div class="bar" style="height:6px"></div></div><div class="bcol" title="2025: 162 detections"><div class="bar" style="height:6px"></div></div><div class="bcol now" title="2026: 3,753 detections"><span class="val">3,753</span><div class="bar" style="height:142px"></div></div></div>
+    </div>
+    <div class="axis"><span>&rsquo;12</span><span>&rsquo;13</span><span>&rsquo;14</span><span>&rsquo;15</span><span>&rsquo;16</span><span>&rsquo;17</span><span>&rsquo;18</span><span>&rsquo;19</span><span>&rsquo;20</span><span>&rsquo;21</span><span>&rsquo;22</span><span>&rsquo;23</span><span>&rsquo;24</span><span>&rsquo;25</span><span class="now">&rsquo;26</span></div>
+  </div>
+
+  <div class="panel">
+    <h2>This week, day by day</h2>
+    <div class="dbars"><div class="dcol" title="Jul 20: 85"><span class="dval">85</span><div class="dbar" style="height:4px"></div></div><div class="dcol" title="21: 117"><span class="dval">117</span><div class="dbar" style="height:5px"></div></div><div class="dcol" title="22: 284"><span class="dval">284</span><div class="dbar" style="height:12px"></div></div><div class="dcol" title="23: 586"><span class="dval">586</span><div class="dbar" style="height:25px"></div></div><div class="dcol" title="24: 1,317"><span class="dval">1,317</span><div class="dbar" style="height:56px"></div></div><div class="dcol" title="25: 558"><span class="dval">558</span><div class="dbar" style="height:24px"></div></div><div class="dcol today" title="26: 806"><span class="dval">806</span><div class="dbar" style="height:34px"></div></div></div>
+    <div class="axis"><span>Jul 20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span class="now">26</span></div>
+    <div class="status">Counts include today through the 12:55 UTC overpass. A later orbit this afternoon may add a small number of detections, and near-real-time figures are revised slightly when the science-quality archive catches up.</div>
+  </div>
+
+  <p class="context">The week is dominated by the Gironde and Landes complex in the southwest, which forced large evacuations around the Bassin d'Arcachon. Activity peaked on Friday, eased on Saturday, and picked up again on Sunday, so the fire is not yet on a clear downward path.</p>
+
+  <div class="foot">
+    <p><strong>What a detection is.</strong> One detection is one
+    satellite pixel, about 375 m across, seen radiating enough heat to
+    be flagged as actively burning during a single overpass. A large
+    fire front registers as many pixels at once, and a fire that keeps
+    burning is counted again on every twice-daily pass it stays hot, so
+    a weekly count measures how much ground was visibly alight and for
+    how long. It is not a count of separate fires, and it is not burned
+    area.</p>
+    <p><strong>Method.</strong> NASA FIRMS active fire data from the
+    VIIRS instrument on the Suomi-NPP satellite, used alone so that
+    every year in the chart is measured by the same sensor.
+    Low-confidence detections are excluded, and detections are assigned
+    to countries using national boundary polygons applied identically in
+    all years. The 2026 figures come from the near-real-time product;
+    2012 to 2025 come from the science-quality archive, which usually
+    revises near-real-time counts slightly when it catches up. Heavy
+    smoke and cloud suppress detections, so the worst fire days can be
+    undercounted.</p>
+    <p><strong>Attribution.</strong> Southern and western European fires are driven by heat, drought and wind, and people supply nearly all ignitions. This tracker treats the Mediterranean as a non-El Nino control region and does not present these fires as an El Nino signal.</p>
+    <p>Part of the 2026-27 El Nino fire tracker. Unlisted preview.</p>
+</div>
+</main>
+
+</body>
+</html>

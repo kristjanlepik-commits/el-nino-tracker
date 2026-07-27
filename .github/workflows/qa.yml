@@ -1,0 +1,27 @@
+name: qa
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run QA gate
+        run: |
+          BASE="${{ github.event.before }}"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="origin/${{ github.base_ref }}"
+          fi
+          if [ -n "$BASE" ] && git cat-file -e "$BASE" 2>/dev/null; then
+            python3 scripts/qa_check.py --base "$BASE"
+          else
+            python3 scripts/qa_check.py --no-frozen-check
+          fi

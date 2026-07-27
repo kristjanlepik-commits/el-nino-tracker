@@ -36,7 +36,37 @@ import analog
 import snapshot
 
 
-PAGES_BASE_URL = "https://kristjanlepik-commits.github.io/el-nino-tracker"
+PAGES_BASE_URL = "https://thelongswell.com"
+# Analytics (platform-owned seam; D-020). Plausible is cookieless and
+# stores no personal data, so no consent banner is required and the
+# page stays clean. Public pages only: never the internal brief, which
+# is emailed. Set ANALYTICS_SNIPPET = "" to disable site-wide.
+#
+# This is Plausible's current site-specific form, copied from the
+# install screen for thelongswell.com. The id in the filename is a
+# public site identifier, not a secret; it is visible in page source
+# by design. Outbound links, file downloads and form submissions are
+# enabled in the account, and that config ships inside the served
+# script rather than as attributes here.
+#
+# The inline block is REQUIRED, not decoration: the served script ends
+# with `plausible.o && S(plausible.o)`, so it initializes only if the
+# options object was set first, and it drains a `plausible.q` queue for
+# calls made before the async file lands. Deleting it silently records
+# nothing. Plain string, not an f-string, because the JS is full of
+# braces.
+ANALYTICS_SITE_ID = "pa-UzORTw8rlmViOEWGoqLYK"
+ANALYTICS_SNIPPET = (
+    "<!-- Privacy-friendly analytics by Plausible -->\n"
+    f'<script async src="https://plausible.io/js/{ANALYTICS_SITE_ID}.js">'
+    "</script>\n"
+    "<script>\n"
+    "window.plausible=window.plausible||function()"
+    "{(plausible.q=plausible.q||[]).push(arguments)},"
+    "plausible.init=plausible.init||function(i){plausible.o=i||{}};\n"
+    "plausible.init()\n"
+    "</script>"
+)
 GITHUB_REPO_URL = "https://github.com/kristjanlepik-commits/el-nino-tracker"
 # Analytics (platform-owned seam; D-020). Plausible is cookieless and
 # stores no personal data, so no consent banner is required and the
@@ -267,8 +297,15 @@ def _favicon_links(root_prefix: str) -> str:
 
 
 def render_html(markdown_text: str, title: str = None,
-                root_prefix: str = None, home_href: str = None) -> str:
+                root_prefix: str = None, home_href: str = None,
+                analytics: bool = False) -> str:
     """Markdown page in the house reading style.
+
+    analytics defaults to False because this same helper renders the
+    internal brief that gets emailed; a tracker belongs only on pages
+    served from docs/, so public callers opt in. Platform owns that
+    contract (D-020) and it is kept explicit rather than inferred from
+    root_prefix.
 
     root_prefix is the relative path back to the docs root ("" for
     docs/methodology.html, "../" for docs/briefs/index.html); it wires
@@ -284,7 +321,7 @@ def render_html(markdown_text: str, title: str = None,
         head_assets = (
             f"<style>{T.font_faces_css(root_prefix + 'fonts/')}</style>\n"
             + _favicon_links(root_prefix)
-            + f"{ANALYTICS_SNIPPET}\n"
+            + (f"{ANALYTICS_SNIPPET}\n" if analytics else "")
         )
         home = home_href if home_href is not None else root_prefix or "./"
         masthead = (
@@ -1571,11 +1608,23 @@ def _load_month_prior_headline_smoothed(current_brief_date: date) -> dict | None
     if month_or_older:
         chosen_date, chosen_buckets = month_or_older[-1]
         label = "vs last month"
-    else:
-        chosen_date, chosen_buckets = matching[0]
-        label = "since first issue"
+        return {"buckets": chosen_buckets, "date": chosen_date, "label": label}
 
-    return {"buckets": chosen_buckets, "date": chosen_date, "label": label}
+    # Fallback: only when the oldest same-version archive genuinely IS the
+    # site's first issue, so the "since first issue" copy stays true. After
+    # a mid-life methodology bump the oldest same-version archive is just a
+    # recent issue; comparing against it two weeks in produced a false
+    # "since first issue" pill on 2026-07-27 (caught by Kristjan). In that
+    # case show no delta; "vs last month" returns once a same-version
+    # archive is 28+ days old.
+    all_dirs = [d.name for d in DOCS_BRIEFS_ROOT.iterdir() if d.is_dir()
+                and (d / "meta.json").exists()]
+    first_issue_iso = min(all_dirs) if all_dirs else None
+    chosen_date, chosen_buckets = matching[0]
+    if first_issue_iso and chosen_date.isoformat() == first_issue_iso:
+        return {"buckets": chosen_buckets, "date": chosen_date,
+                "label": "since first issue"}
+    return None
 
 
 EDITORIAL_NOTE_FILE = Path(__file__).parent / "editorial_note.md"
@@ -4060,7 +4109,7 @@ def main():
     (DOCS_DIR / "briefs" / "index.html").write_text(
         render_html(archive_md,
                     title=f"Archive, {PRODUCT_NAME} · {SITE_NAME}",
-                    root_prefix="../")
+                    root_prefix="../", analytics=True)
     )
     print(f"wrote: {DOCS_DIR / 'briefs' / 'index.html'}")
 
@@ -4076,7 +4125,7 @@ def main():
         meth_html.write_text(render_html(
             meth_md.read_text(),
             title=f"Methodology, {PRODUCT_NAME} · {SITE_NAME}",
-            root_prefix=""))
+            root_prefix="", analytics=True))
         print(f"wrote: {meth_html}")
 
     # 9. Weekly situation card (card.py, public-side): a one-page PNG

@@ -13,3 +13,10 @@ scratch/
 # Claude Code editor-side bookkeeping (worktree gitlinks break Pages
 # checkout because they look like submodules without a .gitmodules entry).
 .claude/
+# Internal docs: strategy, sponsor pipeline, handovers, decision log.
+# The repo is PUBLIC; committing these would publish the business side
+# (sponsor targets, pricing) to the people it is about. Interim guard
+# until the platform chat decides the public/private doc structure
+# (research/handover_platform.md, first tasks). NOTE: fires/ is NOT
+# ignored; it must be committed for the 2026-08-03 launch.
+research/
