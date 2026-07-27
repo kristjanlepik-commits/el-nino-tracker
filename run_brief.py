@@ -1465,6 +1465,38 @@ def _signed_temp(value: float, decimals: int = 1) -> str:
     return formatted.replace("-", "−")  # U+2212 minus sign
 
 
+# Minimum margin (deg C) before the brief claims one year is "ahead of"
+# another on heat content. CPC reports to two decimals, but month-to-month
+# sampling noise in the 0-300m index is far larger than a hundredth, so a
+# +0.01 gap is not a real difference. Below this margin the brief says
+# "essentially tied" instead of "ahead", which is what the 2026-vs-1997
+# June comparison (+2.26 vs +2.25) actually warrants.
+HC_MATERIAL_MARGIN_C = 0.10
+
+
+def _hc_analogs(phys: dict, analog_same: dict):
+    """Resolve (hc97, hc15, basis) for heat-content analog comparisons.
+
+    Prefers the live same-calendar-month values fetched from the same CPC
+    series as the current reading, so July compares to July. Falls back to
+    the sources.py April seeds, and says so in `basis`, rather than
+    silently presenting an April number as a same-stage comparison.
+    """
+    live = phys.get("heat_content_analogs_same_month") or {}
+    if live.get("1997") is not None and live.get("2015") is not None:
+        month = (phys.get("heat_content_data_month") or "")[-2:]
+        month_name = {
+            "01": "January", "02": "February", "03": "March", "04": "April",
+            "05": "May", "06": "June", "07": "July", "08": "August",
+            "09": "September", "10": "October", "11": "November",
+            "12": "December",
+        }.get(month, "the same month")
+        return live["1997"], live["2015"], f"same calendar month ({month_name})"
+    return (analog_same.get("1997_apr_heat_content"),
+            analog_same.get("2015_apr_heat_content"),
+            "April of each develop year")
+
+
 def _heat_content_compare(val: float, hc97: float, hc15: float) -> str:
     """One-sentence quantitative comparison of current heat content vs the
     1997 and 2015 super-event same-week analogs. Auto-banded above-both /
@@ -1472,16 +1504,22 @@ def _heat_content_compare(val: float, hc97: float, hc15: float) -> str:
     """
     if val is None or hc97 is None or hc15 is None:
         return ""
-    if val > max(hc97, hc15):
-        return (f" At {val:+.2f}°C, 2026 already exceeds both 1997 "
-                f"({hc97:+.1f}°C) and 2015 ({hc15:+.1f}°C) at this calendar "
-                f"week, running ahead of either super-event analog at this "
-                f"stage of development.")
+    if val > max(hc97, hc15) + HC_MATERIAL_MARGIN_C:
+        return (f" At {val:+.2f}°C, 2026 exceeds both 1997 "
+                f"({hc97:+.2f}°C) and 2015 ({hc15:+.2f}°C) at the same "
+                f"calendar month, running ahead of either super-event "
+                f"analog at this stage of development.")
+    if abs(val - max(hc97, hc15)) <= HC_MATERIAL_MARGIN_C:
+        hotter = 1997 if hc97 >= hc15 else 2015
+        return (f" At {val:+.2f}°C, 2026 is effectively level with "
+                f"{hotter} (1997 {hc97:+.2f}°C, 2015 {hc15:+.2f}°C) at the "
+                f"same calendar month; the gap is smaller than the "
+                f"month-to-month noise in this index.")
     if val > min(hc97, hc15):
-        return (f" At {val:+.2f}°C, 2026 sits between 1997 ({hc97:+.1f}°C) "
-                f"and 2015 ({hc15:+.1f}°C) at this calendar week.")
-    return (f" At {val:+.2f}°C, 2026 is below both 1997 ({hc97:+.1f}°C) and "
-            f"2015 ({hc15:+.1f}°C) at this calendar week.")
+        return (f" At {val:+.2f}°C, 2026 sits between 1997 ({hc97:+.2f}°C) "
+                f"and 2015 ({hc15:+.2f}°C) at the same calendar month.")
+    return (f" At {val:+.2f}°C, 2026 is below both 1997 ({hc97:+.2f}°C) and "
+            f"2015 ({hc15:+.2f}°C) at the same calendar month.")
 
 
 def _wwb_peak_finding(phys: dict) -> str:
@@ -3066,18 +3104,34 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                 f"is queued as a separate methodology decision."
             )
 
-    # 4. Heat content above both Godzilla analogs at this calendar week
+    # 4. Heat content vs the Godzilla analogs at the same stage. Values are
+    # same-calendar-month from the same CPC series (see _hc_analogs); the
+    # claim is gated on a material margin so a noise-level gap does not get
+    # reported as "ahead".
     hc_val = phys.get("heat_content_0_300m_estimate")
-    hc97 = analog_same.get("1997_apr_heat_content")
-    hc15 = analog_same.get("2015_apr_heat_content")
+    hc97, hc15, hc_basis = _hc_analogs(phys, analog_same)
     if (hc_val is not None and hc97 is not None and hc15 is not None
-            and hc_val > max(hc97, hc15)):
+            and hc_val > max(hc97, hc15) + HC_MATERIAL_MARGIN_C):
         analyst_obs.append(
             f"<strong>Subsurface heat ahead of both Godzilla analogs.</strong> "
             f"0–300 m heat content anomaly is now {hc_val:+.2f}°C, vs "
-            f"{hc97:+.1f}°C in 1997 and {hc15:+.1f}°C in 2015 at the same "
-            f"calendar week, running ahead of either super-event analog at "
+            f"{hc97:+.2f}°C in 1997 and {hc15:+.2f}°C in 2015 at the "
+            f"{hc_basis}, running ahead of either super-event analog at "
             f"this stage of development."
+        )
+    elif (hc_val is not None and hc97 is not None and hc15 is not None
+          and abs(hc_val - hc97) <= HC_MATERIAL_MARGIN_C
+          and hc_val > hc15 + HC_MATERIAL_MARGIN_C):
+        # Matching 1997, the strongest analog, is itself the story; without
+        # this branch the observation would silently disappear the moment
+        # the gap narrowed below the material margin.
+        analyst_obs.append(
+            f"<strong>Subsurface heat matching 1997.</strong> "
+            f"0–300 m heat content anomaly is {hc_val:+.2f}°C, effectively "
+            f"level with 1997 ({hc97:+.2f}°C) and well above 2015 "
+            f"({hc15:+.2f}°C) at the {hc_basis}. 1997 is the strongest "
+            f"subsurface analog on record, so tracking it rather than "
+            f"exceeding it is the accurate read."
         )
 
     # 5. CWWA divergence (wind forcing lagging while ocean runs hot)
@@ -3596,9 +3650,9 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
                 f"180W-100W, vs 1981-2010 climo)" if hc_live
                 else f"~{phys['heat_content_0_300m_estimate']:+.1f}°C "
                      f"(qualitative; placeholder)")
+    _hc97, _hc15, _hc_basis = _hc_analogs(phys, analog_same)
     md.append(f"| 0-300m heat content anomaly | {hc_label} | "
-              f"{analog_same['1997_apr_heat_content']:+.1f}°C | "
-              f"{analog_same['2015_apr_heat_content']:+.1f}°C |")
+              f"{_hc97:+.2f}°C | {_hc15:+.2f}°C |")
     wwe_fresh = freshness.get("era5_wwe", {})
     # Display gates on ok, NOT on used_fallback: a cache fallback carries a
     # full valid payload (the fixed fetch_all merge puts it in phys), and
@@ -3636,7 +3690,10 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md.append(f"| Cumulative westerly wind anomaly since Mar 1 | "
               f"{cell_curr} | {cell_97} | {cell_15} |")
     md.append("")
-    md.append(f"**Heat content note:** {phys['heat_content_qualitative']}")
+    # The static heat_content_qualitative seed was removed 2026-07-27 (it
+    # went stale in April and contradicted the computed comparison). The
+    # computed sentence below carries the analog comparison.
+    md.append(f"**Heat content note:** {_heat_content_compare(phys.get('heat_content_0_300m_estimate'), _hc97, _hc15).strip()}")
     md.append("")
     if wwe_ok and cwwa_value is not None:
         ranking = _cwwa_ranking(cwwa_value, cwwa_analogs, wwe_fresh.get("issued"))
