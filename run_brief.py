@@ -45,6 +45,15 @@ LICENSE_URL = "https://creativecommons.org/licenses/by-nc/4.0/"
 
 # Brand (The Long Swell rebrand, 2026-07-26). The house sets in mono,
 # products in serif; see tokens.py and research/handover_design.md.
+# Channels, in display order. The masthead nav and the footer links both
+# generate from this, so adding Floods is one edit rather than two.
+# Unbuilt channels stay out entirely (D-ratified: hidden until they have
+# something to show), which is why Floods and Damages are absent.
+CHANNELS = [
+    ("elnino", "El Ni\u00f1o", "#issue"),
+    ("fire", "Fire", "fires/"),
+]
+
 SITE_NAME = "The Long Swell"
 # The product is event-scoped by D-001 and keeps its full name on its own
 # masthead, in page titles and in the citation line. The nav carries a
@@ -374,7 +383,7 @@ _PUBLIC_CSS_TEMPLATE = """
     color: var(--nino);
     transition: color .12s;
   }
-  .prodnav a[href*="fires"] { color: var(--fire); }
+  .prodnav a.ch-fire { color: var(--fire); }
   .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
   .prodnav a:hover { color: var(--ink); }
 
@@ -486,6 +495,25 @@ _PUBLIC_CSS_TEMPLATE = """
     margin-top: 4px;
   }
   .event .attr { grid-column: 3; grid-row: 1; justify-self: end; }
+
+  /* Vocabulary defined once, above the list it governs. Without it the
+     page shows three bare chips in expert language to a reader who has
+     never met the term "ENSO-loaded window". */
+  .attr-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    padding: 14px 0 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .attr-key { display: inline-flex; align-items: baseline; gap: 9px; }
+  .attr-gloss {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-transform: none;
+    letter-spacing: 0;
+  }
 
   /* ---------- attribution tags ---------- */
   /* Three states, worded verbatim, never removed or softened.
@@ -854,26 +882,33 @@ _PUBLIC_CSS_TEMPLATE = """
     width: 22px; height: 22px;
     background: transparent; border: 0; padding: 0; cursor: pointer;
   }
-  .impacts-map .map-hotspot-ring {
-    position: absolute; inset: 0;
-    border-radius: 50%;
-    border: 1.5px solid var(--fire);
-    transition: all .15s ease;
-  }
+  /* A plain disc. This was a ring around a dot, with the active state
+     expanding the ring outward, which is the epicenter figure: radiating
+     causation, on the one map that is specifically about El Nino's
+     regional impacts, where the text refuses to make that claim. D-017
+     forbids the attenuation ratio on any mark that carries data, and the
+     same objection applies to any concentric figure. Selection is carried
+     by opacity and a hairline, not by radiating rings. */
   .impacts-map .map-hotspot-dot {
-    position: absolute; inset: 7px;
+    position: absolute; inset: 6px;
     border-radius: 50%;
     background: var(--fire);
-    transition: all .15s ease;
+    opacity: 0.75;
+    transition: opacity .15s ease, box-shadow .15s ease;
   }
-  .impacts-map .map-hotspot.active .map-hotspot-ring { border-width: 2.5px; inset: -3px; }
-  .impacts-map .map-hotspot.active .map-hotspot-dot { inset: 5px; }
-  .impacts-map .map-hotspot:focus-visible .map-hotspot-ring { border-color: var(--nino); }
+  .impacts-map .map-hotspot:hover .map-hotspot-dot { opacity: 1; }
+  .impacts-map .map-hotspot.active .map-hotspot-dot {
+    opacity: 1;
+    box-shadow: 0 0 0 1.5px var(--ink);
+  }
+  .impacts-map .map-hotspot:focus-visible .map-hotspot-dot {
+    box-shadow: 0 0 0 2px var(--nino);
+  }
   .region-tabs { display: flex; flex-wrap: wrap; gap: 0; margin: 16px 0 18px; border-bottom: 1px solid var(--rule); }
   .region-tab {
     background: none;
     border: 0;
-    border-bottom: 2px solid transparent;
+    border-bottom: 2.4px solid transparent;
     padding: 8px 14px 8px 0;
     margin-right: 18px;
     font-family: var(--mono);
@@ -914,7 +949,12 @@ _PUBLIC_CSS_TEMPLATE = """
     padding: 7px 0;
   }
   .hrow .yr { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
-  .hbar { display: block; height: 14px; }
+  .htrack { display: block; position: relative; height: 14px; }
+  .hzero {
+    position: absolute; top: -2px; bottom: -2px; width: 1px;
+    background: var(--ink-faint);
+  }
+  .hbar { position: absolute; top: 0; height: 14px; }
   .hrow .val {
     font-family: var(--mono); font-variant-numeric: tabular-nums;
     font-size: 13px; text-align: right;
@@ -996,12 +1036,17 @@ _PUBLIC_CSS_TEMPLATE = """
   svg.map .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.4; }
   .mk { cursor: pointer; }
   .mk .mk-hit { fill: transparent; }
+  /* No stroke. A 1px stroke on a radius that encodes magnitude added
+     36% apparent area at r=3 against 11% at r=9, so small multiples read
+     systematically larger than they are; hover at 2.5px doubled the
+     smallest. Opacity carries the state instead, because it does not
+     touch the geometry that carries the number. */
   .mk .mk-dot {
-    fill: var(--fire); fill-opacity: 0.8;
-    stroke: var(--fire); stroke-width: 1;
-    transition: fill-opacity .12s, stroke-width .12s;
+    fill: var(--fire); fill-opacity: 0.78;
+    stroke: none;
+    transition: fill-opacity .12s;
   }
-  .mk:hover .mk-dot, .mk:focus .mk-dot { fill-opacity: 1; stroke-width: 2.5; }
+  .mk:hover .mk-dot, .mk:focus .mk-dot { fill-opacity: 1; }
   .nino-g { cursor: pointer; }
   .nino-box { stroke: none; fill-opacity: 1; }
   .nino-g:hover .nino-box, .nino-g:focus .nino-box {
@@ -1062,11 +1107,6 @@ _PUBLIC_CSS_TEMPLATE = """
     .event .ev-body { grid-column: 1 / -1; grid-row: 2; }
     .event .attr { grid-column: 2; grid-row: 1; align-self: center; }
     .wave-strip .field-shell { grid-template-columns: minmax(0, 1fr); }
-    .rung { grid-template-columns: minmax(0, 1fr) auto; }
-    .rung .threshold { grid-column: 1; }
-    .rung .pct { grid-column: 2; }
-    .rung .label { grid-column: 1 / -1; }
-    .rung .label::before { display: none; }
     .freshness-grid { grid-template-columns: minmax(0, 1fr); }
     .readout { gap: 24px; }
   }
@@ -1452,7 +1492,6 @@ def _render_world_map_block(regions, active_slug: str, world_map_href: str) -> s
             f'data-region="{slug}" '
             f'style="left: {left}%; top: {top}%;" '
             f'aria-label="{h(name)}">'
-            f'<span class="map-hotspot-ring"></span>'
             f'<span class="map-hotspot-dot"></span>'
             f'</button>'
         )
@@ -1572,6 +1611,39 @@ def _attr_tag(status: str) -> str:
     key = status if status in ATTR_LABELS else "pending"
     return (f'<span class="attr {_ATTR_CLASSES[key]}">'
             f'{h(ATTR_LABELS[key])}</span>')
+
+
+# Plain-language gloss for each tag. The three tag strings are fixed by
+# T9 and are expert language: "ENSO-loaded window" means nothing to the
+# non-expert this site is written for. The ratified rule is to define the
+# vocabulary once above the first row of a list, and to gloss inline
+# where a tag appears alone. Wording here is the design chat's first
+# pass and is the editor's to ratify; the tag strings themselves are not
+# negotiable.
+ATTR_GLOSS = {
+    "enso": "a season and place where El Ni\u00f1o shifts the odds",
+    "non_enso": "nothing in this week\u2019s data ties it to El Ni\u00f1o",
+    "pending": "not assessed yet",
+}
+
+
+def _attr_legend(events: list[dict]) -> str:
+    """Define the tag vocabulary once, above the list it governs.
+
+    Only the states actually present are defined, so the legend never
+    explains a chip the reader cannot see.
+    """
+    present = []
+    for key in ("enso", "non_enso", "pending"):
+        if any((e.get("attribution") or "pending") == key for e in events):
+            present.append(key)
+    if not present:
+        return ""
+    items = "".join(
+        f'<span class="attr-key">{_attr_tag(k)}'
+        f'<span class="attr-gloss">{h(ATTR_GLOSS[k])}</span></span>'
+        for k in present)
+    return f'<div class="attr-legend">{items}</div>'
 
 
 def _load_events() -> list[dict]:
@@ -1701,8 +1773,12 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
             f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
             f'{nino_value:+.1f} \u00b0C</text></a>')
 
+    # Hard stops, not a gradient. The fills are nine discrete steps, so
+    # an interpolating ramp would let a reader decode a colour off the
+    # legend that never appears on the map.
     ramp = "".join(
-        f'<stop offset="{i / 8:.3f}" stop-color="{c}"/>'
+        f'<stop offset="{i / 9:.4f}" stop-color="{c}"/>'
+        f'<stop offset="{(i + 1) / 9:.4f}" stop-color="{c}"/>'
         for i, c in enumerate(T.ANOMALY))
     keys = "".join(
         f'<circle class="lg-dot" cx="{cx}" cy="26" r="{radius(v):.2f}"/>'
@@ -1762,9 +1838,12 @@ def _masthead_html(root_prefix: str, methodology_href: str,
         f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
         f'{_mark_svg(26, mark_opacities)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
         '<nav class="prodnav" aria-label="Channels">'
-        f'<a{on("elnino")} href="{h(home)}#issue">{h(PRODUCT_NAV_LABEL)}</a>'
-        f'<a{on("fire")} href="{h(root_prefix)}fires/">Fire</a>'
-        '</nav></div></div></header>\n'
+        + "".join(
+            f'<a{on(key)} class="ch-{key}" '
+            f'href="{h(home if href.startswith("#") else root_prefix + href)}'
+            f'{h(href) if href.startswith("#") else ""}">{label}</a>'
+            for key, label, href in CHANNELS)
+        + '</nav></div></div></header>\n'
     )
 
 
@@ -1815,13 +1894,15 @@ def _break_html(events: list[dict]) -> str:
         '<p class="break-lede">Current events, each sized against its own '
         'historical baseline. The link to the El Ni&ntilde;o window is '
         'stated per item, never assumed.</p>'
-        f'<div class="events">{"".join(items)}</div>'
+        + _attr_legend(shown)
+        + f'<div class="events">{"".join(items)}</div>'
         f'{more}'
         '</div></div>\n'
     )
 
 
-def _wave_strip_html(magn_pct, brief_date_iso: str) -> str:
+def _wave_strip_html(magn_pct, brief_date_iso: str,
+                     issue_href: str = "#issue") -> str:
     """The wave (T10): the tracker's headline stays persistent but
     secondary; the full issue is further down the same page."""
     return (
@@ -1833,7 +1914,8 @@ def _wave_strip_html(magn_pct, brief_date_iso: str) -> str:
         '<span class="ws-desc">chance of a 1997 / 2015-magnitude winter '
         f'peak &middot; issue of {h(brief_date_iso)}</span>'
         '</span>'
-        '<a class="ws-go" href="#issue">This week\'s issue &darr;</a>'
+        f'<a class="ws-go" href="{h(issue_href)}">This week\'s issue '
+        f'&rarr;</a>'
         '</div></div>\n'
     )
 
@@ -1854,23 +1936,39 @@ def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
     rows = [("2026", float(now), True),
             ("2015", analog_same.get("2015_apr_heat_content"), False),
             ("1997", analog_same.get("1997_apr_heat_content"), False)]
-    rows = [(y, v, cur) for y, v, cur in rows if v is not None]
-    peak = max(abs(float(v)) for _, v, _ in rows) or 1.0
+    rows = [(y, float(v), cur) for y, v, cur in rows if v is not None]
+
+    # Bars diverge from zero, they do not grow from a common left edge.
+    # An earlier version used abs(value) for the width, so -0.5 and +0.5
+    # drew the same bar and were told apart only by hue. That is latent
+    # today because both analogs are warm, but 2025 is deliberately a La
+    # Nina reference in the peer set, and the first time a negative year
+    # reaches this component the chart would state the opposite of the
+    # data. Zero sits where zero belongs, and a cold year runs left.
+    lo = min(0.0, min(v for _, v, _ in rows))
+    hi = max(0.0, max(v for _, v, _ in rows))
+    span = (hi - lo) or 1.0
+    zero_pct = (0.0 - lo) / span * 100.0
+
     out = ['<div class="heat">',
            '<span class="cap eyebrow">Ocean heat, 0 to 300 m'
            ' &middot; same calendar week</span>']
     for year, val, is_now in rows:
-        val = float(val)
-        width = max(2.0, abs(val) / peak * 100.0)
+        left = (min(0.0, val) - lo) / span * 100.0
+        width = max(1.2, abs(val) / span * 100.0)
         out.append(
             f'<div class="hrow{" now" if is_now else ""}">'
             f'<span class="yr">{h(year)}</span>'
+            f'<span class="htrack">'
+            f'<span class="hzero" style="left:{zero_pct:.2f}%"></span>'
             f'<span class="hbar" style="background:{T.anomaly_color(val)};'
-            f'width:{width:.0f}%"></span>'
+            f'left:{left:.2f}%;width:{width:.2f}%"></span>'
+            f'</span>'
             f'<span class="val">{val:+.2f}</span></div>')
     out.append(
-        '<p class="hnote">Degrees Celsius anomaly. Bar colour is the '
-        'position on the anomaly scale, not a channel hue.</p></div>')
+        '<p class="hnote">Degrees Celsius anomaly, diverging from zero. '
+        'Bar colour is the position on the anomaly scale, not a channel '
+        'hue.</p></div>')
     return "".join(out)
 
 
@@ -2202,16 +2300,9 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                           .get("nino34_weekly_traditional"),
                           root_prefix)
         head += _break_html(week_events)
-        head += _wave_strip_html(magn_pct, brief_date_iso)
-        issue_open = (
-            '<div class="shell"><main class="body" id="issue">'
-            + '<div class="issue-head">'
-            + stamp_html
-            + '<h1>How likely is a super El Niño this winter?</h1>'
-            + f'<p class="lede">{lede_text}</p>'
-            + bottom_line_html
-            + '</div>'
-        )
+        head += _wave_strip_html(magn_pct, brief_date_iso,
+                                 f"briefs/{brief_date_iso}/")
+        issue_open = '<div class="shell"><main class="body">'
     else:
         # Archive issue page, built to the delivered spec: the answer on
         # the left, the ocean heat comparison on the right. The hero no
@@ -2497,8 +2588,9 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 
     home = root_prefix if root_prefix else "./"
     footer_html = (
-        _issue_meta_html(brief_date_iso, offset_phrase, freshness,
-                         briefs_href)
+        ("" if is_front else
+         _issue_meta_html(brief_date_iso, offset_phrase, freshness,
+                          briefs_href))
         + '</main></div>\n'
         '<footer class="field"><div class="field-shell"><div class="foot">'
         '<div class="foot-top">'
@@ -2656,10 +2748,13 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     else:
         analyst_html = ''
 
-    body_sections = (ladder_html + analyst_html + chart_html + physical_html
-                     + impacts_html + sources_html + caveats_html)
     if is_front:
-        body_sections += _channels_html(root_prefix) + _email_capture_html()
+        # Channels and the signup, and nothing from the report.
+        body_sections = _channels_html(root_prefix) + _email_capture_html()
+    else:
+        body_sections = (ladder_html + analyst_html + chart_html
+                         + physical_html + impacts_html + sources_html
+                         + caveats_html)
     body_sections = _number_sections(body_sections)
     return (head + body_sections + footer_html
             + '\n</body>\n</html>\n')

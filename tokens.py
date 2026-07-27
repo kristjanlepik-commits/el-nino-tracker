@@ -296,6 +296,21 @@ SHELL_MAX = 1180
 # markers stay plain discs whose area encodes magnitude.
 ATTENUATION = [(3.0, 1.0), (2.4, 0.45), (1.8, 0.2)]
 
+# What each step actually does, because an unused third of a three-part
+# ratio gets reinvented by whoever finds it next.
+#
+#   step 1, 3px at 100%   RULE_MASTHEAD, opens a section or a list
+#   step 2, 2.4px at 45%  RULE_STEP, divides items within a list
+#   step 3, 1.8px at 20%  COLOUR ONLY. Its opacity is RULE_20, which is
+#                         the table hairline and LAND_LINE. Its 1.8px
+#                         WIDTH is deliberately not used: at table-row
+#                         density 1.8px reads as a divider rather than a
+#                         hairline, which would collapse the distinction
+#                         between step 2 and step 3. The hairline is 1px.
+#
+# So the ratio governs three opacities and two widths, on purpose.
+RULE_WEIGHTS = {"masthead": 3.0, "step": 2.4, "hairline": 1.0}
+
 RULE_HAIR = 1        # table row, printable hairline
 RULE_STEP = 2.4      # list divider, at 45%
 RULE_MASTHEAD = 3    # full, opens a section or list
