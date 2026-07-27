@@ -714,11 +714,23 @@ def _load_month_prior_headline_smoothed(current_brief_date: date) -> dict | None
     if month_or_older:
         chosen_date, chosen_buckets = month_or_older[-1]
         label = "vs last month"
-    else:
-        chosen_date, chosen_buckets = matching[0]
-        label = "since first issue"
+        return {"buckets": chosen_buckets, "date": chosen_date, "label": label}
 
-    return {"buckets": chosen_buckets, "date": chosen_date, "label": label}
+    # Fallback: only when the oldest same-version archive genuinely IS the
+    # site's first issue, so the "since first issue" copy stays true. After
+    # a mid-life methodology bump the oldest same-version archive is just a
+    # recent issue; comparing against it two weeks in produced a false
+    # "since first issue" pill on 2026-07-27 (caught by Kristjan). In that
+    # case show no delta; "vs last month" returns once a same-version
+    # archive is 28+ days old.
+    all_dirs = [d.name for d in DOCS_BRIEFS_ROOT.iterdir() if d.is_dir()
+                and (d / "meta.json").exists()]
+    first_issue_iso = min(all_dirs) if all_dirs else None
+    chosen_date, chosen_buckets = matching[0]
+    if first_issue_iso and chosen_date.isoformat() == first_issue_iso:
+        return {"buckets": chosen_buckets, "date": chosen_date,
+                "label": "since first issue"}
+    return None
 
 
 EDITORIAL_NOTE_FILE = Path(__file__).parent / "editorial_note.md"
