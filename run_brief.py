@@ -99,23 +99,20 @@ DISPLAY_HOST = PAGES_BASE_URL.split("//", 1)[-1]
 # the platform chat wires the real signup URL here.
 EMAIL_SIGNUP_URL = ""
 
-# About page claims about how the publication operates. Both are drafted
-# and neither ships until Kristjan ratifies, because they are editorial
-# policy rather than design.
+# The About page's independence and corrections copy was gated here
+# pending ratification. Both are now resolved and the wording is inline
+# in build_about_html, so the gates are gone.
 #
-# ABOUT_INDEPENDENCE additionally CONFLICTS WITH T8. The visual-language
-# chat drafted "no funder, no advertising, no sponsored channel, no
-# paywall". Advertising and consumer subscription are genuinely ruled
-# out, and "no paywall" is supportable with T8's own qualifier "during
-# peak attention". But an anchor sponsor is priority 1 commercially at
-# T8, an instant yes at $50K, and the working product framing is
-# literally "Presented by [X]". So "no funder" and "no sponsored channel"
-# would be false the week a sponsor signs, and an About page that becomes
-# false is worse than one that says less. If independence is claimed at
-# all it should describe the firewall (business pressure does not steer
-# editorial, per T8) rather than the absence of money.
-ABOUT_INDEPENDENCE = None
-ABOUT_CORRECTIONS = None
+# Worth keeping the reasoning: the first draft claimed "no funder, no
+# advertising, no sponsored channel". Advertising is genuinely ruled out,
+# but an anchor sponsor is priority 1 commercially at T8 and the working
+# product framing is "Presented by [X]", so "no funder" would have been
+# false the week a sponsor signed. The ratified copy claims independence
+# as a firewall (independent publication, named editor, methodology
+# reviewed externally) rather than as an absence of money, which is both
+# true and durable. The corrections copy went the same way: "nothing is
+# edited in place" was falsifiable from this repo's own history, and the
+# ratified version promises less and survives an audit.
 
 
 PUBLIC_SOURCE_NAMES = {
@@ -1797,8 +1794,9 @@ def _attr_tag(status: str) -> str:
 # negotiable.
 ATTR_GLOSS = {
     "enso": "a season and place where El Ni\u00f1o shifts the odds",
-    "non_enso": "nothing in this week\u2019s data ties it to El Ni\u00f1o",
-    "pending": "not assessed yet",
+    "non_enso": ("no established pathway ties this kind of event to El "
+                 "Ni\u00f1o"),
+    "pending": "the formal attribution work is not in yet",
 }
 
 
@@ -3662,10 +3660,9 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
     secs = []
     secs.append(_about_section(
         "01", "The question",
-        '<p>One question, asked of whatever is in the news: <strong>how '
-        'big is this, actually?</strong> Not what caused it, and not what '
-        'happens next. How big, measured against a computable historical '
-        'baseline, with the sources named and dated.</p>'
+        '<p>Not what caused it, and not what happens next. <strong>How '
+        'big</strong>, measured against a computable historical baseline, '
+        'with the sources named and dated.</p>'
         '<p>Three things are distinguished throughout, and the site never '
         'collapses them:</p>' + swell,
         'The swell raised the ground the break happened on. That is a '
@@ -3676,16 +3673,14 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
     secs.append(_about_section(
         "02", "What we do not do",
         '<dl class="refusals">'
-        '<div class="refusal"><dt>No original modelling</dt>'
-        '<dd>Every number is reproduced from a named source and recombined. The historical sample of comparable events is too small to calibrate anything that would beat the agencies.</dd></div>'
+        '<div class="refusal"><dt>No rival forecast</dt>'
+        '<dd>The headline probabilities are agency and model-ensemble outputs, recombined by arithmetic we publish. We do not issue a competing forecast of our own.</dd></div>'
         '<div class="refusal"><dt>No causal attribution</dt>'
         '<dd>We report whether an event falls inside a window where El Ni&ntilde;o shifts the odds. Formal attribution is a separate scientific exercise and we defer to it.</dd></div>'
         '<div class="refusal"><dt>No price forecasts</dt>'
         '<dd>Where a physical quantity reaches a market we state the quantity and cite named analysis. We do not originate the number, and we make no trade recommendations.</dd></div>'
         '<div class="refusal"><dt>No averaging away disagreement</dt>'
-        '<dd>When forecast centres disagree, the disagreement is the finding, and it is shown.</dd></div>'
-        '<div class="refusal"><dt>No coverage without a baseline</dt>'
-        '<dd>If an event cannot be put against a computable historical comparison, this site does not cover it.</dd></div>'
+        '<dd>When forecast centers disagree, the disagreement is the finding, and it is shown.</dd></div>'
         '</dl>'))
 
     secs.append(_about_section(
@@ -3694,6 +3689,10 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
         'directly and carrying the date its publisher issued it, which is '
         'kept distinct from the date we retrieved it. An agency that has '
         'gone quiet reads as quiet rather than as current.</p>'
+        '<p>Where a published source exists, we use it. Where none exists '
+        'and the question still matters, we build the measure ourselves, '
+        'publish the working, and label the result as ours so it is never '
+        'mistaken for an agency number.</p>'
         f'<p>The full source list and the arithmetic are on the '
         f'<a href="{h(methodology_href)}">methodology page</a>.</p>'))
 
@@ -3703,7 +3702,7 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
         'When the arithmetic changes the version changes with it, and '
         'week-over-week comparisons that straddle a change are suppressed '
         'rather than quietly shown.</p>',
-        f'This issue: methodology v{h(str(S.METHODOLOGY_VERSION))}.'))
+        'The current version is always shown on the methodology page.'))
 
     secs.append(_about_section(
         "05", "The archive is immutable",
@@ -3731,19 +3730,28 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
         'it can be measured against, which is why the list is short.</p>'
         '<p><strong>El Ni&ntilde;o 2026-27</strong>, a weekly probability '
         'brief. <strong>Fire</strong>, hotspot activity against same-week '
-        'satellite baselines. Floods and a cross-channel damage ledger are '
-        'planned and not yet published.</p>'))
+        'satellite baselines, first issue 3 August 2026. Floods and a '
+        'cross-channel damage ledger are planned and not yet '
+        'published.</p>'))
 
-    who = ('<p>Written by <a href="' + h(AUTHOR_CONTACT_URL) + '">'
-           + h(AUTHOR_NAME) + '</a>. Contact details are in the footer.</p>')
-    if ABOUT_INDEPENDENCE:
-        who += f'<p>{ABOUT_INDEPENDENCE}</p>'
+    # Ratified byline. An anonymous-collective framing was considered and
+    # rejected: falsifiable on the first "which scientists?", weaker for
+    # citation because reporters cite named authors, and it matches the
+    # pattern of agenda sites that hide authorship. Upgrade path is named
+    # advisors.
+    who = ('<p>The Long Swell is an independent publication, written and '
+           'edited by <a href="' + h(AUTHOR_CONTACT_URL) + '">'
+           + h(AUTHOR_NAME) + '</a>. The methodology is shared with '
+           'working climate scientists for external review. Contact '
+           'details are in the footer.</p>')
     secs.append(_about_section("08", "Who writes this", who))
 
-    corr = ('<p>Corrections are published forward. The original issue is '
-            'left standing, the correction appears in the next one, and it '
-            'says what changed. Nothing is edited in place.</p>'
-            if ABOUT_CORRECTIONS is None else f'<p>{ABOUT_CORRECTIONS}</p>')
+    # Ratified. The earlier "nothing is edited in place" was falsifiable
+    # from this repo's own history; this version is a stronger promise
+    # precisely because it survives an audit.
+    corr = ('<p>Past issues are never edited. A genuine rendering error on '
+            'the current issue is fixed the day it is found, in a public '
+            'commit; everything older is frozen for good.</p>')
     secs.append(_about_section(
         "09", "Corrections",
         corr,
@@ -3787,7 +3795,8 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
             + '<p class="foot-cite">'
             + f'<b>By <a href="{h(AUTHOR_CONTACT_URL)}">{h(AUTHOR_NAME)}</a>.</b> '
             + f'Licensed <a href="{h(LICENSE_URL)}">{h(LICENSE_NAME)}</a>. '
-            + f'<a href="{h(PAGES_BASE_URL)}/">{h(DISPLAY_HOST)}</a><br>'
+            + f'<a href="https://{h(T.SITE_HOST_DISPLAY)}/">'
+            + f'{h(T.SITE_HOST_DISPLAY)}</a><br>'
             + 'Every issue archived, immutable. Disagreements are surfaced, '
               'not averaged.'
             + '</p></div></div></footer>\n</body>\n</html>\n')

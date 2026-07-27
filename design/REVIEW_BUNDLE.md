@@ -10,7 +10,7 @@ from the exact bytes embedded below.
 | Source | sha256, first 12 |
 |---|---|
 | `tokens.py` | `5555808c7441` |
-| `run_brief.py` | `ae5687333b8d` |
+| `run_brief.py` | `7a646466a159` |
 | `PUBLIC_CSS` as extracted | `49e934d569b5` |
 
 **Fetch with a sha-pinned URL, never the branch name.** Raw URLs on a
@@ -1619,8 +1619,9 @@ def _attr_tag(status: str) -> str:
 # negotiable.
 ATTR_GLOSS = {
     "enso": "a season and place where El Ni\u00f1o shifts the odds",
-    "non_enso": "nothing in this week\u2019s data ties it to El Ni\u00f1o",
-    "pending": "not assessed yet",
+    "non_enso": ("no established pathway ties this kind of event to El "
+                 "Ni\u00f1o"),
+    "pending": "the formal attribution work is not in yet",
 }
 
 def _attr_legend(events: list[dict]) -> str:
