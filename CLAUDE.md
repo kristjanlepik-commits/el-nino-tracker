@@ -101,6 +101,55 @@ Shared artifacts every chat reads at session start: this file,
 ratification ledger; any chat appends when Kristjan ratifies), and
 auto-memory MEMORY.md (cross-chat bulletin).
 
+## Telling another chat something (read this, it is new)
+
+Chats can now message each other directly. Kristjan is no longer the
+clipboard. Use `mcp__ccd_session_mgmt__list_sessions` to get session
+ids, then `mcp__ccd_session_mgmt__send_message`. The message lands in
+the target chat as a turn labelled with your chat's name.
+
+**The one rule: draft it, show Kristjan, send it after he confirms.**
+Never send unseen. He keeps oversight; he just stops copy-pasting.
+(His instruction, 2026-07-27: "I need to confirm the messages, but
+sending is automatic.")
+
+Send a message when any of these is true. This list exists because
+every item on it has already gone wrong at least once:
+
+1. **You changed something another chat owns, or a shared seam.**
+   Say what changed and what they must not undo.
+2. **You found a bug on someone else's surface.** Do not fix it and
+   do not stay quiet. Report it with file and line.
+3. **You are blocked on another chat.** Say exactly what you need.
+4. **You shipped something others build on.** Especially anything
+   that changes how pages are published or verified.
+5. **You are proposing a change to a file another chat owns.** Send
+   the proposal, do not merge it for them.
+
+Two habits worth copying, both learned the hard way:
+
+- **Verify the specific property you changed, live.** A generic check
+  will happily green-light the exact regression you just introduced.
+  A link check found zero broken links on a page that had silently
+  lost its entire masthead.
+- **Assume nothing is live until you have seen it live.** A merged
+  commit is not a published page. This repo has several publish
+  paths; `scripts/publish_all.py` runs the ones that do not fetch.
+
+## Bugs
+
+Private tracker: **GitHub Issues on `kristjanlepik-commits/tls-internal`**
+(the private internal repo). File anything that is not fixed in the
+same session, with file and line. `gh issue list -R
+kristjanlepik-commits/tls-internal` to read, `gh issue create -R ...`
+to file. The public repo's Issues are for reader-visible defects only.
+
+A bug that can regress should become a **guard**, not just a ticket.
+`scripts/qa_check.py` and `scripts/publish_all.py` enforce the ones we
+have already hit: em-dashes, dead links, archive immutability, exactly
+one analytics tag per page, the shared masthead per page. A guard
+cannot be forgotten; a ticket can.
+
 ### ENSO tracker chat ("El Nino model buildout"; formerly "methodology chat")
 
 - `fetchers/` (all modules + `_common.py`)
