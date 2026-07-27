@@ -37,6 +37,7 @@ it. See `research/reply_fire_to_design.md` section 3.
 """
 import json
 import os
+import re
 import time
 from datetime import datetime, timedelta, timezone
 
@@ -53,29 +54,34 @@ MIN_COUNT = 500
 MIN_MULTIPLE = 1.5
 STRONG_MULTIPLE = 2.0
 MAX_RANK = 3
-MAX_MARKERS = 8
+MAX_MARKERS = 12
+HIGH_VOLUME = 20000   # always shown if it clears the base gate
 
-# Every item this week is non_enso, and that is the finding rather
-# than a gap: the Mediterranean is the declared control region, Canada
-# is boreal with a weak link, the southern African savanna is routine
-# agricultural burning, and Australian fire in July is northern savanna
-# outside the tracked November-February window. Australia flips to
-# "enso" when that window opens.
+# Attribution is an editorial judgment per country, from the fixed
+# three-value vocabulary. Anything not assessed defaults to "pending",
+# which is what that tag exists for: the sweep now surfaces countries
+# faster than they can be assessed, and an unassessed country must not
+# silently inherit a claim.
+#
+# Assessed so far: the Mediterranean is the declared non-ENSO control,
+# Canada is boreal with a weak link, southern African savanna burning is
+# routine agriculture, and Australian fire in July is northern savanna
+# outside the tracked Nov-Feb window (it flips to "enso" when that
+# window opens). Indonesia is a declared R5 ENSO region in fires/SPEC.md,
+# so it carries "enso" on our own methodology.
 ATTRIBUTION = {
     "ESP": "non_enso", "FRA": "non_enso", "GBR": "non_enso",
     "ITA": "non_enso", "CAN": "non_enso", "AGO": "non_enso",
     "COD": "non_enso", "ZMB": "non_enso", "AUS": "non_enso",
+    "USA": "non_enso", "IDN": "enso",
 }
-DISPLAY = {
-    "ESP": "Spain", "FRA": "France", "GBR": "United Kingdom",
-    "ITA": "Italy", "CAN": "Canada", "AGO": "Angola",
-    "COD": "DR Congo", "ZMB": "Zambia", "AUS": "Australia",
-}
-SLUG = {
-    "ESP": "spain", "FRA": "france", "GBR": "uk",
-    "ITA": "italy", "CAN": "canada", "AGO": "angola",
-    "COD": "dr-congo", "ZMB": "zambia", "AUS": "australia",
-}
+DEFAULT_ATTRIBUTION = "pending"
+
+
+def slugify(name):
+    s = name.lower()
+    s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+    return s
 
 
 def contains_points(ring, pts):
@@ -241,13 +247,13 @@ def main():
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
         rows.append({
-            "iso": iso, "region": DISPLAY[iso], "count": count,
+            "iso": iso, "region": h["name"], "count": count,
             "multiple": round(multiple, 1), "rank": f"{rank} of 15",
             "rank_n": rank, "lat": lat, "lon": lon,
             "centroid_basis": basis,
-            "attribution": ATTRIBUTION[iso],
+            "attribution": ATTRIBUTION.get(iso, DEFAULT_ATTRIBUTION),
             "title": make_title(rank, multiple, count, prev_best, prev_year),
-            "href": f"fires/{SLUG[iso]}/",
+            "href": f"fires/{slugify(h['name'])}/",
         })
         print(f"{iso}: {count:,} x{multiple:.1f} rank {rank} "
               f"({lat}, {lon}) {basis}", flush=True)
@@ -257,8 +263,16 @@ def main():
                 and r["multiple"] >= MIN_MULTIPLE
                 and (r["multiple"] >= STRONG_MULTIPLE
                      or r["rank_n"] <= MAX_RANK)]
+    # Sort by departure, the house convention. But cap by multiple alone
+    # and a 609-detection country outranks Canada's 75,463, hiding the
+    # largest fire complex on the planet. So anything genuinely large
+    # that clears the base gate is kept regardless of where the cap
+    # falls. Volume does not earn a marker on its own; it does earn one
+    # once the country is already anomalous.
     eligible.sort(key=lambda r: -r["multiple"])
-    eligible = eligible[:MAX_MARKERS]
+    top = eligible[:MAX_MARKERS]
+    big = [r for r in eligible[MAX_MARKERS:] if r["count"] >= HIGH_VOLUME]
+    eligible = sorted(top + big, key=lambda r: -r["multiple"])
 
     end_fmt = "%-d" if start.month == end.month else "%b %-d"
     win_label = f"wk {start.strftime('%b %-d')}-{end.strftime(end_fmt)}"
