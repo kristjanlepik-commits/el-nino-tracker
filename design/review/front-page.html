@@ -973,19 +973,27 @@
   }
 
   /* ---------- about: numbered section grid ---------- */
-  /* The one new pattern this page needs. Label column takes
-     minmax(max-content, 220px) and the prose column takes minmax(0, 1fr):
-     a ch floor on the prose track would leave the label column as the
-     only thing able to shrink, and it collapses. */
+  /* Label column floors at 0, deliberately. Per the Grid spec a minmax()
+     whose min exceeds its max resolves to the min, so an intrinsic floor
+     on a column carrying 20px headings ignores the 220px cap entirely:
+     "Where the numbers come from" measures 277px unwrapped and stole
+     57px from the prose. An intrinsic floor suits short tracked-mono
+     labels and not headings, which can wrap. The prose track keeps
+     minmax(0, 1fr) so it is the one that gives. */
   .about-sec {
     display: grid;
-    grid-template-columns: minmax(max-content, 220px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
     gap: 10px 56px;
     padding: 26px 0 34px;
     border-top: 2.4px solid var(--rule-45);
   }
-  .about-sec:first-of-type { border-top: 3px solid var(--ink); }
-  .about-sec:last-of-type { border-bottom: 3px solid var(--ink); }
+  /* Explicit classes, not :first-of-type. That pseudo matches the first
+     element of its TYPE among siblings, so one <section> added above the
+     nine would leave every .about-sec without an opening rule and the
+     page would quietly open at 2.4px. :first-child does not work either,
+     since .issue-head precedes them. The builder marks the ends. */
+  .about-sec.about-open { border-top: 3px solid var(--ink); }
+  .about-sec.about-close { border-bottom: 3px solid var(--ink); }
   .about-num {
     font-family: var(--mono); font-size: 9.5px; line-height: 2;
     letter-spacing: 0.22em; text-transform: uppercase;
@@ -994,8 +1002,29 @@
   .about-sec h2 { font-size: 20px; font-weight: 500; margin-bottom: 10px; }
   .about-body p { margin: 0; max-width: 62ch; }
   .about-body p + p { margin-top: 14px; }
-  .about-body ul { margin: 0; padding-left: 20px; max-width: 62ch; }
-  .about-body li { margin-bottom: 10px; }
+  /* No bullet lists anywhere in this system. ol.caveats styles its own
+     markers and every other list is rule-separated rows, so discs would
+     be the one exception. The refusals in particular carry more weight as
+     rows than as a bulleted aside. */
+  .refusals { margin: 0; }
+  .refusals {
+    /* Opens and closes at 3px like .src-list, .event, .rung and
+       .swell-row. This is the block the page's credibility argument
+       leans on, so it reads as a closed list rather than trailing off.
+       Interior dividers stay at the 1px hairline. */
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+  }
+  .refusal {
+    display: grid;
+    grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+    gap: 4px 24px;
+    padding: 13px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .refusal:first-child { border-top: 0; }
+  .refusal dt { font-weight: 500; }
+  .refusal dd { margin: 0; color: var(--ink-soft); }
   .about-aside {
     font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
     color: var(--ink-soft); margin-top: 14px;
@@ -1003,11 +1032,14 @@
   }
 
   /* The three-row hierarchy: the only place the ratio's 1.8px width is
-     used as a rule, because here the hierarchy is the content. */
+     used as a rule, because here the hierarchy is the content. The
+     default top rule is the hairline step, so a fourth row added later
+     degrades to 1.8px rather than to no rule at all. */
   .swell-rows { margin: 0; }
   .swell-row {
+    border-top: 1.8px solid var(--rule-20);
     display: grid;
-    grid-template-columns: minmax(max-content, 118px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 118px) minmax(0, 1fr);
     gap: 6px 22px;
     padding: 14px 0;
   }
@@ -1023,13 +1055,12 @@
   }
   .swell-row dd { margin: 0; color: var(--ink-soft); max-width: 56ch; }
 
-  @media (max-width: 760px) {
-    .about-sec, .swell-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  }
-
   /* ---------- one breakpoint ---------- */
   @media (max-width: 760px) {
     .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
+    .about-sec, .swell-row, .refusal {
+      grid-template-columns: minmax(0, 1fr); gap: 8px;
+    }
     .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
     .heat, .two .note-side {
       border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
@@ -1062,6 +1093,12 @@
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+</script>
 </head>
 <body>
 <header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.75"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.55"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Channels"><a class="on" class="ch-elnino" href="./#issue">El Niño</a><a class="ch-fire" href="fires/">Fire</a></nav></div></div></header>

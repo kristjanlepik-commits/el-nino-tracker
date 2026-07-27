@@ -967,14 +967,13 @@
   }
 
   /* ---------- about: numbered section grid ---------- */
-  /* Label column is minmax(0, 220px), NOT minmax(max-content, 220px).
-     Per the Grid spec a minmax() whose min exceeds its max resolves to
-     the min, so a max-content floor on a column carrying 20px headings
-     ignored the 220px cap entirely: "Where the numbers come from" runs
-     about 280px unwrapped and stole 60px from the prose. A max-content
-     floor is right for short tracked-mono labels and wrong for headings,
-     which can wrap. The prose track keeps minmax(0, 1fr) so it is the
-     one that gives. */
+  /* Label column floors at 0, deliberately. Per the Grid spec a minmax()
+     whose min exceeds its max resolves to the min, so an intrinsic floor
+     on a column carrying 20px headings ignores the 220px cap entirely:
+     "Where the numbers come from" measures 277px unwrapped and stole
+     57px from the prose. An intrinsic floor suits short tracked-mono
+     labels and not headings, which can wrap. The prose track keeps
+     minmax(0, 1fr) so it is the one that gives. */
   .about-sec {
     display: grid;
     grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
@@ -982,8 +981,13 @@
     padding: 26px 0 34px;
     border-top: 2.4px solid var(--rule-45);
   }
-  .about-sec:first-of-type { border-top: 3px solid var(--ink); }
-  .about-sec:last-of-type { border-bottom: 3px solid var(--ink); }
+  /* Explicit classes, not :first-of-type. That pseudo matches the first
+     element of its TYPE among siblings, so one <section> added above the
+     nine would leave every .about-sec without an opening rule and the
+     page would quietly open at 2.4px. :first-child does not work either,
+     since .issue-head precedes them. The builder marks the ends. */
+  .about-sec.about-open { border-top: 3px solid var(--ink); }
+  .about-sec.about-close { border-bottom: 3px solid var(--ink); }
   .about-num {
     font-family: var(--mono); font-size: 9.5px; line-height: 2;
     letter-spacing: 0.22em; text-transform: uppercase;
@@ -997,6 +1001,14 @@
      be the one exception. The refusals in particular carry more weight as
      rows than as a bulleted aside. */
   .refusals { margin: 0; }
+  .refusals {
+    /* Opens and closes at 3px like .src-list, .event, .rung and
+       .swell-row. This is the block the page's credibility argument
+       leans on, so it reads as a closed list rather than trailing off.
+       Interior dividers stay at the 1px hairline. */
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+  }
   .refusal {
     display: grid;
     grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
@@ -1004,7 +1016,7 @@
     padding: 13px 0;
     border-top: 1px solid var(--rule);
   }
-  .refusal:first-child { border-top: 0; padding-top: 0; }
+  .refusal:first-child { border-top: 0; }
   .refusal dt { font-weight: 500; }
   .refusal dd { margin: 0; color: var(--ink-soft); }
   .about-aside {
@@ -1021,7 +1033,7 @@
   .swell-row {
     border-top: 1.8px solid var(--rule-20);
     display: grid;
-    grid-template-columns: minmax(max-content, 118px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 118px) minmax(0, 1fr);
     gap: 6px 22px;
     padding: 14px 0;
   }
@@ -1075,10 +1087,16 @@
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+</script>
 </head>
 <body>
 <header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Channels"><a class="ch-elnino" href="./#issue">El Niño</a><a class="ch-fire" href="fires/">Fire</a></nav></div></div></header>
-<div class="shell"><main class="body"><div class="issue-head"><h1>What this is, and what it is not.</h1><p class="lede">One question, asked of whatever is in the news: how big is this, actually? The limits come first, because they are what makes the rest believable.</p></div><section class="about-sec"><div><span class="about-num">01</span><h2>The question</h2></div><div class="about-body"><p>One question, asked of whatever is in the news: <strong>how big is this, actually?</strong> Not what caused it, and not what happens next. How big, measured against a computable historical baseline, with the sources named and dated.</p><p>Three things are distinguished throughout, and the site never collapses them:</p><dl class="swell-rows"><div class="swell-row"><dt>The swell</dt><dd>Climate change. Decades of accumulated energy, the ground everything else happens on.</dd></div><div class="swell-row"><dt>The wave</dt><dd>The 2026-27 El Ni&ntilde;o. One large wave riding the swell, this season.</dd></div><div class="swell-row"><dt>The break</dt><dd>The events reaching the news now. A fire week, a flood, a harvest.</dd></div></dl><p class="about-aside">The swell raised the ground the break happened on. That is a different claim from saying the wave caused it, and this site only makes the first.</p></div></section><section class="about-sec"><div><span class="about-num">02</span><h2>What we do not do</h2></div><div class="about-body"><dl class="refusals"><div class="refusal"><dt>No original modelling</dt><dd>Every number is reproduced from a named source and recombined. The historical sample of comparable events is too small to calibrate anything that would beat the agencies.</dd></div><div class="refusal"><dt>No causal attribution</dt><dd>We report whether an event falls inside a window where El Ni&ntilde;o shifts the odds. Formal attribution is a separate scientific exercise and we defer to it.</dd></div><div class="refusal"><dt>No price forecasts</dt><dd>Where a physical quantity reaches a market we state the quantity and cite named analysis. We do not originate the number, and we make no trade recommendations.</dd></div><div class="refusal"><dt>No averaging away disagreement</dt><dd>When forecast centres disagree, the disagreement is the finding, and it is shown.</dd></div><div class="refusal"><dt>No coverage without a baseline</dt><dd>If an event cannot be put against a computable historical comparison, this site does not cover it.</dd></div></dl></div></section><section class="about-sec"><div><span class="about-num">03</span><h2>Where the numbers come from</h2></div><div class="about-body"><p>Every input is a public agency or model output, fetched directly and carrying the date its publisher issued it, which is kept distinct from the date we retrieved it. An agency that has gone quiet reads as quiet rather than as current.</p><p>The full source list and the arithmetic are on the <a href="methodology.html">methodology page</a>.</p></div></section><section class="about-sec"><div><span class="about-num">04</span><h2>The methodology is versioned</h2></div><div class="about-body"><p>Every issue records the methodology version that produced it. When the arithmetic changes the version changes with it, and week-over-week comparisons that straddle a change are suppressed rather than quietly shown.</p><p class="about-aside">This issue: methodology v1.9.</p></div></section><section class="about-sec"><div><span class="about-num">05</span><h2>The archive is immutable</h2></div><div class="about-body"><p>Once an issue publishes it is frozen. Numbers are not revised in place, prose is not tidied, and the design it shipped with stays with it. Improvements apply to later issues only.</p><p>Every issue is in the <a href="briefs/">archive</a>, including the ones a later week proved wrong.</p></div></section><section class="about-sec"><div><span class="about-num">06</span><h2>Attribution is stated, never implied</h2></div><div class="about-body"><p>Every event carries one of exactly three statuses, and it is visible on the item rather than buried in a footnote. A site built around El Ni&ntilde;o trains readers to assume it is behind everything, so each item has to say what it is not.</p><p style="margin-top:14px"><span class="attr attr-enso">ENSO-loaded window</span> <span style="color:var(--ink-soft)">a season and place where El Niño shifts the odds</span></p><p style="margin-top:14px"><span class="attr attr-none">Not ENSO-linked</span> <span style="color:var(--ink-soft)">nothing in this week’s data ties it to El Niño</span></p><p style="margin-top:14px"><span class="attr attr-pending">Attribution pending</span> <span style="color:var(--ink-soft)">not assessed yet</span></p></div></section><section class="about-sec"><div><span class="about-num">07</span><h2>The channels</h2></div><div class="about-body"><p>Each channel reads one domain against its own baselines, as its own publication. A channel ships only once it has a baseline it can be measured against, which is why the list is short.</p><p><strong>El Ni&ntilde;o 2026-27</strong>, a weekly probability brief. <strong>Fire</strong>, hotspot activity against same-week satellite baselines. Floods and a cross-channel damage ledger are planned and not yet published.</p></div></section><section class="about-sec"><div><span class="about-num">08</span><h2>Who writes this</h2></div><div class="about-body"><p>Written by <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>. Contact details are in the footer.</p></div></section><section class="about-sec"><div><span class="about-num">09</span><h2>Corrections</h2></div><div class="about-body"><p>Corrections are published forward. The original issue is left standing, the correction appears in the next one, and it says what changed. Nothing is edited in place.</p><p class="about-aside">This follows from the archive rule in section 05: an archive that can be edited is not a record.</p></div></section></main></div>
+<div class="shell"><main class="body"><div class="issue-head"><h1>What this is, and what it is not.</h1><p class="lede">One question, asked of whatever is in the news: how big is this, actually? The limits come first, because they are what makes the rest believable.</p></div><section class="about-sec about-open"><div><span class="about-num">01</span><h2>The question</h2></div><div class="about-body"><p>One question, asked of whatever is in the news: <strong>how big is this, actually?</strong> Not what caused it, and not what happens next. How big, measured against a computable historical baseline, with the sources named and dated.</p><p>Three things are distinguished throughout, and the site never collapses them:</p><dl class="swell-rows"><div class="swell-row"><dt>The swell</dt><dd>Climate change. Decades of accumulated energy, the ground everything else happens on.</dd></div><div class="swell-row"><dt>The wave</dt><dd>The 2026-27 El Ni&ntilde;o. One large wave riding the swell, this season.</dd></div><div class="swell-row"><dt>The break</dt><dd>The events reaching the news now. A fire week, a flood, a harvest.</dd></div></dl><p class="about-aside">The swell raised the ground the break happened on. That is a different claim from saying the wave caused it, and this site only makes the first.</p></div></section><section class="about-sec"><div><span class="about-num">02</span><h2>What we do not do</h2></div><div class="about-body"><dl class="refusals"><div class="refusal"><dt>No original modelling</dt><dd>Every number is reproduced from a named source and recombined. The historical sample of comparable events is too small to calibrate anything that would beat the agencies.</dd></div><div class="refusal"><dt>No causal attribution</dt><dd>We report whether an event falls inside a window where El Ni&ntilde;o shifts the odds. Formal attribution is a separate scientific exercise and we defer to it.</dd></div><div class="refusal"><dt>No price forecasts</dt><dd>Where a physical quantity reaches a market we state the quantity and cite named analysis. We do not originate the number, and we make no trade recommendations.</dd></div><div class="refusal"><dt>No averaging away disagreement</dt><dd>When forecast centres disagree, the disagreement is the finding, and it is shown.</dd></div><div class="refusal"><dt>No coverage without a baseline</dt><dd>If an event cannot be put against a computable historical comparison, this site does not cover it.</dd></div></dl></div></section><section class="about-sec"><div><span class="about-num">03</span><h2>Where the numbers come from</h2></div><div class="about-body"><p>Every input is a public agency or model output, fetched directly and carrying the date its publisher issued it, which is kept distinct from the date we retrieved it. An agency that has gone quiet reads as quiet rather than as current.</p><p>The full source list and the arithmetic are on the <a href="methodology.html">methodology page</a>.</p></div></section><section class="about-sec"><div><span class="about-num">04</span><h2>The methodology is versioned</h2></div><div class="about-body"><p>Every issue records the methodology version that produced it. When the arithmetic changes the version changes with it, and week-over-week comparisons that straddle a change are suppressed rather than quietly shown.</p><p class="about-aside">This issue: methodology v1.9.</p></div></section><section class="about-sec"><div><span class="about-num">05</span><h2>The archive is immutable</h2></div><div class="about-body"><p>Once an issue publishes it is frozen. Numbers are not revised in place, prose is not tidied, and the design it shipped with stays with it. Improvements apply to later issues only.</p><p>Every issue is in the <a href="briefs/">archive</a>, including the ones a later week proved wrong.</p></div></section><section class="about-sec"><div><span class="about-num">06</span><h2>Attribution is stated, never implied</h2></div><div class="about-body"><p>Every event carries one of exactly three statuses, and it is visible on the item rather than buried in a footnote. A site built around El Ni&ntilde;o trains readers to assume it is behind everything, so each item has to say what it is not.</p><p style="margin-top:14px"><span class="attr attr-enso">ENSO-loaded window</span> <span style="color:var(--ink-soft)">a season and place where El Niño shifts the odds</span></p><p style="margin-top:14px"><span class="attr attr-none">Not ENSO-linked</span> <span style="color:var(--ink-soft)">nothing in this week’s data ties it to El Niño</span></p><p style="margin-top:14px"><span class="attr attr-pending">Attribution pending</span> <span style="color:var(--ink-soft)">not assessed yet</span></p></div></section><section class="about-sec"><div><span class="about-num">07</span><h2>The channels</h2></div><div class="about-body"><p>Each channel reads one domain against its own baselines, as its own publication. A channel ships only once it has a baseline it can be measured against, which is why the list is short.</p><p><strong>El Ni&ntilde;o 2026-27</strong>, a weekly probability brief. <strong>Fire</strong>, hotspot activity against same-week satellite baselines. Floods and a cross-channel damage ledger are planned and not yet published.</p></div></section><section class="about-sec"><div><span class="about-num">08</span><h2>Who writes this</h2></div><div class="about-body"><p>Written by <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>. Contact details are in the footer.</p></div></section><section class="about-sec about-close"><div><span class="about-num">09</span><h2>Corrections</h2></div><div class="about-body"><p>Corrections are published forward. The original issue is left standing, the correction appears in the next one, and it says what changed. Nothing is edited in place.</p><p class="about-aside">This follows from the archive rule in section 05: an archive that can be edited is not a record.</p></div></section></main></div>
 <footer class="field"><div class="field-shell"><div class="foot"><div class="foot-top"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a></div><p class="foot-cite"><b>By <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>.</b> Licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. <a href="https://kristjanlepik-commits.github.io/el-nino-tracker/">kristjanlepik-commits.github.io/el-nino-tracker</a><br>Every issue archived, immutable. Disagreements are surfaced, not averaged.</p></div></div></footer>
 </body>
 </html>

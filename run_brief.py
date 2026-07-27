@@ -38,6 +38,36 @@ import snapshot
 
 PAGES_BASE_URL = "https://kristjanlepik-commits.github.io/el-nino-tracker"
 GITHUB_REPO_URL = "https://github.com/kristjanlepik-commits/el-nino-tracker"
+# Analytics (platform-owned seam; D-020). Plausible is cookieless and
+# stores no personal data, so no consent banner is required and the
+# page stays clean. Public pages only: never the internal brief, which
+# is emailed. Set ANALYTICS_SNIPPET = "" to disable site-wide.
+#
+# This is Plausible's current site-specific form, copied from the
+# install screen for thelongswell.com. The id in the filename is a
+# public site identifier, not a secret; it is visible in page source
+# by design. Outbound links, file downloads and form submissions are
+# enabled in the account, and that config ships inside the served
+# script rather than as attributes here.
+#
+# The inline block is REQUIRED, not decoration: the served script ends
+# with `plausible.o && S(plausible.o)`, so it initializes only if the
+# options object was set first, and it drains a `plausible.q` queue for
+# calls made before the async file lands. Deleting it silently records
+# nothing. Plain string, not an f-string, because the JS is full of
+# braces.
+ANALYTICS_SITE_ID = "pa-UzORTw8rlmViOEWGoqLYK"
+ANALYTICS_SNIPPET = (
+    "<!-- Privacy-friendly analytics by Plausible -->\n"
+    f'<script async src="https://plausible.io/js/{ANALYTICS_SITE_ID}.js">'
+    "</script>\n"
+    "<script>\n"
+    "window.plausible=window.plausible||function()"
+    "{(plausible.q=plausible.q||[]).push(arguments)},"
+    "plausible.init=plausible.init||function(i){plausible.o=i||{}};\n"
+    "plausible.init()\n"
+    "</script>"
+)
 AUTHOR_NAME = "Kristjan Lepik"
 AUTHOR_CONTACT_URL = "https://www.linkedin.com/in/kristjanlepik/"
 LICENSE_NAME = "CC BY-NC 4.0"
@@ -257,6 +287,7 @@ def render_html(markdown_text: str, title: str = None,
         head_assets = (
             f"<style>{T.font_faces_css(root_prefix + 'fonts/')}</style>\n"
             + _favicon_links(root_prefix)
+            + f"{ANALYTICS_SNIPPET}\n"
         )
         home = home_href if home_href is not None else root_prefix or "./"
         masthead = (
@@ -1137,14 +1168,13 @@ _PUBLIC_CSS_TEMPLATE = """
   }
 
   /* ---------- about: numbered section grid ---------- */
-  /* Label column is minmax(0, 220px), NOT minmax(max-content, 220px).
-     Per the Grid spec a minmax() whose min exceeds its max resolves to
-     the min, so a max-content floor on a column carrying 20px headings
-     ignored the 220px cap entirely: "Where the numbers come from" runs
-     about 280px unwrapped and stole 60px from the prose. A max-content
-     floor is right for short tracked-mono labels and wrong for headings,
-     which can wrap. The prose track keeps minmax(0, 1fr) so it is the
-     one that gives. */
+  /* Label column floors at 0, deliberately. Per the Grid spec a minmax()
+     whose min exceeds its max resolves to the min, so an intrinsic floor
+     on a column carrying 20px headings ignores the 220px cap entirely:
+     "Where the numbers come from" measures 277px unwrapped and stole
+     57px from the prose. An intrinsic floor suits short tracked-mono
+     labels and not headings, which can wrap. The prose track keeps
+     minmax(0, 1fr) so it is the one that gives. */
   .about-sec {
     display: grid;
     grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
@@ -1152,8 +1182,13 @@ _PUBLIC_CSS_TEMPLATE = """
     padding: 26px 0 34px;
     border-top: 2.4px solid var(--rule-45);
   }
-  .about-sec:first-of-type { border-top: 3px solid var(--ink); }
-  .about-sec:last-of-type { border-bottom: 3px solid var(--ink); }
+  /* Explicit classes, not :first-of-type. That pseudo matches the first
+     element of its TYPE among siblings, so one <section> added above the
+     nine would leave every .about-sec without an opening rule and the
+     page would quietly open at 2.4px. :first-child does not work either,
+     since .issue-head precedes them. The builder marks the ends. */
+  .about-sec.about-open { border-top: 3px solid var(--ink); }
+  .about-sec.about-close { border-bottom: 3px solid var(--ink); }
   .about-num {
     font-family: var(--mono); font-size: 9.5px; line-height: 2;
     letter-spacing: 0.22em; text-transform: uppercase;
@@ -1167,6 +1202,14 @@ _PUBLIC_CSS_TEMPLATE = """
      be the one exception. The refusals in particular carry more weight as
      rows than as a bulleted aside. */
   .refusals { margin: 0; }
+  .refusals {
+    /* Opens and closes at 3px like .src-list, .event, .rung and
+       .swell-row. This is the block the page's credibility argument
+       leans on, so it reads as a closed list rather than trailing off.
+       Interior dividers stay at the 1px hairline. */
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+  }
   .refusal {
     display: grid;
     grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
@@ -1174,7 +1217,7 @@ _PUBLIC_CSS_TEMPLATE = """
     padding: 13px 0;
     border-top: 1px solid var(--rule);
   }
-  .refusal:first-child { border-top: 0; padding-top: 0; }
+  .refusal:first-child { border-top: 0; }
   .refusal dt { font-weight: 500; }
   .refusal dd { margin: 0; color: var(--ink-soft); }
   .about-aside {
@@ -1191,7 +1234,7 @@ _PUBLIC_CSS_TEMPLATE = """
   .swell-row {
     border-top: 1.8px solid var(--rule-20);
     display: grid;
-    grid-template-columns: minmax(max-content, 118px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 118px) minmax(0, 1fr);
     gap: 6px 22px;
     padding: 14px 0;
   }
@@ -2387,6 +2430,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 <meta name="twitter:image" content="{h(og_image_url)}">
 <style>{T.font_faces_css(root_prefix + "fonts/")}</style>
 {_favicon_links(root_prefix)}<style>{PUBLIC_CSS}</style>
+{ANALYTICS_SNIPPET}
 </head>
 <body>
 '''
@@ -3564,10 +3608,19 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     return "\n".join(md)
 
 
-def _about_section(num: str, label: str, body: str, aside: str = "") -> str:
+def _about_section(num: str, label: str, body: str, aside: str = "",
+                   edge: str = "") -> str:
+    """One numbered About section.
+
+    `edge` marks the first and last sections explicitly rather than
+    relying on :first-of-type, which matches the first element of its
+    TYPE among siblings: one <section> added above these would leave
+    every one of them without an opening rule.
+    """
     aside_html = f'<p class="about-aside">{aside}</p>' if aside else ""
+    cls = f"about-sec {edge}".strip()
     return (
-        '<section class="about-sec">'
+        f'<section class="{cls}">'
         f'<div><span class="about-num">{h(num)}</span>'
         f'<h2>{label}</h2></div>'
         f'<div class="about-body">{body}{aside_html}</div>'
@@ -3617,7 +3670,8 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
         'collapses them:</p>' + swell,
         'The swell raised the ground the break happened on. That is a '
         'different claim from saying the wave caused it, and this site '
-        'only makes the first.'))
+        'only makes the first.',
+        edge="about-open"))
 
     secs.append(_about_section(
         "02", "What we do not do",
@@ -3694,7 +3748,8 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
         "09", "Corrections",
         corr,
         'This follows from the archive rule in section 05: an archive that '
-        'can be edited is not a record.'))
+        'can be edited is not a record.',
+        edge="about-close"))
 
     head = f'''<!DOCTYPE html>
 <html lang="en">
@@ -3707,6 +3762,7 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
 <meta name="twitter:card" content="summary_large_image">
 <style>{T.font_faces_css(root_prefix + "fonts/")}</style>
 {_favicon_links(root_prefix)}<style>{PUBLIC_CSS}</style>
+{ANALYTICS_SNIPPET}
 </head>
 <body>
 '''

@@ -10,8 +10,8 @@ from the exact bytes embedded below.
 | Source | sha256, first 12 |
 |---|---|
 | `tokens.py` | `5555808c7441` |
-| `run_brief.py` | `3781441d9815` |
-| `PUBLIC_CSS` as extracted | `4f15019a7106` |
+| `run_brief.py` | `ae5687333b8d` |
+| `PUBLIC_CSS` as extracted | `49e934d569b5` |
 
 **Fetch with a sha-pinned URL, never the branch name.** Raw URLs on a
 branch are cached for a few minutes and can serve a stale copy; a
@@ -1454,14 +1454,13 @@ Token values are substituted in at build time from `tokens.py`; the
   }
 
   /* ---------- about: numbered section grid ---------- */
-  /* Label column is minmax(0, 220px), NOT minmax(max-content, 220px).
-     Per the Grid spec a minmax() whose min exceeds its max resolves to
-     the min, so a max-content floor on a column carrying 20px headings
-     ignored the 220px cap entirely: "Where the numbers come from" runs
-     about 280px unwrapped and stole 60px from the prose. A max-content
-     floor is right for short tracked-mono labels and wrong for headings,
-     which can wrap. The prose track keeps minmax(0, 1fr) so it is the
-     one that gives. */
+  /* Label column floors at 0, deliberately. Per the Grid spec a minmax()
+     whose min exceeds its max resolves to the min, so an intrinsic floor
+     on a column carrying 20px headings ignores the 220px cap entirely:
+     "Where the numbers come from" measures 277px unwrapped and stole
+     57px from the prose. An intrinsic floor suits short tracked-mono
+     labels and not headings, which can wrap. The prose track keeps
+     minmax(0, 1fr) so it is the one that gives. */
   .about-sec {
     display: grid;
     grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
@@ -1469,8 +1468,13 @@ Token values are substituted in at build time from `tokens.py`; the
     padding: 26px 0 34px;
     border-top: 2.4px solid var(--rule-45);
   }
-  .about-sec:first-of-type { border-top: 3px solid var(--ink); }
-  .about-sec:last-of-type { border-bottom: 3px solid var(--ink); }
+  /* Explicit classes, not :first-of-type. That pseudo matches the first
+     element of its TYPE among siblings, so one <section> added above the
+     nine would leave every .about-sec without an opening rule and the
+     page would quietly open at 2.4px. :first-child does not work either,
+     since .issue-head precedes them. The builder marks the ends. */
+  .about-sec.about-open { border-top: 3px solid var(--ink); }
+  .about-sec.about-close { border-bottom: 3px solid var(--ink); }
   .about-num {
     font-family: var(--mono); font-size: 9.5px; line-height: 2;
     letter-spacing: 0.22em; text-transform: uppercase;
@@ -1484,6 +1488,14 @@ Token values are substituted in at build time from `tokens.py`; the
      be the one exception. The refusals in particular carry more weight as
      rows than as a bulleted aside. */
   .refusals { margin: 0; }
+  .refusals {
+    /* Opens and closes at 3px like .src-list, .event, .rung and
+       .swell-row. This is the block the page's credibility argument
+       leans on, so it reads as a closed list rather than trailing off.
+       Interior dividers stay at the 1px hairline. */
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+  }
   .refusal {
     display: grid;
     grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
@@ -1491,7 +1503,7 @@ Token values are substituted in at build time from `tokens.py`; the
     padding: 13px 0;
     border-top: 1px solid var(--rule);
   }
-  .refusal:first-child { border-top: 0; padding-top: 0; }
+  .refusal:first-child { border-top: 0; }
   .refusal dt { font-weight: 500; }
   .refusal dd { margin: 0; color: var(--ink-soft); }
   .about-aside {
@@ -1508,7 +1520,7 @@ Token values are substituted in at build time from `tokens.py`; the
   .swell-row {
     border-top: 1.8px solid var(--rule-20);
     display: grid;
-    grid-template-columns: minmax(max-content, 118px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 118px) minmax(0, 1fr);
     gap: 6px 22px;
     padding: 14px 0;
   }
