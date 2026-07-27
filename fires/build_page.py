@@ -89,6 +89,10 @@ def build(events_doc, font_prefix="../fonts/"):
 {T.css_variables()}
 }}
 * {{ box-sizing: border-box; }}
+/* Line the shared masthead's shell up with this page's content column.
+   Without these the masthead ran edge to edge against a 760px centred
+   main. */
+:root {{ --shell-max: 760px; --shell-pad: 24px; }}
 body {{
   margin: 0; background: var(--paper); color: var(--ink);
   font-family: "{T.FONT_PROSE}", Georgia, serif;

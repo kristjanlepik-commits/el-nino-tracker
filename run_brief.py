@@ -125,6 +125,36 @@ PUBLIC_SOURCE_NAMES = {
     "ecmwf_seas5": "ECMWF SEAS5",
     "nmme": "NMME multi-model suite (incl. CFSv2)",
     "era5_wwe": "ERA5 cumulative westerly wind anomaly (CWWA)",
+    # Added 2026-07-27. Both fetchers have been feeding published copy
+    # while missing from this map, so the freshness grid printed their
+    # raw variable names, "era5_burst" and "oni_history", among properly
+    # named agencies. Wording is editor's to ratify; the entries stay
+    # either way, because both drive published numbers and a provenance
+    # block that omits an input is worse than one that names it plainly.
+    "era5_burst": "ERA5 westerly wind burst events",
+    "oni_history": "NOAA ONI historical record",
+}
+
+
+# The order the four published buckets appear in, most extreme first,
+# defined once. The probability ladder and the archive trend used to
+# hardcode this separately and had drifted into opposite directions:
+# the ladder ran +3.5 down to +2.0, the archive ran +2.0 up to +3.5, so
+# the same four numbers reversed as a reader moved between two pages.
+#
+# Open question, not mine to settle: whether most-extreme-first is the
+# right lead. Reading order is a form of prominence, and the system
+# rule is that prominence descends with claim strength, which is why
+# the ladder's own rungs lose substance downward. Leading with +3.5
+# means the first figure a reader meets is the least anchored one on
+# the site, and the visual weight then increases as they read down,
+# against the gradient. Flipping it is a one-line change here now.
+BUCKET_ORDER = ["record_>3.5", "record_>3.0", "9715_>2.5", "super_>2.0"]
+BUCKET_LABEL = {
+    "record_>3.5": "> +3.5 °C",
+    "record_>3.0": "> +3.0 °C",
+    "9715_>2.5": "> +2.5 °C",
+    "super_>2.0": "> +2.0 °C",
 }
 
 
@@ -160,23 +190,11 @@ _HTML_CSS_TEMPLATE = """
     font-family: var(--serif); font-size: 17.5px; line-height: 1.62;
     -webkit-font-smoothing: antialiased;
   }
-  .masthead-lite { border-bottom: 3px solid var(--ink); }
-  .masthead-lite .inner {
-    max-width: 820px; margin: 0 auto; padding: 18px 40px 16px;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 20px; flex-wrap: wrap;
-  }
-  .masthead-lite .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-  .masthead-lite .brand svg { color: var(--ink); }
-  .masthead-lite .brand-name {
-    font-family: var(--serif); font-size: 19px; font-weight: 500;
-    color: var(--ink); white-space: nowrap;
-  }
-  .masthead-lite a.back {
-    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--ink-faint); text-decoration: none;
-  }
-  .masthead-lite a.back:hover { color: var(--ink); }
+  /* The masthead here is the shared one, styled by SITE_MASTHEAD_CSS,
+     which render_html adds alongside this block. Nothing masthead
+     related belongs below, except lining its shell up with the reading
+     column, which is narrower here than on the tracker pages. */
+  :root { --shell-max: 820px; --shell-pad: 40px; }
   main { max-width: 820px; margin: 0 auto; padding: 40px 40px 80px; }
   h1 { font-size: clamp(32px, 4vw, 44px); font-weight: 500;
        letter-spacing: -0.018em; line-height: 1.10; margin: 0 0 20px; }
@@ -203,7 +221,8 @@ _HTML_CSS_TEMPLATE = """
   img { max-width: 100%; height: auto; display: block; }
   hr { border: none; border-top: 2px solid var(--ink); margin: 2.4em 0; }
   @media (max-width: 760px) {
-    .masthead-lite .inner, main { padding-left: 20px; padding-right: 20px; }
+    :root { --shell-pad: 20px; }
+    main { padding-left: 20px; padding-right: 20px; }
     body { font-size: 17px; }
   }
 """.strip()
@@ -268,8 +287,8 @@ def _favicon_links(root_prefix: str) -> str:
 
 
 def render_html(markdown_text: str, title: str = None,
-                root_prefix: str = None, home_href: str = None,
-                analytics: bool = False) -> str:
+                root_prefix: str = None,
+                analytics: bool = False, nav_active: str = "elnino") -> str:
     """Markdown page in the house reading style.
 
     analytics defaults to False because this same helper renders the
@@ -283,6 +302,16 @@ def render_html(markdown_text: str, title: str = None,
     the self-hosted fonts and favicon. None means a standalone render
     (internal briefs/ pages, emailed HTML) with no docs/ asset links;
     those fall back to the system font stacks.
+
+    Public pages get the shared house masthead, not a reduced one. This
+    page previously carried a "masthead-lite" with a brand and a link
+    home and nothing else, which left methodology.html with no nav and
+    no About: the same dead end the fire channel had, on the page a
+    journalist is most likely to arrive at cold from a citation. Chrome
+    is shared or it drifts, so there is one masthead and every public
+    page carries it. nav_active defaults to the El Nino channel because
+    methodology.md is that channel's document; a future markdown page
+    on another channel passes its own key.
     """
     body = md_lib.markdown(markdown_text, extensions=["tables", "fenced_code"])
     page_title = title or f"El Nino brief, {S.BRIEF_DATE.isoformat()}"
@@ -294,14 +323,8 @@ def render_html(markdown_text: str, title: str = None,
             + _favicon_links(root_prefix)
             + (f"{ANALYTICS_SNIPPET}\n" if analytics else "")
         )
-        home = home_href if home_href is not None else root_prefix or "./"
-        masthead = (
-            '<div class="masthead-lite"><div class="inner">'
-            f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
-            f'{_mark_svg(22)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
-            f'<a class="back" href="{h(home)}">Front page</a>'
-            '</div></div>\n'
-        )
+        masthead = site_masthead(root_prefix, active=nav_active)
+        head_assets += f"<style>{SITE_MASTHEAD_CSS}</style>\n"
     return (
         "<!DOCTYPE html>\n"
         "<html lang=\"en\"><head><meta charset=\"utf-8\">\n"
@@ -343,6 +366,17 @@ SITE_MASTHEAD_CSS = """
   /* Self-contained: a page that does not include PUBLIC_CSS has no link
      reset, so the wordmark and nav arrived underlined on the fire page. */
   header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
   header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
   header.field::after { display: none; }
   .masthead {
@@ -2675,6 +2709,8 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # unbroken. The buckets-note carries a one-line retirement footnote for
     # continuity; the event outgrowing the bottom of the scale is itself
     # part of the story.
+    # Rung order is BUCKET_ORDER; the archive trend derives its column
+    # order from the same constant. Reorder there, not here.
     ladder_html = (
         '<section><h2>Probability ladder</h2>'
         '<p class="section-sub">Peak three-month ONI, DJF 2026-27. Each rung '
@@ -2886,7 +2922,16 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # Footer freshness grid
     fresh_rows = []
     for src, info in freshness.items():
-        display = PUBLIC_SOURCE_NAMES.get(src, src)
+        # Never fall back to the raw key on a public page. A missing
+        # name is a build-time omission to fix, not something to print
+        # at a reader on the one block whose whole job is provenance.
+        # Warn loudly and keep building: invariant 1 says Monday still
+        # ships.
+        if src not in PUBLIC_SOURCE_NAMES:
+            print(f"  WARNING: source {src!r} has no PUBLIC_SOURCE_NAMES "
+                  f"entry; omitted from the public freshness grid")
+            continue
+        display = PUBLIC_SOURCE_NAMES[src]
         if info.get("ok") and not info.get("used_fallback"):
             meta = f'live, issued {info.get("issued")}'
         elif info.get("used_fallback"):
@@ -3942,12 +3987,8 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
 # ladder on an issue page reads this chart without re-learning: solid
 # for the calibrated rungs, losing substance for the two beyond the
 # instrumental record.
-ARCHIVE_SERIES = [
-    ("super_>2.0", "> +2.0 \u00b0C"),
-    ("9715_>2.5", "> +2.5 \u00b0C"),
-    ("record_>3.0", "> +3.0 \u00b0C"),
-    ("record_>3.5", "> +3.5 \u00b0C"),
-]
+# Derived, so the archive can never disagree with the ladder again.
+ARCHIVE_SERIES = [(k, BUCKET_LABEL[k]) for k in BUCKET_ORDER]
 
 
 def _archive_rows() -> list[dict]:
