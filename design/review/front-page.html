@@ -744,12 +744,15 @@
   .region-panel p { font-size: 17.5px; line-height: 1.62; margin: 0 0 12px; max-width: 62ch; }
 
   /* ---------- issue page: answer left, ocean heat right ---------- */
-  /* A 380px panel and a reading column need about 1000px to coexist,
-     so these two grids stack earlier than the global 760 breakpoint.
-     The single-breakpoint rule does not survive a fixed sidebar. */
+  /* Secondary column is COLUMN_SECOND (300px), not a number picked to
+     suit this page. An earlier 380px panel forced these grids to stack
+     at 1000px, which let one layout choice rewrite a system rule; the
+     visual-language chat called it correctly as drift. On the token the
+     single 760 breakpoint holds: at 761px the prose column still gets
+     325px and it only widens from there. */
   .top {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-columns: minmax(0, 1fr) 300px;
     gap: 56px;
     padding: 40px 0 0;
     align-items: start;
@@ -791,7 +794,7 @@
   /* chart left, reading note right */
   .two {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: minmax(0, 1fr) 300px;
     gap: 56px;
     align-items: start;
   }
@@ -818,16 +821,6 @@
     font-size: 13px; line-height: 1.75; color: var(--ink-soft);
   }
   .issue-meta .v b { color: var(--ink); font-weight: 500; }
-
-  @media (max-width: 1000px) {
-    .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
-    .heat, .two .note-side {
-      border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
-    }
-    .heat { max-width: 520px; }
-    .rung { grid-template-columns: 130px 92px minmax(0, 1fr); gap: 6px 20px; }
-    .rung .label { grid-column: 1 / -1; padding-top: 2px; }
-  }
 
   /* ---------- front page: lead, then the map ---------- */
   .lead-block { padding: 40px 0 30px; }
@@ -863,12 +856,9 @@
   }
   .mk:hover .mk-dot, .mk:focus .mk-dot { fill-opacity: 1; stroke-width: 2.5; }
   .nino-g { cursor: pointer; }
-  .nino-box {
-    stroke: var(--ink-soft); stroke-width: 0.6;
-    stroke-dasharray: 3 2; fill-opacity: 1;
-  }
+  .nino-box { stroke: none; fill-opacity: 1; }
   .nino-g:hover .nino-box, .nino-g:focus .nino-box {
-    stroke: var(--ink); stroke-width: 1.4; stroke-dasharray: none;
+    stroke: var(--ink); stroke-width: 1.2;
   }
   .nino-lb {
     font-family: var(--mono); font-size: 7px;
@@ -899,6 +889,13 @@
   /* ---------- one breakpoint ---------- */
   @media (max-width: 760px) {
     .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
+    .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+    .heat, .two .note-side {
+      border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
+    }
+    .heat { max-width: 520px; }
+    .rung { grid-template-columns: 130px 92px minmax(0, 1fr); gap: 6px 20px; }
+    .rung .label { grid-column: 1 / -1; padding-top: 2px; }
     .shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
     .rail { grid-column: 1; order: 2; padding-top: 8px; }
     .rail-inner {

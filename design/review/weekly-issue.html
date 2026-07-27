@@ -87,6 +87,8 @@
     --tag-pending-fg: #66665F;
     --rule-45: #8E8E88;
     --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C4C3BA;
     --shell: 1180px;
   }
   @media (prefers-color-scheme: dark) {
@@ -108,6 +110,8 @@
     --tag-pending-fg: #86857D;
     --rule-45: #6A6A64;
     --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #3A3A36;
     }
   }
   :root[data-theme="dark"] {
@@ -128,6 +132,8 @@
     --tag-pending-fg: #86857D;
     --rule-45: #6A6A64;
     --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #3A3A36;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -738,12 +744,15 @@
   .region-panel p { font-size: 17.5px; line-height: 1.62; margin: 0 0 12px; max-width: 62ch; }
 
   /* ---------- issue page: answer left, ocean heat right ---------- */
-  /* A 380px panel and a reading column need about 1000px to coexist,
-     so these two grids stack earlier than the global 760 breakpoint.
-     The single-breakpoint rule does not survive a fixed sidebar. */
+  /* Secondary column is COLUMN_SECOND (300px), not a number picked to
+     suit this page. An earlier 380px panel forced these grids to stack
+     at 1000px, which let one layout choice rewrite a system rule; the
+     visual-language chat called it correctly as drift. On the token the
+     single 760 breakpoint holds: at 761px the prose column still gets
+     325px and it only widens from there. */
   .top {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-columns: minmax(0, 1fr) 300px;
     gap: 56px;
     padding: 40px 0 0;
     align-items: start;
@@ -785,7 +794,7 @@
   /* chart left, reading note right */
   .two {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: minmax(0, 1fr) 300px;
     gap: 56px;
     align-items: start;
   }
@@ -813,7 +822,73 @@
   }
   .issue-meta .v b { color: var(--ink); font-weight: 500; }
 
-  @media (max-width: 1000px) {
+  /* ---------- front page: lead, then the map ---------- */
+  .lead-block { padding: 40px 0 30px; }
+  .lead-block .eyebrow { color: var(--ink-faint); display: block; margin-bottom: 14px; }
+  h1.lead-answer {
+    font-size: clamp(34px, 4.2vw, 50px);
+    line-height: 1.10;
+    letter-spacing: -0.018em;
+    max-width: 660px;
+    margin: 0 0 18px;
+  }
+  .lead-stand { color: var(--ink-soft); max-width: 58ch; margin: 0; }
+
+  .mapwrap {
+    border-top: 3px solid var(--ink);
+    border-bottom: 2.4px solid var(--rule-45);
+    padding: 14px 0 12px;
+    margin-bottom: 4px;
+  }
+  .mapcap {
+    display: flex; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; margin-bottom: 8px;
+  }
+  .mapcap .eyebrow { color: var(--ink-faint); }
+  svg.map { display: block; width: 100%; height: auto; }
+  svg.map .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.4; }
+  .mk { cursor: pointer; }
+  .mk .mk-hit { fill: transparent; }
+  .mk .mk-dot {
+    fill: var(--fire); fill-opacity: 0.8;
+    stroke: var(--fire); stroke-width: 1;
+    transition: fill-opacity .12s, stroke-width .12s;
+  }
+  .mk:hover .mk-dot, .mk:focus .mk-dot { fill-opacity: 1; stroke-width: 2.5; }
+  .nino-g { cursor: pointer; }
+  .nino-box { stroke: none; fill-opacity: 1; }
+  .nino-g:hover .nino-box, .nino-g:focus .nino-box {
+    stroke: var(--ink); stroke-width: 1.2;
+  }
+  .nino-lb {
+    font-family: var(--mono); font-size: 7px;
+    letter-spacing: 0.16em; fill: var(--ink-soft);
+  }
+  .nino-v {
+    font-family: var(--mono); font-size: 13px;
+    font-weight: 500; fill: var(--nino);
+  }
+  .legends { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .lg-dot { fill: var(--fire); fill-opacity: 0.8; }
+  .lg-tx { font-family: var(--mono); font-size: 9px; fill: var(--ink-faint); }
+  .lg-tick { fill: var(--ink); }
+  .lg-now {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 9.5px; font-weight: 500; fill: var(--ink);
+  }
+  .mapnote {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.7;
+    color: var(--ink-faint); margin: 8px 0 0;
+  }
+  .break-more { margin: 18px 0 0; }
+  .break-more a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+
+  /* ---------- one breakpoint ---------- */
+  @media (max-width: 760px) {
+    .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
     .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
     .heat, .two .note-side {
       border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
@@ -821,11 +896,6 @@
     .heat { max-width: 520px; }
     .rung { grid-template-columns: 130px 92px minmax(0, 1fr); gap: 6px 20px; }
     .rung .label { grid-column: 1 / -1; padding-top: 2px; }
-  }
-
-  /* ---------- one breakpoint ---------- */
-  @media (max-width: 760px) {
-    .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
     .shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
     .rail { grid-column: 1; order: 2; padding-top: 8px; }
     .rail-inner {
@@ -900,6 +970,6 @@
   if (m) activate(m[1]);
 })();
 </script></section><section><div class="sec-head"><div class="eyebrow">05</div><h2>Source-by-source check</h2></div><p class="section-sub">What each agency said this week, verbatim where useful.</p><ul class="src-list"><li><span class="src-name">NOAA CPC strength table, NDJ 2026-27 (RONI)</span><span class="src-issued">issued 2026-07-09</span><div class="src-detail">super 75%, strong 20%, moderate 5%, weak El Niño 0%, neutral 0%, La Niña 0%.</div></li><li><span class="src-name">IRI plume, DJF 2026-27</span><span class="src-issued">issued 2026-06-22</span><div class="src-detail">El Niño 100%, neutral 0%, La Niña 0%. Strength not broken out in the public Quick Look.</div></li><li><span class="src-name">BoM ENSO Outlook</span><span class="src-issued">issued 2026-07-14</span><div class="src-detail">El Niño established with the tropical Pacific continuing to warm. Categorical only.</div></li><li><span class="src-name">ECMWF SEAS5</span><span class="src-issued">run 2026-07-01</span><div class="src-detail">51-member SEAS5 ensemble for 2027-01: median Niño 3.4 anomaly +3.93 deg C; 51/51 members above +1.5 (~100% above +2.0, ~100% above +2.5).</div></li></ul></section><section><div class="sec-head"><div class="eyebrow">06</div><h2>Caveats this issue</h2></div><ol class="caveats"><li>The CPC anchor for the +2.5°C bucket carries a 82–87% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty. The smoothed headline (91%) sits above this anchor range because the bounded SEAS5 deflection (+6.4pp this issue) lifts it.</li><li>ECMWF SEAS5 vs CPC anchor on the upper tail above +2.5°C trad ONI: SEAS5 has 51/51 members (100%) at 2027-01 (max available lead); the CPC anchor lands at 82–87%. The v1.5 smoothing absorbs 20% of this gap (capped at ±10pp/week), moving the smoothed headline to 91%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. For broader context, multi-model pools (e.g., the <a href="https://dashboard.theclimatebrink.com/#enso">Climate Brink dashboard</a>'s 13-model 637-member view) currently report a meaningfully higher probability for the same threshold; the gap reflects CPC's analyst-correction vs raw multi-model breadth, documented as methodology limitation #7.</li><li>Forecast skill note: mid-year forecasts for the DJF peak are past the boreal-spring predictability barrier and carry materially narrower error bars than the April&ndash;May issuances did. The remaining uncertainty is concentrated in peak magnitude at the top of the distribution (the +3.0 and +3.5 rungs), not in whether a strong-to-super event occurs.</li></ol></section><div class="issue-meta"><div><span class="k">Issue</span><span class="v"><b>2026-07-20</b></span></div><div><span class="k">Methodology</span><span class="v"><b>v1.9</b></span></div><div><span class="k">RONI offset</span><span class="v">live offset +0.70°C, week of 2026-07-15</span></div><div><span class="k">Sources</span><span class="v"><b>8</b> of 8 live</span></div><div><span class="k">Next issue</span><span class="v">2026-07-27</span></div><div><span class="k">Archive</span><span class="v"><a href="briefs/">every issue, immutable</a></span></div></div></main></div>
-<footer class="field"><div class="field-shell"><div class="foot"><div class="foot-top"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.75"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.55"/></svg><span class="brand-name">The Long Swell</span></a><div class="foot-links"><a href="#issue">El Niño 2026-27</a><a href="fires/">Fire</a><a href="methodology.html">Methodology</a><a href="briefs/">Archive</a><a href="https://github.com/kristjanlepik-commits/el-nino-tracker">GitHub</a></div></div><div><span class="foot-fresh-label">Source freshness this issue</span><div class="freshness-grid"><div><span class="src">NOAA CPC strength table</span><span class="meta"> · live, issued 2026-07-09</span></div><div><span class="src">NOAA OISST weekly Niño 3.4</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">CPC 0-300m heat content</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">IRI plume</span><span class="meta"> · live, issued 2026-06-22</span></div><div><span class="src">BoM ENSO Outlook</span><span class="meta"> · live, issued 2026-07-14</span></div><div><span class="src">ECMWF SEAS5</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">NMME multi-model suite (incl. CFSv2)</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">ERA5 cumulative westerly wind anomaly (CWWA)</span><span class="meta"> · live, issued 2026-07-20</span></div></div></div><p class="footer-meta">Methodology version 1.9. RONI to traditional ONI offset +0.70°C (live, week of 2026-07-15). See <a href="methodology.html">methodology</a> for the full audit trail.</p><p class="foot-cite"><b>By <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>.</b> Licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.<br>Cite as: Lepik, K. (2026). <b>The Long Swell: El Niño 2026-27.</b> <a href="https://kristjanlepik-commits.github.io/el-nino-tracker/">kristjanlepik-commits.github.io/el-nino-tracker</a>.<br>Free to share and quote with attribution; commercial reuse requires permission. Every issue archived, immutable. Disagreements are surfaced, not averaged.</p></div></div></footer>
+<footer class="field"><div class="field-shell"><div class="foot"><div class="foot-top"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.75"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.55"/></svg><span class="brand-name">The Long Swell</span></a><div class="foot-links"><a href="#issue">El Niño 2026-27</a><a href="fires/">Fire</a><a href="methodology.html">Methodology</a><a href="briefs/">Archive</a><a href="https://github.com/kristjanlepik-commits/el-nino-tracker">GitHub</a></div></div><div><span class="foot-fresh-label">Source freshness this issue</span><div class="freshness-grid"><div><span class="src">NOAA CPC strength table</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">NOAA OISST weekly Niño 3.4</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">CPC 0-300m heat content</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">IRI plume</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">BoM ENSO Outlook</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">ECMWF SEAS5</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">NMME multi-model suite (incl. CFSv2)</span><span class="meta"> · live, issued 2026-07-20</span></div><div><span class="src">ERA5 cumulative westerly wind anomaly (CWWA)</span><span class="meta"> · live, issued 2026-07-20</span></div></div></div><p class="footer-meta">Methodology version 1.9. RONI to traditional ONI offset +0.70°C (live, week of 2026-07-15). See <a href="methodology.html">methodology</a> for the full audit trail.</p><p class="foot-cite"><b>By <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>.</b> Licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.<br>Cite as: Lepik, K. (2026). <b>The Long Swell: El Niño 2026-27.</b> <a href="https://kristjanlepik-commits.github.io/el-nino-tracker/">kristjanlepik-commits.github.io/el-nino-tracker</a>.<br>Free to share and quote with attribution; commercial reuse requires permission. Every issue archived, immutable. Disagreements are surfaced, not averaged.</p></div></div></footer>
 </body>
 </html>

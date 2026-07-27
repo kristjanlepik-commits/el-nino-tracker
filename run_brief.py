@@ -891,12 +891,15 @@ _PUBLIC_CSS_TEMPLATE = """
   .region-panel p { font-size: 17.5px; line-height: 1.62; margin: 0 0 12px; max-width: 62ch; }
 
   /* ---------- issue page: answer left, ocean heat right ---------- */
-  /* A 380px panel and a reading column need about 1000px to coexist,
-     so these two grids stack earlier than the global 760 breakpoint.
-     The single-breakpoint rule does not survive a fixed sidebar. */
+  /* Secondary column is COLUMN_SECOND (300px), not a number picked to
+     suit this page. An earlier 380px panel forced these grids to stack
+     at 1000px, which let one layout choice rewrite a system rule; the
+     visual-language chat called it correctly as drift. On the token the
+     single 760 breakpoint holds: at 761px the prose column still gets
+     325px and it only widens from there. */
   .top {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-columns: minmax(0, 1fr) 300px;
     gap: 56px;
     padding: 40px 0 0;
     align-items: start;
@@ -938,7 +941,7 @@ _PUBLIC_CSS_TEMPLATE = """
   /* chart left, reading note right */
   .two {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: minmax(0, 1fr) 300px;
     gap: 56px;
     align-items: start;
   }
@@ -965,16 +968,6 @@ _PUBLIC_CSS_TEMPLATE = """
     font-size: 13px; line-height: 1.75; color: var(--ink-soft);
   }
   .issue-meta .v b { color: var(--ink); font-weight: 500; }
-
-  @media (max-width: 1000px) {
-    .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
-    .heat, .two .note-side {
-      border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
-    }
-    .heat { max-width: 520px; }
-    .rung { grid-template-columns: 130px 92px minmax(0, 1fr); gap: 6px 20px; }
-    .rung .label { grid-column: 1 / -1; padding-top: 2px; }
-  }
 
   /* ---------- front page: lead, then the map ---------- */
   .lead-block { padding: 40px 0 30px; }
@@ -1010,8 +1003,10 @@ _PUBLIC_CSS_TEMPLATE = """
   }
   .mk:hover .mk-dot, .mk:focus .mk-dot { fill-opacity: 1; stroke-width: 2.5; }
   .nino-g { cursor: pointer; }
-  .nino-box { stroke: var(--nino); stroke-width: 1.2; fill-opacity: 0.92; }
-  .nino-g:hover .nino-box, .nino-g:focus .nino-box { stroke-width: 2.6; }
+  .nino-box { stroke: none; fill-opacity: 1; }
+  .nino-g:hover .nino-box, .nino-g:focus .nino-box {
+    stroke: var(--ink); stroke-width: 1.2;
+  }
   .nino-lb {
     font-family: var(--mono); font-size: 7px;
     letter-spacing: 0.16em; fill: var(--ink-soft);
@@ -1023,6 +1018,11 @@ _PUBLIC_CSS_TEMPLATE = """
   .legends { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .lg-dot { fill: var(--fire); fill-opacity: 0.8; }
   .lg-tx { font-family: var(--mono); font-size: 9px; fill: var(--ink-faint); }
+  .lg-tick { fill: var(--ink); }
+  .lg-now {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 9.5px; font-weight: 500; fill: var(--ink);
+  }
   .mapnote {
     font-family: var(--mono); font-size: 10.5px; line-height: 1.7;
     color: var(--ink-faint); margin: 8px 0 0;
@@ -1036,6 +1036,13 @@ _PUBLIC_CSS_TEMPLATE = """
   /* ---------- one breakpoint ---------- */
   @media (max-width: 760px) {
     .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
+    .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+    .heat, .two .note-side {
+      border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
+    }
+    .heat { max-width: 520px; }
+    .rung { grid-template-columns: 130px 92px minmax(0, 1fr); gap: 6px 20px; }
+    .rung .label { grid-column: 1 / -1; padding-top: 2px; }
     .shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
     .rail { grid-column: 1; order: 2; padding-top: 8px; }
     .rail-inner {
@@ -1586,6 +1593,11 @@ def _load_events() -> list[dict]:
 # the largest few by multiple and links to the channel for the rest.
 BREAK_LIST_MAX = 6
 
+# Full-scale for the SST anomaly ramp, in degrees C. The fill on the
+# Nino 3.4 box and the printed legend must use the same number or the
+# box cannot be decoded against the scale beside it.
+NINO_SCALE = 4.0
+
 _WORLD_SVG_CACHE = None
 
 
@@ -1668,7 +1680,13 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
 
     nino = ""
     if nino_value is not None:
-        # Nino 3.4 region: 170W to 120W, 5N to 5S.
+        # Nino 3.4 region: 170W to 120W, 5N to 5S. The FILL is the datum,
+        # taken from the same scale the legend prints, so the box can be
+        # decoded against it. It carries a hairline outline only: a heavy
+        # stroke in the channel hue made this read as a UI selection box
+        # rather than as a measured value, which is the opposite of the
+        # intent. The region boundary is real geography, so it earns a
+        # line, but a quiet one.
         x1, y1 = xy(-170, 5)
         x2, y2 = xy(-120, -5)
         nino = (
@@ -1677,7 +1695,7 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
             f'Nino issue.">'
             f'<rect class="nino-box" x="{x1:.1f}" y="{y1:.1f}" '
             f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}" '
-            f'fill="{T.anomaly_color(nino_value, 4.0)}"/>'
+            f'fill="{T.anomaly_color(nino_value, NINO_SCALE)}"/>'
             f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
             f'NI\u00d1O 3.4</text>'
             f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
@@ -1690,6 +1708,16 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
         f'<circle class="lg-dot" cx="{cx}" cy="26" r="{radius(v):.2f}"/>'
         f'<text class="lg-tx" x="{cx}" y="46" text-anchor="middle">{v:g}x</text>'
         for cx, v in [(16, 2), (52, 6), (96, peak)])
+    # Caret marking where this week's index sits on the printed ramp.
+    nino_tick = ""
+    if nino_value is not None:
+        tx = max(0.0, min(1.0, (float(nino_value) + NINO_SCALE)
+                          / (2 * NINO_SCALE))) * 170
+        nino_tick = (
+            f'<path class="lg-tick" d="M{tx:.1f},18 l-4,-6 l8,0 z"/>'
+            f'<text class="lg-now" x="{tx:.1f}" y="9" text-anchor="middle">'
+            f'{float(nino_value):+.1f}</text>')
+
     window = markers_payload.get("window", "")
     return (
         '<div class="mapwrap">'
@@ -1707,12 +1735,14 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
         f'<svg width="160" height="52" aria-hidden="true">'
         f'<text class="lg-tx" x="0" y="10">MULTIPLE OF BASELINE</text>'
         f'{keys}</svg>'
-        '<svg width="210" height="52" aria-hidden="true">'
-        '<text class="lg-tx" x="0" y="10">SST ANOMALY</text>'
-        '<rect x="0" y="19" width="170" height="9" fill="url(#anomramp)"/>'
-        '<text class="lg-tx" x="0" y="44">\u22124</text>'
-        '<text class="lg-tx" x="80" y="44">0</text>'
-        '<text class="lg-tx" x="150" y="44">+4 \u00b0C</text></svg>'
+        f'<svg width="230" height="56" aria-hidden="true">'
+        f'<text class="lg-tx" x="0" y="10">SST ANOMALY</text>'
+        f'<rect x="0" y="22" width="170" height="9" fill="url(#anomramp)"/>'
+        f'{nino_tick}'
+        f'<text class="lg-tx" x="0" y="47">\u2212{NINO_SCALE:g}</text>'
+        f'<text class="lg-tx" x="80" y="47">0</text>'
+        f'<text class="lg-tx" x="146" y="47">+{NINO_SCALE:g} \u00b0C</text>'
+        f'</svg>'
         '</div>'
         + (f'<p class="mapnote">Week {h(window)}, seven fully closed UTC '
            f'days. Every country that cleared its baseline gate is on the '
