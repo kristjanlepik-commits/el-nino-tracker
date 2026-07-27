@@ -16,12 +16,16 @@ import os
 import re
 import sys
 
-import tokens as T
-
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Single source of truth for the analytics tag; see build_page.py.
+# tokens.py and run_brief.py both live at the repo root. Insert the path
+# BEFORE importing either, so `python fires/build_page.py` works from a
+# plain checkout without a PYTHONPATH incantation.
 sys.path.insert(0, REPO)
-from run_brief import ANALYTICS_SNIPPET  # noqa: E402
+
+import tokens as T  # noqa: E402
+from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
+                       site_masthead)
+# Single source of truth for the analytics tag; see build_page.py.
 EVENTS = os.path.join(REPO, "data", "events.json")
 DETAIL = os.path.join(REPO, "fires", "data", "current_week.json")
 OUTDIR = os.path.join(REPO, "docs", "fires")
@@ -80,13 +84,17 @@ def page(ev, det, window_label, end_pretty):
         where = (f'<p class="note">Fires centred near {det["lat"]}&deg;, '
                  f'{det["lon"]}&deg; ({basis}).</p>')
 
+    # The house masthead, shared with every other page. Without it a
+    # country page is a dead end: no link home, no nav, no About, and
+    # markers on the landing map point straight here.
+    house_masthead = site_masthead("../../", active="fire")
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>{name} | Fire | The Long Swell</title>
+<title>{name} | Fires | The Long Swell</title>
 <style>
 {T.font_faces_css("../../fonts/")}
 :root {{
@@ -107,6 +115,7 @@ body {{ margin:0; background:var(--paper); color:var(--ink);
   line-height:1.55; }}
 main {{ max-width:760px; margin:0 auto; padding:28px 24px 80px; }}
 a {{ color:inherit; }}
+{SITE_MASTHEAD_CSS}
 .masthead {{ display:flex; align-items:baseline; gap:14px;
   padding-bottom:10px; border-bottom:2px solid var(--ink); }}
 .house {{ font-size:19px; }}
@@ -183,10 +192,10 @@ h1 {{ font-size:36px; font-weight:500; margin:26px 0 6px;
 {ANALYTICS_SNIPPET}
 </head>
 <body>
+{house_masthead}
 <main>
   <div class="masthead">
-    <span class="house">The Long Swell</span>
-    <a class="product" href="../">Fire</a>
+    <a class="product" href="../">Fires</a>
     <span class="when">{window_label}</span>
   </div>
 

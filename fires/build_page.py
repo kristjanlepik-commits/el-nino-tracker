@@ -14,15 +14,18 @@ import json
 import os
 import sys
 
-import tokens as T
-
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# tokens.py and run_brief.py both live at the repo root. Insert the path
+# BEFORE importing either, so `python fires/build_page.py` works from a
+# plain checkout without a PYTHONPATH incantation.
+sys.path.insert(0, REPO)
+
+import tokens as T  # noqa: E402
+from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
+                       site_masthead)
 # run_brief.py lives at the repo root and holds the single copy of the
 # analytics tag. Import it rather than pasting a duplicate, so there is
 # one source of truth to disable or rotate.
-sys.path.insert(0, REPO)
-from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
-                       site_masthead)
 EVENTS = os.path.join(REPO, "data", "events.json")
 OUT = os.path.join(REPO, "docs", "fires", "index.html")
 
