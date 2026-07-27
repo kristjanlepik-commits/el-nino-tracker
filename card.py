@@ -218,15 +218,46 @@ def collect(date_iso: str) -> dict:
     cw97 = _cwwa_same_date((ps.get("cwwa_analogs") or {}).get("1997"), cwwa_ref)
     cw15 = _cwwa_same_date((ps.get("cwwa_analogs") or {}).get("2015"), cwwa_ref)
 
-    def verdict(cur, v97, v15):
+    def verdict(cur, v97, v15, margin):
+        """Race verdict with a materiality margin.
+
+        A gap smaller than `margin` is not a lead. Added 2026-07-27 after
+        the brief published "ahead of both Godzilla analogs" on a 0.09°C
+        subsurface gap, inside this index's month-to-month noise. Claiming
+        a lead the data cannot support is the one failure this card cannot
+        afford, since it is the artifact most likely to be screenshotted
+        out of context. "Level with 1997" is the more defensible claim and
+        the better story: matching the strongest subsurface on record, this
+        early, is the finding.
+        """
         if cur is None or v97 is None or v15 is None:
             return None
-        ahead97, ahead15 = cur > v97, cur > v15
-        if ahead97 and ahead15:
+
+        def cmp(v):
+            if cur > v + margin:
+                return 1
+            if cur < v - margin:
+                return -1
+            return 0
+
+        c97, c15 = cmp(v97), cmp(v15)
+        if c97 == 1 and c15 == 1:
             return ("Ahead of both", RED)
-        if not ahead97 and not ahead15:
+        if c97 == -1 and c15 == -1:
             return ("Behind both", SLATE)
-        return (f"Ahead of {'1997' if ahead97 else '2015'} only", AMBER)
+        if c97 == 0 and c15 == 0:
+            return ("Level with both", AMBER)
+        if c97 == 0:
+            return ("Level with 1997", AMBER)
+        if c15 == 0:
+            return ("Level with 2015", AMBER)
+        return (f"Ahead of {'1997' if c97 == 1 else '2015'} only", AMBER)
+
+    # Per-quantity materiality margins, in each row's own units. The
+    # temperature margins match the 0.10°C floor the ENSO chat set on the
+    # heat-content index; CWWA is a cumulative integral in the hundreds,
+    # so its floor is scaled to match.
+    MARGIN_DEGC, MARGIN_CWWA = 0.10, 25.0
 
     hc = ps.get("heat_content_0_300m_estimate")
     race = []
@@ -235,16 +266,16 @@ def collect(date_iso: str) -> dict:
                      _signed(a["1997_apr22_nino34_weekly"]),
                      _signed(a["2015_apr22_nino34_weekly"]),
                      *verdict(sst, a["1997_apr22_nino34_weekly"],
-                              a["2015_apr22_nino34_weekly"])))
+                              a["2015_apr22_nino34_weekly"], MARGIN_DEGC)))
     if hc is not None:
         race.append(("Subsurface heat (0-300 m)", _signed(hc, 2),
                      _signed(a["1997_apr_heat_content"]),
                      _signed(a["2015_apr_heat_content"]),
                      *verdict(hc, a["1997_apr_heat_content"],
-                              a["2015_apr_heat_content"])))
+                              a["2015_apr_heat_content"], MARGIN_DEGC)))
     if cwwa is not None and cw97 is not None and cw15 is not None:
         race.append(("Cumulative wind (CWWA)", f"{cwwa:.0f}", f"{cw97:.0f}",
-                     f"{cw15:.0f}", *verdict(cwwa, cw97, cw15)))
+                     f"{cw15:.0f}", *verdict(cwwa, cw97, cw15, MARGIN_CWWA)))
 
     wwb = ps.get("wwb_events_detail") or []
     strongest = max((e.get("peak_ms") or 0) for e in wwb) if wwb else None
