@@ -111,6 +111,29 @@ def main() -> None:
     # archive depending on which path ran.
     pages["briefs/index.html"] = R.build_archive_html()
 
+    # The El Nino channel home: the current issue, rendered live, at a
+    # URL that does not move week to week. The nav used to point at the
+    # newest dated archive, which made an immutable record the channel's
+    # front door and meant the landing page could not be restyled
+    # without editing a frozen archive. This page is not an archive, so
+    # it carries the current template, and it links to the frozen copy
+    # that remains the citable record. Built from the same stored state
+    # as the front page, so it needs no fetch and cannot drift from the
+    # published numbers.
+    pages["elnino/index.html"] = R.build_public_html(
+        fetched, {}, meta["headline_buckets"],
+        methodology_href="../methodology.html", brief_date_iso=di,
+        canonical_url=f"{base}/elnino/",
+        og_image_url=f"{base}/card.png",
+        world_map_href="../world-map.svg", briefs_href="../briefs/",
+        root_prefix="../", is_front=False,
+        as_published_href=f"../briefs/{di}/",
+        # analog.png and card.png sit beside the page on the front page
+        # and inside each dated dir. This page is a directory deeper, so
+        # it points at the rolling copies at the docs root, which track
+        # the current issue exactly as this page does.
+        asset_prefix="../")
+
     front = pages["index.html"]
     published = meta["headline_buckets"].get("9715_>2.5", {}).get("mid")
     shown = re.search(r'ws-num num">(\d+)', front)
@@ -144,9 +167,12 @@ def main() -> None:
             raise SystemExit(f"ABORT: refusing to write a frozen surface: {rel}")
     print("  match confirmed, no drift")
 
+    # Create each page's own parent rather than a hardcoded list of
+    # them: adding docs/elnino/ to the page dict crashed the write loop
+    # mid-way, which is the one place this script is not atomic.
     out.mkdir(parents=True, exist_ok=True)
-    (out / "briefs").mkdir(parents=True, exist_ok=True)
     for rel, html in pages.items():
+        (out / rel).parent.mkdir(parents=True, exist_ok=True)
         (out / rel).write_text(html)
     print(f"  wrote {out.relative_to(ROOT)}/: {', '.join(sorted(pages))}")
 

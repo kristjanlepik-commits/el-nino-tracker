@@ -80,8 +80,10 @@ LICENSE_URL = "https://creativecommons.org/licenses/by-nc/4.0/"
 # generate from this, so adding Floods is one edit rather than two.
 # Unbuilt channels stay out entirely (D-ratified: hidden until they have
 # something to show), which is why Floods and Damages are absent.
+ELNINO_HREF = "elnino/"
+
 CHANNELS = [
-    ("elnino", "El Ni\u00f1o", None),   # None: resolved to the current issue
+    ("elnino", "El Ni\u00f1o", None),   # None: resolved to the channel home
     ("fire", "Fires", "fires/"),
 ]
 
@@ -2170,20 +2172,26 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
 
 
 def _latest_issue_href() -> str:
-    """Path to the newest published issue, relative to the docs root.
+    """Path to the El Nino channel home, relative to the docs root.
 
-    The El Nino channel has no standing page of its own: the current
-    issue is the channel. Falls back to the archive index if nothing is
-    published yet, which is a real page rather than a dead anchor.
+    This used to resolve to the newest dated archive, which made an
+    immutable record the channel's front door. Two costs: the nav target
+    changed URL every week, and the page a reader landed on could not be
+    restyled or corrected without touching a frozen archive, which
+    invariant 5 forbids. So the channel has a standing home at
+    /elnino/ that renders the current issue live, and the dated pages go
+    back to being purely the record.
+
+    Constant, not probed. An earlier version returned elnino/ only if
+    the file already existed, which made the nav depend on build order:
+    that page is written last, so within a single publish the four
+    pages built before it linked to the dated archive and the fire page
+    built after it linked to the channel home. One run, two navs. The
+    page is always in publish_all's TARGETS, and qa_check's dead-link
+    pass is what catches its absence, rather than the nav quietly
+    rerouting itself.
     """
-    try:
-        dirs = sorted(d for d in (DOCS_DIR / "briefs").iterdir()
-                      if d.is_dir() and (d / "index.html").exists())
-        if dirs:
-            return f"briefs/{dirs[-1].name}/"
-    except OSError:
-        pass
-    return "briefs/"
+    return ELNINO_HREF
 
 
 def _masthead_html(root_prefix: str, methodology_href: str,
@@ -2396,7 +2404,8 @@ def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
 
 
 def _issue_meta_html(brief_date_iso: str, offset_phrase: str,
-                     freshness: dict, briefs_href: str = "briefs/") -> str:
+                     freshness: dict, briefs_href: str = "briefs/",
+                     as_published_href: str = "") -> str:
     """Issue metadata, as a strip above the footer.
 
     This was a sticky rail. The delivered spec has no rail on the issue
@@ -2421,6 +2430,13 @@ def _issue_meta_html(brief_date_iso: str, offset_phrase: str,
         ("Next issue", h(next_iso)),
         ("Archive", f'<a href="{h(briefs_href)}">every issue, immutable</a>'),
     ]
+    # On the channel home this page is a live rendering of the current
+    # issue, so it points at the frozen copy that is the citable record.
+    # Absent on the dated pages, which are that record.
+    if as_published_href:
+        cells.append(("As published",
+                      f'<a href="{h(as_published_href)}">'
+                      f'{h(brief_date_iso)}, frozen</a>'))
     return ('<div class="issue-meta">'
             + "".join(f'<div><span class="k">{h(k)}</span>'
                       f'<span class="v">{v}</span></div>' for k, v in cells)
@@ -2498,7 +2514,9 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       prev_headline_month: dict | None = None,
                       briefs_href: str = "briefs/",
                       root_prefix: str = "",
-                      is_front: bool = False) -> str:
+                      is_front: bool = False,
+                      as_published_href: str = "",
+                      asset_prefix: str = "") -> str:
     """Render the public brief as structured HTML (bypasses markdown).
 
     methodology_href and world_map_href are both relative paths whose depth
@@ -2687,7 +2705,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<span><a href="{h(methodology_href)}">methodology '
         f'v{h(str(S.METHODOLOGY_VERSION))}</a></span>'
         '<span>immutable</span>'
-        '<span><a class="card-link" href="card.png">one-page card &darr;</a></span>'
+        f'<span><a class="card-link" href="{h(asset_prefix)}card.png">one-page card &darr;</a></span>'
         '</div>'
     )
     lede_text = (
@@ -2859,7 +2877,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '<h2>Analog tracker</h2>'
         '<p class="section-sub">2026-27 trajectory vs reference El Niño events, plus a combined SEAS5 and NMME multi-model forecast carried through the winter peak.</p>'
         '<div class="two"><div class="chart-card">'
-        '<img src="analog.png" alt="Analog tracker chart">'
+        f'<img src="{h(asset_prefix)}analog.png" alt="Analog tracker chart">'
         '</div>'
         '<div class="note-side">'
         '<h3>Reading this</h3>'
@@ -3058,7 +3076,8 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     footer_html = (
         ("" if is_front else
          _issue_meta_html(brief_date_iso, offset_phrase, freshness,
-                          briefs_href))
+                          briefs_href=briefs_href,
+                          as_published_href=as_published_href))
         + '</main></div>\n'
         '<footer class="field"><div class="field-shell"><div class="foot">'
         '<div class="foot-top">'

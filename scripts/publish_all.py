@@ -69,6 +69,7 @@ TARGETS = [
     "docs/index.html",
     "docs/about.html",
     "docs/methodology.html",
+    "docs/elnino/index.html",
     "docs/briefs/index.html",
     "docs/fires/index.html",
 ]
