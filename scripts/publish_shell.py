@@ -43,6 +43,7 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import re
 import shutil
 import sys
 from datetime import date
@@ -50,6 +51,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+
+# Belt and braces: this script must never target a dated archive or a
+# snapshot, whatever a future edit to the page list does.
+FROZEN_RE = re.compile(r"(^|/)briefs/\d{4}-\d{2}-\d{2}/|^snapshots/")
 
 import sources as S           # noqa: E402
 import run_brief as R         # noqa: E402
@@ -80,43 +85,60 @@ def main() -> None:
         fetched.setdefault(key, {})
 
     out = (ROOT / ".publish-check") if args.check else (ROOT / "docs")
-    out.mkdir(parents=True, exist_ok=True)
-    (out / "briefs").mkdir(parents=True, exist_ok=True)
 
     base = R.PAGES_BASE_URL
+    # Build every page in memory FIRST. The checks below are worthless if
+    # the file is already on disk when they run: an abort would leave a
+    # bad front page live, which is exactly the failure this guards.
     # freshness is {} on purpose: the front page no longer displays it,
     # and passing a fabricated one would be inventing state.
-    (out / "index.html").write_text(R.build_public_html(
+    pages = {}
+    pages["index.html"] = R.build_public_html(
         fetched, {}, meta["headline_buckets"],
         methodology_href="methodology.html", brief_date_iso=di,
         canonical_url=f"{base}/", og_image_url=f"{base}/card.png",
-        world_map_href="world-map.svg", root_prefix="", is_front=True))
-    (out / "about.html").write_text(R.build_about_html())
+        world_map_href="world-map.svg", root_prefix="", is_front=True)
+    pages["about.html"] = R.build_about_html()
     meth = ROOT / "methodology.md"
     if meth.exists():
-        (out / "methodology.html").write_text(R.render_html(
+        pages["methodology.html"] = R.render_html(
             meth.read_text(),
             title=f"Methodology, {R.PRODUCT_NAME} · {R.SITE_NAME}",
-            root_prefix="", analytics=True))
-    (out / "briefs" / "index.html").write_text(R.render_html(
+            root_prefix="", analytics=True)
+    pages["briefs/index.html"] = R.render_html(
         R.build_archive_index(),
         title=f"Archive, {R.PRODUCT_NAME} · {R.SITE_NAME}",
-        root_prefix="../", analytics=True))
+        root_prefix="../", analytics=True)
 
+    front = pages["index.html"]
     published = meta["headline_buckets"].get("9715_>2.5", {}).get("mid")
-    front = (out / "index.html").read_text()
-    import re
     shown = re.search(r'ws-num num">(\d+)', front)
     shown = int(shown.group(1)) if shown else None
+    tags = front.count("plausible.io/js")
+
     print(f"issue {di}")
-    print(f"  wrote {out.relative_to(ROOT)}/index.html, about.html, "
-          f"methodology.html, briefs/index.html")
     print(f"  headline on front page: {shown}%")
     print(f"  frozen archive value:   {published}%")
+    print(f"  analytics tags on front page: {tags}")
+
+    # Preconditions, all checked before a single byte is written.
+    if shown is None:
+        raise SystemExit("ABORT: no headline found on the front page; "
+                         "the template changed and this check is stale")
     if shown != published:
         raise SystemExit("ABORT: front page disagrees with the frozen archive")
+    if tags != 1:
+        raise SystemExit(f"ABORT: expected exactly 1 analytics tag, got {tags}")
+    for rel in pages:
+        if FROZEN_RE.search(rel):
+            raise SystemExit(f"ABORT: refusing to write a frozen surface: {rel}")
     print("  match confirmed, no drift")
-    print(f"  analytics tags on front page: {front.count('plausible.io/js')}")
+
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "briefs").mkdir(parents=True, exist_ok=True)
+    for rel, html in pages.items():
+        (out / rel).write_text(html)
+    print(f"  wrote {out.relative_to(ROOT)}/: {', '.join(sorted(pages))}")
 
 
 if __name__ == "__main__":

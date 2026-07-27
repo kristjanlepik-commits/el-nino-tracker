@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What this is, and what it is not · The Long Swell</title>
+<meta property="og:title" content="What this is, and what it is not · The Long Swell">
+<meta property="og:description" content="The Long Swell answers one question about events in the climate: how big is this, actually? What the site does, and what it refuses to do.">
+<meta name="twitter:card" content="summary_large_image">
+<style>@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/plexmono-600.woff2") format("woff2");
+}</style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>:root {
+    --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #66665F;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17.5px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  main a:not(.attr):not(.card-link),
+  .foot-cite a, .src-list a, .buckets-note a, .section-sub a {
+    border-bottom: 1px solid var(--rule);
+    transition: color .12s, border-color .12s;
+  }
+  main a:hover, .foot-cite a:hover, .src-list a:hover,
+  .buckets-note a:hover, .section-sub a:hover {
+    color: var(--fire);
+    border-bottom-color: var(--fire);
+  }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--nino);
+    outline-offset: 3px;
+  }
+  p, li, td, th { text-wrap: pretty; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 500; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ---------- the six type steps, no more ---------- */
+  .eyebrow, .issue-stamp, .rail-block .eyebrow, .foot-fresh-label,
+  .break-head .eyebrow, .chan .meta, .ws-label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 400;
+    line-height: 2.0;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .num, td.num, .rung .pct, .ev-stat, .ws-num, .wow-delta,
+  .src-list .src-issued, .footer-meta, .rail-block .val {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- shell ---------- */
+  .field-shell, .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .shell { padding-bottom: 8px; }
+
+  /* ---------- masthead ---------- */
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+
+  /* ---------- lead block ---------- */
+  .field, .wave-strip { background: var(--paper); color: var(--ink); }
+  .field::after { display: none; }
+  .hero, .issue-head { padding: 40px 0 0; }
+  .hero-stamp, .issue-stamp {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-bottom: 20px;
+    color: var(--ink-faint);
+  }
+  .hero-stamp span:not(:last-child)::after,
+  .issue-stamp span:not(:last-child)::after {
+    content: " ·";
+    color: var(--rule);
+  }
+  .issue-stamp a, .hero-stamp a { color: var(--ink-soft); }
+  .hero h1, .issue-head h1 {
+    font-size: clamp(34px, 4.2vw, 50px);
+    line-height: 1.10;
+    letter-spacing: -0.018em;
+    margin: 0 0 18px;
+    max-width: 24ch;
+  }
+  .hero .lede, .issue-head .lede {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    line-height: 1.62;
+    max-width: 48ch;
+    margin: 0 0 28px;
+  }
+  .lede.bottom-line { color: var(--ink); margin-bottom: 36px; max-width: 56ch; }
+
+  /* Readout: the figure is the subject of the block. Physical anomaly
+     magnitude reads from the diverging scale, never a channel hue. */
+  .readout {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 22px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .readout-main .v, .readout-side div .v {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+  }
+  .readout-main .v { font-size: 40px; color: var(--nino); }
+  .readout-main .v small { font-size: 20px; }
+  .readout-side div .v { font-size: 24px; color: var(--ink); }
+  .readout-side div .v small { font-size: 13px; }
+  .readout-main .k, .readout-side div .k {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--ink-faint);
+    margin-top: 8px;
+    max-width: 28ch;
+  }
+  .readout-side { display: flex; gap: 32px; }
+
+  /* ---------- the break: event list ---------- */
+  .break-head { padding: 34px 0 0; display: flex; align-items: baseline; gap: 14px; }
+  .break-lede {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    max-width: 56ch;
+    margin: 8px 0 4px;
+  }
+  .events { display: flex; flex-direction: column; padding: 20px 0 46px; }
+  /* The fixed magnitude column is the point: a reader scanning it sees
+     only sizes, which answers the house question before any prose. */
+  .event {
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr) auto;
+    gap: 6px 24px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 2.4px solid var(--rule-45);
+  }
+  .event:first-child { border-top: 3px solid var(--ink); }
+  .event:last-child { border-bottom: 3px solid var(--ink); }
+  .event .ev-stat {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--fire);
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .event .ev-body { grid-column: 2; grid-row: 1; }
+  .event h3 { font-size: 20px; font-weight: 500; line-height: 1.30; }
+  .event h3 .ev-region { font-weight: 500; }
+  .event h3 .ev-claim { color: var(--ink-soft); font-weight: 400; }
+  .event .ev-src {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.75;
+    color: var(--ink-faint);
+    margin-top: 4px;
+  }
+  .event .attr { grid-column: 3; grid-row: 1; justify-self: end; }
+
+  /* Vocabulary defined once, above the list it governs. Without it the
+     page shows three bare chips in expert language to a reader who has
+     never met the term "ENSO-loaded window". */
+  .attr-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    padding: 14px 0 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .attr-lead {
+    flex: 1 1 100%;
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .attr-key { display: inline-flex; align-items: baseline; gap: 9px; }
+  .attr-gloss {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* ---------- attribution tags ---------- */
+  /* Three states, worded verbatim, never removed or softened.
+     Prominence descends with claim strength. */
+  .attr {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 8px;
+    white-space: nowrap;
+  }
+  .attr.attr-enso    { background: var(--tag-loaded-bg);  color: var(--tag-loaded-fg); }
+  .attr.attr-none    { background: var(--tag-notlink-bg); color: var(--tag-notlink-fg); }
+  .attr.attr-pending { background: var(--tag-pending-bg); color: var(--tag-pending-fg); }
+
+  /* ---------- tracker strip: the credential, visible and secondary ---------- */
+  .wave-strip { padding: 0 0 46px; }
+  .wave-strip .field-shell {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 10px 22px;
+    background: var(--paper-sunk);
+    border-left: 3px solid var(--nino);
+    padding: 18px 22px;
+    max-width: 1100px;
+  }
+  .wave-strip .ws-label { color: var(--nino); }
+  .wave-strip .ws-read { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .wave-strip .ws-num { font-size: 24px; font-weight: 500; color: var(--nino); }
+  .wave-strip .ws-num small { font-size: 13px; }
+  .wave-strip .ws-desc { font-size: 17px; color: var(--ink); }
+  .wave-strip a.ws-go {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  .wave-strip a.ws-go:hover { color: var(--ink); }
+
+  /* ---------- rail + body ---------- */
+  .shell { display: block; }
+  .rail { grid-column: 2; padding-top: 44px; order: 2; }
+  .rail-inner {
+    position: sticky;
+    top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-left: 1px solid var(--rule);
+    padding-left: 22px;
+  }
+  .rail-block { display: flex; flex-direction: column; gap: 3px; }
+  .rail-block .eyebrow { color: var(--ink-faint); }
+  .rail-block .val { font-size: 13px; line-height: 1.75; color: var(--ink-soft); }
+  .rail-block .val b { font-weight: 500; color: var(--ink); }
+  .body { padding: 0 0 8px; min-width: 0; }
+
+  main.body section { margin: 0; padding-bottom: 48px; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid var(--ink);
+  }
+  .sec-head .eyebrow { color: var(--ink-faint); flex: none; }
+  .sec-head h2 { font-size: 20px; font-weight: 500; line-height: 1.30; }
+  .section-sub {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    margin: -8px 0 22px;
+    max-width: 62ch;
+  }
+
+  /* ---------- editor's note ---------- */
+  .editor-note {
+    margin: 0 0 36px;
+    padding: 0 0 0 22px;
+    border-left: 3px solid var(--nino);
+    max-width: 62ch;
+  }
+  .editor-note .editor-note-label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--nino);
+    margin-bottom: 8px;
+  }
+  .editor-note p { margin: 0; font-size: 17.5px; font-style: italic; }
+  .editor-note p + p { margin-top: 12px; }
+  .editor-note strong { font-style: normal; font-weight: 500; }
+
+  /* ---------- probability ladder ---------- */
+  /* Confidence is rendered, not stated: the bar loses substance as
+     certainty falls and the text steps down the ink ramp with it. */
+  .ladder { display: flex; flex-direction: column; margin: 0 0 18px; }
+  .rung {
+    display: grid;
+    grid-template-columns: 130px 92px minmax(0, 1fr) 300px;
+    align-items: center;
+    gap: 6px 20px;
+    padding: 16px 0;
+    border-bottom: 2.4px solid var(--rule-45);
+  }
+  .rung:first-child { border-top: 3px solid var(--ink); }
+  .rung:last-child { border-bottom: 3px solid var(--ink); }
+  .rung .threshold {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    grid-column: 1;
+  }
+  .rung .threshold .gt { color: var(--ink-faint); font-weight: 400; }
+  .rung .pct {
+    position: relative;   /* containing block for the sr-only .word */
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink);
+    grid-column: 2;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .rung .pct .pct-sym { font-size: 13px; color: var(--ink-faint); }
+  /* Visually hidden, not removed. display:none took this out of the
+     accessibility tree as well, so a screen reader heard "98" with no
+     unit. The word is redundant beside the printed bar for a sighted
+     reader and load-bearing for everyone else. */
+  .rung .pct .word {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  .rung .label {
+    grid-column: 4;
+    font-size: 15px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  /* The bar: solid for the calibrated rungs, losing substance above. */
+  .rung.record .pct, .rung.record .label { color: var(--ink-soft); }
+  .rung.far .pct, .rung.far .label { color: var(--ink-faint); }
+  .rung.record .threshold { color: var(--ink-soft); }
+  .rung.far .threshold { color: var(--ink-faint); }
+  .rung .label .tag {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 4px 7px;
+    background: var(--paper-sunk);
+  }
+  .rung .pct .wow-delta {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 400;
+    color: var(--ink-faint);
+    margin-top: 5px;
+  }
+  .rung .pct .wow-delta.wow-up { color: var(--fire); }
+  .rung .pct .wow-delta.wow-down { color: var(--flood); }
+  .rung .label .sep, .rung .label .range { color: var(--ink-faint); }
+  .buckets-note {
+    font-size: 13px;
+    font-family: var(--mono);
+    line-height: 1.75;
+    color: var(--ink-faint);
+    margin: 0;
+    max-width: 78ch;
+  }
+
+  /* ---------- analyst read ---------- */
+  section.analyst-read {
+    padding: 0 0 48px 22px;
+    border-left: 3px solid var(--nino);
+    margin-bottom: 0;
+  }
+  section.analyst-read h2 { font-size: 20px; margin: 0 0 4px; }
+  section.analyst-read .section-sub { margin: 0 0 12px; }
+  section.analyst-read ul { list-style: none; padding: 0; margin: 0; }
+  section.analyst-read li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 17.5px;
+  }
+  section.analyst-read li:last-child { border-bottom: none; padding-bottom: 0; }
+  section.analyst-read li strong { font-weight: 500; }
+
+  /* ---------- chart ---------- */
+  .chart-card { border-top: 3px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 18px 0; }
+  .chart-caption {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    line-height: 1.62;
+    max-width: 68ch;
+  }
+  .chart-caption strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- tables ---------- */
+  table.phys { width: 100%; border-collapse: collapse; font-size: 15px; }
+  table.phys th, table.phys td {
+    padding: 14px 12px 14px 0;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  table.phys thead th {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 400;
+    border-bottom: 3px solid var(--ink);
+    vertical-align: bottom;
+  }
+  table.phys td.num { white-space: nowrap; font-size: 14px; }
+  table.phys tbody tr:last-child td { border-bottom: 3px solid var(--ink); }
+  .note {
+    font-size: 15px;
+    color: var(--ink-soft);
+    border-left: 1px solid var(--rule);
+    padding: 4px 0 4px 18px;
+    margin: 18px 0 0;
+    max-width: 68ch;
+  }
+  .note strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- sources ---------- */
+  .src-list { padding: 0; list-style: none; margin: 0; }
+  .src-list li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 20px;
+    align-items: baseline;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px;
+  }
+  .src-list li:first-child { border-top: 3px solid var(--ink); }
+  .src-list li:last-child { border-bottom: 3px solid var(--ink); }
+  .src-list .src-name { font-weight: 500; }
+  .src-list .src-issued {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .src-list .src-detail {
+    grid-column: 1 / -1;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-top: 2px;
+  }
+
+  ol.caveats { padding-left: 20px; margin: 0; }
+  ol.caveats li { margin-bottom: 16px; font-size: 15px; line-height: 1.62; }
+  ol.caveats li::marker { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
+
+  /* ---------- channels ---------- */
+  .chans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    gap: 0;
+    border-top: 3px solid var(--ink);
+    padding-top: 22px;
+  }
+  .chan {
+    padding: 0 22px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-left: 1px solid var(--rule);
+    padding-left: 20px;
+  }
+  .chan:first-child { border-left: none; padding-left: 0; }
+  .chan-top { display: flex; align-items: center; gap: 9px; }
+  .dot { width: 8px; height: 8px; flex: none; }
+  .chan h3 { font-size: 20px; font-weight: 500; }
+  .chan p { margin: 0; font-size: 15px; color: var(--ink-soft); line-height: 1.55; }
+  .chan.next h3, .chan.next p { color: var(--ink-faint); }
+
+  /* ---------- email capture ---------- */
+  .email-cap {
+    border-top: 3px solid var(--ink);
+    border-bottom: 2.4px solid var(--rule-45);
+    padding: 26px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px 40px;
+    flex-wrap: wrap;
+  }
+  .email-cap .ec-pitch { max-width: 46ch; }
+  .email-cap .ec-pitch .eyebrow { display: block; color: var(--ink-faint); margin-bottom: 6px; }
+  .email-cap .ec-pitch p { margin: 0; font-size: 17.5px; }
+  .email-cap a.ec-btn {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 14px 24px;
+    white-space: nowrap;
+  }
+  .email-cap a.ec-btn:hover { background: var(--nino); }
+
+  /* ---------- footer ---------- */
+  footer.field { border-top: 3px solid var(--ink); margin-top: 8px; }
+  .foot { padding: 32px 0 44px; display: flex; flex-direction: column; gap: 26px; }
+  .foot-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px 40px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .foot-links { display: flex; gap: 22px; flex-wrap: wrap; }
+  .foot-links a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .foot-links a:hover { color: var(--ink); }
+  .foot-cite {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--ink-faint);
+    max-width: 68ch;
+    margin: 0;
+  }
+  .foot-cite b { color: var(--ink-soft); font-weight: 500; }
+  .foot-fresh-label { display: block; color: var(--ink-faint); margin-bottom: 10px; }
+  .freshness-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 32px;
+    margin: 0;
+  }
+  .freshness-grid .src { color: var(--ink-soft); font-size: 13px; }
+  .freshness-grid .meta { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+  .footer-meta { font-size: 12px; line-height: 1.85; color: var(--ink-faint); margin: 0; max-width: 78ch; }
+  .footer-meta strong { color: var(--ink-soft); font-weight: 500; }
+
+  /* ---------- impact outlook ---------- */
+  section.impacts > p:first-of-type { color: var(--ink-soft); font-size: 17.5px; margin: -8px 0 18px; }
+  .impacts-map {
+    position: relative;
+    margin: 18px 0 14px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .impacts-map .world-map-bg { width: 100%; }
+  .impacts-map .map-hotspot {
+    position: absolute; transform: translate(-50%, -50%);
+    /* 32px target with a 10px dot inside it. 22px was under the WCAG 2.2
+       AA minimum of 24px (SC 2.5.8). 44px is the AAA figure (2.5.5) and
+       is too big here: measured at a 350px-wide map the closest two
+       regions sit 35px apart, so 44px targets would steal each other's
+       taps, which is worse than a small one. 32px clears AA with margin
+       and fits the spacing. The region tab strip is the redundant
+       control for anyone who finds the discs fiddly. */
+    width: 32px; height: 32px;
+    background: transparent; border: 0; padding: 0; cursor: pointer;
+  }
+  /* A plain disc. This was a ring around a dot, with the active state
+     expanding the ring outward, which is the epicenter figure: radiating
+     causation, on the one map that is specifically about El Nino's
+     regional impacts, where the text refuses to make that claim. D-017
+     forbids the attenuation ratio on any mark that carries data, and the
+     same objection applies to any concentric figure. Selection is carried
+     by opacity and a hairline, not by radiating rings. */
+  .impacts-map .map-hotspot-dot {
+    position: absolute; inset: 11px;
+    border-radius: 50%;
+    background: var(--fire);
+    opacity: 0.75;
+    transition: opacity .15s ease;
+  }
+  .impacts-map .map-hotspot:hover .map-hotspot-dot { opacity: 1; }
+  /* Selection rings use outline with outline-offset. SHADOW is None in
+     the token file, deliberately, so a contributor has to delete a line
+     rather than add one; a spread-only shadow used as a ring renders
+     fine but leaves a hit for anyone auditing that rule. */
+  .impacts-map .map-hotspot.active .map-hotspot-dot {
+    opacity: 1;
+    outline: 1.5px solid var(--ink);
+    outline-offset: 1px;
+  }
+  .impacts-map .map-hotspot:focus-visible .map-hotspot-dot {
+    outline: 2px solid var(--nino);
+    outline-offset: 2px;
+  }
+  .region-tabs { display: flex; flex-wrap: wrap; gap: 0; margin: 16px 0 18px; border-bottom: 1px solid var(--rule); }
+  .region-tab {
+    background: none;
+    border: 0;
+    border-bottom: 2.4px solid transparent;
+    padding: 13px 14px 13px 0;
+    margin-right: 18px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    cursor: pointer;
+  }
+  .region-tab:hover { color: var(--ink); }
+  .region-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .region-panel { display: none; }
+  .region-panel.active { display: block; }
+  .region-panel h3 { font-size: 20px; font-weight: 500; margin: 0 0 10px; }
+  .region-panel p { font-size: 17.5px; line-height: 1.62; margin: 0 0 12px; max-width: 62ch; }
+
+  /* ---------- issue page: answer left, ocean heat right ---------- */
+  /* Secondary column is COLUMN_SECOND (300px), not a number picked to
+     suit this page. An earlier 380px panel forced these grids to stack
+     at 1000px, which let one layout choice rewrite a system rule; the
+     visual-language chat called it correctly as drift. On the token the
+     single 760 breakpoint holds: at 761px the prose column still gets
+     325px and it only widens from there. */
+  .top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 56px;
+    padding: 40px 0 0;
+    align-items: start;
+  }
+  .heat { border-left: 1px solid var(--rule); padding-left: 24px; }
+  .heat .cap { color: var(--ink-faint); margin-bottom: 14px; display: block; }
+  .hrow {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 62px;
+    gap: 10px;
+    align-items: center;
+    padding: 7px 0;
+  }
+  .hrow .yr { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+  .htrack { display: block; position: relative; height: 14px; }
+  .hzero {
+    position: absolute; top: -2px; bottom: -2px; width: 1px;
+    background: var(--ink-faint);
+  }
+  .hbar { position: absolute; top: 0; height: 14px; }
+  .hrow .val {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 13px; text-align: right;
+  }
+  .hrow.now .yr, .hrow.now .val { color: var(--ink); font-weight: 500; }
+  .hnote {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.7;
+    color: var(--ink-faint); margin: 12px 0 0;
+    border-top: 1px solid var(--rule); padding-top: 10px;
+  }
+
+  /* ladder bar: length is probability, substance is confidence */
+  .rung .track { display: block; height: 9px; background: var(--paper-sunk); }
+  .rung .fill { display: block; height: 9px; background: var(--nino); }
+  .rung.record .fill {
+    background: repeating-linear-gradient(90deg,
+      var(--nino) 0 4px, transparent 4px 8px);
+  }
+  .rung.far .fill {
+    background: repeating-linear-gradient(90deg,
+      #7B88AF 0 2px, transparent 2px 8px);
+  }
+
+  /* chart left, reading note right */
+  .two {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 56px;
+    align-items: start;
+  }
+  .two .note-side { border-left: 3px solid var(--nino); padding-left: 20px; }
+  .two .note-side h3 { font-size: 15px; margin-bottom: 8px; }
+  .two .note-side p { font-size: 15px; color: var(--ink-soft); margin: 0; }
+  .two .note-side p + p { margin-top: 12px; }
+
+  /* issue metadata, which used to be the rail */
+  .issue-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px 32px;
+    border-top: 3px solid var(--ink);
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+  .issue-meta .k {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--ink-faint); display: block;
+  }
+  .issue-meta .v {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 13px; line-height: 1.75; color: var(--ink-soft);
+  }
+  .issue-meta .v b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- front page: lead, then the map ---------- */
+  .lead-block { padding: 40px 0 30px; }
+  .lead-block .eyebrow { color: var(--ink-faint); display: block; margin-bottom: 14px; }
+  h1.lead-answer {
+    font-size: clamp(34px, 4.2vw, 50px);
+    line-height: 1.10;
+    letter-spacing: -0.018em;
+    max-width: 660px;
+    margin: 0 0 18px;
+  }
+  .lead-stand { color: var(--ink-soft); max-width: 58ch; margin: 0; }
+
+  .mapwrap {
+    border-top: 3px solid var(--ink);
+    border-bottom: 2.4px solid var(--rule-45);
+    padding: 14px 0 12px;
+    margin-bottom: 4px;
+  }
+  .mapcap {
+    display: flex; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; margin-bottom: 8px;
+  }
+  .mapcap .eyebrow { color: var(--ink-faint); }
+  svg.map { display: block; width: 100%; height: auto; }
+  svg.map .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.4; }
+  .mk { cursor: pointer; }
+  .mk .mk-hit { fill: transparent; }
+  /* No stroke. A 1px stroke on a radius that encodes magnitude added
+     36% apparent area at r=3 against 11% at r=9, so small multiples read
+     systematically larger than they are; hover at 2.5px doubled the
+     smallest. Opacity carries the state instead, because it does not
+     touch the geometry that carries the number. */
+  .mk .mk-dot {
+    fill: var(--fire); fill-opacity: 0.78;
+    stroke: none;
+    transition: fill-opacity .12s;
+  }
+  .mk:hover .mk-dot, .mk:focus .mk-dot { fill-opacity: 1; }
+  /* A dedicated focus ring, because opacity 0.78 to 1 is not a visible
+     indicator, and the global a:focus-visible outline is unreliable on
+     SVG <a>. It sits outside the disc so the geometry that carries the
+     number is untouched. */
+  .mk .mk-focus {
+    fill: none; stroke: var(--nino); stroke-width: 2;
+    opacity: 0; transition: opacity .1s;
+  }
+  .mk:focus-visible .mk-focus, .mk:focus .mk-focus { opacity: 1; }
+  .nino-g { cursor: pointer; }
+  .nino-box { stroke: none; fill-opacity: 1; }
+  .nino-g:hover .nino-box, .nino-g:focus .nino-box {
+    stroke: var(--ink); stroke-width: 1.2;
+  }
+  .nino-lb {
+    font-family: var(--mono); font-size: 7px;
+    letter-spacing: 0.16em; fill: var(--ink-soft);
+  }
+  .nino-v {
+    font-family: var(--mono); font-size: 13px;
+    font-weight: 500; fill: var(--nino);
+  }
+  .legends { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .lg-dot { fill: var(--fire); fill-opacity: 0.8; }
+  .lg-tx { font-family: var(--mono); font-size: 9px; fill: var(--ink-faint); }
+  .lg-tick { fill: var(--ink); }
+  .lg-now {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 9.5px; font-weight: 500; fill: var(--ink);
+  }
+  .mapnote {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.7;
+    color: var(--ink-faint); margin: 8px 0 0;
+  }
+  .break-more { margin: 18px 0 0; }
+  .break-more a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+
+  /* ---------- about: numbered section grid ---------- */
+  /* Label column floors at 0, deliberately. Per the Grid spec a minmax()
+     whose min exceeds its max resolves to the min, so an intrinsic floor
+     on a column carrying 20px headings ignores the 220px cap entirely:
+     "Where the numbers come from" measures 277px unwrapped and stole
+     57px from the prose. An intrinsic floor suits short tracked-mono
+     labels and not headings, which can wrap. The prose track keeps
+     minmax(0, 1fr) so it is the one that gives. */
+  .about-sec {
+    display: grid;
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+    gap: 10px 56px;
+    padding: 26px 0 34px;
+    border-top: 2.4px solid var(--rule-45);
+  }
+  /* Explicit classes, not :first-of-type. That pseudo matches the first
+     element of its TYPE among siblings, so one <section> added above the
+     nine would leave every .about-sec without an opening rule and the
+     page would quietly open at 2.4px. :first-child does not work either,
+     since .issue-head precedes them. The builder marks the ends. */
+  .about-sec.about-open { border-top: 3px solid var(--ink); }
+  .about-sec.about-close { border-bottom: 3px solid var(--ink); }
+  .about-num {
+    font-family: var(--mono); font-size: 9.5px; line-height: 2;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .about-sec h2 { font-size: 20px; font-weight: 500; margin-bottom: 10px; }
+  .about-body p { margin: 0; max-width: 62ch; }
+  .about-body p + p { margin-top: 14px; }
+  /* No bullet lists anywhere in this system. ol.caveats styles its own
+     markers and every other list is rule-separated rows, so discs would
+     be the one exception. The refusals in particular carry more weight as
+     rows than as a bulleted aside. */
+  .refusals {
+    margin: 0;
+    /* Opens and closes at 3px like .src-list, .event, .rung and
+       .swell-row. This is the block the page's credibility argument
+       leans on, so it reads as a closed list rather than trailing off.
+       Interior dividers stay at the 1px hairline. */
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+  }
+  .refusal {
+    display: grid;
+    grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+    gap: 4px 24px;
+    padding: 13px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .refusal:first-child { border-top: 0; }
+  .refusal dt { font-weight: 500; }
+  .refusal dd { margin: 0; color: var(--ink-soft); }
+  .about-aside {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
+    color: var(--ink-soft); margin-top: 14px;
+    border-left: 1px solid var(--rule); padding-left: 16px;
+  }
+
+  /* The three-row hierarchy: the only place the ratio's 1.8px width is
+     used as a rule, because here the hierarchy is the content. The
+     default top rule is the hairline step, so a fourth row added later
+     degrades to 1.8px rather than to no rule at all. */
+  .swell-rows { margin: 0; }
+  .swell-row {
+    border-top: 1.8px solid var(--rule-20);
+    display: grid;
+    grid-template-columns: minmax(0, 118px) minmax(0, 1fr);
+    gap: 6px 22px;
+    padding: 14px 0;
+  }
+  .swell-row:nth-child(1) { border-top: 3px solid var(--ink); }
+  .swell-row:nth-child(2) { border-top: 2.4px solid var(--rule-45); }
+  .swell-row:nth-child(3) {
+    border-top: 1.8px solid var(--rule-20);
+    border-bottom: 3px solid var(--ink);
+  }
+  .swell-row dt {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .swell-row dd { margin: 0; color: var(--ink-soft); max-width: 56ch; }
+
+  /* ---------- one breakpoint ---------- */
+  @media (max-width: 760px) {
+    .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
+    .about-sec, .swell-row, .refusal {
+      grid-template-columns: minmax(0, 1fr); gap: 8px;
+    }
+    .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+    .heat, .two .note-side {
+      border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
+    }
+    .heat { max-width: 520px; }
+    .rung { grid-template-columns: 130px 92px minmax(0, 1fr); gap: 6px 20px; }
+    .rung .label { grid-column: 1 / -1; padding-top: 2px; }
+    .shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .rail { grid-column: 1; order: 2; padding-top: 8px; }
+    .rail-inner {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 18px 30px;
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+      padding: 22px 0 0;
+    }
+    .body { grid-column: 1; order: 1; padding-top: 32px; }
+    body { font-size: 17px; }
+    .hero h1, .issue-head h1 { font-size: 34px; }
+    .event { grid-template-columns: minmax(0, 1fr) auto; }
+    .event .ev-stat { grid-column: 1; grid-row: 1; font-size: 32px; }
+    .event .ev-body { grid-column: 1 / -1; grid-row: 2; }
+    .event .attr { grid-column: 2; grid-row: 1; align-self: center; }
+    .wave-strip .field-shell { grid-template-columns: minmax(0, 1fr); }
+    .freshness-grid { grid-template-columns: minmax(0, 1fr); }
+    .readout { gap: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+</script>
+</head>
+<body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Channels"><a class="ch-elnino" href="./#issue">El Niño</a><a class="ch-fire" href="fires/">Fire</a></nav></div></div></header>
+<div class="shell"><main class="body"><div class="issue-head"><h1>What this is, and what it is not.</h1><p class="lede">One question, asked of whatever is in the news: how big is this, actually? The limits come first, because they are what makes the rest believable.</p></div><section class="about-sec about-open"><div><span class="about-num">01</span><h2>The question</h2></div><div class="about-body"><p>Not what caused it, and not what happens next. <strong>How big</strong>, measured against a computable historical baseline, with the sources named and dated.</p><p>Three things are distinguished throughout, and the site never collapses them:</p><dl class="swell-rows"><div class="swell-row"><dt>The swell</dt><dd>Climate change. Decades of accumulated energy, the ground everything else happens on.</dd></div><div class="swell-row"><dt>The wave</dt><dd>The 2026-27 El Ni&ntilde;o. One large wave riding the swell, this season.</dd></div><div class="swell-row"><dt>The break</dt><dd>The events reaching the news now. A fire week, a flood, a harvest.</dd></div></dl><p class="about-aside">The swell raised the ground the break happened on. That is a different claim from saying the wave caused it, and this site only makes the first.</p></div></section><section class="about-sec"><div><span class="about-num">02</span><h2>What we do not do</h2></div><div class="about-body"><dl class="refusals"><div class="refusal"><dt>No rival forecast</dt><dd>The headline probabilities are agency and model-ensemble outputs, recombined by arithmetic we publish. We do not issue a competing forecast of our own.</dd></div><div class="refusal"><dt>No causal attribution</dt><dd>We report whether an event falls inside a window where El Ni&ntilde;o shifts the odds. Formal attribution is a separate scientific exercise and we defer to it.</dd></div><div class="refusal"><dt>No price forecasts</dt><dd>Where a physical quantity reaches a market we state the quantity and cite named analysis. We do not originate the number, and we make no trade recommendations.</dd></div><div class="refusal"><dt>No averaging away disagreement</dt><dd>When forecast centers disagree, the disagreement is the finding, and it is shown.</dd></div></dl></div></section><section class="about-sec"><div><span class="about-num">03</span><h2>Where the numbers come from</h2></div><div class="about-body"><p>Every input is a public agency or model output, fetched directly and carrying the date its publisher issued it, which is kept distinct from the date we retrieved it. An agency that has gone quiet reads as quiet rather than as current.</p><p>Where a published source exists, we use it. Where none exists and the question still matters, we build the measure ourselves, publish the working, and label the result as ours so it is never mistaken for an agency number.</p><p>The full source list and the arithmetic are on the <a href="methodology.html">methodology page</a>.</p></div></section><section class="about-sec"><div><span class="about-num">04</span><h2>The methodology is versioned</h2></div><div class="about-body"><p>Every issue records the methodology version that produced it. When the arithmetic changes the version changes with it, and week-over-week comparisons that straddle a change are suppressed rather than quietly shown.</p><p class="about-aside">The current version is always shown on the methodology page.</p></div></section><section class="about-sec"><div><span class="about-num">05</span><h2>The archive is immutable</h2></div><div class="about-body"><p>Once an issue publishes it is frozen. Numbers are not revised in place, prose is not tidied, and the design it shipped with stays with it. Improvements apply to later issues only.</p><p>Every issue is in the <a href="briefs/">archive</a>, including the ones a later week proved wrong.</p></div></section><section class="about-sec"><div><span class="about-num">06</span><h2>Attribution is stated, never implied</h2></div><div class="about-body"><p>Every event carries one of exactly three statuses, and it is visible on the item rather than buried in a footnote. A site built around El Ni&ntilde;o trains readers to assume it is behind everything, so each item has to say what it is not.</p><p style="margin-top:14px"><span class="attr attr-enso">ENSO-loaded window</span> <span style="color:var(--ink-soft)">a season and place where El Niño shifts the odds</span></p><p style="margin-top:14px"><span class="attr attr-none">Not ENSO-linked</span> <span style="color:var(--ink-soft)">no established pathway ties this kind of event to El Niño</span></p><p style="margin-top:14px"><span class="attr attr-pending">Attribution pending</span> <span style="color:var(--ink-soft)">the formal attribution work is not in yet</span></p></div></section><section class="about-sec"><div><span class="about-num">07</span><h2>The channels</h2></div><div class="about-body"><p>Each channel reads one domain against its own baselines, as its own publication. A channel ships only once it has a baseline it can be measured against, which is why the list is short.</p><p><strong>El Ni&ntilde;o 2026-27</strong>, a weekly probability brief. <strong>Fire</strong>, hotspot activity against same-week satellite baselines, first issue 3 August 2026. Floods and a cross-channel damage ledger are planned and not yet published.</p></div></section><section class="about-sec"><div><span class="about-num">08</span><h2>Who writes this</h2></div><div class="about-body"><p>The Long Swell is an independent publication, written and edited by <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>. The methodology is shared with working climate scientists for external review. Contact details are in the footer.</p></div></section><section class="about-sec about-close"><div><span class="about-num">09</span><h2>Corrections</h2></div><div class="about-body"><p>Past issues are never edited. A genuine rendering error on the current issue is fixed the day it is found, in a public commit; everything older is frozen for good.</p><p class="about-aside">This follows from the archive rule in section 05: an archive that can be edited is not a record.</p></div></section></main></div>
+<footer class="field"><div class="field-shell"><div class="foot"><div class="foot-top"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a></div><p class="foot-cite"><b>By <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>.</b> Licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. <a href="https://thelongswell.com/">thelongswell.com</a><br>Every issue archived, immutable. Disagreements are surfaced, not averaged.</p></div></div></footer>
+</body>
+</html>
