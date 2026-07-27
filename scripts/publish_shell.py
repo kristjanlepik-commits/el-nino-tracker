@@ -128,6 +128,15 @@ def main() -> None:
                          "the template changed and this check is stale")
     if shown != published:
         raise SystemExit("ABORT: front page disagrees with the frozen archive")
+    # Every page, not just the front. A refactor that swaps one page's
+    # builder can silently drop or double its tag while the front page
+    # still looks right; that nearly happened when the archive moved from
+    # render_html(analytics=True) to build_archive_html().
+    for rel, html in sorted(pages.items()):
+        n = html.count("plausible.io/js")
+        if n != 1:
+            raise SystemExit(
+                f"ABORT: {rel} has {n} analytics tags, expected exactly 1")
     if tags != 1:
         raise SystemExit(f"ABORT: expected exactly 1 analytics tag, got {tags}")
     for rel in pages:

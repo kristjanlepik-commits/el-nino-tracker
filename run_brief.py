@@ -69,36 +69,6 @@ ANALYTICS_SNIPPET = (
     "</script>"
 )
 GITHUB_REPO_URL = "https://github.com/kristjanlepik-commits/el-nino-tracker"
-# Analytics (platform-owned seam; D-020). Plausible is cookieless and
-# stores no personal data, so no consent banner is required and the
-# page stays clean. Public pages only: never the internal brief, which
-# is emailed. Set ANALYTICS_SNIPPET = "" to disable site-wide.
-#
-# This is Plausible's current site-specific form, copied from the
-# install screen for thelongswell.com. The id in the filename is a
-# public site identifier, not a secret; it is visible in page source
-# by design. Outbound links, file downloads and form submissions are
-# enabled in the account, and that config ships inside the served
-# script rather than as attributes here.
-#
-# The inline block is REQUIRED, not decoration: the served script ends
-# with `plausible.o && S(plausible.o)`, so it initializes only if the
-# options object was set first, and it drains a `plausible.q` queue for
-# calls made before the async file lands. Deleting it silently records
-# nothing. Plain string, not an f-string, because the JS is full of
-# braces.
-ANALYTICS_SITE_ID = "pa-UzORTw8rlmViOEWGoqLYK"
-ANALYTICS_SNIPPET = (
-    "<!-- Privacy-friendly analytics by Plausible -->\n"
-    f'<script async src="https://plausible.io/js/{ANALYTICS_SITE_ID}.js">'
-    "</script>\n"
-    "<script>\n"
-    "window.plausible=window.plausible||function()"
-    "{(plausible.q=plausible.q||[]).push(arguments)},"
-    "plausible.init=plausible.init||function(i){plausible.o=i||{}};\n"
-    "plausible.init()\n"
-    "</script>"
-)
 AUTHOR_NAME = "Kristjan Lepik"
 AUTHOR_CONTACT_URL = "https://www.linkedin.com/in/kristjanlepik/"
 LICENSE_NAME = "CC BY-NC 4.0"

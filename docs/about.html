@@ -193,7 +193,10 @@
   }
   .shell { padding-bottom: 8px; }
 
-  /* ---------- masthead ---------- */
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
   header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
   header.field::after { display: none; }
   .masthead {
@@ -234,7 +237,6 @@
   .prodnav a.ch-fire { color: var(--fire); }
   .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
   .prodnav a:hover { color: var(--ink); }
-
   /* ---------- lead block ---------- */
   .field, .wave-strip { background: var(--paper); color: var(--ink); }
   .field::after { display: none; }
@@ -1049,12 +1051,71 @@
   }
   .swell-row dd { margin: 0; color: var(--ink-soft); max-width: 56ch; }
 
+  /* ---------- archive ---------- */
+  .ar-chart { display: block; width: 100%; height: auto; margin: 4px 0 10px; }
+  .ar-grid { stroke: var(--rule); stroke-width: 1; }
+  .ar-ax {
+    font-family: var(--mono); font-size: 9.5px; fill: var(--ink-faint);
+  }
+  .ar-line { fill: none; stroke-width: 2; stroke-linejoin: round; }
+  /* A version bump is a caveat, not decoration: deltas either side of
+     one are not comparable, so it gets a rule and a label. */
+  .ar-bump { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 3; }
+  .ar-bump-lb {
+    font-family: var(--mono); font-size: 9px; fill: var(--ink-faint);
+  }
+  .ar-legend {
+    display: flex; flex-wrap: wrap; gap: 8px 22px;
+    padding: 10px 0 4px; border-top: 1px solid var(--rule);
+  }
+  .ar-key {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft);
+  }
+  .ar-swatch { width: 16px; height: 3px; flex: none; }
+
+  .ar-head, .ar-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 320px) 62px;
+    gap: 6px 20px;
+    align-items: baseline;
+  }
+  .ar-head {
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--ink);
+    font-family: var(--mono); font-size: 9.5px; line-height: 2;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .ar-vals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .ar-head .ar-vals > span { text-align: right; }
+  .ar-row {
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+    color: inherit;
+  }
+  .ar-row:last-child { border-bottom: 3px solid var(--ink); }
+  .ar-row:hover { background: var(--paper-sunk); }
+  .ar-row:hover .ar-date { color: var(--fire); }
+  .ar-date { font-size: 15px; font-weight: 500; }
+  .ar-val { font-size: 14px; color: var(--ink-soft); text-align: right; }
+  .ar-ver {
+    font-family: var(--mono); font-size: 11px; color: var(--ink-faint);
+    text-align: right;
+  }
+  /* The issue where the arithmetic changed is the one worth finding. */
+  .ar-ver.bumped { color: var(--ink); font-weight: 500; }
+  .ar-ver.bumped::before { content: "2 "; color: var(--nino); }
+
   /* ---------- one breakpoint ---------- */
   @media (max-width: 760px) {
     .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
     .about-sec, .swell-row, .refusal {
       grid-template-columns: minmax(0, 1fr); gap: 8px;
     }
+    .ar-head, .ar-row { grid-template-columns: minmax(0, 1fr) auto; }
+    .ar-head > span:nth-child(2), .ar-vals { grid-column: 1 / -1; }
+    .ar-vals { gap: 8px; padding-top: 4px; }
     .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
     .heat, .two .note-side {
       border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
@@ -1095,8 +1156,8 @@ plausible.init()
 </script>
 </head>
 <body>
-<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="briefs/2026-07-27/">El Niño</a><a class="ch-fire" href="fires/">Fire</a><a class="util" href="about.html">About</a></nav></div></div></header>
-<div class="shell"><main class="body"><div class="issue-head"><h1>What this is, and what it is not.</h1><p class="lede">One question, asked of whatever is in the news: how big is this, actually? The limits come first, because they are what makes the rest believable.</p></div><section class="about-sec about-open"><div><span class="about-num">01</span><h2>The question</h2></div><div class="about-body"><p>Not what caused it, and not what happens next. <strong>How big</strong>, measured against a computable historical baseline, with the sources named and dated.</p><p>Three things are distinguished throughout, and the site never collapses them:</p><dl class="swell-rows"><div class="swell-row"><dt>The swell</dt><dd>Climate change. Decades of accumulated energy, the ground everything else happens on.</dd></div><div class="swell-row"><dt>The wave</dt><dd>The 2026-27 El Ni&ntilde;o. One large wave riding the swell, this season.</dd></div><div class="swell-row"><dt>The break</dt><dd>The events reaching the news now. A fire week, a flood, a harvest.</dd></div></dl><p class="about-aside">The swell raised the ground the break happened on. That is a different claim from saying the wave caused it, and this site only makes the first.</p></div></section><section class="about-sec"><div><span class="about-num">02</span><h2>What we do not do</h2></div><div class="about-body"><dl class="refusals"><div class="refusal"><dt>No rival forecast</dt><dd>The headline probabilities are agency and model-ensemble outputs, recombined by arithmetic we publish. We do not issue a competing forecast of our own.</dd></div><div class="refusal"><dt>No causal attribution</dt><dd>We report whether an event falls inside a window where El Ni&ntilde;o shifts the odds. Formal attribution is a separate scientific exercise and we defer to it.</dd></div><div class="refusal"><dt>No price forecasts</dt><dd>Where a physical quantity reaches a market we state the quantity and cite named analysis. We do not originate the number, and we make no trade recommendations.</dd></div><div class="refusal"><dt>No averaging away disagreement</dt><dd>When forecast centers disagree, the disagreement is the finding, and it is shown.</dd></div></dl></div></section><section class="about-sec"><div><span class="about-num">03</span><h2>Where the numbers come from</h2></div><div class="about-body"><p>Every input is a public agency or model output, fetched directly and carrying the date its publisher issued it, which is kept distinct from the date we retrieved it. An agency that has gone quiet reads as quiet rather than as current.</p><p>Where a published source exists, we use it. Where none exists and the question still matters, we build the measure ourselves, publish the working, and label the result as ours so it is never mistaken for an agency number.</p><p>The full source list and the arithmetic are on the <a href="methodology.html">methodology page</a>.</p></div></section><section class="about-sec"><div><span class="about-num">04</span><h2>The methodology is versioned</h2></div><div class="about-body"><p>Every issue records the methodology version that produced it. When the arithmetic changes the version changes with it, and week-over-week comparisons that straddle a change are suppressed rather than quietly shown.</p><p class="about-aside">The current version is always shown on the methodology page.</p></div></section><section class="about-sec"><div><span class="about-num">05</span><h2>The archive is immutable</h2></div><div class="about-body"><p>Once an issue publishes it is frozen. Numbers are not revised in place, prose is not tidied, and the design it shipped with stays with it. Improvements apply to later issues only.</p><p>Every issue is in the <a href="briefs/">archive</a>, including the ones a later week proved wrong.</p></div></section><section class="about-sec"><div><span class="about-num">06</span><h2>Attribution is stated, never implied</h2></div><div class="about-body"><p>Every event carries one of exactly three statuses, and it is visible on the item rather than buried in a footnote. A site built around El Ni&ntilde;o trains readers to assume it is behind everything, so each item has to say what it is not.</p><p style="margin-top:14px"><span class="attr attr-enso">ENSO-loaded window</span> <span style="color:var(--ink-soft)">a season and place where El Niño shifts the odds</span></p><p style="margin-top:14px"><span class="attr attr-none">Not ENSO-linked</span> <span style="color:var(--ink-soft)">no established pathway ties this kind of event to El Niño</span></p><p style="margin-top:14px"><span class="attr attr-pending">Attribution pending</span> <span style="color:var(--ink-soft)">the formal attribution work is not in yet</span></p></div></section><section class="about-sec"><div><span class="about-num">07</span><h2>The channels</h2></div><div class="about-body"><p>Each channel reads one domain against its own baselines, as its own publication. A channel ships only once it has a baseline it can be measured against, which is why the list is short.</p><p><strong>El Ni&ntilde;o 2026-27</strong>, a weekly probability brief. <strong>Fire</strong>, hotspot activity against same-week satellite baselines, first issue 3 August 2026. Floods and a cross-channel damage ledger are planned and not yet published.</p></div></section><section class="about-sec"><div><span class="about-num">08</span><h2>Who writes this</h2></div><div class="about-body"><p>The Long Swell is an independent publication, written and edited by <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>. The methodology is shared with working climate scientists for external review. Contact details are in the footer.</p></div></section><section class="about-sec about-close"><div><span class="about-num">09</span><h2>Corrections</h2></div><div class="about-body"><p>Past issues are never edited. A genuine rendering error on the current issue is fixed the day it is found, in a public commit; everything older is frozen for good.</p><p class="about-aside">This follows from the archive rule in section 05: an archive that can be edited is not a record.</p></div></section></main></div>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="briefs/2026-07-27/">El Niño</a><a class="ch-fire" href="fires/">Fires</a><a class="util" href="about.html">About</a></nav></div></div></header>
+<div class="shell"><main class="body"><div class="issue-head"><h1>What this is, and what it is not.</h1><p class="lede">One question, asked of whatever is in the news: how big is this, actually? The limits come first, because they are what makes the rest believable.</p></div><section class="about-sec about-open"><div><span class="about-num">01</span><h2>The question</h2></div><div class="about-body"><p>Not what caused it, and not what happens next. <strong>How big</strong>, measured against a computable historical baseline, with the sources named and dated.</p><p>Three things are distinguished throughout, and the site never collapses them:</p><dl class="swell-rows"><div class="swell-row"><dt>The swell</dt><dd>Climate change. Decades of accumulated energy, the ground everything else happens on.</dd></div><div class="swell-row"><dt>The wave</dt><dd>The 2026-27 El Ni&ntilde;o. One large wave riding the swell, this season.</dd></div><div class="swell-row"><dt>The break</dt><dd>The events reaching the news now. A fire week, a flood, a harvest.</dd></div></dl><p class="about-aside">The swell raised the ground the break happened on. That is a different claim from saying the wave caused it, and this site only makes the first.</p></div></section><section class="about-sec"><div><span class="about-num">02</span><h2>What we do not do</h2></div><div class="about-body"><dl class="refusals"><div class="refusal"><dt>No rival forecast</dt><dd>The headline probabilities are agency and model-ensemble outputs, recombined by arithmetic we publish. We do not issue a competing forecast of our own.</dd></div><div class="refusal"><dt>No causal attribution</dt><dd>We report whether an event falls inside a window where El Ni&ntilde;o shifts the odds. Formal attribution is a separate scientific exercise and we defer to it.</dd></div><div class="refusal"><dt>No price forecasts</dt><dd>Where a physical quantity reaches a market we state the quantity and cite named analysis. We do not originate the number, and we make no trade recommendations.</dd></div><div class="refusal"><dt>No averaging away disagreement</dt><dd>When forecast centers disagree, the disagreement is the finding, and it is shown.</dd></div></dl></div></section><section class="about-sec"><div><span class="about-num">03</span><h2>Where the numbers come from</h2></div><div class="about-body"><p>Every input is a public agency or model output, fetched directly and carrying the date its publisher issued it, which is kept distinct from the date we retrieved it. An agency that has gone quiet reads as quiet rather than as current.</p><p>Where a published source exists, we use it. Where none exists and the question still matters, we build the measure ourselves, publish the working, and label the result as ours so it is never mistaken for an agency number.</p><p>The full source list and the arithmetic are on the <a href="methodology.html">methodology page</a>.</p></div></section><section class="about-sec"><div><span class="about-num">04</span><h2>The methodology is versioned</h2></div><div class="about-body"><p>Every issue records the methodology version that produced it. When the arithmetic changes the version changes with it, and week-over-week comparisons that straddle a change are suppressed rather than quietly shown.</p><p class="about-aside">The current version is always shown on the methodology page.</p></div></section><section class="about-sec"><div><span class="about-num">05</span><h2>The archive is immutable</h2></div><div class="about-body"><p>Once an issue publishes it is frozen. Numbers are not revised in place, prose is not tidied, and the design it shipped with stays with it. Improvements apply to later issues only.</p><p>Every issue is in the <a href="briefs/">archive</a>, including the ones a later week proved wrong.</p></div></section><section class="about-sec"><div><span class="about-num">06</span><h2>Attribution is stated, never implied</h2></div><div class="about-body"><p>Every event carries one of exactly three statuses, and it is visible on the item rather than buried in a footnote. A site built around El Ni&ntilde;o trains readers to assume it is behind everything, so each item has to say what it is not.</p><p style="margin-top:14px"><span class="attr attr-enso">ENSO-loaded window</span> <span style="color:var(--ink-soft)">a season and place where El Niño shifts the odds</span></p><p style="margin-top:14px"><span class="attr attr-none">Not ENSO-linked</span> <span style="color:var(--ink-soft)">no established pathway ties this kind of event to El Niño</span></p><p style="margin-top:14px"><span class="attr attr-pending">Attribution pending</span> <span style="color:var(--ink-soft)">the formal attribution work is not in yet</span></p></div></section><section class="about-sec"><div><span class="about-num">07</span><h2>The channels</h2></div><div class="about-body"><p>Each channel reads one domain against its own baselines, as its own publication. A channel ships only once it has a baseline it can be measured against, which is why the list is short.</p><p><strong>El Ni&ntilde;o 2026-27</strong>, a weekly probability brief. <strong>Fires</strong>, hotspot activity against same-week satellite baselines, first issue 3 August 2026. Floods and a cross-channel damage ledger are planned and not yet published.</p></div></section><section class="about-sec"><div><span class="about-num">08</span><h2>Who writes this</h2></div><div class="about-body"><p>The Long Swell is an independent publication, written and edited by <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>. The methodology is shared with working climate scientists for external review. Contact details are in the footer.</p></div></section><section class="about-sec about-close"><div><span class="about-num">09</span><h2>Corrections</h2></div><div class="about-body"><p>Past issues are never edited. A genuine rendering error on the current issue is fixed the day it is found, in a public commit; everything older is frozen for good.</p><p class="about-aside">This follows from the archive rule in section 05: an archive that can be edited is not a record.</p></div></section></main></div>
 <footer class="field"><div class="field-shell"><div class="foot"><div class="foot-top"><a class="brand" href="./" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a></div><p class="foot-cite"><b>By <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>.</b> Licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. <a href="https://thelongswell.com/">thelongswell.com</a><br>Every issue archived, immutable. Disagreements are surfaced, not averaged.</p></div></div></footer>
 </body>
 </html>
