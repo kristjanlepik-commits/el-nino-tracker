@@ -55,17 +55,26 @@ STRONG_MULTIPLE = 2.0
 MAX_RANK = 3
 MAX_MARKERS = 8
 
+# Every item this week is non_enso, and that is the finding rather
+# than a gap: the Mediterranean is the declared control region, Canada
+# is boreal with a weak link, the southern African savanna is routine
+# agricultural burning, and Australian fire in July is northern savanna
+# outside the tracked November-February window. Australia flips to
+# "enso" when that window opens.
 ATTRIBUTION = {
     "ESP": "non_enso", "FRA": "non_enso", "GBR": "non_enso",
-    "ITA": "non_enso", "CAN": "non_enso",
+    "ITA": "non_enso", "CAN": "non_enso", "AGO": "non_enso",
+    "COD": "non_enso", "ZMB": "non_enso", "AUS": "non_enso",
 }
 DISPLAY = {
     "ESP": "Spain", "FRA": "France", "GBR": "United Kingdom",
-    "ITA": "Italy", "CAN": "Canada",
+    "ITA": "Italy", "CAN": "Canada", "AGO": "Angola",
+    "COD": "DR Congo", "ZMB": "Zambia", "AUS": "Australia",
 }
 SLUG = {
     "ESP": "spain", "FRA": "france", "GBR": "uk",
-    "ITA": "italy", "CAN": "canada",
+    "ITA": "italy", "CAN": "canada", "AGO": "angola",
+    "COD": "dr-congo", "ZMB": "zambia", "AUS": "australia",
 }
 
 

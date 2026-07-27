@@ -41,6 +41,12 @@ def build(events_doc, font_prefix="../fonts/"):
         <span class="tag tag-{e['attribution']}">{TAG_TEXT[e['attribution']]}</span>
       </a>""")
 
+    n = len(ev)
+    words = {1:"One country is",2:"Two countries are",3:"Three countries are",
+             4:"Four countries are",5:"Five countries are",
+             6:"Six countries are",7:"Seven countries are",
+             8:"Eight countries are"}
+    headline = f"{words.get(n, str(n) + ' countries are')} burning well above their own seasonal normal"
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -156,7 +162,7 @@ h1 {{
     <span class="when">{window}</span>
   </div>
 
-  <h1>Five countries are burning well above their own seasonal normal</h1>
+  <h1>{headline}</h1>
   <p class="standfirst">Every figure below compares a country only with
   itself, against the same calendar week in each year since 2012. That
   is what separates an unusual week from a merely busy one.</p>
@@ -164,9 +170,11 @@ h1 {{
   <p class="sectionlabel">Against their own record</p>
   {''.join(rows)}
 
-  <p class="note">Ranked by how far above normal, not by size. Canada
-  recorded more than twenty times Spain's detections this week, but
-  Canada burns on that scale most summers and Spain does not.</p>
+  <p class="note">Ranked by how far above normal, not by size. Angola,
+  DR Congo and Zambia each recorded more detections this week than
+  anywhere on this list, and none of them appear on it: the southern
+  African savanna burns on that scale every dry season, so all three
+  sit at or near their own normal. Volume is not news; departure is.</p>
 
   <div class="foot">
     <p><b>What a detection is.</b> One satellite pixel, about 375 m
