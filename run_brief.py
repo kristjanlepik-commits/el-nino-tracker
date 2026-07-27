@@ -35,7 +35,7 @@ import analog
 import snapshot
 
 
-PAGES_BASE_URL = "https://kristjanlepik-commits.github.io/el-nino-tracker"
+PAGES_BASE_URL = "https://thelongswell.com"
 GITHUB_REPO_URL = "https://github.com/kristjanlepik-commits/el-nino-tracker"
 AUTHOR_NAME = "Kristjan Lepik"
 AUTHOR_CONTACT_URL = "https://www.linkedin.com/in/kristjanlepik/"
@@ -1364,7 +1364,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<p class="footer-meta" style="margin-top:6px;">'
         f'Licensed <a href="{h(LICENSE_URL)}">{h(LICENSE_NAME)}</a>. '
         f'Cite as: Lepik, K. (2026). El Niño Tracker. '
-        f'<a href="{h(PAGES_BASE_URL)}/">kristjanlepik-commits.github.io/el-nino-tracker</a>. '
+        f'<a href="{h(PAGES_BASE_URL)}/">thelongswell.com</a>. '
         f'Free to share and quote with attribution; commercial reuse requires permission.'
         f'</p>'
         '</footer>'

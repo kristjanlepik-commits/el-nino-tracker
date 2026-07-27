@@ -467,7 +467,7 @@ def render(date_iso: str, out_path) -> Path:
                  fontsize=10.5, color=GREY, family=F, va="top")
     fig.text(ML, 0.143, "Odds are a CPC anchor deflected toward a six-model consensus, weight 0.85. Disagreements are surfaced, not averaged. Every issue archived, immutable.",
              fontsize=10.5, color=GREY, family=F, va="top")
-    fig.text(ML, 0.119, "kristjanlepik-commits.github.io/el-nino-tracker",
+    fig.text(ML, 0.119, "thelongswell.com",
              fontsize=13, color=NAVY, family=F, fontweight="medium", va="top")
 
     out_path = Path(out_path)
