@@ -2265,20 +2265,37 @@ def _wave_strip_html(magn_pct, brief_date_iso: str,
 
 
 def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
-    """The hero's right column: subsurface heat now against the same
-    calendar week in the two super-event analogs.
+    """The hero's right column: subsurface heat now against the two
+    super-event analogs, on whatever basis the analog constants are
+    actually on.
 
     Bar colour comes from the diverging anomaly scale, never a channel
     hue (D-016 amendment 4): this is a physical magnitude, and a Fire
     red here would make an ENSO datum read as a Fire datum. Length and
     colour therefore encode the same quantity twice.
+
+    The basis is read off the constants rather than asserted. This block
+    shipped captioned "same calendar week" while reading
+    1997_apr_heat_content and 2015_apr_heat_content, which are frozen
+    late-April values: it compared July 2026 against April 1997 and
+    April 2015 and told the reader the weeks matched. Three bars side by
+    side claim like-for-like by construction, harder than a sentence
+    does, so a wrong basis is worse here than in prose. ENSO tracker is
+    fetching same-week analog values for 2026-08-03; until those exist
+    the label names April, and it flips on its own when the keys land,
+    so the caption cannot go stale independently of the data again.
     """
     now = phys.get("heat_content_0_300m_estimate")
     if now is None:
         return ""
+    same_week = ("1997_same_week_heat_content" in analog_same
+                 and "2015_same_week_heat_content" in analog_same)
+    suffix = "same_week_heat_content" if same_week else "apr_heat_content"
+    basis = ("same calendar week" if same_week
+             else "2026 this week, analogs at late April")
     rows = [("2026", float(now), True),
-            ("2015", analog_same.get("2015_apr_heat_content"), False),
-            ("1997", analog_same.get("1997_apr_heat_content"), False)]
+            ("2015", analog_same.get(f"2015_{suffix}"), False),
+            ("1997", analog_same.get(f"1997_{suffix}"), False)]
     rows = [(y, float(v), cur) for y, v, cur in rows if v is not None]
 
     # Bars diverge from zero and are normalised on the SAME absolute
@@ -2295,7 +2312,7 @@ def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
 
     out = ['<div class="heat">',
            '<span class="cap eyebrow">Ocean heat, 0 to 300 m'
-           ' &middot; same calendar week</span>']
+           f' &middot; {h(basis)}</span>']
     for year, val, is_now in rows:
         clamped = max(-scale, min(scale, val))
         left = (min(0.0, clamped) + scale) / (2 * scale) * 100.0
@@ -2313,7 +2330,13 @@ def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
     out.append(
         '<p class="hnote">Degrees Celsius anomaly, diverging from zero. '
         'Bar colour is the position on the anomaly scale, not a channel '
-        'hue.</p></div>')
+        'hue.'
+        + ('' if same_week else
+           ' The two analog values are late-April readings, so this is '
+           'not a like-for-like comparison against the same week: 1997 '
+           'rose steeply through its summer, and the gap shown here '
+           'would narrow on a same-week basis.')
+        + '</p></div>')
     return "".join(out)
 
 
@@ -4092,6 +4115,18 @@ def build_archive_html(root_prefix: str = "../",
     desc = (f"Every issue of {PRODUCT_NAME}, {len(rows)} so far, each "
             f"frozen as published.")
 
+    # Oldest issue that carries a methodology version, and how many
+    # predate it. Both derived, never hardcoded: back-filling a version
+    # onto an issue that never carried one would be a quiet revision of
+    # the record, which is the exact thing this page exists to rule out.
+    versioned = [r for r in rows if r.get("version")]
+    first_ver = versioned[0]["version"] if versioned else None
+    first_ver_date = versioned[0]["date"] if versioned else ""
+    n_unversioned = len(rows) - len(versioned)
+    unversioned_word = {1: "one", 2: "two", 3: "three", 4: "four",
+                        5: "five", 6: "six"}.get(n_unversioned,
+                                                 str(n_unversioned))
+
     DASH = "\u2013"
     items = []
     for i, r in enumerate(reversed(rows)):
@@ -4176,6 +4211,21 @@ def build_archive_html(root_prefix: str = "../",
           '100% in June and were retired from the public ladder; the '
           'event outgrew the bottom of the scale. Their full history '
           'stays in each issue\u2019s own page.</p>'
+        # A dash means two different things in this table and neither was
+        # explained, so four rows read as missing data on the one page
+        # whose argument is that nothing goes unrecorded. Both the first
+        # versioned issue and the count of older ones are read from the
+        # frozen meta.json files, so this cannot drift out of step with
+        # the table above it.
+        + (('<p class="buckets-note">A dash in a probability column means '
+            'that threshold was not yet published that week; the two '
+            'upper ones were added as the event outgrew the scale. A '
+            'dash under Method means the issue predates methodology '
+            f'versioning, which begins at v{h(first_ver)} on '
+            f'{h(first_ver_date)}. The {h(unversioned_word)} earlier '
+            'issues are unrevised originals; they are shown as published '
+            'rather than back-filled with a version they never '
+            'carried.</p>') if first_ver else '')
         + '</section>'
         + '</main></div>\n'
         + '<footer class="field"><div class="field-shell"><div class="foot">'
