@@ -10,8 +10,8 @@ from the exact bytes embedded below.
 | Source | sha256, first 12 |
 |---|---|
 | `tokens.py` | `5555808c7441` |
-| `run_brief.py` | `d93a9e249d97` |
-| `PUBLIC_CSS` as extracted | `d1655ceab85b` |
+| `run_brief.py` | `3781441d9815` |
+| `PUBLIC_CSS` as extracted | `4f15019a7106` |
 
 **Fetch with a sha-pinned URL, never the branch name.** Raw URLs on a
 branch are cached for a few minutes and can serve a stale copy; a
@@ -1454,13 +1454,17 @@ Token values are substituted in at build time from `tokens.py`; the
   }
 
   /* ---------- about: numbered section grid ---------- */
-  /* The one new pattern this page needs. Label column takes
-     minmax(max-content, 220px) and the prose column takes minmax(0, 1fr):
-     a ch floor on the prose track would leave the label column as the
-     only thing able to shrink, and it collapses. */
+  /* Label column is minmax(0, 220px), NOT minmax(max-content, 220px).
+     Per the Grid spec a minmax() whose min exceeds its max resolves to
+     the min, so a max-content floor on a column carrying 20px headings
+     ignored the 220px cap entirely: "Where the numbers come from" runs
+     about 280px unwrapped and stole 60px from the prose. A max-content
+     floor is right for short tracked-mono labels and wrong for headings,
+     which can wrap. The prose track keeps minmax(0, 1fr) so it is the
+     one that gives. */
   .about-sec {
     display: grid;
-    grid-template-columns: minmax(max-content, 220px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
     gap: 10px 56px;
     padding: 26px 0 34px;
     border-top: 2.4px solid var(--rule-45);
@@ -1475,8 +1479,21 @@ Token values are substituted in at build time from `tokens.py`; the
   .about-sec h2 { font-size: 20px; font-weight: 500; margin-bottom: 10px; }
   .about-body p { margin: 0; max-width: 62ch; }
   .about-body p + p { margin-top: 14px; }
-  .about-body ul { margin: 0; padding-left: 20px; max-width: 62ch; }
-  .about-body li { margin-bottom: 10px; }
+  /* No bullet lists anywhere in this system. ol.caveats styles its own
+     markers and every other list is rule-separated rows, so discs would
+     be the one exception. The refusals in particular carry more weight as
+     rows than as a bulleted aside. */
+  .refusals { margin: 0; }
+  .refusal {
+    display: grid;
+    grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+    gap: 4px 24px;
+    padding: 13px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .refusal:first-child { border-top: 0; padding-top: 0; }
+  .refusal dt { font-weight: 500; }
+  .refusal dd { margin: 0; color: var(--ink-soft); }
   .about-aside {
     font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
     color: var(--ink-soft); margin-top: 14px;
@@ -1484,9 +1501,12 @@ Token values are substituted in at build time from `tokens.py`; the
   }
 
   /* The three-row hierarchy: the only place the ratio's 1.8px width is
-     used as a rule, because here the hierarchy is the content. */
+     used as a rule, because here the hierarchy is the content. The
+     default top rule is the hairline step, so a fourth row added later
+     degrades to 1.8px rather than to no rule at all. */
   .swell-rows { margin: 0; }
   .swell-row {
+    border-top: 1.8px solid var(--rule-20);
     display: grid;
     grid-template-columns: minmax(max-content, 118px) minmax(0, 1fr);
     gap: 6px 22px;
@@ -1504,13 +1524,12 @@ Token values are substituted in at build time from `tokens.py`; the
   }
   .swell-row dd { margin: 0; color: var(--ink-soft); max-width: 56ch; }
 
-  @media (max-width: 760px) {
-    .about-sec, .swell-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  }
-
   /* ---------- one breakpoint ---------- */
   @media (max-width: 760px) {
     .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
+    .about-sec, .swell-row, .refusal {
+      grid-template-columns: minmax(0, 1fr); gap: 8px;
+    }
     .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
     .heat, .two .note-side {
       border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
