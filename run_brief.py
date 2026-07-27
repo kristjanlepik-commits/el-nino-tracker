@@ -110,7 +110,7 @@ LICENSE_URL = "https://creativecommons.org/licenses/by-nc/4.0/"
 # Unbuilt channels stay out entirely (D-ratified: hidden until they have
 # something to show), which is why Floods and Damages are absent.
 CHANNELS = [
-    ("elnino", "El Ni\u00f1o", "#issue"),
+    ("elnino", "El Ni\u00f1o", None),   # None: resolved to the current issue
     ("fire", "Fire", "fires/"),
 ]
 
@@ -2055,6 +2055,23 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
     )
 
 
+def _latest_issue_href() -> str:
+    """Path to the newest published issue, relative to the docs root.
+
+    The El Nino channel has no standing page of its own: the current
+    issue is the channel. Falls back to the archive index if nothing is
+    published yet, which is a real page rather than a dead anchor.
+    """
+    try:
+        dirs = sorted(d for d in (DOCS_DIR / "briefs").iterdir()
+                      if d.is_dir() and (d / "index.html").exists())
+        if dirs:
+            return f"briefs/{dirs[-1].name}/"
+    except OSError:
+        pass
+    return "briefs/"
+
+
 def _masthead_html(root_prefix: str, methodology_href: str,
                    briefs_href: str, active: str = "elnino",
                    mark_opacities: tuple | None = None) -> str:
@@ -2065,12 +2082,21 @@ def _masthead_html(root_prefix: str, methodology_href: str,
         '<div class="masthead">'
         f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
         f'{_mark_svg(26, mark_opacities)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
-        '<nav class="prodnav" aria-label="Channels">'
+        '<nav class="prodnav" aria-label="Sections">'
         + "".join(
-            f'<a{on(key)} class="ch-{key}" '
-            f'href="{h(home if href.startswith("#") else root_prefix + href)}'
-            f'{h(href) if href.startswith("#") else ""}">{label}</a>'
+            # One class attribute. Emitting the active flag and the
+            # channel class separately produced <a class="on"
+            # class="ch-elnino">, and a browser keeps the first and drops
+            # the second, so the channel hue never applied to the active
+            # item.
+            '<a class="{cls}" href="{href}">{label}</a>'.format(
+                cls=" ".join(x for x in (f"ch-{key}",
+                                         "on" if key == active else "") if x),
+                href=h(root_prefix + (href if href is not None
+                                      else _latest_issue_href())),
+                label=label)
             for key, label, href in CHANNELS)
+        + f'<a class="util" href="{h(root_prefix)}about.html">About</a>'
         + '</nav></div></div></header>\n'
     )
 
