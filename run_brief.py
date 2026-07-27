@@ -69,6 +69,24 @@ DISPLAY_HOST = PAGES_BASE_URL.split("//", 1)[-1]
 # the platform chat wires the real signup URL here.
 EMAIL_SIGNUP_URL = ""
 
+# About page claims about how the publication operates. Both are drafted
+# and neither ships until Kristjan ratifies, because they are editorial
+# policy rather than design.
+#
+# ABOUT_INDEPENDENCE additionally CONFLICTS WITH T8. The visual-language
+# chat drafted "no funder, no advertising, no sponsored channel, no
+# paywall". Advertising and consumer subscription are genuinely ruled
+# out, and "no paywall" is supportable with T8's own qualifier "during
+# peak attention". But an anchor sponsor is priority 1 commercially at
+# T8, an instant yes at $50K, and the working product framing is
+# literally "Presented by [X]". So "no funder" and "no sponsored channel"
+# would be false the week a sponsor signs, and an About page that becomes
+# false is worse than one that says less. If independence is claimed at
+# all it should describe the firewall (business pressure does not steer
+# editorial, per T8) rather than the absence of money.
+ABOUT_INDEPENDENCE = None
+ABOUT_CORRECTIONS = None
+
 
 PUBLIC_SOURCE_NAMES = {
     "cpc_strength": "NOAA CPC strength table",
@@ -644,6 +662,7 @@ _PUBLIC_CSS_TEMPLATE = """
   }
   .rung .threshold .gt { color: var(--ink-faint); font-weight: 400; }
   .rung .pct {
+    position: relative;   /* containing block for the sr-only .word */
     font-size: 24px;
     font-weight: 500;
     color: var(--ink);
@@ -896,9 +915,14 @@ _PUBLIC_CSS_TEMPLATE = """
   .impacts-map .world-map-bg { width: 100%; }
   .impacts-map .map-hotspot {
     position: absolute; transform: translate(-50%, -50%);
-    /* 44px target with a 10px dot inside it. 22px failed the minimum,
-       and the event map already had this right via max(r + 7, 12). */
-    width: 44px; height: 44px;
+    /* 32px target with a 10px dot inside it. 22px was under the WCAG 2.2
+       AA minimum of 24px (SC 2.5.8). 44px is the AAA figure (2.5.5) and
+       is too big here: measured at a 350px-wide map the closest two
+       regions sit 35px apart, so 44px targets would steal each other's
+       taps, which is worse than a small one. 32px clears AA with margin
+       and fits the spacing. The region tab strip is the redundant
+       control for anyone who finds the discs fiddly. */
+    width: 32px; height: 32px;
     background: transparent; border: 0; padding: 0; cursor: pointer;
   }
   /* A plain disc. This was a ring around a dot, with the active state
@@ -909,7 +933,7 @@ _PUBLIC_CSS_TEMPLATE = """
      same objection applies to any concentric figure. Selection is carried
      by opacity and a hairline, not by radiating rings. */
   .impacts-map .map-hotspot-dot {
-    position: absolute; inset: 17px;
+    position: absolute; inset: 11px;
     border-radius: 50%;
     background: var(--fire);
     opacity: 0.75;
@@ -934,7 +958,7 @@ _PUBLIC_CSS_TEMPLATE = """
     background: none;
     border: 0;
     border-bottom: 2.4px solid transparent;
-    padding: 8px 14px 8px 0;
+    padding: 13px 14px 13px 0;
     margin-right: 18px;
     font-family: var(--mono);
     font-size: 10.5px;
@@ -1110,6 +1134,61 @@ _PUBLIC_CSS_TEMPLATE = """
   .break-more a {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--ink-soft);
+  }
+
+  /* ---------- about: numbered section grid ---------- */
+  /* The one new pattern this page needs. Label column takes
+     minmax(max-content, 220px) and the prose column takes minmax(0, 1fr):
+     a ch floor on the prose track would leave the label column as the
+     only thing able to shrink, and it collapses. */
+  .about-sec {
+    display: grid;
+    grid-template-columns: minmax(max-content, 220px) minmax(0, 1fr);
+    gap: 10px 56px;
+    padding: 26px 0 34px;
+    border-top: 2.4px solid var(--rule-45);
+  }
+  .about-sec:first-of-type { border-top: 3px solid var(--ink); }
+  .about-sec:last-of-type { border-bottom: 3px solid var(--ink); }
+  .about-num {
+    font-family: var(--mono); font-size: 9.5px; line-height: 2;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .about-sec h2 { font-size: 20px; font-weight: 500; margin-bottom: 10px; }
+  .about-body p { margin: 0; max-width: 62ch; }
+  .about-body p + p { margin-top: 14px; }
+  .about-body ul { margin: 0; padding-left: 20px; max-width: 62ch; }
+  .about-body li { margin-bottom: 10px; }
+  .about-aside {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
+    color: var(--ink-soft); margin-top: 14px;
+    border-left: 1px solid var(--rule); padding-left: 16px;
+  }
+
+  /* The three-row hierarchy: the only place the ratio's 1.8px width is
+     used as a rule, because here the hierarchy is the content. */
+  .swell-rows { margin: 0; }
+  .swell-row {
+    display: grid;
+    grid-template-columns: minmax(max-content, 118px) minmax(0, 1fr);
+    gap: 6px 22px;
+    padding: 14px 0;
+  }
+  .swell-row:nth-child(1) { border-top: 3px solid var(--ink); }
+  .swell-row:nth-child(2) { border-top: 2.4px solid var(--rule-45); }
+  .swell-row:nth-child(3) {
+    border-top: 1.8px solid var(--rule-20);
+    border-bottom: 3px solid var(--ink);
+  }
+  .swell-row dt {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .swell-row dd { margin: 0; color: var(--ink-soft); max-width: 56ch; }
+
+  @media (max-width: 760px) {
+    .about-sec, .swell-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   }
 
   /* ---------- one breakpoint ---------- */
@@ -1706,11 +1785,7 @@ def _load_events() -> list[dict]:
 # the largest few by multiple and links to the channel for the rest.
 BREAK_LIST_MAX = 6
 
-# The Nino 3.4 fill and the printed legend must use the same number or
-# the box cannot be decoded against the scale beside it, and it must be
-# the same number the issue hero's heat bars use or the two pages
-# disagree about what a given colour means. One constant, in tokens.
-NINO_SCALE = T.OCEAN_SCALE
+
 
 _WORLD_SVG_CACHE = None
 
@@ -1811,7 +1886,7 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
             f'Nino issue.">'
             f'<rect class="nino-box" x="{x1:.1f}" y="{y1:.1f}" '
             f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}" '
-            f'fill="{T.anomaly_color(nino_value, NINO_SCALE)}"/>'
+            f'fill="{T.anomaly_color(nino_value, T.OCEAN_SCALE)}"/>'
             f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
             f'NI\u00d1O 3.4</text>'
             f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
@@ -1831,8 +1906,8 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
     # Caret marking where this week's index sits on the printed ramp.
     nino_tick = ""
     if nino_value is not None:
-        tx = max(0.0, min(1.0, (float(nino_value) + NINO_SCALE)
-                          / (2 * NINO_SCALE))) * 170
+        tx = max(0.0, min(1.0, (float(nino_value) + T.OCEAN_SCALE)
+                          / (2 * T.OCEAN_SCALE))) * 170
         nino_tick = (
             f'<path class="lg-tick" d="M{tx:.1f},18 l-4,-6 l8,0 z"/>'
             f'<text class="lg-now" x="{tx:.1f}" y="9" text-anchor="middle">'
@@ -1859,9 +1934,9 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
         f'<text class="lg-tx" x="0" y="10">SST ANOMALY</text>'
         f'<rect x="0" y="22" width="170" height="9" fill="url(#anomramp)"/>'
         f'{nino_tick}'
-        f'<text class="lg-tx" x="0" y="47">\u2212{NINO_SCALE:g}</text>'
+        f'<text class="lg-tx" x="0" y="47">\u2212{T.OCEAN_SCALE:g}</text>'
         f'<text class="lg-tx" x="80" y="47">0</text>'
-        f'<text class="lg-tx" x="146" y="47">+{NINO_SCALE:g} \u00b0C</text>'
+        f'<text class="lg-tx" x="146" y="47">+{T.OCEAN_SCALE:g} \u00b0C</text>'
         f'</svg>'
         '</div>'
         + (f'<p class="mapnote">Week {h(window)}, seven fully closed UTC '
@@ -1982,24 +2057,25 @@ def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
             ("1997", analog_same.get("1997_apr_heat_content"), False)]
     rows = [(y, float(v), cur) for y, v, cur in rows if v is not None]
 
-    # Bars diverge from zero, they do not grow from a common left edge.
-    # An earlier version used abs(value) for the width, so -0.5 and +0.5
-    # drew the same bar and were told apart only by hue. That is latent
-    # today because both analogs are warm, but 2025 is deliberately a La
-    # Nina reference in the peer set, and the first time a negative year
-    # reaches this component the chart would state the opposite of the
-    # data. Zero sits where zero belongs, and a cold year runs left.
-    lo = min(0.0, min(v for _, v, _ in rows))
-    hi = max(0.0, max(v for _, v, _ in rows))
-    span = (hi - lo) or 1.0
-    zero_pct = (0.0 - lo) / span * 100.0
+    # Bars diverge from zero and are normalised on the SAME absolute
+    # scale as their colour, T.OCEAN_SCALE. An earlier version used
+    # abs(value) over the span of the rows present, which meant two
+    # things: -0.5 and +0.5 drew identical bars, and bar lengths
+    # rescaled every week as the maximum moved, so two issues
+    # screenshotted a month apart were not comparable. On a site whose
+    # distribution channel is the screenshot that is a real cost. The
+    # track is now the full ramp width, zero sits at its centre, and a
+    # cold year runs left.
+    scale = T.OCEAN_SCALE
+    zero_pct = 50.0
 
     out = ['<div class="heat">',
            '<span class="cap eyebrow">Ocean heat, 0 to 300 m'
            ' &middot; same calendar week</span>']
     for year, val, is_now in rows:
-        left = (min(0.0, val) - lo) / span * 100.0
-        width = max(1.2, abs(val) / span * 100.0)
+        clamped = max(-scale, min(scale, val))
+        left = (min(0.0, clamped) + scale) / (2 * scale) * 100.0
+        width = max(1.0, abs(clamped) / (2 * scale) * 100.0)
         out.append(
             f'<div class="hrow{" now" if is_now else ""}">'
             f'<span class="yr">{h(year)}</span>'
@@ -3469,6 +3545,186 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     return "\n".join(md)
 
 
+def _about_section(num: str, label: str, body: str, aside: str = "") -> str:
+    aside_html = f'<p class="about-aside">{aside}</p>' if aside else ""
+    return (
+        '<section class="about-sec">'
+        f'<div><span class="about-num">{h(num)}</span>'
+        f'<h2>{label}</h2></div>'
+        f'<div class="about-body">{body}{aside_html}</div>'
+        '</section>'
+    )
+
+
+def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
+                     briefs_href: str = "briefs/") -> str:
+    """The About page.
+
+    A credibility surface, not boilerplate. It leads with refusals: the
+    headline names both halves and section 02 is what the site does not
+    do, ahead of where the numbers come from. Putting the limits before
+    the credentials is what makes the credentials believable.
+
+    Copy is drawn from published material (theses.md T9 to T11, the
+    decision ledger, methodology.md) so it reads as consistent with the
+    rest of the site rather than newly asserted here.
+    """
+    title = f"What this is, and what it is not \u00b7 {SITE_NAME}"
+    desc = ("The Long Swell answers one question about events in the "
+            "climate: how big is this, actually? What the site does, and "
+            "what it refuses to do.")
+
+    swell = (
+        '<dl class="swell-rows">'
+        '<div class="swell-row"><dt>The swell</dt>'
+        '<dd>Climate change. Decades of accumulated energy, the ground '
+        'everything else happens on.</dd></div>'
+        '<div class="swell-row"><dt>The wave</dt>'
+        '<dd>The 2026-27 El Ni&ntilde;o. One large wave riding the swell, '
+        'this season.</dd></div>'
+        '<div class="swell-row"><dt>The break</dt>'
+        '<dd>The events reaching the news now. A fire week, a flood, a '
+        'harvest.</dd></div>'
+        '</dl>')
+
+    secs = []
+    secs.append(_about_section(
+        "01", "The question",
+        '<p>One question, asked of whatever is in the news: <strong>how '
+        'big is this, actually?</strong> Not what caused it, and not what '
+        'happens next. How big, measured against a computable historical '
+        'baseline, with the sources named and dated.</p>'
+        '<p>Three things are distinguished throughout, and the site never '
+        'collapses them:</p>' + swell,
+        'The swell raised the ground the break happened on. That is a '
+        'different claim from saying the wave caused it, and this site '
+        'only makes the first.'))
+
+    secs.append(_about_section(
+        "02", "What we do not do",
+        '<ul>'
+        '<li><strong>No original modelling.</strong> Every number is '
+        'reproduced from a named source and recombined. The historical '
+        'sample of comparable events is too small to calibrate anything '
+        'that would beat the agencies.</li>'
+        '<li><strong>No causal attribution.</strong> We report that an '
+        'event falls inside or outside a window where El Ni&ntilde;o '
+        'shifts the odds. Formal attribution is a separate scientific '
+        'exercise and we defer to it.</li>'
+        '<li><strong>No price forecasts and no trade recommendations.</strong> '
+        'Where a physical quantity reaches a market we state the quantity '
+        'and cite named analysis. We do not originate the number.</li>'
+        '<li><strong>No averaging away disagreement.</strong> When '
+        'forecast centres disagree the disagreement is the finding, and '
+        'it is shown.</li>'
+        '<li><strong>No coverage without a baseline.</strong> If an event '
+        'cannot be put against a computable historical comparison, this '
+        'site does not cover it.</li>'
+        '</ul>'))
+
+    secs.append(_about_section(
+        "03", "Where the numbers come from",
+        '<p>Every input is a public agency or model output, fetched '
+        'directly and carrying the date its publisher issued it, which is '
+        'kept distinct from the date we retrieved it. An agency that has '
+        'gone quiet reads as quiet rather than as current.</p>'
+        f'<p>The full source list and the arithmetic are on the '
+        f'<a href="{h(methodology_href)}">methodology page</a>.</p>'))
+
+    secs.append(_about_section(
+        "04", "The methodology is versioned",
+        '<p>Every issue records the methodology version that produced it. '
+        'When the arithmetic changes the version changes with it, and '
+        'week-over-week comparisons that straddle a change are suppressed '
+        'rather than quietly shown.</p>',
+        f'This issue: methodology v{h(str(S.METHODOLOGY_VERSION))}.'))
+
+    secs.append(_about_section(
+        "05", "The archive is immutable",
+        '<p>Once an issue publishes it is frozen. Numbers are not revised '
+        'in place, prose is not tidied, and the design it shipped with '
+        'stays with it. Improvements apply to later issues only.</p>'
+        f'<p>Every issue is in the <a href="{h(briefs_href)}">archive</a>, '
+        f'including the ones a later week proved wrong.</p>'))
+
+    secs.append(_about_section(
+        "06", "Attribution is stated, never implied",
+        '<p>Every event carries one of exactly three statuses, and it is '
+        'visible on the item rather than buried in a footnote. A site '
+        'built around El Ni&ntilde;o trains readers to assume it is '
+        'behind everything, so each item has to say what it is not.</p>'
+        + "".join(
+            f'<p style="margin-top:14px">{_attr_tag(k)} '
+            f'<span style="color:var(--ink-soft)">{h(ATTR_GLOSS[k])}</span></p>'
+            for k in ("enso", "non_enso", "pending"))))
+
+    secs.append(_about_section(
+        "07", "The channels",
+        '<p>Each channel reads one domain against its own baselines, as '
+        'its own publication. A channel ships only once it has a baseline '
+        'it can be measured against, which is why the list is short.</p>'
+        '<p><strong>El Ni&ntilde;o 2026-27</strong>, a weekly probability '
+        'brief. <strong>Fire</strong>, hotspot activity against same-week '
+        'satellite baselines. Floods and a cross-channel damage ledger are '
+        'planned and not yet published.</p>'))
+
+    who = ('<p>Written by <a href="' + h(AUTHOR_CONTACT_URL) + '">'
+           + h(AUTHOR_NAME) + '</a>. Contact details are in the footer.</p>')
+    if ABOUT_INDEPENDENCE:
+        who += f'<p>{ABOUT_INDEPENDENCE}</p>'
+    secs.append(_about_section("08", "Who writes this", who))
+
+    corr = ('<p>Corrections are published forward. The original issue is '
+            'left standing, the correction appears in the next one, and it '
+            'says what changed. Nothing is edited in place.</p>'
+            if ABOUT_CORRECTIONS is None else f'<p>{ABOUT_CORRECTIONS}</p>')
+    secs.append(_about_section(
+        "09", "Corrections",
+        corr,
+        'This follows from the archive rule in section 05: an archive that '
+        'can be edited is not a record.'))
+
+    head = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{h(title)}</title>
+<meta property="og:title" content="{h(title)}">
+<meta property="og:description" content="{h(desc)}">
+<meta name="twitter:card" content="summary_large_image">
+<style>{T.font_faces_css(root_prefix + "fonts/")}</style>
+{_favicon_links(root_prefix)}<style>{PUBLIC_CSS}</style>
+</head>
+<body>
+'''
+    head += _masthead_html(root_prefix, methodology_href, briefs_href,
+                           active="")
+    home = root_prefix if root_prefix else "./"
+    return (head
+            + '<div class="shell"><main class="body">'
+            + '<div class="issue-head">'
+            + '<h1>What this is, and what it is not.</h1>'
+            + '<p class="lede">One question, asked of whatever is in the '
+              'news: how big is this, actually? The limits come first, '
+              'because they are what makes the rest believable.</p>'
+            + '</div>'
+            + "".join(secs)
+            + '</main></div>\n'
+            + '<footer class="field"><div class="field-shell"><div class="foot">'
+            + '<div class="foot-top">'
+            + f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
+            + f'{_mark_svg(26)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
+            + '</div>'
+            + '<p class="foot-cite">'
+            + f'<b>By <a href="{h(AUTHOR_CONTACT_URL)}">{h(AUTHOR_NAME)}</a>.</b> '
+            + f'Licensed <a href="{h(LICENSE_URL)}">{h(LICENSE_NAME)}</a>. '
+            + f'<a href="{h(PAGES_BASE_URL)}/">{h(DISPLAY_HOST)}</a><br>'
+            + 'Every issue archived, immutable. Disagreements are surfaced, '
+              'not averaged.'
+            + '</p></div></div></footer>\n</body>\n</html>\n')
+
+
 def build_archive_index() -> str:
     """Render docs/briefs/index.html as markdown table from each meta.json."""
     rows = []
@@ -3730,6 +3986,11 @@ def main():
                     root_prefix="../")
     )
     print(f"wrote: {DOCS_DIR / 'briefs' / 'index.html'}")
+
+    # 7b. About page. A credibility surface: it leads with what the site
+    # refuses to do, ahead of where the numbers come from.
+    (DOCS_DIR / "about.html").write_text(build_about_html())
+    print(f"wrote: {DOCS_DIR / 'about.html'}")
 
     # 8. Methodology overview HTML, regenerated from methodology.md if present
     meth_md = Path(__file__).parent / "methodology.md"

@@ -323,6 +323,13 @@ ATTENUATION = [(3.0, 1.0), (2.4, 0.45), (1.8, 0.2)]
 #                         between step 2 and step 3. The hairline is 1px.
 #
 # So the ratio governs three opacities and two widths, on purpose.
+#
+# ONE DELIBERATE EXCEPTION, so it does not read as drift: the About
+# page's first section sets the swell, the wave and the break as three
+# rows divided at 3px, 2.4px and 1.8px, closing at 3px. There the
+# hierarchy IS the content, there are exactly three rows to carry it, and
+# nothing else on that page competes. That is the only place the 1.8px
+# width is used as a rule.
 RULE_WEIGHTS = {"masthead": 3.0, "step": 2.4, "hairline": 1.0}
 
 RULE_HAIR = 1        # table row, printable hairline

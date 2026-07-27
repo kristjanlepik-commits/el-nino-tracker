@@ -498,6 +498,7 @@
   }
   .rung .threshold .gt { color: var(--ink-faint); font-weight: 400; }
   .rung .pct {
+    position: relative;   /* containing block for the sr-only .word */
     font-size: 24px;
     font-weight: 500;
     color: var(--ink);
@@ -750,9 +751,14 @@
   .impacts-map .world-map-bg { width: 100%; }
   .impacts-map .map-hotspot {
     position: absolute; transform: translate(-50%, -50%);
-    /* 44px target with a 10px dot inside it. 22px failed the minimum,
-       and the event map already had this right via max(r + 7, 12). */
-    width: 44px; height: 44px;
+    /* 32px target with a 10px dot inside it. 22px was under the WCAG 2.2
+       AA minimum of 24px (SC 2.5.8). 44px is the AAA figure (2.5.5) and
+       is too big here: measured at a 350px-wide map the closest two
+       regions sit 35px apart, so 44px targets would steal each other's
+       taps, which is worse than a small one. 32px clears AA with margin
+       and fits the spacing. The region tab strip is the redundant
+       control for anyone who finds the discs fiddly. */
+    width: 32px; height: 32px;
     background: transparent; border: 0; padding: 0; cursor: pointer;
   }
   /* A plain disc. This was a ring around a dot, with the active state
@@ -763,7 +769,7 @@
      same objection applies to any concentric figure. Selection is carried
      by opacity and a hairline, not by radiating rings. */
   .impacts-map .map-hotspot-dot {
-    position: absolute; inset: 17px;
+    position: absolute; inset: 11px;
     border-radius: 50%;
     background: var(--fire);
     opacity: 0.75;
@@ -788,7 +794,7 @@
     background: none;
     border: 0;
     border-bottom: 2.4px solid transparent;
-    padding: 8px 14px 8px 0;
+    padding: 13px 14px 13px 0;
     margin-right: 18px;
     font-family: var(--mono);
     font-size: 10.5px;
@@ -964,6 +970,61 @@
   .break-more a {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--ink-soft);
+  }
+
+  /* ---------- about: numbered section grid ---------- */
+  /* The one new pattern this page needs. Label column takes
+     minmax(max-content, 220px) and the prose column takes minmax(0, 1fr):
+     a ch floor on the prose track would leave the label column as the
+     only thing able to shrink, and it collapses. */
+  .about-sec {
+    display: grid;
+    grid-template-columns: minmax(max-content, 220px) minmax(0, 1fr);
+    gap: 10px 56px;
+    padding: 26px 0 34px;
+    border-top: 2.4px solid var(--rule-45);
+  }
+  .about-sec:first-of-type { border-top: 3px solid var(--ink); }
+  .about-sec:last-of-type { border-bottom: 3px solid var(--ink); }
+  .about-num {
+    font-family: var(--mono); font-size: 9.5px; line-height: 2;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .about-sec h2 { font-size: 20px; font-weight: 500; margin-bottom: 10px; }
+  .about-body p { margin: 0; max-width: 62ch; }
+  .about-body p + p { margin-top: 14px; }
+  .about-body ul { margin: 0; padding-left: 20px; max-width: 62ch; }
+  .about-body li { margin-bottom: 10px; }
+  .about-aside {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
+    color: var(--ink-soft); margin-top: 14px;
+    border-left: 1px solid var(--rule); padding-left: 16px;
+  }
+
+  /* The three-row hierarchy: the only place the ratio's 1.8px width is
+     used as a rule, because here the hierarchy is the content. */
+  .swell-rows { margin: 0; }
+  .swell-row {
+    display: grid;
+    grid-template-columns: minmax(max-content, 118px) minmax(0, 1fr);
+    gap: 6px 22px;
+    padding: 14px 0;
+  }
+  .swell-row:nth-child(1) { border-top: 3px solid var(--ink); }
+  .swell-row:nth-child(2) { border-top: 2.4px solid var(--rule-45); }
+  .swell-row:nth-child(3) {
+    border-top: 1.8px solid var(--rule-20);
+    border-bottom: 3px solid var(--ink);
+  }
+  .swell-row dt {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .swell-row dd { margin: 0; color: var(--ink-soft); max-width: 56ch; }
+
+  @media (max-width: 760px) {
+    .about-sec, .swell-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   }
 
   /* ---------- one breakpoint ---------- */

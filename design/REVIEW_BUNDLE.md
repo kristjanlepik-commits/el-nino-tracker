@@ -9,9 +9,9 @@ from the exact bytes embedded below.
 
 | Source | sha256, first 12 |
 |---|---|
-| `tokens.py` | `a30ff4a793d7` |
-| `run_brief.py` | `f8c88ff90763` |
-| `PUBLIC_CSS` as extracted | `10e6db71fbc0` |
+| `tokens.py` | `5555808c7441` |
+| `run_brief.py` | `d93a9e249d97` |
+| `PUBLIC_CSS` as extracted | `d1655ceab85b` |
 
 **Fetch with a sha-pinned URL, never the branch name.** Raw URLs on a
 branch are cached for a few minutes and can serve a stale copy; a
@@ -406,6 +406,13 @@ ATTENUATION = [(3.0, 1.0), (2.4, 0.45), (1.8, 0.2)]
 #                         between step 2 and step 3. The hairline is 1px.
 #
 # So the ratio governs three opacities and two widths, on purpose.
+#
+# ONE DELIBERATE EXCEPTION, so it does not read as drift: the About
+# page's first section sets the swell, the wave and the break as three
+# rows divided at 3px, 2.4px and 1.8px, closing at 3px. There the
+# hierarchy IS the content, there are exactly three rows to carry it, and
+# nothing else on that page competes. That is the only place the 1.8px
+# width is used as a rule.
 RULE_WEIGHTS = {"masthead": 3.0, "step": 2.4, "hairline": 1.0}
 
 RULE_HAIR = 1        # table row, printable hairline
@@ -972,6 +979,7 @@ Token values are substituted in at build time from `tokens.py`; the
   }
   .rung .threshold .gt { color: var(--ink-faint); font-weight: 400; }
   .rung .pct {
+    position: relative;   /* containing block for the sr-only .word */
     font-size: 24px;
     font-weight: 500;
     color: var(--ink);
@@ -1224,9 +1232,14 @@ Token values are substituted in at build time from `tokens.py`; the
   .impacts-map .world-map-bg { width: 100%; }
   .impacts-map .map-hotspot {
     position: absolute; transform: translate(-50%, -50%);
-    /* 44px target with a 10px dot inside it. 22px failed the minimum,
-       and the event map already had this right via max(r + 7, 12). */
-    width: 44px; height: 44px;
+    /* 32px target with a 10px dot inside it. 22px was under the WCAG 2.2
+       AA minimum of 24px (SC 2.5.8). 44px is the AAA figure (2.5.5) and
+       is too big here: measured at a 350px-wide map the closest two
+       regions sit 35px apart, so 44px targets would steal each other's
+       taps, which is worse than a small one. 32px clears AA with margin
+       and fits the spacing. The region tab strip is the redundant
+       control for anyone who finds the discs fiddly. */
+    width: 32px; height: 32px;
     background: transparent; border: 0; padding: 0; cursor: pointer;
   }
   /* A plain disc. This was a ring around a dot, with the active state
@@ -1237,7 +1250,7 @@ Token values are substituted in at build time from `tokens.py`; the
      same objection applies to any concentric figure. Selection is carried
      by opacity and a hairline, not by radiating rings. */
   .impacts-map .map-hotspot-dot {
-    position: absolute; inset: 17px;
+    position: absolute; inset: 11px;
     border-radius: 50%;
     background: var(--fire);
     opacity: 0.75;
@@ -1262,7 +1275,7 @@ Token values are substituted in at build time from `tokens.py`; the
     background: none;
     border: 0;
     border-bottom: 2.4px solid transparent;
-    padding: 8px 14px 8px 0;
+    padding: 13px 14px 13px 0;
     margin-right: 18px;
     font-family: var(--mono);
     font-size: 10.5px;
@@ -1440,6 +1453,61 @@ Token values are substituted in at build time from `tokens.py`; the
     text-transform: uppercase; color: var(--ink-soft);
   }
 
+  /* ---------- about: numbered section grid ---------- */
+  /* The one new pattern this page needs. Label column takes
+     minmax(max-content, 220px) and the prose column takes minmax(0, 1fr):
+     a ch floor on the prose track would leave the label column as the
+     only thing able to shrink, and it collapses. */
+  .about-sec {
+    display: grid;
+    grid-template-columns: minmax(max-content, 220px) minmax(0, 1fr);
+    gap: 10px 56px;
+    padding: 26px 0 34px;
+    border-top: 2.4px solid var(--rule-45);
+  }
+  .about-sec:first-of-type { border-top: 3px solid var(--ink); }
+  .about-sec:last-of-type { border-bottom: 3px solid var(--ink); }
+  .about-num {
+    font-family: var(--mono); font-size: 9.5px; line-height: 2;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .about-sec h2 { font-size: 20px; font-weight: 500; margin-bottom: 10px; }
+  .about-body p { margin: 0; max-width: 62ch; }
+  .about-body p + p { margin-top: 14px; }
+  .about-body ul { margin: 0; padding-left: 20px; max-width: 62ch; }
+  .about-body li { margin-bottom: 10px; }
+  .about-aside {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
+    color: var(--ink-soft); margin-top: 14px;
+    border-left: 1px solid var(--rule); padding-left: 16px;
+  }
+
+  /* The three-row hierarchy: the only place the ratio's 1.8px width is
+     used as a rule, because here the hierarchy is the content. */
+  .swell-rows { margin: 0; }
+  .swell-row {
+    display: grid;
+    grid-template-columns: minmax(max-content, 118px) minmax(0, 1fr);
+    gap: 6px 22px;
+    padding: 14px 0;
+  }
+  .swell-row:nth-child(1) { border-top: 3px solid var(--ink); }
+  .swell-row:nth-child(2) { border-top: 2.4px solid var(--rule-45); }
+  .swell-row:nth-child(3) {
+    border-top: 1.8px solid var(--rule-20);
+    border-bottom: 3px solid var(--ink);
+  }
+  .swell-row dt {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .swell-row dd { margin: 0; color: var(--ink-soft); max-width: 56ch; }
+
+  @media (max-width: 760px) {
+    .about-sec, .swell-row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  }
+
   /* ---------- one breakpoint ---------- */
   @media (max-width: 760px) {
     .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
@@ -1566,24 +1634,25 @@ def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
             ("1997", analog_same.get("1997_apr_heat_content"), False)]
     rows = [(y, float(v), cur) for y, v, cur in rows if v is not None]
 
-    # Bars diverge from zero, they do not grow from a common left edge.
-    # An earlier version used abs(value) for the width, so -0.5 and +0.5
-    # drew the same bar and were told apart only by hue. That is latent
-    # today because both analogs are warm, but 2025 is deliberately a La
-    # Nina reference in the peer set, and the first time a negative year
-    # reaches this component the chart would state the opposite of the
-    # data. Zero sits where zero belongs, and a cold year runs left.
-    lo = min(0.0, min(v for _, v, _ in rows))
-    hi = max(0.0, max(v for _, v, _ in rows))
-    span = (hi - lo) or 1.0
-    zero_pct = (0.0 - lo) / span * 100.0
+    # Bars diverge from zero and are normalised on the SAME absolute
+    # scale as their colour, T.OCEAN_SCALE. An earlier version used
+    # abs(value) over the span of the rows present, which meant two
+    # things: -0.5 and +0.5 drew identical bars, and bar lengths
+    # rescaled every week as the maximum moved, so two issues
+    # screenshotted a month apart were not comparable. On a site whose
+    # distribution channel is the screenshot that is a real cost. The
+    # track is now the full ramp width, zero sits at its centre, and a
+    # cold year runs left.
+    scale = T.OCEAN_SCALE
+    zero_pct = 50.0
 
     out = ['<div class="heat">',
            '<span class="cap eyebrow">Ocean heat, 0 to 300 m'
            ' &middot; same calendar week</span>']
     for year, val, is_now in rows:
-        left = (min(0.0, val) - lo) / span * 100.0
-        width = max(1.2, abs(val) / span * 100.0)
+        clamped = max(-scale, min(scale, val))
+        left = (min(0.0, clamped) + scale) / (2 * scale) * 100.0
+        width = max(1.0, abs(clamped) / (2 * scale) * 100.0)
         out.append(
             f'<div class="hrow{" now" if is_now else ""}">'
             f'<span class="yr">{h(year)}</span>'
@@ -1713,7 +1782,7 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
             f'Nino issue.">'
             f'<rect class="nino-box" x="{x1:.1f}" y="{y1:.1f}" '
             f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}" '
-            f'fill="{T.anomaly_color(nino_value, NINO_SCALE)}"/>'
+            f'fill="{T.anomaly_color(nino_value, T.OCEAN_SCALE)}"/>'
             f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
             f'NI\u00d1O 3.4</text>'
             f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
@@ -1733,8 +1802,8 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
     # Caret marking where this week's index sits on the printed ramp.
     nino_tick = ""
     if nino_value is not None:
-        tx = max(0.0, min(1.0, (float(nino_value) + NINO_SCALE)
-                          / (2 * NINO_SCALE))) * 170
+        tx = max(0.0, min(1.0, (float(nino_value) + T.OCEAN_SCALE)
+                          / (2 * T.OCEAN_SCALE))) * 170
         nino_tick = (
             f'<path class="lg-tick" d="M{tx:.1f},18 l-4,-6 l8,0 z"/>'
             f'<text class="lg-now" x="{tx:.1f}" y="9" text-anchor="middle">'
@@ -1761,9 +1830,9 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
         f'<text class="lg-tx" x="0" y="10">SST ANOMALY</text>'
         f'<rect x="0" y="22" width="170" height="9" fill="url(#anomramp)"/>'
         f'{nino_tick}'
-        f'<text class="lg-tx" x="0" y="47">\u2212{NINO_SCALE:g}</text>'
+        f'<text class="lg-tx" x="0" y="47">\u2212{T.OCEAN_SCALE:g}</text>'
         f'<text class="lg-tx" x="80" y="47">0</text>'
-        f'<text class="lg-tx" x="146" y="47">+{NINO_SCALE:g} \u00b0C</text>'
+        f'<text class="lg-tx" x="146" y="47">+{T.OCEAN_SCALE:g} \u00b0C</text>'
         f'</svg>'
         '</div>'
         + (f'<p class="mapnote">Week {h(window)}, seven fully closed UTC '
