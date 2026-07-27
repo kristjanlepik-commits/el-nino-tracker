@@ -9,9 +9,9 @@ from the exact bytes embedded below.
 
 | Source | sha256, first 12 |
 |---|---|
-| `tokens.py` | `61e85b05d950` |
-| `run_brief.py` | `67a1de9e8cb4` |
-| `PUBLIC_CSS` as extracted | `73affffece95` |
+| `tokens.py` | `a30ff4a793d7` |
+| `run_brief.py` | `f8c88ff90763` |
+| `PUBLIC_CSS` as extracted | `10e6db71fbc0` |
 
 **Fetch with a sha-pinned URL, never the branch name.** Raw URLs on a
 branch are cached for a few minutes and can serve a stale copy; a
@@ -213,7 +213,21 @@ WARM = ANOMALY[8]
 ANOMALY_TEXT = [PAPER, None, INK, INK, INK, INK, INK, None, PAPER]
 
 
-def anomaly_fill(value: float, full_scale: float = 3.0):
+# Full-scale for every ocean temperature anomaly on the site, in degrees
+# C. One number, because the SST index on the map and the 0-300 m heat
+# content in the issue hero are both degrees of ocean temperature
+# departure, and rendering them on different scales made +2.10 and +2.26
+# land on different steps: a reader comparing the two pages saw a
+# contradiction that was purely an artefact of the divisor.
+#
+# 3.0 rather than 4.0 because it is the domain: observed ONI has never
+# exceeded about 2.8, and heat content runs to roughly 2.5. A wider scale
+# pushes real extremes toward the middle of the ramp and wastes both
+# flanks. anomaly_color clamps, so the +3.5 ladder rung still saturates.
+OCEAN_SCALE = 3.0
+
+
+def anomaly_fill(value: float, full_scale: float = OCEAN_SCALE):
     """Diverging step for a value, with the text colour it can carry.
 
     Returns (fill, text_colour). text_colour is None when no legal text
@@ -226,7 +240,7 @@ def anomaly_fill(value: float, full_scale: float = 3.0):
     return fill, ANOMALY_TEXT[ANOMALY.index(fill)]
 
 
-def anomaly_color(value: float, full_scale: float = 3.0) -> str:
+def anomaly_color(value: float, full_scale: float = OCEAN_SCALE) -> str:
     """Diverging-scale step for an anomaly in degrees C.
 
     full_scale is the magnitude that saturates the ramp. Values beyond
@@ -795,7 +809,6 @@ Token values are substituted in at build time from `tokens.py`; the
     grid-column: 1;
     grid-row: 1;
   }
-  .event .ev-stat small { display: none; }
   .event .ev-body { grid-column: 2; grid-row: 1; }
   .event h3 { font-size: 20px; font-weight: 500; line-height: 1.30; }
   .event h3 .ev-region { font-weight: 500; }
@@ -819,6 +832,12 @@ Token values are substituted in at build time from `tokens.py`; the
     gap: 10px 26px;
     padding: 14px 0 16px;
     border-top: 1px solid var(--rule);
+  }
+  .attr-lead {
+    flex: 1 1 100%;
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--ink);
   }
   .attr-key { display: inline-flex; align-items: baseline; gap: 9px; }
   .attr-gloss {
@@ -961,7 +980,19 @@ Token values are substituted in at build time from `tokens.py`; the
     white-space: nowrap;
   }
   .rung .pct .pct-sym { font-size: 13px; color: var(--ink-faint); }
-  .rung .pct .word { display: none; }
+  /* Visually hidden, not removed. display:none took this out of the
+     accessibility tree as well, so a screen reader heard "98" with no
+     unit. The word is redundant beside the printed bar for a sighted
+     reader and load-bearing for everyone else. */
+  .rung .pct .word {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
   .rung .label {
     grid-column: 4;
     font-size: 15px;
@@ -1193,7 +1224,9 @@ Token values are substituted in at build time from `tokens.py`; the
   .impacts-map .world-map-bg { width: 100%; }
   .impacts-map .map-hotspot {
     position: absolute; transform: translate(-50%, -50%);
-    width: 22px; height: 22px;
+    /* 44px target with a 10px dot inside it. 22px failed the minimum,
+       and the event map already had this right via max(r + 7, 12). */
+    width: 44px; height: 44px;
     background: transparent; border: 0; padding: 0; cursor: pointer;
   }
   /* A plain disc. This was a ring around a dot, with the active state
@@ -1204,19 +1237,25 @@ Token values are substituted in at build time from `tokens.py`; the
      same objection applies to any concentric figure. Selection is carried
      by opacity and a hairline, not by radiating rings. */
   .impacts-map .map-hotspot-dot {
-    position: absolute; inset: 6px;
+    position: absolute; inset: 17px;
     border-radius: 50%;
     background: var(--fire);
     opacity: 0.75;
-    transition: opacity .15s ease, box-shadow .15s ease;
+    transition: opacity .15s ease;
   }
   .impacts-map .map-hotspot:hover .map-hotspot-dot { opacity: 1; }
+  /* Selection rings use outline with outline-offset. SHADOW is None in
+     the token file, deliberately, so a contributor has to delete a line
+     rather than add one; a spread-only shadow used as a ring renders
+     fine but leaves a hit for anyone auditing that rule. */
   .impacts-map .map-hotspot.active .map-hotspot-dot {
     opacity: 1;
-    box-shadow: 0 0 0 1.5px var(--ink);
+    outline: 1.5px solid var(--ink);
+    outline-offset: 1px;
   }
   .impacts-map .map-hotspot:focus-visible .map-hotspot-dot {
-    box-shadow: 0 0 0 2px var(--nino);
+    outline: 2px solid var(--nino);
+    outline-offset: 2px;
   }
   .region-tabs { display: flex; flex-wrap: wrap; gap: 0; margin: 16px 0 18px; border-bottom: 1px solid var(--rule); }
   .region-tab {
@@ -1361,6 +1400,15 @@ Token values are substituted in at build time from `tokens.py`; the
     transition: fill-opacity .12s;
   }
   .mk:hover .mk-dot, .mk:focus .mk-dot { fill-opacity: 1; }
+  /* A dedicated focus ring, because opacity 0.78 to 1 is not a visible
+     indicator, and the global a:focus-visible outline is unreliable on
+     SVG <a>. It sits outside the disc so the geometry that carries the
+     number is untouched. */
+  .mk .mk-focus {
+    fill: none; stroke: var(--nino); stroke-width: 2;
+    opacity: 0; transition: opacity .1s;
+  }
+  .mk:focus-visible .mk-focus, .mk:focus .mk-focus { opacity: 1; }
   .nino-g { cursor: pointer; }
   .nino-box { stroke: none; fill-opacity: 1; }
   .nino-g:hover .nino-box, .nino-g:focus .nino-box {
@@ -1492,7 +1540,14 @@ def _attr_legend(events: list[dict]) -> str:
         f'<span class="attr-key">{_attr_tag(k)}'
         f'<span class="attr-gloss">{h(ATTR_GLOSS[k])}</span></span>'
         for k in present)
-    return f'<div class="attr-legend">{items}</div>'
+    # The lead-in is not decoration. It states the posture as a fact
+    # before any term is defined, so a reader who skips the definitions
+    # still learns the question is answered on every item. Without it the
+    # legend is three definitions and no claim.
+    return ('<div class="attr-legend">'
+            '<span class="attr-lead">Every item says whether El '
+            'Ni\u00f1o is involved.</span>'
+            f'{items}</div>')
 
 def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
     """The hero's right column: subsurface heat now against the same
@@ -1534,7 +1589,8 @@ def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
             f'<span class="yr">{h(year)}</span>'
             f'<span class="htrack">'
             f'<span class="hzero" style="left:{zero_pct:.2f}%"></span>'
-            f'<span class="hbar" style="background:{T.anomaly_color(val)};'
+            f'<span class="hbar" style="background:'
+            f'{T.anomaly_color(val, T.OCEAN_SCALE)};'
             f'left:{left:.2f}%;width:{width:.2f}%"></span>'
             f'</span>'
             f'<span class="val">{val:+.2f}</span></div>')
@@ -1635,6 +1691,8 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
             f'<a class="mk" href="{href}" aria-label="{h(label)}">'
             f'<circle class="mk-hit" cx="{cx:.1f}" cy="{cy:.1f}" '
             f'r="{max(r + 7, 12):.1f}"/>'
+            f'<circle class="mk-focus" cx="{cx:.1f}" cy="{cy:.1f}" '
+            f'r="{r + 4:.2f}"/>'
             f'<circle class="mk-dot" cx="{cx:.1f}" cy="{cy:.1f}" '
             f'r="{r:.2f}"/></a>')
 

@@ -130,7 +130,21 @@ WARM = ANOMALY[8]
 ANOMALY_TEXT = [PAPER, None, INK, INK, INK, INK, INK, None, PAPER]
 
 
-def anomaly_fill(value: float, full_scale: float = 3.0):
+# Full-scale for every ocean temperature anomaly on the site, in degrees
+# C. One number, because the SST index on the map and the 0-300 m heat
+# content in the issue hero are both degrees of ocean temperature
+# departure, and rendering them on different scales made +2.10 and +2.26
+# land on different steps: a reader comparing the two pages saw a
+# contradiction that was purely an artefact of the divisor.
+#
+# 3.0 rather than 4.0 because it is the domain: observed ONI has never
+# exceeded about 2.8, and heat content runs to roughly 2.5. A wider scale
+# pushes real extremes toward the middle of the ramp and wastes both
+# flanks. anomaly_color clamps, so the +3.5 ladder rung still saturates.
+OCEAN_SCALE = 3.0
+
+
+def anomaly_fill(value: float, full_scale: float = OCEAN_SCALE):
     """Diverging step for a value, with the text colour it can carry.
 
     Returns (fill, text_colour). text_colour is None when no legal text
@@ -143,7 +157,7 @@ def anomaly_fill(value: float, full_scale: float = 3.0):
     return fill, ANOMALY_TEXT[ANOMALY.index(fill)]
 
 
-def anomaly_color(value: float, full_scale: float = 3.0) -> str:
+def anomaly_color(value: float, full_scale: float = OCEAN_SCALE) -> str:
     """Diverging-scale step for an anomaly in degrees C.
 
     full_scale is the magnitude that saturates the ramp. Values beyond
