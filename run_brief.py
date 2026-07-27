@@ -391,7 +391,7 @@ _PUBLIC_CSS_TEMPLATE = """
   }
   .hero-stamp span:not(:last-child)::after,
   .issue-stamp span:not(:last-child)::after {
-    content: " \00b7";
+    content: " ·";
     color: var(--rule);
   }
   .issue-stamp a, .hero-stamp a { color: var(--ink-soft); }
@@ -533,11 +533,7 @@ _PUBLIC_CSS_TEMPLATE = """
   .wave-strip a.ws-go:hover { color: var(--ink); }
 
   /* ---------- rail + body ---------- */
-  .shell {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 56px;
-  }
+  .shell { display: block; }
   .rail { grid-column: 2; padding-top: 44px; order: 2; }
   .rail-inner {
     position: sticky;
@@ -552,7 +548,7 @@ _PUBLIC_CSS_TEMPLATE = """
   .rail-block .eyebrow { color: var(--ink-faint); }
   .rail-block .val { font-size: 13px; line-height: 1.75; color: var(--ink-soft); }
   .rail-block .val b { font-weight: 500; color: var(--ink); }
-  .body { grid-column: 1; padding: 44px 0 0; min-width: 0; order: 1; }
+  .body { padding: 0 0 8px; min-width: 0; }
 
   main.body section { margin: 0; padding-bottom: 48px; }
   .sec-head {
@@ -597,7 +593,7 @@ _PUBLIC_CSS_TEMPLATE = """
   .ladder { display: flex; flex-direction: column; margin: 0 0 18px; }
   .rung {
     display: grid;
-    grid-template-columns: 120px 80px minmax(0, 1fr);
+    grid-template-columns: 130px 92px minmax(0, 1fr) 300px;
     align-items: center;
     gap: 6px 20px;
     padding: 16px 0;
@@ -625,7 +621,7 @@ _PUBLIC_CSS_TEMPLATE = """
   .rung .pct .pct-sym { font-size: 13px; color: var(--ink-faint); }
   .rung .pct .word { display: none; }
   .rung .label {
-    grid-column: 3;
+    grid-column: 4;
     font-size: 15px;
     color: var(--ink-soft);
     display: flex;
@@ -634,22 +630,6 @@ _PUBLIC_CSS_TEMPLATE = """
     flex-wrap: wrap;
   }
   /* The bar: solid for the calibrated rungs, losing substance above. */
-  .rung .label::before {
-    content: "";
-    flex: none;
-    width: 84px;
-    height: 8px;
-    background: var(--nino);
-    align-self: center;
-  }
-  .rung.record .label::before {
-    background: repeating-linear-gradient(90deg,
-      var(--nino) 0 4px, transparent 4px 8px);
-  }
-  .rung.far .label::before {
-    background: repeating-linear-gradient(90deg,
-      #7B88AF 0 2px, transparent 2px 8px);
-  }
   .rung.record .pct, .rung.record .label { color: var(--ink-soft); }
   .rung.far .pct, .rung.far .label { color: var(--ink-faint); }
   .rung.record .threshold { color: var(--ink-soft); }
@@ -910,6 +890,92 @@ _PUBLIC_CSS_TEMPLATE = """
   .region-panel h3 { font-size: 20px; font-weight: 500; margin: 0 0 10px; }
   .region-panel p { font-size: 17.5px; line-height: 1.62; margin: 0 0 12px; max-width: 62ch; }
 
+  /* ---------- issue page: answer left, ocean heat right ---------- */
+  /* A 380px panel and a reading column need about 1000px to coexist,
+     so these two grids stack earlier than the global 760 breakpoint.
+     The single-breakpoint rule does not survive a fixed sidebar. */
+  .top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 56px;
+    padding: 40px 0 0;
+    align-items: start;
+  }
+  .heat { border-left: 1px solid var(--rule); padding-left: 24px; }
+  .heat .cap { color: var(--ink-faint); margin-bottom: 14px; display: block; }
+  .hrow {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 62px;
+    gap: 10px;
+    align-items: center;
+    padding: 7px 0;
+  }
+  .hrow .yr { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+  .hbar { display: block; height: 14px; }
+  .hrow .val {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 13px; text-align: right;
+  }
+  .hrow.now .yr, .hrow.now .val { color: var(--ink); font-weight: 500; }
+  .hnote {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.7;
+    color: var(--ink-faint); margin: 12px 0 0;
+    border-top: 1px solid var(--rule); padding-top: 10px;
+  }
+
+  /* ladder bar: length is probability, substance is confidence */
+  .rung .track { display: block; height: 9px; background: var(--paper-sunk); }
+  .rung .fill { display: block; height: 9px; background: var(--nino); }
+  .rung.record .fill {
+    background: repeating-linear-gradient(90deg,
+      var(--nino) 0 4px, transparent 4px 8px);
+  }
+  .rung.far .fill {
+    background: repeating-linear-gradient(90deg,
+      #7B88AF 0 2px, transparent 2px 8px);
+  }
+
+  /* chart left, reading note right */
+  .two {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 56px;
+    align-items: start;
+  }
+  .two .note-side { border-left: 3px solid var(--nino); padding-left: 20px; }
+  .two .note-side h3 { font-size: 15px; margin-bottom: 8px; }
+  .two .note-side p { font-size: 15px; color: var(--ink-soft); margin: 0; }
+  .two .note-side p + p { margin-top: 12px; }
+
+  /* issue metadata, which used to be the rail */
+  .issue-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px 32px;
+    border-top: 3px solid var(--ink);
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+  .issue-meta .k {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--ink-faint); display: block;
+  }
+  .issue-meta .v {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 13px; line-height: 1.75; color: var(--ink-soft);
+  }
+  .issue-meta .v b { color: var(--ink); font-weight: 500; }
+
+  @media (max-width: 1000px) {
+    .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+    .heat, .two .note-side {
+      border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
+    }
+    .heat { max-width: 520px; }
+    .rung { grid-template-columns: 130px 92px minmax(0, 1fr); gap: 6px 20px; }
+    .rung .label { grid-column: 1 / -1; padding-top: 2px; }
+  }
+
   /* ---------- one breakpoint ---------- */
   @media (max-width: 760px) {
     .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
@@ -985,11 +1051,20 @@ def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str
             delta_html = (
                 f'<span class="wow-delta {cls}">{arrow} {sign}{abs(delta)} pp {h(delta_label)}</span>'
             )
+    # The bar carries two variables at once: length is the probability,
+    # substance is the confidence. They vary independently, so a high
+    # probability on a rung nobody can calibrate still looks uncertain.
+    try:
+        pct_width = max(0, min(100, float(pct_dict["mid"])))
+    except (TypeError, ValueError):
+        pct_width = 0
     return (
         f'<div class="rung {css_class}">'
         f'<div class="threshold"><span class="gt">&gt;</span>{h(threshold)}</div>'
         f'<div class="pct">{pct_dict["mid"]}<span class="pct-sym">%</span>'
         f'<span class="word">probability</span>{delta_html}</div>'
+        f'<div class="track"><span class="fill" '
+        f'style="width:{pct_width:g}%"></span></div>'
         f'<div class="label">{h(label_main)}{tag_html}</div>'
         f'</div>'
     )
@@ -1525,9 +1600,52 @@ def _wave_strip_html(magn_pct, brief_date_iso: str) -> str:
     )
 
 
-def _rail_html(brief_date_iso: str, offset_phrase: str, freshness: dict,
-               methodology_href: str, briefs_href: str = "briefs/") -> str:
-    """Sticky mono metadata rail beside the issue body."""
+
+def _ocean_heat_html(phys: dict, analog_same: dict) -> str:
+    """The hero's right column: subsurface heat now against the same
+    calendar week in the two super-event analogs.
+
+    Bar colour comes from the diverging anomaly scale, never a channel
+    hue (D-016 amendment 4): this is a physical magnitude, and a Fire
+    red here would make an ENSO datum read as a Fire datum. Length and
+    colour therefore encode the same quantity twice.
+    """
+    now = phys.get("heat_content_0_300m_estimate")
+    if now is None:
+        return ""
+    rows = [("2026", float(now), True),
+            ("2015", analog_same.get("2015_apr_heat_content"), False),
+            ("1997", analog_same.get("1997_apr_heat_content"), False)]
+    rows = [(y, v, cur) for y, v, cur in rows if v is not None]
+    peak = max(abs(float(v)) for _, v, _ in rows) or 1.0
+    out = ['<div class="heat">',
+           '<span class="cap eyebrow">Ocean heat, 0 to 300 m'
+           ' &middot; same calendar week</span>']
+    for year, val, is_now in rows:
+        val = float(val)
+        width = max(2.0, abs(val) / peak * 100.0)
+        out.append(
+            f'<div class="hrow{" now" if is_now else ""}">'
+            f'<span class="yr">{h(year)}</span>'
+            f'<span class="hbar" style="background:{T.anomaly_color(val)};'
+            f'width:{width:.0f}%"></span>'
+            f'<span class="val">{val:+.2f}</span></div>')
+    out.append(
+        '<p class="hnote">Degrees Celsius anomaly. Bar colour is the '
+        'position on the anomaly scale, not a channel hue.</p></div>')
+    return "".join(out)
+
+
+def _issue_meta_html(brief_date_iso: str, offset_phrase: str,
+                     freshness: dict, briefs_href: str = "briefs/") -> str:
+    """Issue metadata, as a strip above the footer.
+
+    This was a sticky rail. The delivered spec has no rail on the issue
+    page, and Kristjan moved Methodology and Archive off the site nav on
+    the grounds that they are El Nino artifacts rather than house-level
+    ones. So the furniture lands here and in the stamp instead, and the
+    page keeps a single column.
+    """
     live = sum(1 for i in freshness.values()
                if i.get("ok") and not i.get("used_fallback"))
     total = len(freshness) or 1
@@ -1536,24 +1654,18 @@ def _rail_html(brief_date_iso: str, offset_phrase: str, freshness: dict,
                     + timedelta(days=7)).isoformat()
     except ValueError:
         next_iso = "next Monday"
-    return (
-        '<aside class="rail"><div class="rail-inner">'
-        '<div class="rail-block"><div class="eyebrow">Issue</div>'
-        f'<div class="val"><b>{h(brief_date_iso)}</b></div></div>'
-        '<div class="rail-block"><div class="eyebrow">Methodology</div>'
-        f'<div class="val"><a href="{h(methodology_href)}">'
-        f'v<b>{h(str(S.METHODOLOGY_VERSION))}</b></a></div></div>'
-        '<div class="rail-block"><div class="eyebrow">RONI offset</div>'
-        f'<div class="val">{h(offset_phrase)}</div></div>'
-        '<div class="rail-block"><div class="eyebrow">Sources</div>'
-        f'<div class="val"><b>{live}</b> of {total} live</div></div>'
-        '<div class="rail-block"><div class="eyebrow">Next issue</div>'
-        f'<div class="val">{h(next_iso)}</div></div>'
-        '<div class="rail-block"><div class="eyebrow">Archive</div>'
-        f'<div class="val"><a href="{h(briefs_href)}">every issue, '
-        'immutable</a></div></div>'
-        '</div></aside>'
-    )
+    cells = [
+        ("Issue", f"<b>{h(brief_date_iso)}</b>"),
+        ("Methodology", f"<b>v{h(str(S.METHODOLOGY_VERSION))}</b>"),
+        ("RONI offset", h(offset_phrase)),
+        ("Sources", f"<b>{live}</b> of {total} live"),
+        ("Next issue", h(next_iso)),
+        ("Archive", f'<a href="{h(briefs_href)}">every issue, immutable</a>'),
+    ]
+    return ('<div class="issue-meta">'
+            + "".join(f'<div><span class="k">{h(k)}</span>'
+                      f'<span class="v">{v}</span></div>' for k, v in cells)
+            + '</div>')
 
 
 def _channels_html(root_prefix: str) -> str:
@@ -1812,7 +1924,9 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     stamp_html = (
         '<div class="issue-stamp">'
         f'<span>Week of {h(brief_date_iso)}</span>'
-        f'<span>Methodology v{h(str(S.METHODOLOGY_VERSION))}</span>'
+        f'<span><a href="{h(methodology_href)}">methodology '
+        f'v{h(str(S.METHODOLOGY_VERSION))}</a></span>'
+        '<span>immutable</span>'
         '<span><a class="card-link" href="card.png">one-page card &darr;</a></span>'
         '</div>'
     )
@@ -1830,10 +1944,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         head += _break_html(week_events)
         head += _wave_strip_html(magn_pct, brief_date_iso)
         issue_open = (
-            '<div class="shell">'
-            + _rail_html(brief_date_iso, offset_phrase, freshness,
-                         methodology_href, briefs_href)
-            + '<main class="body" id="issue">'
+            '<div class="shell"><main class="body" id="issue">'
             + '<div class="issue-head">'
             + stamp_html
             + '<h1>How likely is a super El Niño this winter?</h1>'
@@ -1842,40 +1953,18 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             + '</div>'
         )
     else:
-        # Archive issue page: the tracker hero on the field, then paper.
-        far_side = ""
-        if far_pct is not None:
-            far_side = (
-                f'<div><div class="v num">{far_pct}<small>%</small></div>'
-                '<div class="k">&gt; +3.5&nbsp;&deg;C</div></div>'
-            )
-        head += (
-            '<div class="field"><div class="field-shell">'
-            '<div class="hero">'
-            '<div class="hero-stamp eyebrow">'
-            f'<span>Week of {h(brief_date_iso)}</span>'
-            f'<span>Methodology v{h(str(S.METHODOLOGY_VERSION))}</span>'
-            '<span><a href="card.png">one-page card &darr;</a></span>'
-            '</div>'
-            '<h1>How likely is a super El Niño this winter?</h1>'
-            f'<p class="lede">{lede_text}</p>'
-            '<div class="readout">'
-            '<div class="readout-main">'
-            f'<div class="v num">{magn_pct}<small>%</small></div>'
-            '<div class="k">chance of a 1997 / 2015-magnitude peak</div>'
-            '</div>'
-            '<div class="readout-side">'
-            f'<div><div class="v num">{super_pct}<small>%</small></div>'
-            '<div class="k">&gt; +2.0&nbsp;&deg;C</div></div>'
-            f'{far_side}'
-            '</div></div>'
-            '</div></div></div>\n'
-        )
+        # Archive issue page, built to the delivered spec: the answer on
+        # the left, the ocean heat comparison on the right. The hero no
+        # longer restates the probability ladder that follows it.
         issue_open = (
-            '<div class="shell">'
-            + _rail_html(brief_date_iso, offset_phrase, freshness,
-                         methodology_href, briefs_href)
-            + '<main class="body" id="issue">'
+            '<div class="shell"><main class="body" id="issue">'
+            '<div class="top"><div>'
+            + stamp_html
+            + '<h1>How likely is a super El Niño this winter?</h1>'
+            + f'<p class="lede">{lede_text}</p>'
+            + '</div>'
+            + _ocean_heat_html(phys, analog_same)
+            + '</div>'
             + bottom_line_html
         )
     head += issue_open
@@ -1992,8 +2081,18 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '<section>'
         '<h2>Analog tracker</h2>'
         '<p class="section-sub">2026-27 trajectory vs reference El Niño events, plus a combined SEAS5 and NMME multi-model forecast carried through the winter peak.</p>'
-        '<div class="chart-card">'
+        '<div class="two"><div class="chart-card">'
         '<img src="analog.png" alt="Analog tracker chart">'
+        '</div>'
+        '<div class="note-side">'
+        '<h3>Reading this</h3>'
+        '<p>Only the current year carries colour. The reference years '
+        'separate by line weight and dash instead, so the chart holds '
+        'when it is screenshotted, reposted, or printed in grey.</p>'
+        '<p>2025 is in deliberately as a non-event, a La Ni\u00f1a year, '
+        'to show what the absence of a signal looks like on the same '
+        'axes.</p>'
+        '</div></div>'
         '<div class="chart-caption">'
         f'<strong>Read this week:</strong> the shaded red field marks El Niño territory, '
         f'deepening through moderate, strong and super up to the +2.5°C line that 1997 and '
@@ -2006,7 +2105,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'above the 1997/2015 record. The dotted stretches are the softer parts: a short bridge '
         f'over the gap to the first forecast month, then the pooled extension, its member band '
         f'widening with lead. Read the dotted tail as direction, not precision.'
-        '</div></div></section>'
+        '</div></section>'
     )
 
     physical_html = (
@@ -2138,7 +2237,9 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 
     home = root_prefix if root_prefix else "./"
     footer_html = (
-        '</main></div>\n'
+        _issue_meta_html(brief_date_iso, offset_phrase, freshness,
+                         briefs_href)
+        + '</main></div>\n'
         '<footer class="field"><div class="field-shell"><div class="foot">'
         '<div class="foot-top">'
         f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
