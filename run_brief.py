@@ -976,6 +976,63 @@ _PUBLIC_CSS_TEMPLATE = """
     .rung .label { grid-column: 1 / -1; padding-top: 2px; }
   }
 
+  /* ---------- front page: lead, then the map ---------- */
+  .lead-block { padding: 40px 0 30px; }
+  .lead-block .eyebrow { color: var(--ink-faint); display: block; margin-bottom: 14px; }
+  h1.lead-answer {
+    font-size: clamp(34px, 4.2vw, 50px);
+    line-height: 1.10;
+    letter-spacing: -0.018em;
+    max-width: 660px;
+    margin: 0 0 18px;
+  }
+  .lead-stand { color: var(--ink-soft); max-width: 58ch; margin: 0; }
+
+  .mapwrap {
+    border-top: 3px solid var(--ink);
+    border-bottom: 2.4px solid var(--rule-45);
+    padding: 14px 0 12px;
+    margin-bottom: 4px;
+  }
+  .mapcap {
+    display: flex; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; margin-bottom: 8px;
+  }
+  .mapcap .eyebrow { color: var(--ink-faint); }
+  svg.map { display: block; width: 100%; height: auto; }
+  svg.map .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.4; }
+  .mk { cursor: pointer; }
+  .mk .mk-hit { fill: transparent; }
+  .mk .mk-dot {
+    fill: var(--fire); fill-opacity: 0.8;
+    stroke: var(--fire); stroke-width: 1;
+    transition: fill-opacity .12s, stroke-width .12s;
+  }
+  .mk:hover .mk-dot, .mk:focus .mk-dot { fill-opacity: 1; stroke-width: 2.5; }
+  .nino-g { cursor: pointer; }
+  .nino-box { stroke: var(--nino); stroke-width: 1.2; fill-opacity: 0.92; }
+  .nino-g:hover .nino-box, .nino-g:focus .nino-box { stroke-width: 2.6; }
+  .nino-lb {
+    font-family: var(--mono); font-size: 7px;
+    letter-spacing: 0.16em; fill: var(--ink-soft);
+  }
+  .nino-v {
+    font-family: var(--mono); font-size: 13px;
+    font-weight: 500; fill: var(--nino);
+  }
+  .legends { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .lg-dot { fill: var(--fire); fill-opacity: 0.8; }
+  .lg-tx { font-family: var(--mono); font-size: 9px; fill: var(--ink-faint); }
+  .mapnote {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.7;
+    color: var(--ink-faint); margin: 8px 0 0;
+  }
+  .break-more { margin: 18px 0 0; }
+  .break-more a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+
   /* ---------- one breakpoint ---------- */
   @media (max-width: 760px) {
     .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
@@ -1522,6 +1579,148 @@ def _load_events() -> list[dict]:
         return []
 
 
+
+# Front-page list length. The fire sweep now publishes every country
+# that clears its gate, which was 14 in the first full week. A front
+# page cannot carry 14 rows without becoming a table, so the list shows
+# the largest few by multiple and links to the channel for the rest.
+BREAK_LIST_MAX = 6
+
+_WORLD_SVG_CACHE = None
+
+
+def _world_map_inner() -> str:
+    """Land paths from docs/world-map.svg, ready to drop inside our own
+    <svg>. Inlined rather than referenced as an <img> so the land colour
+    can follow the theme; an img would bake the light palette in.
+    """
+    global _WORLD_SVG_CACHE
+    if _WORLD_SVG_CACHE is None:
+        path = DOCS_DIR / "world-map.svg"
+        try:
+            raw = path.read_text()
+            inner = raw[raw.index(">", raw.index("<svg")) + 1:raw.rindex("</svg>")]
+            inner = re.sub(r'<rect width="800" height="400"[^>]*/>', "", inner)
+            inner = re.sub(r'<g fill="#[0-9a-fA-F]+" stroke="#[0-9a-fA-F]+"'
+                           r'\s+stroke-width="[\d.]+">', '<g class="land">', inner)
+            _WORLD_SVG_CACHE = inner
+        except (OSError, ValueError):
+            _WORLD_SVG_CACHE = ""
+    return _WORLD_SVG_CACHE
+
+
+def _load_markers() -> dict:
+    """Fire map markers from data/fire_markers.json (fire-chat generated)."""
+    try:
+        payload = json.loads((Path(__file__).parent / "data" /
+                             "fire_markers.json").read_text())
+        if isinstance(payload.get("markers"), list):
+            return payload
+    except (OSError, ValueError):
+        pass
+    return {"markers": [], "window": "", "complete": False}
+
+
+def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
+    """The global event map.
+
+    Marker AREA is proportional to the multiple, so radius scales with
+    its square root: doubling the area must not look like doubling the
+    number. Markers are plain discs, never concentric rings, because
+    rings read as an epicenter and that is a causal claim (D-017).
+
+    The Pacific carries one measured number in its correct place: the
+    Nino 3.4 box, filled flat at the diverging-scale step for the week's
+    index. It is deliberately not a contoured field, because no fetcher
+    returns a gridded SST anomaly and inventing the spatial structure
+    would be original modeling presented as observation.
+    """
+    markers = markers_payload.get("markers") or []
+    if not markers:
+        return ""
+    land = _world_map_inner()
+    if not land:
+        return ""
+    peak = max((m.get("multiple") or 0) for m in markers) or 1.0
+
+    def xy(lon, lat):
+        return (float(lon) + 180) / 360 * 800, (90 - float(lat)) / 180 * 400
+
+    def radius(mult):
+        return max(3.0, 9.0 * ((float(mult) / peak) ** 0.5))
+
+    pins = []
+    for m in sorted(markers, key=lambda d: d.get("multiple") or 0):
+        try:
+            cx, cy = xy(m["lon"], m["lat"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        r = radius(m.get("multiple") or 0)
+        href = h(f'{root_prefix}{m.get("href", "")}')
+        label = (f'{m.get("region", "")}, {m.get("multiple")} times its '
+                 f'same-week average')
+        pins.append(
+            f'<a class="mk" href="{href}" aria-label="{h(label)}">'
+            f'<circle class="mk-hit" cx="{cx:.1f}" cy="{cy:.1f}" '
+            f'r="{max(r + 7, 12):.1f}"/>'
+            f'<circle class="mk-dot" cx="{cx:.1f}" cy="{cy:.1f}" '
+            f'r="{r:.2f}"/></a>')
+
+    nino = ""
+    if nino_value is not None:
+        # Nino 3.4 region: 170W to 120W, 5N to 5S.
+        x1, y1 = xy(-170, 5)
+        x2, y2 = xy(-120, -5)
+        nino = (
+            f'<a class="nino-g" href="#issue" aria-label="Nino 3.4 region, '
+            f'{nino_value:+.1f} degrees Celsius this week. Goes to the El '
+            f'Nino issue.">'
+            f'<rect class="nino-box" x="{x1:.1f}" y="{y1:.1f}" '
+            f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}" '
+            f'fill="{T.anomaly_color(nino_value, 4.0)}"/>'
+            f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
+            f'NI\u00d1O 3.4</text>'
+            f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
+            f'{nino_value:+.1f} \u00b0C</text></a>')
+
+    ramp = "".join(
+        f'<stop offset="{i / 8:.3f}" stop-color="{c}"/>'
+        for i, c in enumerate(T.ANOMALY))
+    keys = "".join(
+        f'<circle class="lg-dot" cx="{cx}" cy="26" r="{radius(v):.2f}"/>'
+        f'<text class="lg-tx" x="{cx}" y="46" text-anchor="middle">{v:g}x</text>'
+        for cx, v in [(16, 2), (52, 6), (96, peak)])
+    window = markers_payload.get("window", "")
+    return (
+        '<div class="mapwrap">'
+        '<div class="mapcap">'
+        '<span class="eyebrow">Where, and how big</span>'
+        '<span class="eyebrow">Marker area = multiple of that place\u2019s '
+        'own baseline</span>'
+        '</div>'
+        '<svg class="map" viewBox="0 0 800 400" role="group" '
+        'aria-label="World map of this week\u2019s events">'
+        f'<defs><linearGradient id="anomramp" x1="0" y1="0" x2="1" y2="0">'
+        f'{ramp}</linearGradient></defs>'
+        f'{land}{nino}{"".join(pins)}</svg>'
+        '<div class="legends">'
+        f'<svg width="160" height="52" aria-hidden="true">'
+        f'<text class="lg-tx" x="0" y="10">MULTIPLE OF BASELINE</text>'
+        f'{keys}</svg>'
+        '<svg width="210" height="52" aria-hidden="true">'
+        '<text class="lg-tx" x="0" y="10">SST ANOMALY</text>'
+        '<rect x="0" y="19" width="170" height="9" fill="url(#anomramp)"/>'
+        '<text class="lg-tx" x="0" y="44">\u22124</text>'
+        '<text class="lg-tx" x="80" y="44">0</text>'
+        '<text class="lg-tx" x="150" y="44">+4 \u00b0C</text></svg>'
+        '</div>'
+        + (f'<p class="mapnote">Week {h(window)}, seven fully closed UTC '
+           f'days. Every country that cleared its baseline gate is on the '
+           f'map.</p>' if window else '')
+        + '</div>'
+    )
+
+
 def _masthead_html(root_prefix: str, methodology_href: str,
                    briefs_href: str, active: str = "elnino",
                    mark_opacities: tuple | None = None) -> str:
@@ -1545,8 +1744,10 @@ def _break_html(events: list[dict]) -> str:
     file is empty; no placeholder slots."""
     if not events:
         return ""
+    shown = events[:BREAK_LIST_MAX]
+    hidden = len(events) - len(shown)
     items = []
-    for e in events:
+    for e in shown:
         href = e.get("href", "")
         region = h(e.get("region", ""))
         claim = h(e.get("title", ""))
@@ -1570,6 +1771,12 @@ def _break_html(events: list[dict]) -> str:
             f'{_attr_tag(e.get("attribution", "pending"))}'
             '</article>'
         )
+    # A silent top-N would read as "this is everything". Say the count.
+    more = ""
+    if hidden > 0:
+        more = (f'<p class="break-more"><a href="fires/">'
+                f'{hidden} more countries cleared their baseline this week '
+                f'&rarr;</a></p>')
     return (
         '<div class="field"><div class="field-shell">'
         '<div class="break-head">'
@@ -1579,6 +1786,7 @@ def _break_html(events: list[dict]) -> str:
         'historical baseline. The link to the El Ni&ntilde;o window is '
         'stated per item, never assumed.</p>'
         f'<div class="events">{"".join(items)}</div>'
+        f'{more}'
         '</div></div>\n'
     )
 
@@ -1941,6 +2149,28 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     if is_front:
         # T10 hybrid front page: the break leads, the wave strip carries
         # the tracker headline, and the full issue follows on paper.
+        # The lead is the largest published event, in the words the
+        # channel that measured it chose. The design chat does not author
+        # event claims; `title` comes straight from the fire pipeline.
+        lead = week_events[0] if week_events else None
+        if lead:
+            others = len(week_events) - 1
+            head += (
+                '<div class="field"><div class="field-shell">'
+                '<div class="lead-block">'
+                f'<div class="eyebrow">Week of {h(brief_date_iso)}</div>'
+                f'<h1 class="lead-answer">{h(lead.get("region", ""))} ran '
+                f'{h(lead.get("stat", ""))} its average for this week of '
+                f'the year.</h1>'
+                + (f'<p class="lead-stand">{h(lead.get("title", ""))}. '
+                   f'{others} other countries also cleared their own '
+                   f'baseline. Each item says whether it is linked to El '
+                   f'Ni&ntilde;o, and most are not.</p>' if others else '')
+                + '</div></div></div>\n')
+        head += _map_html(_load_markers(),
+                          (fetched.get("physical_state") or {})
+                          .get("nino34_weekly_traditional"),
+                          root_prefix)
         head += _break_html(week_events)
         head += _wave_strip_html(magn_pct, brief_date_iso)
         issue_open = (

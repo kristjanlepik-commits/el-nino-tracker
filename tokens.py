@@ -368,6 +368,10 @@ def css_variables(dark: bool = False, indent: str = "    ") -> str:
         lines.append(f"{indent}--tag-pending-fg: {TAG_PENDING_FG};")
         lines.append(f"{indent}--rule-45: {RULE_45};")
         lines.append(f"{indent}--rule-20: {RULE_20};")
+        # Map land: a step off PAPER, so coastlines read without the
+        # map competing with the markers on it.
+        lines.append(f"{indent}--land: #D9D8D0;")
+        lines.append(f"{indent}--land-line: #C4C3BA;")
         lines.append(f"{indent}--shell: {SHELL_MAX}px;")
     else:
         # Tag surfaces need dark equivalents; hue holds, lightness moves.
@@ -377,6 +381,8 @@ def css_variables(dark: bool = False, indent: str = "    ") -> str:
         lines.append(f"{indent}--tag-pending-fg: {INK_FAINT_DARK};")
         lines.append(f"{indent}--rule-45: #6A6A64;")
         lines.append(f"{indent}--rule-20: #333330;")
+        lines.append(f"{indent}--land: #2E2E2A;")
+        lines.append(f"{indent}--land-line: #3A3A36;")
     return "\n".join(lines)
 
 
