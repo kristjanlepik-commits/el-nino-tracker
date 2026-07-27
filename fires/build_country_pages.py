@@ -114,6 +114,11 @@ body {{ margin:0; background:var(--paper); color:var(--ink);
   font-family:"{T.FONT_PROSE}",Georgia,serif; font-size:17px;
   line-height:1.55; }}
 main {{ max-width:760px; margin:0 auto; padding:28px 24px 80px; }}
+/* Line the shared masthead's shell up with this page's content column.
+   SITE_MASTHEAD_CSS defaults its shell to the tracker pages' 1180px,
+   so without these the masthead sat wider than the 760px main under
+   it. */
+:root {{ --shell-max:760px; --shell-pad:24px; }}
 a {{ color:inherit; }}
 {SITE_MASTHEAD_CSS}
 .masthead {{ display:flex; align-items:baseline; gap:14px;

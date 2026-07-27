@@ -164,11 +164,27 @@ body { margin:0; background:var(--paper); color:var(--ink);
   font-family:"Spectral",Georgia,serif; font-size:17px;
   line-height:1.55; }
 main { max-width:760px; margin:0 auto; padding:28px 24px 80px; }
+/* Line the shared masthead's shell up with this page's content column.
+   SITE_MASTHEAD_CSS defaults its shell to the tracker pages' 1180px,
+   so without these the masthead sat wider than the 760px main under
+   it. */
+:root { --shell-max:760px; --shell-pad:24px; }
 a { color:inherit; }
 /* ---------- masthead ---------- */
   /* Self-contained: a page that does not include PUBLIC_CSS has no link
      reset, so the wordmark and nav arrived underlined on the fire page. */
   header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
   header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
   header.field::after { display: none; }
   .masthead {

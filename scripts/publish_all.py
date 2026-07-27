@@ -133,7 +133,12 @@ def verify() -> list[str]:
     #    than the masthead-bearing builders. Flip this to True once design
     #    gives that page the shared chrome; leaving it declared False here
     #    keeps the gap visible on every run instead of silently passing.
-    expect_masthead = {"docs/methodology.html": False}
+    # No known gaps: every published page carries the shared masthead.
+    # docs/methodology.html was the last exception, closed 2026-07-27
+    # when render_html stopped emitting a reduced masthead of its own.
+    # Anything added here is a dead end for readers, so it wants a
+    # dated reason and an owner, not just an entry.
+    expect_masthead: dict = {}
 
     pages = [ROOT / rel for rel in TARGETS]
     pages += sorted((ROOT / "docs" / "fires").glob("*/index.html"))
