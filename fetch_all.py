@@ -69,7 +69,6 @@ def _seed_from_sources() -> dict:
             "nino34_weekly_roni": S.PHYSICAL_STATE["nino34_weekly_roni"],
             "heat_content_0_300m_estimate": S.PHYSICAL_STATE["heat_content_0_300m_estimate"],
             "wwe_count_since_mar1_estimate": S.PHYSICAL_STATE["wwe_count_since_mar1_estimate"],
-            "heat_content_qualitative": S.PHYSICAL_STATE["heat_content_qualitative"],
             "wwe_qualitative": S.PHYSICAL_STATE["wwe_qualitative"],
             "fetched_at": now_iso(), "used_fallback": True,
             "fallback_note": "seeded from sources.py",
@@ -208,8 +207,15 @@ def fetch_all() -> dict:
                 "weekly_relative": p.get("weekly_relative"),
             }
     if results["heat_content"].ok:
-        phys["heat_content_0_300m_estimate"] = results["heat_content"].payload.get(
+        hp = results["heat_content"].payload
+        phys["heat_content_0_300m_estimate"] = hp.get(
             "anomaly_c", phys["heat_content_0_300m_estimate"])
+        # Same-calendar-month analog values from the same CPC series, so
+        # the brief's "at this stage of development" comparison is
+        # like-for-like instead of comparing against fixed April seeds.
+        if hp.get("analogs_same_month"):
+            phys["heat_content_analogs_same_month"] = hp["analogs_same_month"]
+            phys["heat_content_data_month"] = f"{hp['data_year']:04d}-{hp['data_month']:02d}"
     if results["era5_wwe"].ok:
         wp = results["era5_wwe"].payload
         # CWWA replaces the legacy event-count metric (methodology v1.2).

@@ -16,9 +16,19 @@ Format: ASCII whitespace-delimited, 5 columns:
 We use the 180W-100W column, which is the equatorial-Pacific (~5N-5S)
 0-300m subsurface heat content the rest of the brief refers to.
 
+The file carries the full monthly series back to 1979, so the same-month
+values for the analog years come from this same fetch: same source, same
+column, same 1981-2010 climatology as the current value, which makes the
+analog comparison exactly like-for-like with no climatology mismatch.
+
 Expected payload:
   issued: ISO date (last day of the data month)
   anomaly_c: float (most recent monthly anomaly in degrees C, 180W-100W)
+  data_year, data_month: ints identifying the month `anomaly_c` covers
+  analogs_same_month: dict[str(year) -> float] for ANALOG_YEARS, sampled
+      at the SAME calendar month as the current value (not a fixed spring
+      month), so "at this stage of development" comparisons are honest
+  series: dict["YYYY-MM" -> float] full parsed history, for future use
 """
 
 import calendar
@@ -29,8 +39,16 @@ from ._common import FetchResult, http_get, now_iso
 
 URL = "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/ocean/index/heat_content_index.txt"
 
+ANALOG_YEARS = (1997, 2015, 2023)
+
+# CPC writes values without a leading zero (".56", "-.21"), so the numeric
+# group must allow an optional integer part. The earlier `-?\d+\.\d+`
+# pattern silently skipped every |value| < 1.0: it matched only 192 of 572
+# data lines, and would have made the fetcher return a MONTHS-STALE row
+# any time the latest month came in below 1.0. Latent bug, fixed here.
+_NUM = r"-?(?:\d+)?\.\d+"
 _DATA_RE = re.compile(
-    r"^\s*(\d{4})\s+(\d{1,2})\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s*$"
+    rf"^\s*(\d{{4}})\s+(\d{{1,2}})\s+({_NUM})\s+({_NUM})\s+({_NUM})\s*$"
 )
 
 
@@ -52,12 +70,28 @@ def fetch() -> FetchResult:
                                error=f"anomaly out of sane range: {anomaly_c}")
         last_day = calendar.monthrange(year, month)[1]
         issued = date(year, month, last_day).isoformat()
+
+        # Same-CALENDAR-MONTH analog values, so the brief compares July to
+        # July rather than July to a fixed April constant.
+        series = {f"{y:04d}-{m:02d}": v for y, m, _a, _b, v in
+                  ((r[0], r[1], r[2], r[3], r[4]) for r in rows)}
+        analogs_same_month = {
+            str(y): series[f"{y:04d}-{month:02d}"]
+            for y in ANALOG_YEARS
+            if f"{y:04d}-{month:02d}" in series
+        }
         return FetchResult(
             source="heat_content",
             ok=True,
             issued=issued,
             fetched_at=now_iso(),
-            payload={"anomaly_c": anomaly_c},
+            payload={
+                "anomaly_c": anomaly_c,
+                "data_year": year,
+                "data_month": month,
+                "analogs_same_month": analogs_same_month,
+                "series": series,
+            },
         )
     except Exception as e:
         return FetchResult(source="heat_content", ok=False, fetched_at=now_iso(),

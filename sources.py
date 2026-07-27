@@ -196,11 +196,14 @@ PHYSICAL_STATE = {
     "nino34_weekly_traditional": 0.5,    # week centered Apr 15 2026 (IRI)
     "nino34_weekly_roni": -0.3,           # week of Apr 1 2026 (CPC)
     "heat_content_0_300m_estimate": 1.3,  # placeholder; flag in brief
-    "heat_content_qualitative": (
-        "Above-average and rising. Qualitatively the warmest since "
-        "Jun 2023; comparable to spring of 2015, well short of spring "
-        "1997. New downwelling Kelvin wave initiated in March 2026."
-    ),
+    # `heat_content_qualitative` was REMOVED 2026-07-27. It was a
+    # hand-curated April sentence that never updated (the heat_content
+    # merge only writes the numeric field), so by July it was asserting
+    # "comparable to spring of 2015, well short of spring 1997" on a page
+    # whose computed sentence said the opposite. A hand-maintained
+    # qualitative twin next to a computed comparison will always drift;
+    # the computed sentence carries the comparison on its own. Do not
+    # reintroduce a static qualitative field here.
     "wwe_count_since_mar1_estimate": 1,   # at least one (TC Maila-aided)
     "wwe_qualitative": (
         "Westerly wind anomalies strengthened in March and early April "
@@ -217,9 +220,15 @@ ANALOG_SAME_WEEK = {
     "1997_apr22_nino34_weekly": -0.1,   # 1997 was still cool/neutral in late April
     "2015_apr22_nino34_weekly": 0.6,    # 2015 was already warming
     "2023_apr22_nino34_weekly": 0.6,    # 2023 similar to 2015
-    "1997_apr_heat_content": 0.7,       # 1997 was modest in April, surged through summer
-    "2015_apr_heat_content": 1.6,       # 2015 spring was very warm subsurface
-    "2023_apr_heat_content": 1.0,
+    # CORRECTED 2026-07-27 against the actual CPC heat_content_index series
+    # (180W-100W, 1981-2010 climo, the same column the live fetcher reads).
+    # The previous values (1997: 0.7, 2015: 1.6, 2023: 1.0) were wrong; the
+    # 1997 figure was off by ~1.5 C and carried a "1997 was modest in April"
+    # note that the archive contradicts. These are fallback-only now: the
+    # fetcher supplies same-calendar-month analogs, which is the right basis.
+    "1997_apr_heat_content": 2.17,
+    "2015_apr_heat_content": 1.74,
+    "2023_apr_heat_content": 1.19,
     "1997_wwe_to_apr22": 1,             # 1 westerly burst by late April
     "2015_wwe_to_apr22": 2,             # 2 by late April (very active spring)
     "2023_wwe_to_apr22": 1,
