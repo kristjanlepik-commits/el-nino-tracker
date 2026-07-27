@@ -363,6 +363,58 @@ def render_html(markdown_text: str, title: str = None,
 # No other weights exist. The ratio is furniture only: it never appears
 # on a mark that carries data, because concentric rings on a map marker
 # would read as an epicenter, which is a causal claim.
+
+# The house masthead, markup and the CSS it needs, as a pair. Any page
+# on the site can carry it, not only the ones run_brief builds: the fire
+# channel had to invent its own, which left it with no link home, no
+# nav and no About, a dead end for anyone who landed there first.
+SITE_MASTHEAD_CSS = """
+  /* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+""".strip()
+
 _PUBLIC_CSS_TEMPLATE = """
   :root {
 /*VARS_LIGHT*/
@@ -429,48 +481,7 @@ _PUBLIC_CSS_TEMPLATE = """
   }
   .shell { padding-bottom: 8px; }
 
-  /* ---------- masthead ---------- */
-  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
-  header.field::after { display: none; }
-  .masthead {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px 28px;
-    flex-wrap: wrap;
-    padding: 18px 0 16px;
-  }
-  /* Wordmark: the house sets in the prose face at natural fit, product
-     names in tracked mono, so house and channels differ in kind. */
-  .brand { display: flex; align-items: center; gap: 12px; }
-  .brand svg { display: block; flex: none; color: var(--ink); }
-  .brand-name {
-    font-family: var(--serif);
-    font-size: 21px;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: var(--ink);
-    white-space: nowrap;
-  }
-  .prodnav {
-    display: flex;
-    align-items: baseline;
-    gap: 8px 22px;
-    flex-wrap: wrap;
-  }
-  .prodnav a {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--nino);
-    transition: color .12s;
-  }
-  .prodnav a.ch-fire { color: var(--fire); }
-  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
-  .prodnav a:hover { color: var(--ink); }
-
+/*MASTHEAD_CSS*/
   /* ---------- lead block ---------- */
   .field, .wave-strip { background: var(--paper); color: var(--ink); }
   .field::after { display: none; }
@@ -1385,6 +1396,7 @@ _PUBLIC_CSS_TEMPLATE = """
 """.strip()
 
 PUBLIC_CSS = (_PUBLIC_CSS_TEMPLATE
+              .replace("/*MASTHEAD_CSS*/", SITE_MASTHEAD_CSS)
               .replace("/*VARS_LIGHT*/", T.css_vars_light())
               .replace("/*VARS_DARK*/", T.css_vars_dark()))
 
@@ -2159,6 +2171,19 @@ def _masthead_html(root_prefix: str, methodology_href: str,
         + f'<a class="util" href="{h(root_prefix)}about.html">About</a>'
         + '</nav></div></div></header>\n'
     )
+
+
+def site_masthead(root_prefix: str = "", active: str = "",
+                  methodology_href: str = "methodology.html",
+                  briefs_href: str = "briefs/") -> str:
+    """The house masthead, for generators outside run_brief.
+
+    Pair it with SITE_MASTHEAD_CSS if the page does not already include
+    PUBLIC_CSS. root_prefix is the path back to the docs root: "" from
+    docs/, "../" from docs/fires/. active is a channel key from CHANNELS.
+    """
+    return _masthead_html(root_prefix, methodology_href, briefs_href,
+                          active=active)
 
 
 def _break_html(events: list[dict]) -> str:

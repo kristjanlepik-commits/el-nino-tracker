@@ -21,7 +21,8 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # analytics tag. Import it rather than pasting a duplicate, so there is
 # one source of truth to disable or rotate.
 sys.path.insert(0, REPO)
-from run_brief import ANALYTICS_SNIPPET  # noqa: E402
+from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
+                       site_masthead)
 EVENTS = os.path.join(REPO, "data", "events.json")
 OUT = os.path.join(REPO, "docs", "fires", "index.html")
 
@@ -60,6 +61,10 @@ def build(events_doc, font_prefix="../fonts/"):
              6:"Six countries are",7:"Seven countries are",
              8:"Eight countries are"}
     headline = f"{words.get(n, str(n) + ' countries are')} burning well above their own seasonal normal"
+    # The house masthead, shared with every other page rather than
+    # reinvented here. Without it this page had no link home, no nav and
+    # no About, so anyone landing on it first was stuck.
+    house_masthead = site_masthead("../", active="fire")
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -91,9 +96,10 @@ body {{
 }}
 main {{ max-width: 760px; margin: 0 auto; padding: 28px 24px 80px; }}
 
+{SITE_MASTHEAD_CSS}
 .masthead {{
   display: flex; align-items: baseline; gap: 14px;
-  padding-bottom: 10px; border-bottom: 2px solid var(--ink);
+  padding: 18px 0 10px; border-bottom: 2.4px solid var(--rule-45);
 }}
 .house {{ font-size: 19px; letter-spacing: -0.01em; }}
 .product {{
@@ -169,9 +175,9 @@ h1 {{
 {ANALYTICS_SNIPPET}
 </head>
 <body>
+{house_masthead}
 <main>
   <div class="masthead">
-    <span class="house">The Long Swell</span>
     <span class="product">Fire</span>
     <span class="when">{window}</span>
   </div>
