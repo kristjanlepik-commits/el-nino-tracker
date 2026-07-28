@@ -1202,6 +1202,8 @@ _PUBLIC_CSS_TEMPLATE = """
      near-paper ocean and a near-black anomaly. The paper one widens the
      ink one just enough to separate it from whatever is underneath. */
   .nino-halo { fill: none; stroke: var(--paper); stroke-width: 2.8; }
+  .nino-brk-halo { fill: none; stroke: var(--paper); stroke-width: 3.2; }
+  .nino-brk { fill: none; stroke: var(--ink); stroke-width: 1; }
   .nino-box {
     stroke: var(--ink); stroke-width: 0.9; fill-opacity: 1;
   }
@@ -2172,22 +2174,44 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
         # line, but a quiet one.
         x1, y1 = xy(-170, 5)
         x2, y2 = xy(-120, -5)
+        # Extent bracket: a hairline just below 5S spanning 170W to 120W,
+        # with short ticks turning up at each end. It states the same
+        # region as the old box using one open line instead of four
+        # closed sides.
+        yb = y2 + 4.0
+        bracket = (f'M{x1:.1f},{yb - 4.5:.1f} L{x1:.1f},{yb:.1f} '
+                   f'L{x2:.1f},{yb:.1f} L{x2:.1f},{yb - 4.5:.1f}')
         nino = (
             f'<a class="nino-g" href="#issue" aria-label="Nino 3.4 region, '
             f'{nino_value:+.1f} degrees Celsius this week. Goes to the El '
             f'Nino issue.">'
-            f'<rect class="nino-halo" x="{x1:.1f}" y="{y1:.1f}" '
-            f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}"/>'
-            f'<rect class="nino-box" x="{x1:.1f}" y="{y1:.1f}" '
-            f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}" '
-            # With the field underneath, a flat fill would hide the very
-            # data the box is pointing at, so the box is a locator and
-            # the field is the datum. Without the field it keeps the flat
-            # fill, which is the only measured thing the map then has.
-            f'fill="{"none" if field else T.anomaly_color(nino_value, T.OCEAN_SCALE)}"/>'
-            f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
+            # Two treatments, because what the mark has to do changed when
+            # the field arrived.
+            #
+            # With the field: an extent bracket under the region, not a
+            # box around it. A closed rectangle over the strongest part of
+            # the field was the loudest thing in the frame, brighter than
+            # any data, and it enclosed on four sides, which the Bulletin
+            # rules forbid. It also no longer had a job: the box was the
+            # datum when a flat fill was all we had, and the field is the
+            # datum now. The bracket still earns its place, because the
+            # headline number is the average of this strip and the field
+            # peaks at more than twice it, so a bare "+2.2 C" floating on
+            # the Pacific would read as the whole ocean.
+            #
+            # Without the field: keep the filled box. It is then the only
+            # measured thing on the map.
+            + (f'<path class="nino-brk-halo" d="{bracket}"/>'
+               f'<path class="nino-brk" d="{bracket}"/>'
+               if field else
+               f'<rect class="nino-halo" x="{x1:.1f}" y="{y1:.1f}" '
+               f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}"/>'
+               f'<rect class="nino-box" x="{x1:.1f}" y="{y1:.1f}" '
+               f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}" '
+               f'fill="{T.anomaly_color(nino_value, T.OCEAN_SCALE)}"/>')
+            + f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
             f'NI\u00d1O 3.4</text>'
-            f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
+            f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 24:.1f}">'
             f'{nino_value:+.1f} \u00b0C</text></a>')
 
     # Hard stops, not a gradient. The fills are nine discrete steps, so
