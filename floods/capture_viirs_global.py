@@ -45,13 +45,12 @@ Not a channel fetcher. Renders nothing, publishes nothing.
 """
 
 import argparse
-import concurrent.futures as futures
 import datetime as dt
 import json
 import os
 import shutil
+import subprocess
 import sys
-import tempfile
 import threading
 import time
 import urllib.error
@@ -71,14 +70,6 @@ COUNTS = ("flood", "surfacewater", "nodata", "observed", "water3")
 
 _lock = threading.Lock()
 
-# The HDF5 C library underneath netCDF4 is not thread-safe in this build.
-# Six workers opening in-memory datasets concurrently deadlocked the whole
-# run: alive, sleeping, 11 seconds of CPU in two hours and twenty minutes.
-# Downloads are the bottleneck anyway (a tile is 12 to 25 MB over a
-# throttled pipe, parsing is well under a second), so serialising the
-# parse costs almost nothing and removes the failure mode entirely.
-# MODIS never hit this because HDF4 goes through a different library.
-_hdf_lock = threading.Lock()
 
 
 def log(msg):
@@ -112,22 +103,6 @@ def block_count(mask):
         .sum(axis=(1, 3))
         .astype(np.uint16)
     )
-
-
-def download_tile(url, dest, tok):
-    """Phase one. Pure IO, no HDF5 anywhere near a worker thread."""
-    req = urllib.request.Request(
-        url, headers={"Authorization": f"Bearer {tok}", "User-Agent": "TLS-floods/0.1"}
-    )
-    with urllib.request.urlopen(req, timeout=600) as resp:
-        payload = resp.read()
-    if payload[:8] != b"\x89HDF\r\n\x1a\n":
-        raise ValueError(f"not HDF5, got {len(payload)} bytes")
-    tmp = dest + ".partial"
-    with open(tmp, "wb") as fh:
-        fh.write(payload)
-    os.replace(tmp, dest)
-    return len(payload)
 
 
 def reduce_tile(path):
@@ -172,37 +147,55 @@ def capture_day(year, doy, out_dir, tok, workers):
     todo = [t for t in sorted(tiles) if not os.path.exists(os.path.join(parts_dir, t + ".npy"))]
     log(f"{stamp}: {len(tiles)} tiles, {len(todo)} to fetch")
 
-    got = [0, 0]  # tiles, bytes
+    # Downloads are handed to curl rather than a Python thread pool.
+    #
+    # This job hung three times tonight with three different symptoms,
+    # and my diagnosis was wrong twice. First I blamed HDF5 thread
+    # safety and serialised the parse behind a lock; it hung again in
+    # ninety seconds. Then I separated download and parse into strict
+    # phases so no thread touched HDF5; it hung a third time, with the
+    # main thread waiting on the pool, all six workers parked idle, no
+    # open sockets and no partial files. Work items were being lost
+    # rather than blocked.
+    #
+    # At that point the honest move is to delete the moving part rather
+    # than produce a fourth theory. curl does parallel downloads with a
+    # decade of hardening behind it, and the failure mode of a
+    # subprocess is an exit code rather than a silent hang.
+    fetched_before = len([t for t in todo if os.path.exists(os.path.join(parts_dir, t + ".h5"))])
+    want = [t for t in todo if not os.path.exists(os.path.join(parts_dir, t + ".h5"))]
+    if want:
+        cfg = os.path.join(parts_dir, "_curl.cfg")
+        with open(cfg, "w") as fh:
+            fh.write(f'header = "Authorization: Bearer {tok}"\n')
+            fh.write('user-agent = "TLS-floods/0.1"\n')
+            for tile in want:
+                fh.write(f'url = "{NRT}/{year}/{doy}/{tiles[tile]}"\n')
+                fh.write(f'output = "{os.path.join(parts_dir, tile + ".h5")}"\n')
+        log(f"{stamp}: curl fetching {len(want)} tiles, {workers} at a time")
+        rc = subprocess.call(
+            ["curl", "-sS", "-L", "--fail", "-Z", "--parallel-max", str(workers),
+             "--retry", "3", "--retry-delay", "3", "--connect-timeout", "60",
+             "--max-time", "900", "-K", cfg]
+        )
+        os.unlink(cfg)
+        log(f"{stamp}: curl exit {rc}")
 
-    # Two strictly separated phases. The first version of this ran
-    # download and HDF5 parse together inside the worker threads and
-    # deadlocked twice: every thread ended up blocked in
-    # PyThread_acquire_lock_timed while the lock holder sat inside
-    # netCDF4 and never came out. Serialising the parse with a lock was
-    # not enough, because the holder is what hangs. HDF5 is simply not
-    # safe to touch from a pool here, so it does not go in one.
-    def fetch(tile):
+    for tile in want:
         raw = os.path.join(parts_dir, tile + ".h5")
         if os.path.exists(raw):
-            return
-        url = f"{NRT}/{year}/{doy}/{tiles[tile]}"
-        for attempt in range(3):
-            try:
-                nbytes = download_tile(url, raw, tok)
-                with _lock:
-                    got[0] += 1
-                    got[1] += nbytes
-                    if got[0] % 25 == 0:
-                        log(f"  {stamp}: downloaded {got[0]}/{len(todo)}, {got[1]/1e9:.2f} GB")
-                return
-            except Exception as exc:
-                if attempt == 2:
-                    log(f"  {stamp} {tile} DOWNLOAD FAILED {repr(exc)[:90]}")
-                    return
-                time.sleep(3 * (attempt + 1))
-
-    with futures.ThreadPoolExecutor(max_workers=workers) as pool:
-        list(pool.map(fetch, todo))
+            with open(raw, "rb") as fh:
+                if fh.read(8) != b"\x89HDF\r\n\x1a\n":
+                    log(f"  {stamp} {tile}: not HDF5, discarding")
+                    os.unlink(raw)
+    got = [
+        fetched_before + len([t for t in want if os.path.exists(os.path.join(parts_dir, t + ".h5"))]),
+        sum(
+            os.path.getsize(os.path.join(parts_dir, t + ".h5"))
+            for t in todo
+            if os.path.exists(os.path.join(parts_dir, t + ".h5"))
+        ),
+    ]
 
     reduced = 0
     for tile in todo:
