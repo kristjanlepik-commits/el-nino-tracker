@@ -101,6 +101,44 @@ Shared artifacts every chat reads at session start: this file,
 ratification ledger; any chat appends when Kristjan ratifies), and
 auto-memory MEMORY.md (cross-chat bulletin).
 
+**Check the Superseded index at the top of `research/decisions.md`
+before acting on any ledger entry.** Entries are never edited, so an
+entry can be live text and still be overtaken; the index is the only
+place that says so.
+
+## Who builds what (D-030, 2026-07-28)
+
+    Fires, Floods, Crops   fetch the data, own that it is
+                           methodologically correct, emit validated JSON
+    Design                 builds ALL front end, one touch everywhere,
+                           and merges it
+    Visual design (VD)     sets the visual bar
+    Platform               pushes everything live
+
+Two conditions ride with it, both ratified:
+
+1. **Design works template-first, not page-first.** A small set of
+   reusable templates (channel index, country page, fast-reaction
+   piece, weekly issue) consuming the JSON. A new channel is then data
+   plus a template choice, not new rendering code, and design's context
+   is bounded by template count rather than channel count. Page-first
+   would move the context problem rather than solve it.
+2. **The owning channel signs off on its rendered page before
+   publish.** Sign-off, not an edit right. Design does not know the
+   science and the channel no longer sees the page, so the gap this
+   closes is a correct number rendered misleadingly: wrong emphasis, or
+   a chart implying causation the attribution tag denies.
+
+Escalation, when speed and consistency collide: a piece ships in the
+generic template with a plainer chart, or it does not ship. It never
+ships outside the design system, because consistency is what makes the
+numbers citable (T10).
+
+The channel-to-design JSON shape is DISCOVERED, not specified. Drafted
+from the fire country page, ratified only after a second case, because
+an interface with one implementation is a guess. Until then it is a
+working shape, not a contract.
+
 ## Telling another chat something (read this, it is new)
 
 Chats can now message each other directly. Kristjan is no longer the
@@ -193,9 +231,11 @@ cannot be forgotten; a ticket can.
 
 ### Fire chat
 
-- `fires/` end to end: science, pipeline, content, including the
-  country spotlight page and the fire damage panel. First issue
-  2026-08-03.
+- `fires/` science, fetch and emitted data: the FIRMS pull, the
+  baseline gates, the burnt-area methodology, and the validated JSON
+  the pages are rendered from. First issue 2026-08-03.
+- Rendering moved to design by D-030. Fire signs off on its rendered
+  pages before publish, and does not build them.
 
 ### Aftereffects / impacts chat
 
@@ -208,9 +248,11 @@ cannot be forgotten; a ticket can.
 
 ### Country reports chat
 
-- Per-country baseline pieces. No standing files in the repo yet;
-  as pieces ship they land in surfaces designed by the platform
-  chat (event-page pipeline) to the editor's format.
+- Per-country baseline pieces: the research, the baselines, the
+  numbers, to the editor's format. No standing files in the repo yet.
+- Pages are built by the design chat from the data and copy this chat
+  produces, on a design template, per D-030. (This line previously
+  said platform designs those surfaces; that was wrong twice over.)
 
 ### Editor chat (formerly "public chat")
 
@@ -239,6 +281,10 @@ cannot be forgotten; a ticket can.
 - `assets/brand/`, `assets/fonts/`, `docs/world-map.svg`
 - The design token set, the citable-chart template (to be built),
   social card design
+- **All front end for every channel** (D-030): the page templates
+  every surface is rendered from, and the merges. Works template-first,
+  and the first deliverable is the fast-reaction template, because that
+  is the one on T4's critical path with a one-day budget.
 
 ### Platform chat (the CTO surface)
 
