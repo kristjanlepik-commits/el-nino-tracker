@@ -33,6 +33,7 @@ CATEGORIES = {
 EVIDENCE_BASIS = {"measured", "compiled", "combined"}
 AUTHORSHIP = {"agency", "tls_built"}
 BASIS = {"published_schedule", "observed_practice", "conditional"}
+ABSENCE_REASONS = {"below_threshold", "outside_coverage", "not_yet_valid"}
 
 # Estimators that publish no methodology. A figure from one of these
 # may never appear alone: the reader has no way to check what is
@@ -197,6 +198,20 @@ def check_latency(doc, estimators):
                 if not linked:
                     err(f"{where}: shows mortality and mortality_valued together "
                         f"without a link; they are one fact, not two")
+
+        # A missing figure must never render as a small figure. The
+        # three absences read identically on a page and mean opposite
+        # things: below a published threshold (weak evidence it was
+        # small), outside anyone's coverage (says nothing at all), and
+        # present but not yet valid (a crops reading before its
+        # earliest publishable dekad can be confidently wrong).
+        absence = entry.get("absence_meaning")
+        if not absence:
+            err(f"{where}: missing absence_meaning; silence must be explained")
+        elif absence.get("reason") not in ABSENCE_REASONS:
+            err(f"{where}: absence_meaning.reason {absence.get('reason')!r} not in enum")
+        elif not absence.get("note"):
+            err(f"{where}: absence_meaning needs a note, not just a reason")
 
         status = entry.get("verification_status")
         if status in ("blocked", "partial"):
