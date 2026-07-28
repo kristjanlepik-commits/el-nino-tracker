@@ -25,3 +25,31 @@ jobs:
           else
             python3 scripts/qa_check.py --no-frozen-check
           fi
+
+  # Separate job on purpose: the gate above is stdlib-only and fast, and
+  # should not wait on a dependency install. This one proves a different
+  # thing, that docs/ still matches the generator that claims to produce
+  # it. A page can pass every structural check while having been built
+  # from a tree that no longer exists, which happened on 2026-07-28 when
+  # a publish ran either side of a merge and the committed front page
+  # silently lost CSS the source still emitted. Design chat's idea.
+  docs-match-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Assert docs/ is not stale relative to its generator
+        run: python scripts/publish_all.py --check --assert-clean
