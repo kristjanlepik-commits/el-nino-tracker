@@ -55,6 +55,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from datetime import date
@@ -279,6 +280,34 @@ def verify() -> list[str]:
             problems.append(
                 f"{data_rel} changed during publish: a fetcher ran in a "
                 "publish path, which must never happen")
+
+    # Country pages whose country has dropped out of the qualifying set.
+    # They are NOT pruned: deleting a published URL is a stronger act
+    # than editing one, and D-031 settled that published reports stay as
+    # published. A shared or cited link must not start 404ing because a
+    # country fell below a threshold this week.
+    #
+    # But an orphan stops being regenerated, so it silently ages in both
+    # data and design while still being reachable. That is the "static
+    # picture of a moving field" failure again. This is a notice rather
+    # than a blocker, because the qualifying set churns daily and a
+    # failure here would block publishing most days; the point is that
+    # orphans cannot accumulate unseen.
+    try:
+        ev = json.loads((ROOT / "data" / "events.json").read_text())
+        rows = ev.get("events") or ev.get("rows") or []
+        live = {re.sub(r"[^a-z0-9]+", "-", (r.get("region") or r.get("name") or "").lower()).strip("-")
+                for r in rows}
+        dirs = {p.name for p in (ROOT / "docs" / "fires").iterdir() if p.is_dir()}
+        orphans = sorted(d for d in dirs - live if d)
+        if orphans:
+            print(f"  NOTICE: {len(orphans)} fire country page(s) no longer in "
+                  f"the qualifying set and no longer regenerated: "
+                  f"{', '.join(orphans)}. Kept deliberately so published URLs "
+                  "do not 404; they age in place until Fire and design decide "
+                  "what a dropped country should say.")
+    except (OSError, ValueError):
+        pass
 
     # A hand-refreshed picture of a moving field is the one thing here
     # that rots silently: nothing breaks, the page just quietly shows an
