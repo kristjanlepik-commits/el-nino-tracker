@@ -114,7 +114,8 @@ def block_count(mask):
     )
 
 
-def process_tile(url, tok):
+def download_tile(url, dest, tok):
+    """Phase one. Pure IO, no HDF5 anywhere near a worker thread."""
     req = urllib.request.Request(
         url, headers={"Authorization": f"Bearer {tok}", "User-Agent": "TLS-floods/0.1"}
     )
@@ -122,20 +123,26 @@ def process_tile(url, tok):
         payload = resp.read()
     if payload[:8] != b"\x89HDF\r\n\x1a\n":
         raise ValueError(f"not HDF5, got {len(payload)} bytes")
+    tmp = dest + ".partial"
+    with open(tmp, "wb") as fh:
+        fh.write(payload)
+    os.replace(tmp, dest)
+    return len(payload)
 
+
+def reduce_tile(path):
+    """Phase two. Runs only on the main thread, one file at a time."""
     import netCDF4
 
-    with _hdf_lock:
-        ds = netCDF4.Dataset("inmem", mode="r", memory=payload)
-        node = ds
-        for part in H5_GROUP:
-            node = node.groups[part]
-        flood = np.array(node.variables["Flood_3Day_250m"][:])
-        valid = np.array(node.variables["ValidCounts_3Day_250m"][:])
-        water = np.array(node.variables["WaterCounts_3Day_250m"][:])
-        ds.close()
-
-    stack = np.stack(
+    ds = netCDF4.Dataset(path)
+    node = ds
+    for part in H5_GROUP:
+        node = node.groups[part]
+    flood = np.array(node.variables["Flood_3Day_250m"][:])
+    valid = np.array(node.variables["ValidCounts_3Day_250m"][:])
+    water = np.array(node.variables["WaterCounts_3Day_250m"][:])
+    ds.close()
+    return np.stack(
         [
             block_count((flood == 2) | (flood == 3)),
             block_count(flood == 1),
@@ -144,7 +151,6 @@ def process_tile(url, tok):
             block_count((water >= 3) & (water != 255)),
         ]
     )
-    return stack, len(payload)
 
 
 def capture_day(year, doy, out_dir, tok, workers):
@@ -168,26 +174,49 @@ def capture_day(year, doy, out_dir, tok, workers):
 
     got = [0, 0]  # tiles, bytes
 
-    def work(tile):
+    # Two strictly separated phases. The first version of this ran
+    # download and HDF5 parse together inside the worker threads and
+    # deadlocked twice: every thread ended up blocked in
+    # PyThread_acquire_lock_timed while the lock holder sat inside
+    # netCDF4 and never came out. Serialising the parse with a lock was
+    # not enough, because the holder is what hangs. HDF5 is simply not
+    # safe to touch from a pool here, so it does not go in one.
+    def fetch(tile):
+        raw = os.path.join(parts_dir, tile + ".h5")
+        if os.path.exists(raw):
+            return
         url = f"{NRT}/{year}/{doy}/{tiles[tile]}"
         for attempt in range(3):
             try:
-                stack, nbytes = process_tile(url, tok)
-                np.save(os.path.join(parts_dir, tile + ".npy"), stack)
+                nbytes = download_tile(url, raw, tok)
                 with _lock:
                     got[0] += 1
                     got[1] += nbytes
                     if got[0] % 25 == 0:
-                        log(f"  {stamp}: {got[0]}/{len(todo)} tiles, {got[1]/1e9:.2f} GB")
-                return True
+                        log(f"  {stamp}: downloaded {got[0]}/{len(todo)}, {got[1]/1e9:.2f} GB")
+                return
             except Exception as exc:
                 if attempt == 2:
-                    log(f"  {stamp} {tile} FAILED {repr(exc)[:90]}")
-                    return False
+                    log(f"  {stamp} {tile} DOWNLOAD FAILED {repr(exc)[:90]}")
+                    return
                 time.sleep(3 * (attempt + 1))
 
     with futures.ThreadPoolExecutor(max_workers=workers) as pool:
-        list(pool.map(work, todo))
+        list(pool.map(fetch, todo))
+
+    reduced = 0
+    for tile in todo:
+        raw = os.path.join(parts_dir, tile + ".h5")
+        if not os.path.exists(raw):
+            continue
+        try:
+            np.save(os.path.join(parts_dir, tile + ".npy"), reduce_tile(raw))
+            reduced += 1
+        except Exception as exc:
+            log(f"  {stamp} {tile} REDUCE FAILED {repr(exc)[:90]}")
+        finally:
+            os.unlink(raw)
+    log(f"{stamp}: reduced {reduced}/{len(todo)}, raw discarded")
 
     bundle = {}
     for tile in sorted(tiles):
