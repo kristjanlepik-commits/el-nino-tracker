@@ -51,10 +51,21 @@ OBS = f"{BASE}/sst.day.mean.2026.nc"
 CLIM = f"{BASE}/sst.day.mean.ltm.1991-2020.nc"
 
 LON_W, LON_E = -180.0, -70.0
-LAT_S, LAT_N = -22.0, 22.0
+# The band is wide enough that its own edges land in near-neutral water,
+# which is what softens them. An earlier version cropped at 22 degrees
+# and faded the outer rows to transparent to stop the block looking
+# pasted onto the ocean. That was the wrong fix: ANOMALY[4] is #E8E7E2
+# against a #F1F0EC page, so an unremarkable value already vanishes into
+# the paper by design, and compositing a step over the page produces a
+# colour the legend does not print, so a reader cannot decode the
+# margins and cannot tell which margins they are allowed to trust.
+# Measured on the 2026-07-26 field: at 22N only 3% of the edge row sits
+# in the neutral step, at 28N it is 59%. So widen the crop and let the
+# palette do it. Where an edge still lands on live values a hard edge
+# plus a stated note is honest; alpha is not.
+LAT_S, LAT_N = -28.0, 28.0
 DAYS = 7
 UPSCALE = 3          # keeps the nine steps crisp once the browser scales it
-FADE_FRAC = 0.28     # share of the band's height that ramps out, each side
 
 PNG = ROOT / "docs" / "pacific-sst.png"
 META = ROOT / "docs" / "pacific-sst.json"
@@ -102,15 +113,21 @@ def main() -> None:
 
     rgba = np.zeros(anom.shape + (4,), dtype=np.uint8)
     rgba[..., :3] = palette[idx]
+    # Alpha is binary: fully opaque where there is data, fully
+    # transparent over land and gaps. Nothing is composited, so every
+    # pixel is a colour the legend prints.
+    rgba[..., 3] = np.where(finite, 255, 0).astype(np.uint8)
 
-    n = anom.shape[0]
-    k = max(1, int(n * FADE_FRAC))
-    ramp = np.linspace(0.0, 1.0, k) ** 1.5
-    col = np.ones(n)
-    col[:k], col[-k:] = ramp, ramp[::-1]
-    alpha = np.repeat(col[:, None], anom.shape[1], axis=1)
-    alpha[~finite] = 0.0                   # land and gaps stay transparent
-    rgba[..., 3] = np.clip(alpha * 255, 0, 255).astype(np.uint8)
+    # How neutral the band's own edges are, since that is what has to do
+    # the softening now. Reported so a future refresh cannot quietly
+    # start cutting through a live value without anyone noticing.
+    neutral = float(edges[len(edges) // 2] - edges[len(edges) // 2 - 1]) / 2.0
+    def edge_neutral(row):
+        r = row[np.isfinite(row)]
+        return round(float(np.mean(np.abs(r) < neutral)), 3) if r.size else None
+    north, south = edge_neutral(anom[0]), edge_neutral(anom[-1])
+    print(f"edge in neutral step: north {north}, south {south} "
+          f"(neutral is |anomaly| < {neutral:.3f} C)")
 
     if UPSCALE > 1:
         rgba = np.repeat(np.repeat(rgba, UPSCALE, axis=0), UPSCALE, axis=1)
@@ -130,6 +147,8 @@ def main() -> None:
         "anomaly_max": round(float(np.nanmax(anom)), 2),
         "full_scale": T.OCEAN_SCALE,
         "fraction_beyond_scale": round(clipped, 4),
+        "edge_neutral_north": north,
+        "edge_neutral_south": south,
         "source": "NOAA OISST v2.1 (0.25 deg daily) vs 1991-2020 climatology",
         "source_url": OBS,
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),

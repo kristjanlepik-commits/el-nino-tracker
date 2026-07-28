@@ -1223,6 +1223,7 @@ _PUBLIC_CSS_TEMPLATE = """
   .lg-dot { fill: var(--fire); fill-opacity: 0.8; }
   .lg-tx { font-family: var(--mono); font-size: 9px; fill: var(--ink-faint); }
   .lg-tick { fill: var(--ink); }
+  .lg-cap { fill: var(--ink-faint); }
   .lg-now {
     font-family: var(--mono); font-variant-numeric: tabular-nums;
     font-size: 9.5px; font-weight: 500; fill: var(--ink);
@@ -2085,7 +2086,8 @@ def _pacific_sst() -> dict:
     return meta if all(meta.get(k) is not None for k in need) else {}
 
 
-def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
+def _map_html(markers_payload: dict, nino_value, root_prefix: str,
+              brief_date_iso: str = "") -> str:
     """The global event map.
 
     Marker AREA is proportional to the multiple, so radius scales with
@@ -2216,7 +2218,9 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
         '<span class="eyebrow">Where, and how big</span>'
         '<span class="eyebrow">Marker area = multiple of that place\u2019s '
         'own baseline</span>'
-        + (f'<span class="eyebrow">Pacific SST, week to '
+        + (f'<span class="eyebrow">Issue {h(brief_date_iso)}</span>'
+           if brief_date_iso else '')
+        + (f'<span class="eyebrow">Observed 7 days to '
            f'{h(sst["observation_date"])}</span>' if sst else '')
         + '</div>'
         + '<svg class="map" viewBox="0 0 800 400" role="group" '
@@ -2232,14 +2236,25 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
         f'<text class="lg-tx" x="0" y="10">SST ANOMALY</text>'
         f'<rect x="0" y="22" width="170" height="9" fill="url(#anomramp)"/>'
         f'{nino_tick}'
-        f'<text class="lg-tx" x="0" y="47">\u2212{T.OCEAN_SCALE:g}</text>'
+        f'<path class="lg-cap" d="M0,22 l-7,4.5 l7,4.5 z"/>'
+        f'<path class="lg-cap" d="M170,22 l7,4.5 l-7,4.5 z"/>'
+        f'<text class="lg-tx" x="-7" y="47">\u2264\u2212{T.OCEAN_SCALE:g}</text>'
         f'<text class="lg-tx" x="80" y="47">0</text>'
-        f'<text class="lg-tx" x="146" y="47">+{T.OCEAN_SCALE:g} \u00b0C</text>'
+        f'<text class="lg-tx" x="140" y="47">\u2265+{T.OCEAN_SCALE:g} \u00b0C</text>'
         f'</svg>'
         '</div>'
         + (f'<p class="mapnote">Week {h(window)}, seven fully closed UTC '
            f'days. Every country that cleared its baseline gate is on the '
            f'map.</p>' if window else '')
+        + (f'<p class="mapnote">Pacific SST anomaly against the 1991-2020 '
+           f'climatology, nine steps to \u00b1{T.OCEAN_SCALE:g} \u00b0C. '
+           f'The end steps are open: {sst["fraction_beyond_scale"] * 100:.1f}% '
+           f'of cells lie beyond the scale and the week\u2019s highest is '
+           f'{sst["anomaly_max"]:+.2f} \u00b0C. The band is cropped at '
+           f'{abs(sst["lat_south"]):.0f}\u00b0S to '
+           f'{abs(sst["lat_north"]):.0f}\u00b0N, so its upper and lower '
+           f'edges cut across real values rather than fading out.</p>'
+           if sst else '')
         + '</div>'
     )
 
@@ -2813,7 +2828,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         head += _map_html(_load_markers(),
                           (fetched.get("physical_state") or {})
                           .get("nino34_weekly_traditional"),
-                          root_prefix)
+                          root_prefix, brief_date_iso)
         head += _break_html(week_events)
         head += _wave_strip_html(magn_pct, brief_date_iso,
                                  f"briefs/{brief_date_iso}/")
