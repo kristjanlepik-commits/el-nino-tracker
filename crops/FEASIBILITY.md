@@ -13,7 +13,7 @@ question is scope, not feasibility.
 The scope is genuinely narrow, and now measured rather than guessed. A
 systematic scan of **752 country-commodity pairs** across 107 countries,
 detrended and FDR-controlled at q = 0.10, then filtered for degenerate
-series, qualifies 23 pairs, of which **22 survive cross-instrument corroboration**.
+series, qualifies 23 pairs, of which **22 survive cross-instrument corroboration and 17 survive an independent outcome source**.
 
 All 23 are water-limited rainfed systems, and the scan recovered them
 without being told where to look: the whole Australian cropping system,
@@ -401,6 +401,49 @@ So: **Australia unblocked, Mexico, Ukraine, Argentina and Canada still
 blocked**, and blocked on a per-crop calendar specifically, not a
 cropland one. The derived window is a cropland season and only coincides
 with a crop season where one crop dominates.
+
+### 6f. Outcome-side corroboration: 17 of 22 survive
+
+The instrument side was corroborated across six measurements. The
+outcome side was still single-sourced on USDA PSD, so every qualified
+pair depended on one agency's production series being right. FAOSTAT is
+the independent check: different institution, method and reporting
+chain, 34 MB, open.
+
+**The two sources broadly agree: median correlation on year-to-year
+deviations is 0.91.** Comparison is on deviations, not levels, since the
+levels differ by definition (FAOSTAT rice is paddy, PSD rice is milled).
+
+**But 5 pairs qualify on PSD and fail on FAOSTAT:**
+
+| Pair | r on PSD | r on FAOSTAT | Source agreement |
+|---|---|---|---|
+| Zimbabwe / Sorghum | 0.67 | **0.09** | 0.34 |
+| Australia / Corn | 0.63 | **0.10** | **0.21** |
+| Australia / Cotton | 0.65 | 0.32 | 0.58 |
+| Australia / Rice, Milled | 0.70 | 0.31 | 0.65 |
+| Zimbabwe / Corn | 0.58 | 0.39 | 0.61 |
+
+**The pattern is not random: every failure is a minor crop in its own
+country.** Australian rice is 372 kt and corn 380 kt against Australian
+wheat at 24,458 kt; Zimbabwean sorghum is 77 kt. Where a crop is small,
+the two agencies stop agreeing about what happened, which means at least
+one of them is estimating rather than measuring. Australia corn at 0.21
+source agreement is the clearest case: USDA and FAO barely agree on the
+year-to-year story at all, so a correlation with either is a correlation
+with one agency's estimating procedure.
+
+FAOSTAT's provenance flags support this. Australian cotton carries 7
+"estimated" values in 23 years where the surviving pairs are almost
+entirely "official".
+
+**Qualified on both sources: 17 pairs.** That is the defensible set, and
+it is the number to plan on rather than 22 or 23.
+
+The Australian cluster shrinks accordingly: wheat (source agreement
+1.00) and rapeseed (0.99) survive cleanly; rice, corn and cotton do not.
+This does not weaken the Australian wheat result, which is the strongest
+in the report on every test applied to it.
 
 ### 6b. How the nine pre-registered pairs fared
 
