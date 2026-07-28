@@ -43,6 +43,8 @@ GRID_DEG = 0.1
 
 REGIONS = {
     "peru_ecuador_coast": {"lon": (-82.0, -75.0), "lat": (-12.0, 2.0)},
+    "somalia_shabelle_juba": {"lon": (42.0, 46.5), "lat": (1.0, 6.5)},
+    "kenya_tana": {"lon": (38.5, 40.5), "lat": (-2.5, 0.5)},
 }
 
 

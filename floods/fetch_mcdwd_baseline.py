@@ -66,7 +66,21 @@ REGIONS = {
     "peru_ecuador_coast": {
         "lon": (-82.0, -75.0),
         "lat": (-12.0, 2.0),
-        "note": "Coastal Peru and Ecuador, Piura to Guayaquil",
+        "note": "Coastal Peru and Ecuador, Piura to Guayaquil. Rainfall-driven "
+                "coastal flooding. Reference event 2017 coastal El Nino.",
+    },
+    "somalia_shabelle_juba": {
+        "lon": (42.0, 46.5),
+        "lat": (1.0, 6.5),
+        "note": "Juba and Shabelle basins, Somalia. Slow riverine flooding, "
+                "a different mechanism to Peru. Reference event the Deyr "
+                "floods of November 2023, Beledweyne.",
+    },
+    "kenya_tana": {
+        "lon": (38.5, 40.5),
+        "lat": (-2.5, 0.5),
+        "note": "Tana river, Kenya. Riverine, same Deyr season as Somalia, "
+                "tests whether one season reads consistently across two basins.",
     },
 }
 
