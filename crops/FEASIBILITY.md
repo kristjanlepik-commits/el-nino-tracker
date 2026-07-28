@@ -357,6 +357,51 @@ the largest and most reader-relevant of the qualified pairs. A crop
 calendar for those five from USDA IPAD or an equivalent is the single
 highest-value next input.
 
+### 6e. Deriving the missing season windows, and how far it got
+
+USDA IPAD blocks automated access (HTTP 503), and hand-copying planting
+dates into the repo would put an unsourced, undated constant at the
+centre of every in-season claim. But ASAP already encodes the answer:
+warning code 98 means "off season" and is published per unit per dekad
+for all 2,368 units, including the five countries its crop calendar
+omits. The season is therefore derivable from data already in hand, with
+the same provenance as everything else.
+
+**The validation matters more than the derivation.** For the 65
+countries where ASAP publishes both the off-season flag and a crop
+calendar, the derived window can be checked against the stated one:
+median error in season start is **2 dekads (20 days)**, and **49 of 65**
+land within a month.
+
+The 16 failures are not random. They cluster in **multi-season
+countries**: Kenya (17 dekads out), Iran (14), Nigeria (12), Rwanda
+(12), Myanmar (9). A method that takes the longest single run of active
+dekads cannot represent two distinct rainy seasons, and it should not be
+used where they exist.
+
+Applying it to the blocked five, only one genuinely unblocks:
+
+**Australia does.** Its cropland is dominated by a single winter cereal
+season, so the derived March to November window is the wheat season.
+Australian wheat holds **r = 0.50 using data through July**, against a
+harvest that begins in November. That is roughly **four months of lead
+on the largest qualified pair in the study** (24.5 Mt median
+production), and it is the strongest in-season result anywhere in this
+report.
+
+**The other four do not, and their apparent numbers are traps.** Ukraine
+wheat shows 0.82, but Ukrainian winter wheat is harvested in July while
+the derived cropland window runs to November, so the figure still
+contains post-harvest information: the same leakage as before, one level
+down. Mexico's derived window is 31 of 36 dekads, which is not a season.
+Australian rice scores *higher* at T-9 than at T-0, which is the
+signature of a mismatched window rather than of skill.
+
+So: **Australia unblocked, Mexico, Ukraine, Argentina and Canada still
+blocked**, and blocked on a per-crop calendar specifically, not a
+cropland one. The derived window is a cropland season and only coincides
+with a crop season where one crop dominates.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
