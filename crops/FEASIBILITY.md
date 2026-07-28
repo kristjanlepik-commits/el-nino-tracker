@@ -411,7 +411,20 @@ Two obstacles:
    had enough information to carry a pattern at all. Qualification
    therefore requires at least 18 distinct annual values and no zeros,
    checked before the correlation is believed.
-9. **The indicator has a domain, and it is narrower than "crops".** It
+9. **A current reading is about whatever is in cycle now, which may
+   not be the crop the qualified pair names.** Zimbabwe sits at 26 of 26
+   for the 11 to 20 July dekad, its best July on record. Zimbabwean
+   maize is a November to April crop, so that reading says nothing
+   whatever about it; it is a real measurement of a different crop. The
+   value is not carried or flat out of season (across-year spread at
+   that dekad is 0.635, comparable to any other), so nothing in the data
+   warns you. **A pair may only be reported when its own season is
+   running**, and ASAP's crop calendar does not cover Australia, Mexico,
+   Argentina, Canada or Ukraine, so per-pair season windows have to come
+   from elsewhere. This is the same off-season trap as trap 2 wearing a
+   different disguise, and it would have shipped as a confident wrong
+   claim.
+10. **The indicator has a domain, and it is narrower than "crops".** It
    measures rainfed vegetation performance inside an annual growing
    cycle. Perennial tree crops (palm oil) and buffered irrigated systems
    (Egypt wheat, delta rice) are outside it. Bangladesh rice is not
