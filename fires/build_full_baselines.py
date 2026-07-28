@@ -56,7 +56,11 @@ SEED = os.path.join(REPO, "fires", "data", "country_history.json")
 OUTDIR = os.path.join(REPO, "fires", "data", "full_history")
 
 YEARS = list(range(2012, 2026))   # SNPP science-quality archive
-WORKERS = 8
+# 8 workers consumed 4,982 of the 5,000-per-10-minute allowance and
+# produced 43 failed chunks in three hours. A 5-day request evidently
+# counts as several transactions, not one, so concurrency has to be
+# well below the naive requests-per-second figure. 3 leaves headroom.
+WORKERS = 3
 os.makedirs(OUTDIR, exist_ok=True)
 KEY = open(KEY_PATH).read().strip()
 
@@ -127,6 +131,7 @@ def pull_year(iso, year):
         jobs.append((cur, days))
         cur += timedelta(days=days)
     out = {}
+    time.sleep(2.0)   # gap between years, keeps the 10-minute window clear
     with cf.ThreadPoolExecutor(max_workers=WORKERS) as ex:
         for f in cf.as_completed([ex.submit(_chunk, iso, c, d)
                                   for c, d in jobs]):
