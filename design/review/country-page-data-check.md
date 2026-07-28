@@ -48,13 +48,35 @@ unless the template is single-source by construction.
 
 ### 2. The weeks 8 to 9 annotation is 21 698 ha, not 21 973
 
-Off by 275. Small, but it is an annotation on a published chart and it
-came from the comp rather than from the series. Both annotations, week
-29 and the weeks 8 to 9 window, are now computed from
-`area_history/FRA.json` so they cannot drift from the bars they label.
+Off by 275, and the origin was not the comp. **Correction to the first
+version of this note, which blamed the comp.** The Fire chat has since
+said the 21 973 was theirs: it is weeks 8 to **10**, mislabelled as 8 to
+9 when they handed it over. Week 10 adds only 275 ha, which is why it
+looked close enough to survive.
 
-The pastoral-burning reading of that window is yours and the Fire
-chat's and is unaffected; only the number moves.
+The fix is the same either way and would have caught it at either end:
+both annotations, week 29 and the weeks 8 to 9 window, are computed from
+`area_history/FRA.json` rather than typed, so they cannot drift from the
+bars they label.
+
+### 3. The pastoral-burning label comes off
+
+New, and it overrides the comp. The Fire chat has ruled that "pastoral
+burning" must not appear: it is their inference, not a sourced fact.
+Ecobuage in the Pyrenees is a real documented practice in that window
+and is the obvious candidate, but nobody has verified that this specific
+burn is that, and asserting a cause without a named source is what the
+aggregator posture forbids.
+
+What is defensible is the pattern rather than the cause. The same
+late-February window carries 16 583 ha in 2019, 15 171 in 2021 and
+12 353 in 2025, so 2026 is the largest in the record but not different
+in kind. The annotation will read along the lines of "recurs in this
+window: 2019, 2021, 2025", which does more work than the guess did.
+
+Worth generalising into the format definition: an annotation may state a
+pattern, and may not state a cause unless the cause has a named source.
+The attribution tag is the only place a causal claim belongs.
 
 ## Two notes on the spec that are being followed
 
