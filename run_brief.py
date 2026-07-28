@@ -1189,17 +1189,35 @@ _PUBLIC_CSS_TEMPLATE = """
   }
   .mk:focus-visible .mk-focus, .mk:focus .mk-focus { opacity: 1; }
   .nino-g { cursor: pointer; }
-  .nino-box { stroke: none; fill-opacity: 1; }
+  /* Over the SST field these sat dark on dark and the box outline
+     disappeared entirely: the anomaly scale reaches near-black at its
+     ends, so ink furniture on top of it is unreadable exactly where the
+     event is strongest. Everything here carries a paper-coloured stroke
+     behind its fill, so the contrast is against paper rather than
+     against whatever the field happens to be doing underneath. This is
+     the same collision D-016 amendment 4 names, met on the label
+     instead of on a mark: the hue still says which channel this is, the
+     halo is what keeps it legible. */
+  /* Two rects, because one stroke cannot be legible against both a
+     near-paper ocean and a near-black anomaly. The paper one widens the
+     ink one just enough to separate it from whatever is underneath. */
+  .nino-halo { fill: none; stroke: var(--paper); stroke-width: 2.8; }
+  .nino-box {
+    stroke: var(--ink); stroke-width: 0.9; fill-opacity: 1;
+  }
   .nino-g:hover .nino-box, .nino-g:focus .nino-box {
     stroke: var(--ink); stroke-width: 1.2;
   }
+  .nino-lb, .nino-v {
+    paint-order: stroke; stroke: var(--paper); stroke-linejoin: round;
+  }
   .nino-lb {
     font-family: var(--mono); font-size: 7px;
-    letter-spacing: 0.16em; fill: var(--ink-soft);
+    letter-spacing: 0.16em; fill: var(--ink-soft); stroke-width: 2.6;
   }
   .nino-v {
     font-family: var(--mono); font-size: 13px;
-    font-weight: 500; fill: var(--nino);
+    font-weight: 500; fill: var(--nino); stroke-width: 3.4;
   }
   .legends { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .lg-dot { fill: var(--fire); fill-opacity: 0.8; }
@@ -2047,6 +2065,26 @@ def _load_markers() -> dict:
     return {"markers": [], "window": "", "complete": False}
 
 
+def _pacific_sst() -> dict:
+    """Metadata for the SST underlay, or {} when the asset is absent.
+
+    Absent is a normal state, not an error: the field is a hand-refreshed
+    asset, so the map has to render without it rather than crash a Monday
+    (invariant 1). Extent comes from this file rather than from constants
+    retyped into the template, because a field drawn half a basin off is
+    worse than no field.
+    """
+    try:
+        meta = json.loads((DOCS_DIR / "pacific-sst.json").read_text())
+    except (OSError, ValueError):
+        return {}
+    if not (DOCS_DIR / "pacific-sst.png").exists():
+        return {}
+    need = ("lon_west", "lon_east", "lat_south", "lat_north",
+            "observation_date")
+    return meta if all(meta.get(k) is not None for k in need) else {}
+
+
 def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
     """The global event map.
 
@@ -2055,11 +2093,25 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
     number. Markers are plain discs, never concentric rings, because
     rings read as an epicenter and that is a causal claim (D-017).
 
-    The Pacific carries one measured number in its correct place: the
-    Nino 3.4 box, filled flat at the diverging-scale step for the week's
-    index. It is deliberately not a contoured field, because no fetcher
-    returns a gridded SST anomaly and inventing the spatial structure
-    would be original modeling presented as observation.
+    The Pacific carries the measured SST field where one is available,
+    as a PNG underlay beneath the land, with the Nino 3.4 box reduced to
+    an outline and its label on top. Before the field existed the box
+    was filled flat at the diverging-scale step for the week's index,
+    which was the honest maximum when no fetcher returned a grid: the
+    spatial structure could not be invented without presenting original
+    modeling as observation. The field is observation, so it replaces the
+    flat fill and the box goes back to being a locator.
+
+    Eastern Pacific only, by design. The western half sits across the
+    map's antimeridian seam and rendering it put a second disconnected
+    copy of the same event against Australia. The crop runs off the left
+    edge, so it reads as continuing rather than stopping, and it is an
+    intrigue generator here rather than the full picture.
+
+    The underlay is a committed asset refreshed by hand
+    (design/make_pacific_sst.py), so it carries its own observation date
+    from pacific-sst.json and the caption states it. A static picture of
+    a moving field that does not say how old it is goes quietly wrong.
     """
     markers = markers_payload.get("markers") or []
     if not markers:
@@ -2094,6 +2146,19 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
             f'<circle class="mk-dot" cx="{cx:.1f}" cy="{cy:.1f}" '
             f'r="{r:.2f}"/></a>')
 
+    # The field, under the land so coastlines cut it cleanly. Placed from
+    # the asset's own recorded extent.
+    sst = _pacific_sst()
+    field = ""
+    if sst:
+        fx1, fy1 = xy(sst["lon_west"], sst["lat_north"])
+        fx2, fy2 = xy(sst["lon_east"], sst["lat_south"])
+        field = (
+            f'<image class="sstfield" href="{h(root_prefix)}pacific-sst.png" '
+            f'x="{fx1:.2f}" y="{fy1:.2f}" width="{fx2 - fx1:.2f}" '
+            f'height="{fy2 - fy1:.2f}" preserveAspectRatio="none" '
+            f'aria-hidden="true"/>')
+
     nino = ""
     if nino_value is not None:
         # Nino 3.4 region: 170W to 120W, 5N to 5S. The FILL is the datum,
@@ -2109,9 +2174,15 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
             f'<a class="nino-g" href="#issue" aria-label="Nino 3.4 region, '
             f'{nino_value:+.1f} degrees Celsius this week. Goes to the El '
             f'Nino issue.">'
+            f'<rect class="nino-halo" x="{x1:.1f}" y="{y1:.1f}" '
+            f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}"/>'
             f'<rect class="nino-box" x="{x1:.1f}" y="{y1:.1f}" '
             f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}" '
-            f'fill="{T.anomaly_color(nino_value, T.OCEAN_SCALE)}"/>'
+            # With the field underneath, a flat fill would hide the very
+            # data the box is pointing at, so the box is a locator and
+            # the field is the datum. Without the field it keeps the flat
+            # fill, which is the only measured thing the map then has.
+            f'fill="{"none" if field else T.anomaly_color(nino_value, T.OCEAN_SCALE)}"/>'
             f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
             f'NI\u00d1O 3.4</text>'
             f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
@@ -2145,12 +2216,14 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str) -> str:
         '<span class="eyebrow">Where, and how big</span>'
         '<span class="eyebrow">Marker area = multiple of that place\u2019s '
         'own baseline</span>'
-        '</div>'
-        '<svg class="map" viewBox="0 0 800 400" role="group" '
+        + (f'<span class="eyebrow">Pacific SST, week to '
+           f'{h(sst["observation_date"])}</span>' if sst else '')
+        + '</div>'
+        + '<svg class="map" viewBox="0 0 800 400" role="group" '
         'aria-label="World map of this week\u2019s events">'
         f'<defs><linearGradient id="anomramp" x1="0" y1="0" x2="1" y2="0">'
         f'{ramp}</linearGradient></defs>'
-        f'{land}{nino}{"".join(pins)}</svg>'
+        f'{field}{land}{nino}{"".join(pins)}</svg>'
         '<div class="legends">'
         f'<svg width="160" height="52" aria-hidden="true">'
         f'<text class="lg-tx" x="0" y="10">MULTIPLE OF BASELINE</text>'

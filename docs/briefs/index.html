@@ -948,17 +948,35 @@
   }
   .mk:focus-visible .mk-focus, .mk:focus .mk-focus { opacity: 1; }
   .nino-g { cursor: pointer; }
-  .nino-box { stroke: none; fill-opacity: 1; }
+  /* Over the SST field these sat dark on dark and the box outline
+     disappeared entirely: the anomaly scale reaches near-black at its
+     ends, so ink furniture on top of it is unreadable exactly where the
+     event is strongest. Everything here carries a paper-coloured stroke
+     behind its fill, so the contrast is against paper rather than
+     against whatever the field happens to be doing underneath. This is
+     the same collision D-016 amendment 4 names, met on the label
+     instead of on a mark: the hue still says which channel this is, the
+     halo is what keeps it legible. */
+  /* Two rects, because one stroke cannot be legible against both a
+     near-paper ocean and a near-black anomaly. The paper one widens the
+     ink one just enough to separate it from whatever is underneath. */
+  .nino-halo { fill: none; stroke: var(--paper); stroke-width: 2.8; }
+  .nino-box {
+    stroke: var(--ink); stroke-width: 0.9; fill-opacity: 1;
+  }
   .nino-g:hover .nino-box, .nino-g:focus .nino-box {
     stroke: var(--ink); stroke-width: 1.2;
   }
+  .nino-lb, .nino-v {
+    paint-order: stroke; stroke: var(--paper); stroke-linejoin: round;
+  }
   .nino-lb {
     font-family: var(--mono); font-size: 7px;
-    letter-spacing: 0.16em; fill: var(--ink-soft);
+    letter-spacing: 0.16em; fill: var(--ink-soft); stroke-width: 2.6;
   }
   .nino-v {
     font-family: var(--mono); font-size: 13px;
-    font-weight: 500; fill: var(--nino);
+    font-weight: 500; fill: var(--nino); stroke-width: 3.4;
   }
   .legends { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .lg-dot { fill: var(--fire); fill-opacity: 0.8; }
