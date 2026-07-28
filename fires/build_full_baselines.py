@@ -1,0 +1,162 @@
+"""Full-year daily detection baselines per country, 2012-2025.
+
+WHY THIS EXISTS. build_events.py compares a trailing seven-day window
+against a frozen same-week baseline. The trailing window moves every
+day; a single-week baseline does not. So the two line up on exactly
+one day in seven and the daily job correctly refuses on the other six.
+Daily updates therefore need every day of history, not one week of it.
+Paid once, because the science-quality archive is static.
+
+It also unlocks the cumulative season-to-date view, since daily counts
+sum to any window or any year to date.
+
+RUNNING IT
+
+    python fires/build_full_baselines.py
+
+No arguments. Needs ~/.firms_map_key. Expect two to three days of
+machine-awake time for all 45 countries; run under `caffeinate -i -m`
+so idle sleep does not kill it. Note that caffeinate does NOT prevent
+lid-close sleep on macOS.
+
+RESUME. Safe to kill and restart at any point, and safe to run on a
+machine that sleeps. Each country is one file under
+fires/data/full_history/<ISO3>.json, written the moment its last year
+completes. On restart, a country whose file already holds all 14 years
+is skipped entirely, and a partially built country resumes at its
+first missing year. Nothing is ever re-fetched.
+
+COMMITTING BETWEEN SESSIONS. Output lands inside the repo precisely so
+each night's progress can be committed:
+
+    git add fires/data/full_history && git commit -m "fires: baselines, N countries"
+
+Partial progress is valid and useful: the countries present are
+complete, the rest are absent. Nothing half-written is ever stored.
+
+THROUGHPUT. Single-threaded this ran at ~0.2 requests/second against
+an API that permits about 8, so Angola alone took 85 minutes. The work
+is latency-bound, not rate-limited, hence the small thread pool. Raise
+WORKERS cautiously: the documented limit is 5000 transactions per ten
+minutes and a larger 5-day request counts as more than one.
+"""
+import concurrent.futures as cf
+import json
+import os
+import time
+from datetime import date, timedelta
+
+import numpy as np
+import pandas as pd
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+KEY_PATH = os.path.expanduser("~/.firms_map_key")
+GEO = os.path.join(REPO, "fires", "data", "countries.geo.json")
+SEED = os.path.join(REPO, "fires", "data", "country_history.json")
+OUTDIR = os.path.join(REPO, "fires", "data", "full_history")
+
+YEARS = list(range(2012, 2026))   # SNPP science-quality archive
+WORKERS = 8
+os.makedirs(OUTDIR, exist_ok=True)
+KEY = open(KEY_PATH).read().strip()
+
+
+def log(m):
+    print(f"[{time.strftime('%H:%M:%S')}] {m}", flush=True)
+
+
+def ray(ring, x, y):
+    ins = np.zeros(len(x), bool)
+    x1, y1 = ring[:-1, 0], ring[:-1, 1]
+    x2, y2 = ring[1:, 0], ring[1:, 1]
+    for i in range(len(x1)):
+        c = (y1[i] > y) != (y2[i] > y)
+        if not c.any():
+            continue
+        ins ^= c & (x < (x2[i]-x1[i])*(y-y1[i])/(y2[i]-y1[i]) + x1[i])
+    return ins
+
+
+geo = json.load(open(GEO))
+RINGS, BOX = {}, {}
+for f in geo["features"]:
+    g = f["geometry"]
+    ps = [g["coordinates"]] if g["type"] == "Polygon" else g["coordinates"]
+    rings = [np.vstack([np.array(p[0]), np.array(p[0])[:1]]) for p in ps]
+    allv = np.vstack(rings)
+    RINGS[f["id"]] = rings
+    BOX[f["id"]] = [float(allv[:, 0].min()), float(allv[:, 1].min()),
+                    float(allv[:, 0].max()), float(allv[:, 1].max())]
+
+
+def _chunk(iso, cur, days):
+    """One request, capped at 5 days by the API. Failures return {}."""
+    w, s, e, n = BOX[iso]
+    url = (f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/"
+           f"VIIRS_SNPP_SP/{w},{s},{e},{n}/{days}/{cur.isoformat()}")
+    for a in (1, 2, 3):
+        try:
+            df = pd.read_csv(url)
+            break
+        except Exception:
+            if a == 3:
+                return {}
+            time.sleep(6 * a)
+    if len(df) and "confidence" in df.columns:
+        df = df[~df["confidence"].astype(str).str.lower().isin(["l", "low"])]
+    if not len(df):
+        return {}
+    pts = np.column_stack([df["longitude"].values, df["latitude"].values])
+    hit = np.zeros(len(pts), bool)
+    for r in RINGS[iso]:
+        hit |= ray(r, pts[:, 0], pts[:, 1])
+    return {str(d): int(len(g)) for d, g in df[hit].groupby("acq_date")}
+
+
+def pull_year(iso, year):
+    cur, end = date(year, 1, 1), date(year, 12, 31)
+    jobs = []
+    while cur <= end:
+        days = min(5, (end - cur).days + 1)
+        jobs.append((cur, days))
+        cur += timedelta(days=days)
+    out = {}
+    with cf.ThreadPoolExecutor(max_workers=WORKERS) as ex:
+        for f in cf.as_completed([ex.submit(_chunk, iso, c, d)
+                                  for c, d in jobs]):
+            for k, v in f.result().items():
+                out[k] = out.get(k, 0) + v
+    return out
+
+
+def main():
+    targets = list(json.load(open(SEED))["countries"])
+    t0 = time.time()
+    done = 0
+    for i, iso in enumerate(targets, 1):
+        path = os.path.join(OUTDIR, f"{iso}.json")
+        doc = {}
+        if os.path.exists(path):
+            try:
+                doc = json.load(open(path))
+            except ValueError:
+                doc = {}
+        todo = [y for y in YEARS if str(y) not in doc]
+        if not todo:
+            continue
+        for y in todo:
+            try:
+                doc[str(y)] = pull_year(iso, y)
+                json.dump(doc, open(path, "w"))
+            except Exception as exc:
+                log(f"{iso} {y}: FAILED {exc}")
+        done += 1
+        tot = sum(sum(v.values()) for v in doc.values())
+        log(f"[{i}/{len(targets)}] {iso}: {len(doc)} years, {tot:,} "
+            f"detections ({(time.time()-t0)/60:.0f} min elapsed, "
+            f"{done} built this run)")
+    log(f"FULLBASELINESDONE {len(os.listdir(OUTDIR))} countries on disk")
+
+
+if __name__ == "__main__":
+    main()
