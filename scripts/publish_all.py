@@ -164,19 +164,43 @@ def verify() -> list[str]:
                 f"{rel} now HAS the masthead; remove its entry from "
                 "expect_masthead so the gap stays closed")
 
-    # 2. The front page headline must still equal the frozen archive.
+    # 2. EVERY page showing the headline must agree with the frozen
+    #    archive, not just the front page. The channel home at
+    #    docs/elnino/ renders the same number from the same meta.json, so
+    #    checking only index.html would leave a second published figure
+    #    unguarded. Pages that do not display a headline are skipped
+    #    rather than failed, but the front page must always have one.
+    #    Two markups carry the same figure and both must be checked. The
+    #    front page uses the hero number; the channel home uses the
+    #    magnitude rung of the odds ladder. Matching only the hero looked
+    #    like it was checking every page while silently skipping
+    #    docs/elnino/, which is the false-assurance failure this whole
+    #    file exists to prevent.
     di = latest_issue()
     meta = json.loads((ROOT / "docs" / "briefs" / di / "meta.json").read_text())
     published = meta["headline_buckets"].get("9715_>2.5", {}).get("mid")
     import re
-    front = (ROOT / "docs" / "index.html").read_text(errors="ignore")
-    m = re.search(r'ws-num num">(\d+)', front)
-    shown = int(m.group(1)) if m else None
-    if shown is None:
-        problems.append("no headline found on the front page; check is stale")
-    elif shown != published:
+    HERO = re.compile(r'ws-num num">(\d+)')
+    LADDER_MAGN = re.compile(r'rung magn.*?class="pct">(\d+)<', re.S)
+    seen_headline = False
+    for p in pages:
+        if not p.exists():
+            continue
+        rel = str(p.relative_to(ROOT))
+        html = p.read_text(errors="ignore")
+        found = [int(m.group(1)) for m in
+                 list(HERO.finditer(html)) + list(LADDER_MAGN.finditer(html))]
+        if not found:
+            continue
+        seen_headline = True
+        for shown in set(found):
+            if shown != published:
+                problems.append(
+                    f"{rel} says {shown}% but archive {di} says {published}%")
+    if not seen_headline:
         problems.append(
-            f"front page says {shown}% but archive {di} says {published}%")
+            "no headline found on any page; the template changed and this "
+            "check is stale")
 
     # 3. Nothing frozen may move. That is the dated ENSO archives and
     #    snapshots, plus the Fire chat's dated spotlight pages, which are
