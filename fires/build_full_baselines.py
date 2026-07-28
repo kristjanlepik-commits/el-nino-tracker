@@ -37,12 +37,25 @@ complete, the rest are absent. Nothing half-written is ever stored.
 THROUGHPUT. Single-threaded this ran at ~0.2 requests/second against
 an API that permits about 8, so Angola alone took 85 minutes. The work
 is latency-bound, not rate-limited, hence the small thread pool. Raise
-WORKERS cautiously: the documented limit is 5000 transactions per ten
+# FIRMS bills one transaction per DAY of data requested, not per
+# request: a 5-day chunk costs 5 against the 5,000-per-10-minute
+# allowance. That is why tuning worker count did nothing. At 8 workers
+# and again at 3 the key sat pinned at ~4,970/5,000, because both
+# saturate a ceiling of 8.3 transactions/second; the only difference
+# was how many threads shared the rejections. Measured by suspending
+# the job and watching the counter drain at ~8/s.
+#
+# So the throttle is on days-per-second, and workers only set how much
+# latency we hide behind it. 6.0/s is 72% of the ceiling, which leaves
+# headroom for the retry traffic that failures generate.
+WORKERS = 4
+DAYS_PER_SEC = 6.0
 minutes and a larger 5-day request counts as more than one.
 """
 import concurrent.futures as cf
 import json
 import os
+import threading
 import time
 from datetime import date, timedelta
 
@@ -131,7 +144,6 @@ def pull_year(iso, year):
         jobs.append((cur, days))
         cur += timedelta(days=days)
     out = {}
-    time.sleep(2.0)   # gap between years, keeps the 10-minute window clear
     with cf.ThreadPoolExecutor(max_workers=WORKERS) as ex:
         for f in cf.as_completed([ex.submit(_chunk, iso, c, d)
                                   for c, d in jobs]):
