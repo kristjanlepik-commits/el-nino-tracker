@@ -135,12 +135,18 @@ Two habits worth copying, both learned the hard way:
 - **Assume nothing is live until you have seen it live.** A merged
   commit is not a published page. This repo has several publish
   paths; `scripts/publish_all.py` runs the ones that do not fetch.
-- **Cache-bust when you verify straight after publishing.** The site
-  is served with `cache-control: max-age=600`, so for up to ten
-  minutes a live fetch can return the previous page and look exactly
-  like a deploy that never happened. Add a query string (`/?cb=1`) or
-  read the `age` and `x-cache` headers first. Otherwise "verified
-  live" quietly becomes "verified the cache".
+- **Read the `age` header when you verify after publishing. A query
+  string does NOT bust this cache.** The site is served with
+  `cache-control: max-age=600`, so for up to ten minutes a live fetch
+  can return the previous page and look exactly like a deploy that
+  never happened. Fastly here does not vary the cache key on the query
+  string: `/`, `/?cb=<random>` and `/?probe=<random>` all return the
+  same cached object, measured 2026-07-28. So the only reliable
+  signal is `curl -sI` and reading `age` and `x-cache`: treat any
+  `age` greater than the time since you published as unverified, and
+  re-check. A cache buster that silently does nothing is worse than
+  none, because it converts "verified live" into "verified the cache"
+  while looking rigorous.
 - **A green check run is not "done".** The guards prove structural
   properties: the page exists, carries the shared masthead and
   exactly one analytics tag, its numbers match the frozen record, no

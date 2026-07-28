@@ -253,6 +253,10 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true",
                     help="build and verify, then restore; publishes nothing")
+    ap.add_argument("--assert-clean", action="store_true",
+                    help=("exit non-zero if any page WOULD change. For CI on "
+                          "main: proves the committed pages still match the "
+                          "generator that claims to produce them."))
     args = ap.parse_args()
 
     saved = snapshot_targets()
@@ -286,6 +290,18 @@ def main() -> None:
               f"nothing published.")
         for c in changed:
             print(f"  {c}")
+        # Design chat's guard, and a good one. A page can pass every
+        # structural check while having been built from a tree that no
+        # longer exists: the generator was merged, the publish ran before
+        # or during it, and the committed artifact silently disagrees
+        # with the source that claims to produce it. That happened on
+        # 2026-07-28 and was invisible until someone ran --check by hand.
+        # On main, "would change" means docs is stale, so it is a failure.
+        if args.assert_clean and changed:
+            print("\nFAIL: docs/ is stale relative to its own generator. "
+                  "These pages are committed in a state run_brief.py no "
+                  "longer produces; run scripts/publish_all.py and commit.")
+            raise SystemExit(1)
         return
 
     print(f"\npublished, all checks passed. {len(changed)} page(s) changed:")
