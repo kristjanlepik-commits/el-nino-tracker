@@ -10,6 +10,16 @@ on:
 permissions:
   contents: write           # to commit snapshot + brief back to the repo
 
+# Serialise every workflow that publishes. With per-channel schedules
+# two of these will eventually run at once, and a race between two
+# publishes is a corrupted commit rather than a slow build. One shared
+# group name across all publishing workflows is the point. D-027.
+# cancel-in-progress is false on purpose: the Monday brief must never be
+# cancelled by a fires run starting behind it (invariant 1).
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
 jobs:
   brief:
     runs-on: ubuntu-latest

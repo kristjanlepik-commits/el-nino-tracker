@@ -81,6 +81,32 @@ STEPS = [
     ("fires country pages", [PY, "fires/build_country_pages.py"]),
 ]
 
+# The ENSO shell. Invariant 1 in CLAUDE.md: the weekly brief always
+# ships. D-028 makes that explicit here: a channel failure must never
+# take these pages down with it. The weekly brief is the credential
+# (T10), and a channel that has existed for three weeks cannot be
+# allowed to block it. Do not fold these back into the channel
+# roll-back set in a future refactor.
+SHELL_TARGETS = {
+    "docs/index.html",
+    "docs/about.html",
+    "docs/methodology.html",
+    "docs/elnino/index.html",
+    "docs/briefs/index.html",
+}
+
+# Every file whose contents change what a publish produces. Publishing
+# with any of these modified means publishing from source that exists in
+# no commit; on 2026-07-28 that regenerated 12 fire pages from another
+# chat's work in progress, caught by hand. D-027.
+GENERATORS = [
+    "run_brief.py",
+    "tokens.py",
+    "scripts/publish_shell.py",
+    "fires/build_page.py",
+    "fires/build_country_pages.py",
+]
+
 
 def snapshot_targets() -> dict[str, bytes | None]:
     """Current bytes of everything a publish may touch, including the
@@ -95,8 +121,16 @@ def snapshot_targets() -> dict[str, bytes | None]:
     return saved
 
 
-def restore(saved: dict[str, bytes | None]) -> None:
+def restore(saved: dict[str, bytes | None], keep_shell: bool = False) -> None:
+    """Put the saved bytes back.
+
+    keep_shell leaves the ENSO shell as freshly built while rolling every
+    channel back. That is D-028: a channel failure must not take the
+    weekly brief down, per CLAUDE.md invariant 1.
+    """
     for rel, data in saved.items():
+        if keep_shell and rel in SHELL_TARGETS:
+            continue
         p = ROOT / rel
         if data is None:
             if p.exists():
@@ -116,6 +150,32 @@ def latest_issue() -> str:
     if not metas:
         raise SystemExit("no published issue found")
     return metas[-1].parent.name
+
+
+def check_generators_clean() -> None:
+    """Refuse to publish from source that exists in no commit.
+
+    Three chats share this working tree. A publish runs whatever code is
+    on disk, so an unrelated chat's half-finished edit becomes published
+    output without anyone choosing it. The refusal names the files and
+    the remedy on purpose: this will be hit on a Monday with a brief
+    waiting, and a guard that only says no costs more than it saves.
+    """
+    dirty = git_changed(*GENERATORS)
+    if not dirty:
+        return
+    print("REFUSING TO PUBLISH: these generators have uncommitted changes,")
+    print("so the pages would be built from source that is in no commit.\n")
+    for f in dirty:
+        print(f"    {f}")
+    print("\nFix, whichever fits:")
+    print("    git status <file>              see what changed and whose it is")
+    print("    git add <file> && git commit    if the work is yours and ready")
+    print("    git stash push <file>           to park it and publish without it")
+    print("    git checkout -- <file>          to discard it (destructive)")
+    print("\nIf you know the change is safe and want it published as-is,")
+    print("re-run with --allow-dirty.")
+    raise SystemExit(1)
 
 
 def verify() -> list[str]:
@@ -257,28 +317,45 @@ def main() -> None:
                     help=("exit non-zero if any page WOULD change. For CI on "
                           "main: proves the committed pages still match the "
                           "generator that claims to produce them."))
+    ap.add_argument("--allow-dirty", action="store_true",
+                    help=("publish even though a generator has uncommitted "
+                          "changes. You are asserting the change is yours "
+                          "and ready."))
     args = ap.parse_args()
+
+    if not args.allow_dirty:
+        check_generators_clean()
 
     saved = snapshot_targets()
 
-    env_note = ""
     for name, cmd in STEPS:
         # fires/*.py import tokens and run_brief from the repo root.
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True,
                            env={**__import__("os").environ,
                                 "PYTHONPATH": str(ROOT)})
         if r.returncode != 0:
-            restore(saved)
-            print(f"FAILED during {name}, nothing published:\n"
+            # D-028. A failing CHANNEL rolls back every channel, never
+            # the ENSO shell: invariant 1 says the weekly brief always
+            # ships, and a channel three weeks old must not be able to
+            # block the credential. A failing shell rolls back
+            # everything, because a broken shell is not shippable.
+            restore(saved, keep_shell=(name != "shell"))
+            kept = "" if name == "shell" else \
+                " The ENSO shell is kept and still publishes (invariant 1)."
+            print(f"FAILED during {name}. Channels rolled back.{kept}\n"
                   f"{r.stdout}\n{r.stderr}".strip())
             raise SystemExit(1)
         print(f"  ran {name}")
-    print(env_note, end="")
 
     problems = verify()
     if problems:
-        restore(saved)
-        print("\nPUBLISH REJECTED, everything restored:")
+        # Same rule for verification failures: if nothing is wrong with a
+        # shell page, the shell still ships.
+        shell_hit = any(t in p for p in problems for t in SHELL_TARGETS)
+        restore(saved, keep_shell=not shell_hit)
+        scope = "everything restored" if shell_hit else \
+            "channels restored; the ENSO shell still publishes (invariant 1)"
+        print(f"\nPUBLISH REJECTED, {scope}:")
         for p in problems:
             print(f"  {p}")
         raise SystemExit(1)

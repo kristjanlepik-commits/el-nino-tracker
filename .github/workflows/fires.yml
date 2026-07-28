@@ -35,6 +35,14 @@ on:
 permissions:
   contents: write
 
+# Serialise every workflow that publishes. With per-channel schedules
+# two of these will eventually run at once, and a race between two
+# publishes is a corrupted commit rather than a slow build. One shared
+# group name across all publishing workflows is the point. D-027.
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
 jobs:
   fires:
     runs-on: ubuntu-latest
