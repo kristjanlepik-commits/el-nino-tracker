@@ -1,0 +1,101 @@
+name: Fires data pull and publish
+
+# WHY WEEKLY AND NOT DAILY, which is what you probably expected.
+#
+# fires/build_events.py compares the trailing complete 7-day window
+# against a frozen same-week baseline in fires/data/country_history.json.
+# That baseline holds ONE calendar week. The trailing window moves every
+# day, so the two agree on exactly one day per baseline refresh and the
+# script correctly refuses on all the others rather than compare against
+# a stale baseline. With a Monday-to-Sunday baseline, the day they agree
+# is the following Monday.
+#
+# So a daily cron would fail roughly six days in seven. A CI job that is
+# usually red teaches everyone to ignore CI, which costs more than the
+# staleness it was meant to fix. Weekly it is, until the Fire chat lands
+# full-year per-country baselines (about 1,095 archive requests, paid
+# once, since the archive is static). At that point the window check
+# stops being a constraint and this can move to "0 6 * * *".
+#
+# 06:00 UTC because FIRMS near-real-time processing only guarantees
+# yesterday is closed at about 03:00 UTC, and build_events.py refuses to
+# run before then on purpose.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fires:
+    runs-on: ubuntu-latest
+    # 45 countries of archive requests; the pull dominates the runtime.
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # qa_check compares frozen surfaces against origin/main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Configure FIRMS key
+        env:
+          FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
+        run: |
+          # build_events.py reads the key from ~/.firms_map_key, not the
+          # environment. Fail loudly rather than proceed: without the key
+          # the pull cannot work, and a silent skip would leave a stale
+          # page looking freshly published.
+          if [ -z "$FIRMS_MAP_KEY" ]; then
+            echo "FIRMS_MAP_KEY secret is not set. Add it in Settings," \
+                 "Secrets and variables, Actions." >&2
+            exit 1
+          fi
+          printf '%s' "$FIRMS_MAP_KEY" > ~/.firms_map_key
+          chmod 600 ~/.firms_map_key
+
+      - name: Pull fire data
+        run: PYTHONPATH="$PWD" python fires/build_events.py
+
+      # Commit the data BEFORE publishing, deliberately. publish_all.py
+      # rejects a publish if a data file changed during the run, because
+      # that is what a fetcher wired into a publish path looks like. The
+      # rule is renderers-only, so the fetch lands as its own commit and
+      # the publish then runs against committed state, exactly as it does
+      # locally.
+      - name: Commit the data pull
+        run: |
+          git config user.name "el-nino-tracker-bot"
+          git config user.email "actions@github.com"
+          git add data/ fires/data/
+          if ! git diff --cached --quiet; then
+            git commit -m "fires: data pull $(date -u +'%Y-%m-%d')"
+          else
+            echo "No data changes."
+          fi
+
+      - name: Publish
+        run: python scripts/publish_all.py
+
+      - name: Commit the published pages
+        run: |
+          git add docs/
+          if ! git diff --cached --quiet; then
+            git commit -m "fires: publish $(date -u +'%Y-%m-%d')"
+          else
+            echo "No page changes."
+          fi
+          git push
