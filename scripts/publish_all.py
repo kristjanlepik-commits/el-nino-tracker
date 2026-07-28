@@ -57,6 +57,7 @@ import argparse
 import json
 import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -207,11 +208,37 @@ def verify() -> list[str]:
 
     # 4. A fetcher must never have run as part of a publish. If a data
     #    file moved, someone wired a fetcher into this path.
-    for data_rel in ("data/events.json", "fires/data/current_week.json"):
+    #    docs/pacific-sst.* are here for the same reason as the fires
+    #    data: they are fetcher output, produced by hand via
+    #    design/make_pacific_sst.py, which is deliberately outside the
+    #    pipeline. If they move during a publish, someone wired that
+    #    generator in.
+    for data_rel in ("data/events.json", "fires/data/current_week.json",
+                     "docs/pacific-sst.json", "docs/pacific-sst.png"):
         if git_changed(data_rel):
             problems.append(
                 f"{data_rel} changed during publish: a fetcher ran in a "
                 "publish path, which must never happen")
+
+    # A hand-refreshed picture of a moving field is the one thing here
+    # that rots silently: nothing breaks, the page just quietly shows an
+    # older ocean than it claims to be about. The caption states the date,
+    # so this is a notice rather than a blocker; it exists so the age is
+    # in front of whoever publishes instead of only in the markup.
+    sst = ROOT / "docs" / "pacific-sst.json"
+    if sst.exists():
+        try:
+            obs = json.loads(sst.read_text()).get("observation_date")
+            issue = date.fromisoformat(latest_issue())
+            age = (issue - date.fromisoformat(obs)).days
+            if age > 10:
+                print(f"  NOTICE: the Pacific SST field was observed {obs}, "
+                      f"{age} days before issue {issue}. Refresh it with "
+                      "design/make_pacific_sst.py (design chat's surface).")
+        except (ValueError, TypeError):
+            problems.append(
+                "docs/pacific-sst.json has no readable observation_date; "
+                "an undated field cannot be shown honestly")
 
     # 5. The standing gate: links, structure, em-dashes, immutability.
     qa = subprocess.run([PY, "scripts/qa_check.py"],
