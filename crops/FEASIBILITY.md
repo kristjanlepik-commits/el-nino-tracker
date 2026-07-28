@@ -611,3 +611,37 @@ Two obstacles:
    causal story. But it is a narrower promise than the brief made.
 3. **CLAUDE.md has no CRO ownership section.** Platform owns that file;
    it needs one before crops writes anything beyond this report.
+4. **Do we buy or build the missing crop calendars?** Mexico, Ukraine,
+   Argentina and Canada hold four of the largest qualified pairs and all
+   four are blocked on a per-crop planting and harvest calendar. USDA
+   IPAD has it and blocks scraping; GEOGLAM and the WorldCereal project
+   publish calendars that may be usable. This is now the single
+   highest-value missing input, and it is a small, bounded piece of work
+   rather than a research problem.
+5. **Which pairs ship first, if it opens?** On the evidence the honest
+   launch set is small: Australia wheat (four months of lead, six
+   instruments agreeing, the largest pair in the study), Kazakhstan oats,
+   Syria wheat, and Kyrgyz wheat and barley. Zimbabwe, Morocco and
+   Tunisia are qualified but only readable close to harvest. Iran barley
+   is qualified yet must never be published early, since its T-12 reading
+   points the wrong way at -0.51.
+
+## 12. Session record, 2026-07-28
+
+Everything above was established in one working session. What was
+actually run, so a later reader can tell evidence from assertion:
+
+| Step | Scale |
+|---|---|
+| Sources verified live | ASAP warnings, ASAP crop calendar, 8 PSD bulk files |
+| ASAP indicator sweep | 6 instruments x 168 countries, 1,006 files, 1.5 GB |
+| Qualification scan | 752 country-commodity pairs, detrended, FDR-controlled |
+| Corroboration | 22 of 23 pairs across 6 physically distinct instruments |
+| In-season test | 11 pairs on published calendars, 10 on derived ones |
+
+Four errors were made and corrected in the process, and they are left in
+the record because each one nearly shipped as a finding: the Malaysia
+palm oil corroboration claim (trend co-movement), the unit-count
+denominator (structurally excluded the strongest pairs), the forecast
+test that used post-harvest data, and the corroboration run that tested
+lag 0 for a pair qualified at lag 1.
