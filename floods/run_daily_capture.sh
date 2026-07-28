@@ -33,6 +33,35 @@ fail() {
   exit 1
 }
 
+# Refuse to run concurrently with another instance. A global day takes
+# about 90 minutes and the catch-up run on 2026-07-28 was still going
+# close to the first scheduled 09:30 firing, so this is not theoretical.
+# Two instances would race on the same .parts_<day> directory and could
+# consolidate a day while the other was still writing tiles into it,
+# producing a short day that is then never revisited, because
+# capture_day skips any date that already has an npz.
+#
+# mkdir is the lock because it is atomic on every filesystem that
+# matters and needs no flock, which macOS bash does not ship.
+LOCK="$OUT/.capture.lock"
+if ! mkdir "$LOCK" 2>/dev/null; then
+  # A lock left behind by a killed run would block every future run
+  # silently, which is precisely the failure this wrapper exists to
+  # prevent, so the staleness check belongs here on the failure path
+  # rather than after a successful acquire. A full pass over seven
+  # days takes about ten hours; six hours of no progress means dead.
+  if [ -n "$(find "$LOCK" -maxdepth 0 -mmin +360 2>/dev/null)" ]; then
+    echo "NOTE: stale lock older than 6h, taking it over"
+    rmdir "$LOCK" 2>/dev/null
+    mkdir "$LOCK" 2>/dev/null || fail "could not take over stale lock $LOCK"
+  else
+    echo "SKIPPED: another capture is already running (lock held: $LOCK)"
+    exit 0
+  fi
+fi
+trap 'rmdir "$LOCK" 2>/dev/null' EXIT
+
+
 # Credential check before doing any work, because this is the failure
 # mode that would otherwise be silent.
 TOK=$(cat "$HOME/.earthdata_token" 2>/dev/null) || fail "no ~/.earthdata_token"
