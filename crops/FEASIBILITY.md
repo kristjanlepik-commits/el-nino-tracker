@@ -13,7 +13,7 @@ question is scope, not feasibility.
 The scope is genuinely narrow, and now measured rather than guessed. A
 systematic scan of **752 country-commodity pairs** across 107 countries,
 detrended and FDR-controlled at q = 0.10, then filtered for degenerate
-series, qualifies **23 pairs**.
+series, qualifies 23 pairs, of which **22 survive cross-instrument corroboration**.
 
 All 23 are water-limited rainfed systems, and the scan recovered them
 without being told where to look: the whole Australian cropping system,
@@ -245,6 +245,52 @@ Canada. Every one is a water-limited rainfed system. Nothing tropical,
 irrigated or perennial appears anywhere in the list. An instrument that
 finds exactly the systems where water is the binding constraint, without
 being told where they are, is measuring what it claims to measure.
+
+### 6c. Cross-instrument corroboration (the stiffer test)
+
+Qualification on one instrument is weak: FPAR cumulated z-score measures
+greenness, and a pair correlating with greenness alone might be tracking
+a MODIS artifact, a land-cover change or a cropping shift rather than a
+season.
+
+So all 168 countries were pulled again on five further instruments,
+1,006 files and 1.5 GB in total, and every qualified pair was retested
+against physically different measurements:
+
+| Instrument | Measures | Expected sign |
+|---|---|---|
+| zfparc, zfpar | vegetation anomaly | positive |
+| wsi | water satisfaction | positive |
+| spi3 | 3-month rainfall anomaly | positive |
+| sm | soil moisture | positive |
+| temp | temperature anomaly | **negative**, heat hurts |
+
+**22 of 23 pairs corroborate** across both vegetation and water-balance
+instruments. Australia wheat is the cleanest case in the study: zFPARc
+0.69, zFPAR 0.83, WSI 0.84, SPI-3 0.89, soil moisture 0.89, and
+temperature at -0.57 in the correct direction. Six independent
+instruments agreeing is not a correlation, it is a mechanism.
+
+**One pair fails and is withdrawn. Uzbekistan barley** shows 0.77 on
+cumulative vegetation and 0.68 on instantaneous vegetation, but 0.12 on
+water satisfaction, 0.19 on rainfall and 0.23 on soil moisture. Water
+tells us nothing, which is what irrigation looks like: the crop is
+buffered from the rainfall the instrument detects, so the vegetation
+correlation has some other cause. On one instrument it was the third
+strongest pair in the study. **Qualified pairs: 22.**
+
+Two caveats recorded rather than smoothed over:
+
+- **Canada rapeseed qualified at lag 1, and I cannot yet tell a physical
+  lag from a market-year offset.** PSD market years do not align to
+  calendar years identically across countries, and my method tested both
+  lags and kept the better rather than verifying the alignment. For the
+  22 lag-0 pairs this does not arise. For Canada it does, and the pair
+  should not be described as showing a one-year lag until the market
+  year is checked.
+- Afghanistan and Algeria returned persistent HTTP 502 on the WSI
+  instrument across two attempts, so they carry five instruments rather
+  than six. Neither is a qualified pair.
 
 ### 6b. How the nine pre-registered pairs fared
 
