@@ -138,7 +138,16 @@ def _daily_bars(daily: dict, mean: float) -> str:
     out.append(f'<line x1="0" y1="{ny:.1f}" x2="{W}" y2="{ny:.1f}" '
                f'stroke="var(--ink-soft)" stroke-width="1" '
                f'stroke-dasharray="4 4"/>')
-    out.append(_halo("cx-s", 2, ny - 6, f"normal day, {normal:,.0f}"))
+    # Named for what it is, not for what it would be convenient to call
+    # it. This line is the same-week mean divided by seven, so calling it
+    # a "normal day" asserts that fire is spread evenly across a week.
+    # It is not: fire is bursty, which is the whole reason this strip is
+    # worth drawing, so the flat-day label both misdescribed the line and
+    # inflated every ratio measured against it. A real daily climatology
+    # is computable from the full-year baseline build and will replace
+    # this once the owning channel emits it.
+    out.append(_halo("cx-s", 2, ny - 6,
+                     f"one seventh of a normal week, {normal:,.0f}"))
     return (f'<svg viewBox="0 0 {W} {H}" class="ch" role="img" '
             f'aria-label="Detections day by day this week">'
             + "".join(out) + "</svg>")

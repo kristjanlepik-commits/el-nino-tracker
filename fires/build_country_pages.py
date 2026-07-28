@@ -86,22 +86,43 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
     normal = mean / 7.0
     cleared = sum(1 for v in daily.values() if v > normal)
 
-    # The claim argues from this country's own baselines only. No ENSO
-    # framing: most of the live set is tagged pending, and the house
-    # context does not travel into a channel page as an assumption.
+    # The claim leads with whichever timescale is more extreme, and always
+    # names which clock it is on.
+    #
+    # Leading on a fixed timescale buries the story on half the set: at
+    # 1.9x on the week against 14.2x on the year, Algeria's own page
+    # would open on its least remarkable number, while Botswana at 5.9x
+    # against 0.4x would open on a record year it is not having. Naming
+    # the timescale is what stops the other one being read as a summary
+    # of both, which is the failure the never-adjacent rule exists to
+    # prevent one paragraph earlier.
+    #
+    # It argues from this country's own baselines only. No ENSO framing:
+    # most of the live set is tagged pending, and the house context does
+    # not travel into a channel page as an assumption.
+    week_mult = now / mean if mean else 0.0
+    week_claim = (f"{name} had its {ORD.get(rank, str(rank) + 'th-heaviest')} "
+                  f"fire week for this point in the year since {min(hist)}")
+    claim = week_claim
     if area_cur and area_years:
+        year_mult = area_cur.get("multiple") or 0.0
         prev = [y for y in area_years if y != year]
         rec = max(prev, key=lambda y: max(area_years[y].values())) if prev else None
         rec_v = max(area_years[rec].values()) if rec else 0
-        if rec and max(area_years[year].values()) > rec_v:
+        beat_record = bool(rec and max(area_years[year].values()) > rec_v)
+        # A broken all-time record outranks any ratio. Comparing the two
+        # multiples alone put France on its week at 10.2x against 8.9x,
+        # which is true but weaker than the fact it displaced: a season
+        # that has already passed every completed year on record is a
+        # different kind of statement from a large multiple, and no
+        # ratio is more extreme than it. Below that, the two multiples
+        # decide.
+        if beat_record:
             claim = (f"{name} has already burned more this year than in "
                      f"any full year on record")
-        else:
-            claim = (f"{name} had its {ORD.get(rank, str(rank) + 'th-heaviest')} "
-                     f"fire week for this point in the year since {min(hist)}")
-    else:
-        claim = (f"{name} had its {ORD.get(rank, str(rank) + 'th-heaviest')} "
-                 f"fire week for this point in the year since {min(hist)}")
+        elif year_mult > week_mult:
+            claim = (f"{name} has burned {year_mult:.1f} times its normal "
+                     f"area for this point in the year")
 
     piece = {
         "region": name,
@@ -123,9 +144,10 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
             "baseline_span": f"{min(hist)} to {max(hist)}",
             "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
             "daily_note": (
-                f"{cleared} of {len(daily)} days cleared the normal. "
-                f"The peak, {peak_val:,} on {pretty_day(peak_day)}, is "
-                f"{peak_val / normal:.0f} times it."
+                f"{cleared} of {len(daily)} days cleared one seventh of a "
+                f"normal week. The peak, {peak_val:,} on "
+                f"{pretty_day(peak_day)}, is {peak_val / normal:.0f} times "
+                f"that line."
                 if daily and normal else "Day by day through the window."),
         },
         "elsewhere": elsewhere,
