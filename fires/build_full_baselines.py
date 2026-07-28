@@ -34,23 +34,18 @@ each night's progress can be committed:
 Partial progress is valid and useful: the countries present are
 complete, the rest are absent. Nothing half-written is ever stored.
 
-THROUGHPUT. Single-threaded this ran at ~0.2 requests/second against
-an API that permits about 8, so Angola alone took 85 minutes. The work
-is latency-bound, not rate-limited, hence the small thread pool. Raise
-# FIRMS bills one transaction per DAY of data requested, not per
-# request: a 5-day chunk costs 5 against the 5,000-per-10-minute
-# allowance. That is why tuning worker count did nothing. At 8 workers
-# and again at 3 the key sat pinned at ~4,970/5,000, because both
-# saturate a ceiling of 8.3 transactions/second; the only difference
-# was how many threads shared the rejections. Measured by suspending
-# the job and watching the counter drain at ~8/s.
-#
-# So the throttle is on days-per-second, and workers only set how much
-# latency we hide behind it. 6.0/s is 72% of the ceiling, which leaves
-# headroom for the retry traffic that failures generate.
-WORKERS = 4
-DAYS_PER_SEC = 6.0
-minutes and a larger 5-day request counts as more than one.
+THROUGHPUT AND THE RATE LIMIT. Single-threaded this ran at ~0.2
+requests/second against an API that permits more, so Angola alone took
+85 minutes. The work is latency-bound, hence the thread pool.
+
+The allowance is 5,000 transactions per rolling 10 minutes, and a 5-day
+request bills more than one transaction. Tuning the pool from 8 to 3
+did not move consumption: the key sat near 4,970 either way. Two things
+were happening at once and it took a while to separate them. Some of it
+was genuine saturation. The rest was Russia, whose bounding box
+collapsed to -180..180 because Chukotka crosses the antimeridian, so
+every Russia request pulled a global-width strip and timed out. See the
+BOX construction below.
 """
 import concurrent.futures as cf
 import json
@@ -70,10 +65,47 @@ OUTDIR = os.path.join(REPO, "fires", "data", "full_history")
 
 YEARS = list(range(2012, 2026))   # SNPP science-quality archive
 # 8 workers consumed 4,982 of the 5,000-per-10-minute allowance and
-# produced 43 failed chunks in three hours. A 5-day request evidently
-# counts as several transactions, not one, so concurrency has to be
-# well below the naive requests-per-second figure. 3 leaves headroom.
+# produced 43 failed chunks in three hours. A 5-day request counts as
+# several transactions, not one, so concurrency has to sit well below
+# the naive requests-per-second figure.
 WORKERS = 3
+
+# Throttle on the billed unit rather than on request count, because
+# requests are not what is billed. Each lobe-day costs one token, so a
+# 5-day chunk for a one-box country costs 5 and the same chunk for a
+# two-box country costs 10, which is what it actually spends.
+#
+# 6.0/s is 72% of the 8.3/s ceiling, leaving headroom for the retry
+# traffic that failures generate. Without headroom a failure spike
+# becomes self-sustaining: retries push consumption up, which causes
+# more failures, which produces more retries.
+DAYS_PER_SEC = 6.0
+
+
+class _Bucket:
+    """Token bucket over billed lobe-days, shared by every worker."""
+
+    def __init__(self, rate):
+        self.rate = rate
+        self.tokens = rate
+        self.t = time.monotonic()
+        self.lock = threading.Lock()
+
+    def take(self, n):
+        while True:
+            with self.lock:
+                now = time.monotonic()
+                self.tokens = min(self.rate * 10,
+                                  self.tokens + (now - self.t) * self.rate)
+                self.t = now
+                if self.tokens >= n:
+                    self.tokens -= n
+                    return
+                wait = (n - self.tokens) / self.rate
+            time.sleep(wait)
+
+
+BUCKET = _Bucket(DAYS_PER_SEC)
 os.makedirs(OUTDIR, exist_ok=True)
 KEY = open(KEY_PATH).read().strip()
 
@@ -125,23 +157,31 @@ for f in geo["features"]:
 
 def _chunk(iso, cur, days):
     """One request, capped at 5 days by the API. Failures return {}."""
-    w, s, e, n = BOX[iso]
-    url = (f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/"
-           f"VIIRS_SNPP_SP/{w},{s},{e},{n}/{days}/{cur.isoformat()}")
-    for a in (1, 2, 3):
-        try:
-            df = pd.read_csv(url)
-            break
-        except Exception:
-            if a == 3:
-                # MUST raise, never return {}. Swallowing a failed chunk
-                # writes the year as complete with a silent hole in it:
-                # the parallel rewrite did exactly that and produced a
-                # Canada 2024 with one day and 28 detections, which
-                # looked like a finished country. A year is either whole
-                # or absent.
-                raise RuntimeError(f"{iso} {cur} chunk failed after 3 tries")
-            time.sleep(6 * a)
+    # BOX[iso] is a LIST of boxes: one normally, two for a country that
+    # crosses the antimeridian. Every lobe must succeed or the chunk
+    # fails, for the same reason a partial year is refused below.
+    BUCKET.take(days * len(BOX[iso]))
+    frames = []
+    for w, s, e, n in BOX[iso]:
+        url = (f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/{KEY}/"
+               f"VIIRS_SNPP_SP/{w},{s},{e},{n}/{days}/{cur.isoformat()}")
+        for a in (1, 2, 3):
+            try:
+                frames.append(pd.read_csv(url))
+                break
+            except Exception:
+                if a == 3:
+                    # MUST raise, never return {}. Swallowing a failed
+                    # chunk writes the year as complete with a silent
+                    # hole in it: the parallel rewrite did exactly that
+                    # and produced a Canada 2024 with one day and 28
+                    # detections, which looked like a finished country.
+                    # A year is either whole or absent.
+                    raise RuntimeError(
+                        f"{iso} {cur} chunk failed after 3 tries")
+                time.sleep(6 * a)
+    df = pd.concat(frames, ignore_index=True) if len(frames) > 1 \
+        else frames[0]
     if len(df) and "confidence" in df.columns:
         df = df[~df["confidence"].astype(str).str.lower().isin(["l", "low"])]
     if not len(df):
