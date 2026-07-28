@@ -61,6 +61,7 @@ FROZEN_PATH_RE = re.compile(
 CANONICAL_DOMAIN = "thelongswell.com"
 
 LINK_RE = re.compile(r"""(?:href|src)=["']([^"']+)["']""")
+EXTERNAL_SCHEMES = ("http://", "https://", "mailto:", "data:", "//", "javascript:")
 SKIP_SCHEMES = ("http://", "https://", "mailto:", "data:", "//", "#", "javascript:")
 
 # Empty, and it should stay that way. It once held the eleven archives
@@ -142,6 +143,8 @@ def check_links(violations):
             rel_html = str(html.relative_to(ROOT))
             if (rel_html, url) in KNOWN_FROZEN_DEFECTS:
                 continue
+            if not target:
+                continue
             resolved = (html.parent / target).resolve()
             if resolved.is_dir():
                 # Pages serves no directory listings; a dir link 404s
@@ -152,6 +155,58 @@ def check_links(violations):
                         "(directory without index.html)")
             elif not resolved.exists():
                 violations.append(f"dead link in {rel_html}: {url}")
+
+
+def check_fragments(violations):
+    """Every #anchor must have a matching id on the page it lands on.
+
+    Design chat's catch, 2026-07-28, and it exposed a real hole: the link
+    check above strips the fragment and skips pure '#anchor' links
+    entirely, so the front page carried three href="#issue" links with no
+    id="issue" anywhere on it and stayed green for as long as they were
+    broken. They were written when the front page WAS the issue page and
+    were orphaned by the split to /elnino/.
+
+    A dead anchor is a navigation path that silently does nothing, which
+    is worse than a 404: the reader gets no feedback at all. Local check,
+    no network.
+    """
+    docs = ROOT / "docs"
+    ids_cache: dict[Path, set[str]] = {}
+
+    def ids_of(path: Path) -> set[str]:
+        if path not in ids_cache:
+            try:
+                text = path.read_text(encoding="utf-8", errors="ignore")
+            except OSError:
+                text = ""
+            ids_cache[path] = set(re.findall(r'\bid="([^"]+)"', text))
+        return ids_cache[path]
+
+    for html in sorted(docs.rglob("*.html")):
+        text = html.read_text(encoding="utf-8", errors="ignore")
+        rel = str(html.relative_to(ROOT))
+        for url in LINK_RE.findall(text):
+            # NOT SKIP_SCHEMES here: it contains "#", so reusing it skips
+            # every same-page anchor, which is exactly what this function
+            # exists to check. Caught by testing against the known-bad
+            # page rather than by reading the code.
+            if "#" not in url or url.startswith(EXTERNAL_SCHEMES):
+                continue
+            page_part, _, frag = url.partition("#")
+            if not frag or frag == "top":      # "#top" is a browser builtin
+                continue
+            target_page = html if not page_part else (html.parent / page_part)
+            if target_page.is_dir():
+                target_page = target_page / "index.html"
+            if not target_page.exists():
+                continue                        # dead link, already reported
+            if frag not in ids_of(target_page):
+                where = "same page" if target_page == html else \
+                    str(target_page.relative_to(ROOT))
+                violations.append(
+                    f"dead anchor in {rel}: #{frag} has no matching id "
+                    f"on {where}")
 
 
 def check_structure(violations):
@@ -203,6 +258,7 @@ def main():
     if not (args.no_frozen_check or args.allow_frozen_edits):
         check_frozen(violations, args.base)
     check_links(violations)
+    check_fragments(violations)
     check_structure(violations)
     check_snapshots(violations)
 
