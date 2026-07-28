@@ -15,13 +15,21 @@ systematic scan of **752 country-commodity pairs** across 107 countries,
 detrended and FDR-controlled at q = 0.10, then filtered for degenerate
 series, qualifies 23 pairs, of which **22 survive cross-instrument corroboration and 17 survive an independent outcome source**.
 
-All 23 are water-limited rainfed systems, and the scan recovered them
-without being told where to look: the whole Australian cropping system,
-the semi-arid belt from Morocco through Syria and Iraq into Central
-Asia, Zimbabwean smallholder cereals, and rainfed Mexico, Argentina and
-Canada. Nothing tropical, irrigated or perennial qualifies anywhere.
+**Plan on 17.** All of them are water-limited rainfed systems, and the
+scan recovered them without being told where to look: Australian wheat
+and rapeseed, the semi-arid belt from Morocco and Tunisia through Syria
+and Iraq and Iran into Kyrgyzstan and Kazakhstan, and rainfed Mexico,
+Argentina and Canada. Nothing tropical, irrigated or perennial qualifies
+anywhere.
 
-A crops channel built on those 23 pairs is a real product. A crops
+The attrition is itself the finding. 23 pairs cleared significance and
+non-degeneracy; one fell to cross-instrument corroboration (irrigated,
+so the water instruments contradicted the vegetation one) and five more
+fell to an independent outcome source (minor crops where two agencies
+disagree about what happened). Each filter removed something the
+previous one could not see.
+
+A crops channel built on those 17 pairs is a real product. A crops
 channel that claims to cover crops generally is not.
 
 The narrowing, stated plainly: crops can honestly report **how stressed
