@@ -245,7 +245,7 @@ def main():
         rank = 1 + sum(1 for v in h["hist"].values() if v > count)
         lat, lon, basis = centroid(df, rings[iso])
         daily = (df.groupby("acq_date").size().to_dict() if len(df) else {})
-        detail[iso] = {"name": h["name"], "count": count,
+        detail[iso] = {"iso": iso, "name": h["name"], "count": count,
                        "mean": h["mean"], "hist": h["hist"],
                        "daily": {k: int(v) for k, v in sorted(daily.items())},
                        "lat": lat, "lon": lon, "basis": basis}

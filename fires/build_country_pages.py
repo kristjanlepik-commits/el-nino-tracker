@@ -28,6 +28,8 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
 # Single source of truth for the analytics tag; see build_page.py.
 EVENTS = os.path.join(REPO, "data", "events.json")
 DETAIL = os.path.join(REPO, "fires", "data", "current_week.json")
+AREA = os.path.join(REPO, "fires", "data", "burnt_area.json")
+AREA_HIST = os.path.join(REPO, "fires", "data", "area_history")
 OUTDIR = os.path.join(REPO, "docs", "fires")
 
 TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked",
@@ -40,7 +42,89 @@ def slugify(name):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
 
-def page(ev, det, window_label, end_pretty):
+def area_section(iso):
+    """Cumulative burnt area, the 'how bad has this year been' chart.
+
+    Deliberately a separate section from the detection charts above,
+    with its own source line and its own as-of date. Hectares and
+    detections measure different things and disagree by direction: on
+    2026-07-28 Italy sat at 1.8x on weekly detections and 3.3x on
+    year-to-date area. Never merged, never converted.
+    """
+    try:
+        cur = json.load(open(AREA))["countries"].get(iso)
+        hist = json.load(open(os.path.join(AREA_HIST, f"{iso}.json")))
+    except (OSError, ValueError):
+        return ""
+    if not cur or not cur.get("multiple"):
+        return ""
+    years = {int(y): {int(w): v for w, v in wk.items()}
+             for y, wk in hist["years"].items()}
+    now_year = max(years)
+    ymax = max(max(w.values()) for w in years.values())
+    if not ymax:
+        return ""
+
+    W, H, L, R, TP, BT = 760, 300, 58, 96, 18, 34
+
+    def X(w):
+        return L + (w - 1) / 51 * (W - L - R)
+
+    def Y(v):
+        return H - BT - v / ymax * (H - TP - BT)
+
+    parts = []
+    for v in (0, ymax * 0.5, ymax):
+        parts.append(f'<line x1="{L}" y1="{Y(v):.1f}" x2="{W-R}" '
+                     f'y2="{Y(v):.1f}" stroke="var(--rule)" '
+                     f'stroke-width="0.7"/>')
+        lbl = f"{v/1000:,.0f}k" if ymax >= 20000 else f"{v:,.0f}"
+        parts.append(f'<text x="{L-8}" y="{Y(v)+4:.1f}" text-anchor="end" '
+                     f'class="cax">{lbl}</text>')
+    for w, m in ((1, "Jan"), (14, "Apr"), (27, "Jul"), (40, "Oct")):
+        parts.append(f'<text x="{X(w):.1f}" y="{H-BT+17}" '
+                     f'text-anchor="middle" class="cax">{m}</text>')
+    for y in sorted(years):
+        if y == now_year:
+            continue
+        pts = " ".join(f"{X(w):.1f},{Y(v):.1f}"
+                       for w, v in sorted(years[y].items()))
+        parts.append(f'<polyline points="{pts}" fill="none" '
+                     f'stroke="var(--rule)" stroke-width="1.2"/>')
+    cw = sorted(years[now_year].items())
+    pts = " ".join(f"{X(w):.1f},{Y(v):.1f}" for w, v in cw)
+    parts.append(f'<polyline points="{pts}" fill="none" '
+                 f'stroke="var(--fire)" stroke-width="2.4"/>')
+    lw, lv = cw[-1]
+    parts.append(f'<text x="{X(lw)+7:.1f}" y="{Y(lv)+4:.1f}" '
+                 f'fill="var(--fire)" font-weight="700" class="clb">'
+                 f'{now_year}</text>')
+    worst = max((y for y in years if y != now_year),
+                key=lambda y: max(years[y].values()))
+    wv = max(years[worst].values())
+    parts.append(f'<text x="{W-R+7}" y="{Y(wv)+4:.1f}" '
+                 f'fill="var(--ink-faint)" class="clb">{worst}</text>')
+
+    beat = ("It has already passed its worst full year on record."
+            if lv > wv else
+            f"Its worst full year, {worst}, reached {wv:,.0f} ha.")
+    return f'''
+  <p class="lab">Cumulative area burnt this year, hectares</p>
+  <svg viewBox="0 0 {W} {H}" class="cum" role="img"
+   aria-label="Cumulative burnt area by week, every year">
+  {"".join(parts)}</svg>
+  <p class="note"><b>{cur["area_ha"]:,} hectares</b> burnt so far in
+  {cur["name"]}, {cur["multiple"]:.1f} times the average for this point in
+  the year across the baseline period. {beat} Each grey line is one
+  earlier year accumulating from January.</p>
+  <p class="note src">{cur["source"]} cumulative burnt area, week
+  {cur["week"]}, as of {cur["as_of"]}. Weekly cadence, so this lags the
+  daily detection figures above and measures a different thing: area
+  actually burnt, not fire activity seen from orbit. The two are never
+  converted into one another.</p>'''
+
+
+def page(ev, det, window_label, end_pretty, iso=""):
     name = ev["region"]
     hist = {int(k): v for k, v in det["hist"].items()}
     now = det["count"]
@@ -87,6 +171,7 @@ def page(ev, det, window_label, end_pretty):
     # The house masthead, shared with every other page. Without it a
     # country page is a dead end: no link home, no nav, no About, and
     # markers on the landing map point straight here.
+    area_html = area_section(iso or det.get('iso', ''))
     house_masthead = site_masthead("../../", active="fire")
     return f"""<!doctype html>
 <html lang="en">
@@ -186,6 +271,11 @@ h1 {{ font-size:36px; font-weight:500; margin:26px 0 6px;
   color:var(--ink-faint); margin-top:5px; }}
 .note {{ font-size:14px; color:var(--ink-soft); margin:14px 0 0;
   max-width:62ch; }}
+.note.src {{ font-size:12.5px; color:var(--ink-faint); }}
+.cum {{ width:100%; height:auto; display:block; margin-top:4px; }}
+.cax {{ font-family:"{T.FONT_DATA}",monospace; font-size:10px;
+  fill:var(--ink-faint); }}
+.clb {{ font-family:"{T.FONT_DATA}",monospace; font-size:12px; }}
 .foot {{ margin-top:40px; padding-top:14px;
   border-top:1px solid var(--ink); font-size:13px;
   color:var(--ink-faint); max-width:66ch; }}
@@ -226,6 +316,7 @@ h1 {{ font-size:36px; font-weight:500; margin:26px 0 6px;
   <p class="lab">This week, day by day</p>
   <div class="dchart">{''.join(dbars)}</div>
   {where}
+  {area_html}
 
   <div class="foot">
     <p><b>What a detection is.</b> One satellite pixel, about 375 m
@@ -263,7 +354,7 @@ def main():
         d = os.path.join(OUTDIR, slug)
         os.makedirs(d, exist_ok=True)
         with open(os.path.join(d, "index.html"), "w") as f:
-            f.write(page(ev, detail["countries"][iso], label, end_pretty))
+            f.write(page(ev, detail["countries"][iso], label, end_pretty, iso))
         n += 1
     print(f"wrote {n} country pages under docs/fires/")
 
