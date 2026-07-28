@@ -27,9 +27,24 @@ name: Fires data pull and publish
 # distinction that matters is "could not compare" versus "something
 # broke". Real errors still fail loudly.
 
+# TIMING, and the floor is a data-quality constraint rather than a
+# preference. Kristjan asked for the pages to be fresh early in the
+# morning (2026-07-28). 04:00 UTC is 07:00 in Tallinn and 06:00 in
+# central Europe, so the site is current before an EU reader opens it.
+#
+# It cannot go earlier than 03:00 UTC: FIRMS near-real-time processing
+# only guarantees yesterday is closed by about then, and build_events.py
+# refuses to run before 03:00 on purpose, so that a retry cannot quietly
+# publish an unfinished day. 04:00 leaves an hour of margin against that
+# boundary, down from three at the old 06:00 slot. If undercounts ever
+# appear on early runs, that margin is the first thing to suspect and
+# 05:00 UTC is the fallback.
+#
+# GitHub's scheduled runs are also routinely 5 to 20 minutes late, which
+# eats into the margin rather than the reader's morning.
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 4 * * *"
   workflow_dispatch:
 
 permissions:

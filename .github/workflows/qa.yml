@@ -9,6 +9,11 @@ on:
 jobs:
   qa:
     runs-on: ubuntu-latest
+    # Every job gets one. The Floods chat lost 2h20m to an HDF5 deadlock
+    # that never crashed: process alive, state sleeping, 11 seconds of
+    # CPU consumed. A hang is not a failure until something calls it one,
+    # so an untimed job sits until the runner limit.
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
