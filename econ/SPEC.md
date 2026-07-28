@@ -67,13 +67,43 @@ it is not.
 
 ## What ECON needs from the hazard channels
 
-Requested from Fire, Floods and Crops on 2026-07-28. Detail in
-`research/econ_rapid_response_spec.md` section 5:
+Requested 2026-07-28, revised the same day after Fire, Floods and Crops
+all rejected the original `event_status` boolean. They were right:
+none of them has event objects, they have continuous measured series,
+and the field was shaped like ECON's mental model rather than their
+data. Full history and reasoning in
+`research/econ_rapid_response_spec.md` section 5.
 
-    event_id, geography, measure + units, analog_comparison,
-    baseline_tier, event_status (ongoing | ended), optional footprint
+Shared: `geography`, `measure + units`, `analog_comparison`,
+`baseline_tier`, optional `footprint`.
 
-`event_status` is the one that is cheap now and expensive to backfill.
-A loss estimate revised while an event is still running is a different
-object from one revised after it ends, and no published loss record
-separates those.
+Then each channel expresses two axes in its own domain terms, and ECON
+derives the interpretation with the threshold published in ECON's
+methodology, where a reader can check it:
+
+    hazard trajectory       is the physical thing still developing
+    measurement maturity    is the observation still catching up
+
+    Fire      activity_status (active|quiet|dormant),
+              area_revision_open, area_lag_days
+    Floods    series[], peak and latest, days_above a named
+              percentile, direction, observed_frac per day
+    Crops     ASAP season state, estimate_state (provisional|settled)
+
+Two consequences worth carrying:
+
+- **Event identity comes from the estimator, not the channel.** A
+  continuous series has no natural event, and declaring one is an
+  editorial act neither the channels nor ECON should perform. PERILS
+  says "Windstorm Goretti"; that is the event, because it is the unit
+  the money attaches to. ECON joins to channel data on geography and
+  date range.
+- **Crops has no backward revision history.** The USDA PSD bulk file
+  holds one current estimate per cell with no vintage series, so a
+  crops revision history begins the day we start snapshotting and not
+  before. Crops rows say "no prior vintages exist" rather than showing
+  an empty history that reads like stability.
+
+`baseline_tier` is per country-commodity pair for crops, not per
+country. `attribution pending` is not a weak yes and is never
+collapsed into an ENSO-attributed loss.

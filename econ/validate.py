@@ -135,6 +135,17 @@ def check_figure(where, fig, estimators):
     elif eid not in estimators:
         err(f"{where}: estimator_id {eid!r} not in the registry")
 
+    # A monetised-mortality figure is a PRICE PUT ON a death toll, not
+    # an independent finding about the same event. Indonesia 2015 is
+    # the case: the ~100,300 excess deaths (Koplitz et al. 2016) are
+    # the same mortality Kiely et al. monetise as USD 7.3 bn. Rendered
+    # side by side without the link they read as two sources agreeing,
+    # which is the opposite of the truth. Caught by the aftereffects
+    # chat, 2026-07-28.
+    if cat == "mortality_valued" and not fig.get("monetises"):
+        err(f"{where}: mortality_valued requires a 'monetises' field naming the "
+            f"death-toll source it prices, or it will read as independent corroboration")
+
 
 def check_latency(doc, estimators):
     if doc.get("evidence_basis") not in EVIDENCE_BASIS:
@@ -176,6 +187,16 @@ def check_latency(doc, estimators):
                 if not documented:
                     err(f"{where}: cites an undocumented estimator with no documented "
                         f"estimator alongside it")
+
+            # Same double-count trap at the group level: a death toll
+            # and a monetised death toll in one view must be linked.
+            cats = [f.get("category") for f in figs]
+            if "mortality" in cats and "mortality_valued" in cats:
+                linked = any(f.get("monetises") for f in figs
+                             if f.get("category") == "mortality_valued")
+                if not linked:
+                    err(f"{where}: shows mortality and mortality_valued together "
+                        f"without a link; they are one fact, not two")
 
         status = entry.get("verification_status")
         if status in ("blocked", "partial"):
