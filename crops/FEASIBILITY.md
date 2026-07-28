@@ -611,13 +611,26 @@ Two obstacles:
    causal story. But it is a narrower promise than the brief made.
 3. **CLAUDE.md has no CRO ownership section.** Platform owns that file;
    it needs one before crops writes anything beyond this report.
-4. **Do we buy or build the missing crop calendars?** Mexico, Ukraine,
-   Argentina and Canada hold four of the largest qualified pairs and all
-   four are blocked on a per-crop planting and harvest calendar. USDA
-   IPAD has it and blocks scraping; GEOGLAM and the WorldCereal project
-   publish calendars that may be usable. This is now the single
-   highest-value missing input, and it is a small, bounded piece of work
-   rather than a research problem.
+4. **The missing crop calendars are a sourcing task, not a data task.**
+   Mexico, Ukraine, Argentina and Canada hold four of the largest
+   qualified pairs and all four are blocked on per-crop planting and
+   harvest dates.
+
+   Routes checked on 2026-07-28: **USDA IPAD** has the calendars and
+   returns HTTP 503 to automated access. **ESA WorldCereal** publishes
+   global wheat and maize season start and end at 0.5 degrees, CC BY 4.0
+   (Franch et al. 2022, doi 10.6084/m9.figshare.20005293), but the
+   figshare record carries only HTML bundles rather than the rasters,
+   and the product is a Random Forest synthesis trained partly on ASAP
+   itself, so it would not be an independent source.
+
+   The conclusion is that this was the wrong shape of problem. What is
+   actually needed is **four uncontested facts**: the wheat harvest
+   window in Ukraine and Argentina, corn in Mexico, rapeseed in Canada.
+   Each can be taken from a named agency publication with an issue date
+   and cited like any other number in the house. That is a sourcing task
+   of perhaps an hour, and pursuing a global raster to obtain it was
+   over-engineering.
 5. **Which pairs ship first, if it opens?** On the evidence the honest
    launch set is small: Australia wheat (four months of lead, six
    instruments agreeing, the largest pair in the study), Kazakhstan oats,
