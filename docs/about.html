@@ -933,6 +933,15 @@
      systematically larger than they are; hover at 2.5px doubled the
      smallest. Opacity carries the state instead, because it does not
      touch the geometry that carries the number. */
+  /* A paper ring OUTSIDE the disc, never a stroke on it. FIRE #B32E10
+     against the field's hot end #8E240A measures 1.377:1, so a marker
+     landing on the eastern Pacific, or where the tongue meets the
+     Ecuador coast, would be indistinguishable from the ocean under it.
+     No marker sits there this week, which is why this was latent rather
+     than visible. A stroke would have eaten into the radius, and radius
+     is the number here, so the separation goes outside it. Same device
+     as D-023, applied to a mark instead of a label. */
+  .mk-ring { fill: none; stroke: var(--paper); stroke-width: 2.4; }
   .mk .mk-dot {
     fill: var(--fire); fill-opacity: 0.78;
     stroke: none;
@@ -977,9 +986,16 @@
     font-family: var(--mono); font-size: 7px;
     letter-spacing: 0.16em; fill: var(--ink-soft); stroke-width: 2.6;
   }
+  /* INK, not the channel hue. This was set in NINO blue, and on this
+     palette blue is the whole cold half of the anomaly ramp, visible in
+     the same frame as the cold tongue's western end. So the page's
+     headline ocean value was printed in the colour that means the
+     opposite of what the number says, and it spent a channel hue on a
+     figure whose own scale already carries the encoding. The field is
+     what says the value is remarkable. */
   .nino-v {
     font-family: var(--mono); font-size: 13px;
-    font-weight: 500; fill: var(--nino); stroke-width: 3.4;
+    font-weight: 500; fill: var(--ink); stroke-width: 3.4;
   }
   .legends { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .lg-dot { fill: var(--fire); fill-opacity: 0.8; }

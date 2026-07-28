@@ -1173,6 +1173,15 @@ _PUBLIC_CSS_TEMPLATE = """
      systematically larger than they are; hover at 2.5px doubled the
      smallest. Opacity carries the state instead, because it does not
      touch the geometry that carries the number. */
+  /* A paper ring OUTSIDE the disc, never a stroke on it. FIRE #B32E10
+     against the field's hot end #8E240A measures 1.377:1, so a marker
+     landing on the eastern Pacific, or where the tongue meets the
+     Ecuador coast, would be indistinguishable from the ocean under it.
+     No marker sits there this week, which is why this was latent rather
+     than visible. A stroke would have eaten into the radius, and radius
+     is the number here, so the separation goes outside it. Same device
+     as D-023, applied to a mark instead of a label. */
+  .mk-ring { fill: none; stroke: var(--paper); stroke-width: 2.4; }
   .mk .mk-dot {
     fill: var(--fire); fill-opacity: 0.78;
     stroke: none;
@@ -1217,9 +1226,16 @@ _PUBLIC_CSS_TEMPLATE = """
     font-family: var(--mono); font-size: 7px;
     letter-spacing: 0.16em; fill: var(--ink-soft); stroke-width: 2.6;
   }
+  /* INK, not the channel hue. This was set in NINO blue, and on this
+     palette blue is the whole cold half of the anomaly ramp, visible in
+     the same frame as the cold tongue's western end. So the page's
+     headline ocean value was printed in the colour that means the
+     opposite of what the number says, and it spent a channel hue on a
+     figure whose own scale already carries the encoding. The field is
+     what says the value is remarkable. */
   .nino-v {
     font-family: var(--mono); font-size: 13px;
-    font-weight: 500; fill: var(--nino); stroke-width: 3.4;
+    font-weight: 500; fill: var(--ink); stroke-width: 3.4;
   }
   .legends { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .lg-dot { fill: var(--fire); fill-opacity: 0.8; }
@@ -2147,6 +2163,8 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
             f'r="{max(r + 7, 12):.1f}"/>'
             f'<circle class="mk-focus" cx="{cx:.1f}" cy="{cy:.1f}" '
             f'r="{r + 4:.2f}"/>'
+            f'<circle class="mk-ring" cx="{cx:.1f}" cy="{cy:.1f}" '
+            f'r="{r + 1.6:.2f}"/>'
             f'<circle class="mk-dot" cx="{cx:.1f}" cy="{cy:.1f}" '
             f'r="{r:.2f}"/></a>')
 
@@ -2211,7 +2229,7 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
                f'fill="{T.anomaly_color(nino_value, T.OCEAN_SCALE)}"/>')
             + f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
             f'NI\u00d1O 3.4</text>'
-            f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 24:.1f}">'
+            f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
             f'{nino_value:+.1f} \u00b0C</text></a>')
 
     # Hard stops, not a gradient. The fills are nine discrete steps, so
@@ -2276,9 +2294,11 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
            f'of cells lie beyond the scale and the week\u2019s highest is '
            f'{sst["anomaly_max"]:+.2f} \u00b0C. Near-zero water is not '
            f'shaded, so bare page inside the band means an unremarkable '
-           f'anomaly, not missing data. Pacific only, cropped at '
+           f'anomaly, not missing data. The window is the Pacific alone, '
            f'{abs(sst["lat_south"]):.0f}\u00b0S to '
-           f'{abs(sst["lat_north"]):.0f}\u00b0N.</p>'
+           f'{abs(sst["lat_north"]):.0f}\u00b0N and the dateline east to '
+           f'{abs(sst["lon_east"]):.0f}\u00b0W, so its upper edge is a chosen '
+           f'boundary and not the end of the anomaly.</p>'
            if sst else '')
         + '</div>'
     )
