@@ -22,6 +22,7 @@ Exit codes follow the convention agreed with platform:
 """
 
 import argparse
+import json
 import subprocess
 import sys
 import time
@@ -68,7 +69,11 @@ PRIORITY = {
 def fetch_one(country_id: int, name: str) -> str:
     """Return 'skip', 'ok' or 'fail' for one country."""
     out = CACHE / f"{SLUG}_{country_id}.csv"
-    if out.exists() and out.stat().st_size > 1000:
+    # Presence alone means done. Size is not the test: a country with no
+    # crop area inside a growing cycle legitimately returns a header and
+    # nothing else, and a size gate would refetch it on every run
+    # forever.
+    if out.exists():
         return "skip"
 
     cmd = ["curl", "-sS", "--max-time", str(TIMEOUT_SECONDS), "-G", BASE,
@@ -100,8 +105,9 @@ def fetch_one(country_id: int, name: str) -> str:
 
     tmp.rename(out)
     rows = sum(1 for _ in out.open(encoding="utf-8", errors="replace")) - 1
+    note = "  (no crop units)" if rows == 0 else ""
     print(f"  ok   {name:28s} {rows:7,d} rows  "
-          f"{out.stat().st_size / 1e6:5.1f} MB", flush=True)
+          f"{out.stat().st_size / 1e6:5.1f} MB{note}", flush=True)
     return "ok"
 
 
@@ -112,12 +118,14 @@ def main() -> int:
     args = ap.parse_args()
 
     if args.all:
-        print("the --all path needs the full country list from "
-              "download.php; not wired yet, use the priority set")
-        return 1
+        ref = Path(__file__).resolve().parent / "asap_countries.json"
+        catalogue = json.loads(ref.read_text(encoding="utf-8"))["countries"]
+        targets = sorted(((int(k), v) for k, v in catalogue.items()),
+                         key=lambda kv: kv[1])
+    else:
+        targets = sorted(PRIORITY.items(), key=lambda kv: kv[1])
 
     CACHE.mkdir(parents=True, exist_ok=True)
-    targets = sorted(PRIORITY.items(), key=lambda kv: kv[1])
     print(f"ASAP indicator pull: {INDICATOR['variable_name']} "
           f"/ {INDICATOR['class_name']}")
     print(f"{len(targets)} countries, sequential, {PAUSE_SECONDS}s apart")
