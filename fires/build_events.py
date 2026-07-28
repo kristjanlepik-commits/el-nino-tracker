@@ -38,6 +38,7 @@ it. See `research/reply_fire_to_design.md` section 3.
 import json
 import os
 import re
+import sys
 import time
 from datetime import datetime, timedelta, timezone
 
@@ -228,9 +229,19 @@ def main():
     win_key = f"{start.strftime('%m-%d')}..{end.strftime('%m-%d')}"
 
     if hist_doc["window"] != win_key:
-        raise SystemExit(
-            f"history covers window {hist_doc['window']} but the trailing "
-            f"complete window is {win_key}; refresh the history first")
+        # Exit 3 is the house convention for "nothing to do", distinct
+        # from a generic failure: the caller warns and skips rather than
+        # going red. See research/handover_platform_contract.md section 3.
+        #
+        # This path is the NORMAL one on roughly six days in seven,
+        # because the trailing window moves daily while the baseline is
+        # frozen to one week. Refusing is correct: comparing a fresh week
+        # against a stale baseline would silently publish a wrong
+        # multiple. The fix is the full-year baseline, not a looser check.
+        print(f"nothing to do: history covers window {hist_doc['window']} "
+              f"but the trailing complete window is {win_key}",
+              file=sys.stderr)
+        raise SystemExit(3)
 
     isos = list(hist_doc["countries"])
     rings = load_rings(isos)
