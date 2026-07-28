@@ -289,6 +289,18 @@ probability and no forecast.
   pixels, under the 300 floor. Peru's box diluted the signal; Kenya's
   destabilised it. There is a workable band between them and it has not
   been mapped.
+- **A global ranking by raw flood pixels is dominated by artifacts.**
+  Checked against the first captured global day (2026-07-21): the top
+  five tiles worldwide sit at 60 to 80 degrees north, in east
+  Greenland, Iceland, Siberia and the Norwegian Sea. In late July those
+  are snow and ice melt falling outside the stale 2009 water mask, plus
+  low-sun-angle shadow, which is the same regime NASA's own evaluation
+  found the product's errors concentrating in. The only plausible entry
+  was `h21v08`, the Ethiopian highlands feeding the Juba and Shabelle
+  in their rainy season. Any "biggest floods worldwide" list must rank
+  by abnormality against a local baseline, never by raw count. Fire
+  reached the same conclusion visually and colours its map by
+  abnormality for the same reason; this is the numerical form of it.
 - **255 does not mean dry.** It means "insufficient data" and NASA
   states it may be a false negative. Treating it as "no flood" would
   manufacture a decline every cloudy week.
