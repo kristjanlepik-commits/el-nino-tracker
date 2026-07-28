@@ -71,6 +71,32 @@ PNG = ROOT / "docs" / "pacific-sst.png"
 META = ROOT / "docs" / "pacific-sst.json"
 
 
+def _connected_water(water, lats, lons, seed_lat, seed_lon):
+    """Water cells reachable from a seed without crossing land.
+
+    Plain breadth-first fill over a 100k-cell grid, four-connected, so it
+    needs no new dependency. Used to keep the Pacific and discard the
+    Gulf, Caribbean and Atlantic that share this longitude window.
+    """
+    i = int(np.argmin(np.abs(lats - seed_lat)))
+    j = int(np.argmin(np.abs(lons - seed_lon)))
+    if not water[i, j]:
+        raise SystemExit(f"seed at {seed_lat},{seed_lon} is not water; "
+                         "pick a seed in open ocean")
+    seen = np.zeros_like(water, dtype=bool)
+    seen[i, j] = True
+    stack = [(i, j)]
+    h, w = water.shape
+    while stack:
+        y, x = stack.pop()
+        for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            ny, nx = y + dy, x + dx
+            if 0 <= ny < h and 0 <= nx < w and water[ny, nx] and not seen[ny, nx]:
+                seen[ny, nx] = True
+                stack.append((ny, nx))
+    return seen
+
+
 def _hex_to_rgb(s: str) -> tuple:
     s = s.lstrip("#")
     return tuple(int(s[i:i + 2], 16) for i in (0, 2, 4))
@@ -111,12 +137,41 @@ def main() -> None:
     idx = np.digitize(np.nan_to_num(anom, nan=0.0), edges)
     palette = np.array([_hex_to_rgb(c) for c in T.ANOMALY], dtype=np.uint8)
 
+    # Pacific only. The longitude window runs to 70W so it reaches the
+    # Peruvian coast, but at its northern end that window also contains
+    # the Gulf of Mexico, the Caribbean and a slice of the Atlantic, and
+    # those were rendering as part of a block captioned Pacific SST.
+    # Rather than hardcode a cutout, keep only the water connected to a
+    # seed in the central Pacific. Inside this crop the basins are not
+    # connected to each other: the Americas span the full latitude range
+    # and Panama closes the isthmus, so a flood fill separates them
+    # exactly. No coordinates to maintain, and it stays correct if the
+    # window changes.
+    pacific = _connected_water(finite, lats, week.lon.values, 0.0, 200.0)
+    dropped = int(finite.sum() - pacific.sum())
+    print(f"non-Pacific water dropped: {dropped:,} cells "
+          f"({100.0 * dropped / max(1, finite.sum()):.1f}% of water in window)")
+
     rgba = np.zeros(anom.shape + (4,), dtype=np.uint8)
     rgba[..., :3] = palette[idx]
-    # Alpha is binary: fully opaque where there is data, fully
-    # transparent over land and gaps. Nothing is composited, so every
-    # pixel is a colour the legend prints.
-    rgba[..., 3] = np.where(finite, 255, 0).astype(np.uint8)
+    # Alpha stays binary, so every drawn pixel is exactly a colour the
+    # legend prints and nothing is composited (D-024).
+    #
+    # The neutral step is not drawn at all. ANOMALY[4] is #E8E7E2 against
+    # a #F1F0EC page, which the palette intends to vanish into the paper,
+    # and across a field it very nearly does. But the difference is
+    # 1.086:1, and that is enough to make a dead-straight crop edge
+    # hundreds of pixels long visible as a rectangle, which is what a
+    # wider crop was supposed to cure and did not. Leaving the step
+    # undrawn gets the intended result exactly rather than approximately:
+    # an unremarkable value shows the page, which is what #E8E7E2 on
+    # #F1F0EC was always trying to look like. This is not the alpha fade
+    # D-024 rejects. That composited a step into an undecodable colour;
+    # this draws each step at full opacity or not at all, and the note
+    # tells the reader that page inside the band means near zero.
+    neutral_step = len(T.ANOMALY) // 2
+    drawn = pacific & (idx != neutral_step)
+    rgba[..., 3] = np.where(drawn, 255, 0).astype(np.uint8)
 
     # How neutral the band's own edges are, since that is what has to do
     # the softening now. Reported so a future refresh cannot quietly

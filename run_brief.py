@@ -2250,10 +2250,11 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
            f'climatology, nine steps to \u00b1{T.OCEAN_SCALE:g} \u00b0C. '
            f'The end steps are open: {sst["fraction_beyond_scale"] * 100:.1f}% '
            f'of cells lie beyond the scale and the week\u2019s highest is '
-           f'{sst["anomaly_max"]:+.2f} \u00b0C. The band is cropped at '
+           f'{sst["anomaly_max"]:+.2f} \u00b0C. Near-zero water is not '
+           f'shaded, so bare page inside the band means an unremarkable '
+           f'anomaly, not missing data. Pacific only, cropped at '
            f'{abs(sst["lat_south"]):.0f}\u00b0S to '
-           f'{abs(sst["lat_north"]):.0f}\u00b0N, so its upper and lower '
-           f'edges cut across real values rather than fading out.</p>'
+           f'{abs(sst["lat_north"]):.0f}\u00b0N.</p>'
            if sst else '')
         + '</div>'
     )
