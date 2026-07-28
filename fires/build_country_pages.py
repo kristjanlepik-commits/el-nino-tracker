@@ -1,362 +1,275 @@
-"""Render one page per qualifying country at docs/fires/<slug>/.
+"""Build docs/fires/<slug>/ for every country in data/events.json.
 
-These are the destinations the channel page and the landing-page
-markers link to, so every href the pipeline emits resolves. Styling
-comes from tokens.py; the Bulletin rules apply, so bars are drawn with
-plain divs on hairlines rather than boxed cards, radius 0, no shadows.
+Under D-030 the front end is the design chat's, so the layout lives in
+templates/country_page.py and this file is the adapter: it reads the
+Fire chat's validated JSON, shapes one piece dict per country, and
+renders. It contains no layout and no CSS, and the template contains no
+knowledge of FIRMS, EFFIS, GWIS or baseline gates. That boundary is the
+point: the Fire chat can change its science freely as long as the JSON
+shape holds.
 
-Content per page: the multiple as the hero, the fifteen-year same-week
-history as bars with the current year highlighted and the mean drawn
-behind, this week day by day, and the shared method and attribution
-footer. Numbers come from fires/data/current_week.json, which is whole
-days only.
+Country set comes from data/events.json and is NOT a fixed list. It was
+14 yesterday and 12 today, and the Fire chat is about to change the gate
+that selects it (it currently ranks on the weekly detection multiple
+alone, which leaves Algeria eleventh while leading on year-to-date area
+at 14.2x, and Italy with no page at all despite 3.3x for the year).
+Directories from a previous, larger set linger under docs/fires/ and are
+left alone rather than deleted: this builder owns what it writes, not
+what it finds.
+
+Reads, all committed:
+
+    data/events.json                which countries have a page
+    fires/data/current_week.json    detections, dailies, same-week history
+    fires/data/burnt_area.json      hectares to date, per-country source
+    fires/data/area_history/<ISO>   weekly cumulative area, every season
 """
+from __future__ import annotations
+
 import json
 import os
 import re
 import sys
+from datetime import date
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# tokens.py and run_brief.py both live at the repo root. Insert the path
-# BEFORE importing either, so `python fires/build_page.py` works from a
-# plain checkout without a PYTHONPATH incantation.
 sys.path.insert(0, REPO)
 
-import tokens as T  # noqa: E402
-from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
-                       site_masthead)
-# Single source of truth for the analytics tag; see build_page.py.
+from templates.country_page import render  # noqa: E402
+
 EVENTS = os.path.join(REPO, "data", "events.json")
 DETAIL = os.path.join(REPO, "fires", "data", "current_week.json")
 AREA = os.path.join(REPO, "fires", "data", "burnt_area.json")
 AREA_HIST = os.path.join(REPO, "fires", "data", "area_history")
 OUTDIR = os.path.join(REPO, "docs", "fires")
 
-TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked",
-            "pending": "attribution pending"}
 ORD = {1: "highest", 2: "second-heaviest", 3: "third-heaviest",
        4: "fourth-heaviest", 5: "fifth-heaviest"}
 
 
-def slugify(name):
+def slugify(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
 
-def area_section(iso):
-    """Cumulative burnt area, the 'how bad has this year been' chart.
+def pretty_window(window: str) -> str:
+    """"07-21..07-27" into "21 to 27 July"."""
+    m = re.match(r"(\d{2})-(\d{2})\.\.(\d{2})-(\d{2})", window or "")
+    if not m:
+        return window or ""
+    m1, d1, m2, d2 = (int(x) for x in m.groups())
+    months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"]
+    if m1 == m2:
+        return f"{d1} to {d2} {months[m2 - 1]}"
+    return f"{d1} {months[m1 - 1]} to {d2} {months[m2 - 1]}"
 
-    Deliberately a separate section from the detection charts above,
-    with its own source line and its own as-of date. Hectares and
-    detections measure different things and disagree by direction: on
-    2026-07-28 Italy sat at 1.8x on weekly detections and 3.3x on
-    year-to-date area. Never merged, never converted.
-    """
+
+def pretty_day(iso: str) -> str:
+    """"2026-07-24" into "24 July", so prose reads as prose."""
+    months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"]
     try:
-        cur = json.load(open(AREA))["countries"].get(iso)
-        hist = json.load(open(os.path.join(AREA_HIST, f"{iso}.json")))
-    except (OSError, ValueError):
-        return ""
-    if not cur or not cur.get("multiple"):
-        return ""
-    years = {int(y): {int(w): v for w, v in wk.items()}
-             for y, wk in hist["years"].items()}
-    now_year = max(years)
-    ymax = max(max(w.values()) for w in years.values())
-    if not ymax:
-        return ""
-
-    W, H, L, R, TP, BT = 760, 300, 58, 96, 18, 34
-
-    def X(w):
-        return L + (w - 1) / 51 * (W - L - R)
-
-    def Y(v):
-        return H - BT - v / ymax * (H - TP - BT)
-
-    parts = []
-    for v in (0, ymax * 0.5, ymax):
-        parts.append(f'<line x1="{L}" y1="{Y(v):.1f}" x2="{W-R}" '
-                     f'y2="{Y(v):.1f}" stroke="var(--rule)" '
-                     f'stroke-width="0.7"/>')
-        lbl = f"{v/1000:,.0f}k" if ymax >= 20000 else f"{v:,.0f}"
-        parts.append(f'<text x="{L-8}" y="{Y(v)+4:.1f}" text-anchor="end" '
-                     f'class="cax">{lbl}</text>')
-    for w, m in ((1, "Jan"), (14, "Apr"), (27, "Jul"), (40, "Oct")):
-        parts.append(f'<text x="{X(w):.1f}" y="{H-BT+17}" '
-                     f'text-anchor="middle" class="cax">{m}</text>')
-    for y in sorted(years):
-        if y == now_year:
-            continue
-        pts = " ".join(f"{X(w):.1f},{Y(v):.1f}"
-                       for w, v in sorted(years[y].items()))
-        parts.append(f'<polyline points="{pts}" fill="none" '
-                     f'stroke="var(--rule)" stroke-width="1.2"/>')
-    cw = sorted(years[now_year].items())
-    pts = " ".join(f"{X(w):.1f},{Y(v):.1f}" for w, v in cw)
-    parts.append(f'<polyline points="{pts}" fill="none" '
-                 f'stroke="var(--fire)" stroke-width="2.4"/>')
-    lw, lv = cw[-1]
-    parts.append(f'<text x="{X(lw)+7:.1f}" y="{Y(lv)+4:.1f}" '
-                 f'fill="var(--fire)" font-weight="700" class="clb">'
-                 f'{now_year}</text>')
-    worst = max((y for y in years if y != now_year),
-                key=lambda y: max(years[y].values()))
-    wv = max(years[worst].values())
-    parts.append(f'<text x="{W-R+7}" y="{Y(wv)+4:.1f}" '
-                 f'fill="var(--ink-faint)" class="clb">{worst}</text>')
-
-    beat = ("It has already passed its worst full year on record."
-            if lv > wv else
-            f"Its worst full year, {worst}, reached {wv:,.0f} ha.")
-    return f'''
-  <p class="lab">Cumulative area burnt this year, hectares</p>
-  <svg viewBox="0 0 {W} {H}" class="cum" role="img"
-   aria-label="Cumulative burnt area by week, every year">
-  {"".join(parts)}</svg>
-  <p class="note"><b>{cur["area_ha"]:,} hectares</b> burnt so far in
-  {cur["name"]}, {cur["multiple"]:.1f} times the average for this point in
-  the year across the baseline period. {beat} Each grey line is one
-  earlier year accumulating from January.</p>
-  <p class="note src">{cur["source"]} cumulative burnt area, week
-  {cur["week"]}, as of {cur["as_of"]}. Weekly cadence, so this lags the
-  daily detection figures above and measures a different thing: area
-  actually burnt, not fire activity seen from orbit. The two are never
-  converted into one another.</p>'''
+        _, m, d = iso.split("-")
+        return f"{int(d)} {months[int(m) - 1]}"
+    except (ValueError, IndexError):
+        return iso
 
 
-def page(ev, det, window_label, end_pretty, iso=""):
+def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
     name = ev["region"]
     hist = {int(k): v for k, v in det["hist"].items()}
-    now = det["count"]
-    mean = det["mean"]
-    years = sorted(hist) + [2026]
-    vals = [hist[y] for y in sorted(hist)] + [now]
-    mx = max(vals)
+    now, mean = det["count"], det["mean"]
     rank = 1 + sum(1 for v in hist.values() if v > now)
-    prev_year = max(hist, key=lambda y: hist[y])
+    daily = det.get("daily") or {}
+    peak_day, peak_val = (max(daily.items(), key=lambda kv: kv[1])
+                          if daily else ("", 0))
+    normal = mean / 7.0
+    cleared = sum(1 for v in daily.values() if v > normal)
 
-    bars = []
-    for y, v in zip(years, vals):
-        cur = y == 2026
-        hpct = max(1.2, v / mx * 100)
-        lbl = (f'<span class="bv">{v:,}</span>'
-               if y in (prev_year, 2026) else "")
-        bars.append(
-            f'<div class="bcol{" cur" if cur else ""}" '
-            f'title="{y}: {v:,} detections">{lbl}'
-            f'<div class="bar" style="height:{hpct:.1f}%"></div>'
-            f'<span class="byr">{str(y)[2:]}</span></div>')
+    # The claim argues from this country's own baselines only. No ENSO
+    # framing: most of the live set is tagged pending, and the house
+    # context does not travel into a channel page as an assumption.
+    if area_cur and area_years:
+        prev = [y for y in area_years if y != year]
+        rec = max(prev, key=lambda y: max(area_years[y].values())) if prev else None
+        rec_v = max(area_years[rec].values()) if rec else 0
+        if rec and max(area_years[year].values()) > rec_v:
+            claim = (f"{name} has already burned more this year than in "
+                     f"any full year on record")
+        else:
+            claim = (f"{name} had its {ORD.get(rank, str(rank) + 'th-heaviest')} "
+                     f"fire week for this point in the year since {min(hist)}")
+    else:
+        claim = (f"{name} had its {ORD.get(rank, str(rank) + 'th-heaviest')} "
+                 f"fire week for this point in the year since {min(hist)}")
 
-    daily = det.get("daily", {})
-    dmax = max(daily.values()) if daily else 1
-    dbars = []
-    for d, v in daily.items():
-        dbars.append(
-            f'<div class="dcol" title="{d}: {v:,}">'
-            f'<span class="dv">{v:,}</span>'
-            f'<div class="dbar" style="height:{max(2, v / dmax * 100):.0f}%">'
-            f'</div><span class="dl">{d[-2:]}</span></div>')
+    piece = {
+        "region": name,
+        "year": year,
+        "window_pretty": pretty_window(window),
+        "claim": claim,
+        "standfirst": (
+            "Two questions, side by side. How bad was this week, measured "
+            "against every week like it. How bad is the year, measured "
+            "against every season on record. Different instruments, "
+            "different units, and one of them is not finished."),
+        "attribution": ev.get("attribution", "pending"),
+        "detections": {
+            "count": now,
+            "mean": mean,
+            "hist": hist,
+            "daily": daily,
+            "multiple": now / mean if mean else 0.0,
+            "baseline_span": f"{min(hist)} to {max(hist)}",
+            "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+            "daily_note": (
+                f"{cleared} of {len(daily)} days cleared the normal. "
+                f"The peak, {peak_val:,} on {pretty_day(peak_day)}, is "
+                f"{peak_val / normal:.0f} times it."
+                if daily and normal else "Day by day through the window."),
+        },
+        "elsewhere": elsewhere,
+        "what_this_is": (
+            "Two measurements of the same fire season at two time scales. "
+            "The multiple is a rate: how much fire activity satellites "
+            "detected this week against what this week normally looks "
+            "like. The hectare figure is a stock: how much land has been "
+            "mapped as burnt since January. A country can have an "
+            "unremarkable week and still be having a record year, and the "
+            "reverse is also true."),
+        "what_this_is_not": (
+            "Not one number at two zoom levels. The two figures come from "
+            "different instruments with different latencies, and they are "
+            "not convertible into each other. Not an attribution: fire "
+            "seasons are driven by heat, drought, wind and land use, and "
+            "the tag on this page states what is and is not established "
+            "for this event. Not a forecast of where the season ends."),
+    }
 
-    verdict = (f"{name}'s {ORD.get(rank, str(rank) + 'th-heaviest')} "
-               f"week for this point in the year since 2012")
-    where = ""
-    if det.get("lat") is not None:
-        basis = ("centre of this week's detections"
-                 if det["basis"] == "weighted"
-                 else "centre of the largest cluster, because the "
-                      "fires are spread across separate regions")
-        where = (f'<p class="note">Fires centred near {det["lat"]}&deg;, '
-                 f'{det["lon"]}&deg; ({basis}).</p>')
+    if area_cur and area_years:
+        first_year = min(area_years)
+        prev = [y for y in area_years if y != year]
+        rec = max(prev, key=lambda y: max(area_years[y].values())) if prev else None
+        rec_v = max(area_years[rec].values()) if rec else 0
+        cur_v = max(area_years[year].values())
+        beat = (f"It has already passed {rec}, the previous record season, "
+                f"at {rec_v:,.0f} ha." if rec and cur_v > rec_v else
+                f"The record season, {rec}, reached {rec_v:,.0f} ha."
+                if rec else "")
+        weeks_in = max(area_years[year])
+        piece["area"] = {
+            "area_ha": area_cur["area_ha"],
+            "multiple": area_cur.get("multiple") or 0.0,
+            "week": area_cur.get("week"),
+            "as_of": area_cur.get("as_of"),
+            "source": area_cur.get("source", ""),
+            "instrument": f'{area_cur.get("source", "")} mapped perimeters, weekly',
+            "years": area_years,
+            "first_year": first_year,
+            "cumulative_note": (
+                f"Only this year carries hue; every grey line is one earlier "
+                f"season accumulating from January. {beat}"),
+            "weekly_note": (
+                f"Week by week rather than cumulative, so a single heavy "
+                f"week is visible as one. The cell runs to week 52: "
+                f"{52 - weeks_in} weeks of this season have not happened "
+                f"yet."),
+        }
+        # Instruments, plural, both named, each with its own baseline. The
+        # source is read per country: 33 of 45 resolve to GWIS and 12 to
+        # EFFIS, so a literal would name a European instrument for
+        # Canadian fires.
+        piece["rail_instruments"] = (
+            f'NASA FIRMS SNPP VIIRS<br>thermal anomaly counts, daily, 375 m'
+            f'<br><br>{area_cur.get("source", "")} burnt area<br>'
+            f'mapped perimeters, weekly. Area lands in the week it is '
+            f'mapped, which need not be the week it burned.')
+        piece["rail_baseline"] = (
+            f'Weekly multiple: same-week mean, {min(hist)} to {max(hist)}.'
+            f'<br>Cumulative: complete seasons, {first_year} to {year - 1}.')
+        piece["rail_revision"] = (
+            'Mapped area for recent weeks rises as perimeters are '
+            'completed, and a week&rsquo;s area may be mapped after the '
+            'week it burned. Published figures are not edited in place; '
+            'corrections run forward.')
+    else:
+        piece["area"] = None
+        piece["rail_instruments"] = (
+            'NASA FIRMS SNPP VIIRS<br>thermal anomaly counts, daily, 375 m')
+        piece["rail_baseline"] = (
+            f'Weekly multiple: same-week mean, {min(hist)} to {max(hist)}.')
+        piece["rail_revision"] = (
+            'Detection counts are whole UTC days and are not revised. '
+            'Published figures are not edited in place.')
 
-    # The house masthead, shared with every other page. Without it a
-    # country page is a dead end: no link home, no nav, no About, and
-    # markers on the landing map point straight here.
-    area_html = area_section(iso or det.get('iso', ''))
-    house_masthead = site_masthead("../../", active="fire")
-    return f"""<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>{name} | Fires | The Long Swell</title>
-<style>
-{T.font_faces_css("../../fonts/")}
-:root {{
-{T.css_variables()}
-}}
-@media (prefers-color-scheme: dark) {{ :root {{
-{T.css_variables(dark=True)}
-}} }}
-:root[data-theme="dark"] {{
-{T.css_variables(dark=True)}
-}}
-:root[data-theme="light"] {{
-{T.css_variables()}
-}}
-* {{ box-sizing: border-box; }}
-body {{ margin:0; background:var(--paper); color:var(--ink);
-  font-family:"{T.FONT_PROSE}",Georgia,serif; font-size:17px;
-  line-height:1.55; }}
-main {{ max-width:760px; margin:0 auto; padding:28px 24px 80px; }}
-/* Line the shared masthead's shell up with this page's content column.
-   SITE_MASTHEAD_CSS defaults its shell to the tracker pages' 1180px,
-   so without these the masthead sat wider than the 760px main under
-   it. */
-:root {{ --shell-max:760px; --shell-pad:24px; }}
-a {{ color:inherit; }}
-{SITE_MASTHEAD_CSS}
-.masthead {{ display:flex; align-items:baseline; gap:14px;
-  padding-bottom:10px; border-bottom:2px solid var(--ink); }}
-.house {{ font-size:19px; }}
-.product {{ font-family:"{T.FONT_DATA}",monospace; font-size:12px;
-  font-weight:600; text-transform:uppercase;
-  letter-spacing:{T.TRACK_PRODUCT}em; color:var(--fire);
-  text-decoration:none; }}
-.when {{ margin-left:auto; font-family:"{T.FONT_DATA}",monospace;
-  font-size:11px; letter-spacing:{T.TRACK_LABEL}em;
-  text-transform:uppercase; color:var(--ink-faint); }}
-h1 {{ font-size:36px; font-weight:500; margin:26px 0 6px;
-  letter-spacing:-0.015em; }}
-.verdict {{ color:var(--ink-soft); margin:0 0 22px; }}
-.hero {{ display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;
-  border-top:2px solid var(--ink); border-bottom:1px solid var(--rule);
-  padding:16px 0; margin-bottom:8px; }}
-.hero .big {{ font-family:"{T.FONT_DATA}",monospace; font-size:52px;
-  font-weight:600; color:var(--fire); line-height:1;
-  font-variant-numeric:tabular-nums; }}
-.hero .cap {{ font-size:15px; color:var(--ink-soft); flex:1;
-  min-width:230px; }}
-.hero .cap b {{ color:var(--ink); font-weight:500; }}
-.tag {{ font-family:"{T.FONT_DATA}",monospace; font-size:10.5px;
-  padding:3px 8px; letter-spacing:0.04em; }}
-.tag-non_enso {{ background:var(--tag-notlink-bg);
-  color:var(--tag-notlink-fg); }}
-.tag-enso {{ background:var(--tag-loaded-bg); color:var(--tag-loaded-fg); }}
-.tag-pending {{ background:var(--tag-pending-bg);
-  color:var(--tag-pending-fg); }}
-.lab {{ font-family:"{T.FONT_DATA}",monospace; font-size:11px;
-  font-weight:600; letter-spacing:{T.TRACK_LABEL}em;
-  text-transform:uppercase; color:var(--ink-faint);
-  margin:34px 0 12px; padding-bottom:8px;
-  border-bottom:1px solid var(--ink); }}
-.chart {{ display:flex; align-items:flex-end; gap:5px; height:190px;
-  position:relative; border-bottom:1px solid var(--ink); }}
-.meanline {{ position:absolute; left:0; right:0; z-index:3;
-  border-top:1px dashed var(--ink-faint); }}
-.meanline span {{ position:absolute; right:0; top:-16px; font-size:10px;
-  font-family:"{T.FONT_DATA}",monospace; color:var(--ink-faint);
-  background:var(--paper); padding:0 4px; }}
-.bcol {{ flex:1; display:flex; flex-direction:column;
-  justify-content:flex-end; align-items:center; height:100%;
-  position:relative; z-index:2; }}
-.bar {{ width:100%; max-width:30px; background:var(--paper-sunk);
-  border-top:1px solid var(--rule); }}
-.bcol.cur .bar {{ background:var(--fire); border-top:none; }}
-.bv {{ font-family:"{T.FONT_DATA}",monospace; font-size:10px;
-  color:var(--ink-soft); margin-bottom:3px; }}
-.bcol.cur .bv {{ color:var(--ink); font-weight:600; font-size:11.5px; }}
-.byr {{ font-family:"{T.FONT_DATA}",monospace; font-size:9.5px;
-  color:var(--ink-faint); margin-top:5px; }}
-.bcol.cur .byr {{ color:var(--ink); font-weight:600; }}
-.dchart {{ display:flex; align-items:flex-end; gap:6px; height:96px;
-  border-bottom:1px solid var(--ink); }}
-.dcol {{ flex:1; display:flex; flex-direction:column;
-  justify-content:flex-end; align-items:center; height:100%; }}
-.dbar {{ width:100%; max-width:54px; background:var(--paper-sunk);
-  border-top:1px solid var(--rule); }}
-.dv {{ font-family:"{T.FONT_DATA}",monospace; font-size:10px;
-  color:var(--ink-soft); margin-bottom:3px; }}
-.dl {{ font-family:"{T.FONT_DATA}",monospace; font-size:9.5px;
-  color:var(--ink-faint); margin-top:5px; }}
-.note {{ font-size:14px; color:var(--ink-soft); margin:14px 0 0;
-  max-width:62ch; }}
-.note.src {{ font-size:12.5px; color:var(--ink-faint); }}
-.cum {{ width:100%; height:auto; display:block; margin-top:4px; }}
-.cax {{ font-family:"{T.FONT_DATA}",monospace; font-size:10px;
-  fill:var(--ink-faint); }}
-.clb {{ font-family:"{T.FONT_DATA}",monospace; font-size:12px; }}
-.foot {{ margin-top:40px; padding-top:14px;
-  border-top:1px solid var(--ink); font-size:13px;
-  color:var(--ink-faint); max-width:66ch; }}
-.foot p {{ margin:0 0 9px; }}
-.foot b {{ color:var(--ink-soft); font-weight:500; }}
-.back {{ display:inline-block; margin-top:26px; font-size:14px;
-  color:var(--fire); }}
-</style>
-{ANALYTICS_SNIPPET}
-</head>
-<body>
-{house_masthead}
-<main>
-  <div class="masthead">
-    <a class="product" href="../">Fires</a>
-    <span class="when">{window_label}</span>
-  </div>
-
-  <h1>{name}</h1>
-  <p class="verdict">{verdict}.</p>
-
-  <div class="hero">
-    <span class="big">&times;{ev['stat'][:-1]}</span>
-    <span class="cap"><b>{now:,} detections</b> in the week to
-      {end_pretty}, against a 2012-2025 average of
-      {mean:,.0f} for the same week.</span>
-    <span class="tag tag-{ev['attribution']}">
-      {TAG_TEXT[ev['attribution']]}</span>
-  </div>
-
-  <p class="lab">The same week, every year since 2012</p>
-  <div class="chart">
-    <div class="meanline" style="bottom:{mean / mx * 100:.1f}%">
-      <span>14-yr mean {mean:,.0f}</span></div>
-    {''.join(bars)}
-  </div>
-
-  <p class="lab">This week, day by day</p>
-  <div class="dchart">{''.join(dbars)}</div>
-  {where}
-  {area_html}
-
-  <div class="foot">
-    <p><b>What a detection is.</b> One satellite pixel, about 375 m
-    across, seen radiating enough heat to be flagged as actively
-    burning on a single overpass. A large fire front registers as many
-    pixels at once, and a fire that keeps burning is counted again on
-    every pass it stays hot. Detections are not burned area.</p>
-    <p><b>Method.</b> NASA FIRMS, VIIRS on Suomi-NPP only so that every
-    year is measured by the same sensor, low-confidence detections
-    excluded, detections assigned by national boundary polygons applied
-    identically in all years. Seven whole UTC days, refreshed once
-    daily at 06:00 UTC, so nothing here is a partial day.</p>
-  </div>
-  <a class="back" href="../">All countries</a>
-</main>
-</body>
-</html>
-"""
+    tag = piece["attribution"]
+    piece["rail_attribution"] = {
+        "enso": ('ENSO-loaded window<br>This event falls in a window and '
+                 'region where an ENSO teleconnection is established. '
+                 'That is a loading, not a cause.'),
+        "non_enso": ('not ENSO-linked<br>No established teleconnection '
+                     'between ENSO and fire weather in this region. The '
+                     'swell raised this; the wave did not.'),
+        "pending": ('attribution pending<br>No assessment has been made '
+                    'for this event yet. Pending means not yet examined, '
+                    'and is not a weak yes.'),
+    }[tag if tag in ("enso", "non_enso", "pending") else "pending"]
+    return piece
 
 
-def main():
+def main() -> None:
     events = json.load(open(EVENTS))["events"]
     detail = json.load(open(DETAIL))
-    label = detail["source"].split(", ")[-1]
-    end_date = detail["window"].split("..")[-1]
-    end_pretty = f"July {int(end_date.split('-')[-1])}"
-    n = 0
+    window = detail.get("window", "")
+    dets = detail.get("countries") or detail
+    try:
+        areas = json.load(open(AREA))["countries"]
+    except (OSError, ValueError, KeyError):
+        areas = {}
+    name2iso = {v.get("name"): k for k, v in dets.items()}
+    year = date.today().year
+
+    written = 0
     for ev in events:
-        slug = slugify(ev["region"])
-        iso = next((k for k, v in detail["countries"].items()
-                    if v["name"] == ev["region"]), None)
-        if not iso:
-            print(f"  no detail for {ev['region']}, skipped")
+        iso = name2iso.get(ev["region"])
+        det = dets.get(iso) if iso else None
+        if not det or not det.get("hist"):
+            print(f"  skip {ev['region']}: no detection detail")
             continue
-        d = os.path.join(OUTDIR, slug)
-        os.makedirs(d, exist_ok=True)
-        with open(os.path.join(d, "index.html"), "w") as f:
-            f.write(page(ev, detail["countries"][iso], label, end_pretty, iso))
-        n += 1
-    print(f"wrote {n} country pages under docs/fires/")
+        area_cur = areas.get(iso)
+        area_years = None
+        hist_path = os.path.join(AREA_HIST, f"{iso}.json")
+        if area_cur and os.path.exists(hist_path):
+            try:
+                raw = json.load(open(hist_path))["years"]
+                area_years = {int(y): {int(w): v for w, v in wk.items()}
+                              for y, wk in raw.items()}
+                if year not in area_years:
+                    area_years = None
+            except (OSError, ValueError, KeyError):
+                area_years = None
+        # events.json hrefs are root-relative because the landing page
+        # consumes them from the site root. This page already sits at
+        # /fires/<slug>/, so the prefix has to become a sibling hop or
+        # the link resolves to /fires/<slug>/fires/<other>/.
+        elsewhere = []
+        for o in events:
+            if o["region"] == ev["region"]:
+                continue
+            href = o.get("href", "")
+            if href.startswith("fires/"):
+                href = "../" + href[len("fires/"):]
+            elsewhere.append(dict(o, href=href))
+            if len(elsewhere) == 3:
+                break
+        piece = build_piece(ev, det, area_cur, area_years, window,
+                            elsewhere, year)
+        out = os.path.join(OUTDIR, slugify(ev["region"]))
+        os.makedirs(out, exist_ok=True)
+        with open(os.path.join(out, "index.html"), "w") as fh:
+            fh.write(render(piece))
+        written += 1
+    print(f"wrote {written} country page(s) to docs/fires/")
 
 
 if __name__ == "__main__":
