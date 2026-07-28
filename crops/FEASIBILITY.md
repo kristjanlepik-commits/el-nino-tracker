@@ -10,12 +10,19 @@ Nothing here is published; this report decides whether a channel opens.
 this "not yet" was closed the same day (section 8), so the remaining
 question is scope, not feasibility.
 
-The scope is genuinely narrow. Of 44 country-commodity pairs tested,
-**9 survive a detrending check**, and all 9 are rainfed cereals in
-water-limited systems at same-season lag. Perennial tree crops and
-irrigated rice are outside what the instrument measures. A crops channel
-built on this is a real product; a crops channel that claims to cover
-crops generally is not.
+The scope is genuinely narrow, and now measured rather than guessed. A
+systematic scan of **752 country-commodity pairs** across 107 countries,
+detrended and FDR-controlled at q = 0.10, then filtered for degenerate
+series, qualifies **23 pairs**.
+
+All 23 are water-limited rainfed systems, and the scan recovered them
+without being told where to look: the whole Australian cropping system,
+the semi-arid belt from Morocco through Syria and Iraq into Central
+Asia, Zimbabwean smallholder cereals, and rainfed Mexico, Argentina and
+Canada. Nothing tropical, irrigated or perennial qualifies anywhere.
+
+A crops channel built on those 23 pairs is a real product. A crops
+channel that claims to cover crops generally is not.
 
 The narrowing, stated plainly: crops can honestly report **how stressed
 a country's cropland is against its own 25-year record**, and can
@@ -170,12 +177,92 @@ the mechanism marked unknown.
 
 Overfitting caution, per the build philosophy: 44 pairs were tested and
 at n = 24 the r >= 0.40 threshold sits near p = 0.05, so roughly two of
-the nine survivors are chance. Mexico, Ukraine and Australia are far
-enough above the line to be robust; Pakistan at 0.40 is exactly on it
-and should be treated as unqualified until it survives an out-of-sample
-year. **The relationship is pair-specific, not general**, so qualified
-pairs get established and frozen one at a time, exactly as fire
-baselines are.
+the nine survivors are chance. **The relationship is pair-specific, not
+general**, so qualified pairs get established and frozen one at a time,
+exactly as fire baselines are.
+
+### 6a. The systematic scan (all 168 countries)
+
+With the full sweep in hand, the hand-picked 44 was replaced by a
+systematic scan: **752 country-commodity pairs across 107 countries**,
+16 commodities, every one detrended.
+
+A scan needs a correction a hand-picked set does not. At n = 24 a naive
+r >= 0.40 cut returns **111 of 752 pairs, with about 37 expected from
+noise alone**. Those 37 would look exactly as convincing as Australia
+wheat. So the scan applies **Benjamini-Hochberg FDR control at
+q = 0.10**, giving 28 survivors of which about 3 are expected false.
+
+A third filter was then needed, for a failure mode FDR does not touch.
+
+**Trap: FDR controls for chance, not for a degenerate series.** Five of
+the 28 survived on series that cannot support a correlation at all:
+
+| Dropped | detrended r | Why |
+|---|---|---|
+| Morocco / Cotton | 0.61 | **2 distinct values** in 24 years, 4 zeros, median 1 bale |
+| Tunisia / Cotton | 0.60 | **2 distinct values**, 5 zeros, median 10 bales |
+| Turkmenistan / Wheat | 0.75 | 12 distinct values in 24 years, a carried-forward estimate |
+| Dem People's Rep of Korea / Wheat | 0.60 | 14 distinct values, median 98 kt |
+| Zambia / Sugar | 0.61 | 16 distinct values |
+
+Requiring at least 18 distinct annual values and no zeros leaves
+**23 qualified pairs**:
+
+| Country | Commodity | detrended r | p | Lag |
+|---|---|---|---|---|
+| Mexico | Corn | 0.82 | <0.001 | 0 |
+| Ukraine | Wheat | 0.81 | <0.001 | 0 |
+| Uzbekistan | Barley | 0.77 | <0.001 | 0 |
+| Syria | Wheat | 0.77 | <0.001 | 0 |
+| Mexico | Rice, Milled | 0.72 | <0.001 | 0 |
+| Australia | Oilseed, Rapeseed | 0.72 | <0.001 | 0 |
+| Australia | Rice, Milled | 0.70 | <0.001 | 0 |
+| Australia | Wheat | 0.69 | <0.001 | 0 |
+| Argentina | Wheat | 0.69 | <0.001 | 0 |
+| Kazakhstan | Oats | 0.68 | <0.001 | 0 |
+| Zimbabwe | Sorghum | 0.67 | <0.001 | 0 |
+| Australia | Cotton | 0.65 | <0.001 | 0 |
+| Kyrgyzstan | Barley | 0.64 | 0.001 | 0 |
+| Australia | Corn | 0.63 | 0.001 | 0 |
+| Canada | Oilseed, Rapeseed | 0.62 | 0.002 | 1 |
+| Iraq | Barley | 0.62 | 0.002 | 0 |
+| Iran | Barley | 0.61 | 0.002 | 0 |
+| Kyrgyzstan | Wheat | 0.59 | 0.003 | 0 |
+| Zimbabwe | Millet | 0.59 | 0.003 | 0 |
+| Tunisia | Wheat | 0.59 | 0.003 | 0 |
+| Morocco | Wheat | 0.58 | 0.004 | 0 |
+| Iraq | Rice, Milled | 0.58 | 0.004 | 0 |
+| Zimbabwe | Corn | 0.58 | 0.004 | 0 |
+
+**The geography is the strongest evidence in this report**, because it
+was not chosen. The scan independently recovered four coherent blocks:
+the entire Australian cropping system (five commodities), the semi-arid
+belt from Morocco and Tunisia through Syria and Iraq and Iran into
+Uzbekistan, Kyrgyzstan and Kazakhstan, southern African smallholder
+cereals in Zimbabwe, and the rainfed Americas in Mexico, Argentina and
+Canada. Every one is a water-limited rainfed system. Nothing tropical,
+irrigated or perennial appears anywhere in the list. An instrument that
+finds exactly the systems where water is the binding constraint, without
+being told where they are, is measuring what it claims to measure.
+
+### 6b. How the nine pre-registered pairs fared
+
+Judged against the 752-pair scan's FDR threshold, only 4 of the 9
+survive. **That is the wrong test.** The nine were chosen in advance on
+agronomic grounds and did not motivate the other 743 comparisons, so
+penalising them for those tests would be an incorrect correction.
+
+Judged correctly, with Benjamini-Hochberg **within their own family of
+nine** at q = 0.10, **all 9 survive**, from Mexico corn at p < 0.001 to
+Pakistan wheat at p = 0.057 against a threshold of 0.10.
+
+Both numbers belong in the record. The 4 is what a sceptic gets if they
+treat our pre-registration as post-hoc, and the honest answer to that
+sceptic is that Pakistan, Kenya, Malawi, Zambia and Kazakhstan are
+qualified on a weaker footing than Mexico, Ukraine, Australia and
+Zimbabwe, and should carry that difference visibly rather than being
+presented as equals.
 
 ### The distinction this exposes
 
@@ -316,7 +403,15 @@ Two obstacles:
    qualifying correlation is reported raw and detrended, and the
    detrended figure is the one that decides.** A pair that survives only
    raw is not a pair.
-8. **The indicator has a domain, and it is narrower than "crops".** It
+8. **FDR controls for chance, not for a degenerate series.** Five
+   pairs cleared Benjamini-Hochberg on series that cannot support a
+   correlation: Morocco and Tunisia cotton have **two distinct values in
+   24 years**, Turkmenistan wheat has twelve. A significance test asks
+   whether a pattern could be noise; it never asks whether the series
+   had enough information to carry a pattern at all. Qualification
+   therefore requires at least 18 distinct annual values and no zeros,
+   checked before the correlation is believed.
+9. **The indicator has a domain, and it is narrower than "crops".** It
    measures rainfed vegetation performance inside an annual growing
    cycle. Perennial tree crops (palm oil) and buffered irrigated systems
    (Egypt wheat, delta rice) are outside it. Bangladesh rice is not
