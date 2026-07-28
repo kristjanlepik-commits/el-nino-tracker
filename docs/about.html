@@ -957,7 +957,12 @@
     opacity: 0; transition: opacity .1s;
   }
   .mk:focus-visible .mk-focus, .mk:focus .mk-focus { opacity: 1; }
-  .nino-g { cursor: pointer; }
+  .nino-g, .sst-g { cursor: pointer; }
+  /* An SVG anchor gets no pointer cursor and no focus ring for free, and
+     the field is a large silent target, so both are stated. The focus
+     outline sits on the group rather than on the image so it traces the
+     clickable area a keyboard user has actually reached. */
+  .sst-g:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   /* Over the SST field these sat dark on dark and the box outline
      disappeared entirely: the anomaly scale reaches near-black at its
      ends, so ink furniture on top of it is unreadable exactly where the

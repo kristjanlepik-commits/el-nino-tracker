@@ -1197,7 +1197,12 @@ _PUBLIC_CSS_TEMPLATE = """
     opacity: 0; transition: opacity .1s;
   }
   .mk:focus-visible .mk-focus, .mk:focus .mk-focus { opacity: 1; }
-  .nino-g { cursor: pointer; }
+  .nino-g, .sst-g { cursor: pointer; }
+  /* An SVG anchor gets no pointer cursor and no focus ring for free, and
+     the field is a large silent target, so both are stated. The focus
+     outline sits on the group rather than on the image so it traces the
+     clickable area a keyboard user has actually reached. */
+  .sst-g:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
   /* Over the SST field these sat dark on dark and the box outline
      disappeared entirely: the anomaly scale reaches near-black at its
      ends, so ink furniture on top of it is unreadable exactly where the
@@ -2104,8 +2109,21 @@ def _pacific_sst() -> dict:
     return meta if all(meta.get(k) is not None for k in need) else {}
 
 
+def _issue_href(is_front: bool, root_prefix: str) -> str:
+    """Where "this week's issue" points from a given page.
+
+    An issue page is its own target, so it keeps the in-page anchor. The
+    front page is not an issue page any more, and after that split three
+    href="#issue" links were left on it pointing at an id that is no
+    longer there, so they silently did nothing. qa_check follows real
+    links but not fragments, which is why it stayed clean throughout.
+    Resolved in one place so a fourth copy cannot drift.
+    """
+    return "#issue" if not is_front else root_prefix + _latest_issue_href()
+
+
 def _map_html(markers_payload: dict, nino_value, root_prefix: str,
-              brief_date_iso: str = "") -> str:
+              brief_date_iso: str = "", issue_href: str = "#issue") -> str:
     """The global event map.
 
     Marker AREA is proportional to the multiple, so radius scales with
@@ -2175,11 +2193,20 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
     if sst:
         fx1, fy1 = xy(sst["lon_west"], sst["lat_north"])
         fx2, fy2 = xy(sst["lon_east"], sst["lat_south"])
+        # The field is the largest and most legible thing on the map, so
+        # it is also the obvious thing to click, and it was inert. It now
+        # carries the same link as the Nino 3.4 mark, with an accessible
+        # name on the anchor: the image itself stays aria-hidden, because
+        # a decorative raster has nothing useful to announce and the
+        # anchor is what a screen reader should reach.
         field = (
+            f'<a class="sst-g" href="{h(issue_href)}" '
+            f'aria-label="Pacific sea surface temperature anomaly this '
+            f'week. Goes to the El Nino tracker.">'
             f'<image class="sstfield" href="{h(root_prefix)}pacific-sst.png" '
             f'x="{fx1:.2f}" y="{fy1:.2f}" width="{fx2 - fx1:.2f}" '
             f'height="{fy2 - fy1:.2f}" preserveAspectRatio="none" '
-            f'aria-hidden="true"/>')
+            f'aria-hidden="true"/></a>')
 
     nino = ""
     if nino_value is not None:
@@ -2200,7 +2227,7 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
         bracket = (f'M{x1:.1f},{yb - 4.5:.1f} L{x1:.1f},{yb:.1f} '
                    f'L{x2:.1f},{yb:.1f} L{x2:.1f},{yb - 4.5:.1f}')
         nino = (
-            f'<a class="nino-g" href="#issue" aria-label="Nino 3.4 region, '
+            f'<a class="nino-g" href="{h(issue_href)}" aria-label="Nino 3.4 region, '
             f'{nino_value:+.1f} degrees Celsius this week. Goes to the El '
             f'Nino issue.">'
             # Two treatments, because what the mark has to do changed when
@@ -2576,7 +2603,7 @@ def _issue_meta_html(brief_date_iso: str, offset_phrase: str,
             + '</div>')
 
 
-def _channels_html(root_prefix: str) -> str:
+def _channels_html(root_prefix: str, issue_href: str = "#issue") -> str:
     """Products grid (front page). Channels are siblings under the house
     question, per T9; the tracker is one of them, not the source signal."""
     return (
@@ -2588,7 +2615,7 @@ def _channels_html(root_prefix: str) -> str:
         '<div class="chan">'
         f'<div class="chan-top"><span class="dot" style="background:{T.NINO}"></span>'
         '<span class="meta">Live &middot; weekly</span></div>'
-        f'<h3><a href="#issue">{h(PRODUCT_NAME)}</a></h3>'
+        f'<h3><a href="{h(issue_href)}">{h(PRODUCT_NAME)}</a></h3>'
         '<p>Weekly probability tracker for the DJF winter peak, aggregated '
         'across seven agency and model sources. Every issue archived, '
         'immutable.</p></div>'
@@ -2873,10 +2900,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         head += _map_html(_load_markers(),
                           (fetched.get("physical_state") or {})
                           .get("nino34_weekly_traditional"),
-                          root_prefix, brief_date_iso)
+                          root_prefix, brief_date_iso,
+                          _issue_href(is_front, root_prefix))
         head += _break_html(week_events)
         head += _wave_strip_html(magn_pct, brief_date_iso,
-                                 f"briefs/{brief_date_iso}/")
+                                 _issue_href(is_front, root_prefix))
         issue_open = '<div class="shell"><main class="body">'
     else:
         # Archive issue page, built to the delivered spec: the answer on
@@ -3217,7 +3245,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<a class="brand" href="{h(home)}" aria-label="{h(SITE_NAME)}, home">'
         f'{_mark_svg(26, mark_ops)}<span class="brand-name">{h(SITE_NAME)}</span></a>'
         '<div class="foot-links">'
-        f'<a href="#issue">{h(PRODUCT_NAME)}</a>'
+        f'<a href="{h(_issue_href(is_front, root_prefix))}">{h(PRODUCT_NAME)}</a>'
         f'<a href="{h(root_prefix)}fires/">Fires</a>'
         f'<a href="{h(methodology_href)}">Methodology</a>'
         f'<a href="{h(briefs_href)}">Archive</a>'
@@ -3391,7 +3419,9 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 
     if is_front:
         # Channels and the signup, and nothing from the report.
-        body_sections = _channels_html(root_prefix) + _email_capture_html()
+        body_sections = (_channels_html(root_prefix,
+                                        _issue_href(is_front, root_prefix))
+                         + _email_capture_html())
     else:
         body_sections = (ladder_html + analyst_html + chart_html
                          + physical_html + impacts_html + sources_html
