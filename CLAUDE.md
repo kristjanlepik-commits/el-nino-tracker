@@ -135,6 +135,20 @@ Two habits worth copying, both learned the hard way:
 - **Assume nothing is live until you have seen it live.** A merged
   commit is not a published page. This repo has several publish
   paths; `scripts/publish_all.py` runs the ones that do not fetch.
+- **Cache-bust when you verify straight after publishing.** The site
+  is served with `cache-control: max-age=600`, so for up to ten
+  minutes a live fetch can return the previous page and look exactly
+  like a deploy that never happened. Add a query string (`/?cb=1`) or
+  read the `age` and `x-cache` headers first. Otherwise "verified
+  live" quietly becomes "verified the cache".
+- **A green check run is not "done".** The guards prove structural
+  properties: the page exists, carries the shared masthead and
+  exactly one analytics tag, its numbers match the frozen record, no
+  fetcher ran, nothing immutable moved. They cannot tell you a mark
+  is too loud or that a correctly placed image contains the wrong
+  ocean. The last three real defects on the public surface all passed
+  every automated check and were all found by Kristjan opening the
+  page. For anything visual, a human look is load-bearing.
 
 ## Bugs
 
