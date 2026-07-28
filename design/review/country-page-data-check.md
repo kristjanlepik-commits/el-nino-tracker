@@ -90,6 +90,35 @@ as specified. It is the strongest idea in the comp: the empty two-thirds
 is the content, and it makes "season not half over" a quantity rather
 than a claim.
 
+## The emphasis constraint, from the Fire chat
+
+Recorded here because it is the hardest thing to check and the easiest
+to lose, and because it binds the render rather than the data.
+
+**A fires page must not read as an El Niño story.** This week eight of
+the twelve live countries are tagged `pending`, both Amazon boundaries
+are running at under half their normal burn (ARO 0.46x, Brazil Legal
+Amazon 0.48x), and the EU sits at 2.80x. So the honest reading is a
+European fire season, not a global ENSO signal.
+
+A page that led with El Niño framing would be wrong in a way that every
+individual number on it would survive, which is precisely the gap D-030
+condition 2 exists to close: correct numbers rendered misleadingly. It
+would also pass every guard we have, because no structural check can see
+a narrative.
+
+What this means for the build, concretely:
+
+- No ENSO framing in a fires lead, standfirst or claim unless the tag
+  on that specific item says `enso`.
+- `pending` renders as pending. It never falls back to a claim, and it
+  is not visually quieter than the other two states, because the
+  cheapest way to imply a link is to make its absence look like an
+  omission.
+- The house context, that this site is primarily an El Niño tracker,
+  does not travel into a channel page as an assumption. The channel
+  page argues from its own baselines only.
+
 ## One thing to be aware of for future comps
 
 Both defects above are the same shape as the three real defects on the
