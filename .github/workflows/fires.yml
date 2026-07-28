@@ -1,29 +1,35 @@
 name: Fires data pull and publish
 
-# WHY WEEKLY AND NOT DAILY, which is what you probably expected.
-#
-# fires/build_events.py compares the trailing complete 7-day window
-# against a frozen same-week baseline in fires/data/country_history.json.
-# That baseline holds ONE calendar week. The trailing window moves every
-# day, so the two agree on exactly one day per baseline refresh and the
-# script correctly refuses on all the others rather than compare against
-# a stale baseline. With a Monday-to-Sunday baseline, the day they agree
-# is the following Monday.
-#
-# So a daily cron would fail roughly six days in seven. A CI job that is
-# usually red teaches everyone to ignore CI, which costs more than the
-# staleness it was meant to fix. Weekly it is, until the Fire chat lands
-# full-year per-country baselines (about 1,095 archive requests, paid
-# once, since the archive is static). At that point the window check
-# stops being a constraint and this can move to "0 6 * * *".
+# DAILY, per Kristjan 2026-07-27: "fire update needs to be daily, it is
+# changing fast." El Nino stays Monday (weekly_brief.yml).
 #
 # 06:00 UTC because FIRMS near-real-time processing only guarantees
 # yesterday is closed at about 03:00 UTC, and build_events.py refuses to
 # run before then on purpose.
+#
+# ONE BLOCKING DEPENDENCY, owned by the Fire chat. build_events.py
+# compares the trailing complete 7-day window against a frozen same-week
+# baseline in fires/data/country_history.json, and that baseline holds
+# ONE calendar week. The trailing window moves every day, so the two
+# agree on roughly one day per refresh and the script refuses on the
+# rest rather than compare against a stale baseline, which is correct
+# behaviour on its part.
+#
+# So until full-year per-country baselines exist (about 1,095 archive
+# requests, paid once, since the archive is static), this job can only
+# actually update the page on the day the windows line up. That is a
+# baseline problem, not a scheduling one, and no cron can work around
+# it. Daily runs are scheduled now so the cadence is right the moment
+# the baselines land.
+#
+# Until then the stale-baseline case is a WARNING, not a failure: a job
+# that is red six days in seven trains everyone to ignore CI, and the
+# distinction that matters is "could not compare" versus "something
+# broke". Real errors still fail loudly.
 
 on:
   schedule:
-    - cron: "0 6 * * 1"
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -68,7 +74,26 @@ jobs:
           chmod 600 ~/.firms_map_key
 
       - name: Pull fire data
-        run: PYTHONPATH="$PWD" python fires/build_events.py
+        id: pull
+        run: |
+          set +e
+          out=$(PYTHONPATH="$PWD" python fires/build_events.py 2>&1)
+          code=$?
+          echo "$out"
+          if [ $code -ne 0 ]; then
+            # The one expected refusal: the frozen baseline does not cover
+            # the trailing window, so there is nothing valid to compare
+            # against. Not a break, and not something a retry fixes.
+            if echo "$out" | grep -q "refresh the history first"; then
+              echo "::warning::Fires page NOT updated: the baseline window \
+          does not cover the trailing week, so build_events.py refused. This \
+          resolves when full-year per-country baselines land (Fire chat)."
+              echo "skipped=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            exit $code
+          fi
+          echo "skipped=false" >> "$GITHUB_OUTPUT"
 
       # Commit the data BEFORE publishing, deliberately. publish_all.py
       # rejects a publish if a data file changed during the run, because
@@ -77,6 +102,7 @@ jobs:
       # the publish then runs against committed state, exactly as it does
       # locally.
       - name: Commit the data pull
+        if: steps.pull.outputs.skipped != 'true'
         run: |
           git config user.name "el-nino-tracker-bot"
           git config user.email "actions@github.com"
@@ -88,9 +114,11 @@ jobs:
           fi
 
       - name: Publish
+        if: steps.pull.outputs.skipped != 'true'
         run: python scripts/publish_all.py
 
       - name: Commit the published pages
+        if: steps.pull.outputs.skipped != 'true'
         run: |
           git add docs/
           if ! git diff --cached --quiet; then
