@@ -6,10 +6,16 @@ Nothing here is published; this report decides whether a channel opens.
 
 ## Verdict
 
-**Open crops, but narrower than commissioned, and not yet.** One
-dependency has to be resolved first (section 8), and it is a real one:
-the metric that survives methodological scrutiny is not the metric the
-open bulk data gives us.
+**Open crops, narrower than commissioned.** The dependency that made
+this "not yet" was closed the same day (section 8), so the remaining
+question is scope, not feasibility.
+
+The scope is genuinely narrow. Of 44 country-commodity pairs tested,
+**9 survive a detrending check**, and all 9 are rainfed cereals in
+water-limited systems at same-season lag. Perennial tree crops and
+irrigated rice are outside what the instrument measures. A crops channel
+built on this is a real product; a crops channel that claims to cover
+crops generally is not.
 
 The narrowing, stated plainly: crops can honestly report **how stressed
 a country's cropland is against its own 25-year record**, and can
@@ -97,38 +103,79 @@ small request.
 
 ## 6. Which pairs have a signal (brief Q5), and the lead test
 
-Season stress (mean warning share over each country's active dekads)
-against PSD production deviation from its own trailing 5-year mean,
-2001 to 2025, tested at lag 0 and lag 1 because market-year labels do
-not align to calendar years identically across countries.
+Per-country mean of ASAP's FPAR Cumulated z-score, crop-masked and
+restricted to the growing cycle, against PSD production deviation from
+its own trailing 5-year mean, 2002 to 2025, at lag 0 and lag 1.
+Expected sign is positive: a low z-score means a poor season.
 
-**7 of 18 pairs track**, expected sign negative:
+**Every correlation is reported twice, raw and after linear detrending
+of both series.** This is not optional and the reason is section 9 trap
+7: cropland that greens over 25 years and a yield trend that rises over
+the same 25 years will correlate strongly while sharing no season-level
+information whatever.
 
-| Pair | r | Lag |
+**9 of 44 pairs survive detrending** at r >= 0.40:
+
+| Pair | raw r | detrended r | Lag |
+|---|---|---|---|
+| Mexico / Corn | 0.75 | **0.82** | 0 |
+| Ukraine / Wheat | 0.70 | **0.81** | 0 |
+| Australia / Wheat | 0.71 | **0.69** | 0 |
+| Zimbabwe / Corn | 0.56 | 0.58 | 0 |
+| Zambia / Corn | 0.53 | 0.54 | 0 |
+| Kazakhstan / Wheat | 0.51 | 0.51 | 0 |
+| Malawi / Corn | 0.52 | 0.51 | 0 |
+| Kenya / Corn | 0.39 | 0.47 | 0 |
+| Pakistan / Wheat | 0.25 | 0.40 | 0 |
+
+**Every survivor is lag 0, and the set is physically coherent**: rainfed
+cereals in water-limited systems, where a season's vegetation deficit is
+the season's yield deficit. That coherence is worth more than any single
+correlation, because it is the part a reviewer can check against
+agronomy rather than against our arithmetic.
+
+### Four apparent results that detrending destroyed
+
+| Pair | raw r | detrended r |
 |---|---|---|
-| Australia / Wheat | -0.77 | 0 |
-| India / Rice, Milled | -0.61 | 0 |
-| Zimbabwe / Corn | -0.59 | 0 |
-| Malaysia / Palm oil | -0.54 | 1 |
-| Zambia / Corn | -0.53 | 0 |
-| India / Wheat | -0.49 | 1 |
-| Kenya / Corn | -0.42 | 0 |
+| Indonesia / Palm oil | 0.71 | 0.30 |
+| Malaysia / Palm oil | 0.59 | **-0.14** |
+| India / Rice, Milled | 0.58 | 0.13 |
+| Indonesia / Rice, Milled | 0.51 | 0.05 |
 
-Malaysia palm oil peaking at a **one-year lag** independently
-corroborates the 12-month lag behind the 13.2% figure the house already
-publishes.
+All four were lag 1, and all four were shared trends rather than shared
+seasons.
 
-**11 of 18 do not track.** Indonesia rice is r = +0.07, no relationship
-at all, in the country with the loudest El Nino stress signal of any
-tested. Brazil corn -0.12, Argentina corn -0.14, South Africa corn
-+0.17, Mozambique corn -0.04.
+**This corrects an earlier claim of this chat's.** An interim pass
+reported that Malaysia palm oil at a one-year lag independently
+corroborated the 12-month lag behind the published 13.2% figure. It does
+not. That correlation is trend co-movement and disappears entirely on
+detrending. The published 13.2% figure is not challenged by this, since
+it comes from named agency data and not from us; what is withdrawn is
+the claim that our indicator independently supports it.
 
-Overfitting caution, per the build philosophy: at n = 25, r = -0.40 sits
-near p = 0.05, and 18 pairs were tested, so roughly one of these is
-chance. Australia at -0.77 is robust. Kenya at -0.42 and India wheat at
--0.49 are marginal and must not be leaned on. **The relationship is
-pair-specific, not general**, so qualified pairs get established and
-frozen one at a time, exactly as fire baselines are.
+The wider lesson for the channel: **perennial tree crops and
+intensively irrigated or multi-cropped rice are outside what this
+indicator can measure.** Palm oil is a perennial whose output responds
+to stress 12 to 18 months earlier through bunch formation, which an
+annual growing-cycle mask does not represent. Irrigated rice is buffered
+from the rainfall deficit the indicator detects.
+
+One genuine inversion, which is not a trend artifact: **Bangladesh rice
+at lag 1, raw -0.83, still -0.68 after detrending**. A strong, stable,
+wrong-signed relationship. Most likely flood-driven, where a high-FPAR
+monsoon coincides with inundation damage, but we have not established
+that and should not assert it. It is recorded as a hard exclusion with
+the mechanism marked unknown.
+
+Overfitting caution, per the build philosophy: 44 pairs were tested and
+at n = 24 the r >= 0.40 threshold sits near p = 0.05, so roughly two of
+the nine survivors are chance. Mexico, Ukraine and Australia are far
+enough above the line to be robust; Pakistan at 0.40 is exactly on it
+and should be treated as unqualified until it survives an out-of-sample
+year. **The relationship is pair-specific, not general**, so qualified
+pairs get established and frozen one at a time, exactly as fire
+baselines are.
 
 ### The distinction this exposes
 
@@ -164,7 +211,40 @@ forward-looking and modelled. If it is used at all it is a named
 forecaster's figure, which makes it aftereffects' material under D-034,
 not ours.
 
-## 8. The blocking dependency
+## 8. The blocking dependency, RESOLVED 2026-07-28
+
+**Update, same day.** The dependency below is closed. The ASAP export
+endpoint was cracked: it needs four internal ids (`variable_id`,
+`class_id`, `classesset_id`, `sensor_id`) that the public manual does
+not document, read from the download page's own catalogue (32 indicator
+and class combinations, 168 countries). The class list includes **"Crop
+during growing cycle"**, so the series is crop-masked and season-masked
+at source.
+
+The proxy's defect is gone rather than mitigated: every admin unit
+carries a value in every dekad, so there is no denominator to collapse.
+Australia has 8 units reporting in all 906 dekads, Malaysia 14. Both
+were untestable under the unit-count gate; both are now testable, and
+Australia wheat is the third strongest pair in the study at a detrended
+r = 0.69.
+
+No contact with JRC is required. The puller is
+`crops/pull_asap_indicator.py`: sequential, paused between calls,
+resumable, and it discards any response that is not the documented CSV
+header rather than caching it. The priority 40 took 23.7 minutes with
+zero failures; the full 168 is running.
+
+One weakness remains and is not closed. The country aggregate is an
+**unweighted mean across admin units**, so a small unit counts as much
+as a large one. ASAP area-averages within a unit but publishes no
+cropped area per unit, so weighting across units needs the crop mask
+raster (`asap_mask_crop_v04.tif`, 250 m). That is build-time work, and
+it is a refinement rather than a defect.
+
+The original statement of the problem follows, kept because the reasoning
+that led to the fix is worth more than the conclusion.
+
+### As originally written
 
 The metric used throughout this report, share of a country's crop-active
 admin1 units under warning, is a **proxy, and it has a defect that gates
@@ -227,6 +307,21 @@ Two obstacles:
    crop-specific splits do.
 6. **PSD commodity names are not colloquial.** Soybean is "Oilseed,
    Soybean"; palm oil is "Oil, Palm".
+7. **Shared trends manufacture correlation, and this one nearly shipped.**
+   Four of the strongest apparent pairs, including Malaysia palm oil at
+   raw r = 0.59, collapse to nothing once both series are linearly
+   detrended. Cropland greens over 25 years and yields rise over 25
+   years, and those two facts alone produce a confident-looking
+   correlation that carries no season-level information. **Every
+   qualifying correlation is reported raw and detrended, and the
+   detrended figure is the one that decides.** A pair that survives only
+   raw is not a pair.
+8. **The indicator has a domain, and it is narrower than "crops".** It
+   measures rainfed vegetation performance inside an annual growing
+   cycle. Perennial tree crops (palm oil) and buffered irrigated systems
+   (Egypt wheat, delta rice) are outside it. Bangladesh rice is not
+   merely outside it but stably inverted, detrended r = -0.68, mechanism
+   unestablished.
 
 ## 10. If crops opens
 
@@ -242,8 +337,9 @@ Two obstacles:
 
 ## 11. Open questions for Kristjan
 
-1. **Do we email JRC** for multi-country indicator extracts, or script
-   220 per-country requests? Outward-facing, so your call.
+1. ~~Do we email JRC for multi-country indicator extracts?~~
+   **Closed 2026-07-28**: not needed, see section 8. The export endpoint
+   is scriptable and the sweep is running.
 2. **Is a channel that reports crop stress but rarely attributes it to
    El Nino worth opening**, given T10 says events are the front door?
    My read is yes, because "Australian wheat is under more stress than
