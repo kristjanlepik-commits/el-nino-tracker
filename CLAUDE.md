@@ -428,6 +428,29 @@ Required GitHub Actions secrets:
 
 ## Working style
 
+### Long unattended jobs on Kristjan's laptop
+
+Added 2026-07-28, after four unattended pulls from three chats ran
+overnight on one machine, none of them aware of the others.
+
+- **Hold a DURATION-based wake lock, never a pid-scoped one.**
+  `caffeinate -i -m -w <pid>` dies with the job that owns it, so the
+  first job to finish decides when the machine sleeps and silently
+  kills everyone else's. Use `caffeinate -i -m -t <seconds>` covering
+  the whole expected window instead.
+- **`caffeinate -i -m` blocks idle and disk sleep only. It does NOT
+  survive the lid closing.** Written down because it was asserted the
+  other way once and cost a night of fetching. Lid open, on power.
+- **Announce a multi-hour job where another chat can see it.** Append
+  a line to `.running-jobs` at the repo root (gitignored, so it never
+  reaches a commit, and visible to every chat because the working tree
+  is shared): what is running, which chat, and the expected finish.
+  Remove the line when it ends. Read the file before starting your own,
+  because three chats each believed they were alone on the machine.
+- Assume every long pull is resumable and check that it is before
+  starting it unattended. A job that cannot resume turns a sleep into
+  lost hours rather than lost minutes.
+
 - Run `.venv/bin/python scripts/qa_check.py` before any push that
   publishes to `docs/`. It enforces invariants 4, 5, and 6 plus link
   and structure checks; CI (`.github/workflows/qa.yml`) runs the same
