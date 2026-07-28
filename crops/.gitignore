@@ -1,0 +1,4 @@
+# Raw pulls and expanded intermediates. Never committed: the ASAP
+# warnings CSV alone is 569 MB expanded, and per platform's contract
+# the committed artifact is the compact derived series under data/.
+.cache/
