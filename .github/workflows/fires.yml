@@ -103,14 +103,32 @@ jobs:
           fi
           echo "skipped=false" >> "$GITHUB_OUTPUT"
 
+      # Burnt area runs even when detections could not, and that is the
+      # point. The two halves of a country page refresh on different
+      # clocks: hectares can move daily, detections only on the one day
+      # in seven the trailing window lines up with the frozen baseline.
+      # Gating this on the step above would hold the half that CAN
+      # refresh hostage to the half that cannot.
+      #
+      # It is a FETCHER, so it runs here and never from inside a publish.
+      # It exits 1 on failure by design rather than raising: a failed
+      # pull leaves the previous data intact and merely older, so a warn
+      # and carry on is more honest than failing the build.
+      - name: Pull burnt area
+        run: |
+          set +e
+          PYTHONPATH="$PWD" python fires/fetch_area_daily.py
+          if [ $? -ne 0 ]; then
+            echo "::warning::Burnt-area pull failed. The previous data is \
+          still on disk and still valid, only older. Not failing the build."
+          fi
+
       # Commit the data BEFORE publishing, deliberately. publish_all.py
       # rejects a publish if a data file changed during the run, because
       # that is what a fetcher wired into a publish path looks like. The
-      # rule is renderers-only, so the fetch lands as its own commit and
-      # the publish then runs against committed state, exactly as it does
-      # locally.
-      - name: Commit the data pull
-        if: steps.pull.outputs.skipped != 'true'
+      # rule is renderers-only, so fetches land as their own commit and
+      # the publish then runs against committed state.
+      - name: Commit the data pulls
         run: |
           git config user.name "el-nino-tracker-bot"
           git config user.email "actions@github.com"
@@ -121,12 +139,14 @@ jobs:
             echo "No data changes."
           fi
 
+      # Unconditional now. Publishing is deterministic and a no-op when
+      # nothing changed, and gating it on the detections pull meant a
+      # template or design change never reached the fire pages on the six
+      # days in seven that pull skips.
       - name: Publish
-        if: steps.pull.outputs.skipped != 'true'
         run: python scripts/publish_all.py
 
       - name: Commit the published pages
-        if: steps.pull.outputs.skipped != 'true'
         run: |
           git add docs/
           if ! git diff --cached --quiet; then
