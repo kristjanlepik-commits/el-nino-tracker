@@ -102,8 +102,25 @@ for f in geo["features"]:
     rings = [np.vstack([np.array(p[0]), np.array(p[0])[:1]]) for p in ps]
     allv = np.vstack(rings)
     RINGS[f["id"]] = rings
-    BOX[f["id"]] = [float(allv[:, 0].min()), float(allv[:, 1].min()),
-                    float(allv[:, 0].max()), float(allv[:, 1].max())]
+    lon, lat = allv[:, 0], allv[:, 1]
+    s_, n_ = float(lat.min()), float(lat.max())
+    # A country crossing the antimeridian collapses min/max longitude to
+    # the whole globe. Russia is the case that exposed this: Chukotka
+    # sits just past 180, so RUS came out as -180..180, a 14,436 sq deg
+    # request against Canada's 3,672, and it timed out on all 14 years.
+    # Results were never wrong (point-in-polygon still filters correctly)
+    # but every request pulled most of the planet.
+    #
+    # Split into the two real lobes instead. Detection is a span wider
+    # than any genuine country, not a hardcoded ISO list, so Fiji and
+    # anything else added later is covered without a second fix.
+    if float(lon.max()) - float(lon.min()) > 340:
+        west = lon[lon < 0]
+        east = lon[lon >= 0]
+        BOX[f["id"]] = [[-180.0, s_, float(west.max()), n_],
+                        [float(east.min()), s_, 180.0, n_]]
+    else:
+        BOX[f["id"]] = [[float(lon.min()), s_, float(lon.max()), n_]]
 
 
 def _chunk(iso, cur, days):
