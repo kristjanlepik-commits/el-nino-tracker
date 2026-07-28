@@ -292,6 +292,71 @@ Two caveats recorded rather than smoothed over:
   instrument across two attempts, so they carry five instruments rather
   than six. Neither is a qualified pair.
 
+### 6d. In-season skill: can a pair be called before harvest?
+
+This is the question that decides whether crops is an early-warning
+instrument or a retrospective record, and the first attempt at it was
+invalid in a way worth recording.
+
+**Trap: a forecast test that uses post-harvest data is not a forecast
+test.** Sweeping a cutoff dekad from January to December produced
+"Mexico corn readable in January, peaking in late December". For a crop
+harvested in autumn, December data is after the harvest. Every pair
+looked excellent and none of the numbers meant what they appeared to.
+
+Redone using only dekads between planting and the start of harvest,
+with production attributed to the harvest year and the season wrap
+handled explicitly. ASAP's crop calendar supplies the windows for 8 of
+the 13 qualified countries.
+
+Correlation with final production, by how much season is still to run
+(T-6 means 60 days before harvest begins):
+
+| Pair | T-0 | T-3 | T-6 | T-9 | T-12 |
+|---|---|---|---|---|---|
+| Kazakhstan / Oats | 0.68 | 0.65 | 0.61 | 0.56 | **0.49** |
+| Syria / Wheat | 0.63 | 0.60 | 0.58 | 0.55 | **0.47** |
+| Kyrgyzstan / Wheat | 0.60 | 0.58 | 0.56 | 0.51 | **0.45** |
+| Kyrgyzstan / Barley | 0.60 | 0.57 | 0.53 | 0.48 | **0.41** |
+| Iraq / Barley | 0.66 | 0.63 | 0.56 | 0.44 | 0.27 |
+| Morocco / Wheat | 0.47 | 0.41 | 0.35 | 0.28 | 0.20 |
+| Tunisia / Wheat | 0.37 | 0.32 | 0.27 | 0.22 | 0.18 |
+| Zimbabwe / Corn | 0.35 | 0.25 | 0.14 | 0.04 | -0.06 |
+| Zimbabwe / Sorghum | 0.31 | 0.22 | 0.12 | 0.03 | -0.06 |
+| Iran / Barley | 0.35 | 0.24 | -0.01 | -0.32 | **-0.51** |
+| Zimbabwe / Millet | 0.16 | 0.06 | -0.04 | -0.12 | -0.18 |
+
+Three findings, and the second is the one that matters commercially.
+
+**Removing the leakage costs real skill.** Zimbabwe corn was 0.58 on the
+annual mean and is 0.35 using only pre-harvest data. The honest numbers
+are lower across the board, and these are the honest numbers.
+
+**Four pairs carry genuine early-warning skill.** Kazakhstan oats, Syria
+wheat, and Kyrgyz wheat and barley all hold r around 0.45 with **120
+days of season still to run**. That is a real in-season product: a
+warning publishable four months before the harvest it describes.
+
+**For several pairs, an early reading is worse than none.** Iran barley
+runs to **-0.51 at T-12**, a confident signal pointing the wrong way.
+Zimbabwe millet and corn also cross into negative territory early. A
+channel that published early-season readings uniformly would be
+systematically wrong on these, so **the earliest publishable dekad is a
+per-pair property that has to be established and frozen**, exactly like
+the baseline itself.
+
+Aggregate: at T-6, only 5 of 11 pairs reach r >= 0.40, median 0.34. In-season
+warning is available for a minority of pairs, not as a general property
+of the channel.
+
+**Blocked, and it is the commercially important half.** ASAP has no crop
+calendar for **Australia, Mexico, Ukraine, Argentina or Canada**, so the
+in-season question cannot yet be answered for wheat in Australia,
+Ukraine and Argentina, corn in Mexico, or Canadian rapeseed. Those are
+the largest and most reader-relevant of the qualified pairs. A crop
+calendar for those five from USDA IPAD or an equivalent is the single
+highest-value next input.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
