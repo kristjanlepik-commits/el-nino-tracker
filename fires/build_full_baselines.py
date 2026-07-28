@@ -100,7 +100,13 @@ def _chunk(iso, cur, days):
             break
         except Exception:
             if a == 3:
-                return {}
+                # MUST raise, never return {}. Swallowing a failed chunk
+                # writes the year as complete with a silent hole in it:
+                # the parallel rewrite did exactly that and produced a
+                # Canada 2024 with one day and 28 detections, which
+                # looked like a finished country. A year is either whole
+                # or absent.
+                raise RuntimeError(f"{iso} {cur} chunk failed after 3 tries")
             time.sleep(6 * a)
     if len(df) and "confidence" in df.columns:
         df = df[~df["confidence"].astype(str).str.lower().isin(["l", "low"])]
@@ -146,7 +152,16 @@ def main():
             continue
         for y in todo:
             try:
-                doc[str(y)] = pull_year(iso, y)
+                got = pull_year(iso, y)
+                # A country with no fire on a given day simply has no
+                # rows, so a short year is normal; a year missing most of
+                # its days is a swallowed failure. 300 is well below any
+                # plausible real count and well above a corrupted one.
+                if len(got) < 300:
+                    raise RuntimeError(
+                        f"{iso} {y}: only {len(got)} days, refusing to "
+                        f"store a partial year")
+                doc[str(y)] = got
                 json.dump(doc, open(path, "w"))
             except Exception as exc:
                 log(f"{iso} {y}: FAILED {exc}")
