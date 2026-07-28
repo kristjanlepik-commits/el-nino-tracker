@@ -39,12 +39,23 @@ def main():
     this_year = date.today().year
     for i, (iso, c) in enumerate(cur.items(), 1):
         path = os.path.join(OUTDIR, f"{iso}.json")
-        if os.path.exists(path):
-            continue
         scope = c["source"].lower()
         first = 2006 if scope == "effis" else 2012
+        # Prior years are settled and cached; the current year grows a
+        # week at a time and must always be re-pulled. Skipping the whole
+        # file when it exists was right for the one-time backfill and
+        # wrong for operation: the chart would silently stop advancing.
         years = {}
-        for y in range(first, this_year + 1):
+        if os.path.exists(path):
+            try:
+                years = json.load(open(path)).get("years", {})
+            except ValueError:
+                years = {}
+        todo = [y for y in range(first, this_year + 1)
+                if str(y) not in years or y == this_year]
+        if not todo:
+            continue
+        for y in todo:
             doc = get(f"{BASE}/{scope}/weekly?country={iso}&year={y}")
             if not doc:
                 continue
