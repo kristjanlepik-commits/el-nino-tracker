@@ -71,6 +71,15 @@ COUNTS = ("flood", "surfacewater", "nodata", "observed", "water3")
 
 _lock = threading.Lock()
 
+# The HDF5 C library underneath netCDF4 is not thread-safe in this build.
+# Six workers opening in-memory datasets concurrently deadlocked the whole
+# run: alive, sleeping, 11 seconds of CPU in two hours and twenty minutes.
+# Downloads are the bottleneck anyway (a tile is 12 to 25 MB over a
+# throttled pipe, parsing is well under a second), so serialising the
+# parse costs almost nothing and removes the failure mode entirely.
+# MODIS never hit this because HDF4 goes through a different library.
+_hdf_lock = threading.Lock()
+
 
 def log(msg):
     with _lock:
@@ -116,14 +125,15 @@ def process_tile(url, tok):
 
     import netCDF4
 
-    ds = netCDF4.Dataset("inmem", mode="r", memory=payload)
-    node = ds
-    for part in H5_GROUP:
-        node = node.groups[part]
-    flood = np.array(node.variables["Flood_3Day_250m"][:])
-    valid = np.array(node.variables["ValidCounts_3Day_250m"][:])
-    water = np.array(node.variables["WaterCounts_3Day_250m"][:])
-    ds.close()
+    with _hdf_lock:
+        ds = netCDF4.Dataset("inmem", mode="r", memory=payload)
+        node = ds
+        for part in H5_GROUP:
+            node = node.groups[part]
+        flood = np.array(node.variables["Flood_3Day_250m"][:])
+        valid = np.array(node.variables["ValidCounts_3Day_250m"][:])
+        water = np.array(node.variables["WaterCounts_3Day_250m"][:])
+        ds.close()
 
     stack = np.stack(
         [
