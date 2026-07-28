@@ -245,6 +245,17 @@ def main():
     ap.add_argument("--out-dir", required=True, help="where the daily npz files go")
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--manifest", default=None)
+    ap.add_argument(
+        "--min-age-days",
+        type=int,
+        default=2,
+        help="skip days newer than this. The LANCE window is populated as "
+        "granules arrive, so today's directory is incomplete and yesterday's "
+        "may be. A day captured partially would be frozen partial, because "
+        "capture_day skips any date that already has an npz, and this repo "
+        "does not edit written records. Two days of lag against a seven day "
+        "window still leaves five days of slack if a run is missed.",
+    )
     args = ap.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)
@@ -266,6 +277,11 @@ def main():
                 log(f"{year}: empty ({exc.code})")
                 continue
             for doy in days:
+                day_date = dt.date(int(year), 1, 1) + dt.timedelta(days=int(doy) - 1)
+                age = (dt.date.today() - day_date).days
+                if age < args.min_age_days:
+                    log(f"{year}{doy}: {age}d old, still filling, skipped")
+                    continue
                 try:
                     rec = capture_day(year, doy, args.out_dir, tok, args.workers)
                 except Exception as exc:

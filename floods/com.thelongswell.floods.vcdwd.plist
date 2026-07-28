@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Interim daily VIIRS capture, per D-038. Platform replaces this with a
+  CI workflow once the floods gate is ratified; it exists because a
+  missed day is unrecoverable (LANCE deletes after ~7 days) and the
+  channel cannot wait for the handover.
+
+  Install:
+    cp floods/com.thelongswell.floods.vcdwd.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.thelongswell.floods.vcdwd.plist
+
+  Check:    launchctl list | grep thelongswell
+  Logs:     ~/tls-floods-capture/daily.log
+  Status:   ~/tls-floods-capture/last_run.json
+  Remove:   launchctl unload ~/Library/LaunchAgents/com.thelongswell.floods.vcdwd.plist
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.thelongswell.floods.vcdwd</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/admin/Documents/Claude Projects/El Nino Tracker/floods/run_daily_capture.sh</string>
+    </array>
+
+    <!-- 09:30 local. Timing is not critical: the script skips days
+         younger than two days, and the LANCE window is seven days
+         deep, so a missed run has five days of slack before anything
+         is lost. -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/admin/tls-floods-capture/launchd.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/admin/tls-floods-capture/launchd.err</string>
+
+    <!-- Backgrounded so a 90 minute download does not compete with
+         whatever Kristjan is actually doing on the machine. -->
+    <key>LowPriorityIO</key>
+    <true/>
+    <key>Nice</key>
+    <integer>5</integer>
+</dict>
+</plist>
