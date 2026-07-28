@@ -128,12 +128,6 @@ def verify() -> list[str]:
     #    link check reported zero broken links. So assert the shared
     #    components per page, not just that the page exists.
     #
-    #    KNOWN GAP: docs/methodology.html carries no masthead today, so it
-    #    is a dead end for anyone arriving from a citation link, which is
-    #    precisely who lands there. It is rendered by render_html rather
-    #    than the masthead-bearing builders. Flip this to True once design
-    #    gives that page the shared chrome; leaving it declared False here
-    #    keeps the gap visible on every run instead of silently passing.
     # No known gaps: every published page carries the shared masthead.
     # docs/methodology.html was the last exception, closed 2026-07-27
     # when render_html stopped emitting a reduced masthead of its own.
