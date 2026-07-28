@@ -1165,7 +1165,20 @@ _PUBLIC_CSS_TEMPLATE = """
   }
   .mapcap .eyebrow { color: var(--ink-faint); }
   svg.map { display: block; width: 100%; height: auto; }
-  svg.map .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.4; }
+  /* The coastline rule was already wired to LAND_LINE but at 0.4 in
+     viewBox units, which on an 800-unit map rendered 1440px wide is
+     0.72px: present in the markup and invisible on screen. So the map
+     had two kinds of edge that looked identical, the coast being
+     geography and the field's top and bottom being a crop, and the
+     honest edge inherited the clipped-image feeling from the arbitrary
+     ones. non-scaling-stroke because the rule weights are defined in px
+     and must not scale with the viewport. It also separates the Chile
+     coastline from the field's southern crop boundary, which had merged
+     into one ambiguous line. */
+  svg.map .land {
+    fill: var(--land); stroke: var(--land-line);
+    stroke-width: 1.8; vector-effect: non-scaling-stroke;
+  }
   .mk { cursor: pointer; }
   .mk .mk-hit { fill: transparent; }
   /* No stroke. A 1px stroke on a radius that encodes magnitude added
@@ -2254,10 +2267,23 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
                f'<rect class="nino-box" x="{x1:.1f}" y="{y1:.1f}" '
                f'width="{x2 - x1:.1f}" height="{y2 - y1:.1f}" '
                f'fill="{T.anomaly_color(nino_value, T.OCEAN_SCALE)}"/>')
-            + f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
-            f'NI\u00d1O 3.4</text>'
-            f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
-            f'{nino_value:+.1f} \u00b0C</text></a>')
+            # Label and value are one object and now read as one. The
+            # label used to sit above the region's northern edge, which
+            # was fine when a box enclosed the region and gave it
+            # something to belong to. Against a bracket it floated over
+            # pale water with nothing tying it to anything, while the
+            # value below was correctly anchored. Both now stack at the
+            # bracket's left tip, label first.
+            + (f'<text class="nino-lb" x="{x1:.1f}" y="{yb + 13:.1f}">'
+               f'NI\u00d1O 3.4</text>'
+               f'<text class="nino-v" x="{x1:.1f}" y="{yb + 30:.1f}">'
+               f'{nino_value:+.1f} \u00b0C</text>'
+               if field else
+               f'<text class="nino-lb" x="{x1:.1f}" y="{y1 - 7:.1f}">'
+               f'NI\u00d1O 3.4</text>'
+               f'<text class="nino-v" x="{x1:.1f}" y="{y2 + 17:.1f}">'
+               f'{nino_value:+.1f} \u00b0C</text>')
+            + '</a>')
 
     # Hard stops, not a gradient. The fills are nine discrete steps, so
     # an interpolating ramp would let a reader decode a colour off the

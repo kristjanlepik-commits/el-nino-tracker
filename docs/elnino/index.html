@@ -931,7 +931,20 @@
   }
   .mapcap .eyebrow { color: var(--ink-faint); }
   svg.map { display: block; width: 100%; height: auto; }
-  svg.map .land { fill: var(--land); stroke: var(--land-line); stroke-width: 0.4; }
+  /* The coastline rule was already wired to LAND_LINE but at 0.4 in
+     viewBox units, which on an 800-unit map rendered 1440px wide is
+     0.72px: present in the markup and invisible on screen. So the map
+     had two kinds of edge that looked identical, the coast being
+     geography and the field's top and bottom being a crop, and the
+     honest edge inherited the clipped-image feeling from the arbitrary
+     ones. non-scaling-stroke because the rule weights are defined in px
+     and must not scale with the viewport. It also separates the Chile
+     coastline from the field's southern crop boundary, which had merged
+     into one ambiguous line. */
+  svg.map .land {
+    fill: var(--land); stroke: var(--land-line);
+    stroke-width: 1.8; vector-effect: non-scaling-stroke;
+  }
   .mk { cursor: pointer; }
   .mk .mk-hit { fill: transparent; }
   /* No stroke. A 1px stroke on a radius that encodes magnitude added
