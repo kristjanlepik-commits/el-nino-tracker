@@ -21,9 +21,22 @@ Confirmed with Kristjan 2026-07-25:
 3. **Automation: one fetcher in v1.** NASA FIRMS area API for weekly
    same-sensor hotspot counts per region box. Burned area, emissions,
    and damage stay manually curated.
-4. **Damage scope: health-cost estimates included**, always labeled as
-   study-based and years-lagged, never mixed into direct or insured
-   comparisons.
+4. ~~**Damage scope: health-cost estimates included**, always labeled
+   as study-based and years-lagged, never mixed into direct or insured
+   comparisons.~~ **SUPERSEDED 2026-07-28 by D-032.** Money is ECON's
+   surface: the cross-channel damage ledger, named estimators, issue
+   dates, vintage and revision history. Fire consumes that ledger and
+   does not track loss figures itself. The reasoning inside the struck
+   text was sound and ECON's schema now enforces a stricter version of
+   it, including a category enum that keeps humanitarian appeals
+   unsummable with losses and a validator that rejects a monetised
+   mortality figure not linked to the death toll it prices.
+
+   Kept as a caution: this decision was ratified on 2026-07-25 from
+   research/handover_fire_tracker.md, which was itself written before
+   the decisions that moved money to ECON. The damage layer here was
+   never wrong when written; it was overtaken three days later, and
+   nothing in the file said so until aftereffects flagged it.
 5. **Cadence: one automated update per day**, plus the curated weekly
    issue on Mondays. Twice-daily considered and rejected for v1; see
    "Update cadence" for the reasoning and the peak-week escalation
@@ -45,8 +58,12 @@ A weekly tracker that measures, for the El Niño-relevant fire regions:
 
 1. **Fire activity, observed**: what is burning now, quantified against
    same-week analog-year baselines.
-2. **Economic damage, attributed**: what the fires cost, per named
-   institutional estimator, with issue dates, revisions tracked as data.
+2. ~~**Economic damage, attributed**: what the fires cost, per named
+   institutional estimator, with issue dates, revisions tracked as
+   data.~~ **Moved to ECON, D-032.** Fire consumes their ledger. The
+   mission is levels 1 to 3 of the metrics ladder and all six
+   measurement traps; the money layer is a dependency, not a build
+   item.
 
 Same epistemic posture as the parent brief: aggregation of named
 sources, disagreement surfaced not averaged, no original modeling. The
@@ -68,7 +85,8 @@ transparently).
     disclaimer language, a visible "last updated" stamp. Mutable by
     nature; it shows current state.
   - The **weekly issue** (Mondays) is the curated product of record:
-    lede, analog comparisons, damage panel, freshness footer.
+    lede, analog comparisons, freshness footer, and a damage panel
+    rendered FROM ECON's ledger rather than tracked here (D-032).
     Immutable once published, parent-archive rules.
 - **Kristjan reads the same page.** No separate internal artifact; the
   weekly issue markdown in `fires/` is the source the HTML is rendered
@@ -120,7 +138,10 @@ Canada boreal is out unless a signal appears; its ENSO link is weak.
 3. **Emissions** (monthly-ish, manual): GFED, Copernicus CAMS. The
    1997 Indonesia record (up to 2.57 Gt C, Page et al. 2002) is the
    standing benchmark.
-4. **Economic damage** (slowest, most revisable, manual): EM-DAT, the
+4. **Economic damage** ECON'S SURFACE SINCE D-032, retained here only
+   so Fire knows what it is consuming and can tell when a figure is
+   being misused. Do not build against this list; read ECON's ledger.
+   (slowest, most revisable, manual): EM-DAT, the
    billion-dollar disasters dataset (US only; NOAA NCEI discontinued
    it May 2025, Climate Central now stewards it with the same
    methodology), Munich Re / Swiss Re sigma (insured), World Bank
@@ -309,7 +330,9 @@ a *tracked series* versus an *ad-hoc slice*:
    into the other.
 3. Peak-week comparisons note cloud/smoke undercount when relevant.
 4. Damage estimates are vintage-tracked: estimator, issue date,
-   revision history. Early numbers are expected to be low.
+   revision history. Early numbers are expected to be low. As of
+   D-032 this is ECON's requirement to enforce, not ours; it stays
+   listed because Fire must not render a loss figure that fails it.
 5. Framing is "fires in the El Niño-loaded windows," never "El Niño
    caused this fire." Formal attribution defers to WWA-type studies.
    US West and Mediterranean get the weakest framing.
