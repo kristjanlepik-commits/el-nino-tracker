@@ -89,10 +89,17 @@ jobs:
           code=$?
           echo "$out"
           if [ $code -ne 0 ]; then
-            # The one expected refusal: the frozen baseline does not cover
-            # the trailing window, so there is nothing valid to compare
-            # against. Not a break, and not something a retry fixes.
-            if echo "$out" | grep -q "refresh the history first"; then
+            # House convention for data jobs, from the CRO chat 2026-07-28:
+            #   0  did work
+            #   3  nothing to do, expected, warn and skip
+            #   *  broken, fail loudly
+            #
+            # The string match below is the OLD way and is fragile: it
+            # couples this workflow to a message owned by another chat,
+            # so a reword would silently turn an expected refusal into a
+            # daily red build. Kept only until build_events.py adopts
+            # exit 3, then delete it.
+            if [ $code -eq 3 ] || echo "$out" | grep -q "refresh the history first"; then
               echo "::warning::Fires page NOT updated: the baseline window \
           does not cover the trailing week, so build_events.py refused. This \
           resolves when full-year per-country baselines land (Fire chat)."
