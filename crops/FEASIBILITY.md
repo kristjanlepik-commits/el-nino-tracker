@@ -29,8 +29,19 @@ fell to an independent outcome source (minor crops where two agencies
 disagree about what happened). Each filter removed something the
 previous one could not see.
 
-A crops channel built on those 17 pairs is a real product. A crops
-channel that claims to cover crops generally is not.
+**Plus 12 European pairs, added 2026-07-29** after a question about UK
+crop failures exposed that PSD reports the EU as one aggregate and the
+scan had therefore never tested Europe at all (section 6h). Redone on
+FAOSTAT: Spain wheat and barley, Germany and Czech potatoes, Hungary
+maize and rapeseed, Poland, Sweden and Belarus wheat, Romania barley and
+rapeseed, Slovakia rapeseed. These are corroborated across instruments
+but rest on a **single outcome source**, since no standalone European
+PSD series exists to check them against, and they should carry that
+distinction rather than be presented as equals.
+
+**So: 17 fully corroborated pairs, plus 12 European pairs at one
+outcome source.** A crops channel built on those is a real product. A
+crops channel that claims to cover crops generally is not.
 
 The narrowing, stated plainly: crops can honestly report **how stressed
 a country's cropland is against its own 25-year record**, and can
