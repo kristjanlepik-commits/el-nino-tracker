@@ -453,6 +453,44 @@ The Australian cluster shrinks accordingly: wheat (source agreement
 This does not weaken the Australian wheat result, which is the strongest
 in the report on every test applied to it.
 
+### 6g. The four sourced calendars, and what they changed (D-040)
+
+Sourced 2026-07-29 from named agency publications and recorded with
+their wording in `crops/crop_calendars.json`. Re-running the pre-harvest
+test on real harvest dates rather than derived cropland windows:
+
+| Pair | T-0 | T-3 | T-6 | T-9 | Verdict |
+|---|---|---|---|---|---|
+| Mexico / Corn | 0.73 | 0.68 | 0.60 | 0.43 | **in-season, strong** |
+| Argentina / Wheat | 0.63 | 0.61 | 0.63 | **0.63** | **in-season, flat** |
+| Ukraine / Wheat | 0.52 | 0.45 | 0.35 | 0.21 | late season only |
+| Canada / Rapeseed | 0.24 | 0.21 | 0.18 | 0.15 | **no in-season skill** |
+
+Four results, and three of them change a decision.
+
+**Mexico corn and Argentina wheat join the in-season set, and both are
+reader-relevant.** Argentina is the more striking: its skill is **flat
+at 0.63 from T-0 all the way out to T-9**, meaning early-season
+conditions carry essentially all the information the full season does.
+Ninety days of lead at undiminished strength is the best early-warning
+property found anywhere in this study.
+
+**Ukraine wheat drops from an apparent 0.82 to a real 0.52**, and decays
+to 0.21 nine dekads out. The earlier figure was the post-harvest leakage
+predicted in section 6e, now measured rather than suspected. Ukraine is
+qualified but late-season only.
+
+**Canada rapeseed fails outright at 0.24**, never reaching the bar even
+using the whole pre-harvest season. Its earlier 0.62 came from a lag-1
+fit that section 6c already flagged as possibly a market-year offset
+rather than a physical lag. With the real calendar there is no in-season
+skill. Canada stays qualified on the annual outcome and is publishable
+at harvest only.
+
+This is the single largest improvement in the report per hour spent, and
+it vindicates sequencing the calendars ahead of the open decision: the
+in-season launch set went from one reader-relevant pair to three.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
