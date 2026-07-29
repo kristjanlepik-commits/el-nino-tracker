@@ -33,7 +33,8 @@ CATEGORIES = {
 EVIDENCE_BASIS = {"measured", "compiled", "combined"}
 AUTHORSHIP = {"agency", "tls_built"}
 BASIS = {"published_schedule", "observed_practice", "conditional"}
-ABSENCE_REASONS = {"below_threshold", "outside_coverage", "not_yet_valid"}
+ABSENCE_REASONS = {"below_threshold", "outside_coverage", "not_yet_valid",
+                   "upstream_not_selected"}
 
 # Estimators that publish no methodology. A figure from one of these
 # may never appear alone: the reader has no way to check what is

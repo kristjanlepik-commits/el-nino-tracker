@@ -142,6 +142,15 @@ and they mean opposite things:
 - **Present but not yet valid.** Some seasonal agricultural indicators
   point the wrong way early in a season, confidently. We treat those as
   absent rather than as weak evidence.
+- **Not selected upstream.** Our hazard channels flag events by how
+  unusual they are against their own history, which is the right test
+  for "how abnormal is this" and the wrong one for "where is the most
+  damage". In the week to 28 July 2026, Spain was flagged at 14.1 times
+  its normal fire activity on 4,678 satellite detections, while the
+  Democratic Republic of the Congo, running an ordinary year at 0.98
+  times normal, recorded 75,849. Sixteen times the fire, not flagged,
+  correctly. We do not let that selection decide which events get a
+  cost page.
 
 This has an uncomfortable consequence we would rather publish than
 hide: **the places where a damage figure arrives slowest, or never, are
