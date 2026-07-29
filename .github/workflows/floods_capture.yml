@@ -144,7 +144,7 @@ jobs:
           git add floods/data/ 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "floods: VIIRS capture manifest $(date -u +'%Y-%m-%d')"
-            git push
+            bash scripts/push_retry.sh main
           else
             echo "No manifest change."
           fi

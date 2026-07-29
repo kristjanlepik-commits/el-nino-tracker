@@ -187,4 +187,6 @@ jobs:
           else
             echo "No page changes."
           fi
-          git push
+          # Unconditional: the data commit from the earlier step still
+          # needs pushing even when the pages did not move.
+          bash scripts/push_retry.sh main
