@@ -54,7 +54,21 @@ Confirmed with Kristjan 2026-07-25:
 
 ## Mission
 
-A weekly tracker that measures, for the El Niño-relevant fire regions:
+REFRAMED 2026-07-29 by D-042 and D-043. ENSO is a data layer, not the
+frame. The bar for covering a country is a computable baseline and a
+measured extreme, NOT an established ENSO link, and "not ENSO-linked"
+is a finding rather than an apology. This channel tags zero of 45
+countries as ENSO-linked and its strongest 2026 anomaly is the
+Mediterranean, its own declared control region; under the old weighting
+that read as a disappointing result, and it is simply what the
+measurements say.
+
+The gate implements this already: it ranks on z-score, multiple and
+rank-on-record against each country's own history, and ENSO appears
+nowhere in it.
+
+A weekly tracker that measures, for any region with a computable
+baseline (originally: for the El Niño-relevant fire regions):
 
 1. **Fire activity, observed**: what is burning now, quantified against
    same-week analog-year baselines.
