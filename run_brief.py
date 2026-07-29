@@ -1195,6 +1195,13 @@ _PUBLIC_CSS_TEMPLATE = """
      is the number here, so the separation goes outside it. Same device
      as D-023, applied to a mark instead of a label. */
   .mk-ring { fill: none; stroke: var(--paper); stroke-width: 2.4; }
+  /* Context, not an event: an open ring of the same radius, so the
+     size still carries the number and the fill no longer claims
+     something the data denies. */
+  .mk.ctx .mk-dot { fill: none; stroke: var(--fire);
+    stroke-width: 1.6; fill-opacity: 1; }
+  .mk.ctx:hover .mk-dot, .mk.ctx:focus .mk-dot { fill: var(--fire);
+    fill-opacity: 0.18; }
   .mk .mk-dot {
     fill: var(--fire); fill-opacity: 0.78;
     stroke: none;
@@ -2186,10 +2193,23 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
             continue
         r = radius(m.get("multiple") or 0)
         href = h(f'{root_prefix}{m.get("href", "")}')
-        label = (f'{m.get("region", "")}, {m.get("multiple")} times its '
-                 f'same-week average')
+        # A filled disc asserts an event. Four of the fifteen countries
+        # on this map are large and above normal but explicitly NOT
+        # anomalous, and DR Congo is the clearest: 75,849 detections at
+        # exactly 1.0x, the largest fire system on Earth behaving
+        # completely normally. It belongs on a world fire map and it is
+        # not news, and one symbol cannot say both. So an anomaly is a
+        # filled disc and context is an open ring at the same radius:
+        # present, sized honestly, and not claiming anything.
+        ctx = (m.get("volume_context") and not m.get("anomalous"))
+        label = ((f'{m.get("region", "")}, {m.get("multiple")} times its '
+                  f'same-week average, within its historical range')
+                 if ctx else
+                 (f'{m.get("region", "")}, {m.get("multiple")} times its '
+                  f'same-week average'))
         pins.append(
-            f'<a class="mk" href="{href}" aria-label="{h(label)}">'
+            f'<a class="mk{" ctx" if ctx else ""}" href="{href}" '
+            f'aria-label="{h(label)}">'
             f'<circle class="mk-hit" cx="{cx:.1f}" cy="{cy:.1f}" '
             f'r="{max(r + 7, 12):.1f}"/>'
             f'<circle class="mk-focus" cx="{cx:.1f}" cy="{cy:.1f}" '

@@ -308,11 +308,12 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
     left = f"""
       <div class="col">
         <p class="cell-lab">This week &middot; {h(piece["window_pretty"])}</p>
-        <p class="hero" style="color:{emphasis(det["multiple"], 1.0)}">
+        <p class="hero" style="color:{"var(--ink)" if piece.get("volume_context") and not piece.get("anomalous") else emphasis(det["multiple"], 1.0)}">
           {det["multiple"]:.1f}&times;</p>
         <p class="cell-sub">active-fire detections against the same-week
           mean of {det["mean"]:,.0f}, {det["baseline_span"]}<br>
-          {h(det["instrument"])}</p>
+          {h(det["instrument"])}<br>
+          <span class="verdict">{h(piece["verdict"])}</span></p>
         <p class="ch-lab">Against the same week, every year</p>
         {_same_week_bars(det["hist"], det["count"], det["mean"], year)}
         <p class="ch-note">Each year&rsquo;s detections in the same window
@@ -400,6 +401,7 @@ h1 {{ font-size: 40px; font-weight: 500; line-height: 1.13;
   color: var(--fire); margin: 0; line-height: 1;
   font-variant-numeric: tabular-nums; }}
 .hero .unit {{ font-size: 20px; font-weight: 500; }}
+.verdict {{ color: var(--ink); }}
 .cell-sub {{ font-size: 11.5px; color: var(--ink-soft); margin: 12px 0 0;
   line-height: 1.62; }}
 .ch-lab {{ font-size: 10px; letter-spacing: {T.TRACK_LABEL}em;

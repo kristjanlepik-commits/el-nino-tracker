@@ -104,7 +104,30 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
     week_claim = (f"{name} had its {ORD.get(rank, str(rank) + 'th-heaviest')} "
                   f"fire week for this point in the year since {min(hist)}")
     claim = week_claim
-    if area_cur and area_years:
+
+    # The channel's own flags decide what kind of claim is available.
+    # Before these were consumed, DR Congo at 1.0x and z = -0.08 rendered
+    # exactly like Spain at 14.1x: the largest fire system on Earth
+    # behaving completely normally, presented as news. A page that says
+    # "seventh-heaviest week" about a country sitting on its own mean is
+    # true and still misleading, which is the failure the flags exist to
+    # prevent.
+    anomalous = bool(ev.get("anomalous"))
+    volume_context = bool(ev.get("volume_context"))
+    unstable = bool(ev.get("multiple_unstable"))
+    z = ev.get("z")
+
+    if volume_context and not anomalous:
+        # Large, above normal, NOT abnormal. D-043 requirement 2 in its
+        # first live case: this has to read as legibly as "extreme" does.
+        near_normal = z is not None and abs(z) < 1.0
+        claim = ((f"{name} is burning at close to its normal rate for this "
+                  f"point in the year")
+                 if near_normal else
+                 (f"{name} is burning above its normal rate, and within "
+                  f"its historical range"))
+
+    if area_cur and area_years and not (volume_context and not anomalous):
         year_mult = area_cur.get("multiple") or 0.0
         prev = [y for y in area_years if y != year]
         rec = max(prev, key=lambda y: max(area_years[y].values())) if prev else None
@@ -120,7 +143,7 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
         if beat_record:
             claim = (f"{name} has already burned more this year than in "
                      f"any full year on record")
-        elif year_mult > week_mult:
+        elif year_mult > week_mult and not unstable:
             claim = (f"{name} has burned {year_mult:.1f} times its normal "
                      f"area for this point in the year")
 
@@ -135,6 +158,25 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
             "against every season on record. Different instruments, "
             "different units, and one of them is not finished."),
         "attribution": ev.get("attribution", "pending"),
+        # Orthogonal, and a country carries more than one: Spain is
+        # anomalous AND pinned, Canada is pinned AND volume_context and
+        # explicitly not anomalous. Collapsing them into one class is
+        # what the split exists to prevent.
+        "anomalous": anomalous,
+        "volume_context": volume_context,
+        "multiple_unstable": unstable,
+        "z": z,
+        # Says which of the three states this is, in words, at the same
+        # weight in every case. An unstable multiple says so where the
+        # multiple is printed, so a pinned country's thin number cannot
+        # look sturdy just because a reader asked for that country.
+        "verdict": (
+            ("Above normal, and within this country's historical range"
+             if volume_context and not anomalous else
+             "Cleared the anomaly gate for this week")
+            + (". The multiple rests on a thin baseline, so the rank is "
+               "the sturdier reading" if unstable else "")
+            + (f". Standardised anomaly z = {z:+.1f}" if z is not None else "")),
         "detections": {
             "count": now,
             "mean": mean,
