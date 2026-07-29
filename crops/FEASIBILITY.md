@@ -491,6 +491,91 @@ This is the single largest improvement in the report per hour spent, and
 it vindicates sequencing the calendars ahead of the open decision: the
 in-season launch set went from one reader-relevant pair to three.
 
+### 6h. Europe was missing, and it was our fault not the data's
+
+Prompted by a question about UK crop failures in the news on
+2026-07-29. The UK did not appear anywhere in the 752-pair scan, and
+the reason turned out to be systematic.
+
+**USDA PSD reports the European Union as a single aggregate.** UK wheat
+exists in PSD only from 2016, being inside the EU aggregate before
+Brexit. Checked across 24 European countries: **20 have fewer than 20
+years of standalone PSD wheat and 12 have none at all**, including
+France, Germany, Spain, Italy, Greece, Portugal, Denmark, Sweden,
+Finland, Ireland, the Netherlands, Belgium and Austria.
+
+So the scan did not find Europe unqualified. It never tested it. For a
+project whose audience is explicitly EU and US (T11), that is the worst
+possible place to have a silent coverage hole.
+
+**Redone with FAOSTAT as the outcome source** (1961 to 2024, official
+flags, no EU aggregation): 156 European pairs tested, 17 survive
+Benjamini-Hochberg at q = 0.10, and **12 survive cross-instrument
+corroboration** at the same bar every other pair faced:
+
+| Country | Commodity | r |
+|---|---|---|
+| Germany | Potatoes | 0.69 |
+| Hungary | Rapeseed | 0.69 |
+| Hungary | Maize | 0.68 |
+| **Spain** | **Barley** | **0.68** |
+| Sweden | Wheat | 0.67 |
+| Romania | Barley | 0.65 |
+| Slovakia | Rapeseed | 0.63 |
+| Czech Republic | Potatoes | 0.60 |
+| Poland | Wheat | 0.60 |
+| Romania | Rapeseed | 0.59 |
+| **Spain** | **Wheat** | **0.58** |
+| Belarus | Wheat | 0.57 |
+
+**Spain is the standout.** Barley reads 0.68 on cumulative vegetation,
+0.80 on current vegetation, 0.81 on water satisfaction, 0.62 on rainfall
+and 0.64 on soil moisture; wheat is similar with 0.84 on current
+vegetation. Five instruments in strong agreement, and Spain is a
+water-limited Mediterranean system, so it fits the physical pattern that
+every other qualified pair fits.
+
+Worth flagging for the editor: Spain is also the fire channel's declared
+**non-ENSO control**. A Spanish crop story would carry "Not ENSO-linked"
+and that is a feature, since it is what makes the loaded-window tag
+believable elsewhere (T9).
+
+**One caveat, and it is not small.** These 12 rest on a **single outcome
+source**. PSD has no standalone European series, so the two-source check
+that cut 22 pairs to 17 elsewhere cannot be run here. European pairs are
+corroborated on the instrument side but single-sourced on the outcome
+side, and should carry that distinction rather than be presented as
+equals to Australia wheat or Mexico corn.
+
+### On the UK specifically
+
+**The UK does not qualify.** Its best pair is wheat at r = 0.40,
+p = 0.063, which fails the bar; barley, oats, rapeseed and potatoes are
+all near zero. So we cannot make a production claim about the UK.
+
+What we can say is measured and striking. For the season to date
+(October 2025 through 20 July 2026), against the UK's own 2002 to 2025
+record for the same dekads:
+
+- **Water satisfaction: worst on record**, 94.7 against a 98.1 mean
+- **Temperature: warmest on record**, 9.45C against an 8.51C mean
+- Vegetation: near its best, rank 24 of 25
+- Rainfall: above average
+
+That combination is coherent rather than contradictory: rainfall was
+adequate, but record warmth raised evaporative demand enough to drive
+the crop water balance to its lowest in 25 years, while the canopy still
+looks green.
+
+And the named agency does not currently show a 2026 failure. USDA's own
+figures put UK wheat at **+0.8% against its trailing five-year mean**
+for 2026 and barley at **-11.1%**. The severe UK wheat year in the
+record is **2024, at -19.0%**, not 2026.
+
+That is the whole channel discipline in one case: a real measured
+extreme, no qualified link to production, and a named agency whose
+current estimate does not support the headline.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
