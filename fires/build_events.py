@@ -55,8 +55,28 @@ MIN_COUNT = 500
 MIN_MULTIPLE = 1.5
 STRONG_MULTIPLE = 2.0
 MAX_RANK = 3
-MAX_MARKERS = 12
-HIGH_VOLUME = 20000   # always shown if it clears the base gate
+# Was 8, then 12 on 2026-07-27 when the sweep widened to 45 countries,
+# then 20 on 2026-07-29. It was never a map constraint, just a number,
+# and it was quietly excluding real cases: Saudi Arabia at rank 1 of 15
+# and Libya at rank 3 both cleared every threshold and were cut by the
+# cap alone. 20 is above the eligible count at present, so the cap is
+# now a safety valve against a pathological week rather than a routine
+# filter. If it starts binding again, raise it rather than let it
+# silently decide the page.
+MAX_MARKERS = 20
+HIGH_VOLUME = 20000
+
+# Countries that always appear, gate or no gate.
+#
+# Kristjan's call, 2026-07-29: readers come to check their own country,
+# and a tracker that shows nothing for the UK because the UK is having
+# an ordinary week fails that reader. These five are where the audience
+# is. A pinned country is NOT a claim that something is happening
+# there; it carries whatever its real numbers say, including "normal",
+# and ships a pinned flag so design can render it distinctly from an
+# anomaly. Rendering the two identically would turn this into exactly
+# the over-claiming the gate exists to prevent.
+PINNED = {"GBR", "USA", "CAN", "FRA", "ESP"}
 
 # Attribution is an editorial judgment per country, from the fixed
 # three-value vocabulary. Anything not assessed defaults to "pending",
@@ -311,21 +331,55 @@ def main():
         print(f"{iso}: {count:,} x{multiple:.1f} rank {rank} "
               f"({lat}, {lon}) {basis}", flush=True)
 
-    eligible = [r for r in rows
-                if r["count"] >= MIN_COUNT
-                and r["multiple"] >= MIN_MULTIPLE
-                and (r["multiple"] >= STRONG_MULTIPLE
-                     or r["rank_n"] <= MAX_RANK)]
-    # Sort by departure, the house convention. But cap by multiple alone
-    # and a 609-detection country outranks Canada's 75,463, hiding the
-    # largest fire complex on the planet. So anything genuinely large
-    # that clears the base gate is kept regardless of where the cap
-    # falls. Volume does not earn a marker on its own; it does earn one
-    # once the country is already anomalous.
+    # HIGH_VOLUME is a qualifying path, not only a rescue from the cap.
+    #
+    # It used to sit below, re-admitting large countries that had
+    # already been judged eligible. That could never reach Canada,
+    # which on 2026-07-29 ran 49,912 detections at 1.8x and rank 4:
+    # above MIN_MULTIPLE but short of STRONG_MULTIPLE and outside the
+    # top three, so it failed eligibility outright and the rescue never
+    # saw it. The largest boreal fire complex on the planet, at nearly
+    # double its own normal, was invisible because a rank clause meant
+    # to filter noise was applied to volume.
+    #
+    # The clause is right for small countries, where rank guards against
+    # an unstable multiple on a thin baseline. At 49,912 detections
+    # against a 27,367 mean there is nothing unstable to guard against.
+    def qualifies(r):
+        if r["count"] < MIN_COUNT or r["multiple"] < MIN_MULTIPLE:
+            return False
+        return (r["multiple"] >= STRONG_MULTIPLE
+                or r["rank_n"] <= MAX_RANK
+                or r["count"] >= HIGH_VOLUME)
+
+    eligible = [r for r in rows if qualifies(r)]
+    # Sort by departure, the house convention. Volume still survives the
+    # cap as well as the gate, so a pathological week of tiny high-ratio
+    # countries cannot push Canada or Brazil off the page.
     eligible.sort(key=lambda r: -r["multiple"])
     top = eligible[:MAX_MARKERS]
     big = [r for r in eligible[MAX_MARKERS:] if r["count"] >= HIGH_VOLUME]
     eligible = sorted(top + big, key=lambda r: -r["multiple"])
+
+    # Pinned countries are appended after the gate has run, never merged
+    # into it, so nothing about them changes what "qualified" means.
+    #
+    # multiple_unstable is the honest half of this. The UK reads 2.9x on
+    # 407 detections against a mean of 138, below MIN_COUNT, and the
+    # count floor exists precisely because a multiple on a baseline that
+    # thin swings wildly on a handful of pixels. Pinning the UK does not
+    # make that number sturdy, it makes it visible, so it ships flagged
+    # and design decides whether to lead with rank instead.
+    chosen = {r["iso"] for r in eligible}
+    for r in rows:
+        if r["iso"] in PINNED and r["iso"] not in chosen:
+            r["pinned"] = True
+            r["multiple_unstable"] = r["count"] < MIN_COUNT
+            eligible.append(r)
+    for r in eligible:
+        r.setdefault("pinned", r["iso"] in PINNED)
+        r.setdefault("multiple_unstable", r["count"] < MIN_COUNT)
+    eligible.sort(key=lambda r: (-r["multiple"]))
 
     end_fmt = "%-d" if start.month == end.month else "%b %-d"
     win_label = f"wk {start.strftime('%b %-d')}-{end.strftime(end_fmt)}"
@@ -345,6 +399,8 @@ def main():
             "stat": f"{r['multiple']:.1f}x",
             "stat_label": "same-week 2012-25 mean",
             "attribution": r["attribution"],
+            "pinned": r["pinned"],
+            "multiple_unstable": r["multiple_unstable"],
             "source": source,
             "href": r["href"],
         } for r in eligible],
@@ -361,6 +417,8 @@ def main():
             "region": r["region"], "lat": r["lat"], "lon": r["lon"],
             "multiple": r["multiple"], "count": r["count"],
             "rank": r["rank"], "attribution": r["attribution"],
+            "pinned": r["pinned"],
+            "multiple_unstable": r["multiple_unstable"],
             "centroid_basis": r["centroid_basis"], "href": r["href"],
         } for r in eligible],
     }

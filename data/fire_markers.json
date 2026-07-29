@@ -15,6 +15,8 @@
       "count": 4678,
       "rank": "1 of 15",
       "attribution": "non_enso",
+      "pinned": true,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/spain/"
     },
@@ -26,6 +28,8 @@
       "count": 3799,
       "rank": "1 of 15",
       "attribution": "non_enso",
+      "pinned": true,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/france/"
     },
@@ -37,6 +41,8 @@
       "count": 5323,
       "rank": "1 of 15",
       "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/papua-new-guinea/"
     },
@@ -48,6 +54,8 @@
       "count": 649,
       "rank": "1 of 15",
       "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/cuba/"
     },
@@ -59,6 +67,8 @@
       "count": 3675,
       "rank": "1 of 15",
       "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/botswana/"
     },
@@ -70,8 +80,23 @@
       "count": 608,
       "rank": "1 of 15",
       "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/tunisia/"
+    },
+    {
+      "region": "United Kingdom",
+      "lat": 54.4,
+      "lon": -2.64,
+      "multiple": 2.9,
+      "count": 407,
+      "rank": "1 of 15",
+      "attribution": "non_enso",
+      "pinned": true,
+      "multiple_unstable": true,
+      "centroid_basis": "weighted",
+      "href": "fires/united-kingdom/"
     },
     {
       "region": "United States of America",
@@ -81,6 +106,8 @@
       "count": 35312,
       "rank": "1 of 15",
       "attribution": "non_enso",
+      "pinned": true,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/united-states-of-america/"
     },
@@ -92,8 +119,23 @@
       "count": 32753,
       "rank": "1 of 15",
       "attribution": "non_enso",
+      "pinned": false,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/australia/"
+    },
+    {
+      "region": "Canada",
+      "lat": 60.67,
+      "lon": -117.92,
+      "multiple": 1.8,
+      "count": 49912,
+      "rank": "4 of 15",
+      "attribution": "non_enso",
+      "pinned": true,
+      "multiple_unstable": false,
+      "centroid_basis": "weighted",
+      "href": "fires/canada/"
     },
     {
       "region": "Zimbabwe",
@@ -103,6 +145,8 @@
       "count": 3741,
       "rank": "3 of 15",
       "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/zimbabwe/"
     },
@@ -114,6 +158,8 @@
       "count": 3620,
       "rank": "1 of 15",
       "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/algeria/"
     },
@@ -125,6 +171,8 @@
       "count": 8200,
       "rank": "3 of 15",
       "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/indonesia/"
     },
@@ -136,8 +184,36 @@
       "count": 2443,
       "rank": "2 of 15",
       "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
       "centroid_basis": "weighted",
       "href": "fires/mexico/"
+    },
+    {
+      "region": "Libya",
+      "lat": 28.94,
+      "lon": 18.48,
+      "multiple": 1.5,
+      "count": 1167,
+      "rank": "3 of 15",
+      "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
+      "centroid_basis": "weighted",
+      "href": "fires/libya/"
+    },
+    {
+      "region": "Saudi Arabia",
+      "lat": 24.16,
+      "lon": 46.15,
+      "multiple": 1.5,
+      "count": 810,
+      "rank": "1 of 15",
+      "attribution": "pending",
+      "pinned": false,
+      "multiple_unstable": false,
+      "centroid_basis": "weighted",
+      "href": "fires/saudi-arabia/"
     }
   ]
 }
