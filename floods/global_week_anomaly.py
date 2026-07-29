@@ -34,6 +34,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 import urllib.parse
 import urllib.request
 
@@ -53,12 +54,21 @@ def token():
     return open(TOKEN_PATH).read().strip()
 
 
-def granule_url(day, short="GPM_3IMERGDL", ver="07"):
+def granule_url(day, short="GPM_3IMERGDL", ver="07", tries=4):
     p = {"short_name": short, "version": ver,
          "temporal": f"{day}T00:00:00Z,{day}T23:59:59Z", "page_size": 1}
     rq = urllib.request.Request(f"{CMR}?{urllib.parse.urlencode(p)}",
                                 headers={"User-Agent": "TLS-floods/0.1"})
-    e = json.load(urllib.request.urlopen(rq, timeout=60))["feed"]["entry"]
+    # CMR returns intermittent 500s. An unretried one killed a 27-year
+    # run at year 25, which is a lot of bandwidth to lose to a blip.
+    for attempt in range(tries):
+        try:
+            e = json.load(urllib.request.urlopen(rq, timeout=60))["feed"]["entry"]
+            break
+        except Exception:
+            if attempt == tries - 1:
+                raise
+            time.sleep(3 * (attempt + 1))
     if not e:
         return None
     for l in e[0].get("links", []):
@@ -93,8 +103,21 @@ def fetch_days(days, tmp, tok, workers):
 
 
 def week_grid(days, tmp):
-    """Sum a week of daily global rainfall onto the 0.5 degree grid."""
+    """Sum a week of daily global rainfall onto the 0.5 degree grid.
+
+    Returns the total and a per-cell count of days that actually had a
+    retrieval. IMERG carries a fill value of -9999.9 where there is no
+    retrieval, which is common at high latitudes, and netCDF4 hands it
+    back inside the array rather than as NaN. Averaging it in produced
+    week totals of minus 130 mm on the first attempt.
+
+    Zero-filling would be the other wrong answer: it would turn "we do
+    not know" into "it did not rain", which is the same failure the
+    ValidCounts discipline exists to prevent on the flood side. So
+    validity is counted per cell and travels with the total.
+    """
     total = np.zeros((NLON, NLAT), dtype=np.float32)
+    valid = np.zeros((NLON, NLAT), dtype=np.uint8)
     got = 0
     import netCDF4
     for d in days:
@@ -109,11 +132,19 @@ def week_grid(days, tmp):
             log(f"  {d}: unreadable, {repr(exc)[:70]}")
             os.unlink(p)
             continue
-        a = np.nan_to_num(a, nan=0.0)
-        total += a.reshape(NLON, AGG, NLAT, AGG).mean(axis=(1, 3)).astype(np.float32)
+        ok = np.isfinite(a) & (a > -100.0)
+        a = np.where(ok, a, 0.0)
+        # A coarse cell counts as observed only if every native cell in
+        # it had a retrieval, so a partly-missing cell never reads as a
+        # dry one.
+        cell_ok = ok.reshape(NLON, AGG, NLAT, AGG).all(axis=(1, 3))
+        total += np.where(
+            cell_ok, a.reshape(NLON, AGG, NLAT, AGG).mean(axis=(1, 3)), 0.0
+        ).astype(np.float32)
+        valid += cell_ok.astype(np.uint8)
         got += 1
         os.unlink(p)
-    return total, got
+    return total, valid, got
 
 
 def main():
@@ -148,7 +179,7 @@ def main():
             days.append(day.isoformat())
             day += dt.timedelta(days=1)
         fetch_days(days, args.tmp, tok, args.workers)
-        total, got = week_grid(days, args.tmp)
+        total, valid, got = week_grid(days, args.tmp)
         if got == 0:
             log(f"{year}: nothing retrieved, skipping")
             continue
@@ -156,9 +187,12 @@ def main():
             log(f"{year}: only {got}/{len(days)} days, EXCLUDED to keep weeks comparable")
             continue
         grids[key] = total
+        grids[key + "_validdays"] = valid
         np.savez_compressed(out, **grids)
-        log(f"{year}: {got}/{len(days)} days, week mean {float(total.mean()):.2f} mm "
-            f"[{len(grids)} years stored]")
+        full = valid == len(days)
+        log(f"{year}: {got}/{len(days)} days, week mean {float(total[full].mean()):.2f} mm "
+            f"over {100*full.mean():.0f}% fully-observed cells "
+            f"[{len(grids)//2} years stored]")
 
     log(f"done -> {out}, {len(grids)} years")
 
