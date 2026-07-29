@@ -645,6 +645,63 @@ against 1961-1990 it is off the chart.*
 tracker's surface (`fetchers/` and the CDS credential), so the sensible
 route is a request to that chat rather than a second ERA5 fetcher here.
 
+### 6j. Can crops do a real 1961-1990 baseline? Partly, and the answer is a null
+
+Asked by strategy under D-045, with Fire's EFFIS cautionary case
+attached: their apparent 5.2x Mediterranean burnt-area increase was
+reporting coverage expanding, not fire increasing.
+
+**PSD passes the test EFFIS failed.** Countries reporting production
+average **150 in 1961-1990 and 149 in 1991-2020**, an expansion factor
+of 0.99. USDA built PSD retrospectively as a consistent global series,
+so it does not carry the coverage-growth artifact. **11 of the 17
+qualified pairs have a complete, zero-free 1961-1990 record.**
+
+**But three homogeneity hazards remain, and they are agricultural rather
+than statistical, so a coverage test cannot see them.**
+
+1. **Political.** Ukraine, Kazakhstan and Kyrgyzstan have 4 of 30 early
+   years, because they did not exist as reporting entities before
+   1987-1992. Not a data defect, a country one.
+2. **Cultivar.** Canadian "rapeseed" in 1961 is not canola; canola was
+   bred in the 1970s. Same series name, different crop. This is Fire's
+   "same instrument at both ends" question in agronomic form, and no
+   statistical check will ever flag it.
+3. **Technology.** Established in section 6i: the level of a production
+   or yield series is set by breeding and fertiliser, so even a perfect
+   series cannot carry a climate drift claim.
+
+**The technology-neutral form, tested.** Hazard 3 is escapable by
+measuring **variability** rather than level: detrend within each era and
+compare residual volatility. That is breeding-neutral and
+climate-relevant, since a more variable climate should produce more
+variable harvests.
+
+Result across the 11 clean pairs:
+
+| | |
+|---|---|
+| Median ratio, later era over earlier | **0.87** |
+| Pairs more variable in 1991-2020 | **4 of 11** |
+| Wilcoxon signed-rank on paired CVs | **p = 0.966** |
+
+**No detectable change in harvest volatility between the two baseline
+eras.** The two largest movers both have obvious non-climate
+explanations: Zimbabwe millet at 2.77x spans the 2000 land reform, and
+Mexico corn at 0.48x spans a large irrigation expansion.
+
+**This is a publishable null under D-043's calibration rule**, and it is
+the honest answer rather than a disappointing one. What it is not is the
+house drift statement: crops can say "harvest volatility in these
+systems has not measurably changed since the 1961-1990 era", which is a
+calibration finding, but it cannot say "against 1961-1990 this is off
+the chart".
+
+**Recommendation: crops should not be the drift exception.** ERA5
+through platform's climatology service remains the right route for a
+drift statement. What crops uniquely contributes is a measured null that
+the calibration requirement needs.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
