@@ -955,6 +955,13 @@
      is the number here, so the separation goes outside it. Same device
      as D-023, applied to a mark instead of a label. */
   .mk-ring { fill: none; stroke: var(--paper); stroke-width: 2.4; }
+  /* Context, not an event: an open ring of the same radius, so the
+     size still carries the number and the fill no longer claims
+     something the data denies. */
+  .mk.ctx .mk-dot { fill: none; stroke: var(--fire);
+    stroke-width: 1.6; fill-opacity: 1; }
+  .mk.ctx:hover .mk-dot, .mk.ctx:focus .mk-dot { fill: var(--fire);
+    fill-opacity: 0.18; }
   .mk .mk-dot {
     fill: var(--fire); fill-opacity: 0.78;
     stroke: none;
