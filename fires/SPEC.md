@@ -124,6 +124,53 @@ local day is complete. The reasoning:
 
 Canada boreal is out unless a signal appears; its ENSO link is weak.
 
+## v2 investigation: the gate threshold is not comparable across countries
+
+Raised 2026-07-29 from the first completed full-year baselines, and
+flagged by Kristjan as worth a proper investigation rather than a quick
+patch. Not yet acted on. The gate still ships as described below.
+
+Fire countries sit in two statistical regimes, and a fixed multiple
+means something different in each:
+
+    country      mean/yr    CV    14-year range
+    Mozambique   662,127   0.06   0.90 to 1.07x
+    Zambia       711,853   0.06   0.88 to 1.08x
+    DR Congo   1,680,654   0.07   0.86 to 1.10x
+    Angola     1,082,161   0.07   0.83 to 1.12x
+    Brazil     1,255,823   0.24   0.62 to 1.42x
+    Australia  1,072,986   0.34   0.63 to 1.79x
+    Canada       416,670   0.97   0.11 to 4.04x
+
+Savanna burning is fuel-limited and largely anthropogenic, so it
+repeats on schedule. Boreal burning is weather-limited, so it waits for
+the year the weather allows. That is a physical difference, not a
+sampling artifact.
+
+MIN_MULTIPLE = 1.5 therefore translates to roughly 8.9 standard
+deviations in Mozambique, 7.1 in DR Congo, and 0.5 in Canada. Eight of
+the ten countries with full history have never reached 1.5x in fourteen
+years and could not. Those eight include the four largest fire systems
+on Earth by detection count. DR Congo could have its worst season on
+record, register 1.10x, and never appear on the site, while Canada at
+1.5x is an unremarkable year and gets a page.
+
+Likely direction: rank on standardised anomaly, where a window sits
+within that country's own distribution, rather than on a raw multiple.
+That changes which countries appear, so it needs Kristjan's sign-off,
+not just an implementation.
+
+Two things to establish before building anything:
+
+1. The figures above are ANNUAL. The gate runs on weekly windows, where
+   variance is higher everywhere, so the sigma values will soften. The
+   ordering should survive because it follows from the physics, but
+   that must be measured, not assumed.
+2. Fourteen points is a thin basis for a variance estimate. Whether the
+   two regimes are genuinely distinct or a continuum with savanna at
+   one end is an open question, and it decides whether a single
+   standardised rule works or the channel needs regime-specific gates.
+
 ## The metrics ladder (four levels, never conflated)
 
 1. **Activity** (daily data, automated; weekly headline): active-fire
