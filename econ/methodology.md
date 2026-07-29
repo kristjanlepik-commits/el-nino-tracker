@@ -57,6 +57,30 @@ figures that measure different things. These seven never sum:
 | Mortality | Deaths and health burden, counted in people |
 | Monetised mortality | A price placed on those same deaths |
 
+On reader-facing pages these appear in plain language rather than as
+the terms above. The mapping, set by the editor's standard:
+
+| Here | On a damage page |
+|---|---|
+| Insured loss | what insurers expect to pay, or have paid once settled |
+| Direct economic | the cost of physical damage |
+| Total economic | physical damage plus the knock-on costs |
+| Output loss | work and production lost |
+| Humanitarian appeal | what aid agencies asked for |
+
+The tense on the first one is deliberate. Early insured figures are
+projections, and calling them what insurers paid asserts a settlement
+that usually has not happened yet.
+
+How they nest, stated carefully because the simple version is not quite
+true. **Insured loss always sits inside total economic loss.** It does
+not sit neatly inside direct economic loss, because insured
+catastrophe figures generally include business interruption, and
+business interruption is not physical damage to an asset. So an insured
+figure can contain something a direct-damage figure excludes by
+definition. Treat insured as a partial view of the total rather than a
+slice of the direct.
+
 Two consequences worth stating plainly.
 
 **A humanitarian appeal is not a loss.** It measures what agencies

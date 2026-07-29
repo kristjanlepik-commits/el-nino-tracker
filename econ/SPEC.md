@@ -32,6 +32,22 @@ never a fast-reaction channel and its data job is human-triggered.
                             figure exist and who will publish it.
                             Assembled from estimators' own published
                             schedules. States no event's cost.
+                            Published as a REFERENCE PAGE, not a
+                            fast-reaction piece or a weekly item: it
+                            carries "last updated", never an issue
+                            date, stays out of the weekly archive,
+                            gets a dated change note on material
+                            change, and carries no headline number a
+                            reader would quote as a weekly finding.
+                            Editor's ruling, 2026-07-29,
+                            research/editorial_standards.md section 8.
+                            An archive page promises "this is what we
+                            published that week"; a reference page
+                            promises "this is current as of today".
+                            Estimator schedules churn (NOAA retired
+                            the US billion-dollar series and Climate
+                            Central took it over), which is the
+                            argument for the format.
     validate.py             Guards. Run before emitting anything.
 
 Run the guards:
