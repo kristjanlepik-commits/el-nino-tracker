@@ -84,28 +84,36 @@ echo "days stored: $BEFORE -> $AFTER"
 printf '{"ok":true,"when":"%s","days_before":%s,"days_after":%s}\n' \
   "$(date -u +%FT%TZ)" "$BEFORE" "$AFTER" > "$STATUS"
 
-# Consecutive no-ops are counted, not just logged.
+# Staleness, not consecutive no-ops.
 #
-# The Fire chat lost two days on 2026-07-27 to exactly this shape: a
-# step declined politely every run, every automated check passed
-# because they verify structure rather than freshness, and nobody was
-# counting the no-ops. A polite decline is invisible unless something
-# keeps score.
+# The first design counted no-ops and failed on two in a row. That only
+# works if the job runs exactly once per new day. It does not: this
+# fires several times daily, because a laptop sleeps and a single daily
+# slot is missed silently (the 09:30 slot on 2026-07-29 never fired at
+# all). With several firings a day, most runs legitimately capture
+# nothing and a no-op counter would cry wolf every morning.
 #
-# One new day ages past --min-age-days per calendar day, so a healthy
-# daily run captures exactly one. A single no-op is tolerable (a run
-# fired twice, or a day arrived late). Two in a row means no progress
-# for two days, and with a seven day LANCE window and two days of
-# min-age that leaves three days to react before data is lost.
-NOOP_FILE="$HOME/tls-floods-capture/.consecutive_noops"
-if [ "$AFTER" -eq "$BEFORE" ]; then
-  N=$(( $(cat "$NOOP_FILE" 2>/dev/null || echo 0) + 1 ))
-  echo "$N" > "$NOOP_FILE"
-  echo "NOTE: no new day captured this run (consecutive: $N)"
-  if [ "$N" -ge 2 ]; then
-    fail "captured nothing $N runs in a row. LANCE deletes after ~7 days, so this is losing data now."
-  fi
+# What actually matters is not how many runs did nothing, it is how
+# long since anything was captured. That is frequency-independent, and
+# it is the staleness check the Fire chat asked platform for after a
+# politely-declining step froze their pages for two days.
+#
+# 36 hours: a new day becomes eligible every 24, so 36 allows one
+# missed day plus slack, and still leaves several days of the seven day
+# LANCE window to react.
+STAMP="$HOME/tls-floods-capture/.last_capture_epoch"
+NOW=$(date +%s)
+if [ "$AFTER" -gt "$BEFORE" ]; then
+  echo "$NOW" > "$STAMP"
+  echo "captured $((AFTER-BEFORE)) new day(s)"
 else
-  echo 0 > "$NOOP_FILE"
+  echo "no new day this run (correct when none has aged in yet)"
+  LAST=$(cat "$STAMP" 2>/dev/null || echo "$NOW")
+  [ -f "$STAMP" ] || echo "$NOW" > "$STAMP"
+  AGE_H=$(( (NOW - LAST) / 3600 ))
+  echo "hours since last capture: $AGE_H"
+  if [ "$AGE_H" -ge 36 ]; then
+    fail "nothing captured for ${AGE_H}h. LANCE deletes after ~7 days; this is losing data."
+  fi
 fi
 echo "=== $(date '+%H:%M:%S') done ==="

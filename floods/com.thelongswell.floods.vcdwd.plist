@@ -2,18 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
   Interim daily VIIRS capture, per D-038. Platform replaces this with a
-  CI workflow once the floods gate is ratified; it exists because a
-  missed day is unrecoverable (LANCE deletes after ~7 days) and the
-  channel cannot wait for the handover.
+  CI workflow; it exists because a missed day is unrecoverable (LANCE
+  deletes after ~7 days) and the channel cannot wait for the handover.
+
+  IT DOES NOT POINT AT THE REPO, DELIBERATELY. Two reasons, both found
+  the hard way on 2026-07-29:
+
+  1. ~/Documents is TCC-protected on macOS. A launch agent has no Full
+     Disk Access, so it cannot even read a script there: the first
+     version failed with exit 126 and "Operation not permitted", having
+     never run once. Granting Full Disk Access to /bin/bash would fix
+     it and is far too broad a permission for this.
+  2. Four chats edit that working tree continuously. An unattended job
+     should not run whatever happens to be on disk mid-edit; the same
+     reasoning as platform's dirty-generator guard.
+
+  So it runs a pinned copy under ~/tls-floods-capture/bin, refreshed
+  deliberately by floods/sync_capture_install.sh.
 
   Install:
     cp floods/com.thelongswell.floods.vcdwd.plist ~/Library/LaunchAgents/
-    launchctl load ~/Library/LaunchAgents/com.thelongswell.floods.vcdwd.plist
+    launchctl unload ~/Library/LaunchAgents/com.thelongswell.floods.vcdwd.plist 2>/dev/null
+    launchctl load  ~/Library/LaunchAgents/com.thelongswell.floods.vcdwd.plist
 
-  Check:    launchctl list | grep thelongswell
+  Check:    launchctl print gui/$(id -u)/com.thelongswell.floods.vcdwd | grep runs
   Logs:     ~/tls-floods-capture/daily.log
   Status:   ~/tls-floods-capture/last_run.json
-  Remove:   launchctl unload ~/Library/LaunchAgents/com.thelongswell.floods.vcdwd.plist
 -->
 <plist version="1.0">
 <dict>
@@ -23,31 +37,32 @@
     <key>ProgramArguments</key>
     <array>
         <string>/bin/bash</string>
-        <string>/Users/admin/Documents/Claude Projects/El Nino Tracker/floods/run_daily_capture.sh</string>
+        <string>/Users/admin/tls-floods-capture/bin/run_daily_capture.sh</string>
     </array>
 
-    <!-- 09:30 local. Timing is not critical: the script skips days
-         younger than two days, and the LANCE window is seven days
-         deep, so a missed run has five days of slack before anything
-         is lost. -->
+    <!-- Four slots rather than one. A laptop sleeps, and a single daily
+         slot is missed in silence: the 09:30 slot on 2026-07-29 never
+         fired. Extra firings cost nothing, because a run with nothing
+         to do exits in seconds, the job is idempotent, and the lock
+         prevents overlap. The wrapper judges health by staleness rather
+         than by counting no-ops, precisely so that running often is
+         free. -->
     <key>StartCalendarInterval</key>
-    <dict>
-        <key>Hour</key>
-        <integer>9</integer>
-        <key>Minute</key>
-        <integer>30</integer>
-    </dict>
+    <array>
+        <dict><key>Hour</key><integer>8</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>13</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>18</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>23</integer><key>Minute</key><integer>0</integer></dict>
+    </array>
 
     <key>RunAtLoad</key>
-    <false/>
+    <true/>
 
     <key>StandardOutPath</key>
     <string>/Users/admin/tls-floods-capture/launchd.out</string>
     <key>StandardErrorPath</key>
     <string>/Users/admin/tls-floods-capture/launchd.err</string>
 
-    <!-- Backgrounded so a 90 minute download does not compete with
-         whatever Kristjan is actually doing on the machine. -->
     <key>LowPriorityIO</key>
     <true/>
     <key>Nice</key>
