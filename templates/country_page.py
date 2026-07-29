@@ -70,6 +70,26 @@ MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 
+def emphasis(value: float, baseline: float) -> str:
+    """Channel hue when the datum clears its own baseline, ink when not.
+
+    D-043 requirement 2: the system must be equally capable of showing
+    "this is within historical range", and a chart that can only look
+    alarming has stopped being an instrument. Botswana is the case that
+    exposed this. Its year is 0.4x normal, a quiet season, and it was
+    rendering 105,637 ha in fire red at 40px, identical to France at
+    8.9x. The number said unremarkable and the page said emergency.
+
+    This is not colour carrying magnitude, which D-016 amendment 4
+    reserves for the diverging anomaly scale. It is a threshold: the
+    channel hue is spent only where the datum is above the baseline it
+    is being measured against. Below it, the figure is ink and the
+    reader gets a quiet page for a quiet season, which is the whole
+    point of being trusted on the loud ones.
+    """
+    return "var(--fire)" if baseline and value >= baseline else "var(--ink)"
+
+
 def _halo(cls: str, x: float, y: float, text: str, anchor: str = "start",
           fill: str = "var(--ink-soft)", weight: str = "") -> str:
     """An in-plot label. Always haloed (D-023 as extended by D-026)."""
@@ -97,7 +117,7 @@ def _same_week_bars(hist: dict, now: int, mean: float, year: int) -> str:
         cur = y == year
         out.append(f'<rect x="{cx - bw / 2:.1f}" y="{Y(v):.1f}" '
                    f'width="{bw:.1f}" height="{max(H - PAD_B - Y(v), 1.2):.1f}" '
-                   f'fill="{"var(--fire)" if cur else "var(--rule-45)"}"/>')
+                   f'fill="{emphasis(v, mean) if cur else "var(--rule-45)"}"/>')
     my = Y(mean)
     out.append(f'<line x1="0" y1="{my:.1f}" x2="{W}" y2="{my:.1f}" '
                f'stroke="var(--ink-soft)" stroke-width="1" '
@@ -106,7 +126,7 @@ def _same_week_bars(hist: dict, now: int, mean: float, year: int) -> str:
     out.append(_halo("cx-s", 0, H - 6, str(years[0])))
     out.append(_halo("cx-s", W, H - 6, str(year), anchor="end"))
     out.append(_halo("cx-b", W, Y(vals[-1]) - 7, f"{now:,}", anchor="end",
-                     fill="var(--fire)", weight="600"))
+                     fill=emphasis(now, mean), weight="600"))
     return (f'<svg viewBox="0 0 {W} {H}" class="ch" role="img" '
             f'aria-label="Detections in the same week, every year since '
             f'{years[0]}">' + "".join(out) + "</svg>")
@@ -153,10 +173,25 @@ def _daily_bars(daily: dict, mean: float) -> str:
             + "".join(out) + "</svg>")
 
 
-def _cumulative(years: dict, cur_year: int, source: str) -> str:
+def _cumulative(years: dict, cur_year: int, hue: str) -> str:
     """Compare: every season since the record began, this one in hue."""
-    W, H, PAD_L, PAD_R, PAD_T, PAD_B = 420, 190, 34, 46, 20, 26
+    W, H, PAD_L, PAD_R, PAD_T, PAD_B = 420, 190, 46, 46, 20, 26
     ymax = max(max(w.values()) for w in years.values()) * 1.08
+
+    def axis(v):
+        """Compact, because the gutter is fixed and the range is not.
+
+        Botswana burns millions of hectares where France burns tens of
+        thousands, so a thousands-only format produced "2,815k", which
+        was wider than the gutter and rendered as ",815k" with the
+        leading digit outside the viewBox. A clipped number is worse
+        than a rounded one: it looks like a value rather than a bug.
+        """
+        if v >= 1_000_000:
+            return f"{v / 1_000_000:,.1f}M"
+        if v >= 10_000:
+            return f"{v / 1000:,.0f}k"
+        return f"{v:,.0f}"
 
     def X(w):
         return PAD_L + (w - 1) / 51 * (W - PAD_L - PAD_R)
@@ -168,9 +203,7 @@ def _cumulative(years: dict, cur_year: int, source: str) -> str:
     for v in (0, ymax / 2):
         out.append(f'<line x1="{PAD_L}" y1="{Y(v):.1f}" x2="{W - PAD_R}" '
                    f'y2="{Y(v):.1f}" stroke="var(--rule)" stroke-width="0.7"/>')
-        out.append(_halo("cx-s", PAD_L - 5, Y(v) + 4,
-                         f"{v / 1000:,.0f}k" if ymax >= 20000 else f"{v:,.0f}",
-                         anchor="end"))
+        out.append(_halo("cx-s", PAD_L - 5, Y(v) + 4, axis(v), anchor="end"))
     for i, m in ((1, "Jan"), (27, "Jul"), (48, "Dec")):
         out.append(_halo("cx-s", X(i), H - 6, m, anchor="middle"))
 
@@ -190,19 +223,19 @@ def _cumulative(years: dict, cur_year: int, source: str) -> str:
                          f"previous record, {record}: {rv:,.0f} ha"))
     cw = sorted(years[cur_year].items())
     pts = " ".join(f"{X(w):.1f},{Y(v):.1f}" for w, v in cw)
-    out.append(f'<polyline points="{pts}" fill="none" stroke="var(--fire)" '
+    out.append(f'<polyline points="{pts}" fill="none" stroke="{hue}" '
                f'stroke-width="2.4"/>')
     lw, lv = cw[-1]
     out.append(f'<circle cx="{X(lw):.1f}" cy="{Y(lv):.1f}" r="3.4" '
-               f'fill="var(--fire)"/>')
+               f'fill="{hue}"/>')
     out.append(_halo("cx-b", X(lw) + 7, Y(lv) - 6, str(cur_year),
-                     fill="var(--fire)", weight="600"))
+                     fill=hue, weight="600"))
     return (f'<svg viewBox="0 0 {W} {H}" class="ch" role="img" '
             f'aria-label="Cumulative burnt area by week, every season">'
             + "".join(out) + "</svg>")
 
 
-def _weekly_area(weeks: dict, cur_year: int) -> str:
+def _weekly_area(weeks: dict, cur_year: int, hue: str) -> str:
     """Decompose, and the reason this cell runs to week 52.
 
     The empty stretch to the right of the current week is the content:
@@ -246,7 +279,7 @@ def _weekly_area(weeks: dict, cur_year: int) -> str:
     px = slot * (peak - 0.5)
     out.append(_halo("cx-b", px - 6, Y(inc[peak]) - 16,
                      f"{inc[peak]:,.0f} ha in week {peak}", anchor="end",
-                     fill="var(--fire)", weight="600"))
+                     fill=hue, weight="600"))
     out.append(_halo("cx-s", px - 6, Y(inc[peak]) - 4,
                      f"{len(order)} weeks in, {52 - max(order)} still to come",
                      anchor="end"))
@@ -275,7 +308,8 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
     left = f"""
       <div class="col">
         <p class="cell-lab">This week &middot; {h(piece["window_pretty"])}</p>
-        <p class="hero">{det["multiple"]:.1f}&times;</p>
+        <p class="hero" style="color:{emphasis(det["multiple"], 1.0)}">
+          {det["multiple"]:.1f}&times;</p>
         <p class="cell-sub">active-fire detections against the same-week
           mean of {det["mean"]:,.0f}, {det["baseline_span"]}<br>
           {h(det["instrument"])}</p>
@@ -292,16 +326,17 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
         right = f"""
       <div class="col">
         <p class="cell-lab">This year &middot; since 1 January</p>
-        <p class="hero">{area["area_ha"]:,} <span class="unit">ha</span></p>
+        <p class="hero" style="color:{emphasis(area["multiple"], 1.0)}">
+          {area["area_ha"]:,} <span class="unit">ha</span></p>
         <p class="cell-sub">burnt area mapped, {area["multiple"]:.1f}&times;
           the average for this point in the year<br>
           {h(area["instrument"])}, week {area["week"]},
           through {h(area["as_of"])}</p>
         <p class="ch-lab">Cumulative, every season since {area["first_year"]}</p>
-        {_cumulative(area["years"], year, area["source"])}
+        {_cumulative(area["years"], year, emphasis(area["multiple"], 1.0))}
         <p class="ch-note">{h(area["cumulative_note"])}</p>
         <p class="ch-lab">Week by week, {year} so far</p>
-        {_weekly_area(area["years"][year], year)}
+        {_weekly_area(area["years"][year], year, emphasis(area["multiple"], 1.0))}
         <p class="ch-note">{h(area["weekly_note"])}</p>
       </div>"""
     else:

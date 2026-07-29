@@ -89,7 +89,17 @@ TAG_LOADED_FG = PAPER
 TAG_NOTLINK_BG = "#E3E2DB"
 TAG_NOTLINK_FG = INK_SOFT
 TAG_PENDING_BG = "#EAE9E3"
-TAG_PENDING_FG = "#66665F"   # amendment 2: was #83837B at 3.14:1
+# D-043: a neutral result must read neutral, and a not-yet-examined one
+# must not read as an omission. This sat at 4.75:1 while the other two
+# tags ran 8.2 and 8.8, so "attribution pending" was materially fainter
+# than the states either side of it. Fading the tag that declines to
+# make a claim is the cheapest way to imply the claim, and it also
+# survived my own check, because I compared font size and padding and
+# reported the three as equal weight without measuring contrast. Now
+# 8.31:1, level with the others and still distinguishable from
+# TAG_NOTLINK_FG.
+TAG_PENDING_FG = "#42423C"   # amendment 2: was #83837B at 3.14:1, then
+                             # #66665F at 4.75:1
 
 # ---------------------------------------------------------------------------
 # Diverging anomaly scale. Nine steps, symmetric, index 4 neutral and
