@@ -330,10 +330,20 @@ def verify() -> list[str]:
                 "an undated field cannot be shown honestly")
 
     # 5. The standing gate: links, structure, em-dashes, immutability.
-    qa = subprocess.run([PY, "scripts/qa_check.py"],
+    #
+    # --for-publish downgrades rendering-completeness findings (D-046's
+    # emitted-field check) to warnings. Those are real defects and CI
+    # goes red on them, but they must never stop a publish: a page that
+    # renders one field short is worse than yesterday's page only until
+    # tomorrow, whereas a blocked publish freezes the channel outright.
+    # We have already had a two-day freeze behind a well-formed page and
+    # do not need one behind a well-intentioned guard.
+    qa = subprocess.run([PY, "scripts/qa_check.py", "--for-publish"],
                         cwd=ROOT, capture_output=True, text=True)
     if qa.returncode != 0:
         problems.append("qa_check failed:\n" + qa.stdout.strip())
+    elif "QA ADVISORY" in qa.stdout:
+        print(qa.stdout[qa.stdout.index("QA ADVISORY"):].rstrip())
 
     return problems
 
