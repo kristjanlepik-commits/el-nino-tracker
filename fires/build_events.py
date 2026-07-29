@@ -38,6 +38,7 @@ it. See `research/reply_fire_to_design.md` section 3.
 import json
 import os
 import re
+import sys
 import time
 from datetime import datetime, timedelta, timezone
 
@@ -50,12 +51,56 @@ HISTORY = os.path.join(REPO, "fires", "data", "country_history.json")
 GEOJSON = os.path.join(REPO, "fires", "data", "countries.geo.json")
 
 # Gate thresholds. Tunable; stated here rather than buried in code.
-MIN_COUNT = 500
-MIN_MULTIPLE = 1.5
+#
+# Structure, Kristjan's call 2026-07-29: a noise floor, then the
+# significance signals combined with OR rather than AND.
+#
+# The old gate ANDed a count floor of 500 with a 1.5x multiple. Both
+# were doing work they were not fit for. A count floor cannot measure
+# significance: it excluded the UK at its highest same-week value in
+# fourteen years because 407 detections is a small number in a small
+# country. A single multiple cannot either: 1.5x is 8.9 standard
+# deviations in Mozambique and 0.5 in Canada, so one bar means opposite
+# things in different places.
+#
+# The three signals fail in different directions, which is why they are
+# OR and not AND:
+#   z         catches stable countries, misses volatile ones. Canada at
+#             1.8x scores z=0.8 because its own variance is enormous.
+#   multiple  catches volatile countries, misses stable ones. DR Congo
+#             could have its worst year on record and read 1.10x.
+#   rank 1    catches records the other two round away, and is
+#             distribution-free.
+# Any one of them is evidence. Requiring all three would select only
+# the countries where nothing subtle is happening.
+NOISE_FLOOR = 150      # not a significance test: enough pixels that a
+                       # handful of false positives cannot read as 20x
+Z_THRESHOLD = 2.0
 STRONG_MULTIPLE = 2.0
-MAX_RANK = 3
-MAX_MARKERS = 12
-HIGH_VOLUME = 20000   # always shown if it clears the base gate
+RECORD_RANK = 1
+MIN_MULTIPLE = 1.5     # retained for the volume-context class below
+# Was 8, then 12 on 2026-07-27 when the sweep widened to 45 countries,
+# then 20 on 2026-07-29. It was never a map constraint, just a number,
+# and it was quietly excluding real cases: Saudi Arabia at rank 1 of 15
+# and Libya at rank 3 both cleared every threshold and were cut by the
+# cap alone. 20 is above the eligible count at present, so the cap is
+# now a safety valve against a pathological week rather than a routine
+# filter. If it starts binding again, raise it rather than let it
+# silently decide the page.
+MAX_MARKERS = 20
+HIGH_VOLUME = 20000
+
+# Countries that always appear, gate or no gate.
+#
+# Kristjan's call, 2026-07-29: readers come to check their own country,
+# and a tracker that shows nothing for the UK because the UK is having
+# an ordinary week fails that reader. These five are where the audience
+# is. A pinned country is NOT a claim that something is happening
+# there; it carries whatever its real numbers say, including "normal",
+# and ships a pinned flag so design can render it distinctly from an
+# anomaly. Rendering the two identically would turn this into exactly
+# the over-claiming the gate exists to prevent.
+PINNED = {"GBR", "USA", "CAN", "FRA", "ESP"}
 
 # Attribution is an editorial judgment per country, from the fixed
 # three-value vocabulary. Anything not assessed defaults to "pending",
@@ -66,16 +111,53 @@ HIGH_VOLUME = 20000   # always shown if it clears the base gate
 # Assessed so far: the Mediterranean is the declared non-ENSO control,
 # Canada is boreal with a weak link, southern African savanna burning is
 # routine agriculture, and Australian fire in July is northern savanna
-# outside the tracked Nov-Feb window (it flips to "enso" when that
-# window opens). Indonesia is a declared R5 ENSO region in fires/SPEC.md,
-# so it carries "enso" on our own methodology.
-ATTRIBUTION = {
+# outside the tracked Nov-Feb window.
+#
+# An "enso" tag is WINDOW-GATED, not region-gated. The teleconnection
+# that justifies it is seasonal: Indonesia is an R5 ENSO region in
+# fires/SPEC.md for Aug-Oct, Australia for Nov-Feb. Outside those months
+# the region is the same and the mechanism is not, so the tag reverts to
+# "pending" rather than asserting a loading nobody has assessed.
+#
+# This was a live defect, found by ECON on 2026-07-29. Indonesia was
+# tagged "enso" statically. The tag sat dormant while Indonesia missed
+# the gate and went live automatically the day it cleared, on 29 July,
+# three days outside its own declared window, with no human looking at
+# it. It would equally have carried an ENSO loading in February. The
+# comment here already promised Australia would "flip when the window
+# opens"; that was never implemented for either country.
+#
+# Widening a claim needs editorial sign-off. Narrowing one does not,
+# which is why this ships now: "pending" means not yet examined and
+# cannot over-claim.
+ATTRIBUTION_ALWAYS = {
     "ESP": "non_enso", "FRA": "non_enso", "GBR": "non_enso",
     "ITA": "non_enso", "CAN": "non_enso", "AGO": "non_enso",
-    "COD": "non_enso", "ZMB": "non_enso", "AUS": "non_enso",
-    "USA": "non_enso", "IDN": "enso",
+    "COD": "non_enso", "ZMB": "non_enso", "USA": "non_enso",
 }
+# iso -> (first_month, last_month) inclusive, when "enso" applies.
+ATTRIBUTION_ENSO_WINDOW = {
+    "IDN": (8, 10),
+    "AUS": (11, 2),
+    "BRA": (8, 10),
+}
+# Outside its ENSO window, a listed country falls back to this.
+ATTRIBUTION_OFF_WINDOW = {"AUS": "non_enso"}
 DEFAULT_ATTRIBUTION = "pending"
+
+
+def attribution_for(iso, month):
+    """Tag for one country in one month, from the fixed vocabulary."""
+    if iso in ATTRIBUTION_ALWAYS:
+        return ATTRIBUTION_ALWAYS[iso]
+    win = ATTRIBUTION_ENSO_WINDOW.get(iso)
+    if win:
+        lo, hi = win
+        inside = lo <= month <= hi if lo <= hi else (month >= lo or month <= hi)
+        if inside:
+            return "enso"
+        return ATTRIBUTION_OFF_WINDOW.get(iso, DEFAULT_ATTRIBUTION)
+    return DEFAULT_ATTRIBUTION
 
 
 def slugify(name):
@@ -228,9 +310,19 @@ def main():
     win_key = f"{start.strftime('%m-%d')}..{end.strftime('%m-%d')}"
 
     if hist_doc["window"] != win_key:
-        raise SystemExit(
-            f"history covers window {hist_doc['window']} but the trailing "
-            f"complete window is {win_key}; refresh the history first")
+        # Exit 3 is the house convention for "nothing to do", distinct
+        # from a generic failure: the caller warns and skips rather than
+        # going red. See research/handover_platform_contract.md section 3.
+        #
+        # This path is the NORMAL one on roughly six days in seven,
+        # because the trailing window moves daily while the baseline is
+        # frozen to one week. Refusing is correct: comparing a fresh week
+        # against a stale baseline would silently publish a wrong
+        # multiple. The fix is the full-year baseline, not a looser check.
+        print(f"nothing to do: history covers window {hist_doc['window']} "
+              f"but the trailing complete window is {win_key}",
+              file=sys.stderr)
+        raise SystemExit(3)
 
     isos = list(hist_doc["countries"])
     rings = load_rings(isos)
@@ -251,33 +343,83 @@ def main():
                        "lat": lat, "lon": lon, "basis": basis}
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
+        vals = list(h["hist"].values())
+        sd = (sum((v - h["mean"]) ** 2 for v in vals) / len(vals)) ** 0.5
+        z = (count - h["mean"]) / sd if sd else 0.0
         rows.append({
             "iso": iso, "region": h["name"], "count": count,
             "multiple": round(multiple, 1), "rank": f"{rank} of 15",
-            "rank_n": rank, "lat": lat, "lon": lon,
+            "rank_n": rank, "z": round(z, 2), "lat": lat, "lon": lon,
             "centroid_basis": basis,
-            "attribution": ATTRIBUTION.get(iso, DEFAULT_ATTRIBUTION),
+            "attribution": attribution_for(iso, end.month),
             "title": make_title(rank, multiple, count, prev_best, prev_year),
             "href": f"fires/{slugify(h['name'])}/",
         })
         print(f"{iso}: {count:,} x{multiple:.1f} rank {rank} "
               f"({lat}, {lon}) {basis}", flush=True)
 
-    eligible = [r for r in rows
-                if r["count"] >= MIN_COUNT
-                and r["multiple"] >= MIN_MULTIPLE
-                and (r["multiple"] >= STRONG_MULTIPLE
-                     or r["rank_n"] <= MAX_RANK)]
-    # Sort by departure, the house convention. But cap by multiple alone
-    # and a 609-detection country outranks Canada's 75,463, hiding the
-    # largest fire complex on the planet. So anything genuinely large
-    # that clears the base gate is kept regardless of where the cap
-    # falls. Volume does not earn a marker on its own; it does earn one
-    # once the country is already anomalous.
+    def qualifies(r):
+        """Noise floor, then any one significance signal."""
+        if r["count"] < NOISE_FLOOR:
+            return False
+        return (r["z"] >= Z_THRESHOLD
+                or r["multiple"] >= STRONG_MULTIPLE
+                or r["rank_n"] <= RECORD_RANK)
+
+    eligible = [r for r in rows if qualifies(r)]
     eligible.sort(key=lambda r: -r["multiple"])
-    top = eligible[:MAX_MARKERS]
-    big = [r for r in eligible[MAX_MARKERS:] if r["count"] >= HIGH_VOLUME]
-    eligible = sorted(top + big, key=lambda r: -r["multiple"])
+    eligible = eligible[:MAX_MARKERS]
+    anomalous = {r["iso"] for r in eligible}
+    # The three flags are ORTHOGONAL and a country can carry more than
+    # one. Spain is pinned AND at a fourteen-year record; Canada is
+    # pinned AND merely large. Collapsing them into a single class would
+    # render those two identically, which is the whole failure this
+    # split exists to prevent, so `anomalous` is recorded separately
+    # rather than inferred from the absence of the other two.
+    for r in eligible:
+        r["anomalous"] = True
+
+    # Volume context is a SEPARATE class, not a way through the gate.
+    #
+    # Yesterday I made volume a qualifying path so Canada would appear.
+    # That was wrong, and the numbers say so: Canada reads 1.8x with
+    # z=0.8 and rank 4 of 15, which is large and slightly above normal,
+    # not abnormal. It put a country that is not anomalous onto a map of
+    # anomalies. Worse, ORing volume into the gate also admitted Russia
+    # at 0.3x, a country having a notably QUIET week.
+    #
+    # But DR Congo at 75,849 detections and exactly 1.0x is still the
+    # single most important thing on a world fire map, and saying
+    # nothing about it is its own distortion. So it ships flagged, and
+    # design renders it as context rather than as news. One symbol
+    # cannot mean both "this is unusual" and "this is where fire is".
+    for r in rows:
+        if (r["iso"] not in anomalous and r["count"] >= HIGH_VOLUME
+                and r["multiple"] >= MIN_MULTIPLE * 0.6):
+            r["volume_context"] = True
+            eligible.append(r)
+
+    # Pinned countries are appended after the gate has run, never merged
+    # into it, so nothing about them changes what "qualified" means.
+    #
+    # multiple_unstable is the honest half of this. The UK reads 2.9x on
+    # 407 detections against a mean of 138, below MIN_COUNT, and the
+    # count floor exists precisely because a multiple on a baseline that
+    # thin swings wildly on a handful of pixels. Pinning the UK does not
+    # make that number sturdy, it makes it visible, so it ships flagged
+    # and design decides whether to lead with rank instead.
+    chosen = {r["iso"] for r in eligible}
+    for r in rows:
+        if r["iso"] in PINNED and r["iso"] not in chosen:
+            r["pinned"] = True
+            r["multiple_unstable"] = r["count"] < NOISE_FLOOR * 4
+            eligible.append(r)
+    for r in eligible:
+        r.setdefault("anomalous", False)
+        r.setdefault("pinned", r["iso"] in PINNED)
+        r.setdefault("volume_context", False)
+        r.setdefault("multiple_unstable", r["count"] < NOISE_FLOOR * 4)
+    eligible.sort(key=lambda r: (-r["multiple"]))
 
     end_fmt = "%-d" if start.month == end.month else "%b %-d"
     win_label = f"wk {start.strftime('%b %-d')}-{end.strftime(end_fmt)}"
@@ -297,6 +439,11 @@ def main():
             "stat": f"{r['multiple']:.1f}x",
             "stat_label": "same-week 2012-25 mean",
             "attribution": r["attribution"],
+            "anomalous": r["anomalous"],
+            "pinned": r["pinned"],
+            "volume_context": r["volume_context"],
+            "multiple_unstable": r["multiple_unstable"],
+            "z": r["z"],
             "source": source,
             "href": r["href"],
         } for r in eligible],
@@ -313,6 +460,11 @@ def main():
             "region": r["region"], "lat": r["lat"], "lon": r["lon"],
             "multiple": r["multiple"], "count": r["count"],
             "rank": r["rank"], "attribution": r["attribution"],
+            "anomalous": r["anomalous"],
+            "pinned": r["pinned"],
+            "volume_context": r["volume_context"],
+            "multiple_unstable": r["multiple_unstable"],
+            "z": r["z"],
             "centroid_basis": r["centroid_basis"], "href": r["href"],
         } for r in eligible],
     }

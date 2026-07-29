@@ -21,9 +21,22 @@ Confirmed with Kristjan 2026-07-25:
 3. **Automation: one fetcher in v1.** NASA FIRMS area API for weekly
    same-sensor hotspot counts per region box. Burned area, emissions,
    and damage stay manually curated.
-4. **Damage scope: health-cost estimates included**, always labeled as
-   study-based and years-lagged, never mixed into direct or insured
-   comparisons.
+4. ~~**Damage scope: health-cost estimates included**, always labeled
+   as study-based and years-lagged, never mixed into direct or insured
+   comparisons.~~ **SUPERSEDED 2026-07-28 by D-032.** Money is ECON's
+   surface: the cross-channel damage ledger, named estimators, issue
+   dates, vintage and revision history. Fire consumes that ledger and
+   does not track loss figures itself. The reasoning inside the struck
+   text was sound and ECON's schema now enforces a stricter version of
+   it, including a category enum that keeps humanitarian appeals
+   unsummable with losses and a validator that rejects a monetised
+   mortality figure not linked to the death toll it prices.
+
+   Kept as a caution: this decision was ratified on 2026-07-25 from
+   research/handover_fire_tracker.md, which was itself written before
+   the decisions that moved money to ECON. The damage layer here was
+   never wrong when written; it was overtaken three days later, and
+   nothing in the file said so until aftereffects flagged it.
 5. **Cadence: one automated update per day**, plus the curated weekly
    issue on Mondays. Twice-daily considered and rejected for v1; see
    "Update cadence" for the reasoning and the peak-week escalation
@@ -41,12 +54,30 @@ Confirmed with Kristjan 2026-07-25:
 
 ## Mission
 
-A weekly tracker that measures, for the El Niño-relevant fire regions:
+REFRAMED 2026-07-29 by D-042 and D-043. ENSO is a data layer, not the
+frame. The bar for covering a country is a computable baseline and a
+measured extreme, NOT an established ENSO link, and "not ENSO-linked"
+is a finding rather than an apology. This channel tags zero of 45
+countries as ENSO-linked and its strongest 2026 anomaly is the
+Mediterranean, its own declared control region; under the old weighting
+that read as a disappointing result, and it is simply what the
+measurements say.
+
+The gate implements this already: it ranks on z-score, multiple and
+rank-on-record against each country's own history, and ENSO appears
+nowhere in it.
+
+A weekly tracker that measures, for any region with a computable
+baseline (originally: for the El Niño-relevant fire regions):
 
 1. **Fire activity, observed**: what is burning now, quantified against
    same-week analog-year baselines.
-2. **Economic damage, attributed**: what the fires cost, per named
-   institutional estimator, with issue dates, revisions tracked as data.
+2. ~~**Economic damage, attributed**: what the fires cost, per named
+   institutional estimator, with issue dates, revisions tracked as
+   data.~~ **Moved to ECON, D-032.** Fire consumes their ledger. The
+   mission is levels 1 to 3 of the metrics ladder and all six
+   measurement traps; the money layer is a dependency, not a build
+   item.
 
 Same epistemic posture as the parent brief: aggregation of named
 sources, disagreement surfaced not averaged, no original modeling. The
@@ -68,7 +99,8 @@ transparently).
     disclaimer language, a visible "last updated" stamp. Mutable by
     nature; it shows current state.
   - The **weekly issue** (Mondays) is the curated product of record:
-    lede, analog comparisons, damage panel, freshness footer.
+    lede, analog comparisons, freshness footer, and a damage panel
+    rendered FROM ECON's ledger rather than tracked here (D-032).
     Immutable once published, parent-archive rules.
 - **Kristjan reads the same page.** No separate internal artifact; the
   weekly issue markdown in `fires/` is the source the HTML is rendered
@@ -106,6 +138,53 @@ local day is complete. The reasoning:
 
 Canada boreal is out unless a signal appears; its ENSO link is weak.
 
+## v2 investigation: the gate threshold is not comparable across countries
+
+Raised 2026-07-29 from the first completed full-year baselines, and
+flagged by Kristjan as worth a proper investigation rather than a quick
+patch. Not yet acted on. The gate still ships as described below.
+
+Fire countries sit in two statistical regimes, and a fixed multiple
+means something different in each:
+
+    country      mean/yr    CV    14-year range
+    Mozambique   662,127   0.06   0.90 to 1.07x
+    Zambia       711,853   0.06   0.88 to 1.08x
+    DR Congo   1,680,654   0.07   0.86 to 1.10x
+    Angola     1,082,161   0.07   0.83 to 1.12x
+    Brazil     1,255,823   0.24   0.62 to 1.42x
+    Australia  1,072,986   0.34   0.63 to 1.79x
+    Canada       416,670   0.97   0.11 to 4.04x
+
+Savanna burning is fuel-limited and largely anthropogenic, so it
+repeats on schedule. Boreal burning is weather-limited, so it waits for
+the year the weather allows. That is a physical difference, not a
+sampling artifact.
+
+MIN_MULTIPLE = 1.5 therefore translates to roughly 8.9 standard
+deviations in Mozambique, 7.1 in DR Congo, and 0.5 in Canada. Eight of
+the ten countries with full history have never reached 1.5x in fourteen
+years and could not. Those eight include the four largest fire systems
+on Earth by detection count. DR Congo could have its worst season on
+record, register 1.10x, and never appear on the site, while Canada at
+1.5x is an unremarkable year and gets a page.
+
+Likely direction: rank on standardised anomaly, where a window sits
+within that country's own distribution, rather than on a raw multiple.
+That changes which countries appear, so it needs Kristjan's sign-off,
+not just an implementation.
+
+Two things to establish before building anything:
+
+1. The figures above are ANNUAL. The gate runs on weekly windows, where
+   variance is higher everywhere, so the sigma values will soften. The
+   ordering should survive because it follows from the physics, but
+   that must be measured, not assumed.
+2. Fourteen points is a thin basis for a variance estimate. Whether the
+   two regimes are genuinely distinct or a continuum with savanna at
+   one end is an open question, and it decides whether a single
+   standardised rule works or the channel needs regime-specific gates.
+
 ## The metrics ladder (four levels, never conflated)
 
 1. **Activity** (daily data, automated; weekly headline): active-fire
@@ -120,7 +199,10 @@ Canada boreal is out unless a signal appears; its ENSO link is weak.
 3. **Emissions** (monthly-ish, manual): GFED, Copernicus CAMS. The
    1997 Indonesia record (up to 2.57 Gt C, Page et al. 2002) is the
    standing benchmark.
-4. **Economic damage** (slowest, most revisable, manual): EM-DAT, the
+4. **Economic damage** ECON'S SURFACE SINCE D-032, retained here only
+   so Fire knows what it is consuming and can tell when a figure is
+   being misused. Do not build against this list; read ECON's ledger.
+   (slowest, most revisable, manual): EM-DAT, the
    billion-dollar disasters dataset (US only; NOAA NCEI discontinued
    it May 2025, Climate Central now stewards it with the same
    methodology), Munich Re / Swiss Re sigma (insured), World Bank
@@ -309,7 +391,9 @@ a *tracked series* versus an *ad-hoc slice*:
    into the other.
 3. Peak-week comparisons note cloud/smoke undercount when relevant.
 4. Damage estimates are vintage-tracked: estimator, issue date,
-   revision history. Early numbers are expected to be low.
+   revision history. Early numbers are expected to be low. As of
+   D-032 this is ECON's requirement to enforce, not ours; it stays
+   listed because Fire must not render a loss figure that fails it.
 5. Framing is "fires in the El Niño-loaded windows," never "El Niño
    caused this fire." Formal attribution defers to WWA-type studies.
    US West and Mediterranean get the weakest framing.

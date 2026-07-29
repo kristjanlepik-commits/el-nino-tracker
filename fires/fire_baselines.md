@@ -225,9 +225,26 @@ Australia analog seasons are 2015-16 and 2023-24 (El Nino years). Weekly dates s
 
 ## Standing records and anchors (from research/impact_database_2026-27.md; not re-derived)
 
-- Indonesia 2015: ~2.6 M ha burned; $16.1 B direct (World Bank 2016),
-  ~$28 B health-inclusive (Kiely et al. 2021); ~100,300 excess deaths
-  (Koplitz et al. 2016). The mortality and cost record.
+- Indonesia 2015: ~2.6 M ha burned. The area anchor for a modern El
+  Nino fire season.
+
+  Loss figures for this event previously sat here and have been
+  removed, for two reasons. Under D-032 money is ECON's surface, and
+  this channel should consume that ledger rather than keep a second
+  copy of it. And the copy was wrong: it read "$16.1 bn direct (World
+  Bank 2016)" against "~$28 bn health-inclusive (Kiely et al. 2021)",
+  which mislabels the first figure and misframes the pair. The World
+  Bank total includes about $3.97 bn of carbon valuation, so it is not
+  a direct-damage number, and the two studies are not competing
+  estimates: they agree on land-cover damage to within roughly 2%, and
+  the gap is carbon pricing plus whether long-term PM2.5 mortality is
+  valued. ECON's decomposition is in
+  research/econ_notes/04_indonesia_2015_decomposed.md.
+
+  Worth keeping as a caution rather than a footnote: the error arrived
+  by copying, not by calculation. This section is marked "not
+  re-derived", which is honest about its provenance and is exactly why
+  a stale figure travelled intact into a second file.
 - Indonesia 1997: ~8 M ha; up to 2.57 Gt C (Page et al. 2002). The
   area and carbon record.
 - Amazon 2024: ~2.8 M ha primary-forest fire (MAAP), breaking 2016's

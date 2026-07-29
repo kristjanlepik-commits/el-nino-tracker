@@ -1,0 +1,150 @@
+name: Floods VIIRS daily capture
+
+# Implements D-038: capture the global VIIRS flood product daily, keep
+# 0.1 degree aggregates, discard the raw tiles, before MODIS shuts down.
+#
+# THIS JOB IS NOT LIKE THE OTHERS. Every other fetch here can be retried
+# tomorrow. This one cannot: LANCE keeps about seven days and deletes,
+# so a missed run is a permanent hole in every future VIIRS baseline and
+# the window closes when Terra goes off around January 2027. The weekly
+# brief's rule is never crash on a Monday, carry forward quietly. This
+# job's rule is the opposite: fail loudly, because a quiet failure is
+# indistinguishable from success and costs data nobody can buy back.
+#
+# PLATFORM DECISION 1, why CI rather than the laptop. The Floods chat
+# installed a launchd plist as a stopgap and asked whether this belongs
+# in CI at all. It does, and perishability is the whole argument: a
+# laptop that is asleep, travelling or shut produces a permanent gap,
+# and "the record has holes whenever the machine was off" is not a
+# property worth accepting for the one dataset that cannot be refetched.
+# 90 minutes fits inside the 6 hour job cap, 3.5 GB fits the ~14 GB
+# runner disk since tiles are reduced and discarded, and Actions minutes
+# are free on a public repo. Retire the launchd plist once this has run
+# clean for a few days; running both meanwhile is harmless, because the
+# capture skips any date already written.
+#
+# PLATFORM DECISION 2, where the output lives. Roughly 7 MB a day, about
+# 1 GB by January. Not git: that is a permanent binary in the history of
+# a public repo, paid by every clone forever. Not Actions artifacts:
+# they expire at 90 days and this record has to outlive that. So a
+# GitHub Release used as an object store, one asset per day under a
+# single tag. Free, outside git history, durable, and fetchable with
+# `gh release download`. The manifest JSONL stays in the repo, because
+# it is small and it is the index to the assets.
+#
+# Consequence accepted: the assets are public. It is reduced NASA public
+# data, so that is fine, and arguably better than fine given the site
+# argues for showing its working.
+
+on:
+  schedule:
+    # 02:00 UTC, first in the slot map because it is the most perishable
+    # thing we fetch. See research/handover_platform_contract.md.
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write          # commit the manifest, and upload release assets
+
+# No concurrency group on purpose. This job renders nothing and
+# publishes nothing, and the quota pools are independent, so it has no
+# reason to queue behind another channel's publish.
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    # 90 minutes observed, plus margin. A timeout is mandatory here: the
+    # HDF/netCDF failure mode is a hang, not a crash, and an untimed job
+    # would sit until the runner limit while the day it was capturing
+    # ages out of LANCE.
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Configure Earthdata token
+        env:
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+        run: |
+          # Fail loudly and immediately. A missing token here is not a
+          # degraded run, it is a lost day.
+          if [ -z "$EARTHDATA_TOKEN" ]; then
+            echo "::error::EARTHDATA_TOKEN is not set. Today's VIIRS day \
+          will be lost permanently: LANCE deletes after about seven days. \
+          Add the secret in Settings, Secrets and variables, Actions."
+            exit 1
+          fi
+          printf '%s' "$EARTHDATA_TOKEN" > ~/.earthdata_token
+          chmod 600 ~/.earthdata_token
+
+      - name: Verify the token actually authenticates
+        run: |
+          # LAADS and LANCE answer an unauthenticated request with an
+          # HTML login page under HTTP 200, not a 401. So exit codes and
+          # status codes both lie, and only the content type tells the
+          # truth. The token expires every 60 days; the current one dies
+          # 2026-09-26, inside the event window.
+          CT=$(curl -sS -L -o /dev/null -w '%{content_type}' -m 120 \
+                 -H "Authorization: Bearer $(cat ~/.earthdata_token)" \
+                 "https://nrt3.modaps.eosdis.nasa.gov/api/v2/content/details?products=VCDWD" \
+               || echo "curl-failed")
+          echo "content-type: $CT"
+          case "$CT" in
+            *json*) echo "token OK" ;;
+            *html*) echo "::error::Earthdata served an HTML login page \
+          under HTTP 200. The token has expired or an app approval was \
+          lost. Today's day will be lost unless this is fixed within the \
+          LANCE retention window." ; exit 1 ;;
+            *)      echo "::error::Unexpected content type: $CT" ; exit 1 ;;
+          esac
+
+      - name: Capture
+        run: |
+          mkdir -p "${RUNNER_TEMP}/vcdwd"
+          python floods/capture_viirs_global.py \
+            --out-dir "${RUNNER_TEMP}/vcdwd" \
+            --workers 6 \
+            --min-age-days 2
+          ls -la "${RUNNER_TEMP}/vcdwd" || true
+
+      - name: Store the aggregates as release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="vcdwd-capture"
+          gh release view "$TAG" >/dev/null 2>&1 || \
+            gh release create "$TAG" \
+              --title "VIIRS VCDWD 0.1 degree daily aggregates" \
+              --notes "Daily global aggregates captured under D-038. One asset per day. Raw tiles are discarded; these are the retained record." \
+              --latest=false
+          shopt -s nullglob
+          FILES=("${RUNNER_TEMP}"/vcdwd/*.npz)
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "::warning::No new aggregate produced this run. With \
+          --min-age-days 2 there are days when nothing has aged in yet. \
+          This is only wrong if it repeats."
+          else
+            gh release upload "$TAG" "${FILES[@]}" --clobber
+            echo "uploaded ${#FILES[@]} file(s)"
+          fi
+
+      - name: Commit the manifest
+        run: |
+          git config user.name "el-nino-tracker-bot"
+          git config user.email "actions@github.com"
+          git add floods/data/ 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "floods: VIIRS capture manifest $(date -u +'%Y-%m-%d')"
+            bash scripts/push_retry.sh main
+          else
+            echo "No manifest change."
+          fi

@@ -1,0 +1,51 @@
+{
+  "_purpose": "Per-crop planting and harvest windows for qualified pairs whose countries ASAP's own crop calendar omits. Load-bearing: every in-season claim depends on the harvest date being right, because a reading taken after harvest is not a forecast.",
+  "_units": "dekads of 36. Dekad 1 is 1-10 January. sos is planting start, harvest_start is the first dekad of harvest. The in-season window runs sos to harvest_start minus one, wrapping through the new year where wraps is true.",
+  "_sourced": "2026-07-29, per D-040. Each entry names a source and what it says, so a later chat can re-check it rather than trust it.",
+  "calendars": [
+    {
+      "country": "Ukraine",
+      "asap0_id": 115,
+      "psd_commodity": "Wheat",
+      "sos": 25,
+      "harvest_start": 18,
+      "wraps": true,
+      "source": "USDA FAS IPAD, crop calendars for Ukraine, Moldova and Belarus",
+      "source_says": "winter wheat planted early September to mid-November, harvest from late June to mid-August; winter wheat is about 97 percent of Ukrainian wheat production",
+      "accessed": "2026-07-29"
+    },
+    {
+      "country": "Argentina",
+      "asap0_id": 166,
+      "psd_commodity": "Wheat",
+      "sos": 13,
+      "harvest_start": 31,
+      "wraps": false,
+      "source": "USDA FAS",
+      "source_says": "wheat planted May through July, harvested November through January; flowering September in the north and October in the south",
+      "accessed": "2026-07-29"
+    },
+    {
+      "country": "Canada",
+      "asap0_id": 19,
+      "psd_commodity": "Oilseed, Rapeseed",
+      "sos": 13,
+      "harvest_start": 25,
+      "wraps": false,
+      "source": "Canola Council of Canada; Statistics Canada table 32-10-0359-01",
+      "source_says": "canola planted in May, harvested September or October",
+      "accessed": "2026-07-29"
+    },
+    {
+      "country": "Mexico",
+      "asap0_id": 63,
+      "psd_commodity": "Corn",
+      "sos": 10,
+      "harvest_start": 25,
+      "wraps": false,
+      "source": "USDA FAS Grain and Feed Update, Mexico City, MX2025-0048; SIAP",
+      "source_says": "primavera-verano cycle: irrigated area planted April through May, rainfed area June through August, harvest beginning September",
+      "accessed": "2026-07-29"
+    }
+  ]
+}

@@ -259,6 +259,19 @@ def main() -> None:
             print(f"  skip {ev['region']}: no detection detail")
             continue
         area_cur = areas.get(iso)
+        # A country can have fire detections and no mapped burnt area at
+        # all: Saudi Arabia and Libya both read 0 ha for 2026 across a
+        # 21-year EFFIS/GWIS record, because desert fire leaves no
+        # mappable perimeter. The row exists, so `areas.get(iso)` is
+        # truthy, and every value in it is zero.
+        #
+        # Passing that through renders an area cell whose series maxes at
+        # zero. Treat "no area anywhere" as no area section, which the
+        # template already handles, rather than an area section full of
+        # zeros. This is an adapter decision about which data exists, not
+        # a layout one.
+        if area_cur and not (area_cur.get("area_ha") or 0):
+            area_cur = None
         area_years = None
         hist_path = os.path.join(AREA_HIST, f"{iso}.json")
         if area_cur and os.path.exists(hist_path):

@@ -106,6 +106,46 @@ before acting on any ledger entry.** Entries are never edited, so an
 entry can be live text and still be overtaken; the index is the only
 place that says so.
 
+## The one rule that holds all of this together
+
+**A decision that lives only in a chat's context does not exist.**
+
+Everything else in this file, the ownership map, the render seam, the
+evidence basis, works because it was written down where another chat
+could find it. The structure survives architecture changes and mandate
+re-cuts. What it cannot survive is a call made in conversation and
+never recorded, because that is how two chats end up confidently
+disagreeing with Kristjan as the only tiebreaker, weeks later, with
+nobody able to reconstruct why.
+
+So, binding on every chat:
+
+1. **If Kristjan approves, agrees, rejects, or decides anything that
+   another chat could conceivably need, append it to
+   `research/decisions.md` before the session ends.** Not next session.
+   Not when convenient. Chat context is not storage.
+2. **When unsure whether something qualifies, log it.** Over-logging
+   costs four lines. Under-logging is unrecoverable, because by the
+   time the gap is noticed the reasoning is gone.
+3. **Re-read `research/decisions.md` immediately before appending.**
+   Several chats write to it and the numbering has already collided
+   once. Take the next free D-number and never reuse one.
+4. **Record the reasoning, not just the outcome.** "We chose X" is
+   nearly useless in six weeks. "We chose X over Y because Z" is what
+   lets a future chat tell whether Z still holds.
+5. **A decision goes in the ledger even when it reverses something you
+   argued for.** Especially then. D-027 and D-030 disagree about who
+   renders, and the pair is more useful than either alone.
+6. **If it changes a mandate, a seam, or a shared file, the ledger is
+   not enough**: update the owning document too (`research/team.md`
+   for mandates, this file for ownership and invariants,
+   `research/theses.md` for strategy) and message the affected chat.
+
+The strategy chat owns `research/decisions.md` and audits it for gaps.
+If you notice a decision that was acted on but never logged, say so,
+including when it is one of Kristjan's asides. Silent gaps are the
+failure mode; a false alarm costs nothing.
+
 ## Who builds what (D-030, 2026-07-28)
 
     Fires, Floods, Crops   fetch the data, own that it is
@@ -387,6 +427,29 @@ Required GitHub Actions secrets:
 - `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `BRIEF_RECIPIENT` for email
 
 ## Working style
+
+### Long unattended jobs on Kristjan's laptop
+
+Added 2026-07-28, after four unattended pulls from three chats ran
+overnight on one machine, none of them aware of the others.
+
+- **Hold a DURATION-based wake lock, never a pid-scoped one.**
+  `caffeinate -i -m -w <pid>` dies with the job that owns it, so the
+  first job to finish decides when the machine sleeps and silently
+  kills everyone else's. Use `caffeinate -i -m -t <seconds>` covering
+  the whole expected window instead.
+- **`caffeinate -i -m` blocks idle and disk sleep only. It does NOT
+  survive the lid closing.** Written down because it was asserted the
+  other way once and cost a night of fetching. Lid open, on power.
+- **Announce a multi-hour job where another chat can see it.** Append
+  a line to `.running-jobs` at the repo root (gitignored, so it never
+  reaches a commit, and visible to every chat because the working tree
+  is shared): what is running, which chat, and the expected finish.
+  Remove the line when it ends. Read the file before starting your own,
+  because three chats each believed they were alone on the machine.
+- Assume every long pull is resumable and check that it is before
+  starting it unattended. A job that cannot resume turns a sleep into
+  lost hours rather than lost minutes.
 
 - Run `.venv/bin/python scripts/qa_check.py` before any push that
   publishes to `docs/`. It enforces invariants 4, 5, and 6 plus link

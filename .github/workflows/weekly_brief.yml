@@ -75,7 +75,7 @@ jobs:
           # Only commit if something changed
           if ! git diff --cached --quiet; then
             git commit -m "Weekly brief: $(date -u +'%Y-%m-%d')"
-            git push
+            bash scripts/push_retry.sh main
           else
             echo "No changes to commit."
           fi

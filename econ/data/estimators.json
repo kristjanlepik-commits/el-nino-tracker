@@ -1,0 +1,299 @@
+{
+  "schema_version": "0.1.0",
+  "shape_status": "working shape, not a contract (D-030: discovered from a second case)",
+  "evidence_basis": "compiled",
+  "authorship": "agency",
+  "note": "Estimator registry. Category definitions and cadences are keyed by estimator, never repeated per ledger row, so a restatement updates one place and two rows can never disagree about what the same estimator meant. Per the platform contract, section 6.",
+  "estimators": {
+    "perils": {
+      "full_name": "PERILS AG",
+      "organisation_type": "commercial_data_vendor",
+      "categories_published": ["insured_loss"],
+      "scope_note": "Insured losses, property and motor hull lines of business, in covered territories AND covered perils only. Not economic losses.",
+      "territories": ["europe", "australia", "canada", "turkey", "japan", "new_zealand"],
+      "coverage_detail": {
+        "europe_countries": ["AT", "BE", "DK", "FR", "DE", "IE", "IT", "LU", "NL", "NO", "SE", "CH", "GB"],
+        "europe_perils": ["windstorm", "flood", "hail_convective_storm", "earthquake (Italy, Turkey)"],
+        "europe_wildfire_covered": false,
+        "reporting_thresholds": {
+          "europe_windstorm_flood_pan_european": "EUR 500 million",
+          "europe_windstorm_flood_single_country": "EUR 300 million"
+        },
+        "note": "Spain, Portugal and Greece are NOT in the European country list, and wildfire is not a European peril. So Mediterranean wildfire has no PERILS figure on either count. Australian bushfire IS covered. Below the reporting threshold PERILS publishes nothing, which means silence is weak evidence the event was small rather than evidence of nothing."
+      },
+      "revision_cadence": {
+        "type": "scheduled",
+        "anchor": "event_end_date",
+        "offsets_days": [42, 91, 182, 365],
+        "offsets_label": ["6 weeks", "3 months", "6 months", "12 months"],
+        "closes_days": 1095,
+        "closes_label": "36 months",
+        "note": "Further reports only if deemed necessary. Reporting closed in any case 36 months after the event."
+      },
+      "citation_string": "PERILS AG",
+      "licence_note": "Headline event figures are published in press releases and are citable. The industry loss index and exposure database are paid products. Cite the press release, never the database.",
+      "machine_access": "none; press releases as HTML and PDF, highly regular format",
+      "provenance": {
+        "source_url": "https://www.perils.org/losses",
+        "corroborating_url": "https://www.artemis.bm/news/perils-reduces-windstorm-goretti-insured-market-loss-estimate-to-e468m/",
+        "issued": null,
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "verisk_pcs": {
+      "full_name": "Verisk Property Claim Services (PCS)",
+      "organisation_type": "commercial_data_vendor",
+      "categories_published": ["insured_loss"],
+      "scope_note": "Insured losses. Panel survey of insurers, reinsurers, intermediaries and ILS funds, with expert judgement; scaled using AM Best market-share data and Verisk statistical services for the admitted and non-admitted split.",
+      "territories": ["united_states", "canada", "mexico", "japan"],
+      "revision_cadence": {
+        "type": "conditional_then_scheduled",
+        "anchor": "preliminary_estimate",
+        "trigger_note": "Resurveys run when the preliminary estimate exceeds USD 250 million.",
+        "offsets_days": [60, 120, 180],
+        "offsets_label": ["every 60 days until final (US, Mexico, Canada)"],
+        "regional_variation": {
+          "japan": "first estimate within 90 days of designation, then roughly quarterly until stable"
+        },
+        "closes_days": null,
+        "note": "Closes when the estimate is deemed final rather than on a fixed date."
+      },
+      "citation_string": "Verisk PCS",
+      "licence_note": "Subscription product. Figures reach the public through trade press. Cite the reported figure; never imply direct access.",
+      "machine_access": "none",
+      "provenance": {
+        "source_url": "https://www.verisk.com/insurance/products/property-claim-services/pcs-apac/",
+        "issued": null,
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "swiss_re_sigma": {
+      "full_name": "Swiss Re Institute (sigma)",
+      "organisation_type": "reinsurer",
+      "categories_published": ["insured_loss", "economic_total"],
+      "scope_note": "Global, all perils. Reports insured losses and total economic losses.",
+      "territories": ["global"],
+      "revision_cadence": {
+        "type": "scheduled",
+        "anchor": "calendar_year",
+        "offsets_label": ["preliminary estimate in December of the year", "final sigma 1/YYYY in Q1 of the following year"],
+        "offsets_days": null,
+        "closes_days": null,
+        "note": "Two-step annual cadence. The December preliminary and the Q1 sigma are different products and should be separate rows."
+      },
+      "citation_string": "Swiss Re Institute, sigma",
+      "licence_note": "Public reports and press releases; citable with attribution.",
+      "machine_access": "none; PDF reports",
+      "caution": "sigma has also published forward trend figures (for example insured losses 'on trend to USD 145 billion in 2025', against an outturn of USD 107 billion). A trend projection is not a loss estimate for that year and must never share a column with one. Forward figures belong to aftereffects under D-034.",
+      "provenance": {
+        "source_url": "https://www.swissre.com/institute/research/sigma-research/sigma-2026-01-natcat-2025-wildfire-storm-risk.html",
+        "issued": "2026-Q1",
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "munich_re": {
+      "full_name": "Munich Re (NatCatSERVICE)",
+      "organisation_type": "reinsurer",
+      "categories_published": ["insured_loss", "economic_direct"],
+      "scope_note": "Global, all perils. Distinguishes overall losses (direct) from insured losses. Compiled from government agencies, scientific institutes, associations, the insurance industry, media and other public sources, combined with in-house market data.",
+      "territories": ["global"],
+      "revision_cadence": {
+        "type": "scheduled",
+        "anchor": "calendar_year",
+        "offsets_label": ["half-year figures in July", "full-year figures in January"],
+        "offsets_days": null,
+        "closes_days": null,
+        "note": "Munich Re states its data is collected as of specific dates and can change at any time, with no guarantee of accuracy. Their own position supports our vintage discipline."
+      },
+      "citation_string": "Munich Re",
+      "licence_note": "Published factsheets and press releases are citable. NatCatSERVICE itself is proprietary; cite published figures only.",
+      "machine_access": "none; PDF factsheets",
+      "provenance": {
+        "source_url": "https://www.munichre.com/en/solutions/reinsurance-property-casualty/natcatservice.item-c90d5a604920216e9017f93bd8b05ba7.html",
+        "issued": null,
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "aon": {
+      "full_name": "Aon (Climate and Catastrophe Insight)",
+      "organisation_type": "broker",
+      "categories_published": ["insured_loss", "economic_total"],
+      "scope_note": "Global, with regional and peril breakdowns. Reports both economic and insured losses.",
+      "territories": ["global"],
+      "revision_cadence": {
+        "type": "scheduled",
+        "anchor": "calendar_quarter",
+        "offsets_label": ["Q1 recap in April", "H1 recap in July", "9-month recap in October", "annual report in January"],
+        "offsets_days": null,
+        "closes_days": null,
+        "note": "21st edition of the annual report as of January 2026."
+      },
+      "citation_string": "Aon",
+      "licence_note": "Free public reports and interactive loss pages; citable with attribution.",
+      "machine_access": "public interactive loss page; no documented API",
+      "provenance": {
+        "source_url": "https://www.aon.com/en/insights/reports/climate-and-catastrophe-report",
+        "corroborating_url": "https://aon.mediaroom.com/news-releases?item=138622",
+        "issued": "2026-07-22",
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "gallagher_re": {
+      "full_name": "Gallagher Re (Natural Catastrophe and Climate Report)",
+      "organisation_type": "broker",
+      "categories_published": ["insured_loss", "economic_direct"],
+      "scope_note": "Global. Reports economic and insured losses. Labels half-year totals preliminary.",
+      "territories": ["global"],
+      "revision_cadence": {
+        "type": "scheduled",
+        "anchor": "calendar_quarter",
+        "offsets_label": ["Q1 in April", "H1 in July", "9-month", "annual in January"],
+        "offsets_days": null,
+        "closes_days": null,
+        "note": "Flags totals as preliminary but publishes no restatement schedule. Preliminary is disclosed; when the correction lands is not."
+      },
+      "citation_string": "Gallagher Re",
+      "licence_note": "Free public PDF reports; citable with attribution.",
+      "machine_access": "none; PDF reports",
+      "provenance": {
+        "source_url": "https://www.ajg.com/gallagherre/news-and-insights/natural-catastrophe-and-climate-report-h1-2026/",
+        "issued": "2026-07-15",
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "world_bank_grade": {
+      "full_name": "World Bank / GFDRR, Global Rapid post-disaster Damage Estimation (GRADE)",
+      "organisation_type": "multilateral",
+      "categories_published": ["economic_direct"],
+      "scope_note": "Direct physical damage to key sectors, single country, event-triggered. Remote desk-based assessment; components are hazard, exposure, vulnerability and loss modelling.",
+      "territories": ["global_south", "member_countries"],
+      "revision_cadence": {
+        "type": "one_shot",
+        "anchor": "event_date",
+        "offsets_days": [14],
+        "offsets_label": ["about 2 weeks after the disaster"],
+        "closes_days": null,
+        "note": "No scheduled revision. Self-reported to average about 90 percent of the detailed on-ground assessments that follow. Used on 66+ occasions across 54 countries since the 2015 Nepal earthquake. Conditional: produced on request, not automatically."
+      },
+      "citation_string": "World Bank / GFDRR (GRADE)",
+      "licence_note": "World Bank publications generally carry a CC BY licence. Verify per report rather than assuming.",
+      "machine_access": "none; individual PDF reports per event",
+      "note": "Coverage is concentrated where insured-loss estimators are weakest, which under T11 is the middle of the story.",
+      "provenance": {
+        "source_url": "https://www.gfdrr.org/en/publication/global-rapid-post-disaster-damage-estimation-grade-approach",
+        "issued": null,
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "climate_central_bdd": {
+      "full_name": "Climate Central, US Billion-Dollar Weather and Climate Disasters",
+      "organisation_type": "nonprofit_research",
+      "categories_published": ["economic_total"],
+      "scope_note": "United States only. Continuous back to 1980. Methodology unchanged from the NOAA series (Smith and Katz 2013), same lead scientist.",
+      "territories": ["united_states"],
+      "revision_cadence": {
+        "type": "rolling",
+        "anchor": "continuous",
+        "offsets_days": null,
+        "offsets_label": ["cadence not published"],
+        "closes_days": null,
+        "note": "Events under assessment during the year. Cadence unconfirmed; needs an email rather than more searching."
+      },
+      "citation_string": "Climate Central",
+      "licence_note": "Climate Matters content is CC BY 4.0. Whether that extends to the database itself is unconfirmed.",
+      "machine_access": "interactive tools; no documented download or API",
+      "custodian_history": [
+        {"custodian": "NOAA NCEI", "from": "1980", "to": "2024", "note": "Retired 2025-05-08, no updates beyond calendar year 2024. Archive remains authoritative and is US federal public domain."},
+        {"custodian": "Climate Central", "from": "2025-07-28", "to": null, "note": "Relaunched 2025-10-22 with the full archive."}
+      ],
+      "provenance": {
+        "source_url": "https://www.climatecentral.org/climate-services/billion-dollar-disasters",
+        "corroborating_url": "https://www.nesdis.noaa.gov/about/documents-reports/notice-of-changes/2025-notice-of-changes/billion-dollar-weather-and-climate-disasters",
+        "issued": null,
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "noaa_ncei_bdd": {
+      "full_name": "NOAA NCEI, US Billion-Dollar Weather and Climate Disasters (retired)",
+      "organisation_type": "national_agency",
+      "categories_published": ["economic_total"],
+      "scope_note": "United States only, 1980 to 2024. Retired; archive remains authoritative.",
+      "territories": ["united_states"],
+      "revision_cadence": {
+        "type": "closed",
+        "anchor": null,
+        "offsets_days": null,
+        "offsets_label": ["no further updates"],
+        "closes_days": null,
+        "note": "Retired 2025-05-08 in alignment with evolving priorities, statutory mandates and staffing changes. Superseded as a live series by Climate Central."
+      },
+      "citation_string": "NOAA NCEI",
+      "licence_note": "US federal government work, public domain. The cleanest licence position of any estimator here.",
+      "machine_access": "static files, automatable, frozen at 2024",
+      "provenance": {
+        "source_url": "https://www.ncei.noaa.gov/access/billions/",
+        "issued": "2025-05-08",
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "emdat": {
+      "full_name": "EM-DAT, CRED / UCLouvain",
+      "organisation_type": "academic",
+      "categories_published": ["economic_direct", "mortality"],
+      "scope_note": "Global event catalogue with damage and mortality fields.",
+      "territories": ["global"],
+      "revision_cadence": {
+        "type": "continuous",
+        "anchor": "event_entry",
+        "offsets_days": null,
+        "offsets_label": ["revised as underlying sources report"],
+        "closes_days": null,
+        "note": "Open-ended. No published restatement schedule."
+      },
+      "citation_string": "EM-DAT, CRED / UCLouvain, Brussels, Belgium -- www.emdat.be",
+      "licence_note": "Free tier explicitly includes media agencies (journalist or press agency). ALL tiers are prohibited from reproducing a substantial part and from creating substitute or derivative databases. This is EU sui generis database-right language and binds an Estonian publisher. Per-event citation only; never a backbone. See D-039.",
+      "machine_access": "portal .xlsx after registration; a GraphQL endpoint and R API exist but are undocumented on the accessibility page",
+      "provenance": {
+        "source_url": "https://doc.emdat.be/docs/legal/terms-of-use/",
+        "issued": null,
+        "fetched_at": "2026-07-28",
+        "fallback": false
+      }
+    },
+    "accuweather": {
+      "full_name": "AccuWeather",
+      "organisation_type": "private_weather_company",
+      "categories_published": ["economic_total"],
+      "scope_note": "Publishes 'total damage and economic loss' figures during and shortly after events. Scope and methodology are NOT published.",
+      "territories": ["united_states", "global"],
+      "revision_cadence": {
+        "type": "ad_hoc",
+        "anchor": "event_ongoing",
+        "offsets_days": null,
+        "offsets_label": ["revised repeatedly during an event, no schedule"],
+        "closes_days": null,
+        "note": "For the January 2025 LA fires, moved from USD 52-57 bn to USD 135-150 bn to USD 250-275 bn in roughly four days while the fires were still burning."
+      },
+      "citation_string": "AccuWeather",
+      "licence_note": "Press releases; citable with attribution.",
+      "machine_access": "none",
+      "caution": "Carried because it is widely quoted, not because it is comparable. Its figures have landed two to three times above other estimators for overlapping scope, and it publishes no methodology, so a reader cannot check what is inside the number. Any row citing it must show at least one documented estimator alongside. This is a rendering requirement, not a preference.",
+      "provenance": {
+        "source_url": "https://www.accuweather.com/en/weather-news/accuweather-estimates-more-than-250-billion-in-damages-and-economic-loss-from-la-wildfires/1733821",
+        "issued": null,
+        "fetched_at": "2026-07-28",
+        "fallback": false,
+        "verification_note": "Exact dates of the three January 2025 estimates are not yet confirmed against primary sources; one AccuWeather page renders its date as January 2024, which is wrong. Do not publish the dates until verified."
+      }
+    }
+  }
+}

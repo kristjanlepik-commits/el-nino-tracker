@@ -1,0 +1,474 @@
+{
+  "schema_version": "0.1.0",
+  "shape_status": "working shape, not a contract",
+  "evidence_basis": "compiled",
+  "authorship": "agency",
+  "attribution_tag": "not_applicable",
+  "question": "After a climate event, when will a credible damage figure exist, and who will publish it?",
+  "note": "Every entry is assembled from estimators' own published schedules and observed practice. No entry states what an event will cost. The 'settles' field is DERIVED from the sequence and is therefore Combined under D-033, not Compiled; it must render with the Combined label.",
+  "basis_values": {
+    "published_schedule": "the estimator publishes this timing itself; a commitment",
+    "observed_practice": "not published as a schedule, inferred from repeated behaviour",
+    "conditional": "happens only if triggered, for example on request or above a threshold"
+  },
+  "entries": [
+    {
+      "entry_id": "windstorm_europe",
+      "label": "European windstorm",
+      "hazard": "windstorm",
+      "territory": "europe",
+      "sequence": [
+        {
+          "estimator_id": "perils",
+          "offset_days": 42,
+          "category": "insured_loss",
+          "basis": "published_schedule",
+          "label": "PERILS initial estimate"
+        },
+        {
+          "estimator_id": "perils",
+          "offset_days": 91,
+          "category": "insured_loss",
+          "basis": "published_schedule",
+          "label": "PERILS second estimate"
+        },
+        {
+          "estimator_id": "perils",
+          "offset_days": 182,
+          "category": "insured_loss",
+          "basis": "published_schedule",
+          "label": "PERILS third estimate"
+        },
+        {
+          "estimator_id": "perils",
+          "offset_days": 365,
+          "category": "insured_loss",
+          "basis": "published_schedule",
+          "label": "PERILS final estimate"
+        },
+        {
+          "estimator_id": "aon",
+          "offset_days": null,
+          "category": "economic_total",
+          "basis": "published_schedule",
+          "label": "next quarterly recap"
+        },
+        {
+          "estimator_id": "gallagher_re",
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "published_schedule",
+          "label": "next quarterly report"
+        }
+      ],
+      "settles": {
+        "value_days": 365,
+        "label": "about 12 months",
+        "derived": true
+      },
+      "coverage_note": "The densest early coverage of any hazard and territory in this map, because PERILS commits to dated restatements.",
+      "worked_example": {
+        "event": "Windstorm Goretti, early January 2026",
+        "figures": [
+          {
+            "estimator_id": "perils",
+            "value": 467,
+            "currency": "EUR",
+            "scale": "million",
+            "issued": "2026-02",
+            "vintage_index": 1
+          },
+          {
+            "estimator_id": "perils",
+            "value": 479,
+            "currency": "EUR",
+            "scale": "million",
+            "issued": "2026-04",
+            "vintage_index": 2
+          },
+          {
+            "estimator_id": "perils",
+            "value": 468,
+            "currency": "EUR",
+            "scale": "million",
+            "issued": "2026-07-09",
+            "vintage_index": 3
+          }
+        ],
+        "note": "Up then down, total movement about 2.5 percent. A stable estimate is information; a ledger that showed only the current figure would hide it."
+      },
+      "absence_meaning": {
+        "reason": "below_threshold",
+        "note": "PERILS publishes nothing below EUR 300 million in a single country or EUR 500 million pan-European. The threshold is published and the estimator was watching, so silence here is weak evidence the event fell below it."
+      }
+    },
+    {
+      "entry_id": "wildfire_hurricane_scs_us",
+      "label": "US wildfire, hurricane and severe convective storm",
+      "hazard": [
+        "wildfire",
+        "tropical_cyclone",
+        "severe_convective_storm"
+      ],
+      "territory": "united_states",
+      "sequence": [
+        {
+          "estimator_id": "accuweather",
+          "offset_days": 1,
+          "category": "economic_total",
+          "basis": "observed_practice",
+          "label": "AccuWeather running estimate, undocumented method"
+        },
+        {
+          "estimator_id": "verisk_pcs",
+          "offset_days": null,
+          "category": "insured_loss",
+          "basis": "conditional",
+          "label": "PCS preliminary, resurveyed every 60 days above USD 250 M"
+        },
+        {
+          "estimator_id": "aon",
+          "offset_days": null,
+          "category": "economic_total",
+          "basis": "published_schedule",
+          "label": "next quarterly recap"
+        },
+        {
+          "estimator_id": "gallagher_re",
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "published_schedule",
+          "label": "next quarterly report"
+        },
+        {
+          "estimator_id": "climate_central_bdd",
+          "offset_days": null,
+          "category": "economic_total",
+          "basis": "observed_practice",
+          "label": "added to the billion-dollar series once assessed"
+        },
+        {
+          "estimator_id": "swiss_re_sigma",
+          "offset_days": null,
+          "category": "insured_loss",
+          "basis": "published_schedule",
+          "label": "December preliminary, then sigma 1 in Q1"
+        }
+      ],
+      "settles": {
+        "value_days": 450,
+        "label": "sigma in the Q1 following the event year",
+        "derived": true
+      },
+      "coverage_note": "The fastest figures here are the least documented. AccuWeather publishes within a day with no methodology; the documented estimators take months.",
+      "worked_example": {
+        "event": "Los Angeles wildfires, January 2025",
+        "figures": [
+          {
+            "estimator_id": "accuweather",
+            "value_low": 52,
+            "value_high": 57,
+            "currency": "USD",
+            "scale": "billion",
+            "issued": "2025-01",
+            "vintage_index": 1,
+            "category": "economic_total"
+          },
+          {
+            "estimator_id": "accuweather",
+            "value_low": 135,
+            "value_high": 150,
+            "currency": "USD",
+            "scale": "billion",
+            "issued": "2025-01",
+            "vintage_index": 2,
+            "category": "economic_total"
+          },
+          {
+            "estimator_id": "accuweather",
+            "value_low": 250,
+            "value_high": 275,
+            "currency": "USD",
+            "scale": "billion",
+            "issued": "2025-01",
+            "vintage_index": 3,
+            "category": "economic_total"
+          },
+          {
+            "estimator_id": "swiss_re_sigma",
+            "value": 40,
+            "currency": "USD",
+            "scale": "billion",
+            "issued": "2026-Q1",
+            "vintage_index": 1,
+            "category": "insured_loss"
+          }
+        ],
+        "note": "AccuWeather's three figures are dated to January 2025 only; exact dates are unverified and must not be published until confirmed. The event was ongoing across all three, so the rise mixes event growth with knowledge growth.",
+        "verification_status": "partial"
+      },
+      "absence_meaning": {
+        "reason": "below_threshold",
+        "note": "PCS resurveys only above USD 250 million, and the billion-dollar series is billion-dollar by definition. Silence is weak evidence the event fell below those thresholds, not evidence of nothing."
+      }
+    },
+    {
+      "entry_id": "bushfire_cyclone_au",
+      "label": "Australian bushfire and cyclone",
+      "hazard": [
+        "wildfire",
+        "tropical_cyclone"
+      ],
+      "territory": "australia",
+      "sequence": [
+        {
+          "estimator_id": "perils",
+          "offset_days": 42,
+          "category": "insured_loss",
+          "basis": "published_schedule",
+          "label": "PERILS initial estimate"
+        },
+        {
+          "estimator_id": "perils",
+          "offset_days": 91,
+          "category": "insured_loss",
+          "basis": "published_schedule",
+          "label": "PERILS second estimate"
+        },
+        {
+          "estimator_id": "perils",
+          "offset_days": 182,
+          "category": "insured_loss",
+          "basis": "published_schedule",
+          "label": "PERILS third estimate"
+        },
+        {
+          "estimator_id": "perils",
+          "offset_days": 365,
+          "category": "insured_loss",
+          "basis": "published_schedule",
+          "label": "PERILS final estimate"
+        }
+      ],
+      "settles": {
+        "value_days": 365,
+        "label": "about 12 months",
+        "derived": true
+      },
+      "coverage_note": "PERILS covers Australia, so the schedule is as dated as Europe's.",
+      "absence_meaning": {
+        "reason": "below_threshold",
+        "note": "PERILS covers both the peril and the territory here. Its Australian reporting threshold is not verified in this map, so treat silence as unexplained until it is."
+      }
+    },
+    {
+      "entry_id": "fire_haze_indonesia",
+      "label": "Indonesian fire and haze",
+      "hazard": "wildfire",
+      "territory": "indonesia",
+      "sequence": [
+        {
+          "estimator_id": null,
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "observed_practice",
+          "label": "national agency (BNPB) figures",
+          "note": "not yet profiled; needs its own estimator record before use"
+        },
+        {
+          "estimator_id": "world_bank_grade",
+          "offset_days": 14,
+          "category": "economic_direct",
+          "basis": "conditional",
+          "label": "GRADE assessment, only if requested"
+        },
+        {
+          "estimator_id": "aon",
+          "offset_days": null,
+          "category": "economic_total",
+          "basis": "published_schedule",
+          "label": "next quarterly recap"
+        },
+        {
+          "estimator_id": "gallagher_re",
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "published_schedule",
+          "label": "next quarterly report"
+        },
+        {
+          "estimator_id": "emdat",
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "observed_practice",
+          "label": "EM-DAT entry, revised as sources report"
+        }
+      ],
+      "settles": {
+        "value_days": null,
+        "label": "no settled figure expected within the event year; the 2015 season was still being re-estimated in 2021",
+        "derived": true
+      },
+      "coverage_note": "No insured-loss index covers Indonesian wildfire. The authoritative figures arrive years later and disagree; see the 2015 decomposition.",
+      "worked_example": {
+        "event": "Indonesia fire season 2015",
+        "figures": [
+          {
+            "estimator_id": "world_bank_grade",
+            "value": 16.1,
+            "currency": "USD",
+            "scale": "billion",
+            "issued": "2016-02",
+            "category": "economic_total",
+            "note": "Published as a country economic analysis, not a GRADE assessment. Includes USD 3.97 bn carbon valuation. Eight provinces."
+          },
+          {
+            "estimator_id": null,
+            "estimator_note": "Kiely et al., Nature Communications",
+            "value": 28,
+            "currency": "USD",
+            "scale": "billion",
+            "currency_year": 2015,
+            "issued": "2021-12",
+            "category": "economic_total"
+          }
+        ],
+        "note": "Six years between the two figures. Decomposed, the land-cover components agree within about 2 percent and the gap is the social cost of carbon plus long-term mortality valuation.",
+        "verification_status": "verified against primary sources"
+      },
+      "absence_meaning": {
+        "reason": "outside_coverage",
+        "note": "No insured-loss index covers Indonesian wildfire. Silence says nothing whatsoever about the size of the event."
+      }
+    },
+    {
+      "entry_id": "drought_southern_africa",
+      "label": "Southern Africa drought",
+      "hazard": "drought",
+      "territory": "southern_africa",
+      "sequence": [
+        {
+          "estimator_id": null,
+          "offset_days": null,
+          "category": "humanitarian_appeal",
+          "basis": "observed_practice",
+          "label": "SADC / OCHA appeals",
+          "note": "an appeal is a funding request, NOT a loss; separate category, never summed with damage"
+        },
+        {
+          "estimator_id": null,
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "observed_practice",
+          "label": "FAO and WFP assessments",
+          "note": "not yet profiled"
+        }
+      ],
+      "settles": {
+        "value_days": null,
+        "label": "often never, as a money figure",
+        "derived": true
+      },
+      "coverage_note": "Slow-onset drought has no event end date, so no schedule anchored on one can apply. The humanitarian system produces caseloads and appeals rather than loss estimates. This is the hardest hazard in the map and the honest answer is that a damage figure may never arrive.",
+      "absence_meaning": {
+        "reason": "outside_coverage",
+        "note": "No estimator produces damage figures for slow-onset drought here. The humanitarian system produces appeals, which measure response scale rather than loss. Silence says nothing about size."
+      }
+    },
+    {
+      "entry_id": "flood_peru_ecuador",
+      "label": "Coastal Peru and Ecuador flooding",
+      "hazard": "flood",
+      "territory": "peru_ecuador",
+      "sequence": [
+        {
+          "estimator_id": null,
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "observed_practice",
+          "label": "national agency figures",
+          "note": "not yet profiled"
+        },
+        {
+          "estimator_id": "world_bank_grade",
+          "offset_days": 14,
+          "category": "economic_direct",
+          "basis": "conditional",
+          "label": "GRADE assessment, only if requested"
+        },
+        {
+          "estimator_id": "emdat",
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "observed_practice",
+          "label": "EM-DAT entry"
+        }
+      ],
+      "settles": {
+        "value_days": null,
+        "label": "years; the 1982-83 event is still cited from EM-DAT in 2017 dollars",
+        "derived": true
+      },
+      "coverage_note": "GRADE is the fastest credible option here and it is conditional on being requested, so its absence is not evidence of a small event.",
+      "absence_meaning": {
+        "reason": "outside_coverage",
+        "note": "GRADE is produced on request rather than automatically, so its absence is not evidence of a small event."
+      }
+    },
+    {
+      "entry_id": "wildfire_mediterranean",
+      "label": "Mediterranean wildfire (France, Spain, Portugal, Greece)",
+      "hazard": "wildfire",
+      "territory": "mediterranean_europe",
+      "sequence": [
+        {
+          "estimator_id": null,
+          "offset_days": null,
+          "category": "insured_loss",
+          "basis": "observed_practice",
+          "label": "national schemes: Consorcio de Compensacion de Seguros (Spain), CCR (France)",
+          "note": "not yet profiled; these are the likeliest first insured figures for this hazard and territory and should be the next estimators added"
+        },
+        {
+          "estimator_id": "aon",
+          "offset_days": null,
+          "category": "economic_total",
+          "basis": "published_schedule",
+          "label": "next quarterly recap"
+        },
+        {
+          "estimator_id": "gallagher_re",
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "published_schedule",
+          "label": "next quarterly report"
+        },
+        {
+          "estimator_id": "emdat",
+          "offset_days": null,
+          "category": "economic_direct",
+          "basis": "observed_practice",
+          "label": "EM-DAT entry"
+        }
+      ],
+      "settles": {
+        "value_days": null,
+        "label": "no scheduled settlement; the quarterly recaps are the only dated commitments",
+        "derived": true
+      },
+      "coverage_note": "PERILS covers NEITHER the peril nor several of the territories. Its European perils are windstorm, flood, hail and convective storm, plus earthquake in Italy and Turkey; wildfire is not among them. Its European country list is Austria, Belgium, Denmark, France, Germany, Ireland, Italy, Luxembourg, Netherlands, Norway, Sweden, Switzerland and the UK, so Spain, Portugal and Greece are outside it entirely. Australian bushfire is covered; Mediterranean wildfire is not.",
+      "editorial_note": "This matters more than a coverage gap usually would. The France and Spain fires of July 2026 are T4's worked example of the fast-reaction thesis, and they sit in a hole: no scheduled insured-loss estimator covers them, so the first credible figure will come from national schemes with no published timetable. The site's flagship speed argument lands on the hazard where the money data is slowest.",
+      "verification_status": "verified",
+      "absence_meaning": {
+        "reason": "outside_coverage",
+        "note": "PERILS covers neither wildfire as a European peril nor Spain, Portugal and Greece as territories. Silence says nothing about size."
+      }
+    }
+  ],
+  "absence_reason_values": {
+    "below_threshold": "an estimator was watching and publishes a threshold; silence is weak evidence the event fell below it",
+    "outside_coverage": "no estimator covers this hazard and territory; silence says nothing about size",
+    "not_yet_valid": "a reading exists but is before its earliest valid point and can be confidently wrong; treated as absent"
+  },
+  "absence_note": "A missing figure is never rendered as a small figure. These three absences read identically on a page and mean opposite things."
+}

@@ -27,9 +27,24 @@ name: Fires data pull and publish
 # distinction that matters is "could not compare" versus "something
 # broke". Real errors still fail loudly.
 
+# TIMING, and the floor is a data-quality constraint rather than a
+# preference. Kristjan asked for the pages to be fresh early in the
+# morning (2026-07-28). 04:00 UTC is 07:00 in Tallinn and 06:00 in
+# central Europe, so the site is current before an EU reader opens it.
+#
+# It cannot go earlier than 03:00 UTC: FIRMS near-real-time processing
+# only guarantees yesterday is closed by about then, and build_events.py
+# refuses to run before 03:00 on purpose, so that a retry cannot quietly
+# publish an unfinished day. 04:00 leaves an hour of margin against that
+# boundary, down from three at the old 06:00 slot. If undercounts ever
+# appear on early runs, that margin is the first thing to suspect and
+# 05:00 UTC is the fallback.
+#
+# GitHub's scheduled runs are also routinely 5 to 20 minutes late, which
+# eats into the margin rather than the reader's morning.
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 4 * * *"
   workflow_dispatch:
 
 permissions:
@@ -81,6 +96,17 @@ jobs:
           printf '%s' "$FIRMS_MAP_KEY" > ~/.firms_map_key
           chmod 600 ~/.firms_map_key
 
+      # Refresh the same-week baseline FIRST. Without this the baseline
+      # is whatever one-off job built it, the trailing window advances
+      # past it the next day, and build_events.py then refuses every run
+      # for the rest of time. That is exactly what happened: the
+      # detections layer sat frozen from 27 to 29 July while hectares
+      # updated around it, so the page stayed plausible and nobody
+      # noticed. The refusal was correct; there was simply no way to
+      # give it a current baseline. There is now.
+      - name: Refresh the same-week baseline
+        run: PYTHONPATH="$PWD" python fires/fetch_window_baseline.py
+
       - name: Pull fire data
         id: pull
         run: |
@@ -89,10 +115,17 @@ jobs:
           code=$?
           echo "$out"
           if [ $code -ne 0 ]; then
-            # The one expected refusal: the frozen baseline does not cover
-            # the trailing window, so there is nothing valid to compare
-            # against. Not a break, and not something a retry fixes.
-            if echo "$out" | grep -q "refresh the history first"; then
+            # House convention for data jobs, from the CRO chat 2026-07-28:
+            #   0  did work
+            #   3  nothing to do, expected, warn and skip
+            #   *  broken, fail loudly
+            #
+            # The string match below is the OLD way and is fragile: it
+            # couples this workflow to a message owned by another chat,
+            # so a reword would silently turn an expected refusal into a
+            # daily red build. Kept only until build_events.py adopts
+            # exit 3, then delete it.
+            if [ $code -eq 3 ] || echo "$out" | grep -q "refresh the history first"; then
               echo "::warning::Fires page NOT updated: the baseline window \
           does not cover the trailing week, so build_events.py refused. This \
           resolves when full-year per-country baselines land (Fire chat)."
@@ -154,4 +187,6 @@ jobs:
           else
             echo "No page changes."
           fi
-          git push
+          # Unconditional: the data commit from the earlier step still
+          # needs pushing even when the pages did not move.
+          bash scripts/push_retry.sh main
