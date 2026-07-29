@@ -631,7 +631,21 @@ Two obstacles:
    from elsewhere. This is the same off-season trap as trap 2 wearing a
    different disguise, and it would have shipped as a confident wrong
    claim.
-10. **The indicator has a domain, and it is narrower than "crops".** It
+10. **A fixed percentage threshold means different things in different
+   countries.** Raised by the Fire chat on 2026-07-29 from their own
+   baselines, and tested here: across the 17 qualified pairs the
+   standard deviation of production deviation ranges from 0.107 (Mexico
+   corn) to 0.733 (Iraq rice), a **6.8x spread**. A "25% below average"
+   headline is 2.3 sigma in Mexico and 0.3 sigma in Iraq, so the same
+   sentence means once-in-a-generation in one country and roughly every
+   other year in another.
+   Crops fails differently from fires here, and the difference matters:
+   16 of 17 pairs have reached -25% at least once and all 17 have
+   reached -10%, so the channel is **not structurally blind**, it would
+   simply **misrepresent**. Fires hides events; crops would mis-scale
+   them. **Report rank on record, which is distribution-free. Never
+   headline a percentage.**
+11. **The indicator has a domain, and it is narrower than "crops".** It
    measures rainfed vegetation performance inside an annual growing
    cycle. Perennial tree crops (palm oil) and buffered irrigated systems
    (Egypt wheat, delta rice) are outside it. Bangladesh rice is not
@@ -649,6 +663,18 @@ Two obstacles:
 - Cadence: dekadal refresh, monthly outcome, never fast-reaction.
 - Raw pulls to `crops/.cache/`, gitignored; committed artifact is the
   compact derived series under `crops/data/`.
+- **Staleness is an absolute check, not a consecutive-no-op counter.**
+  ASAP publishes every 10 days, so a legitimate "nothing to fetch" run
+  repeats for nine days running and the exit-3 convention makes that
+  silence look healthy. The Fire chat lost six days to exactly this
+  shape on 2026-07-27. Crops is worse: a stuck fetcher needs about 20
+  days before the silence is obviously wrong. Rule: **no new dekad for
+  more than 20 days is an error, not a warning**, being two full
+  publication cycles.
+- Any multi-hour pull announces itself in `.running-jobs` per CLAUDE.md.
+  The 2026-07-28 three-hour indicator batch did not, which is a miss to
+  learn from rather than repeat: other chats share the laptop and had no
+  way to see it.
 
 ## 11. Open questions for Kristjan
 
