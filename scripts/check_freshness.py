@@ -61,6 +61,26 @@ def _from_key(key: str):
     return get
 
 
+def _newest_country_as_of(doc: dict) -> date | None:
+    """Leading edge of a per-country layer, from the SOURCE's own as_of.
+
+    Not the top-level `fetched`. That records when we last ran, so a
+    fetcher polling a dead source keeps it current forever while the data
+    rots underneath: measuring our own activity and calling it freshness,
+    which is the mistake this whole file exists to catch. Newest rather
+    than oldest because countries legitimately publish at different lags;
+    the question here is whether the layer as a whole has stopped
+    advancing, and per-country lag is already guarded at fetch time by
+    MAX_LAG_DAYS in fires/fetch_burnt_area.py.
+    """
+    ds = [c.get("as_of") for c in (doc.get("countries") or {}).values()
+          if isinstance(c, dict) and isinstance(c.get("as_of"), str)]
+    try:
+        return max(date.fromisoformat(d) for d in ds) if ds else None
+    except ValueError:
+        return None
+
+
 def _latest_event_date(doc: dict) -> date | None:
     ds = [e.get("date") for e in doc.get("events", []) if isinstance(e.get("date"), str)]
     try:
@@ -85,8 +105,14 @@ LAYERS = [
      "owner": "FIRE", "what": "fire detections, the layer that froze"},
     {"path": "fires/data/current_week.json", "as_of": _from_window, "max_age": 2,
      "owner": "FIRE", "what": "detections working set"},
-    {"path": "fires/data/burnt_area.json", "as_of": _from_key("fetched"), "max_age": 2,
-     "owner": "FIRE", "what": "burnt area hectares"},
+    # 14, not 2. EFFIS and GWIS publish weekly with roughly six days of
+    # lag, so a daily budget would cry wolf on the source's own cadence.
+    # Matches MAX_LAG_DAYS in fires/fetch_burnt_area.py: weekly plus lag
+    # plus slack. The Fire chat's figure, and the general rule it comes
+    # from is that a budget is set by the SOURCE's publishing cadence,
+    # never by how often we happen to poll it.
+    {"path": "fires/data/burnt_area.json", "as_of": _newest_country_as_of,
+     "max_age": 14, "owner": "FIRE", "what": "burnt area hectares"},
     {"path": "fires/data/country_history.json", "as_of": _from_window, "max_age": 2,
      "owner": "FIRE", "what": "same-week baseline; if this is stale the "
                               "detections job refuses every run"},
