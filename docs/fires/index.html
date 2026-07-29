@@ -267,6 +267,7 @@ h1 {
   padding: 15px 0; border-bottom: 1px solid var(--rule);
   text-decoration: none; color: inherit;
 }
+.row.ctx .stat { color: var(--ink); }
 .row:hover .claim { text-decoration: underline; }
 .row:focus-visible { outline: 2px solid var(--fire); outline-offset: 3px; }
 .stat {
@@ -319,7 +320,7 @@ plausible.init()
     <span class="when">NASA FIRMS SNPP, wk Jul 22-28</span>
   </div>
 
-  <h1>15 countries are burning well above their own seasonal normal</h1>
+  <h1>Eleven countries are burning well above their own seasonal normal</h1>
   <p class="standfirst">Every figure below compares a country only with
   itself, against the same calendar week in each year since 2012. That
   is what separates an unusual week from a merely busy one.</p>
@@ -378,7 +379,7 @@ plausible.init()
         <span class="stat">2.9x</span>
         <span class="rowmain">
           <span class="region">United Kingdom</span>
-          <span class="claim">Just past its 2018 record week</span>
+          <span class="claim">Just past its 2018 record week · thin baseline, rank is the sturdier reading</span>
         </span>
         <span class="tag tag-non_enso">not ENSO-linked</span>
       </a>
@@ -406,14 +407,6 @@ plausible.init()
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </a>
-      <a class="row" href="canada/">
-        <span class="stat">1.8x</span>
-        <span class="rowmain">
-          <span class="region">Canada</span>
-          <span class="claim">Fourth-heaviest fire week since 2012</span>
-        </span>
-        <span class="tag tag-non_enso">not ENSO-linked</span>
-      </a>
       <a class="row" href="saudi-arabia/">
         <span class="stat">1.5x</span>
         <span class="rowmain">
@@ -422,7 +415,16 @@ plausible.init()
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </a>
-      <a class="row" href="angola/">
+  <p class="sectionlabel">Large, and within their own normal range</p>
+      <a class="row ctx" href="canada/">
+        <span class="stat">1.8x</span>
+        <span class="rowmain">
+          <span class="region">Canada</span>
+          <span class="claim">Fourth-heaviest fire week since 2012</span>
+        </span>
+        <span class="tag tag-non_enso">not ENSO-linked</span>
+      </a>
+      <a class="row ctx" href="angola/">
         <span class="stat">1.2x</span>
         <span class="rowmain">
           <span class="region">Angola</span>
@@ -430,7 +432,7 @@ plausible.init()
         </span>
         <span class="tag tag-non_enso">not ENSO-linked</span>
       </a>
-      <a class="row" href="zambia/">
+      <a class="row ctx" href="zambia/">
         <span class="stat">1.2x</span>
         <span class="rowmain">
           <span class="region">Zambia</span>
@@ -438,14 +440,14 @@ plausible.init()
         </span>
         <span class="tag tag-non_enso">not ENSO-linked</span>
       </a>
-      <a class="row" href="democratic-republic-of-the-congo/">
+      <a class="row ctx" href="democratic-republic-of-the-congo/">
         <span class="stat">1.0x</span>
         <span class="rowmain">
           <span class="region">Democratic Republic of the Congo</span>
           <span class="claim">Fire week at 1.0x the seasonal norm</span>
         </span>
         <span class="tag tag-non_enso">not ENSO-linked</span>
-      </a>
+      </a><p class="note">These countries are burning at or above their own average for this week and did not clear the anomaly gate. They are here because a fire map that omitted them would misrepresent where the world is burning, and they are listed separately because presenting them as anomalies would misrepresent whether it is unusual.</p>
 
   <p class="note">Ranked by how far above normal, not by size. Angola,
   DR Congo and Zambia each recorded more detections this week than

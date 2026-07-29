@@ -36,37 +36,69 @@ TAG_TEXT = {
 }
 
 
-def build(events_doc, font_prefix="../fonts/"):
-    ev = events_doc["events"]
-    window = ev[0]["source"] if ev else ""
-    rows = []
-    for e in ev:
-        # events.json hrefs are root-relative because the landing page
-        # consumes them from the site root. This page already sits at
-        # /fires/, so the prefix has to come off or the link resolves to
-        # /fires/fires/<country>/.
-        href = e["href"]
-        if href.startswith("fires/"):
-            href = href[len("fires/"):]
-        rows.append(f"""
-      <a class="row" href="{href}">
+def _row(e):
+    """One country row. Context is not an anomaly and must not look like
+    one, and a thin multiple must not look sturdy."""
+    href = e["href"]
+    if href.startswith("fires/"):
+        href = href[len("fires/"):]
+    ctx = e.get("volume_context") and not e.get("anomalous")
+    claim = e["title"]
+    if e.get("multiple_unstable"):
+        claim += " \u00b7 thin baseline, rank is the sturdier reading"
+    return f"""
+      <a class="row{' ctx' if ctx else ''}" href="{href}">
         <span class="stat">{e['stat']}</span>
         <span class="rowmain">
           <span class="region">{e['region']}</span>
-          <span class="claim">{e['title']}</span>
+          <span class="claim">{claim}</span>
         </span>
         <span class="tag tag-{e['attribution']}">{TAG_TEXT[e['attribution']]}</span>
-      </a>""")
+      </a>"""
 
-    n = len(ev)
+
+def build(events_doc, font_prefix="../fonts/"):
+    ev = events_doc["events"]
+    window = ev[0]["source"] if ev else ""
+    # The headline counted every country on the page and asserted all of
+    # them were burning well above normal. Four are not: they are large,
+    # above normal and explicitly NOT anomalous, and DR Congo sits at
+    # exactly 1.0x. The live page said "15 countries are burning well
+    # above their own seasonal normal" while its own data denied four of
+    # them, which is a wrong claim rather than a loose one. It counts the
+    # anomaly flag now, and the context countries are listed under their
+    # own heading rather than folded into the number.
+    anom = [e for e in ev if e.get("anomalous")]
+    ctx = [e for e in ev if e.get("volume_context") and not e.get("anomalous")]
+    rest = [e for e in ev if e not in anom and e not in ctx]
+    rows = [_row(e) for e in anom + rest]
+    ctx_rows = [_row(e) for e in ctx]
+
+    n = len(anom)
     words = {1:"One country is",2:"Two countries are",3:"Three countries are",
              4:"Four countries are",5:"Five countries are",
              6:"Six countries are",7:"Seven countries are",
-             8:"Eight countries are"}
+             8:"Eight countries are",9:"Nine countries are",
+             10:"Ten countries are",11:"Eleven countries are",
+             12:"Twelve countries are"}
     headline = f"{words.get(n, str(n) + ' countries are')} burning well above their own seasonal normal"
     # The house masthead, shared with every other page rather than
     # reinvented here. Without it this page had no link home, no nav and
     # no About, so anyone landing on it first was stuck.
+    # Listed, not counted. These are large and above their own normal
+    # and did not clear the anomaly gate, so they belong on a world fire
+    # map and are not news. The section says so in words rather than
+    # relying on a reader noticing a lighter number.
+    ctx_block = ("" if not ctx_rows else
+                 '<p class="sectionlabel">Large, and within their own '
+                 'normal range</p>' + "".join(ctx_rows) +
+                 '<p class="note">These countries are burning at or above '
+                 'their own average for this week and did not clear the '
+                 'anomaly gate. They are here because a fire map that '
+                 'omitted them would misrepresent where the world is '
+                 'burning, and they are listed separately because '
+                 'presenting them as anomalies would misrepresent '
+                 'whether it is unusual.</p>')
     house_masthead = site_masthead("../", active="fire")
     return f"""<!doctype html>
 <html lang="en">
@@ -143,6 +175,7 @@ h1 {{
   padding: 15px 0; border-bottom: 1px solid var(--rule);
   text-decoration: none; color: inherit;
 }}
+.row.ctx .stat {{ color: var(--ink); }}
 .row:hover .claim {{ text-decoration: underline; }}
 .row:focus-visible {{ outline: 2px solid var(--fire); outline-offset: 3px; }}
 .stat {{
@@ -196,6 +229,7 @@ h1 {{
 
   <p class="sectionlabel">Against their own record</p>
   {''.join(rows)}
+  {ctx_block}
 
   <p class="note">Ranked by how far above normal, not by size. Angola,
   DR Congo and Zambia each recorded more detections this week than
