@@ -58,3 +58,11 @@ jobs:
 
       - name: Assert docs/ is not stale relative to its generator
         run: python scripts/publish_all.py --check --assert-clean
+
+      # Different question from the one above, and the one nothing asked
+      # until a layer froze for two days behind a well-formed page.
+      # "Does docs match its generator" was TRUE the whole time that page
+      # was stale, because the generator was faithfully rendering old
+      # data. This asks whether the data itself is still moving.
+      - name: Assert every published data layer is fresh
+        run: python scripts/check_freshness.py

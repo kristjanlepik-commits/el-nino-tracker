@@ -96,6 +96,17 @@ jobs:
           printf '%s' "$FIRMS_MAP_KEY" > ~/.firms_map_key
           chmod 600 ~/.firms_map_key
 
+      # Refresh the same-week baseline FIRST. Without this the baseline
+      # is whatever one-off job built it, the trailing window advances
+      # past it the next day, and build_events.py then refuses every run
+      # for the rest of time. That is exactly what happened: the
+      # detections layer sat frozen from 27 to 29 July while hectares
+      # updated around it, so the page stayed plausible and nobody
+      # noticed. The refusal was correct; there was simply no way to
+      # give it a current baseline. There is now.
+      - name: Refresh the same-week baseline
+        run: PYTHONPATH="$PWD" python fires/fetch_window_baseline.py
+
       - name: Pull fire data
         id: pull
         run: |
