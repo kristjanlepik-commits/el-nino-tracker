@@ -213,6 +213,12 @@ site, showing how far normal has moved, is carried on **hazard**
 measurements rather than on money. Hectares burned in 1975 and hectares
 burned in 2026 are the same unit. Euros of damage are not.
 
+We are stating this rather than quietly omitting the chart, because a
+missing chart with no explanation is indistinguishable from an
+oversight. If we are willing to decline the single most expected
+graphic in our own subject, and say why, that is a fair test of whether
+the rest of this page means anything.
+
 ## What we do not do
 
 - We do not average competing estimates. An average of figures that
