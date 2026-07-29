@@ -25,10 +25,24 @@ CATEGORIES = {
     "economic_direct",
     "economic_total",
     "output_loss",
+    # response_cost was added 2026-07-29, discovered by building the Spain
+    # payload: a firefighting bill is not insured loss, not damage to an
+    # asset, not foregone output and not an appeal. It is money spent
+    # responding. The original seven could not hold it, and on that event
+    # it is the largest figure anyone has published.
+    "response_cost",
     "humanitarian_appeal",
+    # funding_granted likewise: an EUSF award is money disbursed, which is
+    # neither a loss nor a request. Kept apart from both.
+    "funding_granted",
     "mortality",
     "mortality_valued",
 }
+
+# Categories that are NOT losses. Money moving toward a disaster, rather
+# than value destroyed by it. Rendering these beside loss figures without
+# the distinction is the single easiest way to inflate an event.
+NON_LOSS_CATEGORIES = {"humanitarian_appeal", "funding_granted", "response_cost"}
 
 EVIDENCE_BASIS = {"measured", "compiled", "combined"}
 AUTHORSHIP = {"agency", "tls_built"}
@@ -219,6 +233,87 @@ def check_latency(doc, estimators):
             warn(f"{where}: verification_status={status}, not publishable yet")
 
 
+def check_event(name, doc, estimators):
+    """Per-event payloads. The Spain case is the first."""
+    where = f"events/{name}"
+
+    for field in ("econ_event_id", "label", "geography", "attribution_tag",
+                  "evidence_basis", "authorship", "layers"):
+        if not doc.get(field):
+            err(f"{where}: missing {field}")
+
+    if doc.get("evidence_basis") not in EVIDENCE_BASIS:
+        err(f"{where}: evidence_basis not in the D-033 enum")
+    if doc.get("authorship") not in AUTHORSHIP:
+        err(f"{where}: authorship not in the D-021 enum")
+
+    # The never-sum rule, enforced structurally rather than trusted. A
+    # payload carrying a total invites a renderer to show it, and the
+    # sum of these categories measures nothing.
+    flat = json.dumps(doc).lower()
+    for banned in ('"total"', '"sum"', '"grand_total"', '"total_cost"'):
+        if banned in flat:
+            err(f"{where}: contains a {banned} field; layers are different "
+                f"categories and their sum measures nothing")
+
+    money_kinds = {"money", "analog", "reference"}
+    non_loss_seen, loss_seen = [], []
+
+    for i, layer in enumerate(doc.get("layers", [])):
+        lw = f"{where}.layers[{i}]"
+        kind = layer.get("kind")
+        if not kind:
+            err(f"{lw}: missing kind")
+        if not layer.get("label"):
+            err(f"{lw}: missing label")
+
+        if kind in money_kinds:
+            check_figure(lw, layer, estimators)
+            cat = layer.get("category")
+            if not cat:
+                err(f"{lw}: money layer needs a category")
+            elif cat in NON_LOSS_CATEGORIES:
+                non_loss_seen.append(cat)
+            else:
+                loss_seen.append(cat)
+        else:
+            # Physical quantities need units, not currency.
+            if "value" in layer and not layer.get("units"):
+                err(f"{lw}: non-money layer needs units")
+
+        # A figure whose scope is wider than the event must say so, or a
+        # reader takes it as the event's own. The evacuation figure here
+        # covers Spain AND France.
+        if layer.get("value") and layer.get("kind") == "impact" and not layer.get("scope"):
+            warn(f"{lw}: impact layer without an explicit scope")
+
+    # Naming what nobody counted is what stops a reader treating the
+    # visible layers as the cost of the event.
+    if not doc.get("uncounted"):
+        err(f"{where}: missing 'uncounted'; a payload that does not say what "
+            f"is uncounted reads as complete")
+
+    if not doc.get("absence_meaning"):
+        err(f"{where}: missing absence_meaning")
+    elif doc["absence_meaning"].get("reason") not in ABSENCE_REASONS:
+        err(f"{where}: absence_meaning.reason not in enum")
+
+    if non_loss_seen and loss_seen:
+        # Legitimate, and the reason the Spain headline works, but only
+        # when the payload is explicit that these are different kinds.
+        if not doc.get("no_total"):
+            err(f"{where}: mixes loss and non-loss categories "
+                f"({sorted(set(loss_seen))} with {sorted(set(non_loss_seen))}) "
+                f"without a no_total declaration")
+
+    hc = doc.get("headline_candidate")
+    if hc:
+        if hc.get("evidence_basis") == "combined" and not hc.get("guardrail"):
+            err(f"{where}: combined headline candidate needs a guardrail")
+        if hc.get("status", "").startswith("candidate"):
+            warn(f"{where}: headline_candidate is not approved copy")
+
+
 def main():
     raw_est = (DATA / "estimators.json")
     raw_lat = (DATA / "latency_map.json")
@@ -233,6 +328,16 @@ def main():
         check_estimators(estimators_doc)
     if latency_doc and estimators_doc:
         check_latency(latency_doc, estimators_doc.get("estimators", {}))
+
+    events_dir = DATA / "events"
+    if events_dir.exists() and estimators_doc:
+        for ev in sorted(events_dir.glob("*.json")):
+            check_no_em_dash(f"events/{ev.name}", ev.read_text())
+            try:
+                check_event(ev.stem, json.loads(ev.read_text()),
+                            estimators_doc.get("estimators", {}))
+            except json.JSONDecodeError as exc:
+                err(f"events/{ev.name}: invalid JSON, {exc}")
 
     for w in warnings:
         print(f"WARN  {w}")
