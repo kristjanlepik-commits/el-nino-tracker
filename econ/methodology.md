@@ -3,8 +3,17 @@
 Methodology for the economic damages section of The Long Swell.
 Written to be read cold, by someone deciding whether to cite us.
 
-Version 0.1, 2026-07-28. Draft. This page will change; changes are
+Version 0.2, 2026-07-29. Draft. This page will change; changes are
 dated and the reasoning is kept rather than overwritten.
+
+A note on who this page is for, since the site's pages are written for
+a general reader. **This one is not, deliberately.** Its audience is
+the journalist, researcher or editor checking whether our numbers can
+be cited, and that person needs the technical detail rather than a
+simplified version of it. The damage pages themselves are written to be
+understood in seconds by someone with no background. Both are correct
+for their reader, and this page should not be levelled down to match
+the other.
 
 ---
 
@@ -174,6 +183,36 @@ underneath it is itself Measured or Compiled.
 **Authorship**: every figure here is an agency figure. If that ever
 changes, the label changes with it, prominently.
 
+## Why we do not show damage rising over time
+
+This is the chart everyone expects from a section like this, and we do
+not publish it.
+
+Disaster losses have gone up over the last fifty years. Most of that
+rise is not climate. It is that there is far more property, worth far
+more money, in places where disasters happen, and that a 1975 dollar
+and a 2026 dollar are different units. Any honest trend has to remove
+those effects first, and that step is called normalisation.
+
+The problem is that normalisation is a choice, not a calculation.
+Adjust by national wealth, by population and housing stock, or by
+sector exposure, and you get materially different answers from the same
+loss record; the published literature disagrees about which is right.
+So a normalised loss trend is a methodological claim about a contested
+question, and if we picked one we would be making that claim
+ourselves. That is the same line we hold on individual figures.
+
+**So: we publish a loss trend only when a named source has published
+the normalised series, and then it is theirs, with their method named.**
+We do not normalise a loss series ourselves, and we do not show an
+unnormalised one, because an unnormalised loss trend mostly measures
+economic growth while looking like it measures climate.
+
+This also means the baseline-drift comparison used elsewhere on this
+site, showing how far normal has moved, is carried on **hazard**
+measurements rather than on money. Hectares burned in 1975 and hectares
+burned in 2026 are the same unit. Euros of damage are not.
+
 ## What we do not do
 
 - We do not average competing estimates. An average of figures that
@@ -188,6 +227,8 @@ changes, the label changes with it, prominently.
   its method without a documented estimator alongside it.
 - We do not model. We have no in-house damage model and no plans for
   one.
+- We do not normalise loss series ourselves, and we do not show
+  unnormalised loss trends. See above.
 
 ## An open question we would rather show than hide
 
