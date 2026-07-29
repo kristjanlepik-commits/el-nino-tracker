@@ -43,15 +43,23 @@ def _row(e):
     if href.startswith("fires/"):
         href = href[len("fires/"):]
     ctx = e.get("volume_context") and not e.get("anomalous")
-    claim = e["title"]
-    if e.get("multiple_unstable"):
-        claim += " \u00b7 thin baseline, rank is the sturdier reading"
+    # A qualifier on its own line rather than run on to the claim. Taken
+    # from the interim fix on main, whose reasoning is right and worth
+    # keeping: "this is normal" is a result, not a caveat, so it is set
+    # plain and never in a warning colour.
+    note = ""
+    if ctx:
+        note = ('<span class="rowqual">within its historical range; '
+                'shown for scale</span>')
+    elif e.get("multiple_unstable"):
+        note = ('<span class="rowqual">small baseline; rank is the '
+                'sturdier reading</span>')
     return f"""
       <a class="row{' ctx' if ctx else ''}" href="{href}">
         <span class="stat">{e['stat']}</span>
         <span class="rowmain">
           <span class="region">{e['region']}</span>
-          <span class="claim">{claim}</span>
+          <span class="claim">{e['title']}</span>{note}
         </span>
         <span class="tag tag-{e['attribution']}">{TAG_TEXT[e['attribution']]}</span>
       </a>"""
@@ -175,7 +183,14 @@ h1 {{
   padding: 15px 0; border-bottom: 1px solid var(--rule);
   text-decoration: none; color: inherit;
 }}
-.row.ctx .stat {{ color: var(--ink); }}
+/* A qualifier on a row that is not an anomaly. Plain, never a warning
+   colour: styling a normal result as an alert is the amplification
+   D-043 bars. */
+.rowqual {{
+  display: block; color: var(--ink-soft); font-size: 13px;
+  font-style: italic; margin-top: 2px;
+}}
+.row.ctx .stat {{ color: var(--ink-soft); }}
 .row:hover .claim {{ text-decoration: underline; }}
 .row:focus-visible {{ outline: 2px solid var(--fire); outline-offset: 3px; }}
 .stat {{

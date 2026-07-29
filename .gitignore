@@ -26,3 +26,16 @@ research/
 # Cross-chat notice board for long unattended jobs (CLAUDE.md working
 # style). Local coordination only; never belongs in a commit.
 .running-jobs
+
+# Raw gridded captures. These belong in the GitHub Release store, not in
+# git history. Floods' capture workflow already uploads .npz to the
+# `vcdwd-capture` release and commits only the manifest; this rule stops
+# a local run from committing the payload as well.
+#
+# The gap was mine: the release store shipped without this line, and a
+# 20.7 MB IMERG grid landed in a local commit on 2026-07-29, against a
+# .git of 51 MB. Git history cannot be trimmed without a force-push, and
+# force-pushing this repo is barred by the immutable-archive invariant,
+# so the only cheap moment to catch one of these is before it is pushed.
+*.npz
+*.npy
