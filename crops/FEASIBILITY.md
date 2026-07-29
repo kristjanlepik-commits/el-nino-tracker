@@ -671,10 +671,15 @@ Two obstacles:
   days before the silence is obviously wrong. Rule: **no new dekad for
   more than 20 days is an error, not a warning**, being two full
   publication cycles.
-- Any multi-hour pull announces itself in `.running-jobs` per CLAUDE.md.
-  The 2026-07-28 three-hour indicator batch did not, which is a miss to
-  learn from rather than repeat: other chats share the laptop and had no
-  way to see it.
+- Any multi-hour pull announces itself in `.running-jobs` per CLAUDE.md,
+  **and removes the line when it ends**. The 2026-07-28 three-hour
+  indicator batch never wrote one; other chats share the laptop and had
+  no way to see it. The Fire chat hit the sharper version of the same
+  failure the next day: their line survived three restarts, so it named
+  a dead pid and reported 7 of 45 countries against an actual 295 of
+  630. **A stale line is worse than no line**, because a reader acts on
+  it. So the rule is write it, keep it true, delete it, and if it cannot
+  be kept true then do not write it.
 
 ## 11. Open questions for Kristjan
 
