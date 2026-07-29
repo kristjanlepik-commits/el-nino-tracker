@@ -600,6 +600,51 @@ That is the whole channel discipline in one case: a real measured
 extreme, no qualified link to production, and a named agency whose
 current estimate does not support the headline.
 
+### 6i. Baseline drift: what the crops equivalent is, and is not
+
+Asked by the strategy chat under D-042. The house form of the swell is
+arithmetic rather than attribution: extreme against 1991-2020, off the
+chart against 1961-1990. What is the crops version?
+
+**Two candidates fail, and both fail informatively.**
+
+**1. Production against an old baseline is invalid.** It is dominated by
+plant breeding, fertiliser and mechanisation, not climate. "This harvest
+would have been extraordinary in 1970" is a statement about agronomy
+wearing a climate costume. This is the same trap as section 9 trap 7,
+one level up: the trend is real and it is not the trend being claimed.
+
+**2. Season timing drift cannot be measured from ASAP at all, because
+ASAP's season is a constant.** Tested directly: the in-season dekad
+count per unit is **identical in every year of the record**. Australia
+reads 25.2 dekads in 2002 and 25.2 in 2025, Germany 26.4 in both,
+Zimbabwe 23.7 in both, with zero variance across 24 years.
+
+ASAP's off-season flag comes from a **static phenology layer** (the
+pheno rasters, version 04), not from observing when each season actually
+began. So the season mask can never drift by construction, and a first
+pass at this analysis reported seasons lengthening by 9 days across 18
+countries with an identical p-value of 0.097 in every one. Identical
+p-values across 18 independent countries were the tell; the entire
+effect was 2001 being a partial year with 22 dekads rather than 36,
+dragging the early-period mean down.
+
+**Consequence for section 6e that must be carried forward:** the season
+windows derived there are a fixed climatology, not observed seasons.
+That is acceptable for defining a window, and it means those windows
+should never be described as showing anything about season change.
+
+**The valid candidate is ERA5.** Growing-season temperature and water
+balance over the qualified crop regions, computed against 1961-1990 and
+against 1991-2020. ERA5 runs from 1940, is technology-neutral, and the
+repo already holds a CDS key for it. The statement it supports is
+exactly the house form: *this growing season is warm against 1991-2020;
+against 1961-1990 it is off the chart.*
+
+**This is a cross-chat dependency, not a crops build.** ERA5 is the ENSO
+tracker's surface (`fetchers/` and the CDS credential), so the sensible
+route is a request to that chat rather than a second ERA5 fetcher here.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
