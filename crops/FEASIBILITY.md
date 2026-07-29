@@ -43,11 +43,24 @@ distinction rather than be presented as equals.
 outcome source.** A crops channel built on those is a real product. A
 crops channel that claims to cover crops generally is not.
 
-The narrowing, stated plainly: crops can honestly report **how stressed
-a country's cropland is against its own 25-year record**, and can
-report the production outcome that followed. It usually cannot say El
-Nino is the reason. Those are different claims and the channel has to be
-built so they cannot be confused.
+The narrowing, stated plainly: crops reports **how stressed a country's
+cropland is against its own 25-year record**, and the production outcome
+that followed.
+
+**Under D-042 (2026-07-29) that is the product, not a consolation
+prize.** An earlier draft of this report treated "ASAP tracks the
+harvest, not El Nino" as a limitation to be confessed. It is not. The
+site measures the extreme events of H2 2026 and supplies context;
+whether a given extreme has an ENSO link is one piece of that context
+and often the answer is no. Australian wheat correlating with production
+at 0.69 while Australia's 2015-16 super event ranks 16th of 24 on crop
+stress is a finding about what drives Australian wheat, not a failure of
+the instrument.
+
+The practical consequence for this channel: coverage follows the
+measured extremes, the twelve European pairs are not second-class for
+sitting outside any teleconnection, and "Not ENSO-linked" is a tag we
+expect to use often and without apology.
 
 ## 1. What was tested
 
