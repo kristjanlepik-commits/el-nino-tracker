@@ -77,6 +77,59 @@ run_bounded() {
   return $?
 }
 
+# Push what this pass built, immediately.
+#
+# WHY, and C2 found this the hard way on 2026-07-29. The builder skips
+# country-years already ON DISK, which means built-but-unpushed work is
+# invisible to the other machine and simply gets rebuilt there, spending
+# the shared FIRMS quota twice for data we already hold. C2's count read
+# 326 against pushed main while C1's tree read 298: 28 country-years
+# that would have been paid for a second time.
+#
+# The window for that is not small. This job runs unattended for hours
+# and can hard-stop at 03:00 UTC with nobody awake to push it, so
+# "remember to push afterwards" is not a mechanism. Pushing per pass
+# also means a crash costs one pass, not a night.
+#
+# Data only: `git add` is scoped to the baseline directory so a running
+# job can never sweep up an editor's half-finished work from the shared
+# tree. Files are validated as parseable first, because the builder
+# writes them non-atomically and a truncated JSON committed as fact is
+# worse than a missing one.
+publish_progress() {
+  local n
+  n=$(.venv/bin/python - <<'PY'
+import json, glob
+bad = 0
+for f in glob.glob("fires/data/full_history/*.json"):
+    try:
+        d = json.load(open(f))
+        assert isinstance(d, dict) and all(isinstance(v, dict) for v in d.values())
+    except Exception:
+        bad += 1
+print(bad)
+PY
+)
+  if [ "$n" != "0" ]; then
+    say "NOT pushing: $n baseline file(s) unparseable, likely a write in "
+    say "flight. Next pass will retry."
+    return 0
+  fi
+
+  git add fires/data/full_history/ 2>/dev/null || return 0
+  if git diff --cached --quiet -- fires/data/full_history/; then
+    return 0
+  fi
+  git commit -q -m "fires: baseline pass, $(remaining) country-years outstanding" \
+    -- fires/data/full_history/ || return 0
+  if bash scripts/push_retry.sh main >/dev/null 2>&1; then
+    say "pushed this pass. Other machines will now skip this work."
+  else
+    say "WARNING: commit made but push failed. Work is safe locally; the "
+    say "other machine may rebuild it until this lands."
+  fi
+}
+
 quota() {
   curl -s --max-time 30 \
     "https://firms.modaps.eosdis.nasa.gov/mapserver/mapkey_status/?MAP_KEY=$(cat "$KEY_FILE")" \
@@ -141,6 +194,7 @@ while [ "$(date -u +%s)" -lt "$deadline" ]; do
 
   left=$(remaining)
   say "pass $pass finished (rc=$rc). Country-years still missing: $left"
+  publish_progress
   if [ "$left" = "0" ]; then
     say "COMPLETE: every country has 14 years."
     exit 0
