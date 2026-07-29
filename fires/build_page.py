@@ -48,17 +48,39 @@ def build(events_doc, font_prefix="../fonts/"):
         href = e["href"]
         if href.startswith("fires/"):
             href = href[len("fires/"):]
+        # A row that is not an anomaly says so, in its own words, on the
+        # row. Interim treatment: design owns the proper visual
+        # distinction and has it flagged. Until then the page must not
+        # let a normal country sit unlabelled among records, which is
+        # the calibration rule in D-043 applied to the smallest surface
+        # that can carry it.
+        note = ""
+        if not e.get("anomalous") and e.get("volume_context"):
+            note = ('<span class="rowqual">within its historical range; '
+                    'shown for scale</span>')
+        elif e.get("multiple_unstable"):
+            note = ('<span class="rowqual">small baseline; rank is the '
+                    'sturdier reading</span>')
         rows.append(f"""
-      <a class="row" href="{href}">
+      <a class="row{'' if e.get('anomalous') else ' row-context'}" href="{href}">
         <span class="stat">{e['stat']}</span>
         <span class="rowmain">
           <span class="region">{e['region']}</span>
-          <span class="claim">{e['title']}</span>
+          <span class="claim">{e['title']}</span>{note}
         </span>
         <span class="tag tag-{e['attribution']}">{TAG_TEXT[e['attribution']]}</span>
       </a>""")
 
-    n = len(ev)
+    # Count the countries the claim is TRUE of, not the rows on the page.
+    #
+    # This was live and wrong. The page listed 15 rows and said "15
+    # countries are burning well above their own seasonal normal" while
+    # four of them were volume context: DR Congo at exactly 1.0x, which
+    # is the definition of normal, counted as burning well above normal.
+    # The gate started emitting a non-anomalous class and the headline
+    # kept counting len(events), so widening the page silently widened
+    # the claim.
+    n = sum(1 for e in ev if e.get("anomalous"))
     words = {1:"One country is",2:"Two countries are",3:"Three countries are",
              4:"Four countries are",5:"Five countries are",
              6:"Six countries are",7:"Seven countries are",
@@ -153,6 +175,14 @@ h1 {{
 .rowmain {{ display: flex; flex-direction: column; gap: 2px; }}
 .region {{ font-size: 19px; font-weight: 500; }}
 .claim {{ color: var(--ink-soft); font-size: 15.5px; }}
+/* A qualifier on a row that is not an anomaly. Deliberately plain and
+   not a warning colour: "this is normal" is a result, not a caveat,
+   and styling it as an alert would be the amplification D-043 bars. */
+.rowqual {{
+  display: block; color: var(--ink-soft); font-size: 13px;
+  font-style: italic; margin-top: 2px;
+}}
+.row-context .stat {{ color: var(--ink-soft); }}
 .tag {{
   font-family: "{T.FONT_DATA}", ui-monospace, monospace;
   font-size: 10.5px; letter-spacing: 0.04em; white-space: nowrap;

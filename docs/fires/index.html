@@ -277,6 +277,14 @@ h1 {
 .rowmain { display: flex; flex-direction: column; gap: 2px; }
 .region { font-size: 19px; font-weight: 500; }
 .claim { color: var(--ink-soft); font-size: 15.5px; }
+/* A qualifier on a row that is not an anomaly. Deliberately plain and
+   not a warning colour: "this is normal" is a result, not a caveat,
+   and styling it as an alert would be the amplification D-043 bars. */
+.rowqual {
+  display: block; color: var(--ink-soft); font-size: 13px;
+  font-style: italic; margin-top: 2px;
+}
+.row-context .stat { color: var(--ink-soft); }
 .tag {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 10.5px; letter-spacing: 0.04em; white-space: nowrap;
@@ -319,7 +327,7 @@ plausible.init()
     <span class="when">NASA FIRMS SNPP, wk Jul 22-28</span>
   </div>
 
-  <h1>15 countries are burning well above their own seasonal normal</h1>
+  <h1>11 countries are burning well above their own seasonal normal</h1>
   <p class="standfirst">Every figure below compares a country only with
   itself, against the same calendar week in each year since 2012. That
   is what separates an unusual week from a merely busy one.</p>
@@ -378,7 +386,7 @@ plausible.init()
         <span class="stat">2.9x</span>
         <span class="rowmain">
           <span class="region">United Kingdom</span>
-          <span class="claim">Just past its 2018 record week</span>
+          <span class="claim">Just past its 2018 record week</span><span class="rowqual">small baseline; rank is the sturdier reading</span>
         </span>
         <span class="tag tag-non_enso">not ENSO-linked</span>
       </a>
@@ -406,11 +414,11 @@ plausible.init()
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </a>
-      <a class="row" href="canada/">
+      <a class="row row-context" href="canada/">
         <span class="stat">1.8x</span>
         <span class="rowmain">
           <span class="region">Canada</span>
-          <span class="claim">Fourth-heaviest fire week since 2012</span>
+          <span class="claim">Fourth-heaviest fire week since 2012</span><span class="rowqual">within its historical range; shown for scale</span>
         </span>
         <span class="tag tag-non_enso">not ENSO-linked</span>
       </a>
@@ -422,27 +430,27 @@ plausible.init()
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </a>
-      <a class="row" href="angola/">
+      <a class="row row-context" href="angola/">
         <span class="stat">1.2x</span>
         <span class="rowmain">
           <span class="region">Angola</span>
-          <span class="claim">Third-heaviest fire week since 2012</span>
+          <span class="claim">Third-heaviest fire week since 2012</span><span class="rowqual">within its historical range; shown for scale</span>
         </span>
         <span class="tag tag-non_enso">not ENSO-linked</span>
       </a>
-      <a class="row" href="zambia/">
+      <a class="row row-context" href="zambia/">
         <span class="stat">1.2x</span>
         <span class="rowmain">
           <span class="region">Zambia</span>
-          <span class="claim">Fourth-heaviest fire week since 2012</span>
+          <span class="claim">Fourth-heaviest fire week since 2012</span><span class="rowqual">within its historical range; shown for scale</span>
         </span>
         <span class="tag tag-non_enso">not ENSO-linked</span>
       </a>
-      <a class="row" href="democratic-republic-of-the-congo/">
+      <a class="row row-context" href="democratic-republic-of-the-congo/">
         <span class="stat">1.0x</span>
         <span class="rowmain">
           <span class="region">Democratic Republic of the Congo</span>
-          <span class="claim">Fire week at 1.0x the seasonal norm</span>
+          <span class="claim">Fire week at 1.0x the seasonal norm</span><span class="rowqual">within its historical range; shown for scale</span>
         </span>
         <span class="tag tag-non_enso">not ENSO-linked</span>
       </a>
