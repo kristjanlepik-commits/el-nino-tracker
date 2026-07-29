@@ -289,6 +289,22 @@ probability and no forecast.
   pixels, under the 300 floor. Peru's box diluted the signal; Kenya's
   destabilised it. There is a workable band between them and it has not
   been mapped.
+- **Use rank on record, never a fixed multiple.** The Fire chat found
+  a fixed 1.5x gate meaningless across regions, because fire has two
+  variance regimes: fuel-limited savanna repeats on schedule (CV 0.06)
+  while weather-limited boreal waits for its year (CV 0.97), so one
+  threshold means 8.9 sigma in Mozambique and 0.5 in Canada. Tested
+  here: floods does not split that way, because there is no
+  fuel-limited analogue. Flooding is weather-limited everywhere, so all
+  three regions sit in the high-variance regime (CV 0.84 to 1.31) and
+  1.5x median lands within a quarter of a sigma of the same place in
+  each. But that is the wrong kind of pass: **1.5x is only about -0.2
+  sigma here and would fire in 6 to 9 years out of 23.** A gate that
+  trips a third of the time detects nothing. Rank on record is
+  non-parametric and immune to the regime question entirely.
+  Untested and worth checking before launch: a basin that floods every
+  year, such as the Ganges delta, may be the low-variance case that
+  does behave like savanna.
 - **A global ranking by raw flood pixels is dominated by artifacts.**
   Checked against the first captured global day (2026-07-21): the top
   five tiles worldwide sit at 60 to 80 degrees north, in east

@@ -84,10 +84,28 @@ echo "days stored: $BEFORE -> $AFTER"
 printf '{"ok":true,"when":"%s","days_before":%s,"days_after":%s}\n' \
   "$(date -u +%FT%TZ)" "$BEFORE" "$AFTER" > "$STATUS"
 
-# A run that adds nothing is not automatically wrong: with --min-age-days
-# there are days when no new date has aged in. It IS wrong if it repeats,
-# so warn rather than fail, and let the pattern show in the log.
+# Consecutive no-ops are counted, not just logged.
+#
+# The Fire chat lost two days on 2026-07-27 to exactly this shape: a
+# step declined politely every run, every automated check passed
+# because they verify structure rather than freshness, and nobody was
+# counting the no-ops. A polite decline is invisible unless something
+# keeps score.
+#
+# One new day ages past --min-age-days per calendar day, so a healthy
+# daily run captures exactly one. A single no-op is tolerable (a run
+# fired twice, or a day arrived late). Two in a row means no progress
+# for two days, and with a seven day LANCE window and two days of
+# min-age that leaves three days to react before data is lost.
+NOOP_FILE="$HOME/tls-floods-capture/.consecutive_noops"
 if [ "$AFTER" -eq "$BEFORE" ]; then
-  echo "NOTE: no new day captured this run"
+  N=$(( $(cat "$NOOP_FILE" 2>/dev/null || echo 0) + 1 ))
+  echo "$N" > "$NOOP_FILE"
+  echo "NOTE: no new day captured this run (consecutive: $N)"
+  if [ "$N" -ge 2 ]; then
+    fail "captured nothing $N runs in a row. LANCE deletes after ~7 days, so this is losing data now."
+  fi
+else
+  echo 0 > "$NOOP_FILE"
 fi
 echo "=== $(date '+%H:%M:%S') done ==="
