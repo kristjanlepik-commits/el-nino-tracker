@@ -67,16 +67,53 @@ HIGH_VOLUME = 20000   # always shown if it clears the base gate
 # Assessed so far: the Mediterranean is the declared non-ENSO control,
 # Canada is boreal with a weak link, southern African savanna burning is
 # routine agriculture, and Australian fire in July is northern savanna
-# outside the tracked Nov-Feb window (it flips to "enso" when that
-# window opens). Indonesia is a declared R5 ENSO region in fires/SPEC.md,
-# so it carries "enso" on our own methodology.
-ATTRIBUTION = {
+# outside the tracked Nov-Feb window.
+#
+# An "enso" tag is WINDOW-GATED, not region-gated. The teleconnection
+# that justifies it is seasonal: Indonesia is an R5 ENSO region in
+# fires/SPEC.md for Aug-Oct, Australia for Nov-Feb. Outside those months
+# the region is the same and the mechanism is not, so the tag reverts to
+# "pending" rather than asserting a loading nobody has assessed.
+#
+# This was a live defect, found by ECON on 2026-07-29. Indonesia was
+# tagged "enso" statically. The tag sat dormant while Indonesia missed
+# the gate and went live automatically the day it cleared, on 29 July,
+# three days outside its own declared window, with no human looking at
+# it. It would equally have carried an ENSO loading in February. The
+# comment here already promised Australia would "flip when the window
+# opens"; that was never implemented for either country.
+#
+# Widening a claim needs editorial sign-off. Narrowing one does not,
+# which is why this ships now: "pending" means not yet examined and
+# cannot over-claim.
+ATTRIBUTION_ALWAYS = {
     "ESP": "non_enso", "FRA": "non_enso", "GBR": "non_enso",
     "ITA": "non_enso", "CAN": "non_enso", "AGO": "non_enso",
-    "COD": "non_enso", "ZMB": "non_enso", "AUS": "non_enso",
-    "USA": "non_enso", "IDN": "enso",
+    "COD": "non_enso", "ZMB": "non_enso", "USA": "non_enso",
 }
+# iso -> (first_month, last_month) inclusive, when "enso" applies.
+ATTRIBUTION_ENSO_WINDOW = {
+    "IDN": (8, 10),
+    "AUS": (11, 2),
+    "BRA": (8, 10),
+}
+# Outside its ENSO window, a listed country falls back to this.
+ATTRIBUTION_OFF_WINDOW = {"AUS": "non_enso"}
 DEFAULT_ATTRIBUTION = "pending"
+
+
+def attribution_for(iso, month):
+    """Tag for one country in one month, from the fixed vocabulary."""
+    if iso in ATTRIBUTION_ALWAYS:
+        return ATTRIBUTION_ALWAYS[iso]
+    win = ATTRIBUTION_ENSO_WINDOW.get(iso)
+    if win:
+        lo, hi = win
+        inside = lo <= month <= hi if lo <= hi else (month >= lo or month <= hi)
+        if inside:
+            return "enso"
+        return ATTRIBUTION_OFF_WINDOW.get(iso, DEFAULT_ATTRIBUTION)
+    return DEFAULT_ATTRIBUTION
 
 
 def slugify(name):
@@ -267,7 +304,7 @@ def main():
             "multiple": round(multiple, 1), "rank": f"{rank} of 15",
             "rank_n": rank, "lat": lat, "lon": lon,
             "centroid_basis": basis,
-            "attribution": ATTRIBUTION.get(iso, DEFAULT_ATTRIBUTION),
+            "attribution": attribution_for(iso, end.month),
             "title": make_title(rank, multiple, count, prev_best, prev_year),
             "href": f"fires/{slugify(h['name'])}/",
         })
