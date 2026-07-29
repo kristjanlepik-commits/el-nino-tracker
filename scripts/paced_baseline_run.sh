@@ -52,6 +52,31 @@ print(int(stop.timestamp()))
 PY
 )
 
+# Portable bounded run. macOS ships no `timeout` and no `gtimeout`
+# unless coreutils is installed, and calling a missing command returns
+# 127 instantly, which a loop reads as "that pass finished". Doing this
+# by hand is uglier than `timeout` and always present, which is the
+# trade that matters for an unattended overnight job.
+run_bounded() {
+  local budget="$1"; shift
+  "$@" >> "$LOG" 2>&1 &
+  local pid=$! waited=0
+  while kill -0 "$pid" 2>/dev/null; do
+    if [ "$waited" -ge "$budget" ]; then
+      say "pass budget of ${budget}s reached, stopping the builder."
+      kill -TERM "$pid" 2>/dev/null
+      sleep 10
+      kill -KILL "$pid" 2>/dev/null
+      wait "$pid" 2>/dev/null
+      return 124
+    fi
+    sleep 5
+    waited=$((waited + 5))
+  done
+  wait "$pid" 2>/dev/null
+  return $?
+}
+
 quota() {
   curl -s --max-time 30 \
     "https://firms.modaps.eosdis.nasa.gov/mapserver/mapkey_status/?MAP_KEY=$(cat "$KEY_FILE")" \
@@ -74,9 +99,23 @@ print(need)" 2>/dev/null || echo "?"
 }
 
 say "paced baseline run starting. Hard stop $(date -u -r "$deadline" +'%Y-%m-%d %H:%M')Z."
-say "country-years still missing: $(remaining)"
+
+# Refuse to start if progress cannot be measured. The stall guard below
+# compares this number across passes, so an unreadable count would make
+# every pass look identical and abort a perfectly good run after two
+# rounds. Better to fail here, in front of a person, than at 02:00.
+start_missing=$(remaining)
+case "$start_missing" in
+  ''|*[!0-9]*)
+    say "ABORTING: cannot count outstanding country-years (got" \
+        "'$start_missing'). Expected to run from the repo root with" \
+        "fires/data/country_history.json readable."
+    exit 1 ;;
+esac
+say "country-years still missing: $start_missing"
 
 pass=0
+stalled=0
 while [ "$(date -u +%s)" -lt "$deadline" ]; do
   q=$(quota)
   if [ "$q" = "-1" ]; then
@@ -95,7 +134,9 @@ while [ "$(date -u +%s)" -lt "$deadline" ]; do
   # window, and so the deadline is always honoured.
   budget=$(( deadline - $(date -u +%s) ))
   [ "$budget" -gt 3600 ] && budget=3600
-  timeout "$budget" .venv/bin/python fires/build_full_baselines.py >> "$LOG" 2>&1
+
+  before=$(remaining)
+  run_bounded "$budget" .venv/bin/python fires/build_full_baselines.py
   rc=$?
 
   left=$(remaining)
@@ -103,6 +144,28 @@ while [ "$(date -u +%s)" -lt "$deadline" ]; do
   if [ "$left" = "0" ]; then
     say "COMPLETE: every country has 14 years."
     exit 0
+  fi
+
+  # A pass that changed nothing is the failure mode this loop is most
+  # likely to hide, and it already bit once: the first version called
+  # `timeout`, which macOS does not ship, so every pass returned 127
+  # instantly and the loop cheerfully reported 22 successful-looking
+  # rounds over 90 minutes with the counter frozen at 324. Everything
+  # LOOKED healthy, the log advanced and the quota drained, because
+  # nothing was running at all.
+  #
+  # So: two consecutive passes with no progress is not patience, it is a
+  # broken command. Stop and say so rather than burn the night.
+  if [ "$left" = "$before" ]; then
+    stalled=$((stalled + 1))
+    say "WARNING: pass $pass made no progress ($before -> $left), rc=$rc."
+    if [ "$stalled" -ge 2 ]; then
+      say "ABORTING: two consecutive passes did nothing. This is a broken" \
+          "run, not a slow one. rc=$rc. Check the tail of $LOG."
+      exit 1
+    fi
+  else
+    stalled=0
   fi
   # Let the rolling window clear before the next pass, otherwise the
   # first chunks of it fail and burn their retries for nothing.
