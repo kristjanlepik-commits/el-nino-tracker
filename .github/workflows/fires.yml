@@ -61,8 +61,17 @@ concurrency:
 jobs:
   fires:
     runs-on: ubuntu-latest
-    # 45 countries of archive requests; the pull dominates the runtime.
-    timeout-minutes: 60
+    # 90, not 60. Adding up the step budgets: setup 2, baseline 30,
+    # commit 1, quota wait 20, detections 2, burnt area 3, publish 3, plus
+    # commits, gives a worst case of about 63 minutes. A 60 minute job
+    # timeout therefore killed the run on a bad day, and did so at the
+    # END, discarding the publish after paying for every fetch.
+    #
+    # A job timeout is a backstop against a runaway, not a scheduling
+    # tool. The real bounds are the per-step timeouts above, which is
+    # where a hang now gets caught. This only needs to sit above the sum
+    # of them with room to spare.
+    timeout-minutes: 90
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -257,6 +266,27 @@ jobs:
       # It exits 1 on failure by design rather than raising: a failed
       # pull leaves the previous data intact and merely older, so a warn
       # and carry on is more honest than failing the build.
+      # The signal that continue-on-error above would otherwise destroy.
+      # Without this a detections crash produces a GREEN run carrying
+      # silently stale data, which is the exact failure this repo keeps
+      # relearning: the page stays well-formed, every check passes, and
+      # nobody finds out until a human asks. The earlier version of this
+      # workflow claimed in a comment that a failure was "surfaced by the
+      # step below" while no such step existed.
+      #
+      # An expected refusal (exit 3, or the legacy message) is already
+      # handled inside the pull step and is not a failure. This fires only
+      # when the step genuinely broke.
+      - name: Note a failed fire-data pull
+        if: steps.pull.outcome == 'failure'
+        run: |
+          echo "::error::Detections did NOT update: build_events.py failed \
+          (not an expected refusal). The page will publish with the \
+          previous detections, so it stays well-formed while being stale. \
+          scripts/check_freshness.py will fail once data/events.json \
+          passes 2 days. Check the FIRMS quota first: HTTP 400 from that \
+          API is what over-limit looks like."
+
       - name: Pull burnt area
         run: |
           set +e
