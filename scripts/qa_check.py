@@ -249,7 +249,21 @@ def check_snapshots(violations):
 # than let a field rot quietly. Adding a name here is a claim that the
 # field is deliberately not rendered, not that it is inconvenient.
 DECLARED_UNUSED = {
-    # "z": "diagnostic only, never shown to readers",
+    # Fire chat, 2026-07-30. z is the standardised anomaly and it is one
+    # of the three OR-ed signals the gate runs on, so it decides which
+    # countries appear. It is deliberately not shown.
+    #
+    # Two reasons. It is emitted for downstream consumers rather than
+    # readers: ECON joins on this file and z is the only field that says
+    # how unusual a week is in a form comparable ACROSS countries, which
+    # the multiple is not. And "2.5 standard deviations above the
+    # same-week mean" is the wrong register for the 4-8 reader D-043
+    # names, who wants to know how serious this is, not how it was
+    # computed. The multiple and the rank carry that in plain language.
+    #
+    # If a page ever wants to rank or sort by how unusual a week is
+    # rather than by ratio, this is the field to use. Revisit then.
+    "z": "gate input and downstream join key; wrong register for readers",
 }
 
 # Channel JSON, and the renderers that consume it. A field present in

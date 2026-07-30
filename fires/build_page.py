@@ -58,6 +58,15 @@ def build(events_doc, font_prefix="../fonts/"):
         if not e.get("anomalous") and e.get("volume_context"):
             note = ('<span class="rowqual">within its historical range; '
                     'shown for scale</span>')
+        elif not e.get("anomalous") and e.get("pinned"):
+            # A pinned country that is not anomalous and not large enough
+            # for the volume class would otherwise sit in a list of
+            # records with nothing saying why it is there, which reads as
+            # a claim. This row is the one the reader came for, and the
+            # honest answer to "why is my country here" is "because you
+            # looked", not "because it is burning".
+            note = ('<span class="rowqual">shown every week so this '
+                    'country can be checked; not unusual today</span>')
         elif e.get("multiple_unstable"):
             note = ('<span class="rowqual">small baseline; rank is the '
                     'sturdier reading</span>')
