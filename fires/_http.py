@@ -28,9 +28,29 @@ reliability rather than science. Tracked as tls-internal issue #6.
 from __future__ import annotations
 
 import io
+import urllib.error
 import urllib.request
 
 import pandas as pd
+
+
+class OverLimit(Exception):
+    """FIRMS refused because the key is over its rate limit.
+
+    Distinct from every other failure BECAUSE IT MUST NOT BE RETRIED.
+    The Fire chat asked for this and the reasoning is theirs: retrying an
+    over-limit request is the one case where a retry makes the situation
+    strictly worse. Each attempt spends more of the budget it is waiting
+    on, so a saturated key pins itself. Measured on 2026-07-29, the key
+    sat at exactly 5000/5000 while the builder logged nothing but FAILED,
+    having completed two countries in nine minutes.
+
+    Every caller currently treats all exceptions alike, so an over-limit
+    response costs three more requests plus 18 seconds of backoff before
+    the caller gives up. Catch this separately and WAIT instead: the
+    limit is 5,000 transactions per rolling 10 minutes, so the budget
+    refills on a clock rather than on anything the caller does.
+    """
 
 # 25s, and the number is set by the RETRY BUDGET rather than by what a
 # single request needs. A healthy FIRMS response is single-digit seconds,
@@ -54,7 +74,29 @@ def read_csv(url: str, timeout: int = DEFAULT_TIMEOUT) -> pd.DataFrame:
 
     Reads the body under an explicit timeout, then hands pandas an
     in-memory buffer so pandas never owns the socket.
+
+    Raises OverLimit on HTTP 400, which is what FIRMS returns when the
+    key is over its rate limit. Callers should wait for quota rather than
+    retry; see the OverLimit docstring.
+
+    CAVEAT ON THE BOUND, raised by the Fire chat and worth stating rather
+    than leaving implicit: urlopen's timeout applies to each socket
+    operation, not to the transfer as a whole. A server trickling bytes
+    can therefore exceed `timeout` in total. Not defended against here,
+    because the observed failure is a stalled connection rather than a
+    slow drip, and a total-transfer bound needs a reader loop that is not
+    worth its complexity until we see the problem.
     """
-    with urllib.request.urlopen(url, timeout=timeout) as resp:
-        body = resp.read()
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as resp:
+            body = resp.read()
+    except urllib.error.HTTPError as exc:
+        # 400 is FIRMS for over-limit. It is not a malformed request:
+        # the same URL succeeds once the window refills.
+        if exc.code == 400:
+            raise OverLimit(
+                f"FIRMS returned HTTP 400 (over rate limit). Do not retry; "
+                f"wait for the rolling 10 minute window to refill. url={url}"
+            ) from exc
+        raise
     return pd.read_csv(io.StringIO(body.decode("utf-8", errors="replace")))
