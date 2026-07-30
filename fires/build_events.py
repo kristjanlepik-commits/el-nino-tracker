@@ -45,6 +45,8 @@ from datetime import datetime, timedelta, timezone
 import numpy as np
 import pandas as pd
 
+from fires import _http
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KEY_PATH = os.path.expanduser("~/.firms_map_key")
 HISTORY = os.path.join(REPO, "fires", "data", "country_history.json")
@@ -206,7 +208,7 @@ def fetch_window(key, box, rings, start, days):
                f"VIIRS_SNPP_NRT/{w},{s},{e},{n}/{chunk}/{cur.isoformat()}")
         for attempt in (1, 2):
             try:
-                df = pd.read_csv(url)
+                df = _http.read_csv(url)
                 break
             except Exception:
                 if attempt == 2:

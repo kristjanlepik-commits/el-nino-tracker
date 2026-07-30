@@ -38,6 +38,8 @@ from datetime import date, datetime, timedelta
 import numpy as np
 import pandas as pd
 
+from fires import _http
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GEO = os.path.join(REPO, "fires", "data", "countries.geo.json")
 OUT = os.path.join(REPO, "fires", "data", "country_history.json")
@@ -137,7 +139,7 @@ def fetch_one(iso, start: date, year: int) -> int:
                    f"{cur.isoformat()}")
             for a in (1, 2, 3):
                 try:
-                    frames.append(pd.read_csv(url))
+                    frames.append(_http.read_csv(url))
                     break
                 except Exception:
                     if a == 3:

@@ -57,6 +57,8 @@ from datetime import date, timedelta
 import numpy as np
 import pandas as pd
 
+from fires import _http
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KEY_PATH = os.path.expanduser("~/.firms_map_key")
 GEO = os.path.join(REPO, "fires", "data", "countries.geo.json")
@@ -167,7 +169,7 @@ def _chunk(iso, cur, days):
                f"VIIRS_SNPP_SP/{w},{s},{e},{n}/{days}/{cur.isoformat()}")
         for a in (1, 2, 3):
             try:
-                frames.append(pd.read_csv(url))
+                frames.append(_http.read_csv(url))
                 break
             except Exception:
                 if a == 3:
