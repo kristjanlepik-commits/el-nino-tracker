@@ -125,9 +125,24 @@ jobs:
       # tolerated on purpose: without a fresh baseline, build_events.py
       # refuses and the workflow already treats that as a warning, while
       # burnt area can still refresh and the publish can still run.
+      # 30 minutes, not 10. The first attempt at this used 10 and traded a
+      # hang for a truncation: the step reached country 22 of 45 and was
+      # cut, and because fetch_window_baseline.py writes
+      # country_history.json only after ALL 45 countries complete, a
+      # truncated run writes NOTHING. Detections then stayed frozen for a
+      # third day while the step looked bounded and well behaved.
+      #
+      # A generous budget is safe here in a way it was not before, and the
+      # reason matters: individual requests are now bounded by
+      # fires/_http.py, so this timeout is no longer the only thing
+      # standing between a stalled socket and an infinite job. It only has
+      # to exceed legitimate worst-case work, which is 45 countries plus
+      # whatever a few exhausted retries add. Observed range is 5 to 10
+      # minutes. The job timeout stays at 60, and burnt area plus publish
+      # need about 5, so 30 leaves real headroom on both sides.
       - name: Refresh the same-week baseline
         id: baseline
-        timeout-minutes: 10
+        timeout-minutes: 30
         continue-on-error: true
         run: PYTHONPATH="$PWD" python fires/fetch_window_baseline.py
 

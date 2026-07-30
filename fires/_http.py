@@ -32,12 +32,21 @@ import urllib.request
 
 import pandas as pd
 
-# 60s is well beyond a healthy FIRMS response, which is single-digit
-# seconds, and well short of the 10 minute step budget in the workflow.
-# The point is not to be tight, it is to be finite: with three tries and
-# 6s and 12s backoff, a fully dead endpoint costs about 3 minutes and
-# then raises, rather than consuming the entire job.
-DEFAULT_TIMEOUT = 60
+# 25s, and the number is set by the RETRY BUDGET rather than by what a
+# single request needs. A healthy FIRMS response is single-digit seconds,
+# so 25 is already generous for one call.
+#
+# The first version used 60, which was defensible per-request and wrong
+# in aggregate. Callers retry three times with 6s and 12s backoff, so a
+# country whose window genuinely has no data costs 3 x 60 + 18, about
+# three minutes, and fetch_window_baseline walks 45 countries. On
+# 2026-07-30 three countries failed that way and the step ran past its
+# budget on retries alone, having previously taken 5 minutes.
+#
+# At 25s the same dead country costs about 93 seconds. That is the real
+# constraint: not how long one request may take, but how much a handful
+# of failures may add to a step that has 45 of them to get through.
+DEFAULT_TIMEOUT = 25
 
 
 def read_csv(url: str, timeout: int = DEFAULT_TIMEOUT) -> pd.DataFrame:
