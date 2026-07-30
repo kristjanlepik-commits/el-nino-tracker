@@ -156,8 +156,69 @@ jobs:
           repeats, suspect the unbounded pd.read_csv in \
           fires/fetch_window_baseline.py:140."
 
+      # COMMIT THE BASELINE THE MOMENT IT EXISTS, before anything that can
+      # fail. On 2026-07-30 the refresh finally completed after 17 minutes
+      # of FIRMS pulls, then build_events.py failed, the commit step was
+      # skipped because the job had failed, and all 17 minutes of work was
+      # discarded with the runner. The next run began from scratch.
+      #
+      # A step that expensive must be durable independently of what comes
+      # after it. This is the renderers-never-fetchers rule applied one
+      # level down: a fetch that succeeded is a fact worth keeping even
+      # when the thing consuming it breaks.
+      - name: Commit the refreshed baseline
+        if: always()
+        run: |
+          git config user.name "el-nino-tracker-bot"
+          git config user.email "actions@github.com"
+          git add fires/data/country_history.json
+          if ! git diff --cached --quiet; then
+            git commit -m "fires: same-week baseline refresh $(date -u +'%Y-%m-%d')"
+            bash scripts/push_retry.sh main
+          else
+            echo "Baseline unchanged."
+          fi
+
+      # WAIT FOR QUOTA before spending it again. The refresh above walks 45
+      # countries and leaves the key close to its ceiling; build_events.py
+      # then ran immediately and got HTTP 400 from FIRMS, which is what
+      # over-limit looks like. Two steps in one job competing for one
+      # account-wide budget is not a race we can win by retrying, only by
+      # waiting: the limit is 5,000 transactions per rolling 10 minutes, so
+      # the budget refills on its own within one window.
+      - name: Wait for FIRMS quota to refill
+        timeout-minutes: 20
+        run: |
+          for i in $(seq 1 20); do
+            # sed rather than embedded python: a multi-line python -c
+            # inside a YAML block scalar has to stay indented past the
+            # block, and getting that wrong silently truncates the whole
+            # file. It did, on the first attempt at this step.
+            q=$(curl -s --max-time 20 \
+              "https://firms.modaps.eosdis.nasa.gov/mapserver/mapkey_status/?MAP_KEY=$(cat ~/.firms_map_key)" \
+              | sed -n 's/.*"current_transactions" *: *\([0-9]\{1,\}\).*/\1/p')
+            [ -z "$q" ] && q=-1
+            if [ "$q" = "-1" ]; then
+              echo "Quota endpoint unreadable; waiting rather than guessing."
+            elif [ "$q" -lt 1500 ]; then
+              echo "Quota at $q/5000, enough headroom. Proceeding."
+              exit 0
+            else
+              echo "Quota at $q/5000, waiting 60s (attempt $i/20)."
+            fi
+            sleep 60
+          done
+          echo "::warning::Quota did not fall below 1500 in 20 minutes. \
+          Proceeding anyway; build_events may hit HTTP 400."
+
+      # continue-on-error, so a detections failure cannot take down the
+      # burnt-area pull or the publish. Those refresh on a different clock
+      # and holding them hostage to detections is what left the page
+      # untouched for a whole morning. A real failure is still surfaced by
+      # the step below rather than swallowed.
       - name: Pull fire data
         id: pull
+        continue-on-error: true
         run: |
           set +e
           out=$(PYTHONPATH="$PWD" python fires/build_events.py 2>&1)
