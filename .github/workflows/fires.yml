@@ -44,7 +44,29 @@ name: Fires data pull and publish
 # eats into the margin rather than the reader's morning.
 on:
   schedule:
-    - cron: "0 4 * * *"
+    # TWO SLOTS, and the second is nearly free.
+    #
+    # The binding constraint is not our runtime, it is GitHub's scheduling
+    # delay. On 2026-07-30 the 04:00 slot actually fired at 06:25, 2h25m
+    # late, and with a ~35 minute run that lands at 07:00 UTC, which is
+    # 10:00 in Tallinn and past the 09:00 target. No amount of tuning our
+    # own steps fixes a queue we do not control; more slots does.
+    #
+    # 03:10 is as early as this can go. build_events.py refuses before
+    # 03:00 UTC because FIRMS only guarantees the previous day is closed
+    # by then, and that refusal is correct: publishing an unfinished day
+    # reads as a die-down. 10 minutes of margin past the floor, and now
+    # nearly three hours of delay absorption before 06:00 UTC.
+    #
+    # The 05:30 slot is a backstop for a FAILED or very late first run,
+    # not a second full pull. fetch_window_baseline.py returns
+    # immediately when the baseline already covers the window, and
+    # build_events and publish are both no-ops when nothing changed, so a
+    # redundant run costs a couple of minutes rather than seventeen. The
+    # shared `publish` concurrency group queues it if the first is still
+    # going, so the two cannot race.
+    - cron: "10 3 * * *"
+    - cron: "30 5 * * *"
   workflow_dispatch:
 
 permissions:
@@ -266,6 +288,38 @@ jobs:
       # It exits 1 on failure by design rather than raising: a failed
       # pull leaves the previous data intact and merely older, so a warn
       # and carry on is more honest than failing the build.
+      # ONE RETRY, after letting the quota refill. The only failure this
+      # step has actually shown is HTTP 400 from FIRMS, which is what
+      # over-limit looks like, and the cause is structural: the baseline
+      # refresh immediately before it walks 45 countries and leaves the
+      # key near its ceiling. The wait before the first attempt handles
+      # the common case; this handles the day the refill is slower than
+      # the wait allowed.
+      #
+      # Retrying is only worth it because the budget refills on a clock
+      # rather than on our behaviour. A retry against a genuinely broken
+      # endpoint would just cost three more minutes, which is acceptable
+      # against a full day of stale detections.
+      - name: Retry detections once after a longer quota wait
+        if: steps.pull.outcome == 'failure'
+        id: pull_retry
+        continue-on-error: true
+        timeout-minutes: 25
+        run: |
+          for i in $(seq 1 15); do
+            q=$(curl -s --max-time 20 \
+              "https://firms.modaps.eosdis.nasa.gov/mapserver/mapkey_status/?MAP_KEY=$(cat ~/.firms_map_key)" \
+              | sed -n 's/.*"current_transactions" *: *\([0-9]\{1,\}\).*/\1/p')
+            [ -z "$q" ] && q=99999
+            if [ "$q" -lt 500 ]; then
+              echo "Quota at $q/5000. Retrying detections."
+              break
+            fi
+            echo "Quota at $q/5000, waiting 60s before retry (attempt $i/15)."
+            sleep 60
+          done
+          PYTHONPATH="$PWD" python fires/build_events.py
+
       # The signal that continue-on-error above would otherwise destroy.
       # Without this a detections crash produces a GREEN run carrying
       # silently stale data, which is the exact failure this repo keeps
@@ -278,7 +332,7 @@ jobs:
       # handled inside the pull step and is not a failure. This fires only
       # when the step genuinely broke.
       - name: Note a failed fire-data pull
-        if: steps.pull.outcome == 'failure'
+        if: steps.pull.outcome == 'failure' && steps.pull_retry.outcome != 'success'
         run: |
           echo "::error::Detections did NOT update: build_events.py failed \
           (not an expected refusal). The page will publish with the \
