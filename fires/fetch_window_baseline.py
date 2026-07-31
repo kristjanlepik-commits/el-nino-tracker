@@ -38,7 +38,7 @@ from datetime import date, datetime, timedelta
 import numpy as np
 import pandas as pd
 
-from fires import _http
+from fires import _http, _quota
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GEO = os.path.join(REPO, "fires", "data", "countries.geo.json")
@@ -142,6 +142,11 @@ def fetch_one(iso, start: date, year: int) -> int:
                 try:
                     frames.append(_http.read_csv(url))
                     break
+                except _http.OverLimit:
+                    # Not a retry. The key is over its limit BECAUSE too
+                    # many requests arrived; another one deepens it.
+                    _quota.wait_for_quota(iso)
+                    continue
                 except Exception:
                     if a == 3:
                         # Same rule as the full builder: a year is whole

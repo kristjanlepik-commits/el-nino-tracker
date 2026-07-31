@@ -45,7 +45,7 @@ from datetime import datetime, timedelta, timezone
 import numpy as np
 import pandas as pd
 
-from fires import _http
+from fires import _http, _quota
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KEY_PATH = os.path.expanduser("~/.firms_map_key")
@@ -210,6 +210,19 @@ def fetch_window(key, box, rings, start, days):
             try:
                 df = _http.read_csv(url)
                 break
+            except _http.OverLimit:
+                # Does NOT consume an attempt. This step runs straight
+                # after the baseline refresh, which walks 48 countries
+                # and leaves the key near its ceiling, so over-limit here
+                # is structural rather than exceptional. Retrying into it
+                # is what produced the HTTP 400 that failed the whole
+                # publish on 2026-07-30.
+                # No label: fetch_window does not receive the ISO, and
+                # a NameError here would fire only when over-limit
+                # actually happened, which is the one moment the guard
+                # has to work.
+                _quota.wait_for_quota()
+                continue
             except Exception:
                 if attempt == 2:
                     raise
