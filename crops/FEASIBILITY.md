@@ -634,12 +634,34 @@ windows derived there are a fixed climatology, not observed seasons.
 That is acceptable for defining a window, and it means those windows
 should never be described as showing anything about season change.
 
-**The valid candidate is ERA5.** Growing-season temperature and water
-balance over the qualified crop regions, computed against 1961-1990 and
-against 1991-2020. ERA5 runs from 1940, is technology-neutral, and the
-repo already holds a CDS key for it. The statement it supports is
-exactly the house form: *this growing season is warm against 1991-2020;
-against 1961-1990 it is off the chart.*
+**The valid candidate is ERA5.** Growing-season temperature over the
+qualified crop regions, computed against 1961-1990 and against
+1991-2020. ERA5 runs from 1940, is technology-neutral, and the repo
+already holds a CDS key. The statement it supports is exactly the house
+form: *this growing season is warm against 1991-2020; against 1961-1990
+it is off the chart.*
+
+**Temperature and water balance are NOT equally defensible back to
+1961**, per the ENSO tracker chat, which owns the ERA5 surface.
+Growing-season temperature over well-observed land is solid, because
+dense surface networks were assimilated even pre-satellite. **Water
+balance is much weaker**: ERA5 precipitation is model output rather than
+assimilated observation, and its pre-satellite quality degrades badly
+outside Europe and North America. Publishing both against 1961-1990 with
+equal confidence would hand a hostile reader the water-balance half to
+dismantle first. So: temperature as the drift line, water balance either
+restricted to well-observed regions or carrying a visibly weaker
+confidence flag.
+
+Two operational notes from the same source: use **monthly means, not
+daily** (growing-season aggregates do not need daily resolution, and
+monthly is two orders of magnitude smaller), and note that the **CDS
+credential is shared and already contended** (SEAS5 budget raised from
+25 to 40 minutes this month; an SSL outage on 7-20 knocked both ERA5
+fetchers to cached data mid-brief). Twenty-five country-crop regions
+across sixty years on that account would contend with the Monday brief,
+which is invariant 1. That is the strongest argument for the computation
+living in platform's shared service rather than in any channel fetcher.
 
 **This is a cross-chat dependency, not a crops build.** ERA5 is the ENSO
 tracker's surface (`fetchers/` and the CDS credential), so the sensible
@@ -696,6 +718,19 @@ house drift statement: crops can say "harvest volatility in these
 systems has not measurably changed since the 1961-1990 era", which is a
 calibration finding, but it cannot say "against 1961-1990 this is off
 the chart".
+
+**And it is not a clean climate statement either.** Raised by the ENSO
+tracker chat, 2026-07-29, and it is right: modern agriculture has
+actively *reduced* weather sensitivity through irrigation, cultivar
+breeding and management. So flat volatility is a **joint test of climate
+stress and adaptation**, not of climate stress alone. Stable variance is
+equally consistent with rising stress fully offset by adaptation, and a
+reader will hear "climate is not affecting crops".
+
+**The qualifier therefore travels in the emitted data, not in the
+copy**, so it cannot be dropped downstream by a renderer or a quote. Any
+payload carrying this null carries with it that it measures the net of
+stress and adaptation.
 
 **Recommendation: crops should not be the drift exception.** ERA5
 through platform's climatology service remains the right route for a
