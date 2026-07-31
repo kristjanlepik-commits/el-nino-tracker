@@ -89,6 +89,30 @@ def _latest_event_date(doc: dict) -> date | None:
         return None
 
 
+# THE RULE, stated once here because every layer below is an instance of
+# it and the next channel should arrive with an instance rather than a
+# special case:
+#
+#     A BUDGET IS SET BY THE SOURCE'S PUBLISHING CADENCE, NEVER BY HOW
+#     OFTEN WE POLL IT.
+#
+# Polling frequency measures our own activity. A fetcher hitting a dead
+# source on schedule looks perfectly healthy by that measure, which is
+# precisely the bug this file shipped with and had to be corrected for.
+# The source's cadence is the only thing that says whether the DATA has
+# stopped moving.
+#
+# Two corollaries, both learned expensively:
+#
+#   - Do NOT count consecutive no-ops. A source publishing every 10 days
+#     produces nine days of legitimate silence, and a counter reads that
+#     as nine failures. Fire lost six days to that shape. CRO's crops
+#     threshold, no new dekad for more than 20 days, is this rule applied
+#     to a 10 day cadence: two full publication cycles.
+#   - A check that cannot fail is worse than no check, so do not add a
+#     layer before the data exists. A permanently green row reads as
+#     coverage and provides none.
+#
 # Budgets are set from each layer's CADENCE, not picked. A daily job
 # that ran successfully leaves its data one day old, because it captures
 # through yesterday; the age therefore oscillates between 1 and 2 across
@@ -96,7 +120,8 @@ def _latest_event_date(doc: dict) -> date | None:
 # hours before a run, and it means a freeze is caught once two
 # consecutive daily runs have been missed, roughly 48 hours in, not on
 # day one. A budget of 1 would be caught faster and would also fail
-# every night before 04:00 UTC, which is how a check gets ignored.
+# every night before the fires job runs (03:10 UTC, with a 05:30 UTC
+# backstop), which is how a check gets ignored.
 #
 # A hand-refreshed layer gets a fortnight, because nothing schedules it
 # and the honest question there is "has anyone touched this recently".
