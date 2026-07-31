@@ -3,8 +3,19 @@
 Methodology for the economic damages section of The Long Swell.
 Written to be read cold, by someone deciding whether to cite us.
 
-Version 0.2, 2026-07-29. Draft. This page will change; changes are
+Version 0.3, 2026-07-29. Draft. This page will change; changes are
 dated and the reasoning is kept rather than overwritten.
+
+Changes so far:
+
+- **0.3** The category list grew from seven to nine. Building our first
+  real event page produced a firefighting bill that none of the seven
+  could hold, and it was the largest figure in that story. Added
+  response cost and funding granted, and marked three categories as not
+  being losses at all.
+- **0.2** Added the section on why we do not publish a loss trend over
+  time, and the note that this page is written for a different reader
+  than the damage pages are.
 
 A note on who this page is for, since the site's pages are written for
 a general reader. **This one is not, deliberately.** Its audience is
