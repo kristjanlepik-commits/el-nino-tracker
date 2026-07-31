@@ -8,7 +8,7 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-07-31T06:51:46Z",
+ "fetched": "2026-07-31T08:21:51Z",
  "year": 2026,
  "countries": {
   "AGO": {
@@ -608,6 +608,32 @@
    "multiple": 0.65,
    "vs_max": 0.31,
    "fires": 703
+  },
+  "KAZ": {
+   "name": "Kazakhstan",
+   "source": "GWIS",
+   "week": 30,
+   "as_of": "2026-07-29",
+   "lag_days": 2,
+   "area_ha": 429520,
+   "avg_ha": 1512628.4,
+   "max_ha": 3687116,
+   "multiple": 0.28,
+   "vs_max": 0.12,
+   "fires": 1460
+  },
+  "LBY": {
+   "name": "Libya",
+   "source": "EFFIS",
+   "week": 30,
+   "as_of": "2026-07-29",
+   "lag_days": 2,
+   "area_ha": 0,
+   "avg_ha": 520.7,
+   "max_ha": 5924,
+   "multiple": 0.0,
+   "vs_max": 0.0,
+   "fires": 0
   }
  }
 }
