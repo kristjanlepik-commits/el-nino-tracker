@@ -90,10 +90,29 @@ the terms above. The mapping, set by the editor's standard:
 | Direct economic | the cost of physical damage |
 | Total economic | physical damage plus the knock-on costs |
 | Output loss | work and production lost |
+| Response cost | what the emergency response cost |
 | Humanitarian appeal | what aid agencies asked for |
+| Funding granted | aid actually given |
+| Mortality | deaths and people harmed |
+| Monetised mortality | a value placed on those same deaths |
 
-Response cost and funding granted do not have agreed reader-facing
-wording yet; the editor owns that and has been asked.
+Two of those pairings are deliberate. **"Asked for" against "actually
+given"** is a comparison a reader understands on sight, and the gap
+between the two is frequently a story in itself. And **"those same
+deaths"** is not a stylistic choice: monetised mortality prices a death
+toll that is usually published separately, so the two figures are one
+fact stated twice and must never read as two sources agreeing.
+
+The nine fall into three groups, not two, and the third is the one that
+breaks a simple loss-versus-not-loss split:
+
+1. **Value destroyed by the event**: insured, direct, total, output.
+2. **Money moving toward the event**: response cost, appeal, grant.
+   None of these is a loss.
+3. **Harm to people**: mortality, and the price placed on it. Mortality
+   is not money at all, and monetised mortality is money that is not
+   value destroyed in the way group 1 means. They belong together and
+   apart from both other groups.
 
 The tense on the first one is deliberate. Early insured figures are
 projections, and calling them what insurers paid asserts a settlement
