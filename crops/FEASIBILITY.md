@@ -947,6 +947,18 @@ Two obstacles:
 - Cadence: dekadal refresh, monthly outcome, never fast-reaction.
 - Raw pulls to `crops/.cache/`, gitignored; committed artifact is the
   compact derived series under `crops/data/`.
+- **A qualifier is a property of the datum, never of the layout.** Any
+  number this channel emits carries its own caveat as a field, not as
+  prose beside it. The volatility null carries that it measures stress
+  net of adaptation; a pair carries its earliest publishable dekad; a
+  European pair carries that it rests on one outcome source. The test:
+  if the number were quoted alone in someone else's article, would it
+  still be honest? Prose gets truncated, rewritten and quoted away;
+  fields do not. Four chats reached this independently in one week
+  (ECON on estimate_state, platform on emitted-field CI coverage, the
+  ENSO tracker on drift values, and this channel on the volatility
+  null), which is a strong hint it is a house rule rather than four
+  local conventions.
 - **Every check this channel builds must be capable of failing.** The
   generalisation, from platform on 2026-07-29, of four failures shipped
   in one week: an exit-3 no-op counter that could only read healthy on a
