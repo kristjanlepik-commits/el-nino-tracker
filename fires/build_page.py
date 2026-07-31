@@ -51,6 +51,9 @@ def _row(e):
     if ctx:
         note = ('<span class="rowqual">within its historical range; '
                 'shown for scale</span>')
+    elif not e.get("anomalous") and e.get("pinned"):
+        note = ('<span class="rowqual">shown every week so this country '
+                'can be checked; not unusual today</span>')
     elif e.get("multiple_unstable"):
         note = ('<span class="rowqual">small baseline; rank is the '
                 'sturdier reading</span>')

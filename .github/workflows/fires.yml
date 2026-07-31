@@ -44,7 +44,29 @@ name: Fires data pull and publish
 # eats into the margin rather than the reader's morning.
 on:
   schedule:
-    - cron: "0 4 * * *"
+    # TWO SLOTS, and the second is nearly free.
+    #
+    # The binding constraint is not our runtime, it is GitHub's scheduling
+    # delay. On 2026-07-30 the 04:00 slot actually fired at 06:25, 2h25m
+    # late, and with a ~35 minute run that lands at 07:00 UTC, which is
+    # 10:00 in Tallinn and past the 09:00 target. No amount of tuning our
+    # own steps fixes a queue we do not control; more slots does.
+    #
+    # 03:10 is as early as this can go. build_events.py refuses before
+    # 03:00 UTC because FIRMS only guarantees the previous day is closed
+    # by then, and that refusal is correct: publishing an unfinished day
+    # reads as a die-down. 10 minutes of margin past the floor, and now
+    # nearly three hours of delay absorption before 06:00 UTC.
+    #
+    # The 05:30 slot is a backstop for a FAILED or very late first run,
+    # not a second full pull. fetch_window_baseline.py returns
+    # immediately when the baseline already covers the window, and
+    # build_events and publish are both no-ops when nothing changed, so a
+    # redundant run costs a couple of minutes rather than seventeen. The
+    # shared `publish` concurrency group queues it if the first is still
+    # going, so the two cannot race.
+    - cron: "10 3 * * *"
+    - cron: "30 5 * * *"
   workflow_dispatch:
 
 permissions:
@@ -61,8 +83,17 @@ concurrency:
 jobs:
   fires:
     runs-on: ubuntu-latest
-    # 45 countries of archive requests; the pull dominates the runtime.
-    timeout-minutes: 60
+    # 90, not 60. Adding up the step budgets: setup 2, baseline 30,
+    # commit 1, quota wait 20, detections 2, burnt area 3, publish 3, plus
+    # commits, gives a worst case of about 63 minutes. A 60 minute job
+    # timeout therefore killed the run on a bad day, and did so at the
+    # END, discarding the publish after paying for every fetch.
+    #
+    # A job timeout is a backstop against a runaway, not a scheduling
+    # tool. The real bounds are the per-step timeouts above, which is
+    # where a hang now gets caught. This only needs to sit above the sum
+    # of them with room to spare.
+    timeout-minutes: 90
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -104,11 +135,121 @@ jobs:
       # updated around it, so the page stayed plausible and nobody
       # noticed. The refusal was correct; there was simply no way to
       # give it a current baseline. There is now.
+      #
+      # BOUNDED AND NON-FATAL, after this step took the whole job down on
+      # 2026-07-30. It hung with no output, ran 58 minutes, and the
+      # job-level timeout-minutes: 60 then cancelled everything after it:
+      # detections, burnt area and the publish were all skipped, so the
+      # public fire page did not refresh that day. The step had completed
+      # in about 5 minutes the day before, so this is an intermittent hang
+      # rather than a slow step.
+      #
+      # Cause: fires/fetch_window_baseline.py:140 calls pd.read_csv(url)
+      # against the FIRMS area API. Pandas reads URLs through urllib with
+      # NO default timeout, so an unanswered request blocks forever. That
+      # is the Fire chat's file to fix; reported separately. What belongs
+      # here is making sure one hung fetch cannot cost the whole job.
+      #
+      # A job-level timeout alone is the wrong instrument: it fires late
+      # and kills every step that had not yet run. A step-level timeout
+      # costs 10 minutes and lets the rest of the job proceed. Failure is
+      # tolerated on purpose: without a fresh baseline, build_events.py
+      # refuses and the workflow already treats that as a warning, while
+      # burnt area can still refresh and the publish can still run.
+      # 30 minutes, not 10. The first attempt at this used 10 and traded a
+      # hang for a truncation: the step reached country 22 of 45 and was
+      # cut, and because fetch_window_baseline.py writes
+      # country_history.json only after ALL 45 countries complete, a
+      # truncated run writes NOTHING. Detections then stayed frozen for a
+      # third day while the step looked bounded and well behaved.
+      #
+      # A generous budget is safe here in a way it was not before, and the
+      # reason matters: individual requests are now bounded by
+      # fires/_http.py, so this timeout is no longer the only thing
+      # standing between a stalled socket and an infinite job. It only has
+      # to exceed legitimate worst-case work, which is 45 countries plus
+      # whatever a few exhausted retries add. Observed range is 5 to 10
+      # minutes. The job timeout stays at 60, and burnt area plus publish
+      # need about 5, so 30 leaves real headroom on both sides.
       - name: Refresh the same-week baseline
+        id: baseline
+        timeout-minutes: 30
+        continue-on-error: true
         run: PYTHONPATH="$PWD" python fires/fetch_window_baseline.py
 
+      - name: Note a failed baseline refresh
+        if: steps.baseline.outcome != 'success'
+        run: |
+          echo "::warning::The same-week baseline refresh did not complete \
+          (outcome: ${{ steps.baseline.outcome }}). build_events.py will \
+          refuse to compare against a stale baseline, so detections will \
+          not advance today. Burnt area and the publish still run. If this \
+          repeats, suspect the unbounded pd.read_csv in \
+          fires/fetch_window_baseline.py:140."
+
+      # COMMIT THE BASELINE THE MOMENT IT EXISTS, before anything that can
+      # fail. On 2026-07-30 the refresh finally completed after 17 minutes
+      # of FIRMS pulls, then build_events.py failed, the commit step was
+      # skipped because the job had failed, and all 17 minutes of work was
+      # discarded with the runner. The next run began from scratch.
+      #
+      # A step that expensive must be durable independently of what comes
+      # after it. This is the renderers-never-fetchers rule applied one
+      # level down: a fetch that succeeded is a fact worth keeping even
+      # when the thing consuming it breaks.
+      - name: Commit the refreshed baseline
+        if: always()
+        run: |
+          git config user.name "el-nino-tracker-bot"
+          git config user.email "actions@github.com"
+          git add fires/data/country_history.json
+          if ! git diff --cached --quiet; then
+            git commit -m "fires: same-week baseline refresh $(date -u +'%Y-%m-%d')"
+            bash scripts/push_retry.sh main
+          else
+            echo "Baseline unchanged."
+          fi
+
+      # WAIT FOR QUOTA before spending it again. The refresh above walks 45
+      # countries and leaves the key close to its ceiling; build_events.py
+      # then ran immediately and got HTTP 400 from FIRMS, which is what
+      # over-limit looks like. Two steps in one job competing for one
+      # account-wide budget is not a race we can win by retrying, only by
+      # waiting: the limit is 5,000 transactions per rolling 10 minutes, so
+      # the budget refills on its own within one window.
+      - name: Wait for FIRMS quota to refill
+        timeout-minutes: 20
+        run: |
+          for i in $(seq 1 20); do
+            # sed rather than embedded python: a multi-line python -c
+            # inside a YAML block scalar has to stay indented past the
+            # block, and getting that wrong silently truncates the whole
+            # file. It did, on the first attempt at this step.
+            q=$(curl -s --max-time 20 \
+              "https://firms.modaps.eosdis.nasa.gov/mapserver/mapkey_status/?MAP_KEY=$(cat ~/.firms_map_key)" \
+              | sed -n 's/.*"current_transactions" *: *\([0-9]\{1,\}\).*/\1/p')
+            [ -z "$q" ] && q=-1
+            if [ "$q" = "-1" ]; then
+              echo "Quota endpoint unreadable; waiting rather than guessing."
+            elif [ "$q" -lt 1500 ]; then
+              echo "Quota at $q/5000, enough headroom. Proceeding."
+              exit 0
+            else
+              echo "Quota at $q/5000, waiting 60s (attempt $i/20)."
+            fi
+            sleep 60
+          done
+          echo "::warning::Quota did not fall below 1500 in 20 minutes. \
+          Proceeding anyway; build_events may hit HTTP 400."
+
+      # continue-on-error, so a detections failure cannot take down the
+      # burnt-area pull or the publish. Those refresh on a different clock
+      # and holding them hostage to detections is what left the page
+      # untouched for a whole morning. A real failure is still surfaced by
+      # the step below rather than swallowed.
       - name: Pull fire data
         id: pull
+        continue-on-error: true
         run: |
           set +e
           out=$(PYTHONPATH="$PWD" python fires/build_events.py 2>&1)
@@ -147,6 +288,59 @@ jobs:
       # It exits 1 on failure by design rather than raising: a failed
       # pull leaves the previous data intact and merely older, so a warn
       # and carry on is more honest than failing the build.
+      # ONE RETRY, after letting the quota refill. The only failure this
+      # step has actually shown is HTTP 400 from FIRMS, which is what
+      # over-limit looks like, and the cause is structural: the baseline
+      # refresh immediately before it walks 45 countries and leaves the
+      # key near its ceiling. The wait before the first attempt handles
+      # the common case; this handles the day the refill is slower than
+      # the wait allowed.
+      #
+      # Retrying is only worth it because the budget refills on a clock
+      # rather than on our behaviour. A retry against a genuinely broken
+      # endpoint would just cost three more minutes, which is acceptable
+      # against a full day of stale detections.
+      - name: Retry detections once after a longer quota wait
+        if: steps.pull.outcome == 'failure'
+        id: pull_retry
+        continue-on-error: true
+        timeout-minutes: 25
+        run: |
+          for i in $(seq 1 15); do
+            q=$(curl -s --max-time 20 \
+              "https://firms.modaps.eosdis.nasa.gov/mapserver/mapkey_status/?MAP_KEY=$(cat ~/.firms_map_key)" \
+              | sed -n 's/.*"current_transactions" *: *\([0-9]\{1,\}\).*/\1/p')
+            [ -z "$q" ] && q=99999
+            if [ "$q" -lt 500 ]; then
+              echo "Quota at $q/5000. Retrying detections."
+              break
+            fi
+            echo "Quota at $q/5000, waiting 60s before retry (attempt $i/15)."
+            sleep 60
+          done
+          PYTHONPATH="$PWD" python fires/build_events.py
+
+      # The signal that continue-on-error above would otherwise destroy.
+      # Without this a detections crash produces a GREEN run carrying
+      # silently stale data, which is the exact failure this repo keeps
+      # relearning: the page stays well-formed, every check passes, and
+      # nobody finds out until a human asks. The earlier version of this
+      # workflow claimed in a comment that a failure was "surfaced by the
+      # step below" while no such step existed.
+      #
+      # An expected refusal (exit 3, or the legacy message) is already
+      # handled inside the pull step and is not a failure. This fires only
+      # when the step genuinely broke.
+      - name: Note a failed fire-data pull
+        if: steps.pull.outcome == 'failure' && steps.pull_retry.outcome != 'success'
+        run: |
+          echo "::error::Detections did NOT update: build_events.py failed \
+          (not an expected refusal). The page will publish with the \
+          previous detections, so it stays well-formed while being stale. \
+          scripts/check_freshness.py will fail once data/events.json \
+          passes 2 days. Check the FIRMS quota first: HTTP 400 from that \
+          API is what over-limit looks like."
+
       - name: Pull burnt area
         run: |
           set +e

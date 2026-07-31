@@ -426,22 +426,29 @@
           "offset_days": null,
           "category": "insured_loss",
           "basis": "observed_practice",
-          "label": "national schemes: Consorcio de Compensacion de Seguros (Spain), CCR (France)",
-          "note": "not yet profiled; these are the likeliest first insured figures for this hazard and territory and should be the next estimators added"
+          "label": "national insurer associations (UNESPA in Spain, France Assureurs in France), IF they choose to publish",
+          "note": "NOT yet profiled and NOT confirmed to publish per-event wildfire aggregates. This is a lead, not a scheduled estimator."
+        },
+        {
+          "estimator_id": "eu_solidarity_fund",
+          "offset_days": 300,
+          "category": "economic_direct",
+          "basis": "conditional",
+          "label": "EUSF mobilisation, only if the state applies"
         },
         {
           "estimator_id": "aon",
           "offset_days": null,
           "category": "economic_total",
           "basis": "published_schedule",
-          "label": "next quarterly recap"
+          "label": "next quarterly recap, as part of a global total"
         },
         {
           "estimator_id": "gallagher_re",
           "offset_days": null,
           "category": "economic_direct",
           "basis": "published_schedule",
-          "label": "next quarterly report"
+          "label": "next quarterly report, as part of a global total"
         },
         {
           "estimator_id": "emdat",
@@ -456,12 +463,12 @@
         "label": "no scheduled settlement; the quarterly recaps are the only dated commitments",
         "derived": true
       },
-      "coverage_note": "PERILS covers NEITHER the peril nor several of the territories. Its European perils are windstorm, flood, hail and convective storm, plus earthquake in Italy and Turkey; wildfire is not among them. Its European country list is Austria, Belgium, Denmark, France, Germany, Ireland, Italy, Luxembourg, Netherlands, Norway, Sweden, Switzerland and the UK, so Spain, Portugal and Greece are outside it entirely. Australian bushfire is covered; Mediterranean wildfire is not.",
-      "editorial_note": "This matters more than a coverage gap usually would. The France and Spain fires of July 2026 are T4's worked example of the fast-reaction thesis, and they sit in a hole: no scheduled insured-loss estimator covers them, so the first credible figure will come from national schemes with no published timetable. The site's flagship speed argument lands on the hazard where the money data is slowest.",
+      "coverage_note": "The deepest coverage hole in this map, and deeper than first recorded. THREE separate mechanisms exclude it. PERILS covers neither wildfire as a European peril nor Spain, Portugal and Greece as territories. Spain's Consorcio de Compensacion de Seguros does NOT class wildfire as an extraordinary risk, so it publishes no wildfire loss figure; cover sits with private household insurers, with only narrow Consorcio involvement for personal injury during firefighting under Order PCM/641/2021. France's CatNat scheme, reinsured by CCR, EXCLUDES forest fire under the law of 13 July 1982; building damage from a forest fire is met by ordinary fire cover, not CatNat. So no public estimator produces an insured-loss figure for this hazard and territory at all.",
+      "editorial_note": "Europe's largest fire anomaly of 2026 is occurring in the one peril and territory combination where no public loss estimator exists. The France and Spain fires are T4's worked example of the fast-reaction thesis, and there may never be a published insured-loss figure for them. An earlier version of this entry named the Consorcio and CCR as the likely first estimators. That was wrong on both counts and was corrected on 2026-07-29 by checking each scheme's covered perils.",
       "verification_status": "verified",
       "absence_meaning": {
         "reason": "outside_coverage",
-        "note": "PERILS covers neither wildfire as a European peril nor Spain, Portugal and Greece as territories. Silence says nothing about size."
+        "note": "No estimator covers this hazard and territory: excluded by PERILS on both peril and territory, by the Consorcio as not an extraordinary risk, and by the French CatNat scheme by statute. Silence says nothing whatsoever about size."
       }
     }
   ],

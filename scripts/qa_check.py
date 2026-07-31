@@ -244,6 +244,98 @@ def check_snapshots(violations):
             violations.append(f"snapshot unparseable: {path.name}: {exc}")
 
 
+# Fields a channel emits that no renderer is expected to read. Each one
+# needs a REASON, because the whole point is to force a decision rather
+# than let a field rot quietly. Adding a name here is a claim that the
+# field is deliberately not rendered, not that it is inconvenient.
+DECLARED_UNUSED = {
+    # Fire chat, 2026-07-30. z is the standardised anomaly and it is one
+    # of the three OR-ed signals the gate runs on, so it decides which
+    # countries appear. It is deliberately not shown.
+    #
+    # Two reasons. It is emitted for downstream consumers rather than
+    # readers: ECON joins on this file and z is the only field that says
+    # how unusual a week is in a form comparable ACROSS countries, which
+    # the multiple is not. And "2.5 standard deviations above the
+    # same-week mean" is the wrong register for the 4-8 reader D-043
+    # names, who wants to know how serious this is, not how it was
+    # computed. The multiple and the rank carry that in plain language.
+    #
+    # If a page ever wants to rank or sort by how unusual a week is
+    # rather than by ratio, this is the field to use. Revisit then.
+    "z": "gate input and downstream join key; wrong register for readers",
+}
+
+# Channel JSON, and the renderers that consume it. A field present in
+# the former and absent from all of the latter is either a defect or a
+# declaration waiting to be written.
+EMITTED_FIELD_SOURCES = [
+    {"data": "data/events.json", "collection": "events",
+     "renderers": ["fires/build_page.py", "fires/build_country_pages.py",
+                   "run_brief.py"]},
+]
+
+
+def check_emitted_fields(violations):
+    """Is every field a channel emits actually read by a renderer?
+
+    D-046, from the live UK/Spain defect on 2026-07-29. The Fire chat
+    emits `pinned` specifically so a country held in the set for
+    continuity cannot render like one at a genuine anomaly. No renderer
+    reads it, so the United Kingdom at 407 detections rendered
+    identically to Spain at 14.1x and was counted in a live headline
+    about countries burning above their seasonal normal.
+
+    Nothing structural was wrong: the page was well-formed, the numbers
+    matched the record, every existing guard passed. The failure was a
+    field crossing the channel-to-design seam and being dropped on the
+    far side, which is invisible to any check that looks at one side.
+
+    HOW IT MATCHES, and the limit is worth stating. It greps the
+    renderer sources for the quoted field name, so it proves a name is
+    MENTIONED, not that it changes anything rendered. A renderer that
+    reads a field and ignores it still passes. It also cannot see
+    dynamic access such as `e[k] for k in keys`. So this catches the
+    dropped-on-the-floor case, which is the one that has actually
+    happened, and is not a substitute for the owning channel signing off
+    on its rendered page.
+    """
+    for spec in EMITTED_FIELD_SOURCES:
+        path = ROOT / spec["data"]
+        if not path.exists():
+            continue
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            violations.append(f"emitted-field check: {spec['data']} "
+                              f"unreadable: {exc}")
+            continue
+        rows = doc.get(spec["collection"]) or []
+        if not isinstance(rows, list):
+            continue
+        emitted = sorted({k for r in rows if isinstance(r, dict) for k in r})
+
+        sources = {}
+        for rel in spec["renderers"]:
+            p = ROOT / rel
+            sources[rel] = p.read_text(encoding="utf-8") if p.exists() else ""
+
+        for field in emitted:
+            if field in DECLARED_UNUSED:
+                continue
+            pattern = re.compile(r"""["']%s["']""" % re.escape(field))
+            if any(pattern.search(text) for text in sources.values()):
+                continue
+            carrying = sum(1 for r in rows if r.get(field) not in (None, False))
+            violations.append(
+                f"{spec['data']} emits '{field}' ({carrying} of {len(rows)} "
+                f"rows carry a value) but no renderer reads it: "
+                f"{', '.join(spec['renderers'])}. Either render it or add it "
+                f"to DECLARED_UNUSED in scripts/qa_check.py with a reason. "
+                f"A field that crosses the seam and is dropped is how a "
+                f"non-anomalous country renders like an anomalous one.")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--base", default="origin/main",
@@ -251,9 +343,25 @@ def main():
     ap.add_argument("--no-frozen-check", action="store_true")
     ap.add_argument("--allow-frozen-edits", action="store_true",
                     help="skip immutability check for emergency --force fixes")
+    # Severity split, deliberate. The checks above answer "is it safe to
+    # publish this": a broken link or a moved archive is a reason to stop.
+    # The emitted-field check answers "is the rendering complete", and an
+    # incomplete rendering is a defect that should NOT also freeze the
+    # daily page, because a stale page is worse than an imperfect one.
+    # That is not theoretical: publish_all gates on this script, so
+    # making a channel-owned rendering gap blocking would have stopped
+    # the 04:00 UTC fire publish tomorrow morning.
+    #
+    # So publish_all passes --for-publish and gets a warning; CI does not
+    # and goes red. Pages deploys from the branch, so a red CI cannot
+    # un-publish anything. Visible pressure, no hostage taken.
+    ap.add_argument("--for-publish", action="store_true",
+                    help="downgrade rendering-completeness findings to "
+                         "warnings so a publish is never blocked by them")
     args = ap.parse_args()
 
     violations = []
+    advisories = []
     check_emdash(violations)
     if not (args.no_frozen_check or args.allow_frozen_edits):
         check_frozen(violations, args.base)
@@ -261,13 +369,22 @@ def main():
     check_fragments(violations)
     check_structure(violations)
     check_snapshots(violations)
+    check_emitted_fields(advisories if args.for_publish else violations)
+
+    if advisories:
+        print(f"QA ADVISORY: {len(advisories)} rendering-completeness "
+              f"finding(s). Not blocking this publish.\n")
+        for a in advisories:
+            print(f"  {a}")
+        print()
 
     if violations:
         print(f"QA FAILED: {len(violations)} violation(s)\n")
         for v in violations:
             print(f"  {v}")
         return 1
-    print("QA clean.")
+    print("QA clean." if not advisories else "QA clean apart from the "
+          "advisories above.")
     return 0
 
 

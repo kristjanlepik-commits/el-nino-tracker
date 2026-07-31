@@ -38,9 +38,12 @@ from datetime import date, datetime, timedelta
 import numpy as np
 import pandas as pd
 
+from fires import _http
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GEO = os.path.join(REPO, "fires", "data", "countries.geo.json")
 OUT = os.path.join(REPO, "fires", "data", "country_history.json")
+ROSTER = os.path.join(REPO, "fires", "data", "tracked_countries.json")
 KEY = open(os.path.expanduser("~/.firms_map_key")).read().strip()
 
 YEARS = list(range(2012, 2026))
@@ -137,7 +140,7 @@ def fetch_one(iso, start: date, year: int) -> int:
                    f"{cur.isoformat()}")
             for a in (1, 2, 3):
                 try:
-                    frames.append(pd.read_csv(url))
+                    frames.append(_http.read_csv(url))
                     break
                 except Exception:
                     if a == 3:
@@ -166,15 +169,43 @@ def main() -> None:
     today = date.today()
     start, end = trailing_window(today)
     win = f"{start:%m-%d}..{end:%m-%d}"
+    # Iterate the ROSTER, never the previous output.
+    #
+    # This read `list(prev["countries"])`, which made the tracked set a
+    # ratchet: a country that failed one run was absent from the next
+    # run's input and could never be retried. On 2026-07-30 Algeria,
+    # Iraq, Mexico and Namibia were lost exactly that way, Algeria while
+    # carrying the highest year-to-date burnt-area anomaly in the set at
+    # 14.2x, and nothing anywhere reported it. The drop-on-failure rule
+    # below is still right; what was wrong was that the drop was
+    # permanent rather than for one window.
     prev = json.load(open(OUT))
-    isos = list(prev["countries"])
-    if prev.get("window") == win:
+    roster = json.load(open(ROSTER))["countries"]
+    isos = [i for i in roster if i in BOX]
+    if len(isos) != len(roster):
+        print(f"  roster entries with no polygon, skipped: "
+              f"{sorted(set(roster) - set(isos))}", file=sys.stderr)
+    # "Window already covered" is not the same as "nothing to do". A
+    # country added to the roster today has no baseline at any window,
+    # and the early return would skip it until the window happened to
+    # roll, which is how a roster edit could look applied and do nothing.
+    absent = [i for i in isos if i not in prev.get("countries", {})]
+    if prev.get("window") == win and not absent:
         print(f"baseline already covers {win}, nothing to do")
         return
-    print(f"building baseline for {win} across {len(isos)} countries",
-          flush=True)
+    if prev.get("window") == win and absent:
+        # Only the new ones need fetching; the rest are already correct
+        # for this window, so do not spend the quota again.
+        print(f"window {win} already covered; building {len(absent)} new "
+              f"roster entries: {', '.join(absent)}", flush=True)
+        isos = absent
+        out_seed = dict(prev["countries"])
+    else:
+        out_seed = {}
+        print(f"building baseline for {win} across {len(isos)} countries",
+              flush=True)
 
-    out, failed = {}, []
+    out, failed = dict(out_seed), []
     for i, iso in enumerate(isos, 1):
         try:
             with cf.ThreadPoolExecutor(max_workers=WORKERS) as ex:
@@ -190,13 +221,41 @@ def main() -> None:
             print(f"  [{i}/{len(isos)}] {iso}: FAILED {exc}", flush=True)
             continue
         mean = sum(hist.values()) / len(hist)
-        out[iso] = {"name": NAMES.get(iso, prev["countries"][iso]["name"]),
-                    "box": prev["countries"][iso].get("box"),
+        # A country new to the roster has no previous entry, so fall
+        # back to the geometry rather than indexing prev and failing.
+        pv = prev["countries"].get(iso, {})
+        out[iso] = {"name": NAMES.get(iso, pv.get("name", iso)),
+                    "box": pv.get("box") or BOX[iso][0],
                     "hist": hist, "mean": round(mean, 1)}
         print(f"  [{i}/{len(isos)}] {iso}: mean {mean:,.0f}", flush=True)
 
-    if len(out) < len(isos) * 0.8:
-        print(f"REFUSING to write: only {len(out)}/{len(isos)} countries "
+    # One retry pass before writing. A failure here costs the country a
+    # whole window, and most failures are transient: a Malawi request
+    # that failed three times in the full builder returned data on the
+    # next attempt minutes later.
+    if failed:
+        print(f"  retrying {len(failed)}: {', '.join(failed)}", flush=True)
+        still = []
+        for iso in failed:
+            try:
+                with cf.ThreadPoolExecutor(max_workers=WORKERS) as ex:
+                    futs = {y: ex.submit(fetch_one, iso, start, y)
+                            for y in YEARS}
+                    hist = {str(y): f.result() for y, f in futs.items()}
+            except Exception as exc:
+                still.append(iso)
+                print(f"  {iso}: FAILED AGAIN {exc}", flush=True)
+                continue
+            mean = sum(hist.values()) / len(hist)
+            pv = prev["countries"].get(iso, {})
+            out[iso] = {"name": NAMES.get(iso, pv.get("name", iso)),
+                        "box": pv.get("box") or BOX[iso][0],
+                        "hist": hist, "mean": round(mean, 1)}
+            print(f"  {iso}: recovered, mean {mean:,.0f}", flush=True)
+        failed = still
+
+    if len(out) < len(roster) * 0.8:
+        print(f"REFUSING to write: only {len(out)}/{len(roster)} countries "
               f"built. A baseline this thin would drop countries from the "
               f"page silently.", file=sys.stderr)
         raise SystemExit(1)
