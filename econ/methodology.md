@@ -53,10 +53,10 @@ arriving months or years apart, and revising afterwards. A page built
 on the conventions of measurement would misrepresent that, so this
 section carries a different set of disciplines. They are below.
 
-## The seven categories, and why we never add them up
+## The nine categories, and why we never add them up
 
 The single most common error in disaster cost reporting is adding
-figures that measure different things. These seven never sum:
+figures that measure different things. These nine never sum:
 
 | Category | What it counts |
 |---|---|
@@ -64,9 +64,22 @@ figures that measure different things. These seven never sum:
 | Direct economic | Physical damage to assets, insured or not |
 | Total economic | Direct damage plus indirect and knock-on effects |
 | Output loss | Production or labour foregone, with no asset destroyed |
+| Response cost | Money spent responding, such as firefighting |
 | Humanitarian appeal | Funding requested, which is not loss incurred |
+| Funding granted | Funding actually disbursed, such as an EU award |
 | Mortality | Deaths and health burden, counted in people |
 | Monetised mortality | A price placed on those same deaths |
+
+**Three of these are not losses at all.** Response cost, humanitarian
+appeal and funding granted describe money moving toward a disaster
+rather than value destroyed by it. Putting them in a loss column is the
+easiest way to inflate an event.
+
+This list started at seven and grew when we built our first real event
+page. The Spanish fires of 2026 produced a firefighting bill that none
+of the seven could hold, and on that event it is the largest figure
+anyone has published. A taxonomy that cannot hold the biggest number in
+the story is not finished, and this one may not be either.
 
 On reader-facing pages these appear in plain language rather than as
 the terms above. The mapping, set by the editor's standard:
@@ -78,6 +91,9 @@ the terms above. The mapping, set by the editor's standard:
 | Total economic | physical damage plus the knock-on costs |
 | Output loss | work and production lost |
 | Humanitarian appeal | what aid agencies asked for |
+
+Response cost and funding granted do not have agreed reader-facing
+wording yet; the editor owns that and has been asked.
 
 The tense on the first one is deliberate. Early insured figures are
 projections, and calling them what insurers paid asserts a settlement
