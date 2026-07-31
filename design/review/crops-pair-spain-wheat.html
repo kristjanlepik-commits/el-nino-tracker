@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Spain / Wheat | The Long Swell</title>
+<style>
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../docs/fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-600.woff2") format("woff2");
+}
+:root {
+    --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px;
+}
+@media (prefers-color-scheme: dark) { :root {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+} }
+:root[data-theme="dark"] {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+}
+* { box-sizing: border-box; }
+:root { --shell-max: 880px; --shell-pad: 26px; }
+body { margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Spectral", Georgia, serif; font-size: 16.5px;
+  line-height: 1.55; }
+main { max-width: 880px; margin: 0 auto; padding: 26px 26px 80px; }
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+.eyebrow, .hero, .seclab, .iname, .ival, .iz, .imeta, .qkind, .tag,
+.supname, .supwhen, .foot, .basis {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.eyebrow { font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-faint); margin: 24px 0 10px; }
+h1 { font-size: 36px; font-weight: 500; line-height: 1.15;
+  letter-spacing: -0.018em; margin: 0 0 16px; max-width: 22ch;
+  text-wrap: balance; }
+.head { border-top: 3px solid var(--ink); padding-top: 14px;
+  margin-top: 26px; }
+.hero { font-size: 40px; font-weight: 600; letter-spacing: -0.02em;
+  color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums; }
+/* The basis is required by the payload and printed with the figure, so
+   a comparison cannot lose it in layout. */
+.basis { font-size: 11.5px; color: var(--ink-soft); margin: 10px 0 0; }
+.seclab { font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink); margin: 40px 0 4px;
+  padding-bottom: 8px; border-bottom: 2.4px solid var(--rule-45); }
+.secsub { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 6px;
+  max-width: 62ch; }
+
+.irow { display: grid; grid-template-columns: 1fr 5rem 5rem;
+  gap: 14px 18px; padding: 14px 0; border-bottom: 1px solid var(--rule);
+  align-items: baseline; }
+.iname { font-size: 13.5px; }
+.ival { font-size: 18px; font-weight: 600; text-align: right;
+  font-variant-numeric: tabular-nums; }
+.iz { font-size: 12px; color: var(--ink-soft); text-align: right; }
+.imeta { grid-column: 1 / -1; font-size: 11px; color: var(--ink-faint);
+  margin-top: -6px; }
+/* Two authorship values on one row is the case the field exists for:
+   the ASAP number is the agency's, the rank against 25 years is ours. */
+.auth { margin-left: 8px; padding: 1px 6px; background: var(--paper-sunk);
+  color: var(--ink-soft); }
+.novalue .ival { font-weight: 400; }
+.pend { font-size: 11.5px; color: var(--ink-faint); }
+
+/* A qualifier is computed from the condition that triggered it, so it
+   cannot outlive that condition. Rendered per instrument, never
+   concatenated into prose. */
+.quals { grid-column: 1 / -1; margin-top: 4px; }
+.qual { display: flex; gap: 10px; align-items: baseline;
+  padding: 6px 0 0; }
+.qkind { font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase;
+  background: var(--paper-sunk); color: var(--ink-soft); padding: 2px 6px;
+  white-space: nowrap; }
+.qtext { font-size: 13px; color: var(--ink-soft); max-width: 60ch; }
+
+.suprow { display: grid; grid-template-columns: 1fr auto;
+  gap: 6px 18px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.supname { font-size: 15px; }
+.supwhen { font-size: 11.5px; color: var(--ink-soft); }
+.supwhy { grid-column: 1 / -1; font-size: 13.5px; color: var(--ink-soft);
+  max-width: 66ch; }
+
+.tagrow { display: flex; justify-content: flex-end; margin: 30px 0 0; }
+.tag { font-size: 10.5px; letter-spacing: 0.04em; padding: 3px 8px; }
+.tag-loaded { background: var(--tag-loaded-bg); color: var(--tag-loaded-fg); }
+.tag-notlink { background: var(--tag-notlink-bg); color: var(--tag-notlink-fg); }
+.tag-pending { background: var(--tag-pending-bg); color: var(--tag-pending-fg); }
+.foot { margin-top: 46px; padding-top: 14px;
+  border-top: 1px solid var(--ink); font-size: 11.5px; color: var(--ink-faint); }
+@media (max-width: 700px) {
+  .irow { grid-template-columns: 1fr auto; }
+  h1 { font-size: 27px; max-width: none; }
+}
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+</script>
+</head>
+<body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../docs/" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../docs/elnino/">El Niño</a><a class="ch-fire" href="../docs/fires/">Fires</a><a class="util" href="../docs/about.html">About</a></nav></div></div></header>
+
+<main>
+  <p class="eyebrow">Spain / Wheat &middot;
+     dekad 20, second third of July 2026</p>
+  <h1>Spanish wheat is in the better half of its 25-year record for this point in the season.</h1>
+
+  <div class="head">
+    <p class="hero">18 of 26</p>
+    <p class="basis">rank against same dekads, 2001-2025, where
+      a low rank is the good end</p>
+  </div>
+
+  <p class="seclab">The six instruments</p>
+  <p class="secsub">Six measurements of the same season that do not have
+    to agree. Each carries its own baseline, its own source and its own
+    authorship, and the rank above is built by us from them rather than
+    published by any one agency.</p>
+  
+      <div class="irow">
+        <div class="iname">Vegetation, cumulative</div>
+        <div class="ival">+0.24</div>
+        <div class="iz">z +0.24</div>
+        <div class="imeta">
+          JRC ASAP, FPAR cumulated z-score, crop mask, growing cycle
+          &middot; as of 2026-07-11
+          <span class="auth">agency figure</span>
+        </div>
+        
+      </div>
+      <div class="irow novalue">
+        <div class="iname">Vegetation, current</div>
+        <div class="ival"><span class="pend">not in this payload</span></div>
+        <div class="iz"></div>
+        <div class="imeta">
+          
+          
+          <span class="auth">agency figure</span>
+        </div>
+        
+      </div>
+      <div class="irow novalue">
+        <div class="iname">Water satisfaction</div>
+        <div class="ival"><span class="pend">not in this payload</span></div>
+        <div class="iz"></div>
+        <div class="imeta">
+          
+          
+          <span class="auth">agency figure</span>
+        </div>
+        
+      </div>
+      <div class="irow novalue">
+        <div class="iname">Rainfall</div>
+        <div class="ival"><span class="pend">not in this payload</span></div>
+        <div class="iz"></div>
+        <div class="imeta">
+          
+          
+          <span class="auth">agency figure</span>
+        </div>
+        
+      </div>
+      <div class="irow novalue">
+        <div class="iname">Soil moisture</div>
+        <div class="ival"><span class="pend">not in this payload</span></div>
+        <div class="iz"></div>
+        <div class="imeta">
+          
+          
+          <span class="auth">agency figure</span>
+        </div>
+        
+      </div>
+      <div class="irow novalue">
+        <div class="iname">Temperature</div>
+        <div class="ival"><span class="pend">not in this payload</span></div>
+        <div class="iz"></div>
+        <div class="imeta">
+          
+          
+          <span class="auth">agency figure</span>
+        </div>
+        
+      </div>
+      <div class="irow">
+        <div class="iname">Rank against 25 seasons</div>
+        <div class="ival">18 of 26</div>
+        <div class="iz"></div>
+        <div class="imeta">
+          TLS, computed from the ASAP series above
+          &middot; as of 2026-07-11
+          <span class="auth">built by us from agency data</span>
+        </div>
+        <div class="quals"><div class="qual"><span class="qkind">single_outcome_source</span><span class="qtext">One production source (FAOSTAT). No standalone European series exists in USDA PSD to check it against.</span></div></div>
+      </div>
+
+  <p class="seclab">Not yet readable this dekad</p><p class="secsub">These pairs exist and are being tracked. Their signal does not yet predict the outcome well enough to publish, and the channel says so rather than showing a number or dropping the row. A page that silently omitted them would leave a reader unable to tell whether the gate ran.</p>
+      <div class="suprow">
+        <div class="supname">Iran / Barley</div>
+        <div class="supwhen">readable from dekad 31</div>
+        <div class="supwhy">Correlation with final production is -0.51 at this point in the season: a confident signal pointing the wrong way. Readable from dekad 31.</div>
+      </div>
+
+  <div class="tagrow"><span class="tag tag-notlink">
+    not ENSO-linked</span></div>
+
+  <div class="foot">Kristjan Lepik (2026). The Long Swell, Crops.
+    <a href="https://thelongswell.com/">thelongswell.com</a>
+    &middot; 2 of 7 instruments carry a
+    value in this payload</div>
+</main>
+</body>
+</html>
