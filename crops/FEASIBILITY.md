@@ -912,6 +912,16 @@ Two obstacles:
 - Cadence: dekadal refresh, monthly outcome, never fast-reaction.
 - Raw pulls to `crops/.cache/`, gitignored; committed artifact is the
   compact derived series under `crops/data/`.
+- **Every check this channel builds must be capable of failing.** The
+  generalisation, from platform on 2026-07-29, of four failures shipped
+  in one week: an exit-3 no-op counter that could only read healthy on a
+  10 day cadence; a pacing wrapper calling `timeout`, which macOS does
+  not ship, logging 22 successful passes over 90 minutes with nothing
+  running; a `continue-on-error` whose comment credited a step that did
+  not exist; and a freshness check measuring our own polling clock. Each
+  was a signal that could only say one thing, and each read as coverage
+  while providing none. Before adding any guard here, ask what input
+  makes it go red, and if there is no such input do not add it.
 - **Staleness is an absolute check, not a consecutive-no-op counter.**
   ASAP publishes every 10 days, so a legitimate "nothing to fetch" run
   repeats for nine days running and the exit-3 convention makes that
