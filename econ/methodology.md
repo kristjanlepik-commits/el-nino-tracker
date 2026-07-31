@@ -3,8 +3,19 @@
 Methodology for the economic damages section of The Long Swell.
 Written to be read cold, by someone deciding whether to cite us.
 
-Version 0.2, 2026-07-29. Draft. This page will change; changes are
+Version 0.3, 2026-07-29. Draft. This page will change; changes are
 dated and the reasoning is kept rather than overwritten.
+
+Changes so far:
+
+- **0.3** The category list grew from seven to nine. Building our first
+  real event page produced a firefighting bill that none of the seven
+  could hold, and it was the largest figure in that story. Added
+  response cost and funding granted, and marked three categories as not
+  being losses at all.
+- **0.2** Added the section on why we do not publish a loss trend over
+  time, and the note that this page is written for a different reader
+  than the damage pages are.
 
 A note on who this page is for, since the site's pages are written for
 a general reader. **This one is not, deliberately.** Its audience is
@@ -42,10 +53,10 @@ arriving months or years apart, and revising afterwards. A page built
 on the conventions of measurement would misrepresent that, so this
 section carries a different set of disciplines. They are below.
 
-## The seven categories, and why we never add them up
+## The nine categories, and why we never add them up
 
 The single most common error in disaster cost reporting is adding
-figures that measure different things. These seven never sum:
+figures that measure different things. These nine never sum:
 
 | Category | What it counts |
 |---|---|
@@ -53,9 +64,22 @@ figures that measure different things. These seven never sum:
 | Direct economic | Physical damage to assets, insured or not |
 | Total economic | Direct damage plus indirect and knock-on effects |
 | Output loss | Production or labour foregone, with no asset destroyed |
+| Response cost | Money spent responding, such as firefighting |
 | Humanitarian appeal | Funding requested, which is not loss incurred |
+| Funding granted | Funding actually disbursed, such as an EU award |
 | Mortality | Deaths and health burden, counted in people |
 | Monetised mortality | A price placed on those same deaths |
+
+**Three of these are not losses at all.** Response cost, humanitarian
+appeal and funding granted describe money moving toward a disaster
+rather than value destroyed by it. Putting them in a loss column is the
+easiest way to inflate an event.
+
+This list started at seven and grew when we built our first real event
+page. The Spanish fires of 2026 produced a firefighting bill that none
+of the seven could hold, and on that event it is the largest figure
+anyone has published. A taxonomy that cannot hold the biggest number in
+the story is not finished, and this one may not be either.
 
 On reader-facing pages these appear in plain language rather than as
 the terms above. The mapping, set by the editor's standard:
@@ -66,7 +90,29 @@ the terms above. The mapping, set by the editor's standard:
 | Direct economic | the cost of physical damage |
 | Total economic | physical damage plus the knock-on costs |
 | Output loss | work and production lost |
+| Response cost | what the emergency response cost |
 | Humanitarian appeal | what aid agencies asked for |
+| Funding granted | aid actually given |
+| Mortality | deaths and people harmed |
+| Monetised mortality | a value placed on those same deaths |
+
+Two of those pairings are deliberate. **"Asked for" against "actually
+given"** is a comparison a reader understands on sight, and the gap
+between the two is frequently a story in itself. And **"those same
+deaths"** is not a stylistic choice: monetised mortality prices a death
+toll that is usually published separately, so the two figures are one
+fact stated twice and must never read as two sources agreeing.
+
+The nine fall into three groups, not two, and the third is the one that
+breaks a simple loss-versus-not-loss split:
+
+1. **Value destroyed by the event**: insured, direct, total, output.
+2. **Money moving toward the event**: response cost, appeal, grant.
+   None of these is a loss.
+3. **Harm to people**: mortality, and the price placed on it. Mortality
+   is not money at all, and monetised mortality is money that is not
+   value destroyed in the way group 1 means. They belong together and
+   apart from both other groups.
 
 The tense on the first one is deliberate. Early insured figures are
 projections, and calling them what insurers paid asserts a settlement

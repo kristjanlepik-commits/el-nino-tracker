@@ -17,9 +17,9 @@ import sys
 
 DATA = pathlib.Path(__file__).parent / "data"
 
-# The seven categories that must never be summed together. From the
-# source report, section 3. Adding any two of these produces a number
-# that measures nothing.
+# The categories that must never be summed together. Started at seven
+# (source report, section 3) and grew to nine on 2026-07-29. Adding
+# any two of these produces a number that measures nothing.
 CATEGORIES = {
     "insured_loss",
     "economic_direct",
@@ -84,6 +84,53 @@ def check_no_em_dash(name, raw):
     # CLAUDE.md invariant 6 says the allowlist must not grow.
     if "\u2014" in raw:
         err(f"{name}: contains an em-dash (CLAUDE.md invariant 6)")
+
+
+# Human-readable heading for each enum value, as it appears in the
+# methodology page's category table.
+CATEGORY_LABELS = {
+    "insured_loss": "Insured loss",
+    "economic_direct": "Direct economic",
+    "economic_total": "Total economic",
+    "output_loss": "Output loss",
+    "response_cost": "Response cost",
+    "humanitarian_appeal": "Humanitarian appeal",
+    "funding_granted": "Funding granted",
+    "mortality": "Mortality",
+    "mortality_valued": "Monetised mortality",
+}
+
+NUMBER_WORDS = {7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven"}
+
+
+def check_methodology_matches_enum():
+    """The methodology page describes the categories; validate.py enforces
+    them. They drifted apart once, on 2026-07-29, when a string replace
+    failed silently and left the page claiming seven while the enum held
+    nine. The page's own change log was correct and the page was not,
+    which is the exact defect this channel exists to catch elsewhere."""
+    page = pathlib.Path(__file__).parent / "methodology.md"
+    if not page.exists():
+        err("methodology.md: missing")
+        return
+    text = page.read_text()
+
+    for cat, label in CATEGORY_LABELS.items():
+        if f"| {label} |" not in text:
+            err(f"methodology.md: category {cat!r} is in the enum but its row "
+                f"({label!r}) is not in the page's table")
+
+    for cat in CATEGORY_LABELS:
+        if cat not in CATEGORIES:
+            err(f"CATEGORY_LABELS has {cat!r}, which is not in CATEGORIES")
+    for cat in CATEGORIES:
+        if cat not in CATEGORY_LABELS:
+            err(f"CATEGORIES has {cat!r} with no label for the methodology page")
+
+    word = NUMBER_WORDS.get(len(CATEGORIES))
+    if word and f"The {word} categories" not in text:
+        err(f"methodology.md: enum holds {len(CATEGORIES)} categories, so the "
+            f"page should say 'The {word} categories'")
 
 
 def check_estimators(doc):
@@ -323,6 +370,8 @@ def main():
 
     estimators_doc = load("estimators.json")
     latency_doc = load("latency_map.json")
+
+    check_methodology_matches_enum()
 
     if estimators_doc:
         check_estimators(estimators_doc)

@@ -57,7 +57,7 @@ from datetime import date, timedelta
 import numpy as np
 import pandas as pd
 
-from fires import _http
+from fires import _http, _quota
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KEY_PATH = os.path.expanduser("~/.firms_map_key")
@@ -171,6 +171,14 @@ def _chunk(iso, cur, days):
             try:
                 frames.append(_http.read_csv(url))
                 break
+            except _http.OverLimit:
+                # Does NOT consume an attempt. The key is over its limit
+                # because too many requests arrived, so another request
+                # deepens the hole rather than escaping it. Measured on
+                # 2026-07-29: pinned at 5000/5000, two countries built in
+                # nine minutes, the log nothing but FAILED.
+                _quota.wait_for_quota(iso)
+                continue
             except Exception:
                 if a == 3:
                     # MUST raise, never return {}. Swallowing a failed

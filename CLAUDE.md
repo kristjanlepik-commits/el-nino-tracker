@@ -277,6 +277,33 @@ cannot be forgotten; a ticket can.
 - Rendering moved to design by D-030. Fire signs off on its rendered
   pages before publish, and does not build them.
 
+### Crops chat (CRO)
+
+- `crops/` science, fetch and emitted data: the ASAP indicator pulls,
+  the pair qualification method, the baselines, and the validated JSON
+  the pages are rendered from. Approved narrow by D-040; ownership
+  ratified by D-041.
+- `crops/pull_asap_indicator.py`, `crops/asap_countries.json`,
+  `crops/crop_calendars.json`, `crops/FEASIBILITY.md`.
+- `crops/.cache/` is gitignored (`crops/.gitignore`) and never
+  committed; the committed artifact is the compact derived series under
+  `crops/data/`.
+- Rendering is design's under D-030. Crops signs off on its rendered
+  pages before publish and does not build them.
+
+Two constraints for whoever wires the crops job, recorded here because
+both are easy to get wrong and neither is visible in the code:
+
+- **Staleness must be an absolute bound, never a consecutive-no-op
+  counter.** ASAP publishes every 10 days, so a legitimate no-op repeats
+  for nine days running and the silence looks healthy. Fire lost six
+  days to exactly that shape. The threshold is: no new dekad for more
+  than 20 days is an error, being two full publication cycles.
+- **Probe before downloading.**
+  `getIndicatorsInfo.php?dekad=YYYYMMDD&indicator_name=zFPARc` returns a
+  small JSON when the dekad is published and a literal `[]` when it is
+  not. One small GET decides whether a 30 MB download is worth starting.
+
 ### Aftereffects / impacts chat
 
 - `research/impact_database_2026-27.md`,
