@@ -22,11 +22,22 @@ The offset shifts with the tropical-mean SST trend (~+0.15 °C/decade) and
 small seasonal cycle, so the live value is more accurate than any fixed
 estimate over the brief's 6-9 month forecast horizon.
 
+The traditional file reaches back to September 1981, so the SAME-WEEK
+values for the analog years come from this same fetch: same file, same
+column, same 1991-2020 climatology as the current reading. That is what
+makes an "analog at the same week" comparison honest. Previously the
+brief compared the current week against fixed 22-April constants in
+sources.py while labelling the columns "same week", which was true only
+in late April.
+
 Expected payload:
   issued: ISO date of the latest week
   weekly_traditional: float (Niño 3.4 anomaly, traditional ONI sign, °C)
   weekly_relative:    float (Niño 3.4 anomaly, RONI sign, °C)
   roni_to_oni_offset: float (traditional minus relative for this week, °C)
+  analogs_same_week: dict[str(year) -> {"anom": float, "week": ISO date}]
+      for ANALOG_YEARS, each the record whose calendar position is
+      closest to the current week
 """
 
 import re
@@ -59,6 +70,48 @@ def _last_data_line(text: str) -> str:
     if not lines:
         raise ValueError("no data lines matched DDMMMYYYY pattern")
     return lines[-1]
+
+
+ANALOG_YEARS = (1997, 2015, 2023)
+
+
+def _analogs_same_week(text: str, issued_iso: str) -> dict:
+    """Niño 3.4 anomaly for each analog year at the week closest in the
+    calendar to `issued_iso`.
+
+    Weekly records are centred on dates that drift year to year, so the
+    match is by day-of-year distance rather than by exact date, and the
+    matched week is returned alongside the value so the brief can state
+    exactly which week it used instead of asserting they line up.
+    """
+    cur = datetime.fromisoformat(issued_iso).date()
+    out: dict = {}
+    for line in text.splitlines():
+        if not _DATE_RE.match(line):
+            continue
+        try:
+            d = datetime.fromisoformat(_parse_date(line)).date()
+        except ValueError:
+            continue
+        if d.year not in ANALOG_YEARS:
+            continue
+        nums = _FLOAT_RE.findall(line)
+        if len(nums) < 8:
+            continue
+        # Calendar distance, tolerant of the year boundary.
+        try:
+            same_cal = d.replace(year=cur.year)
+        except ValueError:      # 29 Feb in a non-leap current year
+            same_cal = d.replace(year=cur.year, day=28)
+        dist = abs((same_cal - cur).days)
+        dist = min(dist, 365 - dist)
+        prev = out.get(str(d.year))
+        if prev is None or dist < prev["_dist"]:
+            out[str(d.year)] = {"anom": float(nums[5]),
+                                "week": d.isoformat(), "_dist": dist}
+    for v in out.values():
+        v.pop("_dist", None)
+    return out
 
 
 def fetch() -> FetchResult:
@@ -111,6 +164,7 @@ def fetch() -> FetchResult:
                 "weekly_traditional": weekly_traditional,
                 "weekly_relative": weekly_relative,
                 "roni_to_oni_offset": offset,
+                "analogs_same_week": _analogs_same_week(r_trad.text, issued),
             },
         )
     except Exception as e:

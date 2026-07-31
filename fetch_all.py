@@ -191,6 +191,10 @@ def fetch_all() -> dict:
         if p.get("weekly_relative") is not None:
             phys["nino34_weekly_roni"] = p.get("weekly_relative")
         phys["issued"] = r.issued or phys["issued"]
+        # Same-week analog values from the same CPC weekly file, so the
+        # "1997 same week" column actually is the same week.
+        if p.get("analogs_same_week"):
+            phys["nino34_analogs_same_week"] = p["analogs_same_week"]
         phys["used_fallback"] = r.used_fallback
         phys["fallback_note"] = (None if not r.used_fallback else
                                  f"live fetch failed; using last-good cache "
