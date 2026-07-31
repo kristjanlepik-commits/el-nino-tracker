@@ -3,11 +3,15 @@
 Methodology for the economic damages section of The Long Swell.
 Written to be read cold, by someone deciding whether to cite us.
 
-Version 0.3, 2026-07-29. Draft. This page will change; changes are
+Version 0.4, 2026-07-29. Draft. This page will change; changes are
 dated and the reasoning is kept rather than overwritten.
 
 Changes so far:
 
+- **0.4** Two rules from the editor on mortality: say which kind of
+  death toll a figure is, since excess deaths are modelled estimates
+  rather than counted bodies, and name the basis on which a death was
+  priced. Plus the one carve-out to the never-sum rule.
 - **0.3** The category list grew from seven to nine. Building our first
   real event page produced a firefighting bill that none of the seven
   could hold, and it was the largest figure in that story. Added
@@ -96,12 +100,19 @@ the terms above. The mapping, set by the editor's standard:
 | Mortality | deaths and people harmed |
 | Monetised mortality | a value placed on those same deaths |
 
-Two of those pairings are deliberate. **"Asked for" against "actually
-given"** is a comparison a reader understands on sight, and the gap
-between the two is frequently a story in itself. And **"those same
-deaths"** is not a stylistic choice: monetised mortality prices a death
-toll that is usually published separately, so the two figures are one
-fact stated twice and must never read as two sources agreeing.
+Three of those wordings are carrying weight rather than decorating.
+
+**The tense on insured.** Early insured figures are projections, and
+calling them what insurers paid asserts a settlement that usually has
+not happened yet.
+
+**"Asked for" against "actually given".** A comparison a reader
+understands on sight, and the gap between the two is frequently a story
+in itself.
+
+**"Those same deaths".** Monetised mortality prices a death toll that is
+usually published separately, so the two figures are one fact stated
+twice and must never read as two sources agreeing.
 
 The nine fall into three groups, not two, and the third is the one that
 breaks a simple loss-versus-not-loss split:
@@ -114,12 +125,8 @@ breaks a simple loss-versus-not-loss split:
    value destroyed in the way group 1 means. They belong together and
    apart from both other groups.
 
-The tense on the first one is deliberate. Early insured figures are
-projections, and calling them what insurers paid asserts a settlement
-that usually has not happened yet.
-
-How they nest, stated carefully because the simple version is not quite
-true. **Insured loss always sits inside total economic loss.** It does
+How the first group nests, stated carefully because the simple version
+is not quite true. **Insured loss always sits inside total economic loss.** It does
 not sit neatly inside direct economic loss, because insured
 catastrophe figures generally include business interruption, and
 business interruption is not physical damage to an asset. So an insured
@@ -137,7 +144,33 @@ measuring it.
 2015 Indonesian fires are described as causing about 100,300 excess
 deaths (Koplitz et al., 2016) and USD 7.3 billion in health costs
 (Kiely et al., 2021), those are one fact stated twice, not two sources
-agreeing. Wherever both appear here, the link is shown.
+agreeing. Wherever both appear here, the link is shown. Presenting them
+unlinked would not merely double-count; it would manufacture the
+appearance of two independent sources agreeing, which is the worst
+error available in this section.
+
+**We say which kind of death toll it is.** Excess deaths are a modelled
+statistical estimate of how many more people died than otherwise would
+have. They are not counted bodies, and the two are not interchangeable
+at any reading level, because a reader who hears "100,300 deaths"
+pictures a morgue. So the honest form is "an estimated 100,300 more
+people died than would have otherwise", and every mortality figure here
+records whether it was counted, estimated as excess, or otherwise
+modelled.
+
+**A price placed on a death is somebody's choice, and we name whose.**
+Monetised mortality rests on a value-of-a-statistical-life figure that
+varies enormously by method and by country. That is why the phrase is
+"a value placed on those same deaths": placed, by a named author, using
+a stated method. Any figure of this kind here names the basis it used.
+
+There is one carve-out to the never-sum rule, and it exists because
+some sources legitimately do the summing themselves. **Monetised
+mortality may sit inside a total only where the source put it there and
+named the value it used.** Otherwise it is reported beside the total and
+never inside it, because it is usually the largest and most
+method-dependent number available and it would inflate a total
+silently.
 
 ## Insured and economic figures are not equally reliable
 

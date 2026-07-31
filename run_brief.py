@@ -3912,13 +3912,23 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     # --------- Section 2: Physical state panel ---------
     md.append("## 2. Physical state panel")
     md.append("")
-    md.append("| Indicator | Current (week of ~22 Apr 2026) | 1997 same week | "
+    # Header names the actual observation week rather than a hardcoded
+    # April date, and the analog columns are same-week values pulled from
+    # the same CPC weekly file (see the heat-content note: a column headed
+    # "same week" must actually be the same week).
+    _n34_live = phys.get("nino34_analogs_same_week") or {}
+    _cur_week = (phys.get("issued") or S.BRIEF_DATE.isoformat())
+    md.append(f"| Indicator | Current (week of {_cur_week}) | 1997 same week | "
               "2015 same week |")
     md.append("|---|---|---|---|")
+    if _n34_live.get("1997") and _n34_live.get("2015"):
+        _n97 = f"{_n34_live['1997']['anom']:+.1f}°C"
+        _n15 = f"{_n34_live['2015']['anom']:+.1f}°C"
+    else:
+        _n97 = f"{analog_same['1997_apr22_nino34_weekly']:+.1f}°C (Apr basis)"
+        _n15 = f"{analog_same['2015_apr22_nino34_weekly']:+.1f}°C (Apr basis)"
     md.append(f"| Niño 3.4 weekly (traditional) | "
-              f"{phys['nino34_weekly_traditional']:+.1f}°C | "
-              f"{analog_same['1997_apr22_nino34_weekly']:+.1f}°C | "
-              f"{analog_same['2015_apr22_nino34_weekly']:+.1f}°C |")
+              f"{phys['nino34_weekly_traditional']:+.1f}°C | {_n97} | {_n15} |")
     md.append(f"| Niño 3.4 weekly (RONI) | "
               f"{phys['nino34_weekly_roni']:+.1f}°C | n/a (pre-RONI) | "
               f"n/a (pre-RONI) |")

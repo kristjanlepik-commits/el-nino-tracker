@@ -55,6 +55,13 @@ ABSENCE_REASONS = {"below_threshold", "outside_coverage", "not_yet_valid",
 # inside it, so it only makes sense beside something documented.
 UNDOCUMENTED = {"accuweather"}
 
+# How a death toll was arrived at. Excess deaths are a modelled
+# statistical estimate, not counted bodies, and the two are not
+# interchangeable at any reading level: a reader hearing "100,300
+# deaths" pictures a body count. Editor's rule, 2026-07-29, and the
+# same preserve-the-kind principle as the insured tense.
+DEATH_TOLL_KINDS = {"counted", "excess_estimated", "modelled"}
+
 errors = []
 warnings = []
 
@@ -208,6 +215,26 @@ def check_figure(where, fig, estimators):
     if cat == "mortality_valued" and not fig.get("monetises"):
         err(f"{where}: mortality_valued requires a 'monetises' field naming the "
             f"death-toll source it prices, or it will read as independent corroboration")
+
+    # A monetised death toll rests on a value-of-a-statistical-life
+    # figure that varies enormously by method and by country. The price
+    # is somebody's choice and the payload has to name whose.
+    if cat == "mortality_valued" and not fig.get("vsl_note"):
+        err(f"{where}: mortality_valued requires a 'vsl_note' naming the "
+            f"value-of-statistical-life basis; the price is a choice, not a fact")
+
+    if cat == "mortality" and fig.get("death_toll_kind") not in DEATH_TOLL_KINDS:
+        err(f"{where}: mortality requires death_toll_kind in {sorted(DEATH_TOLL_KINDS)}; "
+            f"excess deaths are modelled estimates and must never render as counted bodies")
+
+    # Editor's carve-out to the never-sum rule: a source's own total may
+    # include monetised mortality, and we may quote it, but only when the
+    # source did the including and named its VSL. Otherwise the largest
+    # and most method-dependent number on the page silently inflates a
+    # total.
+    if fig.get("includes_mortality_valuation") and not fig.get("vsl_note"):
+        err(f"{where}: a total including monetised mortality must name the "
+            f"source's VSL basis, or it is a silent inflation")
 
 
 def check_latency(doc, estimators):
