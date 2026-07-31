@@ -100,12 +100,19 @@ the terms above. The mapping, set by the editor's standard:
 | Mortality | deaths and people harmed |
 | Monetised mortality | a value placed on those same deaths |
 
-Two of those pairings are deliberate. **"Asked for" against "actually
-given"** is a comparison a reader understands on sight, and the gap
-between the two is frequently a story in itself. And **"those same
-deaths"** is not a stylistic choice: monetised mortality prices a death
-toll that is usually published separately, so the two figures are one
-fact stated twice and must never read as two sources agreeing.
+Three of those wordings are carrying weight rather than decorating.
+
+**The tense on insured.** Early insured figures are projections, and
+calling them what insurers paid asserts a settlement that usually has
+not happened yet.
+
+**"Asked for" against "actually given".** A comparison a reader
+understands on sight, and the gap between the two is frequently a story
+in itself.
+
+**"Those same deaths".** Monetised mortality prices a death toll that is
+usually published separately, so the two figures are one fact stated
+twice and must never read as two sources agreeing.
 
 The nine fall into three groups, not two, and the third is the one that
 breaks a simple loss-versus-not-loss split:
@@ -118,12 +125,8 @@ breaks a simple loss-versus-not-loss split:
    value destroyed in the way group 1 means. They belong together and
    apart from both other groups.
 
-The tense on the first one is deliberate. Early insured figures are
-projections, and calling them what insurers paid asserts a settlement
-that usually has not happened yet.
-
-How they nest, stated carefully because the simple version is not quite
-true. **Insured loss always sits inside total economic loss.** It does
+How the first group nests, stated carefully because the simple version
+is not quite true. **Insured loss always sits inside total economic loss.** It does
 not sit neatly inside direct economic loss, because insured
 catastrophe figures generally include business interruption, and
 business interruption is not physical damage to an asset. So an insured
