@@ -8,7 +8,7 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-08-01T06:38:31Z",
+ "fetched": "2026-08-01T07:47:09Z",
  "year": 2026,
  "countries": {
   "AGO": {
@@ -310,6 +310,45 @@
    "vs_max": 0.83,
    "fires": 52
   },
+  "KAZ": {
+   "name": "Kazakhstan",
+   "source": "GWIS",
+   "week": 30,
+   "as_of": "2026-07-29",
+   "lag_days": 3,
+   "area_ha": 429520,
+   "avg_ha": 1512628.4,
+   "max_ha": 3687116,
+   "multiple": 0.28,
+   "vs_max": 0.12,
+   "fires": 1460
+  },
+  "LBY": {
+   "name": "Libya",
+   "source": "EFFIS",
+   "week": 30,
+   "as_of": "2026-07-29",
+   "lag_days": 3,
+   "area_ha": 0,
+   "avg_ha": 520.7,
+   "max_ha": 5924,
+   "multiple": 0.0,
+   "vs_max": 0.0,
+   "fires": 0
+  },
+  "MAR": {
+   "name": "Morocco",
+   "source": "EFFIS",
+   "week": 30,
+   "as_of": "2026-07-29",
+   "lag_days": 3,
+   "area_ha": 3559,
+   "avg_ha": 2352.4,
+   "max_ha": 28204,
+   "multiple": 1.51,
+   "vs_max": 0.13,
+   "fires": 19
+  },
   "MDG": {
    "name": "Madagascar",
    "source": "GWIS",
@@ -583,19 +622,6 @@
    "vs_max": 0.35,
    "fires": 10497
   },
-  "MAR": {
-   "name": "Morocco",
-   "source": "EFFIS",
-   "week": 30,
-   "as_of": "2026-07-29",
-   "lag_days": 3,
-   "area_ha": 3559,
-   "avg_ha": 2352.4,
-   "max_ha": 28204,
-   "multiple": 1.51,
-   "vs_max": 0.13,
-   "fires": 19
-  },
   "ZWE": {
    "name": "Zimbabwe",
    "source": "GWIS",
@@ -608,32 +634,6 @@
    "multiple": 0.65,
    "vs_max": 0.31,
    "fires": 705
-  },
-  "KAZ": {
-   "name": "Kazakhstan",
-   "source": "GWIS",
-   "week": 30,
-   "as_of": "2026-07-29",
-   "lag_days": 3,
-   "area_ha": 429520,
-   "avg_ha": 1512628.4,
-   "max_ha": 3687116,
-   "multiple": 0.28,
-   "vs_max": 0.12,
-   "fires": 1460
-  },
-  "LBY": {
-   "name": "Libya",
-   "source": "EFFIS",
-   "week": 30,
-   "as_of": "2026-07-29",
-   "lag_days": 3,
-   "area_ha": 0,
-   "avg_ha": 520.7,
-   "max_ha": 5924,
-   "multiple": 0.0,
-   "vs_max": 0.0,
-   "fires": 0
   }
  }
 }
