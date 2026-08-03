@@ -911,6 +911,55 @@ The editorial argument may still win. But it should be made knowing that
 the data ranks the Sahel and East Africa first and Anatolia nowhere, and
 I gave that advice before I had run the test.
 
+### 6n. The Europe number, and why the theoretical baseline misleads
+
+Product asked for observed versus expected at rank 1 for every region a
+piece would name, since that number decides what the Europe piece is.
+The theoretical and empirical answers disagree, and the empirical one is
+correct.
+
+**Theoretical.** 281 European growing regions with a complete same-dekad
+series, so 10.8 expected at rank 1 under a uniform 1/26. **Observed: 2.**
+Read naively, Europe is far better than chance.
+
+**Empirical, and this is the one to use.** Counting European
+record-worst units in every year of the record:
+
+| Year | Units at their worst | |
+|---|---|---|
+| 2003 | **103** | the European heatwave |
+| 2006 | 54 | |
+| 2001 | 38 | |
+| 2013 | 20 | |
+| 2014-2025 | mean 2.7, range 1 to 5 | |
+| **2026** | **2** | ordinary |
+
+The theoretical 10.8 is badly wrong because the record's rank-1 slots
+are hoarded by 2003, 2006 and 2001. Recent years almost never produce
+them, so a uniform assumption overstates the expectation by a factor of
+four. **2026's 2 is dead ordinary for a recent year**, which is the null,
+just not for the reason the arithmetic gave.
+
+**The comparison the instrument supplies for free:** in 2003, 103 of 281
+European growing regions were in their worst condition on record for
+this point in the season. This year, two. Both in western Ukraine,
+L'vivs'ka at z = -1.23 and Rivnens'ka at -1.10. That is a calibration
+anchor of the kind D-043 requires and almost nobody publishes.
+
+Country-level, all against expected = units / 26:
+
+| Country | Units | Expected | Observed | |
+|---|---|---|---|---|
+| Poland | 16 | 0.6 | 0 | chance |
+| Ukraine | 25 | 1.0 | 2 | p = 0.25 |
+| Turkiye | 79 | 3.0 | 4 | p = 0.36 |
+| Germany | 16 | 0.6 | 0 | chance |
+| Spain | 17 | 0.7 | 0 | chance |
+
+**Standing consequence: use the empirical baseline, never 1/26.** The
+uniform assumption fails wherever the series carries a trend, which is
+everywhere, and it fails in the direction that manufactures alarm.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
