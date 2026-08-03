@@ -524,6 +524,62 @@ genuinely resumable rather than merely restartable, a **duration**-based
 wake lock covering the whole window, and a `.running-jobs` line before
 it starts. Platform is told first, since CDS quota is per account.
 
+## 5c. D-068's open risk is CLOSED, and a constraint follows from it
+
+D-068 logged an open risk: if the observational products offered no
+usable night minima, the published drift would be in mean temperature
+while Heat leads with nights, so the page's two claims would differ in
+variable as well as instrument.
+
+**Closed favourably, 2026-08-03.** Berkeley Earth publishes land-only
+**TMAX and TMIN as separate gridded products**, 1 degree, **1833 to
+present**, NetCDF, about 140 MB each, monthly. These are monthly
+averages of daily extremes. Found independently by Heat and platform
+within an hour of each other.
+
+So the drift claim is computed on TMIN and both halves of the page are
+about daily minimum temperature. Platform's false-continuity problem
+does not disappear, since the instruments still differ, but it shrinks
+from "two different quantities that both read as degrees" to "one
+quantity measured two ways", and their labelling requirement gets
+cheaper rather than being dropped.
+
+### The constraint this creates, and it binds publication
+
+**The six-hour night-window construction in 1b-ii is TEST-ONLY and
+never publishes.**
+
+A minimum over six selected hours is necessarily warmer than a true
+daily minimum, because it is a minimum over a subset, and the gap
+widens on days when the low falls outside the window. That bias is
+harmless inside the test, where city and ring share the window and it
+cancels in the difference. It would **not** be harmless sitting beside
+a Berkeley monthly mean of true daily minima, because there is nothing
+for it to cancel against.
+
+Therefore every published ERA5 night-minima anomaly comes from the
+derived daily-statistics product at true daily minimum, which section
+5b shows is affordable at the one-to-two-year chunk size for a small
+number of reader-facing cities. The raw six-hour product serves the
+77-year differential test and nothing else.
+
+Stated to platform 2026-08-03 as a constraint on Heat rather than a
+preference, so it is not quietly relaxed later under deadline.
+
+### An open proposal, not yet accepted
+
+Berkeley publishes TMAX on the same terms. Since the page's spine is
+night minima against daytime maxima, pulling both would let the drift
+line carry the same tension: how far the night normal has moved against
+how far the day normal has moved, on a 190-year record. Measured,
+arithmetic rather than attribution, and not something published for a
+general audience as far as Heat is aware.
+
+**Deliberately not stating an expected direction here.** It has not
+been measured, and today produced two separate cases of a number being
+formatted before it was checked. Platform to say whether it changes
+their sizing.
+
 ## 6. The open question that now gates the drift claim
 
 Platform and product converged on the same point from opposite
