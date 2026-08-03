@@ -876,9 +876,36 @@ and 247, which is the greening trend making old years look bad, and it
 cuts in the direction of making 2026 *less* remarkable rather than more.
 Product's arithmetic survives its own assumption being wrong.
 
-The honest global sentence: **this dekad, as many regions sit at their
-worst on record as an ordinary year produces.** The individual claims
-survive; the count does not.
+**Corrected 2026-07-29 after the Europe result.** The sentence above
+originally read "as many regions as an ordinary year produces", which is
+too strong. The Europe analysis showed uniform 1/26 fails wherever a
+series trends, so the same recount was run globally with a recent-decade
+baseline:
+
+| | Global |
+|---|---|
+| Uniform expectation | 83.3 |
+| All other years | mean 83.4, median 63, range 25 to 247 |
+| **2014-2025 only** | **mean 60.1, range 25 to 110** |
+| **2026** | **81** |
+
+**Global hoarding is much weaker than Europe's**: a factor of 1.39
+against Europe's 4.0, because the big years differ by region rather than
+being one continental event. So the uniform figure was roughly right
+globally and badly wrong for Europe, which is the opposite of what a
+single correction factor would have given.
+
+The honest global sentence is therefore neither of the extremes:
+**2026's 81 is modestly above a recent-year norm of 60, exceeds 75% of
+the last twelve years, and sits well inside the range, short of 2015's
+110.** Not the null, not a strong signal. The individual claims survive;
+the count is mildly elevated and should not be described as either
+ordinary or alarming.
+
+**Operational consequence.** A European null must not be published in a
+way that implies the world is unremarkable, because globally it is
+mildly elevated and the one unambiguous cluster is the Sahel and East
+Africa.
 
 ### Correction 1: the Anatolia piece cannot rest on counting
 
