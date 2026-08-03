@@ -22,9 +22,20 @@ hoard: Europe's record lows sit in 2001, 2003 and 2006, so the uniform
 figure overstates what recent European years should produce by about
 four times. The global 81.6 has not been checked against an empirical
 expectation either, so it is labelled "if records fell evenly" rather
-than "chance produces" until the owning channel supplies one. So the list below is, in total, exactly what a normal
-week looks like, and a page that opened with eighty-one record lows and
-no reference would be alarming every week for arithmetic reasons.
+than "chance produces" until the owning channel supplies one.
+
+**The page must not call the total unremarkable, and an earlier version
+did.** CRO has since recounted globally against a recent-decade
+baseline: the global hoarding factor is 1.39, so the uniform figure is
+roughly right worldwide even though it was four times wrong for Europe.
+Against a 2014-2025 mean of 60.1 and a range of 25 to 110, this dekad's
+81 exceeds three quarters of the last twelve years. Neither the null nor
+a strong signal: mildly elevated.
+
+Those figures are not in the payload, only in the channel's analysis, so
+this page does not print them and does not assert whether 81 is
+ordinary. It shows the uniform figure, labels it as uniform, and stops.
+The empirical expectation wants to be a field.
 
 The baseline is what makes the rest of the page readable rather than
 what qualifies it. Once a reader knows 81 is the noise floor, they can
@@ -118,9 +129,12 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
          {"label": "Sub-national units", "units": N, "years": K,
           "observed": len(hits)}],
         note=("The expectation rises with the number of units, not with "
-              "the weather. Any map at this resolution will show dozens of "
-              "record lows every week, and almost all of them are the "
-              "arithmetic rather than the season."))
+              "the weather, so any map at this resolution shows dozens of "
+              "record lows every week. The figure marked is what an EVEN "
+              "spread of records would give. Records do not fall evenly, "
+              "and the owning channel holds the measured expectation, so "
+              "this page does not say whether 81 is a high count or an "
+              "ordinary one."))
 
     cluster_html = ""
     if clusters:
@@ -215,12 +229,14 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 {site_masthead(root_prefix, active="crop")}
 <main>
   <p class="eyebrow">Crops &middot; dekad {h(doc['dekad'])}</p>
-  <h1>{len(hits)} crop regions are at their worst on record. Chance
-  produces about {lam:.0f}.</h1>
+  <h1>{len(hits)} crop regions are at their worst on record for this
+  point in the season.</h1>
   <p class="stand">Every place below is measured only against itself, at
-  the same point in the season, in every year since 2001. The total is
-  ordinary. What is inside it is not evenly spread, and that is the part
-  worth reading.</p>
+  the same point in the season, in every year since 2001. Whether {len(hits)}
+  is a high count for a single dekad is a question about how records fall
+  rather than about this week, and it is answered further down. What is
+  inside the {len(hits)} is not evenly spread, and that is the part worth
+  reading now.</p>
 
   {baseline}
 

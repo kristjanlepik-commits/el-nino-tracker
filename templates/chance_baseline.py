@@ -1,4 +1,4 @@
-"""Record-breakers against the number chance produces.
+"""Record-breakers against the number an even spread would give.
 
 The load-bearing device for any page that counts record lows across many
 units, and the reason it has to exist is arithmetic rather than taste.
@@ -133,8 +133,15 @@ def scales_block(scales, note="") -> str:
                f'places at their worst on record, this dekad</text>')
     note_html = f'<p class="cb-note">{h(note)}</p>' if note else ""
     return (f'<svg class="cb" viewBox="0 0 {W} {H}" role="img" '
-            f'aria-label="Places at record lows against the number chance '
-            f'produces, at two levels of granularity">'
+            # The accessible name has to say what the visible label says.
+            # This asserted "chance produces" while the label on screen
+            # carefully said "if records fell evenly", so a screen reader
+            # user was given the claim the page had just been corrected
+            # to avoid. Same lesson as measuring contrast rather than
+            # font size: the property I checked was not the one carrying
+            # the meaning.
+            f'aria-label="Places at record lows against the number an even '
+            f'spread of records would give, at two levels of granularity">'
             + "".join(out) + f'</svg>{note_html}')
 
 

@@ -29,8 +29,8 @@ to the page and the page says which one.
 
 ## Why the country context is on a region page at all
 
-Because a single region at its worst on record is, by itself, exactly
-what chance produces eighty-one times a dekad. What makes Ennedi Est
+Because a single region at its worst on record is, by itself, one of
+eighty-one such regions this dekad. What makes Ennedi Est
 worth reading is that seven other Chad regions are also at their worst,
 which is a fact about Chad rather than about Ennedi Est. A region page
 without that context invites a reader to treat one dot as a finding.
