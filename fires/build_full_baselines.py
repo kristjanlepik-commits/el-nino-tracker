@@ -232,6 +232,8 @@ def main():
             except ValueError:
                 doc = {}
         todo = [y for y in YEARS if str(y) not in doc]
+        # '_complete' is a marker, not a year; never fetch it.
+        todo = [y for y in todo if not str(y).startswith('_')]
         if not todo:
             continue
         for y in todo:
@@ -246,6 +248,16 @@ def main():
                         f"{iso} {y}: only {len(got)} days, refusing to "
                         f"store a partial year")
                 doc[str(y)] = got
+                # Record the year as WHOLE. The daily job reads this same
+                # file as a per-day cache and cannot otherwise tell a
+                # fire-free day (absent, and correct) from an unfetched
+                # one (absent, and a silent undercount that inflates
+                # every multiple computed against it). Malawi 2016 holds
+                # 304 day entries in a 365-day year and all 61 gaps are
+                # real zeros, so the distinction has to be recorded
+                # rather than inferred from how full the year looks.
+                doc["_complete"] = sorted(
+                    set(doc.get("_complete", [])) | {str(y)})
                 json.dump(doc, open(path, "w"))
             except Exception as exc:
                 log(f"{iso} {y}: FAILED {exc}")

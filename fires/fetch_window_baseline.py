@@ -170,6 +170,133 @@ def fetch_one(iso, start: date, year: int) -> int:
     return total
 
 
+
+CACHE_DIR = os.path.join(REPO, "fires", "data", "full_history")
+COMPLETE_KEY = "_complete"
+
+
+def load_cache(iso):
+    path = os.path.join(CACHE_DIR, f"{iso}.json")
+    if not os.path.exists(path):
+        return {}
+    try:
+        return json.load(open(path))
+    except ValueError:
+        return {}
+
+
+def save_cache(iso, doc):
+    os.makedirs(CACHE_DIR, exist_ok=True)
+    with open(os.path.join(CACHE_DIR, f"{iso}.json"), "w") as fh:
+        json.dump(doc, fh)
+
+
+def window_dates(start, end, year):
+    """The same calendar days as [start, end], inside `year`.
+
+    Returns None for any day that does not exist in that year, which is
+    only 29 February. Callers drop that day from EVERY year rather than
+    from some, so the sum stays a like-for-like comparison instead of
+    silently running six days in leap years and seven elsewhere.
+    """
+    out = []
+    d = start
+    while d <= end:
+        try:
+            out.append(date(year, d.month, d.day))
+        except ValueError:
+            out.append(None)
+        d += timedelta(days=1)
+    return out
+
+
+def window_from_cache(iso, start, end):
+    """(hist, missing) for one country, read from the per-day cache.
+
+    hist maps year -> summed detections over the window. missing lists
+    (year, date) pairs that are genuinely unfetched, as distinct from
+    days that are absent because nothing burned.
+
+    That distinction is the whole reason `_complete` exists. Inside a
+    year the batch has finished, an absent date means zero: Malawi 2016
+    holds 304 day entries in a 365-day year and all 61 gaps are real.
+    Inside a year still being filled a day by day, an absent date means
+    unfetched, and summing it as zero would undercount the baseline and
+    inflate every multiple computed against it.
+    """
+    cache = load_cache(iso)
+    complete = set(cache.get(COMPLETE_KEY, []))
+    hist, missing = {}, []
+    # 29 February is dropped from every year when the window spans it,
+    # so all years sum the same number of calendar days.
+    skip = {i for y in YEARS
+            for i, d in enumerate(window_dates(start, end, y)) if d is None}
+    for y in YEARS:
+        days = cache.get(str(y), {})
+        total = 0
+        for i, d in enumerate(window_dates(start, end, y)):
+            if d is None or i in skip:
+                continue
+            key = d.isoformat()
+            if key in days:
+                total += days[key]
+            elif str(y) in complete:
+                total += 0
+            else:
+                missing.append((y, d))
+        hist[str(y)] = total
+    return hist, missing
+
+
+def fetch_day(iso, day):
+    """One calendar day for one country. Bills len(BOX) days."""
+    BUCKET.take(1 * len(BOX[iso]))
+    frames = []
+    for w, s, e, n in BOX[iso]:
+        url = (f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/"
+               f"{KEY}/VIIRS_SNPP_SP/{w},{s},{e},{n}/1/{day.isoformat()}")
+        for a in (1, 2, 3):
+            try:
+                frames.append(_http.read_csv(url))
+                break
+            except _http.OverLimit:
+                _quota.wait_for_quota(iso)
+                continue
+            except Exception:
+                if a == 3:
+                    raise RuntimeError(f"{iso} {day} failed 3 tries")
+                time.sleep(6 * a)
+    df = pd.concat(frames, ignore_index=True) if len(frames) > 1 \
+        else frames[0]
+    if len(df) and "confidence" in df.columns:
+        df = df[~df["confidence"].astype(str).str.lower().isin(["l", "low"])]
+    if not len(df):
+        return 0
+    pts = np.column_stack([df["longitude"].values, df["latitude"].values])
+    hit = np.zeros(len(pts), bool)
+    for r in RINGS[iso]:
+        hit |= ray(r, pts[:, 0], pts[:, 1])
+    return int(hit.sum())
+
+
+def fill_missing(iso, missing):
+    """Fetch each absent day and write it back, zeros included.
+
+    Zeros are stored EXPLICITLY. In a year the batch has not completed,
+    presence of the key is the only evidence a day was ever fetched, so
+    a genuine zero has to be recorded rather than left absent.
+    """
+    if not missing:
+        return 0
+    doc = load_cache(iso)
+    got = 0
+    for y, d in missing:
+        doc.setdefault(str(y), {})[d.isoformat()] = fetch_day(iso, d)
+        got += 1
+    save_cache(iso, doc)
+    return got
+
+
 def main() -> None:
     today = date.today()
     start, end = trailing_window(today)
@@ -211,28 +338,33 @@ def main() -> None:
               flush=True)
 
     out, failed = dict(out_seed), []
+    fetched = 0
     for i, iso in enumerate(isos, 1):
         try:
-            with cf.ThreadPoolExecutor(max_workers=WORKERS) as ex:
-                futs = {y: ex.submit(fetch_one, iso, start, y)
-                        for y in YEARS}
-                hist = {str(y): f.result() for y, f in futs.items()}
+            hist, missing = window_from_cache(iso, start, end)
+            if missing:
+                fetched += fill_missing(iso, missing)
+                hist, still = window_from_cache(iso, start, end)
+                if still:
+                    # REFUSE rather than sum what we have. A missing day
+                    # summed as zero undercounts the baseline, which
+                    # inflates the multiple, and an inflated fire anomaly
+                    # is the worst number this project could publish.
+                    raise RuntimeError(
+                        f"{len(still)} day(s) still missing after fetch, "
+                        f"first {still[0][1]}")
         except Exception as exc:
-            # Carry the previous window's year forward? No. A baseline
-            # mixing two windows is silently wrong in a way no reader
-            # could detect, which is exactly the class of defect this
-            # file exists to end. Drop the country instead.
             failed.append(iso)
             print(f"  [{i}/{len(isos)}] {iso}: FAILED {exc}", flush=True)
             continue
         mean = sum(hist.values()) / len(hist)
-        # A country new to the roster has no previous entry, so fall
-        # back to the geometry rather than indexing prev and failing.
         pv = prev["countries"].get(iso, {})
         out[iso] = {"name": NAMES.get(iso, pv.get("name", iso)),
                     "box": pv.get("box") or BOX[iso][0],
                     "hist": hist, "mean": round(mean, 1)}
         print(f"  [{i}/{len(isos)}] {iso}: mean {mean:,.0f}", flush=True)
+    print(f"  fetched {fetched} day-records; the rest came from cache",
+          flush=True)
 
     # One retry pass before writing. A failure here costs the country a
     # whole window, and most failures are transient: a Malawi request
