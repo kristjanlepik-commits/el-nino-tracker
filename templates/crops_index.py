@@ -163,12 +163,25 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # uniform baseline and independent draws, and CRO's empirical rerun
     # overturned most of the cluster I had found with it. Chad survived
     # and strengthened; Rwanda, Eritrea, Mali and Burundi did not.
+    # Filter on the channel's boolean, never order on it. CRO's warning,
+    # and it is right: clears_own_recent_max is a hard boolean over a
+    # small sample, so Turkiye clearing at 4 against a recent max of 2
+    # and China clearing at 1 against a recent max of 0 both read True
+    # and are not comparable events. The field cannot say so.
+    #
+    # A materiality floor on top of the filter, stated here rather than
+    # assumed: the excess over a country's own recent maximum has to be
+    # at least 2, and the count itself at least 3. Without it a 1
+    # against 0 is eligible to become the page's headline cluster, which
+    # would be the rank-is-not-a-magnitude error in a third costume.
     clusters = []
     for pl in places:
         cb = pl.get("chance_baseline") or {}
-        if cb.get("clears_own_recent_max") and cb.get("this_year"):
-            clusters.append((pl["place"], cb))
-    clusters.sort(key=lambda t: -(t[1].get("this_year") or 0))
+        this, rmax = cb.get("this_year") or 0, cb.get("recent_max") or 0
+        if cb.get("clears_own_recent_max") and this >= 3 and this - rmax >= 2:
+            clusters.append((pl["place"], cb, this - rmax))
+    clusters.sort(key=lambda t: (-t[2], -(t[1].get("this_year") or 0)))
+    clusters = [(c, cb) for c, cb, _ in clusters]
 
     ctry_hits = sum(1 for p in places
                     if (p.get("magnitude") or {}).get("value") == 1)
