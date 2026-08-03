@@ -75,6 +75,18 @@ DIRECTIVE_LANGUAGE = re.compile(
     re.IGNORECASE)
 
 
+# Internal references that mean nothing to a reader. A decision number
+# or thesis number in reader copy is a leak even though it is not an
+# instruction, so neither the underscore rule nor the directive pattern
+# catches it. Found on 2026-07-29 in design's built latency map, which
+# printed "T4's worked example of the fast-reaction thesis" and a note
+# about an earlier version of the entry being wrong. Both came from an
+# unprefixed ECON field.
+INTERNAL_REFS = re.compile(
+    r"(\bD-\d{3}\b|\bT\d{1,2}\b|\bthe [a-z-]+ thesis\b|"
+    r"\ban earlier version\b|\bwas corrected on\b|\bTLS\b)")
+
+
 def check_reader_fields(name, doc):
     """Reader-facing fields must not contain instructions to the renderer.
 
@@ -97,6 +109,11 @@ def check_reader_fields(name, doc):
                 err(f"{name}{path}: reader-facing field contains a renderer "
                     f"directive ({hit.group(0)!r}). Split it: reader copy stays, "
                     f"the instruction moves to an underscore-prefixed key")
+            ref = INTERNAL_REFS.search(node)
+            if ref:
+                err(f"{name}{path}: reader-facing field contains an internal "
+                    f"reference ({ref.group(0)!r}) that means nothing to a "
+                    f"reader. Move it to an underscore-prefixed key")
     walk(doc)
 
 errors = []
@@ -187,7 +204,7 @@ def check_estimators(doc):
         where = f"estimators.{eid}"
 
         for field in ("full_name", "organisation_type", "citation_string",
-                      "licence_note", "categories_published", "revision_cadence"):
+                      "categories_published", "revision_cadence"):
             if not e.get(field):
                 err(f"{where}: missing {field}")
 
@@ -208,6 +225,9 @@ def check_estimators(doc):
             err(f"{where}: provenance.fallback flag is required")
         if prov.get("_verification_note"):
             warn(f"{where}: carries a verification note, not publishable as-is")
+
+        if not (e.get("licence_note") or e.get("_licence_note")):
+            err(f"{where}: missing licence_note")
 
         if eid in UNDOCUMENTED and not e.get("caution"):
             err(f"{where}: undocumented estimator must carry a caution field")
@@ -419,9 +439,9 @@ def check_event(name, doc, estimators):
 
     hc = doc.get("headline_candidate")
     if hc:
-        if hc.get("evidence_basis") == "combined" and not hc.get("guardrail"):
+        if hc.get("evidence_basis") == "combined" and not hc.get("_guardrail"):
             err(f"{where}: combined headline candidate needs a guardrail")
-        if hc.get("status", "").startswith("candidate"):
+        if hc.get("_status", "").startswith("candidate"):
             warn(f"{where}: headline_candidate is not approved copy")
 
 
