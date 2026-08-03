@@ -115,6 +115,38 @@ rather than resolved by preference.
 **Season.** Annual and JJA both computed and both reported, fixed in
 advance so neither can be chosen after the fact.
 
+### 1b-ii. Amendment, 2026-08-03, before any test data existed
+
+One amendment, recorded with its reason and date because the freeze is
+worth nothing if changes are not visible.
+
+**The test uses the minimum over a six-hour night window, not the true
+daily minimum.** Forced by cost: section 5b shows the derived product,
+which serves true daily minima, caps at one to two years per request
+and cannot carry a 77-year record. The raw product can, at six hours
+per day.
+
+**Why this cannot steer the result.** The statistic is a difference
+between a city cell and a ring within 1.5 degrees of it, so city and
+ring sit inside six minutes of solar time of each other and share the
+window exactly. Any bias the window introduces applies to both and
+cancels. The amendment was also made before any test data existed, for
+a cost reason independent of the answer.
+
+**Product's published Madrid series is unaffected** and still comes
+from the derived product at true daily minimum, because that one is
+reader-facing and cheap enough at one city.
+
+**An error this caught in the probe, worth recording because it would
+have been silent.** The probe sampled 00:00-05:00 UTC, which is a
+reasonable night window for Europe and is 17:00-23:00 local in Phoenix,
+which is evening. A single UTC window cannot serve boxes 37 degrees of
+longitude apart. The windows are therefore per region: **02:00-07:00
+UTC for Europe, 09:00-14:00 UTC for the US**, each covering roughly
+03:00-08:00 local across the box and both seasons. Had this gone
+unnoticed, every US "night minimum" in the test would have been an
+evening temperature, and nothing downstream would have flagged it.
+
 ### 1c. The check that runs first, and why it is the important one
 
 **Before the trend test: does ERA5 resolve a static urban heat island
