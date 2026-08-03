@@ -72,12 +72,48 @@ compares groups.
   against flat or shrinking, matched within climate region so that
   regional warming differences do not confound the comparison.
 
-Candidate set, to be frozen before the pull and recorded here when it
-is. Growth: Phoenix, Dallas-Fort Worth, Houston, Madrid, Munich.
-Flat or shrinking: Buffalo, Cleveland, Detroit, Leipzig, Liverpool,
-Naples. This set is chosen for growth contrast and is disposable. It is
-**not** the channel's city set, which is product's and answers a
-different question. Product has agreed the separation explicitly.
+### 1b-i. Specification freeze, 2026-08-03, before any data is pulled
+
+D-067 fixed the threshold. It did **not** fix everything a result
+depends on, and the remaining choices are the garden of forking paths:
+ring definition, city list and estimator can each be nudged after
+seeing data in ways a fixed threshold does not catch. Frozen here.
+
+**Cities.** Growth: Phoenix, Dallas-Fort Worth, Houston, Madrid,
+Munich. Flat or shrinking: Buffalo, Cleveland, Detroit, Leipzig,
+Liverpool, Naples. Chosen for growth contrast, disposable, and **not**
+the channel's reader-facing set, which is product's and answers a
+different question.
+
+**Correction to 1b as first written.** That draft required matching
+within climate region so regional warming would not confound the
+comparison. It is not needed, and the reason is the design's own
+strength: the ring sits immediately around the city, so regional
+warming cancels inside each city's own difference before any group
+comparison happens. The groups need to differ in population
+trajectory and nothing else. Cross-region pairing was belt-and-braces
+described as load-bearing.
+
+**Ring.** All cells whose centres fall in the annulus 0.75 to 1.5
+degrees from the city cell centre, excluding cells more than 50 percent
+water on ERA5's land-sea mask. Simple mean, unweighted.
+
+**A limitation with a known direction, recorded because it changes how
+a clean result should be read.** The ring is not screened for suburban
+growth. If ring cells have themselves urbanised, city-minus-ring
+**understates** urban contamination. So the bias runs toward finding
+the channel clean: a contaminated verdict is stronger than it looks,
+and a clean verdict is weaker than it looks. This compounds with gate
+0 rather than offsetting it, and both point the same way.
+
+**Estimator.** Ordinary least squares on the annual series of the
+city-minus-ring difference in daily night minima, 1950 to 2026, in
+degrees C per decade. Theil-Sen computed as a pre-registered
+robustness check; a sign disagreement between the two is investigated
+rather than resolved by preference.
+
+**Season.** Annual and JJA both computed and both reported, fixed in
+advance so neither can be chosen after the fact.
 
 ### 1c. The check that runs first, and why it is the important one
 
