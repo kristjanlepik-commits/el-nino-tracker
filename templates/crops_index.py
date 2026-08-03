@@ -70,6 +70,12 @@ TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked",
 TAG_SLUG = {"enso": "loaded", "non_enso": "notlink", "pending": "pending"}
 
 
+def _join_and(names) -> str:
+    if len(names) == 1:
+        return names[0]
+    return ", ".join(names[:-1]) + " and " + names[-1]
+
+
 def _row(e) -> str:
     # Two grades of sentence. "Dry" names a driver and is only available
     # where the channel identified one; everywhere else the sentence
@@ -219,14 +225,53 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
               "this page does not say whether 81 is a high count or an "
               "ordinary one."))
 
+    # The two blocks answer DIFFERENT QUESTIONS: depth (how bad is the
+    # worst place) and breadth (how much of a country is affected).
+    # Neither is a weaker form of the other, so neither may be labelled
+    # as though it outranked the other.
+    #
+    # CRO's evidence, and it is decisive. Five of the eight deepest
+    # countries are not broad at all: Suriname at z -3.79, Libya -3.75,
+    # Ecuador -2.50, Congo -2.26, Colombia -1.82, each one catastrophic
+    # region inside an otherwise ordinary country. Three of the six broad
+    # countries are nowhere near the top on depth. If this page reads as
+    # "most extreme" then "also extreme", it is simply wrong, because
+    # Suriname's Brokopondo is the single most extreme cropland reading
+    # on Earth this dekad and it sits in the second block.
+    #
+    # Breadth does imply some depth, which is why the broad set falls
+    # inside the deep set at a z <= -1.0 cut. That is arithmetic, not
+    # redundancy: three regions simultaneously at their record worst
+    # makes it likely one of them is extreme. Depth implies nothing
+    # about breadth, which is why Suriname and Libya exist.
+    # State the asymmetry with the page's own numbers rather than
+    # asserting it. Counting the countries that appear in BOTH blocks
+    # would be the wrong statistic here: five of the six broad countries
+    # also hold a deep region, so that figure reads as "the two blocks
+    # mostly agree" and invites the reader to ask why there are two.
+    # The direction that carries the meaning is the other one, because
+    # depth does not imply breadth.
+    deep = hits[:top_n]
+    broad_names = {c for c, _, _ in clusters}
+    deep_only = sum(1 for e in deep if e["country"] not in broad_names)
+    pair_intro = f"""
+      <p class="pairlab">Two questions, not a ranking</p>
+      <p class="pairsub">Below, how much of a country is affected. Under
+        it, how bad the worst single regions are. A country can lead
+        either without appearing in the other, and the order of the two
+        sections carries no claim about which matters more: of the
+        {len(deep)} deepest regions listed here, {deep_only} sit in
+        countries that are not widely affected at all.</p>"""
+
     cluster_html = ""
     if clusters:
         c, cb, cu = clusters[0]
-        cluster_html = f"""
-      <p class="seclab">What this country&rsquo;s own history does not explain</p>
-      <p class="secsub">Measured against its own record-low count in every
-        previous year rather than against an assumed rate, which needs no
-        claim that neighbouring regions fail independently.</p>
+        cluster_html = pair_intro + f"""
+      <p class="seclab">Countries where it is widespread</p>
+      <p class="secsub">Measured against each country&rsquo;s own record-low
+        count in every previous year rather than against an assumed rate,
+        which needs no claim that neighbouring regions fail
+        independently.</p>
       <div class="cluster">
         <p class="cbig">{cb['this_year']} of {cu} regions</p>
         <p class="cbody">in {h(c)} are at their worst on record this dekad.
@@ -290,6 +335,16 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 .tag-notlink {{ background:var(--tag-notlink-bg); color:var(--tag-notlink-fg); }}
 .tag-pending {{ background:var(--tag-pending-bg); color:var(--tag-pending-fg); }}
 
+/* The pair framing sits above both blocks and belongs to neither, so it
+   is ink and unhued. Giving it the channel colour would make it read as
+   the first block's heading, which is the ordering claim it exists to
+   deny. */
+.pairlab {{ margin:34px 0 0; font-size:11px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink);
+  font-family:"{T.FONT_DATA}",monospace; }}
+.pairsub {{ margin:8px 0 0; font-size:14px; color:var(--ink-soft);
+  max-width:64ch; }}
+
 .cluster {{ margin-top:12px; padding-left:18px;
   border-left:3px solid var(--crop); }}
 .tj {{ width:100%; height:auto; display:block; margin:14px 0 4px; }}
@@ -343,12 +398,13 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 
   {cluster_html}
 
-  <p class="seclab">Worst first, by how far below their own record</p>
+  <p class="seclab">The worst single regions</p>
   <p class="secsub">Ordered by size of the shortfall rather than by rank,
     because every place here ranks first and they are not equally bad:
     the top of this list is {abs(hits[0]['z'] / hits[-1]['z']):.0f} times
     the bottom of it. Showing the {min(top_n, len(hits))} largest of
-    {len(hits)}.</p>
+    {len(hits)}. A country reaches this list on one region alone, and
+    can do so while reading as entirely ordinary nationally.</p>
   {''.join(_row(e) for e in hits[:top_n])}
   <p class="note">The remaining {max(0, len(hits) - top_n)} are shallower
     and shade into the noise floor. A place at the bottom of this list is

@@ -207,6 +207,16 @@ h1 { font-size:31px; font-weight:500; line-height:1.18;
 .tag-notlink { background:var(--tag-notlink-bg); color:var(--tag-notlink-fg); }
 .tag-pending { background:var(--tag-pending-bg); color:var(--tag-pending-fg); }
 
+/* The pair framing sits above both blocks and belongs to neither, so it
+   is ink and unhued. Giving it the channel colour would make it read as
+   the first block's heading, which is the ordering claim it exists to
+   deny. */
+.pairlab { margin:34px 0 0; font-size:11px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink);
+  font-family:"IBM Plex Mono",monospace; }
+.pairsub { margin:8px 0 0; font-size:14px; color:var(--ink-soft);
+  max-width:64ch; }
+
 .cluster { margin-top:12px; padding-left:18px;
   border-left:3px solid var(--crop); }
 .tj { width:100%; height:auto; display:block; margin:14px 0 4px; }
@@ -265,10 +275,18 @@ plausible.init()
   <svg class="cb" viewBox="0 0 680 200" role="img" aria-label="Places at record lows against the number an even spread of records would give, at two levels of granularity"><text class="cb-lab" x="0" y="48.0">Whole countries</text><text class="cb-sub" x="0" y="64.0">123 units, 26-year record</text><rect x="211.5" y="42.0" width="33.3" height="28" fill="var(--paper-sunk)"/><line x1="228.1" y1="40.0" x2="228.1" y2="72.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="228.1" y="35.0" text-anchor="middle">if records fell evenly 5</text><circle cx="213.8" cy="56.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="213.8" y="83.0" text-anchor="middle" fill="var(--ink)">1 observed</text><text class="cb-lab" x="0" y="122.0">Sub-national units</text><text class="cb-sub" x="0" y="138.0">2,122 units, 26-year record</text><rect x="453.1" y="116.0" width="138.2" height="28" fill="var(--paper-sunk)"/><line x1="522.2" y1="114.0" x2="522.2" y2="146.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="522.2" y="109.0" text-anchor="middle">if records fell evenly 82</text><circle cx="519.9" cy="130.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="519.9" y="157.0" text-anchor="middle" fill="var(--ink)">81 observed</text><text class="cb-ax" x="210" y="194">places at their worst on record, this dekad</text></svg><p class="cb-note">The expectation rises with the number of units, not with the weather, so any map at this resolution shows dozens of record lows every week. The figure marked is what an EVEN spread of records would give. Records do not fall evenly, and the owning channel holds the measured expectation, so this page does not say whether 81 is a high count or an ordinary one.</p>
 
   
-      <p class="seclab">What this country&rsquo;s own history does not explain</p>
-      <p class="secsub">Measured against its own record-low count in every
-        previous year rather than against an assumed rate, which needs no
-        claim that neighbouring regions fail independently.</p>
+      <p class="pairlab">Two questions, not a ranking</p>
+      <p class="pairsub">Below, how much of a country is affected. Under
+        it, how bad the worst single regions are. A country can lead
+        either without appearing in the other, and the order of the two
+        sections carries no claim about which matters more: of the
+        20 deepest regions listed here, 14 sit in
+        countries that are not widely affected at all.</p>
+      <p class="seclab">Countries where it is widespread</p>
+      <p class="secsub">Measured against each country&rsquo;s own record-low
+        count in every previous year rather than against an assumed rate,
+        which needs no claim that neighbouring regions fail
+        independently.</p>
       <div class="cluster">
         <p class="cbig">8 of 22 regions</p>
         <p class="cbody">in Chad are at their worst on record this dekad.
@@ -283,12 +301,13 @@ plausible.init()
         than shown to a reader.</p>
       </div>
 
-  <p class="seclab">Worst first, by how far below their own record</p>
+  <p class="seclab">The worst single regions</p>
   <p class="secsub">Ordered by size of the shortfall rather than by rank,
     because every place here ranks first and they are not equally bad:
     the top of this list is 6 times
     the bottom of it. Showing the 20 largest of
-    81.</p>
+    81. A country reaches this list on one region alone, and
+    can do so while reading as entirely ordinary nationally.</p>
   
       <div class="crow">
         <span class="cz">-3.79</span>
