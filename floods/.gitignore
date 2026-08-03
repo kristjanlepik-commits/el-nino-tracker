@@ -1,3 +1,13 @@
-# Raw subset grids are a refetch-avoidance cache, not evidence.
-# The JSONL summaries are the artifact and are committed.
-*_grids.npz
+# No .npz in this directory is ever committed.
+#
+# Deliberately broad. The previous pattern was "*_grids.npz", which was
+# correct for the regional grids in front of me at the time and did not
+# generalise: imerg_global_week_07-21_07-27.npz slipped through at 21 MB,
+# twenty times the entire packed repository, and a weekly file at that
+# size would have put roughly 1.1 GB a year into history permanently.
+#
+# The rule instead of a pattern: raw grids are a refetch-avoidance cache
+# and live outside the repo. What gets committed is the DERIVED artifact
+# that a published claim rests on, plus the script that regenerates the
+# grid from a documented fetch.
+*.npz
