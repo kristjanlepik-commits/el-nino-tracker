@@ -364,6 +364,54 @@ def check_latency(doc, estimators):
             warn(f"{where}: verification_status={status}, not publishable yet")
 
 
+def check_derived(where, d, layers):
+    """A TLS-computed central figure, permitted by D-070.
+
+    Every rule here is one of D-070's safeguards. The last one is the
+    strictest and is ECON's own: our number may not rest on an input we
+    have not verified, because a tls_built figure standing on an
+    unchecked source is the worst combination available.
+    """
+    if d.get("status") == "blocked":
+        warn(f"{where}: derived figure blocked, {d.get('_blocked_reason', 'no reason given')}")
+        return
+    if d.get("status") != "published":
+        err(f"{where}: derived figure needs status blocked or published")
+        return
+
+    if d.get("authorship") != "tls_built":
+        err(f"{where}: a derived figure must carry authorship tls_built (D-021)")
+    if d.get("evidence_basis") != "combined":
+        err(f"{where}: a derived figure is Combined under D-033")
+    if not d.get("method"):
+        err(f"{where}: a derived figure must state its method at the point of use")
+    if not (d.get("range_low") is not None and d.get("range_high") is not None):
+        err(f"{where}: a derived figure is never shown without its range (D-070)")
+
+    inputs = d.get("inputs") or []
+    if len(inputs) < 1:
+        err(f"{where}: a derived figure must name its inputs")
+    for i, inp in enumerate(inputs):
+        if not inp.get("verified"):
+            err(f"{where}.inputs[{i}]: input {inp.get('label')!r} is not verified; "
+                f"a TLS-computed figure may not rest on an unverified source")
+        if not inp.get("estimator_note") and not inp.get("estimator_id"):
+            err(f"{where}.inputs[{i}]: input must name its estimator")
+
+    # D-070's same-basis test: the constraint that makes the whole thing
+    # defensible. Averaging or scaling across categories reproduces the
+    # Indonesia error with a decimal point.
+    cats = {inp.get("category") for inp in inputs if inp.get("category")}
+    if len(cats) > 1:
+        err(f"{where}: inputs span categories {sorted(cats)}; a derived figure may "
+            f"only combine inputs in the same category on the same basis (D-070)")
+
+    # Never the only number on the page.
+    money = [l for l in layers if l.get("kind") in {"money", "analog", "reference"}]
+    if len(money) < 2:
+        err(f"{where}: a derived figure is never the only number on a page")
+
+
 def check_event(name, doc, estimators):
     """Per-event payloads. The Spain case is the first."""
     where = f"events/{name}"
@@ -436,6 +484,10 @@ def check_event(name, doc, estimators):
             err(f"{where}: mixes loss and non-loss categories "
                 f"({sorted(set(loss_seen))} with {sorted(set(non_loss_seen))}) "
                 f"without a _no_total declaration")
+
+    d = doc.get("derived_figure")
+    if d:
+        check_derived(f"{where}.derived_figure", d, doc.get("layers", []))
 
     hc = doc.get("headline_candidate")
     if hc:
