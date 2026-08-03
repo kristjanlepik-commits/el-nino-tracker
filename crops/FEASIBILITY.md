@@ -987,6 +987,43 @@ Country-level, all against expected = units / 26:
 uniform assumption fails wherever the series carries a trend, which is
 everywhere, and it fails in the direction that manufactures alarm.
 
+### 6o. The Sahel cluster mostly does not survive its own rule
+
+Product asked, correctly, that the Sahel sentence use an empirical
+baseline rather than the uniform one, since it would be poor to state
+the rule in one paragraph and use units/26 in the next. Run for every
+country in the cluster:
+
+| Country | Units | Uniform | Recent mean | Recent range | 2026 | |
+|---|---|---|---|---|---|---|
+| **Chad** | 21 | 0.8 | **2.5** | 2 to 3 | **8** | survives |
+| Sudan | 14 | 0.5 | 1.5 | 1 to 2 | 3 | marginal |
+| Rwanda | 28 | 1.1 | **6.7** | 3 to 12 | 5 | **fails** |
+| Eritrea | 5 | 0.2 | 2.0 | 2 to 2 | 2 | **fails** |
+| Mali | 9 | 0.3 | 1.0 | 1 to 1 | 1 | **fails** |
+| Burundi | 17 | 0.7 | 3.0 | 1 to 6 | 2 | **fails** |
+
+**Only Chad clearly survives.** Rwanda's 5 is below its own 2017 (12)
+and equal to its 2014. Eritrea's 2 matches 2015. Mali's 1 is its recent
+norm exactly. My earlier claim that the Sahel and East Africa is "the
+only cluster unambiguously beyond chance" rested on the uniform binomial
+and does not survive the rule I had just argued for.
+
+**The hoarding runs the opposite way here, and that is the real find.**
+Every country in this group has a recent mean *above* its uniform
+expectation, factors of 0.1 to 0.4, where Europe's was 4.0. Europe hoards
+its record-lows in 2003 and 2001; the Sahel hoards them in recent years.
+That is a browning signal rather than a greening one.
+
+**Chad specifically:** 2014 gave 2, 2015 gave 3, then eight consecutive
+years of zero, then 2024 gave 2, 2025 gave 3 and 2026 gives 8. Three
+consecutive rising years after a decade of none is a stronger and more
+interesting statement than any single-year count, and it is the form the
+sentence should take.
+
+**Corrected Sahel sentence:** Chad alone, with its own trajectory, not a
+regional cluster claim.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
