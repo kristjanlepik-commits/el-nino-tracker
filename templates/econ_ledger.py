@@ -113,21 +113,17 @@ def _row(row) -> str:
     # with the number or the number is wrong.
     bits = []
     if row.get("scope"):
-        # The scope field currently does two jobs: it states the scope
-        # for a reader AND instructs the renderer. "SPAIN AND FRANCE
-        # COMBINED, not Spain alone. Must never render as a Spain
-        # figure." The first sentence is for the page and the second is
-        # for me, and printing an instruction to the renderer at a
-        # reader is its own small failure. Flagged to ECON; until the
-        # field splits, the directive clause is dropped and the scope
-        # kept, because dropping the whole field would lose the thing
-        # the directive exists to protect.
-        scope = row["scope"]
-        for cut in ("Must never", "must never"):
-            if cut in scope:
-                scope = scope.split(cut)[0].strip().rstrip(".") + "."
-                break
-        bits.append(f'<span class="scope">{h(scope)}</span>')
+        # Rendered whole. It used to be parsed: the field carried reader
+        # copy and a directive to the renderer in one string, so this
+        # split on "Must never" and kept the first half, which meant a
+        # renderer guessing which part of a field was publishable. ECON
+        # has split the field, so the directive now lives in a reserved
+        # `_scope_render` key that no renderer prints and the guard
+        # enforces. The prose-parsing is gone rather than left as a
+        # belt-and-braces, because a workaround kept after its cause is
+        # fixed is a second thing to maintain and a place for the two to
+        # disagree.
+        bits.append(f'<span class="scope">{h(row["scope"])}</span>')
     for k in ("method_note", "corroboration_note"):
         if row.get(k):
             bits.append(f'<span class="rnote">{h(row[k])}</span>')
