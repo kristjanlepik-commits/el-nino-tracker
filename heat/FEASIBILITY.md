@@ -360,6 +360,55 @@ has no urban core to compare against, and it tests representativeness.
   record, consistent with the spine, with the unit carried as a field
   per D-051.
 
+### From platform, second round: the night-minima gap, reframed
+
+Platform corrected my statement of the open risk in D-068 and their
+version is better, so it is recorded here rather than mine.
+
+**The variable gap is narrower than the architecture already
+tolerates.** D-045's own worked example was a fire page showing
+regional temperature drift beside a detection anomaly: hectares and
+degrees, not the same physical quantity. Drift was never meant to be
+the channel's metric on a longer baseline. It is a reference layer
+sitting beside the channel's number, answering how far the background
+has moved. By that standard, mean temperature beside night minima is a
+smaller gap than the design already accepts.
+
+**The real risk is false continuity, not difference.** Both numbers
+are degrees Celsius, so proximity invites a reader to take them as one
+quantity. A reader seeing hectares next to degrees knows they are
+different things. Fire's version of this was safe by accident; Heat's
+is not.
+
+**So the requirement is presentational, and it does not change the
+source choice.** The drift component names its own variable and its own
+subject month in its own label, never in a footnote: "regional mean
+temperature, June 2026, 1961-1990 against 1991-2020" beside "night
+minima, July 2026". The same two numbers under a shared header with no
+variable named is the defect. This is D-051 applied to a component
+rather than to a datum.
+
+Platform's ruling on the trade, adopted: do not spend a source change
+to close the variable gap. Mean temperature from a homogenised product
+beats night minima from a source carrying an assimilation artifact
+across the baseline boundary. Labelling fixes the reader problem;
+nothing fixes a biased baseline.
+
+**Publication lag, corrected upward.** Platform estimated two to four
+weeks; the measured figure is that Berkeley Earth's latest release on
+2026-08-03 was June 2026, so closer to two months. The consequence is
+not only a slower update: the two halves of the page are **about
+different months**. Freshness budget for the drift layer follows the
+source at roughly 75 days, set by Berkeley Earth's cadence rather than
+by how often we recompute. Platform wires it when the path exists.
+
+**A caution carried into the probe.** The `era5_wwe.py` rejection this
+probe tests against may be specific to the derived daily-statistics
+product rather than a general CDS limit, so a positive result there
+does not generalise back to the reanalysis endpoints. Record which
+product each result applies to. This is the same shape as the
+documentation asymmetry in 3a.
+
 ## 6. The open question that now gates the drift claim
 
 Platform and product converged on the same point from opposite
