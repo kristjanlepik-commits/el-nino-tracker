@@ -169,6 +169,7 @@ main { max-width:720px; margin:0 auto; padding:22px 22px 70px; }
 .nb-band { font-size: 11px; fill: var(--ink-soft); }
 .nb-c { font-size: 11px; fill: var(--ink); }
 .nb-l { font-size: 11px; fill: var(--ink-soft); }
+.nb-call { font-size: 11px; fill: var(--ink); font-weight: 600; }
 .nb-note { font-size: 13px; color: var(--ink-soft); margin: 10px 0 0;
   max-width: 62ch; }
 /* The headline of a null is a COUNT, not a magnitude. A null with no
@@ -184,10 +185,12 @@ main { max-width:720px; margin:0 auto; padding:22px 22px 70px; }
 .eyebrow { font-family:"IBM Plex Mono",monospace; font-size:11px;
   letter-spacing:0.22em; text-transform:uppercase;
   color:var(--ink-faint); margin:20px 0 12px; }
+.second { font-size:15px; color:var(--ink-soft); margin:14px 0 0;
+  max-width:56ch; }
 .tag { font-family:"IBM Plex Mono",monospace; font-size:10.5px;
   letter-spacing:0.04em; padding:3px 8px; background:var(--tag-notlink-bg);
-  color:var(--tag-notlink-fg); display:inline-block; margin-top:22px; }
-.mock { margin-top:30px; padding-top:12px; border-top:1px solid var(--rule);
+  color:var(--tag-notlink-fg); display:inline-block; margin-top:20px; }
+.mock { margin-top:26px; padding-top:12px; border-top:1px solid var(--rule);
   font-size:12.5px; color:var(--ink-faint); }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
@@ -200,12 +203,15 @@ plausible.init()
 <header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../docs/" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../docs/elnino/">El Niño</a><a class="ch-fire" href="../docs/fires/">Fires</a><a class="util" href="../docs/about.html">About</a></nav></div></div></header>
 
 <main>
-  <p class="eyebrow">Crops &middot; volatility, eleven European pairs</p>
-  <p class="nb-count">11 of 11</p>
-  <p class="nb-claim">within the range they have held for twenty-five years.</p>
-  <svg class="nb" viewBox="0 0 680 168" role="img" aria-label="11 values against the range they have historically occupied"><circle cx="19" cy="18" r="5.2" fill="var(--ink)"/><text class="nb-l" x="30" y="22">measured</text><circle cx="118" cy="18" r="5.2" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6"/><text class="nb-l" x="129" y="22">inferred</text><rect x="136.2" y="70.0" width="407.5" height="68" fill="var(--paper-sunk)"/><line x1="136.2" y1="70.0" x2="136.2" y2="138.0" stroke="var(--rule)" stroke-width="1"/><line x1="543.7" y1="70.0" x2="543.7" y2="138.0" stroke="var(--rule)" stroke-width="1"/><text class="nb-band" x="340.0" y="62.0" text-anchor="middle">range these pairs have held since 2001</text><line x1="326.4" y1="64.0" x2="326.4" y2="144.0" stroke="var(--ink)" stroke-width="1.4"/><text class="nb-c" x="326.4" y="160.0" text-anchor="middle">no change in volatility</text><circle cx="367.2" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="272.1" cy="104.0" r="5.2" fill="var(--ink)"/><circle cx="435.1" cy="120.0" r="5.2" fill="var(--ink)"/><circle cx="204.2" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="475.8" cy="104.0" r="5.2" fill="var(--ink)"/><circle cx="312.8" cy="120.0" r="5.2" fill="var(--ink)"/><circle cx="394.3" cy="88.0" r="5.2" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6"/><circle cx="244.9" cy="104.0" r="5.2" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6"/><circle cx="353.6" cy="120.0" r="5.2" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6"/><circle cx="421.5" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="285.7" cy="104.0" r="5.2" fill="var(--ink)"/></svg><p class="nb-note">Each dot is one country-commodity pair. The shaded band is the range the same eleven pairs have occupied across every season since 2001, so a dot inside it is a season behaving the way these pairs normally behave.</p>
+  <p class="eyebrow">Crops &middot; harvest volatility, eleven clean pairs</p>
+  <p class="nb-count">7 of 11</p>
+  <p class="nb-claim">are no more erratic than they were sixty-five years ago.</p>
+  <svg class="nb" viewBox="0 0 680 168" role="img" aria-label="11 values against the range they have historically occupied"><circle cx="19.0" cy="18.0" r="5.2" fill="var(--ink)"/><text class="nb-l" x="30" y="22">measured</text><rect x="136.2" y="70.0" width="177.2" height="68" fill="var(--paper-sunk)"/><line x1="136.2" y1="70.0" x2="136.2" y2="138.0" stroke="var(--rule)" stroke-width="1"/><line x1="313.4" y1="70.0" x2="313.4" y2="138.0" stroke="var(--rule)" stroke-width="1"/><text class="nb-band" x="224.8" y="62.0" text-anchor="middle">spread these pairs held in 1961-1990</text><line x1="216.0" y1="64.0" x2="216.0" y2="144.0" stroke="var(--ink)" stroke-width="1.4"/><text class="nb-c" x="216.0" y="160.0" text-anchor="middle">no change in volatility</text><circle cx="229.3" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="198.3" cy="104.0" r="5.2" fill="var(--ink)"/><circle cx="251.4" cy="120.0" r="5.2" fill="var(--ink)"/><circle cx="176.1" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="211.5" cy="104.0" r="5.2" fill="var(--ink)"/><circle cx="238.1" cy="120.0" r="5.2" fill="var(--ink)"/><circle cx="264.7" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="543.8" cy="104.0" r="5.2" fill="var(--ink)"/><text class="nb-call" x="543.8" y="92.0" text-anchor="middle">Zimbabwe millet</text><circle cx="446.3" cy="120.0" r="5.2" fill="var(--ink)"/><text class="nb-call" x="446.3" y="108.0" text-anchor="middle">Mexico corn</text><circle cx="353.3" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="340.0" cy="104.0" r="5.2" fill="var(--ink)"/></svg><p class="nb-note">Each dot is one country-commodity pair: how variable its harvests were in 1991-2020 against how variable the same pair was in 1961-1990. A dot inside the band is a crop no more erratic than it was sixty-five years ago.</p>
+  <p class="second">Four became more variable. The two largest movers are
+  Zimbabwe millet and Mexico corn, and both trace to land reform and
+  irrigation rather than to weather.</p>
   <span class="tag">not ENSO-linked</span>
-  <p class="mock">Shape review only. The eleven values here stand in for the
-  crops volatility null until that channel emits it; what is under review is
-  whether a null can be rendered as a confident result, not these numbers.</p>
+  <p class="mock">Shape review only. The values stand in for the crops
+  volatility null until that channel emits it; what is under review is the
+  frame and whether a null reads as a confident result, not these numbers.</p>
 </main></body></html>

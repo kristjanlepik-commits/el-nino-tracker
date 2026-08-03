@@ -32,15 +32,30 @@ range" is a strong number, and a strong number is what a reader who
 gives this ninety seconds standing up can take away. A null with no
 number in it reads as nothing to say.
 
-## Measured against inferred, at a glance
+## Evidence basis, at a glance
 
 Product's veto: separable at a glance, not on careful reading. So the
-distinction is SHAPE, not colour. Filled disc for measured, open ring
-for inferred. Colour is already carrying channel identity and would have
-to be read against a legend; a filled versus open mark is pre-attentive,
-survives greyscale, and survives colour blindness. It is the same device
-already used on the world map for anomaly against context, which means
-a reader who has seen one page has already learned it.
+distinction is SHAPE, not colour, and the vocabulary is the three D-033
+tiers and ONLY those three: Measured, Compiled, Combined. An earlier
+version of this file said "measured / inferred", which introduced a
+fourth word for the evidence basis; a fourth word erodes the one
+labelling system the whole site runs on. The mechanism was right and the
+labels were not.
+
+Colour is already carrying channel identity and would need a legend
+lookup. Filled against open against ringed is pre-attentive, survives
+greyscale and colour blindness, and reuses what the world map already
+teaches for anomaly against context.
+
+## When something IS outside the band
+
+A component that can only say "all inside" breaks the first time
+something sits outside, and on the volatility null four of eleven pairs
+did become more variable. So an outside point can carry a callout
+naming itself. That matters more than it looks: the two largest movers
+there are land reform and irrigation rather than weather, so the
+outliers are where the piece stops being about climate, and a shape
+with nowhere to put them would have buried its own best content.
 """
 from __future__ import annotations
 
@@ -54,10 +69,39 @@ import tokens as T                                            # noqa: E402
 from run_brief import h                                       # noqa: E402
 
 
+def _mark(x: float, y: float, basis: str, r: float = 5.2) -> str:
+    """One observation, its evidence basis carried by SHAPE.
+
+    The three D-033 tiers and only these three. Shape rather than colour
+    because product's constraint is separability at a glance: a filled
+    against open against ringed mark is pre-attentive, survives
+    greyscale and colour blindness, and needs no legend lookup. Colour
+    is already spent on channel identity.
+
+    An earlier version used "measured / inferred", which was a fourth
+    word for the evidence basis. A fourth word erodes the one labelling
+    system the whole site runs on, so it is gone.
+    """
+    if basis == "compiled":
+        return (f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" '
+                f'fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6"/>')
+    if basis == "combined":
+        return (f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="var(--ink)"/>'
+                f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r - 2.6:.1f}" '
+                f'fill="var(--paper)"/>')
+    return f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="var(--ink)"/>'
+
+
+def _halo_text(x: float, y: float, text: str) -> str:
+    return (f'<text class="nb-call" x="{x:.1f}" y="{y:.1f}" '
+            f'text-anchor="middle">{h(text)}</text>')
+
+
 def null_band(points, band, centre, unit_label, note="") -> str:
     """A distribution against its own historical envelope.
 
-    points  [{label, value, basis}] where basis is measured | inferred
+    points  [{label, value, basis, callout}] where basis is one of the
+            three D-033 tiers and callout names a point worth naming
     band    {low, high, label}  the range these have historically held
     centre  the reference value, usually 1.0
     """
@@ -101,24 +145,25 @@ def null_band(points, band, centre, unit_label, note="") -> str:
     out.append(f'<text class="nb-c" x="{cx:.1f}" y="{AXIS_Y + 56:.1f}" '
                f'text-anchor="middle">{h(unit_label)}</text>')
 
-    # Filled = measured, open = inferred. Shape rather than colour, so
-    # the distinction survives a glance, greyscale and colour blindness.
+    # Shape carries the evidence basis; a callout names a point that is
+    # doing something the band does not explain.
     for i, p in enumerate(points):
         x = X(p["value"])
         y = AXIS_Y - 16 + (i % 3) * 16          # jitter, so dots do not hide
-        if p.get("basis") == "inferred":
-            out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5.2" '
-                       f'fill="var(--paper)" stroke="var(--ink)" '
-                       f'stroke-width="1.6"/>')
-        else:
-            out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5.2" '
-                       f'fill="var(--ink)"/>')
+        out.append(_mark(x, y, p.get("basis", "measured")))
+        if p.get("callout"):
+            out.append(_halo_text(x, y - 12, p["callout"]))
 
-    legend = (f'<circle cx="{PAD_L + 5}" cy="18" r="5.2" fill="var(--ink)"/>'
-              f'<text class="nb-l" x="{PAD_L + 16}" y="22">measured</text>'
-              f'<circle cx="{PAD_L + 104}" cy="18" r="5.2" fill="var(--paper)" '
-              f'stroke="var(--ink)" stroke-width="1.6"/>'
-              f'<text class="nb-l" x="{PAD_L + 115}" y="22">inferred</text>')
+    # Only the three D-033 tiers ever appear here, and only the ones
+    # actually present in the data: a legend entry for a tier nothing on
+    # the chart uses teaches a distinction the reader will not find.
+    present = [b for b in ("measured", "compiled", "combined")
+               if any(p.get("basis", "measured") == b for p in points)]
+    legend, lx = "", PAD_L + 5
+    for b in present:
+        legend += _mark(lx, 18, b)
+        legend += f'<text class="nb-l" x="{lx + 11}" y="22">{b}</text>'
+        lx += 26 + len(b) * 6.4
 
     note_html = (f'<p class="nb-note">{h(note)}</p>' if note else "")
     return (f'<svg class="nb" viewBox="0 0 {W} {H}" role="img" '
@@ -134,6 +179,7 @@ NULL_CSS = f"""
 .nb-band {{ font-size: 11px; fill: var(--ink-soft); }}
 .nb-c {{ font-size: 11px; fill: var(--ink); }}
 .nb-l {{ font-size: 11px; fill: var(--ink-soft); }}
+.nb-call {{ font-size: 11px; fill: var(--ink); font-weight: 600; }}
 .nb-note {{ font-size: 13px; color: var(--ink-soft); margin: 10px 0 0;
   max-width: 62ch; }}
 /* The headline of a null is a COUNT, not a magnitude. A null with no
