@@ -848,6 +848,69 @@ over-covered. If only two are wanted, drop the Sahel: most severe,
 least likely to teach something actionable, and the context where being
 wrong costs most.
 
+### 6m. The chance baseline, and two corrections to my own advice
+
+Product caught that "81 admin units at their worst on record" is not a
+finding: 2,122 units against 26 observations each gives 81.6 expected by
+chance. They were right, and checking it properly makes the point
+stronger rather than weaker.
+
+**The theoretical baseline rests on ranks being uniform, and they are
+not.** At this dekad 212 units sit at rank 26, their best on record,
+against 82 expected, and a chi-square across all 26 ranks returns
+p < 0.0001. That is what a greening trend does to recent years, so 1/26
+is an approximation.
+
+**So the baseline was rebuilt empirically, assuming nothing.** For every
+year in the record, count how many units had their worst value for this
+dekad in that year:
+
+| | |
+|---|---|
+| 2026 | **81** |
+| Other 25 years | mean 83, median 63, range 25 to 247 |
+| 2026's position | higher than 64% of other years |
+
+**81 is the middle of the distribution.** The early years carry 222, 172
+and 247, which is the greening trend making old years look bad, and it
+cuts in the direction of making 2026 *less* remarkable rather than more.
+Product's arithmetic survives its own assumption being wrong.
+
+The honest global sentence: **this dekad, as many regions sit at their
+worst on record as an ordinary year produces.** The individual claims
+survive; the count does not.
+
+### Correction 1: the Anatolia piece cannot rest on counting
+
+Testing concentration within each country, binomial against n x 3/26:
+
+| Country | Units | In worst 3 | Expected | p |
+|---|---|---|---|---|
+| Rwanda | 28 | 16 | 3.2 | <0.00001 |
+| Sudan | 14 | 11 | 1.6 | <0.00001 |
+| Chad | 21 | 13 | 2.4 | <0.00001 |
+| Eritrea | 5 | 5 | 0.6 | 0.00002 |
+| Mali | 9 | 6 | 1.0 | 0.00015 |
+| **Turkiye** | **79** | **7** | **9.1** | **0.82** |
+
+**Turkiye has fewer extreme units than chance would give.** The Anatolia
+case therefore rests on **severity and adjacency**, Sanliurfa at z =
+-1.82 among the most extreme values in the file and four contiguous
+provinces at rank 1, and not on any count. That is still a real piece,
+but the argument has to be made the right way or a reader checking it
+finds Turkiye unremarkable overall and concludes we cherry-picked.
+
+### Correction 2: I told product to drop the Sahel and the data disagrees
+
+My advice to drop it was editorial: FEWS NET and GEOGLAM already cover
+it well. The statistics say it is the **only** cluster in the file whose
+concentration is unambiguously beyond chance, by orders of magnitude.
+Rwanda at 16 of 28 expected 3.2 is the strongest signal here.
+
+The editorial argument may still win. But it should be made knowing that
+the data ranks the Sahel and East Africa first and Anatolia nowhere, and
+I gave that advice before I had run the test.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
