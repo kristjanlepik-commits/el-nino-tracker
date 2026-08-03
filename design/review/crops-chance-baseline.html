@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Record lows against chance | The Long Swell</title>
+<style>
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../docs/fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-600.woff2") format("woff2");
+}
+:root {     --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px; }
+@media (prefers-color-scheme: dark) { :root {     --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330; } }
+* { box-sizing:border-box; }
+:root { --shell-max:820px; --shell-pad:24px; }
+body { margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Spectral",Georgia,serif; font-size:16.5px; line-height:1.55; }
+main { max-width:820px; margin:0 auto; padding:24px 24px 70px; }
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+
+.cb { width: 100%; height: auto; display: block; margin-top: 22px; }
+.cb text { font-family: "IBM Plex Mono", ui-monospace, monospace;
+  paint-order: stroke; stroke: var(--paper); stroke-width: 2.5;
+  stroke-linejoin: round; }
+.cb-lab { font-size: 13px; fill: var(--ink); font-weight: 600; }
+.cb-sub { font-size: 10.5px; fill: var(--ink-faint); }
+.cb-exp { font-size: 10.5px; fill: var(--ink-soft); }
+.cb-obs { font-size: 12px; font-weight: 600; }
+.cb-ax { font-size: 10px; fill: var(--ink-faint); }
+.cb-note { font-size: 13px; color: var(--ink-soft); margin: 12px 0 0;
+  max-width: 64ch; }
+
+.eyebrow { font-family:"IBM Plex Mono",monospace; font-size:11px;
+  letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--ink-faint); margin:20px 0 10px; }
+.hl { font-size:26px; line-height:1.22; letter-spacing:-0.014em;
+  font-weight:500; margin:0; max-width:26ch; text-wrap:balance; }
+.hl + .hl { margin-top:13px; }
+.body p { max-width:62ch; color:var(--ink-soft); }
+.tag { font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  letter-spacing:0.04em; padding:3px 8px; background:var(--tag-pending-bg);
+  color:var(--tag-pending-fg); display:inline-block; margin-top:20px; }
+.mock { margin-top:26px; padding-top:12px; border-top:1px solid var(--rule);
+  font-size:12.5px; color:var(--ink-faint); }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+</script>
+</head><body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../docs/" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../docs/elnino/">El Niño</a><a class="ch-fire" href="../docs/fires/">Fires</a><a class="util" href="../docs/about.html">About</a></nav></div></div></header>
+
+<main>
+  <p class="eyebrow">Crops &middot; dekad 2026-07-11</p>
+  <p class="hl">Eighty-one places are at their worst on record for this
+  point in the season.</p>
+  <p class="hl">Chance alone produces about eighty-two.</p>
+  <svg class="cb" viewBox="0 0 680 200" role="img" aria-label="Places at record lows against the number chance produces, at two levels of granularity"><text class="cb-lab" x="0" y="48.0">Whole countries</text><text class="cb-sub" x="0" y="64.0">123 units, 26-year record</text><rect x="211.5" y="42.0" width="33.3" height="28" fill="var(--paper-sunk)"/><line x1="228.1" y1="40.0" x2="228.1" y2="72.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="228.1" y="35.0" text-anchor="middle">chance produces 5</text><circle cx="213.8" cy="56.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="213.8" y="83.0" text-anchor="middle" fill="var(--ink)">1 observed</text><text class="cb-lab" x="0" y="122.0">Sub-national units</text><text class="cb-sub" x="0" y="138.0">2,122 units, 26-year record</text><rect x="453.1" y="116.0" width="138.2" height="28" fill="var(--paper-sunk)"/><line x1="522.2" y1="114.0" x2="522.2" y2="146.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="522.2" y="109.0" text-anchor="middle">chance produces 82</text><circle cx="519.9" cy="130.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="519.9" y="157.0" text-anchor="middle" fill="var(--ink)">81 observed</text><text class="cb-ax" x="210" y="194">places at their worst on record, this dekad</text></svg><p class="cb-note">The expectation moves because the units get finer, not because the weather changed. That is why a sub-national map needs this comparison drawn on it every week: without it, eighty-one places at record lows reads as a catastrophe rather than as an ordinary dekad.</p>
+  <div class="body">
+  <p>Each sub-national unit holds a 26-year record for this dekad, so in
+  any ordinary period roughly one unit in 26 sets a new low. Across
+  2,122 units that is 82 places, and 81 were
+  observed. The same dekad expects about 5 at country
+  level, where there are only 123 units to break records.</p>
+  <p>The comparison still matters where it is uncomfortable. Turkiye ranks
+  23 of 26 nationally, in the
+  better half, while Gaziantep, Mardin, Sanliurfa and Sirnak are each
+  at their worst on record. A country-level read would have filed this as
+  fine.</p>
+  <p>In 62 of 123 countries the driver is identified as
+  water, so those can be called dry. In the remaining 61
+  the honest sentence stops at below its own record, with no driver
+  named.</p>
+  </div>
+  <span class="tag">attribution pending</span>
+  <p class="mock">Every figure on this page is computed from
+  crops/data/stress_current.json, dekad 2026-07-11. Shape review: the
+  Europe piece is not drawn, because the count of European units at rank 1
+  is still being computed and it decides which piece that is.</p>
+</main></body></html>
