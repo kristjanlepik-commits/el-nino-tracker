@@ -532,10 +532,24 @@ while Heat leads with nights, so the page's two claims would differ in
 variable as well as instrument.
 
 **Closed favourably, 2026-08-03.** Berkeley Earth publishes land-only
-**TMAX and TMIN as separate gridded products**, 1 degree, **1833 to
-present**, NetCDF, about 140 MB each, monthly. These are monthly
-averages of daily extremes. Found independently by Heat and platform
-within an hour of each other.
+**TMAX and TMIN as separate gridded products**, 1 degree, NetCDF, about
+158 and 157 MB, monthly averages of daily extremes. Found independently
+by Heat and platform within an hour of each other.
+
+**CORRECTION, same day, and it is the same error twice.** This section
+first read "1833 to present". That is true of the product family and
+false of the file we would download. Platform measured the S3 headers:
+`Complete_TMIN_LatLong1.nc` last modified 2025-01-10 and
+`Complete_TMAX_LatLong1.nc` 2024-10-17, 19 and 22 months stale, because
+the 1 degree products were retired in Q2 2025 in favour of 0.25 degree
+products available by request only.
+
+Both platform and Heat asserted currency from the dataset description
+rather than from the artifact. **This is precisely the trap Heat
+recorded this morning at 3a**, where the Iberia defect is documented on
+the ERA5 page and absent from the ERA5-Land page that inherits it:
+reading the documentation for the product rather than checking the
+product. Recorded twice in one day, by two chats, on two datasets.
 
 So the drift claim is computed on TMIN and both halves of the page are
 about daily minimum temperature. Platform's false-continuity problem
