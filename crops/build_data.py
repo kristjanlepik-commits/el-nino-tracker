@@ -190,9 +190,9 @@ def build_stress(catalogue: dict) -> dict:
             "recent_min": int(min(recent)) if recent else None,
             "recent_max": int(max(recent)) if recent else None,
             "this_year": series.get(latest.year, 0),
-            "uniform_would_say": round(len(panel) / 26, 1),
-            "note": "uniform_would_say is shown only to be argued with. "
-                    "Use recent_mean.",
+            "_uniform_would_say": round(len(panel) / 26, 1),
+            "_note": "uniform_would_say is shown only to be argued "
+                     "with. Use recent_mean.",
         }
         # The bar product adopted 2026-07-29: a count is notable when it
         # clears the place's OWN recent maximum, not when it clears a
@@ -245,7 +245,7 @@ def build_stress(catalogue: dict) -> dict:
     places.sort(key=lambda p: (p["magnitude"]["value"],
                                -p["magnitude"]["of"]))
     return {
-        "generated_from": "crops/.cache (no fetch performed)",
+        "_generated_from": "crops/.cache (no fetch performed)",
         "dekad": latest_dekad,
         "baseline": f"{BASE_FIRST}-{BASE_LAST}, same dekad of each year",
         "method": "FPAR cumulated z-score, ASAP crop mask, restricted "
@@ -303,10 +303,10 @@ def build_shares() -> dict:
             })
     rows.sort(key=lambda r: (r["commodity"], -r["share_of_world"]))
     return {
-        "generated_from": "crops/.cache/psd (no fetch performed)",
-        "note": "Shares let a condition index be expressed as a supply "
-                "number. Arithmetic over a published table, never a "
-                "forecast.",
+        "_generated_from": "crops/.cache/psd (no fetch performed)",
+        "_note": "Shares let a condition index be expressed as a supply "
+                 "number. Arithmetic over a published table, never a "
+                 "forecast.",
         "rows": len(rows),
         "shares": rows,
     }

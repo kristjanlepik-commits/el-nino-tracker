@@ -205,11 +205,14 @@ PHYSICAL_STATE = {
     # the computed sentence carries the comparison on its own. Do not
     # reintroduce a static qualitative field here.
     "wwe_count_since_mar1_estimate": 1,   # at least one (TC Maila-aided)
-    "wwe_qualitative": (
-        "Westerly wind anomalies strengthened in March and early April "
-        "2026 in the western Pacific and near the Date Line. McPhaden-"
-        "defined count requires ERA5 daily winds; not computed this run."
-    ),
+    # `wwe_qualitative` was REMOVED 2026-08-03, for the same reason as
+    # `heat_content_qualitative` and with worse consequences: it was a
+    # hand-written April sentence that only rendered when the ERA5 fetch
+    # failed, so it sat dormant for months and then published a paragraph
+    # about "March and early April" conditions on the August 3 page. A
+    # static sentence that only appears on a failure path is a sentence
+    # nobody reviews. The failure note is now generated from the run's own
+    # state. Do not reintroduce a static qualitative field here.
 }
 
 # Same-week comparisons for 1997 and 2015 (week ~Apr 22 of develop year).

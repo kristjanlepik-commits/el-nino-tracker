@@ -1,9 +1,7 @@
 {
   "schema_version": "0.1.0",
-  "shape_status": "working shape, not a contract (D-030: discovered from a second case)",
   "evidence_basis": "compiled",
   "authorship": "agency",
-  "note": "Estimator registry. Category definitions and cadences are keyed by estimator, never repeated per ledger row, so a restatement updates one place and two rows can never disagree about what the same estimator meant. Per the platform contract, section 6.",
   "estimators": {
     "perils": {
       "full_name": "PERILS AG",
@@ -70,14 +68,14 @@
       },
       "citation_string": "PERILS AG",
       "licence_note": "Headline event figures are published in press releases and are citable. The industry loss index and exposure database are paid products. Cite the press release, never the database.",
-      "machine_access": "none; press releases as HTML and PDF, highly regular format",
       "provenance": {
         "source_url": "https://www.perils.org/losses",
         "corroborating_url": "https://www.artemis.bm/news/perils-reduces-windstorm-goretti-insured-market-loss-estimate-to-e468m/",
         "issued": null,
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_machine_access": "none; press releases as HTML and PDF, highly regular format"
     },
     "verisk_pcs": {
       "full_name": "Verisk Property Claim Services (PCS)",
@@ -112,13 +110,13 @@
       },
       "citation_string": "Verisk PCS",
       "licence_note": "Subscription product. Figures reach the public through trade press. Cite the reported figure; never imply direct access.",
-      "machine_access": "none",
       "provenance": {
         "source_url": "https://www.verisk.com/insurance/products/property-claim-services/pcs-apac/",
         "issued": null,
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_machine_access": "none"
     },
     "swiss_re_sigma": {
       "full_name": "Swiss Re Institute (sigma)",
@@ -144,14 +142,15 @@
       },
       "citation_string": "Swiss Re Institute, sigma",
       "licence_note": "Public reports and press releases; citable with attribution.",
-      "machine_access": "none; PDF reports",
-      "caution": "sigma has also published forward trend figures (for example insured losses 'on trend to USD 145 billion in 2025', against an outturn of USD 107 billion). A trend projection is not a loss estimate for that year and must never share a column with one. Forward figures belong to aftereffects under D-034.",
+      "caution": "sigma has also published forward trend figures (for example insured losses 'on trend to USD 145 billion in 2025', against an outturn of USD 107 billion). A trend projection is not a loss estimate for that year.",
       "provenance": {
         "source_url": "https://www.swissre.com/institute/research/sigma-research/sigma-2026-01-natcat-2025-wildfire-storm-risk.html",
         "issued": "2026-Q1",
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_caution_render": "Never place a trend projection in the same column as a loss figure. Forward figures belong to aftereffects under D-034.",
+      "_machine_access": "none; PDF reports"
     },
     "munich_re": {
       "full_name": "Munich Re (NatCatSERVICE)",
@@ -177,13 +176,13 @@
       },
       "citation_string": "Munich Re",
       "licence_note": "Published factsheets and press releases are citable. NatCatSERVICE itself is proprietary; cite published figures only.",
-      "machine_access": "none; PDF factsheets",
       "provenance": {
         "source_url": "https://www.munichre.com/en/solutions/reinsurance-property-casualty/natcatservice.item-c90d5a604920216e9017f93bd8b05ba7.html",
         "issued": null,
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_machine_access": "none; PDF factsheets"
     },
     "aon": {
       "full_name": "Aon (Climate and Catastrophe Insight)",
@@ -211,14 +210,14 @@
       },
       "citation_string": "Aon",
       "licence_note": "Free public reports and interactive loss pages; citable with attribution.",
-      "machine_access": "public interactive loss page; no documented API",
       "provenance": {
         "source_url": "https://www.aon.com/en/insights/reports/climate-and-catastrophe-report",
         "corroborating_url": "https://aon.mediaroom.com/news-releases?item=138622",
         "issued": "2026-07-22",
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_machine_access": "public interactive loss page; no documented API"
     },
     "gallagher_re": {
       "full_name": "Gallagher Re (Natural Catastrophe and Climate Report)",
@@ -246,13 +245,13 @@
       },
       "citation_string": "Gallagher Re",
       "licence_note": "Free public PDF reports; citable with attribution.",
-      "machine_access": "none; PDF reports",
       "provenance": {
         "source_url": "https://www.ajg.com/gallagherre/news-and-insights/natural-catastrophe-and-climate-report-h1-2026/",
         "issued": "2026-07-15",
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_machine_access": "none; PDF reports"
     },
     "world_bank_grade": {
       "full_name": "World Bank / GFDRR, Global Rapid post-disaster Damage Estimation (GRADE)",
@@ -279,14 +278,14 @@
       },
       "citation_string": "World Bank / GFDRR (GRADE)",
       "licence_note": "World Bank publications generally carry a CC BY licence. Verify per report rather than assuming.",
-      "machine_access": "none; individual PDF reports per event",
-      "note": "Coverage is concentrated where insured-loss estimators are weakest, which under T11 is the middle of the story.",
       "provenance": {
         "source_url": "https://www.gfdrr.org/en/publication/global-rapid-post-disaster-damage-estimation-grade-approach",
         "issued": null,
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_note": "Coverage is concentrated where insured-loss estimators are weakest, which under T11 is the middle of the story.",
+      "_machine_access": "none; individual PDF reports per event"
     },
     "climate_central_bdd": {
       "full_name": "Climate Central, US Billion-Dollar Weather and Climate Disasters",
@@ -310,7 +309,6 @@
       },
       "citation_string": "Climate Central",
       "licence_note": "Climate Matters content is CC BY 4.0. Whether that extends to the database itself is unconfirmed.",
-      "machine_access": "interactive tools; no documented download or API",
       "custodian_history": [
         {
           "custodian": "NOAA NCEI",
@@ -331,7 +329,8 @@
         "issued": null,
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_machine_access": "interactive tools; no documented download or API"
     },
     "noaa_ncei_bdd": {
       "full_name": "NOAA NCEI, US Billion-Dollar Weather and Climate Disasters (retired)",
@@ -355,13 +354,13 @@
       },
       "citation_string": "NOAA NCEI",
       "licence_note": "US federal government work, public domain. The cleanest licence position of any estimator here.",
-      "machine_access": "static files, automatable, frozen at 2024",
       "provenance": {
         "source_url": "https://www.ncei.noaa.gov/access/billions/",
         "issued": "2025-05-08",
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_machine_access": "static files, automatable, frozen at 2024"
     },
     "emdat": {
       "full_name": "EM-DAT, CRED / UCLouvain",
@@ -385,14 +384,15 @@
         "note": "Open-ended. No published restatement schedule."
       },
       "citation_string": "EM-DAT, CRED / UCLouvain, Brussels, Belgium -- www.emdat.be",
-      "licence_note": "Free tier explicitly includes media agencies (journalist or press agency). ALL tiers are prohibited from reproducing a substantial part and from creating substitute or derivative databases. This is EU sui generis database-right language and binds an Estonian publisher. Per-event citation only; never a backbone. See D-039.",
-      "machine_access": "portal .xlsx after registration; a GraphQL endpoint and R API exist but are undocumented on the accessibility page",
       "provenance": {
         "source_url": "https://doc.emdat.be/docs/legal/terms-of-use/",
         "issued": null,
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_licence_note": "Free tier explicitly includes media agencies (journalist or press agency). ALL tiers are prohibited from reproducing a substantial part and from creating substitute or derivative databases. This is EU sui generis database-right language and binds an Estonian publisher. Per-event citation only; never a backbone. See D-039.",
+      "licence_note": "Free access covers media use. Reproducing a substantial part, or building a database derived from it, is not permitted under any tier. Individual figures are cited per event.",
+      "_machine_access": "portal .xlsx after registration; a GraphQL endpoint and R API exist but are undocumented on the accessibility page"
     },
     "accuweather": {
       "full_name": "AccuWeather",
@@ -417,15 +417,15 @@
       },
       "citation_string": "AccuWeather",
       "licence_note": "Press releases; citable with attribution.",
-      "machine_access": "none",
       "caution": "Carried because it is widely quoted, not because it is comparable. Its figures have landed two to three times above other estimators for overlapping scope, and it publishes no methodology, so a reader cannot check what is inside the number. Any row citing it must show at least one documented estimator alongside. This is a rendering requirement, not a preference.",
       "provenance": {
         "source_url": "https://www.accuweather.com/en/weather-news/accuweather-estimates-more-than-250-billion-in-damages-and-economic-loss-from-la-wildfires/1733821",
         "issued": null,
         "fetched_at": "2026-07-28",
         "fallback": false,
-        "verification_note": "Exact dates of the three January 2025 estimates are not yet confirmed against primary sources; one AccuWeather page renders its date as January 2024, which is wrong. Do not publish the dates until verified."
-      }
+        "_verification_note": "Exact dates of the three January 2025 estimates are not yet confirmed against primary sources; one AccuWeather page renders its date as January 2024, which is wrong. Do not publish the dates until verified."
+      },
+      "_machine_access": "none"
     },
     "eu_solidarity_fund": {
       "full_name": "European Union Solidarity Fund (EUSF)",
@@ -433,7 +433,7 @@
       "categories_published": [
         "economic_direct"
       ],
-      "scope_note": "Total direct damage for a single disaster, estimated by the affected member state's own authorities and published in the mobilisation decision, alongside the amount granted. The damage estimate and the grant are different quantities and must never be conflated.",
+      "scope_note": "Total direct damage for a single disaster, estimated by the affected member state's own authorities and published in the mobilisation decision, alongside the amount granted. The damage estimate and the grant are different quantities.",
       "territories": [
         "eu_member_states",
         "accession_countries"
@@ -452,14 +452,17 @@
       },
       "citation_string": "European Union Solidarity Fund, damage estimated by national authorities",
       "licence_note": "EU institutional publications, reuse generally permissive. Specific terms NOT verified in this session; check before first publication.",
-      "machine_access": "European Parliament and Commission document summaries, HTML and PDF",
       "caution": "Member states submit these damage estimates in order to claim money, and the grant is a formula on damage above thresholds, so the incentive runs toward reporting high. The figures are not independently audited the way an insurer's claims are. Carried because they are the only per-event damage figures that exist for several European hazards, not because they are the most rigorous.",
       "provenance": {
         "source_url": "https://oeil.europarl.europa.eu/oeil/en/document-summary?id=1524048",
         "issued": null,
         "fetched_at": "2026-07-29",
         "fallback": false
-      }
+      },
+      "_scope_render": "Damage estimated and money granted are separate rows and are never conflated.",
+      "_machine_access": "European Parliament and Commission document summaries, HTML and PDF"
     }
-  }
+  },
+  "_shape_status": "working shape, not a contract (D-030: discovered from a second case)",
+  "_note": "Estimator registry. Category definitions and cadences are keyed by estimator, never repeated per ledger row, so a restatement updates one place and two rows can never disagree about what the same estimator meant. Per the platform contract, section 6."
 }

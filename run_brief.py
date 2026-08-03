@@ -4005,7 +4005,17 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
                   f"event count and analyst read (v1.7, complementary "
                   f"to CWWA).")
     else:
-        md.append(f"**CWWA note:** {phys.get('wwe_qualitative', '')}")
+        # Generated from this run's state, not a static seed. The old
+        # seed published an April paragraph on the 2026-08-03 page.
+        _wwe_err = (freshness.get("era5_wwe", {}) or {}).get("error")
+        md.append(
+            "**CWWA note:** Not computed this run: the ERA5 cumulative "
+            "westerly wind anomaly could not be fetched and no usable "
+            "cached series was available"
+            + (f" ({_wwe_err})." if _wwe_err else ".")
+            + " The WWB row below is the independent wind-forcing "
+              "indicator and is unaffected when it renders."
+        )
     md.append("")
 
     # Spatial-peak WWB row (methodology v1.7, complement to CWWA)
@@ -4133,8 +4143,9 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
             if is_public:
                 md.append(f"- **{display}**: placeholder.")
             else:
-                md.append(f"- **{display}**: not implemented or cache empty; using "
-                          f"seed values from sources.py.")
+                md.append(f"- **{display}**: NO USABLE DATA. Live fetch failed "
+                          f"and no cache was readable, so this source fell back "
+                          f"to sources.py seed values. Error: {info.get('error')}.")
     md.append("")
     md.append("---")
     md.append("")

@@ -1,11 +1,9 @@
 {
   "schema_version": "0.1.0",
-  "shape_status": "working shape, not a contract",
   "evidence_basis": "compiled",
   "authorship": "agency",
   "attribution_tag": "not_applicable",
   "question": "After a climate event, when will a credible damage figure exist, and who will publish it?",
-  "note": "Every entry is assembled from estimators' own published schedules and observed practice. No entry states what an event will cost. The 'settles' field is DERIVED from the sequence and is therefore Combined under D-033, not Compiled; it must render with the Combined label.",
   "basis_values": {
     "published_schedule": "the estimator publishes this timing itself; a commitment",
     "observed_practice": "not published as a schedule, inferred from repeated behaviour",
@@ -204,8 +202,9 @@
             "category": "insured_loss"
           }
         ],
-        "note": "AccuWeather's three figures are dated to January 2025 only; exact dates are unverified and must not be published until confirmed. The event was ongoing across all three, so the rise mixes event growth with knowledge growth.",
-        "verification_status": "partial"
+        "note": "The event was ongoing across all three AccuWeather figures, so the rise mixes the event growing with knowledge of it growing.",
+        "_note": "AccuWeather's three figures are dated to January 2025 only; exact dates are unverified and are not to be published until confirmed against primary sources.",
+        "_verification_status": "partial"
       },
       "absence_meaning": {
         "reason": "below_threshold",
@@ -334,7 +333,7 @@
           }
         ],
         "note": "Six years between the two figures. Decomposed, the land-cover components agree within about 2 percent and the gap is the social cost of carbon plus long-term mortality valuation.",
-        "verification_status": "verified against primary sources"
+        "_verification_status": "verified against primary sources"
       },
       "absence_meaning": {
         "reason": "outside_coverage",
@@ -464,12 +463,13 @@
         "derived": true
       },
       "coverage_note": "The deepest coverage hole in this map, and deeper than first recorded. THREE separate mechanisms exclude it. PERILS covers neither wildfire as a European peril nor Spain, Portugal and Greece as territories. Spain's Consorcio de Compensacion de Seguros does NOT class wildfire as an extraordinary risk, so it publishes no wildfire loss figure; cover sits with private household insurers, with only narrow Consorcio involvement for personal injury during firefighting under Order PCM/641/2021. France's CatNat scheme, reinsured by CCR, EXCLUDES forest fire under the law of 13 July 1982; building damage from a forest fire is met by ordinary fire cover, not CatNat. So no public estimator produces an insured-loss figure for this hazard and territory at all.",
-      "editorial_note": "Europe's largest fire anomaly of 2026 is occurring in the one peril and territory combination where no public loss estimator exists. The France and Spain fires are T4's worked example of the fast-reaction thesis, and there may never be a published insured-loss figure for them. An earlier version of this entry named the Consorcio and CCR as the likely first estimators. That was wrong on both counts and was corrected on 2026-07-29 by checking each scheme's covered perils.",
-      "verification_status": "verified",
+      "editorial_note": "Europe's largest fire anomaly of 2026 is occurring in the one peril and territory combination where no public loss estimator exists. There may never be a published insured-loss figure for the France and Spain fires.",
       "absence_meaning": {
         "reason": "outside_coverage",
         "note": "No estimator covers this hazard and territory: excluded by PERILS on both peril and territory, by the Consorcio as not an extraordinary risk, and by the French CatNat scheme by statute. Silence says nothing whatsoever about size."
-      }
+      },
+      "_correction_note": "An earlier version of this entry named the Consorcio and CCR as the likely first estimators. That was wrong on both counts and was corrected on 2026-07-29 by checking each scheme's covered perils.",
+      "_verification_status": "verified"
     }
   ],
   "absence_reason_values": {
@@ -477,5 +477,7 @@
     "outside_coverage": "no estimator covers this hazard and territory; silence says nothing about size",
     "not_yet_valid": "a reading exists but is before its earliest valid point and can be confidently wrong; treated as absent"
   },
-  "absence_note": "A missing figure is never rendered as a small figure. These three absences read identically on a page and mean opposite things."
+  "_shape_status": "working shape, not a contract",
+  "_note": "Every entry is assembled from estimators' own published schedules and observed practice. No entry states what an event will cost. The 'settles' field is DERIVED from the sequence and is therefore Combined under D-033, not Compiled; it must render with the Combined label.",
+  "_absence_note": "A missing figure is never rendered as a small figure. These three absences read identically on a page and mean opposite things."
 }

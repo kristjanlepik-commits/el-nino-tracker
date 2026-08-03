@@ -69,7 +69,6 @@ def _seed_from_sources() -> dict:
             "nino34_weekly_roni": S.PHYSICAL_STATE["nino34_weekly_roni"],
             "heat_content_0_300m_estimate": S.PHYSICAL_STATE["heat_content_0_300m_estimate"],
             "wwe_count_since_mar1_estimate": S.PHYSICAL_STATE["wwe_count_since_mar1_estimate"],
-            "wwe_qualitative": S.PHYSICAL_STATE["wwe_qualitative"],
             "fetched_at": now_iso(), "used_fallback": True,
             "fallback_note": "seeded from sources.py",
         },
@@ -85,10 +84,15 @@ def fetch_all() -> dict:
 
     # Each fetcher result either fills/overwrites a seeded slot or leaves it.
     results = {
-        "cpc_strength":  safe_fetch("cpc_strength", cpc_strength.fetch),
-        "oisst_weekly":  safe_fetch("oisst_weekly", oisst_weekly.fetch),
-        "heat_content":  safe_fetch("heat_content", heat_content.fetch),
-        "iri":           safe_fetch("iri", iri.fetch),
+        "cpc_strength":  safe_fetch("cpc_strength", cpc_strength.fetch,
+                                    required_keys=("table",)),
+        "oisst_weekly":  safe_fetch("oisst_weekly", oisst_weekly.fetch,
+                                    required_keys=("weekly_traditional",
+                                                   "roni_to_oni_offset")),
+        "heat_content":  safe_fetch("heat_content", heat_content.fetch,
+                                    required_keys=("anomaly_c",)),
+        "iri":           safe_fetch("iri", iri.fetch,
+                                    required_keys=("three_cat",)),
         "bom":           safe_fetch("bom", bom.fetch),
         # CDS-backed fetchers get a 25-minute budget each. CDS queue waits
         # during busy periods can otherwise hang the workflow indefinitely;
@@ -100,17 +104,22 @@ def fetch_all() -> dict:
         # but the larger budget reduces how often we fall back to a stale
         # SEAS5 run.
         "ecmwf_seas5":   safe_fetch("ecmwf_seas5", ecmwf_seas5.fetch,
-                                    timeout_seconds=40 * 60),
+                                    timeout_seconds=40 * 60,
+                                    required_keys=("per_lead", "members_above")),
         "era5_wwe":      safe_fetch("era5_wwe", era5_wwe.fetch,
-                                    timeout_seconds=25 * 60),
+                                    timeout_seconds=25 * 60,
+                                    required_keys=("cwwa_ms_days", "cwwa_series")),
         "era5_burst":    safe_fetch("era5_burst", era5_burst.fetch,
-                                    timeout_seconds=30 * 60),
+                                    timeout_seconds=30 * 60,
+                                    required_keys=("events_since_mar1",)),
         "oni_history":   safe_fetch("oni_history", oni_history.fetch),
         # NMME multi-model consensus. Cold cache pulls ~200MB across 5
         # models over the CPC FTP; warm cache (same monthly init) is
         # seconds. 15-minute budget covers a cold pull with margin.
         "nmme":          safe_fetch("nmme", nmme.fetch,
-                                    timeout_seconds=15 * 60),
+                                    timeout_seconds=15 * 60,
+                                    required_keys=("ensemble_frac_above",
+                                                   "pooled_trajectory")),
     }
 
     out = dict(seeded)  # start from seed

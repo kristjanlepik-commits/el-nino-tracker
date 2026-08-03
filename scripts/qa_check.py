@@ -234,6 +234,107 @@ def check_structure(violations):
                         f"structure: {day.relative_to(ROOT)}/{required} missing")
 
 
+# Known, ACCEPTED disappearances, as (snapshot file, block). Each is a
+# defect we have agreed to ship, so each needs a dated reason and a fix
+# date, not just a key.
+#
+# These five are the 2026-08-03 CWWA outage. The era5_wwe fetch failed
+# AND its cache read failed, and the snapshot still reported ok:True, so
+# the chart published an empty panel. Fixed by the ENSO tracker in
+# b3679e2 (read_cache raises rather than swallowing, safe_fetch gains
+# required_keys so a degraded success falls back). The snapshot itself is
+# frozen under invariant 5 and correctly stays wrong: nothing in it is
+# false, the fetch genuinely failed. The fix lands in the 2026-08-10
+# issue, and these entries should be DELETED once that snapshot exists,
+# at which point the diff compares 08-03 to 08-10 and goes quiet on its
+# own.
+KNOWN_SNAPSHOT_GAPS = {
+    ("2026-08-03.json", "physical_state.cwwa_analogs"),
+    ("2026-08-03.json", "physical_state.cwwa_domain"),
+    ("2026-08-03.json", "physical_state.cwwa_ms_days"),
+    ("2026-08-03.json", "physical_state.cwwa_series"),
+    # Not part of the outage: a stale April seed the ENSO tracker removed
+    # in the same commit, which had been rendering only on the failure
+    # path and so went unreviewed for months.
+    ("2026-08-03.json", "physical_state.heat_content_qualitative"),
+}
+
+
+def _leaf_paths(obj, prefix=()):
+    """Every path to a non-empty leaf. Empty containers count as absent."""
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            yield from _leaf_paths(v, prefix + (str(k),))
+    elif isinstance(obj, list):
+        if obj:
+            yield prefix
+    elif obj is not None and obj != "":
+        yield prefix
+
+
+def check_snapshot_regression(violations):
+    """Did a field that existed last week vanish this week?
+
+    The ENSO tracker's ask, after the CWWA panel published empty on
+    2026-08-03. The fetcher failed, its cache read ALSO failed, and the
+    snapshot still reported ok:True with used_fallback:False. Nothing in
+    the pipeline said anything was wrong; the defect was visible only as
+    a blank panel on the page, and Kristjan found it there.
+
+    WHY A WEEK-OVER-WEEK DIFF RATHER THAN A MUST-EXIST LIST, which is
+    their design point and a good one. Several fields are seasonal:
+    cwwa_* and wwb_* do not exist before March 1 of a develop year. An
+    absolute list would cry wolf every January. A diff is self-correcting,
+    because a seasonal field is absent in BOTH weeks and the check stays
+    quiet, firing only on a real disappearance.
+
+    THE INVERSE, also theirs: physical_state is seeded ok:True by
+    construction, so its ok flag says nothing about whether live data
+    arrived. When a field vanishes while ok is still True, that
+    contradiction is worth naming separately, because it is the thing
+    that made the snapshot look healthy.
+    """
+    snaps = sorted((ROOT / "snapshots").glob("[0-9]" * 4 + "-*.json"))
+    if len(snaps) < 2:
+        return
+    prev_path, curr_path = snaps[-2], snaps[-1]
+    try:
+        prev = json.loads(prev_path.read_text(encoding="utf-8"))
+        curr = json.loads(curr_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return   # check_snapshots already reports unparseable snapshots
+
+    gone = sorted(set(_leaf_paths(prev)) - set(_leaf_paths(curr)))
+    gone = [p for p in gone
+            if (curr_path.name, ".".join(p[:2])) not in KNOWN_SNAPSHOT_GAPS]
+    if not gone:
+        return
+
+    # Collapse to the top two levels: losing 40 leaves under one block is
+    # one defect, and listing all 40 buries it.
+    blocks = sorted({".".join(p[:2]) for p in gone})
+    for block in blocks[:12]:
+        violations.append(
+            f"snapshot regression: '{block}' had data in "
+            f"{prev_path.name} and is empty or absent in {curr_path.name}. "
+            f"A field that stops arriving is how the CWWA panel published "
+            f"blank on 2026-08-03: every check passed because nothing "
+            f"asserts that last week's data is still there. If this "
+            f"disappearance is legitimate, it needs a reason.")
+
+    ps = curr.get("physical_state")
+    if isinstance(ps, dict) and ps.get("ok") is True:
+        phys_gone = [b for b in blocks if b.startswith("physical_state")]
+        if phys_gone:
+            violations.append(
+                f"physical_state reports ok:True in {curr_path.name} while "
+                f"{len(phys_gone)} of its block(s) lost data since "
+                f"{prev_path.name}. That block is seeded ok:True by "
+                f"construction, so the flag says nothing about whether live "
+                f"data arrived, which is exactly what made the 2026-08-03 "
+                f"snapshot look healthy.")
+
+
 def check_snapshots(violations):
     snaps = ROOT / "snapshots"
     if not snaps.is_dir():
@@ -597,6 +698,7 @@ def main():
     check_fragments(violations)
     check_structure(violations)
     check_snapshots(violations)
+    check_snapshot_regression(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
     check_allhands(violations)
     check_large_files(violations)

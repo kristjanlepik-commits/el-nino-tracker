@@ -13,6 +13,7 @@ publishes it by accident.
 
 import json
 import pathlib
+import re
 import sys
 
 DATA = pathlib.Path(__file__).parent / "data"
@@ -61,6 +62,59 @@ UNDOCUMENTED = {"accuweather"}
 # deaths" pictures a body count. Editor's rule, 2026-07-29, and the
 # same preserve-the-kind principle as the insured tense.
 DEATH_TOLL_KINDS = {"counted", "excess_estimated", "modelled"}
+
+# Any key starting with an underscore is pipeline guidance: renderers
+# never print it. The rule cannot reach INSIDE a string, so a field
+# doing two jobs at once is invisible to it. Design hit exactly that on
+# the Spain payload, where a scope field held reader copy and a renderer
+# directive in one sentence pair, and "Must never render as a Spain
+# figure" printed at the reader. This pattern catches the shape.
+DIRECTIVE_LANGUAGE = re.compile(
+    r"\b(must never|must not|never render|do not render|should not|"
+    r"do not publish|never publish|not publishable|never be compared)\b",
+    re.IGNORECASE)
+
+
+# Internal references that mean nothing to a reader. A decision number
+# or thesis number in reader copy is a leak even though it is not an
+# instruction, so neither the underscore rule nor the directive pattern
+# catches it. Found on 2026-07-29 in design's built latency map, which
+# printed "T4's worked example of the fast-reaction thesis" and a note
+# about an earlier version of the entry being wrong. Both came from an
+# unprefixed ECON field.
+INTERNAL_REFS = re.compile(
+    r"(\bD-\d{3}\b|\bT\d{1,2}\b|\bthe [a-z-]+ thesis\b|"
+    r"\ban earlier version\b|\bwas corrected on\b|\bTLS\b)")
+
+
+def check_reader_fields(name, doc):
+    """Reader-facing fields must not contain instructions to the renderer.
+
+    A field holding both is the defect: no prefix rule can split a
+    string, so the split has to happen in the payload.
+    """
+    def walk(node, path=""):
+        if isinstance(node, dict):
+            for k, v in node.items():
+                walk(v, f"{path}.{k}")
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                walk(v, f"{path}[{i}]")
+        elif isinstance(node, str):
+            key = path.rsplit(".", 1)[-1].split("[")[0]
+            if key.startswith("_"):
+                return
+            hit = DIRECTIVE_LANGUAGE.search(node)
+            if hit:
+                err(f"{name}{path}: reader-facing field contains a renderer "
+                    f"directive ({hit.group(0)!r}). Split it: reader copy stays, "
+                    f"the instruction moves to an underscore-prefixed key")
+            ref = INTERNAL_REFS.search(node)
+            if ref:
+                err(f"{name}{path}: reader-facing field contains an internal "
+                    f"reference ({ref.group(0)!r}) that means nothing to a "
+                    f"reader. Move it to an underscore-prefixed key")
+    walk(doc)
 
 errors = []
 warnings = []
@@ -150,7 +204,7 @@ def check_estimators(doc):
         where = f"estimators.{eid}"
 
         for field in ("full_name", "organisation_type", "citation_string",
-                      "licence_note", "categories_published", "revision_cadence"):
+                      "categories_published", "revision_cadence"):
             if not e.get(field):
                 err(f"{where}: missing {field}")
 
@@ -169,8 +223,11 @@ def check_estimators(doc):
             err(f"{where}: provenance.source_url is required")
         if "fallback" not in prov:
             err(f"{where}: provenance.fallback flag is required")
-        if prov.get("verification_note"):
+        if prov.get("_verification_note"):
             warn(f"{where}: carries a verification note, not publishable as-is")
+
+        if not (e.get("licence_note") or e.get("_licence_note")):
+            err(f"{where}: missing licence_note")
 
         if eid in UNDOCUMENTED and not e.get("caution"):
             err(f"{where}: undocumented estimator must carry a caution field")
@@ -325,7 +382,7 @@ def check_event(name, doc, estimators):
     # payload carrying a total invites a renderer to show it, and the
     # sum of these categories measures nothing.
     flat = json.dumps(doc).lower()
-    for banned in ('"total"', '"sum"', '"grand_total"', '"total_cost"'):
+    for banned in ('"total":', '"sum":', '"grand_total":', '"total_cost":'):
         if banned in flat:
             err(f"{where}: contains a {banned} field; layers are different "
                 f"categories and their sum measures nothing")
@@ -375,16 +432,16 @@ def check_event(name, doc, estimators):
     if non_loss_seen and loss_seen:
         # Legitimate, and the reason the Spain headline works, but only
         # when the payload is explicit that these are different kinds.
-        if not doc.get("no_total"):
+        if not doc.get("_no_total"):
             err(f"{where}: mixes loss and non-loss categories "
                 f"({sorted(set(loss_seen))} with {sorted(set(non_loss_seen))}) "
-                f"without a no_total declaration")
+                f"without a _no_total declaration")
 
     hc = doc.get("headline_candidate")
     if hc:
-        if hc.get("evidence_basis") == "combined" and not hc.get("guardrail"):
+        if hc.get("evidence_basis") == "combined" and not hc.get("_guardrail"):
             err(f"{where}: combined headline candidate needs a guardrail")
-        if hc.get("status", "").startswith("candidate"):
+        if hc.get("_status", "").startswith("candidate"):
             warn(f"{where}: headline_candidate is not approved copy")
 
 
@@ -402,6 +459,9 @@ def main():
 
     if estimators_doc:
         check_estimators(estimators_doc)
+        check_reader_fields("estimators", estimators_doc)
+    if latency_doc:
+        check_reader_fields("latency_map", latency_doc)
     if latency_doc and estimators_doc:
         check_latency(latency_doc, estimators_doc.get("estimators", {}))
 
@@ -410,8 +470,9 @@ def main():
         for ev in sorted(events_dir.glob("*.json")):
             check_no_em_dash(f"events/{ev.name}", ev.read_text())
             try:
-                check_event(ev.stem, json.loads(ev.read_text()),
-                            estimators_doc.get("estimators", {}))
+                ev_doc = json.loads(ev.read_text())
+                check_event(ev.stem, ev_doc, estimators_doc.get("estimators", {}))
+                check_reader_fields(f"events/{ev.stem}", ev_doc)
             except json.JSONDecodeError as exc:
                 err(f"events/{ev.name}: invalid JSON, {exc}")
 
