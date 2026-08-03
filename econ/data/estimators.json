@@ -145,13 +145,14 @@
       "citation_string": "Swiss Re Institute, sigma",
       "licence_note": "Public reports and press releases; citable with attribution.",
       "machine_access": "none; PDF reports",
-      "caution": "sigma has also published forward trend figures (for example insured losses 'on trend to USD 145 billion in 2025', against an outturn of USD 107 billion). A trend projection is not a loss estimate for that year and must never share a column with one. Forward figures belong to aftereffects under D-034.",
+      "caution": "sigma has also published forward trend figures (for example insured losses 'on trend to USD 145 billion in 2025', against an outturn of USD 107 billion). A trend projection is not a loss estimate for that year.",
       "provenance": {
         "source_url": "https://www.swissre.com/institute/research/sigma-research/sigma-2026-01-natcat-2025-wildfire-storm-risk.html",
         "issued": "2026-Q1",
         "fetched_at": "2026-07-28",
         "fallback": false
-      }
+      },
+      "_caution_render": "Never place a trend projection in the same column as a loss figure. Forward figures belong to aftereffects under D-034."
     },
     "munich_re": {
       "full_name": "Munich Re (NatCatSERVICE)",
@@ -424,7 +425,7 @@
         "issued": null,
         "fetched_at": "2026-07-28",
         "fallback": false,
-        "verification_note": "Exact dates of the three January 2025 estimates are not yet confirmed against primary sources; one AccuWeather page renders its date as January 2024, which is wrong. Do not publish the dates until verified."
+        "_verification_note": "Exact dates of the three January 2025 estimates are not yet confirmed against primary sources; one AccuWeather page renders its date as January 2024, which is wrong. Do not publish the dates until verified."
       }
     },
     "eu_solidarity_fund": {
@@ -433,7 +434,7 @@
       "categories_published": [
         "economic_direct"
       ],
-      "scope_note": "Total direct damage for a single disaster, estimated by the affected member state's own authorities and published in the mobilisation decision, alongside the amount granted. The damage estimate and the grant are different quantities and must never be conflated.",
+      "scope_note": "Total direct damage for a single disaster, estimated by the affected member state's own authorities and published in the mobilisation decision, alongside the amount granted. The damage estimate and the grant are different quantities.",
       "territories": [
         "eu_member_states",
         "accession_countries"
@@ -459,7 +460,8 @@
         "issued": null,
         "fetched_at": "2026-07-29",
         "fallback": false
-      }
+      },
+      "_scope_render": "Damage estimated and money granted are separate rows and are never conflated."
     }
   }
 }

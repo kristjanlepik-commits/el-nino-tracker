@@ -3,17 +3,26 @@
   "shape_status": "working shape, not a contract. First per-event ECON payload; built for design to build the ledger template against a real case rather than an invented one.",
   "econ_event_id": "econ.ESP.wildfire.2026",
   "label": "Spain wildfires, 2026 season",
-  "geography": {"country": "Spain", "iso3": "ESP", "admin1": null},
-  "period": {"from": "2026-01-01", "to": "2026-07-22", "status_note": "Season is open. Week 29 of a Mediterranean fire season that peaks in August."},
-  "hazard_channel_ref": {"channel": "fires", "event_id": "fire.ESP.07-22..07-28", "join": "geography and date range, not a shared event id"},
+  "geography": {
+    "country": "Spain",
+    "iso3": "ESP",
+    "admin1": null
+  },
+  "period": {
+    "from": "2026-01-01",
+    "to": "2026-07-22",
+    "status_note": "Season is open. Week 29 of a Mediterranean fire season that peaks in August."
+  },
+  "hazard_channel_ref": {
+    "channel": "fires",
+    "event_id": "fire.ESP.07-22..07-28",
+    "join": "geography and date range, not a shared event id"
+  },
   "attribution_tag": "not_enso_linked",
   "attribution_note": "Matches the fire channel's own tag for Spain. The Mediterranean is the region our own spec designates as the non-ENSO control, and this is the strongest fire anomaly in the 2026 data. Not ENSO-linked is a finding, not an apology (D-042).",
   "evidence_basis": "compiled",
   "authorship": "agency",
   "generated": "2026-07-29",
-
-  "no_total": "There is deliberately no total field in this payload and there must never be one. The layers below are different categories and their sum measures nothing.",
-
   "layers": [
     {
       "kind": "hazard",
@@ -24,7 +33,12 @@
       "estimator_note": "Copernicus EFFIS, via the TLS fire channel",
       "source_url": "https://effis.jrc.ec.europa.eu/",
       "evidence_basis": "measured",
-      "comparison": {"basis": "same week of prior seasons, computed by Copernicus", "mean": 35735.6, "multiple": 4.92, "note": "4.92 times the same-week average"}
+      "comparison": {
+        "basis": "same week of prior seasons, computed by Copernicus",
+        "mean": 35735.6,
+        "multiple": 4.92,
+        "note": "4.92 times the same-week average"
+      }
     },
     {
       "kind": "hazard",
@@ -59,9 +73,10 @@
       "value_qualifier": "at least",
       "units": "people",
       "issued": "2026-07-27",
-      "scope": "SPAIN AND FRANCE COMBINED, not Spain alone. Must never render as a Spain figure.",
+      "scope": "Spain and France combined, not Spain alone.",
       "estimator_note": "press reporting",
-      "evidence_basis": "compiled"
+      "evidence_basis": "compiled",
+      "_scope_render": "Never render as a Spain figure."
     },
     {
       "kind": "analog",
@@ -73,7 +88,11 @@
       "category": "economic_direct",
       "estimator_id": "eu_solidarity_fund",
       "estimator_note": "total direct damage estimated by Spanish authorities",
-      "companion_quantity": {"value": 49000, "units": "hectares", "note": "125 simultaneous fires in under 4 hours, 14 to 15 October"},
+      "companion_quantity": {
+        "value": 49000,
+        "units": "hectares",
+        "note": "125 simultaneous fires in under 4 hours, 14 to 15 October"
+      },
       "evidence_basis": "compiled",
       "comparability_note": "An autumn wind-driven event in Atlantic Galicia. The 2026 season is a summer event in Madrid, Avila, Toledo and Castellon: different vegetation, different exposure. Shown as a reference point, not as a scaled prediction."
     },
@@ -100,22 +119,32 @@
       "category": "funding_granted",
       "estimator_id": "eu_solidarity_fund",
       "evidence_basis": "compiled",
-      "warning": "This is money GRANTED, not damage estimated. It must never render in the same column as a loss figure and must never be compared to one."
+      "note": "This is money granted, not damage estimated.",
+      "_render_warning": "Never place in the same column as a loss figure and never compare one to the other."
     }
   ],
-
   "uncounted": [
-    {"label": "Restoration of burnt areas", "reason": "not estimated by anyone", "note": "Explicitly excluded from the firefighting figure by the source itself."},
-    {"label": "Tourism and farming losses", "reason": "flagged, not quantified", "note": "Named as a concern by experts in the same reporting, with no figure attached."},
-    {"label": "Insured losses", "reason": "no estimator covers this", "note": "See absence_meaning. Three separate mechanisms exclude this hazard and territory."}
+    {
+      "label": "Restoration of burnt areas",
+      "reason": "not estimated by anyone",
+      "note": "Explicitly excluded from the firefighting figure by the source itself."
+    },
+    {
+      "label": "Tourism and farming losses",
+      "reason": "flagged, not quantified",
+      "note": "Named as a concern by experts in the same reporting, with no figure attached."
+    },
+    {
+      "label": "Insured losses",
+      "reason": "no estimator covers this",
+      "note": "See absence_meaning. Three separate mechanisms exclude this hazard and territory."
+    }
   ],
-
   "absence_meaning": {
     "reason": "outside_coverage",
     "note": "No public estimator produces an insured-loss figure for Mediterranean wildfire. PERILS covers neither wildfire as a European peril nor Spain as a territory. Spain's Consorcio de Compensacion de Seguros does not class wildfire as an extraordinary risk. France's CatNat scheme excludes forest fire by statute. Silence here says nothing whatsoever about the size of the event.",
     "latency_map_ref": "wildfire_mediterranean"
   },
-
   "headline_candidate": {
     "text": "The firefighting bill alone, at EUR 1.7 to 3.3 billion, is larger than the entire estimated damage of any comparable Mediterranean fire event on record.",
     "form": "one overlooked category, on its own, exceeds the whole of the category usually quoted",
@@ -123,10 +152,10 @@
     "evidence_basis": "combined",
     "status": "candidate, not approved copy. Editor owns the wording."
   },
-
   "pending_decisions": [
     "Whether TLS surfaces a single central figure derived from the analog range, with tails shown, is undecided (Kristjan, 2026-07-29). No such figure is in this payload. If adopted it would be a new layer with authorship tls_built and would need its own label.",
     "Region-matched burnt area for Portugal Centro 2017 would resolve half the apparent per-hectare spread.",
     "Greece 2023 Alexandroupolis, about 96,000 ha, would be a third analog if a damage figure exists."
-  ]
+  ],
+  "_no_total": "There is deliberately no total field in this payload and there must never be one. The layers below are different categories and their sum measures nothing."
 }
