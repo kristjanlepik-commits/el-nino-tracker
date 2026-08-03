@@ -337,6 +337,73 @@ def check_emitted_fields(violations):
                 f"non-anomalous country renders like an anomalous one.")
 
 
+# 5 MB. Nothing this project legitimately commits approaches it: the
+# largest non-exempt tracked file is a 0.6 MB derived JSON, and the
+# published card PNGs are 0.4 MB. So the threshold sits far above normal
+# and far below anything that would matter, which is where a size gate
+# belongs.
+LARGE_FILE_MAX_BYTES = 5 * 1024 * 1024
+
+# Files we have decided to keep despite the rule. Each needs a REASON,
+# because the entry IS the decision record.
+# Empty, and it should stay that way. The one file that would have been
+# here, a 20.7 MB IMERG grid committed 2026-07-29 before the *.npz
+# ignore rule existed, was untracked by the Floods chat in f54d70f
+# ("stop tracking raw grids; commit the derived artifact instead"). The
+# blob is still in HISTORY, which is why the pack is 34 MB against 0.6 MB
+# of largest tracked file, but nothing oversized is tracked now.
+#
+# An entry here is a decision to keep shipping something the rule says
+# we should not, so it needs a dated reason and an owner, not just a key.
+LARGE_FILE_ALLOWED: dict[str, str] = {}
+
+
+def check_large_files(violations):
+    """Is anything oversized being committed?
+
+    Strategy's ask, 2026-08-03, and their framing is the right one: this
+    is the same shape as the emitted-field defect. Each instance is fine
+    in isolation and only repetition makes it a problem, so nobody
+    notices at the moment it is introduced. A check catches the class;
+    noticing catches one instance, late.
+
+    The concrete case: a 20.7 MB grid landed on 2026-07-29 and pushed
+    before anyone saw it. Git history cannot be trimmed afterwards
+    without a force-push, so the only cheap moment is the commit that
+    introduces it. This is that moment, mechanised.
+
+    Measures the WORKING TREE rather than git objects, deliberately. The
+    question is "should this be committed", which is about the file, and
+    a size check that needed a packed repo would answer too late.
+    """
+    try:
+        tracked = subprocess.run(
+            ["git", "ls-files", "-z"], cwd=ROOT,
+            capture_output=True, text=True, check=True).stdout.split("\0")
+    except (OSError, subprocess.CalledProcessError) as exc:
+        violations.append(f"large-file check could not list tracked "
+                          f"files: {exc}")
+        return
+
+    for rel in tracked:
+        if not rel or rel in LARGE_FILE_ALLOWED:
+            continue
+        path = ROOT / rel
+        try:
+            size = path.stat().st_size
+        except OSError:
+            continue
+        if size > LARGE_FILE_MAX_BYTES:
+            violations.append(
+                f"{rel} is {size / 1048576:.1f} MB, over the "
+                f"{LARGE_FILE_MAX_BYTES / 1048576:.0f} MB limit for a "
+                f"tracked file. Raw grids and captures belong in the "
+                f"GitHub Release store, not in git history, which cannot "
+                f"be trimmed later without a force-push. If this one is "
+                f"genuinely meant to be committed, add it to "
+                f"LARGE_FILE_ALLOWED in scripts/qa_check.py with a reason.")
+
+
 ALLHANDS_MAX_ENTRIES = 10
 ALLHANDS_MAX_AGE_DAYS = 30
 
@@ -430,6 +497,7 @@ def main():
     check_snapshots(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
     check_allhands(violations)
+    check_large_files(violations)
 
     if advisories:
         print(f"QA ADVISORY: {len(advisories)} rendering-completeness "
