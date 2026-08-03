@@ -1,0 +1,499 @@
+{
+ "source": "GPM_3IMERGDL v07 (IMERG Late Run), single product 2000-2026",
+ "window": "2026-07-21..2026-07-27",
+ "grid_deg": 0.5,
+ "years": 27,
+ "method": "week totals per 0.5 deg cell, block-averaged from 0.1 deg; a cell counts as observed only if every native cell had a retrieval",
+ "floor_mm": 50.0,
+ "note": "cells below the floor are excluded: a ratio on a near-dry cell is noise",
+ "global_week_rank": 22,
+ "global_week_rank_of": 27,
+ "frac_cells_within_iqr": 0.498,
+ "frac_cells_record_wet": 0.1029,
+ "frac_cells_record_dry": 0.0385,
+ "record_wet_cells": 4034,
+ "record_wet_systems": 489,
+ "caveat_ocean": "72% of record cells worldwide are open ocean; a land mask is a publish prerequisite and the 10-degree tile proxy used so far is too coarse",
+ "systems": [
+  {
+   "cells": 338,
+   "peak_mm": 404.8,
+   "x_median": 12.1,
+   "prev_record_mm": 175.0,
+   "lon": -72.25,
+   "lat": -40.25
+  },
+  {
+   "cells": 322,
+   "peak_mm": 110.7,
+   "x_median": 9.43,
+   "prev_record_mm": 34.4,
+   "lon": 179.25,
+   "lat": 57.75
+  },
+  {
+   "cells": 248,
+   "peak_mm": 258.7,
+   "x_median": 23.85,
+   "prev_record_mm": 56.2,
+   "lon": -165.75,
+   "lat": -3.75
+  },
+  {
+   "cells": 222,
+   "peak_mm": 342.4,
+   "x_median": 20.89,
+   "prev_record_mm": 126.2,
+   "lon": -169.25,
+   "lat": 10.75
+  },
+  {
+   "cells": 111,
+   "peak_mm": 134.1,
+   "x_median": 21.78,
+   "prev_record_mm": 35.7,
+   "lon": 85.25,
+   "lat": -31.75
+  },
+  {
+   "cells": 98,
+   "peak_mm": 132.4,
+   "x_median": 11.52,
+   "prev_record_mm": 96.9,
+   "lon": 138.25,
+   "lat": 63.25
+  },
+  {
+   "cells": 91,
+   "peak_mm": 158.8,
+   "x_median": 7.16,
+   "prev_record_mm": 86.3,
+   "lon": -164.25,
+   "lat": -35.75
+  },
+  {
+   "cells": 75,
+   "peak_mm": 178.0,
+   "x_median": 526.39,
+   "prev_record_mm": 89.1,
+   "lon": -137.25,
+   "lat": 18.75
+  },
+  {
+   "cells": 70,
+   "peak_mm": 260.3,
+   "x_median": 11.06,
+   "prev_record_mm": 92.6,
+   "lon": 172.25,
+   "lat": 40.25
+  },
+  {
+   "cells": 67,
+   "peak_mm": 212.3,
+   "x_median": 12.74,
+   "prev_record_mm": 116.0,
+   "lon": -50.25,
+   "lat": -28.75
+  },
+  {
+   "cells": 57,
+   "peak_mm": 193.5,
+   "x_median": 60.41,
+   "prev_record_mm": 18.0,
+   "lon": 78.25,
+   "lat": -22.25
+  },
+  {
+   "cells": 54,
+   "peak_mm": 326.3,
+   "x_median": 32.5,
+   "prev_record_mm": 290.8,
+   "lon": -119.25,
+   "lat": 15.75
+  },
+  {
+   "cells": 49,
+   "peak_mm": 104.5,
+   "x_median": 1209.59,
+   "prev_record_mm": 8.4,
+   "lon": -142.75,
+   "lat": -75.75
+  },
+  {
+   "cells": 46,
+   "peak_mm": 507.6,
+   "x_median": 30.6,
+   "prev_record_mm": 111.4,
+   "lon": -90.25,
+   "lat": 27.25
+  },
+  {
+   "cells": 44,
+   "peak_mm": 162.3,
+   "x_median": 12.44,
+   "prev_record_mm": 56.5,
+   "lon": 175.75,
+   "lat": -0.25
+  },
+  {
+   "cells": 43,
+   "peak_mm": 134.9,
+   "x_median": 29.89,
+   "prev_record_mm": 16.8,
+   "lon": -157.75,
+   "lat": -4.25
+  },
+  {
+   "cells": 41,
+   "peak_mm": 194.1,
+   "x_median": 30.27,
+   "prev_record_mm": 92.5,
+   "lon": -174.75,
+   "lat": 1.25
+  },
+  {
+   "cells": 39,
+   "peak_mm": 352.2,
+   "x_median": 12.01,
+   "prev_record_mm": 190.3,
+   "lon": -71.75,
+   "lat": 37.75
+  },
+  {
+   "cells": 39,
+   "peak_mm": 201.5,
+   "x_median": 5.93,
+   "prev_record_mm": 92.6,
+   "lon": -62.75,
+   "lat": 39.25
+  },
+  {
+   "cells": 39,
+   "peak_mm": 140.0,
+   "x_median": 9.32,
+   "prev_record_mm": 38.3,
+   "lon": 88.25,
+   "lat": -37.75
+  },
+  {
+   "cells": 35,
+   "peak_mm": 66.0,
+   "x_median": 3.94,
+   "prev_record_mm": 36.9,
+   "lon": -176.25,
+   "lat": -53.75
+  },
+  {
+   "cells": 35,
+   "peak_mm": 115.8,
+   "x_median": 6.38,
+   "prev_record_mm": 51.6,
+   "lon": -130.25,
+   "lat": 65.25
+  },
+  {
+   "cells": 34,
+   "peak_mm": 99.3,
+   "x_median": 94.75,
+   "prev_record_mm": 4.9,
+   "lon": -33.75,
+   "lat": 33.25
+  },
+  {
+   "cells": 34,
+   "peak_mm": 130.8,
+   "x_median": 70.94,
+   "prev_record_mm": 10.0,
+   "lon": 88.25,
+   "lat": -26.75
+  },
+  {
+   "cells": 32,
+   "peak_mm": 270.3,
+   "x_median": 364.8,
+   "prev_record_mm": 10.5,
+   "lon": -146.75,
+   "lat": 21.75
+  },
+  {
+   "cells": 30,
+   "peak_mm": 218.5,
+   "x_median": 20.96,
+   "prev_record_mm": 78.3,
+   "lon": 134.25,
+   "lat": 40.25
+  },
+  {
+   "cells": 29,
+   "peak_mm": 143.8,
+   "x_median": 10.21,
+   "prev_record_mm": 76.4,
+   "lon": -174.75,
+   "lat": -29.75
+  },
+  {
+   "cells": 29,
+   "peak_mm": 95.6,
+   "x_median": 5.55,
+   "prev_record_mm": 46.9,
+   "lon": 85.75,
+   "lat": 33.75
+  },
+  {
+   "cells": 28,
+   "peak_mm": 152.7,
+   "x_median": 26.65,
+   "prev_record_mm": 72.7,
+   "lon": 33.25,
+   "lat": 42.25
+  },
+  {
+   "cells": 27,
+   "peak_mm": 194.3,
+   "x_median": 7.74,
+   "prev_record_mm": 178.9,
+   "lon": 62.75,
+   "lat": 2.25
+  },
+  {
+   "cells": 26,
+   "peak_mm": 121.9,
+   "x_median": 5.16,
+   "prev_record_mm": 96.3,
+   "lon": -30.25,
+   "lat": -34.75
+  },
+  {
+   "cells": 26,
+   "peak_mm": 133.2,
+   "x_median": 7.2,
+   "prev_record_mm": 93.1,
+   "lon": 170.75,
+   "lat": 43.25
+  },
+  {
+   "cells": 25,
+   "peak_mm": 77.8,
+   "x_median": 4.18,
+   "prev_record_mm": 29.7,
+   "lon": -157.75,
+   "lat": -43.25
+  },
+  {
+   "cells": 25,
+   "peak_mm": 106.4,
+   "x_median": 4.32,
+   "prev_record_mm": 73.8,
+   "lon": 40.75,
+   "lat": -41.75
+  },
+  {
+   "cells": 23,
+   "peak_mm": 68.7,
+   "x_median": 6.55,
+   "prev_record_mm": 40.7,
+   "lon": -178.25,
+   "lat": -57.75
+  },
+  {
+   "cells": 23,
+   "peak_mm": 102.3,
+   "x_median": 3.2,
+   "prev_record_mm": 59.7,
+   "lon": -158.25,
+   "lat": -37.75
+  },
+  {
+   "cells": 23,
+   "peak_mm": 172.9,
+   "x_median": 6.76,
+   "prev_record_mm": 126.1,
+   "lon": -55.75,
+   "lat": 40.75
+  },
+  {
+   "cells": 22,
+   "peak_mm": 77.7,
+   "x_median": 36.05,
+   "prev_record_mm": 44.6,
+   "lon": -100.75,
+   "lat": -26.75
+  },
+  {
+   "cells": 22,
+   "peak_mm": 81.1,
+   "x_median": 10.77,
+   "prev_record_mm": 35.4,
+   "lon": -67.75,
+   "lat": 58.75
+  },
+  {
+   "cells": 21,
+   "peak_mm": 157.9,
+   "x_median": 38.43,
+   "prev_record_mm": 46.7,
+   "lon": -56.25,
+   "lat": 18.75
+  },
+  {
+   "cells": 21,
+   "peak_mm": 98.6,
+   "x_median": 3.53,
+   "prev_record_mm": 54.7,
+   "lon": 87.75,
+   "lat": 51.75
+  },
+  {
+   "cells": 18,
+   "peak_mm": 121.2,
+   "x_median": 337.61,
+   "prev_record_mm": 25.2,
+   "lon": -127.75,
+   "lat": 2.75
+  },
+  {
+   "cells": 18,
+   "peak_mm": 87.6,
+   "x_median": 4.06,
+   "prev_record_mm": 61.1,
+   "lon": -81.75,
+   "lat": 54.25
+  },
+  {
+   "cells": 17,
+   "peak_mm": 94.0,
+   "x_median": 29.36,
+   "prev_record_mm": 62.9,
+   "lon": 53.25,
+   "lat": -25.75
+  },
+  {
+   "cells": 17,
+   "peak_mm": 248.6,
+   "x_median": 9.73,
+   "prev_record_mm": 164.5,
+   "lon": 122.25,
+   "lat": 4.25
+  },
+  {
+   "cells": 17,
+   "peak_mm": 118.5,
+   "x_median": 10.53,
+   "prev_record_mm": 99.8,
+   "lon": 161.75,
+   "lat": 51.25
+  },
+  {
+   "cells": 16,
+   "peak_mm": 89.6,
+   "x_median": 3.1,
+   "prev_record_mm": 69.4,
+   "lon": 5.25,
+   "lat": 61.75
+  },
+  {
+   "cells": 16,
+   "peak_mm": 74.9,
+   "x_median": 19.68,
+   "prev_record_mm": 29.7,
+   "lon": 57.25,
+   "lat": -28.25
+  },
+  {
+   "cells": 15,
+   "peak_mm": 72.4,
+   "x_median": 7.27,
+   "prev_record_mm": 40.0,
+   "lon": -73.25,
+   "lat": 57.25
+  },
+  {
+   "cells": 15,
+   "peak_mm": 144.9,
+   "x_median": 8.28,
+   "prev_record_mm": 116.4,
+   "lon": -15.25,
+   "lat": 14.75
+  },
+  {
+   "cells": 15,
+   "peak_mm": 118.3,
+   "x_median": 12.35,
+   "prev_record_mm": 62.5,
+   "lon": 19.25,
+   "lat": 42.75
+  },
+  {
+   "cells": 14,
+   "peak_mm": 232.2,
+   "x_median": 3.05,
+   "prev_record_mm": 153.4,
+   "lon": -177.75,
+   "lat": 5.75
+  },
+  {
+   "cells": 14,
+   "peak_mm": 111.9,
+   "x_median": 28.16,
+   "prev_record_mm": 77.3,
+   "lon": -176.25,
+   "lat": 32.75
+  },
+  {
+   "cells": 14,
+   "peak_mm": 77.0,
+   "x_median": 18.57,
+   "prev_record_mm": 64.5,
+   "lon": -69.75,
+   "lat": 61.75
+  },
+  {
+   "cells": 14,
+   "peak_mm": 81.9,
+   "x_median": 5.81,
+   "prev_record_mm": 44.4,
+   "lon": 172.25,
+   "lat": 48.75
+  },
+  {
+   "cells": 13,
+   "peak_mm": 144.4,
+   "x_median": 33.53,
+   "prev_record_mm": 140.3,
+   "lon": -173.25,
+   "lat": -0.25
+  },
+  {
+   "cells": 13,
+   "peak_mm": 244.2,
+   "x_median": 8.55,
+   "prev_record_mm": 148.7,
+   "lon": -169.25,
+   "lat": 3.75
+  },
+  {
+   "cells": 13,
+   "peak_mm": 150.6,
+   "x_median": 196.1,
+   "prev_record_mm": 43.2,
+   "lon": -39.75,
+   "lat": 14.25
+  },
+  {
+   "cells": 13,
+   "peak_mm": 73.7,
+   "x_median": 7.86,
+   "prev_record_mm": 44.5,
+   "lon": 40.25,
+   "lat": 48.25
+  },
+  {
+   "cells": 13,
+   "peak_mm": 76.9,
+   "x_median": 6.19,
+   "prev_record_mm": 58.5,
+   "lon": 40.75,
+   "lat": 60.25
+  }
+ ]
+}

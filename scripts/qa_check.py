@@ -277,6 +277,104 @@ EMITTED_FIELD_SOURCES = [
 ]
 
 
+# THE RESERVED NAMESPACE (Design's proposal, 2026-08-03).
+#
+# A key prefixed with "_" is guidance to the pipeline and is NEVER
+# reader-facing. A renderer that prints one is a bug; a channel that puts
+# reader copy there is also a bug.
+#
+# Underscore rather than a single `_internal` block, for two reasons.
+# It is already the de facto convention: `_readme` appears in
+# data/events.json and three fires payloads without anyone specifying
+# it. And it keeps the guidance ADJACENT to the field it qualifies,
+# which a separate block cannot: ECON's `scope` needs a note about
+# `scope`, and `_scope_note` sits next to it while `_internal.scope_note`
+# drifts away from the thing it is about.
+#
+# WHAT THIS DOES NOT FIX, and why Design's second clause is the load
+# bearing one. A namespace cannot split a field that does two jobs
+# inside ONE string. ECON's `scope` opens with a genuine reader-facing
+# scope statement and ends with "Must never render as a Spain figure",
+# and that printed on a page. No prefix rule reaches inside a string.
+# The field has to split, which is a channel migration, and this guard
+# only protects the result once it has happened.
+RESERVED_PREFIX = "_"
+
+# Below this length a value is too short to attribute confidently: a
+# reserved value of "n/a" would match half the site and produce noise
+# that gets the check ignored. Long internal prose is the actual failure
+# mode, and it is well above this.
+RESERVED_MIN_LEN = 30
+
+
+def _reserved_values(obj, out):
+    """Every string under a reserved key, at any depth."""
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if isinstance(k, str) and k.startswith(RESERVED_PREFIX):
+                if isinstance(v, str):
+                    out.append(v)
+                else:
+                    _collect_strings(v, out)
+            else:
+                _reserved_values(v, out)
+    elif isinstance(obj, list):
+        for v in obj:
+            _reserved_values(v, out)
+
+
+def _collect_strings(obj, out):
+    if isinstance(obj, str):
+        out.append(obj)
+    elif isinstance(obj, dict):
+        for v in obj.values():
+            _collect_strings(v, out)
+    elif isinstance(obj, list):
+        for v in obj:
+            _collect_strings(v, out)
+
+
+def check_reserved_not_rendered(violations):
+    """Nothing in the reserved namespace may reach a rendered page.
+
+    Design's ask, after two internal directives printed at readers in one
+    day: ECON's "Must never render as a Spain figure" and a CRO note
+    telling the renderer which field to prefer. Both were caught by a
+    human looking at the page, which is not a mechanism.
+
+    Same shape as the analytics-tag and masthead assertions in
+    publish_all: a substring check over the built HTML. Cheap, and it
+    fails at publish rather than on the page.
+    """
+    values: list[str] = []
+    for pattern in ("*/data/*.json", "data/*.json"):
+        for path in sorted(ROOT.glob(pattern)):
+            try:
+                doc = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            found: list[str] = []
+            _reserved_values(doc, found)
+            values.extend(v for v in found if len(v) >= RESERVED_MIN_LEN)
+
+    if not values:
+        return
+
+    docs = ROOT / "docs"
+    for html in sorted(docs.rglob("*.html")):
+        try:
+            text = html.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        for v in values:
+            if v in text:
+                violations.append(
+                    f"{html.relative_to(ROOT)} renders a reserved-namespace "
+                    f"value, which is pipeline guidance and not reader copy: "
+                    f"\"{v[:70]}...\". A key prefixed '{RESERVED_PREFIX}' must "
+                    f"never reach a page.")
+
+
 def check_emitted_fields(violations):
     """Is every field a channel emits actually read by a renderer?
 
@@ -322,7 +420,11 @@ def check_emitted_fields(violations):
             sources[rel] = p.read_text(encoding="utf-8") if p.exists() else ""
 
         for field in emitted:
-            if field in DECLARED_UNUSED:
+            # Reserved keys are exempt BY CONSTRUCTION: they are pipeline
+            # guidance, so 'no renderer reads it' is the correct state
+            # rather than a defect. check_reserved_not_rendered asserts
+            # the other half, that they never reach a page.
+            if field.startswith(RESERVED_PREFIX) or field in DECLARED_UNUSED:
                 continue
             pattern = re.compile(r"""["']%s["']""" % re.escape(field))
             if any(pattern.search(text) for text in sources.values()):
@@ -335,6 +437,73 @@ def check_emitted_fields(violations):
                 f"to DECLARED_UNUSED in scripts/qa_check.py with a reason. "
                 f"A field that crosses the seam and is dropped is how a "
                 f"non-anomalous country renders like an anomalous one.")
+
+
+# 5 MB. Nothing this project legitimately commits approaches it: the
+# largest non-exempt tracked file is a 0.6 MB derived JSON, and the
+# published card PNGs are 0.4 MB. So the threshold sits far above normal
+# and far below anything that would matter, which is where a size gate
+# belongs.
+LARGE_FILE_MAX_BYTES = 5 * 1024 * 1024
+
+# Files we have decided to keep despite the rule. Each needs a REASON,
+# because the entry IS the decision record.
+# Empty, and it should stay that way. The one file that would have been
+# here, a 20.7 MB IMERG grid committed 2026-07-29 before the *.npz
+# ignore rule existed, was untracked by the Floods chat in f54d70f
+# ("stop tracking raw grids; commit the derived artifact instead"). The
+# blob is still in HISTORY, which is why the pack is 34 MB against 0.6 MB
+# of largest tracked file, but nothing oversized is tracked now.
+#
+# An entry here is a decision to keep shipping something the rule says
+# we should not, so it needs a dated reason and an owner, not just a key.
+LARGE_FILE_ALLOWED: dict[str, str] = {}
+
+
+def check_large_files(violations):
+    """Is anything oversized being committed?
+
+    Strategy's ask, 2026-08-03, and their framing is the right one: this
+    is the same shape as the emitted-field defect. Each instance is fine
+    in isolation and only repetition makes it a problem, so nobody
+    notices at the moment it is introduced. A check catches the class;
+    noticing catches one instance, late.
+
+    The concrete case: a 20.7 MB grid landed on 2026-07-29 and pushed
+    before anyone saw it. Git history cannot be trimmed afterwards
+    without a force-push, so the only cheap moment is the commit that
+    introduces it. This is that moment, mechanised.
+
+    Measures the WORKING TREE rather than git objects, deliberately. The
+    question is "should this be committed", which is about the file, and
+    a size check that needed a packed repo would answer too late.
+    """
+    try:
+        tracked = subprocess.run(
+            ["git", "ls-files", "-z"], cwd=ROOT,
+            capture_output=True, text=True, check=True).stdout.split("\0")
+    except (OSError, subprocess.CalledProcessError) as exc:
+        violations.append(f"large-file check could not list tracked "
+                          f"files: {exc}")
+        return
+
+    for rel in tracked:
+        if not rel or rel in LARGE_FILE_ALLOWED:
+            continue
+        path = ROOT / rel
+        try:
+            size = path.stat().st_size
+        except OSError:
+            continue
+        if size > LARGE_FILE_MAX_BYTES:
+            violations.append(
+                f"{rel} is {size / 1048576:.1f} MB, over the "
+                f"{LARGE_FILE_MAX_BYTES / 1048576:.0f} MB limit for a "
+                f"tracked file. Raw grids and captures belong in the "
+                f"GitHub Release store, not in git history, which cannot "
+                f"be trimmed later without a force-push. If this one is "
+                f"genuinely meant to be committed, add it to "
+                f"LARGE_FILE_ALLOWED in scripts/qa_check.py with a reason.")
 
 
 ALLHANDS_MAX_ENTRIES = 10
@@ -430,6 +599,8 @@ def main():
     check_snapshots(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
     check_allhands(violations)
+    check_large_files(violations)
+    check_reserved_not_rendered(violations)
 
     if advisories:
         print(f"QA ADVISORY: {len(advisories)} rendering-completeness "
