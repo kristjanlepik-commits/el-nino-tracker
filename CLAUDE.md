@@ -98,8 +98,27 @@ assigned belongs to the first-listed owner of that file.
 
 Shared artifacts every chat reads at session start: this file,
 `research/theses.md` (T1-T11), `research/decisions.md` (append-only
-ratification ledger; any chat appends when Kristjan ratifies), and
-auto-memory MEMORY.md (cross-chat bulletin).
+ratification ledger; any chat appends when Kristjan ratifies),
+`research/allhands.md` (broadcast board, D-059: read it, reply only to
+object, silence is assent), and auto-memory MEMORY.md (cross-chat
+bulletin).
+
+**If you are working in a git worktree, `research/` is a SYMLINK to the
+main tree, and it is load-bearing.** `research/` is a separate nested
+repo that this repo gitignores, so a worktree, being a fresh checkout,
+gets no `research/` at all. Three worktrees ran that way until
+2026-08-01: no ledger, no theses, no team.md, no all-hands. The chat
+that OWNS the ledger was one of them. If `ls research/` is empty where
+you are, stop and say so rather than proceeding without the shared
+artifacts, because everything above silently does not apply to you.
+
+The symlink is excluded via `.git/info/exclude` as well as `.gitignore`.
+That is not belt-and-braces: git treats a symlink as a file, so the
+`research/` directory pattern does not match it, and worktrees sit on
+their own branches reading whatever `.gitignore` those branches
+committed. `info/exclude` is shared by every worktree and takes effect
+immediately. Without it a worktree reports `?? research` and will
+eventually commit a link to a private repo into this public one.
 
 **Check the Superseded index at the top of `research/decisions.md`
 before acting on any ledger entry.** Entries are never edited, so an
@@ -367,6 +386,10 @@ both are easy to get wrong and neither is visible in the code:
 - The event-page publishing pipeline (to be designed), email
   capture infrastructure
 - This CLAUDE.md section (ownership map)
+- `research/allhands.md` (D-059). Owned here rather than by product
+  because it is a shared artifact like this file, not a product
+  surface. Any chat appends a broadcast; platform keeps the cap
+  enforced and the delivery mechanism working.
 
 ### Strategy chat
 
