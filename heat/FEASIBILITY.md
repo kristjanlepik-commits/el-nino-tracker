@@ -637,7 +637,65 @@ US Pacific Northwest, which the drift boxes cover. A reader seeing both
 on one page would reasonably assume they are the same area. Platform is
 carrying this to design alongside the two-month publication lag.
 
-## 6. The open question that now gates the drift claim
+## 6. RESOLVED as D-068, and the claim decomposition that replaced it
+
+**The question below was answered on 2026-08-03 and is kept for the
+reasoning.** Kristjan ratified platform's third option as D-068: the
+single-source constraint is per claim, not per channel, and the shared
+service computes drift from a homogenised observational series.
+
+**The two-sentence form in `research/brief_drift_instrument.md` was
+muddled, found by platform after ratification.** It read "the normal
+itself has moved: for this region, July 2026 against 1961-1990 would
+have been the hottest on record", which is two claims wearing one
+sentence. The correct decomposition is three:
+
+- **A, anomaly.** July 2026 nights against 1991-2020, from ERA5.
+  Single-source. Depends on nothing external.
+- **B, baseline shift.** The 1961-1990 to 1991-2020 night normal moved
+  +X, from Berkeley TMIN. Single-source, and **permanently computable**,
+  because closed historical periods cannot go stale in a frozen file.
+- **C, counterfactual ranking.** July 2026 placed inside the 1961-1990
+  distribution. Needs a current value in the same series as the
+  distribution.
+
+**Only C is at risk.** A and B are both clean and were tangled together
+in the ratified wording.
+
+### 6a. The new open question: can C be published at all?
+
+Berkeley's 1 degree files are frozen (5c), so C cannot be computed
+inside Berkeley. HadCRUT5 is current but 5 degrees and mean-only, so it
+carries neither the variable nor the resolution. Neither source gives
+current **and** night minima in one series.
+
+**Heat's proposal, with platform, and it needs Kristjan because D-068
+was ratified partly on the assurance that this stays Measured:**
+compute C entirely inside ERA5, which holds both 1961-1990 and July
+2026, and use Berkeley's B as an **independent validation of ERA5's own
+B, per region**. Agreement within uncertainty demonstrates ERA5's
+1961-1990 fit for that region and C publishes as single-source
+Measured. Disagreement means C does not publish there, and the
+reanalysis inhomogeneity has been measured rather than feared.
+
+This is instrument cross-validation, not arithmetic across sources. The
+published number never leaves ERA5; Berkeley decides whether it is
+trusted. D-033 tests whether the number handed to a reader is
+arithmetic across sources, and under this route it is not.
+
+**Testable on the pull running tonight**, which covers 1950-2026 for
+both boxes. The six-hour construction is adequate for this despite
+being test-only, for the same reason it is adequate for the D-049 test:
+a shift is a difference, so the warm bias sits in both periods and
+largely cancels. The residual is checkable against the derived product
+on a sample of years and will be checked rather than asserted.
+
+**Pre-registered expectation, stated before the result:** Iberia should
+fail this validation and other regions should pass, because the 1978
+snow defect is Iberian. If Iberia passes too, that is evidence the
+concern was overstated and it will be reported as such.
+
+## 6b. Superseded: the question as it stood before D-068
 
 Platform and product converged on the same point from opposite
 directions, which is worth recording as evidence rather than
