@@ -577,8 +577,51 @@ general audience as far as Heat is aware.
 
 **Deliberately not stating an expected direction here.** It has not
 been measured, and today produced two separate cases of a number being
-formatted before it was checked. Platform to say whether it changes
-their sizing.
+formatted before it was checked.
+
+**Platform accepted it 2026-08-03 with a precise caution: they are
+giving Heat the data, not the claim.** The verification is Heat's and
+is not inside their S. Written down here before their numbers arrive,
+for the same reason the D-049 threshold was fixed before its pull.
+
+### 5c-i. Pre-registered verification of the night-versus-day drift differential
+
+Fixed before any value is seen. A differential that comes out the
+interesting way is exactly the shape that gets published fastest, which
+is why the checks are written first.
+
+**Check 1, station coverage parity. Rated highest, and platform's
+catch.** Berkeley's TMIN and TMAX grids need not rest on the same
+stations. If TMIN coverage over 1961-1990 is thinner than TMAX in a
+region, a night-versus-day differential partly measures which stations
+reported what, not which warmed more. **This is Fire's 5.2x in a new
+costume**: an arithmetically correct number whose coverage is the lie.
+Check the per-cell station count or uncertainty field in both files
+over the baseline windows before computing anything.
+
+**Check 2, baseline-pair sensitivity.** Recompute against an alternative
+pair, 1951-1980 against 1991-2020. Sign and rough magnitude must hold.
+
+**Check 3, region-cut sensitivity.** Recompute on shifted and enlarged
+boxes. A differential that depends on where a box edge falls is a box
+artifact.
+
+**The bar, set now rather than after.** The differential publishes only
+if it exceeds the stated uncertainty envelope of both fields in the
+same region **and** holds its sign under checks 2 and 3. No arbitrary
+threshold is invented here, because the data carries its own.
+
+**If it fails, that is a result and not a dead end.** "Night and day
+normals have moved by indistinguishable amounts in this region" is a
+measured null under D-050, in a domain where the assumption runs the
+other way, and it is publishable on the same terms as the crops null.
+
+**Also required before publication, and it is a page-level issue rather
+than a data one:** drift regions and anomaly regions are different
+geographies. The ERA5 anomaly boxes stop at 115W and do not reach the
+US Pacific Northwest, which the drift boxes cover. A reader seeing both
+on one page would reasonably assume they are the same area. Platform is
+carrying this to design alongside the two-month publication lag.
 
 ## 6. The open question that now gates the drift claim
 
