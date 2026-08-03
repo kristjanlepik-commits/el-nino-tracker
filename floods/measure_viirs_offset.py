@@ -29,6 +29,7 @@ import urllib.request
 import numpy as np
 
 LAADS = "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/61/MCDWD_L3_NRT"
+LANCE = "https://nrt3.modaps.eosdis.nasa.gov/archive/allData/5200/VCDWD_L3_NRT"
 LAYERS = ("Flood_3Day_250m", "ValidCounts_3Day_250m")
 
 
@@ -46,7 +47,12 @@ def main():
     ap.add_argument("--tiles", required=True, help="comma separated, e.g. h27v06,h11v08")
     ap.add_argument("--year", default="2026")
     ap.add_argument("--doys", default="202,203,204,205,206,207,208")
-    ap.add_argument("--viirs-dir", required=True)
+    ap.add_argument("--viirs-dir", default=None,
+                    help="read VIIRS from captured 0.1 deg npz files")
+    ap.add_argument("--viirs-from-lance", action="store_true",
+                    help="fetch the 8 VIIRS tiles straight from LANCE instead. "
+                         "Needed for any week not in the local capture, and far "
+                         "cheaper than capturing a global day to compare 8 tiles.")
     ap.add_argument("--tmp", required=True)
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
@@ -59,9 +65,51 @@ def main():
 
     tok = open(os.path.expanduser("~/.earthdata_token")).read().strip()
 
-    # VIIRS side, already captured: weekly flood and observed per tile.
+    # VIIRS side.
     vf, vo = {}, {}
-    for doy in doys:
+    if args.viirs_from_lance:
+        import netCDF4
+        G = ("HDFEOS", "GRIDS", "Flood_Composite", "Data Fields")
+        for doy in doys:
+            try:
+                L = {f["name"].split(".")[2]: f["name"]
+                     for f in http_json(f"{LANCE}/{args.year}/{doy}.json")
+                     if len(f["name"].split(".")) > 2}
+            except Exception as exc:
+                log(f"VIIRS {doy}: listing failed {repr(exc)[:70]}")
+                continue
+            cfg = os.path.join(args.tmp, "_v.cfg")
+            want = [t for t in tiles if t in L]
+            with open(cfg, "w") as fh:
+                fh.write(f'header = "Authorization: Bearer {tok}"\n')
+                for t in want:
+                    fh.write(f'url = "{LANCE}/{args.year}/{doy}/{L[t]}"\n')
+                    fh.write(f'output = "{os.path.join(args.tmp, t + ".h5")}"\n')
+            subprocess.call(["curl", "-sS", "-L", "--fail", "-Z", "--parallel-max", "6",
+                             "--retry", "3", "--connect-timeout", "60",
+                             "--max-time", "900", "-K", cfg])
+            os.unlink(cfg)
+            for t in want:
+                q = os.path.join(args.tmp, t + ".h5")
+                if not os.path.exists(q):
+                    continue
+                try:
+                    ds = netCDF4.Dataset(q)
+                    n = ds
+                    for g in G:
+                        n = n.groups[g]
+                    f2 = np.array(n.variables["Flood_3Day_250m"][:])
+                    v2 = np.array(n.variables["ValidCounts_3Day_250m"][:]).astype(np.int16)
+                    ds.close()
+                    v2[v2 == 255] = 0
+                    vf[t] = vf.get(t, 0) + int(((f2 == 2) | (f2 == 3)).sum())
+                    vo[t] = vo.get(t, 0) + int((v2 > 0).sum())
+                except Exception as exc:
+                    log(f"VIIRS {doy} {t}: {repr(exc)[:70]}")
+                finally:
+                    os.unlink(q)
+            log(f"VIIRS {doy} done ({len(want)} tiles)")
+    for doy in (doys if not args.viirs_from_lance else []):
         p = os.path.join(args.viirs_dir, f"vcdwd_0p1deg_{args.year}{doy}.npz")
         if not os.path.exists(p):
             log(f"VIIRS {doy} missing, skipped")
@@ -124,7 +172,8 @@ def main():
             modis_flood=mf[t], viirs_flood=vf[t],
             ratio=round(vf[t] / mf[t], 3),
             modis_obs=round(mo[t] / (4800 * 4800 * len(doys)), 3),
-            viirs_obs=round(vo[t] / (100 * 100 * 2304 * len(doys)), 3),
+            viirs_obs=round(vo[t] / ((4800 * 4800 if args.viirs_from_lance
+                                      else 100 * 100 * 2304) * len(doys)), 3),
             obs_adjusted=round((vf[t] / max(vo[t], 1)) / (mf[t] / max(mo[t], 1)), 3),
         ))
     with open(out, "w") as fh:
