@@ -72,12 +72,80 @@ compares groups.
   against flat or shrinking, matched within climate region so that
   regional warming differences do not confound the comparison.
 
-Candidate set, to be frozen before the pull and recorded here when it
-is. Growth: Phoenix, Dallas-Fort Worth, Houston, Madrid, Munich.
-Flat or shrinking: Buffalo, Cleveland, Detroit, Leipzig, Liverpool,
-Naples. This set is chosen for growth contrast and is disposable. It is
-**not** the channel's city set, which is product's and answers a
-different question. Product has agreed the separation explicitly.
+### 1b-i. Specification freeze, 2026-08-03, before any data is pulled
+
+D-067 fixed the threshold. It did **not** fix everything a result
+depends on, and the remaining choices are the garden of forking paths:
+ring definition, city list and estimator can each be nudged after
+seeing data in ways a fixed threshold does not catch. Frozen here.
+
+**Cities.** Growth: Phoenix, Dallas-Fort Worth, Houston, Madrid,
+Munich. Flat or shrinking: Buffalo, Cleveland, Detroit, Leipzig,
+Liverpool, Naples. Chosen for growth contrast, disposable, and **not**
+the channel's reader-facing set, which is product's and answers a
+different question.
+
+**Correction to 1b as first written.** That draft required matching
+within climate region so regional warming would not confound the
+comparison. It is not needed, and the reason is the design's own
+strength: the ring sits immediately around the city, so regional
+warming cancels inside each city's own difference before any group
+comparison happens. The groups need to differ in population
+trajectory and nothing else. Cross-region pairing was belt-and-braces
+described as load-bearing.
+
+**Ring.** All cells whose centres fall in the annulus 0.75 to 1.5
+degrees from the city cell centre, excluding cells more than 50 percent
+water on ERA5's land-sea mask. Simple mean, unweighted.
+
+**A limitation with a known direction, recorded because it changes how
+a clean result should be read.** The ring is not screened for suburban
+growth. If ring cells have themselves urbanised, city-minus-ring
+**understates** urban contamination. So the bias runs toward finding
+the channel clean: a contaminated verdict is stronger than it looks,
+and a clean verdict is weaker than it looks. This compounds with gate
+0 rather than offsetting it, and both point the same way.
+
+**Estimator.** Ordinary least squares on the annual series of the
+city-minus-ring difference in daily night minima, 1950 to 2026, in
+degrees C per decade. Theil-Sen computed as a pre-registered
+robustness check; a sign disagreement between the two is investigated
+rather than resolved by preference.
+
+**Season.** Annual and JJA both computed and both reported, fixed in
+advance so neither can be chosen after the fact.
+
+### 1b-ii. Amendment, 2026-08-03, before any test data existed
+
+One amendment, recorded with its reason and date because the freeze is
+worth nothing if changes are not visible.
+
+**The test uses the minimum over a six-hour night window, not the true
+daily minimum.** Forced by cost: section 5b shows the derived product,
+which serves true daily minima, caps at one to two years per request
+and cannot carry a 77-year record. The raw product can, at six hours
+per day.
+
+**Why this cannot steer the result.** The statistic is a difference
+between a city cell and a ring within 1.5 degrees of it, so city and
+ring sit inside six minutes of solar time of each other and share the
+window exactly. Any bias the window introduces applies to both and
+cancels. The amendment was also made before any test data existed, for
+a cost reason independent of the answer.
+
+**Product's published Madrid series is unaffected** and still comes
+from the derived product at true daily minimum, because that one is
+reader-facing and cheap enough at one city.
+
+**An error this caught in the probe, worth recording because it would
+have been silent.** The probe sampled 00:00-05:00 UTC, which is a
+reasonable night window for Europe and is 17:00-23:00 local in Phoenix,
+which is evening. A single UTC window cannot serve boxes 37 degrees of
+longitude apart. The windows are therefore per region: **02:00-07:00
+UTC for Europe, 09:00-14:00 UTC for the US**, each covering roughly
+03:00-08:00 local across the box and both seasons. Had this gone
+unnoticed, every US "night minimum" in the test would have been an
+evening temperature, and nothing downstream would have flagged it.
 
 ### 1c. The check that runs first, and why it is the important one
 
@@ -408,6 +476,53 @@ product rather than a general CDS limit, so a positive result there
 does not generalise back to the reanalysis endpoints. Record which
 product each result applies to. This is the same shape as the
 documentation asymmetry in 3a.
+
+## 5b. CDS cost caps, measured 2026-08-03
+
+Recorded per product, because platform's caution is correct that a
+result on one CDS endpoint does not transfer to another. Every row
+below is measured, not inferred.
+
+| Product | Request | Result |
+|---|---|---|
+| derived daily-statistics | 1 yr, 9x15 box | accepted, 658s, 0.2 MB |
+| derived daily-statistics | 3 yr, 9x15 box | **rejected**, cost limits |
+| derived daily-statistics | 10 yr, 9x15 box | **rejected**, cost limits |
+| derived daily-statistics | 1 yr, 65x89 box | accepted, 3509s, 3.9 MB |
+| raw single-levels | 10 yr, 1 month, 6 night hours, 9x15 box | accepted, 321s, 0.6 MB |
+
+**The derived product's cap counts years, and it is far tighter than
+`fetchers/era5_wwe.py` implies.** That docstring records the dataset
+rejecting 30-year requests. It rejects three. The note is not wrong,
+it is loose in a way that cost this chat a probe round: it reads as a
+constraint that bites at decades when it bites at years. Platform owns
+that file; the correction is theirs to make.
+
+**Area is cheap but not free**, correcting an earlier guess in this
+document. 43 times the cells cost roughly 2.4 to 5 times the wall
+clock. The uncertainty is because the 65x89 run rode through a local
+DNS outage and spent an unknown share of its 3509s in 120-second retry
+backoff rather than at CDS.
+
+**cdsapi survives a network outage unattended**, which the same run
+demonstrated by accident: it retried 16 or more times at 120-second
+intervals against a limit of 500 and completed. That is a real
+robustness finding for an overnight job on this laptop.
+
+**Consequence for the test pull.** The derived product cannot carry a
+77-year record at one to two years per request. The raw product can,
+chunked as `era5_wwe.py` already chunks, and probe D confirms it takes
+ten years of one month at six night hours in 321s. Production shape is
+therefore two regional boxes, Europe and US, chunked by ten-year block
+and month: about 192 requests. Sequentially that is well over a day; at
+the concurrency CDS permits it is an overnight job, not an evening and
+not a week.
+
+Three conditions ride with that, all from CLAUDE.md's unattended-job
+discipline and none optional: per-chunk caching to disk so the job is
+genuinely resumable rather than merely restartable, a **duration**-based
+wake lock covering the whole window, and a `.running-jobs` line before
+it starts. Platform is told first, since CDS quota is per account.
 
 ## 6. The open question that now gates the drift claim
 

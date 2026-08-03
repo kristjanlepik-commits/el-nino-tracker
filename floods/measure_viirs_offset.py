@@ -161,6 +161,17 @@ def main():
                 os.unlink(p)
         log(f"{doy} done ({len(want)} tiles)")
 
+    # A run where the network dropped must not leave a results file that
+    # looks like a measurement. On 2026-08-03 every listing failed inside
+    # one second on a DNS blip and the script cheerfully wrote twelve rows
+    # of nulls, which is exactly the plausible-looking failure this
+    # channel keeps producing.
+    if not mf:
+        log("FAILED: no MODIS data retrieved for any tile. Not writing results.")
+        return 1
+    if len(mf) < len(tiles):
+        log(f"WARNING: MODIS retrieved for {len(mf)}/{len(tiles)} tiles only")
+
     rows = []
     for t in tiles:
         if t not in mf or t not in vf or not mf[t]:

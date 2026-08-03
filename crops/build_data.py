@@ -164,6 +164,44 @@ def build_stress(catalogue: dict) -> dict:
             })
         regions.sort(key=lambda r: r["rank"])
 
+        # The empirical chance baseline, per place. Design needs this
+        # as a drawn object rather than a sentence, and product's
+        # adopted preference is to quote the TRAJECTORY where the series
+        # allows it rather than a baseline. Both need the per-year
+        # series, so it is emitted rather than left to be recomputed.
+        #
+        # Never units/26. The uniform assumption fails wherever a series
+        # trends, and it fails in different directions in different
+        # places: Europe 4.0x, globally 1.39x, Chad and neighbours 0.1
+        # to 0.4x. It cannot be corrected, only counted.
+        panel = (base[base.doy == doy]
+                 .groupby(["region_id", "year"]).value.mean().unstack())
+        panel = panel.dropna()
+        worst_by_year = panel.idxmin(axis=1).value_counts()
+        series = {int(y): int(worst_by_year.get(y, 0))
+                  for y in range(BASE_FIRST, latest.year + 1)}
+        recent = [v for y, v in series.items()
+                  if 2014 <= y <= BASE_LAST]
+        empirical = {
+            "measures": "admin units at their worst on record for this "
+                        "dekad, per year",
+            "series": series,
+            "recent_mean": round(float(np.mean(recent)), 2) if recent else None,
+            "recent_min": int(min(recent)) if recent else None,
+            "recent_max": int(max(recent)) if recent else None,
+            "this_year": series.get(latest.year, 0),
+            "uniform_would_say": round(len(panel) / 26, 1),
+            "note": "uniform_would_say is shown only to be argued with. "
+                    "Use recent_mean.",
+        }
+        # The bar product adopted 2026-07-29: a count is notable when it
+        # clears the place's OWN recent maximum, not when it clears a
+        # mean. Sharper than a mean because it needs no distributional
+        # assumption, and it is what separated Chad and Sudan from
+        # Rwanda, Eritrea, Mali and Burundi.
+        empirical["clears_own_recent_max"] = bool(
+            recent and empirical["this_year"] > max(recent))
+
         head = instruments[0]
         quals = [{
             "kind": "canopy_not_cause",
@@ -200,6 +238,7 @@ def build_stress(catalogue: dict) -> dict:
             "instruments": instruments,
             "regions": regions,
             "regions_worst_3": sum(1 for r in regions if r["rank"] <= 3),
+            "chance_baseline": empirical,
             "qualifiers": quals,
         })
 

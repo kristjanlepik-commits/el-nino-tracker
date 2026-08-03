@@ -987,6 +987,86 @@ Country-level, all against expected = units / 26:
 uniform assumption fails wherever the series carries a trend, which is
 everywhere, and it fails in the direction that manufactures alarm.
 
+### 6o. The Sahel cluster mostly does not survive its own rule
+
+Product asked, correctly, that the Sahel sentence use an empirical
+baseline rather than the uniform one, since it would be poor to state
+the rule in one paragraph and use units/26 in the next. Run for every
+country in the cluster:
+
+**Corrected 2026-07-29, and the correction is mine.** The first version
+of this table averaged `value_counts()` output, which omits years with a
+count of zero. That silently conditions the mean on "years that had at
+least one", inflating every baseline. Both figures shown:
+
+| Country | Units | Uniform | Inflated mean | **True mean** | Recent max | 2026 | |
+|---|---|---|---|---|---|---|---|
+| **Chad** | 21 | 0.8 | 2.5 | **0.83** | 3 | **8** | survives |
+| **Sudan** | 14 | 0.5 | 1.5 | **0.50** | 2 | **3** | survives |
+| Rwanda | 28 | 1.1 | 6.7 | 1.67 | **12** | 5 | marginal |
+| Eritrea | 5 | 0.2 | 2.0 | 0.17 | 2 | 2 | marginal |
+| Mali | 9 | 0.3 | 1.0 | 0.25 | 1 | 1 | marginal |
+| Burundi | 17 | 0.7 | 3.0 | 0.75 | **6** | 2 | marginal |
+
+The correction moves things in both directions. **Chad strengthens**: 8
+against a true recent average of 0.83 and a maximum of 3, with zero in
+eight of the last twelve years. **Sudan upgrades** from marginal to
+surviving. **Rwanda, Eritrea, Mali and Burundi are marginal rather than
+failing**: each is above its own mean but none exceeds its own recent
+maximum, and Rwanda's 2017 gave 12 against this year's 5.
+
+Europe is unaffected in conclusion but its quoted figure was also wrong:
+the true 2014-2025 mean is **1.58**, not 2.71, and 2026's 2 remains
+ordinary against it.
+
+So the original claim of a cluster "unambiguously beyond chance" was
+still wrong, but for a different reason than the first correction gave:
+not because the countries fail, but because only two of six clear their
+own recent maximum.
+
+**The hoarding runs the opposite way here, and that is the real find.**
+Every country in this group has a recent mean *above* its uniform
+expectation, factors of 0.1 to 0.4, where Europe's was 4.0. Europe hoards
+its record-lows in 2003 and 2001; the Sahel hoards them in recent years.
+That is a browning signal rather than a greening one.
+
+**Chad specifically:** 2014 gave 2, 2015 gave 3, then eight consecutive
+years of zero, then 2024 gave 2, 2025 gave 3 and 2026 gives 8. Three
+consecutive rising years after a decade of none is a stronger and more
+interesting statement than any single-year count, and it is the form the
+sentence should take.
+
+**Corrected Sahel sentence:** Chad alone, with its own trajectory, not a
+regional cluster claim.
+
+### 6p. Why the empirical baseline beats a binomial, for a reason neither of us claimed
+
+Identified by product, 2026-07-29, and worth recording because it
+answers the obvious challenge to this whole method.
+
+A binomial expectation over N units assumes the units are independent.
+Neighbouring admin units are not: adjacent provinces share weather, so
+four contiguous provinces at rank 1 is closer to one event than to four.
+That is awkward to correct for and it was raised twice as a caution.
+
+**Comparing a place against its own past counts sidesteps the problem
+entirely.** Chad's 2015 has the same spatial correlation structure as
+Chad's 2026, because it is the same set of provinces in the same
+arrangement. The correlation is already priced into both sides of the
+comparison, so it cannot distort the ratio between them.
+
+So the empirical baseline is not merely more accurate than the uniform
+one. It is **robust to a problem the uniform one cannot handle at all**,
+and that is the answer when someone asks why we do not just use a
+binomial.
+
+**The adopted bar, from the same exchange: a count is notable when it
+clears the place's own recent maximum**, not when it clears a mean. That
+is what separated Chad (8 against a max of 3) and Sudan (3 against 2)
+from Rwanda (5 against 12), Eritrea, Mali and Burundi. It needs no
+distributional assumption whatever, and it is emitted as
+`clears_own_recent_max`.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
