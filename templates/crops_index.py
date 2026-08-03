@@ -157,31 +157,52 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # What sits above the noise floor. A country holding many more record
     # lows than its share of units is the only thing on this page that
     # chance does not already explain.
-    # Selection is the channel's, not mine. `clears_own_recent_max` is
-    # computed against each country's OWN recent history, which is the
-    # test that survived: my binomial over units/26 assumed both a
-    # uniform baseline and independent draws, and CRO's empirical rerun
-    # overturned most of the cluster I had found with it. Chad survived
-    # and strengthened; Rwanda, Eritrea, Mali and Burundi did not.
-    # Filter on the channel's boolean, never order on it. CRO's warning,
-    # and it is right: clears_own_recent_max is a hard boolean over a
-    # small sample, so Turkiye clearing at 4 against a recent max of 2
-    # and China clearing at 1 against a recent max of 0 both read True
-    # and are not comparable events. The field cannot say so.
+    # Selection AND threshold are the channel's, not mine. My floor stood
+    # here for one day and is deleted: a materiality threshold is domain
+    # knowledge, so it belongs on CRO's side of the seam, and a floor I
+    # invent renders my judgement under their byline.
     #
-    # A materiality floor on top of the filter, stated here rather than
-    # assumed: the excess over a country's own recent maximum has to be
-    # at least 2, and the count itself at least 3. Without it a 1
-    # against 0 is eligible to become the page's headline cluster, which
-    # would be the rank-is-not-a-magnitude error in a third costume.
-    clusters = []
-    for pl in places:
-        cb = pl.get("chance_baseline") or {}
-        this, rmax = cb.get("this_year") or 0, cb.get("recent_max") or 0
-        if cb.get("clears_own_recent_max") and this >= 3 and this - rmax >= 2:
-            clusters.append((pl["place"], cb, this - rmax))
-    clusters.sort(key=lambda t: (-t[2], -(t[1].get("this_year") or 0)))
-    clusters = [(c, cb) for c, cb, _ in clusters]
+    # Read `notable`, order by `excess_share`. Never order on
+    # `clears_own_recent_max`: it is a boolean over a small sample, so
+    # Turkiye at 4 against a recent max of 2 and China at 1 against 0
+    # both read True and are not comparable events.
+    #
+    # Why not the two shapes I proposed, both of which CRO tested and
+    # rejected. Excess per unit rewards small denominators, ranking China
+    # at 1 of 31 units above Turkiye at 4 of 79, so going from zero
+    # regions to one outranks going from two to four. Absolute excess
+    # cannot separate Chad's 8-against-3 from Suriname's 2-against-1.
+    # The count floor is what actually works, because every noise case
+    # has the same shape: 0 to 1, or 1 to 2.
+    clusters = [(pl["place"], pl["chance_baseline"], pl.get("crop_units"))
+                for pl in places
+                if (pl.get("chance_baseline") or {}).get("notable")]
+    clusters.sort(key=lambda t: -(t[1].get("excess_share") or 0))
+
+    def _also(rest):
+        """The rest of the notable set, printed so the drop-off shows.
+
+        A bare list would read as six equivalent findings. Chad's excess
+        share is more than three times the next country's, and five of
+        the six clear their own maximum by exactly one region, so each
+        row carries its own counts.
+
+        The denominator is printed because it is what does the ordering.
+        Without it Viet Nam's 6 sits below Sudan's 3 for no visible
+        reason, and an order the reader cannot account for reads as a
+        mistake in the page rather than as a property of the data. With
+        "6 of 64" against "3 of 15" it is self-evident.
+        """
+        if not rest:
+            return ""
+        rows = "".join(
+            f'<li><span class="alsoc">{h(c)}</span> '
+            f'{cb["this_year"]} of {u} regions, against a previous high '
+            f'of {cb["recent_max"]}</li>'
+            for c, cb, u in rest)
+        return (f'<p class="alsolab">Also above their own recent maximum, '
+                f'by a smaller share of the country</p>'
+                f'<ul class="also">{rows}</ul>')
 
     ctry_hits = sum(1 for p in places
                     if (p.get("magnitude") or {}).get("value") == 1)
@@ -200,18 +221,19 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
 
     cluster_html = ""
     if clusters:
-        c, cb = clusters[0]
+        c, cb, cu = clusters[0]
         cluster_html = f"""
       <p class="seclab">What this country&rsquo;s own history does not explain</p>
       <p class="secsub">Measured against its own record-low count in every
         previous year rather than against an assumed rate, which needs no
         claim that neighbouring regions fail independently.</p>
       <div class="cluster">
-        <p class="cbig">{cb['this_year']} regions</p>
-        <p class="cbody">of {h(c)} are at their worst on record this dekad.
+        <p class="cbig">{cb['this_year']} of {cu} regions</p>
+        <p class="cbody">in {h(c)} are at their worst on record this dekad.
         Its highest in any of the previous twenty-five years was
         {cb['recent_max']}, and its recent average is {cb['recent_mean']:g}.</p>
         {_trajectory(cb, c)}
+        {_also(clusters[1:])}
         <p class="ccav">A lead rather than a finding: the owning channel
         rules before this is published as a claim. The payload also
         carries what an even spread would have predicted, and it is not
@@ -281,6 +303,18 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 .cbody {{ margin:10px 0 0; max-width:60ch; }}
 .ccav {{ margin:10px 0 0; font-size:13.5px; color:var(--ink-soft);
   max-width:60ch; }}
+/* The runners-up are ink, not crop. The channel hue marks the one case
+   that is above its own history by a real margin; spending it on five
+   countries that clear by a single region would make the drop-off the
+   block exists to show invisible. */
+.alsolab {{ margin:18px 0 0; font-size:11px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-faint);
+  font-family:"{T.FONT_DATA}",monospace; }}
+.also {{ margin:8px 0 0; padding:0; list-style:none; font-size:14px;
+  color:var(--ink-soft); max-width:60ch; }}
+.also li {{ padding:4px 0; border-bottom:1px solid var(--rule);
+  font-variant-numeric:tabular-nums; }}
+.alsoc {{ color:var(--ink); font-weight:600; }}
 .note {{ margin:20px 0 0; font-size:14px; color:var(--ink-soft);
   max-width:64ch; }}
 .foot {{ margin-top:46px; padding-top:14px; border-top:1px solid var(--ink);
