@@ -15,99 +15,45 @@
   "attribution 'pending' means not yet examined. It is not a",
   "weak yes and must not collapse into an ENSO-attributed loss."
  ],
- "generated": "2026-07-30T16:31:04Z",
- "window": "07-23..07-29",
+ "generated": "2026-08-03T13:55:26Z",
+ "window": "07-27..08-02",
  "evidence_basis": "measured",
  "countries": {
-  "COD": {
-   "event_id": "fire.COD.07-23..07-29",
-   "geography": {
-    "country": "Democratic Republic of the Congo",
-    "iso3": "COD",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "non_enso",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 71082,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 77781.1,
-     "multiple": 0.914,
-     "by_year": {
-      "2012": 64173,
-      "2013": 93366,
-      "2014": 81313,
-      "2015": 69870,
-      "2016": 63973,
-      "2017": 81513,
-      "2018": 89919,
-      "2019": 89988,
-      "2020": 94192,
-      "2021": 129658,
-      "2022": 54393,
-      "2023": 76001,
-      "2024": 13141,
-      "2025": 87435
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 13576187,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 28362942.0,
-     "multiple": 0.48
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
   "AGO": {
-   "event_id": "fire.AGO.07-23..07-29",
+   "event_id": "fire.AGO.07-27..08-02",
    "geography": {
     "country": "Angola",
     "iso3": "AGO",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "non_enso",
    "activity_status": "active",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 76238,
+    "value": 66084,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 57776.9,
-     "multiple": 1.32,
+     "mean": 59414.4,
+     "multiple": 1.112,
      "by_year": {
-      "2012": 66470,
-      "2013": 59703,
-      "2014": 64050,
-      "2015": 66958,
-      "2016": 60765,
-      "2017": 60929,
-      "2018": 60834,
-      "2019": 76450,
-      "2020": 57390,
-      "2021": 65992,
-      "2022": 34583,
-      "2023": 47914,
-      "2024": 11588,
-      "2025": 75250
+      "2012": 60352,
+      "2013": 72660,
+      "2014": 61664,
+      "2015": 88485,
+      "2016": 49239,
+      "2017": 62847,
+      "2018": 44905,
+      "2019": 79376,
+      "2020": 52138,
+      "2021": 62506,
+      "2022": 0,
+      "2023": 61547,
+      "2024": 29408,
+      "2025": 106674
      }
     },
     "revision_open": false
@@ -115,1673 +61,53 @@
    "area": {
     "measure": "cumulative burnt area, year to date",
     "units": "hectares",
-    "value": 7368247,
+    "value": 7514357,
     "instrument": "GWIS mapped perimeters, weekly",
     "as_of": "2026-07-29",
     "analog_comparison": {
      "basis": "same week of prior seasons, computed by Copernicus, not by us",
      "mean": 17462349.9,
-     "multiple": 0.42
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "CAN": {
-   "event_id": "fire.CAN.07-23..07-29",
-   "geography": {
-    "country": "Canada",
-    "iso3": "CAN",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "non_enso",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 39167,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 27646.4,
-     "multiple": 1.417,
-     "by_year": {
-      "2012": 18544,
-      "2013": 22866,
-      "2014": 109338,
-      "2015": 1365,
-      "2016": 4127,
-      "2017": 13979,
-      "2018": 5949,
-      "2019": 14346,
-      "2020": 866,
-      "2021": 62258,
-      "2022": 1702,
-      "2023": 70841,
-      "2024": 12677,
-      "2025": 48191
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 1995280,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 2793080.8,
-     "multiple": 0.71
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "ZMB": {
-   "event_id": "fire.ZMB.07-23..07-29",
-   "geography": {
-    "country": "Zambia",
-    "iso3": "ZMB",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "non_enso",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 37869,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 32155.6,
-     "multiple": 1.178,
-     "by_year": {
-      "2012": 37840,
-      "2013": 43565,
-      "2014": 41790,
-      "2015": 40454,
-      "2016": 39059,
-      "2017": 35016,
-      "2018": 30886,
-      "2019": 44828,
-      "2020": 21980,
-      "2021": 28044,
-      "2022": 16880,
-      "2023": 28363,
-      "2024": 7614,
-      "2025": 33860
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 3158239,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 6205880.9,
-     "multiple": 0.51
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "AUS": {
-   "event_id": "fire.AUS.07-23..07-29",
-   "geography": {
-    "country": "Australia",
-    "iso3": "AUS",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "non_enso",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 33970,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 16879.6,
-     "multiple": 2.012,
-     "by_year": {
-      "2012": 22434,
-      "2013": 19788,
-      "2014": 11026,
-      "2015": 13757,
-      "2016": 22200,
-      "2017": 18849,
-      "2018": 22671,
-      "2019": 25078,
-      "2020": 17392,
-      "2021": 15677,
-      "2022": 10189,
-      "2023": 13930,
-      "2024": 5481,
-      "2025": 17842
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 11689772,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 14036070.7,
-     "multiple": 0.83
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "USA": {
-   "event_id": "fire.USA.07-23..07-29",
-   "geography": {
-    "country": "United States of America",
-    "iso3": "USA",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "non_enso",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 38365,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 12837.5,
-     "multiple": 2.989,
-     "by_year": {
-      "2012": 7147,
-      "2013": 12310,
-      "2014": 8062,
-      "2015": 14534,
-      "2016": 11405,
-      "2017": 10877,
-      "2018": 27433,
-      "2019": 22976,
-      "2020": 5979,
-      "2021": 27814,
-      "2022": 4208,
-      "2023": 8421,
-      "2024": 6010,
-      "2025": 12549
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 2325844,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 3212623.5,
-     "multiple": 0.72
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "RUS": {
-   "event_id": "fire.RUS.07-23..07-29",
-   "geography": {
-    "country": "Russia",
-    "iso3": "RUS",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 36595,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 92964.2,
-     "multiple": 0.394,
-     "by_year": {
-      "2012": 200168,
-      "2013": 117571,
-      "2014": 125675,
-      "2015": 61696,
-      "2016": 138602,
-      "2017": 37232,
-      "2018": 51808,
-      "2019": 204101,
-      "2020": 100343,
-      "2021": 168109,
-      "2022": 33129,
-      "2023": 28460,
-      "2024": 22786,
-      "2025": 11819
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 3201745,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 11320912.1,
-     "multiple": 0.28
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "MOZ": {
-   "event_id": "fire.MOZ.07-23..07-29",
-   "geography": {
-    "country": "Mozambique",
-    "iso3": "MOZ",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 15509,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 13674.6,
-     "multiple": 1.134,
-     "by_year": {
-      "2012": 18139,
-      "2013": 22256,
-      "2014": 15788,
-      "2015": 20935,
-      "2016": 19955,
-      "2017": 12927,
-      "2018": 13737,
-      "2019": 21552,
-      "2020": 8199,
-      "2021": 6729,
-      "2022": 4133,
-      "2023": 11163,
-      "2024": 7101,
-      "2025": 8830
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 768024,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 1838970.6,
-     "multiple": 0.42
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "TZA": {
-   "event_id": "fire.TZA.07-23..07-29",
-   "geography": {
-    "country": "United Republic of Tanzania",
-    "iso3": "TZA",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 14444,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 16406.9,
-     "multiple": 0.88,
-     "by_year": {
-      "2012": 20493,
-      "2013": 19102,
-      "2014": 17392,
-      "2015": 18297,
-      "2016": 18986,
-      "2017": 16589,
-      "2018": 12474,
-      "2019": 25684,
-      "2020": 21107,
-      "2021": 21082,
-      "2022": 8201,
-      "2023": 9943,
-      "2024": 3789,
-      "2025": 16558
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 1039529,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 3445653.9,
-     "multiple": 0.3
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "ZAF": {
-   "event_id": "fire.ZAF.07-23..07-29",
-   "geography": {
-    "country": "South Africa",
-    "iso3": "ZAF",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 7147,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 5832.3,
-     "multiple": 1.225,
-     "by_year": {
-      "2012": 5722,
-      "2013": 11905,
-      "2014": 7875,
-      "2015": 2831,
-      "2016": 1682,
-      "2017": 5792,
-      "2018": 6944,
-      "2019": 10676,
-      "2020": 4632,
-      "2021": 9543,
-      "2022": 1860,
-      "2023": 7360,
-      "2024": 1426,
-      "2025": 3404
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 784414,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 1267124.6,
-     "multiple": 0.62
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "MDG": {
-   "event_id": "fire.MDG.07-23..07-29",
-   "geography": {
-    "country": "Madagascar",
-    "iso3": "MDG",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 7472,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 6227.9,
-     "multiple": 1.2,
-     "by_year": {
-      "2012": 6798,
-      "2013": 7700,
-      "2014": 3285,
-      "2015": 7912,
-      "2016": 9757,
-      "2017": 4991,
-      "2018": 6807,
-      "2019": 10318,
-      "2020": 7076,
-      "2021": 5799,
-      "2022": 2354,
-      "2023": 6363,
-      "2024": 1476,
-      "2025": 6554
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 685684,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 1088465.4,
-     "multiple": 0.63
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "IDN": {
-   "event_id": "fire.IDN.07-23..07-29",
-   "geography": {
-    "country": "Indonesia",
-    "iso3": "IDN",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 8026,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 5123.3,
-     "multiple": 1.567,
-     "by_year": {
-      "2012": 9060,
-      "2013": 5737,
-      "2014": 17225,
-      "2015": 11407,
-      "2016": 899,
-      "2017": 3748,
-      "2018": 3565,
-      "2019": 4079,
-      "2020": 1559,
-      "2021": 3138,
-      "2022": 715,
-      "2023": 4030,
-      "2024": 667,
-      "2025": 5897
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 474051,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 689400.2,
-     "multiple": 0.69
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "BRA": {
-   "event_id": "fire.BRA.07-23..07-29",
-   "geography": {
-    "country": "Brazil",
-    "iso3": "BRA",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 8317,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 21569.6,
-     "multiple": 0.386,
-     "by_year": {
-      "2012": 28457,
-      "2013": 11859,
-      "2014": 13947,
-      "2015": 14837,
-      "2016": 35012,
-      "2017": 31918,
-      "2018": 23326,
-      "2019": 26946,
-      "2020": 29705,
-      "2021": 29593,
-      "2022": 12039,
-      "2023": 17813,
-      "2024": 12019,
-      "2025": 14503
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 2014655,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 4479779.6,
-     "multiple": 0.45
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "COG": {
-   "event_id": "fire.COG.07-23..07-29",
-   "geography": {
-    "country": "Republic of the Congo",
-    "iso3": "COG",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 4586,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 5207.0,
-     "multiple": 0.881,
-     "by_year": {
-      "2012": 12826,
-      "2013": 4105,
-      "2014": 6868,
-      "2015": 3771,
-      "2016": 9186,
-      "2017": 8666,
-      "2018": 3292,
-      "2019": 3551,
-      "2020": 5835,
-      "2021": 4730,
-      "2022": 1859,
-      "2023": 1598,
-      "2024": 2260,
-      "2025": 4351
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 676275,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 964105.9,
-     "multiple": 0.7
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "PNG": {
-   "event_id": "fire.PNG.07-23..07-29",
-   "geography": {
-    "country": "Papua New Guinea",
-    "iso3": "PNG",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 5276,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 720.2,
-     "multiple": 7.326,
-     "by_year": {
-      "2012": 899,
-      "2013": 474,
-      "2014": 664,
-      "2015": 855,
-      "2016": 383,
-      "2017": 477,
-      "2018": 2536,
-      "2019": 1104,
-      "2020": 784,
-      "2021": 383,
-      "2022": 609,
-      "2023": 317,
-      "2024": 52,
-      "2025": 546
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 222045,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 116363.9,
-     "multiple": 1.91
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "BOL": {
-   "event_id": "fire.BOL.07-23..07-29",
-   "geography": {
-    "country": "Bolivia",
-    "iso3": "BOL",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 5541,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 5619.0,
-     "multiple": 0.986,
-     "by_year": {
-      "2012": 1852,
-      "2013": 2942,
-      "2014": 638,
-      "2015": 1615,
-      "2016": 13093,
-      "2017": 6631,
-      "2018": 7846,
-      "2019": 3747,
-      "2020": 6408,
-      "2021": 6491,
-      "2022": 2193,
-      "2023": 7610,
-      "2024": 6196,
-      "2025": 11404
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 535032,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 1378281.4,
-     "multiple": 0.39
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "ESP": {
-   "event_id": "fire.ESP.07-23..07-29",
-   "geography": {
-    "country": "Spain",
-    "iso3": "ESP",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "non_enso",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 4641,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 341.4,
-     "multiple": 13.594,
-     "by_year": {
-      "2012": 738,
-      "2013": 264,
-      "2014": 231,
-      "2015": 684,
-      "2016": 331,
-      "2017": 442,
-      "2018": 176,
-      "2019": 219,
-      "2020": 315,
-      "2021": 314,
-      "2022": 570,
-      "2023": 146,
-      "2024": 52,
-      "2025": 297
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 206768,
-    "instrument": "EFFIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 42700.2,
-     "multiple": 4.84
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "CHN": {
-   "event_id": "fire.CHN.07-23..07-29",
-   "geography": {
-    "country": "China",
-    "iso3": "CHN",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "dormant",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 3905,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 5712.1,
-     "multiple": 0.684,
-     "by_year": {
-      "2012": 5738,
-      "2013": 7005,
-      "2014": 9197,
-      "2015": 7114,
-      "2016": 7411,
-      "2017": 6360,
-      "2018": 6647,
-      "2019": 6635,
-      "2020": 5598,
-      "2021": 5971,
-      "2022": 3132,
-      "2023": 3397,
-      "2024": 846,
-      "2025": 4918
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 2264455,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 2082467.7,
-     "multiple": 1.09
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "ZWE": {
-   "event_id": "fire.ZWE.07-23..07-29",
-   "geography": {
-    "country": "Zimbabwe",
-    "iso3": "ZWE",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 3365,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 2211.3,
-     "multiple": 1.522,
-     "by_year": {
-      "2012": 4106,
-      "2013": 3501,
-      "2014": 2147,
-      "2015": 2017,
-      "2016": 2411,
-      "2017": 1652,
-      "2018": 1798,
-      "2019": 4402,
-      "2020": 730,
-      "2021": 2013,
-      "2022": 722,
-      "2023": 3255,
-      "2024": 1045,
-      "2025": 1159
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 188914,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 294929.0,
-     "multiple": 0.64
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "ITA": {
-   "event_id": "fire.ITA.07-23..07-29",
-   "geography": {
-    "country": "Italy",
-    "iso3": "ITA",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 785,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 1017.4,
-     "multiple": 0.772,
-     "by_year": {
-      "2012": 760,
-      "2013": 974,
-      "2014": 482,
-      "2015": 886,
-      "2016": 854,
-      "2017": 1244,
-      "2018": 782,
-      "2019": 841,
-      "2020": 1002,
-      "2021": 2512,
-      "2022": 694,
-      "2023": 1791,
-      "2024": 129,
-      "2025": 1292
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 69336,
-    "instrument": "EFFIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 30387.1,
-     "multiple": 2.28
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "MWI": {
-   "event_id": "fire.MWI.07-23..07-29",
-   "geography": {
-    "country": "Malawi",
-    "iso3": "MWI",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 1294,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 1385.1,
-     "multiple": 0.934,
-     "by_year": {
-      "2012": 2304,
-      "2013": 2207,
-      "2014": 1859,
-      "2015": 1547,
-      "2016": 2548,
-      "2017": 1216,
-      "2018": 1878,
-      "2019": 2035,
-      "2020": 592,
-      "2021": 541,
-      "2022": 385,
-      "2023": 767,
-      "2024": 589,
-      "2025": 923
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 56436,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 130435.7,
      "multiple": 0.43
     },
     "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "LBY": {
-   "event_id": "fire.LBY.07-23..07-29",
-   "geography": {
-    "country": "Libya",
-    "iso3": "LBY",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 1161,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 788.4,
-     "multiple": 1.473,
-     "by_year": {
-      "2012": 1221,
-      "2013": 1050,
-      "2014": 636,
-      "2015": 585,
-      "2016": 461,
-      "2017": 870,
-      "2018": 915,
-      "2019": 1076,
-      "2020": 375,
-      "2021": 1053,
-      "2022": 438,
-      "2023": 881,
-      "2024": 318,
-      "2025": 1158
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 0,
-    "instrument": "EFFIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 520.7,
-     "multiple": 0.0
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "UKR": {
-   "event_id": "fire.UKR.07-23..07-29",
-   "geography": {
-    "country": "Ukraine",
-    "iso3": "UKR",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 1018,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 4397.9,
-     "multiple": 0.231,
-     "by_year": {
-      "2012": 4045,
-      "2013": 3000,
-      "2014": 8582,
-      "2015": 6750,
-      "2016": 9506,
-      "2017": 9549,
-      "2018": 1312,
-      "2019": 4546,
-      "2020": 4019,
-      "2021": 2908,
-      "2022": 1081,
-      "2023": 677,
-      "2024": 476,
-      "2025": 5119
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 273314,
-    "instrument": "EFFIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 65738.8,
-     "multiple": 4.16
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "KAZ": {
-   "event_id": "fire.KAZ.07-23..07-29",
-   "geography": {
-    "country": "Kazakhstan",
-    "iso3": "KAZ",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 1284,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 4269.8,
-     "multiple": 0.301,
-     "by_year": {
-      "2012": 5017,
-      "2013": 957,
-      "2014": 3675,
-      "2015": 3096,
-      "2016": 831,
-      "2017": 20400,
-      "2018": 5784,
-      "2019": 12967,
-      "2020": 1403,
-      "2021": 2047,
-      "2022": 507,
-      "2023": 1331,
-      "2024": 181,
-      "2025": 1581
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 429520,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 1512628.4,
-     "multiple": 0.28
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "VEN": {
-   "event_id": "fire.VEN.07-23..07-29",
-   "geography": {
-    "country": "Venezuela",
-    "iso3": "VEN",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "dormant",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 1435,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 1227.5,
-     "multiple": 1.169,
-     "by_year": {
-      "2012": 1332,
-      "2013": 1234,
-      "2014": 2306,
-      "2015": 1900,
-      "2016": 1388,
-      "2017": 1202,
-      "2018": 1289,
-      "2019": 1605,
-      "2020": 795,
-      "2021": 884,
-      "2022": 700,
-      "2023": 829,
-      "2024": 288,
-      "2025": 1433
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 2976249,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 3988975.4,
-     "multiple": 0.75
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "PER": {
-   "event_id": "fire.PER.07-23..07-29",
-   "geography": {
-    "country": "Peru",
-    "iso3": "PER",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 1434,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 1635.4,
-     "multiple": 0.877,
-     "by_year": {
-      "2012": 2316,
-      "2013": 1324,
-      "2014": 564,
-      "2015": 1357,
-      "2016": 3478,
-      "2017": 2276,
-      "2018": 2277,
-      "2019": 823,
-      "2020": 1774,
-      "2021": 2384,
-      "2022": 884,
-      "2023": 1612,
-      "2024": 663,
-      "2025": 1164
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 44052,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 98131.2,
-     "multiple": 0.45
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "SAU": {
-   "event_id": "fire.SAU.07-23..07-29",
-   "geography": {
-    "country": "Saudi Arabia",
-    "iso3": "SAU",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 813,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 542.6,
-     "multiple": 1.498,
-     "by_year": {
-      "2012": 509,
-      "2013": 778,
-      "2014": 619,
-      "2015": 657,
-      "2016": 554,
-      "2017": 670,
-      "2018": 531,
-      "2019": 525,
-      "2020": 457,
-      "2021": 618,
-      "2022": 256,
-      "2023": 520,
-      "2024": 155,
-      "2025": 747
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 0,
-    "instrument": "EFFIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 0,
-     "multiple": null
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "TKM": {
-   "event_id": "fire.TKM.07-23..07-29",
-   "geography": {
-    "country": "Turkmenistan",
-    "iso3": "TKM",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 745,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 549.9,
-     "multiple": 1.355,
-     "by_year": {
-      "2012": 577,
-      "2013": 494,
-      "2014": 424,
-      "2015": 647,
-      "2016": 564,
-      "2017": 686,
-      "2018": 584,
-      "2019": 804,
-      "2020": 733,
-      "2021": 622,
-      "2022": 163,
-      "2023": 520,
-      "2024": 131,
-      "2025": 749
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 21484,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 54271.3,
-     "multiple": 0.4
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "COL": {
-   "event_id": "fire.COL.07-23..07-29",
-   "geography": {
-    "country": "Colombia",
-    "iso3": "COL",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 1202,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 961.7,
-     "multiple": 1.25,
-     "by_year": {
-      "2012": 1519,
-      "2013": 1673,
-      "2014": 2134,
-      "2015": 1673,
-      "2016": 1040,
-      "2017": 1002,
-      "2018": 630,
-      "2019": 893,
-      "2020": 601,
-      "2021": 526,
-      "2022": 173,
-      "2023": 625,
-      "2024": 355,
-      "2025": 620
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 891618,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 1753762.0,
-     "multiple": 0.51
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "JPN": {
-   "event_id": "fire.JPN.07-23..07-29",
-   "geography": {
-    "country": "Japan",
-    "iso3": "JPN",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "dormant",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 543,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 555.4,
-     "multiple": 0.978,
-     "by_year": {
-      "2012": 962,
-      "2013": 389,
-      "2014": 947,
-      "2015": 760,
-      "2016": 479,
-      "2017": 297,
-      "2018": 670,
-      "2019": 597,
-      "2020": 88,
-      "2021": 777,
-      "2022": 217,
-      "2023": 631,
-      "2024": 182,
-      "2025": 779
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 14844,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 10613.4,
-     "multiple": 1.4
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "TUN": {
-   "event_id": "fire.TUN.07-23..07-29",
-   "geography": {
-    "country": "Tunisia",
-    "iso3": "TUN",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 530,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 133.4,
-     "multiple": 3.973,
-     "by_year": {
-      "2012": 137,
-      "2013": 102,
-      "2014": 228,
-      "2015": 176,
-      "2016": 69,
-      "2017": 53,
-      "2018": 51,
-      "2019": 93,
-      "2020": 208,
-      "2021": 409,
-      "2022": 124,
-      "2023": 139,
-      "2024": 12,
-      "2025": 66
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 20319,
-    "instrument": "EFFIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 2847.9,
-     "multiple": 7.13
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "DEU": {
-   "event_id": "fire.DEU.07-23..07-29",
-   "geography": {
-    "country": "Germany",
-    "iso3": "DEU",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 850,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 453.5,
-     "multiple": 1.874,
-     "by_year": {
-      "2012": 733,
-      "2013": 553,
-      "2014": 559,
-      "2015": 374,
-      "2016": 310,
-      "2017": 154,
-      "2018": 1020,
-      "2019": 782,
-      "2020": 408,
-      "2021": 510,
-      "2022": 377,
-      "2023": 149,
-      "2024": 142,
-      "2025": 278
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 2170,
-    "instrument": "EFFIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 730.5,
-     "multiple": 2.97
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
+    "area_lag_days": 5
    }
   },
   "ARG": {
-   "event_id": "fire.ARG.07-23..07-29",
+   "event_id": "fire.ARG.07-27..08-02",
    "geography": {
     "country": "Argentina",
     "iso3": "ARG",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "quiet",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 1373,
+    "value": 3024,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 4666.5,
-     "multiple": 0.294,
+     "mean": 6379.4,
+     "multiple": 0.474,
      "by_year": {
-      "2012": 7247,
-      "2013": 7012,
-      "2014": 1233,
-      "2015": 6009,
-      "2016": 4350,
-      "2017": 12091,
-      "2018": 2249,
-      "2019": 1090,
-      "2020": 10534,
-      "2021": 8661,
-      "2022": 1073,
-      "2023": 1988,
-      "2024": 1404,
-      "2025": 390
+      "2012": 7582,
+      "2013": 8853,
+      "2014": 1522,
+      "2015": 7641,
+      "2016": 3731,
+      "2017": 8324,
+      "2018": 3842,
+      "2019": 3277,
+      "2020": 22448,
+      "2021": 8016,
+      "2022": 0,
+      "2023": 4758,
+      "2024": 6775,
+      "2025": 2542
      }
     },
     "revision_open": false
@@ -1789,7 +115,7 @@
    "area": {
     "measure": "cumulative burnt area, year to date",
     "units": "hectares",
-    "value": 539477,
+    "value": 546551,
     "instrument": "GWIS mapped perimeters, weekly",
     "as_of": "2026-07-29",
     "analog_comparison": {
@@ -1798,44 +124,98 @@
      "multiple": 0.39
     },
     "area_revision_open": true,
-    "area_lag_days": 1
+    "area_lag_days": 5
    }
   },
-  "TUR": {
-   "event_id": "fire.TUR.07-23..07-29",
+  "AUS": {
+   "event_id": "fire.AUS.07-27..08-02",
    "geography": {
-    "country": "Turkey",
-    "iso3": "TUR",
+    "country": "Australia",
+    "iso3": "AUS",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "non_enso",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 26974,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 15911.6,
+     "multiple": 1.695,
+     "by_year": {
+      "2012": 29760,
+      "2013": 13721,
+      "2014": 13143,
+      "2015": 14625,
+      "2016": 26674,
+      "2017": 17720,
+      "2018": 16665,
+      "2019": 19291,
+      "2020": 18518,
+      "2021": 15181,
+      "2022": 0,
+      "2023": 10816,
+      "2024": 8710,
+      "2025": 17939
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 11860810,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 14036070.7,
+     "multiple": 0.85
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "BOL": {
+   "event_id": "fire.BOL.07-27..08-02",
+   "geography": {
+    "country": "Bolivia",
+    "iso3": "BOL",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "quiet",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 975,
+    "value": 4884,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 939.1,
-     "multiple": 1.038,
+     "mean": 7888.3,
+     "multiple": 0.619,
      "by_year": {
-      "2012": 477,
-      "2013": 1264,
-      "2014": 510,
-      "2015": 1387,
-      "2016": 1160,
-      "2017": 820,
-      "2018": 816,
-      "2019": 966,
-      "2020": 796,
-      "2021": 2174,
-      "2022": 310,
-      "2023": 622,
-      "2024": 305,
-      "2025": 1541
+      "2012": 2495,
+      "2013": 2894,
+      "2014": 1176,
+      "2015": 3152,
+      "2016": 15812,
+      "2017": 7338,
+      "2018": 5915,
+      "2019": 8927,
+      "2020": 7693,
+      "2021": 8927,
+      "2022": 0,
+      "2023": 10676,
+      "2024": 26091,
+      "2025": 9340
      }
     },
     "revision_open": false
@@ -1843,53 +223,107 @@
    "area": {
     "measure": "cumulative burnt area, year to date",
     "units": "hectares",
-    "value": 11782,
-    "instrument": "EFFIS mapped perimeters, weekly",
+    "value": 548316,
+    "instrument": "GWIS mapped perimeters, weekly",
     "as_of": "2026-07-29",
     "analog_comparison": {
      "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 23773.7,
-     "multiple": 0.5
+     "mean": 1378281.4,
+     "multiple": 0.4
     },
     "area_revision_open": true,
-    "area_lag_days": 1
+    "area_lag_days": 5
    }
   },
-  "CUB": {
-   "event_id": "fire.CUB.07-23..07-29",
+  "BRA": {
+   "event_id": "fire.BRA.07-27..08-02",
    "geography": {
-    "country": "Cuba",
-    "iso3": "CUB",
+    "country": "Brazil",
+    "iso3": "BRA",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 11360,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 27243.1,
+     "multiple": 0.417,
+     "by_year": {
+      "2012": 36812,
+      "2013": 18027,
+      "2014": 16659,
+      "2015": 23864,
+      "2016": 45014,
+      "2017": 36178,
+      "2018": 18150,
+      "2019": 37526,
+      "2020": 40060,
+      "2021": 32060,
+      "2022": 0,
+      "2023": 23172,
+      "2024": 39843,
+      "2025": 14039
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 2032596,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 4479779.6,
+     "multiple": 0.45
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "BWA": {
+   "event_id": "fire.BWA.07-27..08-02",
+   "geography": {
+    "country": "Botswana",
+    "iso3": "BWA",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "active",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 644,
+    "value": 1524,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 108.3,
-     "multiple": 5.946,
+     "mean": 623.1,
+     "multiple": 2.446,
      "by_year": {
-      "2012": 71,
-      "2013": 142,
-      "2014": 89,
-      "2015": 329,
-      "2016": 97,
-      "2017": 132,
-      "2018": 140,
-      "2019": 104,
-      "2020": 37,
-      "2021": 73,
-      "2022": 13,
-      "2023": 65,
-      "2024": 26,
-      "2025": 198
+      "2012": 1954,
+      "2013": 243,
+      "2014": 126,
+      "2015": 494,
+      "2016": 238,
+      "2017": 190,
+      "2018": 533,
+      "2019": 602,
+      "2020": 601,
+      "2021": 1094,
+      "2022": 0,
+      "2023": 1862,
+      "2024": 390,
+      "2025": 396
      }
     },
     "revision_open": false
@@ -1897,7 +331,331 @@
    "area": {
     "measure": "cumulative burnt area, year to date",
     "units": "hectares",
-    "value": 181338,
+    "value": 171103,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 264163.1,
+     "multiple": 0.65
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "CAN": {
+   "event_id": "fire.CAN.07-27..08-02",
+   "geography": {
+    "country": "Canada",
+    "iso3": "CAN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "non_enso",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 16645,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 34293.1,
+     "multiple": 0.485,
+     "by_year": {
+      "2012": 14165,
+      "2013": 14410,
+      "2014": 79660,
+      "2015": 2128,
+      "2016": 3625,
+      "2017": 31155,
+      "2018": 11355,
+      "2019": 6105,
+      "2020": 1050,
+      "2021": 93815,
+      "2022": 0,
+      "2023": 81671,
+      "2024": 10426,
+      "2025": 130538
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 2067357,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 2793080.8,
+     "multiple": 0.74
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "CHN": {
+   "event_id": "fire.CHN.07-27..08-02",
+   "geography": {
+    "country": "China",
+    "iso3": "CHN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "dormant",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 3479,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 5738.7,
+     "multiple": 0.606,
+     "by_year": {
+      "2012": 5673,
+      "2013": 7927,
+      "2014": 8250,
+      "2015": 6279,
+      "2016": 7611,
+      "2017": 6821,
+      "2018": 7675,
+      "2019": 6254,
+      "2020": 6350,
+      "2021": 6235,
+      "2022": 0,
+      "2023": 3210,
+      "2024": 3056,
+      "2025": 5001
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 2265410,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 2082467.7,
+     "multiple": 1.09
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "COD": {
+   "event_id": "fire.COD.07-27..08-02",
+   "geography": {
+    "country": "Democratic Republic of the Congo",
+    "iso3": "COD",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 68387,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 86003.9,
+     "multiple": 0.795,
+     "by_year": {
+      "2012": 94734,
+      "2013": 81262,
+      "2014": 93030,
+      "2015": 81950,
+      "2016": 94750,
+      "2017": 93068,
+      "2018": 50670,
+      "2019": 73683,
+      "2020": 112223,
+      "2021": 125182,
+      "2022": 0,
+      "2023": 82559,
+      "2024": 67835,
+      "2025": 153108
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 13622512,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 28362942.0,
+     "multiple": 0.48
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "COG": {
+   "event_id": "fire.COG.07-27..08-02",
+   "geography": {
+    "country": "Republic of the Congo",
+    "iso3": "COG",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 3291,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 5081.5,
+     "multiple": 0.648,
+     "by_year": {
+      "2012": 9222,
+      "2013": 4509,
+      "2014": 2600,
+      "2015": 6306,
+      "2016": 9230,
+      "2017": 5921,
+      "2018": 5882,
+      "2019": 4580,
+      "2020": 4756,
+      "2021": 4611,
+      "2022": 0,
+      "2023": 2381,
+      "2024": 7620,
+      "2025": 3523
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 678558,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 964105.9,
+     "multiple": 0.7
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "COL": {
+   "event_id": "fire.COL.07-27..08-02",
+   "geography": {
+    "country": "Colombia",
+    "iso3": "COL",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "dormant",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 1385,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 956.9,
+     "multiple": 1.447,
+     "by_year": {
+      "2012": 981,
+      "2013": 1122,
+      "2014": 1409,
+      "2015": 1125,
+      "2016": 1055,
+      "2017": 848,
+      "2018": 664,
+      "2019": 1357,
+      "2020": 1398,
+      "2021": 946,
+      "2022": 0,
+      "2023": 918,
+      "2024": 766,
+      "2025": 808
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 891985,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 1753762.0,
+     "multiple": 0.51
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "CUB": {
+   "event_id": "fire.CUB.07-27..08-02",
+   "geography": {
+    "country": "Cuba",
+    "iso3": "CUB",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 859,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 104.2,
+     "multiple": 8.244,
+     "by_year": {
+      "2012": 105,
+      "2013": 73,
+      "2014": 130,
+      "2015": 199,
+      "2016": 119,
+      "2017": 136,
+      "2018": 39,
+      "2019": 103,
+      "2020": 45,
+      "2021": 74,
+      "2022": 0,
+      "2023": 79,
+      "2024": 72,
+      "2025": 285
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 181721,
     "instrument": "GWIS mapped perimeters, weekly",
     "as_of": "2026-07-29",
     "analog_comparison": {
@@ -1906,44 +664,44 @@
      "multiple": 0.43
     },
     "area_revision_open": true,
-    "area_lag_days": 1
+    "area_lag_days": 5
    }
   },
-  "UGA": {
-   "event_id": "fire.UGA.07-23..07-29",
+  "DEU": {
+   "event_id": "fire.DEU.07-27..08-02",
    "geography": {
-    "country": "Uganda",
-    "iso3": "UGA",
+    "country": "Germany",
+    "iso3": "DEU",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
-   "activity_status": "dormant",
+   "activity_status": "active",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 552,
+    "value": 825,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 541.7,
-     "multiple": 1.019,
+     "mean": 388.6,
+     "multiple": 2.123,
      "by_year": {
-      "2012": 174,
-      "2013": 1207,
-      "2014": 387,
-      "2015": 402,
-      "2016": 485,
-      "2017": 107,
-      "2018": 1197,
-      "2019": 255,
-      "2020": 534,
-      "2021": 1053,
-      "2022": 559,
-      "2023": 749,
-      "2024": 13,
-      "2025": 462
+      "2012": 469,
+      "2013": 416,
+      "2014": 592,
+      "2015": 451,
+      "2016": 291,
+      "2017": 293,
+      "2018": 748,
+      "2019": 528,
+      "2020": 545,
+      "2021": 390,
+      "2022": 0,
+      "2023": 169,
+      "2024": 349,
+      "2025": 199
      }
     },
     "revision_open": false
@@ -1951,53 +709,53 @@
    "area": {
     "measure": "cumulative burnt area, year to date",
     "units": "hectares",
-    "value": 519601,
-    "instrument": "GWIS mapped perimeters, weekly",
+    "value": 2374,
+    "instrument": "EFFIS mapped perimeters, weekly",
     "as_of": "2026-07-29",
     "analog_comparison": {
      "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 1276539.4,
-     "multiple": 0.41
+     "mean": 730.5,
+     "multiple": 3.25
     },
     "area_revision_open": true,
-    "area_lag_days": 1
+    "area_lag_days": 5
    }
   },
-  "PRY": {
-   "event_id": "fire.PRY.07-23..07-29",
+  "DZA": {
+   "event_id": "fire.DZA.07-27..08-02",
    "geography": {
-    "country": "Paraguay",
-    "iso3": "PRY",
+    "country": "Algeria",
+    "iso3": "DZA",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "quiet",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 1260,
+    "value": 1661,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 2898.1,
-     "multiple": 0.435,
+     "mean": 2272.0,
+     "multiple": 0.731,
      "by_year": {
-      "2012": 1088,
-      "2013": 4341,
-      "2014": 428,
-      "2015": 2055,
-      "2016": 4040,
-      "2017": 12362,
-      "2018": 1313,
-      "2019": 885,
-      "2020": 3168,
-      "2021": 7033,
-      "2022": 851,
-      "2023": 1644,
-      "2024": 667,
-      "2025": 699
+      "2012": 3632,
+      "2013": 1785,
+      "2014": 2644,
+      "2015": 2054,
+      "2016": 2809,
+      "2017": 4922,
+      "2018": 1960,
+      "2019": 2425,
+      "2020": 4079,
+      "2021": 1481,
+      "2022": 0,
+      "2023": 1235,
+      "2024": 994,
+      "2025": 1788
      }
     },
     "revision_open": false
@@ -2005,53 +763,53 @@
    "area": {
     "measure": "cumulative burnt area, year to date",
     "units": "hectares",
-    "value": 403939,
-    "instrument": "GWIS mapped perimeters, weekly",
+    "value": 181167,
+    "instrument": "EFFIS mapped perimeters, weekly",
     "as_of": "2026-07-29",
     "analog_comparison": {
      "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 1095702.4,
-     "multiple": 0.37
+     "mean": 19739.2,
+     "multiple": 9.18
     },
     "area_revision_open": true,
-    "area_lag_days": 1
+    "area_lag_days": 5
    }
   },
-  "GBR": {
-   "event_id": "fire.GBR.07-23..07-29",
+  "ESP": {
+   "event_id": "fire.ESP.07-27..08-02",
    "geography": {
-    "country": "United Kingdom",
-    "iso3": "GBR",
+    "country": "Spain",
+    "iso3": "ESP",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "non_enso",
    "activity_status": "active",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 395,
+    "value": 1417,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 144.4,
-     "multiple": 2.735,
+     "mean": 301.6,
+     "multiple": 4.698,
      "by_year": {
-      "2012": 242,
-      "2013": 172,
-      "2014": 346,
-      "2015": 83,
-      "2016": 95,
-      "2017": 124,
-      "2018": 334,
-      "2019": 233,
-      "2020": 63,
-      "2021": 136,
-      "2022": 62,
-      "2023": 48,
-      "2024": 30,
-      "2025": 53
+      "2012": 246,
+      "2013": 296,
+      "2014": 250,
+      "2015": 566,
+      "2016": 203,
+      "2017": 635,
+      "2018": 222,
+      "2019": 364,
+      "2020": 260,
+      "2021": 159,
+      "2022": 0,
+      "2023": 171,
+      "2024": 213,
+      "2025": 638
      }
     },
     "revision_open": false
@@ -2059,107 +817,53 @@
    "area": {
     "measure": "cumulative burnt area, year to date",
     "units": "hectares",
-    "value": 21871,
+    "value": 219665,
     "instrument": "EFFIS mapped perimeters, weekly",
     "as_of": "2026-07-29",
     "analog_comparison": {
      "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 8698.5,
-     "multiple": 2.51
+     "mean": 42700.2,
+     "multiple": 5.14
     },
     "area_revision_open": true,
-    "area_lag_days": 1
-   }
-  },
-  "BWA": {
-   "event_id": "fire.BWA.07-23..07-29",
-   "geography": {
-    "country": "Botswana",
-    "iso3": "BWA",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "active",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 3491,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 677.1,
-     "multiple": 5.156,
-     "by_year": {
-      "2012": 1676,
-      "2013": 341,
-      "2014": 222,
-      "2015": 579,
-      "2016": 419,
-      "2017": 656,
-      "2018": 228,
-      "2019": 474,
-      "2020": 374,
-      "2021": 1882,
-      "2022": 327,
-      "2023": 1837,
-      "2024": 131,
-      "2025": 333
-     }
-    },
-    "revision_open": false
-   },
-   "area": {
-    "measure": "cumulative burnt area, year to date",
-    "units": "hectares",
-    "value": 169456,
-    "instrument": "GWIS mapped perimeters, weekly",
-    "as_of": "2026-07-29",
-    "analog_comparison": {
-     "basis": "same week of prior seasons, computed by Copernicus, not by us",
-     "mean": 264163.1,
-     "multiple": 0.64
-    },
-    "area_revision_open": true,
-    "area_lag_days": 1
+    "area_lag_days": 5
    }
   },
   "FRA": {
-   "event_id": "fire.FRA.07-23..07-29",
+   "event_id": "fire.FRA.07-27..08-02",
    "geography": {
     "country": "France",
     "iso3": "FRA",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "non_enso",
    "activity_status": "active",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 3682,
+    "value": 751,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 331.3,
-     "multiple": 11.114,
+     "mean": 273.9,
+     "multiple": 2.742,
      "by_year": {
-      "2012": 503,
-      "2013": 309,
-      "2014": 394,
-      "2015": 318,
-      "2016": 230,
-      "2017": 610,
-      "2018": 507,
-      "2019": 687,
-      "2020": 289,
-      "2021": 259,
-      "2022": 175,
-      "2023": 121,
-      "2024": 51,
-      "2025": 185
+      "2012": 329,
+      "2013": 395,
+      "2014": 440,
+      "2015": 323,
+      "2016": 196,
+      "2017": 340,
+      "2018": 366,
+      "2019": 403,
+      "2020": 369,
+      "2021": 203,
+      "2022": 0,
+      "2023": 152,
+      "2024": 144,
+      "2025": 174
      }
     },
     "revision_open": false
@@ -2167,53 +871,215 @@
    "area": {
     "measure": "cumulative burnt area, year to date",
     "units": "hectares",
-    "value": 91024,
+    "value": 91209,
     "instrument": "EFFIS mapped perimeters, weekly",
     "as_of": "2026-07-29",
     "analog_comparison": {
      "basis": "same week of prior seasons, computed by Copernicus, not by us",
      "mean": 10804.9,
-     "multiple": 8.42
+     "multiple": 8.44
     },
     "area_revision_open": true,
-    "area_lag_days": 1
+    "area_lag_days": 5
    }
   },
-  "IRN": {
-   "event_id": "fire.IRN.07-23..07-29",
+  "GBR": {
+   "event_id": "fire.GBR.07-27..08-02",
    "geography": {
-    "country": "Iran",
-    "iso3": "IRN",
+    "country": "United Kingdom",
+    "iso3": "GBR",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "non_enso",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 227,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 121.4,
+     "multiple": 1.87,
+     "by_year": {
+      "2012": 186,
+      "2013": 192,
+      "2014": 201,
+      "2015": 126,
+      "2016": 86,
+      "2017": 70,
+      "2018": 225,
+      "2019": 153,
+      "2020": 170,
+      "2021": 76,
+      "2022": 0,
+      "2023": 38,
+      "2024": 129,
+      "2025": 47
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 22467,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 8698.5,
+     "multiple": 2.58
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "GRC": {
+   "event_id": "fire.GRC.07-27..08-02",
+   "geography": {
+    "country": "Greece",
+    "iso3": "GRC",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 1297,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 115.0,
+     "multiple": 11.278,
+     "by_year": {
+      "2012": 240,
+      "2013": 260,
+      "2014": 175,
+      "2015": 187,
+      "2016": 293,
+      "2017": 52,
+      "2018": 27,
+      "2019": 46,
+      "2020": 44,
+      "2021": 82,
+      "2022": 0,
+      "2023": 46,
+      "2024": 27,
+      "2025": 131
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 9046,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 14426.8,
+     "multiple": 0.63
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "IDN": {
+   "event_id": "fire.IDN.07-27..08-02",
+   "geography": {
+    "country": "Indonesia",
+    "iso3": "IDN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "quiet",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 2839,
+    "value": 7465,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 2650.9,
-     "multiple": 1.071,
+     "mean": 4995.9,
+     "multiple": 1.494,
      "by_year": {
-      "2012": 1823,
-      "2013": 2389,
-      "2014": 2281,
-      "2015": 2278,
-      "2016": 2831,
-      "2017": 3720,
-      "2018": 2952,
-      "2019": 3169,
-      "2020": 2341,
-      "2021": 3267,
-      "2022": 1228,
-      "2023": 3467,
-      "2024": 898,
-      "2025": 4468
+      "2012": 12612,
+      "2013": 2564,
+      "2014": 11502,
+      "2015": 10446,
+      "2016": 1378,
+      "2017": 2961,
+      "2018": 2639,
+      "2019": 7030,
+      "2020": 1585,
+      "2021": 2298,
+      "2022": 0,
+      "2023": 7137,
+      "2024": 1818,
+      "2025": 5973
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 490109,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 689400.2,
+     "multiple": 0.71
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "IRN": {
+   "event_id": "fire.IRN.07-27..08-02",
+   "geography": {
+    "country": "Iran",
+    "iso3": "IRN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 3287,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 2643.0,
+     "multiple": 1.244,
+     "by_year": {
+      "2012": 1720,
+      "2013": 2274,
+      "2014": 2157,
+      "2015": 2308,
+      "2016": 3033,
+      "2017": 3020,
+      "2018": 3502,
+      "2019": 3255,
+      "2020": 2787,
+      "2021": 2856,
+      "2022": 0,
+      "2023": 3661,
+      "2024": 2885,
+      "2025": 3544
      }
     },
     "revision_open": false
@@ -2230,290 +1096,3401 @@
      "multiple": 0.0
     },
     "area_revision_open": true,
-    "area_lag_days": 1
+    "area_lag_days": 5
    }
   },
-  "DZA": {
-   "event_id": "fire.DZA.07-23..07-29",
-   "geography": {
-    "country": "Algeria",
-    "iso3": "DZA",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 2825,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 1965.2,
-     "multiple": 1.438,
-     "by_year": {
-      "2012": 2254,
-      "2013": 1791,
-      "2014": 2396,
-      "2015": 2380,
-      "2016": 2371,
-      "2017": 2164,
-      "2018": 1818,
-      "2019": 2660,
-      "2020": 3126,
-      "2021": 1567,
-      "2022": 1199,
-      "2023": 1809,
-      "2024": 562,
-      "2025": 1416
-     }
-    },
-    "revision_open": false
-   },
-   "area": null
-  },
-  "GRC": {
-   "event_id": "fire.GRC.07-23..07-29",
-   "geography": {
-    "country": "Greece",
-    "iso3": "GRC",
-    "admin1": null
-   },
-   "window": "07-23..07-29",
-   "baseline_tier": "measured",
-   "attribution": "pending",
-   "activity_status": "quiet",
-   "detections": {
-    "measure": "VIIRS SNPP thermal anomaly detections",
-    "units": "count",
-    "value": 32,
-    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
-    "analog_comparison": {
-     "basis": "same calendar window, prior years",
-     "mean": 161.1,
-     "multiple": 0.199,
-     "by_year": {
-      "2012": 143,
-      "2013": 177,
-      "2014": 189,
-      "2015": 239,
-      "2016": 234,
-      "2017": 44,
-      "2018": 279,
-      "2019": 37,
-      "2020": 198,
-      "2021": 109,
-      "2022": 291,
-      "2023": 126,
-      "2024": 12,
-      "2025": 178
-     }
-    },
-    "revision_open": false
-   },
-   "area": null
-  },
   "IRQ": {
-   "event_id": "fire.IRQ.07-23..07-29",
+   "event_id": "fire.IRQ.07-27..08-02",
    "geography": {
     "country": "Iraq",
     "iso3": "IRQ",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "quiet",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 1953,
+    "value": 1980,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 2855.3,
-     "multiple": 0.684,
+     "mean": 2751.5,
+     "multiple": 0.72,
      "by_year": {
-      "2012": 2283,
-      "2013": 2439,
-      "2014": 2056,
-      "2015": 4110,
-      "2016": 3387,
-      "2017": 3248,
-      "2018": 2964,
-      "2019": 4519,
-      "2020": 2954,
-      "2021": 3318,
-      "2022": 1797,
-      "2023": 3084,
-      "2024": 819,
-      "2025": 2996
+      "2012": 2002,
+      "2013": 2793,
+      "2014": 1657,
+      "2015": 3397,
+      "2016": 2950,
+      "2017": 3467,
+      "2018": 3138,
+      "2019": 4325,
+      "2020": 2785,
+      "2021": 2863,
+      "2022": 0,
+      "2023": 3331,
+      "2024": 2737,
+      "2025": 3076
      }
     },
     "revision_open": false
    },
-   "area": null
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 0,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 24.4,
+     "multiple": 0.0
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
   },
-  "MAR": {
-   "event_id": "fire.MAR.07-23..07-29",
+  "ITA": {
+   "event_id": "fire.ITA.07-27..08-02",
    "geography": {
-    "country": "Morocco",
-    "iso3": "MAR",
+    "country": "Italy",
+    "iso3": "ITA",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "quiet",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 50,
+    "value": 812,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 54.8,
-     "multiple": 0.912,
+     "mean": 1032.7,
+     "multiple": 0.786,
      "by_year": {
-      "2012": 36,
-      "2013": 43,
-      "2014": 33,
-      "2015": 50,
-      "2016": 33,
-      "2017": 30,
-      "2018": 57,
-      "2019": 108,
-      "2020": 19,
-      "2021": 39,
-      "2022": 242,
-      "2023": 27,
-      "2024": 15,
-      "2025": 35
+      "2012": 1476,
+      "2013": 1215,
+      "2014": 540,
+      "2015": 914,
+      "2016": 1144,
+      "2017": 1114,
+      "2018": 861,
+      "2019": 855,
+      "2020": 1284,
+      "2021": 3066,
+      "2022": 0,
+      "2023": 653,
+      "2024": 675,
+      "2025": 661
      }
     },
     "revision_open": false
    },
-   "area": null
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 70979,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 30387.1,
+     "multiple": 2.34
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
   },
-  "MEX": {
-   "event_id": "fire.MEX.07-23..07-29",
+  "JPN": {
+   "event_id": "fire.JPN.07-27..08-02",
    "geography": {
-    "country": "Mexico",
-    "iso3": "MEX",
+    "country": "Japan",
+    "iso3": "JPN",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "dormant",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 2422,
+    "value": 498,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 1468.9,
-     "multiple": 1.649,
+     "mean": 631.8,
+     "multiple": 0.788,
      "by_year": {
-      "2012": 1037,
-      "2013": 1689,
-      "2014": 1770,
-      "2015": 2394,
-      "2016": 1283,
-      "2017": 1135,
-      "2018": 3101,
-      "2019": 1275,
-      "2020": 1280,
-      "2021": 1852,
-      "2022": 574,
-      "2023": 1022,
-      "2024": 192,
-      "2025": 1960
+      "2012": 1025,
+      "2013": 455,
+      "2014": 787,
+      "2015": 991,
+      "2016": 663,
+      "2017": 500,
+      "2018": 754,
+      "2019": 975,
+      "2020": 352,
+      "2021": 707,
+      "2022": 0,
+      "2023": 507,
+      "2024": 409,
+      "2025": 720
      }
     },
     "revision_open": false
    },
-   "area": null
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 14844,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 10613.4,
+     "multiple": 1.4
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "KAZ": {
+   "event_id": "fire.KAZ.07-27..08-02",
+   "geography": {
+    "country": "Kazakhstan",
+    "iso3": "KAZ",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 2977,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 4338.6,
+     "multiple": 0.686,
+     "by_year": {
+      "2012": 3511,
+      "2013": 1330,
+      "2014": 1842,
+      "2015": 8506,
+      "2016": 1143,
+      "2017": 20929,
+      "2018": 6098,
+      "2019": 8973,
+      "2020": 1913,
+      "2021": 2614,
+      "2022": 0,
+      "2023": 2238,
+      "2024": 586,
+      "2025": 1057
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 429520,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 1512628.4,
+     "multiple": 0.28
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "LBY": {
+   "event_id": "fire.LBY.07-27..08-02",
+   "geography": {
+    "country": "Libya",
+    "iso3": "LBY",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 1170,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 772.9,
+     "multiple": 1.514,
+     "by_year": {
+      "2012": 1070,
+      "2013": 1026,
+      "2014": 525,
+      "2015": 658,
+      "2016": 409,
+      "2017": 921,
+      "2018": 860,
+      "2019": 1024,
+      "2020": 309,
+      "2021": 1055,
+      "2022": 0,
+      "2023": 970,
+      "2024": 709,
+      "2025": 1285
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 0,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 520.7,
+     "multiple": 0.0
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "MAR": {
+   "event_id": "fire.MAR.07-27..08-02",
+   "geography": {
+    "country": "Morocco",
+    "iso3": "MAR",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 154,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 47.6,
+     "multiple": 3.235,
+     "by_year": {
+      "2012": 43,
+      "2013": 54,
+      "2014": 43,
+      "2015": 47,
+      "2016": 24,
+      "2017": 52,
+      "2018": 109,
+      "2019": 128,
+      "2020": 31,
+      "2021": 38,
+      "2022": 0,
+      "2023": 54,
+      "2024": 12,
+      "2025": 32
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 3559,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 2352.4,
+     "multiple": 1.51
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "MDG": {
+   "event_id": "fire.MDG.07-27..08-02",
+   "geography": {
+    "country": "Madagascar",
+    "iso3": "MDG",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 6283,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 7020.8,
+     "multiple": 0.895,
+     "by_year": {
+      "2012": 7370,
+      "2013": 8946,
+      "2014": 6531,
+      "2015": 7461,
+      "2016": 11463,
+      "2017": 5539,
+      "2018": 6765,
+      "2019": 8921,
+      "2020": 4444,
+      "2021": 6636,
+      "2022": 0,
+      "2023": 10344,
+      "2024": 6760,
+      "2025": 7111
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 687266,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 1088465.4,
+     "multiple": 0.63
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "MEX": {
+   "event_id": "fire.MEX.07-27..08-02",
+   "geography": {
+    "country": "Mexico",
+    "iso3": "MEX",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "dormant",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 2299,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 1404.0,
+     "multiple": 1.637,
+     "by_year": {
+      "2012": 1506,
+      "2013": 1657,
+      "2014": 1752,
+      "2015": 2542,
+      "2016": 1402,
+      "2017": 1460,
+      "2018": 2092,
+      "2019": 1848,
+      "2020": 980,
+      "2021": 1310,
+      "2022": 0,
+      "2023": 1207,
+      "2024": 716,
+      "2025": 1184
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 1265173,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 4163379.9,
+     "multiple": 0.3
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "MOZ": {
+   "event_id": "fire.MOZ.07-27..08-02",
+   "geography": {
+    "country": "Mozambique",
+    "iso3": "MOZ",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 19790,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 17001.1,
+     "multiple": 1.164,
+     "by_year": {
+      "2012": 20152,
+      "2013": 16026,
+      "2014": 15058,
+      "2015": 28783,
+      "2016": 28806,
+      "2017": 9790,
+      "2018": 21567,
+      "2019": 15695,
+      "2020": 21189,
+      "2021": 10162,
+      "2022": 0,
+      "2023": 17613,
+      "2024": 21938,
+      "2025": 11236
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 787845,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 1838970.6,
+     "multiple": 0.43
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "MWI": {
+   "event_id": "fire.MWI.07-27..08-02",
+   "geography": {
+    "country": "Malawi",
+    "iso3": "MWI",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 1520,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 1568.7,
+     "multiple": 0.969,
+     "by_year": {
+      "2012": 1966,
+      "2013": 1253,
+      "2014": 1344,
+      "2015": 1389,
+      "2016": 4040,
+      "2017": 961,
+      "2018": 2336,
+      "2019": 1946,
+      "2020": 1137,
+      "2021": 1345,
+      "2022": 0,
+      "2023": 1448,
+      "2024": 1528,
+      "2025": 1269
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 57640,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 130435.7,
+     "multiple": 0.44
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
   },
   "NAM": {
-   "event_id": "fire.NAM.07-23..07-29",
+   "event_id": "fire.NAM.07-27..08-02",
    "geography": {
     "country": "Namibia",
     "iso3": "NAM",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "quiet",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 1777,
+    "value": 1990,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 1150.6,
-     "multiple": 1.544,
+     "mean": 1244.2,
+     "multiple": 1.599,
      "by_year": {
-      "2012": 4448,
-      "2013": 945,
-      "2014": 976,
-      "2015": 1471,
-      "2016": 2072,
+      "2012": 3494,
+      "2013": 674,
+      "2014": 643,
+      "2015": 2464,
+      "2016": 2055,
+      "2017": 558,
+      "2018": 856,
+      "2019": 1167,
+      "2020": 923,
+      "2021": 1768,
+      "2022": 0,
+      "2023": 1273,
+      "2024": 949,
+      "2025": 595
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 145048,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 271758.7,
+     "multiple": 0.53
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "PER": {
+   "event_id": "fire.PER.07-27..08-02",
+   "geography": {
+    "country": "Peru",
+    "iso3": "PER",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 1838,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 1985.0,
+     "multiple": 0.926,
+     "by_year": {
+      "2012": 1597,
+      "2013": 2411,
+      "2014": 1764,
+      "2015": 2111,
+      "2016": 3209,
+      "2017": 2035,
+      "2018": 2409,
+      "2019": 3629,
+      "2020": 3006,
+      "2021": 1362,
+      "2022": 0,
+      "2023": 1806,
+      "2024": 1981,
+      "2025": 470
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 45420,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 98131.2,
+     "multiple": 0.46
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "PNG": {
+   "event_id": "fire.PNG.07-27..08-02",
+   "geography": {
+    "country": "Papua New Guinea",
+    "iso3": "PNG",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 5668,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 784.4,
+     "multiple": 7.226,
+     "by_year": {
+      "2012": 858,
+      "2013": 553,
+      "2014": 1329,
+      "2015": 1718,
+      "2016": 593,
+      "2017": 289,
+      "2018": 2275,
+      "2019": 595,
+      "2020": 552,
+      "2021": 443,
+      "2022": 0,
+      "2023": 281,
+      "2024": 802,
+      "2025": 693
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 230367,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 116363.9,
+     "multiple": 1.98
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "PRT": {
+   "event_id": "fire.PRT.07-27..08-02",
+   "geography": {
+    "country": "Portugal",
+    "iso3": "PRT",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 614,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 235.9,
+     "multiple": 2.603,
+     "by_year": {
+      "2012": 70,
+      "2013": 93,
+      "2014": 69,
+      "2015": 97,
+      "2016": 152,
+      "2017": 531,
+      "2018": 30,
+      "2019": 31,
+      "2020": 285,
+      "2021": 20,
+      "2022": 0,
+      "2023": 17,
+      "2024": 10,
+      "2025": 1897
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 47379,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 23320.0,
+     "multiple": 2.03
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "PRY": {
+   "event_id": "fire.PRY.07-27..08-02",
+   "geography": {
+    "country": "Paraguay",
+    "iso3": "PRY",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 2419,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 3346.1,
+     "multiple": 0.723,
+     "by_year": {
+      "2012": 1078,
+      "2013": 6742,
+      "2014": 1365,
+      "2015": 4941,
+      "2016": 4673,
+      "2017": 7424,
+      "2018": 2927,
+      "2019": 3279,
+      "2020": 4180,
+      "2021": 2870,
+      "2022": 0,
+      "2023": 1763,
+      "2024": 3757,
+      "2025": 1846
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 406322,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 1095702.4,
+     "multiple": 0.37
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "RUS": {
+   "event_id": "fire.RUS.07-27..08-02",
+   "geography": {
+    "country": "Russia",
+    "iso3": "RUS",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 81593,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 89910.6,
+     "multiple": 0.907,
+     "by_year": {
+      "2012": 249627,
+      "2013": 127781,
+      "2014": 102757,
+      "2015": 56437,
+      "2016": 42559,
+      "2017": 48923,
+      "2018": 33827,
+      "2019": 134810,
+      "2020": 67667,
+      "2021": 326661,
+      "2022": 0,
+      "2023": 30377,
+      "2024": 18411,
+      "2025": 18911
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 3403540,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 11320912.1,
+     "multiple": 0.3
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "SAU": {
+   "event_id": "fire.SAU.07-27..08-02",
+   "geography": {
+    "country": "Saudi Arabia",
+    "iso3": "SAU",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 851,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 512.4,
+     "multiple": 1.661,
+     "by_year": {
+      "2012": 550,
+      "2013": 675,
+      "2014": 545,
+      "2015": 634,
+      "2016": 670,
+      "2017": 567,
+      "2018": 534,
+      "2019": 468,
+      "2020": 454,
+      "2021": 539,
+      "2022": 0,
+      "2023": 530,
+      "2024": 409,
+      "2025": 599
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 0,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 0,
+     "multiple": null
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "TKM": {
+   "event_id": "fire.TKM.07-27..08-02",
+   "geography": {
+    "country": "Turkmenistan",
+    "iso3": "TKM",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 772,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 574.1,
+     "multiple": 1.345,
+     "by_year": {
+      "2012": 501,
+      "2013": 480,
+      "2014": 414,
+      "2015": 661,
+      "2016": 684,
       "2017": 692,
-      "2018": 551,
-      "2019": 786,
-      "2020": 543,
+      "2018": 650,
+      "2019": 824,
+      "2020": 693,
+      "2021": 651,
+      "2022": 0,
+      "2023": 561,
+      "2024": 408,
+      "2025": 819
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 21484,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 54271.3,
+     "multiple": 0.4
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "TUN": {
+   "event_id": "fire.TUN.07-27..08-02",
+   "geography": {
+    "country": "Tunisia",
+    "iso3": "TUN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 56,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 210.1,
+     "multiple": 0.267,
+     "by_year": {
+      "2012": 189,
+      "2013": 205,
+      "2014": 253,
+      "2015": 264,
+      "2016": 135,
+      "2017": 938,
+      "2018": 64,
+      "2019": 119,
+      "2020": 472,
+      "2021": 194,
+      "2022": 0,
+      "2023": 29,
+      "2024": 40,
+      "2025": 39
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 20319,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 2847.9,
+     "multiple": 7.13
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "TUR": {
+   "event_id": "fire.TUR.07-27..08-02",
+   "geography": {
+    "country": "Turkey",
+    "iso3": "TUR",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 1431,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 1171.7,
+     "multiple": 1.221,
+     "by_year": {
+      "2012": 472,
+      "2013": 1404,
+      "2014": 500,
+      "2015": 1711,
+      "2016": 1108,
+      "2017": 715,
+      "2018": 540,
+      "2019": 1041,
+      "2020": 785,
+      "2021": 6012,
+      "2022": 0,
+      "2023": 667,
+      "2024": 651,
+      "2025": 798
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 25264,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 23773.7,
+     "multiple": 1.06
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "TZA": {
+   "event_id": "fire.TZA.07-27..08-02",
+   "geography": {
+    "country": "United Republic of Tanzania",
+    "iso3": "TZA",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 12977,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 16133.5,
+     "multiple": 0.804,
+     "by_year": {
+      "2012": 23594,
+      "2013": 15383,
+      "2014": 16682,
+      "2015": 16299,
+      "2016": 27762,
+      "2017": 16701,
+      "2018": 8081,
+      "2019": 14109,
+      "2020": 18933,
+      "2021": 21429,
+      "2022": 0,
+      "2023": 13769,
+      "2024": 12945,
+      "2025": 20182
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 1049514,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 3445653.9,
+     "multiple": 0.3
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "UGA": {
+   "event_id": "fire.UGA.07-27..08-02",
+   "geography": {
+    "country": "Uganda",
+    "iso3": "UGA",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "dormant",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 414,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 504.9,
+     "multiple": 0.82,
+     "by_year": {
+      "2012": 238,
+      "2013": 426,
+      "2014": 506,
+      "2015": 516,
+      "2016": 657,
+      "2017": 267,
+      "2018": 617,
+      "2019": 240,
+      "2020": 1140,
+      "2021": 922,
+      "2022": 0,
+      "2023": 606,
+      "2024": 58,
+      "2025": 876
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 519601,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 1276539.4,
+     "multiple": 0.41
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "UKR": {
+   "event_id": "fire.UKR.07-27..08-02",
+   "geography": {
+    "country": "Ukraine",
+    "iso3": "UKR",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 3137,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 4589.0,
+     "multiple": 0.684,
+     "by_year": {
+      "2012": 3598,
+      "2013": 3364,
+      "2014": 11943,
+      "2015": 6559,
+      "2016": 8645,
+      "2017": 7391,
+      "2018": 1791,
+      "2019": 4844,
+      "2020": 2572,
+      "2021": 3717,
+      "2022": 0,
+      "2023": 687,
+      "2024": 1730,
+      "2025": 7405
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 279164,
+    "instrument": "EFFIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 65738.8,
+     "multiple": 4.25
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "USA": {
+   "event_id": "fire.USA.07-27..08-02",
+   "geography": {
+    "country": "United States of America",
+    "iso3": "USA",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "non_enso",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 38965,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 13877.2,
+     "multiple": 2.808,
+     "by_year": {
+      "2012": 11286,
+      "2013": 13923,
+      "2014": 11025,
+      "2015": 20191,
+      "2016": 13471,
+      "2017": 15207,
+      "2018": 35121,
+      "2019": 11406,
+      "2020": 5931,
+      "2021": 20161,
+      "2022": 0,
+      "2023": 12357,
+      "2024": 10340,
+      "2025": 13862
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 2438360,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 3212623.5,
+     "multiple": 0.76
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "VEN": {
+   "event_id": "fire.VEN.07-27..08-02",
+   "geography": {
+    "country": "Venezuela",
+    "iso3": "VEN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "dormant",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 2023,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 1306.2,
+     "multiple": 1.549,
+     "by_year": {
+      "2012": 1315,
+      "2013": 1358,
+      "2014": 1930,
+      "2015": 2064,
+      "2016": 1261,
+      "2017": 1089,
+      "2018": 1321,
+      "2019": 2048,
+      "2020": 885,
       "2021": 1330,
-      "2022": 502,
-      "2023": 1010,
-      "2024": 228,
-      "2025": 555
+      "2022": 0,
+      "2023": 1218,
+      "2024": 840,
+      "2025": 1628
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 2977687,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 3988975.4,
+     "multiple": 0.75
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "ZAF": {
+   "event_id": "fire.ZAF.07-27..08-02",
+   "geography": {
+    "country": "South Africa",
+    "iso3": "ZAF",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 5340,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 6313.1,
+     "multiple": 0.846,
+     "by_year": {
+      "2012": 6947,
+      "2013": 10622,
+      "2014": 6338,
+      "2015": 5730,
+      "2016": 2102,
+      "2017": 5014,
+      "2018": 6157,
+      "2019": 6985,
+      "2020": 5300,
+      "2021": 12112,
+      "2022": 0,
+      "2023": 11230,
+      "2024": 3279,
+      "2025": 6567
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 784647,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 1267124.6,
+     "multiple": 0.62
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "ZMB": {
+   "event_id": "fire.ZMB.07-27..08-02",
+   "geography": {
+    "country": "Zambia",
+    "iso3": "ZMB",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "non_enso",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 44014,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 35122.6,
+     "multiple": 1.253,
+     "by_year": {
+      "2012": 44525,
+      "2013": 36211,
+      "2014": 33996,
+      "2015": 47787,
+      "2016": 54818,
+      "2017": 29701,
+      "2018": 34768,
+      "2019": 38389,
+      "2020": 28438,
+      "2021": 28677,
+      "2022": 0,
+      "2023": 37480,
+      "2024": 32437,
+      "2025": 44490
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 3226247,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 6205880.9,
+     "multiple": 0.52
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "ZWE": {
+   "event_id": "fire.ZWE.07-27..08-02",
+   "geography": {
+    "country": "Zimbabwe",
+    "iso3": "ZWE",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 3295,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 2443.1,
+     "multiple": 1.349,
+     "by_year": {
+      "2012": 3849,
+      "2013": 3210,
+      "2014": 1816,
+      "2015": 3284,
+      "2016": 3075,
+      "2017": 617,
+      "2018": 2497,
+      "2019": 2930,
+      "2020": 1764,
+      "2021": 2210,
+      "2022": 0,
+      "2023": 4741,
+      "2024": 2807,
+      "2025": 1404
+     }
+    },
+    "revision_open": false
+   },
+   "area": {
+    "measure": "cumulative burnt area, year to date",
+    "units": "hectares",
+    "value": 191333,
+    "instrument": "GWIS mapped perimeters, weekly",
+    "as_of": "2026-07-29",
+    "analog_comparison": {
+     "basis": "same week of prior seasons, computed by Copernicus, not by us",
+     "mean": 294929.0,
+     "multiple": 0.65
+    },
+    "area_revision_open": true,
+    "area_lag_days": 5
+   }
+  },
+  "ALB": {
+   "event_id": "fire.ALB.07-27..08-02",
+   "geography": {
+    "country": "Albania",
+    "iso3": "ALB",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 34,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 172.4,
+     "multiple": 0.197,
+     "by_year": {
+      "2012": 245,
+      "2013": 78,
+      "2014": 9,
+      "2015": 124,
+      "2016": 18,
+      "2017": 213,
+      "2018": 16,
+      "2019": 9,
+      "2020": 293,
+      "2021": 561,
+      "2022": 0,
+      "2023": 57,
+      "2024": 353,
+      "2025": 437
      }
     },
     "revision_open": false
    },
    "area": null
   },
-  "PRT": {
-   "event_id": "fire.PRT.07-23..07-29",
+  "BGR": {
+   "event_id": "fire.BGR.07-27..08-02",
    "geography": {
-    "country": "Portugal",
-    "iso3": "PRT",
+    "country": "Bulgaria",
+    "iso3": "BGR",
     "admin1": null
    },
-   "window": "07-23..07-29",
+   "window": "07-27..08-02",
    "baseline_tier": "measured",
    "attribution": "pending",
    "activity_status": "quiet",
    "detections": {
     "measure": "VIIRS SNPP thermal anomaly detections",
     "units": "count",
-    "value": 257,
+    "value": 83,
     "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
     "analog_comparison": {
      "basis": "same calendar window, prior years",
-     "mean": 252.9,
-     "multiple": 1.016,
+     "mean": 199.2,
+     "multiple": 0.417,
      "by_year": {
-      "2012": 74,
-      "2013": 60,
-      "2014": 40,
-      "2015": 142,
-      "2016": 209,
-      "2017": 1504,
+      "2012": 177,
+      "2013": 139,
+      "2014": 110,
+      "2015": 218,
+      "2016": 555,
+      "2017": 344,
+      "2018": 42,
+      "2019": 133,
+      "2020": 103,
+      "2021": 190,
+      "2022": 0,
+      "2023": 61,
+      "2024": 249,
+      "2025": 468
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "BIH": {
+   "event_id": "fire.BIH.07-27..08-02",
+   "geography": {
+    "country": "Bosnia and Herzegovina",
+    "iso3": "BIH",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 45,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 46.2,
+     "multiple": 0.974,
+     "by_year": {
+      "2012": 57,
+      "2013": 50,
+      "2014": 2,
+      "2015": 41,
+      "2016": 10,
+      "2017": 136,
+      "2018": 10,
+      "2019": 8,
+      "2020": 72,
+      "2021": 157,
+      "2022": 0,
+      "2023": 14,
+      "2024": 80,
+      "2025": 10
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "CHL": {
+   "event_id": "fire.CHL.07-27..08-02",
+   "geography": {
+    "country": "Chile",
+    "iso3": "CHL",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 37,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 140.1,
+     "multiple": 0.264,
+     "by_year": {
+      "2012": 194,
+      "2013": 175,
+      "2014": 90,
+      "2015": 80,
+      "2016": 111,
+      "2017": 192,
+      "2018": 294,
+      "2019": 137,
+      "2020": 120,
+      "2021": 380,
+      "2022": 0,
+      "2023": 107,
+      "2024": 44,
+      "2025": 37
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "CYP": {
+   "event_id": "fire.CYP.07-27..08-02",
+   "geography": {
+    "country": "Cyprus",
+    "iso3": "CYP",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 10,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 6.4,
+     "multiple": 1.562,
+     "by_year": {
+      "2012": 2,
+      "2013": 7,
+      "2014": 0,
+      "2015": 6,
+      "2016": 7,
+      "2017": 13,
+      "2018": 10,
+      "2019": 12,
+      "2020": 6,
+      "2021": 14,
+      "2022": 0,
+      "2023": 4,
+      "2024": 3,
+      "2025": 5
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "ECU": {
+   "event_id": "fire.ECU.07-27..08-02",
+   "geography": {
+    "country": "Ecuador",
+    "iso3": "ECU",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 295,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 120.6,
+     "multiple": 2.446,
+     "by_year": {
+      "2012": 160,
+      "2013": 115,
+      "2014": 119,
+      "2015": 43,
+      "2016": 91,
+      "2017": 102,
+      "2018": 115,
+      "2019": 168,
+      "2020": 170,
+      "2021": 123,
+      "2022": 0,
+      "2023": 120,
+      "2024": 233,
+      "2025": 129
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "FIN": {
+   "event_id": "fire.FIN.07-27..08-02",
+   "geography": {
+    "country": "Finland",
+    "iso3": "FIN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 25,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 29.4,
+     "multiple": 0.85,
+     "by_year": {
+      "2012": 28,
+      "2013": 27,
+      "2014": 27,
+      "2015": 5,
+      "2016": 25,
+      "2017": 28,
+      "2018": 66,
+      "2019": 35,
+      "2020": 20,
+      "2021": 100,
+      "2022": 0,
+      "2023": 7,
+      "2024": 2,
+      "2025": 42
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "GEO": {
+   "event_id": "fire.GEO.07-27..08-02",
+   "geography": {
+    "country": "Georgia",
+    "iso3": "GEO",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 126,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 122.5,
+     "multiple": 1.029,
+     "by_year": {
+      "2012": 20,
+      "2013": 32,
+      "2014": 34,
+      "2015": 246,
+      "2016": 75,
+      "2017": 241,
+      "2018": 303,
+      "2019": 93,
+      "2020": 45,
+      "2021": 74,
+      "2022": 0,
+      "2023": 35,
+      "2024": 12,
+      "2025": 505
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "HRV": {
+   "event_id": "fire.HRV.07-27..08-02",
+   "geography": {
+    "country": "Croatia",
+    "iso3": "HRV",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 88,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 51.3,
+     "multiple": 1.715,
+     "by_year": {
+      "2012": 76,
+      "2013": 45,
+      "2014": 7,
+      "2015": 15,
+      "2016": 50,
+      "2017": 98,
+      "2018": 6,
+      "2019": 5,
+      "2020": 32,
+      "2021": 57,
+      "2022": 0,
+      "2023": 35,
+      "2024": 283,
+      "2025": 9
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "ISR": {
+   "event_id": "fire.ISR.07-27..08-02",
+   "geography": {
+    "country": "Israel",
+    "iso3": "ISR",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 39,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 29.0,
+     "multiple": 1.345,
+     "by_year": {
+      "2012": 23,
+      "2013": 34,
+      "2014": 24,
+      "2015": 47,
+      "2016": 33,
+      "2017": 23,
       "2018": 27,
-      "2019": 30,
-      "2020": 361,
-      "2021": 18,
-      "2022": 89,
+      "2019": 23,
+      "2020": 30,
+      "2021": 52,
+      "2022": 0,
+      "2023": 39,
+      "2024": 26,
+      "2025": 25
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "KOR": {
+   "event_id": "fire.KOR.07-27..08-02",
+   "geography": {
+    "country": "South Korea",
+    "iso3": "KOR",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 149,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 151.2,
+     "multiple": 0.985,
+     "by_year": {
+      "2012": 278,
+      "2013": 74,
+      "2014": 135,
+      "2015": 187,
+      "2016": 170,
+      "2017": 111,
+      "2018": 251,
+      "2019": 197,
+      "2020": 46,
+      "2021": 161,
+      "2022": 0,
+      "2023": 193,
+      "2024": 149,
+      "2025": 165
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "LBN": {
+   "event_id": "fire.LBN.07-27..08-02",
+   "geography": {
+    "country": "Lebanon",
+    "iso3": "LBN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 43,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 24.4,
+     "multiple": 1.762,
+     "by_year": {
+      "2012": 23,
+      "2013": 30,
+      "2014": 30,
+      "2015": 15,
+      "2016": 17,
+      "2017": 13,
+      "2018": 6,
+      "2019": 24,
+      "2020": 11,
+      "2021": 133,
+      "2022": 0,
       "2023": 8,
+      "2024": 11,
+      "2025": 20
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "LKA": {
+   "event_id": "fire.LKA.07-27..08-02",
+   "geography": {
+    "country": "Sri Lanka",
+    "iso3": "LKA",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 267,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 274.1,
+     "multiple": 0.974,
+     "by_year": {
+      "2012": 610,
+      "2013": 489,
+      "2014": 672,
+      "2015": 272,
+      "2016": 85,
+      "2017": 211,
+      "2018": 169,
+      "2019": 283,
+      "2020": 39,
+      "2021": 248,
+      "2022": 0,
+      "2023": 331,
+      "2024": 96,
+      "2025": 332
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "MKD": {
+   "event_id": "fire.MKD.07-27..08-02",
+   "geography": {
+    "country": "Macedonia",
+    "iso3": "MKD",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 28,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 157.8,
+     "multiple": 0.177,
+     "by_year": {
+      "2012": 96,
+      "2013": 102,
+      "2014": 32,
+      "2015": 82,
+      "2016": 58,
+      "2017": 254,
+      "2018": 49,
+      "2019": 49,
+      "2020": 66,
+      "2021": 179,
+      "2022": 0,
+      "2023": 47,
+      "2024": 816,
+      "2025": 379
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "MNE": {
+   "event_id": "fire.MNE.07-27..08-02",
+   "geography": {
+    "country": "Montenegro",
+    "iso3": "MNE",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 12,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 78.0,
+     "multiple": 0.154,
+     "by_year": {
+      "2012": 33,
+      "2013": 36,
+      "2014": 0,
+      "2015": 174,
+      "2016": 1,
+      "2017": 29,
+      "2018": 2,
+      "2019": 1,
+      "2020": 112,
+      "2021": 220,
+      "2022": 0,
+      "2023": 5,
+      "2024": 400,
+      "2025": 79
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "MYS": {
+   "event_id": "fire.MYS.07-27..08-02",
+   "geography": {
+    "country": "Malaysia",
+    "iso3": "MYS",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 148,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 555.1,
+     "multiple": 0.267,
+     "by_year": {
+      "2012": 1105,
+      "2013": 494,
+      "2014": 1267,
+      "2015": 847,
+      "2016": 220,
+      "2017": 862,
+      "2018": 262,
+      "2019": 652,
+      "2020": 12,
+      "2021": 503,
+      "2022": 0,
+      "2023": 655,
+      "2024": 132,
+      "2025": 761
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "NOR": {
+   "event_id": "fire.NOR.07-27..08-02",
+   "geography": {
+    "country": "Norway",
+    "iso3": "NOR",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 13,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 20.8,
+     "multiple": 0.625,
+     "by_year": {
+      "2012": 15,
+      "2013": 18,
+      "2014": 32,
+      "2015": 7,
+      "2016": 8,
+      "2017": 5,
+      "2018": 57,
+      "2019": 44,
+      "2020": 27,
+      "2021": 20,
+      "2022": 0,
+      "2023": 20,
+      "2024": 15,
+      "2025": 23
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "NPL": {
+   "event_id": "fire.NPL.07-27..08-02",
+   "geography": {
+    "country": "Nepal",
+    "iso3": "NPL",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 0,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 0.8,
+     "multiple": 0.0,
+     "by_year": {
+      "2012": 0,
+      "2013": 4,
+      "2014": 0,
+      "2015": 0,
+      "2016": 1,
+      "2017": 0,
+      "2018": 0,
+      "2019": 0,
+      "2020": 0,
+      "2021": 0,
+      "2022": 0,
+      "2023": 5,
+      "2024": 0,
+      "2025": 1
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "NZL": {
+   "event_id": "fire.NZL.07-27..08-02",
+   "geography": {
+    "country": "New Zealand",
+    "iso3": "NZL",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 56,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 46.6,
+     "multiple": 1.202,
+     "by_year": {
+      "2012": 36,
+      "2013": 99,
+      "2014": 61,
+      "2015": 75,
+      "2016": 40,
+      "2017": 20,
+      "2018": 63,
+      "2019": 49,
+      "2020": 63,
+      "2021": 63,
+      "2022": 0,
+      "2023": 38,
+      "2024": 13,
+      "2025": 32
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "PHL": {
+   "event_id": "fire.PHL.07-27..08-02",
+   "geography": {
+    "country": "Philippines",
+    "iso3": "PHL",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 25,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 88.5,
+     "multiple": 0.282,
+     "by_year": {
+      "2012": 107,
+      "2013": 11,
+      "2014": 95,
+      "2015": 62,
+      "2016": 35,
+      "2017": 84,
+      "2018": 137,
+      "2019": 4,
+      "2020": 16,
+      "2021": 193,
+      "2022": 0,
+      "2023": 250,
+      "2024": 31,
+      "2025": 214
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "ROU": {
+   "event_id": "fire.ROU.07-27..08-02",
+   "geography": {
+    "country": "Romania",
+    "iso3": "ROU",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 415,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 545.2,
+     "multiple": 0.761,
+     "by_year": {
+      "2012": 553,
+      "2013": 1043,
+      "2014": 708,
+      "2015": 844,
+      "2016": 1557,
+      "2017": 879,
+      "2018": 150,
+      "2019": 361,
+      "2020": 384,
+      "2021": 767,
+      "2022": 0,
+      "2023": 112,
+      "2024": 169,
+      "2025": 106
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "SRB": {
+   "event_id": "fire.SRB.07-27..08-02",
+   "geography": {
+    "country": "Republic of Serbia",
+    "iso3": "SRB",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 147,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 99.1,
+     "multiple": 1.483,
+     "by_year": {
+      "2012": 67,
+      "2013": 198,
+      "2014": 17,
+      "2015": 97,
+      "2016": 85,
+      "2017": 275,
+      "2018": 49,
+      "2019": 95,
+      "2020": 87,
+      "2021": 95,
+      "2022": 0,
+      "2023": 51,
+      "2024": 200,
+      "2025": 72
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "SWE": {
+   "event_id": "fire.SWE.07-27..08-02",
+   "geography": {
+    "country": "Sweden",
+    "iso3": "SWE",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 54,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 70.4,
+     "multiple": 0.767,
+     "by_year": {
+      "2012": 36,
+      "2013": 59,
+      "2014": 309,
+      "2015": 9,
+      "2016": 47,
+      "2017": 56,
+      "2018": 235,
+      "2019": 64,
+      "2020": 30,
+      "2021": 59,
+      "2022": 0,
+      "2023": 16,
+      "2024": 31,
+      "2025": 34
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "URY": {
+   "event_id": "fire.URY.07-27..08-02",
+   "geography": {
+    "country": "Uruguay",
+    "iso3": "URY",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 40,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 76.1,
+     "multiple": 0.526,
+     "by_year": {
+      "2012": 195,
+      "2013": 64,
+      "2014": 10,
+      "2015": 163,
+      "2016": 27,
+      "2017": 52,
+      "2018": 14,
+      "2019": 45,
+      "2020": 217,
+      "2021": 65,
+      "2022": 0,
+      "2023": 65,
+      "2024": 81,
+      "2025": 67
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "AUT": {
+   "event_id": "fire.AUT.07-27..08-02",
+   "geography": {
+    "country": "Austria",
+    "iso3": "AUT",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 110,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 67.1,
+     "multiple": 1.639,
+     "by_year": {
+      "2012": 128,
+      "2013": 96,
+      "2014": 53,
+      "2015": 29,
+      "2016": 96,
+      "2017": 87,
+      "2018": 69,
+      "2019": 73,
+      "2020": 98,
+      "2021": 57,
+      "2022": 0,
+      "2023": 20,
+      "2024": 64,
+      "2025": 70
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "BEL": {
+   "event_id": "fire.BEL.07-27..08-02",
+   "geography": {
+    "country": "Belgium",
+    "iso3": "BEL",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 147,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 83.6,
+     "multiple": 1.758,
+     "by_year": {
+      "2012": 109,
+      "2013": 139,
+      "2014": 109,
+      "2015": 115,
+      "2016": 57,
+      "2017": 83,
+      "2018": 96,
+      "2019": 157,
+      "2020": 113,
+      "2021": 78,
+      "2022": 0,
+      "2023": 46,
+      "2024": 32,
+      "2025": 36
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "CZE": {
+   "event_id": "fire.CZE.07-27..08-02",
+   "geography": {
+    "country": "Czech Republic",
+    "iso3": "CZE",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 38,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 43.5,
+     "multiple": 0.874,
+     "by_year": {
+      "2012": 45,
+      "2013": 85,
+      "2014": 45,
+      "2015": 27,
+      "2016": 47,
+      "2017": 66,
+      "2018": 95,
+      "2019": 44,
+      "2020": 81,
+      "2021": 42,
+      "2022": 0,
+      "2023": 9,
+      "2024": 18,
+      "2025": 5
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "DNK": {
+   "event_id": "fire.DNK.07-27..08-02",
+   "geography": {
+    "country": "Denmark",
+    "iso3": "DNK",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 51,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 22.5,
+     "multiple": 2.267,
+     "by_year": {
+      "2012": 35,
+      "2013": 23,
+      "2014": 54,
+      "2015": 10,
+      "2016": 25,
+      "2017": 14,
+      "2018": 43,
+      "2019": 27,
+      "2020": 11,
+      "2021": 8,
+      "2022": 0,
+      "2023": 18,
       "2024": 17,
-      "2025": 961
+      "2025": 30
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "EST": {
+   "event_id": "fire.EST.07-27..08-02",
+   "geography": {
+    "country": "Estonia",
+    "iso3": "EST",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 0,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 8.6,
+     "multiple": 0.0,
+     "by_year": {
+      "2012": 19,
+      "2013": 12,
+      "2014": 13,
+      "2015": 2,
+      "2016": 12,
+      "2017": 13,
+      "2018": 34,
+      "2019": 12,
+      "2020": 0,
+      "2021": 1,
+      "2022": 0,
+      "2023": 0,
+      "2024": 0,
+      "2025": 2
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "HUN": {
+   "event_id": "fire.HUN.07-27..08-02",
+   "geography": {
+    "country": "Hungary",
+    "iso3": "HUN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 44,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 38.7,
+     "multiple": 1.137,
+     "by_year": {
+      "2012": 68,
+      "2013": 65,
+      "2014": 19,
+      "2015": 24,
+      "2016": 31,
+      "2017": 61,
+      "2018": 47,
+      "2019": 37,
+      "2020": 60,
+      "2021": 59,
+      "2022": 0,
+      "2023": 28,
+      "2024": 19,
+      "2025": 24
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "IND": {
+   "event_id": "fire.IND.07-27..08-02",
+   "geography": {
+    "country": "India",
+    "iso3": "IND",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 634,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 308.2,
+     "multiple": 2.057,
+     "by_year": {
+      "2012": 373,
+      "2013": 287,
+      "2014": 313,
+      "2015": 447,
+      "2016": 357,
+      "2017": 546,
+      "2018": 160,
+      "2019": 239,
+      "2020": 370,
+      "2021": 305,
+      "2022": 0,
+      "2023": 394,
+      "2024": 197,
+      "2025": 327
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "IRL": {
+   "event_id": "fire.IRL.07-27..08-02",
+   "geography": {
+    "country": "Ireland",
+    "iso3": "IRL",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 53,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 3.2,
+     "multiple": 16.562,
+     "by_year": {
+      "2012": 3,
+      "2013": 6,
+      "2014": 3,
+      "2015": 1,
+      "2016": 0,
+      "2017": 3,
+      "2018": 8,
+      "2019": 6,
+      "2020": 3,
+      "2021": 5,
+      "2022": 0,
+      "2023": 3,
+      "2024": 3,
+      "2025": 1
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "KHM": {
+   "event_id": "fire.KHM.07-27..08-02",
+   "geography": {
+    "country": "Cambodia",
+    "iso3": "KHM",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 6,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 40.6,
+     "multiple": 0.148,
+     "by_year": {
+      "2012": 27,
+      "2013": 9,
+      "2014": 37,
+      "2015": 11,
+      "2016": 51,
+      "2017": 77,
+      "2018": 63,
+      "2019": 54,
+      "2020": 28,
+      "2021": 113,
+      "2022": 0,
+      "2023": 15,
+      "2024": 9,
+      "2025": 75
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "LAO": {
+   "event_id": "fire.LAO.07-27..08-02",
+   "geography": {
+    "country": "Laos",
+    "iso3": "LAO",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 1,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 2.5,
+     "multiple": 0.4,
+     "by_year": {
+      "2012": 0,
+      "2013": 0,
+      "2014": 0,
+      "2015": 0,
+      "2016": 6,
+      "2017": 2,
+      "2018": 0,
+      "2019": 3,
+      "2020": 21,
+      "2021": 3,
+      "2022": 0,
+      "2023": 0,
+      "2024": 0,
+      "2025": 0
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "LTU": {
+   "event_id": "fire.LTU.07-27..08-02",
+   "geography": {
+    "country": "Lithuania",
+    "iso3": "LTU",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 1,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 3.4,
+     "multiple": 0.294,
+     "by_year": {
+      "2012": 17,
+      "2013": 8,
+      "2014": 8,
+      "2015": 3,
+      "2016": 0,
+      "2017": 0,
+      "2018": 1,
+      "2019": 2,
+      "2020": 0,
+      "2021": 6,
+      "2022": 0,
+      "2023": 3,
+      "2024": 0,
+      "2025": 0
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "LUX": {
+   "event_id": "fire.LUX.07-27..08-02",
+   "geography": {
+    "country": "Luxembourg",
+    "iso3": "LUX",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 17,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 12.5,
+     "multiple": 1.36,
+     "by_year": {
+      "2012": 10,
+      "2013": 9,
+      "2014": 24,
+      "2015": 12,
+      "2016": 13,
+      "2017": 8,
+      "2018": 30,
+      "2019": 23,
+      "2020": 19,
+      "2021": 21,
+      "2022": 0,
+      "2023": 0,
+      "2024": 0,
+      "2025": 6
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "LVA": {
+   "event_id": "fire.LVA.07-27..08-02",
+   "geography": {
+    "country": "Latvia",
+    "iso3": "LVA",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 0,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 7.3,
+     "multiple": 0.0,
+     "by_year": {
+      "2012": 30,
+      "2013": 15,
+      "2014": 26,
+      "2015": 0,
+      "2016": 2,
+      "2017": 1,
+      "2018": 11,
+      "2019": 7,
+      "2020": 2,
+      "2021": 2,
+      "2022": 0,
+      "2023": 2,
+      "2024": 3,
+      "2025": 1
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "MLT": {
+   "event_id": "fire.MLT.07-27..08-02",
+   "geography": {
+    "country": "Malta",
+    "iso3": "MLT",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 0,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 0.4,
+     "multiple": 0.0,
+     "by_year": {
+      "2012": 0,
+      "2013": 0,
+      "2014": 1,
+      "2015": 0,
+      "2016": 0,
+      "2017": 0,
+      "2018": 2,
+      "2019": 0,
+      "2020": 0,
+      "2021": 3,
+      "2022": 0,
+      "2023": 0,
+      "2024": 0,
+      "2025": 0
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "MMR": {
+   "event_id": "fire.MMR.07-27..08-02",
+   "geography": {
+    "country": "Myanmar",
+    "iso3": "MMR",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 16,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 5.4,
+     "multiple": 2.963,
+     "by_year": {
+      "2012": 3,
+      "2013": 6,
+      "2014": 5,
+      "2015": 8,
+      "2016": 9,
+      "2017": 13,
+      "2018": 4,
+      "2019": 8,
+      "2020": 10,
+      "2021": 2,
+      "2022": 0,
+      "2023": 3,
+      "2024": 0,
+      "2025": 5
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "NLD": {
+   "event_id": "fire.NLD.07-27..08-02",
+   "geography": {
+    "country": "Netherlands",
+    "iso3": "NLD",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 130,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 63.8,
+     "multiple": 2.038,
+     "by_year": {
+      "2012": 64,
+      "2013": 96,
+      "2014": 91,
+      "2015": 88,
+      "2016": 28,
+      "2017": 38,
+      "2018": 128,
+      "2019": 123,
+      "2020": 73,
+      "2021": 54,
+      "2022": 0,
+      "2023": 25,
+      "2024": 47,
+      "2025": 38
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "POL": {
+   "event_id": "fire.POL.07-27..08-02",
+   "geography": {
+    "country": "Poland",
+    "iso3": "POL",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 190,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 177.9,
+     "multiple": 1.068,
+     "by_year": {
+      "2012": 289,
+      "2013": 258,
+      "2014": 279,
+      "2015": 204,
+      "2016": 165,
+      "2017": 217,
+      "2018": 288,
+      "2019": 169,
+      "2020": 170,
+      "2021": 174,
+      "2022": 0,
+      "2023": 82,
+      "2024": 130,
+      "2025": 65
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "SVK": {
+   "event_id": "fire.SVK.07-27..08-02",
+   "geography": {
+    "country": "Slovakia",
+    "iso3": "SVK",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 79,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 78.5,
+     "multiple": 1.006,
+     "by_year": {
+      "2012": 131,
+      "2013": 73,
+      "2014": 112,
+      "2015": 79,
+      "2016": 69,
+      "2017": 136,
+      "2018": 101,
+      "2019": 65,
+      "2020": 73,
+      "2021": 137,
+      "2022": 0,
+      "2023": 28,
+      "2024": 65,
+      "2025": 30
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "SVN": {
+   "event_id": "fire.SVN.07-27..08-02",
+   "geography": {
+    "country": "Slovenia",
+    "iso3": "SVN",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 5,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 1.0,
+     "multiple": 5.0,
+     "by_year": {
+      "2012": 4,
+      "2013": 2,
+      "2014": 0,
+      "2015": 1,
+      "2016": 0,
+      "2017": 2,
+      "2018": 1,
+      "2019": 0,
+      "2020": 0,
+      "2021": 1,
+      "2022": 0,
+      "2023": 1,
+      "2024": 0,
+      "2025": 2
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "SYR": {
+   "event_id": "fire.SYR.07-27..08-02",
+   "geography": {
+    "country": "Syria",
+    "iso3": "SYR",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "active",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 509,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 255.6,
+     "multiple": 1.991,
+     "by_year": {
+      "2012": 180,
+      "2013": 446,
+      "2014": 81,
+      "2015": 308,
+      "2016": 215,
+      "2017": 245,
+      "2018": 135,
+      "2019": 904,
+      "2020": 328,
+      "2021": 210,
+      "2022": 0,
+      "2023": 233,
+      "2024": 231,
+      "2025": 63
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "THA": {
+   "event_id": "fire.THA.07-27..08-02",
+   "geography": {
+    "country": "Thailand",
+    "iso3": "THA",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 14,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 60.5,
+     "multiple": 0.231,
+     "by_year": {
+      "2012": 72,
+      "2013": 18,
+      "2014": 46,
+      "2015": 21,
+      "2016": 62,
+      "2017": 89,
+      "2018": 103,
+      "2019": 124,
+      "2020": 68,
+      "2021": 93,
+      "2022": 0,
+      "2023": 14,
+      "2024": 3,
+      "2025": 134
+     }
+    },
+    "revision_open": false
+   },
+   "area": null
+  },
+  "VNM": {
+   "event_id": "fire.VNM.07-27..08-02",
+   "geography": {
+    "country": "Vietnam",
+    "iso3": "VNM",
+    "admin1": null
+   },
+   "window": "07-27..08-02",
+   "baseline_tier": "measured",
+   "attribution": "pending",
+   "activity_status": "quiet",
+   "detections": {
+    "measure": "VIIRS SNPP thermal anomaly detections",
+    "units": "count",
+    "value": 184,
+    "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+    "analog_comparison": {
+     "basis": "same calendar window, prior years",
+     "mean": 221.1,
+     "multiple": 0.832,
+     "by_year": {
+      "2012": 209,
+      "2013": 108,
+      "2014": 168,
+      "2015": 227,
+      "2016": 287,
+      "2017": 291,
+      "2018": 340,
+      "2019": 248,
+      "2020": 252,
+      "2021": 354,
+      "2022": 0,
+      "2023": 84,
+      "2024": 224,
+      "2025": 304
      }
     },
     "revision_open": false

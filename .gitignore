@@ -20,6 +20,13 @@ scratch/
 # (research/handover_platform.md, first tasks). NOTE: fires/ is NOT
 # ignored; it must be committed for the 2026-08-03 launch.
 research/
+# Also without the trailing slash, which is NOT redundant. A worktree
+# gets research/ as a SYMLINK to the main tree (see CLAUDE.md), and git
+# treats a symlink as a file, so the directory pattern above does not
+# match it. Without this line every worktree reports `?? research` and
+# would eventually commit the link into this PUBLIC repo, publishing a
+# path into the private one and breaking for anyone who cloned it.
+research
 .publish-check/
 .fast-reaction-preview/
 

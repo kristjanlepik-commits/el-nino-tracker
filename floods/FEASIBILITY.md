@@ -337,11 +337,57 @@ probability and no forecast.
   crashing. Downloads are handed to curl for this reason; see the
   session record.
 
+## 10a. Rainfall records mostly do not produce floods (added 2026-07-29)
+
+Measured on the week of 21-27 July 2026, basin-wide, both instruments:
+
+    N Turkey, Black Sea       153mm (26.7x, record)   211 flood px/million observed
+    S Brazil, Rio G. do Sul   212mm (12.7x, record)   128
+    Ganges-Brahmaputra        655mm                    97
+    Mekong lower              279mm                    82
+    Western Ghats             800mm, wettest on Earth    9
+    S Chile, Valdivia         405mm (12.1x, record)      0
+    Sahara (control)            0mm                      0
+
+The wettest place on the planet flooded almost nothing and a
+record-setting Chilean system flooded nothing at all, while northern
+Turkey topped the table on a fifth of the Ghats' rainfall. Terrain
+built for 800 mm every July absorbs it; ground that has never seen
+double its previous record does not.
+
+This is the +0.23 correlation made concrete, and it is the strongest
+argument for carrying two instruments rather than the cheaper one. Per
+the product chat's ruling of 2026-07-29: **MCDWD flood extent is the
+headline instrument, IMERG rainfall is context and driver, and where
+they disagree the disagreement is the story rather than a caveat.**
+
+**Rainfall peaks and floods are not co-located.** A first pass sampling
+boxes around each rainfall maximum returned near-zero everywhere,
+including over the Ganges where MODIS independently saw 37,596 flood
+pixels the same week. Orographic maxima sit on mountain slopes;
+flooding happens downstream in floodplains. The basin is the unit, not
+the peak cell, and "look where it rained hardest" is the wrong
+instruction.
+
 ## 11. If floods opens
 
 Phase 2, in dependency order:
 
-1. Map the workable region-size band, between Peru's dilution and the
+0. **Per-latitude contamination check, before any European catchment is
+   frozen.** Product requires EU and US catchments from issue one, which
+   is right, but all three validated regions are low-latitude with
+   observability 0.85 to 0.93. Europe is neither: cloud is far worse at
+   45-55N, and the flood layer is contaminated at high latitude (the
+   first captured global day ranked Greenland, Iceland and Siberia as
+   the world's largest floods, which is snow melt outside the stale 2009
+   mask). Europe sits in the transition zone below that and nobody has
+   established where it starts.
+1. **Measure the MODIS-to-VIIRS offset per region, not from the Ganges
+   alone.** 199 of 287 tiles carry more than 5,000 flood pixels, so the
+   measurement is available; the MODIS side for eight high-signal tiles
+   over seven days is about 0.8 GB. This could still overturn the
+   instrument priority, so it runs before the region set freezes.
+2. Map the workable region-size band, between Peru's dilution and the
    Tana's instability, then draw regions on catchments.
 2. Freeze baselines per region and calendar week, immutable, in the
    pattern of `fires/fire_baselines.md`.
@@ -353,10 +399,22 @@ Phase 2, in dependency order:
 
 ## 12. Open questions for Kristjan
 
-1. **Is the two-instrument design accepted?** It is twice the
-   machinery, and rainfall will sometimes contradict flood extent in
-   public. My view is that the contradiction is the honest content, but
-   it is a product decision.
+Questions 1 and 3 were answered by the product chat on 2026-07-29 and
+are recorded here rather than removed, since the answers bind Phase 2.
+
+1. ~~Is the two-instrument design accepted?~~ **Yes, and sharpened.**
+   MCDWD is the headline instrument, IMERG is context. The
+   contradiction is not a cost of the design but the channel's most
+   valuable output, and it is Measured rather than an opinion.
+3. ~~Region count?~~ **Few, inside the workable band, and the set must
+   include European and US catchments from issue one.** Most weeks they
+   will read normal, and that is the point: a channel answering "your
+   catchment, this week, against 23 years" produces reassurance as
+   routine output, which is what D-043 requires. Two further product
+   requirements: ValidCounts appears on the page rather than in the
+   methodology, and the channel promises magnitude but never drift,
+   because flood extent is managed (levees, dams, drainage) and cannot
+   carry a drift claim.
 2. **The Somalia observability correlation of +0.25.** Not significant
    at n = 23, wrong sign to ignore. Re-test before launch, or accept?
 3. **Region count.** Bandwidth and baseline cost both argue for few,

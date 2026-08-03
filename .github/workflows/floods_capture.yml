@@ -93,19 +93,80 @@ jobs:
           # status codes both lie, and only the content type tells the
           # truth. The token expires every 60 days; the current one dies
           # 2026-09-26, inside the event window.
-          CT=$(curl -sS -L -o /dev/null -w '%{content_type}' -m 120 \
-                 -H "Authorization: Bearer $(cat ~/.earthdata_token)" \
-                 "https://nrt3.modaps.eosdis.nasa.gov/api/v2/content/details?products=VCDWD" \
-               || echo "curl-failed")
-          echo "content-type: $CT"
-          case "$CT" in
-            *json*) echo "token OK" ;;
-            *html*) echo "::error::Earthdata served an HTML login page \
-          under HTTP 200. The token has expired or an app approval was \
-          lost. Today's day will be lost unless this is fixed within the \
-          LANCE retention window." ; exit 1 ;;
-            *)      echo "::error::Unexpected content type: $CT" ; exit 1 ;;
-          esac
+          # TWO CORRECTIONS, both made after this step killed a perishable
+          # capture on 2026-08-01 while the token was perfectly valid.
+          #
+          # 1. The old URL (?products=VCDWD) returns "Bad Request" even
+          #    when authenticated. It answered JSON either way, so the
+          #    check passed for the wrong reason on every previous run and
+          #    never tested authentication at all. The URL below returns a
+          #    real directory listing.
+          #
+          # 2. A network timeout is NOT an expired token. CI logged
+          #    "curl-failed" after exactly the 120s limit and declared the
+          #    token dead; the same token authenticated from a laptop
+          #    minutes later. A transient blip must not be able to bin a
+          #    day that LANCE deletes after about a week.
+          URL="https://nrt3.modaps.eosdis.nasa.gov/api/v2/content/details/allData/5200/VNP09GA_NRT?fmt=json"
+          ok=""; neterr=""
+          for i in 1 2 3; do
+            if body=$(curl -sS -L -m 60 \
+                        -H "Authorization: Bearer $(cat ~/.earthdata_token)" \
+                        "$URL" 2>/dev/null); then
+              case "$body" in
+                *"<html"*|*"<!DOCTYPE"*|*"<!doctype"*)
+                  echo "attempt $i: HTML returned. Note this endpoint \
+          serves HTML to authenticated requests too, so it is NOT proof \
+          of an auth failure."
+                  neterr="yes" ;;
+                *'"resourceType"'*|*'"content"'*)
+                  echo "attempt $i: authenticated, real listing returned"
+                  ok="yes"; break ;;
+                *)
+                  echo "attempt $i: unrecognised body"
+                  neterr="yes" ;;
+              esac
+            else
+              echo "attempt $i: curl failed"
+              neterr="yes"
+            fi
+            sleep $((i * 10))
+          done
+
+          # DIAGNOSTIC ONLY. This step must never fail the job, and the
+          # reason is worth stating because the opposite seemed obviously
+          # right when it was written.
+          #
+          # A pre-flight probe can only gate if it can tell "authenticated"
+          # from "not authenticated". This one cannot, and neither could
+          # any endpoint tried on 2026-08-01: the content-details path
+          # returns a real listing with NO token at all, so it passes
+          # unauthenticated; the archives path returns HTML even WITH a
+          # valid token, so it fails authenticated; and the URS user
+          # endpoint 401s in both cases. A probe with those properties is
+          # not a weak check, it is a coin toss wearing a lab coat.
+          #
+          # Meanwhile the cost of a false positive is asymmetric and high:
+          # on 2026-08-01 it binned a whole day of VIIRS capture while the
+          # token was valid, and LANCE deletes after about seven days, so
+          # that day is not recoverable by retrying next week.
+          #
+          # The honest check is on the ARTIFACT, not before it. If the
+          # token is dead, the capture downloads an HTML login page in
+          # place of an HDF5 file and fails on its own, loudly, with the
+          # evidence in hand. That is where this belongs.
+          if [ -z "$ok" ]; then
+            # Deliberately NOT fatal. Three failed probes with no login
+            # page seen means the network or the endpoint is unwell, not
+            # that we are unauthenticated. The capture below fails loudly
+            # on its own if the problem is real, and letting it try beats
+            # discarding a day that cannot be re-fetched later.
+            echo "::warning::Could not confirm the token in 3 attempts. \
+          This is NOT evidence the token is dead: the probe cannot tell \
+          authenticated from unauthenticated (see the comment above). \
+          Proceeding to the capture, which fails loudly and with evidence \
+          if the token really has expired."
+          fi
 
       - name: Capture
         run: |

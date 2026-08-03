@@ -28,6 +28,7 @@ import argparse
 import json
 import re
 import subprocess
+from datetime import date
 import sys
 from pathlib import Path
 
@@ -336,6 +337,64 @@ def check_emitted_fields(violations):
                 f"non-anomalous country renders like an anomalous one.")
 
 
+ALLHANDS_MAX_ENTRIES = 10
+ALLHANDS_MAX_AGE_DAYS = 30
+
+
+def check_allhands(violations):
+    """Is the all-hands board still inside its cap?
+
+    D-059 caps `research/allhands.md` at ten entries or thirty days,
+    deleted rather than archived, because EVERY chat pays its read cost
+    EVERY session. An uncapped broadcast board stops being cheaper than
+    the messages it replaced, which was its entire justification.
+
+    Product asked for this as a guard rather than a note, on the house
+    rule that a thing which can regress becomes a guard. They are right
+    about the specific risk: a size rule is exactly the kind that holds
+    for three weeks and then quietly stops, and nothing about a slightly
+    too-long file looks wrong when you open it.
+
+    SKIPS SILENTLY WHEN research/ IS ABSENT. That directory is a
+    separate private repo which this public one gitignores, so CI has no
+    copy and a missing file here means "not applicable", not "failing".
+    """
+    path = ROOT / "research" / "allhands.md"
+    if not path.exists():
+        return
+
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError as exc:
+        violations.append(f"allhands.md unreadable: {exc}")
+        return
+
+    # Entries are dated H2 headings; the prose sections above them are
+    # not entries and must not count against the cap.
+    entries = re.findall(r"^##\s+(\d{4}-\d{2}-\d{2})\b", text, re.M)
+    if len(entries) > ALLHANDS_MAX_ENTRIES:
+        violations.append(
+            f"research/allhands.md has {len(entries)} entries, cap is "
+            f"{ALLHANDS_MAX_ENTRIES} (D-059). Delete the oldest rather "
+            f"than archiving them: every chat reads this file every "
+            f"session, so length is the cost.")
+
+    today = date.today()
+    for d in entries:
+        try:
+            age = (today - date.fromisoformat(d)).days
+        except ValueError:
+            violations.append(f"research/allhands.md: unparseable entry "
+                              f"date '{d}'")
+            continue
+        if age > ALLHANDS_MAX_AGE_DAYS:
+            violations.append(
+                f"research/allhands.md entry dated {d} is {age} days old, "
+                f"cap is {ALLHANDS_MAX_AGE_DAYS} (D-059). Delete it. An "
+                f"entry nobody has objected to in a month has been "
+                f"absorbed or has stopped mattering.")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--base", default="origin/main",
@@ -370,6 +429,7 @@ def main():
     check_structure(violations)
     check_snapshots(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
+    check_allhands(violations)
 
     if advisories:
         print(f"QA ADVISORY: {len(advisories)} rendering-completeness "
