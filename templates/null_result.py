@@ -118,7 +118,8 @@ def _halo_text(x: float, y: float, text: str) -> str:
             f'text-anchor="middle">{h(text)}</text>')
 
 
-def null_band(points, band, centre, unit_label, note="") -> str:
+def null_band(points, band, centre, unit_label, note="",
+              title="", qualifier="", stamp="") -> str:
     """A distribution against its own historical envelope.
 
     points  [{label, value, basis, callout}] where basis is one of the
@@ -126,9 +127,18 @@ def null_band(points, band, centre, unit_label, note="") -> str:
     band    {low, high, label}  the range these have historically held
     centre  the reference value, usually 1.0
     """
-    W, H = 680, 168
-    PAD_L, PAD_R, PAD_T = 14, 14, 46
-    AXIS_Y = 104
+    # The chart travels alone. A reader who wants the misreading does
+    # not misread the sentence, they CROP it, and a flat line reads as
+    # "nothing is happening" to anyone who wants it to. So for a null the
+    # qualifier is a label on the image rather than a caption underneath:
+    # title, qualifier and source stamp all live inside the SVG, and a
+    # screenshot of just the chart still carries what makes the null a
+    # result rather than an absence.
+    W = 680
+    head_h = (22 if title else 0) + (20 if qualifier else 0)
+    H = 168 + head_h + (16 if stamp else 0)
+    PAD_L, PAD_R = 14, 14
+    AXIS_Y = 104 + head_h
 
     vals = [p["value"] for p in points]
     lo = min(vals + [band["low"]])
@@ -140,6 +150,14 @@ def null_band(points, band, centre, unit_label, note="") -> str:
         return PAD_L + (v - lo) / (hi - lo) * (W - PAD_L - PAD_R)
 
     out = []
+    if title:
+        out.append(f'<text class="nb-title" x="{PAD_L}" y="42">{h(title)}</text>')
+    if qualifier:
+        out.append(f'<text class="nb-qual" x="{PAD_L}" y="{42 + (20 if title else 0)}">'
+                   f'{h(qualifier)}</text>')
+    if stamp:
+        out.append(f'<text class="nb-stamp" x="{PAD_L}" y="{H - 6}">'
+                   f'{h(stamp)}</text>')
     # The envelope first, and it is the largest object in the frame.
     # This is what stops an unremarkable result reading as an empty
     # chart: the reader sees the thing being compared against.
@@ -197,6 +215,10 @@ NULL_CSS = f"""
 .nb text {{ font-family: "{T.FONT_DATA}", ui-monospace, monospace;
   paint-order: stroke; stroke: var(--paper); stroke-width: 2.5;
   stroke-linejoin: round; }}
+/* Everything a cropped screenshot has to carry, inside the frame. */
+.nb-title {{ font-size: 13px; fill: var(--ink); font-weight: 600; }}
+.nb-qual {{ font-size: 12px; fill: var(--ink); }}
+.nb-stamp {{ font-size: 10px; fill: var(--ink-faint); }}
 .nb-band {{ font-size: 11px; fill: var(--ink-soft); }}
 .nb-c {{ font-size: 11px; fill: var(--ink); }}
 .nb-l {{ font-size: 11px; fill: var(--ink-soft); }}

@@ -105,7 +105,7 @@
 :root { --shell-max: 720px; --shell-pad: 22px; }
 body { margin:0; background:var(--paper); color:var(--ink);
   font-family:"Spectral",Georgia,serif; font-size:16.5px; line-height:1.55; }
-main { max-width:720px; margin:0 auto; padding:22px 22px 70px; }
+main { max-width:720px; margin:0 auto; padding:20px 22px 70px; }
 /* ---------- masthead ---------- */
   /* Self-contained: a page that does not include PUBLIC_CSS has no link
      reset, so the wordmark and nav arrived underlined on the fire page. */
@@ -166,6 +166,10 @@ main { max-width:720px; margin:0 auto; padding:22px 22px 70px; }
 .nb text { font-family: "IBM Plex Mono", ui-monospace, monospace;
   paint-order: stroke; stroke: var(--paper); stroke-width: 2.5;
   stroke-linejoin: round; }
+/* Everything a cropped screenshot has to carry, inside the frame. */
+.nb-title { font-size: 13px; fill: var(--ink); font-weight: 600; }
+.nb-qual { font-size: 12px; fill: var(--ink); }
+.nb-stamp { font-size: 10px; fill: var(--ink-faint); }
 .nb-band { font-size: 11px; fill: var(--ink-soft); }
 .nb-c { font-size: 11px; fill: var(--ink); }
 .nb-l { font-size: 11px; fill: var(--ink-soft); }
@@ -184,13 +188,19 @@ main { max-width:720px; margin:0 auto; padding:22px 22px 70px; }
 
 .eyebrow { font-family:"IBM Plex Mono",monospace; font-size:11px;
   letter-spacing:0.22em; text-transform:uppercase;
-  color:var(--ink-faint); margin:20px 0 12px; }
-.second { font-size:15px; color:var(--ink-soft); margin:14px 0 0; max-width:58ch; }
+  color:var(--ink-faint); margin:18px 0 10px; }
+/* Editor is explicit that both lines are the headline BLOCK. The second
+   is load-bearing and is not demoted to a caption or given smaller type
+   than the first. */
+.hl { font-size:25px; line-height:1.24; letter-spacing:-0.012em;
+  font-weight:500; margin:0; max-width:24ch; text-wrap:balance; }
+.hl + .hl { margin-top:14px; }
 .tag { font-family:"IBM Plex Mono",monospace; font-size:10.5px;
   letter-spacing:0.04em; padding:3px 8px; background:var(--tag-notlink-bg);
-  color:var(--tag-notlink-fg); display:inline-block; margin-top:20px; }
-.mock { margin-top:26px; padding-top:12px; border-top:1px solid var(--rule);
+  color:var(--tag-notlink-fg); display:inline-block; margin-top:18px; }
+.mock { margin-top:22px; padding-top:10px; border-top:1px solid var(--rule);
   font-size:12.5px; color:var(--ink-faint); }
+@media (max-width:560px) { .hl { font-size:22px; } }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
@@ -202,17 +212,11 @@ plausible.init()
 <header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../docs/" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../docs/elnino/">El Niño</a><a class="ch-fire" href="../docs/fires/">Fires</a><a class="util" href="../docs/about.html">About</a></nav></div></div></header>
 
 <main>
-  <p class="eyebrow">Crops &middot; harvest volatility, eleven clean pairs</p>
-  <p class="nb-count">11 crops, 65 years</p>
-  <p class="nb-claim">and no detectable change in how erratic their
-  harvests are.</p>
-  <svg class="nb" viewBox="0 0 680 168" role="img" aria-label="11 values against the range they have historically occupied"><circle cx="19.0" cy="18.0" r="5.2" fill="var(--ink)"/><text class="nb-l" x="30" y="22">measured</text><rect x="136.2" y="70.0" width="177.2" height="68" fill="var(--paper-sunk)"/><line x1="136.2" y1="70.0" x2="136.2" y2="138.0" stroke="var(--rule)" stroke-width="1"/><line x1="313.4" y1="70.0" x2="313.4" y2="138.0" stroke="var(--rule)" stroke-width="1"/><text class="nb-band" x="224.8" y="62.0" text-anchor="middle">spread these pairs held in 1961-1990</text><line x1="216.0" y1="64.0" x2="216.0" y2="144.0" stroke="var(--ink)" stroke-width="1.4"/><text class="nb-c" x="216.0" y="160.0" text-anchor="middle">no change in volatility</text><circle cx="229.3" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="198.3" cy="104.0" r="5.2" fill="var(--ink)"/><circle cx="251.4" cy="120.0" r="5.2" fill="var(--ink)"/><circle cx="176.1" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="211.5" cy="104.0" r="5.2" fill="var(--ink)"/><circle cx="238.1" cy="120.0" r="5.2" fill="var(--ink)"/><circle cx="264.7" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="543.8" cy="104.0" r="5.2" fill="var(--ink)"/><text class="nb-call" x="543.8" y="92.0" text-anchor="middle">Zimbabwe millet</text><circle cx="446.3" cy="120.0" r="5.2" fill="var(--ink)"/><text class="nb-call" x="446.3" y="108.0" text-anchor="middle">Mexico corn</text><circle cx="353.3" cy="88.0" r="5.2" fill="var(--ink)"/><circle cx="340.0" cy="104.0" r="5.2" fill="var(--ink)"/></svg><p class="nb-note">Each dot is one country-commodity pair: how variable its harvests were in 1991-2020 against the same pair in 1961-1990. The band is the spread they held in the earlier period.</p>
-  <p class="second">Tested across the set, the change is indistinguishable
-  from chance (Wilcoxon signed-rank, p&nbsp;=&nbsp;0.97; median ratio 0.87).
-  Dots outside the band are where those pairs sit, not evidence that those
-  pairs changed. The two furthest out are checked rather than reported:
-  Zimbabwe millet spans the 2000 land reform and Mexico corn an irrigation
-  expansion, so neither is a weather signal.</p>
+  <p class="eyebrow">Crops &middot; harvest volatility</p>
+  <p class="hl">Harvests swing no more than they did sixty-five years ago,
+  across all eleven crops we could test.</p>
+  <p class="hl">That measures the farming as much as the weather.</p>
+  <svg class="nb" viewBox="0 0 680 226" role="img" aria-label="11 values against the range they have historically occupied"><circle cx="19.0" cy="18.0" r="5.2" fill="var(--ink)"/><text class="nb-l" x="30" y="22">measured</text><text class="nb-title" x="14" y="42">Harvest volatility, 11 crops: 1991-2020 against 1961-1990</text><text class="nb-qual" x="14" y="62">No detectable change. This measures the farming as much as the weather.</text><text class="nb-stamp" x="14" y="220">The Long Swell · Wilcoxon signed-rank p = 0.97, median ratio 0.87 · thelongswell.com</text><rect x="136.2" y="112.0" width="177.2" height="68" fill="var(--paper-sunk)"/><line x1="136.2" y1="112.0" x2="136.2" y2="180.0" stroke="var(--rule)" stroke-width="1"/><line x1="313.4" y1="112.0" x2="313.4" y2="180.0" stroke="var(--rule)" stroke-width="1"/><text class="nb-band" x="224.8" y="104.0" text-anchor="middle">spread held in 1961-1990</text><line x1="216.0" y1="106.0" x2="216.0" y2="186.0" stroke="var(--ink)" stroke-width="1.4"/><text class="nb-c" x="216.0" y="202.0" text-anchor="middle">no change in volatility</text><circle cx="229.3" cy="130.0" r="5.2" fill="var(--ink)"/><circle cx="198.3" cy="146.0" r="5.2" fill="var(--ink)"/><circle cx="251.4" cy="162.0" r="5.2" fill="var(--ink)"/><circle cx="176.1" cy="130.0" r="5.2" fill="var(--ink)"/><circle cx="211.5" cy="146.0" r="5.2" fill="var(--ink)"/><circle cx="238.1" cy="162.0" r="5.2" fill="var(--ink)"/><circle cx="264.7" cy="130.0" r="5.2" fill="var(--ink)"/><circle cx="543.8" cy="146.0" r="5.2" fill="var(--ink)"/><text class="nb-call" x="543.8" y="134.0" text-anchor="middle">Zimbabwe millet</text><circle cx="446.3" cy="162.0" r="5.2" fill="var(--ink)"/><text class="nb-call" x="446.3" y="150.0" text-anchor="middle">Mexico corn</text><circle cx="353.3" cy="130.0" r="5.2" fill="var(--ink)"/><circle cx="340.0" cy="146.0" r="5.2" fill="var(--ink)"/></svg><p class="nb-note">Each dot is one country-commodity pair: harvest variability in 1991-2020 against the same pair in 1961-1990. Dots outside the band are where those pairs sit, not evidence that they changed; the two furthest out span the 2000 Zimbabwe land reform and a Mexican irrigation expansion, so neither is a weather signal.</p>
   <span class="tag">not ENSO-linked</span>
   <p class="mock">Shape review only. Values stand in for the crops volatility
   null until that channel emits it.</p>
