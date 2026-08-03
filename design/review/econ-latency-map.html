@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>When will anyone know what it cost | The Long Swell</title>
+<style>
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../docs/fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../docs/fonts/plexmono-600.woff2") format("woff2");
+}
+:root {     --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px; }
+@media (prefers-color-scheme: dark) { :root {     --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330; } }
+* { box-sizing: border-box; }
+:root { --shell-max: 900px; --shell-pad: 24px; }
+body { margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Spectral",Georgia,serif; font-size:16.5px; line-height:1.55; }
+main { max-width:900px; margin:0 auto; padding:24px 24px 80px; }
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+.eyebrow, .lm text, .lname, .abk, .foot, .lgd {
+  font-family:"IBM Plex Mono", ui-monospace, monospace; }
+.eyebrow { font-size:11px; letter-spacing:0.22em;
+  text-transform:uppercase; color:var(--ink-faint); margin:22px 0 10px; }
+.hl { font-size:27px; line-height:1.22; letter-spacing:-0.014em;
+  font-weight:500; margin:0; max-width:26ch; text-wrap:balance; }
+.hl + .hl { margin-top:14px; }
+.stand { color:var(--ink-soft); max-width:60ch; margin:18px 0 0; }
+.lm { width:100%; height:auto; display:block; margin-top:30px; }
+.lm text { paint-order:stroke; stroke:var(--paper); stroke-width:2.5;
+  stroke-linejoin:round; }
+.lm-ax { font-size:10px; fill:var(--ink-faint); }
+.lm-lab { font-size:11.5px; fill:var(--ink); }
+.lm-first { font-size:10px; fill:var(--ink-soft); }
+/* An empty row is a result and says so in the frame, rather than
+   leaving the reader to decide whether the page failed to load. */
+.lm-none { font-size:11px; fill:var(--ink-soft); font-style:italic; }
+.lm-un { font-size:10.5px; fill:var(--ink-soft); }
+.lgd { font-size:11.5px; color:var(--ink-soft); margin:14px 0 0; }
+.lgd b { color:var(--ink); font-weight:500; }
+.seclab { font-size:11px; letter-spacing:0.22em;
+  text-transform:uppercase; color:var(--ink); margin:44px 0 4px;
+  padding-bottom:8px; border-bottom:2.4px solid var(--rule-45);
+  font-family:"IBM Plex Mono",monospace; }
+.lrow { display:grid; grid-template-columns:12rem 1fr; gap:20px;
+  padding:16px 0; border-bottom:1px solid var(--rule); }
+.lname { font-size:13px; }
+.lsettle, .lnote, .labs { margin:0 0 8px; font-size:14px;
+  color:var(--ink-soft); max-width:62ch; }
+.lsettle b { color:var(--ink); font-weight:500; }
+/* The three silences look identical in a payload and mean opposite
+   things, so each is named in words before its note. None is styled as
+   a warning: a coverage hole is a fact about the record. */
+.abk { font-size:10px; letter-spacing:0.04em; text-transform:uppercase;
+  background:var(--paper-sunk); color:var(--ink-soft); padding:2px 6px;
+  margin-right:8px; white-space:nowrap; }
+.hole { margin-top:30px; padding-left:16px;
+  border-left:3px solid var(--damage); }
+.hole p { margin:0; max-width:60ch; }
+.foot { margin-top:46px; padding-top:14px; border-top:1px solid var(--ink);
+  font-size:11.5px; color:var(--ink-faint); }
+@media (max-width:700px) { .lrow { grid-template-columns:1fr; gap:6px; }
+  .hl { font-size:23px; } }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+</script>
+</head>
+<body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../docs/" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../docs/elnino/">El Niño</a><a class="ch-fire" href="../docs/fires/">Fires</a><a class="util" href="../docs/about.html">About</a></nav></div></div></header>
+
+<main>
+  <p class="eyebrow">Damages &middot; who publishes what, and when</p>
+  <p class="hl">After a climate event, when will anyone credible say what
+  it cost?</p>
+  <p class="hl">For most of the world, the honest answer is never.</p>
+  <p class="stand">After a climate event, when will a credible damage figure exist, and who will publish it? Each row is one hazard in one
+  territory. The axis is days after the event. A mark is a point at which
+  some named body publishes a figure, and an empty row is a place where
+  nobody has committed to publishing anything at all.</p>
+
+  <svg class="lm" viewBox="0 0 680 422" role="img" aria-label="When each estimator publishes, by hazard and territory, in days after the event"><line x1="196.0" y1="34" x2="196.0" y2="408" stroke="var(--rule)" stroke-width="0.8"/><text class="lm-ax" x="196.0" y="26" text-anchor="middle">event</text><line x1="268.0" y1="34" x2="268.0" y2="408" stroke="var(--rule)" stroke-width="0.8"/><text class="lm-ax" x="268.0" y="26" text-anchor="middle">3 mo</text><line x1="340.0" y1="34" x2="340.0" y2="408" stroke="var(--rule)" stroke-width="0.8"/><text class="lm-ax" x="340.0" y="26" text-anchor="middle">6 mo</text><line x1="488.0" y1="34" x2="488.0" y2="408" stroke="var(--rule)" stroke-width="0.8"/><text class="lm-ax" x="488.0" y="26" text-anchor="middle">1 yr</text><line x1="564.0" y1="34" x2="564.0" y2="408" stroke="var(--rule)" stroke-width="0.8"/><text class="lm-ax" x="564.0" y="26" text-anchor="middle">later</text><text class="lm-ax" x="574" y="14">undated</text><line x1="570.0" y1="34" x2="570.0" y2="408" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3 3"/><text class="lm-lab" x="0" y="84.0">European windstorm</text><line x1="196" y1="80.0" x2="564.0" y2="80.0" stroke="var(--rule-45)" stroke-width="1"/><line x1="488.0" y1="72.0" x2="488.0" y2="88.0" stroke="var(--ink)" stroke-width="2.4"/><circle cx="229.6" cy="80.0" r="4.6" fill="var(--ink)"/><circle cx="268.8" cy="80.0" r="4.6" fill="var(--ink)"/><circle cx="341.6" cy="80.0" r="4.6" fill="var(--ink)"/><circle cx="488.0" cy="80.0" r="4.6" fill="var(--ink)"/><text class="lm-first" x="229.6" y="95.0" text-anchor="middle">day 42</text><text class="lm-un" x="576" y="84.0">2 sources</text><text class="lm-lab" x="0" y="136.0">US wildfire, hurricane and…</text><line x1="196" y1="132.0" x2="564.0" y2="132.0" stroke="var(--rule-45)" stroke-width="1"/><line x1="556.0" y1="124.0" x2="556.0" y2="140.0" stroke="var(--ink)" stroke-width="2.4"/><circle cx="196.8" cy="132.0" r="4.6" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.5"/><text class="lm-first" x="196.8" y="147.0" text-anchor="middle">day 1</text><text class="lm-un" x="576" y="136.0">5 sources</text><text class="lm-lab" x="0" y="188.0">Australian bushfire and…</text><line x1="196" y1="184.0" x2="564.0" y2="184.0" stroke="var(--rule-45)" stroke-width="1"/><line x1="488.0" y1="176.0" x2="488.0" y2="192.0" stroke="var(--ink)" stroke-width="2.4"/><circle cx="229.6" cy="184.0" r="4.6" fill="var(--ink)"/><circle cx="268.8" cy="184.0" r="4.6" fill="var(--ink)"/><circle cx="341.6" cy="184.0" r="4.6" fill="var(--ink)"/><circle cx="488.0" cy="184.0" r="4.6" fill="var(--ink)"/><text class="lm-first" x="229.6" y="199.0" text-anchor="middle">day 42</text><text class="lm-lab" x="0" y="240.0">Indonesian fire and haze</text><line x1="196" y1="236.0" x2="564.0" y2="236.0" stroke="var(--rule-45)" stroke-width="1"/><circle cx="207.2" cy="236.0" r="4.6" fill="var(--ink)"/><circle cx="207.2" cy="236.0" r="2.4" fill="var(--paper)"/><text class="lm-first" x="207.2" y="251.0" text-anchor="middle">day 14</text><text class="lm-un" x="576" y="240.0">4 sources</text><text class="lm-lab" x="0" y="292.0">Southern Africa drought</text><line x1="196" y1="288.0" x2="564.0" y2="288.0" stroke="var(--rule-45)" stroke-width="1"/><text class="lm-none" x="380.0" y="292.0" text-anchor="middle">nothing dated, at any horizon</text><text class="lm-un" x="576" y="292.0">2 sources</text><text class="lm-lab" x="0" y="344.0">Coastal Peru and Ecuador…</text><line x1="196" y1="340.0" x2="564.0" y2="340.0" stroke="var(--rule-45)" stroke-width="1"/><circle cx="207.2" cy="340.0" r="4.6" fill="var(--ink)"/><circle cx="207.2" cy="340.0" r="2.4" fill="var(--paper)"/><text class="lm-first" x="207.2" y="355.0" text-anchor="middle">day 14</text><text class="lm-un" x="576" y="344.0">2 sources</text><text class="lm-lab" x="0" y="396.0">Mediterranean wildfire…</text><line x1="196" y1="392.0" x2="564.0" y2="392.0" stroke="var(--rule-45)" stroke-width="1"/><circle cx="436.0" cy="392.0" r="4.6" fill="var(--ink)"/><circle cx="436.0" cy="392.0" r="2.4" fill="var(--paper)"/><text class="lm-first" x="436.0" y="407.0" text-anchor="middle">day 300</text><text class="lm-un" x="576" y="396.0">4 sources</text></svg>
+
+  <p class="lgd"><b>Filled</b> a dated commitment the estimator publishes
+  itself &middot; <b>open</b> inferred from repeated behaviour, not promised
+  &middot; <b>ringed</b> happens only if triggered. The heavy tick is where a
+  figure stops moving. This is a schedule basis, not the evidence basis used
+  elsewhere on the site.</p>
+
+  <div class="hole"><p>Europe&#x27;s largest fire anomaly of 2026 is occurring in the one peril and territory combination where no public loss estimator exists. The France and Spain fires are T4&#x27;s worked example of the fast-reaction thesis, and there may never be a published insured-loss figure for them. An earlier version of this entry named the Consorcio and CCR as the likely first estimators. That was wrong on both counts and was corrected on 2026-07-29 by checking each scheme&#x27;s covered perils.</p></div>
+
+  <p class="seclab">Row by row, and what each silence means</p>
+  
+      <div class="lrow">
+        <div class="lname">European windstorm</div>
+        <div class="lbody">
+          <p class="lsettle"><b>Settles:</b> about 12 months</p>
+          <p class="lnote">The densest early coverage of any hazard and territory in this map, because PERILS commits to dated restatements.</p>
+          <p class="labs"><span class="abk">watched, and below the publishing threshold</span>
+            PERILS publishes nothing below EUR 300 million in a single country or EUR 500 million pan-European. The threshold is published and the estimator was watching, so silence here is weak evidence the event fell below it.</p>
+        </div>
+      </div>
+      <div class="lrow">
+        <div class="lname">US wildfire, hurricane and severe convective storm</div>
+        <div class="lbody">
+          <p class="lsettle"><b>Settles:</b> sigma in the Q1 following the event year</p>
+          <p class="lnote">The fastest figures here are the least documented. AccuWeather publishes within a day with no methodology; the documented estimators take months.</p>
+          <p class="labs"><span class="abk">watched, and below the publishing threshold</span>
+            PCS resurveys only above USD 250 million, and the billion-dollar series is billion-dollar by definition. Silence is weak evidence the event fell below those thresholds, not evidence of nothing.</p>
+        </div>
+      </div>
+      <div class="lrow">
+        <div class="lname">Australian bushfire and cyclone</div>
+        <div class="lbody">
+          <p class="lsettle"><b>Settles:</b> about 12 months</p>
+          <p class="lnote">PERILS covers Australia, so the schedule is as dated as Europe&#x27;s.</p>
+          <p class="labs"><span class="abk">watched, and below the publishing threshold</span>
+            PERILS covers both the peril and the territory here. Its Australian reporting threshold is not verified in this map, so treat silence as unexplained until it is.</p>
+        </div>
+      </div>
+      <div class="lrow">
+        <div class="lname">Indonesian fire and haze</div>
+        <div class="lbody">
+          <p class="lsettle"><b>Settles:</b> no settled figure expected within the event year; the 2015 season was still being re-estimated in 2021</p>
+          <p class="lnote">No insured-loss index covers Indonesian wildfire. The authoritative figures arrive years later and disagree; see the 2015 decomposition.</p>
+          <p class="labs"><span class="abk">not covered by any estimator</span>
+            No insured-loss index covers Indonesian wildfire. Silence says nothing whatsoever about the size of the event.</p>
+        </div>
+      </div>
+      <div class="lrow">
+        <div class="lname">Southern Africa drought</div>
+        <div class="lbody">
+          <p class="lsettle"><b>Settles:</b> often never, as a money figure</p>
+          <p class="lnote">Slow-onset drought has no event end date, so no schedule anchored on one can apply. The humanitarian system produces caseloads and appeals rather than loss estimates. This is the hardest hazard in the map and the honest answer is that a damage figure may never arrive.</p>
+          <p class="labs"><span class="abk">not covered by any estimator</span>
+            No estimator produces damage figures for slow-onset drought here. The humanitarian system produces appeals, which measure response scale rather than loss. Silence says nothing about size.</p>
+        </div>
+      </div>
+      <div class="lrow">
+        <div class="lname">Coastal Peru and Ecuador flooding</div>
+        <div class="lbody">
+          <p class="lsettle"><b>Settles:</b> years; the 1982-83 event is still cited from EM-DAT in 2017 dollars</p>
+          <p class="lnote">GRADE is the fastest credible option here and it is conditional on being requested, so its absence is not evidence of a small event.</p>
+          <p class="labs"><span class="abk">not covered by any estimator</span>
+            GRADE is produced on request rather than automatically, so its absence is not evidence of a small event.</p>
+        </div>
+      </div>
+      <div class="lrow">
+        <div class="lname">Mediterranean wildfire (France, Spain, Portugal, Greece)</div>
+        <div class="lbody">
+          <p class="lsettle"><b>Settles:</b> no scheduled settlement; the quarterly recaps are the only dated commitments</p>
+          <p class="lnote">The deepest coverage hole in this map, and deeper than first recorded. THREE separate mechanisms exclude it. PERILS covers neither wildfire as a European peril nor Spain, Portugal and Greece as territories. Spain&#x27;s Consorcio de Compensacion de Seguros does NOT class wildfire as an extraordinary risk, so it publishes no wildfire loss figure; cover sits with private household insurers, with only narrow Consorcio involvement for personal injury during firefighting under Order PCM/641/2021. France&#x27;s CatNat scheme, reinsured by CCR, EXCLUDES forest fire under the law of 13 July 1982; building damage from a forest fire is met by ordinary fire cover, not CatNat. So no public estimator produces an insured-loss figure for this hazard and territory at all.</p>
+          <p class="labs"><span class="abk">not covered by any estimator</span>
+            No estimator covers this hazard and territory: excluded by PERILS on both peril and territory, by the Consorcio as not an extraordinary risk, and by the French CatNat scheme by statute. Silence says nothing whatsoever about size.</p>
+        </div>
+      </div>
+
+  <div class="foot">Kristjan Lepik (2026). The Long Swell, Damages.
+    <a href="https://thelongswell.com/">thelongswell.com</a>
+    &middot; evidence basis compiled,
+    authorship agency</div>
+</main>
+</body>
+</html>
