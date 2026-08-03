@@ -27,10 +27,21 @@ the thing they are being compared against. "Within range" stops being
 the absence of a finding and becomes a visible relationship between two
 drawn objects.
 
-The headline is a count, not a magnitude. "Eleven of eleven, within
-range" is a strong number, and a strong number is what a reader who
-gives this ninety seconds standing up can take away. A null with no
-number in it reads as nothing to say.
+The headline is a count, not a magnitude, and it counts the WHOLE SET
+rather than dividing it. A null with no number in it reads as nothing
+to say, so the count instinct is right; but a count that splits the set
+asserts a pattern the test did not find.
+
+That distinction cost a revision. "7 of 11 are no more erratic" looks
+like a null and is not one: with eleven pairs under a true null you
+would expect five or six above the line, so four above it is exactly
+what chance produces, and the Wilcoxon signed-rank on this set returns
+p = 0.97. A 7/4 split carries no information, and printing it invites
+the complement, which is a reader leaving after one screen having
+learned that four crops in eleven got worse. That is a finding nobody
+made, and it is the mirror of the misreading the rest of this page
+guards against. So: "11 crops, 65 years" counts the set, "7 of 11"
+divides it, and only the first is available to a headline.
 
 ## Evidence basis, at a glance
 
@@ -46,6 +57,16 @@ Colour is already carrying channel identity and would need a legend
 lookup. Filled against open against ringed is pre-attentive, survives
 greyscale and colour blindness, and reuses what the world map already
 teaches for anomaly against context.
+
+## Points outside the band are positions, not per-pair claims
+
+The set-level test finds nothing, and a set-level null does not license
+a claim that any particular pair changed. For the two largest movers
+the confounders actively undercut it: Zimbabwe millet spans the 2000
+land reform, Mexico corn spans an irrigation expansion, and both were
+checked for that reason rather than reported as findings. So the marks
+show where the dots sit and the prose declines the per-pair claim until
+the owning channel rules on whether it is supportable at all.
 
 ## When something IS outside the band
 
