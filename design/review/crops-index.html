@@ -242,7 +242,7 @@ plausible.init()
   ordinary. What is inside it is not evenly spread, and that is the part
   worth reading.</p>
 
-  <svg class="cb" viewBox="0 0 680 200" role="img" aria-label="Places at record lows against the number chance produces, at two levels of granularity"><text class="cb-lab" x="0" y="48.0">Whole countries</text><text class="cb-sub" x="0" y="64.0">123 units, 26-year record</text><rect x="211.5" y="42.0" width="33.3" height="28" fill="var(--paper-sunk)"/><line x1="228.1" y1="40.0" x2="228.1" y2="72.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="228.1" y="35.0" text-anchor="middle">chance produces 5</text><circle cx="213.8" cy="56.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="213.8" y="83.0" text-anchor="middle" fill="var(--ink)">1 observed</text><text class="cb-lab" x="0" y="122.0">Sub-national units</text><text class="cb-sub" x="0" y="138.0">2,122 units, 26-year record</text><rect x="453.1" y="116.0" width="138.2" height="28" fill="var(--paper-sunk)"/><line x1="522.2" y1="114.0" x2="522.2" y2="146.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="522.2" y="109.0" text-anchor="middle">chance produces 82</text><circle cx="519.9" cy="130.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="519.9" y="157.0" text-anchor="middle" fill="var(--ink)">81 observed</text><text class="cb-ax" x="210" y="194">places at their worst on record, this dekad</text></svg><p class="cb-note">The expectation rises with the number of units, not with the weather. Any map at this resolution will show dozens of record lows every week, and almost all of them are the arithmetic rather than the season.</p>
+  <svg class="cb" viewBox="0 0 680 200" role="img" aria-label="Places at record lows against the number chance produces, at two levels of granularity"><text class="cb-lab" x="0" y="48.0">Whole countries</text><text class="cb-sub" x="0" y="64.0">123 units, 26-year record</text><rect x="211.5" y="42.0" width="33.3" height="28" fill="var(--paper-sunk)"/><line x1="228.1" y1="40.0" x2="228.1" y2="72.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="228.1" y="35.0" text-anchor="middle">if records fell evenly 5</text><circle cx="213.8" cy="56.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="213.8" y="83.0" text-anchor="middle" fill="var(--ink)">1 observed</text><text class="cb-lab" x="0" y="122.0">Sub-national units</text><text class="cb-sub" x="0" y="138.0">2,122 units, 26-year record</text><rect x="453.1" y="116.0" width="138.2" height="28" fill="var(--paper-sunk)"/><line x1="522.2" y1="114.0" x2="522.2" y2="146.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="522.2" y="109.0" text-anchor="middle">if records fell evenly 82</text><circle cx="519.9" cy="130.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="519.9" y="157.0" text-anchor="middle" fill="var(--ink)">81 observed</text><text class="cb-ax" x="210" y="194">places at their worst on record, this dekad</text></svg><p class="cb-note">The expectation rises with the number of units, not with the weather. Any map at this resolution will show dozens of record lows every week, and almost all of them are the arithmetic rather than the season.</p>
 
   
       <p class="seclab">What the baseline does not explain</p>
@@ -252,14 +252,15 @@ plausible.init()
       <div class="cluster">
         <p class="cbig">8 of 21</p>
         <p class="cbody">of Chad&rsquo;s crop regions are at their worst
-        on record for this dekad. Its share of the 81 would be
-        about 1. Under random allocation a result this
-        concentrated arises with probability 6e-07, which survives
-        correction for testing all 123 countries.</p>
-        <p class="ccav">A lead, not a finding. Neighbouring regions in one
-        drought are not independent draws, so the true probability is
-        weaker than the arithmetic above. The owning channel confirms or
-        rejects this before it is published as a claim.</p>
+        on record for this dekad. If records fell evenly its share of the
+        81 would be about 0.8, so this is roughly
+        10 times what an even spread would give.</p>
+        <p class="ccav">A lead, not a finding, and deliberately without a
+        p-value. Any such figure rests on treating neighbouring regions
+        as independent draws, which in a single drought they are not, so
+        it would look precise while being wrong. The owning channel holds
+        this country&rsquo;s own year-by-year history, which needs no such
+        assumption, and rules before this is published as a claim.</p>
       </div>
 
   <p class="seclab">Worst first, by how far below their own record</p>

@@ -14,8 +14,15 @@ needs both and leads with the second.
 ## The chance baseline comes first, above the list
 
 Not a footnote and not below the fold. With 2,122 units each holding a
-26-year record, an ordinary dekad produces about 82 new record lows, and
-81 were observed. So the list below is, in total, exactly what a normal
+26-year record, an even spread of records would give about 82 a dekad,
+and 81 were observed.
+
+That "even spread" is an assumption and the page now says so. Records
+hoard: Europe's record lows sit in 2001, 2003 and 2006, so the uniform
+figure overstates what recent European years should produce by about
+four times. The global 81.6 has not been checked against an empirical
+expectation either, so it is labelled "if records fell evenly" rather
+than "chance produces" until the owning channel supplies one. So the list below is, in total, exactly what a normal
 week looks like, and a page that opened with eighty-one record lows and
 no reference would be alarming every week for arithmetic reasons.
 
@@ -126,14 +133,15 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
       <div class="cluster">
         <p class="cbig">{k} of {n}</p>
         <p class="cbody">of {h(c)}&rsquo;s crop regions are at their worst
-        on record for this dekad. Its share of the {len(hits)} would be
-        about {n * p1:.1f}. Under random allocation a result this
-        concentrated arises with probability {tail:.0e}, which survives
-        correction for testing all {len(places)} countries.</p>
-        <p class="ccav">A lead, not a finding. Neighbouring regions in one
-        drought are not independent draws, so the true probability is
-        weaker than the arithmetic above. The owning channel confirms or
-        rejects this before it is published as a claim.</p>
+        on record for this dekad. If records fell evenly its share of the
+        {len(hits)} would be about {n * p1:.1f}, so this is roughly
+        {k / (n * p1):.0f} times what an even spread would give.</p>
+        <p class="ccav">A lead, not a finding, and deliberately without a
+        p-value. Any such figure rests on treating neighbouring regions
+        as independent draws, which in a single drought they are not, so
+        it would look precise while being wrong. The owning channel holds
+        this country&rsquo;s own year-by-year history, which needs no such
+        assumption, and rules before this is published as a claim.</p>
       </div>"""
 
     return f"""<!doctype html>

@@ -4,9 +4,23 @@ The load-bearing device for any page that counts record lows across many
 units, and the reason it has to exist is arithmetic rather than taste.
 
 With N units each holding a K-year record, an ordinary period produces
-about N/K new records. For the crops dekad that is 2,122 / 26 = 81.6,
-and the observed count is 81. The ratio is 0.99. Nothing is happening,
-and a map of those 81 places would look like a catastrophe.
+about N/K new records IF every year is equally likely to hold a unit's
+record. For the crops dekad that is 2,122 / 26 = 81.6 against an
+observed 81.
+
+**That "if" is doing real work and this component used to hide it.**
+Records hoard. Europe's record lows sit in 2001, 2003 and 2006, so
+recent European years produce roughly a quarter of what uniform
+predicts, a hoarding factor of 4. Applying the uniform figure to Europe
+turned an unremarkable zero into an apparent finding, and that
+substitution produced four wrong conclusions across three chats in one
+day.
+
+So: an empirical expectation is used when the channel supplies one, and
+the uniform fallback is LABELLED as uniform, "if records fell evenly",
+never as "chance produces". The global 81.6 has not been checked against
+an empirical expectation either, so it carries the weaker label too
+until it is.
 
 ## The consequence that does not go away
 
@@ -51,14 +65,27 @@ from run_brief import h                                       # noqa: E402
 def scales_block(scales, note="") -> str:
     """One row per granularity: expected range drawn, observed marked.
 
-    scales  [{label, units, years, observed}]
+    scales  [{label, units, years, observed, expected?}]
+
+    `expected` is the EMPIRICAL expectation when the channel can supply
+    one. Without it this falls back to the uniform N/K and says so, in
+    those words, because the two are not interchangeable and today they
+    differed by a factor of four.
     """
     rows = []
     for s in scales:
-        lam = s["units"] / s["years"]
+        # N/K assumes every year is equally likely to hold a unit's
+        # record low. Records HOARD: Europe's record lows sit in 2001,
+        # 2003 and 2006, so recent European years produce about a
+        # quarter of what uniform predicts. Where the channel supplies
+        # an empirical expectation, use it; where it does not, use the
+        # uniform one and label it as uniform rather than as chance.
+        uniform = s["units"] / s["years"]
+        lam = s.get("expected") or uniform
+        empirical = s.get("expected") is not None
         sd = math.sqrt(lam)
-        rows.append(dict(s, lam=lam, lo=max(0.0, lam - 2 * sd),
-                         hi=lam + 2 * sd))
+        rows.append(dict(s, lam=lam, uniform=uniform, empirical=empirical,
+                         lo=max(0.0, lam - 2 * sd), hi=lam + 2 * sd))
     hi_all = max(max(r["hi"], r["observed"]) for r in rows) * 1.18
 
     W, ROW_H, PAD_L, PAD_R, PAD_T = 680, 74, 210, 20, 30
@@ -85,9 +112,10 @@ def scales_block(scales, note="") -> str:
         out.append(f'<line x1="{xe:.1f}" y1="{y - 16:.1f}" x2="{xe:.1f}" '
                    f'y2="{y + 16:.1f}" stroke="var(--ink-soft)" '
                    f'stroke-width="1" stroke-dasharray="4 3"/>')
+        lead = ("chance produces" if r["empirical"]
+                else "if records fell evenly")
         out.append(f'<text class="cb-exp" x="{xe:.1f}" y="{y - 21:.1f}" '
-                   f'text-anchor="middle">chance produces '
-                   f'{r["lam"]:.0f}</text>')
+                   f'text-anchor="middle">{lead} {r["lam"]:.0f}</text>')
 
         ox = X(r["observed"])
         inside = r["lo"] <= r["observed"] <= r["hi"]
