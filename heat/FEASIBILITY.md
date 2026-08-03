@@ -445,6 +445,53 @@ does not generalise back to the reanalysis endpoints. Record which
 product each result applies to. This is the same shape as the
 documentation asymmetry in 3a.
 
+## 5b. CDS cost caps, measured 2026-08-03
+
+Recorded per product, because platform's caution is correct that a
+result on one CDS endpoint does not transfer to another. Every row
+below is measured, not inferred.
+
+| Product | Request | Result |
+|---|---|---|
+| derived daily-statistics | 1 yr, 9x15 box | accepted, 658s, 0.2 MB |
+| derived daily-statistics | 3 yr, 9x15 box | **rejected**, cost limits |
+| derived daily-statistics | 10 yr, 9x15 box | **rejected**, cost limits |
+| derived daily-statistics | 1 yr, 65x89 box | accepted, 3509s, 3.9 MB |
+| raw single-levels | 10 yr, 1 month, 6 night hours, 9x15 box | accepted, 321s, 0.6 MB |
+
+**The derived product's cap counts years, and it is far tighter than
+`fetchers/era5_wwe.py` implies.** That docstring records the dataset
+rejecting 30-year requests. It rejects three. The note is not wrong,
+it is loose in a way that cost this chat a probe round: it reads as a
+constraint that bites at decades when it bites at years. Platform owns
+that file; the correction is theirs to make.
+
+**Area is cheap but not free**, correcting an earlier guess in this
+document. 43 times the cells cost roughly 2.4 to 5 times the wall
+clock. The uncertainty is because the 65x89 run rode through a local
+DNS outage and spent an unknown share of its 3509s in 120-second retry
+backoff rather than at CDS.
+
+**cdsapi survives a network outage unattended**, which the same run
+demonstrated by accident: it retried 16 or more times at 120-second
+intervals against a limit of 500 and completed. That is a real
+robustness finding for an overnight job on this laptop.
+
+**Consequence for the test pull.** The derived product cannot carry a
+77-year record at one to two years per request. The raw product can,
+chunked as `era5_wwe.py` already chunks, and probe D confirms it takes
+ten years of one month at six night hours in 321s. Production shape is
+therefore two regional boxes, Europe and US, chunked by ten-year block
+and month: about 192 requests. Sequentially that is well over a day; at
+the concurrency CDS permits it is an overnight job, not an evening and
+not a week.
+
+Three conditions ride with that, all from CLAUDE.md's unattended-job
+discipline and none optional: per-chunk caching to disk so the job is
+genuinely resumable rather than merely restartable, a **duration**-based
+wake lock covering the whole window, and a `.running-jobs` line before
+it starts. Platform is told first, since CDS quota is per account.
+
 ## 6. The open question that now gates the drift claim
 
 Platform and product converged on the same point from opposite
