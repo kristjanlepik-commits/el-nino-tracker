@@ -188,6 +188,18 @@ def check_methodology_matches_enum():
         if cat not in CATEGORY_LABELS:
             err(f"CATEGORIES has {cat!r} with no label for the methodology page")
 
+    # The page's headline promise and its derived-figure section have to
+    # agree. They contradicted each other for one commit on 2026-08-03,
+    # when D-070 permitted a TLS-computed figure and the top of the page
+    # still said we produce none.
+    if "tls_built" in AUTHORSHIP:
+        if "## The one number that is ours" not in text:
+            err("methodology.md: a TLS-built figure is permitted but the page has "
+                "no section explaining it")
+        if "We do not produce loss estimates" in text:
+            err("methodology.md: the page still claims we produce no estimates, "
+                "which contradicts the derived-figure section")
+
     word = NUMBER_WORDS.get(len(CATEGORIES))
     if word and f"The {word} categories" not in text:
         err(f"methodology.md: enum holds {len(CATEGORIES)} categories, so the "
