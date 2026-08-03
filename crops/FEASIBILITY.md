@@ -994,20 +994,35 @@ baseline rather than the uniform one, since it would be poor to state
 the rule in one paragraph and use units/26 in the next. Run for every
 country in the cluster:
 
-| Country | Units | Uniform | Recent mean | Recent range | 2026 | |
-|---|---|---|---|---|---|---|
-| **Chad** | 21 | 0.8 | **2.5** | 2 to 3 | **8** | survives |
-| Sudan | 14 | 0.5 | 1.5 | 1 to 2 | 3 | marginal |
-| Rwanda | 28 | 1.1 | **6.7** | 3 to 12 | 5 | **fails** |
-| Eritrea | 5 | 0.2 | 2.0 | 2 to 2 | 2 | **fails** |
-| Mali | 9 | 0.3 | 1.0 | 1 to 1 | 1 | **fails** |
-| Burundi | 17 | 0.7 | 3.0 | 1 to 6 | 2 | **fails** |
+**Corrected 2026-07-29, and the correction is mine.** The first version
+of this table averaged `value_counts()` output, which omits years with a
+count of zero. That silently conditions the mean on "years that had at
+least one", inflating every baseline. Both figures shown:
 
-**Only Chad clearly survives.** Rwanda's 5 is below its own 2017 (12)
-and equal to its 2014. Eritrea's 2 matches 2015. Mali's 1 is its recent
-norm exactly. My earlier claim that the Sahel and East Africa is "the
-only cluster unambiguously beyond chance" rested on the uniform binomial
-and does not survive the rule I had just argued for.
+| Country | Units | Uniform | Inflated mean | **True mean** | Recent max | 2026 | |
+|---|---|---|---|---|---|---|---|
+| **Chad** | 21 | 0.8 | 2.5 | **0.83** | 3 | **8** | survives |
+| **Sudan** | 14 | 0.5 | 1.5 | **0.50** | 2 | **3** | survives |
+| Rwanda | 28 | 1.1 | 6.7 | 1.67 | **12** | 5 | marginal |
+| Eritrea | 5 | 0.2 | 2.0 | 0.17 | 2 | 2 | marginal |
+| Mali | 9 | 0.3 | 1.0 | 0.25 | 1 | 1 | marginal |
+| Burundi | 17 | 0.7 | 3.0 | 0.75 | **6** | 2 | marginal |
+
+The correction moves things in both directions. **Chad strengthens**: 8
+against a true recent average of 0.83 and a maximum of 3, with zero in
+eight of the last twelve years. **Sudan upgrades** from marginal to
+surviving. **Rwanda, Eritrea, Mali and Burundi are marginal rather than
+failing**: each is above its own mean but none exceeds its own recent
+maximum, and Rwanda's 2017 gave 12 against this year's 5.
+
+Europe is unaffected in conclusion but its quoted figure was also wrong:
+the true 2014-2025 mean is **1.58**, not 2.71, and 2026's 2 remains
+ordinary against it.
+
+So the original claim of a cluster "unambiguously beyond chance" was
+still wrong, but for a different reason than the first correction gave:
+not because the countries fail, but because only two of six clear their
+own recent maximum.
 
 **The hoarding runs the opposite way here, and that is the real find.**
 Every country in this group has a recent mean *above* its uniform
