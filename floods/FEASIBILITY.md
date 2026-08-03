@@ -369,6 +369,48 @@ flooding happens downstream in floodplains. The basin is the unit, not
 the peak cell, and "look where it rained hardest" is the wrong
 instruction.
 
+## 10b. The shutdown is not a launch blocker (added 2026-08-03)
+
+Recorded because the whole channel was being sized as if it were.
+
+**MODIS is still flying in September.** The launch issue compares MODIS
+against the MODIS 23-year baseline directly, with no cross-instrument
+conversion anywhere in it. The MODIS-to-VIIRS problem binds from roughly
+February 2027, once Terra is gone. It is a continuity problem, not a
+launch dependency, and it should not appear in any estimate of what it
+takes to ship.
+
+**And the European calibration window is not closed either.** An earlier
+version of this report called it structural and unfixable. That was
+wrong: it conflated "Aqua stops" with "MODIS stops". Aqua stops around
+August 2026; **Terra runs to about January 2027**, so November 2026 to
+January 2027 sits inside the European flood season with Terra-only MODIS
+on one side and VIIRS on the other.
+
+The archive contains the natural experiment needed to interpret that.
+Aqua launched May 2002, so winters 2001 and 2002 are Terra-only, and
+European tiles are present in both. On h18v04 (France and western Alps),
+1 February: Terra-only years gave 1.55 and 0.92 observations per pixel
+against 2.25 to 3.31 for Terra+Aqua years, while the observed FRACTION
+stayed similar at 0.67 to 0.86. Losing a satellite halves observation
+depth rather than coverage, which is a smaller and more tractable change
+than a cross-instrument conversion.
+
+So the European chain is three measurable legs rather than one
+impossible one: Terra+Aqua to Terra-only from the 2001-2002 archive,
+Terra-only to VIIRS in winter 2026-27 on real flood water, then chain.
+
+Two residual risks, neither structural: NASA may stop producing MCDWD
+when Aqua goes, and Terra's orbit has drifted since 2001, so 2026
+Terra-only is not identical to 2001 Terra-only.
+
+Untested alternatives worth keeping on the table: quantile mapping
+rather than a scalar offset, which uses every overlap week rather than
+only flood weeks and needs only that the instruments agree on ordering
+(their rank correlation is +0.83); and Sentinel-1 as either a bridge or
+Europe's own instrument, since radar sees through the cloud that makes
+European winter optical detection unreliable in the first place.
+
 ## 11. If floods opens
 
 Phase 2, in dependency order:
