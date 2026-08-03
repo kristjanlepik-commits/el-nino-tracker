@@ -1039,6 +1039,34 @@ sentence should take.
 **Corrected Sahel sentence:** Chad alone, with its own trajectory, not a
 regional cluster claim.
 
+### 6p. Why the empirical baseline beats a binomial, for a reason neither of us claimed
+
+Identified by product, 2026-07-29, and worth recording because it
+answers the obvious challenge to this whole method.
+
+A binomial expectation over N units assumes the units are independent.
+Neighbouring admin units are not: adjacent provinces share weather, so
+four contiguous provinces at rank 1 is closer to one event than to four.
+That is awkward to correct for and it was raised twice as a caution.
+
+**Comparing a place against its own past counts sidesteps the problem
+entirely.** Chad's 2015 has the same spatial correlation structure as
+Chad's 2026, because it is the same set of provinces in the same
+arrangement. The correlation is already priced into both sides of the
+comparison, so it cannot distort the ratio between them.
+
+So the empirical baseline is not merely more accurate than the uniform
+one. It is **robust to a problem the uniform one cannot handle at all**,
+and that is the answer when someone asks why we do not just use a
+binomial.
+
+**The adopted bar, from the same exchange: a count is notable when it
+clears the place's own recent maximum**, not when it clears a mean. That
+is what separated Chad (8 against a max of 3) and Sudan (3 against 2)
+from Rwanda (5 against 12), Eritrea, Mali and Burundi. It needs no
+distributional assumption whatever, and it is emitted as
+`clears_own_recent_max`.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9

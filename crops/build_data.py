@@ -194,6 +194,13 @@ def build_stress(catalogue: dict) -> dict:
             "note": "uniform_would_say is shown only to be argued with. "
                     "Use recent_mean.",
         }
+        # The bar product adopted 2026-07-29: a count is notable when it
+        # clears the place's OWN recent maximum, not when it clears a
+        # mean. Sharper than a mean because it needs no distributional
+        # assumption, and it is what separated Chad and Sudan from
+        # Rwanda, Eritrea, Mali and Burundi.
+        empirical["clears_own_recent_max"] = bool(
+            recent and empirical["this_year"] > max(recent))
 
         head = instruments[0]
         quals = [{
