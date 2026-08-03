@@ -458,7 +458,11 @@
     "this_year": 8,
     "_uniform_would_say": 0.8,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 5,
+    "excess_share": 0.2381,
+    "notable": true,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -692,7 +696,11 @@
     "this_year": 3,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 1,
+    "excess_share": 0.0714,
+    "notable": true,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -859,7 +867,11 @@
     "this_year": 2,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -1089,7 +1101,11 @@
     "this_year": 2,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0714,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -1344,7 +1360,11 @@
     "this_year": 4,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 1,
+    "excess_share": 0.0588,
+    "notable": true,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -1543,7 +1563,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -1731,7 +1755,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -1986,7 +2014,11 @@
     "this_year": 2,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0588,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -2143,7 +2175,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.1,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.6667,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -2471,7 +2507,11 @@
     "this_year": 5,
     "_uniform_would_say": 1.1,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -7,
+    "excess_share": -0.25,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -2691,7 +2731,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -6,
+    "excess_share": -0.5,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -2862,7 +2906,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.4,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -3124,7 +3172,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.1667,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -3312,7 +3364,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -3518,7 +3574,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.2,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -3822,7 +3882,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.9,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -11,
+    "excess_share": -0.4583,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -4073,7 +4137,11 @@
     "this_year": 2,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.2353,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -4258,7 +4326,11 @@
     "this_year": 2,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 1,
+    "excess_share": 0.1429,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -4548,7 +4620,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.8,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -12,
+    "excess_share": -0.5455,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -4799,7 +4875,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -11,
+    "excess_share": -0.6471,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -5043,7 +5123,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.6,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -5263,7 +5347,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0833,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -5591,7 +5679,11 @@
     "this_year": 1,
     "_uniform_would_say": 1.1,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -6,
+    "excess_share": -0.2143,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -5895,7 +5987,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.9,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.0833,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -6125,7 +6221,11 @@
     "this_year": 2,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0714,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -6292,7 +6392,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.4,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -6606,7 +6710,11 @@
     "this_year": 0,
     "_uniform_would_say": 1.0,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -6,
+    "excess_share": -0.2308,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -6854,7 +6962,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -5,
+    "excess_share": -0.2941,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -7053,7 +7165,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -7213,7 +7329,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.25,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -7426,7 +7546,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.3636,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -7628,7 +7752,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.4,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -7820,7 +7948,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -8071,7 +8203,11 @@
     "this_year": 4,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 1,
+    "excess_share": 0.0588,
+    "notable": true,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -8378,7 +8514,11 @@
     "this_year": 2,
     "_uniform_would_say": 1.0,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -8563,7 +8703,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.2857,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -8818,7 +8962,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.1765,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -9041,7 +9189,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -6,
+    "excess_share": -0.4615,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -9334,7 +9486,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.9,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -6,
+    "excess_share": -0.2609,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -9557,7 +9713,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.3077,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -9955,7 +10115,11 @@
     "this_year": 2,
     "_uniform_would_say": 1.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -8,
+    "excess_share": -0.2105,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -10539,7 +10703,11 @@
     "this_year": 6,
     "_uniform_would_say": 2.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 1,
+    "excess_share": 0.0156,
+    "notable": true,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -10906,7 +11074,11 @@
     "this_year": 0,
     "_uniform_would_say": 1.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -6,
+    "excess_share": -0.1818,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -11210,7 +11382,11 @@
     "this_year": 2,
     "_uniform_would_say": 0.9,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 1,
+    "excess_share": 0.0417,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -11398,7 +11574,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -11667,7 +11847,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -10,
+    "excess_share": -0.5263,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -11862,7 +12046,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.1111,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -12054,7 +12242,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -12246,7 +12438,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.375,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -12452,7 +12648,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.3,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -12714,7 +12914,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.2222,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -12909,7 +13113,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.1111,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -13097,7 +13305,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.25,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -13313,7 +13525,11 @@
     "this_year": 2,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.1667,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -13494,7 +13710,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -13707,7 +13927,11 @@
     "this_year": 2,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -13888,7 +14112,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.2857,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -14220,7 +14448,11 @@
     "this_year": 2,
     "_uniform_would_say": 1.1,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -14380,7 +14612,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.25,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -14775,7 +15011,11 @@
     "this_year": 0,
     "_uniform_would_say": 1.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -13,
+    "excess_share": -0.3514,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -14949,7 +15189,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -15151,7 +15395,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.2,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -15406,7 +15654,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.2353,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -15601,7 +15853,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.1111,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -15803,7 +16059,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -16037,7 +16297,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.1429,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -16502,7 +16766,11 @@
     "this_year": 2,
     "_uniform_would_say": 1.8,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 1,
+    "excess_share": 0.0213,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -16988,7 +17256,11 @@
     "this_year": 0,
     "_uniform_would_say": 1.9,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -5,
+    "excess_share": -0.1,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -17222,7 +17494,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.2857,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -17424,7 +17700,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.2,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -17689,7 +17969,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0526,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -17912,7 +18196,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.3077,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -18576,7 +18864,11 @@
     "this_year": 1,
     "_uniform_would_say": 2.9,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -19,
+    "excess_share": -0.25,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -18820,7 +19112,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.6,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0625,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -19173,7 +19469,11 @@
     "this_year": 1,
     "_uniform_would_say": 1.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.0645,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -19459,7 +19759,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.8,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -19637,7 +19941,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -19899,7 +20207,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.1667,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -20108,7 +20420,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.2727,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -20349,7 +20665,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.6,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.2,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -20551,7 +20871,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.1,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -20743,7 +21067,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.1111,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -20980,7 +21308,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.6,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.1333,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -21147,7 +21479,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -21570,7 +21906,11 @@
     "this_year": 0,
     "_uniform_would_say": 1.6,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -21769,7 +22109,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -21982,7 +22326,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.3636,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -22667,7 +23015,11 @@
     "this_year": 4,
     "_uniform_would_say": 3.0,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 2,
+    "excess_share": 0.0253,
+    "notable": true,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -23023,7 +23375,11 @@
     "this_year": 0,
     "_uniform_would_say": 1.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.0938,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -23393,7 +23749,11 @@
     "this_year": 0,
     "_uniform_would_say": 1.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -23595,7 +23955,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.3,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -23846,7 +24210,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.1176,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -24150,7 +24518,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.9,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.0833,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -24433,7 +24805,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.8,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.0952,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -24597,7 +24973,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -24887,7 +25267,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.8,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0455,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -25152,7 +25536,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -25407,7 +25795,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.2353,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -25623,7 +26015,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0833,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -25881,7 +26277,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0556,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -26146,7 +26546,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.7,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.1053,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -26331,7 +26735,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.1429,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -26523,7 +26931,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.375,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -26872,7 +27284,11 @@
     "this_year": 1,
     "_uniform_would_say": 1.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": true
+    "clears_own_recent_max": true,
+    "excess_abs": 1,
+    "excess_share": 0.0323,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -27018,7 +27434,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.1,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -27185,7 +27605,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.2,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -27408,7 +27832,11 @@
     "this_year": 1,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -6,
+    "excess_share": -0.4615,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -27638,7 +28066,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -28348,7 +28780,11 @@
     "this_year": 1,
     "_uniform_would_say": 3.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -4,
+    "excess_share": -0.0488,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -28540,7 +28976,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -28721,7 +29161,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -28899,7 +29343,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.3333,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -29063,7 +29511,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.2,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -29297,7 +29749,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.6,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -29527,7 +29983,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.0714,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -29754,7 +30214,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.1538,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -29960,7 +30424,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": 0,
+    "excess_share": 0.0,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -30162,7 +30630,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.4,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.2,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -30382,7 +30854,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.5,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -2,
+    "excess_share": -0.1667,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -30805,7 +31281,11 @@
     "this_year": 0,
     "_uniform_would_say": 1.6,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -5,
+    "excess_share": -0.122,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -31000,7 +31480,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -1,
+    "excess_share": -0.1111,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -31321,7 +31805,11 @@
     "this_year": 0,
     "_uniform_would_say": 1.0,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -5,
+    "excess_share": -0.1852,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {
@@ -31513,7 +32001,11 @@
     "this_year": 0,
     "_uniform_would_say": 0.3,
     "_note": "uniform_would_say is shown only to be argued with. Use recent_mean.",
-    "clears_own_recent_max": false
+    "clears_own_recent_max": false,
+    "excess_abs": -3,
+    "excess_share": -0.375,
+    "notable": false,
+    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
    },
    "qualifiers": [
     {

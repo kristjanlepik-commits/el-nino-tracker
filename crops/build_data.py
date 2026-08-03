@@ -202,6 +202,29 @@ def build_stress(catalogue: dict) -> dict:
         empirical["clears_own_recent_max"] = bool(
             recent and empirical["this_year"] > max(recent))
 
+        # Ordering key, for design, replacing a floor they wrote
+        # themselves. Neither of their two suggestions survives the data:
+        # a share excess ranks China's 0-to-1 above Turkiye's 2-to-4
+        # because it rewards small denominators, and an absolute excess
+        # has the many-units bias they identified.
+        #
+        # What works is a floor plus a share. The floor removes the
+        # noise cases, which are all "went from 1 to 2" or "0 to 1", and
+        # the share orders what survives without a size bias. A
+        # materiality threshold is domain knowledge and belongs here
+        # rather than in the renderer, per the platform contract.
+        _mx = max(recent) if recent else 0
+        empirical["excess_abs"] = empirical["this_year"] - _mx
+        empirical["excess_share"] = round(
+            (empirical["this_year"] - _mx) / len(panel), 4) if len(panel) else 0.0
+        empirical["notable"] = bool(
+            empirical["clears_own_recent_max"] and empirical["this_year"] >= 3)
+        empirical["_order_by"] = ("filter on notable, order by "
+                                  "excess_share. Never order on "
+                                  "clears_own_recent_max alone: it is a "
+                                  "boolean over a small sample and puts "
+                                  "1-against-0 beside 8-against-3.")
+
         head = instruments[0]
         quals = [{
             "kind": "canopy_not_cause",
