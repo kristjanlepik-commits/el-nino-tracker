@@ -225,7 +225,20 @@ def window_from_cache(iso, start, end):
     inflate every multiple computed against it.
     """
     cache = load_cache(iso)
-    complete = set(cache.get(COMPLETE_KEY, []))
+    # Trust the marker only where it is consistent with the file.
+    #
+    # A year marked complete is licence to read every absent date as a
+    # zero, so a WRONGLY marked year silently undercounts the baseline
+    # and inflates every multiple computed against it. Platform's
+    # validate_baselines.py catches an unparseable file; it cannot catch
+    # a parseable file whose marker is a lie, and that is the shape that
+    # reaches a page looking like a bigger number.
+    #
+    # The 300-day floor is the same one build_full_baselines enforces
+    # before it stores a year, so this re-checks the producer's promise
+    # at the point of use rather than assuming it.
+    complete = {y for y in cache.get(COMPLETE_KEY, [])
+                if len(cache.get(y, {})) >= 300}
     hist, missing = {}, []
     # 29 February is dropped from every year when the window spans it,
     # so all years sum the same number of calendar days.
