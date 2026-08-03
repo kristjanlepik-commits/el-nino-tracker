@@ -37,14 +37,20 @@ the other.
 
 ## The one sentence
 
-**We do not produce loss estimates. We compile other people's, show
-who said what and when, and keep the history when they change their
-minds.**
+**Almost every figure here belongs to somebody else. We compile other
+people's estimates, show who said what and when, and keep the history
+when they change their minds.**
 
-Every figure in this section belongs to a named organisation, carries
+There is exactly one exception, and it is described in full further
+down: a single derived figure per event, computed from named estimates
+of comparable past events, labelled as ours and shown with the range it
+came from. It is the only number on this site we build, it is
+constrained tightly, and it is marked wherever it appears.
+
+Everywhere else, every figure belongs to a named organisation, carries
 their issue date, and stays in their own currency and units. If you
-find a number here that is ours rather than theirs, that is a bug and
-we want to hear about it.
+find any other number here that is ours rather than theirs, that is a
+bug and we want to hear about it.
 
 ## Why this section works differently from the rest of the site
 
