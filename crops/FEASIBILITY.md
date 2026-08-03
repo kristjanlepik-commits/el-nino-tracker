@@ -807,6 +807,47 @@ attribution to a harvest year lives. But they should not hold up a
 stress channel, and if the top data priority was being set on this
 basis, it should move.
 
+### 6l. Three reconnaissance candidates (D-066)
+
+D-066 makes the first pieces reconnaissance: each tests what data we can
+actually get in order to prove or disprove a specific news claim, so
+they should probe different questions rather than the same one three
+times. Selected from `data/stress_current.json`, dekad 2026-07-11.
+
+**1. Southeastern Anatolia. Tests: can we find what the coverage missed,
+and does sub-national contradict national?** Sanliurfa z = -1.82, with
+Mardin, Sirnak and Gaziantep also rank 1 of 26 and seven Turkish units
+in their worst three. Turkiye's **national** rank is 23 of 26, the
+better half. Driver is identified as water, making this the only
+candidate where the strongest claim form is available: dry, not merely
+stressed. A country in the better half containing four provinces at
+25-year lows is the argument for the sub-national layer, made concrete.
+
+**2. Europe. Tests: can one piece deflate a vague claim and locate a
+real one at once?** 74% of Europe's 360 admin units sit in the better
+half and Finland and Greece are at their best, so "European crops are
+damaged" is not supported as stated. But Poland ranks 5 of 26 nationally
+with Lodzkie, Mazowieckie and Kujawsko-Pomorskie in their worst three,
+and western Ukraine has L'vivs'ka and Rivnens'ka at rank 1 of 26. **No
+driver is identified** for any of them, so the honest sentence stops at
+"below its own record". That also makes this a test of the weaker claim
+form, the commoner case at 61 of 123 countries.
+
+**3. The Sahel. Tests: do we add anything where agencies already
+operate?** Chad ranks 1 of 26 with 13 of 22 units in their worst three,
+Sudan 2 of 26 with 11 of 15, Mali 3 of 26 with 6 of 9. The most severe
+signal in the file and also the best covered, by FEWS NET, GEOGLAM and
+FAO. The reconnaissance value is a question about us rather than about
+the crops: if FEWS NET says it better, that is a useful negative result
+about where the channel should point, and cheaper to learn now than
+after the map is built.
+
+Between them these span both claim tiers, both directions of the
+national-versus-regional relationship, and the range from uncovered to
+over-covered. If only two are wanted, drop the Sahel: most severe,
+least likely to teach something actionable, and the context where being
+wrong costs most.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
