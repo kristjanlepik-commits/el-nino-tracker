@@ -197,17 +197,41 @@ jobs:
       # after it. This is the renderers-never-fetchers rule applied one
       # level down: a fetch that succeeded is a fact worth keeping even
       # when the thing consuming it breaks.
-      - name: Commit the refreshed baseline
+      # WIDENED to fires/data/full_history/ for the Fire chat's
+      # incremental day cache (2026-08-03). Without this the new
+      # day-records die with the runner every morning, the cache never
+      # accumulates, and the 26-minute-to-4-minute saving never arrives:
+      # the job would pay full price forever while looking like it had
+      # been optimised.
+      #
+      # It also makes a TRUNCATED run useful rather than wasted. The
+      # cache is resumable by construction (a year is refetched unless
+      # marked complete), so a step cut at its budget still leaves real
+      # progress, and committing it is what turns "cut short" into
+      # "converging". With two cron slots that is two increments a day.
+      - name: Commit the refreshed baseline and day cache
         if: always()
         run: |
           git config user.name "el-nino-tracker-bot"
           git config user.email "actions@github.com"
-          git add fires/data/country_history.json
+
+          # Validate before committing. This step runs under if: always(),
+          # so it fires precisely when the previous step was killed
+          # mid-write, and a JSON file truncated by a timeout would
+          # otherwise be committed as fact. A corrupt baseline does not
+          # look corrupt on a page, it looks like a bigger number.
+          #
+          # In a script, not inline: an embedded heredoc broke this YAML
+          # twice, because a block scalar ends at the first line indented
+          # less than the block.
+          python3 scripts/validate_baselines.py
+
+          git add fires/data/country_history.json fires/data/full_history/
           if ! git diff --cached --quiet; then
-            git commit -m "fires: same-week baseline refresh $(date -u +'%Y-%m-%d')"
+            git commit -m "fires: baseline refresh and day cache $(date -u +'%Y-%m-%d')"
             bash scripts/push_retry.sh main
           else
-            echo "Baseline unchanged."
+            echo "Baseline and cache unchanged."
           fi
 
       # WAIT FOR QUOTA before spending it again. The refresh above walks 45
