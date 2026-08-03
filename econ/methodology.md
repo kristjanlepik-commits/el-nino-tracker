@@ -3,11 +3,14 @@
 Methodology for the economic damages section of The Long Swell.
 Written to be read cold, by someone deciding whether to cite us.
 
-Version 0.4, 2026-07-29. Draft. This page will change; changes are
+Version 0.5, 2026-08-03. Draft. This page will change; changes are
 dated and the reasoning is kept rather than overwritten.
 
 Changes so far:
 
+- **0.5** The open question about a single central figure is answered:
+  we do publish one, derived from named estimates of comparable events,
+  labelled as ours, under strict conditions set out below.
 - **0.4** Two rules from the editor on mortality: say which kind of
   death toll a figure is, since excess deaths are modelled estimates
   rather than counted bodies, and name the basis on which a death was
@@ -339,19 +342,41 @@ the rest of this page means anything.
 - We do not normalise loss series ourselves, and we do not show
   unnormalised loss trends. See above.
 
-## An open question we would rather show than hide
+## The one number that is ours, and how it is built
 
-Readers want a single number, and this section usually gives them a
-range instead. Whether The Long Swell should surface one central figure
-from a range of named estimates, with the range shown around it, is
-under active discussion and is not settled. The argument for is that a
-range is less usable than a number and people will take a number from
-somewhere regardless. The argument against is that any central figure
-would be ours rather than anyone else's, and that it is the part that
-gets quoted alone.
+Everywhere else on this page, every figure belongs to somebody else.
+There is one deliberate exception and this section explains it, because
+a reader who spots it and is not told would be right to stop trusting
+the rest.
 
-When this is decided, the decision and its reasoning will be published
-here rather than appearing silently in the data.
+Readers want a single number and a range is harder to use. So where the
+evidence supports it, we publish **one central figure derived from
+named estimates of comparable past events**, and we label it as ours.
+It carries the range it came from, both endpoints named and dated, and
+the method stated beside it rather than in a footnote.
+
+The conditions are strict, and most events will not meet them:
+
+- Every input is a named estimator's published figure, verified at its
+  original source. We do not build on a number we have only seen
+  reported second hand.
+- Every input measures **the same thing on the same basis**. Averaging
+  a direct-damage figure with a total-economic one produces a number
+  that describes neither, which is the most common way this kind of
+  arithmetic goes wrong.
+- The derived figure is never the only number shown, and never the
+  largest thing on the page by visual weight.
+- When an input changes, the figure is recomputed and the previous
+  value is kept and dated, exactly as we treat any other estimator's
+  revisions. Our own number gets the same vintage history we demand of
+  Swiss Re.
+
+Where those conditions are not met, we say so and show the range
+instead. At the time of writing that is the case for the Spanish fires
+of 2026: the best available comparison is Spain's own 2025 season, and
+its damage figure circulates in two versions that differ by nearly
+twice, neither confirmed at source. A figure of ours resting on that
+would inherit the disagreement without showing it.
 
 ## Corrections and archives
 

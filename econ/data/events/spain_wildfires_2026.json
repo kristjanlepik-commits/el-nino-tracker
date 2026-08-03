@@ -116,6 +116,20 @@
       "evidence_basis": "compiled",
       "note": "This is money granted, not damage estimated.",
       "_render_warning": "Never place in the same column as a loss figure and never compare one to the other."
+    },
+    {
+      "kind": "analog",
+      "label": "Deaths in Spain's 2025 fire season",
+      "value": 8,
+      "units": "people",
+      "category": "mortality",
+      "death_toll_kind": "counted",
+      "currency": "none",
+      "scale": "count",
+      "issued": "2026-06",
+      "estimator_note": "Spanish government, reported at the EU Solidarity Fund award",
+      "evidence_basis": "compiled",
+      "_note": "Spain 2026 has no verified national death toll at time of writing. Do not infer one."
     }
   ],
   "uncounted": [
@@ -159,5 +173,17 @@
     "Region-matched burnt area for Portugal Centro 2017 would resolve half the apparent per-hectare spread.",
     "Greece 2023 Alexandroupolis, about 96,000 ha, would be a third analog if a damage figure exists."
   ],
-  "_attribution_note": "Matches the fire channel's own tag for Spain. D-042: not ENSO-linked is a finding, not an apology."
+  "_attribution_note": "Matches the fire channel's own tag for Spain. D-042: not ENSO-linked is a finding, not an apology.",
+  "derived_figure": {
+    "status": "blocked",
+    "intended_method": "Spain 2026 burnt area as a share of Spain 2025 burnt area, applied to the 2025 direct damage figure. Single analog, same country, same estimator.",
+    "authorship": "tls_built",
+    "evidence_basis": "combined",
+    "_blocked_reason": "the single input is unverified and contested: Spain 2025 direct damage circulates as EUR 4.3 bn and as EUR 7.6 bn, a 1.77x spread, and neither is confirmed at primary source. The European Commission's own item states the grant and gives no damage total. A tls_built figure may not rest on an unverified input.",
+    "_inputs_needed": [
+      "Spain 2025 total direct damage, confirmed at primary source, with its scope stated (full season, the August wave, or the three outbreaks the Commission names)",
+      "confirmation that the EFFIS 393,079 ha full-season figure matches that scope"
+    ],
+    "_if_unblocked": "At EUR 4.3 bn over the full season the ratio gives about EUR 2.4 bn for 2026 to date; at EUR 7.6 bn it gives about EUR 4.2 bn. The choice of input moves our own figure by 1.77x, which is why it is blocked rather than estimated."
+  }
 }
