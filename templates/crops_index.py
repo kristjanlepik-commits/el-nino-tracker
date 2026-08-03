@@ -92,6 +92,54 @@ def _row(e) -> str:
       </div>"""
 
 
+def _trajectory(cb: dict, place: str) -> str:
+    """A country's own record-low count, year by year.
+
+    This replaces a binomial. It needs no independence assumption, which
+    is the assumption that was wrong: neighbouring regions in one drought
+    are not independent draws, so a p-value computed over them looked
+    precise and was not. A reader can see twenty-five years of mostly
+    nothing and then this one, and that is both more legible to a 4-8
+    and more defensible than any test.
+    """
+    series = {int(y): v for y, v in cb["series"].items()}
+    years = sorted(series)
+    hi = max(max(series.values()), 1) * 1.25
+    W, H, PAD_T, PAD_B, PAD_L, PAD_R = 660, 150, 26, 26, 8, 8
+    slot = (W - PAD_L - PAD_R) / len(years)
+    bw = min(slot * 0.6, 16.0)
+
+    def Y(v):
+        return H - PAD_B - v / hi * (H - PAD_T - PAD_B)
+
+    out = []
+    rm = cb.get("recent_mean")
+    if rm is not None:
+        y = Y(rm)
+        out.append(f'<line x1="{PAD_L}" y1="{y:.1f}" x2="{W - PAD_R}" '
+                   f'y2="{y:.1f}" stroke="var(--ink-soft)" stroke-width="1" '
+                   f'stroke-dasharray="4 3"/>')
+        out.append(f'<text class="tj-s" x="{PAD_L + 2}" y="{y - 5:.1f}">'
+                   f'recent average {rm:g}</text>')
+    cur = max(years)
+    for i, yr in enumerate(years):
+        v = series[yr]
+        cx = PAD_L + slot * (i + 0.5)
+        fill = "var(--crop)" if yr == cur else "var(--rule-45)"
+        out.append(f'<rect x="{cx - bw / 2:.1f}" y="{Y(v):.1f}" '
+                   f'width="{bw:.1f}" height="{max(H - PAD_B - Y(v), 1.0):.1f}" '
+                   f'fill="{fill}"/>')
+        if yr in (years[0], cur):
+            out.append(f'<text class="tj-x" x="{cx:.1f}" y="{H - 8:.1f}" '
+                       f'text-anchor="middle">{yr}</text>')
+        if yr == cur:
+            out.append(f'<text class="tj-v" x="{cx:.1f}" y="{Y(v) - 7:.1f}" '
+                       f'text-anchor="middle">{v}</text>')
+    return (f'<svg class="tj" viewBox="0 0 {W} {H}" role="img" '
+            f'aria-label="{h(place)} crop regions at their worst on record, '
+            f'each year since {years[0]}">' + "".join(out) + "</svg>")
+
+
 def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     places = doc["places"]
     rows = [(p["place"], p.get("driver"), p.get("attribution", "pending"), r)
@@ -109,17 +157,18 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # What sits above the noise floor. A country holding many more record
     # lows than its share of units is the only thing on this page that
     # chance does not already explain.
-    units = Counter(c for c, _, _, _ in rows)
-    got = Counter(e["country"] for e in hits)
-    p1 = len(hits) / N
+    # Selection is the channel's, not mine. `clears_own_recent_max` is
+    # computed against each country's OWN recent history, which is the
+    # test that survived: my binomial over units/26 assumed both a
+    # uniform baseline and independent draws, and CRO's empirical rerun
+    # overturned most of the cluster I had found with it. Chad survived
+    # and strengthened; Rwanda, Eritrea, Mali and Burundi did not.
     clusters = []
-    for c, k in got.items():
-        n = units[c]
-        tail = sum(math.comb(n, i) * p1 ** i * (1 - p1) ** (n - i)
-                   for i in range(k, n + 1))
-        if tail < 0.05 / len(places):          # Bonferroni across countries
-            clusters.append((c, k, n, tail))
-    clusters.sort(key=lambda t: t[3])
+    for pl in places:
+        cb = pl.get("chance_baseline") or {}
+        if cb.get("clears_own_recent_max") and cb.get("this_year"):
+            clusters.append((pl["place"], cb))
+    clusters.sort(key=lambda t: -(t[1].get("this_year") or 0))
 
     ctry_hits = sum(1 for p in places
                     if (p.get("magnitude") or {}).get("value") == 1)
@@ -138,24 +187,23 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
 
     cluster_html = ""
     if clusters:
-        c, k, n, tail = clusters[0]
+        c, cb = clusters[0]
         cluster_html = f"""
-      <p class="seclab">What the baseline does not explain</p>
-      <p class="secsub">One country is holding far more record lows than
-        its share of units, which is the only thing on this page that
-        chance does not already account for.</p>
+      <p class="seclab">What this country&rsquo;s own history does not explain</p>
+      <p class="secsub">Measured against its own record-low count in every
+        previous year rather than against an assumed rate, which needs no
+        claim that neighbouring regions fail independently.</p>
       <div class="cluster">
-        <p class="cbig">{k} of {n}</p>
-        <p class="cbody">of {h(c)}&rsquo;s crop regions are at their worst
-        on record for this dekad. If records fell evenly its share of the
-        {len(hits)} would be about {n * p1:.1f}, so this is roughly
-        {k / (n * p1):.0f} times what an even spread would give.</p>
-        <p class="ccav">A lead, not a finding, and deliberately without a
-        p-value. Any such figure rests on treating neighbouring regions
-        as independent draws, which in a single drought they are not, so
-        it would look precise while being wrong. The owning channel holds
-        this country&rsquo;s own year-by-year history, which needs no such
-        assumption, and rules before this is published as a claim.</p>
+        <p class="cbig">{cb['this_year']} regions</p>
+        <p class="cbody">of {h(c)} are at their worst on record this dekad.
+        Its highest in any of the previous twenty-five years was
+        {cb['recent_max']}, and its recent average is {cb['recent_mean']:g}.</p>
+        {_trajectory(cb, c)}
+        <p class="ccav">A lead rather than a finding: the owning channel
+        rules before this is published as a claim. The payload also
+        carries what an even spread would have predicted, and it is not
+        printed here, because that figure exists to be argued with rather
+        than shown to a reader.</p>
       </div>"""
 
     return f"""<!doctype html>
@@ -209,6 +257,12 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 
 .cluster {{ margin-top:12px; padding-left:18px;
   border-left:3px solid var(--crop); }}
+.tj {{ width:100%; height:auto; display:block; margin:14px 0 4px; }}
+.tj text {{ font-family:"{T.FONT_DATA}",monospace; paint-order:stroke;
+  stroke:var(--paper); stroke-width:2.5; stroke-linejoin:round; }}
+.tj-s {{ font-size:10.5px; fill:var(--ink-soft); }}
+.tj-x {{ font-size:10px; fill:var(--ink-faint); }}
+.tj-v {{ font-size:13px; fill:var(--crop); font-weight:600; }}
 .cbig {{ font-size:34px; font-weight:600; color:var(--crop); margin:0;
   line-height:1; font-variant-numeric:tabular-nums; }}
 .cbody {{ margin:10px 0 0; max-width:60ch; }}

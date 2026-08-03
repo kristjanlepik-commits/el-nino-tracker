@@ -209,6 +209,12 @@ h1 { font-size:31px; font-weight:500; line-height:1.18;
 
 .cluster { margin-top:12px; padding-left:18px;
   border-left:3px solid var(--crop); }
+.tj { width:100%; height:auto; display:block; margin:14px 0 4px; }
+.tj text { font-family:"IBM Plex Mono",monospace; paint-order:stroke;
+  stroke:var(--paper); stroke-width:2.5; stroke-linejoin:round; }
+.tj-s { font-size:10.5px; fill:var(--ink-soft); }
+.tj-x { font-size:10px; fill:var(--ink-faint); }
+.tj-v { font-size:13px; fill:var(--crop); font-weight:600; }
 .cbig { font-size:34px; font-weight:600; color:var(--crop); margin:0;
   line-height:1; font-variant-numeric:tabular-nums; }
 .cbody { margin:10px 0 0; max-width:60ch; }
@@ -247,22 +253,21 @@ plausible.init()
   <svg class="cb" viewBox="0 0 680 200" role="img" aria-label="Places at record lows against the number an even spread of records would give, at two levels of granularity"><text class="cb-lab" x="0" y="48.0">Whole countries</text><text class="cb-sub" x="0" y="64.0">123 units, 26-year record</text><rect x="211.5" y="42.0" width="33.3" height="28" fill="var(--paper-sunk)"/><line x1="228.1" y1="40.0" x2="228.1" y2="72.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="228.1" y="35.0" text-anchor="middle">if records fell evenly 5</text><circle cx="213.8" cy="56.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="213.8" y="83.0" text-anchor="middle" fill="var(--ink)">1 observed</text><text class="cb-lab" x="0" y="122.0">Sub-national units</text><text class="cb-sub" x="0" y="138.0">2,122 units, 26-year record</text><rect x="453.1" y="116.0" width="138.2" height="28" fill="var(--paper-sunk)"/><line x1="522.2" y1="114.0" x2="522.2" y2="146.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="522.2" y="109.0" text-anchor="middle">if records fell evenly 82</text><circle cx="519.9" cy="130.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="519.9" y="157.0" text-anchor="middle" fill="var(--ink)">81 observed</text><text class="cb-ax" x="210" y="194">places at their worst on record, this dekad</text></svg><p class="cb-note">The expectation rises with the number of units, not with the weather, so any map at this resolution shows dozens of record lows every week. The figure marked is what an EVEN spread of records would give. Records do not fall evenly, and the owning channel holds the measured expectation, so this page does not say whether 81 is a high count or an ordinary one.</p>
 
   
-      <p class="seclab">What the baseline does not explain</p>
-      <p class="secsub">One country is holding far more record lows than
-        its share of units, which is the only thing on this page that
-        chance does not already account for.</p>
+      <p class="seclab">What this country&rsquo;s own history does not explain</p>
+      <p class="secsub">Measured against its own record-low count in every
+        previous year rather than against an assumed rate, which needs no
+        claim that neighbouring regions fail independently.</p>
       <div class="cluster">
-        <p class="cbig">8 of 21</p>
-        <p class="cbody">of Chad&rsquo;s crop regions are at their worst
-        on record for this dekad. If records fell evenly its share of the
-        81 would be about 0.8, so this is roughly
-        10 times what an even spread would give.</p>
-        <p class="ccav">A lead, not a finding, and deliberately without a
-        p-value. Any such figure rests on treating neighbouring regions
-        as independent draws, which in a single drought they are not, so
-        it would look precise while being wrong. The owning channel holds
-        this country&rsquo;s own year-by-year history, which needs no such
-        assumption, and rules before this is published as a claim.</p>
+        <p class="cbig">8 regions</p>
+        <p class="cbody">of Chad are at their worst on record this dekad.
+        Its highest in any of the previous twenty-five years was
+        3, and its recent average is 0.83.</p>
+        <svg class="tj" viewBox="0 0 660 150" role="img" aria-label="Chad crop regions at their worst on record, each year since 2001"><line x1="8" y1="115.9" x2="652" y2="115.9" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="tj-s" x="10" y="110.9">recent average 0.83</text><rect x="13.0" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><text class="tj-x" x="20.4" y="142.0" text-anchor="middle">2001</text><rect x="37.7" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="62.5" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="87.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="112.0" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="136.8" y="104.4" width="14.9" height="19.6" fill="var(--rule-45)"/><rect x="161.6" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="186.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="211.1" y="114.2" width="14.9" height="9.8" fill="var(--rule-45)"/><rect x="235.9" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="260.6" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="285.4" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="310.2" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="335.0" y="104.4" width="14.9" height="19.6" fill="var(--rule-45)"/><rect x="359.7" y="94.6" width="14.9" height="29.4" fill="var(--rule-45)"/><rect x="384.5" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="409.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="434.0" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="458.8" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="483.6" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="508.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="533.1" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="557.9" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="582.6" y="104.4" width="14.9" height="19.6" fill="var(--rule-45)"/><rect x="607.4" y="94.6" width="14.9" height="29.4" fill="var(--rule-45)"/><rect x="632.2" y="45.6" width="14.9" height="78.4" fill="var(--crop)"/><text class="tj-x" x="639.6" y="142.0" text-anchor="middle">2026</text><text class="tj-v" x="639.6" y="38.6" text-anchor="middle">8</text></svg>
+        <p class="ccav">A lead rather than a finding: the owning channel
+        rules before this is published as a claim. The payload also
+        carries what an even spread would have predicted, and it is not
+        printed here, because that figure exists to be argued with rather
+        than shown to a reader.</p>
       </div>
 
   <p class="seclab">Worst first, by how far below their own record</p>
