@@ -737,6 +737,76 @@ through platform's climatology service remains the right route for a
 drift statement. What crops uniquely contributes is a measured null that
 the calibration requirement needs.
 
+### 6k. Stress-only scope under D-065: 123 countries, and a correction
+
+Product asked which of the four filters were about PREDICTION, and so
+fall away when the product measures damage rather than forecasting
+harvests, and which were about MEANING and therefore stay.
+
+| Filter | 752 to | Kind | Under D-065 |
+|---|---|---|---|
+| FDR correlation with production | 28 | prediction | falls away |
+| Non-degenerate production series | 23 | prediction | falls away |
+| Cross-instrument corroboration | 22 | see below | **reformulated** |
+| Two independent outcome sources | 17 | prediction | falls away |
+
+**My first attempt to reformulate filter 3 was wrong, and the way it was
+wrong is the useful part.** Removing production from it gives "does
+vegetation agree with the water instruments", and on that test **all
+twelve European countries fail** while Australia passes at 0.88, Mexico
+0.88, Argentina 0.85. Spain reads 0.18, Poland 0.03, Czechia -0.09.
+
+Europe is obviously valid cropland, so a test that rejects it is not
+measuring validity. It is measuring **whether the system is
+water-limited**. In semi-arid Australia water is the driver, so
+vegetation and water co-move. In Germany a poor season may be heat,
+excess rain or timing, so they do not. The stress is equally real in
+both; only the mechanism differs.
+
+**The actual meaning gate is closer to product's own starting list:**
+cropland exists, a season exists, history exists, and the aggregate is
+not degenerate. Measured:
+
+| | |
+|---|---|
+| Countries with an ASAP crop series | 165 |
+| ...with at least 3 crop units | 123 |
+| ...and a full 26-year record | 123 |
+| ...and non-degenerate variance | **123** |
+
+**123 countries, covering 2,169 crop units, can carry a stress number.**
+Up from 29 pairs, and the widening is principled rather than a gate
+being dropped: every one has a validated crop mask, a season mask and 25
+years of its own history.
+
+**The 62 finding is not a validity tier, it is a claim tier.** In 62 of
+the 123 the instruments agree well enough to say what kind of stress it
+is. In the other 61 the honest claim stops at "below its own record",
+without a driver. Two grades of sentence, not two grades of truth.
+
+### The correction on crop calendars
+
+Product recorded that the missing calendars for Australia, Ukraine,
+Argentina, Mexico and Canada stay the top data priority under the damage
+framing, for a different reason than before: so that "at this point in
+the season" is meaningful.
+
+**That is the one thing in their read I would change. Under stress-only
+reporting the calendars matter LESS, not more.**
+
+ASAP's own phenology already supplies a season mask for all 2,368 units
+globally, which is why the indicator class is "Crop during growing
+cycle". So "at this point in the season" is answerable everywhere
+without any external calendar. What the calendars buy is the ability to
+say *Australian wheat* rather than *Australian cropland*, which is a
+crop-specific claim, and stress-only reporting does not make crop-
+specific claims.
+
+They are still needed for the production layer, which is where the
+attribution to a harvest year lives. But they should not hold up a
+stress channel, and if the top data priority was being set on this
+basis, it should move.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
