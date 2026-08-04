@@ -198,6 +198,13 @@ jobs:
             echo "uploaded ${#FILES[@]} file(s)"
           fi
 
+      # AFTER the capture, deliberately. Failing before it would stop the
+      # very run whose data cannot be recovered, which would make the
+      # guard cause the harm it exists to prevent. Capture first, then go
+      # red so the expiry is visible while there is still time to renew.
+      - name: Warn if the Earthdata token is near expiry
+        run: python3 scripts/check_token_expiry.py
+
       - name: Commit the manifest
         run: |
           git config user.name "el-nino-tracker-bot"

@@ -1,6 +1,19 @@
 name: qa
 
 on:
+  # SCHEDULED as well as on push. QA's escalation map, 2026-08-04: this
+  # workflow had no schedule at all, so freshness was only checked when
+  # somebody pushed, while staleness is a function of TIME. On a quiet
+  # weekend the check simply did not run. An event-triggered check on a
+  # time-driven property is the same defect family we found four times
+  # this week, one level up: nothing wrong with the check, wrong kind of
+  # trigger for what it measures.
+  #
+  # 06:30 UTC, after the fires job (03:10, 05:30 backstop) has landed the
+  # day's data, so a freshness failure means the data really is stale
+  # rather than that we looked too early.
+  schedule:
+    - cron: "30 6 * * *"
   push:
     branches: [main]
   pull_request:
