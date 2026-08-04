@@ -2203,14 +2203,42 @@ def _map_html(markers_payload: dict, nino_value, root_prefix: str,
         # not news, and one symbol cannot say both. So an anomaly is a
         # filled disc and context is an open ring at the same radius:
         # present, sized honestly, and not claiming anything.
-        ctx = (m.get("volume_context") and not m.get("anomalous"))
-        label = ((f'{m.get("region", "")}, {m.get("multiple")} times its '
-                  f'same-week average, within its historical range')
-                 if ctx else
-                 (f'{m.get("region", "")}, {m.get("multiple")} times its '
-                  f'same-week average'))
+        #
+        # TWO reasons a marker can be non-anomalous, and only one was
+        # labelled. `volume_context` means large and shown for scale;
+        # `pinned` means shown every week so the country can be checked.
+        # Canada sat at 0.4x, the furthest BELOW normal on the page,
+        # with no qualifier at all, while Angola at 0.9x carried "within
+        # its historical range". QA read that as an unexplained
+        # asymmetry and they were right that it needed an answer.
+        #
+        # Pinned countries do NOT get "within its historical range".
+        # The gate tests for an unusually HIGH week, so failing it says
+        # nothing about a country sitting at 40% of normal: that could
+        # be ordinary or it could be unusual in the other direction, and
+        # this instrument does not distinguish them. The honest label is
+        # why it is on the map, which is also what the fires index says
+        # in its own row qualifier.
+        anom = m.get("anomalous")
+        ctx = (m.get("volume_context") and not anom)
+        pin = (m.get("pinned") and not anom and not ctx)
+        base = (f'{m.get("region", "")}, {m.get("multiple")} times its '
+                f'same-week average')
+        if ctx:
+            label = base + ", within its historical range"
+        elif pin:
+            label = base + ", shown every week so this country can be checked"
+        else:
+            label = base
         pins.append(
-            f'<a class="mk{" ctx" if ctx else ""}" href="{href}" '
+            # Open ring for ANY non-anomalous marker, not just the
+            # volume-context ones. A filled disc asserts an event, and
+            # Canada at 0.4x of its own normal was drawing one: the
+            # furthest below normal on the map, rendered in the symbol
+            # that means "this is the news". The ring is the whole
+            # device for saying present-but-not-claiming, and it was
+            # gated on the narrower flag by accident.
+            f'<a class="mk{"" if anom else " ctx"}" href="{href}" '
             f'aria-label="{h(label)}">'
             f'<circle class="mk-hit" cx="{cx:.1f}" cy="{cy:.1f}" '
             f'r="{max(r + 7, 12):.1f}"/>'
@@ -2932,20 +2960,29 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         # event claims; `title` comes straight from the fire pipeline.
         lead = week_events[0] if week_events else None
         if lead:
-            # Count the CLAIM, not the rows. This was len(events) - 1,
-            # which published "14 other countries also cleared their own
-            # baseline" when five of them had not: Canada at 0.4x is
-            # less than half its own baseline, Angola 0.9x, Zambia 1.0x,
-            # and Australia and the United Kingdom carry `anomalous`
-            # false despite sitting just above 1.0x. The list includes
-            # context rows on purpose; the sentence did not know that.
+            # NO COUNT IN THE LEDE. Product's call under D-077 and it
+            # supersedes the corrected figure I had put here.
             #
-            # Fire caught it and it is the same defect they fixed on
-            # their own index on 30 July, where the headline counted
-            # fifteen countries burning well above normal while four
-            # were context and one sat at exactly 1.0x. Same shape, my
-            # file, five weeks later.
-            others = sum(1 for e in week_events[1:] if e.get("anomalous"))
+            # The sentence read "14 other countries also cleared their
+            # own baseline" while five of them had not, Canada at 0.4x
+            # being the furthest BELOW normal on the page. Counting the
+            # `anomalous` flag instead gives a true nine.
+            #
+            # But nine is true and meaningless. Fire ran our own gate
+            # against every historical year of this window, leave one
+            # out: an ordinary week yields a mean of 7.6 qualifiers,
+            # median 8, range 3 to 10, and this week's ten TIES the
+            # maximum rather than exceeding it. The rank==1 clause is
+            # satisfied by each country exactly once across the record
+            # by construction, manufacturing roughly seven qualifiers a
+            # year regardless of the weather. Replacing a false number
+            # with a meaningless one is not a fix.
+            #
+            # Third channel to reach this today, after CRO found it
+            # three times in crops: aggregate counts of
+            # threshold-crossings sit near chance in this data, and the
+            # individual extremes are the finding. So the lede leads
+            # with Greece and stops.
             head += (
                 '<div class="field"><div class="field-shell">'
                 '<div class="lead-block">'
@@ -2954,9 +2991,9 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                 f'{h(lead.get("stat", ""))} its average for this week of '
                 f'the year.</h1>'
                 + (f'<p class="lead-stand">{h(lead.get("title", ""))}. '
-                   f'{others} other countries also cleared their own '
-                   f'baseline. Each item says whether it is linked to El '
-                   f'Ni&ntilde;o, and most are not.</p>' if others else '')
+                   f'Each item below says whether it is linked to El '
+                   f'Ni&ntilde;o, and most are not.</p>'
+                   if lead.get("title") else '')
                 + '</div></div></div>\n')
         head += _map_html(_load_markers(),
                           (fetched.get("physical_state") or {})
