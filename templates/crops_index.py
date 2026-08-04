@@ -290,7 +290,15 @@ def _trajectory(cb: dict, place: str) -> str:
 
 def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     places = doc["places"]
-    rows = [(p["place"], p.get("driver"), p.get("attribution", "pending"), r)
+    # The REGION's driver, not the country's. This took p.get("driver")
+    # and it is the Cairo fault one level down: a country property worn
+    # by a region. Namibia is water-driven as a country and Hardap is
+    # not, at 0.15 against the 0.30 the test requires. CRO measured the
+    # blast radius: 677 of 2,122 regions, 32 percent, have a driver
+    # differing from their country's, so a third of these rows would
+    # have carried a claim that does not hold where it was written.
+    # The word in the sentence is "here".
+    rows = [(p["place"], r.get("driver"), p.get("attribution", "pending"), r)
             for p in places for r in (p.get("regions") or [])]
     N = len(rows)
     K = max(Counter(r.get("of") for _, _, _, r in rows if r.get("of")),

@@ -129,7 +129,7 @@ def claim_shapes(country: dict) -> list:
                     re.sub(r"[-+]?\d[\d,.]*", "N",
                            re.sub(r"\b(?:19|20)\d\d\b", "YYYY",
                                   r.get("statement") or "")))
-        key = (st, bool(country.get("driver") == "water"),
+        key = (st, bool(r.get("driver") == "water"),
                bool(r.get("qualifiers")))
         seen.setdefault(key, r.get("region"))
     return [{"statement": k[0], "driver_line": k[1], "qualifiers": k[2],
@@ -137,11 +137,24 @@ def claim_shapes(country: dict) -> list:
 
 
 def _region_block(r: dict, all_regions: list, driver: str) -> str:
+    """One region. `driver` is the REGION's, never the country's.
+
+    This read the country field and it is the Cairo fault one level
+    down: a country property worn by a region. Namibia is water-driven
+    as a country; Hardap is not, at 0.15 against the 0.30 the test
+    requires, and Hardap was one of my own two named examples for this
+    shape, which is how CRO found it.
+
+    Not a stray case either: 677 of 2,122 regions, 32 percent, have a
+    driver differing from their country's. A third of every region row
+    would have carried a claim that does not hold there. The word in the
+    sentence is "here", and it has to be true of here.
+    """
     q = r.get("qualifiers") or []
     quals = ("".join(f'<li>{h(x)}</li>' for x in q)
              if q else "")
     drv = ('<p class="rgdrv">Vegetation here usually tracks water '
-           'availability.</p>' if driver == "water" else "")
+           'availability.</p>' if r.get("driver") == "water" else "")
     return f"""
       <section class="rg" id="{h(slugify(r['region']))}">
         <h2>{h(r['region'])}</h2>
@@ -175,7 +188,7 @@ def render(country: dict, root_prefix: str = "../../") -> str:
         stand = (f"{len(lows)} of {units} crop regions in {name} are at "
                  f"their worst on record for this point in the season.")
 
-    blocks = "".join(_region_block(r, regions, country.get("driver"))
+    blocks = "".join(_region_block(r, regions, r.get("driver"))
                      for r in lows)
     return f"""<!doctype html>
 <html lang="en">
