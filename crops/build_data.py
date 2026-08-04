@@ -267,8 +267,46 @@ def build_stress(catalogue: dict) -> dict:
 
     places.sort(key=lambda p: (p["magnitude"]["value"],
                                -p["magnitude"]["of"]))
+
+    # Aggregate chance baseline over the REPORTED places only.
+    #
+    # This exists because a figure computed over a wider set than the
+    # page shows is not like-for-like, and the error is invisible: the
+    # current count is identical either way, because the 45 skipped
+    # places contribute no record-worst units this dekad, while the
+    # historical years they do contribute inflate the baseline. Design
+    # caught it by failing to reproduce 60.1 from the payload and
+    # refusing to print a verdict off a number they could not rebuild.
+    #
+    # Emitting it guarantees the comparison is over the same set as the
+    # blocks it frames, and it cannot go stale the way a hard-coded
+    # figure would.
+    agg = {}
+    for pl in places:
+        for y, v in pl["chance_baseline"]["series"].items():
+            agg[int(y)] = agg.get(int(y), 0) + v
+    rec_years = [y for y in range(2014, BASE_LAST + 1)]
+    rec_vals = [agg.get(y, 0) for y in rec_years]
+    this_year = agg.get(max(agg), 0) if agg else 0
+    aggregate = {
+        "measures": "regions at their worst on record for this dekad, "
+                    "summed across reported places, per year",
+        "series": {int(y): int(v) for y, v in sorted(agg.items())},
+        "this_year": this_year,
+        "recent_mean": round(float(np.mean(rec_vals)), 1) if rec_vals else None,
+        "recent_min": int(min(rec_vals)) if rec_vals else None,
+        "recent_max": int(max(rec_vals)) if rec_vals else None,
+        "recent_years_below_this": int(sum(1 for v in rec_vals
+                                           if v < this_year)),
+        "recent_years_counted": len(rec_vals),
+        "_scope": "reported places only, never the full catalogue. A "
+                  "baseline over a wider set than the page shows is not "
+                  "like-for-like and the discrepancy is invisible in the "
+                  "current year.",
+    }
     return {
         "_generated_from": "crops/.cache (no fetch performed)",
+        "chance_baseline_aggregate": aggregate,
         "dekad": latest_dekad,
         "baseline": f"{BASE_FIRST}-{BASE_LAST}, same dekad of each year",
         "method": "FPAR cumulated z-score, ASAP crop mask, restricted "
