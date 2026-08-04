@@ -2932,7 +2932,20 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         # event claims; `title` comes straight from the fire pipeline.
         lead = week_events[0] if week_events else None
         if lead:
-            others = len(week_events) - 1
+            # Count the CLAIM, not the rows. This was len(events) - 1,
+            # which published "14 other countries also cleared their own
+            # baseline" when five of them had not: Canada at 0.4x is
+            # less than half its own baseline, Angola 0.9x, Zambia 1.0x,
+            # and Australia and the United Kingdom carry `anomalous`
+            # false despite sitting just above 1.0x. The list includes
+            # context rows on purpose; the sentence did not know that.
+            #
+            # Fire caught it and it is the same defect they fixed on
+            # their own index on 30 July, where the headline counted
+            # fifteen countries burning well above normal while four
+            # were context and one sat at exactly 1.0x. Same shape, my
+            # file, five weeks later.
+            others = sum(1 for e in week_events[1:] if e.get("anomalous"))
             head += (
                 '<div class="field"><div class="field-shell">'
                 '<div class="lead-block">'
