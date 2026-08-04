@@ -89,6 +89,7 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
 from templates.chance_baseline import scales_block, CHANCE_CSS  # noqa: E402
+from templates.crops_map import map_block, CROPS_MAP_CSS       # noqa: E402
 
 TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked",
             "pending": "attribution pending"}
@@ -467,6 +468,14 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         v = p.get("season_opens_dekad")
         return [] if v is None else (v if isinstance(v, list) else [v])
 
+    # The map plots exactly the set the page calls flagged, built from
+    # `clusters` rather than recomputed, so the dots and the list cannot
+    # disagree about who is on it.
+    world_map = map_block(
+        [p["place"] for p in places],
+        [(c, c) for c, _, _ in clusters],
+        map_href=root_prefix + "world-map.svg")
+
     cur_dk = _dekad_index(doc.get("dekad", ""))
     NOV = 31                      # dekad 31 is 1-10 November
     opening = [p["place"] for p in places
@@ -544,6 +553,7 @@ body {{ margin:0; background:var(--paper); color:var(--ink);
 main {{ max-width:800px; margin:0 auto; padding:24px 24px 80px; }}
 {SITE_MASTHEAD_CSS}
 {CHANCE_CSS}
+{CROPS_MAP_CSS}
 .eyebrow, .seclab, .cz, .tag, .cctry, .cbig, .foot {{
   font-family:"{T.FONT_DATA}", ui-monospace, monospace; }}
 .eyebrow {{ font-size:11px; letter-spacing:{T.TRACK_LABEL}em;
@@ -670,6 +680,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
   <h1>{headline}</h1>
   <p class="stand">{lede}</p>
   {season}
+  {world_map}
 
   {grouped_html}
 
