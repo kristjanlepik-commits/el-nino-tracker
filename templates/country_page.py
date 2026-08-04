@@ -62,9 +62,21 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
 
-TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked",
-            "pending": "attribution pending"}
-TAG_SLUG = {"enso": "loaded", "non_enso": "notlink", "pending": "pending"}
+# D-076: no entry for a null tag. "attribution pending" was the code's
+# default fallback, so it rendered on nearly every page and told the
+# reader only that we had not looked, which is not their problem.
+# events.json now emits null rather than "pending", so every lookup here
+# must tolerate a missing key and render NOTHING rather than a word.
+TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked"}
+TAG_SLUG = {"enso": "loaded", "non_enso": "notlink"}
+
+
+def _chip(tag) -> str:
+    """The attribution chip, or nothing at all."""
+    if not tag or tag not in TAG_TEXT:
+        return ""
+    return f'<span class="tag tag-{TAG_SLUG[tag]}">{h(TAG_TEXT[tag])}</span>'
+
 
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -301,8 +313,7 @@ def _weekly_area(weeks: dict, cur_year: int, hue: str) -> str:
 def render(piece: dict, root_prefix: str = "../../") -> str:
     """One country page from a validated piece dict."""
     det, area = piece["detections"], piece.get("area")
-    tag = piece.get("attribution", "pending")
-    slug = TAG_SLUG.get(tag, "pending")
+    tag = piece.get("attribution")
     year = piece["year"]
 
     left = f"""
@@ -352,8 +363,7 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
         f'<span class="ew-stat">{h(o["stat"])}</span>'
         f'<span class="ew-name">{h(o["region"])}</span>'
         f'<span class="ew-claim">{h(o["title"])}</span>'
-        f'<span class="tag tag-{TAG_SLUG.get(o["attribution"], "pending")}">'
-        f'{h(TAG_TEXT.get(o["attribution"], TAG_TEXT["pending"]))}</span></a>'
+        f'{_chip(o.get("attribution"))}</a>'
         for o in piece.get("elsewhere", []))
 
     return f"""<!doctype html>
@@ -479,8 +489,7 @@ h1 {{ font-size: 40px; font-weight: 500; line-height: 1.13;
 
   <div class="grid">{left}{right}</div>
 
-  <div class="tagrow"><span class="tag tag-{slug}">
-    {h(TAG_TEXT.get(tag, TAG_TEXT["pending"]))}</span></div>
+  {f'<div class="tagrow">{_chip(tag)}</div>' if _chip(tag) else ''}
 
   <div class="lower">
     <div>
@@ -491,7 +500,8 @@ h1 {{ font-size: 40px; font-weight: 500; line-height: 1.13;
     <div class="rail">
       <div><h3>Baseline</h3>{piece["rail_baseline"]}</div>
       <div><h3>Instruments</h3>{piece["rail_instruments"]}</div>
-      <div><h3>Attribution</h3>{piece["rail_attribution"]}</div>
+      {f'<div><h3>Attribution</h3>{piece["rail_attribution"]}</div>'
+        if (piece.get("rail_attribution") or "").strip() else ''}
       <div><h3>Revision</h3>{piece["rail_revision"]}</div>
     </div>
   </div>

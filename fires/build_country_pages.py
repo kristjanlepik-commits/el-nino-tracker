@@ -397,6 +397,14 @@ def stamp_unregenerated(live_slugs, window_label) -> str:
                 f'figures below are from the last week it did, and are '
                 f'not current.</p>')
         html = re.sub(rf'<p id="{STAMP_ID}".*?</p>', "", html, flags=re.S)
+        # D-076 reaches these pages too. They are not regenerated, so the
+        # deprecated chip survives in their markup, and 15 live pages
+        # were still showing "attribution pending". It is a work state
+        # rather than a finding, so removing it is not editing a
+        # published result: it is deleting a label that never said
+        # anything. The figures on the page are untouched.
+        html = re.sub(r'<span class="tag tag-pending">[^<]*</span>', "", html)
+        html = re.sub(r'<div class="tagrow">\s*</div>', "", html)
         if "<main>" in html:
             html = html.replace("<main>", "<main>\n" + note, 1)
         elif "</header>" in html:
