@@ -70,7 +70,7 @@ def load(slug: str, cid: str):
     return d
 
 
-def _rank_statement(rank: int, of: int) -> str:
+def _rank_statement(rank: int, of: int, last: int) -> str:
     """Value and basis in one string so they cannot be separated.
     Called at country and region level from one place, so the two
     cannot drift apart."""
@@ -83,7 +83,7 @@ def _rank_statement(rank: int, of: int) -> str:
                   else {1: "st", 2: "nd", 3: "rd"}.get(rank % 10, "th"))
         lead = f"{rank}{suffix} lowest"
     return (f"{lead} of {of} observations for this point in the "
-            f"season, {BASE_FIRST}-{BASE_LAST}")
+            f"season, {BASE_FIRST}-{last}")
 
 
 def rank_of(current: float, history: pd.Series, worse_is: int) -> int:
@@ -195,7 +195,7 @@ def build_stress(catalogue: dict) -> dict:
                 # of a field rather than trimming a sentence. Computed,
                 # never typed, per the ban on free text that stops
                 # tracking its data.
-                "statement": _rank_statement(rk, of),
+                "statement": _rank_statement(rk, of, latest.year),
                 # The region's own record, so a region page can show it
                 # against itself the way the country block shows Chad.
                 # Same shape as the country chance_baseline series.
@@ -203,6 +203,36 @@ def build_stress(catalogue: dict) -> dict:
                            for y, v in s.items()
                            if BASE_FIRST <= y <= latest.year},
             })
+        # Per-region driver. The country-level driver is evidence about
+        # the country, and rendering it on a region page asserts
+        # something about that region. Namibia is water-driven as a
+        # country and Hardap is not: veg~rainfall is 0.15 there against
+        # 0.30 required. That is the same fault as "driest" over Cairo,
+        # a country property worn by a region, so the test is run per
+        # region and the region carries its own answer.
+        _wsi = load("wsi", cid)
+        _spi = load("spi3", cid)
+        if _wsi is not None and _spi is not None:
+            zr = base.groupby(["region_name", "year"]).value.mean()
+            wr = _wsi.groupby(["region_name", "year"]).value.mean()
+            sr = _spi.groupby(["region_name", "year"]).value.mean()
+            for entry in regions:
+                nm = entry["region"]
+                try:
+                    j = pd.concat([zr[nm].rename("a"), wr[nm].rename("b"),
+                                   sr[nm].rename("c")], axis=1).dropna()
+                except KeyError:
+                    entry["driver"] = "not identified"
+                    continue
+                j = j[(j.index >= 2002) & (j.index <= BASE_LAST)]
+                ok = (len(j) >= 18
+                      and j.a.corr(j.b) >= WATER_DRIVEN_MIN
+                      and j.a.corr(j.c) >= WATER_DRIVEN_MIN)
+                entry["driver"] = "water" if ok else "not identified"
+        else:
+            for entry in regions:
+                entry["driver"] = "not identified"
+
         regions.sort(key=lambda r: r["rank"])
 
         # The empirical chance baseline, per place. Design needs this
@@ -335,7 +365,7 @@ def build_stress(catalogue: dict) -> dict:
                 # cannot be separated from what it describes, so a page
                 # missing the basis is missing a field rather than being
                 # subtly wrong.
-                "statement": _rank_statement(head["rank"], head["of"]),
+                "statement": _rank_statement(head["rank"], head["of"], latest.year),
             },
             "driver": driver,
             "evidence_basis": "measured",
