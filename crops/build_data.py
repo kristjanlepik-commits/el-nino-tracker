@@ -239,7 +239,23 @@ def build_stress(catalogue: dict) -> dict:
         # The off-season flag lives in the warnings series, not the
         # indicator files, so the table is built once by
         # crops/season_starts.json rather than recomputed per place.
-        season_start = SEASON_STARTS.get(name)
+        # ALWAYS a list, never a bare int. Five countries here are
+        # genuinely bimodal (Kenya's long and short rains, Somalia's Gu
+        # and Der, Cote d'Ivoire, Egypt, Guyana), and emitting an int
+        # for the rest made the field's type depend on the data. A
+        # consumer testing `v in window` silently drops every bimodal
+        # country; one testing `any(x in window for x in v)` keeps them.
+        # That alone produced three different counts of the same thing
+        # across two chats.
+        _raw = SEASON_STARTS.get(name)
+        season_starts = ([] if _raw is None
+                         else _raw if isinstance(_raw, list) else [_raw])
+        # And the scalar a renderer actually wants: the next opening
+        # from the dekad being reported, wrapping through the year.
+        next_open = None
+        if season_starts:
+            ahead = sorted(((x - doy) % 36, x) for x in season_starts)
+            next_open = ahead[0][1]
 
         head = instruments[0]
         quals = [{
@@ -283,7 +299,8 @@ def build_stress(catalogue: dict) -> dict:
             "regions": regions,
             "regions_worst_3": sum(1 for r in regions if r["rank"] <= 3),
             "chance_baseline": empirical,
-            "season_opens_dekad": season_start,
+            "season_opens_dekads": season_starts,
+            "next_season_opens_dekad": next_open,
             "qualifiers": quals,
         })
 
