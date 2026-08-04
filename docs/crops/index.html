@@ -224,6 +224,21 @@ h1 { font-size:31px; font-weight:500; line-height:1.18;
 .pairsub { margin:8px 0 0; font-size:14px; color:var(--ink-soft);
   max-width:64ch; }
 
+/* A country group. The rule sits above the heading rather than boxing
+   the group, per the no-enclosure rule: a card would make each country
+   look like a separate finding when the list is one finding read down.
+   Countries above their own recent maximum take the channel hue on the
+   heading only, so the hue marks which countries are unusual without
+   colouring every region inside them. */
+.cg { margin-top:26px; }
+.cghead { margin:0 0 6px; font-size:16px; font-weight:600;
+  padding-bottom:6px; border-bottom:1px solid var(--rule); }
+.cg.up .cghead { color:var(--crop);
+  border-bottom-color:var(--crop); }
+.cgsub { display:block; font-size:12.5px; font-weight:400;
+  color:var(--ink-faint); font-family:"IBM Plex Mono",monospace;
+  margin-top:3px; font-variant-numeric:tabular-nums; }
+
 .cluster { margin-top:12px; padding-left:18px;
   border-left:3px solid var(--crop); }
 .tj { width:100%; height:auto; display:block; margin:14px 0 4px; }
@@ -270,238 +285,397 @@ plausible.init()
 
 <main>
   <p class="eyebrow">Crops &middot; dekad 2026-07-11</p>
-  <h1>81 crop regions are at their worst on record for this
-  point in the season.</h1>
-  <p class="stand">Every place below is measured only against itself, at
-  the same point in the season, in every year since 2001. Whether 81
-  is a high count for a single dekad is a question about how records fall
-  rather than about this week, and it is answered further down. What is
-  inside the 81 is not evenly spread, and that is the part worth
-  reading now.</p>
-
-  <svg class="cb" viewBox="0 0 680 200" role="img" aria-label="Places at record lows against the number an even spread of records would give, at two levels of granularity"><text class="cb-lab" x="0" y="48.0">Whole countries</text><text class="cb-sub" x="0" y="64.0">123 units, 26-year record</text><rect x="211.5" y="42.0" width="33.3" height="28" fill="var(--paper-sunk)"/><line x1="228.1" y1="40.0" x2="228.1" y2="72.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="228.1" y="35.0" text-anchor="middle">if records fell evenly 5</text><circle cx="213.8" cy="56.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="213.8" y="83.0" text-anchor="middle" fill="var(--ink)">1 observed</text><text class="cb-lab" x="0" y="122.0">Sub-national units</text><text class="cb-sub" x="0" y="138.0">2,122 units, 26-year record</text><rect x="453.1" y="116.0" width="138.2" height="28" fill="var(--paper-sunk)"/><line x1="522.2" y1="114.0" x2="522.2" y2="146.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="522.2" y="109.0" text-anchor="middle">if records fell evenly 82</text><circle cx="519.9" cy="130.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="519.9" y="157.0" text-anchor="middle" fill="var(--ink)">81 observed</text><text class="cb-ax" x="210" y="194">places at their worst on record, this dekad</text></svg><p class="cb-note">The expectation rises with the number of units, not with the weather, so any map at this resolution shows dozens of record lows every week. The figure marked is what an EVEN spread of records would give, and records do not fall evenly. Against its own recent history this count is higher than all but 2 of the last 12 years, on a mean of 59.2 and a range of 25 to 105, counted over the same places shown here.</p>
+  <h1>6 countries have more cropland at a record low than
+  their own recent history explains.</h1>
+  <p class="stand">81 crop regions worldwide are at their worst on record for this point in the season, against a typical 59.2. Globally that is an ordinary week. What is not ordinary is where they cluster, and that is what this page is about.</p>
 
   
-      <p class="pairlab">Two questions, not a ranking</p>
-      <p class="pairsub">Below, how much of a country is affected. Under
-        it, how bad the worst single regions are. A country can lead
-        either without appearing in the other, and the order of the two
-        sections carries no claim about which matters more:
-        41 countries hold at least one region at its worst on
-        record this dekad, and only 6 of them are countries where
-        it is widespread.</p>
-      <p class="seclab">Countries where it is widespread</p>
-      <p class="secsub">Measured against each country&rsquo;s own record-low
-        count in every previous year rather than against an assumed rate,
-        which needs no claim that neighbouring regions fail
-        independently.</p>
-      <div class="cluster">
-        <p class="cbig">8 of 22 regions</p>
-        <p class="cbody">in Chad are at their worst on record this dekad.
-        Its highest in any of the previous twenty-five years was
-        3, and its recent average is 0.83.</p>
-        <svg class="tj" viewBox="0 0 660 150" role="img" aria-label="Chad crop regions at their worst on record, each year since 2001"><line x1="8" y1="115.9" x2="652" y2="115.9" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="tj-s" x="10" y="110.9">recent average 0.83</text><rect x="13.0" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><text class="tj-x" x="20.4" y="142.0" text-anchor="middle">2001</text><rect x="37.7" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="62.5" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="87.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="112.0" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="136.8" y="104.4" width="14.9" height="19.6" fill="var(--rule-45)"/><rect x="161.6" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="186.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="211.1" y="114.2" width="14.9" height="9.8" fill="var(--rule-45)"/><rect x="235.9" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="260.6" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="285.4" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="310.2" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="335.0" y="104.4" width="14.9" height="19.6" fill="var(--rule-45)"/><rect x="359.7" y="94.6" width="14.9" height="29.4" fill="var(--rule-45)"/><rect x="384.5" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="409.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="434.0" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="458.8" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="483.6" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="508.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="533.1" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="557.9" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="582.6" y="104.4" width="14.9" height="19.6" fill="var(--rule-45)"/><rect x="607.4" y="94.6" width="14.9" height="29.4" fill="var(--rule-45)"/><rect x="632.2" y="45.6" width="14.9" height="78.4" fill="var(--crop)"/><text class="tj-x" x="639.6" y="142.0" text-anchor="middle">2026</text><text class="tj-v" x="639.6" y="38.6" text-anchor="middle">8</text></svg>
-        <p class="alsolab">Also above their own recent maximum, by a smaller share of the country</p><ul class="also"><li><span class="alsoc">Sudan</span> 3 of 15 regions, against a previous high of 2</li><li><span class="alsoc">Papua New Guinea</span> 4 of 17 regions, against a previous high of 3</li><li><span class="alsoc">Honduras</span> 4 of 17 regions, against a previous high of 3</li><li><span class="alsoc">Türkiye</span> 4 of 79 regions, against a previous high of 2</li><li><span class="alsoc">Viet Nam</span> 6 of 64 regions, against a previous high of 5</li></ul>
-        <p class="ccav">A lead rather than a finding: the owning channel
-        rules before this is published as a claim. The payload also
-        carries what an even spread would have predicted, and it is not
-        printed here, because that figure exists to be argued with rather
-        than shown to a reader.</p>
-      </div>
-
-  <p class="seclab">The worst single regions</p>
-  <p class="secsub">Ordered by size of the shortfall rather than by rank,
-    because every place here ranks first and they are not equally bad:
-    the deepest of the 20 below is 2.6 times the
-    shallowest of them, and 5.9 times the shallowest of all
-    81. Showing the 20 largest. A country reaches this
-    list on one region alone, and can do so while reading as entirely
-    ordinary nationally.</p>
-  
-      <div class="crow">
-        <span class="cz">-3.79</span>
-        <span class="cmain">
-          <span class="cplace">Brokopondo<span class="cctry">
-            Suriname</span></span>
-          <span class="cclaim">lowest on record for this point in the season</span>
-        </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
-      <div class="crow">
-        <span class="cz">-3.75</span>
-        <span class="cmain">
-          <span class="cplace">Darnah<span class="cctry">
-            Libya</span></span>
-          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
-        </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
-      <div class="crow">
-        <span class="cz">-2.73</span>
-        <span class="cmain">
-          <span class="cplace">Wanica<span class="cctry">
-            Suriname</span></span>
-          <span class="cclaim">lowest on record for this point in the season</span>
-        </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
-      <div class="crow">
-        <span class="cz">-2.50</span>
-        <span class="cmain">
-          <span class="cplace">Morona Santiago<span class="cctry">
-            Ecuador</span></span>
-          <span class="cclaim">lowest on record for this point in the season</span>
-        </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
-      <div class="crow">
-        <span class="cz">-2.35</span>
-        <span class="cmain">
-          <span class="cplace">Hau Giang<span class="cctry">
-            Viet Nam</span></span>
-          <span class="cclaim">lowest on record for this point in the season</span>
-        </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
-      <div class="crow">
-        <span class="cz">-2.26</span>
-        <span class="cmain">
-          <span class="cplace">Likouala<span class="cctry">
-            Congo</span></span>
-          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
-        </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
+      <p class="seclab">Where the record lows are</p>
+      <p class="secsub">Grouped by country, because a single region at a
+        record low is common and several in one country is not. Countries
+        beyond their own recent maximum come first; the rest follow by
+        how far their worst region has fallen.</p>
+      <div class="cg up"><p class="cghead">Chad<span class="cgsub">8 of 22 regions, against a previous high of 3 and a recent average of 0.83</span></p><svg class="tj" viewBox="0 0 660 150" role="img" aria-label="Chad crop regions at their worst on record, each year since 2001"><line x1="8" y1="115.9" x2="652" y2="115.9" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="tj-s" x="10" y="110.9">recent average 0.83</text><rect x="13.0" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><text class="tj-x" x="20.4" y="142.0" text-anchor="middle">2001</text><rect x="37.7" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="62.5" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="87.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="112.0" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="136.8" y="104.4" width="14.9" height="19.6" fill="var(--rule-45)"/><rect x="161.6" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="186.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="211.1" y="114.2" width="14.9" height="9.8" fill="var(--rule-45)"/><rect x="235.9" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="260.6" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="285.4" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="310.2" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="335.0" y="104.4" width="14.9" height="19.6" fill="var(--rule-45)"/><rect x="359.7" y="94.6" width="14.9" height="29.4" fill="var(--rule-45)"/><rect x="384.5" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="409.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="434.0" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="458.8" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="483.6" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="508.3" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="533.1" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="557.9" y="124.0" width="14.9" height="1.0" fill="var(--rule-45)"/><rect x="582.6" y="104.4" width="14.9" height="19.6" fill="var(--rule-45)"/><rect x="607.4" y="94.6" width="14.9" height="29.4" fill="var(--rule-45)"/><rect x="632.2" y="45.6" width="14.9" height="78.4" fill="var(--crop)"/><text class="tj-x" x="639.6" y="142.0" text-anchor="middle">2026</text><text class="tj-v" x="639.6" y="38.6" text-anchor="middle">8</text></svg>
       <div class="crow">
         <span class="cz">-2.00</span>
         <span class="cmain">
-          <span class="cplace">Ennedi Est<span class="cctry">
-            Chad</span></span>
+          <span class="cplace">Ennedi Est</span>
           <span class="cclaim">lowest on record for this point in the season</span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
       </div>
+      <div class="crow">
+        <span class="cz">-1.43</span>
+        <span class="cmain">
+          <span class="cplace">Ouaddai</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.34</span>
+        <span class="cmain">
+          <span class="cplace">Ennedi Ouest</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.29</span>
+        <span class="cmain">
+          <span class="cplace">N&#x27;Djamena</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.26</span>
+        <span class="cmain">
+          <span class="cplace">Sila</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.15</span>
+        <span class="cmain">
+          <span class="cplace">Batha</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.13</span>
+        <span class="cmain">
+          <span class="cplace">Wadi Fira</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-0.90</span>
+        <span class="cmain">
+          <span class="cplace">Barh-El-Gazal</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div></div><div class="cg up"><p class="cghead">Sudan<span class="cgsub">3 of 15 regions, against a previous high of 2 and a recent average of 0.5</span></p>
+      <div class="crow">
+        <span class="cz">-1.20</span>
+        <span class="cmain">
+          <span class="cplace">Western Darfur</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.05</span>
+        <span class="cmain">
+          <span class="cplace">Blue Nile</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-0.96</span>
+        <span class="cmain">
+          <span class="cplace">White Nile</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div></div><div class="cg up"><p class="cghead">Papua New Guinea<span class="cgsub">4 of 17 regions, against a previous high of 3 and a recent average of 0.92</span></p>
       <div class="crow">
         <span class="cz">-1.82</span>
         <span class="cmain">
-          <span class="cplace">New Ireland<span class="cctry">
-            Papua New Guinea</span></span>
+          <span class="cplace">New Ireland</span>
           <span class="cclaim">lowest on record for this point in the season</span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
-      <div class="crow">
-        <span class="cz">-1.82</span>
-        <span class="cmain">
-          <span class="cplace">Sanliurfa<span class="cctry">
-            Türkiye</span></span>
-          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
-        </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
-      <div class="crow">
-        <span class="cz">-1.80</span>
-        <span class="cmain">
-          <span class="cplace">Irbid<span class="cctry">
-            Jordan</span></span>
-          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
-        </span>
-        <span class="tag tag-pending">attribution pending</span>
       </div>
       <div class="crow">
         <span class="cz">-1.79</span>
         <span class="cmain">
-          <span class="cplace">Western<span class="cctry">
-            Papua New Guinea</span></span>
+          <span class="cplace">Western</span>
           <span class="cclaim">lowest on record for this point in the season</span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
       </div>
+      <div class="crow">
+        <span class="cz">-1.35</span>
+        <span class="cmain">
+          <span class="cplace">North Solomons</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.10</span>
+        <span class="cmain">
+          <span class="cplace">East Highlands</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div></div><div class="cg up"><p class="cghead">Honduras<span class="cgsub">4 of 17 regions, against a previous high of 3 and a recent average of 0.42</span></p>
       <div class="crow">
         <span class="cz">-1.77</span>
         <span class="cmain">
-          <span class="cplace">Atlantida<span class="cctry">
-            Honduras</span></span>
+          <span class="cplace">Atlantida</span>
           <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
       </div>
+      <div class="crow">
+        <span class="cz">-1.12</span>
+        <span class="cmain">
+          <span class="cplace">Olancho</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-0.79</span>
+        <span class="cmain">
+          <span class="cplace">Yoro</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-0.78</span>
+        <span class="cmain">
+          <span class="cplace">Cortes</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div></div><div class="cg up"><p class="cghead">Türkiye<span class="cgsub">4 of 79 regions, against a previous high of 2 and a recent average of 0.42</span></p>
+      <div class="crow">
+        <span class="cz">-1.82</span>
+        <span class="cmain">
+          <span class="cplace">Sanliurfa</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.35</span>
+        <span class="cmain">
+          <span class="cplace">Mardin</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.31</span>
+        <span class="cmain">
+          <span class="cplace">Sirnak</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.27</span>
+        <span class="cmain">
+          <span class="cplace">Gaziantep</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div></div><div class="cg up"><p class="cghead">Viet Nam<span class="cgsub">6 of 64 regions, against a previous high of 5 and a recent average of 1.75</span></p>
+      <div class="crow">
+        <span class="cz">-2.35</span>
+        <span class="cmain">
+          <span class="cplace">Hau Giang</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.46</span>
+        <span class="cmain">
+          <span class="cplace">Vinh Long</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.35</span>
+        <span class="cmain">
+          <span class="cplace">Hung Yen</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.03</span>
+        <span class="cmain">
+          <span class="cplace">Nghe An</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.02</span>
+        <span class="cmain">
+          <span class="cplace">Quang Ngai</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-0.64</span>
+        <span class="cmain">
+          <span class="cplace">Kien Giang</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div></div><div class="cg"><p class="cghead">Suriname<span class="cgsub">2 regions at a record low</span></p>
+      <div class="crow">
+        <span class="cz">-3.79</span>
+        <span class="cmain">
+          <span class="cplace">Brokopondo</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-2.73</span>
+        <span class="cmain">
+          <span class="cplace">Wanica</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div></div><div class="cg"><p class="cghead">Libya<span class="cgsub">1 region at a record low</span></p>
+      <div class="crow">
+        <span class="cz">-3.75</span>
+        <span class="cmain">
+          <span class="cplace">Darnah</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div></div><div class="cg"><p class="cghead">Ecuador<span class="cgsub">1 region at a record low</span></p>
+      <div class="crow">
+        <span class="cz">-2.50</span>
+        <span class="cmain">
+          <span class="cplace">Morona Santiago</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div></div><div class="cg"><p class="cghead">Congo<span class="cgsub">1 region at a record low</span></p>
+      <div class="crow">
+        <span class="cz">-2.26</span>
+        <span class="cmain">
+          <span class="cplace">Likouala</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div></div><div class="cg"><p class="cghead">Jordan<span class="cgsub">1 region at a record low</span></p>
+      <div class="crow">
+        <span class="cz">-1.80</span>
+        <span class="cmain">
+          <span class="cplace">Irbid</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div></div><div class="cg"><p class="cghead">China<span class="cgsub">1 region at a record low</span></p>
       <div class="crow">
         <span class="cz">-1.66</span>
         <span class="cmain">
-          <span class="cplace">Jiangsu Sheng<span class="cctry">
-            China</span></span>
+          <span class="cplace">Jiangsu Sheng</span>
           <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
+      </div></div><div class="cg"><p class="cghead">Peru<span class="cgsub">2 regions at a record low</span></p>
       <div class="crow">
         <span class="cz">-1.63</span>
         <span class="cmain">
-          <span class="cplace">Ucayali<span class="cctry">
-            Peru</span></span>
+          <span class="cplace">Ucayali</span>
           <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
       </div>
+      <div class="crow">
+        <span class="cz">-1.10</span>
+        <span class="cmain">
+          <span class="cplace">Loreto</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div></div><div class="cg"><p class="cghead">Angola<span class="cgsub">1 region at a record low</span></p>
       <div class="crow">
         <span class="cz">-1.63</span>
         <span class="cmain">
-          <span class="cplace">Huambo<span class="cctry">
-            Angola</span></span>
+          <span class="cplace">Huambo</span>
           <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
+      </div></div><div class="cg"><p class="cghead">Egypt<span class="cgsub">1 region at a record low</span></p>
       <div class="crow">
         <span class="cz">-1.55</span>
         <span class="cmain">
-          <span class="cplace">Cairo<span class="cctry">
-            Egypt</span></span>
+          <span class="cplace">Cairo</span>
           <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
+      </div></div><div class="cg"><p class="cghead">Malaysia<span class="cgsub">2 regions at a record low</span></p>
       <div class="crow">
         <span class="cz">-1.52</span>
         <span class="cmain">
-          <span class="cplace">Perlis<span class="cctry">
-            Malaysia</span></span>
+          <span class="cplace">Perlis</span>
           <span class="cclaim">lowest on record for this point in the season</span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
-      </div>
-      <div class="crow">
-        <span class="cz">-1.49</span>
-        <span class="cmain">
-          <span class="cplace">Gasabo<span class="cctry">
-            Rwanda</span></span>
-          <span class="cclaim">lowest on record for this point in the season</span>
-        </span>
-        <span class="tag tag-pending">attribution pending</span>
       </div>
       <div class="crow">
         <span class="cz">-1.48</span>
         <span class="cmain">
-          <span class="cplace">Kedah<span class="cctry">
-            Malaysia</span></span>
+          <span class="cplace">Kedah</span>
           <span class="cclaim">lowest on record for this point in the season</span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
+      </div></div><div class="cg"><p class="cghead">Rwanda<span class="cgsub">5 regions at a record low</span></p>
+      <div class="crow">
+        <span class="cz">-1.49</span>
+        <span class="cmain">
+          <span class="cplace">Gasabo</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
       </div>
+      <div class="crow">
+        <span class="cz">-1.11</span>
+        <span class="cmain">
+          <span class="cplace">Gakenke</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-1.03</span>
+        <span class="cmain">
+          <span class="cplace">Rubavu</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-0.88</span>
+        <span class="cmain">
+          <span class="cplace">Rulindo</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-0.82</span>
+        <span class="cmain">
+          <span class="cplace">Musanze</span>
+          <span class="cclaim">lowest on record for this point in the season</span>
+        </span>
+      </div></div><div class="cg"><p class="cghead">Somalia<span class="cgsub">1 region at a record low</span></p>
       <div class="crow">
         <span class="cz">-1.47</span>
         <span class="cmain">
-          <span class="cplace">Mudug<span class="cctry">
-            Somalia</span></span>
+          <span class="cplace">Mudug</span>
           <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
-        <span class="tag tag-pending">attribution pending</span>
+      </div></div><div class="cg"><p class="cghead">Iran (Islamic Republic of)<span class="cgsub">2 regions at a record low</span></p>
+      <div class="crow">
+        <span class="cz">-1.43</span>
+        <span class="cmain">
+          <span class="cplace">Ilam</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
       </div>
-  <p class="note">The remaining 61 are shallower
-    and shade into the noise floor. A place at the bottom of this list is
-    at its worst in 26 years by a margin a normal season produces
-    routinely.</p>
+      <div class="crow">
+        <span class="cz">-1.07</span>
+        <span class="cmain">
+          <span class="cplace">Ghom</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div></div><div class="cg"><p class="cghead">Eritrea<span class="cgsub">2 regions at a record low</span></p>
+      <div class="crow">
+        <span class="cz">-1.40</span>
+        <span class="cmain">
+          <span class="cplace">Maekel</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div>
+      <div class="crow">
+        <span class="cz">-0.96</span>
+        <span class="cmain">
+          <span class="cplace">Anseba</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
+        </span>
+      </div></div>
+      <p class="note">21 further countries hold one or two regions at
+        a record low, which is what an ordinary dekad looks like.</p>
+
+  <!-- Everything below is identical every week or not specific to
+       today: the proof behind the lede's "typical" figure, and the
+       qualifier that applies to all 81 rows equally. Kristjan's rule,
+       and it is the right cut: anything the same on every row, or not
+       about this dekad, sits below the content. -->
+  <p class="seclab">How we know 81 is an ordinary number</p>
+  <svg class="cb" viewBox="0 0 680 126" role="img" aria-label="Places at record lows against the number an even spread of records would give, at two levels of granularity"><text class="cb-lab" x="0" y="48.0">Sub-national units</text><text class="cb-sub" x="0" y="64.0">2,122 units, 26-year record</text><rect x="453.1" y="42.0" width="138.2" height="28" fill="var(--paper-sunk)"/><line x1="522.2" y1="40.0" x2="522.2" y2="72.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="cb-exp" x="522.2" y="35.0" text-anchor="middle">if records fell evenly 82</text><circle cx="519.9" cy="56.0" r="6.4" fill="var(--ink)"/><text class="cb-obs" x="519.9" y="83.0" text-anchor="middle" fill="var(--ink)">81 observed</text><text class="cb-ax" x="210" y="120">places at their worst on record, this dekad</text></svg><p class="cb-note">The expectation rises with the number of units, not with the weather, so any map at this resolution shows dozens of record lows every week. The figure marked is what an EVEN spread of records would give, and records do not fall evenly. Against its own recent history this count is higher than all but 2 of the last 12 years, on a mean of 59.2 and a range of 25 to 105, counted over the same places shown here.</p>
+  <p class="note">The expectation rises with the number of units, not
+    with the weather, so any map at this resolution shows dozens of
+    record lows every week. This measurement is of the crop canopy and
+    not of what stressed it: heat, drought, disease and late planting
+    are not separable here, which is why no row on this page names a
+    cause.</p>
 
   <!-- No truncation here, deliberately. This footer used to slice
        `method` at 90 characters, which cut CRO's 158-character string

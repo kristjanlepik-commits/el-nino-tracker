@@ -11,11 +11,16 @@ So this orders by severity, the z-score itself, and prints it. Rank
 answers "has this happened before"; z answers "how bad is it". The page
 needs both and leads with the second.
 
-## The chance baseline comes first, above the list
+## The chance baseline is a sentence up top and a chart at the bottom
 
-Not a footnote and not below the fold. With 2,122 units each holding a
-26-year record, an even spread of records would give about 82 a dekad,
-and 81 were observed.
+It led the page until Kristjan read it cold and said the opening screen
+was more about our methodology than about what we were showing. He is
+right, and the fix is not to delete the anchor: without it a reader
+concludes 81 is alarming. The lede states it in one line, the footer
+chart proves it, and proving is footer work.
+
+With 2,122 units each holding a 26-year record, an even spread would
+give about 82 a dekad, and 81 were observed.
 
 That "even spread" is an assumption and the page now says so. Records
 hoard: Europe's record lows sit in 2001, 2003 and 2006, so the uniform
@@ -43,10 +48,14 @@ and would have compared 81 over one set against a mean over a wider
 one. It surfaced only because the number was rebuilt from the payload
 instead of trusted.
 
-The baseline is what makes the rest of the page readable rather than
-what qualifies it. Once a reader knows 81 is the noise floor, they can
-be shown what sits above it, which is the next section and the only part
-of this page that is news.
+## One list, grouped by country
+
+There were two sections, breadth and depth, and a sentence above them
+explaining that neither outranked the other. Needing that sentence was
+the signal the split was wrong, so they are now one list grouped by
+country: Chad appears once with its eight regions together, which IS
+the finding. On the flat list Ennedi Est sat at rank seven between two
+Suriname districts and told a reader nothing.
 
 ## One grade of sentence, because the field does not license two
 
@@ -86,11 +95,6 @@ TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked",
 TAG_SLUG = {"enso": "loaded", "non_enso": "notlink", "pending": "pending"}
 
 
-def _join_and(names) -> str:
-    if len(names) == 1:
-        return names[0]
-    return ", ".join(names[:-1]) + " and " + names[-1]
-
 
 def _driver_note(e) -> str:
     """What `driver` actually licenses, in the present tense of habit.
@@ -104,6 +108,35 @@ def _driver_note(e) -> str:
         return ""
     return ('<span class="cdriver">vegetation here usually tracks water '
             'availability</span>')
+
+
+def _country_group(country, regions, cb=None, units=None, feature=False) -> str:
+    """One country, with every region of it that is at a record low.
+
+    The count and the denominator sit in the heading because that is the
+    comparison a reader can make unaided: eight of twenty-two reads
+    differently from one of twenty-four, and the flat list said neither.
+    """
+    n = len(regions)
+    if cb and units:
+        # Above its own recent maximum: say so here, in its own terms.
+        sub = (f"{n} of {units} regions, against a previous high of "
+               f"{cb['recent_max']} and a recent average of "
+               f"{cb['recent_mean']:g}")
+        cls = " up"
+    else:
+        sub = (f"{n} region{'s' if n != 1 else ''} at a record low"
+               + (f" of {units}" if units else ""))
+        cls = ""
+    # The leading country carries its year-by-year bars inside its own
+    # group rather than in a separate block above the list. Chad was
+    # rendering twice, once as the featured finding and again as the
+    # first row of the list, which is precisely the "adding to the
+    # sections" the merge was meant to stop.
+    chart = _trajectory(cb, country) if (feature and cb) else ""
+    return (f'<div class="cg{cls}"><p class="cghead">{h(country)}'
+            f'<span class="cgsub">{h(sub)}</span></p>{chart}'
+            + "".join(_row(e) for e in regions) + '</div>')
 
 
 def _row(e) -> str:
@@ -132,17 +165,23 @@ def _row(e) -> str:
     # weaker, and it belongs in its own sentence rather than inside the
     # claim. See `_driver_note`.
     claim = "lowest on record for this point in the season"
-    slug = TAG_SLUG.get(e["attribution"], "pending")
+    # D-076: "attribution pending" comes off every entry. It was the
+    # code's default fallback, so it rendered on all 81 rows and read as
+    # clutter rather than as information. It is a work state, not a
+    # finding. The two ENSO strings stay, because those ARE findings.
+    tag = ""
+    if e.get("attribution") in ("enso", "non_enso"):
+        tag = (f'<span class="tag tag-{TAG_SLUG[e["attribution"]]}">'
+               f'{h(TAG_TEXT[e["attribution"]])}</span>')
+    # The country is in the group heading now, so repeating it on every
+    # row was the same word eighty-one times.
     return f"""
       <div class="crow">
         <span class="cz">{e['z']:+.2f}</span>
         <span class="cmain">
-          <span class="cplace">{h(e['region'])}<span class="cctry">
-            {h(e['country'])}</span></span>
+          <span class="cplace">{h(e['region'])}</span>
           <span class="cclaim">{h(claim)}{_driver_note(e)}</span>
-        </span>
-        <span class="tag tag-{slug}">{h(TAG_TEXT.get(e['attribution'],
-                                       TAG_TEXT['pending']))}</span>
+        </span>{tag}
       </div>"""
 
 
@@ -233,33 +272,7 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
                 if (pl.get("chance_baseline") or {}).get("notable")]
     clusters.sort(key=lambda t: -(t[1].get("excess_share") or 0))
 
-    def _also(rest):
-        """The rest of the notable set, printed so the drop-off shows.
 
-        A bare list would read as six equivalent findings. Chad's excess
-        share is more than three times the next country's, and five of
-        the six clear their own maximum by exactly one region, so each
-        row carries its own counts.
-
-        The denominator is printed because it is what does the ordering.
-        Without it Viet Nam's 6 sits below Sudan's 3 for no visible
-        reason, and an order the reader cannot account for reads as a
-        mistake in the page rather than as a property of the data. With
-        "6 of 64" against "3 of 15" it is self-evident.
-        """
-        if not rest:
-            return ""
-        rows = "".join(
-            f'<li><span class="alsoc">{h(c)}</span> '
-            f'{cb["this_year"]} of {u} regions, against a previous high '
-            f'of {cb["recent_max"]}</li>'
-            for c, cb, u in rest)
-        return (f'<p class="alsolab">Also above their own recent maximum, '
-                f'by a smaller share of the country</p>'
-                f'<ul class="also">{rows}</ul>')
-
-    ctry_hits = sum(1 for p in places
-                    if (p.get("magnitude") or {}).get("value") == 1)
 
     # The page used to refuse to say whether 81 was high, because the
     # measured expectation lived only in the channel's analysis. CRO now
@@ -288,10 +301,12 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
             f"{agg['recent_mean']:g} and a range of {agg['recent_min']} to "
             f"{agg['recent_max']}, counted over the same places shown here.")
 
+    # ONE scale, not two. The whole-countries row was 1 observed against
+    # about 5 expected, which is noise, and showing a second granularity
+    # doubled the reader's work to make a point the sub-national row
+    # already makes on its own.
     baseline = scales_block(
-        [{"label": "Whole countries", "units": len(places), "years": K,
-          "observed": ctry_hits},
-         {"label": "Sub-national units", "units": N, "years": K,
+        [{"label": "Sub-national units", "units": N, "years": K,
           "observed": len(hits)}],
         note=("The expectation rises with the number of units, not with "
               "the weather, so any map at this resolution shows dozens of "
@@ -345,46 +360,61 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # as the framing line that moved with top_n: a figure computed over
     # one set and presented against another. Both are on the page now,
     # each named for the set it describes.
-    shown = hits[:top_n]
-    shown_n = len(shown)
-    shown_ratio = abs(shown[0]["z"] / shown[-1]["z"]) if shown_n > 1 else 1.0
-    full_ratio = abs(hits[0]["z"] / hits[-1]["z"]) if len(hits) > 1 else 1.0
-
     broad_names = {c for c, _, _ in clusters}
     deep_countries = {e["country"] for e in hits}
-    n_deep_c, n_both = len(deep_countries), len(deep_countries & broad_names)
-    pair_intro = f"""
-      <p class="pairlab">Two questions, not a ranking</p>
-      <p class="pairsub">Below, how much of a country is affected. Under
-        it, how bad the worst single regions are. A country can lead
-        either without appearing in the other, and the order of the two
-        sections carries no claim about which matters more:
-        {n_deep_c} countries hold at least one region at its worst on
-        record this dekad, and only {n_both} of them are countries where
-        it is widespread.</p>"""
 
-    cluster_html = ""
-    if clusters:
-        c, cb, cu = clusters[0]
-        cluster_html = pair_intro + f"""
-      <p class="seclab">Countries where it is widespread</p>
-      <p class="secsub">Measured against each country&rsquo;s own record-low
-        count in every previous year rather than against an assumed rate,
-        which needs no claim that neighbouring regions fail
-        independently.</p>
-      <div class="cluster">
-        <p class="cbig">{cb['this_year']} of {cu} regions</p>
-        <p class="cbody">in {h(c)} are at their worst on record this dekad.
-        Its highest in any of the previous twenty-five years was
-        {cb['recent_max']}, and its recent average is {cb['recent_mean']:g}.</p>
-        {_trajectory(cb, c)}
-        {_also(clusters[1:])}
-        <p class="ccav">A lead rather than a finding: the owning channel
-        rules before this is published as a claim. The payload also
-        carries what an even spread would have predicted, and it is not
-        printed here, because that figure exists to be argued with rather
-        than shown to a reader.</p>
-      </div>"""
+    # THE ANCHOR IS ONE SENTENCE, NOT A CHART AT THE TOP. It cannot
+    # vanish, or a reader concludes 81 is alarming; but it informs and
+    # the chart proves, and proving is footer work. The old opening was
+    # two scales, a caveat and three paragraphs of method before the
+    # reader met a single place.
+    lede = (
+        f"{len(hits)} crop regions worldwide are at their worst on record "
+        f"for this point in the season, against a typical "
+        f"{agg.get('recent_mean', 0):g}. Globally that is an ordinary "
+        f"week. What is not ordinary is where they cluster, and that is "
+        f"what this page is about.")
+
+    # ONE LIST, GROUPED BY COUNTRY, replacing the two sections that had
+    # to be introduced by a sentence explaining neither outranked the
+    # other. Needing that sentence was the signal the split was wrong.
+    #
+    # Grouping is also what makes the list legible. Ennedi Est at rank
+    # seven, floating between two Suriname districts, tells a reader
+    # nothing; Chad appearing once with its eight regions together IS
+    # the finding, and no name on the flat list carried that.
+    #
+    # Order: countries above their own recent maximum first, in the
+    # channel's order, then the rest by their deepest region. That puts
+    # breadth above depth without asserting breadth matters more, since
+    # both are now rows of the same list rather than rival sections.
+    by_country = {}
+    for e in hits:
+        by_country.setdefault(e["country"], []).append(e)
+    cb_of = {c: (cb, u) for c, cb, u in clusters}
+    ordered = [c for c, _, _ in clusters if c in by_country]
+    ordered += sorted((c for c in by_country if c not in broad_names),
+                      key=lambda c: by_country[c][0]["z"])
+
+    groups = "".join(
+        _country_group(c, by_country[c], *cb_of.get(c, (None, None)),
+                       feature=(i == 0 and c in broad_names))
+        for i, c in enumerate(ordered[:top_n]))
+    rest = max(0, len(ordered) - top_n)
+    grouped_html = f"""
+      <p class="seclab">Where the record lows are</p>
+      <p class="secsub">Grouped by country, because a single region at a
+        record low is common and several in one country is not. Countries
+        beyond their own recent maximum come first; the rest follow by
+        how far their worst region has fallen.</p>
+      {groups}
+      <p class="note">{rest} further countries hold one or two regions at
+        a record low, which is what an ordinary dekad looks like.</p>"""
+
+    # The separate lead block is gone. Its content lives in the first
+    # group now, and `_also` with it: those five countries are their own
+    # rows further down the same list, so listing them here as well was
+    # the duplication in a second costume.
 
     return f"""<!doctype html>
 <html lang="en">
@@ -451,6 +481,21 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 .pairsub {{ margin:8px 0 0; font-size:14px; color:var(--ink-soft);
   max-width:64ch; }}
 
+/* A country group. The rule sits above the heading rather than boxing
+   the group, per the no-enclosure rule: a card would make each country
+   look like a separate finding when the list is one finding read down.
+   Countries above their own recent maximum take the channel hue on the
+   heading only, so the hue marks which countries are unusual without
+   colouring every region inside them. */
+.cg {{ margin-top:26px; }}
+.cghead {{ margin:0 0 6px; font-size:16px; font-weight:600;
+  padding-bottom:6px; border-bottom:1px solid var(--rule); }}
+.cg.up .cghead {{ color:var(--crop);
+  border-bottom-color:var(--crop); }}
+.cgsub {{ display:block; font-size:12.5px; font-weight:400;
+  color:var(--ink-faint); font-family:"{T.FONT_DATA}",monospace;
+  margin-top:3px; font-variant-numeric:tabular-nums; }}
+
 .cluster {{ margin-top:12px; padding-left:18px;
   border-left:3px solid var(--crop); }}
 .tj {{ width:100%; height:auto; display:block; margin:14px 0 4px; }}
@@ -491,32 +536,25 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 {site_masthead(root_prefix, active="crop")}
 <main>
   <p class="eyebrow">Crops &middot; dekad {h(doc['dekad'])}</p>
-  <h1>{len(hits)} crop regions are at their worst on record for this
-  point in the season.</h1>
-  <p class="stand">Every place below is measured only against itself, at
-  the same point in the season, in every year since 2001. Whether {len(hits)}
-  is a high count for a single dekad is a question about how records fall
-  rather than about this week, and it is answered further down. What is
-  inside the {len(hits)} is not evenly spread, and that is the part worth
-  reading now.</p>
+  <h1>{len(clusters)} countries have more cropland at a record low than
+  their own recent history explains.</h1>
+  <p class="stand">{lede}</p>
 
+  {grouped_html}
+
+  <!-- Everything below is identical every week or not specific to
+       today: the proof behind the lede's "typical" figure, and the
+       qualifier that applies to all 81 rows equally. Kristjan's rule,
+       and it is the right cut: anything the same on every row, or not
+       about this dekad, sits below the content. -->
+  <p class="seclab">How we know 81 is an ordinary number</p>
   {baseline}
-
-  {cluster_html}
-
-  <p class="seclab">The worst single regions</p>
-  <p class="secsub">Ordered by size of the shortfall rather than by rank,
-    because every place here ranks first and they are not equally bad:
-    the deepest of the {shown_n} below is {shown_ratio:.1f} times the
-    shallowest of them, and {full_ratio:.1f} times the shallowest of all
-    {len(hits)}. Showing the {shown_n} largest. A country reaches this
-    list on one region alone, and can do so while reading as entirely
-    ordinary nationally.</p>
-  {''.join(_row(e) for e in hits[:top_n])}
-  <p class="note">The remaining {max(0, len(hits) - top_n)} are shallower
-    and shade into the noise floor. A place at the bottom of this list is
-    at its worst in 26 years by a margin a normal season produces
-    routinely.</p>
+  <p class="note">The expectation rises with the number of units, not
+    with the weather, so any map at this resolution shows dozens of
+    record lows every week. This measurement is of the crop canopy and
+    not of what stressed it: heat, drought, disease and late planting
+    are not separable here, which is why no row on this page names a
+    cause.</p>
 
   <!-- No truncation here, deliberately. This footer used to slice
        `method` at 90 characters, which cut CRO's 158-character string
