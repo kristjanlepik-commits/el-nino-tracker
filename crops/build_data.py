@@ -317,6 +317,15 @@ def build_stress(catalogue: dict) -> dict:
                 "of": head["of"],
                 "direction": "low",
                 "basis": f"same dekad, {BASE_FIRST}-{BASE_LAST}",
+                # Same binding as the region rows. basis alone is a
+                # field a renderer can show the value without; statement
+                # cannot be separated from what it describes, so a page
+                # missing the basis is missing a field rather than being
+                # subtly wrong.
+                "statement": (
+                    f"{'lowest' if head['rank'] == 1 else f"{head['rank']}th lowest"} "
+                    f"of {head['of']} observations for this point in the "
+                    f"season, {BASE_FIRST}-{BASE_LAST}"),
             },
             "driver": driver,
             "evidence_basis": "measured",
