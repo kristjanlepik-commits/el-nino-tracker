@@ -396,7 +396,13 @@ def stamp_unregenerated(live_slugs, window_label) -> str:
                 f'anomaly gate, so no new assessment was published. The '
                 f'figures below are from the last week it did, and are '
                 f'not current.</p>')
-        html = re.sub(rf'<p id="{STAMP_ID}".*?</p>', "", html, flags=re.S)
+        # Consume the trailing newline with the old stamp. Without it
+        # every publish left a blank line behind and added a fresh one,
+        # so the file grew by a line a week forever and every run showed
+        # 15 pages "changed" with a whitespace-only diff. Idempotent has
+        # to mean byte-identical or it is not a useful property.
+        html = re.sub(rf'\n?<p id="{STAMP_ID}".*?</p>\n?', "\n", html,
+                      flags=re.S)
         # D-076 reaches these pages too. They are not regenerated, so the
         # deprecated chip survives in their markup, and 15 live pages
         # were still showing "attribution pending". It is a work state
