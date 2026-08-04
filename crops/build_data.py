@@ -160,12 +160,35 @@ def build_stress(catalogue: dict) -> dict:
             if latest.year not in s.index or len(hist_r) < 20:
                 continue
             cur_r = float(s[latest.year])
+            rk = rank_of(cur_r, hist_r, +1)
+            of = len(hist_r) + 1
             regions.append({
                 "region": reg,
                 "value": round(cur_r, 3),
                 "baseline_mean": round(float(hist_r.mean()), 3),
-                "rank": rank_of(cur_r, hist_r, +1),
-                "of": len(hist_r) + 1,
+                "rank": rk,
+                "of": of,
+                # A region row used to declare rank and of but NOT its
+                # basis, and the basis lived only on the country object.
+                # The claim that reached copy and was wrong for 7 of
+                # Chad's 8 regions was a REGION claim, so the writer had
+                # no basis field in front of them to drop.
+                "basis": f"same dekad, {BASE_FIRST}-{BASE_LAST}",
+                # And the value and its basis bound into one computed
+                # field, so dropping the basis is visibly dropping half
+                # of a field rather than trimming a sentence. Computed,
+                # never typed, per the ban on free text that stops
+                # tracking its data.
+                "statement": (
+                    f"{'lowest' if rk == 1 else f'{rk}th lowest'} of {of} "
+                    f"observations for this point in the season, "
+                    f"{BASE_FIRST}-{BASE_LAST}"),
+                # The region's own record, so a region page can show it
+                # against itself the way the country block shows Chad.
+                # Same shape as the country chance_baseline series.
+                "series": {int(y): round(float(v), 3)
+                           for y, v in s.items()
+                           if BASE_FIRST <= y <= latest.year},
             })
         regions.sort(key=lambda r: r["rank"])
 
