@@ -749,8 +749,50 @@ are unusual in a way its days are not is a different question from
 whether the night normal moved further than the day normal since 1961,
 and only the second is answered above.
 
-Scope, to be sized rather than assumed: daytime hours for a 1991-2020
-climatology plus the current period, summer months only, both boxes.
+**RESOLVED same day by product: the spine reverts, and the daytime pull
+is dropped from the critical path.**
+
+Product's reasoning, which retires the problem rather than fixing it.
+Nights-against-days was adopted as a **hedge**: Heat proposed it because
+the drift claim might collapse under the 1979 production boundary, so a
+page built on drift would lose its argument rather than gain a caveat.
+**D-068 removed that risk** by moving drift off ERA5 entirely, onto a
+series that spans the boundary by design. The hedge is no longer needed,
+and 5d-ii shows the hedge itself was weak: the night-versus-day drift
+differential is noise.
+
+The spine returns to the two-sentence form the drift brief already
+carried:
+
+1. **Where this week's nights sit against their own record.** ERA5,
+   satellite era, percentile against each place's own history.
+2. **How far the night normal itself has moved.** Berkeley, separately
+   sourced, no claim crossing between them.
+
+**Nights-against-days is demoted, not deleted.** A week where days read
+ordinary and nights are extreme remains a real observation about that
+week and may be said. It cannot be the page's general argument, because
+the general version is not supported. Daytime data is therefore a
+nice-to-have and must not compete on the critical path.
+
+Consequence: **Heat's broken assurance costs almost nothing.** The
+six-hour narrowing removed daytime data from a spine no longer being
+built on. The 5c constraint stands unchanged and is what makes the
+remaining sizing correct.
+
+Recorded by product: telling them before the estimate hardened is what
+made it cheap, since the alternative was a roadmap costed against a page
+that did not exist.
+
+### Remaining scope for sentence 1, to be sized not assumed
+
+True daily minima from the **derived** product per 5c, 1979-2026, over
+the two regional boxes rather than per city. The open variable is
+chunking: 1 year x 12 months is measured as accepted (5b), which would
+be 96 requests; whether a multi-year request fits when restricted to
+three months is **untested**, because the probe that would have answered
+it was rejected on a per-dataset queue limit while the main pull
+saturated the account. That probe is retried once the pull drains.
 
 ## 5e. Cross-validation of ERA5 against Berkeley: thresholds fixed BEFORE the comparison
 
