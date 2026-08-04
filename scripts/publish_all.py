@@ -15,15 +15,19 @@ What it runs, in order:
     scripts/publish_shell.py     front page, About, methodology, archive
     fires/build_page.py          the Fires channel index
     fires/build_country_pages.py the per-country fire pages
+    crops/build_page.py          the Crops channel index
 
-All three rebuild from committed state only (snapshots, meta.json,
-data/events.json, fires/data/current_week.json). None of them fetch, so
-this is deterministic and safe to re-run.
+All four rebuild from committed state only (snapshots, meta.json,
+data/events.json, fires/data/current_week.json,
+crops/data/stress_current.json). None of them fetch, so this is
+deterministic and safe to re-run.
 
 THE RULE, and it is not negotiable: this script runs renderers, never
 fetchers. Specifically fires/build_events.py must NEVER be added here.
 It calls the FIRMS API for 45 countries, takes minutes, is the daily
-06:00 UTC data job, and can fail on a network blip. Putting a fetcher in
+06:00 UTC data job, and can fail on a network blip. The same bar applies
+to crops/pull_asap_indicator.py, which downloads a 30 MB dekadal archive
+and must never be reachable from a publish. Putting a fetcher in
 a publish path would make every publish pull live data and quietly move
 the published numbers, which is the exact opposite of what this script
 is for. If a channel needs new data, run its data job; publishing is a
@@ -74,11 +78,13 @@ TARGETS = [
     "docs/elnino/index.html",
     "docs/briefs/index.html",
     "docs/fires/index.html",
+    "docs/crops/index.html",
 ]
 
 STEPS = [
     ("shell", [PY, "scripts/publish_shell.py"]),
     ("fires index", [PY, "fires/build_page.py"]),
+    ("crops index", [PY, "crops/build_page.py"]),
     ("fires country pages", [PY, "fires/build_country_pages.py"]),
 ]
 
@@ -106,6 +112,7 @@ GENERATORS = [
     "scripts/publish_shell.py",
     "fires/build_page.py",
     "fires/build_country_pages.py",
+    "crops/build_page.py",
 ]
 
 
@@ -275,6 +282,7 @@ def verify() -> list[str]:
     #    pipeline. If they move during a publish, someone wired that
     #    generator in.
     for data_rel in ("data/events.json", "fires/data/current_week.json",
+                     "crops/data/stress_current.json",
                      "docs/pacific-sst.json", "docs/pacific-sst.png"):
         if git_changed(data_rel):
             problems.append(
