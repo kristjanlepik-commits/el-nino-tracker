@@ -395,8 +395,11 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # reader met a single place.
     lede = (
         f"{len(hits)} crop regions worldwide are at their worst on record "
+        # No decimal on an average of counts. 59.2 reads more precise
+        # than a mean of twelve integers is, and the extra digit buys a
+        # reader nothing in a lede.
         f"for this point in the season, against a typical "
-        f"{agg.get('recent_mean', 0):g}. Globally that is an ordinary "
+        f"{agg.get('recent_mean', 0):.0f}. Globally that is an ordinary "
         f"week. What is not ordinary is where they cluster, and that is "
         f"what this page is about.")
 
