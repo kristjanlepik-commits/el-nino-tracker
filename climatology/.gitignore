@@ -1,0 +1,5 @@
+
+# Berkeley Earth source grids, ~316 MB. Derived artifact is
+# climatology/data/drift.json; the grids are re-downloadable and must
+# never enter git history (see check_large_files in scripts/qa_check.py).
+.cache/

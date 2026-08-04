@@ -1067,6 +1067,46 @@ from Rwanda (5 against 12), Eritrea, Mali and Burundi. It needs no
 distributional assumption whatever, and it is emitted as
 `clears_own_recent_max`.
 
+### 6q. The notable set is unstable at dekadal resolution
+
+Product is taking the recurring sign-off cost to Kristjan: 36 dekads a
+year at even fifteen minutes each is about nine hours standing. I
+proposed a lever, sign-off on CHANGE rather than on schedule, and tested
+it over a full year of dekads.
+
+**It fails. The notable set changed in 34 of 35 transitions, 97%.**
+Sign-off on change would be 34 reviews a year against 36, saving half an
+hour annually.
+
+Requiring persistence helps but does not fix it:
+
+| Rule | Transitions with a change | Set size |
+|---|---|---|
+| Current (single dekad) | 34 of 35 | 0 to 12 |
+| Notable 2 dekads running | 26 of 34 | 0 to 10, median 4 |
+| Notable 3 dekads running | 24 of 33 | 0 to 8, median 2 |
+
+**The churn is mostly threshold flicker, not events.** Peru enters,
+leaves, enters and leaves across four consecutive dekads. Saudi Arabia
+does the same. These are small counts crossing a bar, and a reader
+visiting weekly would infer a volatility that is not in the cropland.
+
+**Two consequences, and the second is the important one.**
+
+**Chad is the only country notable two dekads running in the latest
+data.** That independently confirms the Chad piece by a route nothing
+else in this report used, and it is a stronger argument than the count
+that selected it.
+
+**The signal persists longer than the instrument's cadence, which is an
+argument for publishing monthly on data grounds rather than cost
+grounds.** I had assumed dekadal publication because the instrument is
+dekadal. That was wrong. Dekadal publication would show mostly flicker;
+monthly publication of a persistence-filtered set would show the same
+findings with a third of the churn and a third of the review cost. The
+data updating every ten days does not oblige us to publish every ten
+days.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9

@@ -185,5 +185,122 @@
       "confirmation that the EFFIS 393,079 ha full-season figure matches that scope"
     ],
     "_if_unblocked": "At EUR 4.3 bn over the full season the ratio gives about EUR 2.4 bn for 2026 to date; at EUR 7.6 bn it gives about EUR 4.2 bn. The choice of input moves our own figure by 1.77x, which is why it is blocked rather than estimated."
+  },
+  "component_model": {
+    "_ratified_by": "D-074",
+    "sums_to": "economic_total",
+    "total_is_a_floor": true,
+    "_floor_note": "Gaps count as zero. The total is the sum of what is counted, not an estimate of the event.",
+    "components": {
+      "response_cost": {
+        "status": "estimated_from_shared_parameter",
+        "value_low": 1723,
+        "value_high": 3275,
+        "currency": "EUR",
+        "scale": "million",
+        "issued": "2026-07-27",
+        "sources": [
+          {
+            "estimator_note": "Euronews, from the Ministry for Ecological Transition area figure",
+            "value_low": 1723,
+            "value_high": 3275,
+            "area_ha": 172396,
+            "derivation": {
+              "type": "unit_cost_times_area",
+              "parameter_id": "es_firefighting_per_ha",
+              "parameter_low": 10000,
+              "parameter_high": 19000,
+              "parameter_unit": "EUR per hectare"
+            },
+            "independence": "shared_parameter"
+          },
+          {
+            "estimator_note": "Greenpeace, using National Association of Forestry Companies (Asemfo) data, for the 2025 season",
+            "value_low": 3548,
+            "value_high": 6741,
+            "area_ha": 354793,
+            "derivation": {
+              "type": "unit_cost_times_area",
+              "parameter_id": "es_firefighting_per_ha",
+              "parameter_low": 10000,
+              "parameter_high": 19000,
+              "parameter_unit": "EUR per hectare"
+            },
+            "independence": "shared_parameter"
+          },
+          {
+            "estimator_note": "Forescat, a Spanish forestry services company, for the 2025 season",
+            "value": 7600,
+            "area_ha": 400000,
+            "derivation": {
+              "type": "unit_cost_times_area",
+              "parameter_id": "es_firefighting_per_ha",
+              "parameter_low": 19000,
+              "parameter_high": 19000,
+              "parameter_unit": "EUR per hectare"
+            },
+            "independence": "shared_parameter"
+          }
+        ],
+        "shared_parameter_note": "These three figures are one per-hectare cost applied to three different burnt areas, not three independent estimates. Forescat's EUR 19,000 per hectare is the upper bound in every case.",
+        "unreconciled": {
+          "label": "official Spanish spending implies a far lower rate",
+          "value": 417,
+          "currency": "EUR",
+          "scale": "million",
+          "basis": "annual spending on fighting and extinguishing fires in a stable period",
+          "implied_per_ha_at_typical_season": 4170,
+          "note": "About a quarter of the parameter above. Unexplained. Possible reasons, none verified: deployed military and civil protection may sit outside the firefighting budget line; the rate may be marginal for extreme seasons rather than average; or it may be high."
+        },
+        "excludes": [
+          "restoration"
+        ]
+      },
+      "carbon": {
+        "status": "gap_with_basis_available",
+        "_basis": "Copernicus CAMS GFAS tonnage times the EU ETS price on a stated date. Spain 2026 is among the highest emission years in the GFAS record through end of July, behind only 2022, but a verified megatonne figure for the season is not yet held.",
+        "_species_required": "carbon or CO2 must be named in the field; the conversion is 44/12",
+        "_conservative_note": "Excludes soil carbon stock loss, which on a mature forest can be about double the above-ground biomass. The line is therefore a floor."
+      },
+      "timber_forest": {
+        "status": "gap",
+        "_basis": "hectares by forest type times published timber values; not yet built"
+      },
+      "agriculture": {
+        "status": "gap",
+        "_basis": "needs a land-use overlay on the burn perimeter"
+      },
+      "built_assets": {
+        "status": "gap",
+        "_basis": "structure counts not yet sourced for Spain 2026"
+      },
+      "restoration": {
+        "status": "gap",
+        "_basis": "explicitly excluded by the response-cost source; no separate figure found"
+      },
+      "output_bi": {
+        "status": "gap",
+        "_basis": "tourism and farming losses flagged by experts in the same reporting, unquantified"
+      },
+      "health": {
+        "status": "gap",
+        "_basis": "no figure found"
+      },
+      "ecosystem": {
+        "status": "never_filled",
+        "_basis": "no settled valuation standard; D-074"
+      },
+      "mortality": {
+        "status": "gap",
+        "_basis": "no verified national death toll for Spain 2026; the 2025 analog is eight, counted"
+      }
+    },
+    "counted_components": 1,
+    "gap_components": 8,
+    "floor_total_low": 1723,
+    "floor_total_high": 3275,
+    "floor_currency": "EUR",
+    "floor_scale": "million",
+    "_floor_total_note": "One component of ten is counted. The floor is the response-cost line alone, and it is already larger than the entire estimated damage of any comparable Mediterranean fire event on record. That is the finding, and it holds precisely because the other nine are visibly empty rather than quietly assumed to be zero."
   }
 }

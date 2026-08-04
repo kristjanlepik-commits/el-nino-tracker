@@ -1,0 +1,173 @@
+{
+  "_readme": "Baseline drift only: how far the 1961-1990 to 1991-2020 normal moved, per region. This is claim B in Heat's decomposition. It is NOT a current anomaly and NOT a ranking of any recent month; those need a different series. Do not add this number to an ERA5 anomaly to produce a counterfactual, which would be arithmetic across sources.",
+  "source": "Berkeley Earth, Complete_{TMIN,TMAX}_LatLong1.nc, 1 degree",
+  "source_note": "The 1 degree grids are no longer updated (TMIN dated 2025-01-10, TMAX 2024-10-17; data runs to 2024.79). That is irrelevant to this file: both baselines are closed historical periods and can never change, so this product is permanently adequate for drift and permanently unable to support a current-year claim.",
+  "baselines": {
+    "early": "1961-1990",
+    "current": "1991-2020"
+  },
+  "units": "degrees Celsius",
+  "computed": "2026-08-04T07:12:41Z",
+  "regions": {
+    "iberia": {
+      "box": {
+        "lat": [
+          36,
+          44
+        ],
+        "lon": [
+          -9,
+          3
+        ]
+      },
+      "tmin_annual": {
+        "drift_c": 0.7,
+        "early_anom_c": 0.167,
+        "current_anom_c": 0.868,
+        "months_early": 360,
+        "months_current": 360
+      },
+      "tmin_july": {
+        "drift_c": 0.939,
+        "early_anom_c": 0.285,
+        "current_anom_c": 1.224,
+        "months_early": 30,
+        "months_current": 30
+      },
+      "tmax_annual": {
+        "drift_c": 0.963,
+        "early_anom_c": 0.22,
+        "current_anom_c": 1.183,
+        "months_early": 360,
+        "months_current": 360
+      },
+      "tmax_july": {
+        "drift_c": 0.97,
+        "early_anom_c": 0.298,
+        "current_anom_c": 1.268,
+        "months_early": 30,
+        "months_current": 30
+      }
+    },
+    "italy_c_med": {
+      "box": {
+        "lat": [
+          37,
+          46
+        ],
+        "lon": [
+          7,
+          18
+        ]
+      },
+      "tmin_annual": {
+        "drift_c": 0.862,
+        "early_anom_c": 0.062,
+        "current_anom_c": 0.923,
+        "months_early": 360,
+        "months_current": 360
+      },
+      "tmin_july": {
+        "drift_c": 1.273,
+        "early_anom_c": 0.209,
+        "current_anom_c": 1.483,
+        "months_early": 30,
+        "months_current": 30
+      },
+      "tmax_annual": {
+        "drift_c": 1.064,
+        "early_anom_c": 0.08,
+        "current_anom_c": 1.143,
+        "months_early": 360,
+        "months_current": 360
+      },
+      "tmax_july": {
+        "drift_c": 1.359,
+        "early_anom_c": 0.225,
+        "current_anom_c": 1.585,
+        "months_early": 30,
+        "months_current": 30
+      }
+    },
+    "us_southwest": {
+      "box": {
+        "lat": [
+          31,
+          40
+        ],
+        "lon": [
+          -120,
+          -108
+        ]
+      },
+      "tmin_annual": {
+        "drift_c": 0.651,
+        "early_anom_c": 0.117,
+        "current_anom_c": 0.768,
+        "months_early": 360,
+        "months_current": 360
+      },
+      "tmin_july": {
+        "drift_c": 0.533,
+        "early_anom_c": -0.04,
+        "current_anom_c": 0.492,
+        "months_early": 30,
+        "months_current": 30
+      },
+      "tmax_annual": {
+        "drift_c": 0.81,
+        "early_anom_c": -0.072,
+        "current_anom_c": 0.738,
+        "months_early": 360,
+        "months_current": 360
+      },
+      "tmax_july": {
+        "drift_c": 0.596,
+        "early_anom_c": -0.199,
+        "current_anom_c": 0.398,
+        "months_early": 30,
+        "months_current": 30
+      }
+    },
+    "us_pacific_nw": {
+      "box": {
+        "lat": [
+          42,
+          49
+        ],
+        "lon": [
+          -125,
+          -116
+        ]
+      },
+      "tmin_annual": {
+        "drift_c": 0.568,
+        "early_anom_c": 0.121,
+        "current_anom_c": 0.688,
+        "months_early": 360,
+        "months_current": 360
+      },
+      "tmin_july": {
+        "drift_c": 1.051,
+        "early_anom_c": 0.083,
+        "current_anom_c": 1.134,
+        "months_early": 30,
+        "months_current": 30
+      },
+      "tmax_annual": {
+        "drift_c": 0.623,
+        "early_anom_c": 0.028,
+        "current_anom_c": 0.651,
+        "months_early": 360,
+        "months_current": 360
+      },
+      "tmax_july": {
+        "drift_c": 1.058,
+        "early_anom_c": -0.332,
+        "current_anom_c": 0.725,
+        "months_early": 30,
+        "months_current": 30
+      }
+    }
+  }
+}

@@ -98,6 +98,19 @@ described as load-bearing.
 degrees from the city cell centre, excluding cells more than 50 percent
 water on ERA5's land-sea mask. Simple mean, unweighted.
 
+**Ambiguity resolved 2026-08-04, before the analysis ran.** "Degrees"
+did not say degrees of what, and the two readings are not equivalent.
+In coordinate space a longitude degree shrinks with latitude, so
+Liverpool at 53N would get a ring roughly 40 percent narrower on the
+ground than Naples at 41N, and the ring would silently mean a different
+thing per city. Resolved to **great-circle angular distance**, so the
+annulus is a true 83 to 167 km ring everywhere and is comparable across
+the set.
+
+This resolves an ambiguity rather than moving a fixed value, and it was
+resolved before any result was computed. Recorded because a freeze that
+tolerates silent interpretation is not a freeze.
+
 **A limitation with a known direction, recorded because it changes how
 a clean result should be read.** The ring is not screened for suburban
 growth. If ring cells have themselves urbanised, city-minus-ring
@@ -524,7 +537,330 @@ genuinely resumable rather than merely restartable, a **duration**-based
 wake lock covering the whole window, and a `.running-jobs` line before
 it starts. Platform is told first, since CDS quota is per account.
 
-## 6. The open question that now gates the drift claim
+## 5c. D-068's open risk is CLOSED, and a constraint follows from it
+
+D-068 logged an open risk: if the observational products offered no
+usable night minima, the published drift would be in mean temperature
+while Heat leads with nights, so the page's two claims would differ in
+variable as well as instrument.
+
+**Closed favourably, 2026-08-03.** Berkeley Earth publishes land-only
+**TMAX and TMIN as separate gridded products**, 1 degree, NetCDF, about
+158 and 157 MB, monthly averages of daily extremes. Found independently
+by Heat and platform within an hour of each other.
+
+**CORRECTION, same day, and it is the same error twice.** This section
+first read "1833 to present". That is true of the product family and
+false of the file we would download. Platform measured the S3 headers:
+`Complete_TMIN_LatLong1.nc` last modified 2025-01-10 and
+`Complete_TMAX_LatLong1.nc` 2024-10-17, 19 and 22 months stale, because
+the 1 degree products were retired in Q2 2025 in favour of 0.25 degree
+products available by request only.
+
+Both platform and Heat asserted currency from the dataset description
+rather than from the artifact. **This is precisely the trap Heat
+recorded this morning at 3a**, where the Iberia defect is documented on
+the ERA5 page and absent from the ERA5-Land page that inherits it:
+reading the documentation for the product rather than checking the
+product. Recorded twice in one day, by two chats, on two datasets.
+
+So the drift claim is computed on TMIN and both halves of the page are
+about daily minimum temperature. Platform's false-continuity problem
+does not disappear, since the instruments still differ, but it shrinks
+from "two different quantities that both read as degrees" to "one
+quantity measured two ways", and their labelling requirement gets
+cheaper rather than being dropped.
+
+### The constraint this creates, and it binds publication
+
+**The six-hour night-window construction in 1b-ii is TEST-ONLY and
+never publishes.**
+
+A minimum over six selected hours is necessarily warmer than a true
+daily minimum, because it is a minimum over a subset, and the gap
+widens on days when the low falls outside the window. That bias is
+harmless inside the test, where city and ring share the window and it
+cancels in the difference. It would **not** be harmless sitting beside
+a Berkeley monthly mean of true daily minima, because there is nothing
+for it to cancel against.
+
+Therefore every published ERA5 night-minima anomaly comes from the
+derived daily-statistics product at true daily minimum, which section
+5b shows is affordable at the one-to-two-year chunk size for a small
+number of reader-facing cities. The raw six-hour product serves the
+77-year differential test and nothing else.
+
+Stated to platform 2026-08-03 as a constraint on Heat rather than a
+preference, so it is not quietly relaxed later under deadline.
+
+### An open proposal, not yet accepted
+
+Berkeley publishes TMAX on the same terms. Since the page's spine is
+night minima against daytime maxima, pulling both would let the drift
+line carry the same tension: how far the night normal has moved against
+how far the day normal has moved, on a 190-year record. Measured,
+arithmetic rather than attribution, and not something published for a
+general audience as far as Heat is aware.
+
+**Deliberately not stating an expected direction here.** It has not
+been measured, and today produced two separate cases of a number being
+formatted before it was checked.
+
+**Platform accepted it 2026-08-03 with a precise caution: they are
+giving Heat the data, not the claim.** The verification is Heat's and
+is not inside their S. Written down here before their numbers arrive,
+for the same reason the D-049 threshold was fixed before its pull.
+
+### 5c-i. Pre-registered verification of the night-versus-day drift differential
+
+Fixed before any value is seen. A differential that comes out the
+interesting way is exactly the shape that gets published fastest, which
+is why the checks are written first.
+
+**Check 1, station coverage parity. Rated highest, and platform's
+catch.** Berkeley's TMIN and TMAX grids need not rest on the same
+stations. If TMIN coverage over 1961-1990 is thinner than TMAX in a
+region, a night-versus-day differential partly measures which stations
+reported what, not which warmed more. **This is Fire's 5.2x in a new
+costume**: an arithmetically correct number whose coverage is the lie.
+Check the per-cell station count or uncertainty field in both files
+over the baseline windows before computing anything.
+
+**Check 2, baseline-pair sensitivity.** Recompute against an alternative
+pair, 1951-1980 against 1991-2020. Sign and rough magnitude must hold.
+
+**Check 3, region-cut sensitivity.** Recompute on shifted and enlarged
+boxes. A differential that depends on where a box edge falls is a box
+artifact.
+
+**The bar, set now rather than after.** The differential publishes only
+if it exceeds the stated uncertainty envelope of both fields in the
+same region **and** holds its sign under checks 2 and 3. No arbitrary
+threshold is invented here, because the data carries its own.
+
+**If it fails, that is a result and not a dead end.** "Night and day
+normals have moved by indistinguishable amounts in this region" is a
+measured null under D-050, in a domain where the assumption runs the
+other way, and it is publishable on the same terms as the crops null.
+
+**Also required before publication, and it is a page-level issue rather
+than a data one:** drift regions and anomaly regions are different
+geographies. The ERA5 anomaly boxes stop at 115W and do not reach the
+US Pacific Northwest, which the drift boxes cover. A reader seeing both
+on one page would reasonably assume they are the same area. Platform is
+carrying this to design alongside the two-month publication lag.
+
+## 5d. Claim B delivered by platform, 2026-08-04 (`91bdc6b`)
+
+`climatology/build_drift.py` -> `climatology/data/drift.json`. Berkeley
+Earth 1 degree, land-fraction masked, both baselines complete at 360 of
+360 months.
+
+Baseline shift, 1961-1990 to 1991-2020, degrees C:
+
+| region | TMIN | TMAX |
+|---|---|---|
+| iberia | +0.70 | +0.96 |
+| italy_c_med | +0.86 | +1.06 |
+| us_southwest | +0.65 | +0.81 |
+| us_pacific_nw | +0.57 | +0.62 |
+
+**Second correction to the currency claim.** The file starts at
+**1850**, not 1833. The product description is wrong at both ends and
+platform measured the artifact. Third instance in two days of
+documentation disagreeing with the file it describes.
+
+### 5d-i. The result, recorded without an explanation
+
+**TMAX drift exceeds TMIN drift in all four regions**, by 0.05 to 0.26.
+The day normal has moved further than the night normal, which is the
+opposite of the common expectation that nights warm faster.
+
+Platform declined to offer an explanation with the numbers. **Heat
+declines to construct one here**, and the discipline is the same one
+that has already paid twice in two days: an explanation invented before
+the checks in 5c-i are run would be a rationalisation dressed as a
+finding, and a counterintuitive result is exactly what gets published
+fastest.
+
+Consistency across four boxes on two continents makes a coding error
+less likely. It does not make the number right, and it does not make it
+publishable. What it is, for now, is **computed and not verified**, and
+that distinction travels with it.
+
+**A limitation on one of the pre-registered checks.** The ERA5 pull
+running now samples **night hours only**, so it can reproduce a TMIN
+drift and **cannot** test the day-versus-night differential at all.
+Confirming platform's result in ERA5 needs daytime hours, which were
+never pulled.
+
+The affordable form, not yet run: **July only, both baseline decades,
+EU box**, which is roughly six to eight chunks rather than another 96.
+July is the month the heat claim is about, so a targeted check answers
+the question that matters without a second full pull.
+
+### 5d-ii. Corrections from platform, `cb74dc0`, and one error of Heat's
+
+**Use `tmin_july`, never the annual figure.** The first `drift.json`
+shipped an all-month mean. Heat's sentence is about July nights, and the
+two differ by up to **0.48 C**, roughly twice the agreement threshold in
+5e, and in the US Southwest they move in **opposite directions**
+(-0.12). A July sentence quoting the annual figure would have been
+wrong by more than the test designed to catch it. Both windows are now
+emitted.
+
+Berkeley TMIN, July, 1961-1990 to 1991-2020: Iberia **+0.94**, Italy
+and central Mediterranean **+1.27**, US Southwest **+0.53**, US Pacific
+Northwest **+1.05**.
+
+**The day-versus-night differential is an annual signal and is not
+distinguishable from noise in July.** TMAX minus TMIN drift falls from
+0.06-0.26 annually to **0.01-0.09** in July, against a sampling spread
+on each July estimate of roughly 0.20 to 0.43. Found independently by
+platform and by Heat within the same hour, from the same file.
+
+**No uncertainty field exists.** Berkeley's gridded file carries only
+`land_mask`, `temperature` and `climatology`. The absolute 0.25 C
+threshold in 5e therefore stands unchallenged rather than tightened.
+
+**And platform's sampling SE is the wrong quantity for the agreement
+test, which they said rather than handing over a number that would be
+misused.** Berkeley and ERA5 observe *the same thirty Julys*, so
+interannual variability is common to both rather than independent noise:
+the same hot summers sit in both records. Their disagreement is
+instrument disagreement, not sampling, so the SE does not bound the
+expected gap and must not be used to widen 5e. What it does establish
+usefully is that the July drift is 2.5 to 5.5 times its own sampling
+error, weakest in the US Southwest. **The signal is well determined
+even where the differential is not.**
+
+**Heat's error, and it is the one with a cost attached.** Heat told
+product the night-versus-day spine "needs no extra pull because max and
+min come from the same hourly field". That was true of a 24-hour pull.
+The pull was then narrowed to six night hours for cost (1b-ii), which
+**broke that assurance**, and neither the amendment nor the message to
+product noticed. Product ratified the spine partly on it.
+
+Consequence: the page spine has **no data**, and a daytime pull is
+required. Platform's advice not to spend a July TMAX pull chasing a
+drift differential is correct and does not cover this: **the spine is an
+anomaly comparison, not a drift comparison.** Whether this July's nights
+are unusual in a way its days are not is a different question from
+whether the night normal moved further than the day normal since 1961,
+and only the second is answered above.
+
+Scope, to be sized rather than assumed: daytime hours for a 1991-2020
+climatology plus the current period, summer months only, both boxes.
+
+## 5e. Cross-validation of ERA5 against Berkeley: thresholds fixed BEFORE the comparison
+
+Platform's reminder is correct and is the reason this section exists
+ahead of any number: otherwise "within uncertainty" becomes whatever
+the comparison turns out to be.
+
+**Agreement rule.** For a region, ERA5's own 1961-1990 to 1991-2020
+night-minima shift agrees with Berkeley's TMIN shift if the two differ
+by **0.25 degrees C or less** and carry the same sign.
+
+Set as an absolute rather than from Berkeley's published uncertainty
+because that uncertainty is not yet in hand; if platform supplies it,
+**the tighter of the two applies**, so this cannot be used to widen the
+bar later. The scale is chosen from the claim it gates: regional July
+night minima have an interannual spread of order 1 degree C, so 0.25 is
+about a quarter of a standard deviation, enough to move a ranking near
+a boundary and not enough to overturn a wide margin.
+
+**A region that agrees** has its ERA5 1961-1990 baseline demonstrated
+fit, and claim C may be computed inside ERA5 for it as single-source
+Measured. **A region that disagrees** does not publish claim C, and the
+disagreement is itself a measurement of reanalysis inhomogeneity.
+
+### 5e-i. Directional prediction, stated before the result
+
+Not merely "they might differ". If ERA5's 1961-1990 is cold-biased as
+section 3 argues, then **ERA5's shift will EXCEED Berkeley's**, because
+a cold early baseline inflates the drift computed against it. And the
+excess should be **larger in Iberia than elsewhere**, because the 1978
+snow defect is Iberian.
+
+If instead ERA5's shift comes out **smaller** than Berkeley's, the
+contamination hypothesis is wrong in direction, and that will be
+reported as such rather than reinterpreted.
+
+### 5e-ii. "Independent" is overstated, and it weakens a pass, not a fail
+
+Platform's correction, accepted. Berkeley is station-based and ERA5
+assimilates observations including station data, so over land before
+1979 both lean on overlapping archives. **Agreement may therefore
+reflect shared inputs rather than mutual confirmation, and is weaker
+evidence than the word independent implies.** Disagreement remains
+strong, since it would show one product's processing doing something
+the other's does not.
+
+The exception matters and is the case being tested: the 1978 Iberian
+snow error is an **ERA5 assimilation artifact**, so Berkeley is
+genuinely independent of that specific fault even where it is not
+independent in general. Iberia is where this test keeps its force.
+
+## 6. RESOLVED as D-068, and the claim decomposition that replaced it
+
+**The question below was answered on 2026-08-03 and is kept for the
+reasoning.** Kristjan ratified platform's third option as D-068: the
+single-source constraint is per claim, not per channel, and the shared
+service computes drift from a homogenised observational series.
+
+**The two-sentence form in `research/brief_drift_instrument.md` was
+muddled, found by platform after ratification.** It read "the normal
+itself has moved: for this region, July 2026 against 1961-1990 would
+have been the hottest on record", which is two claims wearing one
+sentence. The correct decomposition is three:
+
+- **A, anomaly.** July 2026 nights against 1991-2020, from ERA5.
+  Single-source. Depends on nothing external.
+- **B, baseline shift.** The 1961-1990 to 1991-2020 night normal moved
+  +X, from Berkeley TMIN. Single-source, and **permanently computable**,
+  because closed historical periods cannot go stale in a frozen file.
+- **C, counterfactual ranking.** July 2026 placed inside the 1961-1990
+  distribution. Needs a current value in the same series as the
+  distribution.
+
+**Only C is at risk.** A and B are both clean and were tangled together
+in the ratified wording.
+
+### 6a. The new open question: can C be published at all?
+
+Berkeley's 1 degree files are frozen (5c), so C cannot be computed
+inside Berkeley. HadCRUT5 is current but 5 degrees and mean-only, so it
+carries neither the variable nor the resolution. Neither source gives
+current **and** night minima in one series.
+
+**Heat's proposal, with platform, and it needs Kristjan because D-068
+was ratified partly on the assurance that this stays Measured:**
+compute C entirely inside ERA5, which holds both 1961-1990 and July
+2026, and use Berkeley's B as an **independent validation of ERA5's own
+B, per region**. Agreement within uncertainty demonstrates ERA5's
+1961-1990 fit for that region and C publishes as single-source
+Measured. Disagreement means C does not publish there, and the
+reanalysis inhomogeneity has been measured rather than feared.
+
+This is instrument cross-validation, not arithmetic across sources. The
+published number never leaves ERA5; Berkeley decides whether it is
+trusted. D-033 tests whether the number handed to a reader is
+arithmetic across sources, and under this route it is not.
+
+**Testable on the pull running tonight**, which covers 1950-2026 for
+both boxes. The six-hour construction is adequate for this despite
+being test-only, for the same reason it is adequate for the D-049 test:
+a shift is a difference, so the warm bias sits in both periods and
+largely cancels. The residual is checkable against the derived product
+on a sample of years and will be checked rather than asserted.
+
+**Pre-registered expectation, stated before the result:** Iberia should
+fail this validation and other regions should pass, because the 1978
+snow defect is Iberian. If Iberia passes too, that is evidence the
+concern was overstated and it will be reported as such.
+
+## 6b. Superseded: the question as it stood before D-068
 
 Platform and product converged on the same point from opposite
 directions, which is worth recording as evidence rather than
