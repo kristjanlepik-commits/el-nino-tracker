@@ -99,8 +99,9 @@ TAG_SLUG = {"enso": "loaded", "non_enso": "notlink", "pending": "pending"}
 
 def _word(n: int) -> str:
     """Small numbers spelled out, because this one sits in prose."""
-    return {2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
-            7: "seven", 8: "eight", 9: "nine", 10: "ten"}.get(n, str(n))
+    return {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+            7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
+            12: "twelve"}.get(n, str(n))
 
 
 def _and(names) -> str:
@@ -304,9 +305,18 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # cannot separate Chad's 8-against-3 from Suriname's 2-against-1.
     # The count floor is what actually works, because every noise case
     # has the same shape: 0 to 1, or 1 to 2.
+    # `selected_for_display`, not `notable`. CRO renamed it because the
+    # old name invited exactly the misreading it produced twice: a field
+    # called notable reads as a finding, when all it was ever tested to
+    # do is decide which countries to show and in what order. The COUNT
+    # of selected places is not a finding; each individual entry is.
+    # `notable` is emitted alongside until 2026-08-14, so the fallback
+    # is a dated bridge and not a permanent double-read.
     clusters = [(pl["place"], pl["chance_baseline"], pl.get("crop_units"))
                 for pl in places
-                if (pl.get("chance_baseline") or {}).get("notable")]
+                if (pl.get("chance_baseline") or {}).get(
+                    "selected_for_display",
+                    (pl.get("chance_baseline") or {}).get("notable"))]
     clusters.sort(key=lambda t: -(t[1].get("excess_share") or 0))
 
 
@@ -331,12 +341,16 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     agg = doc.get("chance_baseline_aggregate") or {}
     verdict = ""
     if agg.get("recent_years_counted"):
+        # The RANKING moved to the lede, so this stops restating it and
+        # gives the distribution behind it instead: claim up top,
+        # receipt down here. Restating it in both places would be the
+        # adjacent-duplication editor rules against, just spread over a
+        # page.
         verdict = (
-            f" Against its own recent history this count is higher than "
-            f"all but {agg['recent_years_counted'] - agg['recent_years_below_this']} "
-            f"of the last {agg['recent_years_counted']} years, on a mean of "
-            f"{agg['recent_mean']:g} and a range of {agg['recent_min']} to "
-            f"{agg['recent_max']}, counted over the same places shown here.")
+            f" The last {agg['recent_years_counted']} years of this dekad "
+            f"averaged {agg['recent_mean']:g} and ranged from "
+            f"{agg['recent_min']} to {agg['recent_max']}, counted over the "
+            f"same places shown here.")
 
     # ONE scale, not two. The whole-countries row was 1 observed against
     # about 5 expected, which is noise, and showing a second granularity
@@ -425,30 +439,57 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
                     f"{lcu} crop regions are at a record low. "
                     f"{_word(lcb['recent_max']).capitalize()} was the "
                     f"previous worst.")
+        # BOTH halves, because both are true and each alone misleads.
+        # Sudan's 3 really does beat its previous 2, so calling the five
+        # noise understates Sudan; and six countries clearing their own
+        # maximum is the 57th percentile of the last 35 dekads, so
+        # "flagged, and the rest ordinary" overstates the set. CRO's
+        # correction, and the finer version of what I had proposed.
         others = len(clusters) - 1
         if others == 1:
-            flagged = "One other country is flagged this week."
+            flagged = ("One other country also passed its own previous "
+                       "worst, which is a normal number in any given week.")
         elif others:
-            flagged = (f"{_word(others).capitalize()} other countries are "
-                       f"flagged this week.")
+            flagged = (f"{_word(others).capitalize()} other countries also "
+                       f"passed their own previous worst, which is a normal "
+                       f"number in any given week.")
         else:
-            flagged = "No other country is flagged this week."
-        opening = (f"{flagged} For the rest of the {len(places)} we track, "
-                   f"conditions are ordinary. ")
+            flagged = ("No other country passed its own previous worst, "
+                       "which is within the normal range for a week.")
+        opening = flagged + " "
     else:
         headline = (f"No country has more cropland at a record low than "
                     f"its own recent history explains.")
-        opening = f"Across the {len(places)} we track, conditions are ordinary. "
+        opening = (f"No country passed its own previous worst, which is "
+                   f"within the normal range for a week. ")
 
+    # NO ADJECTIVE, in either direction. This said "Globally that is an
+    # ordinary week", and 81 against a typical 59 is the 83rd percentile,
+    # higher than ten of the last twelve years. Not ordinary.
+    #
+    # Worth keeping the whole swing on the record: the page called an
+    # ordinary number a finding, was corrected, and then called an
+    # elevated number ordinary, on the SAME figure, one revision apart.
+    # "Ordinary" is a claim and needs the same evidence as "alarming".
+    # CRO raised this against the direction they had themselves pushed,
+    # which is the only reason it was caught rather than compounded.
+    #
+    # So the ranking carries it and no word grades it, the same rule as
+    # the footer verdict line.
+    n_below = agg.get("recent_years_below_this")
+    n_years = agg.get("recent_years_counted")
+    rank_clause = ""
+    if n_below is not None and n_years:
+        rank_clause = (f", higher than all but {_word(n_years - n_below)} "
+                       f"of the last {_word(n_years)} years")
     lede = opening + (
         f"{len(hits)} crop regions worldwide are at their worst on record "
         # No decimal on an average of counts. 59.2 reads more precise
         # than a mean of twelve integers is, and the extra digit buys a
         # reader nothing in a lede.
         f"for this point in the season, against a typical "
-        f"{agg.get('recent_mean', 0):.0f}. Globally that is an ordinary "
-        f"week. What is not ordinary is where they cluster, and that is "
-        f"what this page is about.")
+        f"{agg.get('recent_mean', 0):.0f}{rank_clause}. Where they cluster "
+        f"is what this page is about.")
 
     # WHY THIS PAGE MATTERS NOW, and it is a calendar fact rather than a
     # forecast. A season that has not opened cannot be measured, so the
@@ -465,8 +506,10 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # place, so naming it would point a reader at a country we do not
     # measure.
     def _opens(p):
-        v = p.get("season_opens_dekad")
-        return [] if v is None else (v if isinstance(v, list) else [v])
+        # `season_opens_dekads`, plural and always a list. CRO split the
+        # original field in 1e927a1 because it was typed by its data,
+        # int for one season and list for two, which is a defect.
+        return p.get("season_opens_dekads") or []
 
     # The map plots exactly the set the page calls flagged, built from
     # `clusters` rather than recomputed, so the dots and the list cannot
@@ -480,6 +523,25 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     NOV = 31                      # dekad 31 is 1-10 November
     opening = [p["place"] for p in places
                if any(cur_dk < k <= NOV for k in _opens(p))]
+    # A RENAMED FIELD MUST NOT SILENTLY DELETE A SECTION. This read
+    # `season_opens_dekad`; CRO split it into `season_opens_dekads` and
+    # `next_season_opens_dekad`, and the renderer went on producing a
+    # valid page with the entire seasonal panel missing and no error
+    # anywhere. Nothing we run would have caught it: the HTML is
+    # well-formed, every link resolves, qa_check passes, and the only
+    # symptom is a section that is not there.
+    #
+    # So: if NO place carries the field, that is a payload/renderer
+    # mismatch rather than a dekad in which nothing opens, and it stops
+    # the build. An empty window is legitimate and stays silent; an
+    # empty COLUMN is not.
+    if not any(_opens(p) for p in places):
+        raise SystemExit(
+            "no place carries `season_opens_dekads`. Either the field was "
+            "renamed again or the payload lost it. Refusing to render the "
+            "page without the seasonal section rather than dropping it "
+            "silently.")
+
     named = [c for c in ("Spain", "Argentina", "Angola", "Kenya")
              if c in opening][:2]
     season = ""
@@ -691,12 +753,12 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
        about this dekad, sits below the content. -->
   <p class="seclab">How we know 81 is an ordinary number</p>
   {baseline}
-  <p class="note">The expectation rises with the number of units, not
-    with the weather, so any map at this resolution shows dozens of
-    record lows every week. This measurement is of the crop canopy and
-    not of what stressed it: heat, drought, disease and late planting
-    are not separable here, which is why no row on this page names a
-    cause.</p>
+  <!-- The units-versus-weather sentence lives in the chart's own note
+       above and is not repeated here. It was in both, verbatim, two
+       paragraphs apart. -->
+  <p class="note">This measurement is of the crop canopy and not of what
+    stressed it: heat, drought, disease and late planting are not
+    separable here, which is why no row on this page names a cause.</p>
 
   <!-- No truncation here, deliberately. This footer used to slice
        `method` at 90 characters, which cut CRO's 158-character string
