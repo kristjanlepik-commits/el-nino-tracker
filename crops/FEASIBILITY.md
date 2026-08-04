@@ -1147,6 +1147,66 @@ threshold-crossings are always near chance here, and the individual
 extremes are the finding.** That should probably be a standing rule for
 the channel rather than a lesson relearned each time.
 
+### 6s. Is the early-record surplus greening, or the instrument settling?
+
+Product's caution, and it is the right one: the record-low surplus sits
+in 2001 to 2003, which is exactly where a satellite product is least
+like itself. Early calibration, fewer overpasses in a composite, and
+Aqua not joining MODIS until 2002. That is the shape that produced
+Fire's 5.2x EFFIS artifact and the reason D-068 moved Heat's drift claim
+off ERA5.
+
+Three tests, all cheap.
+
+**1. Does the index's dispersion fall after 2003?** A settling instrument
+requires it; greening does not.
+
+| Period | Cross-region sd |
+|---|---|
+| 2001-2003 | 0.718 |
+| 2004-2013 | 0.557 |
+| 2014-2025 | 0.607 |
+| 2026 | **0.771** |
+
+Early dispersion is elevated, 1.18x the recent mean, which is consistent
+with settling. **But it is not monotonic**: 2026 is higher than 2001-2003
+and 2014-2025 exceeds 2004-2013. A settling instrument declines and
+stays down. This looks like year-to-year variation with an early bump,
+not a calibration curve.
+
+**2. Does the gap survive dropping the suspect years?** Rebuilding the
+record from 2004, so ranks are recomputed over 23 years and 2001-2003
+never enter:
+
+| | |
+|---|---|
+| Forced mean, 23-year record | 92.3 |
+| 2004-2013 observed | **115.1** |
+| 2014-2025 observed | **73.1** |
+| Gap | **42.0 regions/year** |
+
+**The gap survives and widens.** The decline is visible inside 2004-2025
+alone, with the suspect period entirely removed. If the early surplus
+were an artifact of instrument settling, deleting those years should
+have collapsed the gap; instead it is larger than the 22.6 measured
+across the full record.
+
+**3. Processing changes.** ASAP's metadata gives the source as Terra and
+Aqua MODIS FPAR, product version V062, which is Collection 6.1. MODIS
+collections are **reprocessed retrospectively across the whole archive**,
+so a version change re-derives the full record rather than creating a
+step inside it. Aqua joining in 2002 is a genuine change in input
+density, and it affects only the first two years, which test 2 removes.
+
+**Conclusion: the drift is probably real, and I will not call it
+greening.** The tests rule out the early-record artifact as the whole
+explanation. They say nothing about the cause. An upward drift in
+cropland FPAR is equally consistent with management intensification,
+irrigation expansion, CO2 fertilisation, cultivar change, or the crop
+mask capturing different land over time. **The measurable claim is that
+the index has drifted upward; naming why would be attribution, and this
+channel does not attribute.**
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
