@@ -108,3 +108,54 @@ Australian wheat ends in November, it is the flagship pair and the only
 one mid-season, and a template landing after October launches the
 flagship retrospectively. That is a real cost of ordering, and it is
 Kristjan's call rather than mine or yours.
+
+## A qualifier lives at the level of the thing it qualifies
+
+**A field that qualifies another must sit at the same level as what it
+qualifies, or say which level it means.** D-081, and this is the
+prescriptive form: it is enforceable only at the moment a field is
+ADDED to a payload, by the person adding it, because that is the only
+moment anyone has the context to know what it qualifies.
+
+Three shapes that satisfy it, all three taken from fixes that stuck:
+
+- **Collapse.** Put value and qualifier in one string a layout decision
+  cannot separate. `statement` reads "lowest of 26 observations for
+  this point in the season, 2001-2026", so a page showing a rank
+  without its basis is then MISSING A FIELD rather than subtly wrong.
+- **Move down.** Put the qualifier beside the claim it supports.
+  `driver` sat on the country while the claim was about a region;
+  677 of 2,122 regions, 32%, have a driver differing from their
+  country's, so a third of rendered rows carried a claim that did not
+  hold there. Namibia is water-driven and Hardap is not, at 0.15
+  against a 0.30 threshold.
+- **Declare.** State the level explicitly rather than leaving it
+  inferred. `_scope` says "reported places only, never the full
+  catalogue", which is what stopped a baseline over 2,166 units being
+  compared against a count over 2,123.
+
+### Do not try to detect this downstream
+
+Platform measured it rather than assuming. Scanning payloads for a
+field name appearing at more than one nesting level, as a proxy for an
+ambiguity site:
+
+    crops/data/stress_current.json    85 fields,  36 at multiple levels
+    data/events.json                  15 fields,   0
+    fires/data/current_week.json     126 fields,   0
+    fires/data/burnt_area.json        63 fields,   0
+
+The 36 are all year keys, 2001 and 2002 at two depths. Data keys, not
+qualifiers. Noise in one payload and silence in three, including the
+two that carried half the known instances.
+
+It fails because **the data was well-formed in every case.** `driver`
+on the country was correct data. A count over rows was a correct count
+of rows. The defect lives at the renderer-to-data seam: a renderer read
+level N and displayed it beside level N+1. That is a property of the
+reading code, not of the data, and a schema check cannot see it because
+both levels are legitimately populated.
+
+So this is a convention for authors and a question for the adversarial
+pass. It is not a check, and a future chat should not spend a day
+rebuilding one.
