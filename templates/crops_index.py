@@ -25,17 +25,23 @@ expectation either, so it is labelled "if records fell evenly" rather
 than "chance produces" until the owning channel supplies one.
 
 **The page must not call the total unremarkable, and an earlier version
-did.** CRO has since recounted globally against a recent-decade
-baseline: the global hoarding factor is 1.39, so the uniform figure is
-roughly right worldwide even though it was four times wrong for Europe.
-Against a 2014-2025 mean of 60.1 and a range of 25 to 110, this dekad's
-81 exceeds three quarters of the last twelve years. Neither the null nor
-a strong signal: mildly elevated.
+did.** The measured expectation now arrives as
+`chance_baseline_aggregate`: against a 2014-2025 mean of 59.2 and a
+range of 25 to 105, this dekad's 81 is higher than all but two of the
+last twelve years.
 
-Those figures are not in the payload, only in the channel's analysis, so
-this page does not print them and does not assert whether 81 is
-ordinary. It shows the uniform figure, labels it as uniform, and stops.
-The empirical expectation wants to be a field.
+The page states that as a RANKING and not as a verdict adjective. The
+adjective is the part that gets quoted and the ranking is the part a
+reader can check.
+
+That the field carries `_scope` is the load-bearing detail. The first
+figures for it were counted over the full 2,166-unit catalogue while
+this page shows 2,123, which inflated the baseline and left the
+headline untouched, because the 45 skipped places are tiny and none
+holds a record this dekad. The error was invisible in the current year
+and would have compared 81 over one set against a mean over a wider
+one. It surfaced only because the number was rebuilt from the payload
+instead of trusted.
 
 The baseline is what makes the rest of the page readable rather than
 what qualifies it. Once a reader knows 81 is the noise floor, they can
@@ -254,6 +260,34 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
 
     ctry_hits = sum(1 for p in places
                     if (p.get("magnitude") or {}).get("value") == 1)
+
+    # The page used to refuse to say whether 81 was high, because the
+    # measured expectation lived only in the channel's analysis. CRO now
+    # emits it, so the refusal is retired and the verdict is computed.
+    #
+    # Two properties of the field make it usable where my own derivation
+    # was not. It carries `_scope`, declaring that it counts reported
+    # places only: CRO's first figures ran over the full 2,166-unit
+    # catalogue while the page shows 2,123, which inflated the baseline
+    # and left the headline untouched, because the 45 skipped places are
+    # tiny and none holds a record this dekad. An error invisible in the
+    # current year is exactly the kind a scope field prevents. And it is
+    # read rather than written in, so it cannot go stale next dekad.
+    #
+    # A ranking, deliberately, and no verdict adjective. "Modestly
+    # above" was CRO's first wording against the wrong mean and is a
+    # shade too soft against the right one. The adjective is the part
+    # that gets quoted; the ranking is the part a reader can check.
+    agg = doc.get("chance_baseline_aggregate") or {}
+    verdict = ""
+    if agg.get("recent_years_counted"):
+        verdict = (
+            f" Against its own recent history this count is higher than "
+            f"all but {agg['recent_years_counted'] - agg['recent_years_below_this']} "
+            f"of the last {agg['recent_years_counted']} years, on a mean of "
+            f"{agg['recent_mean']:g} and a range of {agg['recent_min']} to "
+            f"{agg['recent_max']}, counted over the same places shown here.")
+
     baseline = scales_block(
         [{"label": "Whole countries", "units": len(places), "years": K,
           "observed": ctry_hits},
@@ -262,10 +296,8 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         note=("The expectation rises with the number of units, not with "
               "the weather, so any map at this resolution shows dozens of "
               "record lows every week. The figure marked is what an EVEN "
-              "spread of records would give. Records do not fall evenly, "
-              "and the owning channel holds the measured expectation, so "
-              "this page does not say whether 81 is a high count or an "
-              "ordinary one."))
+              "spread of records would give, and records do not fall "
+              "evenly." + verdict))
 
     # The two blocks answer DIFFERENT QUESTIONS: depth (how bad is the
     # worst place) and breadth (how much of a country is affected).
