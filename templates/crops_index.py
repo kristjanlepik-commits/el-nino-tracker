@@ -540,10 +540,16 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # The map plots exactly the set the page calls flagged, built from
     # `clusters` rather than recomputed, so the dots and the list cannot
     # disagree about who is on it.
+    # Only countries that actually have a page are linked. A dot
+    # pointing at a 404 is worse than a dot that does nothing.
+    from templates.crops_country import slugify as _slug
+    _has_page = {p["place"] for p in places
+                 if any(r.get("rank") == 1 for r in (p.get("regions") or []))}
     world_map = map_block(
         [p["place"] for p in places],
         [(c, c) for c, _, _ in clusters],
-        map_href=root_prefix + "world-map.svg")
+        map_href=root_prefix + "world-map.svg",
+        hrefs={p: _slug(p) + "/" for p in _has_page})
 
     cur_dk = _dekad_index(doc.get("dekad", ""))
     NOV = 31                      # dekad 31 is 1-10 November

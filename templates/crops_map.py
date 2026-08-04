@@ -63,8 +63,17 @@ def _xy(place: str) -> tuple[float, float]:
     return (lon + 180.0) / 360.0 * 100.0, (90.0 - lat) / 180.0 * 100.0
 
 
-def map_block(all_places, lit, map_href: str = "../world-map.svg") -> str:
-    """all_places: every place name measured. lit: [(place, label)] flagged."""
+def map_block(all_places, lit, map_href: str = "../world-map.svg",
+              hrefs: dict | None = None) -> str:
+    """all_places: every place name measured. lit: [(place, label)] flagged.
+
+    `hrefs` maps a place to its country page. The map is the way IN to
+    the country page rather than an end in itself: the global view
+    answers "where is it worst" and the country page answers "how bad is
+    it here", so a dot that cannot be clicked stops the reader halfway
+    through the question. Places without a page stay unlinked rather
+    than pointing at a 404.
+    """
     missing = sorted(set(all_places) - set(CENTROIDS))
     if missing:
         # Loudly, at build time. A country quietly absent from this map
@@ -78,18 +87,29 @@ def map_block(all_places, lit, map_href: str = "../world-map.svg") -> str:
     dots = []
     # The denominator first, underneath: every place we watch. Without
     # it six dots read as a broken map rather than as a quiet week.
+    hrefs = hrefs or {}
     for p in sorted(all_places):
         if p in lit_names:
             continue
         left, top = _xy(p)
-        dots.append(f'<span class="cm-q" style="left:{left:.2f}%;'
-                    f'top:{top:.2f}%"></span>')
+        style = f'left:{left:.2f}%;top:{top:.2f}%'
+        if hrefs.get(p):
+            dots.append(f'<a class="cm-q cm-a" style="{style}" '
+                        f'href="{h(hrefs[p])}" aria-label="{h(p)}, within '
+                        f'its own normal range"></a>')
+        else:
+            dots.append(f'<span class="cm-q" style="{style}"></span>')
     for p, label in sorted(lit, key=lambda t: t[0]):
         left, top = _xy(p)
-        dots.append(
-            f'<span class="cm-l" style="left:{left:.2f}%;top:{top:.2f}%">'
-            f'<span class="cm-d"></span>'
-            f'<span class="cm-t">{h(label)}</span></span>')
+        style = f'left:{left:.2f}%;top:{top:.2f}%'
+        inner = (f'<span class="cm-d"></span>'
+                 f'<span class="cm-t">{h(label)}</span>')
+        if hrefs.get(p):
+            dots.append(f'<a class="cm-l" style="{style}" '
+                        f'href="{h(hrefs[p])}" aria-label="{h(p)}, above its '
+                        f'own recent maximum">{inner}</a>')
+        else:
+            dots.append(f'<span class="cm-l" style="{style}">{inner}</span>')
 
     n_lit, n_all = len(lit), len(all_places)
     return (
@@ -114,7 +134,14 @@ CROPS_MAP_CSS = f"""
    failed to load rather than as a quiet week. */
 .cm-q {{ position:absolute; width:4px; height:4px; margin:-2px 0 0 -2px;
   border-radius:50%; background:var(--ink-faint); opacity:.42; }}
-.cm-l {{ position:absolute; margin:-5px 0 0 -5px; }}
+/* A linked quiet dot gets a larger invisible hit area, because 4px is
+   below any reasonable touch target and the dot itself must not grow:
+   its size is carrying "this country is fine". */
+.cm-a {{ box-shadow:0 0 0 7px transparent; }}
+.cm-a:hover, .cm-a:focus {{ opacity:1; background:var(--ink); }}
+.cm-l {{ position:absolute; margin:-5px 0 0 -5px; text-decoration:none; }}
+.cm-l:focus-visible .cm-d, .cm-a:focus-visible {{
+  outline:2px solid var(--crop); outline-offset:3px; }}
 /* Ring outside the radius, never a stroke on it, so the mark's size
    still carries its meaning (D-023/D-026 applied to a map dot). */
 .cm-d {{ display:block; width:10px; height:10px; border-radius:50%;
