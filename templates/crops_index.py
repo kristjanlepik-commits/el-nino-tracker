@@ -96,6 +96,31 @@ TAG_SLUG = {"enso": "loaded", "non_enso": "notlink", "pending": "pending"}
 
 
 
+def _word(n: int) -> str:
+    """Small numbers spelled out, because this one sits in prose."""
+    return {2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+            7: "seven", 8: "eight", 9: "nine", 10: "ten"}.get(n, str(n))
+
+
+def _and(names) -> str:
+    return names[0] if len(names) == 1 else " and ".join(names)
+
+
+def _dekad_index(iso: str) -> int:
+    """ISO date to dekad of 36, where dekad 1 is 1-10 January.
+
+    The payload's season field is a dekad index and its date is an ISO
+    string, so something has to convert. Doing it here keeps the page
+    from comparing a date against an index, which is the "quantity used
+    as a different kind of quantity" error this channel keeps hitting.
+    """
+    try:
+        y, m, d = (int(x) for x in iso.split("-"))
+    except (ValueError, AttributeError):
+        return 0
+    return (m - 1) * 3 + min((d - 1) // 10, 2) + 1
+
+
 def _driver_note(e) -> str:
     """What `driver` actually licenses, in the present tense of habit.
 
@@ -375,6 +400,43 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         f"week. What is not ordinary is where they cluster, and that is "
         f"what this page is about.")
 
+    # WHY THIS PAGE MATTERS NOW, and it is a calendar fact rather than a
+    # forecast. A season that has not opened cannot be measured, so the
+    # countries about to open are the ones this page is about to start
+    # saying something about.
+    #
+    # Counted over the 123 places this page reports, never the 136-country
+    # catalogue. Product's brief said "31 countries, a third of everything
+    # we cover"; 31 is the catalogue figure and the page's own is 25, and
+    # 31/136 is 23% rather than a third. Third instance today of a count
+    # taken over a wider set than the page shows, so it is computed here
+    # from `places` and the named examples are filtered to places that
+    # actually appear. Portugal opens in this window and is NOT a reported
+    # place, so naming it would point a reader at a country we do not
+    # measure.
+    def _opens(p):
+        v = p.get("season_opens_dekad")
+        return [] if v is None else (v if isinstance(v, list) else [v])
+
+    cur_dk = _dekad_index(doc.get("dekad", ""))
+    NOV = 31                      # dekad 31 is 1-10 November
+    opening = [p["place"] for p in places
+               if any(cur_dk < k <= NOV for k in _opens(p))]
+    named = [c for c in ("Spain", "Argentina", "Angola", "Kenya")
+             if c in opening][:2]
+    season = ""
+    if opening and cur_dk:
+        season = (
+            f"<p class=\"why\">A season that has not opened cannot be "
+            f"measured, so this page says most about countries whose "
+            f"season is starting. {len(opening)} of the {len(places)} "
+            f"countries measured here, about one in "
+            f"{_word(round(len(places) / len(opening)))}, open a growing "
+            f"season "
+            f"between now and early November"
+            + (f", among them {_and(named)}." if named else ".")
+            + " That is a calendar, not a forecast.</p>")
+
     # ONE LIST, GROUPED BY COUNTRY, replacing the two sections that had
     # to be introduced by a sentence explaining neither outranked the
     # other. Needing that sentence was the signal the split was wrong.
@@ -487,6 +549,11 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
    Countries above their own recent maximum take the channel hue on the
    heading only, so the hue marks which countries are unusual without
    colouring every region inside them. */
+/* The reason-to-care line. Sunk rather than boxed, per the no-enclosure
+   rule, and unhued because a calendar fact is not a finding. */
+.why {{ margin:18px 0 0; padding:14px 16px; background:var(--paper-sunk);
+  font-size:14.5px; color:var(--ink-soft); max-width:62ch; }}
+
 .cg {{ margin-top:26px; }}
 .cghead {{ margin:0 0 6px; font-size:16px; font-weight:600;
   padding-bottom:6px; border-bottom:1px solid var(--rule); }}
@@ -539,6 +606,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
   <h1>{len(clusters)} countries have more cropland at a record low than
   their own recent history explains.</h1>
   <p class="stand">{lede}</p>
+  {season}
 
   {grouped_html}
 
