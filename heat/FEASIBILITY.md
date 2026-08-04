@@ -3,12 +3,19 @@
 Owner: Heat chat (HEAT). Born 2026-08-03 from
 `research/handover_heat.md` under D-061.
 
-Status: **NOT YET TESTED.** No data has been pulled. Sections 1 and 2
-are a pre-registration: the test design and the pass/fail rule are
-fixed here so the threshold cannot move once the numbers arrive.
-Section 3 is instrument documentation verified against ECMWF sources.
-Section 5 records the rulings received from platform and product on
-2026-08-03. Nothing below is a measured result.
+Status, 2026-08-04:
+
+- **One output is verified and publishable.** The regional July
+  night-drift claim, from Berkeley Earth. Sections 5d to 5f. It is not
+  gated by the D-049 test and never was, for the reason in 5f.
+- **The D-049 test is running and its verdict is PER CITY.** Gate 0
+  failed for two of five EU cities on power (5h-ii), so the test speaks
+  only where it can. The ERA5 pull is at 163 of 192 chunks.
+- **Sections 1 and 2 remain the pre-registration** and are not revised
+  in light of results. Amendments are dated in place with their reasons;
+  the D-067 thresholds have never moved.
+- **Gate 0's first design was wrong and is kept in 5h** rather than
+  deleted, because the failure is more instructive than the fix.
 
 Crops pre-registered nine pairs before scanning and it is why their
 scan is credible. Fire formatted a 5.2x before checking it and it is
