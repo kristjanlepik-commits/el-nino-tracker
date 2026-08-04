@@ -892,6 +892,73 @@ carrying beyond Heat:** wherever we would otherwise write "this
 instrument corrects for X", recompute with X removed and publish the
 difference instead. An argument becomes a number at no extra cost.
 
+## 5h. Gate 0 returned PASS and the result is not usable. The instrument was mine.
+
+Run 2026-08-04 on the five EU cities, 96 chunks, 77 years.
+
+| city | group | city minus ring | ring land cells |
+|---|---|---|---|
+| Madrid | growth | +1.141 | 111 |
+| Munich | growth | +2.635 | 127 |
+| Leipzig | flat | +0.886 | 138 |
+| Liverpool | flat | +1.982 | 96 |
+| Naples | flat | +6.444 | 55 |
+
+The script printed PASS. **The result does not support the conclusion the
+script drew, and the fault is in the check rather than in the data.**
+
+**The magnitudes are impossible as urban heat islands.** At 31 km a city
+occupies a fraction of one cell, and ERA5 has no urban tile. Naples at
++6.4 C and Munich at +2.6 C are not cities.
+
+**The ordering is wrong for cities and right for terrain.** Leipzig, a
+real city, has the smallest difference. Naples has seven times it. What
+separates them is topography: Leipzig sits on flat ground so its ring
+lies at its own elevation, while Naples is at sea level with the
+Apennines inside its ring, Munich is on a plain with the Alps in its
+ring, and Liverpool has the Pennines and Welsh uplands in its. Higher
+ground is colder, so city-minus-ring is measuring **altitude**.
+
+Naples' ring is also only 55 land cells against Leipzig's 138, because
+half of it is sea, so what remains is disproportionately mountain.
+
+**So gate 0 passed while failing at its own purpose.** It exists to
+establish whether ERA5 can see a city at all, because without that a
+flat trend cannot be told apart from no power. It established that ERA5
+can see mountains. **This is the same defect class Heat has flagged in
+three other chats' work in two days: arithmetically correct, measuring
+the wrong thing. Heat built this one.**
+
+**Heat's pre-registered prediction was that gate 0 would be the
+operative finding. It was, and not in the predicted direction.** The
+prediction was that ERA5 would fail to resolve a city. Instead the check
+could not have detected that either way, because a large topographic
+signal sits on top of whatever urban signal exists.
+
+### What survives
+
+**The trend test probably survives**, because a static elevation offset
+has no trend and cancels in a difference of trends. The D-049 comparison
+is city-minus-ring *trend*, not level. So the contamination does not
+obviously invalidate it.
+
+**But gate 0's job is unmet.** If the trend comes back flat, "no
+urbanisation captured" still cannot be separated from "no city
+resolved", which is exactly the ambiguity the gate existed to remove.
+
+### The fix
+
+Gate 0 must control for elevation. ERA5's surface geopotential gives the
+model orography on the same grid, and it is a small static fetch like the
+land-sea mask. Options, in order of preference: restrict the ring to
+cells within a bounded elevation difference of the city cell; or regress
+the city-minus-ring difference on the elevation difference and read the
+residual.
+
+**The elevation hypothesis is being measured, not asserted.** Orography
+fetch is running. If city-minus-ring temperature does not track
+city-minus-ring elevation, this section is wrong and will be corrected.
+
 ## 5g. The two-band chart, and why a threshold count is riskier than a mean
 
 Product's visualisation proposal, 2026-08-04: per region, every individual
