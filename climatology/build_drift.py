@@ -79,15 +79,41 @@ VARIANTS = {"tmin": "Complete_TMIN_LatLong1.nc",
             "tmax": "Complete_TMAX_LatLong1.nc"}
 
 
+# SEASONAL WINDOWS. The annual figure is NOT the right number for a July
+# claim, and the gap is larger than the tolerance the comparison runs at.
+# Measured on this dataset, July minus annual drift:
+#
+#     iberia        TMIN +0.24   italy +0.41   us_pnw +0.48
+#     us_southwest  TMIN -0.12   (opposite sign)
+#
+# So a July sentence quoting the annual drift would be wrong by up to
+# 0.48 C, roughly twice Heat's 0.25 C agreement threshold, and in the US
+# Southwest it would be wrong in DIRECTION relative to the others. An
+# annual mean answers "how much has this place warmed"; a July claim
+# needs "how much have July nights warmed", and in the Mediterranean and
+# Pacific Northwest those differ substantially.
+#
+# Emitting both, with the seasonal one first, because the failure mode is
+# a downstream consumer reaching for whichever field is present.
+MONTH_WINDOWS = {"annual": None, "july": 7}
+
+
 def _period_mean(da: xr.DataArray, year: xr.DataArray,
-                 weights: xr.DataArray, lo: int, hi: int):
+                 weights: xr.DataArray, lo: int, hi: int,
+                 month: int | None = None):
     """Area-weighted mean anomaly over a closed year range.
 
     cos(latitude) weighting is not optional: a 1 degree cell at 49N has
     about two thirds the area of one at 31N, and an unweighted mean over
     a tall box silently over-counts the poleward end.
     """
-    sel = da.where((year >= lo) & (year <= hi + 0.999), drop=True)
+    mask = (year >= lo) & (year <= hi + 0.999)
+    if month is not None:
+        # Berkeley encodes time as decimal years; month m spans
+        # (m-1)/12 to m/12 within the year.
+        frac = year % 1
+        mask = mask & (frac >= (month - 1) / 12) & (frac < month / 12)
+    sel = da.where(mask, drop=True)
     if sel.time.size == 0:
         return None, 0
     # Mean over time first, then weighted mean over space, so months
@@ -156,29 +182,32 @@ def main() -> int:
             sub = temp.sel(latitude=slice(*la), longitude=slice(*lo_))
             w = weights.sel(latitude=slice(*la), longitude=slice(*lo_))
 
-            early, n_e = _period_mean(sub, year, w, *EARLY)
-            curr, n_c = _period_mean(sub, year, w, *CURRENT)
             row = out["regions"].setdefault(name, {"box": box})
-            if early is None or curr is None:
-                row[variant] = {"error": "no data in one or both periods"}
-                continue
-            row[variant] = {
-                "drift_c": round(curr - early, 3),
-                "early_anom_c": round(early, 3),
-                "current_anom_c": round(curr, 3),
-                "months_early": n_e,
-                "months_current": n_c,
-            }
+            for window, mon in MONTH_WINDOWS.items():
+                early, n_e = _period_mean(sub, year, w, *EARLY, month=mon)
+                curr, n_c = _period_mean(sub, year, w, *CURRENT, month=mon)
+                key = f"{variant}_{window}"
+                if early is None or curr is None:
+                    row[key] = {"error": "no data in one or both periods"}
+                    continue
+                row[key] = {
+                    "drift_c": round(curr - early, 3),
+                    "early_anom_c": round(early, 3),
+                    "current_anom_c": round(curr, 3),
+                    "months_early": n_e,
+                    "months_current": n_c,
+                }
         ds.close()
 
     OUT.write_text(json.dumps(out, indent=2) + "\n")
     print(f"wrote {OUT.relative_to(ROOT)}")
     for name, row in out["regions"].items():
         bits = []
-        for v in ("tmin", "tmax"):
+        for v in ("tmin_july", "tmax_july", "tmin_annual", "tmax_annual"):
             d = row.get(v, {})
-            bits.append(f"{v} {d['drift_c']:+.2f}" if "drift_c" in d else f"{v} n/a")
-        print(f"  {name:16} {'  '.join(bits)}")
+            bits.append(f"{v.split('_')[0]}/{v.split('_')[1][:3]} "
+                        f"{d['drift_c']:+.2f}" if "drift_c" in d else "")
+        print(f"  {name:16} {'  '.join(b for b in bits if b)}")
     return 0
 
 
