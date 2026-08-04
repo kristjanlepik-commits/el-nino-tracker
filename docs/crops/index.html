@@ -201,6 +201,12 @@ h1 { font-size:31px; font-weight:500; line-height:1.18;
 .cctry { font-size:11.5px; color:var(--ink-faint); margin-left:8px;
   font-weight:400; }
 .cclaim { color:var(--ink-soft); font-size:14.5px; }
+/* Habit, not diagnosis. On its own line and faint, so it cannot be read
+   as part of the claim above it: the whole point of splitting it out is
+   that it describes the country over twenty-five years and says nothing
+   about this dekad. */
+.cdriver { display:block; margin-top:3px; color:var(--ink-faint);
+  font-size:12.5px; }
 .tag { font-size:10.5px; letter-spacing:0.04em; padding:3px 8px;
   white-space:nowrap; align-self:center; }
 .tag-loaded { background:var(--tag-loaded-bg); color:var(--tag-loaded-fg); }
@@ -305,10 +311,11 @@ plausible.init()
   <p class="seclab">The worst single regions</p>
   <p class="secsub">Ordered by size of the shortfall rather than by rank,
     because every place here ranks first and they are not equally bad:
-    the top of this list is 6 times
-    the bottom of it. Showing the 20 largest of
-    81. A country reaches this list on one region alone, and
-    can do so while reading as entirely ordinary nationally.</p>
+    the deepest of the 20 below is 2.6 times the
+    shallowest of them, and 5.9 times the shallowest of all
+    81. Showing the 20 largest. A country reaches this
+    list on one region alone, and can do so while reading as entirely
+    ordinary nationally.</p>
   
       <div class="crow">
         <span class="cz">-3.79</span>
@@ -324,7 +331,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Darnah<span class="cctry">
             Libya</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>
@@ -360,7 +367,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Likouala<span class="cctry">
             Congo</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>
@@ -387,7 +394,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Sanliurfa<span class="cctry">
             Türkiye</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>
@@ -396,7 +403,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Irbid<span class="cctry">
             Jordan</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>
@@ -414,7 +421,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Atlantida<span class="cctry">
             Honduras</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>
@@ -423,7 +430,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Jiangsu Sheng<span class="cctry">
             China</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>
@@ -432,7 +439,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Ucayali<span class="cctry">
             Peru</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>
@@ -441,7 +448,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Huambo<span class="cctry">
             Angola</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>
@@ -450,7 +457,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Cairo<span class="cctry">
             Egypt</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>
@@ -486,7 +493,7 @@ plausible.init()
         <span class="cmain">
           <span class="cplace">Mudug<span class="cctry">
             Somalia</span></span>
-          <span class="cclaim">driest on record for this point in the season</span>
+          <span class="cclaim">lowest on record for this point in the season<span class="cdriver">vegetation here usually tracks water availability</span></span>
         </span>
         <span class="tag tag-pending">attribution pending</span>
       </div>

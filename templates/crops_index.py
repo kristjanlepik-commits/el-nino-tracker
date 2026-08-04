@@ -42,12 +42,22 @@ what qualifies it. Once a reader knows 81 is the noise floor, they can
 be shown what sits above it, which is the next section and the only part
 of this page that is news.
 
-## Two grades of sentence, and the weaker one is the common case
+## One grade of sentence, because the field does not license two
 
-In 62 of 123 countries the driver is identified as water, so those can
-be called dry. In the other 61 the honest sentence stops at "below its
-own record" with no driver named. The weaker form is the majority, so it
-is the default and the stronger form is the addition, not the reverse.
+There is ONE grade of sentence: "lowest on record for this point in the
+season". An earlier version promoted rows with driver=water to "driest",
+and that was wrong even though the field was read with perfect fidelity.
+`driver` records a twenty-five year correlation between a COUNTRY's
+vegetation and the water instruments; it does not diagnose this dekad.
+The measurement underneath is FPAR, canopy greenness, which cannot
+separate drought from flooding, pests, late planting or conflict.
+
+Cairo is the case that settles it: rendered as "driest on record" over
+Nile-irrigated cropland, a drought claim about a place whose water does
+not fall from the sky, one line above its own "attribution pending" tag.
+
+The field still says something weaker, and it says it in its own
+sentence: vegetation here usually tracks water availability.
 """
 from __future__ import annotations
 
@@ -76,14 +86,46 @@ def _join_and(names) -> str:
     return ", ".join(names[:-1]) + " and " + names[-1]
 
 
+def _driver_note(e) -> str:
+    """What `driver` actually licenses, in the present tense of habit.
+
+    "Usually tracks" is a statement about the country's twenty-five year
+    correlation, which is what the field measures. It says nothing about
+    this dekad, so it cannot collide with the attribution tag beside it,
+    and it is set faint because it is context rather than the finding.
+    """
+    if e.get("driver") != "water":
+        return ""
+    return ('<span class="cdriver">vegetation here usually tracks water '
+            'availability</span>')
+
+
 def _row(e) -> str:
-    # Two grades of sentence. "Dry" names a driver and is only available
-    # where the channel identified one; everywhere else the sentence
-    # stops at the record. The weaker form is the majority case and is
-    # written as the default rather than as a shortfall.
-    claim = ("driest on record for this point in the season"
-             if e["driver"] == "water" else
-             "lowest on record for this point in the season")
+    # ONE sentence, never two grades. "Driest" was here and is wrong,
+    # and it was wrong even though it was applied with perfect fidelity
+    # to the channel's `driver` field: CRO checked all twenty rows and
+    # found zero mismatches. Reading a field correctly is not the same
+    # as being licensed to say what I said with it.
+    #
+    # driver=water means the country's vegetation anomaly correlated
+    # with the water instruments across 2002-2025. That is a property of
+    # the COUNTRY OVER TWENTY-FIVE YEARS, not a diagnosis of this dekad.
+    # And the measurement is FPAR, canopy greenness: a region can sit at
+    # its lowest on record from flooding, pests, late planting or
+    # conflict. CRO's own qualifier on every place says heat, drought,
+    # disease and late planting are not separable in this instrument.
+    #
+    # Two things made it indefensible rather than merely loose. Cairo
+    # rendered as "driest on record", and Egyptian cropland is
+    # Nile-irrigated, so it read as a drought claim about a place whose
+    # water does not fall from the sky. And every card carries
+    # "attribution pending" directly beneath, so the card contradicted
+    # its own tag one line later.
+    #
+    # The driver field still says something; it just says something
+    # weaker, and it belongs in its own sentence rather than inside the
+    # claim. See `_driver_note`.
+    claim = "lowest on record for this point in the season"
     slug = TAG_SLUG.get(e["attribution"], "pending")
     return f"""
       <div class="crow">
@@ -91,7 +133,7 @@ def _row(e) -> str:
         <span class="cmain">
           <span class="cplace">{h(e['region'])}<span class="cctry">
             {h(e['country'])}</span></span>
-          <span class="cclaim">{h(claim)}</span>
+          <span class="cclaim">{h(claim)}{_driver_note(e)}</span>
         </span>
         <span class="tag tag-{slug}">{h(TAG_TEXT.get(e['attribution'],
                                        TAG_TEXT['pending']))}</span>
@@ -265,6 +307,17 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     #
     # Computed here per dekad and never written in. Both counts move
     # with the data, so a hard-coded pair would go stale silently.
+    # The spread figure must describe the list the reader is LOOKING AT.
+    # It said "the top of this list is 6 times the bottom of it" directly
+    # above twenty rows spanning 2.6x; the 6 was over all 81. Same class
+    # as the framing line that moved with top_n: a figure computed over
+    # one set and presented against another. Both are on the page now,
+    # each named for the set it describes.
+    shown = hits[:top_n]
+    shown_n = len(shown)
+    shown_ratio = abs(shown[0]["z"] / shown[-1]["z"]) if shown_n > 1 else 1.0
+    full_ratio = abs(hits[0]["z"] / hits[-1]["z"]) if len(hits) > 1 else 1.0
+
     broad_names = {c for c, _, _ in clusters}
     deep_countries = {e["country"] for e in hits}
     n_deep_c, n_both = len(deep_countries), len(deep_countries & broad_names)
@@ -344,6 +397,12 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 .cctry {{ font-size:11.5px; color:var(--ink-faint); margin-left:8px;
   font-weight:400; }}
 .cclaim {{ color:var(--ink-soft); font-size:14.5px; }}
+/* Habit, not diagnosis. On its own line and faint, so it cannot be read
+   as part of the claim above it: the whole point of splitting it out is
+   that it describes the country over twenty-five years and says nothing
+   about this dekad. */
+.cdriver {{ display:block; margin-top:3px; color:var(--ink-faint);
+  font-size:12.5px; }}
 .tag {{ font-size:10.5px; letter-spacing:0.04em; padding:3px 8px;
   white-space:nowrap; align-self:center; }}
 .tag-loaded {{ background:var(--tag-loaded-bg); color:var(--tag-loaded-fg); }}
@@ -416,10 +475,11 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
   <p class="seclab">The worst single regions</p>
   <p class="secsub">Ordered by size of the shortfall rather than by rank,
     because every place here ranks first and they are not equally bad:
-    the top of this list is {abs(hits[0]['z'] / hits[-1]['z']):.0f} times
-    the bottom of it. Showing the {min(top_n, len(hits))} largest of
-    {len(hits)}. A country reaches this list on one region alone, and
-    can do so while reading as entirely ordinary nationally.</p>
+    the deepest of the {shown_n} below is {shown_ratio:.1f} times the
+    shallowest of them, and {full_ratio:.1f} times the shallowest of all
+    {len(hits)}. Showing the {shown_n} largest. A country reaches this
+    list on one region alone, and can do so while reading as entirely
+    ordinary nationally.</p>
   {''.join(_row(e) for e in hits[:top_n])}
   <p class="note">The remaining {max(0, len(hits) - top_n)} are shallower
     and shade into the noise floor. A place at the bottom of this list is
