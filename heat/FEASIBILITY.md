@@ -946,18 +946,86 @@ obviously invalidate it.
 urbanisation captured" still cannot be separated from "no city
 resolved", which is exactly the ambiguity the gate existed to remove.
 
-### The fix
+### The hypothesis, measured
 
-Gate 0 must control for elevation. ERA5's surface geopotential gives the
-model orography on the same grid, and it is a small static fetch like the
-land-sea mask. Options, in order of preference: restrict the ring to
-cells within a bounded elevation difference of the city cell; or regress
-the city-minus-ring difference on the elevation difference and read the
-residual.
+Against ERA5 surface geopotential on the same grid:
 
-**The elevation hypothesis is being measured, not asserted.** Orography
-fetch is running. If city-minus-ring temperature does not track
-city-minus-ring elevation, this section is wrong and will be corrected.
+| city | city m | ring m | ring higher by | dT observed | implied lapse |
+|---|---|---|---|---|---|
+| Madrid | 660 | 894 | 235 | +1.14 | 4.9 C/km |
+| Munich | 501 | 921 | 420 | +2.63 | 6.3 C/km |
+| Leipzig | 154 | 274 | 119 | +0.89 | 7.4 C/km |
+| Liverpool | 31 | 160 | 129 | +1.98 | **15.3 C/km** |
+| Naples | 51 | 528 | 477 | +6.44 | **13.5 C/km** |
+
+**r = 0.806** between ring-minus-city elevation and observed temperature
+difference. Confirmed.
+
+**But the regression slope is 11.0 C/km against a free-atmosphere lapse
+rate near 6.5, so elevation is not the only confound.** The residuals
+identify the second one: Madrid, Munich and Leipzig sit near the lapse
+rate; Liverpool and Naples, the two **coastal** cities, are roughly
+double it. The sea holds their night minima up while their rings run
+inland and uphill.
+
+**The level difference is elevation plus maritime moderation. Neither is
+urban, and controlling for one would not fix it.**
+
+### 5h-i. Amendment: gate 0 becomes a power calculation, not a level check
+
+Dated 2026-08-04, **before the trend comparison was run**, and it does
+not touch the D-067 thresholds, which are unchanged.
+
+The level design is confounded by geography in at least two independent
+ways and there is no reason to believe a third does not exist. Adding
+controls one at a time is chasing a list nobody has.
+
+**What gate 0 was always trying to establish is POWER: could the trend
+test detect a contamination of the size that would matter?** That is
+answerable directly and without any of these confounds, because a static
+geographic offset has no trend. The replacement reads:
+
+> Compute the standard error of the city-minus-ring **trend** per city.
+> Gate 0 passes if that precision is sufficient to detect the D-067
+> contaminated threshold of 0.03 C per decade. If the trend cannot be
+> resolved to better than that, a flat result means the instrument is
+> blunt, not that the channel is clean.
+
+This is a repair of a check that could not do its job, not a movement of
+a threshold, and it is made before the group comparison is seen. The
+substantive risk it guards against, a null read as a pass, is unchanged;
+only the way of detecting it moves from level to precision.
+
+### 5h-ii. Gate 0, second design: FAILS for two of five EU cities
+
+Run 2026-08-04 after the amendment above.
+
+| city | group | trend C/decade | SE | lag-1 | threshold/SE | verdict |
+|---|---|---|---|---|---|---|
+| Madrid | growth | -0.0160 | 0.0126 | +0.48 | 2.4 | resolves |
+| Munich | growth | -0.0241 | 0.0192 | +0.52 | 1.6 | **too blunt** |
+| Leipzig | flat | +0.0038 | 0.0051 | +0.10 | 5.8 | resolves |
+| Liverpool | flat | -0.0343 | 0.0095 | +0.41 | 3.2 | resolves |
+| Naples | flat | -0.0433 | 0.0318 | +0.65 | 0.9 | **too blunt** |
+
+**Munich and Naples cannot resolve the D-067 threshold.** For those two a
+flat result would mean a blunt instrument rather than a clean city, which
+is the ambiguity gate 0 exists to detect. It detected it.
+
+Both failures carry the highest lag-1 autocorrelation in the set, and
+Naples has the smallest ring at 55 land cells because half its annulus is
+sea. Leipzig, flattest and most inland, resolves most sharply.
+
+**Consequence: the D-049 verdict is PER CITY, not channel-wide.** The
+test speaks only where it has power, and which cities those are is a
+property of their geography rather than of their growth. That belongs on
+the emitted datum as a field under D-051, not in prose.
+
+**Disclosure against the pre-registration.** Computing power required
+computing the trends, so individual trend values have now been seen
+before the group comparison. No interpretation is being drawn from them
+and the D-067 thresholds cannot move, but the fact is recorded here
+rather than left unstated.
 
 ## 5g. The two-band chart, and why a threshold count is riskier than a mean
 
