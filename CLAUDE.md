@@ -188,6 +188,23 @@ Two conditions ride with it, both ratified:
    closes is a correct number rendered misleadingly: wrong emphasis, or
    a chart implying causation the attribution tag denies.
 
+   **A sign-off with a condition attached is not a sign-off.** Send it
+   back, the way a blocker would be. CRO's rule, and it is the one to
+   remember if only one of the two here sticks, because it needs no
+   extra step from anybody: either the page is approved as it stands or
+   it is not approved.
+
+   The cost of the softer reading, measured on 2026-08-04: CRO approved
+   the crops page conditional on a footer fix and told design. Design
+   held the fix. Platform pushed. **The approval and the fix existed in
+   two different chats and nobody held both**, so a page went live
+   truncated mid-sentence. Nobody was careless; the sign-off simply
+   meant two different things to the two chats holding its halves.
+
+   The fuller version, if you want the belt as well: a sign-off is
+   complete when the owning chat AND design have both confirmed, since
+   conditional approval is the normal case rather than the exception.
+
 Escalation, when speed and consistency collide: a piece ships in the
 generic template with a plainer chart, or it does not ship. It never
 ships outside the design system, because consistency is what makes the
@@ -244,6 +261,22 @@ Two habits worth copying, both learned the hard way:
   re-check. A cache buster that silently does nothing is worse than
   none, because it converts "verified live" into "verified the cache"
   while looking rigorous.
+
+  **The cache lies in BOTH directions, which is the half everyone
+  misses.** Everything above treats it as a thing that falsely
+  reassures. It will just as readily tell you a working page is broken.
+  On 2026-08-04 platform and design independently fetched a freshly
+  fixed page, got `x-cache: HIT` with `age` in the hundreds, saw
+  pre-fix content, and each came close to reporting the deploy as
+  failed. Same header, opposite error. Treat a BAD result from a cached
+  page as unverified exactly as you would a good one.
+
+  **Compounding trap: searching raw HTML.** A string that reads as one
+  phrase on the page is often split across tags in the source, so a
+  grep for it finds nothing and looks like proof of absence. Strip tags
+  before searching. Against a cached page the two compound into a
+  confident wrong answer in either direction, which is how platform
+  briefly reported a correct footer as missing on the same day.
 - **A green check run is not "done".** The guards prove structural
   properties: the page exists, carries the shared masthead and
   exactly one analytics tag, its numbers match the frozen record, no
