@@ -351,6 +351,67 @@ def main() -> None:
             fh.write(render(piece))
         written += 1
     print(f"wrote {written} country page(s) to docs/fires/")
+    print(stamp_unregenerated({slugify(e["region"]) for e in events},
+                              pretty_window(window)))
+
+
+STAMP_ID = "lastassessed"
+
+
+def stamp_unregenerated(live_slugs, window_label) -> str:
+    """Date the pages that stopped qualifying, rather than leaving them.
+
+    Product's ruling, Fire's instinct and mine. A 404 is worse than a
+    dated page: the URL may be linked and removing it destroys the
+    record instead of qualifying it. But a bare date says when we last
+    looked and not what we found, so the stamp says both.
+
+    "Not flagged since" is the honest half. These countries were checked
+    and did not clear the anomaly gate; that is a result, and it is the
+    same calibration move as Canada's row qualifier on the index. A
+    country shown so it can be checked should read as ordinary rather
+    than as abandoned.
+
+    An unregenerated page cannot stamp itself, which is why this runs
+    over the directory rather than inside the builder. Idempotent: the
+    stamp is replaced, never stacked.
+    """
+    import re
+    if not os.path.isdir(OUTDIR):
+        return "no docs/fires/ yet"
+    stamped = []
+    for slug in sorted(os.listdir(OUTDIR)):
+        d = os.path.join(OUTDIR, slug)
+        page = os.path.join(d, "index.html")
+        if slug in live_slugs or not os.path.isfile(page):
+            continue
+        html = open(page).read()
+        # TWO DIFFERENT WEEKS, and the first wording conflated them. The
+        # country WAS checked this week; what is old is the figures,
+        # which date from the last week it qualified. "Last assessed for
+        # the week of X ... the figures below are from that assessment"
+        # said both were X and only one is.
+        note = (f'<p id="{STAMP_ID}" class="stalestamp">Checked for the '
+                f'week of {window_label}: this country did not clear the '
+                f'anomaly gate, so no new assessment was published. The '
+                f'figures below are from the last week it did, and are '
+                f'not current.</p>')
+        html = re.sub(rf'<p id="{STAMP_ID}".*?</p>', "", html, flags=re.S)
+        if "<main>" in html:
+            html = html.replace("<main>", "<main>\n" + note, 1)
+        elif "</header>" in html:
+            html = html.replace("</header>", "</header>\n" + note, 1)
+        else:
+            continue
+        if ".stalestamp" not in html:
+            html = html.replace("</style>", (
+                "\n.stalestamp { margin: 0 0 18px; padding: 10px 14px;"
+                " background: var(--paper-sunk); color: var(--ink-soft);"
+                " font-size: 13.5px; max-width: 64ch; }\n</style>"), 1)
+        open(page, "w").write(html)
+        stamped.append(slug)
+    return (f"stamped {len(stamped)} unregenerated page(s) as last assessed"
+            if stamped else "no unregenerated pages to stamp")
 
 
 if __name__ == "__main__":
