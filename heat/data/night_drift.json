@@ -1,0 +1,185 @@
+{
+  "_readme": "How far the normal night-time temperature has moved, per region, between two closed 30-year periods. This is a BASELINE SHIFT. It is not a current anomaly and it does not rank any recent month. Do not add these numbers to an ERA5 anomaly to produce a counterfactual; that would be arithmetic across sources and is Combined under D-033, not Measured.",
+  "channel": "heat",
+  "evidence_basis": "Measured",
+  "attribution": "not assessed",
+  "variable": "monthly mean of daily minimum temperature (night minima)",
+  "baseline": {
+    "early": "1961-1990",
+    "current": "1991-2020",
+    "window": "July only",
+    "completeness": "30 of 30 Julys in both windows, all regions"
+  },
+  "source": "Berkeley Earth, Complete_{TMIN,TMAX}_LatLong1.nc, 1 degree",
+  "source_note": "The 1 degree grids are no longer updated (TMIN dated 2025-01-10, TMAX 2024-10-17; data runs to 2024.79). That is irrelevant to this file: both baselines are closed historical periods and can never change, so this product is permanently adequate for drift and permanently unable to support a current-year claim.",
+  "verification": {
+    "status": "verified",
+    "checks_run": [
+      "region cut, 8 variants (shift and resize by 1 degree)",
+      "alternative baseline pair 1951-1980",
+      "urbanisation: recompute with major city cells removed"
+    ],
+    "bar_fixed_before_running": true,
+    "bar": "Sign stable across every variant, and the contrast's magnitude exceeding the spread box choice induces in it.",
+    "result": "All four regions pass.",
+    "not_checked": "TMIN/TMAX station-coverage parity. Moot: this payload carries no day-versus-night claim."
+  },
+  "gating": {
+    "d049_urbanisation_test": "does_not_gate_this_payload",
+    "reason": "D-049 gates a city-level LEVEL claim computed from an ERA5 grid cell over a city. This is a regional DIFFERENCE between two 30-year means from a different instrument at a different scale. The test still gates any city-level claim and is unaffected by this payload."
+  },
+  "regions": {
+    "iberia": {
+      "display_name": "Iberia",
+      "coverage": {
+        "lat_n": 44,
+        "lat_s": 36,
+        "lon_w": -9,
+        "lon_e": 3,
+        "note": "1 degree grid, land cells only, land-fraction masked. A region, not a city: roughly 500 to 900 km across."
+      },
+      "july_night_drift_c": {
+        "value": 0.936,
+        "n_julys_per_baseline": 30,
+        "urbanisation_bound_c": 0.001,
+        "urbanisation_bound_note": "Absolute change when every major city cell is removed from the region. Measured, not asserted.",
+        "region_cut_spread_c": 0.03,
+        "sampling_se_c": 0.43,
+        "sampling_se_note": "Widest across regions. Not a bound on instrument disagreement: Berkeley and ERA5 observe the same Julys, so interannual variability is common to both, not independent."
+      },
+      "annual_night_drift_c": {
+        "value": 0.699,
+        "n_months_per_baseline": 360
+      },
+      "contrast_c": {
+        "value": 0.237,
+        "definition": "July drift minus annual drift. Positive means summer nights moved further than the year as a whole; negative means they moved less.",
+        "region_cut_spread_c": 0.026,
+        "margin_over_spread": 9.0,
+        "sign_stable_across_variants": true
+      },
+      "rhetorical_weight": "assert",
+      "rhetorical_weight_note": "Margin over box-choice spread is at least 3x. May be asserted plainly.",
+      "robustness_alternative_baseline": {
+        "pair": "1951-1980 against 1991-2020",
+        "july_drift_c": 1.222,
+        "contrast_c": 0.356,
+        "note": "Reported as robustness only. The headline pair is 1961-1990 throughout, because it was pre-registered. Selecting whichever pair flatters a claim would be undetectable to a reader, which is what disqualifies it."
+      }
+    },
+    "italy_c_med": {
+      "display_name": "Italy and the central Mediterranean",
+      "coverage": {
+        "lat_n": 46,
+        "lat_s": 37,
+        "lon_w": 7,
+        "lon_e": 18,
+        "note": "1 degree grid, land cells only, land-fraction masked. A region, not a city: roughly 500 to 900 km across."
+      },
+      "july_night_drift_c": {
+        "value": 1.273,
+        "n_julys_per_baseline": 30,
+        "urbanisation_bound_c": 0.008,
+        "urbanisation_bound_note": "Absolute change when every major city cell is removed from the region. Measured, not asserted.",
+        "region_cut_spread_c": 0.034,
+        "sampling_se_c": 0.43,
+        "sampling_se_note": "Widest across regions. Not a bound on instrument disagreement: Berkeley and ERA5 observe the same Julys, so interannual variability is common to both, not independent."
+      },
+      "annual_night_drift_c": {
+        "value": 0.873,
+        "n_months_per_baseline": 360
+      },
+      "contrast_c": {
+        "value": 0.399,
+        "definition": "July drift minus annual drift. Positive means summer nights moved further than the year as a whole; negative means they moved less.",
+        "region_cut_spread_c": 0.066,
+        "margin_over_spread": 6.0,
+        "sign_stable_across_variants": true
+      },
+      "rhetorical_weight": "assert",
+      "rhetorical_weight_note": "Margin over box-choice spread is at least 3x. May be asserted plainly.",
+      "robustness_alternative_baseline": {
+        "pair": "1951-1980 against 1991-2020",
+        "july_drift_c": 1.477,
+        "contrast_c": 0.541,
+        "note": "Reported as robustness only. The headline pair is 1961-1990 throughout, because it was pre-registered. Selecting whichever pair flatters a claim would be undetectable to a reader, which is what disqualifies it."
+      }
+    },
+    "us_southwest": {
+      "display_name": "US Southwest",
+      "coverage": {
+        "lat_n": 40,
+        "lat_s": 31,
+        "lon_w": -120,
+        "lon_e": -108,
+        "note": "1 degree grid, land cells only, land-fraction masked. A region, not a city: roughly 500 to 900 km across."
+      },
+      "july_night_drift_c": {
+        "value": 0.535,
+        "n_julys_per_baseline": 30,
+        "urbanisation_bound_c": 0.002,
+        "urbanisation_bound_note": "Absolute change when every major city cell is removed from the region. Measured, not asserted.",
+        "region_cut_spread_c": 0.12,
+        "sampling_se_c": 0.43,
+        "sampling_se_note": "Widest across regions. Not a bound on instrument disagreement: Berkeley and ERA5 observe the same Julys, so interannual variability is common to both, not independent."
+      },
+      "annual_night_drift_c": {
+        "value": 0.652,
+        "n_months_per_baseline": 360
+      },
+      "contrast_c": {
+        "value": -0.117,
+        "definition": "July drift minus annual drift. Positive means summer nights moved further than the year as a whole; negative means they moved less.",
+        "region_cut_spread_c": 0.075,
+        "margin_over_spread": 1.6,
+        "sign_stable_across_variants": true
+      },
+      "rhetorical_weight": "state_with_margin",
+      "rhetorical_weight_note": "Margin over box-choice spread is below 3x. This region clears the pre-registered bar and is the thinnest claim in the set. State it with its margin attached; do not give it the same weight as the regions above. Product's ruling, 2026-08-04.",
+      "robustness_alternative_baseline": {
+        "pair": "1951-1980 against 1991-2020",
+        "july_drift_c": 0.494,
+        "contrast_c": -0.275,
+        "note": "Reported as robustness only. The headline pair is 1961-1990 throughout, because it was pre-registered. Selecting whichever pair flatters a claim would be undetectable to a reader, which is what disqualifies it."
+      }
+    },
+    "us_pacific_nw": {
+      "display_name": "US Pacific Northwest",
+      "coverage": {
+        "lat_n": 49,
+        "lat_s": 42,
+        "lon_w": -125,
+        "lon_e": -116,
+        "note": "1 degree grid, land cells only, land-fraction masked. A region, not a city: roughly 500 to 900 km across."
+      },
+      "july_night_drift_c": {
+        "value": 1.053,
+        "n_julys_per_baseline": 30,
+        "urbanisation_bound_c": 0.003,
+        "urbanisation_bound_note": "Absolute change when every major city cell is removed from the region. Measured, not asserted.",
+        "region_cut_spread_c": 0.034,
+        "sampling_se_c": 0.43,
+        "sampling_se_note": "Widest across regions. Not a bound on instrument disagreement: Berkeley and ERA5 observe the same Julys, so interannual variability is common to both, not independent."
+      },
+      "annual_night_drift_c": {
+        "value": 0.567,
+        "n_months_per_baseline": 360
+      },
+      "contrast_c": {
+        "value": 0.486,
+        "definition": "July drift minus annual drift. Positive means summer nights moved further than the year as a whole; negative means they moved less.",
+        "region_cut_spread_c": 0.068,
+        "margin_over_spread": 7.2,
+        "sign_stable_across_variants": true
+      },
+      "rhetorical_weight": "assert",
+      "rhetorical_weight_note": "Margin over box-choice spread is at least 3x. May be asserted plainly.",
+      "robustness_alternative_baseline": {
+        "pair": "1951-1980 against 1991-2020",
+        "july_drift_c": 1.134,
+        "contrast_c": 0.446,
+        "note": "Reported as robustness only. The headline pair is 1961-1990 throughout, because it was pre-registered. Selecting whichever pair flatters a claim would be undetectable to a reader, which is what disqualifies it."
+      }
+    }
+  }
+}
