@@ -1107,6 +1107,46 @@ findings with a third of the churn and a third of the review cost. The
 data updating every ten days does not oblige us to publish every ten
 days.
 
+### 6r. Six notable countries is an ordinary number, and the field name invites the error
+
+Design proposed an h1: "6 countries have more cropland at a record low
+than their own recent history explains", and asked whether that is a
+fair reading of the `notable` flag. It is not.
+
+**Tested the same way product tested the 81.** Counting notable
+countries by the identical rule in every dekad of the last year:
+
+| | |
+|---|---|
+| This dekad | **6** |
+| Other 35 dekads | mean 5.4, median 5, range 0 to 12 |
+| 6 is higher than | 20 of 35 dekads, the 57th percentile |
+
+**Six is the middle of the distribution.** Their recent history explains
+it entirely; it is what an ordinary dekad produces.
+
+The theoretical check agrees. Clearing a 12-year maximum has probability
+about 1/13 by chance, so across 123 countries roughly **9.5 are expected
+to clear before the count floor is applied**. Ten do.
+
+**The error is mine as much as the wording's, because I named the
+field.** `notable` was built as a *selection* device: design asked for
+an ordering key, and it filters which countries to show and in what
+order. A field called "notable" invites exactly the reading design
+gave it. `selected_for_display` would not have.
+
+**What survives is what survived before: the individual claim, not the
+count.** Chad at 8 against a recent maximum of 3 and a recent mean of
+0.83 clears by a wide margin and has been checked four separate ways.
+Six countries clearing their own maximum is chance. One country clearing
+it by nearly a factor of three is not.
+
+This is the third time the same shape has appeared: 81 regions, 6
+countries, and my own Sahel cluster. **Aggregate counts of
+threshold-crossings are always near chance here, and the individual
+extremes are the finding.** That should probably be a standing rule for
+the channel rather than a lesson relearned each time.
+
 ### 6b. How the nine pre-registered pairs fared
 
 Judged against the 752-pair scan's FDR threshold, only 4 of the 9
