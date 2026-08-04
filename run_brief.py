@@ -82,6 +82,62 @@ LICENSE_URL = "https://creativecommons.org/licenses/by-nc/4.0/"
 # something to show), which is why Floods and Damages are absent.
 ELNINO_HREF = "elnino/"
 
+def lead_sentence(ev) -> str:
+    """Editor's approved lead, shared by the front page and the fires index.
+
+    "For this week of the year, Greece burned at four and a half times
+    its own record."
+
+    Two things editor settled that the previous wording got wrong.
+
+    THE BASIS IS STATED. "4.5x its previous record week" is ambiguous
+    between a country's worst week ever and its worst EQUIVALENT week.
+    It is the equivalent week: `prev_best` in fires/build_events.py is
+    keyed by year over the same calendar week. The old sentence left a
+    reader to carry the basis over from a preceding clause, which is the
+    inference we stopped relying on this morning.
+
+    IT LEADS WITH THE RECORD, NOT THE AVERAGE. Beating a record is a
+    stronger kind of claim than exceeding an average, and the average
+    multiple is closer in shape to the count we just removed from both
+    surfaces. Editor's argument, and it is the better one.
+
+    The record multiple is NOT emitted as a number; it exists only
+    inside the `title` prose. Parsing prose to build a headline is the
+    antipattern removed from the ECON ledger this morning, so this
+    extracts defensively and returns "" rather than guessing when the
+    shape changes. Fire has been asked for a numeric field.
+    """
+    import re as _re
+    region = (ev or {}).get("region", "")
+    m = _re.match(r"^\s*([0-9]+(?:\.[0-9]+)?)x\b",
+                  str((ev or {}).get("title", "")))
+    if not (region and m):
+        return ""
+    return (f"For this week of the year, {region} burned at "
+            f"{_spell_multiple(float(m.group(1)))} times its own record.")
+
+
+def _spell_multiple(x: float) -> str:
+    """Spell whole numbers and halves; fall back to the numeral.
+
+    Editor wrote "four and a half". That is only generatable for values
+    landing on .0 or .5, and a week at 4.3 has no comfortable spelling,
+    so the numeral is the fallback rather than a forced word. Flagged to
+    editor: this means the register varies week to week.
+    """
+    ones = ["zero", "one", "two", "three", "four", "five", "six", "seven",
+            "eight", "nine", "ten", "eleven", "twelve", "thirteen",
+            "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
+            "nineteen", "twenty"]
+    whole, frac = int(x), round(x - int(x), 2)
+    if whole > 20 or frac not in (0.0, 0.5):
+        return f"{x:g}"
+    if frac == 0.0:
+        return ones[whole]
+    return f"{ones[whole]} and a half"
+
+
 CHANNELS = [
     ("elnino", "El Ni\u00f1o", None),   # None: resolved to the channel home
     ("fire", "Fires", "fires/"),
@@ -2987,13 +3043,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                 '<div class="field"><div class="field-shell">'
                 '<div class="lead-block">'
                 f'<div class="eyebrow">Week of {h(brief_date_iso)}</div>'
-                f'<h1 class="lead-answer">{h(lead.get("region", ""))} ran '
-                f'{h(lead.get("stat", ""))} its average for this week of '
-                f'the year.</h1>'
-                + (f'<p class="lead-stand">{h(lead.get("title", ""))}. '
-                   f'Each item below says whether it is linked to El '
-                   f'Ni&ntilde;o, and most are not.</p>'
-                   if lead.get("title") else '')
+                f'<h1 class="lead-answer">'
+                f'{h(lead_sentence(lead) or (lead.get("region", "") + " ran " + lead.get("stat", "") + " its average for this week of the year."))}'
+                f'</h1>'
+                + f'<p class="lead-stand">Each item below says whether it '
+                  f'is linked to El Ni&ntilde;o, and most are not.</p>'
                 + '</div></div></div>\n')
         head += _map_html(_load_markers(),
                           (fetched.get("physical_state") or {})

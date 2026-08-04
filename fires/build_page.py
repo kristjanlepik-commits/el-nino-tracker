@@ -22,7 +22,7 @@ sys.path.insert(0, REPO)
 
 import tokens as T  # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
-                       site_masthead)
+                       lead_sentence, site_masthead)
 # run_brief.py lives at the repo root and holds the single copy of the
 # analytics tag. Import it rather than pasting a duplicate, so there is
 # one source of truth to disable or rotate.
@@ -123,10 +123,17 @@ def build(events_doc, font_prefix="../fonts/"):
     # headline leads with the largest anomaly and states the count
     # nowhere. The gate keeps RECORD_RANK for SELECTION, which is sound;
     # what it stops doing is generating a number we present as a claim.
+    # Editor's approved sentence, shared with the front page so the two
+    # surfaces cannot drift. This headline was changed to the leading
+    # extreme before product's ruling arrived, which was right, but it
+    # led with the AVERAGE multiple. Beating a record is a stronger kind
+    # of claim than exceeding an average, and the average multiple is
+    # closer in shape to the count we just removed. Editor's argument.
     lead = anom[0] if anom else (ev[0] if ev else None)
     if lead:
-        headline = (f"{lead['region']} is burning at {lead['stat']} its "
-                    f"average for this week of the year")
+        headline = lead_sentence(lead).rstrip(".") or (
+            f"{lead['region']} is burning at {lead['stat']} its "
+            f"average for this week of the year")
     else:
         headline = "No country is burning unusually this week"
     # The house masthead, shared with every other page rather than
