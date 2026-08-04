@@ -260,6 +260,109 @@ KNOWN_SNAPSHOT_GAPS = {
 }
 
 
+# A UTC time stated in these files is a claim about when a job runs, and
+# the workflow is the only thing that decides that. Design's observation,
+# 2026-08-04, after four defects in a few days that shared one shape: a
+# number was right when written and its inputs moved afterwards.
+#
+# THE TWO CLASSES, because only one of them was already covered.
+#
+#   (a) the OUTPUT drifted from its generator. The El Nino index still
+#       carrying last week's date, the front page missing a contrast fix.
+#       `publish_all --check --assert-clean` catches these, because
+#       regenerating produces something different.
+#
+#   (b) the GENERATOR hard-codes a fact that lives somewhere else. The
+#       fires page telling readers "refreshed once daily at 06:00 UTC"
+#       when the cron had moved to 03:10. Regenerating reproduces the
+#       wrong string faithfully, so (a)'s check passes and always will.
+#
+# This is (b), for the one fact that has already gone stale twice: the
+# schedule. The truth side is DERIVED from the workflow rather than
+# listed here, or this guard would go stale the same way.
+SCHEDULE_CLAIM_FILES = [
+    "fires/build_events.py",
+    "fires/build_page.py",
+    "scripts/publish_all.py",
+    "scripts/check_freshness.py",
+]
+
+# Times that are legitimately not schedule slots. Each needs a reason:
+# an unexplained entry here turns the guard back into the thing it
+# replaced.
+NON_SCHEDULE_TIMES = {
+    "03:00": "FIRMS near-real-time processing floor, a data-availability "
+             "fact rather than a slot. build_events.py refuses before it.",
+}
+
+# Known-stale claims, with an owner and a fix path. Same discipline as
+# KNOWN_SNAPSHOT_GAPS: a suppression is a defect we have agreed to ship.
+KNOWN_STALE_SCHEDULE_CLAIMS = {
+    # fires/build_events.py is the Fire chat's. Its module docstring and
+    # its refusal message still describe the retired 06:00 slot. Not
+    # reader-facing, but it misled a diagnosis on 2026-08-01, which is
+    # what stale internal documentation costs. Reported to Fire
+    # 2026-08-04; delete this once they land the wording.
+    ("fires/build_events.py", "06:00"),
+}
+
+
+def _cron_times(workflow: str) -> set[str]:
+    """HH:MM slots declared by a workflow's cron lines."""
+    path = ROOT / ".github" / "workflows" / workflow
+    if not path.exists():
+        return set()
+    text = path.read_text(encoding="utf-8", errors="ignore")
+    out = set()
+    for m in re.finditer(r'cron:\s*["\'](\S+)\s+(\S+)\s', text):
+        minute, hour = m.group(1), m.group(2)
+        if minute.isdigit() and hour.isdigit():
+            out.add(f"{int(hour):02d}:{int(minute):02d}")
+    return out
+
+
+def check_schedule_claims(violations):
+    """Does any file state a run time the workflow does not have?"""
+    valid = _cron_times("fires.yml")
+    if not valid:
+        return
+    for rel in SCHEDULE_CLAIM_FILES:
+        path = ROOT / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        # A bare "HH:MM UTC" is not enough, and the first version of this
+        # check proved it by flagging build_events.py's worked example
+        # ("Spain read 4,524 at 15:15 UTC, 4,700 at 15:55"). Those are
+        # measurement timestamps, not schedule claims, and a guard that
+        # cries wolf on them gets switched off.
+        #
+        # So the time must sit near a word that makes it a claim about
+        # WHEN SOMETHING RUNS. This deliberately under-reports: a stale
+        # time phrased without any of these words is missed. That is the
+        # right direction to fail, because a missed instance costs one
+        # defect and a false positive costs the whole check.
+        for m in re.finditer(
+                r"(?:runs?|run at|slot|schedul\w*|refreshed|cron|job|"
+                r"pull a day|once daily|daily at)[^.\n]{0,60}?"
+                r"\b(\d{2}:\d{2})\s*UTC", text, re.I):
+            claimed = m.group(1)
+            if claimed in valid or claimed in NON_SCHEDULE_TIMES:
+                continue
+            if (rel, claimed) in KNOWN_STALE_SCHEDULE_CLAIMS:
+                continue
+            line = text[:m.start()].count("\n") + 1
+            violations.append(
+                f"{rel}:{line} states '{claimed} UTC', which is not a slot "
+                f"the workflow declares ({', '.join(sorted(valid))}). A "
+                f"schedule written into prose goes stale the moment the "
+                f"cron moves, and regenerating the page reproduces it "
+                f"faithfully, so nothing else catches it.")
+
+
 def _leaf_paths(obj, prefix=()):
     """Every path to a non-empty leaf. Empty containers count as absent."""
     if isinstance(obj, dict):
@@ -699,6 +802,7 @@ def main():
     check_structure(violations)
     check_snapshots(violations)
     check_snapshot_regression(violations)
+    check_schedule_claims(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
     check_allhands(violations)
     check_large_files(violations)

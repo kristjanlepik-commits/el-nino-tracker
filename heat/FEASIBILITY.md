@@ -794,6 +794,59 @@ three months is **untested**, because the probe that would have answered
 it was rejected on a per-dataset queue limit while the main pull
 saturated the account. That probe is retried once the pull drains.
 
+## 5f. VERIFIED, 2026-08-04: the regional July night-drift claim passes
+
+Run by `heat/verify_drift.py`, reusing platform's own functions from
+`climatology/build_drift.py` so a check cannot silently diverge from the
+artifact it checks. No CDS; the Berkeley grids were already on disk.
+
+**Bar fixed in the script before it was run:** every variant keeps its
+sign, and the spread across region cuts is no larger than the sampling
+standard error already inside the headline figure (0.43 C, platform's
+widest July value). If the choice of box moves the number less than the
+noise already in it, the box is not what is driving it. A spread larger
+than the SE would be the Fire 5.2x shape.
+
+| region | headline | 1951-1980 pair | cities removed | 8-cut spread | verdict |
+|---|---|---|---|---|---|
+| iberia | +0.936 | +1.222 | +0.936 (**-0.001**) | 0.030 | PASS |
+| italy_c_med | +1.273 | +1.477 | +1.281 (**+0.008**) | 0.034 | PASS |
+| us_southwest | +0.535 | +0.494 | +0.537 (**+0.002**) | 0.120 | PASS |
+| us_pacific_nw | +1.053 | +1.134 | +1.055 (**+0.003**) | 0.034 | PASS |
+
+### The urbanisation bound, which is the result worth having
+
+**Removing every major city cell from each box moves the drift by at
+most 0.008 C.** Six cities dropped from Iberia, five from Italy, three
+from the US Southwest, four from the Pacific Northwest.
+
+This is what product's D-051 contamination field carries: a **measured
+bound**, not "Berkeley corrects for this". It also settles the question
+that has gated the channel since the handover, for **this claim only**:
+urbanisation is not driving the regional figure, and the reason is
+visible rather than argued, since a 1 degree box 500 to 900 km across is
+overwhelmingly not city.
+
+**It does not transfer to the city-level claim.** The D-049 test still
+gates that, on a different instrument at a different scale, and nothing
+here shortens it.
+
+### What moved, and why it is expected rather than alarming
+
+The **baseline pair** is the only variant that moves the number
+materially: shifting the early window to 1951-1980 raises Iberia by
++0.285 and Italy by +0.204, lowers the US Southwest by 0.040, and holds
+sign everywhere. That is the correct direction: an earlier reference
+period should show more drift if warming is broadly monotonic. **It is
+a reason to state the baseline exactly rather than a reason to doubt the
+figure**, which is why product asked for the exact wording and now has
+it.
+
+The **US Southwest** is the weakest region on every axis: smallest
+drift, largest region-cut spread (0.120, four times the others), and the
+only region where July drift is below its own annual figure. It passes,
+and it should not be written as though it were as strong as Italy.
+
 ## 5e. Cross-validation of ERA5 against Berkeley: thresholds fixed BEFORE the comparison
 
 Platform's reminder is correct and is the reason this section exists
