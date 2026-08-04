@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Egypt | Crops | The Long Swell</title>
+<style>
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../fonts/plexmono-600.woff2") format("woff2");
+}
+:root {     --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px; }
+@media (prefers-color-scheme: dark) { :root {     --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330; } }
+* { box-sizing:border-box; }
+:root { --shell-max:800px; --shell-pad:24px; }
+body { margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Spectral",Georgia,serif; font-size:16.5px; line-height:1.55; }
+main { max-width:800px; margin:0 auto; padding:24px 24px 80px; }
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.ch-crop { color: var(--crop); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+.eyebrow, .rgval, .foot, .sc text, .rgbasis {
+  font-family:"IBM Plex Mono", ui-monospace, monospace; }
+.eyebrow { font-size:11px; letter-spacing:0.22em;
+  text-transform:uppercase; color:var(--ink-faint); margin:22px 0 10px; }
+h1 { font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
+  letter-spacing:-0.015em; }
+.stand { color:var(--ink-soft); max-width:60ch; margin:0; }
+.rg { margin-top:38px; padding-top:14px;
+  border-top:1px solid var(--rule); }
+.rg h2 { font-size:19px; font-weight:600; margin:0 0 4px; }
+.rgval { font-size:26px; color:var(--crop); margin:0; font-weight:600;
+  font-variant-numeric:tabular-nums; }
+.rgstate { display:block; font-size:12.5px; color:var(--ink-soft);
+  font-weight:400; margin-top:3px; }
+.rgdrv { margin:8px 0 0; font-size:13.5px; color:var(--ink-faint); }
+.sc { width:100%; height:auto; display:block; margin:12px 0 2px; }
+.sc-x { font-size:10px; fill:var(--ink-faint); }
+.rgbasis { margin:4px 0 0; font-size:11px; color:var(--ink-faint); }
+.rgq { margin:8px 0 0; padding-left:18px; font-size:13.5px;
+  color:var(--ink-soft); max-width:62ch; }
+.peers { margin-top:34px; }
+.note { margin:16px 0 0; font-size:13.5px; color:var(--ink-soft);
+  max-width:64ch; }
+.foot { margin-top:46px; padding-top:14px; border-top:1px solid var(--ink);
+  font-size:11.5px; color:var(--ink-faint); }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+</script>
+</head>
+<body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../../elnino/">El Niño</a><a class="ch-fire" href="../../fires/">Fires</a><a class="ch-crop on" href="../../crops/">Crops</a><a class="util" href="../../about.html">About</a></nav></div></div></header>
+
+<main>
+  <p class="eyebrow"><a href="../../crops/">Crops</a>
+    &middot; dekad 2026-07-11</p>
+  <h1>Egypt</h1>
+  <p class="stand">1 of 26 crop regions in Egypt are at their worst on record for this point in the season. Its highest in any previous year was 3, on a recent average of 0.33.</p>
+
+  <p class="eyebrow" style="margin-top:30px">Every region of Egypt,
+    worst to least</p>
+  <div class="peers"><svg class="rg" viewBox="0 0 660 96" role="img" aria-label="Every crop region of this country on one axis"><line x1="10" y1="58" x2="650" y2="58" stroke="var(--rule)" stroke-width="1"/><line x1="377.1" y1="40" x2="377.1" y2="76" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 3"/><text class="rg-s" x="377.1" y="90" text-anchor="middle">its own 25-year average</text><circle cx="71.9" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="83.0" cy="58" r="4.2" fill="var(--ink)"/><circle cx="146.1" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="189.3" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="197.9" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="211.8" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="222.8" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="276.3" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="276.6" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="289.0" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="292.8" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="326.1" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="333.1" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="336.6" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="343.2" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="345.1" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="366.6" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="367.8" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="383.0" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="437.2" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="461.2" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="478.9" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="504.0" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="588.1" cy="58" r="4.2" fill="var(--paper)" stroke="var(--ink-faint)" stroke-width="1.3"/></svg></div>
+  <p class="note">The regions below are the ones at their worst on
+    record. The axis above carries every region of the country, so a
+    single deep region inside an otherwise ordinary country reads
+    differently from a country where the whole distribution has
+    moved.</p>
+
+  
+      <section class="rg" id="cairo">
+        <h2>Cairo</h2>
+        <p class="rgval">-1.55
+          <span class="rgstate">lowest of 26 observations for this point in the season, 2001-2025</span></p>
+        <p class="rgdrv">Vegetation here usually tracks water availability.</p>
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="55.3" x2="652" y2="55.3" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="25.3" width="15.0" height="30.0" fill="var(--ink-faint)"/><rect x="37.7" y="16.8" width="15.0" height="38.5" fill="var(--ink-faint)"/><rect x="62.4" y="27.7" width="15.0" height="27.6" fill="var(--ink-faint)"/><rect x="87.2" y="26.9" width="15.0" height="28.4" fill="var(--ink-faint)"/><rect x="112.0" y="23.4" width="15.0" height="31.9" fill="var(--ink-faint)"/><rect x="136.7" y="16.0" width="15.0" height="39.3" fill="var(--ink-faint)"/><rect x="161.5" y="26.7" width="15.0" height="28.6" fill="var(--ink-faint)"/><rect x="186.3" y="27.1" width="15.0" height="28.2" fill="var(--ink-faint)"/><rect x="211.0" y="48.1" width="15.0" height="7.2" fill="var(--ink-faint)"/><rect x="235.8" y="55.3" width="15.0" height="9.2" fill="var(--ink-faint)"/><rect x="260.6" y="55.3" width="15.0" height="4.7" fill="var(--ink-faint)"/><rect x="285.3" y="55.3" width="15.0" height="7.0" fill="var(--ink-faint)"/><rect x="310.1" y="55.3" width="15.0" height="13.7" fill="var(--ink-faint)"/><rect x="334.9" y="55.3" width="15.0" height="15.4" fill="var(--ink-faint)"/><rect x="359.7" y="55.3" width="15.0" height="15.0" fill="var(--ink-faint)"/><rect x="384.4" y="55.3" width="15.0" height="17.4" fill="var(--ink-faint)"/><rect x="409.2" y="55.3" width="15.0" height="11.9" fill="var(--ink-faint)"/><rect x="434.0" y="55.3" width="15.0" height="15.2" fill="var(--ink-faint)"/><rect x="458.7" y="55.3" width="15.0" height="25.7" fill="var(--ink-faint)"/><rect x="483.5" y="55.3" width="15.0" height="27.0" fill="var(--ink-faint)"/><rect x="508.3" y="55.3" width="15.0" height="26.0" fill="var(--ink-faint)"/><rect x="533.0" y="55.3" width="15.0" height="21.5" fill="var(--ink-faint)"/><rect x="557.8" y="55.3" width="15.0" height="37.6" fill="var(--ink-faint)"/><rect x="582.6" y="55.3" width="15.0" height="27.8" fill="var(--ink-faint)"/><rect x="607.3" y="55.3" width="15.0" height="34.9" fill="var(--ink-faint)"/><rect x="632.1" y="55.3" width="15.0" height="42.8" fill="var(--crop)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+
+  <p class="note">This measurement is of the crop canopy and not of what
+    stressed it: heat, drought, disease and late planting are not
+    separable here, which is why no claim on this page names a cause.</p>
+
+  <div class="foot">Kristjan Lepik (2026). The Long Swell, Crops.
+    <a href="https://thelongswell.com/">thelongswell.com</a>
+  </div>
+</main>
+</body>
+</html>

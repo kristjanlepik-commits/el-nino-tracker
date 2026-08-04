@@ -171,7 +171,12 @@ def _country_group(country, regions, cb=None, units=None) -> str:
     # per-country subpage, and it costs no new page type, no payload
     # growth and no extra surface for the channel to sign off.
     n_lab = f"{n} region{'s' if n != 1 else ''}"
-    return (f'<div class="cg{cls}"><p class="cghead">{h(country)}'
+    # The country name links to its own page. Without this the 41 pages
+    # exist and are unreachable, which is the drill-down half-built.
+    from templates.crops_country import slugify as _slug
+    return (f'<div class="cg{cls}">'
+            f'<p class="cghead"><a class="cglink" href="{h(_slug(country))}/">'
+            f'{h(country)}</a>'
             f'<span class="cgsub">{h(sub)}</span></p>{chart}'
             f'<details class="cgd"><summary>{n_lab}</summary>'
             + "".join(_row(e) for e in regions) + '</details></div>')
@@ -693,6 +698,9 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 .cg {{ margin-top:26px; }}
 .cghead {{ margin:0 0 6px; font-size:16px; font-weight:600;
   padding-bottom:6px; border-bottom:1px solid var(--rule); }}
+.cglink {{ color:inherit; text-decoration:none;
+  border-bottom:1px solid var(--rule); }}
+.cglink:hover {{ border-bottom-color:currentColor; }}
 .cg.up .cghead {{ color:var(--crop);
   border-bottom-color:var(--crop); }}
 .cgsub {{ display:block; font-size:12.5px; font-weight:400;
