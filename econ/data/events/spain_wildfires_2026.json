@@ -159,7 +159,7 @@
     "form": "several sources that look like corroboration are one calculation with different denominators",
     "supporting": "The parameter is EUR 10,000 to 19,000 per hectare. Spain's official annual spending on fighting fires implies about EUR 4,170.",
     "evidence_basis": "combined",
-    "_guardrail": "Three of the four figures are for the 2025 season and one is for 2026, so the sentence must say firefighting costs rather than implying one event. The claim is about how the figures were constructed, which is checkable by dividing each by its own area, and it is not a claim that any of them is wrong.",
+    "_guardrail": "Three of the four figures are for the 2025 season and one is for 2026, so the sentence must say firefighting costs rather than implying one event. The claim is about how the figures were constructed, which is checkable by dividing each by its own area, and it is not a claim that any of them is wrong. Organisation types are stated without any inference about the figures: if the copy leaves a reader thinking the numbers are inflated, it has done something the data does not support.",
     "_status": "candidate, not approved copy. Editor owns the wording.",
     "_why_this_and_not_the_total": "Product's view, accepted: a reader who learns that four agreeing sources can be one calculation wearing three coats can use that on every damage number they meet this year. The euro total cannot travel that far."
   },
@@ -258,12 +258,13 @@
           "scale": "million",
           "basis": "annual spending on fighting and extinguishing fires in a stable period",
           "implied_per_ha_at_typical_season": 4170,
-          "note": "About a quarter of the parameter above. Unexplained. Possible reasons, none verified: deployed military and civil protection may sit outside the firefighting budget line; the rate may be marginal for extreme seasons rather than average; or it may be high."
+          "note": "About a quarter of the parameter above, and unexplained rather than evidence. Three candidate reasons, none verified: deployed military and civil protection may sit outside the firefighting budget line; the parameter may be a marginal rate for extreme seasons rather than an average; or it may be high. Presented as an open question, because that is what it is.",
+          "_render_note": "Never place adjacent to the parameter without the three candidate reasons. The gap alone reads as an accusation the data does not carry."
         },
         "excludes": [
           "restoration"
         ],
-        "_incentive_note": "Organisation type is recorded as a fact, not a judgement, and there is no credibility score. Worth a reader knowing: the per-hectare parameter originates with a forestry services company and reaches the public via an industry association and an advocacy organisation. All three have a legitimate interest in fire costs being understood as large. None of that makes the number wrong; it makes the number's provenance relevant, which is why it is on the page."
+        "_incentive_note": "Organisation type is stated as a bare fact. No inference is drawn about the figures and none is available from this data. The checkable claim is only about construction: divide each published figure by its own burnt area and the same per-hectare parameter appears. Copy that leaves a reader concluding the numbers are inflated has gone beyond what the data supports."
       },
       "carbon": {
         "status": "gap_with_basis_available",
