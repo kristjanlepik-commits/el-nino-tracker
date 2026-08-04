@@ -183,6 +183,12 @@ def build_stress(catalogue: dict) -> dict:
                     f"{'lowest' if rk == 1 else f'{rk}th lowest'} of {of} "
                     f"observations for this point in the season, "
                     f"{BASE_FIRST}-{BASE_LAST}"),
+                # The region's own record, so a region page can show it
+                # against itself the way the country block shows Chad.
+                # Same shape as the country chance_baseline series.
+                "series": {int(y): round(float(v), 3)
+                           for y, v in s.items()
+                           if BASE_FIRST <= y <= latest.year},
             })
         regions.sort(key=lambda r: r["rank"])
 
