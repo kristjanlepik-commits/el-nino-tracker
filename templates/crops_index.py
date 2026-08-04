@@ -244,24 +244,39 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # redundancy: three regions simultaneously at their record worst
     # makes it likely one of them is extreme. Depth implies nothing
     # about breadth, which is why Suriname and Libya exist.
-    # State the asymmetry with the page's own numbers rather than
-    # asserting it. Counting the countries that appear in BOTH blocks
-    # would be the wrong statistic here: five of the six broad countries
-    # also hold a deep region, so that figure reads as "the two blocks
-    # mostly agree" and invites the reader to ask why there are two.
-    # The direction that carries the meaning is the other one, because
-    # depth does not imply breadth.
-    deep = hits[:top_n]
+    # State the asymmetry with numbers, in the direction where the
+    # implication FAILS. Counting the countries in BOTH blocks is the
+    # wrong statistic: five of six broad countries also hold a deep
+    # region, so it reads as "the two blocks mostly agree" and invites
+    # the reader to ask why there are two.
+    #
+    # These counts are properties of the dekad, not of this layout. An
+    # earlier version counted within the top `top_n` rows, which was
+    # honest at 20 rows and honest at 30 and said something different in
+    # each, with nothing on the page to tell a reader which. A statistic
+    # whose value depends on a display parameter is the same class of
+    # error as a number printed without its denominator.
+    #
+    # It is not an artifact of a severity cut either. CRO checked: the
+    # share of record-low regions sitting in countries that are not
+    # widely affected is 64% over all 81, 64% at z <= -1.0, 65% at -1.5
+    # and 71% at -2.0. The asymmetry holds at every depth, which is the
+    # argument for putting it above both blocks rather than inside one.
+    #
+    # Computed here per dekad and never written in. Both counts move
+    # with the data, so a hard-coded pair would go stale silently.
     broad_names = {c for c, _, _ in clusters}
-    deep_only = sum(1 for e in deep if e["country"] not in broad_names)
+    deep_countries = {e["country"] for e in hits}
+    n_deep_c, n_both = len(deep_countries), len(deep_countries & broad_names)
     pair_intro = f"""
       <p class="pairlab">Two questions, not a ranking</p>
       <p class="pairsub">Below, how much of a country is affected. Under
         it, how bad the worst single regions are. A country can lead
         either without appearing in the other, and the order of the two
-        sections carries no claim about which matters more: of the
-        {len(deep)} deepest regions listed here, {deep_only} sit in
-        countries that are not widely affected at all.</p>"""
+        sections carries no claim about which matters more:
+        {n_deep_c} countries hold at least one region at its worst on
+        record this dekad, and only {n_both} of them are countries where
+        it is widespread.</p>"""
 
     cluster_html = ""
     if clusters:
