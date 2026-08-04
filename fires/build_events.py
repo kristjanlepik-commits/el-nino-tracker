@@ -4,18 +4,21 @@ Emits `data/events.json` (task 3) and `data/fire_markers.json`
 (task 4) from live FIRMS data plus the frozen same-week country
 history in `fires/data/country_history.json`.
 
-Window rule: one pull a day at 06:00 UTC, always whole days
------------------------------------------------------------
+Window rule: one pull a day, always whole days
+----------------------------------------------
 The window is the seven UTC days ending yesterday. Nothing here is
 ever a partial day, which is what makes the number safe to render at
 40px on the landing page with no room to qualify it.
 
-Why 06:00 UTC works for every region at once: FIRMS near-real-time
+Why one daily slot works for every region at once: FIRMS near-real-time
 processing lags an overpass by up to about three hours, so the latest
 a detection stamped with UTC date D can arrive is 23:59 on D plus
 three hours, that is roughly 03:00 UTC on D+1. After that, day D is
-closed at every longitude. No per-region overpass reasoning is needed
-and the 06:00 slot leaves a three-hour margin.
+closed at every longitude, so no per-region overpass reasoning is
+needed. The guard below enforces that 03:00 boundary. WHICH hour the
+job actually fires is platform's, in .github/workflows/, and is
+deliberately not repeated here: it has already moved once and every
+copy of it went stale.
 
 This replaces judging completeness from overpass timestamps, which is
 not reliable: at mid-latitudes consecutive VIIRS orbits overlap, so a
@@ -311,14 +314,21 @@ def main():
     now_utc = datetime.now(timezone.utc)
 
     # Yesterday is only guaranteed closed once NRT processing has caught
-    # up, about 03:00 UTC. The scheduled slot is 06:00 UTC; refuse to
-    # run inside the danger window so a retry or a manual run at 01:00
-    # cannot quietly publish an unfinished day.
+    # up, about 03:00 UTC. Refuse to run inside that window so a retry or
+    # a manual run at 01:00 cannot quietly publish an unfinished day.
+    #
+    # Deliberately says nothing about WHEN the job is scheduled. It said
+    # "Scheduled slot is 06:00 UTC" for a week after the slot moved to
+    # 03:10 with an 05:30 backstop, so anyone tripping this at 02:00 was
+    # told to expect a run three hours later than it happens. This file
+    # owns the physical constraint, which is the NRT processing lag;
+    # platform owns the schedule, and a number that lives in both places
+    # goes stale in one of them.
     if now_utc.hour < 3:
         raise SystemExit(
             f"refusing to run at {now_utc:%H:%M} UTC: yesterday is not "
-            "guaranteed processed until ~03:00 UTC. Scheduled slot is "
-            "06:00 UTC.")
+            "guaranteed processed until ~03:00 UTC. Re-run after that, or "
+            "wait for the next scheduled slot in .github/workflows/.")
 
     end = now_utc.date() - timedelta(days=1)    # last fully closed day
     start = end - timedelta(days=window_days - 1)

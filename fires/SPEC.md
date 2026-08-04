@@ -118,9 +118,19 @@ local day is complete. The reasoning:
   A half-day count reads as a die-down to a casual reader; that is a
   self-inflicted version of the measurement traps this spec exists to
   avoid. Every published daily number should be a complete day.
-- The run slot is chosen at build time (roughly 10:00-12:00 UTC works:
-  by then the previous UTC day has cleared its last afternoon overpass
-  in every tracked region, including Indonesia and Australia).
+- The constraint this spec owns is the PHYSICAL one: a UTC day is closed
+  everywhere once NRT processing has caught up, roughly 03:00 UTC on the
+  following day, and build_events.py refuses to run before then. The
+  10:00-12:00 figure that stood here was reasoned from per-region
+  overpass times, which is the method that spec later abandoned as
+  unreliable, and it was never what the job used.
+- WHICH hour the job fires is platform's and lives in
+  .github/workflows/. Deliberately not repeated here. It has already
+  moved from 06:00 to 03:10 with an 05:30 backstop, and on 2026-08-04
+  design found three stale copies of the old time, one of them live and
+  reader-facing on the fires index. A schedule stated in four places
+  goes wrong in three of them, and no check catches it because each one
+  is a well-formed sentence that happens to be false.
 - **Escalation path**: during an extreme week the cron can be flipped
   to twice daily, with the second run labeled "today so far, partial
   day" and excluded from day-over-day comparisons. One-line change,

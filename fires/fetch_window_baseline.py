@@ -379,6 +379,40 @@ def main() -> None:
     print(f"  fetched {fetched} day-records; the rest came from cache",
           flush=True)
 
+    # A YEAR WITH NO ARCHIVE IS NOT A YEAR WITH NO FIRE.
+    #
+    # The VIIRS SNPP science-quality archive has gaps. One runs
+    # 2022-07-27 to 2022-08-10 inclusive: Angola reads 30,254 detections
+    # on 26 July 2022, zero for fifteen days, then 26,487 on 12 August.
+    # Every country in the roster reads exactly zero across that window.
+    #
+    # Counted as a zero, such a year drags the baseline mean down and
+    # inflates every multiple computed against it by 14/13, which is
+    # 7.7%. That shipped live on 2026-08-04: Greece published at 12.4x
+    # when its real figure against the years that exist is 11.5x.
+    # Rankings survive, because the bias is identical everywhere, but
+    # the numbers do not.
+    #
+    # Detection is global rather than per country. Malta legitimately
+    # reads zero most weeks; ninety-four countries cannot all read zero
+    # in the same week, so a year whose GLOBAL total is zero is missing
+    # archive, not an absence of fire. That distinction cannot be made
+    # from one country's series, which is why this sits here rather than
+    # in window_from_cache.
+    year_totals = {y: sum(rec["hist"].get(str(y), 0) for rec in out.values())
+                   for y in YEARS}
+    no_archive = sorted(str(y) for y, t in year_totals.items() if t == 0)
+    if no_archive:
+        print(f"  YEARS WITH NO ARCHIVE for {win}: {', '.join(no_archive)}. "
+              f"Excluded from every baseline rather than counted as zero.",
+              flush=True)
+        for rec in out.values():
+            for y in no_archive:
+                rec["hist"].pop(y, None)
+            if rec["hist"]:
+                rec["mean"] = round(sum(rec["hist"].values())
+                                    / len(rec["hist"]), 1)
+
     # One retry pass before writing. A failure here costs the country a
     # whole window, and most failures are transient: a Malawi request
     # that failed three times in the full builder returned data on the
@@ -411,6 +445,7 @@ def main() -> None:
         raise SystemExit(1)
 
     doc = {"window": win, "sensor": "VIIRS_SNPP_SP", "years": "2012-2025",
+           "years_excluded_no_archive": no_archive,
            "built": datetime.utcnow().isoformat(timespec="seconds") + "Z",
            "countries": out}
     with open(OUT, "w") as fh:
