@@ -1,0 +1,93 @@
+{
+  "schema_version": "0.1.0",
+  "_shape_status": "working shape, not a contract. Ratified as a method by D-074.",
+  "hazard": "wildfire",
+  "_note": "Component definitions for the wildfire damage model. Components are DISJOINT parts of one measure and therefore sum, unlike measures, which overlap and never sum. Every pair that could plausibly overlap carries an explicit boundary, because an unpoliced boundary inflates a total quietly and that is the never-sum error one level down.",
+  "sums_to": "economic_total",
+  "_sums_to_note": "The component set adds up to a total-economic view. It must never be added to an insured-loss or direct-economic figure for the same event; those are other measures of the same thing.",
+  "components": {
+    "response_cost": {
+      "order": 1,
+      "label": "What the emergency response cost",
+      "definition": "Firefighting, aircraft, personnel, evacuation logistics, civil protection deployment.",
+      "boundary": "Ends when the fire is out. Anything after that is restoration.",
+      "estimability": "strong",
+      "_basis_note": "Published per-hectare operational costs exist, but see the shared-parameter warning in any event that uses them."
+    },
+    "timber_forest": {
+      "order": 2,
+      "label": "Timber and forest destroyed",
+      "definition": "Merchantable standing timber and plantation value lost.",
+      "boundary": "Merchantable value only. Non-market forest value belongs to ecosystem services. The cost of replanting belongs to restoration, not here.",
+      "estimability": "strong",
+      "_basis_note": "Hectares by forest type times published timber values."
+    },
+    "agriculture": {
+      "order": 3,
+      "label": "Crops and livestock lost",
+      "definition": "Field crops, estate crops, livestock, stored produce.",
+      "boundary": "Excludes forestry plantations, which are timber. Farm buildings are built assets.",
+      "estimability": "moderate",
+      "_basis_note": "Needs a land-use overlay on the burn perimeter."
+    },
+    "built_assets": {
+      "order": 4,
+      "label": "Buildings and infrastructure destroyed",
+      "definition": "Homes, businesses, farm buildings, infrastructure, vehicles.",
+      "boundary": "Stock destroyed, not the income foregone from it, which is output.",
+      "estimability": "weak_from_area_strong_from_counts",
+      "_basis_note": "Structure counts are usually reported for large fires and are far better than any area-based proxy."
+    },
+    "restoration": {
+      "order": 5,
+      "label": "Cost of putting the land back",
+      "definition": "Replanting, soil stabilisation, erosion and flood control.",
+      "boundary": "Forward-looking cost of recovery. Does not include the value of what was lost, which sits in timber.",
+      "estimability": "moderate",
+      "_basis_note": "Published per-hectare restoration costs exist. Frequently excluded by response-cost sources, explicitly so in the Spanish case."
+    },
+    "output_bi": {
+      "order": 6,
+      "label": "Work and production lost",
+      "definition": "Tourism, closures, lost working time, supply disruption.",
+      "boundary": "Foregone flow, never the destroyed stock that caused it.",
+      "estimability": "weak",
+      "_basis_note": "Requires a regional economic base we do not hold."
+    },
+    "health": {
+      "order": 7,
+      "label": "Health effects of smoke",
+      "definition": "Treatment costs and morbidity from smoke exposure, acute and long-term.",
+      "boundary": "Illness, not deaths. Deaths are mortality and are never priced into this line.",
+      "estimability": "moderate_acute_contested_longterm",
+      "_basis_note": "26 percent of Kiely et al.'s Indonesia total was long-term mortality valuation, which is a different thing again."
+    },
+    "carbon": {
+      "order": 8,
+      "label": "Carbon released",
+      "definition": "Emissions from combustion, valued at a market price.",
+      "boundary": "Priced emissions only. Other non-market forest services are ecosystem. Soil carbon stock loss is NOT included and is the main reason this line is a floor.",
+      "estimability": "strong",
+      "species_required": true,
+      "_basis_note": "Tonnage from Copernicus CAMS, price from the EU ETS on a stated date. Both named third-party observables; TLS contributes one multiplication.",
+      "_species_trap": "CAMS reports megatonnes of CARBON. The ETS prices CO2. The conversion is 44/12, a factor of 3.667. The species must be in the field name."
+    },
+    "ecosystem": {
+      "order": 9,
+      "label": "Wider environmental value",
+      "definition": "Watershed, biodiversity, non-market services.",
+      "boundary": "Excludes priced carbon, which is its own line.",
+      "estimability": "never_filled_by_tls",
+      "_basis_note": "No settled valuation standard exists. This component is always a named gap. Kristjan's call at D-074."
+    },
+    "mortality": {
+      "order": 10,
+      "label": "Deaths",
+      "definition": "People killed by the event.",
+      "boundary": "Counted in people. Never converted to money and never added to the component total.",
+      "estimability": "counted",
+      "excluded_from_total": true,
+      "_basis_note": "A monetised death toll is a separate measure and prices this same fact; the two must be linked wherever both appear."
+    }
+  }
+}

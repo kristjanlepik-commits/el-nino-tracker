@@ -376,6 +376,78 @@ def check_latency(doc, estimators):
             warn(f"{where}: verification_status={status}, not publishable yet")
 
 
+COMPONENT_STATUSES = {"counted", "estimated_from_shared_parameter", "tls_estimated",
+                      "gap", "gap_with_basis_available", "never_filled"}
+
+
+def check_components(where, cm, component_defs):
+    """The component model ratified by D-074.
+
+    Components are disjoint parts of one measure and therefore sum. The
+    two failure modes this guards are (a) a total that reads as an
+    estimate when gaps make it a floor, and (b) several figures for one
+    component that share a parameter being displayed as if they
+    corroborated each other.
+    """
+    if cm.get("_ratified_by") != "D-074":
+        err(f"{where}: component model must cite its ratifying decision")
+    if cm.get("total_is_a_floor") is not True:
+        err(f"{where}: a component total with any gap is a floor and must say so")
+
+    comps = cm.get("components") or {}
+    if not comps:
+        err(f"{where}: no components")
+        return
+
+    for cid, c in comps.items():
+        cw = f"{where}.{cid}"
+        if cid not in component_defs:
+            err(f"{cw}: unknown component, not in components.json")
+            continue
+        status = c.get("status")
+        if status not in COMPONENT_STATUSES:
+            err(f"{cw}: status {status!r} not in enum")
+            continue
+
+        if status in {"gap", "gap_with_basis_available", "never_filled"}:
+            if not (c.get("_basis") or c.get("_blocked_reason")):
+                err(f"{cw}: a gap must say why it is a gap")
+            continue
+
+        # Carbon must name its species. 44/12 is a factor of 3.667.
+        if component_defs[cid].get("species_required") and not (
+                c.get("species") or c.get("_species_required")):
+            err(f"{cw}: carbon must name its species, carbon or CO2")
+
+        sources = c.get("sources") or []
+        if status == "estimated_from_shared_parameter":
+            params = [(sc.get("derivation") or {}).get("parameter_id") for sc in sources]
+            shared = {q for q in params if q and params.count(q) > 1}
+            if not shared:
+                err(f"{cw}: status says shared parameter but no parameter is shared "
+                    f"across its sources")
+            if not c.get("shared_parameter_note"):
+                err(f"{cw}: sources sharing a parameter must carry a note saying so, "
+                    f"or they render as independent corroboration")
+            for i, sc in enumerate(sources):
+                if sc.get("independence") != "shared_parameter":
+                    err(f"{cw}.sources[{i}]: must declare independence as shared_parameter")
+
+        for i, sc in enumerate(sources):
+            if not sc.get("estimator_note") and not sc.get("estimator_id"):
+                err(f"{cw}.sources[{i}]: must name its estimator")
+            if sc.get("independence") not in {"independent", "shared_parameter"}:
+                err(f"{cw}.sources[{i}]: must declare independence")
+
+    # A floor total must be consistent with what is actually counted.
+    counted = [cid for cid, c in comps.items()
+               if c.get("status") in {"counted", "estimated_from_shared_parameter",
+                                      "tls_estimated"}]
+    if cm.get("counted_components") != len(counted):
+        err(f"{where}: counted_components says {cm.get('counted_components')} "
+            f"but {len(counted)} components carry a figure")
+
+
 def check_derived(where, d, layers):
     """A TLS-computed central figure, permitted by D-070.
 
@@ -496,6 +568,15 @@ def check_event(name, doc, estimators):
             err(f"{where}: mixes loss and non-loss categories "
                 f"({sorted(set(loss_seen))} with {sorted(set(non_loss_seen))}) "
                 f"without a _no_total declaration")
+
+    cm = doc.get("component_model")
+    if cm:
+        defs_path = DATA / "components.json"
+        if defs_path.exists():
+            defs = json.loads(defs_path.read_text()).get("components", {})
+            check_components(f"{where}.component_model", cm, defs)
+        else:
+            err(f"{where}: component_model present but components.json missing")
 
     d = doc.get("derived_figure")
     if d:
