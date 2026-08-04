@@ -222,13 +222,23 @@ def build_stress(catalogue: dict) -> dict:
         empirical["excess_abs"] = empirical["this_year"] - _mx
         empirical["excess_share"] = round(
             (empirical["this_year"] - _mx) / len(panel), 4) if len(panel) else 0.0
-        empirical["notable"] = bool(
-            empirical["clears_own_recent_max"] and empirical["this_year"] >= 3)
-        empirical["_order_by"] = ("filter on notable, order by "
+        # Renamed. "notable" invited being read as a finding, and it
+        # was: an h1 claimed six such countries were more than their own
+        # history explains, when six is the 57th percentile of the last
+        # 35 dekads. The field decides what to SHOW, never what is true.
+        # Both keys emitted for one dekad so nothing breaks mid-switch.
+        _sel = bool(empirical["clears_own_recent_max"]
+                    and empirical["this_year"] >= 3)
+        empirical["selected_for_display"] = _sel
+        empirical["notable"] = _sel   # deprecated, remove after 2026-08-14
+        empirical["_order_by"] = ("filter on selected_for_display, order by "
                                   "excess_share. Never order on "
                                   "clears_own_recent_max alone: it is a "
                                   "boolean over a small sample and puts "
-                                  "1-against-0 beside 8-against-3.")
+                                  "1-against-0 beside 8-against-3. And "
+                                  "the COUNT of selected places is not a "
+                                  "finding: it sits at the 57th "
+                                  "percentile of the last 35 dekads.")
 
         # Seasonality. The season window is derived from ASAP's static
         # phenology, and the static-ness is the point here. Section 6i

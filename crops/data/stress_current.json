@@ -500,8 +500,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 5,
     "excess_share": 0.2381,
+    "selected_for_display": true,
     "notable": true,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     17
@@ -742,8 +743,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 1,
     "excess_share": 0.0714,
+    "selected_for_display": true,
     "notable": true,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     20
@@ -917,8 +919,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     19
@@ -1155,8 +1158,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0714,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -1416,8 +1420,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 1,
     "excess_share": 0.0588,
+    "selected_for_display": true,
     "notable": true,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -1621,8 +1626,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     17
@@ -1817,8 +1823,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     19
@@ -2080,8 +2087,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0588,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -2243,8 +2251,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.6667,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -2577,8 +2586,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -7,
     "excess_share": -0.25,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     28
@@ -2805,8 +2815,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -6,
     "excess_share": -0.5,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -2984,8 +2995,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.4,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     12
@@ -3254,8 +3266,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.1667,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     28
@@ -3450,8 +3463,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     16,
@@ -3665,8 +3679,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.2,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     13
@@ -3977,8 +3992,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -11,
     "excess_share": -0.4583,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10
@@ -4236,8 +4252,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.2353,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     29
@@ -4429,8 +4446,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 1,
     "excess_share": 0.1429,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -4725,8 +4743,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -12,
     "excess_share": -0.5455,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     33
@@ -4984,8 +5003,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -11,
     "excess_share": -0.6471,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     14
@@ -5236,8 +5256,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -5464,8 +5485,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0833,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     30
@@ -5800,8 +5822,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -6,
     "excess_share": -0.2143,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -6112,8 +6135,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.0833,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     17,
@@ -6351,8 +6375,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0714,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     19
@@ -6526,8 +6551,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.4,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     7
@@ -6848,8 +6874,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -6,
     "excess_share": -0.2308,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -7102,8 +7129,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -5,
     "excess_share": -0.2941,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -7307,8 +7335,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     26
@@ -7475,8 +7504,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.25,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -7694,8 +7724,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.3636,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     8
@@ -7904,8 +7935,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.4,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     7
@@ -8104,8 +8136,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     18
@@ -8363,8 +8396,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 1,
     "excess_share": 0.0588,
+    "selected_for_display": true,
     "notable": true,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     13
@@ -8678,8 +8712,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10
@@ -8871,8 +8906,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.2857,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -9132,8 +9168,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.1765,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10,
@@ -9364,8 +9401,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -6,
     "excess_share": -0.4615,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     16
@@ -9665,8 +9703,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -6,
     "excess_share": -0.2609,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     12
@@ -9896,8 +9935,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.3077,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -10300,8 +10340,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -8,
     "excess_share": -0.2105,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -10890,8 +10931,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 1,
     "excess_share": 0.0156,
+    "selected_for_display": true,
     "notable": true,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -11263,8 +11305,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -6,
     "excess_share": -0.1818,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -11573,8 +11616,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 1,
     "excess_share": 0.0417,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -11767,8 +11811,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -12044,8 +12089,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -10,
     "excess_share": -0.5263,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     36
@@ -12247,8 +12293,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.1111,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -12447,8 +12494,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -12647,8 +12695,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.375,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     12
@@ -12861,8 +12910,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.3,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     11
@@ -13131,8 +13181,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.2222,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     26
@@ -13334,8 +13385,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.1111,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     30
@@ -13530,8 +13582,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.25,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     13
@@ -13754,8 +13807,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.1667,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10
@@ -13943,8 +13997,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     8
@@ -14164,8 +14219,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     21
@@ -14353,8 +14409,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.2857,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -14691,8 +14748,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -14857,8 +14915,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.25,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     34
@@ -15260,8 +15319,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -13,
     "excess_share": -0.3514,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     11
@@ -15442,8 +15502,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     18
@@ -15652,8 +15713,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.2,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     30
@@ -15915,8 +15977,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.2353,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     29
@@ -16118,8 +16181,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.1111,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     31
@@ -16328,8 +16392,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10
@@ -16570,8 +16635,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.1429,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -17041,8 +17107,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 1,
     "excess_share": 0.0213,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10
@@ -17535,8 +17602,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -5,
     "excess_share": -0.1,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -17775,8 +17843,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.2857,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     7,
@@ -17986,8 +18055,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.2,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10
@@ -18259,8 +18329,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0526,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     11
@@ -18490,8 +18561,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.3077,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -19160,8 +19232,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -19,
     "excess_share": -0.25,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -19410,8 +19483,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0625,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     8
@@ -19771,8 +19845,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.0645,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     18
@@ -20065,8 +20140,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     5
@@ -20251,8 +20327,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -20521,8 +20598,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.1667,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10
@@ -20738,8 +20816,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.2727,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     32
@@ -20987,8 +21066,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.2,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -21195,8 +21275,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.1,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     13
@@ -21395,8 +21476,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.1111,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9,
@@ -21641,8 +21723,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.1333,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10
@@ -21816,8 +21899,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     14
@@ -22247,8 +22331,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     8
@@ -22454,8 +22539,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     28
@@ -22675,8 +22761,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.3636,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -23366,8 +23453,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 2,
     "excess_share": 0.0253,
+    "selected_for_display": true,
     "notable": true,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     6
@@ -23730,8 +23818,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.0938,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     14
@@ -24108,8 +24197,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     6
@@ -24318,8 +24408,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.3,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     10
@@ -24577,8 +24668,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.1176,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     28
@@ -24889,8 +24981,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.0833,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     30
@@ -25180,8 +25273,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.0952,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     8
@@ -25352,8 +25446,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -25648,8 +25743,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0455,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     27
@@ -25921,8 +26017,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     5
@@ -26184,8 +26281,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.2353,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     11
@@ -26408,8 +26506,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0833,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     31
@@ -26674,8 +26773,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0556,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     29
@@ -26947,8 +27047,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.1053,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     8
@@ -27140,8 +27241,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.1429,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -27338,8 +27440,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.375,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     8
@@ -27695,8 +27798,9 @@
     "clears_own_recent_max": true,
     "excess_abs": 1,
     "excess_share": 0.0323,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -27849,8 +27953,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -28022,8 +28127,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.2,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     6
@@ -28253,8 +28359,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -6,
     "excess_share": -0.4615,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     33
@@ -28491,8 +28598,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -29207,8 +29315,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -4,
     "excess_share": -0.0488,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -29405,8 +29514,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     8
@@ -29594,8 +29704,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     21
@@ -29780,8 +29891,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.3333,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -29952,8 +30064,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     7
@@ -30194,8 +30307,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     13
@@ -30432,8 +30546,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.0714,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     7
@@ -30667,8 +30782,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.1538,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [],
    "next_season_opens_dekad": null,
@@ -30879,8 +30995,9 @@
     "clears_own_recent_max": false,
     "excess_abs": 0,
     "excess_share": 0.0,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     32
@@ -31089,8 +31206,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.2,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     5
@@ -31317,8 +31435,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -2,
     "excess_share": -0.1667,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     9
@@ -31748,8 +31867,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -5,
     "excess_share": -0.122,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     30
@@ -31951,8 +32071,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -1,
     "excess_share": -0.1111,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     29
@@ -32280,8 +32401,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -5,
     "excess_share": -0.1852,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     29
@@ -32480,8 +32602,9 @@
     "clears_own_recent_max": false,
     "excess_abs": -3,
     "excess_share": -0.375,
+    "selected_for_display": false,
     "notable": false,
-    "_order_by": "filter on notable, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3."
+    "_order_by": "filter on selected_for_display, order by excess_share. Never order on clears_own_recent_max alone: it is a boolean over a small sample and puts 1-against-0 beside 8-against-3. And the COUNT of selected places is not a finding: it sits at the 57th percentile of the last 35 dekads."
    },
    "season_opens_dekads": [
     32
