@@ -98,6 +98,19 @@ described as load-bearing.
 degrees from the city cell centre, excluding cells more than 50 percent
 water on ERA5's land-sea mask. Simple mean, unweighted.
 
+**Ambiguity resolved 2026-08-04, before the analysis ran.** "Degrees"
+did not say degrees of what, and the two readings are not equivalent.
+In coordinate space a longitude degree shrinks with latitude, so
+Liverpool at 53N would get a ring roughly 40 percent narrower on the
+ground than Naples at 41N, and the ring would silently mean a different
+thing per city. Resolved to **great-circle angular distance**, so the
+annulus is a true 83 to 167 km ring everywhere and is comparable across
+the set.
+
+This resolves an ambiguity rather than moving a fixed value, and it was
+resolved before any result was computed. Recorded because a freeze that
+tolerates silent interpretation is not a freeze.
+
 **A limitation with a known direction, recorded because it changes how
 a clean result should be read.** The ring is not screened for suburban
 growth. If ring cells have themselves urbanised, city-minus-ring
@@ -636,6 +649,105 @@ geographies. The ERA5 anomaly boxes stop at 115W and do not reach the
 US Pacific Northwest, which the drift boxes cover. A reader seeing both
 on one page would reasonably assume they are the same area. Platform is
 carrying this to design alongside the two-month publication lag.
+
+## 5d. Claim B delivered by platform, 2026-08-04 (`91bdc6b`)
+
+`climatology/build_drift.py` -> `climatology/data/drift.json`. Berkeley
+Earth 1 degree, land-fraction masked, both baselines complete at 360 of
+360 months.
+
+Baseline shift, 1961-1990 to 1991-2020, degrees C:
+
+| region | TMIN | TMAX |
+|---|---|---|
+| iberia | +0.70 | +0.96 |
+| italy_c_med | +0.86 | +1.06 |
+| us_southwest | +0.65 | +0.81 |
+| us_pacific_nw | +0.57 | +0.62 |
+
+**Second correction to the currency claim.** The file starts at
+**1850**, not 1833. The product description is wrong at both ends and
+platform measured the artifact. Third instance in two days of
+documentation disagreeing with the file it describes.
+
+### 5d-i. The result, recorded without an explanation
+
+**TMAX drift exceeds TMIN drift in all four regions**, by 0.05 to 0.26.
+The day normal has moved further than the night normal, which is the
+opposite of the common expectation that nights warm faster.
+
+Platform declined to offer an explanation with the numbers. **Heat
+declines to construct one here**, and the discipline is the same one
+that has already paid twice in two days: an explanation invented before
+the checks in 5c-i are run would be a rationalisation dressed as a
+finding, and a counterintuitive result is exactly what gets published
+fastest.
+
+Consistency across four boxes on two continents makes a coding error
+less likely. It does not make the number right, and it does not make it
+publishable. What it is, for now, is **computed and not verified**, and
+that distinction travels with it.
+
+**A limitation on one of the pre-registered checks.** The ERA5 pull
+running now samples **night hours only**, so it can reproduce a TMIN
+drift and **cannot** test the day-versus-night differential at all.
+Confirming platform's result in ERA5 needs daytime hours, which were
+never pulled.
+
+The affordable form, not yet run: **July only, both baseline decades,
+EU box**, which is roughly six to eight chunks rather than another 96.
+July is the month the heat claim is about, so a targeted check answers
+the question that matters without a second full pull.
+
+## 5e. Cross-validation of ERA5 against Berkeley: thresholds fixed BEFORE the comparison
+
+Platform's reminder is correct and is the reason this section exists
+ahead of any number: otherwise "within uncertainty" becomes whatever
+the comparison turns out to be.
+
+**Agreement rule.** For a region, ERA5's own 1961-1990 to 1991-2020
+night-minima shift agrees with Berkeley's TMIN shift if the two differ
+by **0.25 degrees C or less** and carry the same sign.
+
+Set as an absolute rather than from Berkeley's published uncertainty
+because that uncertainty is not yet in hand; if platform supplies it,
+**the tighter of the two applies**, so this cannot be used to widen the
+bar later. The scale is chosen from the claim it gates: regional July
+night minima have an interannual spread of order 1 degree C, so 0.25 is
+about a quarter of a standard deviation, enough to move a ranking near
+a boundary and not enough to overturn a wide margin.
+
+**A region that agrees** has its ERA5 1961-1990 baseline demonstrated
+fit, and claim C may be computed inside ERA5 for it as single-source
+Measured. **A region that disagrees** does not publish claim C, and the
+disagreement is itself a measurement of reanalysis inhomogeneity.
+
+### 5e-i. Directional prediction, stated before the result
+
+Not merely "they might differ". If ERA5's 1961-1990 is cold-biased as
+section 3 argues, then **ERA5's shift will EXCEED Berkeley's**, because
+a cold early baseline inflates the drift computed against it. And the
+excess should be **larger in Iberia than elsewhere**, because the 1978
+snow defect is Iberian.
+
+If instead ERA5's shift comes out **smaller** than Berkeley's, the
+contamination hypothesis is wrong in direction, and that will be
+reported as such rather than reinterpreted.
+
+### 5e-ii. "Independent" is overstated, and it weakens a pass, not a fail
+
+Platform's correction, accepted. Berkeley is station-based and ERA5
+assimilates observations including station data, so over land before
+1979 both lean on overlapping archives. **Agreement may therefore
+reflect shared inputs rather than mutual confirmation, and is weaker
+evidence than the word independent implies.** Disagreement remains
+strong, since it would show one product's processing doing something
+the other's does not.
+
+The exception matters and is the case being tested: the 1978 Iberian
+snow error is an **ERA5 assimilation artifact**, so Berkeley is
+genuinely independent of that specific fault even where it is not
+independent in general. Iberia is where this test keeps its force.
 
 ## 6. RESOLVED as D-068, and the claim decomposition that replaced it
 
