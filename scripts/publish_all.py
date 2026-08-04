@@ -25,9 +25,10 @@ deterministic and safe to re-run.
 THE RULE, and it is not negotiable: this script runs renderers, never
 fetchers. Specifically fires/build_events.py must NEVER be added here.
 It calls the FIRMS API for 45 countries, takes minutes, is the daily
-06:00 UTC data job, and can fail on a network blip. The same bar applies
-to crops/pull_asap_indicator.py, which downloads a 30 MB dekadal archive
-and must never be reachable from a publish. Putting a fetcher in
+03:10 UTC data job with an 05:30 backstop, and can fail on a network
+blip. The same bar applies to crops/pull_asap_indicator.py, which
+downloads a 30 MB dekadal archive and must never be reachable from a
+publish. Putting a fetcher in
 a publish path would make every publish pull live data and quietly move
 the published numbers, which is the exact opposite of what this script
 is for. If a channel needs new data, run its data job; publishing is a

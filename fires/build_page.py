@@ -265,8 +265,8 @@ h1 {{
     year is measured by the same sensor, low-confidence detections
     excluded, detections assigned to countries by national boundary
     polygons applied identically in all years. The window is seven
-    whole UTC days, refreshed once daily at 06:00 UTC, so no figure
-    here is a partial day.</p>
+    whole UTC days, refreshed once daily, so no figure here is a
+    partial day.</p>
     <p><b>Attribution.</b> Southern and western European fires are
     driven by heat, drought and wind, and people supply nearly all
     ignitions. Canadian boreal fire has its own drivers. None of this
