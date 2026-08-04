@@ -70,6 +70,22 @@ def load(slug: str, cid: str):
     return d
 
 
+def _rank_statement(rank: int, of: int) -> str:
+    """Value and basis in one string so they cannot be separated.
+    Called at country and region level from one place, so the two
+    cannot drift apart."""
+    if rank == 1:
+        lead = "lowest"
+    else:
+        # 23th is the kind of thing a reader notices and a checker does
+        # not, so the suffix is computed rather than assumed to be "th".
+        suffix = ("th" if 11 <= rank % 100 <= 13
+                  else {1: "st", 2: "nd", 3: "rd"}.get(rank % 10, "th"))
+        lead = f"{rank}{suffix} lowest"
+    return (f"{lead} of {of} observations for this point in the "
+            f"season, {BASE_FIRST}-{BASE_LAST}")
+
+
 def rank_of(current: float, history: pd.Series, worse_is: int) -> int:
     """1 = most stressed on record."""
     if worse_is > 0:
@@ -179,10 +195,7 @@ def build_stress(catalogue: dict) -> dict:
                 # of a field rather than trimming a sentence. Computed,
                 # never typed, per the ban on free text that stops
                 # tracking its data.
-                "statement": (
-                    f"{'lowest' if rk == 1 else f'{rk}th lowest'} of {of} "
-                    f"observations for this point in the season, "
-                    f"{BASE_FIRST}-{BASE_LAST}"),
+                "statement": _rank_statement(rk, of),
                 # The region's own record, so a region page can show it
                 # against itself the way the country block shows Chad.
                 # Same shape as the country chance_baseline series.
@@ -317,6 +330,12 @@ def build_stress(catalogue: dict) -> dict:
                 "of": head["of"],
                 "direction": "low",
                 "basis": f"same dekad, {BASE_FIRST}-{BASE_LAST}",
+                # Same binding as the region rows. basis alone is a
+                # field a renderer can show the value without; statement
+                # cannot be separated from what it describes, so a page
+                # missing the basis is missing a field rather than being
+                # subtly wrong.
+                "statement": _rank_statement(head["rank"], head["of"]),
             },
             "driver": driver,
             "evidence_basis": "measured",
