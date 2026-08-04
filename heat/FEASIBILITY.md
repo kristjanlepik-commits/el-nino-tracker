@@ -892,6 +892,57 @@ carrying beyond Heat:** wherever we would otherwise write "this
 instrument corrects for X", recompute with X removed and publish the
 difference instead. An argument becomes a number at no extra cost.
 
+## 5g. The two-band chart, and why a threshold count is riskier than a mean
+
+Product's visualisation proposal, 2026-08-04: per region, every individual
+July as a dot on a temperature axis, in two bands (1961-1990 and
+1991-2020), with this July marked. The spine gets drawn rather than
+stated, since the July gap sits beside the annual gap at one scale and
+the Southwest's sign flip becomes visible rather than a minus sign.
+
+**Berkeley cannot supply the marker. Measured from the file: the record
+ends at 2024.792, last complete year 2023.** So placing July 2026 inside
+Berkeley bands would put an ERA5 point in a Berkeley distribution, which
+is arithmetic across sources and is forbidden in terms by both platform's
+`drift.json` readme and Heat's own payload.
+
+**The chart is therefore ERA5-only or it is not Measured.** ERA5 holds
+both baselines and the current July in one series. That is claim C, and
+it is licensed by the 5e cross-validation and nothing else. **Product's
+chart and Heat's cross-validation are the same critical path**, both
+gated on the running pull.
+
+### 5g-i. Counting nights: cheap, most legible, and two traps
+
+Product asked whether "Iberia used to get N July nights above 20 C and
+now gets M" is affordable. It is the most legible form the channel has,
+and the data is already in hand. Two cautions.
+
+**The six-hour construction cannot produce it.** A minimum over a subset
+of hours runs warmer than a true daily minimum. That bias cancels in a
+city-minus-ring difference, which is why 1b-ii is safe for the test. It
+does not cancel in a count: it **overcounts** nights above a threshold,
+in the direction that inflates the story. Counts need true daily minima
+from the derived product, per the 5c constraint.
+
+**A threshold count is MORE exposed to the 1979 boundary than a mean
+is**, and this is the non-obvious one. A mean shifts by the size of any
+bias. A count shifts by the bias multiplied by the density of nights
+sitting near the threshold, which can be far larger. So the version
+compared against 1961-1990 is more fragile than the drift figures, not
+less, despite feeling more concrete.
+
+**Recommendation, given to product: count nights inside the satellite
+era only.** 1979-2026 is 47 years in one observing regime, first half
+against second half, no boundary crossed and no cross-validation needed.
+The 1961-1990 version waits for the same verdict as everything else.
+
+**And use the established definition.** Tropical night, minimum at or
+above 20 C, is already used by European met services. Adopting theirs
+keeps the number comparable to what a reader may meet elsewhere and
+removes the question of why we drew our own line. Aggregator posture
+applied to a threshold rather than to a source.
+
 ## 5e. Cross-validation of ERA5 against Berkeley: thresholds fixed BEFORE the comparison
 
 Platform's reminder is correct and is the reason this section exists
