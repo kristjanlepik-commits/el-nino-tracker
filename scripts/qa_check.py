@@ -363,6 +363,137 @@ def check_schedule_claims(violations):
                 f"faithfully, so nothing else catches it.")
 
 
+# D-078: a published page may not lag its own data.
+#
+# THE DEFECT IT EXISTS FOR. On 2026-08-04 docs/index.html served the
+# 07-27..08-02 fire week all day while fires/data/current_week.json had
+# held 07-28..08-03 since 11:49. Greece read 11.3x live against 11.5x in
+# the data, and 19 countries clearing against 14. Fire computed and
+# committed the week correctly; the page was simply never regenerated.
+#
+# WHY THIS IS NOT REDUNDANT WITH docs-match-source, which is the
+# objection I raised before it was ratified and which I now think was
+# wrong. That check regenerates and compares, so it catches "the page
+# drifted from its generator". It structurally CANNOT catch "the
+# generator itself read stale data", because regenerating reproduces the
+# stale period faithfully and the comparison passes. This check reads the
+# period off the rendered page and compares it to the data file, so it
+# sees that case. The two overlap on the common defect and each catches
+# something the other cannot.
+#
+# ARCHIVES ARE EXCLUDED. docs/briefs/<date>/ is deliberately old under
+# invariant 5; a frozen brief rendering a frozen week is the system
+# working. Only rolling pages are checked.
+#
+# NOT-OLDER-THAN rather than equality, which was Product's second open
+# question. Equality would also fail when a page is NEWER than its data,
+# which is a different and much rarer defect (a page rendering something
+# no commit supports) and is better caught by docs-match-source. Here the
+# only assertion is that the data has not moved past the page.
+PAGE_DATA_PAIRS = [
+    # front=True marks the highest-consequence artifact we have. Product's
+    # option 1: a stale docs/index.html is not the same event as a stale
+    # country page, and reporting them identically is part of why three
+    # red runs on the front page changed nothing for a morning. The front
+    # page is what a first-time reader meets.
+    {"page": "docs/index.html", "data": "fires/data/current_week.json",
+     "what": "the front page fire week", "front": True},
+    {"page": "docs/fires/index.html", "data": "fires/data/current_week.json",
+     "what": "the fires channel index"},
+    {"page": "docs/crops/index.html", "data": "crops/data/stress_current.json",
+     "what": "the crops channel index"},
+]
+
+
+def _page_period(text: str):
+    """Newest period a rendered page claims, as a comparable date.
+
+    Pages stamp their period in three different formats, so this reads
+    all of them rather than assuming one. Tags are stripped first: a
+    phrase that reads as one string on the page is routinely split
+    across elements in the source, and grepping raw HTML for it finds
+    nothing and looks like proof of absence.
+    """
+    # TWO strippings, and the reason is the trap this file documents
+    # elsewhere. Replacing a tag with a SPACE keeps words apart, which is
+    # right for prose, but "<b>07-27</b>..08-02" then becomes
+    # "07-27 ..08-02" and no contiguous pattern matches it. Replacing with
+    # nothing rejoins the period but can weld unrelated words together.
+    # So search both and take whatever either finds.
+    #
+    # This is not hypothetical: the first version of this check used only
+    # the spaced form and scored zero against a faithful reproduction of
+    # the 2026-08-04 defect it was written for. Caught by making it fail,
+    # per D-069 rule 2, and it is a fair joke on me that I wrote the
+    # split-across-tags warning into CLAUDE.md the same afternoon.
+    flat = re.sub(r"<[^>]+>", " ", text) + "\n" + re.sub(r"<[^>]+>", "", text)
+    best = None
+    # "07-28..08-03": take the END of the window, in the current year.
+    for m in re.finditer(r"(\d{2})-(\d{2})\.\.(\d{2})-(\d{2})", flat):
+        try:
+            d = date(date.today().year, int(m.group(3)), int(m.group(4)))
+        except ValueError:
+            continue
+        if d > date.today():
+            d = d.replace(year=d.year - 1)
+        best = max(best, d) if best else d
+    # "dekad 2026-07-11" and "week of 2026-08-03"
+    for pat in (r"dekad\s+(\d{4}-\d{2}-\d{2})", r"[Ww]eek of (\d{4}-\d{2}-\d{2})"):
+        for m in re.finditer(pat, flat):
+            try:
+                d = date.fromisoformat(m.group(1))
+            except ValueError:
+                continue
+            best = max(best, d) if best else d
+    return best
+
+
+def _data_period(doc: dict):
+    w = doc.get("window")
+    if isinstance(w, str):
+        m = re.search(r"(\d{2})-(\d{2})\.\.(\d{2})-(\d{2})", w)
+        if m:
+            try:
+                d = date(date.today().year, int(m.group(3)), int(m.group(4)))
+                return d.replace(year=d.year - 1) if d > date.today() else d
+            except ValueError:
+                pass
+    for key in ("dekad", "as_of", "observation_date"):
+        v = doc.get(key)
+        if isinstance(v, str):
+            try:
+                return date.fromisoformat(v[:10])
+            except ValueError:
+                continue
+    return None
+
+
+def check_page_lags_data(violations):
+    for pair in PAGE_DATA_PAIRS:
+        page, data = ROOT / pair["page"], ROOT / pair["data"]
+        if not page.exists() or not data.exists():
+            continue
+        try:
+            doc = json.loads(data.read_text(encoding="utf-8"))
+            text = page.read_text(encoding="utf-8", errors="ignore")
+        except (OSError, ValueError):
+            continue
+        p_period, d_period = _page_period(text), _data_period(doc)
+        if p_period is None or d_period is None:
+            continue
+        if d_period > p_period:
+            lead = ("FRONT PAGE STALE: " if pair.get("front")
+                    else "page lags its data: ")
+            violations.append(
+                lead +
+                f"{pair['page']} renders {p_period} but {pair['data']} has "
+                f"advanced to {d_period}. {pair['what'].capitalize()} is "
+                f"showing older numbers than the committed data, which is "
+                f"exactly what shipped on 2026-08-04: the front page served "
+                f"Greece at 11.3x for a day while the data said 11.5x. Run "
+                f"scripts/publish_all.py and commit. (D-078)")
+
+
 def _leaf_paths(obj, prefix=()):
     """Every path to a non-empty leaf. Empty containers count as absent."""
     if isinstance(obj, dict):
@@ -803,6 +934,7 @@ def main():
     check_snapshots(violations)
     check_snapshot_regression(violations)
     check_schedule_claims(violations)
+    check_page_lags_data(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
     check_allhands(violations)
     check_large_files(violations)
