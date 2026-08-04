@@ -207,7 +207,19 @@ def _row(e) -> str:
     # The driver field still says something; it just says something
     # weaker, and it belongs in its own sentence rather than inside the
     # claim. See `_driver_note`.
-    claim = "lowest on record for this point in the season"
+    # CRO's `statement`, rendered bound to the number rather than
+    # authored here. It binds the value to its basis in one string that
+    # a layout decision cannot separate, which is the point of it: a
+    # page showing a rank without its basis is then MISSING A FIELD
+    # rather than subtly wrong, and that fails closed.
+    #
+    # The sentence I had written was true of every row on this page,
+    # since all 81 are rank 1, and it still omitted the basis years. The
+    # near-miss that produced this field is the same shape: editor
+    # drafted "lowest since this measurement started in 2001", which was
+    # false for 7 of Chad's 8 regions, because the qualifier lived on
+    # the country object while the claim was about a region.
+    claim = e.get("statement") or "lowest on record for this point in the season"
     # D-076: "attribution pending" comes off every entry. It was the
     # code's default fallback, so it rendered on all 81 rows and read as
     # clutter rather than as information. It is a work state, not a
@@ -285,7 +297,8 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
             key=lambda k: 1) or 26
     K = 26
     hits = [dict(region=r["region"], country=c, driver=dv, attribution=at,
-                 z=r["value"], rank=r["rank"], of=r["of"])
+                 z=r["value"], rank=r["rank"], of=r["of"],
+                 statement=r.get("statement"))
             for c, dv, at, r in rows if r.get("rank") == 1]
     hits.sort(key=lambda e: e["z"])
     lam = N / K
