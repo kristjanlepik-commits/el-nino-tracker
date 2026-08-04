@@ -148,7 +148,17 @@ ATTRIBUTION_ENSO_WINDOW = {
 }
 # Outside its ENSO window, a listed country falls back to this.
 ATTRIBUTION_OFF_WINDOW = {"AUS": "non_enso"}
-DEFAULT_ATTRIBUTION = "pending"
+# D-076, 2026-08-04: "pending" comes off reader-facing surfaces. It is a
+# WORK STATE, not a finding, and it was this function's default fallback,
+# so it rendered on anything untagged and therefore carried no
+# information at all. Kristjan: it confuses the reader and reads as
+# ENSO-researcher design rather than reader-value design.
+#
+# null rather than a softer word, and the field is kept rather than
+# removed so a real ENSO string can occupy it later. Absence of a tag
+# means we have not assessed it, which is true and is not the reader's
+# problem. The two ENSO strings are unchanged.
+DEFAULT_ATTRIBUTION = None
 
 
 def attribution_for(iso, month):

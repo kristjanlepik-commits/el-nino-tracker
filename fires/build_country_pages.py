@@ -98,8 +98,8 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
     # prevent one paragraph earlier.
     #
     # It argues from this country's own baselines only. No ENSO framing:
-    # most of the live set is tagged pending, and the house context does
-    # not travel into a channel page as an assumption.
+    # most of the live set carries no attribution tag at all, and the
+    # house context does not travel into a channel page as an assumption.
     week_mult = now / mean if mean else 0.0
     week_claim = (f"{name} had its {ORD.get(rank, str(rank) + 'th-heaviest')} "
                   f"fire week for this point in the year since {min(hist)}")
@@ -157,7 +157,7 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
             "against every week like it. How bad is the year, measured "
             "against every season on record. Different instruments, "
             "different units, and one of them is not finished."),
-        "attribution": ev.get("attribution", "pending"),
+        "attribution": ev.get("attribution"),   # D-076: null, not "pending"
         # Orthogonal, and a country carries more than one: Spain is
         # anomalous AND pinned, Canada is pinned AND volume_context and
         # explicitly not anomalous. Collapsing them into one class is
@@ -266,6 +266,13 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
             'Detection counts are whole UTC days and are not revised. '
             'Published figures are not edited in place.')
 
+    # D-076, 2026-08-04: an unassessed country gets NO attribution rail.
+    #
+    # "pending" was the default fallback, so it rendered on nearly every
+    # page and told the reader only that we had not looked. That is a
+    # work state, not a finding, and it is not the reader's problem. The
+    # two ENSO strings are unchanged, and the field is kept null rather
+    # than removed so a real string can occupy it later.
     tag = piece["attribution"]
     piece["rail_attribution"] = {
         "enso": ('ENSO-loaded window<br>This event falls in a window and '
@@ -274,10 +281,7 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
         "non_enso": ('not ENSO-linked<br>No established teleconnection '
                      'between ENSO and fire weather in this region. The '
                      'swell raised this; the wave did not.'),
-        "pending": ('attribution pending<br>No assessment has been made '
-                    'for this event yet. Pending means not yet examined, '
-                    'and is not a weak yes.'),
-    }[tag if tag in ("enso", "non_enso", "pending") else "pending"]
+    }.get(tag, "")
     return piece
 
 

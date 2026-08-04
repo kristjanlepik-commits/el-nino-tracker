@@ -32,8 +32,23 @@ OUT = os.path.join(REPO, "docs", "fires", "index.html")
 TAG_TEXT = {
     "enso": "ENSO-loaded window",
     "non_enso": "not ENSO-linked",
-    "pending": "attribution pending",
+    # D-076: no entry for a null tag. An untagged country renders no
+    # tag at all rather than a word that means "we have not looked".
 }
+
+
+def _tag(e):
+    """The attribution chip, or nothing at all.
+
+    D-076: an untagged country gets no chip. "attribution pending" was
+    the code's default fallback, so it appeared on nearly every row and
+    told the reader only that we had not looked, which is not their
+    problem.
+    """
+    a = e.get("attribution")
+    if not a or a not in TAG_TEXT:
+        return ""
+    return f'<span class="tag tag-{a}">{TAG_TEXT[a]}</span>'
 
 
 def _row(e):
@@ -64,7 +79,7 @@ def _row(e):
           <span class="region">{e['region']}</span>
           <span class="claim">{e['title']}</span>{note}
         </span>
-        <span class="tag tag-{e['attribution']}">{TAG_TEXT[e['attribution']]}</span>
+        {_tag(e)}
       </a>"""
 
 
@@ -85,14 +100,35 @@ def build(events_doc, font_prefix="../fonts/"):
     rows = [_row(e) for e in anom + rest]
     ctx_rows = [_row(e) for e in ctx]
 
-    n = len(anom)
-    words = {1:"One country is",2:"Two countries are",3:"Three countries are",
-             4:"Four countries are",5:"Five countries are",
-             6:"Six countries are",7:"Seven countries are",
-             8:"Eight countries are",9:"Nine countries are",
-             10:"Ten countries are",11:"Eleven countries are",
-             12:"Twelve countries are"}
-    headline = f"{words.get(n, str(n) + ' countries are')} burning well above their own seasonal normal"
+    # THE COUNT IS NOT A FINDING, SO IT IS NOT THE HEADLINE.
+    #
+    # This said "N countries are burning well above their own seasonal
+    # normal". Tested against an empirical null on 2026-08-04, at
+    # product's request and after crops reached the same conclusion
+    # independently: running this gate on every historical year of the
+    # same window, leave-one-out, an ORDINARY week produces 7.6
+    # qualifiers, median 8, range 3 to 10. The ten we published ties the
+    # historical maximum rather than exceeding it, and sits at the 85th
+    # percentile. One year in six.
+    #
+    # Worse, the gate manufactures much of its own count. RECORD_RANK is
+    # satisfied by each country exactly once across the record BY
+    # CONSTRUCTION, so 94 countries over 13 years yields about seven
+    # qualifiers every year whatever happens; it contributed 5 to 8 in
+    # every year including the quiet one. A count with a floor under it
+    # cannot be evidence of anything.
+    #
+    # The individual extremes are the finding and survive any null:
+    # Greece at 11.5x is 4.5x its own previous record week. So the
+    # headline leads with the largest anomaly and states the count
+    # nowhere. The gate keeps RECORD_RANK for SELECTION, which is sound;
+    # what it stops doing is generating a number we present as a claim.
+    lead = anom[0] if anom else (ev[0] if ev else None)
+    if lead:
+        headline = (f"{lead['region']} is burning at {lead['stat']} its "
+                    f"average for this week of the year")
+    else:
+        headline = "No country is burning unusually this week"
     # The house masthead, shared with every other page rather than
     # reinvented here. Without it this page had no link home, no nav and
     # no About, so anyone landing on it first was stuck.
