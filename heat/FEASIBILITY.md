@@ -699,6 +699,59 @@ EU box**, which is roughly six to eight chunks rather than another 96.
 July is the month the heat claim is about, so a targeted check answers
 the question that matters without a second full pull.
 
+### 5d-ii. Corrections from platform, `cb74dc0`, and one error of Heat's
+
+**Use `tmin_july`, never the annual figure.** The first `drift.json`
+shipped an all-month mean. Heat's sentence is about July nights, and the
+two differ by up to **0.48 C**, roughly twice the agreement threshold in
+5e, and in the US Southwest they move in **opposite directions**
+(-0.12). A July sentence quoting the annual figure would have been
+wrong by more than the test designed to catch it. Both windows are now
+emitted.
+
+Berkeley TMIN, July, 1961-1990 to 1991-2020: Iberia **+0.94**, Italy
+and central Mediterranean **+1.27**, US Southwest **+0.53**, US Pacific
+Northwest **+1.05**.
+
+**The day-versus-night differential is an annual signal and is not
+distinguishable from noise in July.** TMAX minus TMIN drift falls from
+0.06-0.26 annually to **0.01-0.09** in July, against a sampling spread
+on each July estimate of roughly 0.20 to 0.43. Found independently by
+platform and by Heat within the same hour, from the same file.
+
+**No uncertainty field exists.** Berkeley's gridded file carries only
+`land_mask`, `temperature` and `climatology`. The absolute 0.25 C
+threshold in 5e therefore stands unchallenged rather than tightened.
+
+**And platform's sampling SE is the wrong quantity for the agreement
+test, which they said rather than handing over a number that would be
+misused.** Berkeley and ERA5 observe *the same thirty Julys*, so
+interannual variability is common to both rather than independent noise:
+the same hot summers sit in both records. Their disagreement is
+instrument disagreement, not sampling, so the SE does not bound the
+expected gap and must not be used to widen 5e. What it does establish
+usefully is that the July drift is 2.5 to 5.5 times its own sampling
+error, weakest in the US Southwest. **The signal is well determined
+even where the differential is not.**
+
+**Heat's error, and it is the one with a cost attached.** Heat told
+product the night-versus-day spine "needs no extra pull because max and
+min come from the same hourly field". That was true of a 24-hour pull.
+The pull was then narrowed to six night hours for cost (1b-ii), which
+**broke that assurance**, and neither the amendment nor the message to
+product noticed. Product ratified the spine partly on it.
+
+Consequence: the page spine has **no data**, and a daytime pull is
+required. Platform's advice not to spend a July TMAX pull chasing a
+drift differential is correct and does not cover this: **the spine is an
+anomaly comparison, not a drift comparison.** Whether this July's nights
+are unusual in a way its days are not is a different question from
+whether the night normal moved further than the day normal since 1961,
+and only the second is answered above.
+
+Scope, to be sized rather than assumed: daytime hours for a 1991-2020
+climatology plus the current period, summer months only, both boxes.
+
 ## 5e. Cross-validation of ERA5 against Berkeley: thresholds fixed BEFORE the comparison
 
 Platform's reminder is correct and is the reason this section exists
