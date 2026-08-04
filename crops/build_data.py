@@ -309,6 +309,13 @@ def build_stress(catalogue: dict) -> dict:
         "chance_baseline_aggregate": aggregate,
         "dekad": latest_dekad,
         "baseline": f"{BASE_FIRST}-{BASE_LAST}, same dekad of each year",
+        # Two forms, because the footer has a length budget and a
+        # renderer truncating the long one lands mid-sentence on
+        # "The indicator is". Choosing where to cut a methods line is a
+        # decision about what a reader must not lose, so it belongs
+        # here rather than in a character count.
+        "method_short": "FPAR cumulated z-score, ASAP crop mask, "
+                        "growing cycle only",
         "method": "FPAR cumulated z-score, ASAP crop mask, restricted "
                   "to the growing cycle. The indicator is cumulative "
                   "over the season, so one dekad encodes the season to "
