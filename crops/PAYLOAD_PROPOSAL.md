@@ -145,3 +145,43 @@ Note `authorship: agency` on the instrument and `tls_built` on the
 country-level aggregation and rank, per D-021. The ASAP value is JRC's;
 the rank against 25 years is ours. Same row, two authorship values, and
 that distinction is why the field exists.
+
+
+## The seam, as discovered rather than specified
+
+Written 2026-08-04 after the crops payload went through five rounds with
+design. D-030 said the channel-to-design interface would be discovered
+from real cases; this is what the cases produced.
+
+**Design's formulation, which is the one to keep: anything requiring a
+WHY belongs to the channel. Anything requiring only a HOW belongs to
+design.**
+
+It arrived from three instances where design could have derived a field
+themselves, and where deriving it would have produced a defensible wrong
+answer rather than an obviously wrong one:
+
+| Field | The judgement only the channel could make |
+|---|---|
+| `chance_baseline_aggregate` | which places the baseline is computed over. Design rebuilt 60.1 from the payload and got 59.2, because mine ran over 165 countries for a page showing 123 |
+| `method_short` | where a methods line may be cut. A renderer truncating prose decides what a reader may lose, which it cannot know |
+| `absent_because` | why a number is missing. "Not reported yet" and "not defined here" are opposite claims about whether it will ever arrive |
+
+The test that separates them: **if the field can be computed but the
+computation embeds a decision about meaning, it is a WHY.** Design can
+compute a truncation, a share, or a lookup. Design cannot decide that a
+25-year country property does not license a claim about one province,
+or that a rank of 26 spans 2001-2026 rather than the baseline window.
+
+**And the corollary, which cost more to learn:** a field that carries a
+WHY must carry it as text the renderer prints verbatim, not as a code
+the renderer maps. `statement`, `absent_because` and the qualifier
+strings are all the same shape. A code is an invitation to paraphrase,
+and the paraphrase is where the meaning goes.
+
+**The strongest evidence for all of it is not the fields but the
+writing.** Being made to state *why* an instrument was absent found two
+of those reasons wrong, the second inside the same commit that fixed the
+first. Omitting the key hid it. Emitting a code hid it. Only writing the
+sentence exposed it. The explanation was the check; the field was merely
+where the explanation happened to live.
