@@ -236,23 +236,55 @@ def build_stress(catalogue: dict) -> dict:
             for entry in regions:
                 inst = entry.setdefault("instruments", {})
                 if dd is None:
-                    inst[slug] = {"available": False,
-                                  "absent": "not_published_for_country"}
+                    inst[slug] = {
+                        "available": False,
+                        "absent": "not_published_for_country",
+                        "absent_because": f"ASAP does not publish "
+                                          f"{label.lower()} for this country.",
+                    }
                     continue
                 sub = dd[(dd.doy == doy) & (dd.region_name == entry["region"])]
                 ser = sub.groupby("year").value.mean()
+                if ser.empty:
+                    # Never defined here at this point in the season, as
+                    # opposed to defined-but-late. SPI is undefined in
+                    # hyper-arid regions when the accumulation window
+                    # holds no measurable rain: Luxor carries SPI only
+                    # in winter dekads. Calling that "not reported yet"
+                    # would read as temporary and it is seasonal.
+                    inst[slug] = {
+                        "available": False,
+                        "absent": "undefined_at_this_dekad",
+                        "absent_because": f"{label} is not defined for "
+                                          f"this region at this point in "
+                                          f"the season.",
+                    }
+                    continue
                 h = ser[(ser.index >= BASE_FIRST) & (ser.index <= BASE_LAST)]
                 if latest.year not in ser.index:
+                    # Temporary by wording as well as by fact: this
+                    # instrument publishes behind the others and will
+                    # report. "Not measured here" would be permanent and
+                    # false.
                     # Accurate reason. Soil moisture publishes one dekad
                     # behind the vegetation indicators, so it has full
                     # history here and no value for the dekad reported.
                     # "Too few years" would have been false.
-                    inst[slug] = {"available": False,
-                                  "absent": "no_current_value"}
+                    inst[slug] = {
+                        "available": False,
+                        "absent": "no_current_value",
+                        "absent_because": f"{label} has not reported for "
+                                          f"this dekad yet.",
+                    }
                     continue
                 if len(h) < 20:
-                    inst[slug] = {"available": False,
-                                  "absent": "too_few_comparable_years"}
+                    inst[slug] = {
+                        "available": False,
+                        "absent": "too_few_comparable_years",
+                        "absent_because": f"Fewer than 20 comparable "
+                                          f"years of {label.lower()} at "
+                                          f"this dekad.",
+                    }
                     continue
                 v = float(ser[latest.year])
                 # Keyed by slug and stripped of anything constant per
@@ -491,7 +523,13 @@ def build_stress(catalogue: dict) -> dict:
         },
         "absence_reasons": {
             "no_current_value": "the instrument has history here but no "
-                                "value for the dekad being reported",
+                                "value for the dekad being reported, "
+                                "usually because it publishes behind the "
+                                "others",
+            "undefined_at_this_dekad": "the instrument is never defined "
+                                       "for this region at this point in "
+                                       "the season, which is seasonal "
+                                       "rather than late",
             "too_few_comparable_years": "fewer than 20 comparable years "
                                         "at this dekad",
             "not_published_for_country": "ASAP does not publish this "
