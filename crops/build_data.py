@@ -114,10 +114,23 @@ def build_stress(catalogue: dict) -> dict:
         doy = int(base.loc[base.dt == latest, "doy"].iloc[0])
         latest_dekad = latest_dekad or str(latest.date())
 
-        instruments, water_agree = [], {}
+        instruments, water_agree, loaded = [], {}, {}
         for slug, label, unit, worse_is in INSTRUMENTS:
             d = load(slug, cid)
+            loaded[slug] = d
             if d is None:
+                # An absent instrument is emitted, never omitted. A key
+                # that is simply missing makes "not measured here" and
+                # "nothing to report" look identical, and those are
+                # opposite claims. D-051 applied to a gap.
+                instruments.append({
+                    "name": label, "value": None, "unit": unit,
+                    "available": False,
+                    "unavailable_because": "ASAP does not publish this "
+                                           "indicator for this country",
+                    "source": "JRC ASAP", "authorship": "agency",
+                    "qualifiers": [],
+                })
                 continue
             same = d[d.doy == doy].groupby("year").value.mean()
             hist = same[(same.index >= BASE_FIRST) & (same.index <= BASE_LAST)]
@@ -136,6 +149,7 @@ def build_stress(catalogue: dict) -> dict:
                 "source": "JRC ASAP, GAUL1 indicator statistics, "
                           "crop mask, growing cycle",
                 "authorship": "agency",
+                "available": True,
                 "qualifiers": [],
             })
             if slug in ("zfparc", "wsi", "spi3"):
@@ -210,8 +224,51 @@ def build_stress(catalogue: dict) -> dict:
         # 0.30 required. That is the same fault as "driest" over Cairo,
         # a country property worn by a region, so the test is run per
         # region and the region carries its own answer.
-        _wsi = load("wsi", cid)
-        _spi = load("spi3", cid)
+        # Per-region summary for every instrument, absences included.
+        # Series stay vegetation-only: stress_current.json is git-tracked
+        # and rewritten wholesale each dekad, and JSON full of changed
+        # floats deltas badly, so a second series is repo growth for
+        # charts nothing renders yet.
+        for slug, label, unit, worse_is in INSTRUMENTS:
+            if slug == "zfparc":
+                continue
+            dd = loaded.get(slug)
+            for entry in regions:
+                inst = entry.setdefault("instruments", {})
+                if dd is None:
+                    inst[slug] = {"available": False,
+                                  "absent": "not_published_for_country"}
+                    continue
+                sub = dd[(dd.doy == doy) & (dd.region_name == entry["region"])]
+                ser = sub.groupby("year").value.mean()
+                h = ser[(ser.index >= BASE_FIRST) & (ser.index <= BASE_LAST)]
+                if latest.year not in ser.index:
+                    # Accurate reason. Soil moisture publishes one dekad
+                    # behind the vegetation indicators, so it has full
+                    # history here and no value for the dekad reported.
+                    # "Too few years" would have been false.
+                    inst[slug] = {"available": False,
+                                  "absent": "no_current_value"}
+                    continue
+                if len(h) < 20:
+                    inst[slug] = {"available": False,
+                                  "absent": "too_few_comparable_years"}
+                    continue
+                v = float(ser[latest.year])
+                # Keyed by slug and stripped of anything constant per
+                # instrument. name, unit and worse_is live once in the
+                # top-level legend rather than 2,122 times each: this
+                # file is git-tracked and rewritten every dekad, so
+                # repeated strings are repo growth, not just size.
+                inst[slug] = {
+                    "value": round(v, 3),
+                    "baseline_mean": round(float(h.mean()), 3),
+                    "rank": rank_of(v, h, worse_is), "of": len(h) + 1,
+                    "available": True,
+                }
+
+        _wsi = loaded.get("wsi")
+        _spi = loaded.get("spi3")
         if _wsi is not None and _spi is not None:
             zr = base.groupby(["region_name", "year"]).value.mean()
             wr = _wsi.groupby(["region_name", "year"]).value.mean()
@@ -427,6 +484,19 @@ def build_stress(catalogue: dict) -> dict:
     }
     return {
         "_generated_from": "crops/.cache (no fetch performed)",
+        "instrument_legend": {
+            slug: {"name": label, "unit": unit,
+                   "worse_is": "low" if worse_is > 0 else "high"}
+            for slug, label, unit, worse_is in INSTRUMENTS
+        },
+        "absence_reasons": {
+            "no_current_value": "the instrument has history here but no "
+                                "value for the dekad being reported",
+            "too_few_comparable_years": "fewer than 20 comparable years "
+                                        "at this dekad",
+            "not_published_for_country": "ASAP does not publish this "
+                                         "indicator for this country",
+        },
         "chance_baseline_aggregate": aggregate,
         "dekad": latest_dekad,
         "baseline": f"{BASE_FIRST}-{BASE_LAST}, same dekad of each year",
