@@ -393,7 +393,42 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # the chart proves, and proving is footer work. The old opening was
     # two scales, a caveat and three paragraphs of method before the
     # reader met a single place.
-    lede = (
+    # Editor's h1 and opening sentence, GENERATED rather than written in.
+    # Every value in them moves: the leading country, its counts, how
+    # many others are flagged, how many places are reported. A
+    # hard-coded "Eight of Chad's 22" would be wrong next dekad and
+    # nothing we run would catch it, which is the failure this page has
+    # already produced twice today in other costumes.
+    #
+    # Why this h1 over "Globally this is an ordinary week for crops. In
+    # Chad it is not.", which was the other candidate: editor killed
+    # that on the crop test. Read only the first line, which is what
+    # travels in a screenshot, and it is a clean reassurance statement
+    # in our own voice. It also implied Chad was the sole exception when
+    # six countries are flagged. This one leads with the specific, and
+    # its first line alone is the finding rather than the reassurance.
+    if clusters:
+        lc, lcb, lcu = clusters[0]
+        headline = (f"{_word(lcb['this_year']).capitalize()} of {h(lc)}&rsquo;s "
+                    f"{lcu} crop regions are at a record low. "
+                    f"{_word(lcb['recent_max']).capitalize()} was the "
+                    f"previous worst.")
+        others = len(clusters) - 1
+        if others == 1:
+            flagged = "One other country is flagged this week."
+        elif others:
+            flagged = (f"{_word(others).capitalize()} other countries are "
+                       f"flagged this week.")
+        else:
+            flagged = "No other country is flagged this week."
+        opening = (f"{flagged} For the rest of the {len(places)} we track, "
+                   f"conditions are ordinary. ")
+    else:
+        headline = (f"No country has more cropland at a record low than "
+                    f"its own recent history explains.")
+        opening = f"Across the {len(places)} we track, conditions are ordinary. "
+
+    lede = opening + (
         f"{len(hits)} crop regions worldwide are at their worst on record "
         # No decimal on an average of counts. 59.2 reads more precise
         # than a mean of twelve integers is, and the extra digit buys a
@@ -606,8 +641,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 {site_masthead(root_prefix, active="crop")}
 <main>
   <p class="eyebrow">Crops &middot; dekad {h(doc['dekad'])}</p>
-  <h1>{len(clusters)} countries have more cropland at a record low than
-  their own recent history explains.</h1>
+  <h1>{headline}</h1>
   <p class="stand">{lede}</p>
   {season}
 
