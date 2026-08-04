@@ -155,11 +155,13 @@
     "_latency_map_ref": "wildfire_mediterranean"
   },
   "headline_candidate": {
-    "text": "The firefighting bill alone, at EUR 1.7 to 3.3 billion, is larger than the entire estimated damage of any comparable Mediterranean fire event on record.",
-    "form": "one overlooked category, on its own, exceeds the whole of the category usually quoted",
+    "text": "Four published figures for Spanish firefighting costs run from EUR 1.7 billion to EUR 7.6 billion. Every one of them is the same cost per hectare multiplied by a different burnt area.",
+    "form": "several sources that look like corroboration are one calculation with different denominators",
+    "supporting": "The parameter is EUR 10,000 to 19,000 per hectare. Spain's official annual spending on fighting fires implies about EUR 4,170.",
     "evidence_basis": "combined",
-    "_guardrail": "This comparison crosses categories and is legitimate ONLY because both sides are named and neither is summed. Written as 'the fires cost EUR 3.3 billion' it is a category error. The naming is what makes the claim true. Editor's standard, research/editorial_standards.md section 9.",
-    "_status": "candidate, not approved copy. Editor owns the wording."
+    "_guardrail": "Three of the four figures are for the 2025 season and one is for 2026, so the sentence must say firefighting costs rather than implying one event. The claim is about how the figures were constructed, which is checkable by dividing each by its own area, and it is not a claim that any of them is wrong.",
+    "_status": "candidate, not approved copy. Editor owns the wording.",
+    "_why_this_and_not_the_total": "Product's view, accepted: a reader who learns that four agreeing sources can be one calculation wearing three coats can use that on every damage number they meet this year. The euro total cannot travel that far."
   },
   "_no_total": "There is deliberately no total field in this payload and there must never be one. The layers below are different categories and their sum measures nothing.",
   "_shape_status": "working shape, not a contract. First per-event ECON payload; built for design to build the ledger template against a real case rather than an invented one.",
@@ -212,7 +214,9 @@
               "parameter_high": 19000,
               "parameter_unit": "EUR per hectare"
             },
-            "independence": "shared_parameter"
+            "independence": "shared_parameter",
+            "organisation_type": "news organisation reporting a ministry figure",
+            "organisation": "Euronews, from the Ministry for Ecological Transition"
           },
           {
             "estimator_note": "Greenpeace, using National Association of Forestry Companies (Asemfo) data, for the 2025 season",
@@ -226,7 +230,9 @@
               "parameter_high": 19000,
               "parameter_unit": "EUR per hectare"
             },
-            "independence": "shared_parameter"
+            "independence": "shared_parameter",
+            "organisation_type": "advocacy organisation, using data from an industry association",
+            "organisation": "Greenpeace, with National Association of Forestry Companies (Asemfo) data"
           },
           {
             "estimator_note": "Forescat, a Spanish forestry services company, for the 2025 season",
@@ -239,7 +245,9 @@
               "parameter_high": 19000,
               "parameter_unit": "EUR per hectare"
             },
-            "independence": "shared_parameter"
+            "independence": "shared_parameter",
+            "organisation_type": "forestry services company",
+            "organisation": "Forescat"
           }
         ],
         "shared_parameter_note": "These three figures are one per-hectare cost applied to three different burnt areas, not three independent estimates. Forescat's EUR 19,000 per hectare is the upper bound in every case.",
@@ -254,7 +262,8 @@
         },
         "excludes": [
           "restoration"
-        ]
+        ],
+        "_incentive_note": "Organisation type is recorded as a fact, not a judgement, and there is no credibility score. Worth a reader knowing: the per-hectare parameter originates with a forestry services company and reaches the public via an industry association and an advocacy organisation. All three have a legitimate interest in fire costs being understood as large. None of that makes the number wrong; it makes the number's provenance relevant, which is why it is on the page."
       },
       "carbon": {
         "status": "gap_with_basis_available",
@@ -302,5 +311,11 @@
     "floor_currency": "EUR",
     "floor_scale": "million",
     "_floor_total_note": "One component of ten is counted. The floor is the response-cost line alone, and it is already larger than the entire estimated damage of any comparable Mediterranean fire event on record. That is the finding, and it holds precisely because the other nine are visibly empty rather than quietly assumed to be zero."
+  },
+  "secondary_finding": {
+    "text": "There may never be an authoritative figure for what these fires cost. No public estimator covers wildfire in Spain at all.",
+    "detail": "The main European insured-loss index covers neither wildfire as a peril nor Spain as a territory. Spain's national extraordinary-risk scheme does not class wildfire as an extraordinary risk. France's equivalent scheme excludes forest fire by law.",
+    "evidence_basis": "compiled",
+    "_provenance": "moved here from the latency map on Product's suggestion, because it is about this fire season and belongs where the readers are"
   }
 }
