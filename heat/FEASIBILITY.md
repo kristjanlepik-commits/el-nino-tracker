@@ -935,6 +935,29 @@ argument that won Heat the slot. All three are the same question.
    defect is present in ERA5-Land and documented only on the ERA5 page.
 8. **Splitting instruments to clean two claims can downgrade the
    evidence basis of the sentence that joins them.** Section 6.
+9. **A cost amendment can silently invalidate an assurance given to
+   another chat.** Narrowing the pull to six night hours was correct for
+   the D-049 test and was reasoned through carefully on exactly that
+   axis. It also destroyed the daytime data behind a page spine product
+   had ratified on Heat's word, and neither the amendment nor the
+   message noticed, because both were checking the test rather than the
+   promises. **When amending a specification, re-read what you told
+   other chats it would deliver, not only what it was for.**
+10. **Advice not to spend needs the same standard as advice to spend.**
+    Platform's generalisation from the same episode, recorded because it
+    is the more transferable half. They matched "six to eight chunks for
+    a TMAX differential" to a null result they had just computed and
+    advised against it, without asking what the pull was for. Taken at
+    face value, cost advice would have killed the data a ratified
+    argument depends on, which is worse than a wasted pull. They applied
+    a check to the number and not to the question.
+11. **A publication constraint can invalidate a sizing without anyone
+    changing their mind.** Heat quoted 36 raw chunks for the spine, then
+    realised 5c already forbids publishing anything built from the
+    six-hour construction, so the spine must come from the derived
+    product. The estimate was wrong on arrival and nothing about the
+    requirement had changed. **Size against your own published
+    constraints, not against the cheapest way to get the numbers.**
 
 ## 8. Open questions
 
