@@ -112,7 +112,15 @@ def claim_shapes(country: dict) -> list:
     """
     import re
     seen = {}
-    for r in country.get("regions") or []:
+    # ONLY the regions this page actually renders. It iterated every
+    # region of the country, including the ones the page never shows,
+    # and reported "Nth lowest of N" as an emitted shape when these
+    # pages carry rank-1 regions exclusively and therefore only ever
+    # emit "lowest of N". That sent CRO a gate covering sentences the
+    # template cannot produce, which is the opposite failure to the one
+    # the gate exists for and just as useless: a sign-off is worthless
+    # if it is not on the thing that ships.
+    for r in [x for x in (country.get("regions") or []) if x.get("rank") == 1]:
         # Collapse the ordinal suffix too. "1st", "2nd" and "4th lowest"
         # are one shape, and leaving them distinct inflated the list
         # from four shapes to ten, which would have sent CRO a longer
