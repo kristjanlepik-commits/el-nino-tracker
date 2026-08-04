@@ -135,7 +135,7 @@ def _driver_note(e) -> str:
             'availability</span>')
 
 
-def _country_group(country, regions, cb=None, units=None, feature=False) -> str:
+def _country_group(country, regions, cb=None, units=None) -> str:
     """One country, with every region of it that is at a record low.
 
     The count and the denominator sit in the heading because that is the
@@ -153,15 +153,26 @@ def _country_group(country, regions, cb=None, units=None, feature=False) -> str:
         sub = (f"{n} region{'s' if n != 1 else ''} at a record low"
                + (f" of {units}" if units else ""))
         cls = ""
-    # The leading country carries its year-by-year bars inside its own
-    # group rather than in a separate block above the list. Chad was
-    # rendering twice, once as the featured finding and again as the
-    # first row of the list, which is precisely the "adding to the
-    # sections" the merge was meant to stop.
-    chart = _trajectory(cb, country) if (feature and cb) else ""
+    # EVERY flagged country gets its trajectory, not just the leading
+    # one. Six small charts are scannable in a way six countries times N
+    # region rows never is, and they calibrate by construction: Sudan at
+    # 3 against a previous high of 2 visibly does not look like Chad at
+    # 8 against 3. That is the thing we otherwise have to say in a
+    # caveat, done by the drawing instead.
+    #
+    # The chart stays OUTSIDE the disclosure. It is the overview, so
+    # hiding it behind a click would defeat what it is for.
+    chart = _trajectory(cb, country) if cb else ""
+    # Regions collapse. Grouping made the countries legible and then the
+    # inline regions made the page long enough to lose the overview
+    # again; a disclosure is the rung between an inline list and a
+    # per-country subpage, and it costs no new page type, no payload
+    # growth and no extra surface for the channel to sign off.
+    n_lab = f"{n} region{'s' if n != 1 else ''}"
     return (f'<div class="cg{cls}"><p class="cghead">{h(country)}'
             f'<span class="cgsub">{h(sub)}</span></p>{chart}'
-            + "".join(_row(e) for e in regions) + '</div>')
+            f'<details class="cgd"><summary>{n_lab}</summary>'
+            + "".join(_row(e) for e in regions) + '</details></div>')
 
 
 def _row(e) -> str:
@@ -497,9 +508,8 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
                       key=lambda c: by_country[c][0]["z"])
 
     groups = "".join(
-        _country_group(c, by_country[c], *cb_of.get(c, (None, None)),
-                       feature=(i == 0 and c in broad_names))
-        for i, c in enumerate(ordered[:top_n]))
+        _country_group(c, by_country[c], *cb_of.get(c, (None, None)))
+        for c in ordered[:top_n])
     rest = max(0, len(ordered) - top_n)
     grouped_html = f"""
       <p class="seclab">Where the record lows are</p>
@@ -591,6 +601,22 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
    rule, and unhued because a calendar fact is not a finding. */
 .why {{ margin:18px 0 0; padding:14px 16px; background:var(--paper-sunk);
   font-size:14.5px; color:var(--ink-soft); max-width:62ch; }}
+
+/* Native <details>. No script, keyboard-operable, and it still prints
+   and still finds text on Ctrl-F in current browsers. A JS disclosure
+   would buy nothing here and would break the page for anyone the
+   script fails on. */
+.cgd {{ margin-top:8px; }}
+.cgd > summary {{ cursor:pointer; list-style:none; display:inline-block;
+  font-family:"{T.FONT_DATA}",monospace; font-size:11.5px;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint);
+  padding:3px 0; }}
+.cgd > summary::-webkit-details-marker {{ display:none; }}
+.cgd > summary::before {{ content:"+ "; }}
+.cgd[open] > summary::before {{ content:"\\2212 "; }}
+.cgd > summary:hover {{ color:var(--ink); }}
+.cgd > summary:focus-visible {{ outline:2px solid var(--crop);
+  outline-offset:2px; }}
 
 .cg {{ margin-top:26px; }}
 .cghead {{ margin:0 0 6px; font-size:16px; font-weight:600;
