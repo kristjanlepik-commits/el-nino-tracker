@@ -749,8 +749,50 @@ are unusual in a way its days are not is a different question from
 whether the night normal moved further than the day normal since 1961,
 and only the second is answered above.
 
-Scope, to be sized rather than assumed: daytime hours for a 1991-2020
-climatology plus the current period, summer months only, both boxes.
+**RESOLVED same day by product: the spine reverts, and the daytime pull
+is dropped from the critical path.**
+
+Product's reasoning, which retires the problem rather than fixing it.
+Nights-against-days was adopted as a **hedge**: Heat proposed it because
+the drift claim might collapse under the 1979 production boundary, so a
+page built on drift would lose its argument rather than gain a caveat.
+**D-068 removed that risk** by moving drift off ERA5 entirely, onto a
+series that spans the boundary by design. The hedge is no longer needed,
+and 5d-ii shows the hedge itself was weak: the night-versus-day drift
+differential is noise.
+
+The spine returns to the two-sentence form the drift brief already
+carried:
+
+1. **Where this week's nights sit against their own record.** ERA5,
+   satellite era, percentile against each place's own history.
+2. **How far the night normal itself has moved.** Berkeley, separately
+   sourced, no claim crossing between them.
+
+**Nights-against-days is demoted, not deleted.** A week where days read
+ordinary and nights are extreme remains a real observation about that
+week and may be said. It cannot be the page's general argument, because
+the general version is not supported. Daytime data is therefore a
+nice-to-have and must not compete on the critical path.
+
+Consequence: **Heat's broken assurance costs almost nothing.** The
+six-hour narrowing removed daytime data from a spine no longer being
+built on. The 5c constraint stands unchanged and is what makes the
+remaining sizing correct.
+
+Recorded by product: telling them before the estimate hardened is what
+made it cheap, since the alternative was a roadmap costed against a page
+that did not exist.
+
+### Remaining scope for sentence 1, to be sized not assumed
+
+True daily minima from the **derived** product per 5c, 1979-2026, over
+the two regional boxes rather than per city. The open variable is
+chunking: 1 year x 12 months is measured as accepted (5b), which would
+be 96 requests; whether a multi-year request fits when restricted to
+three months is **untested**, because the probe that would have answered
+it was rejected on a per-dataset queue limit while the main pull
+saturated the account. That probe is retried once the pull drains.
 
 ## 5e. Cross-validation of ERA5 against Berkeley: thresholds fixed BEFORE the comparison
 
@@ -935,6 +977,29 @@ argument that won Heat the slot. All three are the same question.
    defect is present in ERA5-Land and documented only on the ERA5 page.
 8. **Splitting instruments to clean two claims can downgrade the
    evidence basis of the sentence that joins them.** Section 6.
+9. **A cost amendment can silently invalidate an assurance given to
+   another chat.** Narrowing the pull to six night hours was correct for
+   the D-049 test and was reasoned through carefully on exactly that
+   axis. It also destroyed the daytime data behind a page spine product
+   had ratified on Heat's word, and neither the amendment nor the
+   message noticed, because both were checking the test rather than the
+   promises. **When amending a specification, re-read what you told
+   other chats it would deliver, not only what it was for.**
+10. **Advice not to spend needs the same standard as advice to spend.**
+    Platform's generalisation from the same episode, recorded because it
+    is the more transferable half. They matched "six to eight chunks for
+    a TMAX differential" to a null result they had just computed and
+    advised against it, without asking what the pull was for. Taken at
+    face value, cost advice would have killed the data a ratified
+    argument depends on, which is worse than a wasted pull. They applied
+    a check to the number and not to the question.
+11. **A publication constraint can invalidate a sizing without anyone
+    changing their mind.** Heat quoted 36 raw chunks for the spine, then
+    realised 5c already forbids publishing anything built from the
+    six-hour construction, so the spine must come from the derived
+    product. The estimate was wrong on arrival and nothing about the
+    requirement had changed. **Size against your own published
+    constraints, not against the cheapest way to get the numbers.**
 
 ## 8. Open questions
 
