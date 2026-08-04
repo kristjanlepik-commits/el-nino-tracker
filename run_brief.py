@@ -85,6 +85,7 @@ ELNINO_HREF = "elnino/"
 CHANNELS = [
     ("elnino", "El Ni\u00f1o", None),   # None: resolved to the channel home
     ("fire", "Fires", "fires/"),
+    ("crop", "Crops", "crops/"),
 ]
 
 SITE_NAME = "The Long Swell"
@@ -417,6 +418,7 @@ SITE_MASTHEAD_CSS = """
     transition: color .12s;
   }
   .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.ch-crop { color: var(--crop); }
   .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
   .prodnav a:hover { color: var(--ink); }
 """.strip()

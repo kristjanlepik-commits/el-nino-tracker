@@ -518,9 +518,18 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
     at its worst in 26 years by a margin a normal season produces
     routinely.</p>
 
+  <!-- No truncation here, deliberately. This footer used to slice
+       `method` at 90 characters, which cut CRO's 158-character string
+       mid-sentence at "The indicator is " and ran it into the
+       separator, on the one line whose entire job is to convey care.
+       Where a methods line may be cut is a judgement about what a
+       reader must not lose, so it belongs to the channel: they emit
+       `method_short`. A renderer that truncates prose is deciding
+       something it does not know. If the short form is ever missing,
+       the full string wraps rather than being cut. -->
   <div class="foot">{h(AUTHOR_NAME)} (2026). {h(SITE_NAME)}, Crops.
     <a href="{h(PAGES_BASE_URL)}/">{h(PAGES_BASE_URL.split("//")[-1])}</a>
-    &middot; {h(doc.get('method','')[:90])} &middot; baseline
+    &middot; {h(doc.get('method_short') or doc.get('method', ''))} &middot; baseline
     {h(str(doc.get('baseline','')))}</div>
 </main>
 </body>
