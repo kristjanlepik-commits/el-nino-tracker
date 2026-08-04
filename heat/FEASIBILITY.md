@@ -847,6 +847,51 @@ drift, largest region-cut spread (0.120, four times the others), and the
 only region where July drift is below its own annual figure. It passes,
 and it should not be written as though it were as strong as Italy.
 
+### 5f-i. The July-versus-annual contrast, verified as a spine
+
+Product proposed the piece's argument as: **summer nights are not moving
+at the same rate as the year as a whole, and the direction differs by
+region.** Same instrument, same baselines, opposite signs, no second
+instrument and no cross-boundary claim.
+
+They asked the right question rather than ruling: is the **annual** half
+robust enough to carry it, since a contrast is only as good as its
+weaker half. Section 5f verified July only. So the contrast was checked
+on its own terms, with the bar fixed in the script before running: sign
+stable across all eight region cuts and the alternative baseline pair,
+**and** the contrast's magnitude exceeding the spread the cuts induce in
+it. If redrawing the box moves the contrast by more than the contrast
+itself, the contrast is a property of the box.
+
+| region | July | annual | contrast | cut spread | margin | verdict |
+|---|---|---|---|---|---|---|
+| iberia | +0.936 | +0.699 | **+0.237** | 0.026 | 9.1x | usable |
+| italy_c_med | +1.273 | +0.873 | **+0.399** | 0.066 | 6.0x | usable |
+| us_pacific_nw | +1.053 | +0.567 | **+0.486** | 0.068 | 7.1x | usable |
+| us_southwest | +0.535 | +0.652 | **-0.117** | 0.075 | 1.6x | usable, thin |
+
+**All four pass, and the spine is supported.** The Pacific Northwest's
+July nights moved nearly twice as far as its year; the Southwest's moved
+slightly *less* than its year. Opposite signs from one instrument.
+
+**The US Southwest is the thin one and must be written as such.** Its
+margin over the box-choice spread is 1.6x where the others are 6 to 9x.
+It clears the bar that was set before the numbers were seen, so it is
+not excluded, but it is the half of the contrast that would break first
+and it should never be given equal rhetorical weight to the Pacific
+Northwest.
+
+**The contrast survives the baseline pair and in three regions grows.**
+On 1951-1980 the contrast reads +0.356 Iberia, +0.541 Italy, -0.275
+Southwest, +0.446 Pacific Northwest. So the finding is not an artifact
+of the 1961-1990 choice, and the Southwest's negative contrast is more
+than twice as large on the earlier pair.
+
+**A generalisation product drew from the city-excluded recompute, worth
+carrying beyond Heat:** wherever we would otherwise write "this
+instrument corrects for X", recompute with X removed and publish the
+difference instead. An argument becomes a number at no extra cost.
+
 ## 5e. Cross-validation of ERA5 against Berkeley: thresholds fixed BEFORE the comparison
 
 Platform's reminder is correct and is the reason this section exists

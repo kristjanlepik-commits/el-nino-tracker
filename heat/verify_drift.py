@@ -101,6 +101,61 @@ def variants(box):
     }
 
 
+def contrast_check(ds) -> None:
+    """Is the July-minus-annual contrast robust enough to be a page's spine?
+
+    Product's proposal: 'summer nights are not moving at the same rate as the
+    year as a whole, and the direction differs by region.' That is a claim
+    about a DIFFERENCE, so verifying each half separately is not enough. A
+    contrast is only as good as its weaker half, which is product's own
+    phrase and the reason this function exists.
+
+    BAR, FIXED BEFORE RUNNING. A region may appear in the contrast only if
+      (a) the sign of (July - annual) holds across all 8 region cuts and the
+          alternative baseline pair, and
+      (b) the magnitude of the contrast EXCEEDS the spread the region cuts
+          induce in it.
+
+    (b) is the one that matters. If redrawing the box moves the contrast by
+    more than the contrast itself, the contrast is a property of the box.
+    """
+    print("\n" + "=" * 66)
+    print("CONTRAST CHECK: July drift minus annual drift, per region")
+    print("bar: sign stable across all variants AND |contrast| > cut spread\n")
+
+    for name, box_d in bd.REGIONS.items():
+        box = (box_d["lat"][0], box_d["lat"][1], box_d["lon"][0], box_d["lon"][1])
+        jul, _ = region_drift(ds, box, (1961, 1990), (1991, 2020), month=7)
+        ann, _ = region_drift(ds, box, (1961, 1990), (1991, 2020), month=None)
+        head = jul - ann
+
+        cuts = []
+        for label, vb in variants(box).items():
+            j, _ = region_drift(ds, vb, (1961, 1990), (1991, 2020), month=7)
+            a, _ = region_drift(ds, vb, (1961, 1990), (1991, 2020), month=None)
+            if j is not None and a is not None:
+                cuts.append((label, j - a))
+        cv = [v for _, v in cuts]
+        spread = max(cv) - min(cv)
+
+        j2, _ = region_drift(ds, box, (1951, 1980), (1991, 2020), month=7)
+        a2, _ = region_drift(ds, box, (1951, 1980), (1991, 2020), month=None)
+        alt = j2 - a2
+
+        signs_ok = all(np.sign(v) == np.sign(head) for v in cv + [alt])
+        exceeds = abs(head) > spread
+        ok = signs_ok and exceeds
+
+        print(f"{name}")
+        print(f"  July {jul:+.3f}  annual {ann:+.3f}  contrast {head:+.3f}")
+        print(f"  contrast under 8 region cuts: {min(cv):+.3f} to {max(cv):+.3f}"
+              f"  spread {spread:.3f}")
+        print(f"  contrast on 1951-1980 pair  : {alt:+.3f}")
+        print(f"  sign stable: {signs_ok}   |contrast| > spread: {exceeds} "
+              f"({abs(head):.3f} vs {spread:.3f})")
+        print(f"  VERDICT: {'USABLE in the contrast' if ok else 'NOT USABLE'}\n")
+
+
 def main() -> int:
     ds = load("tmin")
     print("Verification of regional July TMIN drift, Berkeley Earth 1 degree")
@@ -143,6 +198,8 @@ def main() -> int:
     print("=" * 66)
     for k, v in verdicts.items():
         print(f"  {k:16s} {'PASS' if v else 'FAIL'}")
+
+    contrast_check(ds)
     return 0
 
 
