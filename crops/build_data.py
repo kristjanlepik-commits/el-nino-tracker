@@ -77,6 +77,11 @@ def rank_of(current: float, history: pd.Series, worse_is: int) -> int:
     return int((history > current).sum()) + 1
 
 
+SEASON_STARTS = json.loads(
+    (HERE / "season_starts.json").read_text(encoding="utf-8")
+)["starts"] if (HERE / "season_starts.json").exists() else {}
+
+
 def build_stress(catalogue: dict) -> dict:
     places, skipped = [], []
     latest_dekad = None
@@ -225,6 +230,17 @@ def build_stress(catalogue: dict) -> dict:
                                   "boolean over a small sample and puts "
                                   "1-against-0 beside 8-against-3.")
 
+        # Seasonality. The season window is derived from ASAP's static
+        # phenology, and the static-ness is the point here. Section 6i
+        # disqualified these windows for drift precisely because they
+        # cannot change; a seasonality claim needs a climatology rather
+        # than an observation, so the same property qualifies them. This
+        # says WHEN a season opens, never what will happen in it.
+        # The off-season flag lives in the warnings series, not the
+        # indicator files, so the table is built once by
+        # crops/season_starts.json rather than recomputed per place.
+        season_start = SEASON_STARTS.get(name)
+
         head = instruments[0]
         quals = [{
             "kind": "canopy_not_cause",
@@ -255,13 +271,19 @@ def build_stress(catalogue: dict) -> dict:
             },
             "driver": driver,
             "evidence_basis": "measured",
-            "attribution": "pending",
+            # D-076: "attribution pending" comes off crops. It is a
+            # work state, not a finding, and it rendered on every
+            # untagged row, so it carried no information. Emitted only
+            # when one of the two real ENSO strings applies, which for
+            # crops is currently never.
+            "attribution": None,
             "authorship": "tls_built",
             "publishable": True,
             "instruments": instruments,
             "regions": regions,
             "regions_worst_3": sum(1 for r in regions if r["rank"] <= 3),
             "chance_baseline": empirical,
+            "season_opens_dekad": season_start,
             "qualifiers": quals,
         })
 
