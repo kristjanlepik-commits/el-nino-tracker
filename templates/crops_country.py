@@ -103,6 +103,117 @@ def _series_chart(series: dict, this_year: str = "2026") -> str:
             f'same point in the season">' + "".join(out) + '</svg>')
 
 
+# Instruments are ordered so the two that actually dissent sit together
+# and temperature does not read as an equal fifth voice. CRO measured
+# it across the 80 rendered rank-1 regions: temperature is in the worst
+# third 55 times and the best third 4 times, so it mostly moves with
+# vegetation and will rarely disagree. The disagreement lives in water
+# satisfaction and rainfall, which is the only thing that justifies
+# showing five layers rather than one.
+LAYER_ORDER = ["Vegetation, cumulative", "Vegetation, current",
+               "Water satisfaction", "Rainfall, 3-month",
+               "Soil moisture", "Temperature"]
+
+
+def _tercile(rank, of):
+    """Where a reading sits in its own record, in thirds.
+
+    Thirds rather than a percentile because the sentence has to be
+    readable, and because 26 observations do not support finer.
+    """
+    if not rank or not of:
+        return None
+    f = (rank - 1) / max(of - 1, 1)
+    return "worst" if f < 1 / 3 else ("middle" if f < 2 / 3 else "best")
+
+
+def _pattern_sentence(instruments) -> str:
+    """What the layers say TOGETHER, which is the only reason to show five.
+
+    Descriptive and never causal. "Vegetation at its lowest while
+    rainfall sits in its best third" states a relationship between two
+    measurements; anything with "because" in it is the line "driest"
+    crossed, and five instruments on one page is precisely the invitation
+    to assemble a cause from them.
+
+    Built from ranks only. It says where each instrument sits in its own
+    record and stops.
+    """
+    by = {i["name"]: i for i in instruments if i.get("available")}
+    veg = by.get("Vegetation, cumulative") or by.get("Vegetation, current")
+    if not veg:
+        return ""
+    water = [by[n] for n in ("Water satisfaction", "Rainfall, 3-month")
+             if n in by]
+    if veg.get("rank") == 1:
+        lead = "The canopy is at its lowest on record here"
+    else:
+        t = _tercile(veg.get("rank"), veg.get("of"))
+        lead = {"worst": "The canopy is in its worst third",
+                "middle": "The canopy is in the middle of its range",
+                "best": "The canopy is in its best third"}.get(
+                    t, "The canopy is measured")
+    if not water:
+        return lead + "."
+    ts = {_tercile(w.get("rank"), w.get("of")) for w in water}
+    names = " and ".join(w["name"].split(",")[0].lower() for w in water)
+    if ts == {"worst"}:
+        # The Chad case: everything poor, but only the canopy at a
+        # record. Saying "all bad" would lose that distinction.
+        tail = (f", while {names} are also in their worst third without "
+                f"being records" if veg.get("rank") == 1
+                else f", as are {names}")
+    elif ts == {"best"}:
+        tail = f", while {names} sit in their best third"
+    elif ts == {"middle"}:
+        tail = f", while {names} sit mid-range"
+    else:
+        parts = [f"{w['name'].split(',')[0].lower()} is in its "
+                 f"{_tercile(w.get('rank'), w.get('of'))} third"
+                 for w in water]
+        tail = ", while " + " and ".join(parts)
+    return lead + tail + "."
+
+
+def _layers_block(instruments) -> str:
+    """All five, plus any absent one, as a grid under the pattern.
+
+    Kristjan asked for all five visible. Showing everything and
+    weighting everything equally are different decisions, so the
+    pattern sentence above carries the finding and this is the receipt.
+
+    An ABSENT instrument is rendered with the channel's own
+    `absent_because` verbatim, never a string mapped from a code here.
+    "Has not reported for this dekad yet" and "is not defined for this
+    region at this point in the season" are opposite claims about
+    whether the number will ever arrive, and a reader given the wrong
+    one concludes something about the instrument rather than the place.
+    """
+    if not instruments:
+        return ""
+    order = {n: i for i, n in enumerate(LAYER_ORDER)}
+    rows = []
+    for ins in sorted(instruments, key=lambda i: order.get(i["name"], 99)):
+        name = h(ins["name"])
+        if not ins.get("available"):
+            rows.append(
+                f'<div class="ly ly-out"><span class="lyn">{name}</span>'
+                f'<span class="lyv">not reported</span>'
+                f'<span class="lys">{h(ins.get("absent_because", ""))}</span>'
+                f'</div>')
+            continue
+        val = _fmt(ins.get("value"), ins.get("unit"))
+        # The channel hue marks a record, nothing else. A rank of 6 of
+        # 26 is poor and is not news, and colouring it would spend the
+        # hue on the thing the page spent all day learning not to.
+        cls = " ly-rec" if ins.get("rank") == 1 else ""
+        rows.append(
+            f'<div class="ly{cls}"><span class="lyn">{name}</span>'
+            f'<span class="lyv">{h(val)}</span>'
+            f'<span class="lys">{h(ins.get("statement", ""))}</span></div>')
+    return '<div class="lys-wrap">' + "".join(rows) + '</div>'
+
+
 def claim_shapes(country: dict) -> list:
     """Every distinct sentence shape this page can emit, for sign-off.
 
@@ -132,8 +243,31 @@ def claim_shapes(country: dict) -> list:
         key = (st, bool(r.get("driver") == "water"),
                bool(r.get("qualifiers")))
         seen.setdefault(key, r.get("region"))
-    return [{"statement": k[0], "driver_line": k[1], "qualifiers": k[2],
-             "example": v} for k, v in seen.items()]
+    out = [{"statement": k[0], "driver_line": k[1], "qualifiers": k[2],
+            "example": v} for k, v in seen.items()]
+
+    # The instrument layers add their own shapes and they must be in
+    # this list, because CRO verifies MY enumeration rather than
+    # supplying one: a list they write is a list of what the data can
+    # do, and the point of the last correction was that those differ
+    # from what the page emits.
+    #
+    # Two, per CRO. An instrument statement, identical in construction
+    # across all five layers, and an absence sentence rendered verbatim.
+    for ins in (country.get("instruments") or []):
+        if ins.get("available"):
+            st = re.sub(r"\bN(?:st|nd|rd|th)\b", "Nth",
+                        re.sub(r"[-+]?\d[\d,.]*", "N",
+                               re.sub(r"\b(?:19|20)\d\d\b", "YYYY",
+                                      ins.get("statement") or "")))
+            key = ("instrument: " + st, False, False)
+        else:
+            key = ("absence: " + (ins.get("absent_because") or ""), False, False)
+        if key not in seen:
+            seen[key] = ins.get("name")
+            out.append({"statement": key[0], "driver_line": False,
+                        "qualifiers": False, "example": seen[key]})
+    return out
 
 
 def _region_block(r: dict, all_regions: list, driver: str) -> str:
@@ -228,6 +362,29 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 .rgq {{ margin:8px 0 0; padding-left:18px; font-size:13.5px;
   color:var(--ink-soft); max-width:62ch; }}
 .peers {{ margin-top:34px; }}
+.pat {{ margin:6px 0 0; font-size:18px; line-height:1.4; max-width:56ch; }}
+/* The grid is the receipt, so it is quiet. The pattern sentence above
+   carries the finding: showing all five and weighting all five equally
+   are different decisions and Kristjan asked for the first. */
+.lys-wrap {{ margin-top:16px; border-top:1px solid var(--rule); }}
+.ly {{ display:grid; grid-template-columns:11.5rem 6rem 1fr; gap:10px;
+  padding:9px 0; border-bottom:1px solid var(--rule); align-items:baseline; }}
+.lyn {{ font-size:14px; }}
+.lyv {{ font-family:"{T.FONT_DATA}",monospace; font-size:14.5px;
+  font-variant-numeric:tabular-nums; text-align:right; }}
+.lys {{ font-size:12.5px; color:var(--ink-faint); }}
+/* Hue marks a RECORD and nothing else. 6th of 26 is poor and is not
+   news; colouring it would spend the channel colour on exactly what
+   this page spent the day learning not to. */
+.ly-rec .lyv {{ color:var(--crop); font-weight:600; }}
+/* An absent instrument is dimmed, not hidden, and carries the channel's
+   own reason. Hiding it would let a reader conclude we do not measure
+   it here, which is a different claim from "it has not arrived yet". */
+.ly-out .lyn, .ly-out .lyv {{ color:var(--ink-faint); }}
+.ly-out .lyv {{ font-style:italic; }}
+@media (max-width:600px) {{
+  .ly {{ grid-template-columns:1fr auto; }}
+  .lys {{ grid-column:1 / -1; }} }}
 .note {{ margin:16px 0 0; font-size:13.5px; color:var(--ink-soft);
   max-width:64ch; }}
 .foot {{ margin-top:46px; padding-top:14px; border-top:1px solid var(--ink);
@@ -243,7 +400,17 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   <h1>{h(name)}</h1>
   <p class="stand">{h(stand)}</p>
 
-  <p class="eyebrow" style="margin-top:30px">Every region of {h(name)},
+  <p class="eyebrow" style="margin-top:34px">What the instruments say</p>
+  <p class="pat">{h(_pattern_sentence(country.get("instruments") or []))}</p>
+  {_layers_block(country.get("instruments") or [])}
+  <p class="note">Five instruments, each against its own 26 years for
+    this point in the season. They are shown together because they
+    disagree: across the regions on this site, roughly a quarter have
+    vegetation at a record low while water or rainfall sits in its best
+    third. This page reports where each one sits and does not say what
+    caused what.</p>
+
+  <p class="eyebrow" style="margin-top:34px">Every region of {h(name)},
     worst to least</p>
   <div class="peers">{_peer_strip(regions, None)}</div>
   <p class="note">The regions below are the ones at their worst on
