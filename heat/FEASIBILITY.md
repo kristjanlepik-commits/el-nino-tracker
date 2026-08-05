@@ -899,6 +899,79 @@ carrying beyond Heat:** wherever we would otherwise write "this
 instrument corrects for X", recompute with X removed and publish the
 difference instead. An argument becomes a number at no extra cost.
 
+## 5i. THE D-049 VERDICT, 2026-08-05
+
+Run on the complete 192-chunk pull. Thresholds ratified as D-067 on
+2026-08-03, before any data existed, and never moved.
+
+| | growth mean | flat mean | difference | verdict |
+|---|---|---|---|---|
+| **annual** | +0.0150 | -0.0101 | **+0.0251** | **GREY** |
+| **JJA** | -0.0201 | -0.0104 | **-0.0096** | **CLEAN** |
+
+**Both were pre-registered precisely so neither could be chosen after the
+fact, so both stand. The binding verdict is GREY**, because a claim that
+fails one of two pre-registered tests has not passed. That is applying
+both, not selecting one.
+
+### Phoenix is the entire annual signal
+
+| city | group | OLS C/decade | power |
+|---|---|---|---|
+| **Phoenix** | growth | **+0.0642** | 3.6 |
+| Dallas | growth | +0.0072 | 7.2 |
+| Houston | growth | +0.0047 | 5.2 |
+| Madrid | growth | -0.0160 | 2.4 |
+| Leipzig | flat | +0.0038 | 5.8 |
+| Detroit | flat | -0.0017 | 6.2 |
+| Cleveland | flat | -0.0067 | 5.8 |
+| Buffalo | flat | -0.0115 | 4.2 |
+| Liverpool | flat | -0.0343 | 3.2 |
+| Munich | growth | -0.0241 | 1.6 NO POWER |
+| Naples | flat | -0.0433 | 0.9 NO POWER |
+
+Phoenix is three times any other city and is the fastest-growing city in
+the set. **Excluding it, the growth mean falls from +0.0150 to -0.0014,
+the difference to +0.0087, and the annual verdict flips to CLEAN.**
+
+**And Phoenix is unpowered in JJA** (ratio just under the 2.0 bar), which
+is why JJA reads clean. The seasons disagree because they contain
+different cities, not because summer behaves differently. That is a
+property of the instrument, not of the climate, and it must not be
+reported as a seasonal finding.
+
+### What this most likely means, stated as a reading rather than a result
+
+ERA5 appears to capture urbanisation **at Phoenix and not detectably
+anywhere else**. That is physically plausible rather than anomalous:
+Phoenix is the extreme case of post-1950 sprawl in this set, and the
+assimilation route in 1a is exactly how a station-dense, rapidly growing
+metro would enter the analysis. It is also what gate 0 predicted in
+structure: a per-city answer, not a channel-wide one.
+
+### Consequences
+
+1. **The city-level level claim carries a contamination field, always.**
+   Product pre-committed to this before the result: a clean verdict
+   changes the number in the field, not whether the field exists. GREY
+   makes that binding rather than precautionary.
+2. **Phoenix specifically should not carry an unqualified "hottest on
+   record" claim** without an explicit correction, and is the one city in
+   the set where the D-049 objection is live.
+3. **Munich and Naples remain unresolved**, per gate 0. Their flat trends
+   are uninformative, not clean.
+4. **The clean readings are weaker than they look.** The unscreened ring
+   biases every result toward clean (1b-i), so the true contamination is
+   at least what is measured here, and the annual GREY is a floor.
+
+### One pre-registered flag, honoured
+
+Dallas in JJA shows OLS +0.0010 against Theil-Sen -0.0019, a sign
+disagreement. Both are within noise of zero on a trend an order of
+magnitude below the threshold, so it is investigated and dismissed as
+sign instability near zero rather than resolved by preference. Recorded
+because 1b-i said it would be.
+
 ## 5h. Gate 0 returned PASS and the result is not usable. The instrument was mine.
 
 Run 2026-08-04 on the five EU cities, 96 chunks, 77 years.
