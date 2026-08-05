@@ -159,3 +159,50 @@ both levels are legitimately populated.
 So this is a convention for authors and a question for the adversarial
 pass. It is not a check, and a future chat should not spend a day
 rebuilding one.
+
+## A figure recomputed outside the payload loses what the payload was doing
+
+The counterpart to "no figure reaches a page except through the
+payload", and it arrives from the other side. **That rule stops a wrong
+number being invented. This one stops a right number being degraded in
+transit.**
+
+Product's formulation, on 2026-08-04, after a rank computed in a
+renderer from a sort order turned a joint 2nd into a 3rd. The channel
+had built tie handling into the payload precisely because ties kept
+deciding things; recomputing the rank outside it reintroduced the exact
+bug the payload existed to prevent.
+
+Ties decided three separate things on the crops channel that day:
+
+- Ethiopia rendering "the most stressed of 26 observations" while 2002
+  sat at exactly the same value
+- Chad's severity, joint 3rd rather than 3rd
+- the global median, joint 2nd with 2002 rather than 3rd
+
+29 of 123 places tie with a prior year on that measure, three of them at
+rank 1. Ties are a quarter of the page, not an edge case.
+
+### The general form
+
+A payload field usually carries more than its value. It carries a tie
+convention, a scope, a direction, a rounding rule, or a basis. **None of
+that survives being recalculated from the raw inputs**, and the
+recalculation will usually agree with the emitted field on most rows,
+which is what makes it dangerous: it is right until it is not, and the
+rows where it differs are exactly the interesting ones.
+
+So: read the emitted figure. If a page needs a figure the channel does
+not emit, ask for it rather than deriving it. Deriving it is not faster,
+it is the same work with the protections removed.
+
+### Two things this does not forbid
+
+Computing a figure the payload genuinely does not contain, where the
+alternative is not showing it. That is a request to the channel, and
+until they answer it is a page that says less.
+
+And VERIFYING an emitted figure by rebuilding it independently. That is
+the opposite activity and it is the single highest-yield check either
+side has: six defects on 2026-08-04 were found that way and none by any
+automated check. Rebuild to check; read to render.
