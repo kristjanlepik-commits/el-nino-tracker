@@ -37,10 +37,18 @@ def _key():
 
 
 def _get(url, header=None):
+    """AEMET serves LATIN-1, not UTF-8.
+
+    Station names carry accents (MALAGA, VALENCIA, ALCANTARILLA BASE AEREA
+    all contain them), so decoding as UTF-8 raises UnicodeDecodeError and,
+    if that is swallowed, an encoding fault presents as "no data". Three
+    cities were silently lost to exactly that before it was traced.
+    """
     cmd = ["curl", "-sS", "--max-time", "60"]
     if header:
         cmd += ["-H", header]
-    return subprocess.run(cmd + [url], capture_output=True, text=True).stdout
+    raw = subprocess.run(cmd + [url], capture_output=True).stdout
+    return raw.decode("latin-1")
 
 
 def window(a, b, station=MADRID_RETIRO):
@@ -57,7 +65,8 @@ def window(a, b, station=MADRID_RETIRO):
     time.sleep(1.2)                     # be polite to a free public API
     try:
         return json.loads(_get(meta["datos"]))
-    except Exception:
+    except Exception as exc:                    # never fail silently
+        print(f"  {a}..{b}: data fetch/parse failed: {exc}", file=sys.stderr)
         return []
 
 
