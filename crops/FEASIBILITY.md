@@ -1714,3 +1714,68 @@ instrument agrees", the count dissolves. See traps 14 and 15.
   and Hungary, are exactly the three where the measure is weakest. When
   the reader-relevance argument and the methodological weak point land
   on the same rows, say so early.
+
+### 13b. The global frame: the two halves point opposite ways
+
+Added 2026-08-05, from design's proposal to lead the index with a
+page-level statistic instead of a count: the median severity across all
+123 places, per year, at this dekad.
+
+**The aggregate is legitimate, and the proof is structural rather than
+empirical.** Each instrument's leave-one-out percentiles across 26
+years are a permutation of {0/25 ... 25/25}, so they average to exactly
+0.5, and so does any mean of them. Measured: every place's 26 severity
+values average **0.5000, sd across the 123 places 0.00007**. The
+co-movement problem of trap 13 therefore does NOT propagate to the
+median: co-movement sets the spread of a place's values, never their
+centre, so it cannot tilt any one year's median. It still widens the
+year-to-year swing, which is why the comparison is against the 26
+observed medians rather than against a theoretical null.
+
+**And then the decomposition, which is where it goes wrong:**
+
+| | all five | crop outcome only | meteorology only |
+|---|---|---|---|
+| 2026 | 0.584 | **0.400** | **0.720** |
+| rank | 2 of 26 | **20 of 26** | **1 of 26** |
+| prior mean | 0.488 | 0.509 | 0.486 |
+| prior years at or above | 2 of 25 | 23 of 25 | **0 of 25** |
+
+**2026 is the most meteorologically stressed year in the 26-year record
+on these instruments, with no prior year close, while the typical
+country's cumulative crop indicator sits at rank 20 of 26, below the
+prior mean.** The all-five median averages two opposite facts and
+describes neither.
+
+The proposed sentence, "by the typical country's own standard 2026 is
+among the most stressed years of the last 26", is therefore **wrong in
+direction for a crops page**. By the typical country's own CROP
+standard it is rank 20 of 26.
+
+**2015 is the contrast that makes it legible**: meteorology 0.700 (rank
+2) AND crop outcome 0.560, above the mean. The two moved together that
+year. In 2026 they have not, and **the divergence is the finding**.
+
+**The honest frame**, if one is published: on these instruments 2026 is
+the most meteorologically stressed year in the 26-year record, and the
+cumulative crop response so far is unremarkable, better than the
+typical year. Two things ride with it and neither is optional. "So far"
+is load-bearing, because at dekad 20 the cumulative indicator
+integrates a season that is not finished. And it is a measurement, not
+a forecast; section 6d found in-season skill weak.
+
+**A fixed lower bar does not escape this.** Showing rank 1-3 rather
+than rank 1 is a defensible editorial cut and it baselines better than
+the twelve (33 places, prior mean 13.8, p = 0.04, 2.4x, against 12
+places at p = 0.08). But it is computed on the same all-five severity
+and inherits the contamination unchanged. A **moving** threshold, one
+that lowers when little qualifies, is worse than either: it is pinned
+to page length rather than to meaning, so the count can never tell a
+reader anything, and it manufactures its own answer the way the
+RECORD_RANK gate did.
+
+**The general lesson, which is trap 15 restated at the aggregate
+level.** A statistic can have a clean null, a proven-unbiased
+aggregate, and a real baseline, and still be the wrong number, because
+none of those properties says anything about what the statistic is made
+of. Every check that passed here was a check on the container.
