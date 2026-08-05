@@ -1714,3 +1714,137 @@ instrument agrees", the count dissolves. See traps 14 and 15.
   and Hungary, are exactly the three where the measure is weakest. When
   the reader-relevance argument and the methodological weak point land
   on the same rows, say so early.
+
+### 13b. The global frame: the two halves point opposite ways
+
+Added 2026-08-05, from design's proposal to lead the index with a
+page-level statistic instead of a count: the median severity across all
+123 places, per year, at this dekad.
+
+**The aggregate is legitimate, and the proof is structural rather than
+empirical.** Each instrument's leave-one-out percentiles across 26
+years are a permutation of {0/25 ... 25/25}, so they average to exactly
+0.5, and so does any mean of them. Measured: every place's 26 severity
+values average **0.5000, sd across the 123 places 0.00007**. The
+co-movement problem of trap 13 therefore does NOT propagate to the
+median: co-movement sets the spread of a place's values, never their
+centre, so it cannot tilt any one year's median. It still widens the
+year-to-year swing, which is why the comparison is against the 26
+observed medians rather than against a theoretical null.
+
+**And then the decomposition, which is where it goes wrong:**
+
+| | all five | crop outcome only | meteorology only |
+|---|---|---|---|
+| 2026 | 0.584 | **0.400** | **0.720** |
+| rank | 2 of 26 | **20 of 26** | **1 of 26** |
+| prior mean | 0.488 | 0.509 | 0.486 |
+| prior years at or above | 2 of 25 | 23 of 25 | **0 of 25** |
+
+**2026 is the most meteorologically stressed year in the 26-year record
+on these instruments, with no prior year close, while the typical
+country's cumulative crop indicator sits at rank 20 of 26, below the
+prior mean.** The all-five median averages two opposite facts and
+describes neither.
+
+The proposed sentence, "by the typical country's own standard 2026 is
+among the most stressed years of the last 26", is therefore **wrong in
+direction for a crops page**. By the typical country's own CROP
+standard it is rank 20 of 26.
+
+**2015 is the contrast that makes it legible**: meteorology 0.700 (rank
+2) AND crop outcome 0.560, above the mean. The two moved together that
+year. In 2026 they have not, and **the divergence is the finding**.
+
+**The honest frame**, if one is published: on these instruments 2026 is
+the most meteorologically stressed year in the 26-year record, and the
+cumulative crop response so far is unremarkable, better than the
+typical year. Two things ride with it and neither is optional. "So far"
+is load-bearing, because at dekad 20 the cumulative indicator
+integrates a season that is not finished. And it is a measurement, not
+a forecast; section 6d found in-season skill weak.
+
+**A fixed lower bar does not escape this.** Showing rank 1-3 rather
+than rank 1 is a defensible editorial cut and it baselines better than
+the twelve (33 places, prior mean 13.8, p = 0.04, 2.4x, against 12
+places at p = 0.08). But it is computed on the same all-five severity
+and inherits the contamination unchanged. A **moving** threshold, one
+that lowers when little qualifies, is worse than either: it is pinned
+to page length rather than to meaning, so the count can never tell a
+reader anything, and it manufactures its own answer the way the
+RECORD_RANK gate did.
+
+**The general lesson, which is trap 15 restated at the aggregate
+level.** A statistic can have a clean null, a proven-unbiased
+aggregate, and a real baseline, and still be the wrong number, because
+none of those properties says anything about what the statistic is made
+of. Every check that passed here was a check on the container.
+
+### 13c. Era drift: two instruments trending opposite ways
+
+Added 2026-08-05. Two statistics that both claim to describe how
+stressed the world is were found moving in OPPOSITE directions across
+the same eras: units at their worst on record falling (2001-2013 mean
+102.6, 2014-2025 mean 59.2) while median severity rose (0.468 to
+0.509). Either could be quoted as "getting worse" or "getting better",
+which is why neither is published.
+
+**The proposed explanation was record length, and it is wrong here.**
+A running record does get harder as the record lengthens, at 1/t. Ours
+is not a running record: `build_data` computes worst-on-record as
+`panel.idxmin` over the **whole 2001-2026 panel, retrospectively**, so
+every year competes against the same 26 and carries probability 1/26
+under exchangeability. There is no length artifact available.
+
+**The cause is secular trend in the instruments, running opposite
+ways:**
+
+| instrument | places worse | places better | median slope/yr | era shift |
+|---|---|---|---|---|
+| Temperature | **67** | **0** | +0.035 | **+0.240** |
+| Vegetation, cumulative | 17 | 44 | -0.011 | **-0.120** |
+| Vegetation, current | 18 | 24 | -0.000 | 0.000 |
+| Water satisfaction | 7 | 9 | +0.019 | +0.040 |
+| Rainfall, 3-month | 3 | 9 | -0.003 | -0.060 |
+
+Temperature warms in 67 of 123 places and cools in **none**. Cumulative
+vegetation greens in 44. Those are the only two large shifts.
+
+So the two statistics are **one fact seen through two instruments
+trending in opposite directions**. The count is built on vegetation,
+which is greening, so its minima cluster early: **63% of all record
+lows fall in 2001-2013**. The median is dominated by temperature, which
+is warming, so its high years cluster late. Neither era comparison is a
+statement about the world's crops, and neither goes on a page.
+
+**What survives detrending**, which trap 7 already made the deciding
+figure:
+
+- **2026's own extremity survives.** The global median moves from rank
+  2 raw to **rank 3 of 26 detrended**. The single-year claim is not a
+  trend artifact even though the era comparison is.
+- **The count dies a third way.** Detrended, rank-1 places fall from 12
+  to 8. Under both screens, detrended AND crop outcome in its worst
+  third: **6 places, prior mean 4.6, 8 of 25 years at or above, p =
+  0.32, 1.3x**. Ordinary. 2015 (17) and 2024 (11) clear both screens
+  easily, which is what a real crop year looks like.
+- Five of the twelve do not survive detrending: Austria, Chile,
+  Guatemala, Slovakia, Uganda.
+
+**Consequence for the emitted `severity` field, unresolved at time of
+writing.** Wherever temperature is in the composite, a country-page
+claim of "the most stressed of 26 observations" carries a trend
+component, because temperature's percentile favours recent years almost
+everywhere. Trap 7's rule says the detrended figure decides. The
+options are to emit a detrended severity alongside, or to drop
+temperature from the composite. Neither is built, because severity may
+not be published at all.
+
+**Trap 16, the general form.** A rank within a place's own history is
+only a statement about unusualness if the underlying series is
+stationary. **Where an instrument trends, recent years rank high by
+construction**, and a composite containing one strongly trending
+instrument inherits that whatever the other components do. This is
+trap 7 (shared trends manufacture correlation) restated for ranks
+rather than correlations, and it was found only because two statistics
+built on different instruments disagreed about the direction of time.

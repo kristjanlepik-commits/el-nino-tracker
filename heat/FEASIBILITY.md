@@ -1034,6 +1034,138 @@ magnitude below the threshold, so it is investigated and dismissed as
 sign instability near zero rather than resolved by preference. Recorded
 because 1b-i said it would be.
 
+### 5i-iii. Extension result: Phoenix is NOT singular
+
+Run 2026-08-05 against the list frozen in 5i-i before any of it was seen.
+
+| | growth | flat | difference |
+|---|---|---|---|
+| **added 14 only** (Phoenix absent) | +0.0041 | -0.0113 | **+0.0154** |
+| combined 25-city | +0.0081 | -0.0108 | **+0.0189** |
+| combined, Phoenix excluded | +0.0024 | -0.0108 | **+0.0132** |
+
+**The pre-registered expectation of a general signal is supported.**
+Fourteen cities with Phoenix absent from the arithmetic separate by
++0.0154, above the clean threshold. In the combined set the separation
+survives Phoenix's removal at +0.0132, which **reverses the 11-city
+picture** where removing it flipped the verdict to clean. The cause is
+sample size: four powered growth cities let one dominate, eleven do not.
+
+**GREY is strengthened, not localised.** The original verdict stands and
+is now better supported.
+
+**Phoenix was never removed from any verdict.** It is in all of them. The
+"without Phoenix" rows are sensitivity diagnostics measuring
+single-observation dependence, and product ruled on 2026-08-05 that it
+stays and the contamination is the content. Recorded because Heat quoted
+those diagnostics repeatedly without labelling them, which reads as a
+case for exclusion and was not one.
+
+### 5i-v. Pre-registered CLUSTERING test: is the separation measuring water proximity?
+
+Registered 2026-08-05 before running, on product's escalation. Their
+framing, adopted: if a systematic water influence on the rings drives the
+flat group's negative trend, **the test is separating water proximity
+rather than population trajectory, and the grey verdict is a geography
+artifact rather than a contamination measurement.** That would not be a
+caveat on the result; it would mean every downstream use of it is wrong.
+
+**Disclosure, and it matters here.** Unlike the earlier pre-registrations,
+the inputs are ALREADY PUBLISHED: every per-city trend is recorded in
+5i and 5i-iii. So a partial answer is computable from the record by
+anyone, including Heat, before the rule is written. The rule is fixed
+here anyway, because the alternative is choosing a cut after seeing which
+one helps, but it does not carry the same protection as a rule fixed
+before the data existed and should not be presented as though it does.
+
+**The cut, fixed now.** Water-adjacent means within roughly 50 km of a
+Great Lake or open sea. Applied to the flat group:
+
+- water-adjacent: Buffalo, Cleveland, Detroit, Milwaukee, Rochester,
+  Toledo, Liverpool, Naples
+- inland: St Louis, Pittsburgh, Cincinnati, Birmingham, Leipzig
+
+**The decision rule.**
+
+- If growth minus **inland-only** flat still exceeds the clean threshold
+  of 0.01, water proximity is not driving the separation and GREY stands
+  as a contamination measurement.
+- If it falls below 0.01, the separation is substantially a water
+  artifact, and the verdict must be withdrawn as a contamination claim
+  regardless of what it says about cities.
+- Growth minus water-adjacent flat is reported alongside for contrast,
+  not as the test.
+
+**Powered cities only**, as in the parent test. No other parameter moves.
+
+### 5i-vi. CLUSTERING TEST RESULT: passes, and a third of the effect was water
+
+Run 2026-08-05 against the rule fixed in 5i-v. Powered cities, annual.
+
+| group | n | mean | difference from growth |
+|---|---|---|---|
+| growth | 11 | +0.0080 | |
+| flat, all | 12 | -0.0108 | +0.0188 |
+| flat, water-adjacent | 7 | -0.0155 | +0.0235 |
+| **flat, inland only** | **5** | **-0.0043** | **+0.0123** |
+
+**Result: +0.0123 exceeds the 0.01 clean threshold, so GREY stands as a
+contamination measurement rather than a geography artifact.**
+
+**But product's concern was justified in magnitude.** Water-adjacent flat
+cities run 0.0112 more negative than inland ones, which is comparable to
+the entire separation. **Roughly a third of the raw effect was water
+proximity rather than population trajectory**, and the raw +0.0188 was
+therefore inflated.
+
+**The comparison is properly matched, which is what makes the survival
+meaningful.** The growth group is essentially all inland; only Houston is
+near open water, at about 80 km, outside the 50 km cut. So this is
+inland-versus-inland rather than a mixed comparison.
+
+### Two limits that must travel with it
+
+**The margin is thin.** +0.0123 against a 0.01 threshold is 23 percent
+above it, where the unadjusted figure sat 88 percent above. A verdict
+that survives by a quarter is not the same object as one that survives by
+a factor.
+
+**The inland flat group is five cities**, and one of them, Leipzig at
++0.0038, is the only positive value in it. Removing any single city moves
+this materially, which is the same single-observation fragility that made
+Phoenix worth checking in the first place, now on the other side of the
+comparison.
+
+**What this does not resolve.** The separation is still carried by the
+flat group being negative rather than the growth group being positive:
+growth averages +0.0080, which is small, and inland flat -0.0043. So the
+mechanism question in 5i-iv stands unanswered. Water proximity is
+excluded as the driver; "shrinking cities cool relative to their rings"
+is not yet established as the driver either.
+
+### 5i-iv. Two caveats on the generality claim
+
+**The separation is carried by the flat group.** Growth averages +0.0041,
+which is essentially zero; flat averages -0.0113. The mechanism reads as
+shrinking cities cooling relative to their rings rather than growing
+cities warming relative to theirs. That is a different mechanism from the
+one D-049 posits and nobody has asked for it to be tested.
+
+**The flat group is geographically clustered and the confound is not
+excluded.** Detroit, Cleveland, Buffalo, St Louis, Milwaukee, Rochester,
+Pittsburgh, Toledo and Cincinnati are Rust Belt or Great Lakes; the
+growth group is Sunbelt and West. City-minus-ring should cancel regional
+climate, since each city is differenced against its own ring, but a
+systematic **lake influence on those rings** is a live candidate.
+Milwaukee's JJA value of -0.129, correctly dropped on power, is a hint
+that lakes are doing something. **If the clustering drives the flat
+group's negative trend, the generality claim is softer than it looks.**
+Not asserted either way; it needs testing.
+
+**JJA disagrees again**, added-only +0.0093, just under clean. Two
+independent samples have now produced the same seasonal split, so it is a
+property of the method rather than an accident of the first set.
+
 ### 5i-i. Pre-registered EXTENSION test: is Phoenix singular?
 
 Registered 2026-08-05 **before running**, and it is a second test rather
