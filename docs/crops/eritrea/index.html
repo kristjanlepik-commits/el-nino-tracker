@@ -164,6 +164,34 @@ main { max-width:800px; margin:0 auto; padding:24px 24px 80px; }
   .prodnav a.ch-crop { color: var(--crop); }
   .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
   .prodnav a:hover { color: var(--ink); }
+
+.svb { margin-top:8px; }
+.svlab { margin:0; font-size:11px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-faint);
+  font-family:"IBM Plex Mono",monospace; }
+/* The Combined register is bound to the number, not adjacent to it.
+   Everything else on these pages is one series against its own history,
+   so a reader has no reason to expect the register to change, and a
+   footnote is separable by a layout decision in exactly the way
+   `statement` exists to prevent. */
+.svtag { display:inline-block; margin-left:8px; padding:1px 6px;
+  background:var(--paper-sunk); color:var(--ink-soft);
+  letter-spacing:.04em; text-transform:none; }
+.svbig { margin:6px 0 0; font-size:29px; font-weight:600;
+  line-height:1.1; color:var(--crop); }
+.svof { display:block; font-size:14px; font-weight:400;
+  color:var(--ink-soft); margin-top:4px; }
+.svst { margin:8px 0 0; font-size:13px; color:var(--ink-soft);
+  max-width:64ch; font-family:"IBM Plex Mono",monospace; }
+.sv { width:100%; height:auto; display:block; margin:14px 0 2px; }
+.sv text { font-family:"IBM Plex Mono",monospace; }
+.sv-x { font-size:10px; fill:var(--ink-faint); }
+.sv-y { font-size:10.5px; fill:var(--ink); }
+.svq { margin:12px 0 0; padding-left:18px; font-size:12.5px;
+  color:var(--ink-faint); max-width:66ch; }
+.svq li { margin-bottom:4px; }
+.svabs { margin:0; font-size:13.5px; color:var(--ink-faint); }
+
 .eyebrow, .rgval, .foot, .sc text, .rgbasis {
   font-family:"IBM Plex Mono", ui-monospace, monospace; }
 .eyebrow { font-size:11px; letter-spacing:0.22em;
@@ -236,6 +264,19 @@ plausible.init()
     &middot; dekad 2026-07-11</p>
   <h1>Eritrea</h1>
   <p class="stand">2 of 6 crop regions in Eritrea are at their worst on record for this point in the season. Its highest in any previous year was 2, on a recent average of 0.17.</p>
+
+  <p class="eyebrow" style="margin-top:34px">How bad is it, against this
+    country&rsquo;s own record</p>
+  
+      <div class="svb">
+        <p class="svlab">Five instruments read together
+          <span class="svtag">our combination, not an observation</span></p>
+        <p class="svbig">3rd worst
+          <span class="svof">of 26 years at this point in the season</span></p>
+        <p class="svst">The 3rd most stressed of 26 observations for this point in the season, 2001-2026, across 5 instruments read together</p>
+        <svg class="sv" viewBox="0 0 660 150" role="img" aria-label="This country in every year of the record for the same point in the season, five instruments read together"><line x1="8" y1="120" x2="652" y2="120" stroke="var(--rule)" stroke-width="1"/><rect x="12.7" y="84.0" width="15.4" height="36.0" fill="var(--ink-faint)"/><rect x="37.5" y="27.2" width="15.4" height="92.8" fill="var(--ink-faint)"/><rect x="62.2" y="78.4" width="15.4" height="41.6" fill="var(--ink-faint)"/><rect x="87.0" y="71.2" width="15.4" height="48.8" fill="var(--ink-faint)"/><rect x="111.8" y="96.8" width="15.4" height="23.2" fill="var(--ink-faint)"/><rect x="136.6" y="98.4" width="15.4" height="21.6" fill="var(--ink-faint)"/><rect x="161.3" y="116.8" width="15.4" height="3.2" fill="var(--ink-faint)"/><rect x="186.1" y="75.2" width="15.4" height="44.8" fill="var(--ink-faint)"/><rect x="210.9" y="58.4" width="15.4" height="61.6" fill="var(--ink-faint)"/><rect x="235.6" y="94.4" width="15.4" height="25.6" fill="var(--ink-faint)"/><rect x="260.4" y="35.2" width="15.4" height="84.8" fill="var(--ink-faint)"/><rect x="285.2" y="78.4" width="15.4" height="41.6" fill="var(--ink-faint)"/><rect x="309.9" y="42.4" width="15.4" height="77.6" fill="var(--ink-faint)"/><rect x="334.7" y="72.0" width="15.4" height="48.0" fill="var(--ink-faint)"/><rect x="359.5" y="24.8" width="15.4" height="95.2" fill="var(--ink-faint)"/><rect x="384.2" y="69.6" width="15.4" height="50.4" fill="var(--ink-faint)"/><rect x="409.0" y="58.4" width="15.4" height="61.6" fill="var(--ink-faint)"/><rect x="433.8" y="72.0" width="15.4" height="48.0" fill="var(--ink-faint)"/><rect x="458.6" y="96.8" width="15.4" height="23.2" fill="var(--ink-faint)"/><rect x="483.3" y="61.6" width="15.4" height="58.4" fill="var(--ink-faint)"/><rect x="508.1" y="59.2" width="15.4" height="60.8" fill="var(--ink-faint)"/><rect x="532.9" y="68.0" width="15.4" height="52.0" fill="var(--ink-faint)"/><rect x="557.6" y="79.2" width="15.4" height="40.8" fill="var(--ink-faint)"/><rect x="582.4" y="81.6" width="15.4" height="38.4" fill="var(--ink-faint)"/><rect x="607.2" y="87.2" width="15.4" height="32.8" fill="var(--ink-faint)"/><rect x="631.9" y="32.8" width="15.4" height="87.2" fill="var(--crop)"/><text class="sv-y" x="639.6" y="27.8" text-anchor="middle">2026</text><text class="sv-x" x="20.4" y="142" text-anchor="start">2001</text><text class="sv-x" x="639.6" y="142" text-anchor="end">2026</text></svg>
+        <ul class="svq"><li>Every input is measured against its own record, but no source publishes this average. It is our combination, not an observation.</li><li>This value places the country against itself, so it does not rank countries against each other. Its year-to-year spread here is 0.229, and that spread differs by place, so a higher value elsewhere can be a less unusual year than this one. The rank is the comparable figure.</li><li>A reading of conditions to date. It carries no statement about the rest of the season.</li></ul>
+      </div>
 
   <p class="eyebrow" style="margin-top:34px">What the instruments say</p>
   <p class="pat">The canopy is in its worst third, while water satisfaction is in its middle third and rainfall is in its worst third.</p>

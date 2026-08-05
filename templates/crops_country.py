@@ -45,6 +45,8 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
 from templates.crops_region import _fmt                        # noqa: E402
+from templates.crops_severity import (severity_block,          # noqa: E402
+                                      SEVERITY_CSS)
 
 
 def slugify(name: str) -> str:
@@ -447,6 +449,7 @@ body {{ margin:0; background:var(--paper); color:var(--ink);
   font-family:"{T.FONT_PROSE}",Georgia,serif; font-size:16.5px; line-height:1.55; }}
 main {{ max-width:800px; margin:0 auto; padding:24px 24px 80px; }}
 {SITE_MASTHEAD_CSS}
+{SEVERITY_CSS}
 .eyebrow, .rgval, .foot, .sc text, .rgbasis {{
   font-family:"{T.FONT_DATA}", ui-monospace, monospace; }}
 .eyebrow {{ font-size:11px; letter-spacing:{T.TRACK_LABEL}em;
@@ -513,6 +516,10 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
     &middot; dekad {h(country.get('dekad', ''))}</p>
   <h1>{h(name)}</h1>
   <p class="stand">{h(stand)}</p>
+
+  <p class="eyebrow" style="margin-top:34px">How bad is it, against this
+    country&rsquo;s own record</p>
+  {severity_block(name, country.get("severity") or {})}
 
   <p class="eyebrow" style="margin-top:34px">What the instruments say</p>
   <p class="pat">{h(_pattern_sentence(country.get("instruments") or []))}</p>
