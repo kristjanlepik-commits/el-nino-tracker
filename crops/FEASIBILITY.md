@@ -1429,6 +1429,34 @@ Two obstacles:
    on record at 0.840 while Sudan (0.248) is only third at 0.904. **The
    rank is comparable across places; the value is not**, and the
    qualifier carrying that says so with the place's own spread in it.
+14. **Equal weighting is not the conservative choice when the
+   instruments are not peers.** Argued the other way in section 13 and
+   defended to design: we do not know which instrument matters more, so
+   any weights we invented would be the arbitrary part. That is right
+   only if the five are five views of the same thing. They are not.
+   They are **one cumulative crop outcome (zFPARc, the instrument ASAP
+   builds its own warnings from), one instantaneous crop state (zFPAR),
+   one crop-water-balance model (WSI), and two pure meteorology (SPI3,
+   temperature)**. Equal weights therefore put four fifths of the
+   measure on inputs and snapshots and one fifth on the season's actual
+   crop outcome, which on a crops page is trap 11 wearing a new
+   disguise. It surfaced as **Hungary at severity rank 1 with
+   cumulative vegetation at rank 14 of 26, a median crop signal, and
+   zero regions even in their worst three**; Slovakia, Austria,
+   Ethiopia and Chile are the same shape. Declining to weight is itself
+   a weighting, and it has to be defended against what the instruments
+   ARE rather than against the wish to stay neutral.
+15. **A count can pass its baseline and still be measuring the wrong
+   thing, and gating it is what reveals that.** The 12 places at
+   severity rank 1 cleared baseline A at p = 0.08, 2.6x the prior mean.
+   Requiring the crop-outcome instrument to agree took **2026 from 12
+   to 7 while 2015 went 18 to 18 and 2024 went 12 to 10**. In previous
+   high-count years the places at their worst were at their worst on
+   the crop instrument too; in 2026 they disproportionately are not, so
+   the count was carrying a composition change rather than a crop
+   signal. **A baseline tests whether a count is unusual; it never
+   tests whether the count is made of the right things.** Only
+   decomposing it does.
 
 ## 10. If crops opens
 
@@ -1622,3 +1650,67 @@ The identity check matters more than the count: five instruments here
 and a **different** five there would be invisible in a tally, and the
 resulting numbers would not be comparable while looking as though they
 were.
+
+### 13a. The severity count, and why it is not published
+
+Added 2026-08-05. Design proposed leading the crops index on severity
+rank rather than region count, on the grounds that rank is comparable
+across places and the index and country pages would then answer the
+same question at two scales. The argument is right and the measure
+still failed.
+
+**The two orderings barely overlap.** The index selects 6 places by
+region count; 12 sit at severity rank 1. **Papua New Guinea is the only
+place in both.** That alone is worth recording: breadth (how much of a
+country is at a record) and depth (how far into its own extremes the
+country sits) are close to independent on this data.
+
+**Baseline A**, at this dekad, places at their worst on record per year:
+
+| | value |
+|---|---|
+| uniform would say | 4.7 |
+| empirical mean, 25 prior years | 4.6 (median 3, range 0 to 18) |
+| 2026 | 12 (9 strict, 3 joint) |
+| prior years at or above 12 | 2 of 25 (2015 at 18, 2024 at 12) |
+
+**The uniform figure failed in a new direction here and the standing
+rule did not cover it.** Its MEAN was almost exactly right, 4.7 against
+4.6, because leave-one-out percentiles are exchangeable across years by
+construction. Its TAIL was not: empirical sd 4.00 against a Poisson
+2.15, 1.86x overdispersed, because neighbouring countries share
+weather. Under the uniform assumption 12 is p = 0.003, one in 326;
+empirically p = 0.08, one in 12, a **27x overstatement**. Every earlier
+instance of this trap on the channel got the mean wrong, so the usual
+check would have passed it.
+
+**What killed it was decomposition, not the baseline.** Gating on the
+crop-outcome instrument being in its worst third:
+
+| gate | 2026 | prior mean | years at or above | p | ratio |
+|---|---|---|---|---|---|
+| none | 12 | 4.6 | 2/25 | 0.08 | 2.59x |
+| crop rank <= 13 | 11 | 4.4 | 2/25 | 0.08 | 2.48x |
+| crop rank <= 9 | 7 | 4.4 | 5/25 | 0.20 | 1.59x |
+| crop rank <= 4 | 5 | 3.6 | 7/25 | 0.28 | 1.37x |
+
+The worst-half row survives and does not rescue it: worst-half is
+satisfied by half of all years by construction, gates almost nothing,
+and drops a single place. At any gate strict enough to mean "the crop
+instrument agrees", the count dissolves. See traps 14 and 15.
+
+**Standing conclusions.**
+
+- Severity rank stays on COUNTRY pages, where it is one place against
+  its own history and no count is claimed. It is the depth answer and
+  it beats the region tally at that job.
+- **No severity count goes on the index.** D-079: lead with the place.
+- The two places strong on both measures are the ones to lead with:
+  Papua New Guinea (severity rank 1 strict, cumulative vegetation rank
+  2, four units at their outright worst) and Chad (cumulative
+  vegetation rank 1 of 26, 8 units at their worst, 13 of 22 in their
+  worst three, severity rank 3).
+- The three EU places that made design's T11 case, Austria, Slovakia
+  and Hungary, are exactly the three where the measure is weakest. When
+  the reader-relevance argument and the methodological weak point land
+  on the same rows, say so early.
