@@ -1098,6 +1098,51 @@ Great Lake or open sea. Applied to the flat group:
 
 **Powered cities only**, as in the parent test. No other parameter moves.
 
+### 5i-vi. CLUSTERING TEST RESULT: passes, and a third of the effect was water
+
+Run 2026-08-05 against the rule fixed in 5i-v. Powered cities, annual.
+
+| group | n | mean | difference from growth |
+|---|---|---|---|
+| growth | 11 | +0.0080 | |
+| flat, all | 12 | -0.0108 | +0.0188 |
+| flat, water-adjacent | 7 | -0.0155 | +0.0235 |
+| **flat, inland only** | **5** | **-0.0043** | **+0.0123** |
+
+**Result: +0.0123 exceeds the 0.01 clean threshold, so GREY stands as a
+contamination measurement rather than a geography artifact.**
+
+**But product's concern was justified in magnitude.** Water-adjacent flat
+cities run 0.0112 more negative than inland ones, which is comparable to
+the entire separation. **Roughly a third of the raw effect was water
+proximity rather than population trajectory**, and the raw +0.0188 was
+therefore inflated.
+
+**The comparison is properly matched, which is what makes the survival
+meaningful.** The growth group is essentially all inland; only Houston is
+near open water, at about 80 km, outside the 50 km cut. So this is
+inland-versus-inland rather than a mixed comparison.
+
+### Two limits that must travel with it
+
+**The margin is thin.** +0.0123 against a 0.01 threshold is 23 percent
+above it, where the unadjusted figure sat 88 percent above. A verdict
+that survives by a quarter is not the same object as one that survives by
+a factor.
+
+**The inland flat group is five cities**, and one of them, Leipzig at
++0.0038, is the only positive value in it. Removing any single city moves
+this materially, which is the same single-observation fragility that made
+Phoenix worth checking in the first place, now on the other side of the
+comparison.
+
+**What this does not resolve.** The separation is still carried by the
+flat group being negative rather than the growth group being positive:
+growth averages +0.0080, which is small, and inland flat -0.0043. So the
+mechanism question in 5i-iv stands unanswered. Water proximity is
+excluded as the driver; "shrinking cities cool relative to their rings"
+is not yet established as the driver either.
+
 ### 5i-iv. Two caveats on the generality claim
 
 **The separation is carried by the flat group.** Growth averages +0.0041,
