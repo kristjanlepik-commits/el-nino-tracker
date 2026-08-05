@@ -31,19 +31,19 @@ KEY = os.path.expanduser("~/.aemet_key")
 MADRID_RETIRO = "3195"          # same thermometer as ECA&D station 230
 
 
-def _key() -> str:
+def _key():
     with open(KEY) as f:
         return f.read().strip()
 
 
-def _get(url: str, header: str | None = None) -> str:
+def _get(url, header=None):
     cmd = ["curl", "-sS", "--max-time", "60"]
     if header:
         cmd += ["-H", header]
     return subprocess.run(cmd + [url], capture_output=True, text=True).stdout
 
 
-def window(a: str, b: str, station: str = MADRID_RETIRO) -> list[dict]:
+def window(a, b, station=MADRID_RETIRO):
     """One request. Returns [] and prints the reason on refusal."""
     url = f"{BASE}/fechaini/{a}T00:00:00UTC/fechafin/{b}T23:59:59UTC/estacion/{station}"
     try:
@@ -71,7 +71,7 @@ def _months(start: dt.date, end: dt.date, step: int = 3):
         cur = nxt
 
 
-def tmin(rec: dict) -> float | None:
+def tmin(rec):
     """AEMET writes decimals with a comma."""
     v = rec.get("tmin")
     if v in (None, ""):
@@ -82,7 +82,7 @@ def tmin(rec: dict) -> float | None:
         return None
 
 
-def series(start: dt.date, end: dt.date, station: str = MADRID_RETIRO):
+def series(start, end, station=MADRID_RETIRO):
     out = []
     for a, b in _months(start, end):
         out += [(r["fecha"], tmin(r)) for r in window(a, b, station)
