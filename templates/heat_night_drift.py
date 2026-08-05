@@ -58,6 +58,39 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        site_masthead)
 
 
+# The three ratified attribution strings, D-033. There is no fourth.
+ATTRIBUTION = {
+    "enso": "ENSO-loaded window",
+    "non_enso": "Not ENSO-linked",
+    "pending": "Attribution pending",
+}
+
+
+def _attribution_tag(value) -> str:
+    """The tag, or a build failure. Never silent omission.
+
+    T9 requires the attribution as a UI element rather than prose, and
+    this page had NO SLOT FOR IT AT ALL, so Heat's invalid string
+    ("not assessed", a fourth word D-033 forbids) produced a page with
+    no tag and no error. Heat found that by reading their own payload
+    against the ratified list; nothing here would have told them.
+
+    So an unrecognised value stops the build. A missing tag on a page
+    that requires one is indistinguishable from a page whose claim needs
+    no tag, and that is the same fail-open that let five countries
+    render a driver line that did not hold there.
+    """
+    if value in ATTRIBUTION.values():
+        slug = next(k for k, v in ATTRIBUTION.items() if v == value)
+        return f'<span class="tag tag-{slug}">{h(value)}</span>'
+    raise SystemExit(
+        f"heat/data/night_drift.json has attribution {value!r}, which is "
+        f"not one of the three ratified strings under D-033:\n  "
+        + "\n  ".join(ATTRIBUTION.values())
+        + "\nRefusing to render a page with no attribution tag rather "
+          "than omitting it silently. T9 requires the tag as an element.")
+
+
 def _rows(regions) -> str:
     """Four regions on one Celsius axis, July and annual, gap between."""
     vals = [v for r in regions
@@ -202,6 +235,16 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 .nd-g {{ font-size:10.5px; fill:var(--ink-faint); }}
 .nd-ax {{ font-size:10px; fill:var(--ink-faint); }}
 .key {{ font-size:11.5px; color:var(--ink-faint); margin:8px 0 0; }}
+/* The attribution tag, from the shared three-state set. Sits above the
+   headline because T9 wants it as an element a reader can find, not a
+   clause they have to reach the end of a paragraph for. */
+.tag {{ display:inline-block; font-family:"{T.FONT_DATA}",monospace;
+  font-size:11px; letter-spacing:.05em; padding:2px 8px; margin:0 0 10px; }}
+.tag-enso {{ background:var(--tag-loaded-bg); color:var(--tag-loaded-fg); }}
+.tag-non_enso {{ background:var(--tag-notlink-bg);
+  color:var(--tag-notlink-fg); }}
+.tag-pending {{ background:var(--tag-pending-bg);
+  color:var(--tag-pending-fg); }}
 .note {{ margin:18px 0 0; font-size:14px; color:var(--ink-soft);
   max-width:64ch; }}
 .basis {{ margin:22px 0 0; padding:12px 15px; background:var(--paper-sunk);
@@ -215,6 +258,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 {site_masthead(root_prefix, active="")}
 <main>
   <p class="eyebrow">Heat &middot; regional night warming</p>
+  {_attribution_tag(doc.get("attribution"))}
   <h1>July nights over {h(lead_name)} are {lead_drift:.2f} &#176;C warmer
   than they were.</h1>
   <p class="stand">Measured against 1961-1990, across four regions. And
