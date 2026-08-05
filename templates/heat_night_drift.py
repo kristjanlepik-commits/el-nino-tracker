@@ -112,11 +112,25 @@ def _rows(regions) -> str:
         out.append(f'<circle cx="{X(jul):.1f}" cy="{y:.1f}" r="5.2" '
                    f'fill="var(--ink)"/>')
         c = r["contrast_c"]["value"]
-        # The contrast printed at the end of its own gap, so the number
-        # and the thing it measures are not separated by a layout.
+        # THE LABELLED NUMBER IS THE DRIFT, NOT THE CONTRAST. It was the
+        # contrast, and Kristjan's read was "July nights are 0.4 degrees
+        # warmer, who cares". Right: +0.40 is a difference of
+        # differences, three times smaller than the drift sitting in the
+        # same payload, and it is not a sentence. "Italy's July nights
+        # are 1.27 C warmer than they were" is.
+        #
+        # It is also the mislabel I flagged on this axis earlier: the
+        # axis said "night warming" while the labelled figure was the
+        # gap between two warmings. Same defect, arriving as a product
+        # problem rather than a caption one.
         tx = max(X(jul), X(ann)) + 10
-        out.append(f'<text class="nd-c" x="{tx:.1f}" y="{y + 4:.1f}">'
-                   f'{c:+.2f} &#176;C</text>')
+        out.append(f'<text class="nd-c" x="{tx:.1f}" y="{y + 1:.1f}">'
+                   f'{jul:+.2f} &#176;C</text>')
+        # The contrast stays, smaller, as the second beat: it is what
+        # makes this more than a warming chart, because one region runs
+        # the other way.
+        out.append(f'<text class="nd-g" x="{tx:.1f}" y="{y + 13:.1f}">'
+                   f'{c:+.2f} vs the year</text>')
         # READ the margin, never compute it. I computed it and got 1.0x
         # against an emitted 1.6x, because there are TWO
         # region_cut_spread_c fields at two levels: one on the July
@@ -132,7 +146,7 @@ def _rows(regions) -> str:
         note = f"margin {m:.1f}x" if (weak and m) else ""
         if note:
             out.append(f'<text class="nd-w" x="0" y="{y + 13:.1f}">'
-                       f'{h(note)}, the weakest here</text>')
+                       f'contrast {h(note)}, the weakest here</text>')
     out.append(f'<text class="nd-ax" x="{PAD_L}" y="{H - 6:.1f}">'
                f'night warming since 1961-1990, &#176;C</text>')
     return (f'<svg class="nd" viewBox="0 0 {W} {H:.0f}" role="img" '
@@ -144,11 +158,19 @@ def _rows(regions) -> str:
 
 def render(doc: dict, root_prefix: str = "../") -> str:
     regions = list(doc["regions"].values())
-    # Widest gap first, so the page opens on its strongest case, with
-    # the one negative contrast kept in the same list rather than
-    # exiled to a footnote. It is half the finding.
-    regions.sort(key=lambda r: -abs(r["contrast_c"]["value"]))
+    # Sorted by DRIFT, matching what the headline names and what the
+    # large figure on each row shows. It sorted by contrast while the
+    # headline named the largest drift, so the first row was not the
+    # region in the h1. Ordering has to agree with the quantity the page
+    # leads on, or the list quietly argues with the headline.
+    regions.sort(key=lambda r: -r["july_night_drift_c"]["value"])
     b = doc["baseline"]
+    # The headline names the largest DRIFT and a place, not the largest
+    # contrast. A place and a temperature is a sentence; a difference of
+    # differences is not.
+    lead = max(regions, key=lambda r: r["july_night_drift_c"]["value"])
+    lead_name = lead["display_name"]
+    lead_drift = lead["july_night_drift_c"]["value"]
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -176,7 +198,8 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 .nd {{ width:100%; height:auto; display:block; margin:20px 0 4px; }}
 .nd-n {{ font-size:12px; fill:var(--ink); }}
 .nd-w {{ font-size:10px; fill:var(--ink-faint); }}
-.nd-c {{ font-size:12.5px; fill:var(--ink); font-weight:600; }}
+.nd-c {{ font-size:14px; fill:var(--ink); font-weight:600; }}
+.nd-g {{ font-size:10.5px; fill:var(--ink-faint); }}
 .nd-ax {{ font-size:10px; fill:var(--ink-faint); }}
 .key {{ font-size:11.5px; color:var(--ink-faint); margin:8px 0 0; }}
 .note {{ margin:18px 0 0; font-size:14px; color:var(--ink-soft);
@@ -192,15 +215,17 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 {site_masthead(root_prefix, active="")}
 <main>
   <p class="eyebrow">Heat &middot; regional night warming</p>
-  <h1>Summer nights are not warming at the same rate as the rest of the
-  year.</h1>
-  <p class="stand">And the direction is not the same everywhere. In three
-  of these four regions July nights have moved further than the year as a
-  whole; in the fourth they have moved less.</p>
+  <h1>July nights over {h(lead_name)} are {lead_drift:.2f} &#176;C warmer
+  than they were.</h1>
+  <p class="stand">Measured against 1961-1990, across four regions. And
+  summer is not moving at the same rate as the rest of the year: in three
+  of these four, July nights have drifted further than the annual
+  average, while in the US Southwest they have drifted less.</p>
 
   {_rows(regions)}
-  <p class="key">Open mark: night warming across the whole year. Filled
-    mark: July only. The gap between them is the contrast.</p>
+  <p class="key">Filled mark and the large figure: how much July nights
+    have warmed. Open mark: the same for the whole year. The gap between
+    them is the smaller figure.</p>
 
   <p class="note">Each region is a 1-degree grid box roughly 500 to 900
     km across, land cells only. Nothing here is a claim about any city:
