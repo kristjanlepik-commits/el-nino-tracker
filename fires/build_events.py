@@ -181,6 +181,74 @@ def attribution_for(iso, month):
     return DEFAULT_ATTRIBUTION
 
 
+
+CACHE_DIR = os.path.join(REPO, "fires", "data", "full_history")
+
+
+def subset_hist(iso, keep_md, cur_year):
+    """Baseline over ONLY the surviving calendar days of the window.
+
+    keep_md is a list of (month, day). Returns {year: total} summed over
+    exactly those dates in each prior year, or None if any date is
+    genuinely unfetched, in which case the caller keeps the seven-day
+    baseline rather than silently comparing five days against seven.
+
+    Presence of a date key means it was fetched, because the day cache
+    writes zeros explicitly. Inside a year the batch marked complete, an
+    absent date means zero: Malawi 2016 holds 304 entries in a 365-day
+    year and all 61 gaps are real.
+    """
+    path = os.path.join(CACHE_DIR, f"{iso}.json")
+    if not os.path.exists(path):
+        return None
+    try:
+        doc = json.load(open(path))
+    except ValueError:
+        return None
+    complete = {y for y in doc.get("_complete", [])
+                if len(doc.get(y, {})) >= 300}
+    out = {}
+    for year in range(2012, cur_year):
+        days = doc.get(str(year))
+        if days is None:
+            continue                      # no archive for that year
+        total = 0
+        for m, d in keep_md:
+            key = f"{year:04d}-{m:02d}-{d:02d}"
+            if key in days:
+                total += days[key]
+            elif str(year) in complete:
+                total += 0
+            else:
+                return None               # unfetched, not zero
+        out[str(year)] = total
+    return out or None
+
+
+def rebuild_rows(detail, end):
+    """Re-derive the ranked rows after the counts and baselines moved."""
+    rows = []
+    for iso, r in detail.items():
+        hist = r["hist"]
+        count, mean = r["count"], r["mean"]
+        multiple = count / mean if mean else 0.0
+        rank = 1 + sum(1 for v in hist.values() if v > count)
+        vals = list(hist.values())
+        sd = (sum((v - mean) ** 2 for v in vals) / len(vals)) ** 0.5
+        prev_year = max(hist, key=lambda y: hist[y])
+        rows.append({
+            "iso": iso, "region": r["name"], "count": count,
+            "multiple": round(multiple, 1), "rank": f"{rank} of {len(hist) + 1}",
+            "rank_n": rank, "z": round((count - mean) / sd if sd else 0.0, 2),
+            "lat": r["lat"], "lon": r["lon"], "centroid_basis": r["basis"],
+            "attribution": attribution_for(iso, end.month),
+            "title": make_title(rank, multiple, count,
+                                hist[prev_year], prev_year),
+            "href": f"fires/{slugify(r['name'])}/",
+        })
+    return rows
+
+
 def slugify(name):
     s = name.lower()
     s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
@@ -427,39 +495,89 @@ def main():
 
     # A DAY THE ARCHIVE HAS NOT FINISHED IS NOT A QUIET DAY.
     #
-    # The 03:00 UTC guard above assumes NRT processing closes a day
-    # within about three hours of midnight. On 2026-08-05 at 07:20 UTC
-    # that assumption failed: 3 August held 1,881 detections across the
-    # whole roster against a median of 62,886, and 4 August held 17,919.
-    # Angola, which burns every day in August and logged 20,678 on the
-    # 1st, read exactly zero on the 4th.
+    # The 03:00 UTC guard assumes NRT processing closes a day within
+    # about three hours of midnight. On 2026-08-05 that failed: 3 August
+    # held 1,881 detections across the whole roster against a median of
+    # 62,886, and 4 August held 17,919. Angola burns every day in August
+    # and logged 20,678 on the 1st; it read exactly zero on the 4th.
+    # Confirmed against the independent global feed. And it does NOT
+    # backfill: 3 August gained one detection in nineteen hours.
     #
-    # Counted as real, an incomplete day understates the window and
-    # biases every multiple LOW, and renders on the country page as a
-    # zero bar, which is a claim that a country's fires stopped. Kristjan
-    # spotted the false zero on Greece before any check did.
+    # DEGRADE, DO NOT REFUSE. My first version refused the window, which
+    # would have taken the channel offline for a week, because a dead day
+    # sits inside every window for seven days after it. That is the
+    # frozen-detections defect of 29 July, self-inflicted. Refuse or
+    # publish is a false binary.
     #
-    # Detection is roster-wide for the same reason the no-archive year
+    # Instead drop the dead days from BOTH sides: this week's count and
+    # the baseline are computed over the same surviving calendar days.
+    # Five days against the same five days of each prior year is
+    # like-for-like; it invents nothing and dilutes nothing. Only the
+    # per-day cache makes this possible, and it did not exist a week ago.
+    #
+    # Roster-wide detection, for the same reason the no-archive year
     # check is: one country can legitimately read zero, ninety-four
-    # cannot all collapse together. Compared against the window's own
-    # median rather than a fixed threshold, so it holds in any season.
+    # cannot collapse together. Measured against the window's own median
+    # so it holds in any season.
     day_totals = {}
     for r in detail.values():
         for day, v in (r.get("daily") or {}).items():
             day_totals[day] = day_totals.get(day, 0) + v
+    dead = []
     if day_totals:
         med = sorted(day_totals.values())[len(day_totals) // 2]
-        thin = sorted(d for d, v in day_totals.items()
+        dead = sorted(d for d, v in day_totals.items()
                       if med and v < med * INCOMPLETE_DAY_FRACTION)
-        if thin:
-            print(f"refusing to publish {win_key}: {len(thin)} day(s) are "
-                  f"incomplete in the archive, "
-                  f"{', '.join(f'{d} at {day_totals[d]:,} vs median {med:,}' for d in thin)}. "
-                  f"An unfinished day is not a quiet day; publishing it "
-                  f"would understate every multiple and draw a zero bar "
-                  f"for countries that did not stop burning.",
-                  file=sys.stderr)
-            raise SystemExit(3)
+
+    degraded = None
+    if dead:
+        live_days = [d for d in sorted(day_totals) if d not in dead]
+        # Loud, because a run that degrades three days running is
+        # something a person should be told rather than something a log
+        # should hold.
+        print(f"::error::{win_key} degraded to {len(live_days)} of "
+              f"{len(day_totals)} days. Incomplete in the archive: "
+              f"{', '.join(f'{d} ({day_totals[d]:,} vs median {med:,})' for d in dead)}. "
+              f"Both this week's counts and the baselines are recomputed "
+              f"over the surviving days.", file=sys.stderr, flush=True)
+        keep_md = [tuple(int(x) for x in d.split("-")[1:]) for d in live_days]
+        for iso, r in detail.items():
+            r["count"] = sum(v for k, v in (r.get("daily") or {}).items()
+                             if k not in dead)
+            hist = subset_hist(iso, keep_md, end.year)
+            if hist:
+                r["hist"] = hist
+
+        # A year with no archive is not a year with no fire, AGAIN.
+        #
+        # subset_hist reads the per-day cache directly, so it does not
+        # inherit the no-archive-year exclusion that fetch_window_baseline
+        # applies when it writes country_history.json. Without this, the
+        # 2022 hole (27 July to 10 August, no SNPP science archive at all)
+        # returns as a zero and inflates every multiple by 14/13, exactly
+        # the 7.7% corrected yesterday. Greece read 15.7x instead of 14.6x.
+        #
+        # Same roster-wide test as before: one country can legitimately
+        # sum to zero across five days, ninety-four cannot.
+        year_tot = {}
+        for r in detail.values():
+            for y, v in r["hist"].items():
+                year_tot[y] = year_tot.get(y, 0) + v
+        no_archive = sorted(y for y, t in year_tot.items() if t == 0)
+        if no_archive:
+            print(f"  excluding years with no archive over these days: "
+                  f"{', '.join(no_archive)}", file=sys.stderr, flush=True)
+        for r in detail.values():
+            for y in no_archive:
+                r["hist"].pop(y, None)
+            if r["hist"]:
+                r["mean"] = round(sum(r["hist"].values())
+                                  / len(r["hist"]), 1)
+        degraded = {"days_used": len(live_days),
+                    "days_in_window": len(day_totals),
+                    "excluded": dead}
+        # rows were built from the pre-degradation numbers, so rebuild
+        rows = rebuild_rows(detail, end)
 
     eligible = [r for r in rows if qualifies(r)]
     eligible.sort(key=lambda r: -r["multiple"])
@@ -521,6 +639,7 @@ def main():
     source = f"NASA FIRMS SNPP, {win_label}"
 
     events = {
+        "degraded": degraded,
         "_readme": [
             "Generated by fires/build_events.py; do not hand-edit.",
             "Window is the trailing seven fully-closed UTC days, so this",
@@ -550,6 +669,7 @@ def main():
             "sections 2 and 3 for the centroid basis and the gate.",
         ],
         "window": win_key,
+        "degraded": degraded,
         "complete": True,
         "markers": [{
             "region": r["region"], "lat": r["lat"], "lon": r["lon"],
@@ -565,8 +685,8 @@ def main():
     }
     with open(os.path.join(REPO, "fires", "data",
                            "current_week.json"), "w") as f:
-        json.dump({"window": win_key, "source": source,
-                   "countries": detail}, f, indent=1)
+        json.dump({"window": win_key, "degraded": degraded,
+                   "source": source, "countries": detail}, f, indent=1)
     os.makedirs(os.path.join(REPO, "data"), exist_ok=True)
     with open(os.path.join(REPO, "data", "events.json"), "w") as f:
         json.dump(events, f, indent=2)

@@ -153,6 +153,35 @@ def build(events_doc, font_prefix="../fonts/"):
                  'burning, and they are listed separately because '
                  'presenting them as anomalies would misrepresent '
                  'whether it is unusual.</p>')
+    # THE EXCLUSION IS STATED WHERE A READER SEES IT, not only in the log.
+    #
+    # Product's condition and it is not negotiable. Every data defect this
+    # week was invisible because the artifact looked well formed, and a
+    # seven-day window that quietly became five is that shape again.
+    #
+    # Design's lead_sentence already leads with the record comparison
+    # rather than the multiple, which satisfies the other half of
+    # product's ruling: a record is self-bounding, while a multiple on
+    # five days is noisier than on seven and the page cannot show the
+    # reader that difference.
+    deg = events_doc.get("degraded")
+    deg_note = ""
+    if deg:
+        MON = ["January", "February", "March", "April", "May", "June",
+               "July", "August", "September", "October", "November",
+               "December"]
+        parts = []
+        for d in deg["excluded"]:
+            _, m, dd = d.split("-")
+            parts.append(f"{int(dd)} {MON[int(m) - 1]}")
+        days = (" and ".join(parts) if len(parts) < 3
+                else ", ".join(parts[:-1]) + " and " + parts[-1])
+        deg_note = (
+            f'<p class="degnote">This week covers {deg["days_used"]} of '
+            f'{deg["days_in_window"]} days. The NASA archive is incomplete '
+            f'for {days}, so those days are excluded from this week\'s '
+            f'counts and from every baseline they are measured against. '
+            f'The comparison is like-for-like; it is shorter.</p>')
     house_masthead = site_masthead("../", active="fire")
     return f"""<!doctype html>
 <html lang="en">
@@ -232,6 +261,11 @@ h1 {{
 /* A qualifier on a row that is not an anomaly. Plain, never a warning
    colour: styling a normal result as an alert is the amplification
    D-043 bars. */
+.degnote {{
+  color: var(--ink-soft); font-size: 14.5px; margin: 10px 0 0;
+  padding-left: 12px; border-left: 2px solid var(--rule-45);
+  max-width: 62ch;
+}}
 .rowqual {{
   display: block; color: var(--ink-soft); font-size: 13px;
   font-style: italic; margin-top: 2px;
@@ -284,6 +318,7 @@ h1 {{
   </div>
 
   <h1>{headline}</h1>
+  {deg_note}
   <p class="standfirst">Every figure below compares a country only with
   itself, against the same calendar week in each year since 2012. That
   is what separates an unusual week from a merely busy one.</p>
