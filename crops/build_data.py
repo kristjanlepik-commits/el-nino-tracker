@@ -135,7 +135,41 @@ def build_stress(catalogue: dict) -> dict:
             same = d[d.doy == doy].groupby("year").value.mean()
             hist = same[(same.index >= BASE_FIRST) & (same.index <= BASE_LAST)]
             cur = same.get(latest.year, np.nan)
-            if np.isnan(cur) or len(hist) < 20:
+            # Absences are stated here too. This used to `continue`,
+            # which silently dropped soil moisture from every country
+            # while the region rows below said explicitly that it had
+            # not reported. Same fix as the region level, one level up,
+            # and it was invisible until the layers were due to render.
+            if same.empty:
+                instruments.append({
+                    "name": label, "value": None, "unit": unit,
+                    "available": False, "absent": "undefined_at_this_dekad",
+                    "absent_because": f"{label} is not defined for this "
+                                      f"country at this point in the season.",
+                    "source": "JRC ASAP", "authorship": "agency",
+                    "qualifiers": [],
+                })
+                continue
+            if np.isnan(cur):
+                instruments.append({
+                    "name": label, "value": None, "unit": unit,
+                    "available": False, "absent": "no_current_value",
+                    "absent_because": f"{label} has not reported for this "
+                                      f"dekad yet.",
+                    "source": "JRC ASAP", "authorship": "agency",
+                    "qualifiers": [],
+                })
+                continue
+            if len(hist) < 20:
+                instruments.append({
+                    "name": label, "value": None, "unit": unit,
+                    "available": False,
+                    "absent": "too_few_comparable_years",
+                    "absent_because": f"Fewer than 20 comparable years of "
+                                      f"{label.lower()} at this dekad.",
+                    "source": "JRC ASAP", "authorship": "agency",
+                    "qualifiers": [],
+                })
                 continue
             instruments.append({
                 "name": label,
@@ -146,6 +180,12 @@ def build_stress(catalogue: dict) -> dict:
                 "rank": rank_of(cur, hist, worse_is),
                 "of": len(hist) + 1,
                 "worse_is": "low" if worse_is > 0 else "high",
+                # Five layers each showing a bare rank is the missing
+                # basis multiplied by five. Bound here as it is on
+                # magnitude and on region rows.
+                "statement": _rank_statement(
+                    rank_of(cur, hist, worse_is), len(hist) + 1,
+                    latest.year),
                 "source": "JRC ASAP, GAUL1 indicator statistics, "
                           "crop mask, growing cycle",
                 "authorship": "agency",
