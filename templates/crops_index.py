@@ -288,6 +288,53 @@ def _trajectory(cb: dict, place: str) -> str:
             f'each year since {years[0]}">' + "".join(out) + "</svg>")
 
 
+def _two_ways(g) -> str:
+    """Editor's section: the crop result, counted with and without trend.
+
+    D-087. The disagreement is a named section above the country list
+    rather than a headline or a footer table. Chad still leads, per
+    D-079, because a place needs no explanation and a treatment
+    comparison does.
+
+    THE COPY IS EDITOR'S AND SOLVES A PROBLEM THE HEAT SENTENCE DID NOT
+    HAVE. There, the reassuring half came second and a dangling pronoun
+    made it unquotable. Here the reassuring half leads, and no pronoun
+    can point forward without reading as broken English, so grammatical
+    dependence does not transfer.
+
+    Their replacement: the risky claim never starts a sentence, sitting
+    after a semicolon so there is no boundary to crop at, and the
+    leading sentence is a neutral fact that is safe alone. Plus the
+    general tool, which is new: where the risky half must lead, use a
+    phrase that DECLARES ITS OWN INCOMPLETENESS. "Leave that trend in
+    and" is grammatical and complete and unquotable as the whole story,
+    because it says on its face that it is not.
+
+    The RANKS are mine rather than theirs, on a separate data line. They
+    left them out for reader load and were right about the prose; but
+    D-087 requires the claim be checkable where it is made, and a reader
+    should not have to reach the footer to see what "better than usual"
+    and "worse third" are. Prose carries the finding, the line carries
+    the receipt.
+    """
+    b = (g or {}).get("buckets", {}).get("crop_outcome")
+    if not b:
+        return ""
+    raw, det = b.get("raw") or {}, b.get("detrended") or {}
+    if not (raw.get("rank") and det.get("rank")):
+        return ""
+    return f"""
+      <p class="seclab">The same season, counted two ways</p>
+      <p class="twp">These croplands have been getting greener for
+        twenty-five years. Leave that trend in and this season&rsquo;s crop
+        result is better than usual; take it out and it lands in the worse
+        third.</p>
+      <p class="twn">Crop result across the {raw.get("of")} years of this
+        dekad: <b>{raw["rank"]} of {raw["of"]}</b> with the trend left in,
+        <b>{det["rank"]} of {det["of"]}</b> with it taken out. Neither is
+        the correct one; they answer different questions.</p>"""
+
+
 def _global_block(g) -> str:
     """The global pair, in the footer, with BOTH treatments.
 
@@ -675,7 +722,9 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         for c in ordered[:top_n])
     rest = max(0, len(ordered) - top_n)
     grouped_html = f"""
-      <p class="seclab">Where the record lows are</p>
+      {_two_ways(doc.get("global") or {})}
+
+  <p class="seclab">Where the record lows are</p>
       <p class="secsub">Grouped by country, because a single region at a
         record low is common and several in one country is not. Countries
         beyond their own recent maximum come first; the rest follow by
