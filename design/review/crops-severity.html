@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Severity mockup | Crops</title>
+<style>
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/plexmono-600.woff2") format("woff2");
+}
+:root {     --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px; }
+@media (prefers-color-scheme: dark) { :root {     --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330; } }
+* { box-sizing:border-box; }
+:root { --shell-max:800px; --shell-pad:24px; }
+body { margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Spectral",Georgia,serif; font-size:16.5px; line-height:1.55; }
+main { max-width:800px; margin:0 auto; padding:24px 24px 80px; }
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.ch-crop { color: var(--crop); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+
+.svb { margin-top:8px; }
+.svlab { margin:0; font-size:11px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-faint);
+  font-family:"IBM Plex Mono",monospace; }
+/* The Combined register is bound to the number, not adjacent to it.
+   Everything else on these pages is one series against its own history,
+   so a reader has no reason to expect the register to change, and a
+   footnote is separable by a layout decision in exactly the way
+   `statement` exists to prevent. */
+.svtag { display:inline-block; margin-left:8px; padding:1px 6px;
+  background:var(--paper-sunk); color:var(--ink-soft);
+  letter-spacing:.04em; text-transform:none; }
+.svbig { margin:6px 0 0; font-size:29px; font-weight:600;
+  line-height:1.1; color:var(--crop); }
+.svof { display:block; font-size:14px; font-weight:400;
+  color:var(--ink-soft); margin-top:4px; }
+.svst { margin:8px 0 0; font-size:13px; color:var(--ink-soft);
+  max-width:64ch; font-family:"IBM Plex Mono",monospace; }
+.sv { width:100%; height:auto; display:block; margin:14px 0 2px; }
+.sv text { font-family:"IBM Plex Mono",monospace; }
+.sv-x { font-size:10px; fill:var(--ink-faint); }
+.sv-y { font-size:10.5px; fill:var(--ink); }
+.svq { margin:12px 0 0; padding-left:18px; font-size:12.5px;
+  color:var(--ink-faint); max-width:66ch; }
+.svq li { margin-bottom:4px; }
+.svabs { margin:0; font-size:13.5px; color:var(--ink-faint); }
+
+h1 { font-size:29px; font-weight:500; margin:22px 0 6px; }
+.cn { font-size:20px; font-weight:600; margin:44px 0 0;
+  padding-top:16px; border-top:2.4px solid var(--rule-45); }
+.intro { color:var(--ink-soft); max-width:62ch; margin:0 0 8px; }
+</style></head><body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../elnino/">El Niño</a><a class="ch-fire" href="../fires/">Fires</a><a class="ch-crop on" href="../crops/">Crops</a><a class="util" href="../about.html">About</a></nav></div></div></header>
+
+<main>
+<h1>Severity: five instruments read together</h1>
+<p class="intro">Mockup for review. Not published and not wired into any
+build. This would be the first Combined figure the crops channel puts
+out, so it needs Kristjan's sign-off rather than the channel's.</p>
+<h2 class="cn">Papua New Guinea</h2>
+      <div class="svb">
+        <p class="svlab">Five instruments read together
+          <span class="svtag">our combination, not an observation</span></p>
+        <p class="svbig">worst on record
+          <span class="svof">of 26 years at this point in the season</span></p>
+        <p class="svst">The most stressed of 26 observations for this point in the season, 2001-2026, across 5 instruments read together</p>
+        <svg class="sv" viewBox="0 0 660 150" role="img" aria-label="This country in every year of the record for the same point in the season, five instruments read together"><line x1="8" y1="120" x2="652" y2="120" stroke="var(--rule)" stroke-width="1"/><rect x="12.7" y="88.8" width="15.4" height="31.2" fill="var(--ink-faint)"/><rect x="37.5" y="86.4" width="15.4" height="33.6" fill="var(--ink-faint)"/><rect x="62.2" y="72.0" width="15.4" height="48.0" fill="var(--ink-faint)"/><rect x="87.0" y="84.8" width="15.4" height="35.2" fill="var(--ink-faint)"/><rect x="111.8" y="60.0" width="15.4" height="60.0" fill="var(--ink-faint)"/><rect x="136.6" y="76.8" width="15.4" height="43.2" fill="var(--ink-faint)"/><rect x="161.3" y="79.2" width="15.4" height="40.8" fill="var(--ink-faint)"/><rect x="186.1" y="69.6" width="15.4" height="50.4" fill="var(--ink-faint)"/><rect x="210.9" y="90.4" width="15.4" height="29.6" fill="var(--ink-faint)"/><rect x="235.6" y="61.6" width="15.4" height="58.4" fill="var(--ink-faint)"/><rect x="260.4" y="78.4" width="15.4" height="41.6" fill="var(--ink-faint)"/><rect x="285.2" y="90.4" width="15.4" height="29.6" fill="var(--ink-faint)"/><rect x="309.9" y="69.6" width="15.4" height="50.4" fill="var(--ink-faint)"/><rect x="334.7" y="49.6" width="15.4" height="70.4" fill="var(--ink-faint)"/><rect x="359.5" y="44.0" width="15.4" height="76.0" fill="var(--ink-faint)"/><rect x="384.2" y="57.6" width="15.4" height="62.4" fill="var(--ink-faint)"/><rect x="409.0" y="56.0" width="15.4" height="64.0" fill="var(--ink-faint)"/><rect x="433.8" y="67.2" width="15.4" height="52.8" fill="var(--ink-faint)"/><rect x="458.6" y="62.4" width="15.4" height="57.6" fill="var(--ink-faint)"/><rect x="483.3" y="64.8" width="15.4" height="55.2" fill="var(--ink-faint)"/><rect x="508.1" y="78.4" width="15.4" height="41.6" fill="var(--ink-faint)"/><rect x="532.9" y="52.0" width="15.4" height="68.0" fill="var(--ink-faint)"/><rect x="557.6" y="82.4" width="15.4" height="37.6" fill="var(--ink-faint)"/><rect x="582.4" y="67.2" width="15.4" height="52.8" fill="var(--ink-faint)"/><rect x="607.2" y="94.4" width="15.4" height="25.6" fill="var(--ink-faint)"/><rect x="631.9" y="36.0" width="15.4" height="84.0" fill="var(--crop)"/><text class="sv-y" x="639.6" y="31.0" text-anchor="middle">2026</text><text class="sv-x" x="20.4" y="142" text-anchor="start">2001</text><text class="sv-x" x="639.6" y="142" text-anchor="end">2026</text></svg>
+        <ul class="svq"><li>Every input is measured against its own record, but no source publishes this average. It is our combination, not an observation.</li><li>This value places the country against itself, so it does not rank countries against each other. Its year-to-year spread here is 0.151, and that spread differs by place, so a higher value elsewhere can be a less unusual year than this one. The rank is the comparable figure.</li><li>A reading of conditions to date. It carries no statement about the rest of the season.</li></ul>
+      </div><h2 class="cn">Honduras</h2>
+      <div class="svb">
+        <p class="svlab">Five instruments read together
+          <span class="svtag">our combination, not an observation</span></p>
+        <p class="svbig">2nd worst
+          <span class="svof">of 26 years at this point in the season</span></p>
+        <p class="svst">The 2nd most stressed of 26 observations for this point in the season, 2001-2026, across 5 instruments read together</p>
+        <svg class="sv" viewBox="0 0 660 150" role="img" aria-label="This country in every year of the record for the same point in the season, five instruments read together"><line x1="8" y1="120" x2="652" y2="120" stroke="var(--rule)" stroke-width="1"/><rect x="12.7" y="44.8" width="15.4" height="75.2" fill="var(--ink-faint)"/><rect x="37.5" y="59.2" width="15.4" height="60.8" fill="var(--ink-faint)"/><rect x="62.2" y="79.2" width="15.4" height="40.8" fill="var(--ink-faint)"/><rect x="87.0" y="72.8" width="15.4" height="47.2" fill="var(--ink-faint)"/><rect x="111.8" y="105.6" width="15.4" height="14.4" fill="var(--ink-faint)"/><rect x="136.6" y="92.0" width="15.4" height="28.0" fill="var(--ink-faint)"/><rect x="161.3" y="53.6" width="15.4" height="66.4" fill="var(--ink-faint)"/><rect x="186.1" y="73.6" width="15.4" height="46.4" fill="var(--ink-faint)"/><rect x="210.9" y="88.0" width="15.4" height="32.0" fill="var(--ink-faint)"/><rect x="235.6" y="114.4" width="15.4" height="5.6" fill="var(--ink-faint)"/><rect x="260.4" y="96.0" width="15.4" height="24.0" fill="var(--ink-faint)"/><rect x="285.2" y="91.2" width="15.4" height="28.8" fill="var(--ink-faint)"/><rect x="309.9" y="85.6" width="15.4" height="34.4" fill="var(--ink-faint)"/><rect x="334.7" y="38.4" width="15.4" height="81.6" fill="var(--ink-faint)"/><rect x="359.5" y="29.6" width="15.4" height="90.4" fill="var(--ink-faint)"/><rect x="384.2" y="59.2" width="15.4" height="60.8" fill="var(--ink-faint)"/><rect x="409.0" y="96.8" width="15.4" height="23.2" fill="var(--ink-faint)"/><rect x="433.8" y="74.4" width="15.4" height="45.6" fill="var(--ink-faint)"/><rect x="458.6" y="52.0" width="15.4" height="68.0" fill="var(--ink-faint)"/><rect x="483.3" y="84.8" width="15.4" height="35.2" fill="var(--ink-faint)"/><rect x="508.1" y="44.0" width="15.4" height="76.0" fill="var(--ink-faint)"/><rect x="532.9" y="85.6" width="15.4" height="34.4" fill="var(--ink-faint)"/><rect x="557.6" y="61.6" width="15.4" height="58.4" fill="var(--ink-faint)"/><rect x="582.4" y="38.4" width="15.4" height="81.6" fill="var(--ink-faint)"/><rect x="607.2" y="64.0" width="15.4" height="56.0" fill="var(--ink-faint)"/><rect x="631.9" y="35.2" width="15.4" height="84.8" fill="var(--crop)"/><text class="sv-y" x="639.6" y="30.2" text-anchor="middle">2026</text><text class="sv-x" x="20.4" y="142" text-anchor="start">2001</text><text class="sv-x" x="639.6" y="142" text-anchor="end">2026</text></svg>
+        <ul class="svq"><li>Every input is measured against its own record, but no source publishes this average. It is our combination, not an observation.</li><li>This value places the country against itself, so it does not rank countries against each other. Its year-to-year spread here is 0.23, and that spread differs by place, so a higher value elsewhere can be a less unusual year than this one. The rank is the comparable figure.</li><li>A reading of conditions to date. It carries no statement about the rest of the season.</li></ul>
+      </div><h2 class="cn">Sudan</h2>
+      <div class="svb">
+        <p class="svlab">Five instruments read together
+          <span class="svtag">our combination, not an observation</span></p>
+        <p class="svbig">3rd worst
+          <span class="svof">of 26 years at this point in the season</span></p>
+        <p class="svst">The 3rd most stressed of 26 observations for this point in the season, 2001-2026, across 5 instruments read together</p>
+        <svg class="sv" viewBox="0 0 660 150" role="img" aria-label="This country in every year of the record for the same point in the season, five instruments read together"><line x1="8" y1="120" x2="652" y2="120" stroke="var(--rule)" stroke-width="1"/><rect x="12.7" y="80.8" width="15.4" height="39.2" fill="var(--ink-faint)"/><rect x="37.5" y="33.6" width="15.4" height="86.4" fill="var(--ink-faint)"/><rect x="62.2" y="105.6" width="15.4" height="14.4" fill="var(--ink-faint)"/><rect x="87.0" y="68.0" width="15.4" height="52.0" fill="var(--ink-faint)"/><rect x="111.8" y="87.2" width="15.4" height="32.8" fill="var(--ink-faint)"/><rect x="136.6" y="57.6" width="15.4" height="62.4" fill="var(--ink-faint)"/><rect x="161.3" y="116.0" width="15.4" height="4.0" fill="var(--ink-faint)"/><rect x="186.1" y="70.4" width="15.4" height="49.6" fill="var(--ink-faint)"/><rect x="210.9" y="54.4" width="15.4" height="65.6" fill="var(--ink-faint)"/><rect x="235.6" y="80.0" width="15.4" height="40.0" fill="var(--ink-faint)"/><rect x="260.4" y="25.6" width="15.4" height="94.4" fill="var(--ink-faint)"/><rect x="285.2" y="105.6" width="15.4" height="14.4" fill="var(--ink-faint)"/><rect x="309.9" y="35.2" width="15.4" height="84.8" fill="var(--ink-faint)"/><rect x="334.7" y="68.8" width="15.4" height="51.2" fill="var(--ink-faint)"/><rect x="359.5" y="27.2" width="15.4" height="92.8" fill="var(--ink-faint)"/><rect x="384.2" y="96.8" width="15.4" height="23.2" fill="var(--ink-faint)"/><rect x="409.0" y="78.4" width="15.4" height="41.6" fill="var(--ink-faint)"/><rect x="433.8" y="89.6" width="15.4" height="30.4" fill="var(--ink-faint)"/><rect x="458.6" y="98.4" width="15.4" height="21.6" fill="var(--ink-faint)"/><rect x="483.3" y="60.8" width="15.4" height="59.2" fill="var(--ink-faint)"/><rect x="508.1" y="80.8" width="15.4" height="39.2" fill="var(--ink-faint)"/><rect x="532.9" y="75.2" width="15.4" height="44.8" fill="var(--ink-faint)"/><rect x="557.6" y="71.2" width="15.4" height="48.8" fill="var(--ink-faint)"/><rect x="582.4" y="69.6" width="15.4" height="50.4" fill="var(--ink-faint)"/><rect x="607.2" y="53.6" width="15.4" height="66.4" fill="var(--ink-faint)"/><rect x="631.9" y="29.6" width="15.4" height="90.4" fill="var(--crop)"/><text class="sv-y" x="639.6" y="24.6" text-anchor="middle">2026</text><text class="sv-x" x="20.4" y="142" text-anchor="start">2001</text><text class="sv-x" x="639.6" y="142" text-anchor="end">2026</text></svg>
+        <ul class="svq"><li>Every input is measured against its own record, but no source publishes this average. It is our combination, not an observation.</li><li>This value places the country against itself, so it does not rank countries against each other. Its year-to-year spread here is 0.248, and that spread differs by place, so a higher value elsewhere can be a less unusual year than this one. The rank is the comparable figure.</li><li>A reading of conditions to date. It carries no statement about the rest of the season.</li></ul>
+      </div><h2 class="cn">Chad</h2>
+      <div class="svb">
+        <p class="svlab">Five instruments read together
+          <span class="svtag">our combination, not an observation</span></p>
+        <p class="svbig">3rd worst (joint)
+          <span class="svof">of 26 years at this point in the season</span></p>
+        <p class="svst">The joint 3rd most stressed of 26 observations for this point in the season, 2001-2026, across 5 instruments read together, level with 2002</p>
+        <svg class="sv" viewBox="0 0 660 150" role="img" aria-label="This country in every year of the record for the same point in the season, five instruments read together"><line x1="8" y1="120" x2="652" y2="120" stroke="var(--rule)" stroke-width="1"/><rect x="12.7" y="74.4" width="15.4" height="45.6" fill="var(--ink-faint)"/><rect x="37.5" y="31.2" width="15.4" height="88.8" fill="var(--ink)"/><text class="sv-y" x="45.2" y="26.2" text-anchor="middle">2002</text><rect x="62.2" y="106.4" width="15.4" height="13.6" fill="var(--ink-faint)"/><rect x="87.0" y="83.2" width="15.4" height="36.8" fill="var(--ink-faint)"/><rect x="111.8" y="112.0" width="15.4" height="8.0" fill="var(--ink-faint)"/><rect x="136.6" y="51.2" width="15.4" height="68.8" fill="var(--ink-faint)"/><rect x="161.3" y="70.4" width="15.4" height="49.6" fill="var(--ink-faint)"/><rect x="186.1" y="77.6" width="15.4" height="42.4" fill="var(--ink-faint)"/><rect x="210.9" y="42.4" width="15.4" height="77.6" fill="var(--ink-faint)"/><rect x="235.6" y="79.2" width="15.4" height="40.8" fill="var(--ink-faint)"/><rect x="260.4" y="36.8" width="15.4" height="83.2" fill="var(--ink-faint)"/><rect x="285.2" y="116.0" width="15.4" height="4.0" fill="var(--ink-faint)"/><rect x="309.9" y="55.2" width="15.4" height="64.8" fill="var(--ink-faint)"/><rect x="334.7" y="28.0" width="15.4" height="92.0" fill="var(--ink-faint)"/><rect x="359.5" y="24.8" width="15.4" height="95.2" fill="var(--ink-faint)"/><rect x="384.2" y="97.6" width="15.4" height="22.4" fill="var(--ink-faint)"/><rect x="409.0" y="91.2" width="15.4" height="28.8" fill="var(--ink-faint)"/><rect x="433.8" y="90.4" width="15.4" height="29.6" fill="var(--ink-faint)"/><rect x="458.6" y="80.8" width="15.4" height="39.2" fill="var(--ink-faint)"/><rect x="483.3" y="76.0" width="15.4" height="44.0" fill="var(--ink-faint)"/><rect x="508.1" y="52.0" width="15.4" height="68.0" fill="var(--ink-faint)"/><rect x="532.9" y="92.8" width="15.4" height="27.2" fill="var(--ink-faint)"/><rect x="557.6" y="87.2" width="15.4" height="32.8" fill="var(--ink-faint)"/><rect x="582.4" y="68.0" width="15.4" height="52.0" fill="var(--ink-faint)"/><rect x="607.2" y="64.0" width="15.4" height="56.0" fill="var(--ink-faint)"/><rect x="631.9" y="31.2" width="15.4" height="88.8" fill="var(--crop)"/><text class="sv-y" x="639.6" y="26.2" text-anchor="middle">2026</text><line x1="29.8" y1="31.2" x2="655.0" y2="31.2" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><text class="sv-x" x="20.4" y="142" text-anchor="start">2001</text><text class="sv-x" x="639.6" y="142" text-anchor="end">2026</text></svg>
+        <ul class="svq"><li>Every input is measured against its own record, but no source publishes this average. It is our combination, not an observation.</li><li>This value places the country against itself, so it does not rank countries against each other. Its year-to-year spread here is 0.261, and that spread differs by place, so a higher value elsewhere can be a less unusual year than this one. The rank is the comparable figure.</li><li>A reading of conditions to date. It carries no statement about the rest of the season.</li></ul>
+      </div><h2 class="cn">Ethiopia</h2>
+      <div class="svb">
+        <p class="svlab">Five instruments read together
+          <span class="svtag">our combination, not an observation</span></p>
+        <p class="svbig">worst on record (joint)
+          <span class="svof">of 26 years at this point in the season</span></p>
+        <p class="svst">The joint most stressed of 26 observations for this point in the season, 2001-2026, across 5 instruments read together, level with 2002</p>
+        <svg class="sv" viewBox="0 0 660 150" role="img" aria-label="This country in every year of the record for the same point in the season, five instruments read together"><line x1="8" y1="120" x2="652" y2="120" stroke="var(--rule)" stroke-width="1"/><rect x="12.7" y="76.8" width="15.4" height="43.2" fill="var(--ink-faint)"/><rect x="37.5" y="32.8" width="15.4" height="87.2" fill="var(--ink)"/><text class="sv-y" x="45.2" y="27.8" text-anchor="middle">2002</text><rect x="62.2" y="65.6" width="15.4" height="54.4" fill="var(--ink-faint)"/><rect x="87.0" y="46.4" width="15.4" height="73.6" fill="var(--ink-faint)"/><rect x="111.8" y="97.6" width="15.4" height="22.4" fill="var(--ink-faint)"/><rect x="136.6" y="72.8" width="15.4" height="47.2" fill="var(--ink-faint)"/><rect x="161.3" y="103.2" width="15.4" height="16.8" fill="var(--ink-faint)"/><rect x="186.1" y="78.4" width="15.4" height="41.6" fill="var(--ink-faint)"/><rect x="210.9" y="33.6" width="15.4" height="86.4" fill="var(--ink-faint)"/><rect x="235.6" y="88.8" width="15.4" height="31.2" fill="var(--ink-faint)"/><rect x="260.4" y="72.8" width="15.4" height="47.2" fill="var(--ink-faint)"/><rect x="285.2" y="61.6" width="15.4" height="58.4" fill="var(--ink-faint)"/><rect x="309.9" y="76.8" width="15.4" height="43.2" fill="var(--ink-faint)"/><rect x="334.7" y="45.6" width="15.4" height="74.4" fill="var(--ink-faint)"/><rect x="359.5" y="48.0" width="15.4" height="72.0" fill="var(--ink-faint)"/><rect x="384.2" y="92.8" width="15.4" height="27.2" fill="var(--ink-faint)"/><rect x="409.0" y="58.4" width="15.4" height="61.6" fill="var(--ink-faint)"/><rect x="433.8" y="91.2" width="15.4" height="28.8" fill="var(--ink-faint)"/><rect x="458.6" y="92.8" width="15.4" height="27.2" fill="var(--ink-faint)"/><rect x="483.3" y="100.0" width="15.4" height="20.0" fill="var(--ink-faint)"/><rect x="508.1" y="83.2" width="15.4" height="36.8" fill="var(--ink-faint)"/><rect x="532.9" y="45.6" width="15.4" height="74.4" fill="var(--ink-faint)"/><rect x="557.6" y="97.6" width="15.4" height="22.4" fill="var(--ink-faint)"/><rect x="582.4" y="80.0" width="15.4" height="40.0" fill="var(--ink-faint)"/><rect x="607.2" y="44.8" width="15.4" height="75.2" fill="var(--ink-faint)"/><rect x="631.9" y="32.8" width="15.4" height="87.2" fill="var(--crop)"/><text class="sv-y" x="639.6" y="27.8" text-anchor="middle">2026</text><line x1="29.8" y1="32.8" x2="655.0" y2="32.8" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><text class="sv-x" x="20.4" y="142" text-anchor="start">2001</text><text class="sv-x" x="639.6" y="142" text-anchor="end">2026</text></svg>
+        <ul class="svq"><li>Every input is measured against its own record, but no source publishes this average. It is our combination, not an observation.</li><li>This value places the country against itself, so it does not rank countries against each other. Its year-to-year spread here is 0.224, and that spread differs by place, so a higher value elsewhere can be a less unusual year than this one. The rank is the comparable figure.</li><li>A reading of conditions to date. It carries no statement about the rest of the season.</li></ul>
+      </div><h2 class="cn">Türkiye</h2>
+      <div class="svb">
+        <p class="svlab">Five instruments read together
+          <span class="svtag">our combination, not an observation</span></p>
+        <p class="svbig">24th worst (joint)
+          <span class="svof">of 26 years at this point in the season</span></p>
+        <p class="svst">The joint 24th most stressed of 26 observations for this point in the season, 2001-2026, across 5 instruments read together, level with 2018</p>
+        <svg class="sv" viewBox="0 0 660 150" role="img" aria-label="This country in every year of the record for the same point in the season, five instruments read together"><line x1="8" y1="120" x2="652" y2="120" stroke="var(--rule)" stroke-width="1"/><rect x="12.7" y="46.4" width="15.4" height="73.6" fill="var(--ink-faint)"/><rect x="37.5" y="47.2" width="15.4" height="72.8" fill="var(--ink-faint)"/><rect x="62.2" y="40.0" width="15.4" height="80.0" fill="var(--ink-faint)"/><rect x="87.0" y="68.8" width="15.4" height="51.2" fill="var(--ink-faint)"/><rect x="111.8" y="64.8" width="15.4" height="55.2" fill="var(--ink-faint)"/><rect x="136.6" y="48.8" width="15.4" height="71.2" fill="var(--ink-faint)"/><rect x="161.3" y="50.4" width="15.4" height="69.6" fill="var(--ink-faint)"/><rect x="186.1" y="36.0" width="15.4" height="84.0" fill="var(--ink-faint)"/><rect x="210.9" y="67.2" width="15.4" height="52.8" fill="var(--ink-faint)"/><rect x="235.6" y="74.4" width="15.4" height="45.6" fill="var(--ink-faint)"/><rect x="260.4" y="99.2" width="15.4" height="20.8" fill="var(--ink-faint)"/><rect x="285.2" y="51.2" width="15.4" height="68.8" fill="var(--ink-faint)"/><rect x="309.9" y="60.0" width="15.4" height="60.0" fill="var(--ink-faint)"/><rect x="334.7" y="78.4" width="15.4" height="41.6" fill="var(--ink-faint)"/><rect x="359.5" y="100.8" width="15.4" height="19.2" fill="var(--ink-faint)"/><rect x="384.2" y="81.6" width="15.4" height="38.4" fill="var(--ink-faint)"/><rect x="409.0" y="82.4" width="15.4" height="37.6" fill="var(--ink-faint)"/><rect x="433.8" y="102.4" width="15.4" height="17.6" fill="var(--ink)"/><text class="sv-y" x="441.5" y="97.4" text-anchor="middle">2018</text><rect x="458.6" y="95.2" width="15.4" height="24.8" fill="var(--ink-faint)"/><rect x="483.3" y="84.0" width="15.4" height="36.0" fill="var(--ink-faint)"/><rect x="508.1" y="45.6" width="15.4" height="74.4" fill="var(--ink-faint)"/><rect x="532.9" y="83.2" width="15.4" height="36.8" fill="var(--ink-faint)"/><rect x="557.6" y="108.0" width="15.4" height="12.0" fill="var(--ink-faint)"/><rect x="582.4" y="58.4" width="15.4" height="61.6" fill="var(--ink-faint)"/><rect x="607.2" y="43.2" width="15.4" height="76.8" fill="var(--ink-faint)"/><rect x="631.9" y="102.4" width="15.4" height="17.6" fill="var(--crop)"/><text class="sv-y" x="639.6" y="97.4" text-anchor="middle">2026</text><line x1="426.1" y1="102.4" x2="655.0" y2="102.4" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3"/><text class="sv-x" x="20.4" y="142" text-anchor="start">2001</text><text class="sv-x" x="639.6" y="142" text-anchor="end">2026</text></svg>
+        <ul class="svq"><li>Every input is measured against its own record, but no source publishes this average. It is our combination, not an observation.</li><li>This value places the country against itself, so it does not rank countries against each other. Its year-to-year spread here is 0.22, and that spread differs by place, so a higher value elsewhere can be a less unusual year than this one. The rank is the comparable figure.</li><li>A reading of conditions to date. It carries no statement about the rest of the season.</li></ul>
+      </div>
+</main></body></html>
