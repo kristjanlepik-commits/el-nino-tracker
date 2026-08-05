@@ -899,6 +899,86 @@ carrying beyond Heat:** wherever we would otherwise write "this
 instrument corrects for X", recompute with X removed and publish the
 difference instead. An argument becomes a number at no extra cost.
 
+## 5k. TESTABILITY SCREEN RESULT, 2026-08-05: 18 of 21
+
+Product's first ask. Power only; no trend values emitted.
+
+**Europe: 12 of 14 testable.** Not five, which was the pessimistic case.
+
+| band | cities |
+|---|---|
+| strong, >5x | London 9.4, Indianapolis 8.4, Kansas City 8.0, Columbus 7.8, Memphis 7.7, Hamburg 7.3, Berlin 6.8, Amsterdam 6.7, Frankfurt 5.3 |
+| moderate, 3-5x | Jacksonville 4.4, Brussels 4.2, Prague 4.0, New Orleans 3.9, Lyon 3.4 |
+| marginal, 2-3x | Barcelona 2.8, Rome 2.5, Madrid 2.4, Paris 2.3 |
+| fails | Marseille 2.0, Chicago 2.0, Milan 1.6 |
+
+Reasons, per product's three-state requirement, and not interchangeable:
+**Milan** terrain (+978 m ring offset, 788 m spread, the Alps);
+**Marseille** both (55 percent sea and +605 m); **Chicago** unexplained by
+the available diagnostics.
+
+### Three findings the headline hides
+
+**Four of the largest European cities are marginal.** Paris 2.3, Madrid
+2.4, Rome 2.5, Barcelona 2.8, against a 2.0 bar fixed before they were
+measured. They are not London at 9.4 and must not render as though they
+were. Product ruled the band goes on the datum, and that a ranked list
+may not assert an ordering the bands do not support.
+
+**Geography does not determine testability, as warned.** Barcelona has
+worse geography than Marseille on both measures, 0.57 sea and +576 m
+against 0.55 and +605 m, and Barcelona passes while Marseille fails. The
+screen orders a queue; it cannot pass or fail a city by itself.
+
+**Chicago's failure is the water effect surfacing a second time.** The
+sea rule did not fire because the threshold is 0.35 and Chicago is 0.20.
+See 5k-i.
+
+### 5k-i. The Great Lakes effect, confirmed from a second direction
+
+Product predicted the other Great Lakes cities would behave the same way.
+Tested on the published power ratios:
+
+| group | n | mean power |
+|---|---|---|
+| Great Lakes | 7 | **4.37** |
+| Inland east and central US | 12 | **7.08** |
+
+**The prediction holds.** The same effect now appears twice from
+independent directions: as a depressed trend in the D-049 flat group
+(5i-vi) and as depressed precision in the screen. **Sea fraction is the
+wrong measure for large lakes.**
+
+**A refinement nobody predicted, flagged as suggestive rather than
+established at n=3 against n=4.** Lake Michigan and Ontario cities
+(Chicago 2.0, Milwaukee 2.7, Rochester 3.1) mean 2.60; Lake Erie cities
+(Cleveland 5.8, Detroit 6.2, Toledo 6.6, Buffalo 4.2) mean 5.70. Erie is
+the shallow lake that freezes; Michigan and Ontario are deep and largely
+do not, carrying far more thermal inertia into winter. If it holds, the
+right diagnostic is lake depth and area rather than shoreline proximity.
+
+## 5l. ECA&D tropical-night counts: two of three answered
+
+- **Index exists per station: YES.** 76 indices calculated for every
+  ECA&D station, published per station.
+- **It is tropical nights specifically: YES.** TR, annual count of days
+  with daily minimum above 20 C, the established ETCCDI definition.
+- **Record length per city: NOT ANSWERED.** Needs a per-station
+  inventory query, not a documentation read. This is what decides
+  whether the construction is the Vienna chart or a thin one.
+
+**A licensing constraint nobody asked about.** ECA&D indices are free
+"for non-commercial research and education". TLS is pursuing an anchor
+sponsor. Whether a sponsored publication is commercial use is not Heat's
+call and is raised with product before anything is built on it.
+
+**A method caveat bearing on the claim.** ECA&D **blends** station series
+with neighbours to extend records. That is what buys century-scale
+length, and it means the series is not one thermometer in one place. Fine
+for "how extraordinary was this year where I live"; not literally true
+for "what the thermometer in your city recorded", which was the phrasing
+intended to carry the urbanisation qualifier.
+
 ## 5j. Tropical-night counts from station data: feasibility read, 2026-08-05
 
 Product's ask, prompted by a Vienna chart counting days above 32/35/38 C
