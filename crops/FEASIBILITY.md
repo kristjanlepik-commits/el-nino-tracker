@@ -1405,6 +1405,30 @@ Two obstacles:
    (Egypt wheat, delta rice) are outside it. Bangladesh rice is not
    merely outside it but stably inverted, detrended r = -0.68, mechanism
    unestablished.
+12. **A coarse measure ties, and a tie stated as a rank is a false
+   claim.** The severity measure of section 13 can only land on
+   multiples of 1/125, so on 2026-07-11 **29 of 123 places tie with a
+   prior year and three of those are at rank 1**. Ethiopia read "the
+   most stressed of 26 observations" while 2002 sat at exactly the same
+   value, which is a strict maximum the data does not support. The
+   granularity of any constructed measure has to be compared against
+   the number of observations it ranks BEFORE the rank is put into a
+   sentence. Related and worse: **ranking the raw floats let summation
+   noise decide**, since two arithmetically equal years differ in the
+   last bit, which put Chad 3rd or 4th depending on the order the
+   instruments were averaged in.
+13. **A within-place measure will be read as a between-place ranking,
+   and averaging hides which one it is.** Severity places each country
+   against its own history, so the value cannot order countries. It
+   looks exactly as though it can. The reason is mechanical: the spread
+   of a country's own 26 values is set almost entirely by how far its
+   instruments move together, **r = 0.97 across the 123 places**. Where
+   instruments co-move, an extreme average is the ordinary shape of a
+   bad year; where they are independent, the same average is
+   unprecedented. Papua New Guinea (instrument spread 0.151) is worst
+   on record at 0.840 while Sudan (0.248) is only third at 0.904. **The
+   rank is comparable across places; the value is not**, and the
+   qualifier carrying that says so with the place's own spread in it.
 
 ## 10. If crops opens
 
@@ -1516,3 +1540,85 @@ palm oil corroboration claim (trend co-movement), the unit-count
 denominator (structurally excluded the strongest pairs), the forecast
 test that used post-harvest data, and the corroboration run that tested
 lag 0 for a pair qualified at lag 1.
+
+## 13. Severity: how deep, not just how many
+
+Added 2026-08-05, answering Kristjan's question: the count of regions in
+trouble says how many, not how bad, and "stressed vs not stressed is
+binary, but some cases are bad and some horrible."
+
+**The measure.** Each instrument is converted to its position within its
+own record at this dekad, then the positions are averaged with equal
+weights. Emitted at country level as `severity`.
+
+**Equal weights are not a shortcut, they are the conservative choice.**
+We do not know which instrument matters more for outcomes, and section
+6 established that the instrument-to-production link is weak enough that
+we do not report it. Any weights we invented would be the arbitrary part
+of an otherwise distribution-free measure.
+
+**Denominator is n-1**, worse than k of the other 25 years. Design's
+convention, adopted over the n of 26 used first: a record year reads
+1.000 rather than 0.962, and it agrees with rank, since rank 1 of 26
+means beating all 25 others. Recorded because the two chats computed
+values exactly 26/25 apart on every country, with **identical
+orderings**, so every ordering check either side would run came back
+clean. It surfaced only because design recomputed from the payload
+rather than accepting the numbers.
+
+**What it adds over the counted measure**, which is the test it had to
+pass. Papua New Guinea clears only 4 of 5 instruments on the binary
+tally and is worst on record by depth, further into its instruments'
+extremes than Chad, which clears 5 of 5. The tally and the depth
+disagree, and depth is the one that answers the question asked.
+
+**It survives the stability test that killed the trajectory taxonomy.**
+Rank across the last eight dekads:
+
+| | d13 | d14 | d15 | d16 | d17 | d18 | d19 | d20 |
+|---|---|---|---|---|---|---|---|---|
+| Papua New Guinea | 4 | 3 | 2 | 3 | 1 | 1 | 1 | 1 |
+| Honduras | 16 | 9 | 7 | 5 | 5 | 3 | 1 | 2 |
+| Sudan | 18 | 20 | 9 | 5 | 4 | 5 | 2 | 3 |
+| Chad | 7 | 6 | 3 | 6 | 8 | 6 | 3 | 3 |
+| Turkiye | 25 | 25 | 26 | 25 | 24 | 24 | 24 | 24 |
+
+Smooth and directional rather than flickering. The pattern taxonomy
+proposed earlier produced 7 to 10 distinct patterns per country across
+12 dekads, which is noise wearing a label; a continuous measure evolves
+instead of crossing thresholds back and forth. **The test is the point,
+not the result**: any constructed indicator gets run across consecutive
+dekads before it is offered to design.
+
+**It is COMBINED under D-033, not Measured**, and the first such number
+crops has produced. Every input is measured against its own record, but
+no source publishes the average. Publication is Kristjan's call rather
+than the channel's.
+
+**It is a reading, not a forecast.** The eight-dekad sequence above is
+the most forecast-shaped object this channel has made, and section 6d
+found in-season skill weak. It is stated as a past-tense sentence and
+never drawn as a line, because the eye finishes a line before it reads
+the caption.
+
+**Two traps it produced are recorded as traps 12 and 13**: coarse
+granularity ties (29 of 123 places), and a within-place measure being
+read as a between-place ranking.
+
+**What was checked before it was emitted**, since section 12's four
+errors all came from believing a number that had not been read against
+anything:
+
+| Check | Result |
+|---|---|
+| Recomputed by code sharing nothing with the emitter | agrees on all 123 places |
+| Rank against the series emitted beside it | agrees on all 123 |
+| Instruments averaged vs instruments the page shows available | identical on all 123 |
+| Instrument set identity, not just the count | the same five everywhere; soil moisture missing in all 123 |
+| Qualifier text vs the field it describes | spread matches on all 123 |
+| Statement vs rank and tie state | no strict claim on a tied place |
+
+The identity check matters more than the count: five instruments here
+and a **different** five there would be invisible in a tally, and the
+resulting numbers would not be comparable while looking as though they
+were.
