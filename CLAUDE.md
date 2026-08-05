@@ -521,6 +521,20 @@ overnight on one machine, none of them aware of the others.
   first job to finish decides when the machine sleeps and silently
   kills everyone else's. Use `caffeinate -i -m -t <seconds>` covering
   the whole expected window instead.
+- **But a duration lock sized against an OPTIMISTIC ETA fails just as
+  silently, and that is the other half nobody had written down.** The
+  lock expires, the machine sleeps, and the job stays alive and simply
+  stops progressing, which is indistinguishable from slow. Heat lost
+  about eighteen hours to this on 2026-08-04: `pmset -g log` showed
+  repeated Maintenance Sleep from 23:00, and the three stalled chunks
+  completed **53 seconds** after the machine was woken. The 1,667
+  logged "connection errors" were the client noticing a sleeping host,
+  not a network fault and not the API.
+  **So: when progress plateaus, check `pgrep caffeinate` BEFORE
+  diagnosing the network**, and renew the lock rather than sizing it
+  once. We have now lost a night to each variant of this, the
+  pid-scoped one above and the expired-duration one here, and both
+  present as "the job is running, it is just slow".
 - **`caffeinate -i -m` blocks idle and disk sleep only. It does NOT
   survive the lid closing.** Written down because it was asserted the
   other way once and cost a night of fetching. Lid open, on power.
