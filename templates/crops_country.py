@@ -44,7 +44,7 @@ import tokens as T                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
-from templates.crops_region import _fmt, _peer_strip          # noqa: E402
+from templates.crops_region import _fmt                        # noqa: E402
 
 
 def slugify(name: str) -> str:
@@ -175,6 +175,38 @@ def _pattern_sentence(instruments) -> str:
     return lead + tail + "."
 
 
+def _rank_track(rank, of, record=False) -> str:
+    """Where this reading sits in its own record, drawn rather than said.
+
+    Kristjan's ask: "how bad is it" for the five layers, visually. The
+    numbers alone do not answer it, because 6th of 26 requires a reader
+    to do arithmetic before it means anything, and five rows of that is
+    five sums.
+
+    Country instruments carry no series, so this cannot draw a history
+    the way the region rows do. What it can draw is POSITION: the track
+    is the instrument's own 26 observations, worst at the left, and the
+    mark is where this year falls. That is honest about being a rank
+    rather than a magnitude, which matters because this channel has
+    already confused the two once.
+
+    Direction comes from `rank`, which is rank-by-worseness, so it is
+    correct for temperature where high is bad even while the statement
+    text beside it currently is not.
+    """
+    if not rank or not of or of < 2:
+        return ""
+    W, H = 96, 12
+    x = 2 + (rank - 1) / (of - 1) * (W - 4)
+    hue = "var(--crop)" if record else "var(--ink)"
+    return (f'<svg class="rt" viewBox="0 0 {W} {H}" role="img" '
+            f'aria-label="{rank} of {of}, worst at left">'
+            f'<line x1="2" y1="{H/2}" x2="{W-2}" y2="{H/2}" '
+            f'stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/>'
+            f'<circle cx="{x:.1f}" cy="{H/2}" r="3.6" fill="{hue}" '
+            f'stroke="var(--paper)" stroke-width="1.4"/></svg>')
+
+
 def _layers_block(instruments) -> str:
     """All five, plus any absent one, as a grid under the pattern.
 
@@ -198,7 +230,7 @@ def _layers_block(instruments) -> str:
         if not ins.get("available"):
             rows.append(
                 f'<div class="ly ly-out"><span class="lyn">{name}</span>'
-                f'<span class="lyv">not reported</span>'
+                f'<span class="lyv">not reported</span><span></span>'
                 f'<span class="lys">{h(ins.get("absent_because", ""))}</span>'
                 f'</div>')
             continue
@@ -210,8 +242,82 @@ def _layers_block(instruments) -> str:
         rows.append(
             f'<div class="ly{cls}"><span class="lyn">{name}</span>'
             f'<span class="lyv">{h(val)}</span>'
+            f'{_rank_track(ins.get("rank"), ins.get("of"), ins.get("rank") == 1)}'
             f'<span class="lys">{h(ins.get("statement", ""))}</span></div>')
-    return '<div class="lys-wrap">' + "".join(rows) + '</div>'
+    return ('<p class="lyleg">Each track is that instrument&rsquo;s own 26 '
+            'years, worst on the left.</p>'
+            '<div class="lys-wrap">' + "".join(rows) + '</div>')
+
+
+def _range_rows(regions, unit="z-score") -> str:
+    """Every region: its own 26-year range, with this year marked on it.
+
+    REPLACES a single-axis dot strip that Kristjan could not read, and
+    he was right about all three faults. It had no axis, so the numbers
+    meant nothing. It used filled versus open dots to carry rank-1
+    membership with nothing on the page saying so. And it answered
+    "which region is lowest" when the question a reader actually has is
+    "how bad is that".
+
+    So each region gets its own row: the light bar is the full spread of
+    its 25 previous years, and the mark is this year against it. A mark
+    sitting at the left end of a wide bar and a mark at the left end of a
+    narrow bar are different findings, and the old strip could not show
+    the difference because it drew no history at all.
+
+    Same device as the null envelope and the chance baseline: draw the
+    range, then put the observation inside it. Without the range a value
+    is a magnitude; inside it, it is a result.
+    """
+    rows = []
+    for r in regions:
+        ser = r.get("series") or {}
+        if not ser:
+            continue
+        prior = [v for y, v in ser.items() if y != "2026"]
+        if not prior:
+            continue
+        rows.append((r, min(prior), max(prior), r.get("value")))
+    if not rows:
+        return ""
+    lo = min(min(x[1] for x in rows), min(x[3] for x in rows))
+    hi = max(max(x[2] for x in rows), max(x[3] for x in rows))
+    pad = max((hi - lo) * 0.06, 0.15)
+    lo, hi = lo - pad, hi + pad
+
+    W, RH, PAD_L, PAD_R, TOP = 660, 21.0, 150, 16, 26
+    H = TOP + RH * len(rows) + 26
+
+    def X(v):
+        return PAD_L + (v - lo) / (hi - lo) * (W - PAD_L - PAD_R)
+
+    out = []
+    # Axis first, and labelled, because the old one had none.
+    zx = X(0.0)
+    if lo <= 0 <= hi:
+        out.append(f'<line x1="{zx:.1f}" y1="{TOP - 8:.1f}" x2="{zx:.1f}" '
+                   f'y2="{H - 22:.1f}" stroke="var(--rule)" stroke-width="1"/>')
+        out.append(f'<text class="rr-ax" x="{zx:.1f}" y="{TOP - 13:.1f}" '
+                   f'text-anchor="middle">its normal</text>')
+    out.append(f'<text class="rr-ax" x="{PAD_L}" y="{H - 6:.1f}">worse</text>')
+    out.append(f'<text class="rr-ax" x="{W - PAD_R}" y="{H - 6:.1f}" '
+               f'text-anchor="end">better</text>')
+
+    for i, (r, mn, mx, v) in enumerate(rows):
+        y = TOP + RH * i + RH / 2
+        out.append(f'<text class="rr-n" x="0" y="{y + 3.5:.1f}">'
+                   f'{h(r["region"])}</text>')
+        out.append(f'<rect x="{X(mn):.1f}" y="{y - 4:.1f}" '
+                   f'width="{max(X(mx) - X(mn), 1.5):.1f}" height="8" '
+                   f'fill="var(--paper-sunk)"/>')
+        rec = (r.get("rank") == 1)
+        hue = "var(--crop)" if rec else "var(--ink)"
+        out.append(f'<circle cx="{X(v):.1f}" cy="{y:.1f}" r="4.2" '
+                   f'fill="{hue}" stroke="var(--paper)" stroke-width="1.6"/>')
+    return (f'<svg class="rr" viewBox="0 0 {W} {H:.0f}" role="img" '
+            f'aria-label="Each region of this country: the spread of its '
+            f'previous 25 years, with this year marked">'
+            + "".join(out) + '</svg>')
 
 
 def claim_shapes(country: dict) -> list:
@@ -361,13 +467,20 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 .rgbasis {{ margin:4px 0 0; font-size:11px; color:var(--ink-faint); }}
 .rgq {{ margin:8px 0 0; padding-left:18px; font-size:13.5px;
   color:var(--ink-soft); max-width:62ch; }}
-.peers {{ margin-top:34px; }}
+.peers {{ margin-top:14px; }}
+.rr {{ width:100%; height:auto; display:block; }}
+.rr text {{ font-family:"{T.FONT_DATA}",monospace; }}
+.rr-n {{ font-size:11.5px; fill:var(--ink); }}
+.rr-ax {{ font-size:10px; fill:var(--ink-faint); }}
 .pat {{ margin:6px 0 0; font-size:18px; line-height:1.4; max-width:56ch; }}
 /* The grid is the receipt, so it is quiet. The pattern sentence above
    carries the finding: showing all five and weighting all five equally
    are different decisions and Kristjan asked for the first. */
 .lys-wrap {{ margin-top:16px; border-top:1px solid var(--rule); }}
-.ly {{ display:grid; grid-template-columns:11.5rem 6rem 1fr; gap:10px;
+.lyleg {{ margin:14px 0 0; font-size:11.5px; color:var(--ink-faint);
+  font-family:"{T.FONT_DATA}",monospace; }}
+.rt {{ width:96px; height:12px; display:block; align-self:center; }}
+.ly {{ display:grid; grid-template-columns:11.5rem 5rem 96px 1fr; gap:12px;
   padding:9px 0; border-bottom:1px solid var(--rule); align-items:baseline; }}
 .lyn {{ font-size:14px; }}
 .lyv {{ font-family:"{T.FONT_DATA}",monospace; font-size:14.5px;
@@ -384,6 +497,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 .ly-out .lyv {{ font-style:italic; }}
 @media (max-width:600px) {{
   .ly {{ grid-template-columns:1fr auto; }}
+  .rt {{ grid-column:1 / -1; }}
   .lys {{ grid-column:1 / -1; }} }}
 .note {{ margin:16px 0 0; font-size:13.5px; color:var(--ink-soft);
   max-width:64ch; }}
@@ -412,12 +526,16 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 
   <p class="eyebrow" style="margin-top:34px">Every region of {h(name)},
     worst to least</p>
-  <div class="peers">{_peer_strip(regions, None)}</div>
-  <p class="note">The regions below are the ones at their worst on
-    record. The axis above carries every region of the country, so a
-    single deep region inside an otherwise ordinary country reads
-    differently from a country where the whole distribution has
-    moved.</p>
+  <p class="secsub">Each bar is the full spread of that region&rsquo;s
+    previous 25 years at this point in the season. The dot is this year.
+    A dot at the left of a wide bar and a dot at the left of a narrow
+    bar are different findings, which is why the history is drawn rather
+    than described.</p>
+  <div class="peers">{_range_rows(regions)}</div>
+  <p class="note">Regions in colour are at their worst on record. The
+    rest are placed on the same scale so a single deep region inside an
+    otherwise ordinary country reads differently from a country where
+    the whole distribution has moved.</p>
 
   {blocks}
 
