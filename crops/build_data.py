@@ -103,6 +103,150 @@ def rank_of(current: float, history: pd.Series, worse_is: int) -> int:
     return int((history > current).sum()) + 1
 
 
+def _ordinal(n: int) -> str:
+    suffix = ("th" if 11 <= n % 100 <= 13
+              else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th"))
+    return f"{n}{suffix}"
+
+
+def _year_list(years: list) -> str:
+    ys = [str(y) for y in sorted(years)]
+    if len(ys) == 1:
+        return ys[0]
+    return ", ".join(ys[:-1]) + " and " + ys[-1]
+
+
+def severity_block(oriented: dict, cur_year: int) -> dict:
+    """How far into its own extremes a country's instruments sit, read
+    together. The counted measure, regions at their worst, is binary:
+    it cannot separate bad from horrible. This can.
+
+    Each instrument is converted to its position within its OWN history
+    at this dekad, then the positions are averaged with equal weights.
+    Equal weights need no defence, because we are not claiming to know
+    which instrument matters more; any weights we invented would be the
+    arbitrary part rather than the rigorous one.
+
+    Denominator is n-1, worse than k of the OTHER 25 years, which is
+    design's convention and better than the n I first used: a record
+    year reads 1.000 rather than 0.962, and it agrees with rank, since
+    rank 1 of 26 means beating all 25 others.
+
+    THIS IS COMBINED UNDER D-033, NOT MEASURED. Every input is measured,
+    but no source states the average.
+
+    And read `_not_comparable_across_places` before using `value` to
+    order countries. It does not do that job.
+    """
+    if len(oriented) < 2:
+        return {
+            "available": False,
+            "absent": "too_few_instruments",
+            "absent_because": "Fewer than two instruments have a full "
+                              "record at this point in the season, and "
+                              "an average across one instrument is that "
+                              "instrument.",
+        }
+
+    years = sorted(set.intersection(*[set(s.index) for s in oriented.values()]))
+    means = {}
+    for y in years:
+        pos = []
+        for s in oriented.values():
+            others = s.drop(index=y)
+            pos.append(int((others < s.loc[y]).sum()) / (len(s) - 1))
+        # Rounded BEFORE anything is ranked off it, deliberately. Each
+        # position is k/25, so a mean over k instruments can only land
+        # on a multiple of 1/(25k), at least 0.0067. Rounding to 3dp
+        # therefore cannot merge two genuinely different years, and it
+        # does stop two arithmetically EQUAL years differing in the
+        # last bit of a float. Ranking the raw floats made Chad 3rd or
+        # 4th depending on summation order.
+        means[int(y)] = round(float(np.mean(pos)), 3)
+
+    cur = means.get(cur_year)
+    if cur is None:
+        return {
+            "available": False,
+            "absent": "no_current_value",
+            "absent_because": "No instrument has reported for this "
+                              "dekad yet.",
+        }
+    prior = [v for y, v in means.items() if y != cur_year]
+    rank = sum(1 for v in prior if v > cur) + 1
+    of = len(prior) + 1
+
+    # Ties are not an edge case here, they are a quarter of the page.
+    # The measure lands on multiples of 1/125, so two years collide
+    # often: 29 of 123 places on 2026-07-11, three of them at rank 1.
+    # "The most stressed of 26 observations" is a strict-maximum claim,
+    # and for Ethiopia 2002 sits at exactly the same value. Competition
+    # ranking keeps the rank honest; the word "joint" and the year keep
+    # the sentence honest. Emitted as a field as well, so a renderer
+    # can show the tie without parsing the sentence.
+    tied = sorted(int(y) for y, v in means.items()
+                  if y != cur_year and v == cur)
+    lead = ("most stressed" if rank == 1
+            else f"{_ordinal(rank)} most stressed")
+    lead = f"The {'joint ' if tied else ''}{lead}"
+
+    # The spread of a country's own 26 values, which is what makes the
+    # value un-comparable across places. It is set almost entirely by
+    # how far this country's instruments move together: across the 123
+    # reported places, co-movement against spread is r = 0.97. Where
+    # they co-move, extreme averages are the ordinary shape of a bad
+    # year; where they do not, an extreme average is unprecedented.
+    # Emitted because it is the basis for the qualifier below, the same
+    # way `basis` is emitted beside a rank.
+    spread = round(float(np.std(list(means.values()))), 3)
+
+    return {
+        "available": True,
+        "value": cur,
+        "rank": rank,
+        "of": of,
+        "worse_is": "high",
+        "series": means,
+        "spread": spread,
+        "tied_with": tied,
+        "instruments_used": sorted(oriented),
+        "instruments_possible": len(INSTRUMENTS),
+        "statement": (f"{lead} of {of} observations for this point in "
+                      f"the season, {BASE_FIRST}-{cur_year}, across "
+                      f"{len(oriented)} instruments read together"
+                      + (f", level with {_year_list(tied)}" if tied else "")),
+        "method": (f"Each of {len(oriented)} instruments placed within "
+                   f"its own {of - 1} prior years at this dekad, then "
+                   f"averaged with equal weights. No instrument is "
+                   f"weighted above another."),
+        "evidence_basis": "combined",
+        "authorship": "tls_built",
+        "qualifiers": [
+            {
+                "kind": "combined_not_measured",
+                "text": "Every input is measured against its own "
+                        "record, but no source publishes this average. "
+                        "It is our combination, not an observation.",
+            },
+            {
+                "kind": "not_comparable_across_places",
+                "text": (f"This value places the country against "
+                         f"itself, so it does not rank countries "
+                         f"against each other. Its year-to-year spread "
+                         f"here is {spread}, and that spread differs by "
+                         f"place, so a higher value elsewhere can be a "
+                         f"less unusual year than this one. The rank is "
+                         f"the comparable figure."),
+            },
+            {
+                "kind": "reading_not_forecast",
+                "text": "A reading of conditions to date. It carries no "
+                        "statement about the rest of the season.",
+            },
+        ],
+    }
+
+
 SEASON_STARTS = json.loads(
     (HERE / "season_starts.json").read_text(encoding="utf-8")
 )["starts"] if (HERE / "season_starts.json").exists() else {}
@@ -124,7 +268,7 @@ def build_stress(catalogue: dict) -> dict:
         doy = int(base.loc[base.dt == latest, "doy"].iloc[0])
         latest_dekad = latest_dekad or str(latest.date())
 
-        instruments, water_agree, loaded = [], {}, {}
+        instruments, water_agree, loaded, oriented = [], {}, {}, {}
         for slug, label, unit, worse_is in INSTRUMENTS:
             d = load(slug, cid)
             loaded[slug] = d
@@ -202,6 +346,15 @@ def build_stress(catalogue: dict) -> dict:
                 "available": True,
                 "qualifiers": [],
             })
+            # Fed to severity_block from INSIDE the success branch, so
+            # the instruments it averages are exactly the instruments
+            # the page shows as available. Collecting them separately
+            # would let the two drift, and a severity number built on
+            # an instrument the page reports as absent is the same
+            # class of defect as a qualifier separated from its number.
+            span = same[(same.index >= BASE_FIRST) & (same.index <= latest.year)]
+            oriented[label] = -span if worse_is > 0 else span
+
             if slug in ("zfparc", "wsi", "spi3"):
                 ann = d.groupby("year").value.mean()
                 water_agree[slug] = ann
@@ -507,6 +660,12 @@ def build_stress(catalogue: dict) -> dict:
                 "statement": _rank_statement(head["rank"], head["of"], latest.year),
             },
             "driver": driver,
+            # The counted measure answers "how many regions", the rank
+            # answers "how unusual", and neither answers "how deep".
+            # This does. Country level only: the per-instrument region
+            # data is already in `regions` if a region view ever wants
+            # to build the same thing.
+            "severity": severity_block(oriented, latest.year),
             "evidence_basis": "measured",
             # D-076: "attribution pending" comes off crops. It is a
             # work state, not a finding, and it rendered on every
