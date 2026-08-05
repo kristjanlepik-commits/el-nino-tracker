@@ -1034,6 +1034,56 @@ magnitude below the threshold, so it is investigated and dismissed as
 sign instability near zero rather than resolved by preference. Recorded
 because 1b-i said it would be.
 
+### 5i-iii. Extension result: Phoenix is NOT singular
+
+Run 2026-08-05 against the list frozen in 5i-i before any of it was seen.
+
+| | growth | flat | difference |
+|---|---|---|---|
+| **added 14 only** (Phoenix absent) | +0.0041 | -0.0113 | **+0.0154** |
+| combined 25-city | +0.0081 | -0.0108 | **+0.0189** |
+| combined, Phoenix excluded | +0.0024 | -0.0108 | **+0.0132** |
+
+**The pre-registered expectation of a general signal is supported.**
+Fourteen cities with Phoenix absent from the arithmetic separate by
++0.0154, above the clean threshold. In the combined set the separation
+survives Phoenix's removal at +0.0132, which **reverses the 11-city
+picture** where removing it flipped the verdict to clean. The cause is
+sample size: four powered growth cities let one dominate, eleven do not.
+
+**GREY is strengthened, not localised.** The original verdict stands and
+is now better supported.
+
+**Phoenix was never removed from any verdict.** It is in all of them. The
+"without Phoenix" rows are sensitivity diagnostics measuring
+single-observation dependence, and product ruled on 2026-08-05 that it
+stays and the contamination is the content. Recorded because Heat quoted
+those diagnostics repeatedly without labelling them, which reads as a
+case for exclusion and was not one.
+
+### 5i-iv. Two caveats on the generality claim
+
+**The separation is carried by the flat group.** Growth averages +0.0041,
+which is essentially zero; flat averages -0.0113. The mechanism reads as
+shrinking cities cooling relative to their rings rather than growing
+cities warming relative to theirs. That is a different mechanism from the
+one D-049 posits and nobody has asked for it to be tested.
+
+**The flat group is geographically clustered and the confound is not
+excluded.** Detroit, Cleveland, Buffalo, St Louis, Milwaukee, Rochester,
+Pittsburgh, Toledo and Cincinnati are Rust Belt or Great Lakes; the
+growth group is Sunbelt and West. City-minus-ring should cancel regional
+climate, since each city is differenced against its own ring, but a
+systematic **lake influence on those rings** is a live candidate.
+Milwaukee's JJA value of -0.129, correctly dropped on power, is a hint
+that lakes are doing something. **If the clustering drives the flat
+group's negative trend, the generality claim is softer than it looks.**
+Not asserted either way; it needs testing.
+
+**JJA disagrees again**, added-only +0.0093, just under clean. Two
+independent samples have now produced the same seasonal split, so it is a
+property of the method rather than an accident of the first set.
+
 ### 5i-i. Pre-registered EXTENSION test: is Phoenix singular?
 
 Registered 2026-08-05 **before running**, and it is a second test rather
