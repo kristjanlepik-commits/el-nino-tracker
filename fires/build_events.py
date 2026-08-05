@@ -95,6 +95,12 @@ MIN_MULTIPLE = 1.5     # retained for the volume-context class below
 MAX_MARKERS = 20
 HIGH_VOLUME = 20000
 
+# A day holding less than this fraction of the window's median is treated
+# as unfinished archive rather than a quiet day. 0.5 is deliberately
+# loose: a genuinely calm day sits near 0.8 of median in this record,
+# while the two observed incomplete days sat at 0.03 and 0.28.
+INCOMPLETE_DAY_FRACTION = 0.5
+
 # Countries that always appear, gate or no gate.
 #
 # Kristjan's call, 2026-07-29: readers come to check their own country,
@@ -418,6 +424,42 @@ def main():
         return (r["z"] >= Z_THRESHOLD
                 or r["multiple"] >= STRONG_MULTIPLE
                 or r["rank_n"] <= RECORD_RANK)
+
+    # A DAY THE ARCHIVE HAS NOT FINISHED IS NOT A QUIET DAY.
+    #
+    # The 03:00 UTC guard above assumes NRT processing closes a day
+    # within about three hours of midnight. On 2026-08-05 at 07:20 UTC
+    # that assumption failed: 3 August held 1,881 detections across the
+    # whole roster against a median of 62,886, and 4 August held 17,919.
+    # Angola, which burns every day in August and logged 20,678 on the
+    # 1st, read exactly zero on the 4th.
+    #
+    # Counted as real, an incomplete day understates the window and
+    # biases every multiple LOW, and renders on the country page as a
+    # zero bar, which is a claim that a country's fires stopped. Kristjan
+    # spotted the false zero on Greece before any check did.
+    #
+    # Detection is roster-wide for the same reason the no-archive year
+    # check is: one country can legitimately read zero, ninety-four
+    # cannot all collapse together. Compared against the window's own
+    # median rather than a fixed threshold, so it holds in any season.
+    day_totals = {}
+    for r in detail.values():
+        for day, v in (r.get("daily") or {}).items():
+            day_totals[day] = day_totals.get(day, 0) + v
+    if day_totals:
+        med = sorted(day_totals.values())[len(day_totals) // 2]
+        thin = sorted(d for d, v in day_totals.items()
+                      if med and v < med * INCOMPLETE_DAY_FRACTION)
+        if thin:
+            print(f"refusing to publish {win_key}: {len(thin)} day(s) are "
+                  f"incomplete in the archive, "
+                  f"{', '.join(f'{d} at {day_totals[d]:,} vs median {med:,}' for d in thin)}. "
+                  f"An unfinished day is not a quiet day; publishing it "
+                  f"would understate every multiple and draw a zero bar "
+                  f"for countries that did not stop burning.",
+                  file=sys.stderr)
+            raise SystemExit(3)
 
     eligible = [r for r in rows if qualifies(r)]
     eligible.sort(key=lambda r: -r["multiple"])
