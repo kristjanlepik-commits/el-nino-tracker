@@ -1848,3 +1848,69 @@ instrument inherits that whatever the other components do. This is
 trap 7 (shared trends manufacture correlation) restated for ranks
 rather than correlations, and it was found only because two statistics
 built on different instruments disagreed about the direction of time.
+
+### 13d. The rate: what the level cannot say
+
+Added 2026-08-05, ruled by product after the UK case. Cumulative FPAR
+integrates from season start, so it DILUTES a fast deterioration.
+England read +0.150 on 11 July 2026, an ordinary level, after the
+steepest 1 June to 11 July fall in its 26-year record.
+
+**So "conditions are ordinary" is least reliable precisely when a
+situation is deteriorating fastest**, which is the one circumstance
+where being wrong costs most. That is a structural property of the
+channel's core metric, not a UK anomaly.
+
+**The measure.** Cumulative FPAR z-score now minus the same indicator
+`RATE_BACK` dekads earlier, ranked against the same window in every
+prior year. Emitted at country AND region level, because the UK case
+lives at region level: England is the steepest fall in its own record
+while the UK national figure is only joint second, since Scotland and
+Northern Ireland were flat and the average buries it.
+
+**Window fixed in advance at 4 dekads, and the reason matters more than
+the number.** 4 is what the England case used before any global figure
+had been computed. The 3-dekad window scores better (0 of 25 prior
+years at or above, against 1 of 25 for the 4-dekad detrended figure),
+and adopting it after seeing that would be the sweep this channel bans.
+Sensitivity, UK national, change ending dekad 20:
+
+| lookback | change | rank |
+|---|---|---|
+| 1 dekad | -0.049 | 4 of 26 |
+| 2 | -0.103 | 4 of 26 |
+| 3 | -0.158 | 3 of 26 |
+| 4 | -0.210 | 2 of 26 |
+| 6 | -0.291 | 2 of 25 |
+| 8 | -0.380 | 1 of 25 |
+
+Directionally robust, top four on every window, but the exact rank
+moves. So the window is stated on the datum and never chosen per claim.
+
+**It passes every gate that killed the other measures today.**
+
+| gate | result |
+|---|---|
+| Empirical baseline, 4-dekad | 2026 = **20 places** at their steepest fall on record; prior mean 4.1, **prior max 11**, 0 of 25 years at or above, p = 0.00, 4.9x |
+| Same, 3-dekad | 21 places, prior mean 4.0, 0 of 25, p = 0.00 |
+| Detrend | survives: 20 to 13, p = 0.04 (4-dekad); 21 to 16, p = 0.00 (3-dekad) |
+| Stability across 7 consecutive dekads | smooth and directional. UK runs 3, 1, 2, 1, 1, 1, 2 |
+| Crop-outcome gate | **not applicable**: the rate is computed ON the crop-outcome instrument, so the test that killed the level count is satisfied by construction |
+
+**Why it survives the detrend when the level count did not.**
+Differencing removes a linear trend by construction, so trap 16 barely
+bites: only 25 of 122 places carry any residual trend in the rate,
+against 67 of 123 warming in the temperature level. The rate is a
+structurally more stationary quantity than the level it comes from.
+
+**The 20 places are global rather than one weather system:** Eritrea,
+Mauritania, Liberia, Nepal, Jordan, Pakistan, Ethiopia, DPR Korea,
+Mali, Yemen, Japan, China, South Africa, Hungary, France, Slovakia,
+South Sudan, Central African Republic, Madagascar, Malaysia.
+
+**Ties bit a fifth time, and this time in the verifier rather than the
+payload.** Kenya 2008 and 2026 are exactly equal, and the audit script
+ordered them on float noise because the rounding fix from the severity
+verifier had not been carried across. Ranking happens on the values we
+PUBLISH, at 3dp, or a page shows two identical numbers with different
+ranks and contradicts itself.

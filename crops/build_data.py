@@ -300,6 +300,113 @@ def _percentiles(oriented: dict) -> dict:
     return out
 
 
+# Dekads of lookback for the rate. FIXED IN ADVANCE, and the reason is
+# recorded because it is the difference between a finding and an
+# overfit: 4 is what the England case used before any global number had
+# been computed. The 3-dekad window scores better on the baseline (0 of
+# 25 prior years at or above, against 1 of 25 here), and choosing it
+# after seeing that is exactly the sweep this channel bans. Sensitivity
+# across 1 to 8 dekads is recorded in FEASIBILITY 13d.
+RATE_BACK = 4
+
+
+def rate_block(pv: pd.DataFrame, doy: int, cur_year: int) -> dict:
+    """How fast a place is deteriorating, ranked against its own record.
+
+    The level answers "how bad is it", and cumulative FPAR answers that
+    while INTEGRATING FROM SEASON START, so it dilutes exactly the thing
+    a reader most needs to know: a fast deterioration in progress.
+    England read +0.150 on 11 July 2026, an ordinary level, after the
+    steepest 1 June to 11 July fall in its 26-year record. The level
+    said nothing was happening.
+
+    So "conditions are ordinary" is least reliable precisely when a
+    situation is deteriorating fastest, which is the one circumstance
+    where being wrong costs most. This is the field that fixes that.
+
+    Differencing removes a linear trend by construction, which is why
+    this survives the detrend that halved the level count: only 25 of
+    122 places carry any residual trend in the rate, against 67 of 123
+    warming in the temperature level. Trap 16 barely bites here.
+    """
+    a, b = doy - RATE_BACK, doy
+    if pv is None or a < 1:
+        return {
+            "available": False,
+            "absent": "window_precedes_season",
+            "absent_because": f"The {RATE_BACK} dekads before this one "
+                              f"fall outside the season, and a "
+                              f"cumulative indicator does not carry "
+                              f"across a season boundary.",
+        }
+    if a not in pv.columns or b not in pv.columns:
+        return {
+            "available": False,
+            "absent": "window_not_reported",
+            "absent_because": f"One of the two dekads bounding the "
+                              f"{RATE_BACK}-dekad window has not been "
+                              f"reported here.",
+        }
+    ch = (pv[b] - pv[a]).dropna()
+    ch = ch[(ch.index >= BASE_FIRST) & (ch.index <= cur_year)]
+    if cur_year not in ch.index or len(ch) < 20:
+        return {
+            "available": False,
+            "absent": "too_few_comparable_years",
+            "absent_because": f"Fewer than 20 comparable years of "
+                              f"{RATE_BACK}-dekad change at this dekad.",
+        }
+    ch = ch.round(3)
+    cur = float(ch.loc[cur_year])
+    prior = ch.drop(index=cur_year)
+    rank = int((prior < cur).sum()) + 1
+    of = len(ch)
+    tied = sorted(int(y) for y in prior.index[prior == cur])
+    lead = ("steepest fall" if rank == 1
+            else f"{_ordinal(rank)} steepest fall")
+    lead = f"The {'joint ' if tied else ''}{lead}"
+    return {
+        "available": True,
+        "value": round(cur, 3),
+        "measures": "change in cumulative FPAR z-score over the "
+                    f"{RATE_BACK} dekads ending at this one",
+        "window_dekads": RATE_BACK,
+        "rank": rank,
+        "of": of,
+        "worse_is": "low",
+        "tied_with": tied,
+        "series": {int(y): float(v) for y, v in ch.items()},
+        "statement": (f"{lead} over {RATE_BACK} dekads of {of} "
+                      f"observations for this point in the season, "
+                      f"{BASE_FIRST}-{cur_year}"
+                      + (f", level with {_year_list(tied)}" if tied else "")),
+        "method": (f"Cumulative FPAR z-score now minus the same "
+                   f"indicator {RATE_BACK} dekads earlier, ranked "
+                   f"against the same window in each prior year. A rate "
+                   f"of change, not a level: a place can be ordinary "
+                   f"and falling faster than in any year on record."),
+        "authorship": "tls_built",
+        "evidence_basis": "measured",
+        "qualifiers": [
+            {
+                "kind": "rate_not_level",
+                "text": "This ranks how fast the reading is moving, not "
+                        "how bad it is. A steep fall from a good "
+                        "starting point can still leave a place in "
+                        "ordinary condition, and the level field says "
+                        "which.",
+            },
+            {
+                "kind": "canopy_not_cause",
+                "text": "ASAP observes the crop canopy, not what "
+                        "stressed it. Heat, drought, disease and late "
+                        "planting are not separable in this "
+                        "measurement.",
+            },
+        ],
+    }
+
+
 def _global_bucket(per_place: list, names: list, cur_year: int,
                    label: str) -> dict:
     """Median across places of the mean percentile over `names`, per
@@ -574,6 +681,16 @@ def build_stress(catalogue: dict) -> dict:
         # ranks 23 of 26 nationally on 2026-07-11 while four of its
         # southeastern provinces are at their worst on record. Reporting
         # only at country level would have lost that entirely.
+        # Year x dekad panels for the rate. Country level is the mean
+        # across regions, matching how the country instruments above are
+        # built, so the level and the rate describe the same aggregate.
+        country_panel = (base.groupby(["year", "doy"]).value.mean()
+                         .unstack())
+        region_panels = {
+            reg: g.groupby(["year", "doy"]).value.mean().unstack()
+            for reg, g in base.groupby("region_name")
+        }
+
         regions = []
         same_all = base[base.doy == doy]
         for reg, g in same_all.groupby("region_name"):
@@ -611,6 +728,13 @@ def build_stress(catalogue: dict) -> dict:
                 "series": {int(y): round(float(v), 3)
                            for y, v in s.items()
                            if BASE_FIRST <= y <= latest.year},
+                # The rate belongs at region level too, and this is the
+                # level the England case was found at: England is the
+                # steepest 4-dekad fall in its own record while the UK
+                # national figure is only second, because Scotland and
+                # Northern Ireland were flat and the average buries it.
+                "rate": rate_block(region_panels.get(reg), doy,
+                                   latest.year),
             })
         # Per-region driver. The country-level driver is evidence about
         # the country, and rendering it on a region page asserts
@@ -858,6 +982,12 @@ def build_stress(catalogue: dict) -> dict:
             # data is already in `regions` if a region view ever wants
             # to build the same thing.
             "severity": severity_block(oriented, latest.year),
+            # Level and rate side by side, deliberately. Either alone
+            # is a different claim: "ordinary" and "falling faster than
+            # in any year on record" are both true of England on
+            # 2026-07-11, and a page carrying only the first would have
+            # said nothing was happening.
+            "rate": rate_block(country_panel, doy, latest.year),
             "evidence_basis": "measured",
             # D-076: "attribution pending" comes off crops. It is a
             # work state, not a finding, and it rendered on every
