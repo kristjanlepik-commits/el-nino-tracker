@@ -70,18 +70,28 @@ def load(slug: str, cid: str):
     return d
 
 
-def _rank_statement(rank: int, of: int, last: int) -> str:
+def _rank_statement(rank: int, of: int, last: int,
+                    worse_is: str = "low") -> str:
     """Value and basis in one string so they cannot be separated.
     Called at country and region level from one place, so the two
-    cannot drift apart."""
+    cannot drift apart.
+
+    worse_is is NOT optional in meaning even though it defaults. rank is
+    rank-by-worseness, so for temperature rank 1 is the HOTTEST. This
+    function previously hardcoded "lowest" and would have published
+    Tunisia at +5.34 C as "lowest of 26 observations". The rank was
+    right; the sentence built from it dropped the one field that sets
+    its direction.
+    """
+    end = "lowest" if worse_is == "low" else "highest"
     if rank == 1:
-        lead = "lowest"
+        lead = end
     else:
         # 23th is the kind of thing a reader notices and a checker does
         # not, so the suffix is computed rather than assumed to be "th".
         suffix = ("th" if 11 <= rank % 100 <= 13
                   else {1: "st", 2: "nd", 3: "rd"}.get(rank % 10, "th"))
-        lead = f"{rank}{suffix} lowest"
+        lead = f"{rank}{suffix} {end}"
     return (f"{lead} of {of} observations for this point in the "
             f"season, {BASE_FIRST}-{last}")
 
@@ -185,7 +195,7 @@ def build_stress(catalogue: dict) -> dict:
                 # magnitude and on region rows.
                 "statement": _rank_statement(
                     rank_of(cur, hist, worse_is), len(hist) + 1,
-                    latest.year),
+                    latest.year, "low" if worse_is > 0 else "high"),
                 "source": "JRC ASAP, GAUL1 indicator statistics, "
                           "crop mask, growing cycle",
                 "authorship": "agency",
