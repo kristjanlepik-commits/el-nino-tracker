@@ -781,6 +781,40 @@ def check_emitted_fields(violations):
 # belongs.
 LARGE_FILE_MAX_BYTES = 5 * 1024 * 1024
 
+# MEASURED COMPRESSED, NOT ON DISK, and the first version got this wrong.
+#
+# The cost this guard exists to prevent is permanent growth of git
+# HISTORY, and git stores objects compressed and delta-compressed. So
+# on-disk size is a proxy adjacent to the thing that matters, which is
+# the error class that produced half of this week's defects.
+#
+# The two cases, measured 2026-08-05:
+#
+#   crops/data/stress_current.json   7.90 MB raw -> 0.87 MB gz   (11%)
+#   the 20.7 MB IMERG grid           20.71 MB raw -> 20.68 MB gz (100%)
+#
+# Raw size calls those the same kind of problem. Compressed size
+# separates them exactly, and for the right reason rather than by luck:
+# a raw grid is already compressed so it cannot shrink, while a derived
+# text payload is one value per line and compresses about ninefold. It
+# also deltas well between dekads, which raw size cannot see at all.
+#
+# So the crops payload passes at 0.87 MB with real headroom and needs no
+# exception, and the grid still fails by a factor of four. Fixing the
+# measure beat granting an allowlist entry, because an allowlist would
+# have left the guard wrong for every future text payload.
+#
+# NOT raising the threshold, which Design flagged and was right to. A
+# guard whose limit moves when a file crosses it manufactures its own
+# answer and never fires again.
+def _compressed_size(path: Path) -> int:
+    import gzip
+    try:
+        data = path.read_bytes()
+    except OSError:
+        return 0
+    return len(gzip.compress(data, compresslevel=6))
+
 # Files we have decided to keep despite the rule. Each needs a REASON,
 # because the entry IS the decision record.
 # Empty, and it should stay that way. The one file that would have been
@@ -827,12 +861,18 @@ def check_large_files(violations):
             continue
         path = ROOT / rel
         try:
-            size = path.stat().st_size
+            raw = path.stat().st_size
         except OSError:
             continue
+        # Cheap skip: nothing can compress to more than its raw size, so
+        # a file under the limit on disk is under it compressed too.
+        if raw <= LARGE_FILE_MAX_BYTES:
+            continue
+        size = _compressed_size(path)
         if size > LARGE_FILE_MAX_BYTES:
             violations.append(
-                f"{rel} is {size / 1048576:.1f} MB, over the "
+                f"{rel} is {size / 1048576:.1f} MB compressed "
+                f"({raw / 1048576:.1f} MB on disk), over the "
                 f"{LARGE_FILE_MAX_BYTES / 1048576:.0f} MB limit for a "
                 f"tracked file. Raw grids and captures belong in the "
                 f"GitHub Release store, not in git history, which cannot "

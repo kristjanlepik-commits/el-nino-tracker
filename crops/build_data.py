@@ -310,7 +310,57 @@ def _percentiles(oriented: dict) -> dict:
 RATE_BACK = 4
 
 
-def rate_block(pv: pd.DataFrame, doy: int, cur_year: int) -> dict:
+def rate_legend() -> dict:
+    """Everything about the rate that is true of the MEASURE rather than
+    of any one place, emitted once.
+
+    D-051 says a qualifier is a property of the datum, never of the
+    layout, and this does not breach it. The distinction that matters is
+    whether the text VARIES: `absent_because` differs per datum and the
+    severity comparability qualifier interpolates each place's own
+    spread, so both stay bound to their datum. These two strings are
+    byte-identical on every rate block ever emitted, which makes them a
+    property of the measure. Repeating them 2,122 times cost 1.7 MB and
+    told a reader nothing extra.
+
+    Country-level rate blocks still carry the full text, because that is
+    where the headline claim is made and 123 copies are free.
+    """
+    return {
+        "measures": "change in cumulative FPAR z-score over the "
+                    f"{RATE_BACK} dekads ending at the reported one",
+        "window_dekads": RATE_BACK,
+        "worse_is": "low",
+        "applies_to": "every `rate` block in this file, at country and "
+                      "region level alike",
+        "method": (f"Cumulative FPAR z-score now minus the same "
+                   f"indicator {RATE_BACK} dekads earlier, ranked "
+                   f"against the same window in each prior year. A rate "
+                   f"of change, not a level: a place can be ordinary "
+                   f"and falling faster than in any year on record."),
+        "qualifiers": _RATE_QUALIFIERS,
+    }
+
+
+_RATE_QUALIFIERS = [
+    {
+        "kind": "rate_not_level",
+        "text": "This ranks how fast the reading is moving, not how bad "
+                "it is. A steep fall from a good starting point can "
+                "still leave a place in ordinary condition, and the "
+                "level field says which.",
+    },
+    {
+        "kind": "canopy_not_cause",
+        "text": "ASAP observes the crop canopy, not what stressed it. "
+                "Heat, drought, disease and late planting are not "
+                "separable in this measurement.",
+    },
+]
+
+
+def rate_block(pv: pd.DataFrame, doy: int, cur_year: int,
+               full: bool = True) -> dict:
     """How fast a place is deteriorating, ranked against its own record.
 
     The level answers "how bad is it", and cumulative FPAR answers that
@@ -365,46 +415,35 @@ def rate_block(pv: pd.DataFrame, doy: int, cur_year: int) -> dict:
     lead = ("steepest fall" if rank == 1
             else f"{_ordinal(rank)} steepest fall")
     lead = f"The {'joint ' if tied else ''}{lead}"
-    return {
+    block = {
         "available": True,
         "value": round(cur, 3),
-        "measures": "change in cumulative FPAR z-score over the "
-                    f"{RATE_BACK} dekads ending at this one",
         "window_dekads": RATE_BACK,
         "rank": rank,
         "of": of,
         "worse_is": "low",
         "tied_with": tied,
-        "series": {int(y): float(v) for y, v in ch.items()},
         "statement": (f"{lead} over {RATE_BACK} dekads of {of} "
                       f"observations for this point in the season, "
                       f"{BASE_FIRST}-{cur_year}"
                       + (f", level with {_year_list(tied)}" if tied else "")),
-        "method": (f"Cumulative FPAR z-score now minus the same "
-                   f"indicator {RATE_BACK} dekads earlier, ranked "
-                   f"against the same window in each prior year. A rate "
-                   f"of change, not a level: a place can be ordinary "
-                   f"and falling faster than in any year on record."),
         "authorship": "tls_built",
         "evidence_basis": "measured",
-        "qualifiers": [
-            {
-                "kind": "rate_not_level",
-                "text": "This ranks how fast the reading is moving, not "
-                        "how bad it is. A steep fall from a good "
-                        "starting point can still leave a place in "
-                        "ordinary condition, and the level field says "
-                        "which.",
-            },
-            {
-                "kind": "canopy_not_cause",
-                "text": "ASAP observes the crop canopy, not what "
-                        "stressed it. Heat, drought, disease and late "
-                        "planting are not separable in this "
-                        "measurement.",
-            },
-        ],
     }
+    if full:
+        block["measures"] = rate_legend()["measures"]
+        block["method"] = rate_legend()["method"]
+        block["qualifiers"] = _RATE_QUALIFIERS
+        block["series"] = {int(y): float(v) for y, v in ch.items()}
+    else:
+        # Region rows carry the claim and its basis, and point at the
+        # legend for what is identical everywhere. The series is dropped
+        # rather than shrunk: nothing renders a region rate history, and
+        # emitting a second per-region series contradicted the rule this
+        # file already states about vegetation-only series. It is one
+        # rebuild away if a region page ever wants it.
+        block["_see"] = "rate_legend"
+    return block
 
 
 def _global_bucket(per_place: list, names: list, cur_year: int,
@@ -734,7 +773,7 @@ def build_stress(catalogue: dict) -> dict:
                 # national figure is only second, because Scotland and
                 # Northern Ireland were flat and the average buries it.
                 "rate": rate_block(region_panels.get(reg), doy,
-                                   latest.year),
+                                   latest.year, full=False),
             })
         # Per-region driver. The country-level driver is evidence about
         # the country, and rendering it on a region page asserts
@@ -817,6 +856,22 @@ def build_stress(catalogue: dict) -> dict:
                     "rank": rank_of(v, h, worse_is), "of": len(h) + 1,
                     "available": True,
                 }
+
+        # ...and then dropped again, deliberately. NOTHING READS IT.
+        # The country template draws country instruments, region
+        # `series` and severity; no consumer touches a region's
+        # per-instrument block, because the region page it was built for
+        # does not exist. Carrying 1.1 MB per dekad in git history for a
+        # page that may never be built is what the size guard is for,
+        # and git history cannot be trimmed later without a force-push.
+        #
+        # The computation stays because the absence reasons above are
+        # load-bearing knowledge that took two wrong answers to get
+        # right, and because restoring the emit is one line and one
+        # 38-second rebuild with no fetch. Delete this block, not the
+        # loop, when a region page exists.
+        for entry in regions:
+            entry.pop("instruments", None)
 
         _wsi = loaded.get("wsi")
         _spi = loaded.get("spi3")
@@ -1069,6 +1124,7 @@ def build_stress(catalogue: dict) -> dict:
                                          "indicator for this country",
         },
         "chance_baseline_aggregate": aggregate,
+        "rate_legend": rate_legend(),
         "global": build_global(per_place_oriented,
                                int(latest_dekad[:4])) if per_place_oriented
                   else None,
