@@ -288,6 +288,66 @@ def _trajectory(cb: dict, place: str) -> str:
             f'each year since {years[0]}">' + "".join(out) + "</svg>")
 
 
+def _global_block(g) -> str:
+    """The global pair, in the footer, with BOTH treatments.
+
+    Product's ruling (c), after this figure failed twice as a lead: once
+    as a count of places at their worst, once as a divergence between
+    meteorology and crop outcome. Both times a trend was doing the work.
+
+    DETRENDED IS LISTED FIRST AND RAW SECOND, per the standing ruling
+    that where both exist, detrended is the default for any claim
+    spanning years. The drift on this channel is upward and upward
+    flatters every stress claim we make, so defaulting to raw lets the
+    flattering answer win by inertia. Raw stays visible because the
+    reader should see there was a choice, and see that the two disagree.
+
+    THE BUCKETS DO NOT PARTITION and the block says so. "Vegetation,
+    current" and "Water satisfaction" are in neither group, so this is
+    two named subsets rather than a decomposition. Presenting the pair
+    without that implies an exhaustiveness that does not exist, which is
+    the defect that killed it as a lead independently of the trend.
+    """
+    if not g or not g.get("buckets"):
+        return ""
+    order = ["all_five", "crop_outcome", "meteorology"]
+    rows = []
+    for key in order:
+        b = g["buckets"].get(key)
+        if not b:
+            continue
+        det, raw = b.get("detrended") or {}, b.get("raw") or {}
+        ins = ", ".join(b.get("instruments") or []) or "all five"
+        rows.append(
+            f'<tr><th scope="row">{h(b.get("label", key))}'
+            f'<span class="gb-i">{h(ins)}</span></th>'
+            f'<td>{det.get("rank", "")} of {det.get("of", "")}</td>'
+            f'<td class="gb-raw">{raw.get("rank", "")} of {raw.get("of", "")}</td>'
+            f'</tr>')
+    un = g.get("unassigned_instruments") or []
+    quals = "".join(f'<li>{h(q.get("text", ""))}</li>'
+                    for q in (g.get("qualifiers") or []))
+    return f"""
+      <p class="seclab">This dekad against the whole record</p>
+      <p class="secsub">Where each figure sits among the 26 years of this
+        same dekad, across all {len(g.get("buckets", {})) and "123"} places
+        we measure. Detrended is the figure to read: these instruments
+        drift, and the drift is upward, so the raw rank flatters every
+        stress claim. Both are shown because they disagree and a reader
+        should see that there was a choice.</p>
+      <table class="gb">
+        <thead><tr><th scope="col"></th><th scope="col">detrended</th>
+          <th scope="col">raw</th></tr></thead>
+        <tbody>{"".join(rows)}</tbody>
+      </table>
+      <p class="note">These are two named groups, not a split of the
+        five: {h(" and ".join(un))} belong to neither, being an
+        instantaneous crop state and a modelled water balance. So the
+        two lines cannot be read as "the weather" against "the crops"
+        with nothing left over.</p>
+      <ul class="gbq">{quals}</ul>"""
+
+
 def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     places = doc["places"]
     # The REGION's driver, not the country's. This took p.get("driver")
@@ -786,6 +846,8 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
        qualifier that applies to all 81 rows equally. Kristjan's rule,
        and it is the right cut: anything the same on every row, or not
        about this dekad, sits below the content. -->
+  {_global_block(doc.get("global") or {})}
+
   <p class="seclab">How we know 81 is an ordinary number</p>
   {baseline}
   <!-- The units-versus-weather sentence lives in the chart's own note
