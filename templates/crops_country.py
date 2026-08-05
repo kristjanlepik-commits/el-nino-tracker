@@ -159,19 +159,31 @@ def _pattern_sentence(instruments) -> str:
         return lead + "."
     ts = {_tercile(w.get("rank"), w.get("of")) for w in water}
     names = " and ".join(w["name"].split(",")[0].lower() for w in water)
-    if ts == {"worst"}:
-        # The Chad case: everything poor, but only the canopy at a
-        # record. Saying "all bad" would lose that distinction.
-        tail = (f", while {names} are also in their worst third without "
-                f"being records" if veg.get("rank") == 1
-                else f", as are {names}")
-    elif ts == {"best"}:
-        tail = f", while {names} sit in their best third"
-    elif ts == {"middle"}:
-        tail = f", while {names} sit mid-range"
+    vt = _tercile(veg.get("rank"), veg.get("of"))
+    BAND = {"worst": "their worst third", "middle": "mid-range",
+            "best": "their best third"}
+    if len(ts) == 1:
+        wt = next(iter(ts))
+        if veg.get("rank") == 1 and wt == "worst":
+            # The Chad case: everything poor, but only the canopy at a
+            # record. Saying "all bad" would lose that distinction.
+            tail = (f", while {names} are also in their worst third "
+                    f"without being records")
+        elif wt == vt:
+            # "As are" ASSERTS A MATCH and may only be used when there
+            # is one. It said "the canopy is in the middle of its range,
+            # as are water satisfaction and rainfall" over an Ethiopia
+            # whose rainfall was the LOWEST of 26, and over a Thailand
+            # whose canopy was in its best third while both water
+            # instruments were in their worst. That is an inversion, not
+            # a loose phrase: it told a reader the instruments agreed
+            # when the disagreement was the finding.
+            tail = f", as are {names}"
+        else:
+            tail = f", while {names} are in {BAND[wt]}"
     else:
-        parts = [f"{w['name'].split(',')[0].lower()} is in its "
-                 f"{_tercile(w.get('rank'), w.get('of'))} third"
+        parts = [f"{w['name'].split(',')[0].lower()} is in "
+                 f"{BAND[_tercile(w.get('rank'), w.get('of'))]}"
                  for w in water]
         tail = ", while " + " and ".join(parts)
     return lead + tail + "."
