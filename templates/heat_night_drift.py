@@ -117,7 +117,12 @@ def _rows(regions) -> str:
         y = TOP + RH * i + RH / 2
         jul = r["july_night_drift_c"]["value"]
         ann = r["annual_night_drift_c"]["value"]
-        weak = r.get("rhetorical_weight") != "assert"
+        # TWO weights now, one per quantity, because the lead change
+        # made a single field ambiguous about which number it qualified.
+        # Heat renamed them and added `qualifies` naming the target.
+        dw = r.get("drift_weight") or {}
+        cw = r.get("contrast_weight") or {}
+        weak = dw.get("verdict") != "assert"
         out.append(f'<text class="nd-n" x="0" y="{y - 4:.1f}">'
                    f'{h(r["display_name"])}</text>')
         # The connector IS the finding. Drawn first so the two marks sit
@@ -135,10 +140,14 @@ def _rows(regions) -> str:
         # The assert / state_with_margin distinction is carried by
         # weight and tone instead, which is sufficient and does not
         # pre-empt the colour decision.
+        # All four drifts are asserted, so no connector is dimmed. What
+        # varies is the CONTRAST verdict, and that rides on the small
+        # figure and its note rather than on the mark, because dimming a
+        # mark whose headline figure is sound would misattribute the
+        # weakness to the wrong quantity.
         out.append(f'<line x1="{X(ann):.1f}" y1="{y:.1f}" '
                    f'x2="{X(jul):.1f}" y2="{y:.1f}" '
-                   f'stroke="{"var(--ink)" if not weak else "var(--ink-faint)"}" '
-                   f'stroke-width="{5 if not weak else 2.5}"/>')
+                   f'stroke="var(--ink)" stroke-width="5"/>')
         out.append(f'<circle cx="{X(ann):.1f}" cy="{y:.1f}" r="4.6" '
                    f'fill="var(--paper)" stroke="var(--ink)" '
                    f'stroke-width="1.8"/>')
@@ -175,11 +184,31 @@ def _rows(regions) -> str:
         # payload puts the spread beside the thing it qualifies and
         # emits the ratio too; both protections are lost the moment a
         # renderer does the division itself.
-        m = (r.get("contrast_c") or {}).get("margin_over_spread")
-        note = f"margin {m:.1f}x" if (weak and m) else ""
-        if note:
-            out.append(f'<text class="nd-w" x="0" y="{y + 13:.1f}">'
-                       f'contrast {h(note)}, the weakest here</text>')
+        # ASSERTED AND WEAKEST ARE DIFFERENT STATES AND THE PAGE SHOWS
+        # BOTH. Heat refused to pick between an absolute and a relative
+        # bar, correctly: they answer different questions and neither
+        # reconstructs the other. The Southwest's drift clears the 3x bar
+        # at 4.5x, so it is asserted plainly at full weight; it is also
+        # 8.3x weaker than Italy, so the row says so.
+        #
+        # The distinction that matters: `state_with_margin` earns a
+        # lighter mark, because the claim itself is thin. `assert` plus
+        # `weakest_in_set` earns a FULL mark and a factual footnote,
+        # because the claim is sound and only its margin is smallest.
+        # Styling the second like the first would understate a finding
+        # Heat has said may be asserted.
+        notes = []
+        if dw.get("weakest_in_set"):
+            tw = dw.get("times_weaker_than_strongest")
+            notes.append(f"weakest of the four"
+                         + (f", {tw:.1f}x below the strongest" if tw else ""))
+        if cw.get("verdict") != "assert":
+            cm = cw.get("margin_over_spread")
+            notes.append(f"contrast margin {cm:.1f}x" if cm else
+                         "contrast stated with its margin")
+        for j, nt in enumerate(notes):
+            out.append(f'<text class="nd-w" x="0" y="{y + 13 + j * 11:.1f}">'
+                       f'{h(nt)}</text>')
     out.append(f'<text class="nd-ax" x="{PAD_L}" y="{H - 6:.1f}">'
                f'night warming since 1961-1990, &#176;C</text>')
     return (f'<svg class="nd" viewBox="0 0 {W} {H:.0f}" role="img" '
