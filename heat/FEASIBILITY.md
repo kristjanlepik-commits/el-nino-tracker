@@ -899,6 +899,68 @@ carrying beyond Heat:** wherever we would otherwise write "this
 instrument corrects for X", recompute with X removed and publish the
 difference instead. An argument becomes a number at no extra cost.
 
+## 5j. Tropical-night counts from station data: feasibility read, 2026-08-05
+
+Product's ask, prompted by a Vienna chart counting days above 32/35/38 C
+from 1872 using GeoSphere Austria daily station data. The construction is
+legible because **a count of days is something a person can picture**,
+and the before-and-after is two integers rather than a trend. The version
+that is ours rather than a copy is the same construction built on
+**nights**, which nobody charts.
+
+Verified against sources rather than reasoned from memory.
+
+**GHCN-Daily is NOT homogenised.** GHCN-monthly is, via the pairwise
+homogenisation algorithm. The daily product is quality-controlled raw
+only, and NOAA names the three inhomogeneity sources it carries: time of
+observation shifts, thermometer changes, station moves.
+
+**Europe has a homogenised daily option; the US effectively does not.**
+ECA&D holds daily station series for 3,700+ European temperature
+stations, blends with neighbours to extend records, and runs homogeneity
+checks. A homogenised European daily product exists via EUSTACE/ECA&D.
+**This inverts the coverage asymmetry found earlier the same day**, where
+Europe was free for ERA5 city work and the US needed new pulls.
+
+**ECA&D already derives standard extreme indices including tropical
+nights**, so the count may be CITEABLE rather than computed. That is the
+aggregator posture in its strongest form and removes any question of why
+our number differs from a met service's.
+
+### The tension, sharpened rather than resolved
+
+**Almost all of the urban heat island signal sits in Tmin specifically.**
+So building the piece on nights does not merely inherit the urbanisation
+problem, it **selects for it**: the metric that makes the channel
+distinctive is the one most contaminated by cities.
+
+Product's line holds and is recorded as theirs: a station count answers
+"how extraordinary is this year where I live", and the urban share is
+part of what those people actually experienced. It is not climate drift
+and must never share a sentence with one.
+
+**But the magnitude cannot be bounded from Heat's ERA5 work.** ERA5
+dilutes a city across 31 km; a station sits inside it. The Phoenix figure
+of +0.0642 C/decade is a **floor** for a station, not an estimate.
+
+### Why a count is more fragile than a mean, again
+
+A station move or instrument change is a step, and a threshold count
+amplifies a step relative to a mean, the same argument made against
+crossing the 1979 boundary. The documented European hazard is city
+stations relocating to airports mid-century, which typically cools the
+record: a tropical-night count across such a move shows a spurious dip
+and recovery that reads as a climate signal.
+
+### Not verified
+
+Per-city century-scale TMIN coverage. Vienna to 1872 is real. Whether
+Madrid, Milan or Marseille have comparable unbroken records is a
+station-by-station check and is not free.
+
+**Recommendation to product: Europe first on ECA&D; the US version is a
+separate question. Queued behind the power numbers and the two boxes.**
+
 ## 5i. THE D-049 VERDICT, 2026-08-05
 
 Run on the complete 192-chunk pull. Thresholds ratified as D-067 on
