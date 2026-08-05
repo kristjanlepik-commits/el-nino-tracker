@@ -76,6 +76,284 @@
   "recent_years_counted": 12,
   "_scope": "reported places only, never the full catalogue. A baseline over a wider set than the page shows is not like-for-like and the discrepancy is invisible in the current year."
  },
+ "global": {
+  "measures": "median across reported places of each place's own percentile position, per year, at this dekad",
+  "buckets": {
+   "all_five": {
+    "instruments": [
+     "Rainfall, 3-month",
+     "Temperature",
+     "Vegetation, cumulative",
+     "Vegetation, current",
+     "Water satisfaction"
+    ],
+    "label": "all five instruments read together",
+    "raw": {
+     "value": 0.584,
+     "rank": 2,
+     "of": 26,
+     "tied_with": [
+      2002
+     ],
+     "series": {
+      "2001": 0.512,
+      "2002": 0.584,
+      "2003": 0.456,
+      "2004": 0.44,
+      "2005": 0.432,
+      "2006": 0.448,
+      "2007": 0.44,
+      "2008": 0.488,
+      "2009": 0.512,
+      "2010": 0.408,
+      "2011": 0.456,
+      "2012": 0.456,
+      "2013": 0.456,
+      "2014": 0.528,
+      "2015": 0.64,
+      "2016": 0.456,
+      "2017": 0.392,
+      "2018": 0.48,
+      "2019": 0.48,
+      "2020": 0.432,
+      "2021": 0.552,
+      "2022": 0.528,
+      "2023": 0.544,
+      "2024": 0.576,
+      "2025": 0.504,
+      "2026": 0.584
+     },
+     "places_counted": 123,
+     "statement": "The joint 2nd most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of all five instruments read together, on the instruments as published, level with 2002"
+    },
+    "detrended": {
+     "value": 0.592,
+     "rank": 3,
+     "of": 26,
+     "tied_with": [
+      2024
+     ],
+     "series": {
+      "2001": 0.552,
+      "2002": 0.64,
+      "2003": 0.472,
+      "2004": 0.416,
+      "2005": 0.448,
+      "2006": 0.48,
+      "2007": 0.432,
+      "2008": 0.488,
+      "2009": 0.536,
+      "2010": 0.392,
+      "2011": 0.448,
+      "2012": 0.472,
+      "2013": 0.448,
+      "2014": 0.552,
+      "2015": 0.624,
+      "2016": 0.448,
+      "2017": 0.392,
+      "2018": 0.48,
+      "2019": 0.464,
+      "2020": 0.424,
+      "2021": 0.536,
+      "2022": 0.536,
+      "2023": 0.512,
+      "2024": 0.592,
+      "2025": 0.432,
+      "2026": 0.592
+     },
+     "places_counted": 123,
+     "statement": "The joint 3rd most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of all five instruments read together, on instruments with their linear trend removed, level with 2024"
+    }
+   },
+   "crop_outcome": {
+    "instruments": [
+     "Vegetation, cumulative"
+    ],
+    "label": "the season-cumulative crop outcome",
+    "raw": {
+     "value": 0.4,
+     "rank": 20,
+     "of": 26,
+     "tied_with": [
+      2007,
+      2017,
+      2019,
+      2023
+     ],
+     "series": {
+      "2001": 0.68,
+      "2002": 0.68,
+      "2003": 0.68,
+      "2004": 0.56,
+      "2005": 0.56,
+      "2006": 0.56,
+      "2007": 0.4,
+      "2008": 0.6,
+      "2009": 0.6,
+      "2010": 0.44,
+      "2011": 0.52,
+      "2012": 0.56,
+      "2013": 0.48,
+      "2014": 0.52,
+      "2015": 0.56,
+      "2016": 0.36,
+      "2017": 0.4,
+      "2018": 0.44,
+      "2019": 0.4,
+      "2020": 0.44,
+      "2021": 0.48,
+      "2022": 0.68,
+      "2023": 0.4,
+      "2024": 0.44,
+      "2025": 0.28,
+      "2026": 0.4
+     },
+     "places_counted": 123,
+     "statement": "The joint 20th most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of the season-cumulative crop outcome, on the instruments as published, level with 2007, 2017, 2019 and 2023"
+    },
+    "detrended": {
+     "value": 0.52,
+     "rank": 8,
+     "of": 26,
+     "tied_with": [
+      2003,
+      2008,
+      2009,
+      2014,
+      2020
+     ],
+     "series": {
+      "2001": 0.64,
+      "2002": 0.6,
+      "2003": 0.52,
+      "2004": 0.44,
+      "2005": 0.44,
+      "2006": 0.48,
+      "2007": 0.36,
+      "2008": 0.52,
+      "2009": 0.52,
+      "2010": 0.4,
+      "2011": 0.48,
+      "2012": 0.56,
+      "2013": 0.48,
+      "2014": 0.52,
+      "2015": 0.6,
+      "2016": 0.32,
+      "2017": 0.4,
+      "2018": 0.44,
+      "2019": 0.44,
+      "2020": 0.52,
+      "2021": 0.56,
+      "2022": 0.76,
+      "2023": 0.48,
+      "2024": 0.6,
+      "2025": 0.4,
+      "2026": 0.52
+     },
+     "places_counted": 123,
+     "statement": "The joint 8th most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of the season-cumulative crop outcome, on instruments with their linear trend removed, level with 2003, 2008, 2009, 2014 and 2020"
+    }
+   },
+   "meteorology": {
+    "instruments": [
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "label": "the purely meteorological instruments",
+    "raw": {
+     "value": 0.72,
+     "rank": 1,
+     "of": 26,
+     "tied_with": [],
+     "series": {
+      "2001": 0.46,
+      "2002": 0.52,
+      "2003": 0.42,
+      "2004": 0.34,
+      "2005": 0.44,
+      "2006": 0.5,
+      "2007": 0.4,
+      "2008": 0.38,
+      "2009": 0.54,
+      "2010": 0.48,
+      "2011": 0.4,
+      "2012": 0.42,
+      "2013": 0.46,
+      "2014": 0.54,
+      "2015": 0.7,
+      "2016": 0.46,
+      "2017": 0.44,
+      "2018": 0.52,
+      "2019": 0.5,
+      "2020": 0.42,
+      "2021": 0.56,
+      "2022": 0.5,
+      "2023": 0.62,
+      "2024": 0.58,
+      "2025": 0.54,
+      "2026": 0.72
+     },
+     "places_counted": 123,
+     "statement": "The most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of the purely meteorological instruments, on the instruments as published"
+    },
+    "detrended": {
+     "value": 0.64,
+     "rank": 3,
+     "of": 26,
+     "tied_with": [],
+     "series": {
+      "2001": 0.56,
+      "2002": 0.66,
+      "2003": 0.5,
+      "2004": 0.4,
+      "2005": 0.52,
+      "2006": 0.54,
+      "2007": 0.48,
+      "2008": 0.42,
+      "2009": 0.56,
+      "2010": 0.5,
+      "2011": 0.44,
+      "2012": 0.44,
+      "2013": 0.46,
+      "2014": 0.52,
+      "2015": 0.68,
+      "2016": 0.44,
+      "2017": 0.42,
+      "2018": 0.48,
+      "2019": 0.46,
+      "2020": 0.36,
+      "2021": 0.5,
+      "2022": 0.44,
+      "2023": 0.56,
+      "2024": 0.5,
+      "2025": 0.46,
+      "2026": 0.64
+     },
+     "places_counted": 123,
+     "statement": "The 3rd most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of the purely meteorological instruments, on instruments with their linear trend removed"
+    }
+   }
+  },
+  "unassigned_instruments": [
+   "Vegetation, current",
+   "Water satisfaction"
+  ],
+  "buckets_do_not_partition": "crop_outcome and meteorology are named groups, not a partition: Vegetation, current and Water satisfaction belong to neither, being an instantaneous crop state and a modelled water balance. A page claiming the two diverged has to show what went into each.",
+  "qualifiers": [
+   {
+    "kind": "trend_sensitive",
+    "text": "Detrending moves these two figures in opposite directions, so raw and detrended are both emitted and neither stands alone. Temperature worsens almost everywhere and cropland greens, so the raw gap between them is widened by two secular trends rather than by this season alone."
+   },
+   {
+    "kind": "no_theoretical_null",
+    "text": "0.5 is the mean of every place's own series by construction and is not a normal to compare against. Use the observed range across the record, which is what the series carries."
+   },
+   {
+    "kind": "season_incomplete",
+    "text": "The crop outcome instrument is cumulative over the growing cycle, so at this dekad it integrates a season that has not finished. It is a reading of conditions to date and carries no statement about the rest of the season."
+   }
+  ]
+ },
  "dekad": "2026-07-11",
  "baseline": "2001-2025, same dekad of each year",
  "method_short": "FPAR cumulated z-score, ASAP crop mask, growing cycle only",
@@ -317,6 +595,7 @@
     "tied_with": [
      2002
     ],
+    "own_median": 0.448,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -2080,6 +2359,7 @@
     },
     "spread": 0.248,
     "tied_with": [],
+    "own_median": 0.492,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -3328,6 +3608,7 @@
     },
     "spread": 0.229,
     "tied_with": [],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -3919,6 +4200,7 @@
     },
     "spread": 0.168,
     "tied_with": [],
+    "own_median": 0.488,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -5169,6 +5451,7 @@
     },
     "spread": 0.151,
     "tied_with": [],
+    "own_median": 0.504,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -6638,6 +6921,7 @@
     },
     "spread": 0.246,
     "tied_with": [],
+    "own_median": 0.496,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -7521,6 +7805,7 @@
     },
     "spread": 0.257,
     "tied_with": [],
+    "own_median": 0.444,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -8335,6 +8620,7 @@
     },
     "spread": 0.2,
     "tied_with": [],
+    "own_median": 0.524,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -9804,6 +10090,7 @@
     },
     "spread": 0.196,
     "tied_with": [],
+    "own_median": 0.484,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -10247,6 +10534,7 @@
     },
     "spread": 0.226,
     "tied_with": [],
+    "own_median": 0.412,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -12521,6 +12809,7 @@
     },
     "spread": 0.234,
     "tied_with": [],
+    "own_median": 0.476,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -13627,6 +13916,7 @@
     },
     "spread": 0.181,
     "tied_with": [],
+    "own_median": 0.492,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -14222,6 +14512,7 @@
     },
     "spread": 0.202,
     "tied_with": [],
+    "own_median": 0.548,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -15762,6 +16053,7 @@
     },
     "spread": 0.158,
     "tied_with": [],
+    "own_median": 0.492,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -16579,6 +16871,7 @@
     "tied_with": [
      2023
     ],
+    "own_median": 0.44,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -17539,6 +17832,7 @@
     },
     "spread": 0.212,
     "tied_with": [],
+    "own_median": 0.472,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -19519,6 +19813,7 @@
     "tied_with": [
      2013
     ],
+    "own_median": 0.444,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -20990,6 +21285,7 @@
     },
     "spread": 0.192,
     "tied_with": [],
+    "own_median": 0.496,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -21729,6 +22025,7 @@
     },
     "spread": 0.196,
     "tied_with": [],
+    "own_median": 0.516,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -23561,6 +23858,7 @@
     },
     "spread": 0.233,
     "tied_with": [],
+    "own_median": 0.552,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -25028,6 +25326,7 @@
     },
     "spread": 0.187,
     "tied_with": [],
+    "own_median": 0.5,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -26428,6 +26727,7 @@
     "tied_with": [
      2001
     ],
+    "own_median": 0.504,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -27530,6 +27830,7 @@
     },
     "spread": 0.217,
     "tied_with": [],
+    "own_median": 0.492,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -29807,6 +30108,7 @@
      2001,
      2019
     ],
+    "own_median": 0.496,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -31768,6 +32070,7 @@
     },
     "spread": 0.26,
     "tied_with": [],
+    "own_median": 0.5,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -33016,6 +33319,7 @@
     },
     "spread": 0.182,
     "tied_with": [],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -33607,6 +33911,7 @@
     },
     "spread": 0.183,
     "tied_with": [],
+    "own_median": 0.484,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -35733,6 +36038,7 @@
     },
     "spread": 0.185,
     "tied_with": [],
+    "own_median": 0.508,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -37129,6 +37435,7 @@
     },
     "spread": 0.182,
     "tied_with": [],
+    "own_median": 0.512,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -38012,6 +38319,7 @@
     },
     "spread": 0.173,
     "tied_with": [],
+    "own_median": 0.484,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -38532,6 +38840,7 @@
     },
     "spread": 0.19,
     "tied_with": [],
+    "own_median": 0.532,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -39561,6 +39870,7 @@
     },
     "spread": 0.187,
     "tied_with": [],
+    "own_median": 0.456,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -40521,6 +40831,7 @@
     },
     "spread": 0.273,
     "tied_with": [],
+    "own_median": 0.516,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -41331,6 +41642,7 @@
     },
     "spread": 0.23,
     "tied_with": [],
+    "own_median": 0.468,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -42798,6 +43110,7 @@
     },
     "spread": 0.179,
     "tied_with": [],
+    "own_median": 0.468,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -44853,6 +45166,7 @@
     },
     "spread": 0.161,
     "tied_with": [],
+    "own_median": 0.508,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -45594,6 +45908,7 @@
     "tied_with": [
      2004
     ],
+    "own_median": 0.516,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -47062,6 +47377,7 @@
     },
     "spread": 0.245,
     "tied_with": [],
+    "own_median": 0.436,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -48239,6 +48555,7 @@
     "tied_with": [
      2018
     ],
+    "own_median": 0.476,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -50144,6 +50461,7 @@
     },
     "spread": 0.149,
     "tied_with": [],
+    "own_median": 0.452,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -51319,6 +51637,7 @@
     "tied_with": [
      2004
     ],
+    "own_median": 0.492,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -54321,6 +54640,7 @@
     },
     "spread": 0.188,
     "tied_with": [],
+    "own_median": 0.492,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -59221,6 +59541,7 @@
     },
     "spread": 0.166,
     "tied_with": [],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -61858,6 +62179,7 @@
     },
     "spread": 0.196,
     "tied_with": [],
+    "own_median": 0.516,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -63834,6 +64156,7 @@
     },
     "spread": 0.181,
     "tied_with": [],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -64648,6 +64971,7 @@
     },
     "spread": 0.158,
     "tied_with": [],
+    "own_median": 0.472,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -66261,6 +66585,7 @@
     },
     "spread": 0.19,
     "tied_with": [],
+    "own_median": 0.496,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -67148,6 +67473,7 @@
     },
     "spread": 0.186,
     "tied_with": [],
+    "own_median": 0.428,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -67964,6 +68290,7 @@
     "tied_with": [
      2002
     ],
+    "own_median": 0.472,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -68778,6 +69105,7 @@
     },
     "spread": 0.141,
     "tied_with": [],
+    "own_median": 0.52,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -69738,6 +70066,7 @@
     },
     "spread": 0.222,
     "tied_with": [],
+    "own_median": 0.468,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -71280,6 +71609,7 @@
     "tied_with": [
      2018
     ],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -72163,6 +72493,7 @@
     },
     "spread": 0.191,
     "tied_with": [],
+    "own_median": 0.516,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -72975,6 +73306,7 @@
     "tied_with": [
      2002
     ],
+    "own_median": 0.452,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -74077,6 +74409,7 @@
     },
     "spread": 0.216,
     "tied_with": [],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -74820,6 +75153,7 @@
     "tied_with": [
      2006
     ],
+    "own_median": 0.464,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -75849,6 +76183,7 @@
     },
     "spread": 0.16,
     "tied_with": [],
+    "own_median": 0.452,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -76588,6 +76923,7 @@
     },
     "spread": 0.2,
     "tied_with": [],
+    "own_median": 0.484,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -78856,6 +79192,7 @@
     },
     "spread": 0.179,
     "tied_with": [],
+    "own_median": 0.472,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -79382,6 +79719,7 @@
      2002,
      2011
     ],
+    "own_median": 0.492,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -82309,6 +82647,7 @@
     },
     "spread": 0.25,
     "tied_with": [],
+    "own_median": 0.496,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -82973,6 +83312,7 @@
     },
     "spread": 0.183,
     "tied_with": [],
+    "own_median": 0.5,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -83933,6 +84273,7 @@
     },
     "spread": 0.173,
     "tied_with": [],
+    "own_median": 0.508,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -85400,6 +85741,7 @@
     },
     "spread": 0.191,
     "tied_with": [],
+    "own_median": 0.496,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -86283,6 +86625,7 @@
     },
     "spread": 0.206,
     "tied_with": [],
+    "own_median": 0.472,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -87243,6 +87586,7 @@
     },
     "spread": 0.138,
     "tied_with": [],
+    "own_median": 0.512,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -88493,6 +88837,7 @@
     },
     "spread": 0.157,
     "tied_with": [],
+    "own_median": 0.5,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -92156,6 +92501,7 @@
     "tied_with": [
      2011
     ],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -96034,6 +96380,7 @@
     },
     "spread": 0.199,
     "tied_with": [],
+    "own_median": 0.448,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -97283,6 +97630,7 @@
     },
     "spread": 0.149,
     "tied_with": [],
+    "own_median": 0.456,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -98239,6 +98587,7 @@
     },
     "spread": 0.218,
     "tied_with": [],
+    "own_median": 0.52,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -99852,6 +100201,7 @@
     },
     "spread": 0.201,
     "tied_with": [],
+    "own_median": 0.488,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -101025,6 +101375,7 @@
     },
     "spread": 0.223,
     "tied_with": [],
+    "own_median": 0.536,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -106799,6 +107150,7 @@
     "tied_with": [
      2010
     ],
+    "own_median": 0.46,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -108197,6 +108549,7 @@
     },
     "spread": 0.218,
     "tied_with": [],
+    "own_median": 0.476,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -110686,6 +111039,7 @@
     },
     "spread": 0.214,
     "tied_with": [],
+    "own_median": 0.512,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -112524,6 +112878,7 @@
     "tied_with": [
      2001
     ],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -113192,6 +113547,7 @@
     },
     "spread": 0.238,
     "tied_with": [],
+    "own_median": 0.44,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -114732,6 +115088,7 @@
     },
     "spread": 0.196,
     "tied_with": [],
+    "own_median": 0.472,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -115765,6 +116122,7 @@
     },
     "spread": 0.164,
     "tied_with": [],
+    "own_median": 0.5,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -117084,6 +117442,7 @@
     },
     "spread": 0.193,
     "tied_with": [],
+    "own_median": 0.468,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -118044,6 +118403,7 @@
     },
     "spread": 0.228,
     "tied_with": [],
+    "own_median": 0.464,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -118857,6 +119217,7 @@
     "tied_with": [
      2005
     ],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -120178,6 +120539,7 @@
     },
     "spread": 0.191,
     "tied_with": [],
+    "own_median": 0.536,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -120773,6 +121135,7 @@
     },
     "spread": 0.214,
     "tied_with": [],
+    "own_median": 0.516,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -123996,6 +124359,7 @@
     },
     "spread": 0.211,
     "tied_with": [],
+    "own_median": 0.476,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -124883,6 +125247,7 @@
     },
     "spread": 0.173,
     "tied_with": [],
+    "own_median": 0.46,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -125912,6 +126277,7 @@
     "tied_with": [
      2018
     ],
+    "own_median": 0.52,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -131907,6 +132273,7 @@
     "tied_with": [
      2013
     ],
+    "own_median": 0.46,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -134469,6 +134836,7 @@
     },
     "spread": 0.207,
     "tied_with": [],
+    "own_median": 0.444,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -137177,6 +137545,7 @@
     },
     "spread": 0.223,
     "tied_with": [],
+    "own_median": 0.512,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -138133,6 +138502,7 @@
     },
     "spread": 0.221,
     "tied_with": [],
+    "own_median": 0.5,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -139606,6 +139976,7 @@
     "tied_with": [
      2021
     ],
+    "own_median": 0.488,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -141588,6 +141959,7 @@
     },
     "spread": 0.2,
     "tied_with": [],
+    "own_median": 0.452,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -143353,6 +143725,7 @@
     "tied_with": [
      2022
     ],
+    "own_median": 0.464,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -143873,6 +144246,7 @@
     },
     "spread": 0.205,
     "tied_with": [],
+    "own_median": 0.472,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -145705,6 +146079,7 @@
     },
     "spread": 0.216,
     "tied_with": [],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -147322,6 +147697,7 @@
     },
     "spread": 0.197,
     "tied_with": [],
+    "own_median": 0.52,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -148789,6 +149165,7 @@
     },
     "spread": 0.22,
     "tied_with": [],
+    "own_median": 0.468,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -149891,6 +150268,7 @@
     },
     "spread": 0.189,
     "tied_with": [],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -151433,6 +151811,7 @@
     "tied_with": [
      2020
     ],
+    "own_median": 0.508,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -153050,6 +153429,7 @@
     },
     "spread": 0.229,
     "tied_with": [],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -153791,6 +154171,7 @@
     "tied_with": [
      2010
     ],
+    "own_median": 0.476,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -154603,6 +154984,7 @@
     "tied_with": [
      2018
     ],
+    "own_median": 0.448,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -157092,6 +157474,7 @@
     },
     "spread": 0.186,
     "tied_with": [],
+    "own_median": 0.528,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -157465,6 +157848,7 @@
      2003,
      2020
     ],
+    "own_median": 0.468,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -158058,6 +158442,7 @@
     "tied_with": [
      2025
     ],
+    "own_median": 0.468,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -159233,6 +159618,7 @@
     },
     "spread": 0.113,
     "tied_with": [],
+    "own_median": 0.5,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -160483,6 +160869,7 @@
     },
     "spread": 0.2,
     "tied_with": [],
+    "own_median": 0.484,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -166697,6 +167084,7 @@
     },
     "spread": 0.205,
     "tied_with": [],
+    "own_median": 0.472,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -167507,6 +167895,7 @@
     },
     "spread": 0.158,
     "tied_with": [],
+    "own_median": 0.524,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -168250,6 +168639,7 @@
     "tied_with": [
      2012
     ],
+    "own_median": 0.456,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -168918,6 +169308,7 @@
     },
     "spread": 0.19,
     "tied_with": [],
+    "own_median": 0.484,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -169442,6 +169833,7 @@
     "tied_with": [
      2013
     ],
+    "own_median": 0.452,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -170690,6 +171082,7 @@
     },
     "spread": 0.168,
     "tied_with": [],
+    "own_median": 0.452,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -171942,6 +172335,7 @@
     },
     "spread": 0.206,
     "tied_with": [],
+    "own_median": 0.452,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -173119,6 +173513,7 @@
     },
     "spread": 0.221,
     "tied_with": [],
+    "own_median": 0.468,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -174075,6 +174470,7 @@
     },
     "spread": 0.189,
     "tied_with": [],
+    "own_median": 0.48,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -175035,6 +175431,7 @@
     },
     "spread": 0.192,
     "tied_with": [],
+    "own_median": 0.484,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -176141,6 +176538,7 @@
     },
     "spread": 0.214,
     "tied_with": [],
+    "own_median": 0.468,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -179360,6 +179758,7 @@
     },
     "spread": 0.182,
     "tied_with": [],
+    "own_median": 0.484,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -180243,6 +180642,7 @@
     },
     "spread": 0.179,
     "tied_with": [],
+    "own_median": 0.484,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",
@@ -182446,6 +182846,7 @@
     "tied_with": [
      2001
     ],
+    "own_median": 0.436,
     "instruments_used": [
      "Rainfall, 3-month",
      "Temperature",

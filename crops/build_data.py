@@ -32,6 +32,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy import stats
 
 HERE = Path(__file__).resolve().parent
 CACHE = HERE / ".cache" / "asap_indicator"
@@ -209,6 +210,15 @@ def severity_block(oriented: dict, cur_year: int) -> dict:
         "series": means,
         "spread": spread,
         "tied_with": tied,
+        # The place's OWN median, emitted rather than left to be looked
+        # up. Three times in one day someone reached for a fixed 0.5
+        # instead: 0.5 is the mean of every place's series BY
+        # CONSTRUCTION, so it is a property of the method and not of
+        # the place, and quoting it invites reading 0.584 as "17% above
+        # normal" when the observed range here is 0.392 to 0.640. A
+        # stated constant is easier to reach for than a per-place
+        # lookup, so the fix is the field, not more care.
+        "own_median": round(float(np.median(list(means.values()))), 3),
         "instruments_used": sorted(oriented),
         "instruments_possible": len(INSTRUMENTS),
         "statement": (f"{lead} of {of} observations for this point in "
@@ -247,6 +257,183 @@ def severity_block(oriented: dict, cur_year: int) -> dict:
     }
 
 
+# The two named buckets the divergence claim is made between. They do
+# NOT partition the five: "Vegetation, current" and "Water
+# satisfaction" sit in neither, being an instantaneous crop state and a
+# modelled water balance rather than either a season-cumulative crop
+# outcome or pure meteorology. Emitted by name, and the leftovers
+# emitted too, because a page asserting that two things diverged is
+# unverifiable if the reader cannot see what was put in each.
+BUCKETS = {
+    "crop_outcome": ["Vegetation, cumulative"],
+    "meteorology": ["Rainfall, 3-month", "Temperature"],
+}
+
+
+def _detrend(ser: pd.Series) -> pd.Series:
+    """Least-squares linear trend removed, keeping the index.
+
+    Not optional here. Temperature worsens in 67 of the 123 reported
+    places and improves in NONE, so a percentile against a place's own
+    history puts recent years high by construction. Trap 16.
+    """
+    x = np.asarray(sorted(ser.index), dtype=float)
+    y = np.asarray([ser.loc[i] for i in sorted(ser.index)], dtype=float)
+    slope, intercept, *_ = stats.linregress(x, y)
+    return pd.Series(y - (slope * x + intercept),
+                     index=[int(v) for v in x])
+
+
+def _percentiles(oriented: dict) -> dict:
+    """Per-year mean percentile over whatever instruments are passed.
+    Same construction as severity_block, called from one place so the
+    global figures and the per-place ones cannot drift apart.
+    """
+    years = sorted(set.intersection(*[set(s.index) for s in oriented.values()]))
+    out = {}
+    for y in years:
+        pos = []
+        for s in oriented.values():
+            others = s.drop(index=y)
+            pos.append(int((others < s.loc[y]).sum()) / (len(s) - 1))
+        out[int(y)] = round(float(np.mean(pos)), 3)
+    return out
+
+
+def _global_bucket(per_place: list, names: list, cur_year: int,
+                   label: str) -> dict:
+    """Median across places of the mean percentile over `names`, per
+    year, raw and detrended.
+
+    BOTH forms are emitted, never one. Detrending moves the two headline
+    figures in OPPOSITE directions and by different amounts, so either
+    alone is a different claim about the world:
+
+      meteorology    rank  1 of 26 raw  ->  rank 3 of 26 detrended
+      crop outcome   rank 20 of 26 raw  ->  rank 8 of 26 detrended
+
+    Raw says the weather is unprecedented and the crops are better than
+    typical. Detrended says the weather is high and the crops are
+    mildly bad. Both are true statements about different questions:
+    raw is what a season actually delivered, detrended is that season
+    against the trend it sits on. Emitting one would let a page pick
+    the answer without the reader seeing there was a choice.
+    """
+    out = {"instruments": list(names), "label": label}
+    for mode in ("raw", "detrended"):
+        per_year = {}
+        for oriented in per_place:
+            use = {k: v for k, v in oriented.items() if k in names}
+            if len(use) != len(names):
+                continue
+            if mode == "detrended":
+                use = {k: _detrend(v) for k, v in use.items()}
+            for y, v in _percentiles(use).items():
+                per_year.setdefault(y, []).append(v)
+        if not per_year:
+            continue
+        med = {y: round(float(np.median(v)), 3)
+               for y, v in sorted(per_year.items())}
+        cur = med.get(cur_year)
+        if cur is None:
+            continue
+        prior = [v for y, v in med.items() if y != cur_year]
+        rank = sum(1 for v in prior if v > cur) + 1
+        of = len(prior) + 1
+        tied = sorted(y for y, v in med.items()
+                      if y != cur_year and v == cur)
+        lead = ("most stressed" if rank == 1
+                else f"{_ordinal(rank)} most stressed")
+        lead = f"The {'joint ' if tied else ''}{lead}"
+        out[mode] = {
+            "value": cur,
+            "rank": rank,
+            "of": of,
+            "tied_with": tied,
+            "series": med,
+            "places_counted": len(per_year[cur_year]),
+            "statement": (
+                f"{lead} of {of} observations for this point in the "
+                f"season, {BASE_FIRST}-{cur_year}, taken as the median "
+                f"across {len(per_year[cur_year])} places of "
+                f"{label.lower()}"
+                + (", " + ("on instruments with their linear trend "
+                           "removed" if mode == "detrended"
+                           else "on the instruments as published"))
+                + (f", level with {_year_list(tied)}" if tied else "")),
+        }
+    return out
+
+
+def build_global(per_place: list, cur_year: int) -> dict:
+    """The page-level frame: how the typical place is doing, and the
+    split the divergence claim is made across.
+
+    The median across places is a legitimate aggregate and the proof is
+    structural rather than empirical: each instrument's leave-one-out
+    percentiles across the record are a permutation of {0/25 ... 25/25},
+    so every place's own series averages exactly 0.5. Co-movement
+    between a place's instruments sets the SPREAD of its values and
+    never their centre, so it cannot tilt any single year's median.
+    """
+    assigned = {n for names in BUCKETS.values() for n in names}
+    # Whatever every place actually carries, rather than the full
+    # INSTRUMENTS list: soil moisture publishes a dekad behind and is
+    # absent from all 123 today, and a bucket must be built from what
+    # is present or its member list describes a different number.
+    common = sorted(set.intersection(*[set(o) for o in per_place]))
+    buckets = {
+        "all_five": _global_bucket(per_place, common, cur_year,
+                                   "all five instruments read together"),
+    }
+    for key, names in BUCKETS.items():
+        buckets[key] = _global_bucket(
+            per_place, names, cur_year,
+            "the season-cumulative crop outcome" if key == "crop_outcome"
+            else "the purely meteorological instruments")
+
+    leftover = sorted(set(common) - assigned)
+    return {
+        "measures": "median across reported places of each place's own "
+                    "percentile position, per year, at this dekad",
+        "buckets": buckets,
+        "unassigned_instruments": leftover,
+        "buckets_do_not_partition": (
+            "crop_outcome and meteorology are named groups, not a "
+            f"partition: {_year_list(leftover)} belong to neither, "
+            "being an instantaneous crop state and a modelled water "
+            "balance. A page claiming the two diverged has to show "
+            "what went into each."),
+        "qualifiers": [
+            {
+                "kind": "trend_sensitive",
+                "text": "Detrending moves these two figures in opposite "
+                        "directions, so raw and detrended are both "
+                        "emitted and neither stands alone. Temperature "
+                        "worsens almost everywhere and cropland greens, "
+                        "so the raw gap between them is widened by two "
+                        "secular trends rather than by this season "
+                        "alone.",
+            },
+            {
+                "kind": "no_theoretical_null",
+                "text": "0.5 is the mean of every place's own series by "
+                        "construction and is not a normal to compare "
+                        "against. Use the observed range across the "
+                        "record, which is what the series carries.",
+            },
+            {
+                "kind": "season_incomplete",
+                "text": "The crop outcome instrument is cumulative over "
+                        "the growing cycle, so at this dekad it "
+                        "integrates a season that has not finished. It "
+                        "is a reading of conditions to date and carries "
+                        "no statement about the rest of the season.",
+            },
+        ],
+    }
+
+
 SEASON_STARTS = json.loads(
     (HERE / "season_starts.json").read_text(encoding="utf-8")
 )["starts"] if (HERE / "season_starts.json").exists() else {}
@@ -255,6 +442,11 @@ SEASON_STARTS = json.loads(
 def build_stress(catalogue: dict) -> dict:
     places, skipped = [], []
     latest_dekad = None
+    # Every reported place's oriented instrument series, kept so the
+    # global block is computed from the SAME series the per-place
+    # blocks use. Recomputing it elsewhere is what lost the tie
+    # convention and the scope three times in one day.
+    per_place_oriented = []
 
     for cid, name in catalogue.items():
         base = load("zfparc", cid)
@@ -683,6 +875,8 @@ def build_stress(catalogue: dict) -> dict:
             "next_season_opens_dekad": next_open,
             "qualifiers": quals,
         })
+        if oriented:
+            per_place_oriented.append(oriented)
 
     places.sort(key=lambda p: (p["magnitude"]["value"],
                                -p["magnitude"]["of"]))
@@ -745,6 +939,9 @@ def build_stress(catalogue: dict) -> dict:
                                          "indicator for this country",
         },
         "chance_baseline_aggregate": aggregate,
+        "global": build_global(per_place_oriented,
+                               int(latest_dekad[:4])) if per_place_oriented
+                  else None,
         "dekad": latest_dekad,
         "baseline": f"{BASE_FIRST}-{BASE_LAST}, same dekad of each year",
         # Two forms, because the footer has a length budget and a
