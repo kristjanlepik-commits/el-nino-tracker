@@ -972,6 +972,64 @@ magnitude below the threshold, so it is investigated and dismissed as
 sign instability near zero rather than resolved by preference. Recorded
 because 1b-i said it would be.
 
+### 5i-i. Pre-registered EXTENSION test: is Phoenix singular?
+
+Registered 2026-08-05 **before running**, and it is a second test rather
+than a revision of the first.
+
+**The original 11-city result stands as GREY and is not reopened.**
+Adding cities after seeing that one city drives the verdict is a forking
+path, and the fact that the additions are free makes it more tempting
+rather than more legitimate. What follows is a new question that arose
+from the result, which is allowed; retro-fitting the original test, which
+is not.
+
+**The question.** Phoenix is the only city showing detectable
+contamination. Is that because it is the fastest-growing city in the set,
+in which case other fast-growing cities should show a weaker version of
+the same, or is it idiosyncratic?
+
+**City list, frozen here.** All lie inside the already-pulled US box with
+1.6 degrees of ring clearance, so the extension costs no CDS.
+
+Growth: Austin, Atlanta, Charlotte, Nashville, Raleigh, Denver,
+Oklahoma City.
+Flat or shrinking: Pittsburgh, St Louis, Milwaukee, Cincinnati, Toledo,
+Rochester, Birmingham AL.
+
+**Method identical to 1b-i**, unchanged: same ring, same estimator, same
+seasons, same D-067 thresholds, same power gate.
+
+**Pre-registered expectation, stated before running.** If Phoenix
+represents a general urban-growth signal, the seven added growth cities
+should show a positive mean trend relative to the added flat ones, and
+the combined 25-city difference should stay at or above the original
++0.0251. If Phoenix is idiosyncratic, the added cities will show no
+group separation and the combined difference will fall toward clean
+while Phoenix remains an outlier.
+
+**Both outcomes are reportable and neither rescues anything.** A general
+signal strengthens GREY toward contaminated. An idiosyncratic Phoenix
+does **not** overturn GREY, because the original test is not reopened; it
+localises the problem to one city, which is more useful operationally.
+
+### 5i-ii. Two sensitivity analyses, also not revisions
+
+Run alongside and reported beside the pre-registered result, never in
+place of it.
+
+1. **Elevation-and-coast-screened ring.** Gate 0 showed city-minus-ring
+   level is dominated by terrain (5h). Restricting the ring to cells
+   within a bounded elevation difference should cut the variance and may
+   resolve Munich and Naples, which currently fail on power rather than
+   on substance. Orography for both boxes is now on disk.
+2. **GHSL-screened ring**, as promised to product. The unscreened ring
+   biases every result toward clean, so this converts "at least this
+   much contamination" into a bounded number.
+
+Neither may change the headline verdict. Both may change what the
+contamination field carries.
+
 ## 5h. Gate 0 returned PASS and the result is not usable. The instrument was mine.
 
 Run 2026-08-04 on the five EU cities, 96 chunks, 77 years.
