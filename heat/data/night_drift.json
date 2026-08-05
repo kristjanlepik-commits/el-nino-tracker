@@ -2,7 +2,8 @@
   "_readme": "How far the normal night-time temperature has moved, per region, between two closed 30-year periods. This is a BASELINE SHIFT. It is not a current anomaly and it does not rank any recent month. Do not add these numbers to an ERA5 anomaly to produce a counterfactual; that would be arithmetic across sources and is Combined under D-033, not Measured.",
   "channel": "heat",
   "evidence_basis": "Measured",
-  "attribution": "not assessed",
+  "attribution": "Not ENSO-linked",
+  "attribution_note": "Editor's ruling 2026-08-05. The tag is STRUCTURAL, not empirical: it asserts that no established pathway connects this kind of claim to ENSO, not that an attribution study was run and returned negative. Unusually firm here, because ENSO is a 2-7 year oscillation and therefore cannot produce a 60-year shift in a normal; it averages out over the window by construction. A timescale argument rather than absence of evidence.",
   "variable": "monthly mean of daily minimum temperature (night minima)",
   "baseline": {
     "early": "1961-1990",
@@ -58,8 +59,24 @@
         "margin_over_spread": 9.0,
         "sign_stable_across_variants": true
       },
-      "rhetorical_weight": "assert",
-      "rhetorical_weight_note": "Margin over box-choice spread is at least 3x. May be asserted plainly.",
+      "drift_weight": {
+        "verdict": "assert",
+        "margin_over_spread": 31.2,
+        "qualifies": "july_night_drift_c",
+        "rank_in_set": "2 of 4",
+        "weakest_in_set": false,
+        "times_weaker_than_strongest": 1.2,
+        "note": "Clears the 3x bar and may be asserted plainly."
+      },
+      "contrast_weight": {
+        "verdict": "assert",
+        "margin_over_spread": 9.0,
+        "qualifies": "contrast_c",
+        "rank_in_set": "4 of 4",
+        "weakest_in_set": false,
+        "times_weaker_than_strongest": 1.0,
+        "note": "Clears the 3x bar and may be asserted plainly."
+      },
       "robustness_alternative_baseline": {
         "pair": "1951-1980 against 1991-2020",
         "july_drift_c": 1.222,
@@ -96,8 +113,24 @@
         "margin_over_spread": 6.0,
         "sign_stable_across_variants": true
       },
-      "rhetorical_weight": "assert",
-      "rhetorical_weight_note": "Margin over box-choice spread is at least 3x. May be asserted plainly.",
+      "drift_weight": {
+        "verdict": "assert",
+        "margin_over_spread": 37.2,
+        "qualifies": "july_night_drift_c",
+        "rank_in_set": "4 of 4",
+        "weakest_in_set": false,
+        "times_weaker_than_strongest": 1.0,
+        "note": "Clears the 3x bar and may be asserted plainly."
+      },
+      "contrast_weight": {
+        "verdict": "assert",
+        "margin_over_spread": 6.0,
+        "qualifies": "contrast_c",
+        "rank_in_set": "2 of 4",
+        "weakest_in_set": false,
+        "times_weaker_than_strongest": 1.5,
+        "note": "Clears the 3x bar and may be asserted plainly."
+      },
       "robustness_alternative_baseline": {
         "pair": "1951-1980 against 1991-2020",
         "july_drift_c": 1.477,
@@ -134,8 +167,24 @@
         "margin_over_spread": 1.6,
         "sign_stable_across_variants": true
       },
-      "rhetorical_weight": "state_with_margin",
-      "rhetorical_weight_note": "Margin over box-choice spread is below 3x. This region clears the pre-registered bar and is the thinnest claim in the set. State it with its margin attached; do not give it the same weight as the regions above. Product's ruling, 2026-08-04.",
+      "drift_weight": {
+        "verdict": "assert",
+        "margin_over_spread": 4.5,
+        "qualifies": "july_night_drift_c",
+        "rank_in_set": "1 of 4",
+        "weakest_in_set": true,
+        "times_weaker_than_strongest": 8.3,
+        "note": "Clears the 3x bar and may be asserted plainly. WEAKEST IN THE SET: 8.3x weaker than the strongest figure beside it. A page that renders it identically to its neighbours asserts a confidence it does not have."
+      },
+      "contrast_weight": {
+        "verdict": "state_with_margin",
+        "margin_over_spread": 1.6,
+        "qualifies": "contrast_c",
+        "rank_in_set": "1 of 4",
+        "weakest_in_set": true,
+        "times_weaker_than_strongest": 5.6,
+        "note": "Below the 3x bar. Clears no absolute test; state with the margin attached. WEAKEST IN THE SET: 5.6x weaker than the strongest figure beside it. A page that renders it identically to its neighbours asserts a confidence it does not have."
+      },
       "robustness_alternative_baseline": {
         "pair": "1951-1980 against 1991-2020",
         "july_drift_c": 0.494,
@@ -172,8 +221,24 @@
         "margin_over_spread": 7.2,
         "sign_stable_across_variants": true
       },
-      "rhetorical_weight": "assert",
-      "rhetorical_weight_note": "Margin over box-choice spread is at least 3x. May be asserted plainly.",
+      "drift_weight": {
+        "verdict": "assert",
+        "margin_over_spread": 31.2,
+        "qualifies": "july_night_drift_c",
+        "rank_in_set": "3 of 4",
+        "weakest_in_set": false,
+        "times_weaker_than_strongest": 1.2,
+        "note": "Clears the 3x bar and may be asserted plainly."
+      },
+      "contrast_weight": {
+        "verdict": "assert",
+        "margin_over_spread": 7.2,
+        "qualifies": "contrast_c",
+        "rank_in_set": "3 of 4",
+        "weakest_in_set": false,
+        "times_weaker_than_strongest": 1.2,
+        "note": "Clears the 3x bar and may be asserted plainly."
+      },
       "robustness_alternative_baseline": {
         "pair": "1951-1980 against 1991-2020",
         "july_drift_c": 1.134,

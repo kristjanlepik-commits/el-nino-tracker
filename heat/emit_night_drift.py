@@ -42,8 +42,20 @@ DISPLAY = {
 }
 
 # Product's ruling, 2026-08-04. Strong regions are asserted; the thin one is
-# stated more carefully with its margin attached. Threshold is the margin of
-# the contrast over the spread box choice induces in it.
+# stated more carefully with its margin attached.
+#
+# TWO WEIGHTS, NOT ONE, because the page carries a margin on each quantity and
+# a single field cannot say which it qualifies. Design asked for this and was
+# right: `rhetorical_weight` alone was ambiguous once the lead changed from the
+# contrast to the drift.
+#
+# ABSOLUTE BAR AND RELATIVE RANK, both emitted, because they answer different
+# questions and design cannot reconstruct either from the other. The absolute
+# bar asks "is this robust enough to state plainly"; the US Southwest drift at
+# 4.5x clears it and genuinely is. The relative rank asks "is it as robust as
+# the figures beside it"; at 4.5x against 31-37x it is not, and product's own
+# reasoning for the band was relative: a page that renders two figures
+# identically asserts a confidence one has and the other does not.
 STRONG_MARGIN = 3.0
 
 
@@ -75,6 +87,10 @@ def main() -> int:
         con_spread = max(con_cuts) - min(con_cuts)
         margin = abs(contrast) / con_spread if con_spread else float("inf")
         strong = margin >= STRONG_MARGIN
+
+        jul_spread = max(jul_cuts) - min(jul_cuts)
+        jul_margin = abs(jul) / jul_spread if jul_spread else float("inf")
+        jul_strong = jul_margin >= STRONG_MARGIN
 
         regions[name] = {
             "display_name": DISPLAY[name],
@@ -111,16 +127,16 @@ def main() -> int:
                 "margin_over_spread": round(margin, 1),
                 "sign_stable_across_variants": True,
             },
-            "rhetorical_weight": "assert" if strong else "state_with_margin",
-            "rhetorical_weight_note":
-                ("Margin over box-choice spread is at least "
-                 f"{STRONG_MARGIN:.0f}x. May be asserted plainly."
-                 if strong else
-                 "Margin over box-choice spread is below "
-                 f"{STRONG_MARGIN:.0f}x. This region clears the pre-registered "
-                 "bar and is the thinnest claim in the set. State it with its "
-                 "margin attached; do not give it the same weight as the "
-                 "regions above. Product's ruling, 2026-08-04."),
+            "drift_weight": {
+                "verdict": "assert" if jul_strong else "state_with_margin",
+                "margin_over_spread": round(jul_margin, 1),
+                "qualifies": "july_night_drift_c",
+            },
+            "contrast_weight": {
+                "verdict": "assert" if strong else "state_with_margin",
+                "margin_over_spread": round(margin, 1),
+                "qualifies": "contrast_c",
+            },
             "robustness_alternative_baseline": {
                 "pair": "1951-1980 against 1991-2020",
                 "july_drift_c": round(j2, 3),
@@ -133,6 +149,29 @@ def main() -> int:
             },
         }
 
+    # RELATIVE rank, added after the loop because it is a property of the SET
+    # rather than of a region. Absolute verdict and relative rank answer
+    # different questions and neither can be reconstructed from the other.
+    for key in ("drift_weight", "contrast_weight"):
+        order = sorted(regions, key=lambda n: regions[n][key]["margin_over_spread"])
+        for pos, name in enumerate(order, start=1):
+            w = regions[name][key]
+            w["rank_in_set"] = f"{pos} of {len(order)}"
+            w["weakest_in_set"] = (pos == 1)
+            top = regions[order[-1]][key]["margin_over_spread"]
+            w["times_weaker_than_strongest"] = round(top / w["margin_over_spread"], 1)
+            w["note"] = (
+                "Clears the {0:.0f}x bar and may be asserted plainly.".format(STRONG_MARGIN)
+                if w["verdict"] == "assert" else
+                "Below the {0:.0f}x bar. Clears no absolute test; state with the "
+                "margin attached.".format(STRONG_MARGIN)
+            ) + (
+                " WEAKEST IN THE SET: {0}x weaker than the strongest figure beside "
+                "it. A page that renders it identically to its neighbours asserts "
+                "a confidence it does not have.".format(w["times_weaker_than_strongest"])
+                if w["weakest_in_set"] else ""
+            )
+
     payload = {
         "_readme":
             "How far the normal night-time temperature has moved, per region, "
@@ -143,7 +182,15 @@ def main() -> int:
             "Combined under D-033, not Measured.",
         "channel": "heat",
         "evidence_basis": "Measured",
-        "attribution": "not assessed",
+        "attribution": "Not ENSO-linked",
+        "attribution_note":
+            "Editor's ruling 2026-08-05. The tag is STRUCTURAL, not empirical: "
+            "it asserts that no established pathway connects this kind of claim "
+            "to ENSO, not that an attribution study was run and returned "
+            "negative. Unusually firm here, because ENSO is a 2-7 year "
+            "oscillation and therefore cannot produce a 60-year shift in a "
+            "normal; it averages out over the window by construction. A "
+            "timescale argument rather than absence of evidence.",
         "variable": "monthly mean of daily minimum temperature (night minima)",
         "baseline": {
             "early": "1961-1990", "current": "1991-2020",
@@ -183,8 +230,11 @@ def main() -> int:
     for k, v in regions.items():
         print(f"  {k:16s} july {v['july_night_drift_c']['value']:+.3f}  "
               f"contrast {v['contrast_c']['value']:+.3f}  "
-              f"margin {v['contrast_c']['margin_over_spread']:.1f}x  "
-              f"-> {v['rhetorical_weight']}")
+              f"drift {v['drift_weight']['margin_over_spread']:.1f}x "
+              f"{v['drift_weight']['verdict']:17s} "
+              f"contrast {v['contrast_weight']['margin_over_spread']:.1f}x "
+              f"{v['contrast_weight']['verdict']}"
+              + ("  <-- weakest" if v['drift_weight']['weakest_in_set'] else ""))
     return 0
 
 
