@@ -1061,6 +1061,43 @@ stays and the contamination is the content. Recorded because Heat quoted
 those diagnostics repeatedly without labelling them, which reads as a
 case for exclusion and was not one.
 
+### 5i-v. Pre-registered CLUSTERING test: is the separation measuring water proximity?
+
+Registered 2026-08-05 before running, on product's escalation. Their
+framing, adopted: if a systematic water influence on the rings drives the
+flat group's negative trend, **the test is separating water proximity
+rather than population trajectory, and the grey verdict is a geography
+artifact rather than a contamination measurement.** That would not be a
+caveat on the result; it would mean every downstream use of it is wrong.
+
+**Disclosure, and it matters here.** Unlike the earlier pre-registrations,
+the inputs are ALREADY PUBLISHED: every per-city trend is recorded in
+5i and 5i-iii. So a partial answer is computable from the record by
+anyone, including Heat, before the rule is written. The rule is fixed
+here anyway, because the alternative is choosing a cut after seeing which
+one helps, but it does not carry the same protection as a rule fixed
+before the data existed and should not be presented as though it does.
+
+**The cut, fixed now.** Water-adjacent means within roughly 50 km of a
+Great Lake or open sea. Applied to the flat group:
+
+- water-adjacent: Buffalo, Cleveland, Detroit, Milwaukee, Rochester,
+  Toledo, Liverpool, Naples
+- inland: St Louis, Pittsburgh, Cincinnati, Birmingham, Leipzig
+
+**The decision rule.**
+
+- If growth minus **inland-only** flat still exceeds the clean threshold
+  of 0.01, water proximity is not driving the separation and GREY stands
+  as a contamination measurement.
+- If it falls below 0.01, the separation is substantially a water
+  artifact, and the verdict must be withdrawn as a contamination claim
+  regardless of what it says about cities.
+- Growth minus water-adjacent flat is reported alongside for contrast,
+  not as the test.
+
+**Powered cities only**, as in the parent test. No other parameter moves.
+
 ### 5i-iv. Two caveats on the generality claim
 
 **The separation is carried by the flat group.** Growth averages +0.0041,
