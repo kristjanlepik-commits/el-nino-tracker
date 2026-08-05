@@ -371,10 +371,28 @@ def main():
         multiple = count / mean
         rank = 1 + sum(1 for v in h["hist"].values() if v > count)
         lat, lon, basis = centroid(df, rings[iso])
-        daily = (df.groupby("acq_date").size().to_dict() if len(df) else {})
+        # EVERY day of the window, zeros written explicitly.
+        #
+        # groupby emits a row only for dates that HAVE detections, so a
+        # day on which a country did not burn was simply absent. The
+        # country page then charted six bars for a seven-day window and
+        # captioned it "5 of 6 days", and Kristjan spotted the missing
+        # 4 August on Greece.
+        #
+        # The miscount is the smaller half. A zero day is not a missing
+        # day, it is a country whose fires STOPPED, and omitting it hides
+        # exactly the die-down the page exists to show: Greece went to
+        # zero on 4 August and the chart ended on a modest bar on the
+        # 3rd instead. Same shape as the archive gap and the day cache,
+        # where absence and zero were rendered indistinguishable.
+        seen = (df.groupby("acq_date").size().to_dict() if len(df) else {})
+        daily = {}
+        for k in range(window_days):
+            day = (start + timedelta(days=k)).isoformat()
+            daily[day] = int(seen.get(day, 0))
         detail[iso] = {"iso": iso, "name": h["name"], "count": count,
                        "mean": h["mean"], "hist": h["hist"],
-                       "daily": {k: int(v) for k, v in sorted(daily.items())},
+                       "daily": daily,
                        "lat": lat, "lon": lon, "basis": basis}
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
