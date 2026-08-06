@@ -618,8 +618,41 @@ def main():
         # rows were built from the pre-degradation numbers, so rebuild
         rows = rebuild_rows(detail, end)
 
+    def strength(r):
+        """Verdict to branch on, components to print.
+
+        Design's shape, copied from heat's drift_weight rather than
+        invented: the LIST alone forces the renderer to write
+        `qualifies_on == ["multiple"]`, which puts this channel's gate
+        rule in design's code. It agrees today and drifts silently the
+        first time the gate changes, because the comparison keeps
+        evaluating and keeps returning something. The VERDICT alone is
+        safe and says nothing, and the page needs to state WHY those
+        countries sit below the line rather than assert it.
+
+        multiple_only is the weak case: above twice its own average, but
+        inside the ordinary variation of its own record, so the multiple
+        is the only measure calling it unusual. Not "one signal":
+        Venezuela clears one and it is a fourteen-year record.
+        """
+        sig = signals(r)
+        if not sig:
+            verdict = "none"
+        elif sig == ["multiple"]:
+            verdict = "multiple_only"
+        elif sig == ["z"]:
+            verdict = "z_only"
+        elif sig == ["record"]:
+            verdict = "record_only"
+        else:
+            verdict = "corroborated"
+        return {"verdict": verdict, "signals": sig,
+                "z": r["z"], "multiple": r["multiple"],
+                "rank_in_record": r["rank_n"]}
+
     for r in rows:
         r["qualifies_on"] = signals(r)
+        r["strength"] = strength(r)
     eligible = [r for r in rows if qualifies(r)]
     eligible.sort(key=lambda r: -r["multiple"])
     eligible = eligible[:MAX_MARKERS]
@@ -696,6 +729,7 @@ def main():
             "attribution": r["attribution"],
             "anomalous": r["anomalous"],
             "qualifies_on": r.get("qualifies_on", []),
+            "strength": r.get("strength"),
             "pinned": r["pinned"],
             "volume_context": r["volume_context"],
             "multiple_unstable": r["multiple_unstable"],
@@ -719,6 +753,7 @@ def main():
             "rank": r["rank"], "attribution": r["attribution"],
             "anomalous": r["anomalous"],
             "qualifies_on": r.get("qualifies_on", []),
+            "strength": r.get("strength"),
             "pinned": r["pinned"],
             "volume_context": r["volume_context"],
             "multiple_unstable": r["multiple_unstable"],

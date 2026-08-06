@@ -619,6 +619,15 @@ DECLARED_UNUSED = {
     # a fortnight, the split did not happen and the page is still ordered
     # by its own weakest measure.
     "qualifies_on": "emitted for design's list split; renderer lands separately",
+    # Same expiry as qualifies_on, and the same fortnight. Design asked
+    # for BOTH shapes rather than either: the list alone forces them to
+    # write `qualifies_on == ["multiple"]` in the renderer, which puts
+    # this channel's gate rule in their code, where it agrees today and
+    # drifts silently the first time the gate moves. The verdict alone is
+    # safe and says nothing, and the page has to state WHY those four sit
+    # below the line rather than assert it. Shape copied from heat's
+    # drift_weight: verdict to branch on, components to print.
+    "strength": "verdict plus components for design's split; renderer lands separately",
 }
 
 # Channel JSON, and the renderers that consume it. A field present in
