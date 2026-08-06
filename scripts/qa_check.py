@@ -600,6 +600,25 @@ DECLARED_UNUSED = {
     # If a page ever wants to rank or sort by how unusual a week is
     # rather than by ratio, this is the field to use. Revisit then.
     "z": "gate input and downstream join key; wrong register for readers",
+    # Fire chat, 2026-08-06. Emitted AHEAD of its consumer, deliberately
+    # and with design's agreement, so they do not re-derive the gate in
+    # the renderer. Two copies of a threshold drift.
+    #
+    # Design found the fires index orders by the multiple while the
+    # multiple disagrees with both z and rank-on-record: mean shift 3.6
+    # places, where rank and z agree to 1.3. Portugal renders fifth at
+    # 2.3x with z = 0.81, inside one standard deviation of its own
+    # normal, seven rows above Saudi Arabia at 1.5x with z = 4.3.
+    #
+    # The fix is to split the list where the multiple is the ONLY signal
+    # supporting a country, which is a property of the gate rather than a
+    # threshold design would maintain separately. qualifies_on carries
+    # that. Design renders the split; this is the field it renders from.
+    #
+    # REMOVE THIS ENTRY once build_page reads it. If it is still here in
+    # a fortnight, the split did not happen and the page is still ordered
+    # by its own weakest measure.
+    "qualifies_on": "emitted for design's list split; renderer lands separately",
 }
 
 # Channel JSON, and the renderers that consume it. A field present in
