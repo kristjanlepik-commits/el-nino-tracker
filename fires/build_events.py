@@ -395,6 +395,10 @@ def main():
     key = open(KEY_PATH).read().strip()
     hist_doc = json.load(open(HISTORY))
     window_days = 7
+    # The years a complete baseline WOULD span. Compared against what
+    # each country's hist actually holds, so a consumer can see 13 of 14
+    # rather than inferring a 13-year record.
+    YEARS_EXPECTED = list(range(2012, datetime.now(timezone.utc).year))
     now_utc = datetime.now(timezone.utc)
 
     # Yesterday is only guaranteed closed once NRT processing has caught
@@ -467,6 +471,29 @@ def main():
         detail[iso] = {"iso": iso, "name": h["name"], "count": count,
                        "mean": h["mean"], "hist": h["hist"],
                        "daily": daily,
+                       # EXPECTED slot counts, carried ON the series.
+                       #
+                       # A consumer cannot otherwise tell a GAP from an
+                       # END: five values in a seven-day week and five in
+                       # a five-day week are the same payload, and a
+                       # renderer resolves the ambiguity by stretching
+                       # five to fill the frame, which turns "a day is
+                       # missing" into "this is what the week looked
+                       # like".
+                       #
+                       # We already say this at document level in
+                       # `degraded`, which is not enough: D-051, a
+                       # qualifier is a property of the number and has to
+                       # survive the number being quoted alone. A chart
+                       # handed `daily` and nothing else must still know
+                       # a day is absent.
+                       #
+                       # hist_expected is 14 while the delivered dict is
+                       # often 13, because 2022 has no archive over most
+                       # windows. That difference is the point: 13 of 14
+                       # is a fact about the record, not a shorter record.
+                       "daily_expected": window_days,
+                       "hist_expected": len(YEARS_EXPECTED),
                        "lat": lat, "lon": lon, "basis": basis}
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
