@@ -519,6 +519,19 @@ def main():
     # check is: one country can legitimately read zero, ninety-four
     # cannot collapse together. Measured against the window's own median
     # so it holds in any season.
+    # The baseline dropped these calendar days from every prior year
+    # because the archive is defective on them in at least one year. The
+    # current window must drop the same days or the two sides stop being
+    # like-for-like, which is the whole point of the exclusion.
+    defective_md = set(hist_doc.get("days_excluded_defective") or [])
+    if defective_md:
+        print(f"  matching the baseline's dropped days: "
+              f"{', '.join(sorted(defective_md))}", file=sys.stderr)
+        for r in detail.values():
+            r["daily"] = {k: v for k, v in r["daily"].items()
+                          if k[5:] not in defective_md}
+            r["count"] = sum(r["daily"].values())
+
     day_totals = {}
     for r in detail.values():
         for day, v in (r.get("daily") or {}).items():

@@ -250,6 +250,22 @@ def window_from_cache(iso, start, end):
     unfetched, and summing it as zero would undercount the baseline and
     inflate every multiple computed against it.
     """
+    # DROP defective calendar days from EVERY year, rather than
+    # reporting them missing.
+    #
+    # Reporting them missing broke the daily refresh on 2026-08-05: the
+    # window 07-30..08-05 contains 2021-08-04, which is in the register,
+    # so every country reported an unfetchable gap, every country was
+    # dropped, the 80% floor refused to write, and the site quietly
+    # republished the previous window. Silent, plausible, and mine.
+    #
+    # A defective date is not fetchable and not a zero, so the only
+    # honest treatment is to remove that calendar day from BOTH sides,
+    # exactly as build_events removes a live incomplete day. Five days
+    # against the same five days of each prior year stays like-for-like.
+    drop_md = {(d.month, d.day) for y in YEARS
+               for d in window_dates(start, end, y) or []
+               if d and d.isoformat() in DEFECTIVE}
     cache = load_cache(iso)
     # Trust the marker only where it is consistent with the file.
     #
@@ -275,6 +291,8 @@ def window_from_cache(iso, start, end):
         total = 0
         for i, d in enumerate(window_dates(start, end, y)):
             if d is None or i in skip:
+                continue
+            if (d.month, d.day) in drop_md:
                 continue
             key = d.isoformat()
             if key in DEFECTIVE:
@@ -480,7 +498,15 @@ def main() -> None:
               f"page silently.", file=sys.stderr)
         raise SystemExit(1)
 
+    dropped = sorted({f"{d.month:02d}-{d.day:02d}"
+                      for y in YEARS
+                      for d in (window_dates(start, end, y) or [])
+                      if d and d.isoformat() in DEFECTIVE})
+    if dropped:
+        print(f"  calendar days dropped from BOTH sides (archive defective "
+              f"in some year): {', '.join(dropped)}", file=sys.stderr)
     doc = {"window": win, "sensor": "VIIRS_SNPP_SP", "years": "2012-2025",
+           "days_excluded_defective": dropped,
            "years_excluded_no_archive": no_archive,
            "built": datetime.utcnow().isoformat(timespec="seconds") + "Z",
            "countries": out}
