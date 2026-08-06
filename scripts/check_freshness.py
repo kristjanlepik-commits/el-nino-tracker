@@ -141,6 +141,20 @@ LAYERS = [
     {"path": "fires/data/country_history.json", "as_of": _from_window, "max_age": 2,
      "owner": "FIRE", "what": "same-week baseline; if this is stale the "
                               "detections job refuses every run"},
+    # 20, being two full ASAP publication cycles, which is CRO's figure
+    # and the rule above applied to a 10 day cadence. NOT a
+    # consecutive-no-op counter: ASAP's cadence means nine days of
+    # legitimate silence, and Fire lost six days to exactly that shape.
+    #
+    # Added 2026-08-06, later than it should have been. I told CRO I would
+    # add this when crops emitted its first data file, on the correct
+    # reasoning that a check which cannot fail is worse than none. Crops
+    # then went live and I did not come back to it, so a published channel
+    # ran with no staleness check at all. The promise was right and the
+    # follow-through was mine to do.
+    {"path": "crops/data/stress_current.json", "as_of": _from_key("dekad"),
+     "max_age": 20, "owner": "CRO", "what": "the crops stress payload, "
+                                            "published at /crops/"},
     {"path": "docs/pacific-sst.json", "as_of": _from_key("observation_date"),
      "max_age": 14, "owner": "DESIGN", "what": "front page Pacific SST field, "
                                                "refreshed by hand"},
