@@ -415,18 +415,60 @@ def rate_block(pv: pd.DataFrame, doy: int, cur_year: int,
     lead = ("steepest fall" if rank == 1
             else f"{_ordinal(rank)} steepest fall")
     lead = f"The {'joint ' if tied else ''}{lead}"
+
+    # The level the fall STARTED from, emitted beside the fall itself.
+    # A high June level predicts a steeper subsequent fall: median
+    # correlation -0.384 across the 122 places, -0.429 in England.
+    # England is rank 1 on the raw change by a margin of 0.025 and rank
+    # 2 once the starting level is controlled for, because it began the
+    # summer at its third-highest June value on record. A page showing
+    # "steepest fall on record" without the base it fell from is making
+    # a claim the data supports less than it appears to.
+    #
+    # Emitted MEASURED, not modelled: the start value and its rank, not
+    # a regression-adjusted rank. The adjustment is a fitted quantity
+    # and closer to original modelling than this channel goes, so it
+    # stays a diagnostic run before claims ship rather than a field.
+    start = pv[a].dropna()
+    start = start[(start.index >= BASE_FIRST) & (start.index <= cur_year)]
+    start_value = start_rank = None
+    if cur_year in start.index and len(start) >= 20:
+        sv = float(start.loc[cur_year])
+        start_value = round(sv, 3)
+        # 1 = highest starting level, since that is the direction that
+        # flatters a subsequent fall.
+        start_rank = int((start.drop(index=cur_year) > sv).sum()) + 1
+
     block = {
         "available": True,
         "value": round(cur, 3),
+        "start_value": start_value,
+        "start_rank": start_rank,
+        "start_of": len(start) if start_rank else None,
+        "start_means": "the level this fall began from, ranked 1 = "
+                       "highest on record. A steep fall from a high "
+                       "start is partly regression toward the mean.",
         "window_dekads": RATE_BACK,
         "rank": rank,
         "of": of,
         "worse_is": "low",
         "tied_with": tied,
+        # The start is bound into the sentence, ALWAYS, not above a
+        # threshold. "The steepest fall of 26 observations" read alone
+        # is the claim that misleads, and a threshold would drop the
+        # qualifier on exactly the borderline cases where a reader most
+        # needs it. Stating it every time costs a clause and cannot be
+        # dropped in layout, which is the same reason `basis` is bound
+        # into every rank statement on this channel.
         "statement": (f"{lead} over {RATE_BACK} dekads of {of} "
                       f"observations for this point in the season, "
                       f"{BASE_FIRST}-{cur_year}"
-                      + (f", level with {_year_list(tied)}" if tied else "")),
+                      + (f", level with {_year_list(tied)}" if tied else "")
+                      + (", from the "
+                         + ("highest" if start_rank == 1
+                            else f"{_ordinal(start_rank)} highest")
+                         + f" starting level of those {len(start)}"
+                         if start_rank else "")),
         "authorship": "tls_built",
         "evidence_basis": "measured",
     }
