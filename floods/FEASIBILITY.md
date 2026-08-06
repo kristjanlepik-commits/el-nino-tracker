@@ -462,10 +462,28 @@ Phase 2, in dependency order:
    machine-readable; they do not make blindness machine-readable, and for
    an optical instrument those are different failures.**
 
-   And a partial current period needs **"not yet due"** distinguished
-   from "missing", or every in-progress week renders riddled with holes
-   and the visual device for a real gap is worn out on non-gaps. Raised
-   to product as a cross-channel decision rather than a floods one.
+   **The ratified shape (product, all four channels, 2026-08-05):**
+
+       series: { expected_slots: 7, due_slots: 3, values: [...] }
+
+   from which four states fall out by arithmetic rather than judgement:
+   a measurement is a value in a due slot; GAP is
+   `due_slots - len(values)`; NOT YET is
+   `expected_slots - due_slots`, drawn as pending and never as a gap;
+   END is expected_slots reached. Both counts are knowable before any
+   data arrives, which is the property that makes them trustworthy.
+
+   **`due_slots` must come from cadence AND instrument latency, never
+   from calendar position.** Floods flood-extent uses a 3-Day composite
+   and a 2-day capture age, so a day that happened yesterday CANNOT
+   exist yet; computing due from days elapsed would render it as a GAP,
+   which is precisely the error the shape exists to prevent, reintroduced
+   one level down.
+
+   Consequence specific to this channel: it emits two instruments with
+   different latencies (flood extent about 3 days, rainfall about 1), so
+   for the same calendar week the two series will legitimately carry
+   DIFFERENT `due_slots`. That is correct and must not be reconciled.
 5. Hand platform the five items from the platform contract.
 
 ## 12. Open questions for Kristjan
