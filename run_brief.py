@@ -68,6 +68,35 @@ ANALYTICS_SNIPPET = (
     "plausible.init()\n"
     "</script>"
 )
+
+# EMAIL CAPTURE (D-088). Passed to templates/subscribe.py's
+# `render_subscribe(form_embed=...)`, whose docstring already names this
+# as platform's to supply and renders an explanatory slot when it is
+# empty. Design defined that interface; this fills it.
+#
+# TWO PLACEMENTS ONLY, form on the front page and /subscribe, with a
+# LINK everywhere else. That is not a design preference, it is the whole
+# reason this is one constant rather than four: the surfaces that
+# multiply are the channel indexes, one brief a week forever and roughly
+# ninety-six Notes a year, and a third-party script on all of those runs
+# for every visitor. A link costs nothing and a reader at the bottom of a
+# brief has already selected themselves.
+#
+# There is no plain HTML form alternative. Product checked the Beehiiv
+# dashboard: the subscribe-form product emits only this loader plus
+# attribution tracking, and the v2 API needs a Bearer key that cannot go
+# in client-side HTML. So placement is the only lever available.
+#
+# Invisible to the analytics guard, which counts the literal string
+# "plausible.io/js" and expects exactly one (scripts/publish_all.py).
+# Checked rather than assumed.
+EMAIL_CAPTURE_FORM_ID = "5d937174-9115-453d-8684-c00f417e416b"
+EMAIL_CAPTURE_SNIPPET = (
+    "<!-- Email capture by beehiiv. Double opt-in at publication and "
+    "form level. -->\n"
+    '<script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" '
+    f'data-beehiiv-form="{EMAIL_CAPTURE_FORM_ID}"></script>'
+)
 GITHUB_REPO_URL = "https://github.com/kristjanlepik-commits/el-nino-tracker"
 AUTHOR_NAME = "Kristjan Lepik"
 AUTHOR_CONTACT_URL = "https://www.linkedin.com/in/kristjanlepik/"

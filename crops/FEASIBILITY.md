@@ -1964,3 +1964,58 @@ ordinary condition" is not a hedge; it is what happens 97% of the time.
   because of England would generalise from one instance, which is
   exactly what the pattern taxonomy did before it was killed. The rate
   survives on its own baseline, not on England.
+
+### 13f. A steep fall is partly a high start (trap 17)
+
+Added 2026-08-06, found while checking the England piece as a
+publishable claim rather than as an illustration. It is the reason
+`rate` now emits the level it fell from.
+
+**A high starting level predicts a steeper subsequent fall.** Median
+correlation between the June level and the following 4-dekad change is
+**-0.384** across the 122 places, and **-0.429 (p = 0.029)** in England.
+Cumulative FPAR z-scores revert toward zero, so a place that enters the
+summer well above average has furthest to fall.
+
+**The concrete form: of the 20 places at rank 1 on the raw change,
+fourteen started in their top FOUR June levels on record.** Start ranks
+across those 20: 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 6, 7, 9, 10,
+16, 24.
+
+**England, which was to be the lead piece:**
+
+| | |
+|---|---|
+| raw change | -0.469, **rank 1 of 26** |
+| margin over 2025 | **0.025** (2025 was -0.444) |
+| rank controlling for the starting level | **2 of 26, behind 2025** |
+| June starting level | +0.619, **3rd highest of 26** |
+| where 2025 ended | -0.394, against 2026's **+0.150** |
+
+So "fell faster than in any of the 26 years on record" is true by 5%,
+becomes second once the start is controlled for, and the year it beats
+ended far worse than 2026 has.
+
+**Eleven of the twenty survive the control, nine do not.** Surviving:
+Eritrea, Liberia, Nepal, Ethiopia, DPR Korea, Mali, China, Hungary,
+France, Slovakia, Madagascar. South Africa is the extreme failure:
+rank 1 raw, **rank 23** adjusted. France is rank 1 both ways despite
+also starting 2nd highest, which is the point: **a high start is
+context, not a disqualifier.**
+
+**The fix is a field and a bound sentence, not a check.** Every rate
+block now carries `start_value`, `start_rank` and `start_of`, and the
+statement always ends "from the Nth highest starting level of those
+26". Always, not above a threshold: a threshold would drop the
+qualifier on exactly the borderline cases where a reader most needs it.
+
+**What is deliberately NOT emitted: the regression-adjusted rank.** It
+is a fitted quantity, and publishing it would be original modelling
+rather than aggregation. It stays a diagnostic run before claims ship.
+
+**Trap 17, general form.** *A change measured from a level needs the
+level published beside it.* Any difference-based measure inherits mean
+reversion from the series it differences, so the extreme of the change
+is systematically drawn from the extreme of the start. This is trap 7
+(shared trends manufacture correlation) once more, on a third quantity:
+first correlations, then ranks (trap 16), now differences.

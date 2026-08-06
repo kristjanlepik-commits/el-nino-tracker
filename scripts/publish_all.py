@@ -193,9 +193,93 @@ def check_generators_clean() -> None:
     raise SystemExit(1)
 
 
+# D-092: a channel declares how old its own data may be, and a publish
+# that would ship older data than that is refused.
+#
+# WHY THIS IS NOT check_freshness.py, which already exists. That file
+# asks a CORRECTNESS question: are we behind our source? This asks a
+# VALUE question: is this current enough to be worth putting in front of
+# a reader? They are different, and today shows how far apart they can
+# be. Crops holds dekad 2026-07-11 and ASAP's newest published dekad is
+# also 2026-07-11, so by the correctness measure crops is perfectly
+# current and check_freshness reports it green. It is also 26 days old,
+# which is what shipped while UK newspapers covered record-dry rivers.
+#
+# Strategy's count is the argument: twelve mechanisms built this week and
+# every one a correctness mechanism. Nothing asked whether a reader would
+# care. Accurate, sourced, dated, evidence-tagged and stale is a state
+# this system could not previously see.
+#
+# THE BOUND BELONGS TO THE CHANNEL, in its own payload, because only the
+# channel knows what its data is for. A daily hotspot count and a
+# dekadal agricultural indicator are different animals and a single
+# number would be wrong for both. It lives in the payload rather than
+# here so it cannot drift from the data it describes, which is the
+# qualifier-level rule CRO named.
+#
+# SCOPED TO THE CHANNEL, NOT THE PUBLISH. A stale channel must not take
+# the ENSO shell down with it, which is D-028 and invariant 1: the weekly
+# brief always ships. The existing keep_shell path already does this, and
+# a freshness failure is exactly the kind of channel-local problem it was
+# built for.
+FRESHNESS_DECLARATIONS = [
+    {"data": "crops/data/stress_current.json", "date_key": "dekad",
+     "pages": ("docs/crops/",), "owner": "CRO"},
+    {"data": "fires/data/current_week.json", "date_key": None,
+     "pages": ("docs/fires/",), "owner": "FIRE"},
+]
+
+# The key a channel sets in its payload to declare its own bound. Absent
+# means the channel has not chosen yet, which is reported rather than
+# silently defaulted: a default here would be platform guessing a number
+# only the channel can know, and a guessed bound that never fires is
+# worse than none.
+BOUND_KEY = "max_data_age_days"
+
+
+def check_declared_freshness(problems: list[str]) -> None:
+    for spec in FRESHNESS_DECLARATIONS:
+        path = ROOT / spec["data"]
+        if not path.exists():
+            continue
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+
+        bound = doc.get(BOUND_KEY)
+        if not isinstance(bound, (int, float)):
+            print(f"  NOTICE: {spec['data']} declares no {BOUND_KEY}, so its "
+                  f"pages ship unchecked for age. {spec['owner']} sets this "
+                  f"number; platform will not guess it (D-092).")
+            continue
+
+        key = spec["date_key"]
+        raw = doc.get(key) if key else None
+        if not isinstance(raw, str):
+            continue
+        try:
+            as_of = date.fromisoformat(raw[:10])
+        except ValueError:
+            continue
+
+        age = (date.today() - as_of).days
+        if age > bound:
+            problems.append(
+                f"{spec['data']} is {age} days old against its own declared "
+                f"bound of {bound} ({BOUND_KEY}). The channel set that "
+                f"number, so this is not platform's judgement about what is "
+                f"too old. Its pages are not published. Note this can fire "
+                f"while the data is perfectly CURRENT with its source: being "
+                f"level with a slow publisher is a correctness property, and "
+                f"this gate asks a reader-value question instead. "
+                f"Owner: {spec['owner']}.")
+
+
 def verify() -> list[str]:
     """Every reason this publish should not be kept."""
     problems = []
+    check_declared_freshness(problems)
 
     # 1. Per-page invariants (design chat's suggestion, and a good one).
     #    Structural checks that are identical on every page will happily

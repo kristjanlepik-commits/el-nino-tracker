@@ -32,7 +32,7 @@ import argparse
 import json
 import re
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -79,6 +79,40 @@ def _newest_country_as_of(doc: dict) -> date | None:
         return max(date.fromisoformat(d) for d in ds) if ds else None
     except ValueError:
         return None
+
+
+def _crops_publication(doc: dict) -> date | None:
+    """When ASAP last PUBLISHED, which is the only clock the rule names.
+
+    MY FIRST VERSION OF THIS LAYER WAS WRONG and CRO's own file is what
+    showed it. I pointed it at `dekad` in the stress payload and it
+    reported 26 days stale. But `dekad` is the LABEL of the observation
+    window, and its start at that, so three different ages of one file
+    were measurable on 2026-08-06:
+
+        from the dekad label, 11 July      26 days
+        from the window close, 20 July     17 days
+        from publication                   the actual rule
+
+    And the decisive fact: `newest_published` in this log is 2026-07-11,
+    which is exactly what we hold. **We are not behind the source at
+    all.** The layer was flagging a live channel as stale for holding the
+    newest thing that exists, which is a false positive of the worst kind
+    because it is loud, wrong, and points at the wrong owner.
+
+    Same error I have spent the week finding in other people's work: the
+    quantity measured sat one step away from the quantity that mattered.
+
+    Returns None when the age is not yet computable. `first_seen` on a
+    backfilled entry is the first probe rather than the publication, so
+    no age may be derived from it, and reporting one anyway would be
+    inventing precision. A layer that cannot state its age is reported as
+    such rather than guessed at.
+    """
+    days = doc.get("days_since_newest_first_seen")
+    if not isinstance(days, (int, float)):
+        return None
+    return date.today() - timedelta(days=int(days))
 
 
 def _latest_event_date(doc: dict) -> date | None:
@@ -152,9 +186,19 @@ LAYERS = [
     # then went live and I did not come back to it, so a published channel
     # ran with no staleness check at all. The promise was right and the
     # follow-through was mine to do.
-    {"path": "crops/data/stress_current.json", "as_of": _from_key("dekad"),
-     "max_age": 20, "owner": "CRO", "what": "the crops stress payload, "
-                                            "published at /crops/"},
+    # pending_until: probing only began 2026-08-06, so no publication
+    # INTERVAL has been observed yet and the age is legitimately
+    # unknowable rather than missing. That is a real state and reporting
+    # it as a failure would be crying wolf on day one.
+    #
+    # But it self-expires, deliberately. ASAP publishes every 10 days, so
+    # by two full cycles past the first probe there must be a computable
+    # interval; if there is not, either the source has stopped or the
+    # probe has, and both are exactly what this file exists to catch. An
+    # exemption with no end date is how a guard quietly stops guarding.
+    {"path": "crops/data/publication_log.json", "as_of": _crops_publication,
+     "max_age": 20, "owner": "CRO", "pending_until": date(2026, 8, 26),
+     "what": "the crops publication clock, behind /crops/"},
     {"path": "docs/pacific-sst.json", "as_of": _from_key("observation_date"),
      "max_age": 14, "owner": "DESIGN", "what": "front page Pacific SST field, "
                                                "refreshed by hand"},
@@ -180,6 +224,10 @@ def main() -> int:
                             f"Owner: {layer['owner']}.")
             continue
         as_of = layer["as_of"](doc)
+        pending = layer.get("pending_until")
+        if as_of is None and pending and today <= pending:
+            rows.append((layer["path"], "pending", "-", layer["owner"]))
+            continue
         if as_of is None:
             problems.append(
                 f"{layer['path']} has no readable as-of date. A layer that "

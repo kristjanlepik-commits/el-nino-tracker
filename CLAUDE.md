@@ -378,6 +378,15 @@ both are easy to get wrong and neither is visible in the code:
 - All reader-facing prose: lede, bottom-line copy, chart-caption
   framing outside the figure, `public_preamble`,
   `PUBLIC_SOURCE_NAMES`, and the prose strings in `card.py`
+- **Exception: Notes (D-093). Kristjan writes every Note himself; the
+  editor chat reviews each one against editorial standards 5a rather
+  than drafting it.** His reasoning: "the reader needs human writing."
+  This is a premise rather than a preference. The Notes surface exists
+  because the channel pages are the instrument and a named human
+  interprets them, so a drafted Note makes the premise false. Recorded
+  here as well as in the ledger because the map is what a new chat
+  reads first, and this is the one surface where getting it wrong is
+  not recoverable by a later correction.
 - `run_brief.py`: `build_impacts_html_block`,
   `_split_aggregation_into_regions` (impacts content assembly)
 - `impacts.md` (curated regional content)
