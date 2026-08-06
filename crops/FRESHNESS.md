@@ -91,19 +91,27 @@ reported for this dekad yet": it publishes a dekad behind the others.
 So the composite is five instruments where six exist, everywhere,
 today.
 
-**Outstanding check, not yet run** (tooling was unavailable at the time
-of writing): whether temperature and rainfall have a NEWER published
-dekad than cumulative vegetation. They are separate products on
-separate cadences, and the whole cache was pulled in a batch rather
-than per-instrument, so the cache date and the newest available date
-are not the same question.
+**CHECKED AND CLEARED 2026-08-06.** The open question was whether
+temperature and rainfall publish AHEAD of cumulative vegetation, which
+would have made the divergence claim mixed-vintage: two figures read on
+different dates, with part of the gap between them being a gap in when
+they were read.
 
-**This matters specifically for the divergence lead.** That page
-compares a meteorology figure against a crop-outcome figure. If the two
-instruments publish on different schedules, the comparison is
-mixed-vintage, and neither the payload nor the page currently says so.
-A divergence between two measures read at different dates is partly a
-divergence in when they were read.
+Swept across all 162 cached countries rather than sampled:
+
+| instrument | newest dekad |
+|---|---|
+| Vegetation, cumulative | 2026-07-11 |
+| Vegetation, current | 2026-07-11 |
+| Water satisfaction | 2026-07-11 |
+| Rainfall, 3-month | 2026-07-11 |
+| Temperature | 2026-07-11 |
+| Soil moisture | **2026-07-01** |
+
+**The four instruments the divergence compares all end on the same
+dekad**, so no part of the gap it reports is a difference in reading
+dates. Soil moisture alone is a dekad behind, which independently
+confirms the absence reason already emitted on all 123 places.
 
 ## What should change
 
