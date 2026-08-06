@@ -27,6 +27,15 @@ import time
 
 BASE = ("https://opendata.aemet.es/opendata/api/valores/climatologicos"
         "/diarios/datos")
+
+
+class NoDataForPeriod(Exception):
+    """AEMET answered: this station has no data for this period.
+
+    Distinct from a failed request. An empty list cannot tell the two apart,
+    and treating "the station did not exist" as "the request failed" makes a
+    retry schedule attack a question that has already been answered.
+    """
 KEY = os.path.expanduser("~/.aemet_key")
 MADRID_RETIRO = "3195"          # same thermometer as ECA&D station 230
 
@@ -60,7 +69,15 @@ def window(a, b, station=MADRID_RETIRO):
         print(f"  {a}..{b}: unparseable response", file=sys.stderr)
         return []
     if "datos" not in meta:
-        print(f"  {a}..{b}: {meta.get('descripcion', '?')}", file=sys.stderr)
+        desc = meta.get("descripcion", "?")
+        print(f"  {a}..{b}: {desc}", file=sys.stderr)
+        # "No hay datos" is an ANSWER, not a failure: the station did not
+        # exist yet. Retrying it burns the whole backoff schedule on a
+        # question already answered. Distinguishing the two saved ~8 hours
+        # across eight cities, because Palma's record starts in 1972 and the
+        # 52 preceding years were each being asked four times.
+        if "no hay datos" in desc.lower():
+            raise NoDataForPeriod(desc)
         return []
     time.sleep(1.2)                     # be polite to a free public API
     try:
