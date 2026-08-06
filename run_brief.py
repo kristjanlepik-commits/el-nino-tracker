@@ -97,6 +97,13 @@ EMAIL_CAPTURE_SNIPPET = (
     '<script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" '
     f'data-beehiiv-form="{EMAIL_CAPTURE_FORM_ID}"></script>'
 )
+# Editor's approved promise, accepted 2026-08-06 (D-091). Defined here
+# rather than in templates/subscribe.py because the front page needs it
+# too and subscribe.py already imports from this module, so this is the
+# one direction that does not create a cycle. One string, two surfaces,
+# no drift.
+EMAIL_CAPTURE_PROMISE = (
+    "We find climate signals in the data, and send you the ones that matter.")
 GITHUB_REPO_URL = "https://github.com/kristjanlepik-commits/el-nino-tracker"
 AUTHOR_NAME = "Kristjan Lepik"
 AUTHOR_CONTACT_URL = "https://www.linkedin.com/in/kristjanlepik/"
@@ -2798,15 +2805,29 @@ def _channels_html(root_prefix: str, issue_href: str = "#issue") -> str:
 
 
 def _email_capture_html() -> str:
-    if not EMAIL_SIGNUP_URL:
-        return ""
+    """The front-page capture slot: the real form, not a link to one.
+
+    Gated on EMAIL_SIGNUP_URL until now, which was empty, so this rendered
+    nothing and the front page had no capture at all. The gate is gone
+    because the form is no longer a link to somewhere else.
+
+    Its old copy was also stale in two ways. It promised "the updated
+    probabilities and what changed", which describes the El Nino tracker
+    alone and not the four channels the site now runs. And it led on what
+    a reader would NOT get ("No more than that"), which is the framing
+    Kristjan rejected on the subscribe page for the same reason: it is a
+    reason not to subscribe, stated as though it were a reason to.
+
+    The promise sentence is EMAIL_CAPTURE_PROMISE, defined once and read
+    by templates/subscribe.py too, so the two surfaces cannot drift. The
+    words are editor's and are not to be edited here.
+    """
     return (
         '<section><div class="email-cap">'
         '<div class="ec-pitch">'
-        '<span class="eyebrow">Weekly, Mondays</span>'
-        '<p>One email per week: the updated probabilities and what changed. '
-        'No more than that.</p></div>'
-        f'<a class="ec-btn" href="{h(EMAIL_SIGNUP_URL)}">Get the brief</a>'
+        '<span class="eyebrow">One email a week</span>'
+        f'<p>{h(EMAIL_CAPTURE_PROMISE)}</p></div>'
+        f'<div class="ec-form">{EMAIL_CAPTURE_SNIPPET}</div>'
         '</div></section>'
     )
 

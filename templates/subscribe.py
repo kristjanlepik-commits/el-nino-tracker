@@ -50,7 +50,8 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 import tokens as T                                            # noqa: E402
-from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
+from run_brief import (ANALYTICS_SNIPPET, EMAIL_CAPTURE_PROMISE,   # noqa: E402
+                       SITE_MASTHEAD_CSS,
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
 
@@ -66,7 +67,9 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
 # not that we report quiet weeks, it is that YOU CAN BELIEVE US WHEN WE
 # SAY SOMETHING IS HAPPENING. Same fact, stated the right way round, and
 # a reason to subscribe rather than a reason not to.
-PROMISE_H = "We find climate signals in the data, and send you the ones that matter."
+# Read from run_brief rather than restated here, so the front-page slot
+# and this page cannot drift apart. Same words, one definition.
+PROMISE_H = EMAIL_CAPTURE_PROMISE
 # DATED, not live. Editor's rule via product: evergreen copy carries
 # DATED findings and never live figures. A payload-fresh number typed
 # into a page written once and read for months is correct on the day
