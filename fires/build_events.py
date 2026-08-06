@@ -492,8 +492,25 @@ def main():
                        # often 13, because 2022 has no archive over most
                        # windows. That difference is the point: 13 of 14
                        # is a fact about the record, not a shorter record.
+                       #
+                       # DUE equals EXPECTED on both series, always, and
+                       # that is a property of the window rather than a
+                       # coincidence. The window is seven WHOLE days
+                       # ending yesterday, so no slot is ever "not yet":
+                       # a partial day is never published, which is the
+                       # rule the 03:00 guard exists to enforce. Every
+                       # absent slot here is a GAP and should be drawn as
+                       # one.
+                       #
+                       # Emitted anyway rather than omitted, so a
+                       # consumer reads the same three counts from every
+                       # channel and never special-cases fire. A field
+                       # that is absent for one channel is the kind of
+                       # thing a renderer resolves by guessing.
                        "daily_expected": window_days,
+                       "daily_due": window_days,
                        "hist_expected": len(YEARS_EXPECTED),
+                       "hist_due": len(YEARS_EXPECTED),
                        "lat": lat, "lon": lon, "basis": basis}
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
