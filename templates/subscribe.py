@@ -24,9 +24,11 @@ defect with different numbers. Product caught that.
 
 The headline probability is the derived value, it moves every week, and
 four different numbers is a self-evident advert for a tracker in a way
-no sentence is. The ENSO chat is emitting it into the snapshot; until it
-lands the block renders nothing rather than a placeholder, because a
-conversion device that is visibly unfinished is worse than one absent.
+no sentence is. D-091 stood the ENSO chat down on emitting it: the copy now leads on
+findings rather than on the archive, so the four issues are no longer
+the argument and the block is no longer a dependency. It renders
+nothing without the field and the code stays, because Notes will want
+the same shape and a working block with no data beats rebuilding one.
 
 ## What is deliberately not here
 
@@ -54,11 +56,21 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
 
 # Editor's copy, accepted unchanged 2026-08-06. Not to be edited here:
 # the words are editor's and this module renders them.
-PROMISE_H = "The weekly issue, including the weeks when nothing happened."
-PROMISE_P = ("Once a week, what the instruments actually recorded, measured "
-             "against each place&rsquo;s own history. Most weeks the answer is "
-             "that nothing much happened, and those weeks get sent too. "
-             "Sources named, no forecasts.")
+# D-091. Kristjan rejected the previous copy and the fault was the
+# brief rather than editor: product's section 4 asked them to lead on
+# "we tell you when nothing is happening", so the page led on an
+# absence. Six of its first lines were negations before a reader
+# learned what they GET.
+#
+# The corrected framing, now in the ledger: the value of calibration is
+# not that we report quiet weeks, it is that YOU CAN BELIEVE US WHEN WE
+# SAY SOMETHING IS HAPPENING. Same fact, stated the right way round, and
+# a reason to subscribe rather than a reason not to.
+PROMISE_H = "We find climate signals in the data, and send you the ones that matter."
+PROMISE_P = ("Fires, crops, heat and El Ni&ntilde;o, each measured against its "
+             "own record rather than against a feeling. When Greece burns at "
+             "twelve times its average for the week, we say so, and we show "
+             "the working.")
 PROMISE_FINE = "One email a week. Posts on the site do not email you."
 PROMISE_FINE2 = "Confirmation email required. One-click unsubscribe."
 
@@ -118,13 +130,14 @@ def render_subscribe(issues=None, form_embed="", root_prefix="") -> str:
 
   {_issues_block(issues)}
 
-  <p class="seclab">What arrives, and what does not</p>
+  <p class="seclab">What arrives</p>
   <ul class="plain">
-    <li>One email a week, containing that week&rsquo;s issue.</li>
-    <li>No forecasts, no advice, no urgency.</li>
-    <li>Every figure names its source and the baseline it is measured
+    <li>What the instruments recorded this week, and what it is unusual
       against.</li>
-    <li>Posts on the site do not email you.</li>
+    <li>Every figure names its source and its baseline, so you can check
+      it.</li>
+    <li>When a week is ordinary we say that too, which is what makes the
+      other weeks worth reading.</li>
   </ul>
 
   <p class="seclab">What we do with your address</p>
