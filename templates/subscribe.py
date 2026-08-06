@@ -67,12 +67,52 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
 # SAY SOMETHING IS HAPPENING. Same fact, stated the right way round, and
 # a reason to subscribe rather than a reason not to.
 PROMISE_H = "We find climate signals in the data, and send you the ones that matter."
+# DATED, not live. Editor's rule via product: evergreen copy carries
+# DATED findings and never live figures. A payload-fresh number typed
+# into a page written once and read for months is correct on the day
+# and wrong the following week. Dating it fixes that permanently and
+# needs no live binding.
+#
+# My previous draft said "when Greece burns at twelve times its
+# average", which was true of the payload that morning and undated,
+# which is exactly the defect.
+DATED_FINDING = {
+    "text": ("In the week to 5 August, Greece burned at 12.1 times its "
+             "average for that week of the year."),
+    "region": "Greece", "stat": "12.1x", "as_of": "2026-08-05",
+}
 PROMISE_P = ("Fires, crops, heat and El Ni&ntilde;o, each measured against its "
-             "own record rather than against a feeling. When Greece burns at "
-             "twelve times its average for the week, we say so, and we show "
-             "the working.")
+             "own record rather than against a feeling. "
+             + DATED_FINDING["text"] + " We show the working.")
 PROMISE_FINE = "One email a week. Posts on the site do not email you."
 PROMISE_FINE2 = "Confirmation email required. One-click unsubscribe."
+
+
+def verify_dated_findings(events) -> None:
+    """Check a dated finding against the payload WHILE the payload still
+    covers its date, and skip once it has moved on.
+
+    Product asked for build-time verification of every quoted figure,
+    and they are right about the failure: the Greece number was handled
+    four ways in one day by four people passing it around in prose.
+    Nobody miscalculated; it moved underneath all of us.
+
+    But a DATED finding and a LIVE payload diverge by design. Verifying
+    on every build would pass this week and fail next Monday on copy
+    that is still true, which trains everyone to ignore the check. So
+    this asserts only while the payload still describes that date, and
+    goes quiet afterwards. The finding stays true; the evidence for it
+    moves into the archive.
+    """
+    f = DATED_FINDING
+    cur = next((e for e in (events or []) if e.get("region") == f["region"]), None)
+    if not cur or f["as_of"] not in str(cur.get("date", "")):
+        return                      # payload has moved past it; copy stands
+    if str(cur.get("stat")) != f["stat"]:
+        raise SystemExit(
+            f"subscribe copy quotes {f['region']} at {f['stat']} as of "
+            f"{f['as_of']}, and the payload for that same date says "
+            f"{cur.get('stat')}. Fix the copy or the date, do not ship both.")
 
 
 def _issues_block(issues) -> str:
