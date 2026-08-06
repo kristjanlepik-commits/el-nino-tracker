@@ -298,11 +298,21 @@ def _freshness(doc) -> str:
     "as of" taken from that field asserts something untrue of at least
     one place on the page.
 
-    The age is the other half. At the time of writing the newest
-    observation is 26 days old, past the channel's own 20-day bound, and
-    THE SOURCE IS LATE RATHER THAN OUR CACHE BEING STALE: a live pull on
-    5 August returned the same dekad as newest. A reader cannot tell
-    those apart and the difference matters, so the page says which.
+    The age is the other half, and it is deliberately worded about
+    what is AVAILABLE rather than about anyone being late.
+
+    CRO's FRESHNESS.md originally said this breached the channel's
+    20-day bound and it does NOT; the claim is withdrawn there and here.
+    That bound is a clock on PUBLICATION, and this measured from the
+    dekad LABEL, which is the observation window's start. The probe in
+    crops/probe_asap.py shows dekad 2026-07-21 genuinely unpublished
+    with its window only closed on 31 July, so the source is mid-cycle
+    rather than stalled.
+
+    What IS true, and is why this line exists: our cache is not stale,
+    so a reader seeing an old date must not infer we failed to fetch. A
+    live pull returned the same dekad as newest. A reader cannot tell
+    those two apart, so the page says which.
 
     Computed from the per-place dekads rather than the top-level field,
     because the top-level field is the thing that is wrong.
