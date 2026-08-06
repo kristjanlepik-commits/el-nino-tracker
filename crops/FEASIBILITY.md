@@ -1914,3 +1914,53 @@ ordered them on float noise because the rounding fix from the severity
 verifier had not been carried across. Ranking happens on the values we
 PUBLISH, at 3dp, or a page shows two identical numbers with different
 ranks and contradicts itself.
+
+### 13e. Does the rate arrive earlier? Partly, and much less than England suggests
+
+Added 2026-08-06, answering design's question of whether rendering the
+rate would make the channel faster without a new source. Measured on
+completed years 2001-2025 only, since 2026 stops at dekad 20 and would
+bias every lead time toward "no flag yet".
+
+**A first test overstated it and the flaw is worth recording.** Asking
+"did the rate flag at ANY dekad before the level did" gave a median
+lead of 5 dekads and 84% recall. But a season has about 20 dekads, so
+each place-year gets 20 chances to flag on either measure, and the
+counts are inflated by construction. That is the same multiple-
+comparisons error as trap 8, in a new costume.
+
+**The decision-relevant version fixes the dekad and the horizon**, and
+asks the England question of the whole record: when the LEVEL is
+ordinary (worse than rank 9 of 26) but the RATE is at a record (rank 3
+or better), how often is the level BAD (rank 3 or better) later?
+
+| horizon | rate ordinary | rate at record | lift |
+|---|---|---|---|
+| 2 dekads (20d) | 0.4% | 0.8% | 2.1x |
+| 4 dekads (40d) | 1.3% | **2.9%** | 2.3x |
+| 6 dekads (60d) | 2.3% | 4.2% | 1.8x |
+
+Spearman of rate rank against later level rank, within level bands, is
+**+0.15 to +0.27**: real, consistent across horizons, and weak.
+
+**So the rate carries genuine information the level does not, and it is
+small.** A record rate at an ordinary level roughly DOUBLES the chance
+of a bad level 40 days out, from 1.3% to 2.9%. **97% of the time
+nothing bad follows.**
+
+**This quantifies the qualifier the rate block already carries.** "A
+steep fall from a good starting point can still leave a place in
+ordinary condition" is not a hedge; it is what happens 97% of the time.
+
+**Consequences.**
+
+- The rate must NOT be rendered as an early warning or a forecast. It
+  describes movement that has already happened. Section 6d found
+  in-season skill weak and this is the same finding from the other end.
+- Showing the rate does not make the channel meaningfully faster at
+  detecting bad CONDITIONS. It makes it faster at describing
+  DETERIORATION, which is a different and legitimate thing to publish.
+- **England is the tail, not the typical case.** Publishing the rate
+  because of England would generalise from one instance, which is
+  exactly what the pattern taxonomy did before it was killed. The rate
+  survives on its own baseline, not on England.

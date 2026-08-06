@@ -1,0 +1,52 @@
+{
+ "_what": "when each ASAP dekad was FIRST SEEN published by us. first_seen is an upper bound on the true publication time, never the exact moment, because it depends on when we last probed.",
+ "_rule": "the staleness bound is 20 days between publications, not 20 days since a dekad label",
+ "indicator": "zFPARc",
+ "dekads": {
+  "2026-05-01": {
+   "published": true,
+   "first_seen": "2026-08-06T07:39:38+00:00",
+   "backfilled": true
+  },
+  "2026-05-11": {
+   "published": true,
+   "first_seen": "2026-08-06T07:39:38+00:00",
+   "backfilled": true
+  },
+  "2026-05-21": {
+   "published": true,
+   "first_seen": "2026-08-06T07:39:38+00:00",
+   "backfilled": true
+  },
+  "2026-06-01": {
+   "published": true,
+   "first_seen": "2026-08-06T07:39:38+00:00",
+   "backfilled": true
+  },
+  "2026-06-11": {
+   "published": true,
+   "first_seen": "2026-08-06T07:39:38+00:00",
+   "backfilled": true
+  },
+  "2026-06-21": {
+   "published": true,
+   "first_seen": "2026-08-06T07:39:38+00:00",
+   "backfilled": true
+  },
+  "2026-07-01": {
+   "published": true,
+   "first_seen": "2026-08-06T07:39:38+00:00",
+   "backfilled": true
+  },
+  "2026-07-11": {
+   "published": true,
+   "first_seen": "2026-08-06T07:39:38+00:00",
+   "backfilled": true
+  }
+ },
+ "_backfill_note": "Entries marked backfilled were already published when probing began on this date. Their first_seen is the first probe, not the publication, so no age may be computed from them. Ages are meaningful only for dekads first seen after this run.",
+ "last_probed": "2026-08-06T07:39:38+00:00",
+ "newest_published": "2026-07-11",
+ "days_since_newest_first_seen": null,
+ "newest_is_backfilled": true
+}

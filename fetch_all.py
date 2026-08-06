@@ -10,6 +10,23 @@ Behavior:
     seed from sources.py so the pipeline never breaks.
   - The brief surfaces "stale" status per source in the editorial layer
     so the analyst knows what's auto-fetched vs fallback.
+
+READ THIS BEFORE WEAKENING THE ALWAYS-SHIPS GUARANTEE.
+
+The degrade-never-fail behaviour above is what makes invariant 1 hold,
+and D-028 carves the weekly ENSO brief out of all-or-nothing publishing
+for the same reason. As of D-088/D-089 that guarantee is also
+reader-facing: the subscribe unit on the front page promises "The
+weekly issue, including the weeks when nothing happened", which is only
+truthful because a quiet week, a dead upstream, or another channel
+failing still produces a brief.
+
+So anyone narrowing the carve-out, or making a fetcher failure fatal
+rather than degrading, is silently breaking a published promise. They
+will be thinking about pipeline resilience and not about a subscribe
+form. If that is you: ping product and editor before changing it.
+Recorded here rather than only in research/spec_email_capture.md
+because this is the file the change would be made in.
 """
 
 from __future__ import annotations
