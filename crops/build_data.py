@@ -1283,9 +1283,38 @@ def build_stress(catalogue: dict) -> dict:
             "first": BASE_FIRST,
             "last": int(latest_dekad[:4]),
             "expected_slots": int(latest_dekad[:4]) - BASE_FIRST + 1,
+            # due_slots exists so the contract is uniform across
+            # channels, and for crops it EQUALS expected_slots. Stated
+            # rather than defaulted, because product asked to be told.
+            #
+            # Every series here is indexed by YEAR at one fixed dekad,
+            # not by period within a season. A year's slot becomes due
+            # the moment that dekad is published, and the series is only
+            # emitted once the current year's value exists. So there is
+            # no NOT YET state: a slot is due or it is outside the
+            # window. The four states collapse to three here.
+            #
+            # The not-yet case product describes is real for a series
+            # indexed by dekad WITHIN a season, which is the shape of
+            # the England trajectory. Crops does not emit one. If it
+            # ever does, due_slots stops equalling expected_slots and
+            # this comment is the thing to delete.
+            "due_slots": int(latest_dekad[:4]) - BASE_FIRST + 1,
+            "due_equals_expected_because": "these series are indexed by "
+                                           "year at one fixed dekad, so "
+                                           "a slot is never pending. "
+                                           "There is no NOT YET state in "
+                                           "this channel's series.",
             "applies_to": "every `series` in this file, at country and "
                           "region level. Each carries `series_span` with "
                           "`present` and `missing`.",
+            "blindness": "a slot that is present but is not a "
+                         "measurement is marked at the DATUM, not "
+                         "counted here. Instruments carry `absent` and "
+                         "`absent_because` across four states; places "
+                         "that never enter `places` carry a reason and "
+                         "an `ours` flag in `skipped`, which separates "
+                         "our own fetch failure from a fact about ASAP.",
             "why": "24 values in a 26-year record and 24 values in a "
                    "24-year record are otherwise the same payload, so a "
                    "renderer stretches what it has and turns a gap into "

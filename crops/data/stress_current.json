@@ -80,7 +80,10 @@
   "first": 2001,
   "last": 2026,
   "expected_slots": 26,
+  "due_slots": 26,
+  "due_equals_expected_because": "these series are indexed by year at one fixed dekad, so a slot is never pending. There is no NOT YET state in this channel's series.",
   "applies_to": "every `series` in this file, at country and region level. Each carries `series_span` with `present` and `missing`.",
+  "blindness": "a slot that is present but is not a measurement is marked at the DATUM, not counted here. Instruments carry `absent` and `absent_because` across four states; places that never enter `places` carry a reason and an `ours` flag in `skipped`, which separates our own fetch failure from a fact about ASAP.",
   "why": "24 values in a 26-year record and 24 values in a 24-year record are otherwise the same payload, so a renderer stretches what it has and turns a gap into an end."
  },
  "baseline": {
