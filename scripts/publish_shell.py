@@ -134,6 +134,26 @@ def main() -> None:
         # the current issue exactly as this page does.
         asset_prefix="../")
 
+    # /subscribe and /subscribed. Written but wired to nothing until now:
+    # templates/subscribe.py had no caller anywhere, so neither page was
+    # ever published and every link pointing at them would have 404ed.
+    #
+    # They belong in the SHELL rather than in a channel, for the reason
+    # D-028 gives about the pages above: a channel failure must not be
+    # able to take down the thing that collects the reader.
+    #
+    # form_embed is empty until platform supplies the Beehiiv script,
+    # which is the only route they offer. The page renders a stated slot
+    # rather than a broken form in the meantime, so this is safe to
+    # publish before the embed lands, but it does NOT capture anything
+    # until it does.
+    from templates import subscribe as SUB       # noqa: E402
+    SUB.verify_dated_findings(R._load_events())
+    pages["subscribe/index.html"] = SUB.render_subscribe(root_prefix="../")
+    pages["subscribed/index.html"] = SUB.render_subscribed(
+        latest_href=f"briefs/{di}/", latest_label=f"the issue of {di}",
+        root_prefix="../")
+
     front = pages["index.html"]
     published = meta["headline_buckets"].get("9715_>2.5", {}).get("mid")
     shown = re.search(r'ws-num num">(\d+)', front)
