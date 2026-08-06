@@ -485,13 +485,39 @@ def main():
         print(f"{iso}: {count:,} x{multiple:.1f} rank {rank} "
               f"({lat}, {lon}) {basis}", flush=True)
 
+    def signals(r):
+        """Which of the three significance signals this country clears.
+
+        Emitted rather than recomputed downstream, because design was
+        about to re-derive the gate in the renderer to decide ordering,
+        and two copies of a threshold drift.
+
+        The list is the useful form rather than a boolean. Design found
+        that ordering the page by the MULTIPLE puts Portugal fifth at
+        2.3x with z = 0.81, inside one standard deviation of its own
+        normal, while Saudi Arabia sits seven rows lower at 1.5x with
+        z = 4.3. Checking it showed the multiple is the outlier measure
+        rather than a competing preference: rank and z agree with each
+        other to 1.3 places while the multiple differs from both by 3.6.
+
+        A country clearing ONLY the multiple is the weak case. Not a
+        country clearing only one signal: Venezuela clears one, and it is
+        a fourteen-year record, which is a strong claim.
+        """
+        if r["count"] < NOISE_FLOOR:
+            return []
+        out = []
+        if r["z"] >= Z_THRESHOLD:
+            out.append("z")
+        if r["multiple"] >= STRONG_MULTIPLE:
+            out.append("multiple")
+        if r["rank_n"] <= RECORD_RANK:
+            out.append("record")
+        return out
+
     def qualifies(r):
         """Noise floor, then any one significance signal."""
-        if r["count"] < NOISE_FLOOR:
-            return False
-        return (r["z"] >= Z_THRESHOLD
-                or r["multiple"] >= STRONG_MULTIPLE
-                or r["rank_n"] <= RECORD_RANK)
+        return bool(signals(r))
 
     # A DAY THE ARCHIVE HAS NOT FINISHED IS NOT A QUIET DAY.
     #
@@ -592,6 +618,41 @@ def main():
         # rows were built from the pre-degradation numbers, so rebuild
         rows = rebuild_rows(detail, end)
 
+    def strength(r):
+        """Verdict to branch on, components to print.
+
+        Design's shape, copied from heat's drift_weight rather than
+        invented: the LIST alone forces the renderer to write
+        `qualifies_on == ["multiple"]`, which puts this channel's gate
+        rule in design's code. It agrees today and drifts silently the
+        first time the gate changes, because the comparison keeps
+        evaluating and keeps returning something. The VERDICT alone is
+        safe and says nothing, and the page needs to state WHY those
+        countries sit below the line rather than assert it.
+
+        multiple_only is the weak case: above twice its own average, but
+        inside the ordinary variation of its own record, so the multiple
+        is the only measure calling it unusual. Not "one signal":
+        Venezuela clears one and it is a fourteen-year record.
+        """
+        sig = signals(r)
+        if not sig:
+            verdict = "none"
+        elif sig == ["multiple"]:
+            verdict = "multiple_only"
+        elif sig == ["z"]:
+            verdict = "z_only"
+        elif sig == ["record"]:
+            verdict = "record_only"
+        else:
+            verdict = "corroborated"
+        return {"verdict": verdict, "signals": sig,
+                "z": r["z"], "multiple": r["multiple"],
+                "rank_in_record": r["rank_n"]}
+
+    for r in rows:
+        r["qualifies_on"] = signals(r)
+        r["strength"] = strength(r)
     eligible = [r for r in rows if qualifies(r)]
     eligible.sort(key=lambda r: -r["multiple"])
     eligible = eligible[:MAX_MARKERS]
@@ -667,6 +728,8 @@ def main():
             "stat_label": "same-week 2012-25 mean",
             "attribution": r["attribution"],
             "anomalous": r["anomalous"],
+            "qualifies_on": r.get("qualifies_on", []),
+            "strength": r.get("strength"),
             "pinned": r["pinned"],
             "volume_context": r["volume_context"],
             "multiple_unstable": r["multiple_unstable"],
@@ -689,6 +752,8 @@ def main():
             "multiple": r["multiple"], "count": r["count"],
             "rank": r["rank"], "attribution": r["attribution"],
             "anomalous": r["anomalous"],
+            "qualifies_on": r.get("qualifies_on", []),
+            "strength": r.get("strength"),
             "pinned": r["pinned"],
             "volume_context": r["volume_context"],
             "multiple_unstable": r["multiple_unstable"],

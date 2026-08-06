@@ -1,0 +1,165 @@
+{
+ "_readme": "How many of the 15 cities set a new record-to-date in each year. This baselines the 2026 figure. Without it, '8 of 15 at a record' is unreadable: the reader cannot tell whether that is remarkable.",
+ "method": "A city sets a record in year Y if its count to the same calendar day exceeds every prior year. Cities with fewer than 20 prior years are excluded from that year's count.",
+ "per_year": {
+  "1990": {
+   "records": 2,
+   "eligible": 13
+  },
+  "1991": {
+   "records": 0,
+   "eligible": 13
+  },
+  "1992": {
+   "records": 0,
+   "eligible": 13
+  },
+  "1993": {
+   "records": 0,
+   "eligible": 13
+  },
+  "1994": {
+   "records": 6,
+   "eligible": 13
+  },
+  "1995": {
+   "records": 2,
+   "eligible": 14
+  },
+  "1996": {
+   "records": 0,
+   "eligible": 15
+  },
+  "1997": {
+   "records": 0,
+   "eligible": 15
+  },
+  "1998": {
+   "records": 1,
+   "eligible": 15
+  },
+  "1999": {
+   "records": 1,
+   "eligible": 15
+  },
+  "2000": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2001": {
+   "records": 1,
+   "eligible": 15
+  },
+  "2002": {
+   "records": 2,
+   "eligible": 15
+  },
+  "2003": {
+   "records": 12,
+   "eligible": 15
+  },
+  "2004": {
+   "records": 1,
+   "eligible": 15
+  },
+  "2005": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2006": {
+   "records": 4,
+   "eligible": 15
+  },
+  "2007": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2008": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2009": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2010": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2011": {
+   "records": 1,
+   "eligible": 15
+  },
+  "2012": {
+   "records": 1,
+   "eligible": 15
+  },
+  "2013": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2014": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2015": {
+   "records": 1,
+   "eligible": 15
+  },
+  "2016": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2017": {
+   "records": 1,
+   "eligible": 15
+  },
+  "2018": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2019": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2020": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2021": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2022": {
+   "records": 7,
+   "eligible": 15
+  },
+  "2023": {
+   "records": 1,
+   "eligible": 15
+  },
+  "2024": {
+   "records": 0,
+   "eligible": 15
+  },
+  "2025": {
+   "records": 7,
+   "eligible": 15
+  }
+ },
+ "median_year": 0,
+ "mean_1990_2025": 1.42,
+ "mean_2011_2025": 1.27,
+ "expected_no_trend": 0.19,
+ "expected_no_trend_note": "Sum of 1/n across the 15 records. Under a stationary climate the nth year of a record has probability 1/n of being a record.",
+ "value_2026": 8,
+ "worst_years": {
+  "2003": 12,
+  "2026": 8,
+  "2022": 7,
+  "2025": 7
+ },
+ "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+ "the_better_story": "Three of the four worst years on this measure are the last four years. A pattern rather than an event.",
+ "caveat_2026_incomplete": "2026 is counted to 2-3 August with the season unfinished. Prior years are counted to the same date, so the comparison is like-for-like today, but 2026 can still add records before September."
+}

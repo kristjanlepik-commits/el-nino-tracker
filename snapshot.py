@@ -16,6 +16,8 @@ between two snapshots, diffs are still shown but flagged as
 "non-comparable: methodology version bumped".
 """
 
+from __future__ import annotations
+
 import json
 from datetime import date
 from pathlib import Path
@@ -38,7 +40,37 @@ def _to_jsonable(obj):
     return obj
 
 
-def current_snapshot(fetched: dict) -> dict:
+def _headline_for_snapshot(fetched: dict, headline: dict | None) -> dict:
+    """The computed headline buckets, for storage alongside the inputs.
+
+    Snapshots held only inputs, so the published probability, the actual
+    output of the week, could not be recovered by any consumer without
+    re-deriving it or scraping the rendered HTML. That is the same defect
+    as a chart that cannot travel: a value that exists only inside a
+    rendering is not reusable. Requested by product 2026-08-03 for the
+    subscribe page's issue list.
+
+    `headline` is passed through when the caller already computed it, so
+    the stored value is byte-identical to the published one. When absent
+    it is recomputed here from the same frozen inputs with the same
+    arguments run_brief.main() uses; keep those in sync.
+    """
+    if headline:
+        return headline
+    try:
+        import probs
+        offset = (fetched.get("roni_to_oni_offset") or {}).get(
+            "value", S.RONI_TO_ONI_OFFSET)
+        return probs.smoothed_headline_buckets(
+            fetched["cpc_strength"]["table"],
+            (fetched.get("ecmwf_seas5") or {}).get("per_lead") or [],
+            S.NEAREST_CPC_SEASON, offset=offset,
+            nmme=fetched.get("nmme"))
+    except Exception as e:
+        return {"error": f"headline not computed: {type(e).__name__}: {e}"}
+
+
+def current_snapshot(fetched: dict, headline: dict | None = None) -> dict:
     """Capture the current state of inputs as a flat dict.
 
     `fetched` is the live (or seed-fallback) dict produced by
@@ -55,6 +87,9 @@ def current_snapshot(fetched: dict) -> dict:
     return _to_jsonable({
         "brief_date": S.BRIEF_DATE,
         "methodology_version": S.METHODOLOGY_VERSION,
+        # The computed OUTPUT, stored beside the inputs so consumers
+        # never have to re-derive it or scrape the rendered page.
+        "headline_buckets": _headline_for_snapshot(fetched, headline),
         "roni_to_oni_offset": offset_value,
         "roni_to_oni_offset_block": offset_block,
         "target_season": S.TARGET_SEASON,
@@ -62,6 +97,14 @@ def current_snapshot(fetched: dict) -> dict:
         "cpc_strength": fetched["cpc_strength"],
         "iri": fetched["iri"],
         "ecmwf": fetched["ecmwf_seas5"],
+        # NMME was MISSING from snapshots until 2026-08-03 and is a
+        # required input to the v1.8+ consensus headline. Without it a
+        # recompute silently falls back to v1.5 SEAS5-only mode and
+        # reproduces 63 where 79 was published. That also meant the
+        # v1.9 verification pledge, which scores the headline against
+        # a raw-consensus baseline "computed from the same archived
+        # snapshots", was not reconstructible from them. Do not drop.
+        "nmme": fetched.get("nmme"),
         "bom": fetched["bom"],
         "physical_state": fetched["physical_state"],
     })

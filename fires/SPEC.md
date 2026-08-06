@@ -148,6 +148,36 @@ local day is complete. The reasoning:
 
 Canada boreal is out unless a signal appears; its ENSO link is weak.
 
+## What a number is FOR: two errors of the same shape, one week apart
+
+Recorded because this channel made both, in opposite directions, within
+seven days, and design asked for it somewhere durable.
+
+**A rank is not a magnitude.** Rank on record says where a value sits in
+its own history and nothing about how large it is. Ordering the index by
+rank fails because 10 of 14 anomalous countries sit at rank 1, so the
+tiebreak does all the work. Crops reached the same conclusion from their
+own data: rank 1 of 26 says nothing about how bad.
+
+**A multiple is not an anomaly.** A multiple says how far a value sits
+from its own average and nothing about how much that average normally
+moves. A country with a small, steady baseline reaches 2.3x on an
+ordinary week; one with a large, variable baseline needs far more.
+Portugal rendered fifth on the index at 2.3x with z = 0.81, inside one
+standard deviation of its own normal, seven rows above Saudi Arabia at
+1.5x with z = 4.3.
+
+**The measurement that settles it**, since the two measures could each
+be argued for: across the anomalous set, rank and z agree to 1.3 places
+while the multiple differs from both by 3.6 and 3.7. The multiple is the
+outlier measure rather than one preference among three.
+
+**Neither error is about statistics.** Both are about asking a number to
+answer a question it was not computed for, and both were found by
+someone outside this channel looking at what the page CLAIMED rather
+than at what the code did. The page already flagged the multiple as the
+weaker measure on those rows, and then ordered the whole list by it.
+
 ## v2 investigation: the gate threshold is not comparable across countries
 
 Raised 2026-07-29 from the first completed full-year baselines, and

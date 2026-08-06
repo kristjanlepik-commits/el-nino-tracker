@@ -1,0 +1,112 @@
+{
+ "_readme": [
+  "SNPP-equivalent scale factor for VIIRS NOAA-20, derived from",
+  "the 2018-2025 overlap. A NOAA-20 count multiplied by",
+  "scale_factor is comparable with an SNPP count.",
+  "",
+  "WHY IT EXISTS: Suomi NPP data ceases 2026-11-01 13:00 UTC, and",
+  "SNPP outages are already frequent enough to need filling now.",
+  "",
+  "WHAT IT DOES NOT DO: it does not make the two records",
+  "interchangeable. NOAA-20 launched late 2017, so a",
+  "rank-on-record from it spans eight years against SNPP's",
+  "fourteen and means something different.",
+  "",
+  "scale_cv is the spread on a SINGLE filled day, one sigma. It",
+  "travels with any filled datum, per D-051: a qualifier is a",
+  "property of the number and must survive being quoted alone.",
+  "",
+  "Known-defective SNPP dates are excluded from the calibration.",
+  "Including one dragged the first attempt from 1.003 to 0.949",
+  "and the spread from 12% to 20%."
+ ],
+ "derived": "2026-08-06",
+ "from_sensor": "VIIRS_NOAA20",
+ "to_sensor": "VIIRS_SNPP",
+ "scale_factor": 1.0193,
+ "scale_sd": 0.2265,
+ "scale_cv": 0.222,
+ "n_observations": 268,
+ "n_countries": 12,
+ "date_range": [
+  "2019-02-15",
+  "2025-10-12"
+ ],
+ "excluded_dates": [
+  "2021-08-03"
+ ],
+ "per_country": {
+  "AGO": {
+   "biome": "southern African savanna",
+   "mean": 0.9188,
+   "cv": 0.328,
+   "n": 26
+  },
+  "AUS": {
+   "biome": "northern savanna and eucalypt",
+   "mean": 1.042,
+   "cv": 0.194,
+   "n": 26
+  },
+  "BOL": {
+   "biome": "tropical forest",
+   "mean": 1.1406,
+   "cv": 0.361,
+   "n": 22
+  },
+  "BRA": {
+   "biome": "tropical forest and cerrado",
+   "mean": 1.0562,
+   "cv": 0.149,
+   "n": 26
+  },
+  "CAN": {
+   "biome": "boreal forest",
+   "mean": 1.0037,
+   "cv": 0.128,
+   "n": 19
+  },
+  "COD": {
+   "biome": "central African savanna",
+   "mean": 0.9447,
+   "cv": 0.172,
+   "n": 26
+  },
+  "ESP": {
+   "biome": "mediterranean",
+   "mean": 1.0952,
+   "cv": 0.084,
+   "n": 3
+  },
+  "IDN": {
+   "biome": "peatland and tropical forest",
+   "mean": 0.9688,
+   "cv": 0.141,
+   "n": 22
+  },
+  "IND": {
+   "biome": "agricultural and dry forest",
+   "mean": 0.9783,
+   "cv": 0.269,
+   "n": 22
+  },
+  "MEX": {
+   "biome": "dry tropical forest",
+   "mean": 1.0408,
+   "cv": 0.13,
+   "n": 26
+  },
+  "USA": {
+   "biome": "temperate mixed",
+   "mean": 1.0123,
+   "cv": 0.087,
+   "n": 26
+  },
+  "ZAF": {
+   "biome": "fynbos and grassland",
+   "mean": 1.1093,
+   "cv": 0.207,
+   "n": 22
+  }
+ }
+}
