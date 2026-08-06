@@ -339,6 +339,16 @@ def rate_legend() -> dict:
                    f"of change, not a level: a place can be ordinary "
                    f"and falling faster than in any year on record."),
         "qualifiers": _RATE_QUALIFIERS,
+        "_start_control_note": (
+            "Every rate block carries `_start_control`. `holds` is true "
+            "when the place is still rank 1 once the level it fell from "
+            "is controlled for. NINE of the twenty rank-1 places on "
+            "2026-07-11 do not hold, so roughly half of rate-based "
+            "leads are inflated by construction. `adjusted_rank` is a "
+            "FITTED quantity and must never reach a reader: publish "
+            "`start_value` and `start_rank`, which are measured. The "
+            "underscore prefix marks the whole block as pipeline "
+            "guidance that never renders."),
     }
 
 
@@ -439,12 +449,48 @@ def rate_block(pv: pd.DataFrame, doy: int, cur_year: int,
         # flatters a subsequent fall.
         start_rank = int((start.drop(index=cur_year) > sv).sum()) + 1
 
+    # The start-level control, as an UNDERSCORE-PREFIXED DIAGNOSTIC.
+    # Product asked for "holds rank 1 after the control" in the payload
+    # rather than in a message, and they are right that a figure passed
+    # around in chat gets handled four different ways. But the adjusted
+    # rank is FITTED, and a fitted number on a page is original
+    # modelling, which the build philosophy forbids outright.
+    #
+    # The underscore prefix is this repo's existing answer to exactly
+    # that: pipeline guidance that never renders. So an editor can see
+    # which leads survive, and no renderer can put the number in front
+    # of a reader. D-051 is untouched, because this qualifies our
+    # CONFIDENCE in a claim rather than qualifying the claim itself.
+    control = None
+    if start_rank is not None:
+        idx = [y for y in ch.index if y in start.index]
+        if len(idx) >= 20:
+            cs, cc = start.loc[idx], ch.loc[idx]
+            slope, icept, *_ = stats.linregress(cs.values, cc.values)
+            res = cc - (slope * cs + icept)
+            adj = int((res.drop(index=cur_year) < res.loc[cur_year]).sum()) + 1
+            nxt = float(ch.drop(index=cur_year).min())
+            control = {
+                "holds": bool(adj == rank),
+                "adjusted_rank": adj,
+                "gap_to_next_year": round(cur - nxt, 3),
+                "start_change_corr": round(
+                    float(np.corrcoef(cs.values, cc.values)[0, 1]), 3),
+            }
+            # The warning text lives ONCE in rate_legend, not on all
+            # 2,228 blocks. Putting it on each one added 0.74 MB and
+            # took the file back over the size guard within an hour of
+            # my having removed 4.6 MB of exactly this. A constant
+            # string is a property of the measure; that rule did not
+            # stop applying because the string was a warning.
+
     block = {
         "available": True,
         "value": round(cur, 3),
         "start_value": start_value,
         "start_rank": start_rank,
         "start_of": len(start) if start_rank else None,
+        "_start_control": control,
         "start_means": "the level this fall began from, ranked 1 = "
                        "highest on record. A steep fall from a high "
                        "start is partly regression toward the mean.",
