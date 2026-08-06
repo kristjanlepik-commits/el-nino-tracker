@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heat mockup · The Long Swell</title>
+<style>
+:root {
+  --paper:#F1F0EC; --sunk:#E7E6DF; --ink:#1A1A18; --soft:#3A3A36;
+  --ink-faint:#6E6E67; --rule:#CFCEC7; --accent:#173F9E;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --paper:#1A1A18; --sunk:#252521; --ink:#EDECE6; --soft:#B4B3AB;
+          --ink-faint:#86857D; --rule:#3A3A36; --accent:#6E97E8; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--soft);
+  font-family:Spectral,Georgia,serif;font-size:17px;line-height:1.55}
+main{max-width:760px;margin:0 auto;padding:0 24px 90px}
+.mast{display:flex;align-items:baseline;gap:14px;padding:20px 0 11px;
+  border-bottom:3px solid var(--ink)}
+.house{font-size:21px;font-weight:500;color:var(--ink)}
+/* D-101: no channel hue. The product name is set in tracked mono
+   against the Spectral wordmark, and that split IS the identity. */
+.prod{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;
+  font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink)}
+.when{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint)}
+/* Device 04: the scale at its extremes. One mono line carrying every
+   fact, then the claim, and nothing in between. */
+.facts{font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+  letter-spacing:0.22em;text-transform:uppercase;color:var(--soft);
+  margin:40px 0 14px}
+h1{font-family:Spectral,serif;font-weight:400;font-size:50px;line-height:1.06;
+  letter-spacing:-0.018em;color:var(--ink);margin:0;max-width:19ch;text-wrap:balance}
+.stand{font-size:17.5px;line-height:1.62;max-width:60ch;margin:18px 0 0}
+.seclab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+  letter-spacing:0.22em;text-transform:uppercase;color:var(--ink);
+  border-bottom:3px solid var(--ink);padding-bottom:10px;margin:52px 0 0}
+/* Device 03, beat 2: the dense list. Thin rows, tight leading. */
+.crow{display:grid;grid-template-columns:104px 210px 1fr 44px;gap:18px;
+  align-items:center;padding:9px 0;border-bottom:1px solid var(--rule);
+  text-decoration:none;color:inherit}
+.cname{font-size:16.5px;font-weight:500;color:var(--ink)}
+.cspark{line-height:0}
+.cfact{font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.5;
+  color:var(--soft)}
+.cbase{color:var(--ink-faint)}
+.marg{color:var(--ink);font-weight:600}
+.ord{font-size:8.5px}
+.cnum{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:500;
+  font-variant-numeric:tabular-nums;color:var(--ink);text-align:right}
+/* Device 03, beat 3: one number, alone, with air around it. */
+.alone{margin:64px 0 60px;display:flex;align-items:baseline;gap:18px}
+.alone .big{font-family:'IBM Plex Mono',monospace;font-size:64px;font-weight:500;
+  line-height:1;letter-spacing:-0.02em;color:var(--ink)}
+.alone .cap{font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+  letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);max-width:26ch}
+.note{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:66ch;margin:16px 0 0}
+.warn{font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.7;
+  color:var(--soft);background:var(--sunk);padding:13px 15px;margin:34px 0 0}
+</style></head><body><main>
+
+<div class="mast"><span class="house">The Long Swell</span>
+  <span class="prod">Heat</span>
+  <span class="when">Tropical nights · to 3 August 2026</span></div>
+
+<p class="facts">15 cities · Spain and France · station records to 105 years ·
+  nights at or above 20&deg;C</p>
+<h1>Three of the four worst years on record are the last four.</h1>
+<p class="stand">Eight of these fifteen cities have already had more tropical
+  nights than in any year on record, and the season is not over. A typical
+  year produces none: the median since 1990 is zero and, with no trend at
+  all, the expected number is 0.19.</p>
+<p class="note">2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership. 2022 and 2025 produced seven each. The pattern
+  is the finding, not this year.</p>
+
+<p class="seclab">Every city against its own record</p>
+<p class="note" style="margin-bottom:14px">Each line is scaled to that city's
+  own history, so no two can be compared with each other. The dashed mark is
+  its previous best; the solid mark is 2026.</p>
+<a class="crow" href="#">
+      <span class="cname">Lyon</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,32.9 4.2,34.0 8.4,34.0 12.6,34.0 16.8,34.0 21.0,34.0 25.2,34.0 29.4,26.3 33.6,32.9 37.8,34.0 42.0,31.8 46.2,34.0 50.4,32.9 54.6,30.7 58.8,34.0 63.0,31.8 67.2,29.6 71.4,31.8 75.6,23.0 79.8,27.4 84.0,34.0 88.2,32.9 92.4,31.8 96.6,29.6 100.8,34.0 105.0,27.4 109.2,26.3 113.4,15.4 117.6,28.5 121.8,18.6 126.0,13.2 130.2,32.9 134.4,28.5 138.6,27.4 142.8,25.2 147.0,32.9 151.2,28.5 155.4,27.4 159.6,28.5 163.8,17.5 168.0,28.5 172.2,18.6 176.4,25.2 180.6,17.5 184.8,26.3 189.0,29.6 193.2,20.8 197.4,18.6 201.6,24.1 205.8,20.8" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="126.0" y1="13.2" x2="126.0" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="0.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="0.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact"><span class="marg">+12</span> on 2006<br><span class="cbase">normally 6.9 · since 1976</span></span>
+      <span class="cnum">31</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Zaragoza</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,32.5 2.8,30.9 5.6,33.2 8.4,33.2 11.2,33.2 14.0,32.5 16.8,33.2 19.6,29.4 22.4,32.5 25.2,29.4 28.0,31.7 30.8,31.7 33.6,30.9 36.4,30.1 39.2,33.2 42.0,34.0 44.8,28.6 47.6,31.7 50.4,30.9 53.2,30.9 56.0,33.2 58.8,31.7 61.6,32.5 64.4,31.7 67.2,29.4 70.0,29.4 72.8,34.0 75.6,33.2 78.4,29.4 81.2,33.2 84.0,28.6 86.8,23.2 89.6,18.5 92.4,30.1 95.2,27.0 98.0,29.4 100.8,24.7 103.6,30.9 106.4,22.4 109.2,22.4 112.0,24.0 114.8,24.0 117.6,30.1 120.4,19.3 123.2,22.4 126.0,28.6 128.8,32.5 131.6,31.7 134.4,28.6 137.2,29.4 140.0,27.0 142.8,30.1 145.6,12.4 148.4,24.7 151.2,22.4 154.0,15.5 156.8,30.9 159.6,25.5 162.4,18.5 165.2,17.0 168.0,30.1 170.8,27.8 173.6,20.9 176.4,26.3 179.2,13.9 182.0,22.4 184.8,13.9 187.6,17.8 190.4,14.7 193.2,18.5 196.0,20.9 198.8,9.3 201.6,20.9 204.4,13.9 207.2,8.5" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="207.2" y1="8.5" x2="207.2" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="0.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="0.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact"><span class="marg">+11</span> on 2025<br><span class="cbase">normally 13.8 · since 1951</span></span>
+      <span class="cnum">44</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Madrid</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,30.0 2.0,30.7 4.0,32.7 5.9,28.7 7.9,32.7 9.9,32.7 11.9,33.3 13.9,32.7 15.8,30.0 17.8,28.0 19.8,34.0 21.8,30.7 23.8,33.3 25.8,23.3 27.7,28.7 29.7,27.3 35.7,26.7 37.6,28.7 39.6,32.0 41.6,30.7 43.6,32.0 45.6,32.0 47.5,32.7 49.5,27.3 51.5,30.0 53.5,23.3 55.5,30.7 57.5,22.0 59.4,21.3 61.4,29.3 63.4,27.3 65.4,30.0 67.4,28.0 69.3,31.3 71.3,32.7 73.3,27.3 75.3,30.0 77.3,24.7 79.2,28.0 81.2,29.3 83.2,27.3 85.2,30.7 87.2,26.0 89.2,29.3 91.1,30.0 93.1,26.7 95.1,24.0 97.1,20.0 99.1,28.7 101.0,31.3 103.0,30.7 105.0,31.3 107.0,28.7 109.0,29.3 110.9,30.7 112.9,34.0 114.9,28.7 116.9,27.3 118.9,32.0 120.8,26.0 122.8,30.0 124.8,30.0 126.8,30.7 128.8,21.3 130.8,21.3 132.7,28.0 134.7,23.3 136.7,17.3 138.7,16.7 140.7,20.0 142.6,24.0 144.6,23.3 146.6,18.7 148.6,19.3 150.6,22.0 152.5,28.7 154.5,18.0 156.5,21.3 158.5,26.0 160.5,22.7 162.5,23.3 164.4,15.3 166.4,18.7 168.4,18.0 170.4,14.0 172.4,28.0 174.3,24.7 176.3,23.3 178.3,19.3 180.3,24.7 182.3,23.3 184.2,17.3 186.2,26.0 188.2,8.7 190.2,15.3 192.2,10.7 194.2,18.0 196.1,14.0 198.1,13.3 200.1,25.3 202.1,8.7 204.1,13.3 206.0,18.0 208.0,7.3" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="208.0" y1="7.3" x2="208.0" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="0.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="0.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact"><span class="marg">+11</span> on 2025<br><span class="cbase">normally 21.0 · since 1920</span></span>
+      <span class="cnum">51</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Bilbao</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,34.0 2.7,34.0 5.4,27.6 8.1,31.9 10.8,34.0 13.5,34.0 16.2,34.0 18.8,29.8 21.5,34.0 24.2,34.0 29.6,34.0 32.3,34.0 35.0,34.0 37.7,34.0 40.4,34.0 43.1,31.9 45.8,34.0 48.5,34.0 51.2,34.0 53.8,34.0 56.5,34.0 59.2,34.0 61.9,31.9 64.6,34.0 67.3,34.0 70.0,34.0 72.7,34.0 75.4,34.0 78.1,34.0 80.8,34.0 83.5,34.0 86.2,34.0 88.8,34.0 91.5,34.0 94.2,23.4 96.9,34.0 99.6,34.0 102.3,34.0 105.0,34.0 107.7,34.0 110.4,31.9 113.1,34.0 115.8,34.0 118.5,34.0 121.2,34.0 123.8,31.9 126.5,34.0 129.2,34.0 131.9,31.9 134.6,34.0 137.3,34.0 140.0,34.0 142.7,31.9 145.4,34.0 148.1,31.9 150.8,29.8 153.5,31.9 156.2,17.0 158.8,31.9 161.5,31.9 164.2,34.0 166.9,34.0 169.6,34.0 172.3,31.9 175.0,21.2 177.7,34.0 180.4,31.9 183.1,31.9 185.8,29.8 188.5,25.5 191.2,27.6 193.8,34.0 196.5,34.0 199.2,29.8 201.9,31.9 204.6,23.4 207.3,25.5" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="156.2" y1="17.0" x2="156.2" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="0.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="0.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact"><span class="marg">+8</span> on 2006<br><span class="cbase">normally 1.2 · since 1948</span></span>
+      <span class="cnum">16</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Montpellier</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,34.0 2.6,32.3 5.2,33.2 7.9,32.3 10.5,27.4 13.1,34.0 15.8,29.0 18.4,29.9 21.0,33.2 23.6,31.5 26.2,33.2 28.9,34.0 31.5,32.3 34.1,30.7 36.8,33.2 39.4,33.2 42.0,32.3 44.6,31.5 47.2,29.9 49.9,30.7 52.5,33.2 55.1,27.4 57.8,32.3 60.4,32.3 63.0,33.2 65.6,34.0 68.2,32.3 70.9,32.3 73.5,34.0 76.1,32.3 78.8,29.0 81.4,34.0 84.0,32.3 86.6,25.7 89.2,33.2 91.9,33.2 94.5,21.6 97.1,20.7 99.8,31.5 102.4,28.2 105.0,27.4 107.6,28.2 110.2,27.4 112.9,20.7 115.5,20.7 118.1,22.4 120.7,24.9 123.4,29.9 126.0,18.2 128.6,18.2 131.2,22.4 133.9,26.5 136.5,23.2 139.1,26.5 141.8,29.9 144.4,20.7 147.0,21.6 149.6,5.8 152.2,21.6 154.9,12.4 157.5,5.0 160.1,25.7 162.8,21.6 165.4,14.9 168.0,17.4 170.6,29.9 173.2,26.5 175.9,22.4 178.5,21.6 181.1,10.0 183.8,17.4 186.4,11.6 189.0,14.1 191.6,14.9 194.2,18.2 196.9,17.4 199.5,9.1 202.1,9.1 204.8,19.9 207.4,7.5" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="157.5" y1="5.0" x2="157.5" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="0.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="0.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact"><span class="marg">+6</span> on 2006<br><span class="cbase">normally 17.6 · since 1946</span></span>
+      <span class="cnum">41</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Paris</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,34.0 2.0,34.0 52.5,30.0 54.5,34.0 56.5,34.0 58.6,32.0 60.6,30.0 62.6,34.0 64.6,34.0 66.6,32.0 68.7,34.0 70.7,28.0 72.7,34.0 74.7,32.0 76.7,34.0 78.8,34.0 80.8,34.0 82.8,34.0 84.8,34.0 86.8,34.0 88.8,34.0 90.9,34.0 92.9,32.0 94.9,34.0 96.9,34.0 98.9,34.0 101.0,34.0 103.0,34.0 105.0,34.0 107.0,32.0 109.0,8.0 111.1,34.0 113.1,34.0 115.1,34.0 117.1,34.0 119.1,34.0 121.2,32.0 123.2,28.0 125.2,34.0 127.2,32.0 129.2,32.0 131.2,32.0 133.3,34.0 135.3,32.0 137.3,28.0 139.3,34.0 141.3,32.0 143.4,34.0 145.4,30.0 147.4,28.0 149.4,30.0 151.4,34.0 153.5,34.0 155.5,34.0 157.5,34.0 159.5,34.0 161.5,30.0 163.6,32.0 165.6,34.0 167.6,32.0 169.6,26.0 171.6,34.0 173.7,34.0 175.7,34.0 177.7,28.0 179.7,32.0 181.7,32.0 183.8,28.0 185.8,32.0 187.8,30.0 189.8,30.0 191.8,26.0 193.8,30.0 195.9,20.0 197.9,30.0 199.9,34.0 201.9,28.0 203.9,30.0 206.0,30.0 208.0,26.0" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="109.0" y1="8.0" x2="109.0" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="0.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="0.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact"><span class="marg">+4</span> on 1976<br><span class="cbase">normally 1.5 · since 1922</span></span>
+      <span class="cnum">17</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Murcia</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,27.9 2.5,31.0 5.0,33.4 7.5,28.5 10.0,32.2 12.5,32.2 15.0,32.2 17.5,29.8 20.0,26.1 22.5,29.8 25.0,18.2 27.5,26.7 30.0,27.9 32.5,20.6 35.0,32.2 37.5,30.4 40.0,31.6 42.5,27.9 45.0,25.5 47.5,26.7 50.0,24.9 52.5,26.1 55.0,25.5 57.5,27.3 60.0,29.8 62.5,27.3 65.0,23.1 67.5,31.0 70.0,27.3 72.5,28.5 75.0,29.1 77.5,30.4 80.0,31.0 82.5,23.1 85.0,25.5 87.5,29.8 90.0,29.1 92.5,23.7 95.0,31.0 97.5,31.0 100.0,21.9 102.5,23.7 105.0,31.6 107.5,31.6 110.0,26.7 112.5,27.3 115.0,29.1 117.5,21.9 120.0,29.8 122.5,23.1 125.0,26.7 127.5,24.3 130.0,14.0 132.5,13.4 135.0,20.0 137.5,17.6 140.0,14.6 142.5,16.4 145.0,13.4 147.5,14.6 150.0,15.8 152.5,6.1 155.0,14.6 157.5,8.5 160.0,9.7 162.5,13.4 165.0,9.1 167.5,7.3 170.0,12.1 172.5,7.9 175.0,4.9 177.5,20.6 180.0,12.8 182.5,10.3 185.0,9.7 187.5,6.7 190.0,8.5 192.5,9.1 195.0,10.9 197.5,12.1 200.0,6.1 202.5,3.6 205.0,4.9 207.5,1.2" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="207.5" y1="1.2" x2="207.5" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="0.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="0.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact"><span class="marg">+2</span> on 2025<br><span class="cbase">normally 34.3 · since 1942</span></span>
+      <span class="cnum">56</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Malaga</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,19.4 2.5,29.8 5.1,23.7 10.1,18.2 12.7,27.3 15.2,20.0 17.7,24.9 20.2,17.6 22.8,14.6 25.3,15.8 27.8,24.9 30.4,12.8 32.9,26.7 35.4,21.9 38.0,23.1 40.5,17.6 43.0,16.4 53.1,11.5 55.7,15.2 58.2,17.6 60.7,22.5 63.3,17.0 65.8,22.5 68.3,20.6 70.8,23.1 73.4,31.0 75.9,27.9 78.4,29.1 81.0,27.3 83.5,18.2 86.0,29.8 88.6,29.1 91.1,21.2 93.6,26.7 96.1,28.5 98.7,24.3 101.2,27.3 103.7,24.9 106.3,18.8 108.8,26.1 111.3,15.8 113.9,20.6 116.4,15.2 118.9,18.8 121.4,18.2 124.0,20.6 126.5,21.2 129.0,11.5 131.6,17.0 134.1,22.5 136.6,25.5 139.2,21.2 141.7,16.4 144.2,12.8 146.7,13.4 149.3,8.5 151.8,9.7 154.3,12.8 156.9,14.6 159.4,12.8 161.9,12.1 164.5,9.1 167.0,9.7 169.5,11.5 172.0,6.7 174.6,7.3 177.1,19.4 179.6,10.3 182.2,10.3 184.7,7.9 187.2,4.2 189.8,12.1 192.3,9.1 194.8,9.1 197.3,12.1 199.9,1.8 202.4,2.4 204.9,9.7 207.5,0.6" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="207.5" y1="0.6" x2="207.5" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="0.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="0.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact"><span class="marg">+1</span> on 2025<br><span class="cbase">normally 34.2 · since 1943</span></span>
+      <span class="cnum">56</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Valencia</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,25.9 2.4,30.5 4.8,31.7 7.2,28.8 9.5,28.8 11.9,28.2 14.3,32.8 16.7,26.5 19.1,30.5 21.5,24.8 23.9,30.5 26.2,23.1 28.6,19.6 31.0,25.4 33.4,17.3 35.8,23.1 38.2,28.8 40.6,20.7 43.0,30.0 45.3,27.1 47.7,30.0 50.1,19.6 52.5,17.3 54.9,18.4 57.3,16.7 59.7,21.3 62.0,20.7 64.4,17.9 66.8,22.5 69.2,19.6 71.6,21.3 74.0,21.9 76.4,21.9 78.8,20.2 81.1,20.7 83.5,17.9 85.9,22.5 88.3,16.1 90.7,14.4 93.1,27.1 95.5,23.6 97.8,16.1 100.2,24.2 102.6,21.3 105.0,8.6 107.4,17.9 109.8,18.4 112.2,13.3 114.5,17.9 116.9,19.6 119.3,17.9 121.7,9.2 124.1,11.5 126.5,16.7 128.9,23.6 131.2,21.9 133.6,13.3 136.0,14.4 138.4,15.6 140.8,16.7 143.2,9.2 145.6,11.5 148.0,12.1 150.3,12.1 152.7,12.1 155.1,1.7 157.5,6.9 159.9,7.5 162.3,6.3 164.7,9.8 167.0,13.3 169.4,6.3 171.8,12.1 174.2,8.1 176.6,4.0 179.0,14.4 181.4,11.5 183.8,6.9 186.1,9.8 188.5,8.6 190.9,9.8 193.3,9.8 195.7,7.5 198.1,9.8 200.5,0.6 202.8,4.0 205.2,6.3 207.6,0.0" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="207.6" y1="0.0" x2="207.6" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="0.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="0.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact">2<span class="ord">nd</span> of 89<br><span class="cbase">normally 39.7 · since 1938</span></span>
+      <span class="cnum">59</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Alicante</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,28.1 2.4,30.5 4.8,27.6 7.2,27.6 9.7,25.8 12.1,28.1 14.5,21.7 16.9,31.1 19.3,17.6 21.7,31.1 24.1,22.9 26.6,20.5 29.0,27.0 31.4,15.2 33.8,21.1 36.2,25.8 38.6,15.8 41.0,31.1 43.4,27.0 45.9,28.1 48.3,24.0 50.7,24.0 53.1,24.6 55.5,22.9 57.9,27.6 60.3,27.0 62.8,20.5 65.2,27.0 67.6,25.2 70.0,26.4 72.4,29.3 74.8,28.7 77.2,27.6 79.7,29.3 82.1,23.4 84.5,30.5 86.9,22.9 89.3,27.0 91.7,31.7 94.1,29.9 96.6,23.4 99.0,30.5 101.4,31.1 103.8,17.6 106.2,21.7 108.6,24.6 111.0,21.1 113.4,21.7 115.9,21.1 118.3,21.1 120.7,15.8 123.1,21.7 125.5,21.1 127.9,26.4 130.3,22.9 132.8,14.1 135.2,14.7 137.6,18.2 140.0,19.3 142.4,12.9 144.8,13.5 147.2,14.1 149.7,10.0 152.1,11.7 154.5,4.7 156.9,11.1 159.3,8.2 161.7,5.3 164.1,11.1 166.6,10.0 169.0,8.8 171.4,12.9 173.8,9.4 176.2,9.4 178.6,21.7 181.0,12.3 183.4,11.7 185.9,11.1 188.3,8.2 190.7,12.3 193.1,11.7 195.5,10.0 197.9,12.3 200.3,8.8 202.8,4.7 205.2,7.6 207.6,0.0" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="207.6" y1="0.0" x2="207.6" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="1.8" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="1.8" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact">2<span class="ord">nd</span> of 88<br><span class="cbase">normally 35.9 · since 1939</span></span>
+      <span class="cnum">55</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Nice</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,29.7 2.5,24.3 5.1,18.3 7.6,30.2 10.1,23.2 12.7,32.4 15.2,29.1 17.7,27.0 20.2,32.4 22.8,21.0 25.3,31.8 27.8,32.4 30.4,29.7 32.9,31.8 35.4,27.0 38.0,30.2 40.5,27.0 43.0,32.9 45.5,30.2 48.1,27.0 50.6,23.7 53.1,21.0 55.7,30.2 58.2,31.8 60.7,22.7 63.3,28.1 65.8,28.1 68.3,27.0 70.8,25.9 73.4,28.6 75.9,23.7 78.4,30.2 81.0,27.5 83.5,24.8 86.0,30.8 88.6,30.2 91.1,21.6 93.6,32.4 96.1,25.9 98.7,18.9 101.2,16.2 103.7,30.2 106.3,22.7 108.8,20.0 111.3,20.0 113.9,22.7 116.4,18.9 118.9,22.7 121.4,25.9 124.0,24.8 126.5,29.7 129.0,16.7 131.6,17.3 134.1,22.7 136.6,26.4 139.2,21.0 141.7,20.5 144.2,27.0 146.7,23.2 149.3,21.6 151.8,6.5 154.3,27.0 156.9,13.5 159.4,13.5 161.9,24.8 164.5,15.7 167.0,15.7 169.5,13.0 172.0,15.7 174.6,11.3 177.1,16.7 179.6,19.4 182.2,7.6 184.7,15.7 187.2,10.3 189.8,9.7 192.3,11.3 194.8,12.4 197.3,10.3 199.9,0.0 202.4,7.6 204.9,15.1 207.5,5.4" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="199.9" y1="0.0" x2="199.9" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="3.8" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="3.8" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact">2<span class="ord">nd</span> of 84<br><span class="cbase">normally 30.7 · since 1943</span></span>
+      <span class="cnum">56</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Seville</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,28.7 2.8,26.7 5.6,28.0 8.4,30.7 11.2,28.7 14.0,31.3 16.8,22.0 19.6,29.3 22.4,20.7 25.2,21.3 28.0,26.7 30.8,28.0 33.6,28.0 36.4,26.0 39.2,27.3 42.0,29.3 44.8,31.3 47.6,27.3 50.4,29.3 53.2,30.0 56.0,28.0 58.8,33.3 61.6,29.3 64.4,22.0 67.2,29.3 70.0,20.7 72.8,34.0 75.6,27.3 78.4,22.7 81.2,30.0 84.0,19.3 86.8,30.7 89.6,30.0 92.4,28.0 95.2,26.7 98.0,28.7 100.8,19.3 103.6,20.0 106.4,14.7 109.2,18.7 112.0,15.3 114.8,24.0 117.6,14.7 120.4,14.0 123.2,19.3 126.0,14.7 128.8,22.0 131.6,14.0 134.4,13.3 137.2,14.0 140.0,22.0 142.8,16.0 145.6,11.3 148.4,2.7 151.2,3.3 154.0,6.0 156.8,14.7 159.6,8.7 162.4,6.0 165.2,5.3 168.0,5.3 170.8,16.0 173.6,18.0 176.4,24.0 179.2,12.0 182.0,10.7 184.8,10.0 187.6,29.3 190.4,23.3 193.2,10.0 196.0,23.3 198.8,10.7 201.6,12.7 204.4,21.3 207.2,0.0" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="207.2" y1="0.0" x2="207.2" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="2.7" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="2.7" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact">3<span class="ord">rd</span> of 76<br><span class="cbase">normally 30.0 · since 1951</span></span>
+      <span class="cnum">47</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Palma</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,33.5 4.1,31.8 8.2,34.0 12.4,24.7 16.5,18.1 20.6,30.7 24.7,26.3 28.8,8.8 32.9,14.3 37.1,20.8 41.2,15.4 45.3,16.5 49.4,14.3 53.5,13.7 57.6,8.8 61.8,11.0 65.9,18.1 70.0,23.0 74.1,13.2 78.2,11.5 82.4,12.1 86.5,15.4 90.6,10.4 94.7,10.4 98.8,8.8 102.9,11.5 107.1,11.5 111.2,8.2 115.3,2.7 119.4,14.3 123.5,8.2 127.6,6.6 131.8,7.1 135.9,11.5 140.0,5.5 144.1,14.8 148.2,11.5 152.4,3.8 156.5,15.9 160.6,8.2 164.7,8.2 168.8,8.8 172.9,6.6 177.1,8.8 181.2,11.5 185.3,7.7 189.4,3.8 193.5,0.0 197.6,2.7 201.8,3.3 205.9,0.0" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="205.9" y1="0.0" x2="205.9" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="2.2" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="2.2" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact">3<span class="ord">rd</span> of 52<br><span class="cbase">normally 42.8 · since 1975</span></span>
+      <span class="cnum">58</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Barcelona</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,19.3 2.1,27.8 4.2,23.8 39.5,32.9 41.6,28.3 43.7,32.9 45.7,23.8 47.8,29.5 49.9,20.4 52.0,21.0 54.1,31.7 56.1,23.2 58.2,30.0 60.3,34.0 62.4,24.9 64.5,33.4 66.5,32.3 68.6,31.7 70.7,25.5 72.8,25.5 74.9,27.2 76.9,26.1 79.0,31.2 81.1,26.6 83.2,27.8 85.2,31.7 87.3,24.4 89.4,26.6 91.5,26.6 93.6,27.8 95.6,26.6 97.7,30.6 99.8,32.3 101.9,32.3 104.0,29.5 106.0,31.2 108.1,34.0 110.2,33.4 112.3,30.6 114.4,33.4 116.4,31.7 118.5,21.0 120.6,23.2 122.7,31.7 124.8,31.2 126.8,32.3 128.9,29.5 131.0,32.3 133.1,24.4 135.1,22.1 137.2,32.3 139.3,31.2 141.4,29.5 143.5,15.3 145.5,19.8 147.6,22.7 149.7,22.7 151.8,17.0 153.9,18.1 155.9,28.3 158.0,27.8 160.1,33.4 162.2,5.7 164.3,17.0 166.3,11.3 168.4,6.8 170.5,14.7 172.6,16.4 174.7,11.9 176.7,14.2 178.8,17.0 180.9,14.2 183.0,15.3 185.0,17.0 187.1,9.6 189.2,14.2 191.3,8.5 193.4,8.5 195.4,11.3 197.5,11.9 199.6,9.1 201.7,0.0 203.8,6.8 205.8,11.3 207.9,3.4" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="201.7" y1="0.0" x2="201.7" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="4.0" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="4.0" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact">3<span class="ord">rd</span> of 86<br><span class="cbase">normally 29.2 · since 1925</span></span>
+      <span class="cnum">53</span>
+    </a><a class="crow" href="#">
+      <span class="cname">Marseille</span>
+      <span class="cspark"><svg viewBox="0 0 210 46" width="210" height="46" aria-hidden="true">
+      <polyline points="0.0,34.0 2.0,34.0 4.0,30.4 6.0,33.3 8.0,31.1 10.0,30.4 12.0,30.4 14.0,30.4 16.0,31.8 18.0,32.6 20.0,31.8 22.0,34.0 24.0,31.1 26.0,28.9 28.0,32.6 30.0,34.0 32.0,32.6 34.0,30.4 36.0,33.3 38.0,33.3 40.0,26.0 42.0,29.7 50.0,31.8 52.0,27.5 54.0,34.0 56.0,31.1 58.0,23.1 60.0,31.8 62.0,28.2 64.0,27.5 66.0,34.0 68.0,27.5 70.0,31.8 72.0,32.6 74.0,34.0 76.0,27.5 78.0,28.9 80.0,25.3 82.0,27.5 84.0,22.4 86.0,24.6 88.0,26.0 90.0,31.1 92.0,23.1 94.0,28.2 96.0,30.4 98.0,27.5 100.0,26.0 102.0,28.2 104.0,24.6 106.0,30.4 108.0,26.0 110.0,23.9 112.0,34.0 114.0,31.8 116.0,22.4 118.0,32.6 120.0,28.9 122.0,16.6 124.0,18.1 126.0,28.9 128.0,28.2 130.0,27.5 132.0,26.8 134.0,31.1 136.0,19.5 138.0,25.3 140.0,21.0 142.0,23.9 144.0,26.0 146.0,11.6 148.0,15.9 150.0,24.6 152.0,24.6 154.0,13.0 156.0,25.3 158.0,24.6 160.0,21.7 162.0,23.1 164.0,5.8 166.0,19.5 168.0,11.6 170.0,0.7 172.0,24.6 174.0,23.1 176.0,20.3 178.0,16.6 180.0,29.7 182.0,24.6 184.0,20.3 186.0,26.8 188.0,13.7 190.0,16.6 192.0,12.3 194.0,10.9 196.0,15.2 198.0,19.5 200.0,13.7 202.0,0.0 204.0,8.0 206.0,14.5 208.0,8.0" fill="none" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="202.0" y1="0.0" x2="202.0" y2="34"
+            stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="210.0" y1="10.1" x2="210.0" y2="34"
+            stroke="var(--accent)" stroke-width="2.4"/>
+      <circle cx="210.0" cy="10.1" r="2.6" fill="var(--accent)"/>
+    </svg></span>
+      <span class="cfact">7<span class="ord">th</span> of 103<br><span class="cbase">normally 21.5 · since 1921</span></span>
+      <span class="cnum">33</span>
+    </a>
+
+<div class="alone">
+  <span class="big">+12</span>
+  <span class="cap">nights is all that separates Lyon from its own
+    previous record, set last year. It counts the same as Lyon's twelve.</span>
+</div>
+
+<div class="warn">MOCKUP, pre-re-emit. Built from city_nights_2026.json at
+  2026-08-03, before heat re-sources the Spanish cities from AEMET. Madrid's
+  baseline mean moves 21.0 to 21.2 and no rank changes. Review the treatment,
+  not the third significant figure.</div>
+
+</main></body></html>
