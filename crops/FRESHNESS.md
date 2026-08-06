@@ -17,11 +17,35 @@ by a fresh live pull of the UK cumulative-FPAR series on 2026-08-05
 (HTTP 200), which returned the same 2026-07-11 as its newest row. There
 is nothing newer to fetch for this instrument.
 
-**It breaches the staleness bound already recorded for this channel.**
-The rule is that no new dekad for more than 20 days is an error, being
-two full publication cycles. At 25 days we are past it. The rule was
-written as an absolute bound precisely so that a legitimate-looking
-run of no-ops could not hide a stall, and it is now doing that job.
+**CORRECTED 2026-08-06: it does NOT breach the staleness bound, and
+this document originally said it did.** The error is instructive
+enough to leave in rather than quietly rewrite, because it propagated:
+product repeated it, and design carried it into a code comment.
+
+The rule is "no new dekad for more than 20 days", which is a clock on
+**publication**. This document measured from the dekad **label**, which
+is the observation window's START, giving 25 days. Three clocks were in
+play and all three were quoted as the same number by somebody:
+
+| measured from | on 2026-08-06 |
+|---|---|
+| the dekad label, 11 July | 26 days |
+| the window closing, 20 July | 17 days |
+| **actual publication** | **the only one the rule means** |
+
+**Settled empirically rather than argued.** The probe now in
+`crops/probe_asap.py` returns a literal `[]` for dekad 2026-07-21,
+whose window closed on 31 July, six days ago. **ASAP has not skipped a
+cycle. We are waiting for a normal publication, not sitting on a
+stall.**
+
+**The real defect was that we ratified a rule we had no field to
+measure.** The payload recorded `dekad` and no publication date at all,
+so everyone measured from whatever field they held. That is now logged
+going forward in `crops/data/publication_log.json`, with existing
+entries marked `backfilled` and excluded from any age, because the
+first probe finds every past dekad on the same day and would otherwise
+report the newest as nought days old.
 
 ## Why it matters more than the number suggests
 
