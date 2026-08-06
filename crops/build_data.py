@@ -104,6 +104,40 @@ def rank_of(current: float, history: pd.Series, worse_is: int) -> int:
     return int((history > current).sum()) + 1
 
 
+def series_span(series: dict, first: int, last: int) -> dict:
+    """What the series SHOULD contain, beside what it does.
+
+    Product's ask across all four measuring channels, and it is a
+    data-integrity requirement rather than a drawing device: a consumer
+    cannot currently tell a GAP from an END. Twenty-four values in a
+    twenty-six-year record and twenty-four values in a twenty-four-year
+    record are the same payload, so a renderer stretches what it has to
+    fill the frame and silently turns "two years are missing" into "this
+    is the whole record".
+
+    `missing` rather than only a count, because the years that are
+    absent are strictly more useful than how many, and it lets design
+    draw an empty slot where the gap actually falls.
+
+    Emitted as a sibling rather than by wrapping `series` in
+    {expected_slots, values}: the live country pages read `series` as a
+    year-keyed mapping, and changing its shape would break 41 published
+    pages to add metadata beside them.
+    """
+    have = {int(y) for y in series}
+    want = list(range(first, last + 1))
+    # Only the VARYING part per datum. first, last and expected_slots
+    # are identical on every series in the file, so they are declared
+    # once in `series_declaration` at the top level. Repeating three
+    # constant fields across 2,122 regions cost 0.3 MB and took the file
+    # to 4.99 against a 5.00 guard, which is the same mistake that cost
+    # 4.6 MB earlier today. Constant properties belong to the measure.
+    return {
+        "present": len(have),
+        "missing": [y for y in want if y not in have],
+    }
+
+
 def _ordinal(n: int) -> str:
     suffix = ("th" if 11 <= n % 100 <= 13
               else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th"))
@@ -208,6 +242,7 @@ def severity_block(oriented: dict, cur_year: int) -> dict:
         "of": of,
         "worse_is": "high",
         "series": means,
+        "series_span": series_span(means, BASE_FIRST, cur_year),
         "spread": spread,
         "tied_with": tied,
         # The place's OWN median, emitted rather than left to be looked
@@ -684,10 +719,26 @@ def build_stress(catalogue: dict) -> dict:
 
     for cid, name in catalogue.items():
         base = load("zfparc", cid)
-        if base is None or base.region_id.nunique() < MIN_UNITS:
+        # Three different things used to share one reason, and one of
+        # them is OUR failure reported as a fact about ASAP. A missing
+        # cache file means nothing was fetched; it does not mean the
+        # crop mask is empty. Zero places hit that branch today, so this
+        # is latent rather than live, which is the cheapest moment to
+        # fix it. Same discipline as `absent_because` on an instrument.
+        if not (CACHE / f"zfparc_crop_growing_{cid}.csv").exists():
+            skipped.append({"place": name, "reason": "no data was "
+                            "fetched for this place", "ours": True})
+            continue
+        if base is None:
+            skipped.append({"place": name, "reason": "ASAP reports no "
+                            "cropland inside a growing cycle here",
+                            "ours": False})
+            continue
+        if base.region_id.nunique() < MIN_UNITS:
             skipped.append({"place": name,
-                            "reason": "fewer than 3 crop units in the "
-                                      "ASAP crop mask"})
+                            "reason": f"fewer than {MIN_UNITS} crop units "
+                                      f"in the ASAP crop mask",
+                            "ours": False})
             continue
 
         latest = base.dt.max()
@@ -855,6 +906,10 @@ def build_stress(catalogue: dict) -> dict:
                 "series": {int(y): round(float(v), 3)
                            for y, v in s.items()
                            if BASE_FIRST <= y <= latest.year},
+                "series_span": series_span(
+                    {int(y): v for y, v in s.items()
+                     if BASE_FIRST <= y <= latest.year},
+                    BASE_FIRST, latest.year),
                 # The rate belongs at region level too, and this is the
                 # level the England case was found at: England is the
                 # steepest 4-dekad fall in its own record while the UK
@@ -1221,6 +1276,21 @@ def build_stress(catalogue: dict) -> dict:
         # were wrong. It is uniform across this channel, so it is stated
         # once here; every rank additionally carries its own `of` and
         # `basis`, which is what makes a single datum self-describing.
+        # Product's gap-versus-end requirement, stated once because it
+        # is identical for every series here. A consumer reads expected
+        # slots from this, present and missing from the datum.
+        "series_declaration": {
+            "first": BASE_FIRST,
+            "last": int(latest_dekad[:4]),
+            "expected_slots": int(latest_dekad[:4]) - BASE_FIRST + 1,
+            "applies_to": "every `series` in this file, at country and "
+                          "region level. Each carries `series_span` with "
+                          "`present` and `missing`.",
+            "why": "24 values in a 26-year record and 24 values in a "
+                   "24-year record are otherwise the same payload, so a "
+                   "renderer stretches what it has and turns a gap into "
+                   "an end.",
+        },
         "baseline": {
             "basis": f"{BASE_FIRST}-{BASE_LAST}, same dekad of each year",
             "first": BASE_FIRST,
