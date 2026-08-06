@@ -3,11 +3,14 @@
 Methodology for the economic damages section of The Long Swell.
 Written to be read cold, by someone deciding whether to cite us.
 
-Version 0.5, 2026-08-03. Draft. This page will change; changes are
+Version 0.6, 2026-08-03. Draft. This page will change; changes are
 dated and the reasoning is kept rather than overwritten.
 
 Changes so far:
 
+- **0.6** Added why we never rank an event as the costliest in N years:
+  the record of past losses is censored at the bottom, so any such
+  ranking is wrong in a known direction.
 - **0.5** The open question about a single central figure is answered:
   we do publish one, derived from named estimates of comparable events,
   labelled as ours, under strict conditions set out below.
@@ -279,6 +282,38 @@ the places with the least insurance.** Loss-estimation infrastructure
 follows insurance penetration, so the events with the worst human
 outcomes are frequently the ones with no money attached to them,
 permanently.
+
+## Why we never say an event was "the costliest in N years"
+
+Elsewhere on this site you will see a reading placed against its own
+local history: this week is in the top 2% of Julys, that season is
+second only to 2022. Those work because somebody has been measuring the
+same thing in the same way for decades.
+
+Damage figures cannot be placed that way, and the reason is worth
+knowing because it applies to every ranking of disaster costs you will
+ever read, not just to ours.
+
+**The record of past losses is missing its small events by design.** The
+main European insured-loss index publishes nothing below EUR 300 million
+in one country. The EU Solidarity Fund produces a damage figure only
+where a government applies for money, which happens above a threshold.
+Loss estimators exist to serve people who care about large losses, so
+the cheap events were never counted in the first place.
+
+That is not a gap that averages out. It means any ranking built on
+observed loss history is **wrong in one direction**: the low end is
+invisible, so events look rarer and more extreme than they were. A
+league table of costliest disasters is really a league table of
+disasters somebody bothered to price.
+
+So we do not publish percentile rankings of cost, and where you see a
+comparison to a past event on these pages it is a comparison to that
+named event, not a claim about where it sits in a distribution.
+
+What we can rank is the physical thing: hectares burned, water extent,
+degrees. Those are measured continuously by instruments that do not
+stop looking when an event is small.
 
 ## Three labels you will see on every item
 
