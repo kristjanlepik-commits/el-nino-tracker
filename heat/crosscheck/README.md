@@ -1,4 +1,4 @@
-# crosscheck/ — verification only, never a published source
+# crosscheck: verification only, never a published source
 
 Nothing in this directory may be rendered, quoted or derived from for
 publication. It exists so a published number can be checked against an
