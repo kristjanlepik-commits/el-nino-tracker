@@ -142,14 +142,13 @@ def main() -> None:
     # D-028 gives about the pages above: a channel failure must not be
     # able to take down the thing that collects the reader.
     #
-    # form_embed is empty until platform supplies the Beehiiv script,
-    # which is the only route they offer. The page renders a stated slot
-    # rather than a broken form in the meantime, so this is safe to
-    # publish before the embed lands, but it does NOT capture anything
-    # until it does.
+    # The embed is platform's, landed on main as EMAIL_CAPTURE_SNIPPET
+    # (08e543c). Imported rather than copied, so there is one form id in
+    # the repo and changing the provider is one edit in their file.
     from templates import subscribe as SUB       # noqa: E402
     SUB.verify_dated_findings(R._load_events())
-    pages["subscribe/index.html"] = SUB.render_subscribe(root_prefix="../")
+    pages["subscribe/index.html"] = SUB.render_subscribe(
+        form_embed=R.EMAIL_CAPTURE_SNIPPET, root_prefix="../")
     pages["subscribed/index.html"] = SUB.render_subscribed(
         latest_href=f"briefs/{di}/", latest_label=f"the issue of {di}",
         root_prefix="../")
