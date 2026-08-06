@@ -205,6 +205,61 @@ LAYERS = [
 ]
 
 
+
+# TRUNCATION IS INVISIBLE TO A DATE, which is Heat's Barcelona defect in
+# this file. Their coverage gate passed a city at "100% coverage" while
+# it held 35 years of an 86-year record, because the gate computed its
+# denominator from the data it was checking. A truncated series scores
+# perfectly against itself.
+#
+# The same hole is here: _newest_country_as_of takes the MAX over
+# whatever countries are present. A burnt-area payload truncated to five
+# countries would still report a current date and pass, because the
+# newest date among five is as recent as the newest among ninety-four.
+#
+# THE RULE, worth holding for every guard: a check that derives its
+# reference from the thing under test cannot detect truncation. It can
+# only detect internal inconsistency, which is exactly the property a
+# cleanly truncated artifact still has.
+#
+# So the reference is EXTERNAL: the canonical roster in
+# country_history.json, which is what decides how many countries there
+# should be. 0.9 rather than 1.0 because a country legitimately drops out
+# when it has no qualifying data, and the fires roster moved 45 -> 48 ->
+# 94 inside a week. Ten percent absorbs that; Heat's Barcelona was 26%.
+ROSTER = ROOT / "fires" / "data" / "country_history.json"
+MIN_ROSTER_FRACTION = 0.9
+
+
+def _roster_size() -> int:
+    try:
+        return len(json.loads(ROSTER.read_text()).get("countries") or [])
+    except (OSError, ValueError):
+        return 0
+
+
+def check_truncation(problems: list) -> None:
+    expected = _roster_size()
+    if expected < 10:
+        return
+    for rel in ("fires/data/burnt_area.json", "fires/data/current_week.json"):
+        path = ROOT / rel
+        if not path.exists():
+            continue
+        try:
+            n = len(json.loads(path.read_text()).get("countries") or {})
+        except (OSError, ValueError):
+            continue
+        if n < expected * MIN_ROSTER_FRACTION:
+            problems.append(
+                f"{rel} holds {n} countries against a roster of {expected} "
+                f"({n / expected:.0%}). The dates in it may look perfectly "
+                f"current, because the newest date among a few countries is "
+                f"as recent as the newest among all of them. A check that "
+                f"takes its denominator from the data under test cannot see "
+                f"truncation; this one takes it from the roster.")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--as-of", help="pretend today is this date (testing)")
@@ -212,6 +267,7 @@ def main() -> int:
     today = date.fromisoformat(args.as_of) if args.as_of else date.today()
 
     problems, rows = [], []
+    check_truncation(problems)
     for layer in LAYERS:
         p = ROOT / layer["path"]
         if not p.exists():
