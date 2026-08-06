@@ -85,7 +85,10 @@ def main() -> int:
             "record_from": good[0], "record_to": good[-1],
             "nights_2026": v["n"], "as_of": v["as_of"],
             "coverage_pct": v["coverage_pct"],
-            "mean_1991_2020_to_date": v["mean_9120"],
+            "mean_1991_2020_to_date": {
+                "value": v["mean_9120"],
+                "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
+            },
             "rank": {
                 "value": v["rank"], "of_years": v["of_years"],
                 "percentile": v["percentile"], "reading": v["reading"],
@@ -102,7 +105,20 @@ def main() -> int:
                     "2026, so this is not a partial year against complete "
                     "ones.",
             },
-            "series_to_same_date": {str(y): n for y, n in todate.items()},
+            "series_to_same_date": {
+                "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
+                "cut_note":
+                    "Every year counted to this calendar day, matching this "
+                    "city's own as-of date. NOT comparable to a figure cut at "
+                    "a different day: one day in early August is worth about "
+                    "0.66 nights in Marseille. Cities from different sources "
+                    "have different cuts, so a cross-city ranking cannot use "
+                    "a single one.",
+                "values": {str(y): n for y, n in todate.items()},
+            },
+            "record_margin_nights": (
+                v["n"] - max([n for y, n in todate.items() if n < v["n"]] or [0])
+                if v["rank"] == 1 else None),
             "source": SOURCES[v["country"]],
             "featured": c in FEATURED,
         }
@@ -114,6 +130,10 @@ def main() -> int:
         cities[c] = entry
 
     recs = [c for c, v in cities.items() if v["rank"]["value"] == 1]
+    top5 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 95]
+    top10 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 90]
+    thin = [c for c, v in cities.items()
+            if v["rank"]["value"] == 1 and v.get("record_margin_nights") == 1]
     payload = {
         "_readme":
             "Nights that never fall below 20 C, per European city, each "
@@ -128,6 +148,19 @@ def main() -> int:
                         "services. Not a threshold we chose.",
         },
         "headline": {
+            "lead": {
+                "claim": "Not one of these cities is having an ordinary "
+                         "summer for hot nights.",
+                "in_top_10pct": len(top10), "in_top_5pct": len(top5),
+                "of_cities": len(cities),
+                "why_this_leads":
+                    "Product's ruling 2026-08-06. The record count can "
+                    "legitimately change through a data update: Malaga leads "
+                    "by ONE night and loses the record if the cut advances a "
+                    "day. This framing cannot move on a revision, and 'there "
+                    "is no normal city here' is a stronger claim than 'some "
+                    "cities broke records'.",
+            },
             "records": len(recs), "of_cities": len(cities),
             "record_cities": sorted(recs),
             "headline_requires_baseline": True,
@@ -139,6 +172,11 @@ def main() -> int:
             },
             "may_not_say": B["may_not_say"],
             "the_better_story": B["the_better_story"],
+            "fragile_members": thin,
+            "fragile_note":
+                "A record held by a single night. Carries its margin the way "
+                "the drift page's US Southwest carries state_with_margin: "
+                "true, correctly computed, and visible rather than hidden.",
             "caveat": B["caveat_2026_incomplete"],
         },
         "featured_cities": list(FEATURED),
