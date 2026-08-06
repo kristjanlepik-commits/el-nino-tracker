@@ -436,7 +436,36 @@ Phase 2, in dependency order:
 3. Continue the VIIRS capture and measure the MODIS-to-VIIRS offset per
    region rather than relying on the single Ganges figure.
 4. Design the emitted JSON with ECON's agreed field set (see section
-   12) and the D-030 discovery process.
+   12), the D-030 discovery process, and the three slot fields below.
+
+   **Every emitted series carries `expected_slots`** (product, all four
+   channels, 2026-08-05). A consumer cannot otherwise tell a GAP from an
+   END: six values in a seven-day week and six in a six-day week are the
+   same payload, and a renderer stretches the six to fill the frame,
+   silently turning "we are missing a day" into "this is the week".
+   Nothing in floods makes the expected count unknowable; a week is seven
+   days and a baseline is the calendar years in its window, both fixed
+   before any data arrives.
+
+   **Two further states, because slot counts are necessary and not
+   sufficient here.** A floods day has three conditions, not two:
+
+       day exists, region observed        a measurement
+       day exists, observability 0.12     a placeholder, not a measurement
+       day absent                         a gap
+
+   Slot counts separate the third from the others and cannot separate
+   the first two. Over the Ganges that difference ran 0.71 to 0.12 inside
+   one week. So per-slot observability travels with the values, which is
+   the machine-readable form of the same requirement that puts
+   ValidCounts on the page. **Expected slots make absence
+   machine-readable; they do not make blindness machine-readable, and for
+   an optical instrument those are different failures.**
+
+   And a partial current period needs **"not yet due"** distinguished
+   from "missing", or every in-progress week renders riddled with holes
+   and the visual device for a real gap is worn out on non-gaps. Raised
+   to product as a cross-channel decision rather than a floods one.
 5. Hand platform the five items from the platform contract.
 
 ## 12. Open questions for Kristjan
