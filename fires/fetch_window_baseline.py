@@ -173,6 +173,32 @@ def fetch_one(iso, start: date, year: int) -> int:
 
 CACHE_DIR = os.path.join(REPO, "fires", "data", "full_history")
 COMPLETE_KEY = "_complete"
+DEFECTS = os.path.join(REPO, "fires", "data", "archive_defects.json")
+
+
+def _defective_dates():
+    """Dates the SNPP archive is known to be wrong on, thin or absent.
+
+    Authoritative OVER the completeness marker, which is where this was
+    getting through. The reader treated a date as satisfied if it was
+    present OR its year was marked complete, and the marker is a 300-day
+    floor that cannot see a nineteen-day hole: 2024 is missing 19 days,
+    still holds 347, and is marked complete, so every absent date inside
+    it read as a genuine zero.
+
+    Floods' framing, from the same defect on their channel: check each
+    store separately and never the union. Presence and the marker were
+    two sources of evidence OR-ed together, and the weaker one was
+    answering for the stronger.
+    """
+    try:
+        d = json.load(open(DEFECTS))
+    except (OSError, ValueError):
+        return set()
+    return set(d.get("thin", [])) | set(d.get("absent", []))
+
+
+DEFECTIVE = _defective_dates()
 
 
 def load_cache(iso):
@@ -251,7 +277,11 @@ def window_from_cache(iso, start, end):
             if d is None or i in skip:
                 continue
             key = d.isoformat()
-            if key in days:
+            if key in DEFECTIVE:
+                # Known-defective: not a zero and not fetchable. Excluded
+                # from BOTH sides by the caller rather than summed.
+                missing.append((y, d))
+            elif key in days:
                 total += days[key]
             elif str(y) in complete:
                 total += 0
@@ -304,6 +334,12 @@ def fill_missing(iso, missing):
     doc = load_cache(iso)
     got = 0
     for y, d in missing:
+        if d.isoformat() in DEFECTIVE:
+            # Unfetchable by design: the archive is wrong on this date and
+            # does not heal. 2022-08-01 is still zero in science-quality
+            # four years on. Spending quota to re-read a known hole would
+            # return the same hole.
+            continue
         doc.setdefault(str(y), {})[d.isoformat()] = fetch_day(iso, d)
         got += 1
     save_cache(iso, doc)
