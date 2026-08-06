@@ -288,6 +288,53 @@ def _trajectory(cb: dict, place: str) -> str:
             f'each year since {years[0]}">' + "".join(out) + "</svg>")
 
 
+def _freshness(doc) -> str:
+    """What the page is actually looking at, and how old it is.
+
+    CRO's FRESHNESS.md, and this fixes a claim the page was making by
+    omission. The eyebrow stamped the page with the TOP-LEVEL `dekad`,
+    which is true of 122 places and FALSE of Oman: out-of-season places
+    freeze at their last in-season dekad, correctly, so a page-level
+    "as of" taken from that field asserts something untrue of at least
+    one place on the page.
+
+    The age is the other half. At the time of writing the newest
+    observation is 26 days old, past the channel's own 20-day bound, and
+    THE SOURCE IS LATE RATHER THAN OUR CACHE BEING STALE: a live pull on
+    5 August returned the same dekad as newest. A reader cannot tell
+    those apart and the difference matters, so the page says which.
+
+    Computed from the per-place dekads rather than the top-level field,
+    because the top-level field is the thing that is wrong.
+    """
+    dks = sorted({p.get("dekad") for p in doc.get("places", []) if p.get("dekad")})
+    if not dks:
+        return ""
+    newest, oldest = dks[-1], dks[0]
+    n_old = sum(1 for p in doc.get("places", []) if p.get("dekad") != newest)
+    behind = (f" {n_old} place{'s' if n_old != 1 else ''} sit"
+              f"{'' if n_old != 1 else 's'} further back, having gone "
+              f"out of season and stopped reporting." if n_old else "")
+    return (f'<p class="fresh">Newest observation: the ten days to '
+            f'{h(_dekad_end(newest))}.{behind} The source publishes every '
+            f'ten days and has not published since, so this is the most '
+            f'recent reading available rather than a reading of today.</p>')
+
+
+def _dekad_end(iso: str) -> str:
+    """The dekad label is its START. A reader needs when it ENDS."""
+    import datetime
+    try:
+        y, m, d = (int(x) for x in iso.split("-"))
+    except (ValueError, AttributeError):
+        return iso
+    end = (datetime.date(y, m, d) + datetime.timedelta(days=9)
+           if d in (1, 11) else
+           (datetime.date(y, m + 1, 1) - datetime.timedelta(days=1)
+            if m < 12 else datetime.date(y, 12, 31)))
+    return f"{end.day} {end.strftime('%B')}"
+
+
 def _two_ways(g) -> str:
     """Editor's section: the crop result, counted with and without trend.
 
@@ -722,9 +769,7 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         for c in ordered[:top_n])
     rest = max(0, len(ordered) - top_n)
     grouped_html = f"""
-      {_two_ways(doc.get("global") or {})}
-
-  <p class="seclab">Where the record lows are</p>
+      <p class="seclab">Where the record lows are</p>
       <p class="secsub">Grouped by country, because a single region at a
         record low is common and several in one country is not. Countries
         beyond their own recent maximum come first; the rest follow by
@@ -882,9 +927,10 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 <body>
 {site_masthead(root_prefix, active="crop")}
 <main>
-  <p class="eyebrow">Crops &middot; dekad {h(doc['dekad'])}</p>
+  <p class="eyebrow">Crops</p>
   <h1>{headline}</h1>
   <p class="stand">{lede}</p>
+  {_freshness(doc)}
   {season}
   {world_map}
 
@@ -895,6 +941,8 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
        qualifier that applies to all 81 rows equally. Kristjan's rule,
        and it is the right cut: anything the same on every row, or not
        about this dekad, sits below the content. -->
+  {_two_ways(doc.get("global") or {})}
+
   {_global_block(doc.get("global") or {})}
 
   <p class="seclab">How we know 81 is an ordinary number</p>
