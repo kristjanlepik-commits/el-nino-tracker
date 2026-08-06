@@ -1212,12 +1212,35 @@ def build_stress(catalogue: dict) -> dict:
                                          "indicator for this country",
         },
         "chance_baseline_aggregate": aggregate,
+        # D-104: state the baseline window and whether the current
+        # reading sits inside it, rather than leaving it to be inferred.
+        # Three chats inferred it wrongly in one day: VD decided fires
+        # must use a fitted distribution, I decided heat must, and
+        # design decided crops includes its current year. All three
+        # diagnoses turned on the same unstated premise and all three
+        # were wrong. It is uniform across this channel, so it is stated
+        # once here; every rank additionally carries its own `of` and
+        # `basis`, which is what makes a single datum self-describing.
+        "baseline": {
+            "basis": f"{BASE_FIRST}-{BASE_LAST}, same dekad of each year",
+            "first": BASE_FIRST,
+            "last": BASE_LAST,
+            "n": BASE_LAST - BASE_FIRST + 1,
+            "current_year_in_baseline": False,
+            "unit": "same dekad of each year, never a rolling window",
+            "means": f"every rank, percentile and z on this channel is "
+                     f"computed against {BASE_LAST - BASE_FIRST + 1} "
+                     f"prior observations, {BASE_FIRST}-{BASE_LAST}, at "
+                     f"the SAME dekad. The current year is NOT in the "
+                     f"baseline, so a z has no (n-1)/sqrt(n) ceiling. "
+                     f"A rank of `N of 26` counts the 25 baseline years "
+                     f"plus the current one.",
+        },
         "rate_legend": rate_legend(),
         "global": build_global(per_place_oriented,
                                int(latest_dekad[:4])) if per_place_oriented
                   else None,
         "dekad": latest_dekad,
-        "baseline": f"{BASE_FIRST}-{BASE_LAST}, same dekad of each year",
         # Two forms, because the footer has a length budget and a
         # renderer truncating the long one lands mid-sentence on
         # "The indicator is". Choosing where to cut a methods line is a

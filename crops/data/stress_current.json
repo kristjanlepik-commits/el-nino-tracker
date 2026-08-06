@@ -76,6 +76,15 @@
   "recent_years_counted": 12,
   "_scope": "reported places only, never the full catalogue. A baseline over a wider set than the page shows is not like-for-like and the discrepancy is invisible in the current year."
  },
+ "baseline": {
+  "basis": "2001-2025, same dekad of each year",
+  "first": 2001,
+  "last": 2025,
+  "n": 25,
+  "current_year_in_baseline": false,
+  "unit": "same dekad of each year, never a rolling window",
+  "means": "every rank, percentile and z on this channel is computed against 25 prior observations, 2001-2025, at the SAME dekad. The current year is NOT in the baseline, so a z has no (n-1)/sqrt(n) ceiling. A rank of `N of 26` counts the 25 baseline years plus the current one."
+ },
  "rate_legend": {
   "measures": "change in cumulative FPAR z-score over the 4 dekads ending at the reported one",
   "window_dekads": 4,
@@ -373,7 +382,6 @@
   ]
  },
  "dekad": "2026-07-11",
- "baseline": "2001-2025, same dekad of each year",
  "method_short": "FPAR cumulated z-score, ASAP crop mask, growing cycle only",
  "method": "FPAR cumulated z-score, ASAP crop mask, restricted to the growing cycle. The indicator is cumulative over the season, so one dekad encodes the season to date.",
  "places_reported": 123,
