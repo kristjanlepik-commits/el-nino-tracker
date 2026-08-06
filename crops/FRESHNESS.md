@@ -91,19 +91,27 @@ reported for this dekad yet": it publishes a dekad behind the others.
 So the composite is five instruments where six exist, everywhere,
 today.
 
-**Outstanding check, not yet run** (tooling was unavailable at the time
-of writing): whether temperature and rainfall have a NEWER published
-dekad than cumulative vegetation. They are separate products on
-separate cadences, and the whole cache was pulled in a batch rather
-than per-instrument, so the cache date and the newest available date
-are not the same question.
+**CHECKED AND CLEARED 2026-08-06.** The open question was whether
+temperature and rainfall publish AHEAD of cumulative vegetation, which
+would have made the divergence claim mixed-vintage: two figures read on
+different dates, with part of the gap between them being a gap in when
+they were read.
 
-**This matters specifically for the divergence lead.** That page
-compares a meteorology figure against a crop-outcome figure. If the two
-instruments publish on different schedules, the comparison is
-mixed-vintage, and neither the payload nor the page currently says so.
-A divergence between two measures read at different dates is partly a
-divergence in when they were read.
+Swept across all 162 cached countries rather than sampled:
+
+| instrument | newest dekad |
+|---|---|
+| Vegetation, cumulative | 2026-07-11 |
+| Vegetation, current | 2026-07-11 |
+| Water satisfaction | 2026-07-11 |
+| Rainfall, 3-month | 2026-07-11 |
+| Temperature | 2026-07-11 |
+| Soil moisture | **2026-07-01** |
+
+**The four instruments the divergence compares all end on the same
+dekad**, so no part of the gap it reports is a difference in reading
+dates. Soil moisture alone is a dekad behind, which independently
+confirms the absence reason already emitted on all 123 places.
 
 ## What should change
 
@@ -145,3 +153,54 @@ So "how fresh is the data" is the wrong question on its own. The
 question is **how long after an event does this instrument show it**,
 and for cumulative FPAR the honest answer is that we do not yet know,
 which is itself worth publishing before someone assumes it is zero.
+
+## The reader-relevance bound: 21 days, and why it would not have caught July
+
+Added 2026-08-06, answering strategy's question after the retrospective:
+at what age does a crops page stop being worth a reader's time? Source
+lag and reader relevance are different clocks, and until now only the
+first was measured.
+
+**Measured, not chosen.** How fast do our own claims stop being true? A
+place in its worst 3 at one dekad, still in its worst 3 later, across
+completed years 2001-2025. Computed two independent ways, which agree
+to within about a point at every horizon:
+
+| age of newest observation | per-place claim still true | named-set still qualifying |
+|---|---|---|
+| 10 days | 86.3% | 87% |
+| 20 days | 77.2% | 78% |
+| 30 days | 69.9% | 71% |
+| 40 days | 63.7% | 64% |
+| 60 days | 53.9% | 53% |
+
+At 21 days roughly **one in five** named places has stopped qualifying.
+
+**The bound: 21 days from the END of the newest observation window**,
+the dekad label plus nine. Not the label, not publication. Three clocks
+on this file have already produced three different ages.
+
+**It is achievable.** ASAP's publication lag is about **8 days** after a
+window closes: the 11-20 July dekad was already present in a pull dated
+28 July. With a working dekadal job the newest observation's age cycles
+between roughly 8 and 18 days, so 21 leaves about three days of slack,
+fires on a missed cycle, and fires when ASAP runs late. Firing on a late
+source is correct: being level with a slow publisher is not a defence.
+
+**AND IT WOULD NOT HAVE CAUGHT JULY, which matters more than the
+number.** On 6 August the newest window had closed on 20 July: **17
+days**, inside 21, and inside any bound that does not fire permanently.
+About 80% of the page's claims were still true.
+
+**So the July page was not stale. It was uncovered.** The event was
+still happening and the instrument had not seen it. A freshness bound
+cannot fix that, and setting one and calling the failure closed would be
+false comfort.
+
+**The negative finding.** Crops cannot be made current to a news cycle
+with ASAP alone. The floor is about 8 days behind the end of an
+observation window and 13 behind its midpoint, set entirely by the
+source. What crops can be is right about the season with 26 years behind
+it, one to three weeks back. That is a different product from being
+current and should be sold as one. Only a faster driver layer changes
+the floor; everything else polices it.
