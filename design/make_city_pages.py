@@ -264,7 +264,7 @@ f'{dr["value"]}th of {dr["of_years"]}'} for hot days.</p>
 </div>
 <p style="margin-top:26px"><a class="back" href="index.html">All 21 cities</a></p>
 </main></body></html>"""
-    out = R / f"design/review/heat-cities/{slug(name)}.html"
+    out = R / f"design/review/heat/{slug(name)}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
     built.append(name)

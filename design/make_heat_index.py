@@ -138,7 +138,10 @@ svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" 
        + "".join(marks) + "".join(labels) + "</svg>")
 
 # ---- the list: ordered, and each row carries its own magnitude -------------
-PAGES = {"Paris": "paris.html"}
+# every city has a page now, so nothing renders as a dead name
+# Flat, matching the shipped shape: /heat/ is the index and /heat/<city>
+# sits beside it, so a link is a bare filename from either direction.
+PAGES = {n: f"{n.lower().replace(chr(32), chr(45))}.html" for n in C}
 BARMAX = max(d["now"] for d in rows)
 def city_row(i, d):
     nm = d["name"]
@@ -277,7 +280,8 @@ a flag on each city rather than a threshold applied here.</p>
 <span style="text-align:right">public domain</span>
 </div>
 </main></body></html>"""
-out = R / "design/review/heat-index.html"
+out = R / "design/review/heat/index.html"
+out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(html)
 print(f"wrote {out} | {len(rows)} cities, {len(coast)} coast rings, "
       f"top is {rows[0]['name']} (p={rows[0]['p']:.3f}), "
