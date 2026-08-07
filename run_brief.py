@@ -1027,6 +1027,26 @@ _PUBLIC_CSS_TEMPLATE = """
     flex-wrap: wrap;
   }
   .email-cap .ec-pitch { max-width: 46ch; }
+  /* The form gets its own rule rather than whatever the flex row has
+     left over. QA measured the consequence of not having one: the
+     iframe rendered at 300px on a 375px front page against 327px on
+     /subscribe/, so the HIGHER-TRAFFIC placement was the more
+     constrained of the two, which is backwards.
+
+     Beehiiv lays the field and the button side by side at a fixed
+     button width, so every pixel lost falls on the input. At 300px the
+     placeholder rendered as "E". The real fix is theirs, since the form
+     is cross-origin and our CSS cannot reach inside it. The container
+     is ours, and it should never be the reason the field is narrow. */
+  .email-cap .ec-form { flex: 1 1 340px; min-width: 0; }
+  .email-cap .ec-form iframe { width: 100%; max-width: 100%; }
+  @media (max-width: 700px) {
+    /* Stack rather than share the row, and drop the 40px column gap,
+       which is pure loss once the children are full width. */
+    .email-cap { gap: 16px 0; }
+    .email-cap .ec-pitch,
+    .email-cap .ec-form { flex: 1 1 100%; max-width: 100%; }
+  }
   .email-cap .ec-pitch .eyebrow { display: block; color: var(--ink-faint); margin-bottom: 6px; }
   .email-cap .ec-pitch p { margin: 0; font-size: 17.5px; }
   .email-cap a.ec-btn {
