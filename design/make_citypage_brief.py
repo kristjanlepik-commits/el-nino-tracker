@@ -12,7 +12,11 @@ NO_MULT = N["cities_without_day_multiple"]
 # makes a ratio arithmetic rather than evidence. Read from city_sd.json,
 # which now carries the mean.
 SD = json.loads((R / "heat/data/city_sd.json").read_text())["cities"]
-gated = sorted(n for n, d in SD.items() if d["mean"] < 2)
+# Read the gate from the payload rather than inferring it from a mean.
+# Heat emits nights_metric_gated per city now; inferring it here would
+# be the renderer re-deriving a science rule, which is the thing that
+# went wrong when the flag was headline-level only.
+gated = sorted(n for n, v in C.items() if v.get("nights_metric_gated"))
 
 
 def lab(t):

@@ -24,8 +24,8 @@
   "Rounding the baseline would overstate the ratio in 9 of these 21 cities;",
   "Marseille goes from 23.7x to 34x. See the rounding note in this project.",
   "",
-  "NIGHTS ARE GATED in Paris and Bilbao: about one a year is too thin a base for a",
-  "ratio. The series is here; do not draw a multiple from it."
+  "NIGHTS ARE GATED in SEVEN cities, read from the payload's per-city flag rather than",
+  "hard-coded here: Hamburg, Cologne, Munich, Bilbao, Frankfurt, Berlin, Paris. The series is present for all of them; do not draw a ratio, multiple or record from it."
  ],
  "cities": {
   "Madrid": {
@@ -1760,7 +1760,8 @@
      "year": 2026,
      "degrees": 25.8
     }
-   ]
+   ],
+   "nights_baseline_per_year": 21.17
   },
   "Barcelona": {
    "country": "ES",
@@ -3190,7 +3191,8 @@
      "year": 2026,
      "degrees": 25.8
     }
-   ]
+   ],
+   "nights_baseline_per_year": 29.17
   },
   "Valencia": {
    "country": "ES",
@@ -4652,7 +4654,8 @@
      "year": 2026,
      "degrees": 27.5
     }
-   ]
+   ],
+   "nights_baseline_per_year": 39.7
   },
   "Seville": {
    "country": "ES",
@@ -5902,7 +5905,8 @@
      "year": 2026,
      "degrees": 25.8
     }
-   ]
+   ],
+   "nights_baseline_per_year": 29.93
   },
   "Malaga": {
    "country": "ES",
@@ -7236,7 +7240,8 @@
      "year": 2026,
      "degrees": 26.3
     }
-   ]
+   ],
+   "nights_baseline_per_year": 34.17
   },
   "Alicante": {
    "country": "ES",
@@ -8682,7 +8687,8 @@
      "year": 2026,
      "degrees": 26.3
     }
-   ]
+   ],
+   "nights_baseline_per_year": 35.87
   },
   "Murcia": {
    "country": "ES",
@@ -9404,7 +9410,8 @@
      "year": 2026,
      "degrees": 27.0
     }
-   ]
+   ],
+   "nights_baseline_per_year": 34.27
   },
   "Palma": {
    "country": "ES",
@@ -10222,7 +10229,8 @@
      "year": 2026,
      "degrees": 27.7
     }
-   ]
+   ],
+   "nights_baseline_per_year": 42.8
   },
   "Zaragoza": {
    "country": "ES",
@@ -11472,7 +11480,8 @@
      "year": 2026,
      "degrees": 25.8
     }
-   ]
+   ],
+   "nights_baseline_per_year": 13.77
   },
   "Bilbao": {
    "country": "ES",
@@ -12774,7 +12783,8 @@
      "year": 2026,
      "degrees": 22.3
     }
-   ]
+   ],
+   "nights_baseline_per_year": 1.17
   },
   "Paris": {
    "country": "FR",
@@ -14040,7 +14050,8 @@
      "year": 2026,
      "degrees": 27.1
     }
-   ]
+   ],
+   "nights_baseline_per_year": 1.53
   },
   "Marseille": {
    "country": "FR",
@@ -15306,7 +15317,8 @@
      "year": 2026,
      "degrees": 25.7
     }
-   ]
+   ],
+   "nights_baseline_per_year": 21.53
   },
   "Nice": {
    "country": "FR",
@@ -16572,7 +16584,8 @@
      "year": 2026,
      "degrees": 27.1
     }
-   ]
+   ],
+   "nights_baseline_per_year": 30.73
   },
   "Montpellier": {
    "country": "FR",
@@ -17838,7 +17851,8 @@
      "year": 2026,
      "degrees": 26.3
     }
-   ]
+   ],
+   "nights_baseline_per_year": 17.6
   },
   "Lyon": {
    "country": "FR",
@@ -18704,7 +18718,8 @@
      "year": 2026,
      "degrees": 25.8
     }
-   ]
+   ],
+   "nights_baseline_per_year": 6.87
   },
   "Vienna": {
    "country": "AT",
@@ -19970,7 +19985,8 @@
      "year": 2026,
      "degrees": 24.2
     }
-   ]
+   ],
+   "nights_baseline_per_year": 4.33
   },
   "Berlin": {
    "country": "DE",
@@ -19996,7 +20012,7 @@
     "of_years": 79,
     "percentile": 70.9
    },
-   "nights_metric_gated": false,
+   "nights_metric_gated": true,
    "days_by_year_p90": [
     {
      "year": 1948,
@@ -21268,7 +21284,8 @@
      "year": 2026,
      "degrees": 23.7
     }
-   ]
+   ],
+   "nights_baseline_per_year": 1.5
   },
   "Hamburg": {
    "country": "DE",
@@ -21294,7 +21311,7 @@
     "of_years": 91,
     "percentile": 89.0
    },
-   "nights_metric_gated": false,
+   "nights_metric_gated": true,
    "days_by_year_p90": [
     {
      "year": 1936,
@@ -22758,7 +22775,8 @@
      "year": 2026,
      "degrees": 22.6
     }
-   ]
+   ],
+   "nights_baseline_per_year": 0.33
   },
   "Frankfurt": {
    "country": "DE",
@@ -22784,7 +22802,7 @@
     "of_years": 86,
     "percentile": 100.0
    },
-   "nights_metric_gated": false,
+   "nights_metric_gated": true,
    "days_by_year_p90": [
     {
      "year": 1937,
@@ -24184,7 +24202,8 @@
      "year": 2026,
      "degrees": 25.5
     }
-   ]
+   ],
+   "nights_baseline_per_year": 1.37
   },
   "Munich": {
    "country": "DE",
@@ -24210,7 +24229,7 @@
     "of_years": 72,
     "percentile": 100.0
    },
-   "nights_metric_gated": false,
+   "nights_metric_gated": true,
    "days_by_year_p90": [
     {
      "year": 1955,
@@ -25374,7 +25393,8 @@
      "year": 2026,
      "degrees": 23.3
     }
-   ]
+   ],
+   "nights_baseline_per_year": 0.77
   },
   "Cologne": {
    "country": "DE",
@@ -25400,7 +25420,7 @@
     "of_years": 69,
     "percentile": 98.6
    },
-   "nights_metric_gated": false,
+   "nights_metric_gated": true,
    "days_by_year_p90": [
     {
      "year": 1958,
@@ -26516,7 +26536,8 @@
      "year": 2026,
      "degrees": 22.3
     }
-   ]
+   ],
+   "nights_baseline_per_year": 0.37
   }
  }
 }
