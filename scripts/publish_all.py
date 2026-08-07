@@ -80,6 +80,7 @@ TARGETS = [
     "docs/briefs/index.html",
     "docs/fires/index.html",
     "docs/crops/index.html",
+    "docs/heat/index.html",
     "docs/subscribe/index.html",
     "docs/subscribed/index.html",
 ]
@@ -88,6 +89,8 @@ STEPS = [
     ("shell", [PY, "scripts/publish_shell.py"]),
     ("fires index", [PY, "fires/build_page.py"]),
     ("crops index", [PY, "crops/build_page.py"]),
+    ("heat channel", [PY, "design/make_heat_index.py"]),
+    ("heat city pages", [PY, "design/make_city_pages.py"]),
     ("fires country pages", [PY, "fires/build_country_pages.py"]),
 ]
 
@@ -105,6 +108,7 @@ SHELL_TARGETS = {
     "docs/briefs/index.html",
     # Same reasoning as the pages above: the capture surface must not be
     # taken down by a channel build failing.
+    "docs/heat/index.html",
     "docs/subscribe/index.html",
     "docs/subscribed/index.html",
 }
@@ -120,6 +124,10 @@ GENERATORS = [
     "fires/build_page.py",
     "fires/build_country_pages.py",
     "crops/build_page.py",
+    "design/make_heat_index.py",
+    "design/make_city_pages.py",
+    "design/city_coords.json",
+    "design/data/europe_coast.json",
 ]
 
 
@@ -130,6 +138,8 @@ def snapshot_targets() -> dict[str, bytes | None]:
     for rel in TARGETS:
         p = ROOT / rel
         saved[rel] = p.read_bytes() if p.exists() else None
+    for p in (ROOT / "docs" / "heat").glob("*.html"):
+        saved[str(p.relative_to(ROOT))] = p.read_bytes()
     for p in (ROOT / "docs" / "fires").glob("*/index.html"):
         rel = str(p.relative_to(ROOT))
         saved[rel] = p.read_bytes()

@@ -265,14 +265,16 @@ A typical year produces {DH['baseline']['median_year']}.</p>
 <span class="k2"><i></i>Elevated, not a record</span>
 <span>Nothing between the marks is shaded, because nothing between them was measured.</span></div>
 
-<div class="seclab">The heat record cities</div>
-<p class="subl">Ordered by how unlikely this summer is for that city: its rank divided by
-the length of its record, which is the chance of landing this high without a trend.
-<strong style="color:var(--ink);font-weight:500">A record in {rows[0]['of']} years is a
-rarer thing than a record in {min(d['of'] for d in rows)}</strong>, which is what
-separates cities that would otherwise sit tied at first. The bar is that city's own count against its own highest earlier summer, so a full
-bar means it matched or beat its own record; the blue tick is its 1961-1990 normal. Bars are not comparable between
-cities: every one is on its own threshold.</p>
+<div class="seclab">How rare this is, against each city's own record</div>
+<p class="subl">Ordered by rank divided by the length of the record: the chance of
+landing this high without a trend. <strong style="color:var(--ink);font-weight:500">This
+is not a league table and the top city is not the hottest.</strong> A record in
+{rows[0]['of']} years is a rarer thing than a record in {min(d['of'] for d in rows)},
+which is what separates cities that would otherwise sit tied at first, and it is why a
+long record lifts a city here. The bar is that city's own count against its own highest
+earlier summer, so a full bar means it matched or beat its own record; the blue tick is
+its 1961-1990 normal. Bars are not comparable between cities: every one is on its own
+threshold and its own history.</p>
 {top_rows}
 <div style="height:22px"></div>
 {rest_rows}
@@ -303,7 +305,7 @@ a flag on each city rather than a threshold applied here.</p>
 <span style="text-align:right">public domain</span>
 </div>
 </main></body></html>"""
-out = R / "design/review/heat/index.html"
+out = R / "docs/heat/index.html"
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(html)
 print(f"wrote {out} | {len(rows)} cities, {len(coast)} coast rings, "

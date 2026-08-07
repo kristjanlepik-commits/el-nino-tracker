@@ -178,6 +178,7 @@ CHANNELS = [
     ("elnino", "El Ni\u00f1o", None),   # None: resolved to the channel home
     ("fire", "Fires", "fires/"),
     ("crop", "Crops", "crops/"),
+    ("heat", "Heat", "heat/"),
 ]
 
 SITE_NAME = "The Long Swell"
