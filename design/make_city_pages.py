@@ -34,6 +34,10 @@ import json, math, statistics as st
 from pathlib import Path
 
 R = Path(__file__).resolve().parent.parent
+import sys
+sys.path.insert(0, str(R))
+from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
+                       site_masthead)
 N = json.loads((R / "heat/data/city_nights.json").read_text())
 S = json.loads((R / "heat/data/city_series.json").read_text())["cities"]
 C = N["cities"]
@@ -222,7 +226,9 @@ for name, v in sorted(C.items()):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{name} &middot; Heat &middot; The Long Swell</title>
 <meta name="description" content="{head}">
-<style>{CSS}</style></head><body><main>
+{ANALYTICS_SNIPPET}
+<style>{SITE_MASTHEAD_CSS}{CSS}</style></head><body><main>
+{site_masthead("../", active="heat")}
 <div class="mast"><span class="house">The Long Swell</span>
 <span class="prod">Heat</span>
 <span class="when">{name} &middot; {S[name]['station']} &middot; to {cut_txt} 2026</span></div>

@@ -34,6 +34,10 @@ import json, math, statistics as st
 from pathlib import Path
 
 R = Path(__file__).resolve().parent.parent
+import sys
+sys.path.insert(0, str(R))
+from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
+                       site_masthead)
 N = json.loads((R / "heat/data/city_nights.json").read_text())
 S = json.loads((R / "heat/data/city_series.json").read_text())["cities"]
 CO = json.loads((R / "design/city_coords.json").read_text())["cities"]
@@ -189,7 +193,9 @@ rest_rows = "".join(city_row(i, d) for i, d in enumerate(rows[TOP:], TOP + 1))
 MAR, BER = C["Marseille"], C["Berlin"]
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Heat &middot; The Long Swell</title><style>
+<title>Heat &middot; The Long Swell</title>
+{ANALYTICS_SNIPPET}
+<style>{SITE_MASTHEAD_CSS}
 :root{{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
 --ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#173F9E;--bar:#D3D2CB;--land:#E4E3DC}}
 @media(prefers-color-scheme:dark){{:root{{--paper:#1A1A18;--sunk:#252521;
@@ -248,6 +254,7 @@ margin-top:50px}}
 .src span{{border-top:1px solid var(--rule);padding-top:9px}}
 .src span:nth-child(-n+2){{border-top:2.4px solid #8E8E88}}
 </style></head><body><main>
+{site_masthead("../", active="heat")}
 <div class="mast"><span class="house">The Long Swell</span>
 <span class="prod">Heat</span><span class="when">Week of 3 August 2026</span></div>
 
