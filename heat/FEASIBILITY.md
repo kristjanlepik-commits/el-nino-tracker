@@ -1965,3 +1965,39 @@ Tmax. Madrid offers exactly that, `3195` MADRID, RETIRO being a central
 park and `3129` MADRID AEROPUERTO the airport. If the ratio replicates,
 the claim is worth making; if Madrid shows a comparable Tmax offset, the
 Murcia result is a siting quirk and the claim should be dropped.
+
+### 11a. Second pair: Madrid replicates it, and harder
+
+`3195` MADRID, RETIRO is a central park; `3129` MADRID AEROPUERTO is
+Barajas, 13 km out. Summer only, 7,025 shared days:
+
+    pair      Tmin excess   Tmax excess   tropical nights
+    MURCIA      +0.675 C      -0.026 C        1.21x
+    MADRID      +2.102 C      -1.478 C        3.29x
+
+**In both pairs the urban site is warmer at night and NO warmer by day.**
+Madrid is 1.5 °C COOLER by day, which is physically sensible rather than
+anomalous: Retiro is a park with trees and shade, Barajas is open tarmac.
+
+**The claim that survives, and it is stronger than the one put to me.**
+Day counts are not inflated by urban siting in either pair. A hot-day
+record measured at a green urban station is, if anything, CONSERVATIVE.
+That is a statement about one instrument and it now has two independent
+tests behind it.
+
+**The half that must travel with it, because it is the expensive half.**
+Madrid Retiro records **3.29x** the tropical nights of Barajas. Our Madrid
+night record is substantially a property of where the thermometer sits.
+"One station is not a city" was already a standing limit; this puts a
+number on it, and the number is large.
+
+**What this does NOT license.** It does not decompose any night record
+into urban and climatic parts. It does not transfer to a city with a
+different pair geometry. And Tmax is not "uncontaminated": Madrid's
+-1.48 C is a large siting effect that happens to run the other way, so a
+park station understates hot days rather than being neutral. The correct
+phrasing is that siting does not inflate the day metric, not that siting
+does not affect it.
+
+**Sharpest usable form:** where nights and days agree, the day reading is
+the one a sceptic cannot attribute to the thermometer's address.

@@ -138,6 +138,21 @@ def build(city, meta):
           for (m, _), v in tx.get(y, {}).items() if m in (7, 8)]
     th = {str(p): round(float(np.percentile(ja, p)), 1) for p in (90, 95, 99)}
 
+    # NIGHT thresholds, the same construction applied to minima. The 20 C
+    # tropical-night count is a Mediterranean instrument: Amsterdam averages
+    # under one such night a year, so every ratio divides by almost nothing
+    # and the metric simply does not reach northern Europe. A per-city
+    # percentile is locally calibrated by construction, which is the same
+    # reason the day thresholds are percentiles rather than a flat 35 C.
+    #
+    # THIS DOES NOT REPLACE THE 20 C COUNT. Both are emitted. TR is an ETCCDI
+    # standard and "tropical night" is a term a reader already knows; the
+    # percentile is abstract but travels. Mediterranean cities carry both,
+    # northern cities can only carry the second.
+    jn = [v for y in range(PCTL_BASELINE[0], PCTL_BASELINE[1] + 1)
+          for (m, _), v in tn.get(y, {}).items() if m in (7, 8)]
+    nth = {str(p): round(float(np.percentile(jn, p)), 1) for p in (90, 95, 99)}
+
     years = {}
     for y in sorted(set(tn) | set(tx)):
         win = sum(1 for k in tn.get(y, {}) if WINDOW_START <= k <= cut)
@@ -153,6 +168,9 @@ def build(city, meta):
             "days_to_cut": {p: sum(1 for k, v in tx.get(y, {}).items()
                                    if k <= cut and v >= t)
                             for p, t in th.items()},
+            "warm_nights_to_cut": {p: sum(1 for k, v in tn.get(y, {}).items()
+                                          if k <= cut and v >= t)
+                                   for p, t in nth.items()},
             "days_full_year": {p: sum(1 for v in tx.get(y, {}).values() if v >= t)
                                for p, t in th.items()},
         }
@@ -208,6 +226,18 @@ def build(city, meta):
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,
+        "night_thresholds_c": nth,
+        "night_threshold_basis":
+            "90th/95th/99th percentile of this station's own July-August "
+            "daily MINIMA, 1971-2000. The locally calibrated night metric, "
+            "emitted alongside the 20 C tropical-night count rather than "
+            "replacing it.",
+        "tropical_night_metric_works":
+            sum(1 for y in range(2011, 2026)
+                if years.get(str(y), {}).get("nights_to_cut", 0) >= 5) >= 8,
+        "tropical_night_metric_note":
+            "False where the 20 C count is too rare to carry a ratio. Such a "
+            "city must lead with the percentile night metric instead.",
         "threshold_basis":
             "90th/95th/99th percentile of this station's own July-August "
             "daily maxima, 1971-2000.",
