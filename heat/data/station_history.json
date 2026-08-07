@@ -1,0 +1,84 @@
+{
+ "_readme": "Documented station relocations, read from each service's own metadata rather than inferred from the data. The statistical approach was tested and does not work: see heat/blend_gate.py.",
+ "thresholds": {
+  "move_km": 1.0,
+  "elev_m": 20.0,
+  "earliest_year_that_matters": 1961
+ },
+ "stations": {
+  "Berlin": {
+   "city": "Berlin",
+   "positions": 8,
+   "relocations_in_period": [
+    {
+     "date": "19700910",
+     "km": 1.25,
+     "elev_change_m": 3.3,
+     "trigger": "distance"
+    }
+   ],
+   "ok": false,
+   "why": "1 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Hamburg": {
+   "city": "Hamburg",
+   "positions": 6,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Frankfurt": {
+   "city": "Frankfurt",
+   "positions": 10,
+   "relocations_in_period": [
+    {
+     "date": "20141022",
+     "km": 5.86,
+     "elev_change_m": 12.3,
+     "trigger": "distance"
+    }
+   ],
+   "ok": false,
+   "why": "1 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Munich": {
+   "city": "Munich",
+   "positions": 2,
+   "relocations_in_period": [
+    {
+     "date": "19970708",
+     "km": 3.1,
+     "elev_change_m": 4.6,
+     "trigger": "distance"
+    }
+   ],
+   "ok": false,
+   "why": "1 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Cologne": {
+   "city": "Cologne",
+   "positions": 6,
+   "relocations_in_period": [
+    {
+     "date": "19700321",
+     "km": 1.3,
+     "elev_change_m": 5.0,
+     "trigger": "distance"
+    },
+    {
+     "date": "19891115",
+     "km": 1.63,
+     "elev_change_m": 17.9,
+     "trigger": "distance"
+    }
+   ],
+   "ok": false,
+   "why": "2 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  }
+ }
+}

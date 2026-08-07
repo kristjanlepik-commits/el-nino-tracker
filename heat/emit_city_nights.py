@@ -148,6 +148,12 @@ def record_rate(S, key, pct="95", lo=1990, hi=2025):
 
 def main() -> int:
     S = json.loads(SERIES.read_text())
+    # Documented station relocations, read from each service's own metadata.
+    # The statistical route was built, calibrated and found to have no power
+    # at this effect size; see heat/blend_gate.py. A relocation is an
+    # administrative event and the service publishes it.
+    HP = ROOT / "heat/data/station_history.json"
+    HIST = json.loads(HP.read_text())["stations"] if HP.exists() else {}
     B = json.loads((ROOT / "heat/data/record_rate_baseline.json").read_text())
     ties = S["tie_rule"]["ties_count_against_current_year"]
 
@@ -283,6 +289,21 @@ def main() -> int:
                     "constraint the renderer cannot reach is a constraint "
                     "that does not exist.",
             },
+            # ON THE CITY, because a relocation qualifies THIS city's rank and
+            # a city page renders one city. Same rule as page_constraints.
+            "station_relocations": HIST.get(c, {}).get(
+                "relocations_in_period", []),
+            "station_moved_in_period": bool(
+                HIST.get(c, {}).get("relocations_in_period")),
+            "station_history_checked": c in HIST,
+            "station_note":
+                "Documented moves inside the period we publish, from the met "
+                "service's own station history. WHERE THIS IS NON-EMPTY the "
+                "record is not a single continuous site, so 'Nth of M years' "
+                "overstates comparability and any baseline spanning the move "
+                "is computed across two sites. Empty list means checked and "
+                "clean; station_history_checked false means NOT CHECKED, "
+                "which is not the same thing.",
             "record_margin_nights": (n26 - max(below)) if r == 1 and below else None,
             "featured": c in FEATURED,
         }
