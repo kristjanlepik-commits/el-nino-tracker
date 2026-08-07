@@ -36,8 +36,8 @@ from pathlib import Path
 R = Path(__file__).resolve().parent.parent
 import sys
 sys.path.insert(0, str(R))
-from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
-                       site_masthead)
+from run_brief import (ANALYTICS_SNIPPET, PAGES_BASE_URL,   # noqa: E402
+                       SITE_MASTHEAD_CSS, SITE_NAME, site_masthead)
 N = json.loads((R / "heat/data/city_nights.json").read_text())
 S = json.loads((R / "heat/data/city_series.json").read_text())["cities"]
 C = N["cities"]
@@ -226,6 +226,20 @@ for name, v in sorted(C.items()):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{name} &middot; Heat &middot; The Long Swell</title>
 <meta name="description" content="{head}">
+<link rel="canonical" href="{PAGES_BASE_URL}/heat/{slug(name)}.html">
+<!-- These pages are the promotion surface: Kristjan links a city and a
+     reader arrives caring about that city. Without share metadata a
+     promoted link renders as a bare URL with no title and no claim. The
+     description IS the headline, so what a reader sees before clicking is
+     the same sentence they see after. -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="{SITE_NAME}">
+<meta property="og:title" content="{name}: {now} hot days so far this summer">
+<meta property="og:description" content="{head}">
+<meta property="og:url" content="{PAGES_BASE_URL}/heat/{slug(name)}.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{name}: {now} hot days so far this summer">
+<meta name="twitter:description" content="{head}">
 {ANALYTICS_SNIPPET}
 <style>{SITE_MASTHEAD_CSS}{CSS}</style></head><body><main>
 {site_masthead("../", active="heat")}

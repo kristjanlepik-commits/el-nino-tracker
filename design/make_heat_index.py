@@ -70,7 +70,7 @@ for n, v in C.items():
                  "now": v["days"]["days_2026"]["95"], "base": base,
                  "p": r["value"] / (r["of_years"] + 1),
                  "gated": bool(v.get("nights_metric_gated"))})
-rows.sort(key=lambda d: (-d["z"], d["name"]))
+rows.sort(key=lambda d: (-d["pct"], d["name"]))
 
 # VD Main's ruling, amending section 7: hue marks a MEASURED QUANTITY,
 # never a threshold on one. The record line is drawn by how long each
@@ -114,19 +114,43 @@ rows.sort(key=lambda d: (-d["z"], d["name"]))
 # ARE at their record sit in more than one band, so a label mentioning
 # records would tell a reader that Palma, Vienna, Munich and Malaga are
 # not records when they are. That is the mixing VD ruled against.
-BANDS = [(6.0, "#8E240A"), (2.0, "#C05B3D"), (-99, "#EFC9BD")]
+# Fills are TOKENS, not hex, because they must invert with the theme.
+# VD measured the bug: hard-coded light-theme hex ran 7.65 / 3.83 / 1.34
+# on bone paper and 2.00 / 3.99 / 11.42 on dark, so on dark the palest
+# reading was the loudest mark and the most extreme the quietest. That is
+# D-043 broken by the theme, and dark mode is not optional.
+# Dark set measured against PAPER_DARK: 6.95 / 3.99 / 2.08, descending,
+# with the faintest still clear of the background.
+# PERCENTILE, not z. VD Main's ruling and it settles a disagreement I had
+# only flagged: for right-skewed count data z UNDERSTATES, which is why
+# Berlin's 87th-percentile summer was drawing as "high, within its usual
+# variation". Rank percentile is distribution-free and assumes no shape.
+#
+# It also answers Kristjan's objection better than z did. He was right
+# that plotting position rewarded record length; percentile measures how
+# unusual this summer is FOR THAT CITY without doing so.
+#
+# The labels are FREQUENCY throughout, one vocabulary. "Its usual
+# variation" was the standard deviation made plain rather than removed,
+# and it still assumed the shape the data has not got.
+BANDS = [(99.95, "var(--f3)"), (95.0, "var(--f2)"), (-1, "var(--f1)")]
 
 
-def band(z):
+def ordinal(n):
+    """1st, 2nd, 3rd, 71st. f"{n}th" produced "71th", which VD caught."""
+    if 10 <= n % 100 <= 20:
+        return f"{n}th"
+    return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
+
+
+def band(pct):
     """Fill for a z, stepped rather than continuous.
 
     Stepped because the legend is discrete swatches: a gradient bar would
-    let a reader decode a colour the map never draws. The steps are also
-    honest about precision, since the sd behind each z rests on 30 years
-    and carries about 13 per cent relative error.
+    let a reader decode a colour the map never draws.
     """
     for lo, col in BANDS:
-        if z >= lo:
+        if pct >= lo:
             return col
     return BANDS[-1][1]
 
@@ -165,7 +189,7 @@ def overlap(a, b):
 marks, labels = [], []
 for d in sorted(rows, key=lambda d: PY(d["lat"])):
     x, y = PX(d["lon"]), PY(d["lat"])
-    marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="{band(d["z"])}" '
+    marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="{band(d["pct"])}" '
                  f'stroke="var(--ink)" stroke-width="1"/>')
     bw = max(len(d["name"]) * 7.1, 66)
     opts = []
@@ -197,8 +221,10 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
         f'class="cs">{sub}</text>')
 
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
-       f'aria-label="Twenty-one European weather stations, each marked as at its own '
-       f'record for hot days or elevated but not a record">'
+       f'aria-label="Twenty-one European weather stations. Every city is the same '
+       f'disc, shaded by how many of that city\'s own recorded summers this one '
+       f'beats, from hotter than every summer on its record down to hotter than '
+       f'four in five.">'
        + "".join(f'<path d="{d}" fill="var(--land)" stroke="var(--coast)" '
                  f'stroke-width="0.9" stroke-linejoin="round"/>' for d in coast)
        + "".join(marks) + "".join(labels) + "</svg>")
@@ -230,7 +256,7 @@ if set(_full) - set(_rec) - {"Cologne"}:
     raise SystemExit(f"a city draws a full bar without being a record and is not the "
                      f"known tie: {sorted(set(_full) - set(_rec))}")
 
-def strip(name, now, w=210, h=26):
+def strip(name, pct, w=210, h=26):
     """Every summer this station has recorded, as one tick each, with 2026
     marked. Scaled to that city's own range, so it is never a comparison
     with the row above.
@@ -239,14 +265,21 @@ def strip(name, now, w=210, h=26):
     at its record drew a full block, so fourteen of twenty-one rows were
     identical and the top of the list carried no information at all.
     """
-    ys = [x["days_to_cut"]["95"] for y, x in S[name]["years"].items()
-          if int(y) < 2026 and x.get("usable_to_cut") and x.get("days_to_cut")]
-    top = max(ys + [now]) or 1
-    px = lambda v: 1 + v / top * (w - 2)
+    # A SHARED 0-100 axis, not a per-city scale. VD's point: a per-city
+    # scale cannot be compared inside a ranking, and with 2026 setting the
+    # maximum every strip crammed its history into the left fifth and
+    # looked like the same shape. On percentile the rows compare, and tick
+    # DENSITY draws record length for free: Murcia's 43 years are visibly
+    # thinner evidence than Madrid's 106, with no caption.
+    ys = sorted(x["days_to_cut"]["95"] for y, x in S[name]["years"].items()
+                if int(y) < 2026 and x.get("usable_to_cut") and x.get("days_to_cut"))
+    n = len(ys)
+    pcts = [(i + 1) / (n + 1) * 100 for i in range(n)]
+    px = lambda v: 1 + v / 100 * (w - 2)
     ticks = "".join(
         f'<line x1="{px(v):.1f}" y1="{h*0.30:.1f}" x2="{px(v):.1f}" y2="{h*0.72:.1f}" '
-        f'stroke="var(--ink)" stroke-width="1" opacity="0.30"/>' for v in ys)
-    cur = (f'<line x1="{px(now):.1f}" y1="2" x2="{px(now):.1f}" y2="{h-2}" '
+        f'stroke="var(--ink)" stroke-width="1" opacity="0.30"/>' for v in pcts)
+    cur = (f'<line x1="{px(pct):.1f}" y1="2" x2="{px(pct):.1f}" y2="{h-2}" '
            f'stroke="var(--accent)" stroke-width="2.4"/>')
     return (f'<svg viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
             f'role="img" aria-label="{name}: every summer on record as a tick, '
@@ -264,7 +297,7 @@ def city_row(i, d):
     return (f'<div class="lrow"><span class="lnum">{i}</span>'
             f'<span class="lcty">{title}<span class="lsub">{lab}'
             f'{d["of"]} years of record</span></span>'
-            f'<span class="lbar">{strip(nm, d["now"])}</span>'
+            f'<span class="lbar">{strip(nm, d["pct"])}</span>'
             f'<span class="lval">{d["now"]}<span class="lbase">vs {d["base"]:.0f}</span>'
             f'</span></div>')
 
@@ -279,10 +312,21 @@ html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 {ANALYTICS_SNIPPET}
 <style>{SITE_MASTHEAD_CSS}
 :root{{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
---ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#173F9E;--bar:#D3D2CB;--land:#E4E3DC}}
+--ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#173F9E;--bar:#D3D2CB;--land:#E4E3DC;
+--f3:#8E240A;--f2:#C05B3D;--f1:#EFC9BD}}
 @media(prefers-color-scheme:dark){{:root{{--paper:#1A1A18;--sunk:#252521;
 --ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--coast:#43423C;
---accent:#6E97E8;--bar:#43423C;--land:#232321}}}}
+--accent:#6E97E8;--bar:#43423C;--land:#232321;
+--f3:#F0876A;--f2:#C05B3D;--f1:#6B4438}}}}
+/* The shared masthead expects these and a standalone page must set them.
+   VD found all five missing: --mono fell back to inheritance so the
+   product nav rendered in the serif, which is the mechanism section 7
+   uses INSTEAD of hue, and --nino/--fire/--crop all resolved to the same
+   grey so three rules distinguishing the channels did nothing. The shell
+   variables matter too: the masthead ran 80px wider than the content. */
+:root{{--mono:'IBM Plex Mono',ui-monospace,monospace;--serif:Spectral,Georgia,serif;
+--nino:#173F9E;--fire:#B32E10;--crop:#2E5C16;--shell-max:1020px;--shell-pad:24px}}
+@media(prefers-color-scheme:dark){{:root{{--nino:#6E97E8;--fire:#E8714E;--crop:#7CB84E}}}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--paper);color:var(--soft);
 font-family:Spectral,Georgia,serif;font-size:17px;line-height:1.55}}
@@ -348,11 +392,11 @@ A typical year produces {DH['baseline']['median_year']}.</p>
 
 {svg}
 <div class="key">
-<span class="ks"><i style="background:#8E240A"></i>Far beyond how much its summers vary</span>
-<span class="ks"><i style="background:#C05B3D"></i>Beyond its usual variation</span>
-<span class="ks"><i style="background:#EFC9BD"></i>High, within its usual variation</span>
-<span>Every city is the same disc. The fill is how far this summer sits from
-that city's own normal, so nothing between the marks is shaded and no city is
+<span class="ks"><i style="background:var(--f3)"></i>Hotter than every summer it has recorded</span>
+<span class="ks"><i style="background:var(--f2)"></i>Hotter than 19 in 20 of its summers</span>
+<span class="ks"><i style="background:var(--f1)"></i>Hotter than 4 in 5 of its summers</span>
+<span>Every city is the same disc. The fill is how many of that city's own
+summers this one beats, so nothing between the marks is shaded and no city is
 drawn as empty.</span></div>
 
 <div class="seclab">How far from normal, city by city</div>
@@ -363,8 +407,9 @@ where {rows[0]['zmean']:.1f} is normal for it; Berlin has had {rows[-1]['now']} 
 {rows[-1]['zmean']:.1f} is normal.</strong> That is the question a reader is asking, and
 it is not the same as which city broke the longest record: a long record makes a rank
 rarer without making the summer hotter. Each strip is every summer that station has recorded, one tick each, with 2026 in
-blue. The strip is scaled to that city alone. Bars are not comparable between cities: every one is on its
-own threshold and its own history.</p>
+blue. All strips share one axis, so rows compare; how crowded a strip looks is how
+long that station's record is. Order and strips share one measure, so a row above another really is further into its
+own record.</p>
 {all_rows}
 
 <div class="seclab">Why we publish two measurements and not one</div>
@@ -374,7 +419,7 @@ own threshold and its own history.</p>
 further than the nights.</div>
 <div><span class="tl">Berlin</span>Hot days above {BER['days']['rank']['percentile']:.0f}
 per cent of its own summers, and hot nights at the
-{BER['rank']['percentile']:.0f}th percentile. Here it is the other way round.</div>
+{ordinal(round(BER['rank']['percentile']))} percentile. Here it is the other way round.</div>
 </div>
 <p class="subl" style="margin-top:16px">If one measurement stood in for the other, those
 two cities would lean the same way. They lean opposite ways, which is how you can tell
