@@ -133,8 +133,8 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
        f'aria-label="Twenty-one European weather stations, each marked as at its own '
        f'record for hot days or elevated but not a record">'
-       + "".join(f'<path d="{d}" fill="none" stroke="var(--coast)" stroke-width="1" '
-                 f'stroke-linejoin="round"/>' for d in coast)
+       + "".join(f'<path d="{d}" fill="var(--land)" stroke="var(--coast)" '
+                 f'stroke-width="0.9" stroke-linejoin="round"/>' for d in coast)
        + "".join(marks) + "".join(labels) + "</svg>")
 
 # ---- the list: ordered, and each row carries its own magnitude -------------
@@ -142,18 +142,41 @@ svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" 
 # Flat, matching the shipped shape: /heat/ is the index and /heat/<city>
 # sits beside it, so a link is a bare filename from either direction.
 PAGES = {n: f"{n.lower().replace(chr(32), chr(45))}.html" for n in C}
-BARMAX = max(d["now"] for d in rows)
+# NOT a shared scale. The previous version divided every count by the
+# largest count in the set, so Marseille's 34 days at 33.9 C and Alicante's
+# 21 at 33.8 C were drawn against each other. Different thresholds, not the
+# same question, and the caption said so while the drawing denied it.
+# Each bar is now the city's 2026 count as a fraction of its OWN highest
+# summer, so a full bar means at its own record and the tie reads as a tie.
+# Scale each bar to that city's own highest summer BEFORE 2026, so a full
+# bar means "matched or beat its own record" and the tie is visible rather
+# than silently rounded into the record group. Cologne's 16 equals its 1976
+# high, which is why it is rank 2 and not 1: a tie is not a record. Scaling
+# to a max that includes 2026 would have drawn it at full width and told a
+# reader the opposite of what the rank says.
+OWNMAX = {d["name"]: max(
+    [x["days_to_cut"]["95"] for y, x in S[d["name"]]["years"].items()
+     if int(y) < 2026 and x.get("usable_to_cut") and x.get("days_to_cut")] or [1])
+    for d in rows}
+_full = [d["name"] for d in rows if d["now"] >= OWNMAX[d["name"]]]
+_rec = [d["name"] for d in rows if d["rank"] == 1]
+if set(_full) - set(_rec) - {"Cologne"}:
+    raise SystemExit(f"a city draws a full bar without being a record and is not the "
+                     f"known tie: {sorted(set(_full) - set(_rec))}")
+
 def city_row(i, d):
     nm = d["name"]
-    lab = ("record" if d["rank"] == 1 else f'{d["rank"]}th of {d["of"]}')
+    # "record" under every name repeated what the grouping already says.
+    lab = ("" if d["rank"] == 1 else f'{d["rank"]}th of {d["of"]} &middot; ')
     href = PAGES.get(nm)
     title = (f'<a href="{href}" class="cty">{nm}</a>' if href
              else f'<span class="cty dim">{nm}</span>')
-    w = d["now"] / BARMAX * 100
-    bw = d["base"] / BARMAX * 100
+    om = OWNMAX[nm] or 1
+    w = min(100.0, d["now"] / om * 100)
+    bw = min(100.0, d["base"] / om * 100)
     return (f'<div class="lrow"><span class="lnum">{i}</span>'
-            f'<span class="lcty">{title}<span class="lsub">{lab} &middot; '
-            f'{d["of"]} years</span></span>'
+            f'<span class="lcty">{title}<span class="lsub">{lab}'
+            f'{d["of"]} years of record</span></span>'
             f'<span class="lbar"><span class="bnow" style="width:{w:.1f}%"></span>'
             f'<span class="bbase" style="left:{bw:.1f}%"></span></span>'
             f'<span class="lval">{d["now"]}<span class="lbase">vs {d["base"]:.0f}</span>'
@@ -168,10 +191,10 @@ html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Heat &middot; The Long Swell</title><style>
 :root{{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
---ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#173F9E;--bar:#D3D2CB}}
+--ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#173F9E;--bar:#D3D2CB;--land:#E4E3DC}}
 @media(prefers-color-scheme:dark){{:root{{--paper:#1A1A18;--sunk:#252521;
 --ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--coast:#43423C;
---accent:#6E97E8;--bar:#43423C}}}}
+--accent:#6E97E8;--bar:#43423C;--land:#232321}}}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--paper);color:var(--soft);
 font-family:Spectral,Georgia,serif;font-size:17px;line-height:1.55}}
@@ -242,13 +265,13 @@ A typical year produces {DH['baseline']['median_year']}.</p>
 <span class="k2"><i></i>Elevated, not a record</span>
 <span>Nothing between the marks is shaded, because nothing between them was measured.</span></div>
 
-<div class="seclab">Every city, least likely first</div>
+<div class="seclab">The heat record cities</div>
 <p class="subl">Ordered by how unlikely this summer is for that city: its rank divided by
 the length of its record, which is the chance of landing this high without a trend.
 <strong style="color:var(--ink);font-weight:500">A record in {rows[0]['of']} years is a
 rarer thing than a record in {min(d['of'] for d in rows)}</strong>, which is what
-separates cities that would otherwise sit tied at first. The bar is that city's own
-count against its own 1961-1990 normal, marked in blue. Bars are not comparable between
+separates cities that would otherwise sit tied at first. The bar is that city's own count against its own highest earlier summer, so a full
+bar means it matched or beat its own record; the blue tick is its 1961-1990 normal. Bars are not comparable between
 cities: every one is on its own threshold.</p>
 {top_rows}
 <div style="height:22px"></div>
