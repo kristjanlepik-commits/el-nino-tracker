@@ -1,23 +1,25 @@
 {
  "_readme": [
-  "For VD's three-panel block. Generated from heat/data/city_series.json and",
-  "city_nights.json at commit 5499c20. Do not hand-edit.",
+  "For VD's panels. Generated from heat/data/city_series.json and city_nights.json",
+  "at commit 5499c20. Do not hand-edit.",
   "",
-  "days_by_year   count of days at or above that city's own 95th percentile of",
+  "days_by_year   count of days at or above that city's own 95TH percentile of",
   "               July-August maxima, 1971-2000. The 95th is the threshold heat",
-  "               RANKS on; 90 and 99 exist but are not ranked.",
+  "               RANKS on. The 90th exists in the payload and is a DIFFERENT",
+  "               series; do not mix a 90th count with a 95th rank.",
   "nights_by_year count of nights at or above 20.0 C (ETCCDI index TR).",
   "warmest_night_c the single warmest night of that year, in degrees.",
   "",
   "EVERY series is counted TO THE SAME CALENDAR DAY each year, that city's own",
-  "cut, so a part-finished 2026 is never set against complete seasons. The cut",
-  "differs by city because sources have different lags: it is in `cut_at`.",
-  "Years too thin to rank are omitted rather than sent as zero.",
+  "cut, which is in `cut_at`. A part-finished 2026 is never set against complete",
+  "seasons. Years too thin to rank are omitted rather than sent as zero.",
   "",
-  "NIGHTS ARE GATED OUT in Paris and Bilbao: at about one a year the base is too",
-  "thin for a ratio. The series is still here, but do not draw a multiple from it."
+  "2026 IS THE LAST ENTRY OF EACH ARRAY AND APPEARS EXACTLY ONCE. An earlier",
+  "version of this file appended it a second time; VD caught it.",
+  "",
+  "NIGHTS ARE GATED in Paris and Bilbao: at about one a year the base is too thin",
+  "for a ratio. The series is here; do not draw a multiple from it."
  ],
- "threshold_note": "days_by_year uses the 95th percentile threshold in thresholds_c",
  "cities": {
   "Madrid": {
    "country": "ES",
@@ -464,10 +466,6 @@
     {
      "year": 2026,
      "count": 22
-    },
-    {
-     "year": 2026,
-     "count": 22
     }
    ],
    "nights_by_year": [
@@ -890,10 +888,6 @@
     {
      "year": 2025,
      "count": 40
-    },
-    {
-     "year": 2026,
-     "count": 51
     },
     {
      "year": 2026,
@@ -1700,10 +1694,6 @@
     {
      "year": 2026,
      "count": 31
-    },
-    {
-     "year": 2026,
-     "count": 31
     }
    ],
    "nights_by_year": [
@@ -2050,10 +2040,6 @@
     {
      "year": 2025,
      "count": 54
-    },
-    {
-     "year": 2026,
-     "count": 53
     },
     {
      "year": 2026,
@@ -2792,10 +2778,6 @@
     {
      "year": 2026,
      "count": 7
-    },
-    {
-     "year": 2026,
-     "count": 7
     }
    ],
    "nights_by_year": [
@@ -3149,10 +3131,6 @@
     },
     {
      "year": 2025,
-     "count": 59
-    },
-    {
-     "year": 2026,
      "count": 59
     },
     {
@@ -3848,10 +3826,6 @@
     {
      "year": 2026,
      "count": 8
-    },
-    {
-     "year": 2026,
-     "count": 8
     }
    ],
    "nights_by_year": [
@@ -4154,10 +4128,6 @@
     {
      "year": 2025,
      "count": 51
-    },
-    {
-     "year": 2026,
-     "count": 47
     },
     {
      "year": 2026,
@@ -4812,10 +4782,6 @@
     {
      "year": 2026,
      "count": 11
-    },
-    {
-     "year": 2026,
-     "count": 11
     }
    ],
    "nights_by_year": [
@@ -5134,10 +5100,6 @@
     {
      "year": 2025,
      "count": 55
-    },
-    {
-     "year": 2026,
-     "count": 56
     },
     {
      "year": 2026,
@@ -5860,10 +5822,6 @@
     {
      "year": 2026,
      "count": 21
-    },
-    {
-     "year": 2026,
-     "count": 21
     }
    ],
    "nights_by_year": [
@@ -6214,10 +6172,6 @@
     {
      "year": 2025,
      "count": 58
-    },
-    {
-     "year": 2026,
-     "count": 55
     },
     {
      "year": 2026,
@@ -6776,10 +6730,6 @@
     {
      "year": 2026,
      "count": 14
-    },
-    {
-     "year": 2026,
-     "count": 14
     }
    ],
    "nights_by_year": [
@@ -6950,10 +6900,6 @@
     {
      "year": 2025,
      "count": 54
-    },
-    {
-     "year": 2026,
-     "count": 56
     },
     {
      "year": 2026,
@@ -7352,10 +7298,6 @@
     {
      "year": 2026,
      "count": 20
-    },
-    {
-     "year": 2026,
-     "count": 20
     }
    ],
    "nights_by_year": [
@@ -7550,10 +7492,6 @@
     {
      "year": 2025,
      "count": 62
-    },
-    {
-     "year": 2026,
-     "count": 58
     },
     {
      "year": 2026,
@@ -8084,10 +8022,6 @@
     {
      "year": 2026,
      "count": 28
-    },
-    {
-     "year": 2026,
-     "count": 28
     }
    ],
    "nights_by_year": [
@@ -8390,10 +8324,6 @@
     {
      "year": 2025,
      "count": 33
-    },
-    {
-     "year": 2026,
-     "count": 44
     },
     {
      "year": 2026,
@@ -9044,10 +8974,6 @@
     {
      "year": 2026,
      "count": 19
-    },
-    {
-     "year": 2026,
-     "count": 19
     }
    ],
    "nights_by_year": [
@@ -9362,10 +9288,6 @@
     {
      "year": 2025,
      "count": 4
-    },
-    {
-     "year": 2026,
-     "count": 16
     },
     {
      "year": 2026,
@@ -10024,10 +9946,6 @@
     {
      "year": 2026,
      "count": 30
-    },
-    {
-     "year": 2026,
-     "count": 30
     }
    ],
    "nights_by_year": [
@@ -10334,10 +10252,6 @@
     {
      "year": 2025,
      "count": 4
-    },
-    {
-     "year": 2026,
-     "count": 17
     },
     {
      "year": 2026,
@@ -10984,10 +10898,6 @@
     {
      "year": 2026,
      "count": 34
-    },
-    {
-     "year": 2026,
-     "count": 34
     }
    ],
    "nights_by_year": [
@@ -11294,10 +11204,6 @@
     {
      "year": 2025,
      "count": 36
-    },
-    {
-     "year": 2026,
-     "count": 33
     },
     {
      "year": 2026,
@@ -11944,10 +11850,6 @@
     {
      "year": 2026,
      "count": 34
-    },
-    {
-     "year": 2026,
-     "count": 34
     }
    ],
    "nights_by_year": [
@@ -12254,10 +12156,6 @@
     {
      "year": 2025,
      "count": 54
-    },
-    {
-     "year": 2026,
-     "count": 56
     },
     {
      "year": 2026,
@@ -12904,10 +12802,6 @@
     {
      "year": 2026,
      "count": 22
-    },
-    {
-     "year": 2026,
-     "count": 22
     }
    ],
    "nights_by_year": [
@@ -13214,10 +13108,6 @@
     {
      "year": 2025,
      "count": 32
-    },
-    {
-     "year": 2026,
-     "count": 41
     },
     {
      "year": 2026,
@@ -13764,10 +13654,6 @@
     {
      "year": 2026,
      "count": 23
-    },
-    {
-     "year": 2026,
-     "count": 23
     }
    ],
    "nights_by_year": [
@@ -13974,10 +13860,6 @@
     {
      "year": 2025,
      "count": 12
-    },
-    {
-     "year": 2026,
-     "count": 31
     },
     {
      "year": 2026,
@@ -14524,10 +14406,6 @@
     {
      "year": 2026,
      "count": 22
-    },
-    {
-     "year": 2026,
-     "count": 22
     }
    ],
    "nights_by_year": [
@@ -14834,10 +14712,6 @@
     {
      "year": 2025,
      "count": 5
-    },
-    {
-     "year": 2026,
-     "count": 17
     },
     {
      "year": 2026,
@@ -15492,10 +15366,6 @@
     {
      "year": 2026,
      "count": 8
-    },
-    {
-     "year": 2026,
-     "count": 8
     }
    ],
    "nights_by_year": [
@@ -15810,10 +15680,6 @@
     {
      "year": 2025,
      "count": 0
-    },
-    {
-     "year": 2026,
-     "count": 2
     },
     {
      "year": 2026,
@@ -16524,10 +16390,6 @@
     {
      "year": 2026,
      "count": 8
-    },
-    {
-     "year": 2026,
-     "count": 8
     }
    ],
    "nights_by_year": [
@@ -16890,10 +16752,6 @@
     {
      "year": 2025,
      "count": 0
-    },
-    {
-     "year": 2026,
-     "count": 1
     },
     {
      "year": 2026,
@@ -17632,10 +17490,6 @@
     {
      "year": 2026,
      "count": 23
-    },
-    {
-     "year": 2026,
-     "count": 23
     }
    ],
    "nights_by_year": [
@@ -17978,10 +17832,6 @@
     {
      "year": 2025,
      "count": 2
-    },
-    {
-     "year": 2026,
-     "count": 15
     },
     {
      "year": 2026,
@@ -18660,10 +18510,6 @@
     {
      "year": 2026,
      "count": 21
-    },
-    {
-     "year": 2026,
-     "count": 21
     }
    ],
    "nights_by_year": [
@@ -18950,10 +18796,6 @@
     {
      "year": 2025,
      "count": 0
-    },
-    {
-     "year": 2026,
-     "count": 6
     },
     {
      "year": 2026,
@@ -19552,10 +19394,6 @@
     {
      "year": 2026,
      "count": 16
-    },
-    {
-     "year": 2026,
-     "count": 16
     }
    ],
    "nights_by_year": [
@@ -19830,10 +19668,6 @@
     {
      "year": 2025,
      "count": 0
-    },
-    {
-     "year": 2026,
-     "count": 3
     },
     {
      "year": 2026,
