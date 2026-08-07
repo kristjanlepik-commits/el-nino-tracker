@@ -601,6 +601,17 @@ def main():
             r["daily"] = {k: v for k, v in r["daily"].items()
                           if k[5:] not in defective_md}
             r["count"] = sum(r["daily"].values())
+            # DUE falls, EXPECTED does not. A day dropped so both sides
+            # stay like-for-like is not a gap and must not draw as one.
+            #
+            # Without this the payload contradicted itself: seven
+            # expected, seven due, six values, and nothing saying the
+            # missing one was removed on purpose. That is a day excluded
+            # for comparability and a day missing from the archive
+            # rendering identically, which is the exact failure the slot
+            # counts exist to prevent, arriving inside the fix for it.
+            r["daily_due"] = r["daily_expected"] - len(defective_md)
+            r["daily_excluded_for_comparability"] = sorted(defective_md)
 
     day_totals = {}
     for r in detail.values():
