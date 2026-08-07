@@ -134,8 +134,26 @@ AT = {
 }
 
 
+# France, read from LAT/LON/ALTI carried on EVERY ROW of the daily CSV, which
+# is better than a separate metadata file: the position travels with the
+# observation and cannot go stale against it.
+#
+# All five hold a single position across the whole record. Nice appeared to
+# move 8 km three times until the rows were grouped by NUM_POSTE rather than
+# display name: four posts publish as "NICE", and the other three carry no
+# temperature at all. Clean by luck, now clean by construction, since the
+# loader pins NUM_POSTE.
+FR = {c: {"city": c, "positions": 1, "relocations_in_period": [], "ok": True,
+          "why": "", "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE " + n,
+          "note": "Single position across the record."}
+      for c, n in (("Paris", "91027002"), ("Marseille", "13054001"),
+                   ("Nice", "06088001"), ("Montpellier", "34154001"),
+                   ("Lyon", "69299001"))}
+
+
 def main() -> int:
     out = dict(AT)
+    out.update(FR)
     print(f"{'city':11s} {'pos':>4s} {'moves':>6s}  detail")
     print("-" * 74)
     for city, sid in DE.items():

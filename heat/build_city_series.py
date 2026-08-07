@@ -139,13 +139,26 @@ def load_aemet(city, fname=None):
     return tn, tx
 
 
+# NUM_POSTE, pinned. Filtering by display name is the Murcia mistake in a
+# second costume: FOUR posts publish under the name NICE, at 2 m, 6 m, 37 m
+# and 79 m elevation and up to 8 km apart. Measured, they contribute no
+# temperature at all, only rain and wind, so the series was clean by luck
+# rather than by construction. Had one of them carried a Tmin, the loader
+# would have taken whichever row it read last and nothing would have said so.
+MF_POSTE = {
+    "Paris": "91027002", "Marseille": "13054001", "Nice": "06088001",
+    "Montpellier": "34154001", "Lyon": "69299001",
+}
+
+
 def load_mf(city, station):
     tn, tx = defaultdict(dict), defaultdict(dict)
+    poste = MF_POSTE[city]
     for part in ("hist", "recent"):
         p = SRC / f"mf_{city}_{part}.csv.gz"
         with gzip.open(p, "rt", encoding="latin-1") as fh:
             for r in csv.DictReader(fh, delimiter=";"):
-                if (r.get("NOM_USUEL") or "").strip().upper() != station:
+                if r.get("NUM_POSTE") != poste:
                     continue
                 d = r.get("AAAAMMJJ", "")
                 if len(d) != 8:
