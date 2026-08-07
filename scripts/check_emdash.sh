@@ -16,7 +16,13 @@
 # grow; a wildcard would let them.
 set -uo pipefail
 DASH=$(printf '\xe2\x80\x94')
-hits=$(git ls-files -z | xargs -0 grep -l "$DASH" 2>/dev/null \
+# TRACKED **AND** UNTRACKED. `git ls-files` alone lists only tracked files,
+# so a brand-new file is invisible to this guard until it is staged. Run
+# before `git add`, as every commit here does, that means a new file passes
+# and then commits its violations: heat/methodology.md did exactly that in
+# fecc503. Second time this guard has failed by not seeing what it guards.
+hits=$( { git ls-files -z; git ls-files -zo --exclude-standard; } \
+       | xargs -0 grep -l "$DASH" 2>/dev/null \
        | grep -v '^LICENSE$' \
        | grep -v '^docs/briefs/2026-05-18/' \
        | grep -v '^docs/briefs/2026-05-25/' \

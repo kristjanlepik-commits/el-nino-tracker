@@ -1,0 +1,167 @@
+{
+ "_readme": "Standardised departure of 2026 from each city's 1991-2020 normal, with the relative error on the sd estimate. Nights per year counted to each city's own cut.",
+ "definition": {
+  "quantity": "nights per year counted to this city's own cut",
+  "baseline_window": "1991-2020",
+  "sd_kind": "sample standard deviation, n-1 denominator",
+  "current_year_in_baseline": false,
+  "current_year_note": "2026 is EXCLUDED from the baseline. z is therefore an out-of-sample departure and is NOT bounded by the in-sample ceiling of (n-1)/sqrt(n). A z above that ceiling is not evidence of a fitted or erroneous value.",
+  "baseline_completeness": "A baseline year must clear the same usability bar as a ranked year: 90% of days from 1 May to the cut. A year too thin to rank is too thin to carry a baseline.",
+  "why_fixed_window": "Fixed at 1991-2020 rather than each station's full record. A full-record sd for a 106-year station spans a warming climate and measures trend PLUS variability, inflating the sd and understating z. The quantity wanted is the spread of the current climate. CONSEQUENCE: n is 30 for nearly every city, so band width is near-identical across cities and a long record buys no extra precision on this figure.",
+  "band_rel_meaning": "1/sqrt(2(n-1)), the relative standard error of the sd estimate. It qualifies the sd, not the city."
+ },
+ "cities": {
+  "Madrid": {
+   "n": 29,
+   "mean": 21.17,
+   "sd": 7.58,
+   "z": 3.93,
+   "band_rel": 0.1336,
+   "excluded_years": [
+    2009
+   ],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Barcelona": {
+   "n": 30,
+   "mean": 29.17,
+   "sd": 13.68,
+   "z": 1.74,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Valencia": {
+   "n": 30,
+   "mean": 39.7,
+   "sd": 8.29,
+   "z": 2.33,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Seville": {
+   "n": 30,
+   "mean": 29.93,
+   "sd": 10.18,
+   "z": 1.68,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Malaga": {
+   "n": 30,
+   "mean": 34.17,
+   "sd": 8.76,
+   "z": 2.49,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Alicante": {
+   "n": 30,
+   "mean": 35.87,
+   "sd": 8.67,
+   "z": 2.21,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Murcia": {
+   "n": 30,
+   "mean": 34.27,
+   "sd": 9.13,
+   "z": 2.38,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Palma": {
+   "n": 30,
+   "mean": 42.8,
+   "sd": 7.76,
+   "z": 1.96,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Zaragoza": {
+   "n": 30,
+   "mean": 13.77,
+   "sd": 7.85,
+   "z": 3.85,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Bilbao": {
+   "n": 30,
+   "mean": 1.17,
+   "sd": 1.88,
+   "z": 7.9,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-02",
+   "source": "AEMET OpenData"
+  },
+  "Paris": {
+   "n": 30,
+   "mean": 1.53,
+   "sd": 1.63,
+   "z": 9.46,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "Meteo-France, via data.gouv.fr"
+  },
+  "Marseille": {
+   "n": 30,
+   "mean": 21.53,
+   "sd": 9.38,
+   "z": 1.22,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "Meteo-France, via data.gouv.fr"
+  },
+  "Nice": {
+   "n": 30,
+   "mean": 30.73,
+   "sd": 11.99,
+   "z": 2.11,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "Meteo-France, via data.gouv.fr"
+  },
+  "Montpellier": {
+   "n": 30,
+   "mean": 17.6,
+   "sd": 8.11,
+   "z": 2.88,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "Meteo-France, via data.gouv.fr"
+  },
+  "Lyon": {
+   "n": 30,
+   "mean": 6.87,
+   "sd": 5.34,
+   "z": 4.52,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "Meteo-France, via data.gouv.fr"
+  }
+ }
+}

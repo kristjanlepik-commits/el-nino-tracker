@@ -103,7 +103,7 @@ is always printed with it.
 
 ## Version history
 
-### v1.1 — 2026-08-07
+### v1.1, 2026-08-07
 
 **What changed.** Every city's history moved onto the national met
 service that the payload already named as its source. Murcia moved to the
@@ -139,7 +139,7 @@ eight records to seven. The northern European cities still have no
 working night metric. The French thresholds still rest on a method
 borrowed from another country's service.
 
-### v1.0 — 2026-08-06
+### v1.0, 2026-08-06
 
 **What changed.** First publication. Fifteen cities, tropical nights
 counted against each city's own record, with per-city extreme-heat
