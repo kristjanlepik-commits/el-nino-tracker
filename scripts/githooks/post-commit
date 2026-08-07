@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Push after every commit, so work becomes visible the moment it exists.
+#
+# WHY. `main` diverged from `origin` three times on 2026-08-07 alone, and
+# each time the cost landed on somebody else: VD could not fetch the heat
+# files, and design twice built against a fifteen-city payload that had
+# been superseded hours earlier. Nobody was careless. Nine chats share
+# one working tree, each commits deliberately, and nothing carries the
+# result outward.
+#
+# Product's framing is the right one: two of the day's three worst
+# coordination failures were STATE failures rather than judgement
+# failures. Work existed, nobody downstream could see it, and everyone
+# reasoned confidently from a stale tree. That is a mechanism problem,
+# and "remember to push" is not a mechanism, because the whole point is
+# that the person who forgot did not know they had.
+#
+# WHAT IT DOES NOT DO. It does not push a tree that fails the gate.
+# qa_check covers em-dashes, dead links, structure, archive immutability
+# and the guards built this week; if that fails, the commit stands
+# locally and the push does not happen. Better to be unpushed than to
+# publish a broken surface automatically.
+#
+# It also stays out of the way during a rebase or merge, where
+# intermediate commits are not states anyone should see.
+#
+# INSTALL: git config core.hooksPath scripts/githooks
+# Versioned deliberately, rather than living in .git/hooks, so it is
+# shared across every worktree and reaches C2 on a pull.
+
+set -uo pipefail
+
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+cd "$root" || exit 0
+
+# Mid-rebase, mid-merge or detached: the intermediate states are not
+# meant to be seen and pushing them would be noise at best.
+git_dir="$(git rev-parse --git-dir)"
+for marker in rebase-merge rebase-apply MERGE_HEAD CHERRY_PICK_HEAD; do
+  [ -e "$git_dir/$marker" ] && exit 0
+done
+branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
+[ "$branch" = "main" ] || exit 0
+
+ahead="$(git rev-list --count @{u}..HEAD 2>/dev/null || echo 0)"
+[ "$ahead" -gt 0 ] || exit 0
+
+py="$root/.venv/bin/python"
+[ -x "$py" ] || py="python3"
+
+if ! "$py" scripts/qa_check.py --no-frozen-check >/tmp/tls_hook_qa.log 2>&1; then
+  echo "post-commit: NOT pushing, qa_check failed. Your commit is safe"
+  echo "  locally. See /tmp/tls_hook_qa.log, fix, and commit again."
+  exit 0
+fi
+
+if bash scripts/push_retry.sh main >/tmp/tls_hook_push.log 2>&1; then
+  echo "post-commit: pushed ($ahead commit(s)). Downstream chats can see it."
+else
+  echo "post-commit: push failed, see /tmp/tls_hook_push.log."
+  echo "  Commit is safe locally; someone will need to reconcile by hand."
+fi
+exit 0
