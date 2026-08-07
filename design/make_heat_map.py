@@ -57,9 +57,37 @@ KX = math.cos(math.radians((LA0 + LA1) / 2))
 px = lambda lo: PAD + (lo - LO0) * KX / ((LO1 - LO0) * KX) * (W - 2 * PAD)
 py = lambda la: PAD + (LA1 - la) / (LA1 - LA0) * (H - 2 * PAD)
 
-# Label sides chosen by hand where marks crowd. Cartography, not data.
-LEFT = {"Bilbao", "Montpellier", "Cologne", "Malaga", "Valencia", "Murcia"}
-DOWN = {"Munich", "Barcelona"}
+# Label placement, per city, chosen by eye against a render. Cartography
+# rather than data: the marks are computed, the labels are hand-placed
+# because 21 stations in western Europe crowd in three known clusters
+# (the Riviera, the south-east Spanish coast, and Andalusia) and no
+# generic rule resolves all three. (dx, dy, anchor).
+#
+# The crude left/right rule this replaces put "Nice" on top of
+# "Marseille record" and ran "Seville 8 of 76" through "Malaga record".
+PLACE = {
+    "Hamburg":     (13,   4, "start"),
+    "Berlin":      (13,   4, "start"),
+    "Cologne":     (-13,  4, "end"),
+    "Frankfurt":   (13,   4, "start"),
+    "Paris":       (13,   4, "start"),
+    "Munich":      (13,   4, "start"),
+    "Vienna":      (13,   4, "start"),
+    "Lyon":        (13,   4, "start"),
+    "Bilbao":      (-13,  4, "end"),
+    "Montpellier": (-13, -6, "end"),
+    "Marseille":   (-6,  26, "end"),      # below, clear of Nice
+    "Nice":        (13,   8, "start"),
+    "Zaragoza":    (-13,  4, "end"),
+    "Barcelona":   (13,  10, "start"),
+    "Madrid":      (-13,  4, "end"),
+    "Valencia":    (-13,  4, "end"),
+    "Palma":       (13,   4, "start"),
+    "Alicante":    (13,   8, "start"),
+    "Murcia":      (-13,  0, "end"),
+    "Seville":     (-13, -8, "end"),      # up-left, clear of Malaga
+    "Malaga":      (-13, 14, "end"),      # down-left
+}
 
 marks, labels = [], []
 for n, v in sorted(C.items(), key=lambda kv: -CO[kv[0]]["lat"]):
@@ -71,8 +99,9 @@ for n, v in sorted(C.items(), key=lambda kv: -CO[kv[0]]["lat"]):
     else:
         marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="var(--paper)" '
                      f'stroke="var(--ink)" stroke-width="1.8"/>')
-    anc, dx = ("end", -13) if n in LEFT else ("start", 13)
-    dy = 20 if n in DOWN else 4
+    if n not in PLACE:
+        raise SystemExit(f"{n} has no label placement in PLACE")
+    dx, dy, anc = PLACE[n]
     sub = "record" if rec else f"{r['value']} of {r['of_years']}"
     labels.append(
         f'<text x="{x+dx:.1f}" y="{y+dy:.1f}" text-anchor="{anc}" class="cn">{n}</text>'
