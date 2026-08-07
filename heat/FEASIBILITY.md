@@ -1744,6 +1744,12 @@ floor, 1,712 for eight. Volume cannot be reduced, only paced.
 
 ### 10b. Murcia: the gate said "wrong station" and was wrong
 
+**SUPERSEDED IN PART BY 10f. The gate was closer to right than I was.**
+The section below correctly identifies that ECA&D is not serving the raw
+station, and then draws the wrong conclusion from it. Kept unedited
+because the reasoning is the instructive part: it is what a plausible,
+carefully argued, wrong diagnosis looks like when it is never tested.
+
 52.14% identical, but the shape is not a station mismatch:
 
     1940-1979   100.00% identical    mean  +0.000
@@ -1839,3 +1845,63 @@ and understates its own multiple. Not comparable to the other four, and
 it must carry that as a field rather than sit silently beside them. Same
 family as everything else in this section: a figure computed from the
 years present, with no record of how many there should have been.
+
+### 10f. CORRECTION to 10b: it was the wrong station after all
+
+10b argued that Murcia's 52% was not a station mismatch but ECA&D serving
+an adjusted series. **The premise was right and the conclusion was wrong,
+and the reason is that I read a pattern instead of running a test.**
+
+The decisive measurement, which takes one command:
+
+    ECA&D "ALCANTARILLA BASE AEREA" vs AEMET 7178I (Murcia city)   100.00%
+    ECA&D "ALCANTARILLA BASE AEREA" vs AEMET 7228  (Alcantarilla)    2.01%
+
+ECA&D **blends two stations under one name**, keeping the older station's
+name after splicing the newer one in. So:
+
+- the live 2026 value came from `7178I`, the city
+- the history came from `7228`, an air base about 10 km away
+- **Murcia's published rank compared two different thermometers**
+
+**The trap, and it is the one I had explicitly claimed to have avoided.**
+The job-board note for the earlier pull says stations were matched "BY
+STATION IDENTITY, not by proximity". They were matched by NAME. **Against
+a reference that blends, a name is not an identity**, and the failure is
+invisible to every check that looks at the record as a whole: a blended
+series agrees perfectly with its first component right up until the
+splice, so a whole-record score of 52% reads exactly like a wrong
+station, which is what the gate said and what I talked myself out of.
+
+**What actually distinguishes them is the ERA of the disagreement.**
+
+    wrong station      disagrees from the first shared day
+    blended reference  agrees perfectly, then diverges at a splice
+    adjusted series    disagrees smoothly, usually everywhere
+
+That table is the thing worth keeping. A single identity percentage
+cannot separate those three; an era-by-era comparison separates them
+immediately, and it is three lines of code.
+
+**Consequence for the payload.** Murcia moves to `7178I`, the station the
+page is named after, at the cost of 43 years of record:
+
+    7178I  city       1984-2026, 43 yr   2026 = 56   rank 1 of 43
+    7228   air base   1940-2026, 85 yr   2026 = 47   rank 2 of 85
+
+The published "1 of 85" was neither: a city-station 56 ranked against an
+air-base series topping at 49.
+
+**The uncomfortable half, recorded because it is the half that gets
+quietly dropped.** The defensible station is also the one that keeps a
+record, and the alternative would have taken the headline from 8 of 15 to
+7. It went to product as a fork rather than as a decision already taken.
+
+**And the shape recurred inside the fix.** The check I wrote to evaluate
+the correction compared the city-station 2026 against the air-base
+history and reported "rank 1 either way", which is how the wrong margin
+of 7 nights reached product. Third instance this week of the same error:
+Seville's denominators, the gate's own denominator, and the denominator
+in the test written to evaluate the fix. **The lesson is not "check
+denominators", which I already knew. It is that the check written in a
+hurry to validate a fix gets less scrutiny than the fix does.**
