@@ -1,0 +1,180 @@
+"""Paris heat page v2. Kristjan's four notes, 2026-08-07.
+
+  1. C dropped. Tested with people and read as too complex.
+  2. A and B together: B is the headline because it is instant, A is the
+     evidence underneath. They answer different questions, "how much" and
+     "since when", so stacking them costs nothing.
+  3. A carries BOTH instruments as bars. Paris nights sit at zero in 36
+     of 77 years, so the nights row is empty for decades and then spikes,
+     which is the strongest single mark on the page.
+  4. Vienna's temperature chart, on the hottest NIGHT of each year with
+     the 20 C line drawn. There is no warmest-DAY series in the payload;
+     that is an ask on heat, who compute days above a threshold from
+     daily maxima and therefore hold it upstream.
+
+Days lead because the night metric is gated for RATIOS in Paris, at
+about one night a year in the baseline. Drawing the nights is fine and
+quoting a multiple off that base is not, so no night multiple appears.
+
+Everything matched to-date. b6190 is a FULL-YEAR mean and is not used.
+"""
+import json, statistics as st
+from pathlib import Path
+
+R = Path(__file__).resolve().parent.parent
+N = json.loads((R / "heat/data/city_nights.json").read_text())["cities"]["Paris"]
+SY = json.loads((R / "heat/data/city_series.json").read_text())["cities"]["Paris"]["years"]
+TH = N["days"]["thresholds_c"]["95"]
+DNOW, NNOW = N["days"]["days_2026"]["95"], N["nights_2026"]
+DR, NR = N["days"]["rank"], N["rank"]
+
+def ser(key, sub=None):
+    out = []
+    for y, v in SY.items():
+        if not v.get("usable_to_cut"):
+            continue
+        raw = v.get(key)
+        val = raw.get(sub) if (sub and isinstance(raw, dict)) else raw
+        if val is not None:
+            out.append((int(y), val))
+    return sorted(out)
+
+DAYS = [(y, n) for y, n in ser("days_to_cut", "95") if y < 2026] + [(2026, DNOW)]
+NIGHTS = [(y, n) for y, n in ser("nights_to_cut") if y < 2026] + [(2026, NNOW)]
+WARM = ser("warmest_night_c")
+DBASE = st.mean([n for y, n in DAYS if 1961 <= y <= 1990])
+NBASE = st.mean([n for y, n in NIGHTS if 1961 <= y <= 1990])
+DPREV = max(n for y, n in DAYS if y < 2026)
+DPREV_Y = max(y for y, n in DAYS if y < 2026 and n == DPREV)
+Y0 = DAYS[0][0]
+ZERO_N = sum(1 for y, n in NIGHTS if n == 0)
+
+
+def bars(data, label, sub, w=940, h=104):
+    top = max(n for _, n in data) or 1
+    bw = w / len(data)
+    rects = "".join(
+        f'<rect x="{i*bw:.1f}" y="{h - n/top*h:.1f}" width="{bw-1.3:.1f}" '
+        f'height="{max(n/top*h, 0.7) if n else 0:.1f}" '
+        f'fill="{"var(--accent)" if y == 2026 else "var(--ink)"}"/>'
+        for i, (y, n) in enumerate(data) if n)
+    ticks = "".join(f'<text x="{i*bw:.1f}" y="{h+13}" class="ax">{y}</text>'
+                    for i, (y, _) in enumerate(data) if y in (1950, 1976, 2000, 2026))
+    return (f'<div class="brow"><div class="bl">{label}<span>{sub}</span></div>'
+            f'<svg viewBox="0 0 {w} {h+18}" width="100%" style="height:{h+18}px" '
+            f'preserveAspectRatio="none">{rects}{ticks}</svg></div>')
+
+
+def units(k, label, accent=False):
+    sq = "".join(f'<span class="u{" a" if accent else ""}"></span>' for _ in range(k))
+    return (f'<div class="ub"><div class="uk">{label}</div>'
+            f'<div class="ug">{sq}</div><div class="un">{k}</div></div>')
+
+
+def warm_chart(w=940, h=118):
+    lo, hi = min(v for _, v in WARM) - .6, max(v for _, v in WARM) + .6
+    px = lambda y: (y - WARM[0][0]) / (2026 - WARM[0][0]) * w
+    py = lambda v: h - (v - lo) / (hi - lo) * h
+    pts = " ".join(f"{px(y):.1f},{py(v):.1f}" for y, v in WARM)
+    below = "".join(f'<circle cx="{px(y):.1f}" cy="{py(v):.1f}" r="1.6" '
+                    f'fill="var(--ink-faint)"/>' for y, v in WARM if v < 20)
+    cur = [(y, v) for y, v in WARM if y == 2026]
+    mark = (f'<circle cx="{px(cur[0][0]):.1f}" cy="{py(cur[0][1]):.1f}" r="3.4" '
+            f'fill="var(--accent)"/>') if cur else ""
+    return (f'<svg viewBox="0 0 {w} {h}" width="100%" style="height:{h}px" '
+            f'preserveAspectRatio="none">'
+            f'<line x1="0" y1="{py(20):.1f}" x2="{w}" y2="{py(20):.1f}" '
+            f'stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="5 3"/>'
+            f'<text x="3" y="{py(20)-5:.1f}" class="ax" style="fill:var(--ink)">'
+            f'20 &#176;C &middot; a tropical night</text>'
+            f'<polyline points="{pts}" fill="none" stroke="var(--soft)" '
+            f'stroke-width="1.2"/>{below}{mark}</svg>')
+
+
+html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paris &middot; Heat &middot; The Long Swell</title><style>
+:root{{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
+--ink-faint:#6E6E67;--rule:#CFCEC7;--accent:#173F9E}}
+@media(prefers-color-scheme:dark){{:root{{--paper:#1A1A18;--sunk:#252521;
+--ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--accent:#6E97E8}}}}
+*{{box-sizing:border-box}}
+body{{margin:0;background:var(--paper);color:var(--soft);
+font-family:Spectral,Georgia,serif;font-size:17px;line-height:1.55}}
+main{{max-width:1000px;margin:0 auto;padding:0 24px 90px}}
+.mast{{display:flex;align-items:baseline;gap:13px;padding:20px 0 11px;
+border-bottom:3px solid var(--ink)}}
+.house{{font-size:21px;font-weight:500;color:var(--ink)}}
+.prod{{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;font-weight:600;
+letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}}
+.when{{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;
+letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}}
+h1{{font-family:Spectral,serif;font-weight:400;font-size:50px;line-height:1.05;
+letter-spacing:-.02em;color:var(--ink);margin:38px 0 10px;max-width:19ch;
+text-wrap:balance}}
+.stand{{font-size:18px;line-height:1.6;max-width:56ch;margin:0 0 34px}}
+.units{{display:flex;flex-direction:column;gap:20px;border-top:3px solid var(--ink);
+border-bottom:3px solid var(--ink);padding:26px 0}}
+.ub{{display:grid;grid-template-columns:230px 1fr 48px;gap:20px;align-items:center}}
+.uk{{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+text-transform:uppercase;color:var(--ink-faint);line-height:1.5}}
+.ug{{display:flex;flex-wrap:wrap;gap:4px}}
+.u{{width:18px;height:18px;background:var(--ink);display:block}}
+.u.a{{background:var(--accent)}}
+.un{{font-family:'IBM Plex Mono',monospace;font-size:27px;font-weight:500;
+color:var(--ink);text-align:right}}
+.seclab{{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.22em;
+text-transform:uppercase;color:var(--ink);border-bottom:2.4px solid var(--ink);
+padding-bottom:9px;margin:52px 0 20px}}
+.brow{{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:end;
+margin-bottom:22px}}
+.bl{{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+text-transform:uppercase;color:var(--ink);line-height:1.5;padding-bottom:20px}}
+.bl span{{display:block;color:var(--ink-faint);letter-spacing:.06em}}
+.ax{{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-faint)}}
+.cap{{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:72ch;margin:12px 0 0}}
+.warn{{font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.7;
+color:var(--soft);background:var(--sunk);padding:13px 15px;margin:44px 0 0}}
+</style></head><body><main>
+<div class="mast"><span class="house">The Long Swell</span>
+<span class="prod">Heat</span>
+<span class="when">Paris &middot; Montsouris &middot; to 3 August 2026</span></div>
+
+<h1>Paris used to get two hot days a summer. This year: thirty.</h1>
+<p class="stand">Days at or above {TH}&nbsp;&deg;C, which is Paris's own 95th
+percentile. Counted to the same date every year, so a part-finished 2026 is not
+being set against complete ones.</p>
+
+<div class="units">
+{units(round(DBASE), f"A typical summer, 1961-1990<br>by early August")}
+{units(DNOW, "This summer, so far", accent=True)}
+</div>
+<p class="cap">One square is one day above {TH}&nbsp;&deg;C. The previous record for
+this point in the year was {DPREV}, in {DPREV_Y}.</p>
+
+<div class="seclab">Every summer since {Y0}, on both measures</div>
+{bars(DAYS, "Hot days", f"above {TH} &#176;C")}
+{bars(NIGHTS, "Hot nights", "above 20 &#176;C")}
+<p class="cap">The nights row is empty for decades because it genuinely was:
+{ZERO_N} of {len(NIGHTS)} years recorded no tropical night at all in Paris. This year
+there have been {NNOW}, which is {NR['value']} of {NR['of_years']}. No multiple is
+quoted for nights, because a ratio against a baseline of about one a year would be
+arithmetic rather than evidence.</p>
+
+<div class="seclab">And the nights themselves got hotter</div>
+{warm_chart()}
+<p class="cap">The warmest single night of each year. Dots mark the years that never
+crossed the line at all: through the 1950s and 1960s that was most of them. This is
+the chart the {TH}&nbsp;&deg;C line cannot go on, because its axis is a temperature
+rather than a count.</p>
+
+<div class="warn">MOCKUP v2. Kristjan's notes: C dropped as too complex, A and B
+together, both instruments as bars, Vienna's temperature chart added. There is no
+warmest-DAY series in the payload, so the temperature chart is on nights; a hottest-day
+series is an ask on heat, who hold it upstream. All figures matched to-date; the
+payload's full-year b6190 mean is deliberately unused.</div>
+</main></body></html>"""
+out = R / "design/review/paris-heat-v2.html"
+out.write_text(html)
+print(f"wrote {out} | days {round(DBASE)}->{DNOW} (prev {DPREV} in {DPREV_Y}) | "
+      f"nights base {NBASE:.2f} -> {NNOW}, {ZERO_N}/{len(NIGHTS)} years at zero")
