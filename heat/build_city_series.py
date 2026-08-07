@@ -198,6 +198,13 @@ def build(city, meta):
         }
         if tn.get(y):
             rec["warmest_night_c"] = round(max(tn[y].values()), 1)
+        if tx.get(y):
+            rec["warmest_day_c"] = round(max(tx[y].values()), 1)
+            rec["warmest_day_to_cut_c"] = round(
+                max([v for k, v in tx[y].items() if k <= cut], default=-99), 1)
+        if tn.get(y):
+            rec["warmest_night_to_cut_c"] = round(
+                max([v for k, v in tn[y].items() if k <= cut], default=-99), 1)
         years[str(y)] = rec
 
     def rate(lo, hi, p):

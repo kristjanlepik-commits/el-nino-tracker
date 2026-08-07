@@ -222,6 +222,12 @@ def main() -> int:
         # and `requires_series` for the same reason: ranks are read, never
         # derived. A strict recompute manufactured a Valencia night record
         # this morning and would do the same here.
+        eb = [d for y, d in yrs.items() if 1961 <= int(y) <= 1990]
+        ec = [d["days_to_cut"]["95"] for d in eb if d["usable_to_cut"]]
+        ef = [d["days_full_year"]["95"] for d in eb if d["usable_full_year"]]
+        mean_early_cut = round(sum(ec) / len(ec), 2) if ec else None
+        mean_early_full = round(sum(ef) / len(ef), 2) if ef else None
+
         dser = {y: d["days_to_cut"]["95"] for y, d in good.items()}
         d26 = yrs[cur]["days_to_cut"]["95"]
         dr = rank_of(d26, dser, ties)
@@ -256,16 +262,57 @@ def main() -> int:
             "days_2026": yrs[cur]["days_to_cut"],
             "counts_per_year": v["day_counts"],
             "counts_window": {"recent": "2011-2025", "early": "1961-1990"},
+            # BOTH BASES, because the distinction escaped into prose once
+            # already: a headline read "two hot days a summer" while the chart
+            # beneath it read "by early August". The to-date mean is the one
+            # comparable to days_2026; the full-year mean is what "a summer"
+            # means. Emitting only one invites the writer to supply the other.
+            "mean_1961_1990_to_cut": mean_early_cut,
+            "mean_1961_1990_full_year": mean_early_full,
+            "mean_note":
+                "to_cut is comparable to days_2026 and to the ranked series. "
+                "full_year is what a reader hears in 'a summer'. A headline "
+                "using one with a chart showing the other is the error this "
+                "pair exists to prevent.",
             "multiple_available": v["day_counts_comparable"],
         }
         if not v["day_counts_comparable"]:
             days["multiple_withheld_note"] = v["day_counts_note"]
         entry["days"] = days
 
+        # WARMEST-DAY SERIES, product 2026-08-07, and it is a page-structure
+        # fix rather than a tidy-up. The Paris page LEADS on days and its
+        # closing temperature chart was on nights, because a warmest-night
+        # series was the only one that existed. The strongest beat on the page
+        # was about a different instrument from its own headline.
+        #
+        # Emitted for every city, not only the featured three, because the
+        # same mismatch would appear on any city page that leads on days.
+        #
+        # BOTH CUTS, for the reason product just hit in prose: a warmest value
+        # to 3 August is not the same fact as a warmest value over a whole
+        # year, and only one of them is comparable to `days_2026`.
+        entry["warmest_day_c"] = {
+            y: d["warmest_day_c"] for y, d in sorted(yrs.items())
+            if "warmest_day_c" in d and d["usable_full_year"]}
+        entry["warmest_day_to_cut_c"] = {
+            y: d["warmest_day_to_cut_c"] for y, d in sorted(yrs.items())
+            if "warmest_day_to_cut_c" in d and d["usable_to_cut"]}
+        entry["warmest_note"] = (
+            "warmest_day_c is over whole years and carries the full-year "
+            "completeness bar. warmest_day_to_cut_c is cut to this city's own "
+            "date and is the one comparable to days_2026 and to the ranked "
+            "series. They are different facts and must not share an axis.")
+
         if c in FEATURED:
             full = {y: d for y, d in yrs.items() if d["usable_full_year"]}
             entry["full_year_series"] = {
                 y: d["nights_full_year"] for y, d in sorted(full.items())}
+            # The full-year DAY series, absent until now, which is why product
+            # could not check whether "two hot days a summer" was a summer
+            # total or a to-date figure. It was to-date.
+            entry["full_year_day_series"] = {
+                y: d["days_full_year"]["95"] for y, d in sorted(full.items())}
             entry["warmest_night_c"] = {
                 y: d["warmest_night_c"] for y, d in sorted(full.items())
                 if "warmest_night_c" in d}
