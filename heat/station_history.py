@@ -151,9 +151,42 @@ FR = {c: {"city": c, "positions": 1, "relocations_in_period": [], "ok": True,
                    ("Lyon", "69299001"))}
 
 
+# The Netherlands, and this is a PRODUCER WARNING rather than a check result.
+# KNMI prints on every response: "These time series are inhomogeneous because
+# of station relocations and changes in observation techniques. As a result
+# these series are not suitable for trend analysis."
+#
+# No other source in this pipeline says that about itself. It is not a
+# relocation we detected, it is the met service telling us the series is not
+# fit for comparison across time, which is exactly what a rank against 76
+# prior years is.
+#
+# Recorded as its own state rather than squeezed into "moved" or "clean",
+# because it is neither: it is the producer declining to vouch for the series
+# for our use.
+NL = {
+    "Amsterdam": {
+        "city": "Amsterdam", "positions": 1, "relocations_in_period": [],
+        "ok": False,
+        "history_available": False,
+        "producer_inhomogeneity_warning": True,
+        "producer_warning_text":
+            "KNMI: these time series are inhomogeneous because of station "
+            "relocations and changes in observation techniques, and are not "
+            "suitable for trend analysis.",
+        "why": "the producer declares the series inhomogeneous",
+        "note": "KNMI points to its homogenised daily series and to the "
+                "Central Netherlands Temperature as the alternatives for "
+                "climate work. Whether a homogenised series exists for "
+                "Schiphol specifically has NOT been checked.",
+    }
+}
+
+
 def main() -> int:
     out = dict(AT)
     out.update(FR)
+    out.update(NL)
     # Spain, and it is a WEAKER check that must not be presented as the same
     # one. AEMET's station inventory carries current position only: no
     # validity dates, no history. So the metadata route used for Germany,

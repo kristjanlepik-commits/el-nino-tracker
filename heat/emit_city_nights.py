@@ -326,6 +326,10 @@ def main() -> int:
             "station_disclosure": (
                 "Station history not yet checked."
                 if c not in HIST else
+                "The met service states this series is inhomogeneous, because "
+                "of station relocations and changes in observation technique, "
+                "and not suitable for comparison across time."
+                if HIST[c].get("producer_inhomogeneity_warning") else
                 ("No published station history exists for this service, and "
                  "the second copy available is a redistribution of the same "
                  "observations, so a change of instrument could not be ruled "

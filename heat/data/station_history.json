@@ -66,6 +66,17 @@
    "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 69299001",
    "note": "Single position across the record."
   },
+  "Amsterdam": {
+   "city": "Amsterdam",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": false,
+   "history_available": false,
+   "producer_inhomogeneity_warning": true,
+   "producer_warning_text": "KNMI: these time series are inhomogeneous because of station relocations and changes in observation techniques, and are not suitable for trend analysis.",
+   "why": "the producer declares the series inhomogeneous",
+   "note": "KNMI points to its homogenised daily series and to the Central Netherlands Temperature as the alternatives for climate work. Whether a homogenised series exists for Schiphol specifically has NOT been checked."
+  },
   "Madrid": {
    "city": "Madrid",
    "positions": null,
