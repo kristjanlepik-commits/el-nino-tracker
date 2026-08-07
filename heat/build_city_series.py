@@ -93,6 +93,21 @@ CITIES = {
     # recorded ONE tropical night in 2026 and Berlin three. A 20 C count
     # cannot carry a ratio off that base, and no amount of extra data fixes
     # it, because the threshold is the problem rather than the record.
+    # GeoSphere 105, which is typed COMBINED. Within our window it splices
+    # two instruments AT THE SAME OBSERVATORY: Hohe Warte 5901 at 203 m to
+    # 1992, Hohe Warte 5904 at 198 m after. That is categorically milder than
+    # Murcia (two towns, 1.19 C) or Frankfurt (5.9 km, 0.57 C).
+    #
+    # The individual station 5904 was tried and REJECTED: this dataset carries
+    # no Tmin for it before 1991, so it yields 34 usable years against 77. The
+    # metadata's valid_from of 1934 is when the station existed, not when this
+    # series holds its minima, which is a trap worth naming.
+    #
+    # Neighbour testing at the declared 1993 handover gives +0.44 C with the
+    # same sign against 3 of 4 neighbours. SUGGESTIVE, not established: the
+    # neighbours are German cities 350-750 km away and one of them (Frankfurt)
+    # has a confirmed step of its own. Disclosed in the payload rather than
+    # resolved, and it is product's call whether Vienna stays featured.
     "Vienna":    dict(country="AT", station="Wien Hohe Warte", cut=(8, 3),
                       file="gs_Vienna.json"),
     "Berlin":    dict(country="DE", station="Berlin-Tempelhof", cut=(8, 3),
