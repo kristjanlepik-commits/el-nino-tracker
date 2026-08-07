@@ -877,7 +877,22 @@ def check_large_files(violations):
     """
     try:
         tracked = subprocess.run(
-            ["git", "ls-files", "-z"], cwd=ROOT,
+            # -co --exclude-standard, NOT bare ls-files. Heat found this
+            # hole in scripts/check_emdash.sh and asked whether it was
+            # here too. It was, and in the worst place: bare `ls-files`
+            # lists TRACKED files only, so a brand-new file is invisible
+            # to this guard until someone stages it.
+            #
+            # The 20.7 MB grid that caused this check to exist was a
+            # brand-new file. So the guard written to catch that case
+            # could not see that case. Verified before fixing: a 20 MB
+            # incompressible file scores 0 violations untracked and 1
+            # once staged.
+            #
+            # Same reach failure Heat hit twice in their own guard, and
+            # the same shape as everything else this week: the pattern
+            # was right and it was pointed at the wrong set.
+            ["git", "ls-files", "-co", "--exclude-standard", "-z"], cwd=ROOT,
             capture_output=True, text=True, check=True).stdout.split("\0")
     except (OSError, subprocess.CalledProcessError) as exc:
         violations.append(f"large-file check could not list tracked "

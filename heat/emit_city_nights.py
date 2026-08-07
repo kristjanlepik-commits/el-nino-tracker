@@ -78,6 +78,41 @@ def rank_of(value, series, ties_against=True):
     return sum(1 for x in series.values() if x > value) + 1
 
 
+def record_rate(S, key, pct="95", lo=1990, hi=2025):
+    """How many cities set a record in each past year, on the same measure.
+
+    A record count is uninterpretable without this. Eight of fifteen sounds
+    enormous and a typical year gives zero, so the baseline is what turns the
+    number into a statement rather than an alarm.
+
+    Computed here rather than transcribed, because it has to be recomputed
+    whenever the series changes and a stale baseline is worse than none: it
+    would look checked.
+    """
+    per = {y: 0 for y in range(lo, hi + 1)}
+    for v in S["cities"].values():
+        ys = {int(y): z for y, z in v["years"].items() if z["usable_to_cut"]}
+        for y in per:
+            if y not in ys:
+                continue
+            val = (ys[y]["nights_to_cut"] if key == "nights"
+                   else ys[y]["days_to_cut"][pct])
+            prior = [(z["nights_to_cut"] if key == "nights"
+                      else z["days_to_cut"][pct])
+                     for yy, z in ys.items() if yy < y]
+            if prior and val > max(prior):
+                per[y] += 1
+    vals = sorted(per.values())
+    worst = max(per, key=per.get)
+    return {
+        "median_year": vals[len(vals) // 2],
+        "mean_year": round(sum(vals) / len(vals), 2),
+        "worst_year_on_record": {"year": worst, "cities": per[worst]},
+        "window": f"{lo}-{hi}",
+        "of_cities": len(S["cities"]),
+    }
+
+
 def main() -> int:
     S = json.loads(SERIES.read_text())
     B = json.loads((ROOT / "heat/data/record_rate_baseline.json").read_text())
@@ -161,7 +196,41 @@ def main() -> int:
             "featured": c in FEATURED,
         }
 
+        # DAY RANK, product 2026-08-07. Without it a page can say Marseille
+        # had 34 hot days and cannot say how unusual that is, which is the
+        # question the page exists to answer. Same tie convention as nights,
+        # and `requires_series` for the same reason: ranks are read, never
+        # derived. A strict recompute manufactured a Valencia night record
+        # this morning and would do the same here.
+        dser = {y: d["days_to_cut"]["95"] for y, d in good.items()}
+        d26 = yrs[cur]["days_to_cut"]["95"]
+        dr = rank_of(d26, dser, ties)
+        dof = len(dser) + 1
+        dbelow = [n for n in dser.values() if n < d26]
+
         days = {
+            "rank": {
+                "value": dr, "of_years": dof,
+                "percentile": round((1 - (dr - 1) / dof) * 100, 1),
+                "measured_on": "95",
+                "ties_count_against": ties,
+                "tied_with": sorted(y for y, n in dser.items() if n == d26),
+                "requires_series": True,
+                "requires_series_note":
+                    "Read this rank, never derive it. Same rule as the night "
+                    "rank and the same reason: a strict greater-than promotes "
+                    "ties and manufactures records.",
+                "margin_days": (d26 - max(dbelow)) if dr == 1 and dbelow else None,
+            },
+            "series_to_same_date": {
+                "cut_at": v["counted_to"][5:],
+                "measured_on": "95",
+                "values": {str(y): n for y, n in sorted(dser.items())},
+                "note": "Days at or above this city's own 95th percentile "
+                        "threshold, counted to the same cut as every other "
+                        "year. The 90 and 99 thresholds are emitted above but "
+                        "only the 95 series is ranked.",
+            },
             "thresholds_c": v["thresholds_c"],
             "threshold_basis": v["threshold_basis"],
             "days_2026": yrs[cur]["days_to_cut"],
@@ -186,6 +255,21 @@ def main() -> int:
                 "The two are not interchangeable and must not share an axis.")
         cities[c] = entry
 
+    # Day records, computed the same way as night records: a city is at a
+    # day record when no prior usable year reached its 2026 count. Ties count
+    # against 2026 here too.
+    drecs = []
+    for c, v in cities.items():
+        ys = S["cities"][c]["years"]
+        cur = str(max(int(y) for y in ys))
+        prior = [z["days_to_cut"]["95"] for y, z in ys.items()
+                 if z["usable_to_cut"] and y != cur]
+        if prior and v["days"]["days_2026"]["95"] > max(prior):
+            drecs.append(c)
+    drecs = sorted(drecs)
+    dbase = record_rate(S, "days")
+
+    nbase = record_rate(S, "nights")
     recs = sorted(c for c, v in cities.items() if v["rank"]["value"] == 1)
     top5 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 95]
     top10 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 90]
@@ -236,6 +320,7 @@ def main() -> int:
             "record_cities": recs,
             "headline_requires_baseline": True,
             "baseline": {
+                "recomputed": nbase,
                 "typical_year_records": B["median_year"],
                 "mean_2011_2025": B["mean_2011_2025"],
                 "expected_no_trend": B["expected_no_trend"],
@@ -248,6 +333,27 @@ def main() -> int:
                 "A record held by a single night. Carries its margin rather "
                 "than hiding it.",
             "caveat": B["caveat_2026_incomplete"],
+        },
+        "day_headline": {
+            "records": len(drecs), "of_cities": len(cities),
+            "record_cities": drecs,
+            "headline_requires_baseline": True,
+            "baseline": dbase,
+            "measure": "days at or above this city's own 95th percentile of "
+                       "July-August maxima, counted to the same cut",
+            # THE CONSTRAINT INVERTS BETWEEN THE TWO INSTRUMENTS, which is
+            # why this is a field and not a note in a message. On nights,
+            # `may_not_say` forbids calling 2026 the worst year, because 2003
+            # gave 12 against 2026's 8. On DAYS, 2026 gives 11 against 2003's
+            # 8, so it IS the worst year on record and saying so is correct.
+            # Carrying the nights caveat across would understate a true
+            # finding; carrying this claim back to nights would be false.
+            "may_say_worst_on_record": True,
+            "may_say_worst_note":
+                "2026 sets more city day-records than any year in the window, "
+                "including 2003. This is the OPPOSITE of the nights "
+                "constraint, where 2003 remains worse and `may_not_say` "
+                "applies. The two instruments do not share a caveat.",
         },
         "featured_cities": list(FEATURED),
         "cities_without_day_multiple": nomult,
@@ -270,7 +376,12 @@ def main() -> int:
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else OUT
     out.write_text(json.dumps(payload, indent=1) + "\n")
     print(f"wrote {out}")
-    print(f"  {len(cities)} cities, {len(recs)} at record: {recs}")
+    print(f"  {len(cities)} cities, {len(recs)} at NIGHT record: {recs}")
+    print(f"  {len(drecs)} at DAY record: {drecs}")
+    print(f"  night baseline {nbase['median_year']} median, worst "
+          f"{nbase['worst_year_on_record']}")
+    print(f"  day   baseline {dbase['median_year']} median, worst "
+          f"{dbase['worst_year_on_record']}")
     print(f"  no day multiple: {nomult}")
     print(f"  fragile (1-night margin): {thin}")
     bad = [c for c, v in cities.items()
