@@ -207,7 +207,7 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
     best, bestbox, cost0 = None, None, float("inf")
     for dx, dy, anc in opts:
         x1 = x + dx if anc == "start" else (x + dx - bw if anc == "end" else x - bw / 2)
-        box = {"x1": x1, "x2": x1 + bw, "y1": y + dy - 12, "y2": y + dy + 14}
+        box = {"x1": x1, "x2": x1 + bw, "y1": y + dy - 11, "y2": y + dy + 4}
         if box["x1"] < 4 or box["x2"] > W - 4 or box["y1"] < 4 or box["y2"] > H - 4:
             continue
         c = sum(overlap(p, box) for p in placed)
@@ -220,11 +220,14 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
         best, bestbox = opts[0], {"x1": x, "x2": x + bw, "y1": y, "y2": y + 26}
     placed.append(bestbox)
     dx, dy, anc = best
-    sub = "record" if d["rank"] == 1 else f'{ordinal(round(d["pct"]))} pct'
+    # No sublabel. "record" under a darkest-fill marker is the fill said
+    # twice and the legend already defines it; 98.6 against 98.1 is
+    # invisible at marker size and nobody reads a map for a decimal. Both
+    # belong in the list, and dropping all 21 halves the label mass, which
+    # is what was pushing Marseille and Alicante off their own markers.
     labels.append(
-        f'<text x="{x+dx:.1f}" y="{y+dy:.1f}" text-anchor="{anc}" class="cn">{d["name"]}'
-        f'</text><text x="{x+dx:.1f}" y="{y+dy+12:.1f}" text-anchor="{anc}" '
-        f'class="cs">{sub}</text>')
+        f'<text x="{x+dx:.1f}" y="{y+dy:.1f}" text-anchor="{anc}" '
+        f'class="cn">{d["name"]}</text>')
 
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
        f'aria-label="Twenty-one European weather stations. Every city is the same '
@@ -262,34 +265,44 @@ if set(_full) - set(_rec) - {"Cologne"}:
     raise SystemExit(f"a city draws a full bar without being a record and is not the "
                      f"known tie: {sorted(set(_full) - set(_rec))}")
 
-def strip(name, pct, w=210, h=26):
-    """Every summer this station has recorded, as one tick each, with 2026
-    marked. Scaled to that city's own range, so it is never a comparison
-    with the row above.
+def minichart(name, w=316, h=34):
+    """The city page's own chart, shrunk. Kristjan's idea, and it carries
+    three things the comb carried none of: how many, from bar height; how
+    long this has been building, from the shape; and how much record
+    stands behind the claim, from how many bars there are.
 
-    Replaces a bar that was scaled to the city's own record: every city
-    at its record drew a full block, so fourteen of twenty-one rows were
-    identical and the top of the list carried no information at all.
+    It also survives what broke the comb. Fourteen cities pin their last
+    bar at the top, but the decades behind it do not repeat, so the rows
+    stop being one shape drawn fourteen times.
+
+    Scaled to each city's own maximum, NEVER across rows: a hot day is
+    41.2 C in Seville and 31.4 C in Berlin, so the heights are not
+    comparable and the chart must not invite it.
+
+    Plotted by YEAR rather than by index, so a missing year draws as a
+    gap rather than being closed up. Seville has four.
     """
-    # A SHARED 0-100 axis, not a per-city scale. VD's point: a per-city
-    # scale cannot be compared inside a ranking, and with 2026 setting the
-    # maximum every strip crammed its history into the left fifth and
-    # looked like the same shape. On percentile the rows compare, and tick
-    # DENSITY draws record length for free: Murcia's 43 years are visibly
-    # thinner evidence than Madrid's 106, with no caption.
-    ys = sorted(x["days_to_cut"]["95"] for y, x in S[name]["years"].items()
-                if int(y) < 2026 and x.get("usable_to_cut") and x.get("days_to_cut"))
-    n = len(ys)
-    pcts = [(i + 1) / (n + 1) * 100 for i in range(n)]
-    px = lambda v: 1 + v / 100 * (w - 2)
-    ticks = "".join(
-        f'<line x1="{px(v):.1f}" y1="{h*0.30:.1f}" x2="{px(v):.1f}" y2="{h*0.72:.1f}" '
-        f'stroke="var(--ink)" stroke-width="1" opacity="0.30"/>' for v in pcts)
-    cur = (f'<line x1="{px(pct):.1f}" y1="2" x2="{px(pct):.1f}" y2="{h-2}" '
-           f'stroke="var(--accent)" stroke-width="2.4"/>')
-    return (f'<svg viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
-            f'role="img" aria-label="{name}: every summer on record as a tick, '
-            f'with 2026 marked">{ticks}{cur}</svg>')
+    ys = {int(y): x["days_to_cut"]["95"]
+          for y, x in S[name]["years"].items()
+          if x.get("usable_to_cut") and x.get("days_to_cut")}
+    if not ys:
+        return ""
+    y0, y1 = min(ys), max(ys)
+    top = max(ys.values()) or 1
+    span = max(1, y1 - y0)
+    bw = max(1.4, w / (span + 1) - 0.5)      # 2.8px at 106 years is the floor
+    out = []
+    for y, v in sorted(ys.items()):
+        if not v:
+            continue
+        x = (y - y0) / span * (w - bw)
+        fill = "var(--accent)" if y == 2026 else "var(--ink)"
+        op = "" if y == 2026 else ' opacity="0.55"'
+        out.append(f'<rect x="{x:.1f}" y="{h - v/top*h:.1f}" width="{bw:.1f}" '
+                   f'height="{max(v/top*h, 1):.1f}" fill="{fill}"{op}/>')
+    return (f'<svg viewBox="0 0 {w} {h}" width="{w}" height="{h}" role="img" '
+            f'aria-label="{name}: hot days every summer from {y0} to {y1}, '
+            f'{len(ys)} years, with 2026 marked">{"".join(out)}</svg>')
 
 
 def city_row(i, d):
@@ -300,10 +313,10 @@ def city_row(i, d):
     title = (f'<a href="{href}" class="cty">{nm}</a>' if href
              else f'<span class="cty dim">{nm}</span>')
 
-    return (f'<div class="lrow"><span class="lnum">{i}</span>'
+    return (f'<div class="lrow">'
             f'<span class="lcty">{title}<span class="lsub">{lab}'
             f'{d["of"]} years of record</span></span>'
-            f'<span class="lbar">{strip(nm, d["pct"])}</span>'
+            f'<span class="lbar">{minichart(nm)}</span>'
             f'<span class="lval">{d["now"]}<span class="lbase">vs {d["base"]:.0f}</span>'
             f'</span></div>')
 
@@ -359,10 +372,9 @@ vertical-align:-2px;margin-right:8px}}
 text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:54px 0 6px}}
 .subl{{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:70ch;margin:12px 0 18px}}
-.lrow{{display:grid;grid-template-columns:26px 190px 1fr 76px;gap:16px;
+.lrow{{display:grid;grid-template-columns:170px 316px 1fr 74px;gap:16px;
 align-items:center;padding:9px 0;border-bottom:1px solid var(--rule)}}
-.lnum{{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint);
-text-align:right}}
+
 .cty{{font-size:17px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule)}}
 .cty.dim{{color:var(--soft);border:0}}
 .lcty{{display:flex;flex-direction:column;gap:2px}}
@@ -398,9 +410,9 @@ In a typical year {DH['baseline']['median_year']} of them do.</p>
 
 {svg}
 <div class="key">
-<span class="ks"><i style="background:var(--f3)"></i>Hotter than every summer it has recorded</span>
-<span class="ks"><i style="background:var(--f2)"></i>Hotter than 19 in 20 of its summers</span>
-<span class="ks"><i style="background:var(--f1)"></i>Hotter than 4 in 5 of its summers</span>
+<span class="ks"><i style="background:var(--f3)"></i>A record. Its most hot days ever</span>
+<span class="ks"><i style="background:var(--f2)"></i>Hotter than 19 of every 20 of its summers</span>
+<span class="ks"><i style="background:var(--f1)"></i>Hotter than 16 of every 20</span>
 <span class="ks"><i style="background:var(--f0)"></i>An ordinary summer for it</span>
 <span>Every city is the same disc. The fill is how many of that city's own
 summers this one beats, so nothing between the marks is shaded and no city is
