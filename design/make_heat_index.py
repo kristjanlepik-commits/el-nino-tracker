@@ -133,7 +133,13 @@ rows.sort(key=lambda d: (-d["pct"], d["name"]))
 # The labels are FREQUENCY throughout, one vocabulary. "Its usual
 # variation" was the standard deviation made plain rather than removed,
 # and it still assumed the shape the data has not got.
-BANDS = [(99.95, "var(--f3)"), (95.0, "var(--f2)"), (-1, "var(--f1)")]
+# FOUR rungs, and the lowest exists for a case no city is in today. VD's
+# point: the first city to arrive at the 40th percentile would otherwise
+# have no fill and no label, and D-043 requires an ordinary summer to read
+# as legibly as a record. The neutral step of the diverging ramp is what
+# it is for. Added now, while nothing depends on it.
+BANDS = [(99.95, "var(--f3)"), (95.0, "var(--f2)"),
+         (80.0, "var(--f1)"), (-1, "var(--f0)")]
 
 
 def ordinal(n):
@@ -214,7 +220,7 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
         best, bestbox = opts[0], {"x1": x, "x2": x + bw, "y1": y, "y2": y + 26}
     placed.append(bestbox)
     dx, dy, anc = best
-    sub = "record" if d["rank"] == 1 else f'{d["pct"]:.1f}th pct'
+    sub = "record" if d["rank"] == 1 else f'{ordinal(round(d["pct"]))} pct'
     labels.append(
         f'<text x="{x+dx:.1f}" y="{y+dy:.1f}" text-anchor="{anc}" class="cn">{d["name"]}'
         f'</text><text x="{x+dx:.1f}" y="{y+dy+12:.1f}" text-anchor="{anc}" '
@@ -289,7 +295,7 @@ def strip(name, pct, w=210, h=26):
 def city_row(i, d):
     nm = d["name"]
     # "record" under every name repeated what the grouping already says.
-    lab = ("" if d["rank"] == 1 else f'{d["rank"]}th of {d["of"]} &middot; ')
+    lab = ("" if d["rank"] == 1 else f'{ordinal(d["rank"])} of {d["of"]} &middot; ')
     href = PAGES.get(nm)
     title = (f'<a href="{href}" class="cty">{nm}</a>' if href
              else f'<span class="cty dim">{nm}</span>')
@@ -313,11 +319,11 @@ html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <style>{SITE_MASTHEAD_CSS}
 :root{{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
 --ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#173F9E;--bar:#D3D2CB;--land:#E4E3DC;
---f3:#8E240A;--f2:#C05B3D;--f1:#EFC9BD}}
+--f3:#8E240A;--f2:#C05B3D;--f1:#EFC9BD;--f0:#E8E7E2}}
 @media(prefers-color-scheme:dark){{:root{{--paper:#1A1A18;--sunk:#252521;
 --ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--coast:#43423C;
 --accent:#6E97E8;--bar:#43423C;--land:#232321;
---f3:#F0876A;--f2:#C05B3D;--f1:#6B4438}}}}
+--f3:#F0876A;--f2:#C05B3D;--f1:#6B4438;--f0:#2E2E2B}}}}
 /* The shared masthead expects these and a standalone page must set them.
    VD found all five missing: --mono fell back to inheritance so the
    product nav rendered in the serif, which is the mechanism section 7
@@ -388,28 +394,29 @@ own record rather than against each other. A hot day is one at or above that cit
 in Seville and {C['Berlin']['days']['thresholds_c']['95']}&nbsp;&deg;C in Berlin.
 <strong style="color:var(--ink);font-weight:500">{DH['records']} of the
 {DH['of_cities']} have had more of them than in any year on record.</strong>
-A typical year produces {DH['baseline']['median_year']}.</p>
+In a typical year {DH['baseline']['median_year']} of them do.</p>
 
 {svg}
 <div class="key">
 <span class="ks"><i style="background:var(--f3)"></i>Hotter than every summer it has recorded</span>
 <span class="ks"><i style="background:var(--f2)"></i>Hotter than 19 in 20 of its summers</span>
 <span class="ks"><i style="background:var(--f1)"></i>Hotter than 4 in 5 of its summers</span>
+<span class="ks"><i style="background:var(--f0)"></i>An ordinary summer for it</span>
 <span>Every city is the same disc. The fill is how many of that city's own
 summers this one beats, so nothing between the marks is shaded and no city is
 drawn as empty.</span></div>
 
 <div class="seclab">How far from normal, city by city</div>
-<p class="subl">Ordered by how far this summer sits from that city's own 1991-2020
-normal, measured against how much its summers normally vary.
-<strong style="color:var(--ink);font-weight:500">Nice has had {rows[0]['now']} hot days
-where {rows[0]['zmean']:.1f} is normal for it; Berlin has had {rows[-1]['now']} where
-{rows[-1]['zmean']:.1f} is normal.</strong> That is the question a reader is asking, and
-it is not the same as which city broke the longest record: a long record makes a rank
-rarer without making the summer hotter. Each strip is every summer that station has recorded, one tick each, with 2026 in
-blue. All strips share one axis, so rows compare; how crowded a strip looks is how
-long that station's record is. Order and strips share one measure, so a row above another really is further into its
-own record.</p>
+<p class="subl">Ordered by how many of that city's own recorded summers this one beats.
+<strong style="color:var(--ink);font-weight:500">{rows[0]['name']} has had
+{rows[0]['now']} hot days, more than in any of its {rows[0]['of']} recorded summers;
+{rows[-1]['name']} has had {rows[-1]['now']}, which beats {rows[-1]['pct']:.0f} in 100 of
+its own.</strong> {len([d for d in rows if d['pct'] >= 99.95])} of the
+{len(rows)} beat every summer they have on record, so they tie at the top and are
+listed alphabetically inside that tie: nothing separates them, and inventing an order
+would mean ranking by how long each station has been running. Each strip is that
+city's whole record on one shared scale, so rows compare and a crowded strip is simply
+a longer record.</p>
 {all_rows}
 
 <div class="seclab">Why we publish two measurements and not one</div>
