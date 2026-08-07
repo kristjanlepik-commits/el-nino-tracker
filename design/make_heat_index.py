@@ -105,7 +105,16 @@ rows.sort(key=lambda d: (-d["z"], d["name"]))
 # heat ruled for its night sd, so the map and the city pages can share a
 # scale. The window excludes 2026, so z is not bounded by the in-sample
 # ceiling of (n-1)/sqrt(n).
-BANDS = [(6.0, "#8E240A"), (4.0, "#C05B3D"), (2.0, "#DC957E"), (-99, "#EFC9BD")]
+# THREE bands, not four. Four split the middle into "far outside its
+# normal range" and "outside its normal range", which is not a distinction
+# a reader can act on, and it carried 6 and 7 cities.
+#
+# The labels describe DISTANCE only and never say "record". A record is a
+# rank claim and these bands are a distance claim: at any cut, cities that
+# ARE at their record sit in more than one band, so a label mentioning
+# records would tell a reader that Palma, Vienna, Munich and Malaga are
+# not records when they are. That is the mixing VD ruled against.
+BANDS = [(6.0, "#8E240A"), (2.0, "#C05B3D"), (-99, "#EFC9BD")]
 
 
 def band(z):
@@ -339,10 +348,9 @@ A typical year produces {DH['baseline']['median_year']}.</p>
 
 {svg}
 <div class="key">
-<span class="ks"><i style="background:#8E240A"></i>Unlike anything in its record</span>
-<span class="ks"><i style="background:#C05B3D"></i>Far outside its normal range</span>
-<span class="ks"><i style="background:#DC957E"></i>Outside its normal range</span>
-<span class="ks"><i style="background:#EFC9BD"></i>High, within its normal range</span>
+<span class="ks"><i style="background:#8E240A"></i>Far beyond how much its summers vary</span>
+<span class="ks"><i style="background:#C05B3D"></i>Beyond its usual variation</span>
+<span class="ks"><i style="background:#EFC9BD"></i>High, within its usual variation</span>
 <span>Every city is the same disc. The fill is how far this summer sits from
 that city's own normal, so nothing between the marks is shaded and no city is
 drawn as empty.</span></div>
