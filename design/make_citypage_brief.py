@@ -90,11 +90,18 @@ underneath it.</p>
    "with no axis at all; and every year as one mark on a single axis so the tail is "
    "seen directly. A fourth we cannot build yet is a season calendar, which needs "
    "daily values that heat holds upstream but does not emit.")}
-{q(3, "The page leads on DAYS and its closing temperature chart is on NIGHTS.",
-   "The one structural weakness left. There is no warmest-DAY series in the payload, "
-   "only warmest night, so the final chart is about a different thing from the lead. "
-   "Heat has been asked for it. Worth knowing before you lay out the bottom of the "
-   "page, because the strongest version has them matching.")}
+{q(3, "The closing temperature chart carries a trap, and it is the reason to design it carefully rather than quickly.",
+   "The page leads on a COUNT of hot days. A temperature chart is about a PEAK. Those "
+   "rank differently and a writer will reach across them. Paris is 1st of 77 on the "
+   "count of hot days and 2nd on its hottest single day, 40.6 C against 41.9 C in "
+   "2019. Both true, and 'the hottest Paris has ever been' is false. "
+   "<strong style='font-weight:500;color:#1A1A18'>Any claim about a peak carries the "
+   "PEAK's own rank, never the count's.</strong> The deeper reason is structural: a "
+   "caveat attaches to a MEASUREMENT and a page is organised by CITY, so every city "
+   "page puts two instruments side by side and inherits both caveats into one column "
+   "of prose. That has now produced three wrong sentences in a day. A grammar that "
+   "keeps each number visibly attached to its own instrument would fix the class "
+   "rather than the instances.")}
 {q(4, "The template must survive cities where an instrument is missing.",
    f"Days work in all 21 cities. Nights do NOT: the metric breaks where tropical "
    f"nights are rare, which gates out {' and '.join(gated)} at about one a year. And "
