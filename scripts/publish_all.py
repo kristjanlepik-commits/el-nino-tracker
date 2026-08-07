@@ -80,6 +80,8 @@ TARGETS = [
     "docs/briefs/index.html",
     "docs/fires/index.html",
     "docs/crops/index.html",
+    "docs/subscribe/index.html",
+    "docs/subscribed/index.html",
 ]
 
 STEPS = [
@@ -101,6 +103,10 @@ SHELL_TARGETS = {
     "docs/methodology.html",
     "docs/elnino/index.html",
     "docs/briefs/index.html",
+    # Same reasoning as the pages above: the capture surface must not be
+    # taken down by a channel build failing.
+    "docs/subscribe/index.html",
+    "docs/subscribed/index.html",
 }
 
 # Every file whose contents change what a publish produces. Publishing

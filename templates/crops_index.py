@@ -288,6 +288,110 @@ def _trajectory(cb: dict, place: str) -> str:
             f'each year since {years[0]}">' + "".join(out) + "</svg>")
 
 
+def _freshness(doc) -> str:
+    """What the page is actually looking at, and how old it is.
+
+    CRO's FRESHNESS.md, and this fixes a claim the page was making by
+    omission. The eyebrow stamped the page with the TOP-LEVEL `dekad`,
+    which is true of 122 places and FALSE of Oman: out-of-season places
+    freeze at their last in-season dekad, correctly, so a page-level
+    "as of" taken from that field asserts something untrue of at least
+    one place on the page.
+
+    The age is the other half, and it is deliberately worded about
+    what is AVAILABLE rather than about anyone being late.
+
+    CRO's FRESHNESS.md originally said this breached the channel's
+    20-day bound and it does NOT; the claim is withdrawn there and here.
+    That bound is a clock on PUBLICATION, and this measured from the
+    dekad LABEL, which is the observation window's start. The probe in
+    crops/probe_asap.py shows dekad 2026-07-21 genuinely unpublished
+    with its window only closed on 31 July, so the source is mid-cycle
+    rather than stalled.
+
+    What IS true, and is why this line exists: our cache is not stale,
+    so a reader seeing an old date must not infer we failed to fetch. A
+    live pull returned the same dekad as newest. A reader cannot tell
+    those two apart, so the page says which.
+
+    Computed from the per-place dekads rather than the top-level field,
+    because the top-level field is the thing that is wrong.
+    """
+    dks = sorted({p.get("dekad") for p in doc.get("places", []) if p.get("dekad")})
+    if not dks:
+        return ""
+    newest, oldest = dks[-1], dks[0]
+    n_old = sum(1 for p in doc.get("places", []) if p.get("dekad") != newest)
+    behind = (f" {n_old} place{'s' if n_old != 1 else ''} sit"
+              f"{'' if n_old != 1 else 's'} further back, having gone "
+              f"out of season and stopped reporting." if n_old else "")
+    return (f'<p class="fresh">Newest observation: the ten days to '
+            f'{h(_dekad_end(newest))}.{behind} The source publishes every '
+            f'ten days and has not published since, so this is the most '
+            f'recent reading available rather than a reading of today.</p>')
+
+
+def _dekad_end(iso: str) -> str:
+    """The dekad label is its START. A reader needs when it ENDS."""
+    import datetime
+    try:
+        y, m, d = (int(x) for x in iso.split("-"))
+    except (ValueError, AttributeError):
+        return iso
+    end = (datetime.date(y, m, d) + datetime.timedelta(days=9)
+           if d in (1, 11) else
+           (datetime.date(y, m + 1, 1) - datetime.timedelta(days=1)
+            if m < 12 else datetime.date(y, 12, 31)))
+    return f"{end.day} {end.strftime('%B')}"
+
+
+def _two_ways(g) -> str:
+    """Editor's section: the crop result, counted with and without trend.
+
+    D-087. The disagreement is a named section above the country list
+    rather than a headline or a footer table. Chad still leads, per
+    D-079, because a place needs no explanation and a treatment
+    comparison does.
+
+    THE COPY IS EDITOR'S AND SOLVES A PROBLEM THE HEAT SENTENCE DID NOT
+    HAVE. There, the reassuring half came second and a dangling pronoun
+    made it unquotable. Here the reassuring half leads, and no pronoun
+    can point forward without reading as broken English, so grammatical
+    dependence does not transfer.
+
+    Their replacement: the risky claim never starts a sentence, sitting
+    after a semicolon so there is no boundary to crop at, and the
+    leading sentence is a neutral fact that is safe alone. Plus the
+    general tool, which is new: where the risky half must lead, use a
+    phrase that DECLARES ITS OWN INCOMPLETENESS. "Leave that trend in
+    and" is grammatical and complete and unquotable as the whole story,
+    because it says on its face that it is not.
+
+    The RANKS are mine rather than theirs, on a separate data line. They
+    left them out for reader load and were right about the prose; but
+    D-087 requires the claim be checkable where it is made, and a reader
+    should not have to reach the footer to see what "better than usual"
+    and "worse third" are. Prose carries the finding, the line carries
+    the receipt.
+    """
+    b = (g or {}).get("buckets", {}).get("crop_outcome")
+    if not b:
+        return ""
+    raw, det = b.get("raw") or {}, b.get("detrended") or {}
+    if not (raw.get("rank") and det.get("rank")):
+        return ""
+    return f"""
+      <p class="seclab">The same season, counted two ways</p>
+      <p class="twp">These croplands have been getting greener for
+        twenty-five years. Leave that trend in and this season&rsquo;s crop
+        result is better than usual; take it out and it lands in the worse
+        third.</p>
+      <p class="twn">Crop result across the {raw.get("of")} years of this
+        dekad: <b>{raw["rank"]} of {raw["of"]}</b> with the trend left in,
+        <b>{det["rank"]} of {det["of"]}</b> with it taken out. Neither is
+        the correct one; they answer different questions.</p>"""
+
+
 def _global_block(g) -> str:
     """The global pair, in the footer, with BOTH treatments.
 
@@ -833,9 +937,10 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 <body>
 {site_masthead(root_prefix, active="crop")}
 <main>
-  <p class="eyebrow">Crops &middot; dekad {h(doc['dekad'])}</p>
+  <p class="eyebrow">Crops</p>
   <h1>{headline}</h1>
   <p class="stand">{lede}</p>
+  {_freshness(doc)}
   {season}
   {world_map}
 
@@ -846,6 +951,8 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
        qualifier that applies to all 81 rows equally. Kristjan's rule,
        and it is the right cut: anything the same on every row, or not
        about this dekad, sits below the content. -->
+  {_two_ways(doc.get("global") or {})}
+
   {_global_block(doc.get("global") or {})}
 
   <p class="seclab">How we know 81 is an ordinary number</p>

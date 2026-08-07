@@ -67,8 +67,20 @@ def _row(e):
         note = ('<span class="rowqual">within its historical range; '
                 'shown for scale</span>')
     elif not e.get("anomalous") and e.get("pinned"):
+        # "not unusual today" USED TO BE APPENDED HERE AND CONTRADICTED THE
+        # ROW IT SAT ON. Spain, France and the UK all carry a title reading
+        # "Second-heaviest fire week since 2012" or similar, and the note
+        # denied it on the same line. Spain was the clearest: rank 2 of 14
+        # with z=1.92, which is not "not unusual" by any reading we take.
+        #
+        # The mistake was treating "cleared no gate" as "nothing to see".
+        # They are different claims and only the first is ours to make from
+        # this payload. A country can miss every threshold and still be
+        # having its second-heaviest week on record, which is exactly what
+        # these rows are. So the note now says only why the row is present,
+        # and the title is left to make the claim.
         note = ('<span class="rowqual">shown every week so this country '
-                'can be checked; not unusual today</span>')
+                'can be checked, whatever it is doing</span>')
     elif e.get("multiple_unstable"):
         note = ('<span class="rowqual">small baseline; rank is the '
                 'sturdier reading</span>')
@@ -81,6 +93,34 @@ def _row(e):
         </span>
         {_tag(e)}
       </a>"""
+
+
+# The prose above the weak list describes fire's gate in words, and words
+# are as capable of drifting out of date as a comparison is. The headings
+# name no number for that reason, but one sentence still commits: "whether
+# it is setting a record" is only a fair description of the record signal
+# while it means rank 1.
+#
+# So the description is pinned to the constants it paraphrases and the
+# build fails if they move. This is the cheap half of the lesson the
+# verdict field taught: a threshold copied into a second place needs
+# something that notices when the copies disagree, and a guard cannot be
+# forgotten where a ticket can.
+_PROSE_ASSUMES = {"RECORD_RANK": 1}
+
+
+def _check_prose_assumptions():
+    from fires import build_events as _be
+    for name, expected in _PROSE_ASSUMES.items():
+        actual = getattr(_be, name)
+        if actual != expected:
+            raise SystemExit(
+                f"fires/build_page.py: {name} is now {actual}, and the "
+                f"prose under the weak-signal list was written for "
+                f"{expected}. It tells the reader the second reading is "
+                f"'whether it is setting a record', which stops being true "
+                f"once more than the top week qualifies. Reword the note, "
+                f"then update _PROSE_ASSUMES.")
 
 
 def build(events_doc, font_prefix="../fonts/"):
@@ -97,8 +137,28 @@ def build(events_doc, font_prefix="../fonts/"):
     anom = [e for e in ev if e.get("anomalous")]
     ctx = [e for e in ev if e.get("volume_context") and not e.get("anomalous")]
     rest = [e for e in ev if e not in anom and e not in ctx]
-    rows = [_row(e) for e in anom + rest]
+
+    # THE MULTIPLE-ALONE SPLIT. Fire emits `strength.verdict` for this and
+    # the branch is on the VERDICT, never on `qualifies_on`. Their reason,
+    # and it is right: comparing the signal list against ["multiple"] would
+    # put fire's gate rule inside design's code, where it agrees today and
+    # drifts silently the first time the gate moves, because the comparison
+    # keeps evaluating and keeps returning something.
+    #
+    # What it fixes, on this week's data: Botswana at 2.5x sorted above the
+    # United States at 2.3x and India at 2.2x, so a reader scanning down
+    # read Botswana as the fourth most extreme fire situation on earth.
+    # Botswana is 3rd in its own 14-year record with z=1.79, inside its
+    # ordinary variation. The other two are having their heaviest weeks on
+    # record. Sorting by multiple put the least corroborated country above
+    # two of the best corroborated ones.
+    weak = [e for e in anom
+            if (e.get("strength") or {}).get("verdict") == "multiple_only"]
+    strong = [e for e in anom if e not in weak]
+    rows = [_row(e) for e in strong]
+    weak_rows = [_row(e) for e in weak]
     ctx_rows = [_row(e) for e in ctx]
+    rest_rows = [_row(e) for e in rest]
 
     # THE COUNT IS NOT A FINDING, SO IT IS NOT THE HEADLINE.
     #
@@ -129,7 +189,13 @@ def build(events_doc, font_prefix="../fonts/"):
     # led with the AVERAGE multiple. Beating a record is a stronger kind
     # of claim than exceeding an average, and the average multiple is
     # closer in shape to the count we just removed. Editor's argument.
-    lead = anom[0] if anom else (ev[0] if ev else None)
+    # Leads on the best-corroborated extreme rather than the largest
+    # multiple. Identical output this week, since Greece is both, and it
+    # stops the headline being handed to a multiple-only country on a week
+    # where one happens to top the sort. That follows editor's own argument
+    # for the current sentence: a record is a stronger kind of claim than a
+    # multiple over an average.
+    lead = (strong or anom or ev or [None])[0]
     if lead:
         headline = lead_sentence(lead).rstrip(".") or (
             f"{lead['region']} is burning at {lead['stat']} its "
@@ -143,6 +209,42 @@ def build(events_doc, font_prefix="../fonts/"):
     # and did not clear the anomaly gate, so they belong on a world fire
     # map and are not news. The section says so in words rather than
     # relying on a reader noticing a lighter number.
+    # The wording names NO THRESHOLD, deliberately. Saying "none is more
+    # than two standard deviations above its own average" would encode
+    # fire's gate in design's prose, which is the same drift the verdict
+    # field exists to prevent, just moved from a comparison into a sentence.
+    #
+    # Nor does it say these countries are not unusual. Portugal, Syria and
+    # Indonesia are each having their second-heaviest week since 2012 and
+    # the row titles say so. The claim here is narrower and is the one the
+    # payload supports: one reading is carrying this on its own.
+    _check_prose_assumptions()
+    weak_block = ("" if not weak_rows else
+                  '<p class="sectionlabel">High against their own average, '
+                  'and nothing else agrees</p>' +
+                  "".join(weak_rows) +
+                  '<p class="note">We take three readings of each country: '
+                  'how it compares with its own average for this week of '
+                  'the year, whether it is setting a record, and how far it '
+                  'stands out from its own year-to-year spread. For the '
+                  'countries above, at least two agree. For these, only the '
+                  'first does. That does not make them quiet, and several '
+                  'are having one of their heaviest weeks since 2012; it '
+                  'means the evidence is thinner, so they are listed apart '
+                  'rather than ranked among the others.</p>')
+    # Pinned countries, previously rendered in the same list as the
+    # anomalies with nothing but a row note to separate them. Given their
+    # own heading now: Spain and France sit at second-heaviest since 2012
+    # and appearing directly under the anomaly list read as a claim we had
+    # not made.
+    rest_block = ("" if not rest_rows else
+                  '<p class="sectionlabel">Shown every week, whatever they '
+                  'are doing</p>' + "".join(rest_rows) +
+                  '<p class="note">These countries are on the page every '
+                  'week so that a reader can check them rather than take '
+                  'our word for which places matter. Their presence here is '
+                  'not a signal in either direction; read the week each one '
+                  'is having off its own row.</p>')
     ctx_block = ("" if not ctx_rows else
                  '<p class="sectionlabel">Large, and within their own '
                  'normal range</p>' + "".join(ctx_rows) +
@@ -325,7 +427,9 @@ h1 {{
 
   <p class="sectionlabel">Against their own record</p>
   {''.join(rows)}
+  {weak_block}
   {ctx_block}
+  {rest_block}
 
   <p class="note">Ranked by how far above normal, not by size. Angola,
   DR Congo and Zambia each recorded more detections this week than

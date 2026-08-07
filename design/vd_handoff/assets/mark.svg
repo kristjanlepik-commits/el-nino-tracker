@@ -1,0 +1,11 @@
+<svg width="42" height="40" viewBox="0 0 42 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- The Long Swell propagation mark. A filled square (the source) and
+       three concentric arcs attenuating outward (the signal weakening as
+       it travels). All three arcs share a center, which is the geometry
+       doing the work. Inks in currentColor: INK or PAPER only, never a
+       channel hue, because the mark belongs to the house. -->
+  <rect x="4" y="14" width="12" height="12" fill="currentColor"/>
+  <path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3"/>
+  <path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/>
+  <path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/>
+</svg>
