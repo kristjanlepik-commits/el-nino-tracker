@@ -86,6 +86,25 @@ CITIES = {
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
     "Montpellier": dict(country="FR", station="MONTPELLIER-AEROPORT", cut=(8, 3)),
     "Lyon":        dict(country="FR", station="LYON-ST EXUPERY", cut=(8, 3)),
+    # Austria and Germany, added 2026-08-07. Both licences permit commercial
+    # reuse: GeoSphere is CC0, DWD is GeoNutzV with attribution.
+    #
+    # THESE CITIES ARE WHY THE PERCENTILE NIGHT METRIC EXISTS. Hamburg
+    # recorded ONE tropical night in 2026 and Berlin three. A 20 C count
+    # cannot carry a ratio off that base, and no amount of extra data fixes
+    # it, because the threshold is the problem rather than the record.
+    "Vienna":    dict(country="AT", station="Wien Hohe Warte", cut=(8, 3),
+                      file="gs_Vienna.json"),
+    "Berlin":    dict(country="DE", station="Berlin-Tempelhof", cut=(8, 3),
+                      file="dwd_Berlin.json"),
+    "Hamburg":   dict(country="DE", station="Hamburg-Fuhlsbuettel", cut=(8, 3),
+                      file="dwd_Hamburg.json"),
+    "Frankfurt": dict(country="DE", station="Frankfurt/Main", cut=(8, 3),
+                      file="dwd_Frankfurt.json"),
+    "Munich":    dict(country="DE", station="Muenchen-Stadt", cut=(8, 3),
+                      file="dwd_Munich.json"),
+    "Cologne":   dict(country="DE", station="Koeln/Bonn", cut=(8, 3),
+                      file="dwd_Cologne.json"),
 }
 
 
@@ -126,10 +145,13 @@ def load_mf(city, station):
 
 
 def build(city, meta):
-    if meta["country"] == "ES":
-        tn, tx = load_aemet(city, meta.get("file"))
-    else:
+    # AEMET, GeoSphere and DWD all land as [date, tmin, tmax] JSON, so one
+    # loader serves three sources. Meteo-France is the odd one, being gzipped
+    # CSV with a station-name filter.
+    if meta["country"] == "FR":
         tn, tx = load_mf(city, meta["station"])
+    else:
+        tn, tx = load_aemet(city, meta.get("file"))
     cut, W = meta["cut"], window_days(meta["cut"])
 
     # Thresholds are each city's own July-August maxima percentiles. AEMET's
@@ -137,6 +159,21 @@ def build(city, meta):
     ja = [v for y in range(PCTL_BASELINE[0], PCTL_BASELINE[1] + 1)
           for (m, _), v in tx.get(y, {}).items() if m in (7, 8)]
     th = {str(p): round(float(np.percentile(ja, p)), 1) for p in (90, 95, 99)}
+
+    # NIGHT thresholds, the same construction applied to minima. The 20 C
+    # tropical-night count is a Mediterranean instrument: Amsterdam averages
+    # under one such night a year, so every ratio divides by almost nothing
+    # and the metric simply does not reach northern Europe. A per-city
+    # percentile is locally calibrated by construction, which is the same
+    # reason the day thresholds are percentiles rather than a flat 35 C.
+    #
+    # THIS DOES NOT REPLACE THE 20 C COUNT. Both are emitted. TR is an ETCCDI
+    # standard and "tropical night" is a term a reader already knows; the
+    # percentile is abstract but travels. Mediterranean cities carry both,
+    # northern cities can only carry the second.
+    jn = [v for y in range(PCTL_BASELINE[0], PCTL_BASELINE[1] + 1)
+          for (m, _), v in tn.get(y, {}).items() if m in (7, 8)]
+    nth = {str(p): round(float(np.percentile(jn, p)), 1) for p in (90, 95, 99)}
 
     years = {}
     for y in sorted(set(tn) | set(tx)):
@@ -153,11 +190,21 @@ def build(city, meta):
             "days_to_cut": {p: sum(1 for k, v in tx.get(y, {}).items()
                                    if k <= cut and v >= t)
                             for p, t in th.items()},
+            "warm_nights_to_cut": {p: sum(1 for k, v in tn.get(y, {}).items()
+                                          if k <= cut and v >= t)
+                                   for p, t in nth.items()},
             "days_full_year": {p: sum(1 for v in tx.get(y, {}).values() if v >= t)
                                for p, t in th.items()},
         }
         if tn.get(y):
             rec["warmest_night_c"] = round(max(tn[y].values()), 1)
+        if tx.get(y):
+            rec["warmest_day_c"] = round(max(tx[y].values()), 1)
+            rec["warmest_day_to_cut_c"] = round(
+                max([v for k, v in tx[y].items() if k <= cut], default=-99), 1)
+        if tn.get(y):
+            rec["warmest_night_to_cut_c"] = round(
+                max([v for k, v in tn[y].items() if k <= cut], default=-99), 1)
         years[str(y)] = rec
 
     def rate(lo, hi, p):
@@ -203,11 +250,25 @@ def build(city, meta):
         # a refresh: Malaga's record is held by ONE night.
         "counted_to": f"{CURRENT_YEAR}-{meta['cut'][0]:02d}-{meta['cut'][1]:02d}",
         "last_observation": f"{CURRENT_YEAR}-{last[0]:02d}-{last[1]:02d}",
-        "source": "AEMET OpenData" if meta["country"] == "ES"
-                  else "Meteo-France, via data.gouv.fr",
+        "source": {"ES": "AEMET OpenData",
+                   "FR": "Meteo-France, via data.gouv.fr",
+                   "AT": "GeoSphere Austria",
+                   "DE": "DWD Climate Data Center"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,
+        "night_thresholds_c": nth,
+        "night_threshold_basis":
+            "90th/95th/99th percentile of this station's own July-August "
+            "daily MINIMA, 1971-2000. The locally calibrated night metric, "
+            "emitted alongside the 20 C tropical-night count rather than "
+            "replacing it.",
+        "tropical_night_metric_works":
+            sum(1 for y in range(2011, 2026)
+                if years.get(str(y), {}).get("nights_to_cut", 0) >= 5) >= 8,
+        "tropical_night_metric_note":
+            "False where the 20 C count is too rare to carry a ratio. Such a "
+            "city must lead with the percentile night metric instead.",
         "threshold_basis":
             "90th/95th/99th percentile of this station's own July-August "
             "daily maxima, 1971-2000.",
