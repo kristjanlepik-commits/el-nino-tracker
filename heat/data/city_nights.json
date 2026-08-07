@@ -16,7 +16,8 @@
  },
  "headline": {
   "lead": {
-   "claim": "Not one of these cities is having an ordinary summer for hot nights.",
+   "claim": "The extreme is concentrated in the middle latitudes, not at the hot end.",
+   "superseded_claim_do_not_use": "Not one of these cities is having an ordinary summer for hot nights. FALSE for 21 cities: Berlin is at the 70.9th percentile on nights.",
    "in_top_10pct": 19,
    "in_top_5pct": 18,
    "of_cities": 21
@@ -119,6 +120,213 @@
   "measure": "days at or above this city's own 95th percentile of July-August maxima, counted to the same cut",
   "may_say_worst_on_record": true,
   "may_say_worst_note": "2026 sets more city day-records than any year in the window, including 2003. This is the OPPOSITE of the nights constraint, where 2003 remains worse and `may_not_say` applies. The two instruments do not share a caveat."
+ },
+ "geography": {
+  "claim": "Every city in the set is elevated on days, and the EXTREME is concentrated in the middle latitudes rather than at the hot end.",
+  "elevated_holds_on": "days",
+  "elevated_note": "Verified, not asserted: the lowest day percentile in the set is Berlin at 87.3. THIS DOES NOT HOLD ON NIGHTS, where Berlin sits at 70.9, so the claim must be made about days or not at all.",
+  "banned_word": "ordinary",
+  "banned_word_note": "No city in this set may be called ordinary. Seville is 89th percentile, Hamburg 89th, Berlin 86th on days. Those are elevated readings that are merely not the most extreme, and calling them ordinary is the error that turned a 91st percentile Marseille into 'an ordinary summer'.",
+  "band": {
+   "south_edge_lat": 38,
+   "north_edge_lat": 51
+  },
+  "least_extreme_on_days": [
+   {
+    "city": "Berlin",
+    "day_percentile": 87.3
+   },
+   {
+    "city": "Hamburg",
+    "day_percentile": 90.1
+   },
+   {
+    "city": "Seville",
+    "day_percentile": 90.8
+   },
+   {
+    "city": "Valencia",
+    "day_percentile": 94.4
+   }
+  ],
+  "mechanism": null,
+  "mechanism_note": "DELIBERATELY ABSENT. Stating the geography is measurement; explaining it is speculation. The page says where, not why, and a reader who wants why is better served by our saying we do not know.",
+  "map": {
+   "colour_by": "percentile within each city's own record",
+   "never_colour_by": "absolute temperature, which would redraw the Mediterranean climate map rather than this summer",
+   "quiet_cities": "must be visibly quiet, never absent. Their presence is what makes the map evidence rather than decoration.",
+   "not_a_surface": "21 marks, not an interpolated field. This is 21 thermometers and must not read as a European temperature map.",
+   "points": [
+    {
+     "city": "Alicante",
+     "lat": 38.3,
+     "lon": -0.5,
+     "day_percentile": 100.0,
+     "night_percentile": 98.9,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Barcelona",
+     "lat": 41.4,
+     "lon": 2.2,
+     "day_percentile": 98.9,
+     "night_percentile": 97.7,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Berlin",
+     "lat": 52.5,
+     "lon": 13.4,
+     "day_percentile": 87.3,
+     "night_percentile": 70.9,
+     "night_metric_holds": false
+    },
+    {
+     "city": "Bilbao",
+     "lat": 43.3,
+     "lon": -2.9,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": false
+    },
+    {
+     "city": "Cologne",
+     "lat": 50.9,
+     "lon": 7.1,
+     "day_percentile": 98.6,
+     "night_percentile": 98.6,
+     "night_metric_holds": false
+    },
+    {
+     "city": "Frankfurt",
+     "lat": 50.1,
+     "lon": 8.7,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": false
+    },
+    {
+     "city": "Hamburg",
+     "lat": 53.6,
+     "lon": 10.0,
+     "day_percentile": 90.1,
+     "night_percentile": 89.0,
+     "night_metric_holds": false
+    },
+    {
+     "city": "Lyon",
+     "lat": 45.8,
+     "lon": 4.8,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Madrid",
+     "lat": 40.4,
+     "lon": -3.7,
+     "day_percentile": 98.1,
+     "night_percentile": 100.0,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Malaga",
+     "lat": 36.7,
+     "lon": -4.5,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Marseille",
+     "lat": 43.3,
+     "lon": 5.4,
+     "day_percentile": 100.0,
+     "night_percentile": 92.2,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Montpellier",
+     "lat": 43.6,
+     "lon": 3.9,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Munich",
+     "lat": 48.1,
+     "lon": 11.6,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": false
+    },
+    {
+     "city": "Murcia",
+     "lat": 38.0,
+     "lon": -1.1,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Nice",
+     "lat": 43.7,
+     "lon": 7.3,
+     "day_percentile": 100.0,
+     "night_percentile": 98.7,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Palma",
+     "lat": 39.6,
+     "lon": 2.7,
+     "day_percentile": 100.0,
+     "night_percentile": 95.9,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Paris",
+     "lat": 48.9,
+     "lon": 2.4,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": false
+    },
+    {
+     "city": "Seville",
+     "lat": 37.4,
+     "lon": -6.0,
+     "day_percentile": 90.8,
+     "night_percentile": 97.4,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Valencia",
+     "lat": 39.5,
+     "lon": -0.4,
+     "day_percentile": 94.4,
+     "night_percentile": 98.9,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Vienna",
+     "lat": 48.2,
+     "lon": 16.4,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": true
+    },
+    {
+     "city": "Zaragoza",
+     "lat": 41.7,
+     "lon": -0.9,
+     "day_percentile": 100.0,
+     "night_percentile": 100.0,
+     "night_metric_holds": true
+    }
+   ]
+  }
  },
  "featured_cities": [
   "Paris",

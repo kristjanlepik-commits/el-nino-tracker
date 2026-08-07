@@ -43,6 +43,20 @@ OUT = ROOT / "heat" / "data" / "city_nights.json"
 
 FEATURED = ("Paris", "Madrid", "Bilbao")
 
+# For the map. Product's ruling 2026-08-07: the geography IS the headline, and
+# a map is the only rendering where "the extreme band is the middle of the
+# domain" is legible. A table hides it; a ranked list sorts the quiet cities to
+# the bottom where they read as filler.
+COORDS = {
+    "Seville": (37.4, -6.0), "Malaga": (36.7, -4.5), "Murcia": (38.0, -1.1),
+    "Alicante": (38.3, -0.5), "Valencia": (39.5, -0.4), "Palma": (39.6, 2.7),
+    "Madrid": (40.4, -3.7), "Barcelona": (41.4, 2.2), "Zaragoza": (41.7, -0.9),
+    "Bilbao": (43.3, -2.9), "Nice": (43.7, 7.3), "Marseille": (43.3, 5.4),
+    "Montpellier": (43.6, 3.9), "Lyon": (45.8, 4.8), "Vienna": (48.2, 16.4),
+    "Munich": (48.1, 11.6), "Paris": (48.9, 2.4), "Frankfurt": (50.1, 8.7),
+    "Cologne": (50.9, 7.1), "Berlin": (52.5, 13.4), "Hamburg": (53.6, 10.0),
+}
+
 LICENCE = {
     "ES": {"licence": "AEMET legal notice: reuse for commercial and "
                       "non-commercial purposes",
@@ -277,6 +291,9 @@ def main() -> int:
 
     ok_cities = sorted(c for c in cities
                        if S["cities"][c]["tropical_night_metric_works"])
+    ldays = sorted(((v["days"]["rank"]["percentile"], c)
+                    for c, v in cities.items()))[:4]
+    ldays = [{"city": c, "day_percentile": p} for p, c in ldays]
     nbase = record_rate(S, "nights")
     recs = sorted(c for c, v in cities.items() if v["rank"]["value"] == 1)
     recs_ok = [c for c in recs if c in ok_cities]
@@ -320,8 +337,18 @@ def main() -> int:
         },
         "headline": {
             "lead": {
-                "claim": "Not one of these cities is having an ordinary "
-                         "summer for hot nights.",
+                # REPLACED 2026-08-07. The old claim, "not one of these cities
+                # is having an ordinary summer for hot nights", was true of
+                # fifteen cities and became FALSE the moment Berlin joined at
+                # the 70.9th percentile on nights. A lead that depends on the
+                # set's membership breaks silently every time the set grows.
+                # The geography does not.
+                "claim": "The extreme is concentrated in the middle "
+                         "latitudes, not at the hot end.",
+                "superseded_claim_do_not_use":
+                    "Not one of these cities is having an ordinary summer for "
+                    "hot nights. FALSE for 21 cities: Berlin is at the 70.9th "
+                    "percentile on nights.",
                 "in_top_10pct": len(top10), "in_top_5pct": len(top5),
                 "of_cities": len(cities),
             },
@@ -379,6 +406,50 @@ def main() -> int:
                 "including 2003. This is the OPPOSITE of the nights "
                 "constraint, where 2003 remains worse and `may_not_say` "
                 "applies. The two instruments do not share a caveat.",
+        },
+        "geography": {
+            "claim": "Every city in the set is elevated on days, and the "
+                     "EXTREME is concentrated in the middle latitudes rather "
+                     "than at the hot end.",
+            "elevated_holds_on": "days",
+            "elevated_note":
+                "Verified, not asserted: the lowest day percentile in the set "
+                "is Berlin at 87.3. THIS DOES NOT HOLD ON NIGHTS, where "
+                "Berlin sits at 70.9, so the claim must be made about days or "
+                "not at all.",
+            "banned_word": "ordinary",
+            "banned_word_note":
+                "No city in this set may be called ordinary. Seville is 89th "
+                "percentile, Hamburg 89th, Berlin 86th on days. Those are "
+                "elevated readings that are merely not the most extreme, and "
+                "calling them ordinary is the error that turned a 91st "
+                "percentile Marseille into 'an ordinary summer'.",
+            "band": {"south_edge_lat": 38, "north_edge_lat": 51},
+            "least_extreme_on_days": ldays,
+            "mechanism": None,
+            "mechanism_note":
+                "DELIBERATELY ABSENT. Stating the geography is measurement; "
+                "explaining it is speculation. The page says where, not why, "
+                "and a reader who wants why is better served by our saying we "
+                "do not know.",
+            "map": {
+                "colour_by": "percentile within each city's own record",
+                "never_colour_by": "absolute temperature, which would redraw "
+                                   "the Mediterranean climate map rather than "
+                                   "this summer",
+                "quiet_cities": "must be visibly quiet, never absent. Their "
+                                "presence is what makes the map evidence "
+                                "rather than decoration.",
+                "not_a_surface": "21 marks, not an interpolated field. This is "
+                                 "21 thermometers and must not read as a "
+                                 "European temperature map.",
+                "points": [
+                    {"city": c, "lat": COORDS[c][0], "lon": COORDS[c][1],
+                     "day_percentile": v["days"]["rank"]["percentile"],
+                     "night_percentile": v["rank"]["percentile"],
+                     "night_metric_holds": c in ok_cities}
+                    for c, v in sorted(cities.items())],
+            },
         },
         "featured_cities": list(FEATURED),
         "cities_without_day_multiple": nomult,
