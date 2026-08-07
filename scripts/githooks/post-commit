@@ -55,7 +55,7 @@ if ! "$py" scripts/qa_check.py --no-frozen-check >/tmp/tls_hook_qa.log 2>&1; the
 fi
 
 if bash scripts/push_retry.sh main >/tmp/tls_hook_push.log 2>&1; then
-  echo "post-commit: pushed ($ahead commit(s)). Downstream chats can see it."
+  echo "post-commit: pushed $ahead commit(s) to origin/main."
 else
   echo "post-commit: push failed, see /tmp/tls_hook_push.log."
   echo "  Commit is safe locally; someone will need to reconcile by hand."
