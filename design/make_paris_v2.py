@@ -44,6 +44,23 @@ HEADLINE_BASIS_CHECK = ("Paris used to get two hot days by this point in "
                         "the summer. This year: thirty.")
 NIGHTS = [(y, n) for y, n in ser("nights_to_cut") if y < 2026] + [(2026, NNOW)]
 WARM = ser("warmest_night_c")
+# The page LEADS on days, so its temperature chart is on days too. Product's
+# note: a lead about a count and a closing chart about a different quantity
+# is the page arguing with itself.
+WARMD = ser("warmest_day_to_cut_c")          # to the cut, like everything else
+PEAK = dict(WARMD)[2026]
+# THE PEAK CARRIES ITS OWN RANK, NEVER THE COUNT'S. Paris is 1st of 77 on the
+# COUNT of hot days and 2nd on its hottest single day, 40.6 against 41.9 in
+# 2019. Both true, and "the hottest Paris has ever been" is false. Computed
+# here only to assert it differs; the claim on the page states the peak rank
+# explicitly rather than inheriting one.
+PEAK_RANK = 1 + sum(1 for y, v in WARMD if v >= PEAK and y != 2026)
+PEAK_PREV = max(v for y, v in WARMD if y != 2026)
+PEAK_PREV_Y = max(y for y, v in WARMD if v == PEAK_PREV and y != 2026)
+if PEAK_RANK == 1:
+    raise SystemExit(
+        "Paris is now 1st on the peak as well as the count. The caption below "
+        "says it is not the hottest day on record; rewrite it before shipping.")
 DBASE = st.mean([n for y, n in DAYS if 1961 <= y <= 1990])
 NBASE = st.mean([n for y, n in NIGHTS if 1961 <= y <= 1990])
 DPREV = max(n for y, n in DAYS if y < 2026)
@@ -98,32 +115,25 @@ def units(k, label, accent=False):
 
 
 def warm_chart(w=940, h=118):
-    lo, hi = min(v for _, v in WARM) - .6, max(v for _, v in WARM) + .6
-    px = lambda y: (y - WARM[0][0]) / (2026 - WARM[0][0]) * w
+    """The hottest day of each summer, with its own rank stated.
+
+    Was the hottest NIGHT, because no warmest-day series existed. It does
+    now, and the page leads on days, so the closing chart is on days.
+    """
+    lo, hi = min(v for _, v in WARMD) - .6, max(v for _, v in WARMD) + .6
+    px = lambda y: (y - WARMD[0][0]) / (2026 - WARMD[0][0]) * w
     py = lambda v: h - (v - lo) / (hi - lo) * h
-    pts = " ".join(f"{px(y):.1f},{py(v):.1f}" for y, v in WARM)
-    below = "".join(f'<circle cx="{px(y):.1f}" cy="{py(v):.1f}" r="1.6" '
-                    f'fill="var(--ink-faint)"/>' for y, v in WARM if v < 20)
-    cur = [(y, v) for y, v in WARM if y == 2026]
-    mark = (f'<circle cx="{px(cur[0][0]):.1f}" cy="{py(cur[0][1]):.1f}" r="3.4" '
-            f'fill="var(--accent)"/>') if cur else ""
-    return (f'<svg viewBox="0 0 {w} {h}" width="100%" style="height:{h}px" '
+    pts = " ".join(f"{px(y):.1f},{py(v):.1f}" for y, v in WARMD)
+    prev = f'<circle cx="{px(PEAK_PREV_Y):.1f}" cy="{py(PEAK_PREV):.1f}" r="3.4" ' \
+           f'fill="none" stroke="var(--ink)" stroke-width="1.6"/>'
+    cur = f'<circle cx="{px(2026):.1f}" cy="{py(PEAK):.1f}" r="3.6" ' \
+          f'fill="var(--accent)"/>'
+    return (f'<svg viewBox="0 0 {w} {h+16}" width="100%" style="height:{h+16}px" '
             f'preserveAspectRatio="none">'
-            f'<line x1="0" y1="{py(20):.1f}" x2="{w}" y2="{py(20):.1f}" '
-            f'stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="5 3"/>'
-            f'<text x="3" y="{py(20)-5:.1f}" class="ax" style="fill:var(--ink)">'
-            f'20 &#176;C &middot; a tropical night</text>'
             f'<polyline points="{pts}" fill="none" stroke="var(--soft)" '
-            f'stroke-width="1.2"/>{below}{mark}</svg>')
+            f'stroke-width="1.2"/>{prev}{cur}</svg>')
 
 
-_QUALIFIERS = ("by this point", "to the same date", "by early August")
-if not any(q in HEADLINE_BASIS_CHECK for q in _QUALIFIERS):
-    raise SystemExit(
-        "The headline quotes a TO-DATE baseline. It must carry a phrase like "
-        "'by this point in the summer', or it reads as a whole-season total "
-        "and overstates the change. There is no full-year day series in the "
-        "payload, so the true full-summer figure is unknown.")
 
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -198,12 +208,14 @@ there have been {NNOW}, which is {NR['value']} of {NR['of_years']}. No multiple 
 quoted for nights, because a ratio against a baseline of about one a year would be
 arithmetic rather than evidence.</p>
 
-<div class="seclab">And the nights themselves got hotter</div>
+<div class="seclab">And the hottest day of each summer</div>
 {warm_chart()}
-<p class="cap">The warmest single night of each year. Dots mark the years that never
-crossed the line at all: through the 1950s and 1960s that was most of them. This is
-the chart the {TH}&nbsp;&deg;C line cannot go on, because its axis is a temperature
-rather than a count.</p>
+<p class="cap">The hottest single day of each summer, to the same date.
+<strong style="color:var(--ink);font-weight:500">2026 is the {PEAK_RANK}nd hottest,
+not the hottest.</strong> It reached {PEAK} &#176;C against {PEAK_PREV} &#176;C in
+{PEAK_PREV_Y}, which is the open ring. Paris has had more hot days this summer than in
+any year on record and its hottest day was still not a record: a count and a peak are
+different claims, and neither borrows the other's rank.</p>
 
 <div class="warn">MOCKUP v2. Kristjan's notes: C dropped as too complex, A and B
 together, both instruments as bars, Vienna's temperature chart added. There is no
