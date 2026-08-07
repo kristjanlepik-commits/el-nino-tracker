@@ -2841,13 +2841,36 @@ def _email_capture_html() -> str:
     The promise sentence is EMAIL_CAPTURE_PROMISE, defined once and read
     by templates/subscribe.py too, so the two surfaces cannot drift. The
     words are editor's and are not to be edited here.
+
+    A LINK, NOT AN EMBEDDED FORM, and that is deliberate.
+
+    The Beehiiv embed was here and came out. QA measured it absent on
+    three of four cold loads, with the one success following a
+    /subscribe/ visit in the same session, so the script was warm. A
+    reader reaching the bottom of the front page got the eyebrow, the
+    promise, a rule, seventy pixels of nothing, then the footer.
+
+    It also arrives wrong when it does arrive: a white panel on bone
+    paper, our wordmark repeated inside it in a different serif, a black
+    button with rounded corners against a system that is radius 0, and
+    an input clipped to a single character at 300px because the iframe
+    is a fixed width we cannot reach across the origin boundary.
+
+    None of that is fixable in our CSS, so the front page stops
+    depending on it. The link is ours: it always renders, it is in our
+    type, and it cannot arrive 300px wide. The inline form stays on
+    /subscribe/, where a reader has already chosen to be and will
+    tolerate a seam that a passer-by would just read as broken.
+
+    Reinstate the embed only when the provider renders reliably and in
+    something close to this system, which may mean a different provider.
     """
     return (
         '<section><div class="email-cap">'
         '<div class="ec-pitch">'
         '<span class="eyebrow">One email a week</span>'
         f'<p>{h(EMAIL_CAPTURE_PROMISE)}</p></div>'
-        f'<div class="ec-form">{EMAIL_CAPTURE_SNIPPET}</div>'
+        '<a class="ec-btn" href="subscribe/">Subscribe</a>'
         '</div></section>'
     )
 
