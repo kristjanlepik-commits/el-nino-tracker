@@ -50,19 +50,43 @@ Y0 = DAYS[0][0]
 ZERO_N = sum(1 for y, n in NIGHTS if n == 0)
 
 
-def bars(data, label, sub, w=940, h=104):
-    top = max(n for _, n in data) or 1
-    bw = w / len(data)
-    rects = "".join(
-        f'<rect x="{i*bw:.1f}" y="{h - n/top*h:.1f}" width="{bw-1.3:.1f}" '
-        f'height="{max(n/top*h, 0.7) if n else 0:.1f}" '
-        f'fill="{"var(--accent)" if y == 2026 else "var(--ink)"}"/>'
-        for i, (y, n) in enumerate(data) if n)
-    ticks = "".join(f'<text x="{i*bw:.1f}" y="{h+13}" class="ax">{y}</text>'
-                    for i, (y, _) in enumerate(data) if y in (1950, 1976, 2000, 2026))
-    return (f'<div class="brow"><div class="bl">{label}<span>{sub}</span></div>'
-            f'<svg viewBox="0 0 {w} {h+18}" width="100%" style="height:{h+18}px" '
-            f'preserveAspectRatio="none">{rects}{ticks}</svg></div>')
+def mirror(w=940, up=118, dn=92):
+    """Both instruments on ONE chart, sharing a zero line and a scale.
+
+    NOT stacked. Stacking would add a day above 31.8 C to a night above
+    20 C and present the sum as a height, but they can be the same 24
+    hours and the total is not a quantity. Mirrored instead: days above
+    the line, nights below, one scale so the comparison is real.
+
+    The scale is shared because both are counts of qualifying periods in
+    the same season, so a bar twice as tall genuinely means twice as
+    many. Scaling each to its own maximum would have made 17 nights look
+    like 30 days.
+    """
+    top = max(max(n for _, n in DAYS), max(n for _, n in NIGHTS)) or 1
+    bw = w / len(DAYS)
+    nights = dict(NIGHTS)
+    out = []
+    for i, (y, d) in enumerate(DAYS):
+        x, cur = i * bw, (y == 2026)
+        fill = "var(--accent)" if cur else "var(--ink)"
+        if d:
+            out.append(f'<rect x="{x:.1f}" y="{up - d/top*up:.1f}" '
+                       f'width="{bw-1.3:.1f}" height="{d/top*up:.1f}" fill="{fill}"/>')
+        n = nights.get(y, 0)
+        if n:
+            out.append(f'<rect x="{x:.1f}" y="{up+1:.1f}" width="{bw-1.3:.1f}" '
+                       f'height="{n/top*dn:.1f}" fill="{fill}" opacity="0.55"/>')
+    ticks = "".join(f'<text x="{i*bw:.1f}" y="{up+dn+15}" class="ax">{y}</text>'
+                    for i, (y, _) in enumerate(DAYS) if y in (1950, 1976, 2000, 2026))
+    return (f'<div class="mirror">'
+            f'<div class="ml"><span class="mu">Hot days<em>above {TH} &#176;C</em></span>'
+            f'<span class="md">Hot nights<em>above 20 &#176;C</em></span></div>'
+            f'<svg viewBox="0 0 {w} {up+dn+20}" width="100%" '
+            f'style="height:{up+dn+20}px" preserveAspectRatio="none">'
+            f'{"".join(out)}'
+            f'<line x1="0" y1="{up:.1f}" x2="{w}" y2="{up:.1f}" '
+            f'stroke="var(--ink)" stroke-width="1.4"/>{ticks}</svg></div>')
 
 
 def units(k, label, accent=False):
@@ -126,11 +150,12 @@ color:var(--ink);text-align:right}}
 .seclab{{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.22em;
 text-transform:uppercase;color:var(--ink);border-bottom:2.4px solid var(--ink);
 padding-bottom:9px;margin:52px 0 20px}}
-.brow{{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:end;
-margin-bottom:22px}}
-.bl{{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;
-text-transform:uppercase;color:var(--ink);line-height:1.5;padding-bottom:20px}}
-.bl span{{display:block;color:var(--ink-faint);letter-spacing:.06em}}
+.mirror{{display:grid;grid-template-columns:132px 1fr;gap:20px;align-items:center}}
+.ml{{display:flex;flex-direction:column;gap:58px;font-family:'IBM Plex Mono',monospace;
+font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);line-height:1.5}}
+.ml em{{display:block;font-style:normal;color:var(--ink-faint);letter-spacing:.06em}}
+.md{{opacity:.72}}
+
 .ax{{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-faint)}}
 .cap{{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:72ch;margin:12px 0 0}}
 .warn{{font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.7;
@@ -152,10 +177,12 @@ being set against complete ones.</p>
 <p class="cap">One square is one day above {TH}&nbsp;&deg;C. The previous record for
 this point in the year was {DPREV}, in {DPREV_Y}.</p>
 
-<div class="seclab">Every summer since {Y0}, on both measures</div>
-{bars(DAYS, "Hot days", f"above {TH} &#176;C")}
-{bars(NIGHTS, "Hot nights", "above 20 &#176;C")}
-<p class="cap">The nights row is empty for decades because it genuinely was:
+<div class="seclab">Every summer since {Y0}, both measures, one scale</div>
+{mirror()}
+<p class="cap">Days above the line, nights below, sharing one scale so a taller bar
+really does mean more. They are NOT stacked: a hot day and a hot night can be the same
+24 hours, so a combined height would be a number rather than a measurement.
+The nights half is empty for decades because it genuinely was:
 {ZERO_N} of {len(NIGHTS)} years recorded no tropical night at all in Paris. This year
 there have been {NNOW}, which is {NR['value']} of {NR['of_years']}. No multiple is
 quoted for nights, because a ratio against a baseline of about one a year would be
