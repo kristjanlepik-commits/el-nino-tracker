@@ -132,19 +132,38 @@ marks, labels = [], []
 for n, v in sorted(C.items(), key=lambda kv: -CO[kv[0]]["lat"]):
     x, y = px(CO[n]["lon"]), py(CO[n]["lat"])
     r = v["days"]["rank"]
-    rec = n in RECORDS
-    if rec:
+    # THREE groups, Kristjan's call. "2 of 69" beside every mark was noise,
+    # and the denominators differ so much (43 to 106 years) that reading them
+    # against each other is the cross-city comparison the method refuses
+    # anyway. The ordinal alone is the honest carry; the denominator lives on
+    # the city page where there is room to mean something.
+    rv = v["days"]["rank"]["value"]
+    if rv == 1:
         marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7.5" fill="var(--accent)"/>')
+    elif rv <= 3:
+        marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7.2" fill="var(--accent)" '
+                     f'opacity="0.42" stroke="var(--accent)" stroke-width="1.6"/>')
     else:
         marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="var(--paper)" '
                      f'stroke="var(--ink)" stroke-width="1.8"/>')
     if n not in PLACE:
         raise SystemExit(f"{n} has no label placement in PLACE")
     dx, dy, anc = PLACE[n]
-    sub = "record" if rec else f"{r['value']} of {r['of_years']}"
+    ORD = {1: "record", 2: "2nd", 3: "3rd"}
+    sub = ORD.get(rv) or f"{rv}th"
     labels.append(
         f'<text x="{x+dx:.1f}" y="{y+dy:.1f}" text-anchor="{anc}" class="cn">{n}</text>'
         f'<text x="{x+dx:.1f}" y="{y+dy+11:.1f}" text-anchor="{anc}" class="cs">{sub}</text>')
+
+# Stated from the data rather than asserted. The caption said "every city is
+# in the warmest tenth of its own history", which is FALSE: Berlin sits at the
+# 87.3rd percentile, and the warmest tenth needs 90. Third caption error on
+# this map, and the only one a reader could have checked.
+_low = min(C.items(), key=lambda kv: kv[1]["days"]["rank"]["percentile"])
+if _low[0] != "Berlin":
+    raise SystemExit(f"the caption names Berlin as the lowest reading; it is now {_low[0]}")
+BERLIN_PCT = C["Berlin"]["days"]["rank"]["value"]
+BERLIN_OF = C["Berlin"]["days"]["rank"]["of_years"]
 
 LAND = land_paths(LA0, LA1, LO0, LO1, px, py)
 land = ("".join(f'<path d="{d}" fill="var(--land)" stroke="none"/>' for d in LAND))
@@ -181,6 +200,7 @@ text-transform:uppercase;color:var(--ink-faint)}}
 vertical-align:-2px;margin-right:8px}}
 .k1 i{{background:var(--accent)}}
 .k2 i{{background:var(--paper);border:1.8px solid var(--ink)}}
+.k3 i{{background:var(--accent);opacity:.42;border:1.6px solid var(--accent)}}
 .cn{{font-family:Spectral,serif;font-size:13.5px;fill:var(--ink)}}
 .cs{{font-family:'IBM Plex Mono',monospace;font-size:9.5px;fill:var(--ink-faint);
 letter-spacing:.06em}}
@@ -200,13 +220,15 @@ in Seville and {C['Berlin']['days']['thresholds_c']['95']}&nbsp;&deg;C in Berlin
 A typical year produces {DH['baseline']['median_year']}.</p>
 
 <div class="key"><span class="k1"><i></i>Most on record</span>
-<span class="k2"><i></i>Not a record, and still in its own top tenth</span></div>
+<span class="k3"><i></i>Second or third</span>
+<span class="k2"><i></i>Further down, and still high in its own record</span></div>
 {svg}
 <p class="cap">Twenty-one weather stations, not a region. The land is drawn so you can
 see how much of it we did not measure: it carries one flat tone everywhere and no
 country is coloured, because a country is not a thing this page measured.
-On this measure every city is in the warmest tenth of its own history, so an open ring
-means elevated without being the most extreme it has ever been.</p>
+On this measure the lowest reading in the set is Berlin, and 2026 is still its
+{BERLIN_PCT}th-highest summer out of {BERLIN_OF}. An open ring is a city further down
+its own record, never a city having an ordinary summer.</p>
 </main></body></html>"""
 out = R / "design/review/heat-map.html"
 out.write_text(html)
