@@ -86,6 +86,25 @@ CITIES = {
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
     "Montpellier": dict(country="FR", station="MONTPELLIER-AEROPORT", cut=(8, 3)),
     "Lyon":        dict(country="FR", station="LYON-ST EXUPERY", cut=(8, 3)),
+    # Austria and Germany, added 2026-08-07. Both licences permit commercial
+    # reuse: GeoSphere is CC0, DWD is GeoNutzV with attribution.
+    #
+    # THESE CITIES ARE WHY THE PERCENTILE NIGHT METRIC EXISTS. Hamburg
+    # recorded ONE tropical night in 2026 and Berlin three. A 20 C count
+    # cannot carry a ratio off that base, and no amount of extra data fixes
+    # it, because the threshold is the problem rather than the record.
+    "Vienna":    dict(country="AT", station="Wien Hohe Warte", cut=(8, 3),
+                      file="gs_Vienna.json"),
+    "Berlin":    dict(country="DE", station="Berlin-Tempelhof", cut=(8, 3),
+                      file="dwd_Berlin.json"),
+    "Hamburg":   dict(country="DE", station="Hamburg-Fuhlsbuettel", cut=(8, 3),
+                      file="dwd_Hamburg.json"),
+    "Frankfurt": dict(country="DE", station="Frankfurt/Main", cut=(8, 3),
+                      file="dwd_Frankfurt.json"),
+    "Munich":    dict(country="DE", station="Muenchen-Stadt", cut=(8, 3),
+                      file="dwd_Munich.json"),
+    "Cologne":   dict(country="DE", station="Koeln/Bonn", cut=(8, 3),
+                      file="dwd_Cologne.json"),
 }
 
 
@@ -126,10 +145,13 @@ def load_mf(city, station):
 
 
 def build(city, meta):
-    if meta["country"] == "ES":
-        tn, tx = load_aemet(city, meta.get("file"))
-    else:
+    # AEMET, GeoSphere and DWD all land as [date, tmin, tmax] JSON, so one
+    # loader serves three sources. Meteo-France is the odd one, being gzipped
+    # CSV with a station-name filter.
+    if meta["country"] == "FR":
         tn, tx = load_mf(city, meta["station"])
+    else:
+        tn, tx = load_aemet(city, meta.get("file"))
     cut, W = meta["cut"], window_days(meta["cut"])
 
     # Thresholds are each city's own July-August maxima percentiles. AEMET's
@@ -221,8 +243,10 @@ def build(city, meta):
         # a refresh: Malaga's record is held by ONE night.
         "counted_to": f"{CURRENT_YEAR}-{meta['cut'][0]:02d}-{meta['cut'][1]:02d}",
         "last_observation": f"{CURRENT_YEAR}-{last[0]:02d}-{last[1]:02d}",
-        "source": "AEMET OpenData" if meta["country"] == "ES"
-                  else "Meteo-France, via data.gouv.fr",
+        "source": {"ES": "AEMET OpenData",
+                   "FR": "Meteo-France, via data.gouv.fr",
+                   "AT": "GeoSphere Austria",
+                   "DE": "DWD Climate Data Center"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,

@@ -51,6 +51,12 @@ LICENCE = {
     "FR": {"licence": "Licence Ouverte / Open Licence 2.0",
            "commercial_use": True, "attribution": "Source: Meteo-France",
            "lag_days": 2},
+    "AT": {"licence": "CC0 1.0, public domain",
+           "commercial_use": True, "attribution": "Source: GeoSphere Austria",
+           "lag_days": 1},
+    "DE": {"licence": "GeoNutzV: reuse permitted, including commercial, "
+                      "with attribution",
+           "commercial_use": True, "attribution": "Source: DWD", "lag_days": 2},
 }
 
 
@@ -269,8 +275,11 @@ def main() -> int:
     drecs = sorted(drecs)
     dbase = record_rate(S, "days")
 
+    ok_cities = sorted(c for c in cities
+                       if S["cities"][c]["tropical_night_metric_works"])
     nbase = record_rate(S, "nights")
     recs = sorted(c for c, v in cities.items() if v["rank"]["value"] == 1)
+    recs_ok = [c for c in recs if c in ok_cities]
     top5 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 95]
     top10 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 90]
     thin = [c for c, v in cities.items() if v.get("record_margin_nights") == 1]
@@ -318,6 +327,22 @@ def main() -> int:
             },
             "records": len(recs), "of_cities": len(cities),
             "record_cities": recs,
+            # THE HEADLINE COUNT IS RESTRICTED TO CITIES WHERE THE 20 C METRIC
+            # CARRIES MEANING. Hamburg recorded one tropical night in 2026 and
+            # Berlin three; a record off a base that small is arithmetic, not
+            # evidence. Emitting the unrestricted count beside it would invite
+            # exactly the number we do not stand behind.
+            "records_where_metric_holds": len(recs_ok),
+            "of_cities_where_metric_holds": len(ok_cities),
+            "record_cities_where_metric_holds": recs_ok,
+            "metric_unreliable_cities": sorted(set(cities) - set(ok_cities)),
+            "metric_unreliable_note":
+                "The 20 C tropical-night count is a Mediterranean instrument. "
+                "In these cities it averages near zero, so a ratio divides by "
+                "almost nothing and a record is not informative. USE THE "
+                "PERCENTILE NIGHT METRIC for them, in "
+                "series.years.<y>.warm_nights_to_cut. The headline count above "
+                "that a page should quote is records_where_metric_holds.",
             "headline_requires_baseline": True,
             "baseline": {
                 "recomputed": nbase,
@@ -376,7 +401,9 @@ def main() -> int:
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else OUT
     out.write_text(json.dumps(payload, indent=1) + "\n")
     print(f"wrote {out}")
-    print(f"  {len(cities)} cities, {len(recs)} at NIGHT record: {recs}")
+    print(f"  {len(cities)} cities, {len(recs)} at NIGHT record, of which "
+          f"{len(recs_ok)} where the 20C metric holds: {recs_ok}")
+    print(f"  20C metric unreliable in: {sorted(set(cities)-set(ok_cities))}")
     print(f"  {len(drecs)} at DAY record: {drecs}")
     print(f"  night baseline {nbase['median_year']} median, worst "
           f"{nbase['worst_year_on_record']}")
