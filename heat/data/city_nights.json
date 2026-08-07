@@ -35,6 +35,16 @@
   ],
   "headline_requires_baseline": true,
   "baseline": {
+   "recomputed": {
+    "median_year": 0,
+    "mean_year": 1.44,
+    "worst_year_on_record": {
+     "year": 2003,
+     "cities": 12
+    },
+    "window": "1990-2025",
+    "of_cities": 15
+   },
    "typical_year_records": 0,
    "mean_2011_2025": 1.27,
    "expected_no_trend": 0.19,
@@ -50,6 +60,37 @@
   ],
   "fragile_note": "A record held by a single night. Carries its margin rather than hiding it.",
   "caveat": "2026 is counted to 2-3 August with the season unfinished. Prior years are counted to the same date, so the comparison is like-for-like today, but 2026 can still add records before September."
+ },
+ "day_headline": {
+  "records": 11,
+  "of_cities": 15,
+  "record_cities": [
+   "Alicante",
+   "Bilbao",
+   "Lyon",
+   "Malaga",
+   "Marseille",
+   "Montpellier",
+   "Murcia",
+   "Nice",
+   "Palma",
+   "Paris",
+   "Zaragoza"
+  ],
+  "headline_requires_baseline": true,
+  "baseline": {
+   "median_year": 0,
+   "mean_year": 0.89,
+   "worst_year_on_record": {
+    "year": 2003,
+    "cities": 8
+   },
+   "window": "1990-2025",
+   "of_cities": 15
+  },
+  "measure": "days at or above this city's own 95th percentile of July-August maxima, counted to the same cut",
+  "may_say_worst_on_record": true,
+  "may_say_worst_note": "2026 sets more city day-records than any year in the window, including 2003. This is the OPPOSITE of the nights constraint, where 2003 remains worse and `may_not_say` applies. The two instruments do not share a caveat."
  },
  "featured_cities": [
   "Paris",
