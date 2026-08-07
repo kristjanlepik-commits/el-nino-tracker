@@ -321,6 +321,15 @@ def main() -> int:
             "station_disclosure": (
                 "Station history not yet checked."
                 if c not in HIST else
+                ("No published station history exists for this service, and "
+                 "the second copy available is a redistribution of the same "
+                 "observations, so a change of instrument could not be ruled "
+                 "out by comparison."
+                 if (HIST[c].get("changepoint_t") or 0) < 0.01 else
+                 "No published station history exists for this service. "
+                 "Compared against a second copy of the same station and no "
+                 "change of instrument was detected.")
+                if HIST[c].get("history_available") is False else
                 "Station record combines two instruments at the same site, "
                 "with a documented handover in 1993."
                 if HIST[c].get("composite") else

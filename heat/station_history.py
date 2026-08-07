@@ -154,6 +154,20 @@ FR = {c: {"city": c, "positions": 1, "relocations_in_period": [], "ok": True,
 def main() -> int:
     out = dict(AT)
     out.update(FR)
+    # Spain, and it is a WEAKER check that must not be presented as the same
+    # one. AEMET's station inventory carries current position only: no
+    # validity dates, no history. So the metadata route used for Germany,
+    # France and Austria simply does not exist here.
+    #
+    # What replaces it is a changepoint comparison against a retained
+    # independent copy of each station. That is real evidence and it is not
+    # equivalent: a relocation documented nowhere cannot be ruled out by data
+    # agreeing with itself. Emitted with history_available false so a page can
+    # tell the two apart, because "checked" covering two different standards
+    # is exactly the collapse this whole exercise exists to prevent.
+    es = ROOT / "heat" / ".cache" / "es_station_check.json"
+    if es.exists():
+        out.update(json.loads(es.read_text()))
     print(f"{'city':11s} {'pos':>4s} {'moves':>6s}  detail")
     print("-" * 74)
     for city, sid in DE.items():
