@@ -158,3 +158,95 @@ def controls() -> int:
 
 if __name__ == "__main__":
     sys.exit(controls())
+
+
+# ---------------------------------------------------------------------------
+# PAIRWISE NEIGHBOUR TEST, for stations with no independent second source.
+#
+# The check above needs the same city measured twice. Six cities in the live
+# payload have only one source (Berlin, Cologne, Frankfurt, Hamburg, Munich,
+# Vienna) and so were shipping unverified, one of them featured. Prague and
+# Warsaw would arrive the same way.
+#
+# The standard answer in homogenisation is to use NEIGHBOURS rather than a
+# second instrument. Summer temperature is regionally coherent, so the
+# difference between two stations a few hundred km apart is nearly flat over
+# time. A splice at one of them puts a STEP in that difference.
+#
+# PAIRWISE, NOT AGAINST A COMPOSITE, and the reason matters: a composite
+# hides which station moved. If a target disagrees with ONE neighbour, the
+# neighbour is the likely culprit; if it disagrees with MOST of them, the
+# target is. A composite averages that signal away and can itself be
+# contaminated by a spliced member.
+#
+# ###################################################################
+# THIS TEST DOES NOT WORK AND MUST NOT BE USED AS A GATE.
+#
+# Measured against a null built from 105 pairs of cities INDEPENDENTLY
+# VERIFIED CLEAN by the two-source test above:
+#
+#     clean pairs      0-200 km   median t 9.6, max 11.4
+#                    200-400 km   median t 5.9, max 11.1
+#                    400-700 km   median t 5.5, max 11.1
+#     KNOWN BLEND    vs neighbours         t 8.2 to 10.6
+#
+# The known splice sits INSIDE the clean distribution. Summer-mean
+# differences between cities hundreds of km apart drift genuinely over
+# 75 years through station moves, urbanisation and real regional climate,
+# and a 1 C splice is smaller than that drift. There is no threshold that
+# separates them: any cut catching the blend condemns most clean pairs.
+#
+# Kept rather than deleted because the negative result is the useful part.
+# Without it, the next person reaches for exactly this construction, and
+# the version that ships would flag Frankfurt and Vienna on nothing.
+#
+# WHAT TO DO INSTEAD: read the station METADATA. DWD, GeoSphere and AEMET
+# publish station histories including relocations. A splice is a documented
+# administrative event, and looking it up beats inferring it from data at
+# an effect size below the noise.
+# ###################################################################
+
+COORDS = {
+    "Seville": (37.4, -6.0), "Malaga": (36.7, -4.5), "Murcia": (38.0, -1.1),
+    "Alicante": (38.3, -0.5), "Valencia": (39.5, -0.4), "Palma": (39.6, 2.7),
+    "Madrid": (40.4, -3.7), "Barcelona": (41.4, 2.2), "Zaragoza": (41.7, -0.9),
+    "Bilbao": (43.3, -2.9), "Nice": (43.7, 7.3), "Marseille": (43.3, 5.4),
+    "Montpellier": (43.6, 3.9), "Lyon": (45.8, 4.8), "Vienna": (48.2, 16.4),
+    "Munich": (48.1, 11.6), "Paris": (48.9, 2.4), "Frankfurt": (50.1, 8.7),
+    "Cologne": (50.9, 7.1), "Berlin": (52.5, 13.4), "Hamburg": (53.6, 10.0),
+}
+
+N_NEIGHBOURS = 4
+MAJORITY = 0.5          # fraction of neighbours that must agree to blame target
+
+
+def _km(a, b):
+    la, lo = np.radians(COORDS[a]), np.radians(COORDS[b])
+    dlat, dlon = lo[0] - la[0], lo[1] - la[1]
+    h = (np.sin(dlat / 2) ** 2
+         + np.cos(la[0]) * np.cos(lo[0]) * np.sin(dlon / 2) ** 2)
+    return float(6371 * 2 * np.arcsin(np.sqrt(h)))
+
+
+def check_pairwise(target, series_by_city):
+    """Flag `target` if it steps against a MAJORITY of its nearest neighbours."""
+    others = sorted((c for c in series_by_city if c != target),
+                    key=lambda c: _km(target, c))[:N_NEIGHBOURS]
+    hits, tested, detail = 0, 0, []
+    for n in others:
+        r = check(f"{target}~{n}", series_by_city[target], series_by_city[n])
+        if r["ok"] is None:
+            continue
+        tested += 1
+        if not r["ok"]:
+            hits += 1
+        detail.append((n, round(_km(target, n)), r.get("t", 0),
+                       r.get("split_year"), r.get("step_c")))
+    if not tested:
+        return dict(city=target, ok=None, why="no testable neighbour")
+    frac = hits / tested
+    return dict(city=target, ok=frac <= MAJORITY, tested=tested, flagged=hits,
+                detail=detail,
+                why="" if frac <= MAJORITY else
+                    f"steps against {hits} of {tested} neighbours: the target "
+                    f"is the station that moved, not the neighbour")
