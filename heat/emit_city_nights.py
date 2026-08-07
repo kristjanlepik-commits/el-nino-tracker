@@ -41,7 +41,20 @@ ROOT = Path(__file__).resolve().parent.parent
 SERIES = ROOT / "heat" / "data" / "city_series.json"
 OUT = ROOT / "heat" / "data" / "city_nights.json"
 
-FEATURED = ("Paris", "Madrid", "Bilbao")
+# Product's ruling 2026-08-07. Bilbao is OUT and the argument is the one
+# neither design nor I made: Bilbao's headline figure is 13.7x, a ratio
+# against a 1.17-night baseline, which is precisely the construction the
+# nights gate exists to distrust. The number that made it look like a
+# featured city is the number we are not permitted to quote.
+#
+# Vienna in: the metric holds at 4.33 nights a year, it is at an outright
+# record on BOTH instruments, and it is neither Spanish nor French, which is
+# the point of the geography headline.
+#
+# Order is deliberate. PARIS IS THE GATED CASE, VIENNA THE UNGATED ONE, so
+# building them in that sequence exercises both branches of the optional
+# blocks template rather than discovering the second branch on city four.
+FEATURED = ("Paris", "Madrid", "Vienna")
 
 # For the map. Product's ruling 2026-08-07: the geography IS the headline, and
 # a map is the only rendering where "the extreme band is the middle of the
