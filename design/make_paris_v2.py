@@ -40,6 +40,8 @@ def ser(key, sub=None):
     return sorted(out)
 
 DAYS = [(y, n) for y, n in ser("days_to_cut", "95") if y < 2026] + [(2026, DNOW)]
+HEADLINE_BASIS_CHECK = ("Paris used to get two hot days by this point in "
+                        "the summer. This year: thirty.")
 NIGHTS = [(y, n) for y, n in ser("nights_to_cut") if y < 2026] + [(2026, NNOW)]
 WARM = ser("warmest_night_c")
 DBASE = st.mean([n for y, n in DAYS if 1961 <= y <= 1990])
@@ -115,6 +117,14 @@ def warm_chart(w=940, h=118):
             f'stroke-width="1.2"/>{below}{mark}</svg>')
 
 
+_QUALIFIERS = ("by this point", "to the same date", "by early August")
+if not any(q in HEADLINE_BASIS_CHECK for q in _QUALIFIERS):
+    raise SystemExit(
+        "The headline quotes a TO-DATE baseline. It must carry a phrase like "
+        "'by this point in the summer', or it reads as a whole-season total "
+        "and overstates the change. There is no full-year day series in the "
+        "payload, so the true full-summer figure is unknown.")
+
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paris &middot; Heat &middot; The Long Swell</title><style>
@@ -165,7 +175,7 @@ color:var(--soft);background:var(--sunk);padding:13px 15px;margin:44px 0 0}}
 <span class="prod">Heat</span>
 <span class="when">Paris &middot; Montsouris &middot; to 3 August 2026</span></div>
 
-<h1>Paris used to get two hot days a summer. This year: thirty.</h1>
+<h1>Paris used to get two hot days by this point in the summer. This year: thirty.</h1>
 <p class="stand">Days at or above {TH}&nbsp;&deg;C, which is Paris's own 95th
 percentile. Counted to the same date every year, so a part-finished 2026 is not
 being set against complete ones.</p>

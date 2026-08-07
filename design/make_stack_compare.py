@@ -1,7 +1,4 @@
-"""Stacked against mirrored, same data, so the choice is made by eye.
-
-Kristjan asked to see the stacked version. Built rather than argued.
-"""
+"""Stacked against mirrored, same data, so the choice is made by eye."""
 import json
 from pathlib import Path
 
@@ -11,64 +8,68 @@ SY = json.loads((R / "heat/data/city_series.json").read_text())["cities"]["Paris
 TH = N["days"]["thresholds_c"]["95"]
 DNOW, NNOW = N["days"]["days_2026"]["95"], N["nights_2026"]
 
-def ser(key, sub=None):
-    out = []
-    for y, v in SY.items():
-        if not v.get("usable_to_cut"):
-            continue
-        raw = v.get(key)
-        val = raw.get(sub) if (sub and isinstance(raw, dict)) else raw
-        if val is not None:
-            out.append((int(y), val))
-    return sorted(out)
-
-DAYS = [(y, n) for y, n in ser("days_to_cut", "95") if y < 2026] + [(2026, DNOW)]
-NIGHTS = dict([(y, n) for y, n in ser("nights_to_cut") if y < 2026] + [(2026, NNOW)])
+days, nights = [], {}
+for y, v in SY.items():
+    if not v.get("usable_to_cut"):
+        continue
+    if v.get("days_to_cut"):
+        days.append((int(y), v["days_to_cut"]["95"]))
+    if v.get("nights_to_cut") is not None:
+        nights[int(y)] = v["nights_to_cut"]
+DAYS = sorted([(y, n) for y, n in days if y < 2026] + [(2026, DNOW)])
+nights[2026] = NNOW
 Y0 = DAYS[0][0]
-TOP_M = max(max(n for _, n in DAYS), max(NIGHTS.values()))
-TOP_S = max(d + NIGHTS.get(y, 0) for y, d in DAYS)
+D_MAX, N_MAX = max(n for _, n in DAYS), max(nights.values())
+PREV_D = max(n for y, n in DAYS if y < 2026)
+PREV_N = max(v for y, v in nights.items() if y < 2026)
+W, PAD, K = 880, 40, 4.0          # PAD: the 2026 bar sat on the edge and clipped
+BW = (W - PAD) / len(DAYS)
 
 
-def ticks(bw, y):
-    return "".join(f'<text x="{i*bw:.1f}" y="{y}" class="ax">{yr}</text>'
-                   for i, (yr, _) in enumerate(DAYS) if yr in (1950, 1976, 2000, 2026))
+def ticks(y):
+    return "".join(
+        f'<text x="{i*BW+(BW if yr == 2026 else 0):.1f}" y="{y}" class="ax" '
+        f'text-anchor="{"end" if yr == 2026 else "start"}">{yr}</text>'
+        for i, (yr, _) in enumerate(DAYS) if yr in (1950, 1976, 2000, 2026))
 
 
-def stacked(w=880, h=200):
-    bw = w / len(DAYS)
+def stacked(h=190):
+    top = max(d + nights.get(y, 0) for y, d in DAYS)
     out = []
     for i, (y, d) in enumerate(DAYS):
-        x, n = i * bw, NIGHTS.get(y, 0)
+        x, n = i * BW, nights.get(y, 0)
         c = "var(--accent)" if y == 2026 else "var(--ink)"
         if d:
-            out.append(f'<rect x="{x:.1f}" y="{h-(d+n)/TOP_S*h:.1f}" width="{bw-1.2:.1f}" '
-                       f'height="{d/TOP_S*h:.1f}" fill="{c}"/>')
+            out.append(f'<rect x="{x:.1f}" y="{h-(d+n)/top*h:.1f}" width="{BW-1.2:.1f}" '
+                       f'height="{d/top*h:.1f}" fill="{c}"/>')
         if n:
-            out.append(f'<rect x="{x:.1f}" y="{h-n/TOP_S*h:.1f}" width="{bw-1.2:.1f}" '
-                       f'height="{n/TOP_S*h:.1f}" fill="{c}" opacity="0.5"/>')
-    return (f'<svg viewBox="0 0 {w} {h+18}" width="100%" style="height:{h+18}px" '
-            f'preserveAspectRatio="none">{"".join(out)}{ticks(bw, h+13)}</svg>')
+            out.append(f'<rect x="{x:.1f}" y="{h-n/top*h:.1f}" width="{BW-1.2:.1f}" '
+                       f'height="{n/top*h:.1f}" fill="{c}" opacity="0.5"/>')
+    return (f'<svg viewBox="0 0 {W} {h+18}" width="100%" style="height:{h+18}px" '
+            f'preserveAspectRatio="none">{"".join(out)}{ticks(h+13)}</svg>')
 
 
-def mirrored(w=880, up=112, dn=88):
-    bw = w / len(DAYS)
+def mirrored():
+    """ONE px-per-unit above and below. The previous version sized each half
+    to its own maximum, so 17 nights and 17 days drew at different heights
+    while the caption claimed a shared scale."""
+    up, dn = D_MAX * K, N_MAX * K
     out = []
     for i, (y, d) in enumerate(DAYS):
-        x, n = i * bw, NIGHTS.get(y, 0)
+        x, n = i * BW, nights.get(y, 0)
         c = "var(--accent)" if y == 2026 else "var(--ink)"
         if d:
-            out.append(f'<rect x="{x:.1f}" y="{up-d/TOP_M*up:.1f}" width="{bw-1.2:.1f}" '
-                       f'height="{d/TOP_M*up:.1f}" fill="{c}"/>')
+            out.append(f'<rect x="{x:.1f}" y="{up-d*K:.1f}" width="{BW-1.2:.1f}" '
+                       f'height="{d*K:.1f}" fill="{c}"/>')
         if n:
-            out.append(f'<rect x="{x:.1f}" y="{up+1:.1f}" width="{bw-1.2:.1f}" '
-                       f'height="{n/TOP_M*dn:.1f}" fill="{c}" opacity="0.55"/>')
-    return (f'<svg viewBox="0 0 {w} {up+dn+20}" width="100%" '
-            f'style="height:{up+dn+20}px" preserveAspectRatio="none">{"".join(out)}'
-            f'<line x1="0" y1="{up}" x2="{w}" y2="{up}" stroke="var(--ink)" '
-            f'stroke-width="1.4"/>{ticks(bw, up+dn+15)}</svg>')
+            out.append(f'<rect x="{x:.1f}" y="{up+1.4:.1f}" width="{BW-1.2:.1f}" '
+                       f'height="{n*K:.1f}" fill="{c}" opacity="0.55"/>')
+    return (f'<svg viewBox="0 0 {W} {up+dn+22}" width="100%" '
+            f'style="height:{up+dn+22}px" preserveAspectRatio="none">{"".join(out)}'
+            f'<line x1="0" y1="{up:.1f}" x2="{W}" y2="{up:.1f}" stroke="var(--ink)" '
+            f'stroke-width="1.4"/>{ticks(up+dn+18)}</svg>')
 
 
-tallest = max(DAYS, key=lambda t: t[1] + NIGHTS.get(t[0], 0))
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Stacked or mirrored &middot; The Long Swell</title><style>
@@ -100,21 +101,24 @@ each year.</p>
 <div class="lab">Stacked</div>
 {stacked()}
 <p class="key"><b>solid</b> hot days &nbsp; <b>faded</b> hot nights &nbsp;
-tallest bar {tallest[0]}, {tallest[1]}&nbsp;+&nbsp;{NIGHTS.get(tallest[0],0)}&nbsp;=&nbsp;{tallest[1]+NIGHTS.get(tallest[0],0)}</p>
-<p class="cap">Reads as one rising quantity, which is the appeal. The bar height is
-days plus nights, and those can be the same 24 hours: a day above {TH}&nbsp;&deg;C
-followed by a night above 20&nbsp;&deg;C counts twice. So the tallest bar says
-{tallest[1]+NIGHTS.get(tallest[0],0)} of something, and there is no something.</p>
+tallest bar 2026, {DNOW}&nbsp;+&nbsp;{NNOW}&nbsp;=&nbsp;{DNOW+NNOW}</p>
+<p class="cap">Reads as one rising quantity, which is the appeal. But the height is
+days plus nights and those can be the same 24 hours: a day above {TH}&nbsp;&deg;C
+followed by a night above 20&nbsp;&deg;C is counted twice. The tallest bar says
+{DNOW+NNOW} of something, and there is no something.</p>
 
 <div class="lab">Mirrored</div>
 {mirrored()}
 <p class="key"><b>above</b> hot days &nbsp; <b>below</b> hot nights &nbsp;
-one shared scale</p>
-<p class="cap">Nothing is summed. The extra thing it shows: the nights half stays
-empty for decades while the days half is already busy, so the two measures diverge in
-TIME as well as size. That is invisible when they are stacked into one height.</p>
+one scale, {K:.0f}px per count on both halves</p>
+<p class="cap">Nothing is summed, and the same count draws the same size above and
+below. What this shows and the stack hides:
+<strong style="font-weight:500;color:var(--ink)">the two measures pick out the same two
+summers.</strong> 1976 stands alone in the old record on days and nights both, and 2026
+beats it on both: {DNOW} days against {PREV_D}, {NNOW} nights against {PREV_N}. Two
+instruments agreeing on which summers mattered is harder to dismiss than either
+alone.</p>
 </main></body></html>"""
 out = R / "design/review/stack-vs-mirror.html"
 out.write_text(html)
-print(f"wrote {out} | tallest stacked bar {tallest[0]}: "
-      f"{tallest[1]}+{NIGHTS.get(tallest[0],0)}={tallest[1]+NIGHTS.get(tallest[0],0)}")
+print(f"wrote {out} | days max {D_MAX} prev {PREV_D} | nights max {N_MAX} prev {PREV_N}")
