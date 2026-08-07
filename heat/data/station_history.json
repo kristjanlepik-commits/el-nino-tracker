@@ -6,6 +6,21 @@
   "earliest_year_that_matters": 1961
  },
  "stations": {
+  "Vienna": {
+   "city": "Vienna",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "composite": true,
+   "composite_components": "Hohe Warte 5901 (203 m) to 1992, Hohe Warte 5904 (198 m) after. Both at the same observatory.",
+   "composite_evidence": "GeoSphere types station 105 COMBINED and publishes its components. Measured against the individual station 5904: 19.84% identical before 1993 and 100.00% after, so the declared handover is exactly where the data changes.",
+   "composite_step_c": 0.44,
+   "composite_step_confidence": "suggestive, not established",
+   "composite_step_note": "Neighbour testing at the 1993 handover gives +0.44 C with the same sign against 3 of 4 neighbours. NOT ESTABLISHED: the only available neighbours are German cities 350 to 750 km away and one of them, Frankfurt, has a confirmed step of its own. A contaminated reference cannot settle it.",
+   "alternative_rejected": "The individual station 5904 was tried and rejected: this dataset carries no Tmin for it before 1991, giving 34 usable years against 77. Its valid_from of 1934 is when the STATION existed, not when this series holds its minima.",
+   "why": "",
+   "note": "Same-observatory instrument change, categorically milder than Murcia (two towns, 1.19 C) or Frankfurt (5.9 km, 0.57 C)."
+  },
   "Berlin": {
    "city": "Berlin",
    "positions": 8,

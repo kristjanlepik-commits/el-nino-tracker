@@ -95,8 +95,47 @@ def assess(city, rows):
     }
 
 
+# GeoSphere types each station INDIVIDUAL or COMBINED and lists a combined
+# station's components. Vienna's 105 is COMBINED. That is a different finding
+# from a relocation, so it gets its own shape rather than being forced into
+# the DWD one, and it is recorded here because a city I have checked must
+# never read as unchecked.
+AT = {
+    "Vienna": {
+        "city": "Vienna", "positions": 1, "relocations_in_period": [],
+        "ok": True,
+        "composite": True,
+        "composite_components":
+            "Hohe Warte 5901 (203 m) to 1992, Hohe Warte 5904 (198 m) after. "
+            "Both at the same observatory.",
+        "composite_evidence":
+            "GeoSphere types station 105 COMBINED and publishes its "
+            "components. Measured against the individual station 5904: 19.84% "
+            "identical before 1993 and 100.00% after, so the declared "
+            "handover is exactly where the data changes.",
+        "composite_step_c": 0.44,
+        "composite_step_confidence": "suggestive, not established",
+        "composite_step_note":
+            "Neighbour testing at the 1993 handover gives +0.44 C with the "
+            "same sign against 3 of 4 neighbours. NOT ESTABLISHED: the only "
+            "available neighbours are German cities 350 to 750 km away and "
+            "one of them, Frankfurt, has a confirmed step of its own. A "
+            "contaminated reference cannot settle it.",
+        "alternative_rejected":
+            "The individual station 5904 was tried and rejected: this dataset "
+            "carries no Tmin for it before 1991, giving 34 usable years "
+            "against 77. Its valid_from of 1934 is when the STATION existed, "
+            "not when this series holds its minima.",
+        "why": "",
+        "note": "Same-observatory instrument change, categorically milder "
+                "than Murcia (two towns, 1.19 C) or Frankfurt (5.9 km, "
+                "0.57 C).",
+    }
+}
+
+
 def main() -> int:
-    out = {}
+    out = dict(AT)
     print(f"{'city':11s} {'pos':>4s} {'moves':>6s}  detail")
     print("-" * 74)
     for city, sid in DE.items():

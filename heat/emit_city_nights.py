@@ -154,6 +154,8 @@ def main() -> int:
     # administrative event and the service publishes it.
     HP = ROOT / "heat/data/station_history.json"
     HIST = json.loads(HP.read_text())["stations"] if HP.exists() else {}
+    EARLIEST_USED = (json.loads(HP.read_text())["thresholds"]
+                     ["earliest_year_that_matters"] if HP.exists() else 1961)
     B = json.loads((ROOT / "heat/data/record_rate_baseline.json").read_text())
     ties = S["tie_rule"]["ties_count_against_current_year"]
 
@@ -201,6 +203,26 @@ def main() -> int:
                     "This rank may not be rendered without the series below "
                     "it. A bare rank is an alarm; the same rank beside its "
                     "ordinary years is a calibrated statement.",
+                # Kristjan's ruling 2026-08-07: Frankfurt keeps its record and
+                # the 2014 move is stated on the page. The condition is that
+                # the asterisk is DRIVEN BY THIS FIELD, never typed, exactly
+                # as requires_series blocks a bare rank.
+                #
+                # Structural rather than a one-off because the night gate
+                # closed Frankfurt's worst exposure BY ACCIDENT. Luck that
+                # holds today is not a control, and the next city with a move
+                # may not be gated.
+                "requires_relocation_note": bool(
+                    HIST.get(c, {}).get("relocations_in_period")),
+                "relocation_note_text": (
+                    "This station moved {0} in {1}, so the record is not one "
+                    "continuous site and 'of {2}' spans more than one.".format(
+                        ", ".join(f"{m['km']} km" for m in
+                                  HIST[c]["relocations_in_period"]),
+                        ", ".join(m["date"][:4] for m in
+                                  HIST[c]["relocations_in_period"]),
+                        of_years)
+                    if HIST.get(c, {}).get("relocations_in_period") else None),
                 "matched_to_same_date": True,
             },
             "series_to_same_date": {
@@ -296,6 +318,25 @@ def main() -> int:
             "station_moved_in_period": bool(
                 HIST.get(c, {}).get("relocations_in_period")),
             "station_history_checked": c in HIST,
+            "station_disclosure": (
+                "Station history not yet checked."
+                if c not in HIST else
+                "Station record combines two instruments at the same site, "
+                "with a documented handover in 1993."
+                if HIST[c].get("composite") else
+                "Station has not moved since {0}.".format(EARLIEST_USED)
+                if not HIST[c]["relocations_in_period"] else
+                "Station moved {0} in {1}.".format(
+                    ", ".join(f"{m['km']} km" for m in
+                              HIST[c]["relocations_in_period"]),
+                    ", ".join(m["date"][:4] for m in
+                              HIST[c]["relocations_in_period"]))),
+            "station_disclosure_note":
+                "Kristjan's ruling 2026-08-07: show the state per city rather "
+                "than verify quietly or hedge across the set. THREE DIFFERENT "
+                "FACTS and the reader gets whichever is true. Generated from "
+                "the fields, never typed. When a city moves from unchecked to "
+                "checked-and-clean the page improves with no copy change.",
             "station_note":
                 "Documented moves inside the period we publish, from the met "
                 "service's own station history. WHERE THIS IS NON-EMPTY the "
