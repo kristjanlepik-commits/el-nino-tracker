@@ -120,6 +120,12 @@ CITIES = {
                       file="dwd_Munich.json"),
     "Cologne":   dict(country="DE", station="Koeln/Bonn", cut=(8, 3),
                       file="dwd_Cologne.json"),
+    # KNMI Schiphol, added 2026-08-07. NOT De Bilt, which has a far longer
+    # record and is 35 km away in a different setting: using it under an
+    # Amsterdam heading would repeat the substitution that put Murcia's
+    # history on an air base.
+    "Amsterdam": dict(country="NL", station="Schiphol", cut=(8, 3),
+                      file="knmi_Amsterdam.json"),
 }
 
 
@@ -281,7 +287,8 @@ def build(city, meta):
         "source": {"ES": "AEMET OpenData",
                    "FR": "Meteo-France, via data.gouv.fr",
                    "AT": "GeoSphere Austria",
-                   "DE": "DWD Climate Data Center"}[meta["country"]],
+                   "DE": "DWD Climate Data Center",
+                   "NL": "KNMI"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,

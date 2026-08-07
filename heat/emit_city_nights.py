@@ -68,6 +68,7 @@ COORDS = {
     "Montpellier": (43.6, 3.9), "Lyon": (45.8, 4.8), "Vienna": (48.2, 16.4),
     "Munich": (48.1, 11.6), "Paris": (48.9, 2.4), "Frankfurt": (50.1, 8.7),
     "Cologne": (50.9, 7.1), "Berlin": (52.5, 13.4), "Hamburg": (53.6, 10.0),
+    "Amsterdam": (52.3, 4.8),
 }
 
 LICENCE = {
@@ -84,6 +85,10 @@ LICENCE = {
     "DE": {"licence": "GeoNutzV: reuse permitted, including commercial, "
                       "with attribution",
            "commercial_use": True, "attribution": "Source: DWD", "lag_days": 2},
+    "NL": {"licence": "KNMI open data: reuse permitted, including "
+                      "commercial, with attribution",
+           "commercial_use": True, "attribution": "Source: KNMI",
+           "lag_days": 2},
 }
 
 
@@ -488,7 +493,13 @@ def main() -> int:
     recs_ok = [c for c in recs if c in ok_cities]
     top5 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 95]
     top10 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 90]
-    thin = [c for c, v in cities.items() if v.get("record_margin_nights") == 1]
+    # A NIGHT-fragility list must not contain a city whose night metric is
+    # gated. Amsterdam arrived with 3 tropical nights against a baseline of
+    # 0.17 and landed in a list about one-night margins, which would have
+    # invited exactly the ratio the gate forbids.
+    thin = [c for c, v in cities.items()
+            if v.get("record_margin_nights") == 1
+            and not v["nights_metric_gated"]]
     nomult = sorted(c for c, v in cities.items()
                     if not v["days"]["multiple_available"])
 
