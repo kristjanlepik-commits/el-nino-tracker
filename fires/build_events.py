@@ -807,7 +807,43 @@ def main():
     }
     with open(os.path.join(REPO, "fires", "data",
                            "current_week.json"), "w") as f:
+        # STATE THE BASELINE'S OWN PROPERTIES rather than leaving them to
+        # be inferred from the data.
+        #
+        # Design's catch, D-104, after three chats got this wrong in three
+        # different directions on one day. If the current year sits INSIDE
+        # a baseline, z is bounded by (n-1)/sqrt(n) and a large value is
+        # arithmetically impossible; if it sits outside, z has no ceiling.
+        # Greece reads z = 13.10 this week, which is either legitimate or
+        # a red flag depending entirely on a fact no consumer could see.
+        #
+        # It is outside. This baseline is 2012 to the year before the
+        # current one, and the current year is never in it.
+        # Derived across EVERY country, not from the first one.
+        #
+        # Taking one country's hist as representative of all 94 is the
+        # habit I have now shipped three times this week: an artifact
+        # standing in for the data it was derived from. Countries do not
+        # all carry the same year count, so a single n would be a lie for
+        # any that differ, and the lie would be invisible.
+        ns = sorted({len(r.get("hist", {})) for r in detail.values()})
+        all_years = sorted({y for r in detail.values()
+                            for y in r.get("hist", {})})
+        exp = sorted({r.get("hist_expected") for r in detail.values()
+                      if r.get("hist_expected")})
         json.dump({"window": win_key, "degraded": degraded,
+                   "baseline": {
+                       "window": win_key,
+                       "years": all_years,
+                       "n": ns[0] if len(ns) == 1 else None,
+                       "n_range": [ns[0], ns[-1]] if ns else None,
+                       "n_varies_by_country": len(ns) > 1,
+                       "n_expected": exp[0] if len(exp) == 1 else exp,
+                       "current_year_in_baseline": False,
+                       "note": ("The current year is never in the baseline, "
+                                "so z has no upper bound. A large z is a "
+                                "measurement, not an artefact of n."),
+                   },
                    "source": source, "countries": detail}, f, indent=1)
     os.makedirs(os.path.join(REPO, "data"), exist_ok=True)
     with open(os.path.join(REPO, "data", "events.json"), "w") as f:
