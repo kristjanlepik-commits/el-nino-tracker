@@ -402,3 +402,63 @@ if __name__ == "__main__":
             print(f"  {k}: {v['mid']}% (range {v['lo']}-{v['hi']}%)")
         else:
             print(f"  {k}: {v['mid']}%")
+
+
+# ---- Rung liveness (2026-08-06, for the page reorder) ------------------
+# Design asked for a rung's liveness to be data rather than a judgement
+# re-made in CSS every time the numbers shift. Emitting what the renderer
+# would otherwise infer is the same rule the analog-basis fields follow.
+#
+# The distinction the request did not include, and which matters for
+# hierarchy: a rung that has not moved because it sits at 98 is SETTLED
+# (the question is answered, and its low volatility is partly the bound),
+# while a rung that has not moved in mid-range is merely QUIET (the
+# question is open, nothing happened this week). Those deserve different
+# treatment; collapsing them would render "answered" and "no news" the
+# same way.
+
+SATURATION_MARGIN_PCT = 3.0   # within this of 0 or 100 counts as bounded
+LIVE_WITHIN_ISSUES = 2        # changed this recently counts as live
+
+
+def annotate_liveness(buckets: dict, history: list) -> dict:
+    """Return `buckets` with a `liveness` block added per rung.
+
+    `history` is an ordered list (oldest first) of prior bucket dicts,
+    each mapping bucket key -> published mid value. Buckets absent from
+    an issue are skipped rather than counted as unchanged, so adding a
+    rung (as +3.0 and +3.5 were) does not fake a long stable run.
+
+    Pure: the caller supplies history, this reads no files.
+    """
+    out = {}
+    for key, val in buckets.items():
+        if not isinstance(val, dict) or val.get("mid") is None:
+            out[key] = val
+            continue
+        mid = val["mid"]
+        series = [h.get(key) for h in history if isinstance(h, dict)]
+        series = [v for v in series if v is not None]
+        unchanged = 0
+        for v in reversed(series):
+            if v == mid:
+                unchanged += 1
+            else:
+                break
+        recent = (series + [mid])[-5:]
+        moves = [abs(recent[i] - recent[i - 1]) for i in range(1, len(recent))]
+        mean_move = round(sum(moves) / len(moves), 2) if moves else 0.0
+        saturated = mid >= (100 - SATURATION_MARGIN_PCT) or mid <= SATURATION_MARGIN_PCT
+        if saturated:
+            state = "settled"
+        elif unchanged < LIVE_WITHIN_ISSUES:
+            state = "live"
+        else:
+            state = "quiet"
+        out[key] = {**val, "liveness": {
+            "state": state,
+            "weeks_unchanged": unchanged,
+            "mean_abs_move_recent": mean_move,
+            "saturated": saturated,
+        }}
+    return out
