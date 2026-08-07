@@ -59,12 +59,18 @@ for n, v in C.items():
     base = st.mean([x["days_to_cut"]["95"] for y, x in yrs.items()
                     if 1961 <= int(y) <= 1990 and x.get("usable_to_cut")
                     and x.get("days_to_cut")])
-    rows.append({"name": n, "lat": la, "lon": lo, "rank": r["value"],
+    zb = [x["days_to_cut"]["95"] for y, x in yrs.items()
+          if 1991 <= int(y) <= 2020 and x.get("usable_to_cut")
+          and x.get("days_to_cut")]
+    zmean, zsd = st.mean(zb), st.stdev(zb)
+    rows.append({"z": (v["days"]["days_2026"]["95"] - zmean) / zsd if zsd else 0.0,
+                 "zmean": zmean,
+                 "name": n, "lat": la, "lon": lo, "rank": r["value"],
                  "of": r["of_years"], "pct": r["percentile"],
                  "now": v["days"]["days_2026"]["95"], "base": base,
                  "p": r["value"] / (r["of_years"] + 1),
                  "gated": bool(v.get("nights_metric_gated"))})
-rows.sort(key=lambda d: (d["p"], d["name"]))
+rows.sort(key=lambda d: (-d["z"], d["name"]))
 
 # VD Main's ruling, amending section 7: hue marks a MEASURED QUANTITY,
 # never a threshold on one. The record line is drawn by how long each
@@ -86,19 +92,32 @@ rows.sort(key=lambda d: (d["p"], d["name"]))
 # So: constant footprint, one INK hairline, fill from the anomaly ramp.
 # Presence is constant, nobody is a null, and D-043 holds by
 # construction rather than by caption.
-BANDS = [(50, "#8E240A"), (25, "#C05B3D"), (10, "#DC957E"), (0, "#EFC9BD")]
-BANDS_DARK = [(50, "#C05B3D"), (25, "#DC957E"), (10, "#EFC9BD"), (0, "#E8E7E2")]
+# HOW FAR FROM NORMAL, not how rare the rank is. Kristjan's correction and
+# it is a different question from the one I was answering.
+#
+# Plotting position asks how unlikely this RANK is given the length of the
+# record, so it rewards a long record. Malaga sat third on it, on an
+# 80-year series, having had 11 hot days against a normal of 3.8. Nice had
+# 34 against 4.0. The page asks how hot the summer has been, and z answers
+# that where plotting position does not.
+#
+# z is measured against the 1991-2020 normal, the WMO window and the one
+# heat ruled for its night sd, so the map and the city pages can share a
+# scale. The window excludes 2026, so z is not bounded by the in-sample
+# ceiling of (n-1)/sqrt(n).
+BANDS = [(6.0, "#8E240A"), (4.0, "#C05B3D"), (2.0, "#DC957E"), (-99, "#EFC9BD")]
 
 
-def band(pp):
-    """Fill for a plotting position, stepped rather than continuous.
+def band(z):
+    """Fill for a z, stepped rather than continuous.
 
     Stepped because the legend is discrete swatches: a gradient bar would
-    let a reader decode a colour the map never draws.
+    let a reader decode a colour the map never draws. The steps are also
+    honest about precision, since the sd behind each z rests on 30 years
+    and carries about 13 per cent relative error.
     """
-    one_in = 1 / pp if pp else 999
     for lo, col in BANDS:
-        if one_in >= lo:
+        if z >= lo:
             return col
     return BANDS[-1][1]
 
@@ -137,7 +156,7 @@ def overlap(a, b):
 marks, labels = [], []
 for d in sorted(rows, key=lambda d: PY(d["lat"])):
     x, y = PX(d["lon"]), PY(d["lat"])
-    marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="{band(d["p"])}" '
+    marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="{band(d["z"])}" '
                  f'stroke="var(--ink)" stroke-width="1"/>')
     bw = max(len(d["name"]) * 7.1, 66)
     opts = []
@@ -302,24 +321,25 @@ A typical year produces {DH['baseline']['median_year']}.</p>
 
 {svg}
 <div class="key">
-<span class="ks"><i style="background:#8E240A"></i>1 in 50 years or rarer</span>
-<span class="ks"><i style="background:#C05B3D"></i>1 in 25 to 49</span>
-<span class="ks"><i style="background:#DC957E"></i>1 in 10 to 24</span>
-<span class="ks"><i style="background:#EFC9BD"></i>more often than 1 in 10</span>
-<span>Every city is the same disc. The fill is how rare this summer is against
-that city's own record, so nothing between the marks is shaded and no city is
+<span class="ks"><i style="background:#8E240A"></i>6 sd or more above its normal</span>
+<span class="ks"><i style="background:#C05B3D"></i>4 to 6</span>
+<span class="ks"><i style="background:#DC957E"></i>2 to 4</span>
+<span class="ks"><i style="background:#EFC9BD"></i>under 2</span>
+<span>Every city is the same disc. The fill is how far this summer sits from
+that city's own normal, so nothing between the marks is shaded and no city is
 drawn as empty.</span></div>
 
-<div class="seclab">How rare this is, against each city's own record</div>
-<p class="subl">Ordered by rank divided by the length of the record: the chance of
-landing this high without a trend. <strong style="color:var(--ink);font-weight:500">This
-is not a league table and the top city is not the hottest.</strong> A record in
-{rows[0]['of']} years is a rarer thing than a record in {min(d['of'] for d in rows)},
-which is what separates cities that would otherwise sit tied at first, and it is why a
-long record lifts a city here. The bar is that city's own count against its own highest
-earlier summer, so a full bar means it matched or beat its own record; the blue tick is
-its 1961-1990 normal. Bars are not comparable between cities: every one is on its own
-threshold and its own history.</p>
+<div class="seclab">How far from normal, city by city</div>
+<p class="subl">Ordered by how far this summer sits from that city's own 1991-2020
+normal, in standard deviations of its own history.
+<strong style="color:var(--ink);font-weight:500">Nice has had {rows[0]['now']} hot days
+where {rows[0]['zmean']:.1f} is normal for it; Berlin has had {rows[-1]['now']} where
+{rows[-1]['zmean']:.1f} is normal.</strong> That is the question a reader is asking, and
+it is not the same as which city broke the longest record: a long record makes a rank
+rarer without making the summer hotter. The bar is that city's own count against its own
+highest earlier summer, so a full bar means it matched or beat its own record; the blue
+tick is its 1961-1990 level. Bars are not comparable between cities: every one is on its
+own threshold and its own history.</p>
 {all_rows}
 
 <div class="seclab">Why we publish two measurements and not one</div>
