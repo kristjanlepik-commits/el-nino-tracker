@@ -120,12 +120,18 @@ CITIES = {
                       file="dwd_Munich.json"),
     "Cologne":   dict(country="DE", station="Koeln/Bonn", cut=(8, 3),
                       file="dwd_Cologne.json"),
-    # KNMI Schiphol, added 2026-08-07. NOT De Bilt, which has a far longer
-    # record and is 35 km away in a different setting: using it under an
-    # Amsterdam heading would repeat the substitution that put Murcia's
-    # history on an air base.
-    "Amsterdam": dict(country="NL", station="Schiphol", cut=(8, 3),
-                      file="knmi_Amsterdam.json"),
+    # AMSTERDAM IS HELD, Kristjan's ruling 2026-08-07, NOT deleted. KNMI
+    # prints on every response that its series are inhomogeneous because of
+    # station relocations and observation changes, and "not suitable for trend
+    # analysis", which is what ranking 2026 against 76 prior years is.
+    #
+    # The fetcher, the data and the disclosure all stay. It rejoins when a
+    # homogenised Schiphol series is found, or when we have a defensible
+    # position on whether the other four services say the same thing about
+    # themselves and have simply never been asked.
+    #
+    # "Amsterdam": dict(country="NL", station="Schiphol", cut=(8, 3),
+    #                   file="knmi_Amsterdam.json"),
 }
 
 

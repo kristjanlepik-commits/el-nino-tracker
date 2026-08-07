@@ -2001,3 +2001,77 @@ does not affect it.
 
 **Sharpest usable form:** where nights and days agree, the day reading is
 the one a sceptic cannot attribute to the thermometer's address.
+
+## 12. Do the producers vouch for their own series? Asking all five
+
+Amsterdam was held because KNMI prints on every response that its series are
+inhomogeneous and "not suitable for trend analysis". Product's point, and it
+is the right one: **we were holding the one producer honest enough to say it
+out loud, and had never asked the other four.**
+
+I had checked five services for RELOCATIONS. I had never asked whether any
+publishes a view on its own series. Different question.
+
+### What each of the five says
+
+    KNMI (NL)         EXPLICIT. "These time series are inhomogeneous because
+                      of station relocations and changes in observation
+                      techniques. As a result these series are not suitable
+                      for trend analysis." Printed on every response.
+
+    DWD (DE)          ACKNOWLEDGED WITH A REMEDY. "The time series may
+                      possibly contain inhomogeneities (e.g. due to station
+                      relocation or change of measuring equipment)", and
+                      users are "strongly advised to use the station
+                      metadata" to find the causes.
+
+    GeoSphere (AT)    NO WARNING, BUT DOCUMENTS THE CAUSES. Observation times
+                      shifted in 1971 and 2003, and manual stations were
+                      progressively replaced by automatic TAWES from the
+                      1980s. Presented as description, not caveat.
+
+    Meteo-France (FR) "Ces donnees ont subi un controle climatologique."
+                      Quality control asserted, homogeneity not addressed.
+
+    AEMET (ES)        Nothing in the API metadata: description, copyright,
+                      legal note, field definitions.
+
+### The defensible position this produces
+
+**DWD is the strong case and it is strong because of what we did, not what
+they said.** Their stated remedy for inhomogeneity is to read the station
+metadata. We read it, and it is what found Frankfurt's 5.86 km move in 2014.
+So for Germany we have followed the producer's own instruction rather than
+merely not been warned.
+
+**KNMI is the weak case and Amsterdam is held, correctly.**
+
+**Meteo-France and AEMET are SILENT, which is not the same as clean.** No
+statement means the question has not been answered by anyone, and reading
+their silence as assurance would be exactly the error of treating an
+artifact's own account of itself as a reference.
+
+### 12a. The one that matters: Vienna is featured
+
+**GeoSphere documents observation-time changes in 1971 and 2003 and
+automation from the 1980s.** For a daily MINIMUM this is not incidental: the
+observation time defines the 24-hour window the minimum is taken over, so
+shifting it shifts the recorded value systematically.
+
+Vienna therefore carries three documented sources of inhomogeneity:
+
+    1993   the COMBINED station handover already recorded in 11a
+    2003   an observation-time change
+    1980s  progressive replacement of manual stations by automatic
+
+And the neighbour test at 1993 returned +0.44 C, same sign against 3 of 4
+neighbours. **I attributed that to the splice. It could as easily be the
+automation, and I cannot separate them**: the causes overlap in time and the
+only available neighbours are German cities 350 to 750 km away.
+
+**This is a featured city.** Amsterdam was held for a producer statement
+that is more explicit but arguably no more consequential than what GeoSphere
+documents plainly and without alarm. Raised for Kristjan rather than
+resolved here, because the consistent positions are to hold both or neither,
+and that is a judgement about what the channel is willing to publish rather
+than a fact about the data.
