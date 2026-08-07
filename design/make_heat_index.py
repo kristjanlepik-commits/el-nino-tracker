@@ -62,9 +62,46 @@ for n, v in C.items():
     rows.append({"name": n, "lat": la, "lon": lo, "rank": r["value"],
                  "of": r["of_years"], "pct": r["percentile"],
                  "now": v["days"]["days_2026"]["95"], "base": base,
-                 "p": r["value"] / r["of_years"],
+                 "p": r["value"] / (r["of_years"] + 1),
                  "gated": bool(v.get("nights_metric_gated"))})
 rows.sort(key=lambda d: (d["p"], d["name"]))
+
+# VD Main's ruling, amending section 7: hue marks a MEASURED QUANTITY,
+# never a threshold on one. The record line is drawn by how long each
+# station has been running rather than by how hot the summer was, so
+# colouring it would give hue to the length of a record.
+#
+# What it replaced, and the defect is arithmetic rather than taste:
+# Murcia is rank 1 of 43 and Barcelona rank 2 of 87. Their plotting
+# positions are 1/44 and 2/88, which are THE SAME NUMBER. The old map
+# drew Murcia as a filled disc and Barcelona as a smaller hollow ring in
+# a different list. Identical events, opposite treatments.
+#
+# And the hollow ring broke D-043 on its own. A ring is the universal
+# convention for absent or not-applicable, and drawn smaller than the
+# filled state it carries under half the ink, so the map said nothing
+# happened in Berlin, Hamburg, Seville, Valencia, Madrid, Barcelona and
+# Cologne while the prose two screens down said the opposite.
+#
+# So: constant footprint, one INK hairline, fill from the anomaly ramp.
+# Presence is constant, nobody is a null, and D-043 holds by
+# construction rather than by caption.
+BANDS = [(50, "#8E240A"), (25, "#C05B3D"), (10, "#DC957E"), (0, "#EFC9BD")]
+BANDS_DARK = [(50, "#C05B3D"), (25, "#DC957E"), (10, "#EFC9BD"), (0, "#E8E7E2")]
+
+
+def band(pp):
+    """Fill for a plotting position, stepped rather than continuous.
+
+    Stepped because the legend is discrete swatches: a gradient bar would
+    let a reader decode a colour the map never draws.
+    """
+    one_in = 1 / pp if pp else 999
+    for lo, col in BANDS:
+        if one_in >= lo:
+            return col
+    return BANDS[-1][1]
+
 
 # ---- projection: Mercator, fitted to the marks, as VD used -----------------
 W, H, PAD = 900, 660, 52
@@ -100,11 +137,8 @@ def overlap(a, b):
 marks, labels = [], []
 for d in sorted(rows, key=lambda d: PY(d["lat"])):
     x, y = PX(d["lon"]), PY(d["lat"])
-    if d["rank"] == 1:
-        marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="6" fill="var(--ink)"/>')
-    else:
-        marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5.2" fill="var(--paper)" '
-                     f'stroke="var(--ink)" stroke-width="1.6"/>')
+    marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="{band(d["p"])}" '
+                 f'stroke="var(--ink)" stroke-width="1"/>')
     bw = max(len(d["name"]) * 7.1, 66)
     opts = []
     for dd in (10, 22):
@@ -186,9 +220,9 @@ def city_row(i, d):
             f'<span class="lval">{d["now"]}<span class="lbase">vs {d["base"]:.0f}</span>'
             f'</span></div>')
 
-TOP = 10
-top_rows = "".join(city_row(i, d) for i, d in enumerate(rows[:TOP], 1))
-rest_rows = "".join(city_row(i, d) for i, d in enumerate(rows[TOP:], TOP + 1))
+# ONE list. The two groups are what the ruling deletes: they split cities
+# whose plotting positions are equal.
+all_rows = "".join(city_row(i, d) for i, d in enumerate(rows, 1))
 
 MAR, BER = C["Marseille"], C["Berlin"]
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -222,8 +256,7 @@ letter-spacing:.05em}}
 font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint)}}
 .key i{{display:inline-block;width:12px;height:12px;border-radius:50%;
 vertical-align:-2px;margin-right:8px}}
-.k1 i{{background:var(--ink)}}
-.k2 i{{background:var(--paper);border:1.6px solid var(--ink)}}
+.ks i{{border:1px solid var(--ink)}}
 .seclab{{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.22em;
 text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:54px 0 6px}}
@@ -268,9 +301,14 @@ in Seville and {C['Berlin']['days']['thresholds_c']['95']}&nbsp;&deg;C in Berlin
 A typical year produces {DH['baseline']['median_year']}.</p>
 
 {svg}
-<div class="key"><span class="k1"><i></i>Its most hot days on record</span>
-<span class="k2"><i></i>Elevated, not a record</span>
-<span>Nothing between the marks is shaded, because nothing between them was measured.</span></div>
+<div class="key">
+<span class="ks"><i style="background:#8E240A"></i>1 in 50 years or rarer</span>
+<span class="ks"><i style="background:#C05B3D"></i>1 in 25 to 49</span>
+<span class="ks"><i style="background:#DC957E"></i>1 in 10 to 24</span>
+<span class="ks"><i style="background:#EFC9BD"></i>more often than 1 in 10</span>
+<span>Every city is the same disc. The fill is how rare this summer is against
+that city's own record, so nothing between the marks is shaded and no city is
+drawn as empty.</span></div>
 
 <div class="seclab">How rare this is, against each city's own record</div>
 <p class="subl">Ordered by rank divided by the length of the record: the chance of
@@ -282,9 +320,7 @@ long record lifts a city here. The bar is that city's own count against its own 
 earlier summer, so a full bar means it matched or beat its own record; the blue tick is
 its 1961-1990 normal. Bars are not comparable between cities: every one is on its own
 threshold and its own history.</p>
-{top_rows}
-<div style="height:22px"></div>
-{rest_rows}
+{all_rows}
 
 <div class="seclab">Why we publish two measurements and not one</div>
 <div class="two">
