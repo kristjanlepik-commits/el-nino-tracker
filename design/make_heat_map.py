@@ -52,7 +52,46 @@ LA0, LA1, LO0, LO1 = min(LATS) - 1.4, max(LATS) + 1.4, min(LONS) - 2.2, max(LONS
 # Equirectangular with a cos(lat) correction, so Spain is not stretched
 # sideways relative to Germany. Not a projection anyone would defend for
 # a real atlas; correct enough for 21 labelled marks.
-import math
+import math, re
+
+def land_paths(lat0, lat1, lon0, lon1, px, py):
+    """Coastline from docs/world-map.svg, cropped to the frame.
+
+    VD's ruling, and their argument is better than my caution was. I had
+    removed every geographic reference to avoid claiming a measured
+    region. Their point: the gaps between dots then read as LAYOUT, so a
+    reader sees an arrangement. With a coast the same gaps read as
+    unmeasured continent, and the map says the true thing out loud, that
+    twenty-one thermometers sit on a landmass that is mostly not
+    measured. Removing geography did not stop the map claiming coverage,
+    it stopped the map ADMITTING THE ABSENCE.
+
+    Conditions, theirs: coast only, hairline at furniture weight, NO
+    COUNTRY BORDERS because borders invite the national reading ("France
+    is hot") which is the aggregation claim we cannot support, and no
+    graticule and no bounding box.
+
+    So the country polygons are drawn as one flat fill in a single land
+    tone with no stroke. Adjacent countries share edges, so their union
+    reads as one landmass and the internal borders never appear. The
+    fill encodes nothing: it is the same tone everywhere, which is what
+    separates cartographic ground from a data surface.
+    """
+    src = (R / "docs/world-map.svg").read_text()
+    # world-map.svg is equirectangular on an 800x400 viewBox
+    w2ll = lambda X, Y: (X / 800 * 360 - 180, 90 - Y / 400 * 180)
+    out = []
+    for d in re.findall(r'<path d="([^"]+)"', src):
+        pts = re.findall(r'([-\d.]+),([-\d.]+)', d)
+        if len(pts) < 3:
+            continue
+        lls = [w2ll(float(a), float(b)) for a, b in pts]
+        if not any(lon0 - 6 < lo < lon1 + 6 and lat0 - 4 < la < lat1 + 4
+                   for lo, la in lls):
+            continue
+        out.append("M" + " ".join(f"{px(lo):.1f},{py(la):.1f}" for lo, la in lls) + "Z")
+    return out
+
 KX = math.cos(math.radians((LA0 + LA1) / 2))
 px = lambda lo: PAD + (lo - LO0) * KX / ((LO1 - LO0) * KX) * (W - 2 * PAD)
 py = lambda la: PAD + (LA1 - la) / (LA1 - LA0) * (H - 2 * PAD)
@@ -107,17 +146,20 @@ for n, v in sorted(C.items(), key=lambda kv: -CO[kv[0]]["lat"]):
         f'<text x="{x+dx:.1f}" y="{y+dy:.1f}" text-anchor="{anc}" class="cn">{n}</text>'
         f'<text x="{x+dx:.1f}" y="{y+dy+11:.1f}" text-anchor="{anc}" class="cs">{sub}</text>')
 
+LAND = land_paths(LA0, LA1, LO0, LO1, px, py)
+land = ("".join(f'<path d="{d}" fill="var(--land)" stroke="none"/>' for d in LAND))
+
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="max-width:{W}px;height:auto" '
        f'role="img" aria-label="21 European cities, days above each city\'s own 95th '
-       f'percentile">{"".join(marks)}{"".join(labels)}</svg>')
+       f'percentile">{land}{"".join(marks)}{"".join(labels)}</svg>')
 
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Heat &middot; The Long Swell</title><style>
 :root{{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
---ink-faint:#6E6E67;--rule:#CFCEC7;--accent:#173F9E}}
+--ink-faint:#6E6E67;--rule:#CFCEC7;--accent:#173F9E;--land:#E4E3DC}}
 @media(prefers-color-scheme:dark){{:root{{--paper:#1A1A18;--sunk:#252521;
---ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--accent:#6E97E8}}}}
+--ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--accent:#6E97E8;--land:#242422}}}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--paper);color:var(--soft);
 font-family:Spectral,Georgia,serif;font-size:17px;line-height:1.55}}
@@ -160,11 +202,11 @@ A typical year produces {DH['baseline']['median_year']}.</p>
 <div class="key"><span class="k1"><i></i>Most on record</span>
 <span class="k2"><i></i>Not a record, and still in its own top tenth</span></div>
 {svg}
-<p class="cap">Twenty-one weather stations, not a region: the marks are the
-places we measured and the space between them is not shaded because we did
-not measure it. Every city here is in the warmest tenth of its own history;
-the open rings are the ones that are elevated without being the most extreme
-they have ever been.</p>
+<p class="cap">Twenty-one weather stations, not a region. The land is drawn so you can
+see how much of it we did not measure: it carries one flat tone everywhere and no
+country is coloured, because a country is not a thing this page measured.
+On this measure every city is in the warmest tenth of its own history, so an open ring
+means elevated without being the most extreme it has ever been.</p>
 </main></body></html>"""
 out = R / "design/review/heat-map.html"
 out.write_text(html)
