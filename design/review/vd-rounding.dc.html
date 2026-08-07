@@ -1,0 +1,60 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script></head><body><x-dc><helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#F1F0EC}
+table{border-collapse:collapse;width:100%;max-width:640px;font-family:'IBM Plex Mono', monospace;font-size:12px;
+font-variant-numeric:tabular-nums}
+th{text-align:right;font-weight:500;color:#6E6E67;font-size:9px;letter-spacing:.12em;
+text-transform:uppercase;padding:0 10px 8px 0;border-bottom:2.4px solid #8E8E88}
+th:first-child{text-align:left}
+td{padding:8px 10px 8px 0;border-bottom:1px solid #E0DFDA;color:#3A3A36}</style></helmet>
+<div style="max-width:1000px;margin:0 auto;padding:0 48px 80px;color:#3A3A36;font-family:Spectral,serif">
+
+<div style="padding:22px 0 12px;border-bottom:3px solid #1A1A18;display:flex;align-items:baseline;gap:14px">
+<span style="font-weight:500;font-size:22px;color:#1A1A18">The Long Swell</span>
+<span style="font-family:'IBM Plex Mono', monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#1A1A18">Rounding &middot; ruling and one trap</span>
+<span style="font-family:'IBM Plex Mono', monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#6E6E67;margin-left:auto">From design</span></div>
+
+<h1 style="font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;color:#1A1A18;margin:38px 0 12px;max-width:26ch">Round the count. Never divide by the rounded number.</h1>
+<p style="font-size:17.5px;line-height:1.62;max-width:66ch;margin:0">
+<strong style="font-weight:500;color:#1A1A18">Kristjan's ruling: round where it helps a
+reader, and put the precise figure elsewhere on the page.</strong> Your card already does
+this and your note explaining it is right. Applying it to Paris is safe.
+<strong style="font-weight:500;color:#1A1A18">Applying it as a rule across 21 cities is
+not</strong>, and the reason is worth having before the template is built.</p>
+
+<div style="font-family:'IBM Plex Mono', monospace;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
+color:#1A1A18;border-bottom:3px solid #1A1A18;padding-bottom:10px;margin:42px 0 16px">The trap</div>
+<p style="font-size:16.5px;line-height:1.6;max-width:68ch;margin:0 0 18px">
+Paris rounds 1.80 UP to two, so a ratio taken from the rounded number gets SMALLER,
+15 times rather than 16.7. That is the direction we want and it is why your card note is
+correct. <strong style="font-weight:500;color:#1A1A18">But most baselines round down</strong>,
+and then the same move inflates the claim.</p>
+<table><thead><tr><th>city</th><th>baseline</th><th>rounded</th><th>2026</th>
+<th>exact</th><th>from the rounded</th></tr></thead><tbody><tr><td style="font-weight:500;color:#1A1A18">Marseille</td><td style="text-align:right">1.43</td><td style="text-align:right">1</td><td style="text-align:right">34</td><td style="text-align:right">23.7&times;</td><td style="text-align:right;color:#B32E10">34.0&times;</td></tr><tr><td style="font-weight:500;color:#1A1A18">Montpellier</td><td style="text-align:right">1.27</td><td style="text-align:right">1</td><td style="text-align:right">22</td><td style="text-align:right">17.4&times;</td><td style="text-align:right;color:#B32E10">22.0&times;</td></tr><tr><td style="font-weight:500;color:#1A1A18">Madrid</td><td style="text-align:right">1.03</td><td style="text-align:right">1</td><td style="text-align:right">22</td><td style="text-align:right">21.3&times;</td><td style="text-align:right;color:#B32E10">22.0&times;</td></tr><tr><td style="font-weight:500;color:#1A1A18">Paris</td><td style="text-align:right">1.80</td><td style="text-align:right">2</td><td style="text-align:right">30</td><td style="text-align:right">16.7&times;</td><td style="text-align:right;color:#3A3A36">15.0&times;</td></tr></tbody></table>
+<p style="font-size:16.5px;line-height:1.6;max-width:68ch;margin:18px 0 0">
+<strong style="font-weight:500;color:#1A1A18">Marseille is the worst case: 23.7 times
+becomes 34.</strong> Rounding the baseline would overstate the ratio in
+<strong style="font-weight:500;color:#1A1A18">9 of the 21 cities</strong>, and it is
+conservative in 12. A rule that flatters us in nine cities out of twenty-one is not a
+rounding convention, it is a bias with a rounding convention in front of it.</p>
+
+<div style="font-family:'IBM Plex Mono', monospace;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
+color:#1A1A18;border-bottom:3px solid #1A1A18;padding-bottom:10px;margin:42px 0 16px">The rule that works</div>
+<p style="font-size:17.5px;line-height:1.62;max-width:68ch;margin:0 0 14px">
+<strong style="font-weight:500;color:#1A1A18">Round what you DISPLAY. Compute from what
+you MEASURED.</strong> The rounded number is a label; it is never an input.</p>
+<p style="font-size:16.5px;line-height:1.6;max-width:68ch;margin:0 0 14px">
+Your page already satisfies this and I would not change it. It shows two squares against
+thirty and <em>states no ratio at all</em>. The reader does the division by looking, which
+is exact, and no rounded figure is ever multiplied by anything. That is the design solving
+the problem rather than a caveat solving it.</p>
+<p style="font-size:16.5px;line-height:1.6;max-width:68ch;margin:0">
+<strong style="font-weight:500;color:#1A1A18">So the guidance for the other twenty cities:
+keep the two counts and keep refusing the ratio.</strong> If a ratio ever has to be
+quoted, take it from the unrounded baseline and round the RESULT, and round that result
+down. Three cities already publish a count with no multiple for a related reason, so the
+page shape does not need one.</p>
+</div></x-dc></body></html>
