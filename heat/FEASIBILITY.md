@@ -1905,3 +1905,63 @@ Seville's denominators, the gate's own denominator, and the denominator
 in the test written to evaluate the fix. **The lesson is not "check
 denominators", which I already knew. It is that the check written in a
 hurry to validate a fix gets less scrutiny than the fix does.**
+
+## 11. Does the urban signal sit in Tmin? A paired-station test
+
+Product's hypothesis, 2026-08-07, put to me as a hypothesis rather than a
+claim because it flatters us: **almost all of the urban heat island
+signal sits in the daily minimum rather than the maximum.** If true, a
+night count selects for urban contamination in a way a day count does
+not, and this channel's biggest labelling weakness becomes a finding.
+
+**The test, on data already held.** Murcia gave us an accidental natural
+experiment: `7178I` is the city station and `7228` is Alcantarilla air
+base about 10 km away, and the station-identity error meant both full
+records were pulled, each carrying Tmin AND Tmax.
+
+**Result, 15,465 shared days:**
+
+    ALL YEAR   Tmin  +0.758 C    Tmax  +0.140 C     ratio 5.4x
+    SUMMER     Tmin  +0.675 C    Tmax  -0.026 C     ratio n/a
+
+    tropical nights   city 2783 vs base 2254    city 1.23x
+    hot days >=38.6   city  250 vs base  260    city 0.96x
+
+In the season this channel measures, the urban site runs **0.68 °C
+warmer at night and is indistinguishable by day**, the day difference
+being marginally negative. It carries straight into the metrics: the
+urban site records a quarter more tropical nights and slightly FEWER hot
+days.
+
+### The inference, sharpened
+
+Product framed the payoff as "agreement across both instruments is weak
+evidence against a pure urban artefact". **That is true but it is the
+weaker version of what this shows.**
+
+The stronger and more defensible statement is about ONE instrument:
+**Tmax is nearly uncontaminated**, so a day record is intrinsically much
+harder to attribute to urbanisation than a night record. That is a claim
+about a single measurement, which is testable and now partly tested. The
+agreement version is a claim about a relationship between two
+measurements of the same weather, which is much harder to defend and
+adds nothing the first does not already give.
+
+### Three limits that must travel with it
+
+1. **One pair is a case, not a population.** UHI magnitude varies with
+   geography, coastal exposure and city form.
+2. **Alcantarilla is itself a built site**, an air base rather than open
+   country, so +0.68 °C is a **LOWER BOUND** on the urban-rural
+   difference and not an estimate of it.
+3. **It does not decompose a night record.** It says the day signal is
+   not urban. It does not say how much of a night record is.
+
+### What would move it from a case to a pattern
+
+A second pair with the same structure: a central urban station against a
+peripheral one in the same metro area, both long, both carrying Tmin and
+Tmax. Madrid offers exactly that, `3195` MADRID, RETIRO being a central
+park and `3129` MADRID AEROPUERTO the airport. If the ratio replicates,
+the claim is worth making; if Madrid shows a comparable Tmax offset, the
+Murcia result is a siting quirk and the claim should be dropped.
