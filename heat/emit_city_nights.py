@@ -232,6 +232,44 @@ def main() -> int:
                 "RATIO, MULTIPLE OR RECORD; use the percentile warm-night "
                 "series instead. Applied by rule, not by list, so a city added "
                 "tomorrow is covered without anyone remembering to check.",
+            # EVERY CONSTRAINT A CITY PAGE CAN VIOLATE, ON THE CITY OBJECT.
+            #
+            # The nights gate was general and correct and STILL failed, because
+            # it was emitted at headline level and a city page renders one
+            # city. From my side the rule was plainly there; from design's it
+            # was invisible. That is a seam defect rather than either side's
+            # mistake, and it is not specific to the gate: four constraints
+            # sat where a city page could not reach them.
+            #
+            # The pair below is the dangerous one. The nights prohibition and
+            # the days permission are OPPOSITES on the same page, and a city
+            # page puts both instruments side by side. Three times today a
+            # caveat nearly travelled to the instrument it is false for.
+            "page_constraints": {
+                "nights": {
+                    "may_not_say": B["may_not_say"],
+                    "reason": "2026 is not the worst year on the night "
+                              "measure. 2003 was worse.",
+                },
+                "days": {
+                    "may_say_worst_on_record": True,
+                    "reason": "2026 sets more city day-records than any year "
+                              "in the window, including 2003. THE OPPOSITE OF "
+                              "THE NIGHTS RULE ABOVE. The two instruments do "
+                              "not share a caveat, and this page shows both.",
+                },
+                "banned_words": ["ordinary"],
+                "banned_words_reason":
+                    "No city in this set is ordinary. The least extreme "
+                    "readings are the 86th to 90th percentile of their own "
+                    "records. Calling one ordinary is the error that turned a "
+                    "91st-percentile Marseille into 'an ordinary summer'.",
+                "why_here":
+                    "Repeated on every city because a page renders one city "
+                    "and cannot be asked to read the headline object. A "
+                    "constraint the renderer cannot reach is a constraint "
+                    "that does not exist.",
+            },
             "record_margin_nights": (n26 - max(below)) if r == 1 and below else None,
             "featured": c in FEATURED,
         }
@@ -536,6 +574,37 @@ def main() -> int:
             "Europe, where tropical nights are near zero and ratios divide by "
             "almost nothing.",
     }
+    # GUARD. A constraint that exists only at headline level is unreachable
+    # from a city page, which is how the nights gate came to look like a
+    # two-city list. This fails the emit rather than reporting it, because a
+    # check that cannot stop the thing it checks is a comment.
+    REQUIRED = ("page_constraints", "nights_metric_gated",
+                "nights_baseline_per_year", "rank", "days",
+                "series_to_same_date")
+    missing = {c: [k for k in REQUIRED if k not in v]
+               for c, v in cities.items()}
+    missing = {c: k for c, k in missing.items() if k}
+    if missing:
+        print(f"  FAIL: cities missing page-level fields: {missing}",
+              file=sys.stderr)
+        return 1
+    # The two caveats are opposites BY MEASUREMENT, not by assertion, so the
+    # guard recomputes the fact rather than comparing the two prose fields.
+    # My first version compared a sentence to a boolean, which is not a
+    # comparison at all: it fired on every city including the correct ones.
+    # A guard that cannot be wrong about the thing it guards is worth more
+    # than a guard that merely looks strict.
+    nights_worse_before = nbase["worst_year_on_record"]["cities"] >= len(recs)
+    days_worse_now = dbase["worst_year_on_record"]["cities"] < len(drecs)
+    if not (nights_worse_before and days_worse_now):
+        print(f"  FAIL: the nights/days caveat pair no longer holds. "
+              f"nights 2026={len(recs)} vs worst "
+              f"{nbase['worst_year_on_record']}; days 2026={len(drecs)} vs "
+              f"worst {dbase['worst_year_on_record']}. The page_constraints "
+              f"text asserts an inversion the data no longer supports.",
+              file=sys.stderr)
+        return 1
+
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else OUT
     out.write_text(json.dumps(payload, indent=1) + "\n")
     print(f"wrote {out}")

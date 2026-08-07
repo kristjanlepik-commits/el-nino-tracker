@@ -501,6 +501,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 21.17,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 11,
    "featured": true,
    "days": {
@@ -1338,6 +1353,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 29.17,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -1803,6 +1833,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 39.7,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -2263,6 +2308,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 29.93,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -2695,6 +2755,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 34.17,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 1,
    "featured": false,
    "days": {
@@ -3137,6 +3212,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 35.87,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -3556,6 +3646,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 34.27,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 2,
    "featured": false,
    "days": {
@@ -3843,6 +3948,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 42.8,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -4176,6 +4296,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 13.77,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 11,
    "featured": false,
    "days": {
@@ -4597,6 +4732,21 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 1.17,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 8,
    "featured": true,
    "days": {
@@ -5256,6 +5406,21 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 1.53,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 4,
    "featured": true,
    "days": {
@@ -5913,6 +6078,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 21.53,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -6333,6 +6513,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 30.73,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -6753,6 +6948,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 17.6,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 6,
    "featured": false,
    "days": {
@@ -7148,6 +7358,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 6.87,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 12,
    "featured": false,
    "days": {
@@ -7490,6 +7715,21 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 4.33,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 1,
    "featured": false,
    "days": {
@@ -7928,6 +8168,21 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 1.5,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -8380,6 +8635,21 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 0.33,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -8864,6 +9134,21 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 1.37,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 9,
    "featured": false,
    "days": {
@@ -9309,6 +9594,21 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 0.77,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": 2,
    "featured": false,
    "days": {
@@ -9710,6 +10010,21 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 0.37,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
    "record_margin_nights": null,
    "featured": false,
    "days": {
