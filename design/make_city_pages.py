@@ -70,7 +70,15 @@ def bars(data, top, w=880, h=104, accent_last=True):
         cur = accent_last and y == 2026
         out.append(f'<rect x="{i*bw:.1f}" y="{h-v/top*h:.1f}" width="{bw-1.2:.1f}" '
                    f'height="{v/top*h:.1f}" '
-                   f'fill="{"var(--accent)" if cur else "var(--ink)"}"/>')
+                   f'fill="{"var(--accent)" if cur else "var(--hist)"}"/>')
+        if cur:
+            # A SHAPE as well as a hue. Accent against ink is 1.86:1, so in
+            # greyscale, in print, on a dim screen or with reduced colour
+            # vision the one mark the chart exists to identify reads as one
+            # more dark bar. The rule makes colour confirm rather than carry.
+            out.append(f'<line x1="{i*bw + (bw-1.2)/2:.1f}" y1="0" '
+                       f'x2="{i*bw + (bw-1.2)/2:.1f}" y2="{h:.1f}" '
+                       f'stroke="var(--accent)" stroke-width="1"/>')
     ticks = "".join(
         f'<text x="{i*bw:.1f}" y="{h+13}" class="ax" '
         f'text-anchor="{"end" if y == 2026 else "start"}">{y}</text>'
@@ -89,8 +97,15 @@ def line(data, w=880, h=104, mark_year=None, ring_year=None):
     extra = ""
     d = dict(data)
     if ring_year and ring_year in d:
+        # NOT a hollow ring. Hollow is the null convention, and this is the
+        # one historical value the caption is comparing against, so it has
+        # to be the second strongest mark on the chart rather than the
+        # faintest. Same reasoning that removed the rings from the map.
         extra += (f'<circle cx="{px(ring_year):.1f}" cy="{py(d[ring_year]):.1f}" '
-                  f'r="3.4" fill="none" stroke="var(--ink)" stroke-width="1.6"/>')
+                  f'r="3.4" fill="var(--ink)"/>'
+                  f'<line x1="{px(ring_year):.1f}" y1="{py(d[ring_year]):.1f}" '
+                  f'x2="{px(ring_year):.1f}" y2="{h:.1f}" stroke="var(--ink)" '
+                  f'stroke-width="1" opacity="0.45"/>')
     if mark_year and mark_year in d:
         extra += (f'<circle cx="{px(mark_year):.1f}" cy="{py(d[mark_year]):.1f}" '
                   f'r="3.6" fill="var(--accent)"/>')
@@ -109,6 +124,18 @@ CSS = """
 --ink-faint:#6E6E67;--rule:#CFCEC7;--accent:#173F9E}
 @media(prefers-color-scheme:dark){:root{--paper:#1A1A18;--sunk:#252521;
 --ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--accent:#6E97E8}}
+/* The shared masthead expects these and a standalone page must set them.
+   Fixed on the index and NOT propagated here, which is exactly VD's
+   argument for a shared template before twenty more pages are built.
+   Without them the product nav renders in Spectral instead of tracked
+   mono, which is the mechanism section 7 uses INSTEAD of hue, every nav
+   item collapses to one inherited colour, and the masthead runs 120px
+   wider than the content on each side. */
+:root{--mono:'IBM Plex Mono',ui-monospace,monospace;--serif:Spectral,Georgia,serif;
+--nino:#173F9E;--fire:#B32E10;--crop:#2E5C16;--shell-max:940px;--shell-pad:24px;
+--hist:#8E8E88}
+@media(prefers-color-scheme:dark){:root{--nino:#6E97E8;--fire:#E8714E;--crop:#7CB84E;
+--hist:#5A5A55}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--soft);
 font-family:Spectral,Georgia,serif;font-size:17px;line-height:1.55}
