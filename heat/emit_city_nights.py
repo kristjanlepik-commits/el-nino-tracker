@@ -196,7 +196,41 @@ def main() -> int:
             "featured": c in FEATURED,
         }
 
+        # DAY RANK, product 2026-08-07. Without it a page can say Marseille
+        # had 34 hot days and cannot say how unusual that is, which is the
+        # question the page exists to answer. Same tie convention as nights,
+        # and `requires_series` for the same reason: ranks are read, never
+        # derived. A strict recompute manufactured a Valencia night record
+        # this morning and would do the same here.
+        dser = {y: d["days_to_cut"]["95"] for y, d in good.items()}
+        d26 = yrs[cur]["days_to_cut"]["95"]
+        dr = rank_of(d26, dser, ties)
+        dof = len(dser) + 1
+        dbelow = [n for n in dser.values() if n < d26]
+
         days = {
+            "rank": {
+                "value": dr, "of_years": dof,
+                "percentile": round((1 - (dr - 1) / dof) * 100, 1),
+                "measured_on": "95",
+                "ties_count_against": ties,
+                "tied_with": sorted(y for y, n in dser.items() if n == d26),
+                "requires_series": True,
+                "requires_series_note":
+                    "Read this rank, never derive it. Same rule as the night "
+                    "rank and the same reason: a strict greater-than promotes "
+                    "ties and manufactures records.",
+                "margin_days": (d26 - max(dbelow)) if dr == 1 and dbelow else None,
+            },
+            "series_to_same_date": {
+                "cut_at": v["counted_to"][5:],
+                "measured_on": "95",
+                "values": {str(y): n for y, n in sorted(dser.items())},
+                "note": "Days at or above this city's own 95th percentile "
+                        "threshold, counted to the same cut as every other "
+                        "year. The 90 and 99 thresholds are emitted above but "
+                        "only the 95 series is ranked.",
+            },
             "thresholds_c": v["thresholds_c"],
             "threshold_basis": v["threshold_basis"],
             "days_2026": yrs[cur]["days_to_cut"],
