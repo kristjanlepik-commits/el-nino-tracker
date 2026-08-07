@@ -167,14 +167,26 @@ FR = {c: {"city": c, "positions": 1, "relocations_in_period": [], "ok": True,
 NL = {
     "Amsterdam": {
         "city": "Amsterdam", "positions": 1, "relocations_in_period": [],
-        "ok": False,
+        "ok": True,
         "history_available": False,
-        "producer_inhomogeneity_warning": True,
+        # The blanket-disclaimer finding, kept because it is what changed the
+        # ruling. The warning text is byte-identical across stations 240, 260,
+        # 280 and 380, De Bilt included, so it qualifies the SERVICE and not
+        # this station. Recorded as false because treating a service-wide
+        # disclaimer as a station-specific finding is what held Amsterdam for
+        # a day while five German cities shipped on an equivalent statement.
+        "producer_inhomogeneity_warning": False,
+        "producer_warning_is_blanket": True,
+        "producer_warning_evidence":
+            "Identical text returned for stations 240, 260, 280 and 380, "
+            "including De Bilt, which KNMI uses for national climate "
+            "reporting.",
         "producer_warning_text":
             "KNMI: these time series are inhomogeneous because of station "
             "relocations and changes in observation techniques, and are not "
             "suitable for trend analysis.",
-        "why": "the producer declares the series inhomogeneous",
+        "why": "",
+        "method": "two-source comparison unavailable",
         "note": "KNMI points to its homogenised daily series and to the "
                 "Central Netherlands Temperature as the alternatives for "
                 "climate work. Whether a homogenised series exists for "

@@ -330,11 +330,21 @@ def main() -> int:
                 "of station relocations and changes in observation technique, "
                 "and not suitable for comparison across time."
                 if HIST[c].get("producer_inhomogeneity_warning") else
-                ("No published station history exists for this service, and "
+                # THREE cases here, not two, and the third was reading as the
+                # second. A city with NO second copy is not the same as a city
+                # whose second copy is a redistribution, and neither is the
+                # same as one that was genuinely compared. Amsterdam has no
+                # second copy at all; the branch fired because its changepoint
+                # value is ABSENT and absent was reading as zero.
+                ("No published station history exists for this service, and no "
+                 "independent copy of this station is available, so a change "
+                 "of instrument could not be ruled out."
+                 if HIST[c].get("changepoint_t") is None else
+                 "No published station history exists for this service, and "
                  "the second copy available is a redistribution of the same "
                  "observations, so a change of instrument could not be ruled "
                  "out by comparison."
-                 if (HIST[c].get("changepoint_t") or 0) < 0.01 else
+                 if HIST[c]["changepoint_t"] < 0.01 else
                  "No published station history exists for this service. "
                  "Compared against a second copy of the same station and no "
                  "change of instrument was detected.")
