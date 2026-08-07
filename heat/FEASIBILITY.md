@@ -1718,3 +1718,124 @@ Messaged platform and product; both answered the same day and their
 answers are in section 5. No data pulled, no fetcher written, no ledger
 entry made, since nothing has been ratified. FLO had a roughly 1.2 GB
 job on the laptop from 16:31; nothing here collided with it.
+
+## 10. The provenance re-source, 2026-08-06 into 08-07
+
+ECA&D is non-commercial and cannot be a published source once a sponsor
+exists. Every city's history was on it. This section records the move
+off it, which turned out to be needed in both countries rather than one.
+
+### 10a. The Spanish re-source: eight cities, zero windows lost
+
+302 minutes, 110 refusals, all recovered by backoff, no window lost on
+any city. Two things made the difference and only one was the backoff.
+
+**"No hay datos" is an ANSWER, not a failure.** `window()` returned an
+empty list for both "this station has no data for this period" and "your
+request was refused", so the runner put every pre-record year through the
+full 5/10/20/40 second schedule. That was **8.1 hours of the run**, with
+Palma alone spending 130 minutes re-asking about 1920-1971 when its
+record starts 1972. Now `NoDataForPeriod` is raised and the year breaks
+immediately. Any paced API client wants this distinction; without it the
+backoff punishes you hardest for the years that are cheapest to resolve.
+
+**AEMET hard-caps a request at 6 months.** 214 requests per city is a
+floor, 1,712 for eight. Volume cannot be reduced, only paced.
+
+### 10b. Murcia: the gate said "wrong station" and was wrong
+
+52.14% identical, but the shape is not a station mismatch:
+
+    1940-1979   100.00% identical    mean  +0.000
+    1980-1999    24.76%              mean  -0.290
+    2000-2015     3.80%              mean  -0.866
+    2016-2026     1.92%              mean  -1.191
+
+Forty years of exact agreement and then progressive divergence is
+**ECA&D publishing an adjusted or blended series** while AEMET serves the
+raw station. A wrong station disagrees from the first day; an adjusted
+one agrees until the adjustment starts.
+
+Worth keeping as a diagnostic: the ERA of the disagreement identifies the
+cause. Murcia is the only affected city, every other reading +0.000 in
+every decade.
+
+**It exposed a live defect.** Every Spanish city ranked an AEMET 2026
+against an ECA&D history. Nine times that is a no-op; for Murcia it is a
+1.19 C cross-source bias inside a single rank claim.
+
+The correction moves toward alarm, which is why it went to product rather
+than being taken as obvious: rank holds at 1 of 85, but 2025 falls from
+54 to 49 and 2026's margin grows from 2 nights to 7.
+
+### 10c. Palma: absence, correctly reported
+
+AEMET answers `No hay datos` for 1972-1977, so its record genuinely
+starts 1978: 49 years against ECA&D's 55. Rank 3 on either basis. The
+span check failing here is the gate working, not a pull to retry.
+
+### 10d. France had the same defect, and it had never been checked
+
+**The payload named Meteo-France as the source for the five French
+cities while the history came from ECA&D.** Identical in kind to the
+AEMET defect, and it survived because the 2026 value genuinely is
+Meteo-France, so every spot check of current data passed.
+
+The lesson is narrow and worth stating: **finding a defect in one half of
+a payload is a reason to check the other half, not a reason to feel
+finished.** The Spanish provenance work ran for days without anyone,
+including me, asking the same question about France.
+
+Meteo-France TN against ECA&D is 99.99 to 100.00% identical on all five,
+so it is the same instrument. Moving the history:
+
+    city          2026   ECA&D     Meteo-France   record
+    Paris           17   1/81      1/77           22-year gap disappears
+    Marseille       33   7/103     7/77           -26 years
+    Nice            56   2/84      2/77           -7
+    Montpellier     41   1/81      1/77           -4
+    Lyon            31   1/51      1/52           +1
+
+**No rank changes.** Paris's 22-year hole (1925-1946) is an ECA&D record
+artefact, not a real observing gap; Meteo-France has no gap in any of the
+five. Barcelona's Civil War gap is real and survives.
+
+### 10e. Daily maxima existed in the data all along
+
+`TX` sits beside `TN` in the same Meteo-France rows the night fetcher
+already parsed, and `fetch_meteofrance.py` has been returning it since it
+was written. The days channel was blocked on nobody having looked, not on
+an integration.
+
+Verified rather than assumed, on Paris/ORLY: 30 of 30 years present in
+the 1971-2000 baseline, 365-366 days each.
+
+**2026 against each city's own P95 of July-August maxima 1971-2000:**
+
+    city          P95     2026   rank    best prior     NIGHTS rank
+    Paris        31.8 C     30   1/77    17 in 1976        1/81
+    Marseille    33.9 C     34   1/77    27 in 2022        7/103
+    Nice         30.2 C     34   1/77    17 in 2006        2/84
+    Montpellier  33.6 C     22   1/77    19 in 2022        1/81
+    Lyon         33.7 C     23   1/52    16 in 2003        1/51
+
+**Marseille is 7th of 103 on nights and 1st of 77 on days.** A
+nights-only channel called Marseille an ordinary summer. This is the
+measured case for carrying both, and it is why the two instruments must
+not be collapsed into one "heat" number.
+
+**Two limits that travel with the French thresholds.**
+
+The Spanish thresholds are AEMET's own published rule, verified by
+reproducing their Madrid 36.4 and Seville 41.2 exactly. **There is no
+Meteo-France published equivalent.** The French figures are AEMET's
+method applied to French stations, which is defensible and is NOT the
+same evidential standing. The `_readme` phrase "AEMET's OWN RULE, not
+ours" must not be copied across.
+
+**Lyon's 1961-1990 comparison rests on 15 of 30 years.** LYON-ST EXUPERY
+opened in 1975, so its baseline is drawn entirely from the warmer half
+and understates its own multiple. Not comparable to the other four, and
+it must carry that as a field rather than sit silently beside them. Same
+family as everything else in this section: a figure computed from the
+years present, with no record of how many there should have been.
