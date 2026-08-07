@@ -1,0 +1,33 @@
+{
+  "_readme": [
+    "Station coordinates for the heat map. DESIGN-OWNED, not a measurement.",
+    "Same basis as design/country_centroids.json: placing a mark on a map is",
+    "cartography rather than science, so it does not belong in heat's payload.",
+    "Rounded to 0.01 degrees, which is far finer than a 21-mark map resolves.",
+    "Validated at build time against each city's country bounding box and",
+    "against heat's own geography.band, so a transposed pair fails the build."
+  ],
+  "cities": {
+    "Seville":     {"lat": 37.38, "lon": -5.99},
+    "Malaga":      {"lat": 36.72, "lon": -4.42},
+    "Murcia":      {"lat": 37.99, "lon": -1.13},
+    "Alicante":    {"lat": 38.35, "lon": -0.48},
+    "Palma":       {"lat": 39.57, "lon": 2.65},
+    "Valencia":    {"lat": 39.47, "lon": -0.38},
+    "Madrid":      {"lat": 40.42, "lon": -3.70},
+    "Barcelona":   {"lat": 41.39, "lon": 2.17},
+    "Zaragoza":    {"lat": 41.65, "lon": -0.89},
+    "Bilbao":      {"lat": 43.26, "lon": -2.93},
+    "Montpellier": {"lat": 43.61, "lon": 3.88},
+    "Marseille":   {"lat": 43.30, "lon": 5.37},
+    "Nice":        {"lat": 43.70, "lon": 7.27},
+    "Lyon":        {"lat": 45.76, "lon": 4.84},
+    "Vienna":      {"lat": 48.21, "lon": 16.37},
+    "Munich":      {"lat": 48.14, "lon": 11.58},
+    "Paris":       {"lat": 48.86, "lon": 2.35},
+    "Frankfurt":   {"lat": 50.11, "lon": 8.68},
+    "Cologne":     {"lat": 50.94, "lon": 6.96},
+    "Berlin":      {"lat": 52.52, "lon": 13.40},
+    "Hamburg":     {"lat": 53.55, "lon": 9.99}
+  }
+}
