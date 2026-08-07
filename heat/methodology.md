@@ -1,9 +1,9 @@
 # Heat: how these numbers are made
 
-The heat channel tracks two things in fifteen European cities: **nights
-that never cool below 20 °C**, and **days that pass each city's own
-extreme-heat thresholds**. Every figure is one thermometer in one city,
-compared against that same thermometer's own history.
+The heat channel tracks two things in twenty-one European cities:
+**hot nights** and **days that pass each city's own extreme-heat
+thresholds**. Every figure is one thermometer in one city, compared
+against that same thermometer's own history.
 
 This page is written for someone deciding whether to cite us. It states
 what the numbers are, what they are not, and what has changed since we
@@ -15,6 +15,14 @@ started publishing them.
 20.0 °C (68 °F) or above. This is the ETCCDI index **TR**, the standard
 European met services publish. We did not choose the threshold.
 
+**Warm night, the locally calibrated alternative.** A night reaching this
+station's own 90th, 95th or 99th percentile of July-August minima over
+1971-2000. **This exists because TR is a Mediterranean instrument.**
+Hamburg recorded one tropical night in the whole of 2026 and Berlin
+three, so a TR-based ratio there divides by almost nothing. Both metrics
+are published for every city; **neither replaces the other**, and the
+page states which one it is quoting.
+
 **Hot day.** A day whose maximum reaches this station's own 90th, 95th
 or 99th percentile of July and August maxima over 1971-2000. **This is
 AEMET's published rule**, not one we invented, and it is locally
@@ -23,8 +31,10 @@ threshold cannot work across this range. Measured over 2011-2025, a
 single 35 °C bar gives 0.5 days a year in Barcelona and 66.8 in Seville.
 
 **Both, together, deliberately.** Marseille is **7th of 77** years for
-hot nights in 2026 and **1st of 77** for hot days. A nights-only page
-would have called Marseille an ordinary summer.
+hot nights in 2026 and **1st of 77** for hot days: the widest gap in the
+set between the two readings. Neither number is wrong and neither alone
+describes the summer, which is why the channel carries both instruments
+rather than combining them into one.
 
 ## Sources
 
@@ -32,6 +42,8 @@ would have called Marseille an ordinary summer.
 |---|---|---|
 | Spain | AEMET OpenData | commercial and non-commercial reuse permitted |
 | France | Météo-France via data.gouv.fr | Licence Ouverte 2.0 |
+| Austria | GeoSphere Austria | CC0, public domain |
+| Germany | DWD Climate Data Center | GeoNutzV, reuse with attribution |
 
 One station per city, named in the data. Nights and days come from the
 same rows of the same station record, never assembled from two.
@@ -40,8 +52,8 @@ same rows of the same station record, never assembled from two.
 
 **Every year is cut to the same calendar day.** 2026 is compared against
 prior years counted to that same date, so a part-season is never ranked
-against complete ones. Spanish and French cities have different cuts
-because the two services publish on different lags, which is why **a
+against complete ones. Cities in different countries have different cuts
+because the four met services publish on different lags, which is why **a
 cross-city ranking is not available** and we do not print one.
 
 **A year is usable if it holds 90% of its days from 1 May to the cut.**
@@ -74,10 +86,14 @@ Barcelona's is the airport. A different station in the same city would
 give different numbers, and the choice is visible in the data rather than
 buried.
 
-**The night metric does not work in northern Europe.** Amsterdam averages
-under one tropical night a year, so a ratio divides by almost nothing and
-produces an enormous, meaningless multiple. The channel covers Spain and
-France for that reason and not because they were convenient.
+**The 20 °C night count does not work everywhere, and we say where.**
+Seven of the twenty-one cities average too few tropical nights for the
+measure to carry a ratio: Berlin, Bilbao, Cologne, Frankfurt, Hamburg,
+Munich and Paris. **Two of those are long-standing members of the set**,
+not new additions: Paris averages 1.53 tropical nights a year and Bilbao
+1.17. In those cities we publish the percentile night metric and the
+count of records we quote **excludes them**, which is why the night
+headline reads "7 of 14" rather than "11 of 21".
 
 **The French thresholds have weaker standing than the Spanish ones.**
 AEMET publishes its percentile rule and we reproduce its published Madrid
@@ -94,14 +110,52 @@ like the figures beside it. The number is not printed rather than printed
 with a caveat.
 
 **Records are rare, and a count of them needs its baseline.** In a
-typical year none of these fifteen cities sets a record; 2003 set twelve.
-"Eight of fifteen" is uninterpretable without both.
+typical year almost none of these cities sets a record. Both baselines
+are recomputed from the series on every run rather than stored, because a
+stale baseline is worse than none: it looks checked.
+
+**No city in this set is ordinary, and we do not use the word.** The
+least extreme readings are the 86th to 90th percentile of their own
+records. Those are elevated years that merely are not the most extreme,
+and calling them ordinary would misdescribe them in the direction that
+happens to make our set look tidier.
 
 **Short records are short.** Murcia's is 43 years, Palma's 49, Lyon's 52.
 A rank of 1 of 43 is a weaker statement than 1 of 106 and the denominator
 is always printed with it.
 
 ## Version history
+
+### v1.2, 2026-08-07
+
+**What changed.** Six cities added: Vienna, and Berlin, Hamburg,
+Frankfurt, Munich and Cologne. Twenty-one in total, across four national
+met services, all permitting commercial reuse. A percentile-based warm
+night metric was added alongside the 20 °C count. The headline stopped
+being a record count and became the geographic pattern.
+
+**What went wrong to prompt it.** Two things, and the second is worse.
+
+The 20 °C tropical-night threshold cannot reach northern Europe: Hamburg
+recorded one such night in 2026. Extending the city list without
+extending the metric would have published ratios computed against
+approximately zero. **Checking that also revealed the same problem inside
+the existing set**, where Paris and Bilbao average 1.53 and 1.17
+tropical nights a year and had been carrying record claims on that basis.
+
+**And the lead sentence had quietly become false.** It read "not one of
+these cities is having an ordinary summer for hot nights", which was true
+of fifteen cities and stopped being true when Berlin joined at the 70.9th
+percentile. **No check covers this**, because it is a true sentence about
+a membership that changed. It was found while auditing the word
+"ordinary", not by any guard.
+
+**What it left open.** The geographic pattern is stated and not
+explained: the extreme is concentrated between roughly 38N and 51N while
+both ends of the range are less extreme, and we do not offer a mechanism
+for that. Whether the percentile night metric should eventually replace
+the 20 °C count rather than sit beside it is undecided. Seven cities
+publish a night count we do not include in the headline.
 
 ### v1.1, 2026-08-07
 
