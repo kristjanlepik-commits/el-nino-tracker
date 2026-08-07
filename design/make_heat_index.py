@@ -221,6 +221,29 @@ if set(_full) - set(_rec) - {"Cologne"}:
     raise SystemExit(f"a city draws a full bar without being a record and is not the "
                      f"known tie: {sorted(set(_full) - set(_rec))}")
 
+def strip(name, now, w=210, h=26):
+    """Every summer this station has recorded, as one tick each, with 2026
+    marked. Scaled to that city's own range, so it is never a comparison
+    with the row above.
+
+    Replaces a bar that was scaled to the city's own record: every city
+    at its record drew a full block, so fourteen of twenty-one rows were
+    identical and the top of the list carried no information at all.
+    """
+    ys = [x["days_to_cut"]["95"] for y, x in S[name]["years"].items()
+          if int(y) < 2026 and x.get("usable_to_cut") and x.get("days_to_cut")]
+    top = max(ys + [now]) or 1
+    px = lambda v: 1 + v / top * (w - 2)
+    ticks = "".join(
+        f'<line x1="{px(v):.1f}" y1="{h*0.30:.1f}" x2="{px(v):.1f}" y2="{h*0.72:.1f}" '
+        f'stroke="var(--ink)" stroke-width="1" opacity="0.30"/>' for v in ys)
+    cur = (f'<line x1="{px(now):.1f}" y1="2" x2="{px(now):.1f}" y2="{h-2}" '
+           f'stroke="var(--accent)" stroke-width="2.4"/>')
+    return (f'<svg viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
+            f'role="img" aria-label="{name}: every summer on record as a tick, '
+            f'with 2026 marked">{ticks}{cur}</svg>')
+
+
 def city_row(i, d):
     nm = d["name"]
     # "record" under every name repeated what the grouping already says.
@@ -228,14 +251,11 @@ def city_row(i, d):
     href = PAGES.get(nm)
     title = (f'<a href="{href}" class="cty">{nm}</a>' if href
              else f'<span class="cty dim">{nm}</span>')
-    om = OWNMAX[nm] or 1
-    w = min(100.0, d["now"] / om * 100)
-    bw = min(100.0, d["base"] / om * 100)
+
     return (f'<div class="lrow"><span class="lnum">{i}</span>'
             f'<span class="lcty">{title}<span class="lsub">{lab}'
             f'{d["of"]} years of record</span></span>'
-            f'<span class="lbar"><span class="bnow" style="width:{w:.1f}%"></span>'
-            f'<span class="bbase" style="left:{bw:.1f}%"></span></span>'
+            f'<span class="lbar">{strip(nm, d["now"])}</span>'
             f'<span class="lval">{d["now"]}<span class="lbase">vs {d["base"]:.0f}</span>'
             f'</span></div>')
 
@@ -288,9 +308,7 @@ text-align:right}}
 .cty.dim{{color:var(--soft);border:0}}
 .lcty{{display:flex;flex-direction:column;gap:2px}}
 .lsub{{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint)}}
-.lbar{{position:relative;height:14px;background:var(--sunk)}}
-.bnow{{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}}
-.bbase{{position:absolute;top:-3px;bottom:-3px;width:1.6px;background:var(--accent)}}
+.lbar{{line-height:0}}
 .lval{{font-family:'IBM Plex Mono',monospace;font-size:17px;color:var(--ink);
 text-align:right;font-variant-numeric:tabular-nums;display:flex;flex-direction:column;
 align-items:flex-end;line-height:1.25}}
@@ -321,24 +339,23 @@ A typical year produces {DH['baseline']['median_year']}.</p>
 
 {svg}
 <div class="key">
-<span class="ks"><i style="background:#8E240A"></i>6 sd or more above its normal</span>
-<span class="ks"><i style="background:#C05B3D"></i>4 to 6</span>
-<span class="ks"><i style="background:#DC957E"></i>2 to 4</span>
-<span class="ks"><i style="background:#EFC9BD"></i>under 2</span>
+<span class="ks"><i style="background:#8E240A"></i>Unlike anything in its record</span>
+<span class="ks"><i style="background:#C05B3D"></i>Far outside its normal range</span>
+<span class="ks"><i style="background:#DC957E"></i>Outside its normal range</span>
+<span class="ks"><i style="background:#EFC9BD"></i>High, within its normal range</span>
 <span>Every city is the same disc. The fill is how far this summer sits from
 that city's own normal, so nothing between the marks is shaded and no city is
 drawn as empty.</span></div>
 
 <div class="seclab">How far from normal, city by city</div>
 <p class="subl">Ordered by how far this summer sits from that city's own 1991-2020
-normal, in standard deviations of its own history.
+normal, measured against how much its summers normally vary.
 <strong style="color:var(--ink);font-weight:500">Nice has had {rows[0]['now']} hot days
 where {rows[0]['zmean']:.1f} is normal for it; Berlin has had {rows[-1]['now']} where
 {rows[-1]['zmean']:.1f} is normal.</strong> That is the question a reader is asking, and
 it is not the same as which city broke the longest record: a long record makes a rank
-rarer without making the summer hotter. The bar is that city's own count against its own
-highest earlier summer, so a full bar means it matched or beat its own record; the blue
-tick is its 1961-1990 level. Bars are not comparable between cities: every one is on its
+rarer without making the summer hotter. Each strip is every summer that station has recorded, one tick each, with 2026 in
+blue. The strip is scaled to that city alone. Bars are not comparable between cities: every one is on its
 own threshold and its own history.</p>
 {all_rows}
 
