@@ -152,6 +152,9 @@ def main() -> int:
         unusable = sorted(y for y in present if y not in good)
         expected = present[-1] - present[0] + 1
         below = [n for n in todate.values() if n < n26]
+        nb = [d["nights_to_cut"] for y, d in yrs.items()
+              if 1991 <= int(y) <= 2020 and d["usable_to_cut"]]
+        nbase_city = round(sum(nb) / len(nb), 2) if nb else None
 
         entry = {
             "country": v["country"], "station": v["station"],
@@ -212,6 +215,23 @@ def main() -> int:
                             "draw.",
                 "present_runs": runs(present),
             },
+            # PER CITY, not only in the headline list. The rule already
+            # covered all seven cities, but it was reachable only from the
+            # headline, and a city page renders ONE city. Design read it as a
+            # two-city list because that is all that was visible from where a
+            # city page stands, which is the same failure as a rank that has
+            # to be derived: a constraint the renderer cannot see is a
+            # constraint that does not exist.
+            "nights_metric_gated": not S["cities"][c]["tropical_night_metric_works"],
+            "nights_baseline_per_year": nbase_city,
+            "nights_metric_gated_note":
+                "The 20 C tropical-night count is a Mediterranean instrument. "
+                "Where the 1991-2020 baseline is near zero, a ratio divides by "
+                "almost nothing and a record is arithmetic rather than "
+                "evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT "
+                "RATIO, MULTIPLE OR RECORD; use the percentile warm-night "
+                "series instead. Applied by rule, not by list, so a city added "
+                "tomorrow is covered without anyone remembering to check.",
             "record_margin_nights": (n26 - max(below)) if r == 1 and below else None,
             "featured": c in FEATURED,
         }
