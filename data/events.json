@@ -14,41 +14,39 @@
   ],
   "events": [
     {
-      "date": "2026-08-05",
+      "date": "2026-08-06",
       "region": "Greece",
-      "title": "5.3x its previous record week",
-      "stat": "12.1x",
+      "title": "Second-heaviest fire week since 2012",
+      "stat": "6.2x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": null,
       "anomalous": true,
       "qualifies_on": [
         "z",
-        "multiple",
-        "record"
+        "multiple"
       ],
       "strength": {
         "verdict": "corroborated",
         "signals": [
           "z",
-          "multiple",
-          "record"
+          "multiple"
         ],
-        "z": 13.1,
-        "multiple": 12.1,
-        "rank_in_record": 1
+        "z": 2.49,
+        "multiple": 6.2,
+        "rank_in_record": 2
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 13.1,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 2.49,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/greece/"
     },
     {
-      "date": "2026-08-05",
+      "date": "2026-08-06",
       "region": "Cuba",
       "title": "Well clear of its 2025 record week",
-      "stat": "5.9x",
+      "stat": "5.3x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": null,
       "anomalous": true,
@@ -64,22 +62,22 @@
           "multiple",
           "record"
         ],
-        "z": 7.75,
-        "multiple": 5.9,
+        "z": 6.61,
+        "multiple": 5.3,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": 7.75,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 6.61,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/cuba/"
     },
     {
-      "date": "2026-08-05",
+      "date": "2026-08-06",
       "region": "Papua New Guinea",
-      "title": "Well clear of its 2018 record week",
-      "stat": "4.8x",
+      "title": "Well clear of its 2014 record week",
+      "stat": "5.0x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": null,
       "anomalous": true,
@@ -95,103 +93,82 @@
           "multiple",
           "record"
         ],
-        "z": 6.59,
-        "multiple": 4.8,
+        "z": 6.72,
+        "multiple": 5.0,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 6.59,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 6.72,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/papua-new-guinea/"
     },
     {
-      "date": "2026-08-05",
-      "region": "Botswana",
-      "title": "Third-heaviest fire week since 2012",
+      "date": "2026-08-06",
+      "region": "Indonesia",
+      "title": "Just past its 2012 record week",
+      "stat": "2.6x",
+      "stat_label": "same-week 2012-25 mean",
+      "attribution": "enso",
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "multiple",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "multiple",
+          "record"
+        ],
+        "z": 2.23,
+        "multiple": 2.6,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 2.23,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
+      "href": "fires/indonesia/"
+    },
+    {
+      "date": "2026-08-06",
+      "region": "Georgia",
+      "title": "Second-heaviest fire week since 2012",
       "stat": "2.5x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": null,
       "anomalous": true,
       "qualifies_on": [
+        "z",
         "multiple"
       ],
       "strength": {
-        "verdict": "multiple_only",
+        "verdict": "corroborated",
         "signals": [
+          "z",
           "multiple"
         ],
-        "z": 1.79,
+        "z": 2.02,
         "multiple": 2.5,
-        "rank_in_record": 3
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 1.79,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/botswana/"
-    },
-    {
-      "date": "2026-08-05",
-      "region": "Portugal",
-      "title": "Second-heaviest fire week since 2012",
-      "stat": "2.3x",
-      "stat_label": "same-week 2012-25 mean",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "multiple"
-      ],
-      "strength": {
-        "verdict": "multiple_only",
-        "signals": [
-          "multiple"
-        ],
-        "z": 0.81,
-        "multiple": 2.3,
         "rank_in_record": 2
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": 0.81,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/portugal/"
+      "z": 2.02,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
+      "href": "fires/georgia/"
     },
     {
-      "date": "2026-08-05",
-      "region": "Syria",
-      "title": "Second-heaviest fire week since 2012",
-      "stat": "2.3x",
-      "stat_label": "same-week 2012-25 mean",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "multiple"
-      ],
-      "strength": {
-        "verdict": "multiple_only",
-        "signals": [
-          "multiple"
-        ],
-        "z": 1.95,
-        "multiple": 2.3,
-        "rank_in_record": 2
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": true,
-      "z": 1.95,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/syria/"
-    },
-    {
-      "date": "2026-08-05",
+      "date": "2026-08-06",
       "region": "United States of America",
-      "title": "Just past its 2018 record week",
-      "stat": "2.3x",
+      "title": "Well clear of its 2021 record week",
+      "stat": "2.4x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": "non_enso",
       "anomalous": true,
@@ -207,57 +184,26 @@
           "multiple",
           "record"
         ],
-        "z": 3.04,
-        "multiple": 2.3,
+        "z": 3.21,
+        "multiple": 2.4,
         "rank_in_record": 1
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 3.04,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 3.21,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/united-states-of-america/"
     },
     {
-      "date": "2026-08-05",
-      "region": "India",
-      "title": "Well clear of its 2012 record week",
+      "date": "2026-08-06",
+      "region": "Botswana",
+      "title": "Third-heaviest fire week since 2012",
       "stat": "2.2x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": null,
       "anomalous": true,
       "qualifies_on": [
-        "z",
-        "multiple",
-        "record"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "multiple",
-          "record"
-        ],
-        "z": 5.5,
-        "multiple": 2.2,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": true,
-      "z": 5.5,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/india/"
-    },
-    {
-      "date": "2026-08-05",
-      "region": "Indonesia",
-      "title": "Second-heaviest fire week since 2012",
-      "stat": "2.1x",
-      "stat_label": "same-week 2012-25 mean",
-      "attribution": "enso",
-      "anomalous": true,
-      "qualifies_on": [
         "multiple"
       ],
       "strength": {
@@ -265,21 +211,21 @@
         "signals": [
           "multiple"
         ],
-        "z": 1.64,
-        "multiple": 2.1,
-        "rank_in_record": 2
+        "z": 1.51,
+        "multiple": 2.2,
+        "rank_in_record": 3
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 1.64,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/indonesia/"
+      "z": 1.51,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
+      "href": "fires/botswana/"
     },
     {
-      "date": "2026-08-05",
-      "region": "Libya",
-      "title": "Just past its 2025 record week",
+      "date": "2026-08-06",
+      "region": "India",
+      "title": "Well clear of its 2023 record week",
       "stat": "1.8x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": null,
@@ -294,97 +240,51 @@
           "z",
           "record"
         ],
-        "z": 2.14,
+        "z": 2.39,
+        "multiple": 1.8,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": true,
+      "z": 2.39,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
+      "href": "fires/india/"
+    },
+    {
+      "date": "2026-08-06",
+      "region": "Libya",
+      "title": "Well clear of its 2025 record week",
+      "stat": "1.8x",
+      "stat_label": "same-week 2012-25 mean",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "record"
+        ],
+        "z": 2.29,
         "multiple": 1.8,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 2.14,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 2.29,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/libya/"
     },
     {
-      "date": "2026-08-05",
-      "region": "Spain",
-      "title": "Second-heaviest fire week since 2012",
-      "stat": "1.8x",
-      "stat_label": "same-week 2012-25 mean",
-      "attribution": "non_enso",
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": 1.92,
-        "multiple": 1.8,
-        "rank_in_record": 2
-      },
-      "pinned": true,
-      "volume_context": false,
-      "multiple_unstable": true,
-      "z": 1.92,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/spain/"
-    },
-    {
-      "date": "2026-08-05",
-      "region": "Mexico",
-      "title": "Just past its 2015 record week",
-      "stat": "1.6x",
-      "stat_label": "same-week 2012-25 mean",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "z",
-        "record"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "record"
-        ],
-        "z": 2.52,
-        "multiple": 1.6,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 2.52,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/mexico/"
-    },
-    {
-      "date": "2026-08-05",
-      "region": "France",
-      "title": "Second-heaviest fire week since 2012",
-      "stat": "1.6x",
-      "stat_label": "same-week 2012-25 mean",
-      "attribution": "non_enso",
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": 1.7,
-        "multiple": 1.6,
-        "rank_in_record": 2
-      },
-      "pinned": true,
-      "volume_context": false,
-      "multiple_unstable": true,
-      "z": 1.7,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/france/"
-    },
-    {
-      "date": "2026-08-05",
+      "date": "2026-08-06",
       "region": "Saudi Arabia",
-      "title": "Well clear of its 2014 record week",
-      "stat": "1.5x",
+      "title": "Just past its 2014 record week",
+      "stat": "1.7x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": null,
       "anomalous": true,
@@ -398,53 +298,74 @@
           "z",
           "record"
         ],
-        "z": 4.3,
-        "multiple": 1.5,
+        "z": 4.48,
+        "multiple": 1.7,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 4.3,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 4.48,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/saudi-arabia/"
     },
     {
-      "date": "2026-08-05",
+      "date": "2026-08-06",
       "region": "Turkmenistan",
-      "title": "Just past its 2016 record week",
-      "stat": "1.5x",
+      "title": "Second-heaviest fire week since 2012",
+      "stat": "1.6x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": null,
       "anomalous": true,
       "qualifies_on": [
-        "z",
-        "record"
+        "z"
       ],
       "strength": {
-        "verdict": "corroborated",
+        "verdict": "z_only",
         "signals": [
-          "z",
-          "record"
+          "z"
         ],
-        "z": 2.41,
-        "multiple": 1.5,
-        "rank_in_record": 1
+        "z": 2.24,
+        "multiple": 1.6,
+        "rank_in_record": 2
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 2.41,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 2.24,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/turkmenistan/"
     },
     {
-      "date": "2026-08-05",
-      "region": "Venezuela",
-      "title": "Just past its 2014 record week",
+      "date": "2026-08-06",
+      "region": "United Kingdom",
+      "title": "Second-heaviest fire week since 2012",
+      "stat": "1.6x",
+      "stat_label": "same-week 2012-25 mean",
+      "attribution": "non_enso",
+      "anomalous": false,
+      "qualifies_on": [],
+      "strength": {
+        "verdict": "none",
+        "signals": [],
+        "z": 1.62,
+        "multiple": 1.6,
+        "rank_in_record": 2
+      },
+      "pinned": true,
+      "volume_context": false,
+      "multiple_unstable": true,
+      "z": 1.62,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
+      "href": "fires/united-kingdom/"
+    },
+    {
+      "date": "2026-08-06",
+      "region": "France",
+      "title": "Just past its 2018 record week",
       "stat": "1.5x",
       "stat_label": "same-week 2012-25 mean",
-      "attribution": null,
+      "attribution": "non_enso",
       "anomalous": true,
       "qualifies_on": [
         "record"
@@ -454,45 +375,22 @@
         "signals": [
           "record"
         ],
-        "z": 1.95,
+        "z": 1.8,
         "multiple": 1.5,
         "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 1.95,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/venezuela/"
-    },
-    {
-      "date": "2026-08-05",
-      "region": "United Kingdom",
-      "title": "Fourth-heaviest fire week since 2012",
-      "stat": "1.5x",
-      "stat_label": "same-week 2012-25 mean",
-      "attribution": "non_enso",
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": 1.04,
-        "multiple": 1.5,
-        "rank_in_record": 4
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": 1.04,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/united-kingdom/"
+      "z": 1.8,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
+      "href": "fires/france/"
     },
     {
-      "date": "2026-08-05",
-      "region": "Mozambique",
+      "date": "2026-08-06",
+      "region": "Russia",
       "title": "Fourth-heaviest fire week since 2012",
-      "stat": "1.3x",
+      "stat": "1.5x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": null,
       "anomalous": false,
@@ -500,21 +398,67 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": 0.69,
-        "multiple": 1.3,
+        "z": 0.58,
+        "multiple": 1.5,
         "rank_in_record": 4
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": 0.69,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 0.58,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
+      "href": "fires/russia/"
+    },
+    {
+      "date": "2026-08-06",
+      "region": "Mozambique",
+      "title": "Fourth-heaviest fire week since 2012",
+      "stat": "1.4x",
+      "stat_label": "same-week 2012-25 mean",
+      "attribution": null,
+      "anomalous": false,
+      "qualifies_on": [],
+      "strength": {
+        "verdict": "none",
+        "signals": [],
+        "z": 0.96,
+        "multiple": 1.4,
+        "rank_in_record": 4
+      },
+      "pinned": false,
+      "volume_context": true,
+      "multiple_unstable": false,
+      "z": 0.96,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/mozambique/"
     },
     {
-      "date": "2026-08-05",
+      "date": "2026-08-06",
+      "region": "Spain",
+      "title": "Second-heaviest fire week since 2012",
+      "stat": "1.4x",
+      "stat_label": "same-week 2012-25 mean",
+      "attribution": "non_enso",
+      "anomalous": false,
+      "qualifies_on": [],
+      "strength": {
+        "verdict": "none",
+        "signals": [],
+        "z": 1.75,
+        "multiple": 1.4,
+        "rank_in_record": 2
+      },
+      "pinned": true,
+      "volume_context": false,
+      "multiple_unstable": true,
+      "z": 1.75,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
+      "href": "fires/spain/"
+    },
+    {
+      "date": "2026-08-06",
       "region": "Zambia",
-      "title": "Third-heaviest fire week since 2012",
+      "title": "Fourth-heaviest fire week since 2012",
       "stat": "1.2x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": "non_enso",
@@ -523,19 +467,19 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": 0.63,
+        "z": 0.74,
         "multiple": 1.2,
-        "rank_in_record": 3
+        "rank_in_record": 4
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": 0.63,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 0.74,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/zambia/"
     },
     {
-      "date": "2026-08-05",
+      "date": "2026-08-06",
       "region": "Angola",
       "title": "Fifth-heaviest fire week since 2012",
       "stat": "1.1x",
@@ -546,45 +490,22 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": 0.24,
+        "z": 0.35,
         "multiple": 1.1,
         "rank_in_record": 5
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": 0.24,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": 0.35,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/angola/"
     },
     {
-      "date": "2026-08-05",
-      "region": "Russia",
-      "title": "Fifth-heaviest fire week since 2012",
-      "stat": "1.1x",
-      "stat_label": "same-week 2012-25 mean",
-      "attribution": null,
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": 0.12,
-        "multiple": 1.1,
-        "rank_in_record": 5
-      },
-      "pinned": false,
-      "volume_context": true,
-      "multiple_unstable": false,
-      "z": 0.12,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
-      "href": "fires/russia/"
-    },
-    {
-      "date": "2026-08-05",
+      "date": "2026-08-06",
       "region": "Canada",
-      "title": "Fire week at 0.5x the seasonal norm",
-      "stat": "0.5x",
+      "title": "Fire week at 0.6x the seasonal norm",
+      "stat": "0.6x",
       "stat_label": "same-week 2012-25 mean",
       "attribution": "non_enso",
       "anomalous": false,
@@ -592,15 +513,15 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -0.38,
-        "multiple": 0.5,
-        "rank_in_record": 6
+        "z": -0.37,
+        "multiple": 0.6,
+        "rank_in_record": 7
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": -0.38,
-      "source": "NASA FIRMS SNPP, wk Jul 30-Aug 5",
+      "z": -0.37,
+      "source": "NASA FIRMS SNPP, wk Jul 31-Aug 6",
       "href": "fires/canada/"
     }
   ]
