@@ -79,12 +79,28 @@ for n, v in C.items():
           if 1991 <= int(y) <= 2020 and x.get("usable_to_cut")
           and x.get("days_to_cut")]
     zmean, zsd = st.mean(zb), st.stdev(zb)
-    rows.append({"z": (v["days"]["days_2026"]["95"] - zmean) / zsd if zsd else 0.0,
+    # HOW FAR PAST ITS OWN PREVIOUS BEST, which is the quantity VD's sizing
+    # encodes. Percentile cannot do it: fourteen cities sit at 100 and would
+    # all draw the same, which is the problem. Raw hot days cannot either,
+    # because it ranks Marseille's 34 above Alicante's 21 when Marseille
+    # normally has 1 and Alicante 4, so the largest marks would land on
+    # whichever cities have the mildest climates.
+    #
+    # Read off the same per-year series the row chart already draws, not
+    # reconstructed from anything withheld. Every record city has a previous
+    # best by definition, and a non-record has no honest margin at all, so
+    # it draws at the floor and the fill carries it.
+    dser = [(int(y), x["days_to_cut"]["95"]) for y, x in yrs.items()
+            if x.get("usable_to_cut") and x.get("days_to_cut")]
+    now = v["days"]["days_2026"]["95"]
+    prev_best = max(x for y, x in dser if y != 2026)
+    rows.append({"z": (now - zmean) / zsd if zsd else 0.0,
                  "zmean": zmean,
                  "name": n, "lat": la, "lon": lo, "rank": r["value"],
                  "of": r["of_years"], "pct": r["percentile"],
-                 "now": v["days"]["days_2026"]["95"], "base": base,
-                 "p": r["value"] / (r["of_years"] + 1),
+                 "now": now, "base": base,
+                 "prev_best": prev_best,
+                 "margin": (now - prev_best) / prev_best if prev_best else 0.0,
                  "gated": bool(v.get("nights_metric_gated"))})
 rows.sort(key=lambda d: (-d["pct"], d["name"]))
 
@@ -182,13 +198,58 @@ NCITY = words(len(rows)).capitalize()
 # The labels are FREQUENCY throughout, one vocabulary. "Its usual
 # variation" was the standard deviation made plain rather than removed,
 # and it still assumed the shape the data has not got.
-# FOUR rungs, and the lowest exists for a case no city is in today. VD's
-# point: the first city to arrive at the 40th percentile would otherwise
-# have no fill and no label, and D-043 requires an ordinary summer to read
-# as legibly as a record. The neutral step of the diverging ramp is what
-# it is for. Added now, while nothing depends on it.
-BANDS = [(99.95, "var(--f3)"), (95.0, "var(--f2)"),
-         (80.0, "var(--f1)"), (-1, "var(--f0)")]
+# THREE STATES, not four rungs. VD's ruling, and the payload argued it
+# harder than they did: the two middle rungs were splitting Barcelona at
+# the 98.9th percentile from Berlin at the 87.3rd, and both are near the
+# top of their own record and neither is a record. A whole colour step was
+# being spent on a distinction no reader can act on.
+#
+# What replaces it is not less information, it is the information moved to
+# the channel that can carry it. Colour now says WHICH OF THREE STATES,
+# and size says how far past its own previous best a record went, which is
+# the variable percentile cannot express because fourteen cities are tied
+# at its ceiling.
+#
+# THE THIRD STATE STAYS DRAWN WHETHER OR NOT ANYONE IS IN IT. That is
+# D-043 rather than tidiness: a reader has to be able to see that the
+# scale has a calm end. It was empty when VD specified it and Stockholm
+# occupies it now, which is the argument for having drawn it early.
+#
+# The thresholds are FIXED, not fitted. A domain stretched to this
+# summer's spread would look better this week and would break in
+# February, and picking a cut on the size of the group it produces is the
+# thing we do not do in any channel.
+RECORD_PCT, NEAR_PCT = 99.95, 80.0
+FILL = {"record": "var(--f3)", "near": "var(--f2)", "quiet": "var(--f0)"}
+
+
+def state(pct):
+    if pct >= RECORD_PCT:
+        return "record"
+    return "near" if pct >= NEAR_PCT else "quiet"
+
+
+# Sizing. Area, not radius, carries the margin, so radius goes as its
+# square root and the eye compares the discs correctly.
+#
+# R_FLOOR is what every mark on this map is today, so nothing shrinks:
+# non-records draw at the floor rather than being made small, because a
+# non-record has no margin and inventing one would be the map telling a
+# reader something the data does not say.
+#
+# M_REF is where the area has doubled, and it is a judgement stated in
+# advance rather than fitted to this week: beating your own record by a
+# quarter is a materially different event from scraping it by a few per
+# cent, and that is where the mark should have visibly grown. R_CAP stops
+# one enormous record swallowing its neighbours; anything past it draws at
+# the cap and carries its true figure in the list below.
+R_FLOOR, R_CAP, M_REF = 7.0, 14.0, 0.25
+
+
+def radius(d):
+    if state(d["pct"]) != "record":
+        return R_FLOOR
+    return min(R_CAP, R_FLOOR * math.sqrt(1 + max(0.0, d["margin"]) / M_REF))
 
 
 def ordinal(n):
@@ -198,20 +259,24 @@ def ordinal(n):
     return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
 
 
-def band(pct):
-    """Fill for a z, stepped rather than continuous.
-
-    Stepped because the legend is discrete swatches: a gradient bar would
-    let a reader decode a colour the map never draws.
-    """
-    for lo, col in BANDS:
-        if pct >= lo:
-            return col
-    return BANDS[-1][1]
+# band() lived here and read BANDS, which the three-state collapse deleted.
+# Nothing called it, so the build passed and a function referencing a global
+# that no longer exists sat one call away from a NameError. Removed rather
+# than left for whoever adds the next fill.
 
 
 # ---- projection: Mercator, fitted to the marks, as VD used -----------------
-W, H, PAD = 900, 660, 52
+# Asymmetric padding, because every label now sits to the RIGHT of its
+# marker without exception. The rightmost stations, Stockholm at 17.9E and
+# Vienna at 16.4E, need their name to fit inside the frame or the constant
+# offset breaks on exactly the cities a reader is least able to guess.
+W, H, PAD = 900, 880, 52
+PAD_R = 158
+# Height, because height is what binds: 24 degrees of longitude against 30
+# of Mercator latitude, so the shared scale comes from sy and the frame was
+# giving the Iberian cluster no room. Eight cities inside four degrees, each
+# with a name beside it, is the constraint the whole label rule lives or
+# dies on, and at 660 every one of them was displaced onto a leader.
 # Mercator y, expressed in DEGREES so it shares units with longitude.
 # Without the 180/pi the y range is ~0.35 radians against ~22 degrees of
 # longitude, so a single shared scale collapsed the map to a horizontal
@@ -220,11 +285,11 @@ merc = lambda la: math.degrees(
     math.log(math.tan(math.pi / 4 + math.radians(la) / 2)))
 LO0, LO1 = min(d["lon"] for d in rows), max(d["lon"] for d in rows)
 MY0, MY1 = merc(min(d["lat"] for d in rows)), merc(max(d["lat"] for d in rows))
-sx = (W - 2 * PAD) / (LO1 - LO0)
-sy = (H - 2 * PAD) / (MY1 - MY0)
+IW, IH = W - PAD - PAD_R, H - 2 * PAD
+sx, sy = IW / (LO1 - LO0), IH / (MY1 - MY0)
 k = min(sx, sy)                      # one scale, so the map is not stretched
-ox = PAD + ((W - 2 * PAD) - (LO1 - LO0) * k) / 2
-oy = PAD + ((H - 2 * PAD) - (MY1 - MY0) * k) / 2
+ox = PAD + (IW - (LO1 - LO0) * k) / 2
+oy = PAD + (IH - (MY1 - MY0) * k) / 2
 PX = lambda lo: ox + (lo - LO0) * k
 PY = lambda la: oy + (MY1 - merc(la)) * k
 
@@ -234,58 +299,78 @@ for ring in COAST["rings"]:
     if len(pts) > 2:
         coast.append("M" + " ".join(f"{x:.1f},{y:.1f}" for x, y in pts) + "Z")
 
-# ---- labels: VD's algorithm, eight positions at two distances --------------
-placed = [{"x1": PX(d["lon"]) - 9, "x2": PX(d["lon"]) + 9,
-           "y1": PY(d["lat"]) - 9, "y2": PY(d["lat"]) + 9} for d in rows]
+# ---- labels: ONE RULE, right of the marker at a constant gap ---------------
+# What this replaces searched eight positions at two distances and took the
+# first that did not collide. Every individual placement was defensible and
+# the set was unreadable: most names ended up right, a substantial minority
+# left, Marseille below. VD's diagnosis, and it is the right one: the eye
+# cannot form a rule, so every name has to be hunted rather than glanced at.
+#
+# So the side is never negotiable. A label that would collide keeps the
+# side and moves DOWN, and earns a hairline leader back to its marker. The
+# rule holds for all of them and the exceptions announce themselves.
+GAP, LH = 6.0, 15.0
+
 def overlap(a, b):
     return (max(0, min(a["x2"], b["x2"]) - max(a["x1"], b["x1"])) *
             max(0, min(a["y2"], b["y2"]) - max(a["y1"], b["y1"])))
 
-marks, labels = [], []
+
+placed = [{"x1": PX(d["lon"]) - radius(d) - 2, "x2": PX(d["lon"]) + radius(d) + 2,
+           "y1": PY(d["lat"]) - radius(d) - 2, "y2": PY(d["lat"]) + radius(d) + 2}
+          for d in rows]
+marks, labels, leaders = [], [], []
 for d in sorted(rows, key=lambda d: PY(d["lat"])):
-    x, y = PX(d["lon"]), PY(d["lat"])
-    marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="{band(d["pct"])}" '
-                 f'stroke="var(--ink)" stroke-width="1"/>')
-    bw = max(len(d["name"]) * 7.1, 66)
-    opts = []
-    for dd in (10, 22):
-        opts += [(6 + dd, 4, "start"), (-(6 + dd), 4, "end"),
-                 (6 + dd, -(6 + dd), "start"), (-(6 + dd), -(6 + dd), "end"),
-                 (6 + dd, 6 + dd + 8, "start"), (-(6 + dd), 6 + dd + 8, "end"),
-                 (0, -(6 + dd + 8), "middle"), (0, 6 + dd + 14, "middle")]
-    best, bestbox, cost0 = None, None, float("inf")
-    for dx, dy, anc in opts:
-        x1 = x + dx if anc == "start" else (x + dx - bw if anc == "end" else x - bw / 2)
-        box = {"x1": x1, "x2": x1 + bw, "y1": y + dy - 11, "y2": y + dy + 4}
-        if box["x1"] < 4 or box["x2"] > W - 4 or box["y1"] < 4 or box["y2"] > H - 4:
-            continue
-        c = sum(overlap(p, box) for p in placed)
-        if c == 0:
-            best, bestbox = (dx, dy, anc), box
+    x, y, r = PX(d["lon"]), PY(d["lat"]), radius(d)
+    marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" '
+                 f'fill="{FILL[state(d["pct"])]}" stroke="var(--ink)" '
+                 f'stroke-width="1"/>')
+    bw = len(d["name"]) * 7.1
+    lx = x + r + GAP
+    ly = y + 4
+    # Down only, never up, so a reader scanning for a name never has to
+    # look on the far side of the marker from where the rule says it is.
+    for step in range(0, 9):
+        cand = {"x1": lx, "x2": lx + bw, "y1": ly + step * LH - 11,
+                "y2": ly + step * LH + 4}
+        if cand["y2"] > H - 4:
             break
-        if c < cost0:
-            cost0, best, bestbox = c, (dx, dy, anc), box
-    if best is None:
-        best, bestbox = opts[0], {"x1": x, "x2": x + bw, "y1": y, "y2": y + 26}
-    placed.append(bestbox)
-    dx, dy, anc = best
+        if not any(overlap(p, cand) for p in placed):
+            ly += step * LH
+            break
+    else:
+        step = 0
+    box = {"x1": lx, "x2": lx + bw, "y1": ly - 11, "y2": ly + 4}
+    placed.append(box)
+    if ly > y + 5:
+        # Out from the marker's edge, along, then to the name. A displaced
+        # label without a leader is a name floating beside the wrong city.
+        # var(--ink-faint), not var(--coast). Drawn in the coastline's grey
+        # the leader was invisible against the land it crosses, which makes
+        # a displaced label worse than no leader: the reader sees a name
+        # sitting beside a city it does not belong to and no thread back.
+        leaders.append(f'<path d="M{x + r:.1f},{y:.1f} H{lx - 4:.1f} '
+                       f'V{ly - 4:.1f}" fill="none" stroke="var(--ink-faint)" '
+                       f'stroke-width="0.9"/>')
     # No sublabel. "record" under a darkest-fill marker is the fill said
     # twice and the legend already defines it; 98.6 against 98.1 is
     # invisible at marker size and nobody reads a map for a decimal. Both
-    # belong in the list, and dropping all 21 halves the label mass, which
-    # is what was pushing Marseille and Alicante off their own markers.
-    labels.append(
-        f'<text x="{x+dx:.1f}" y="{y+dy:.1f}" text-anchor="{anc}" '
-        f'class="cn">{d["name"]}</text>')
+    # belong in the list. Dropping them also halves the label mass, which
+    # is what makes room for the larger record markers.
+    labels.append(f'<text x="{lx:.1f}" y="{ly:.1f}" class="cn">{d["name"]}</text>')
 
+_nrec = len([d for d in rows if state(d["pct"]) == "record"])
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
-       f'aria-label="{NCITY} European weather stations. Every city is the same '
-       f'disc, shaded by how many of that city\'s own recorded summers this one '
-       f'beats, from hotter than every summer on its record down to hotter than '
-       f'four in five.">'
+       f'aria-label="{NCITY} European weather stations in one of three states: '
+       f'{_nrec} at a record for hot days, '
+       f'{len([d for d in rows if state(d["pct"]) == "near"])} near the top of '
+       f'their own history without reaching a record, and '
+       f'{len([d for d in rows if state(d["pct"]) == "quiet"])} within their '
+       f'historical range. Record markers are drawn larger the further a city '
+       f'passed its own previous best.">'
        + "".join(f'<path d="{d}" fill="var(--land)" stroke="var(--coast)" '
                  f'stroke-width="0.9" stroke-linejoin="round"/>' for d in coast)
-       + "".join(marks) + "".join(labels) + "</svg>")
+       + "".join(leaders) + "".join(marks) + "".join(labels) + "</svg>")
 
 # ---- the list: ordered, and each row carries its own magnitude -------------
 # every city has a page now, so nothing renders as a dead name
@@ -375,16 +460,47 @@ all_rows = "".join(city_row(i, d) for i, d in enumerate(rows, 1))
 
 MAR, BER = C["Marseille"], C["Berlin"]
 
-# The bottom rung read "An ordinary summer for it", which heat's payload
-# bans outright for every city in this set, and the ban is the right call:
-# the palest mark on the map is Berlin at the 87th percentile of its own
-# record, so a reader pairing the palest disc with the bottom label lands
-# on exactly the false reading. The rung stays, because D-043 needs the
-# calm end of the scale drawn as legibly as the extreme, and it says so
-# itself. The emptiness is asserted only while it is true.
-F0_LABEL = "Beats fewer than 16 of every 20"
-if not [d for d in rows if d["pct"] < 80.0]:
-    F0_LABEL += ". No city in this set"
+# The legend is now three named states with their counts, not four rungs of
+# arithmetic. What it replaces read:
+#
+#     Hotter than 19 of every 20 of its summers
+#     Hotter than 16 of every 20
+#     Beats fewer than 16 of every 20
+#
+# Three of four rungs in the same sentence shape, so telling them apart
+# meant comparing fractions, and the verb changed from "hotter than" to
+# "beats" for no reason. Precise and not how anyone speaks. A name a reader
+# already owns does the work: record, near record, within range.
+#
+# "Ordinary" is VD's word for the third state and it cannot be used. Heat
+# bans it outright and the build fails on it, which is correct: their least
+# extreme readings sit in the 76th to 90th percentile of their own records,
+# and those are not ordinary summers, they are simply not the most extreme.
+# Swatch and name, nothing else. Kristjan's call, and the gloss and the count
+# were both saying something a reader already had: the counts are in the
+# standfirst two lines above ("14 of the 24 have had more of them than in any
+# year on record") and the names carry their own meaning. A legend that
+# explains three words it did not need to explain is a legend a reader stops
+# reading.
+STATE_ROWS = [("record", "Record"), ("near", "Near record"),
+              ("quiet", "Near average")]
+
+
+def key_rows():
+    return "".join(f'<span class="ks"><i style="background:{FILL[k]}"></i>'
+                   f'{nm}</span>' for k, nm in STATE_ROWS)
+
+
+# The caption named Marseille and Nice, copied from VD's canvas where the
+# margins were explicitly illustrative rather than data. On the real series
+# Marseille cleared its record by 26 per cent and is a middling mark; the two
+# largest are Nice at 100 and Paris at 76. Exactly the hardcoded framing
+# product warned about, introduced by me twenty minutes after the warning,
+# and found by looking at the picture rather than by any check.
+_big = sorted((d for d in rows if state(d["pct"]) == "record"),
+              key=lambda d: -d["margin"])[:2]
+BIGGEST = (" and ".join(d["name"] for d in _big) if len(_big) > 1
+           else (_big[0]["name"] if _big else "the largest records"))
 
 # The same prohibition the city pages enforce, applied here. It exists
 # because the legend defect above was in a drawing, and the ban had only
@@ -414,11 +530,11 @@ html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <style>{SITE_MASTHEAD_CSS}
 :root{{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
 --ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#173F9E;--bar:#D3D2CB;--land:#E4E3DC;
---f3:#8E240A;--f2:#C05B3D;--f1:#EFC9BD;--f0:#E8E7E2}}
+--f3:#8E240A;--f2:#C05B3D;--f0:#E8E7E2}}
 @media(prefers-color-scheme:dark){{:root{{--paper:#1A1A18;--sunk:#252521;
 --ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--coast:#43423C;
 --accent:#6E97E8;--bar:#43423C;--land:#232321;
---f3:#F0876A;--f2:#C05B3D;--f1:#6B4438;--f0:#2E2E2B}}}}
+--f3:#F0876A;--f2:#C05B3D;--f0:#2E2E2B}}}}
 /* The shared masthead expects these and a standalone page must set them.
    VD found all five missing: --mono fell back to inheritance so the
    product nav rendered in the serif, which is the mechanism section 7
@@ -450,6 +566,8 @@ font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint)}}
 .key i{{display:inline-block;width:12px;height:12px;border-radius:50%;
 vertical-align:-2px;margin-right:8px}}
 .ks i{{border:1px solid var(--ink)}}
+.knote{{margin:14px 0 0;font-family:'IBM Plex Mono',monospace;font-size:11px;
+line-height:1.8;color:var(--ink-faint);max-width:74ch}}
 .seclab{{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.22em;
 text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:54px 0 6px}}
@@ -491,14 +609,13 @@ in Seville and {C['Berlin']['days']['thresholds_c']['95']}&nbsp;&deg;C in Berlin
 In a typical year {DH['baseline']['median_year']} of them do.</p>
 
 {svg}
-<div class="key">
-<span class="ks"><i style="background:var(--f3)"></i>A record. Its most hot days ever</span>
-<span class="ks"><i style="background:var(--f2)"></i>Hotter than 19 of every 20 of its summers</span>
-<span class="ks"><i style="background:var(--f1)"></i>Hotter than 16 of every 20</span>
-<span class="ks"><i style="background:var(--f0)"></i>{F0_LABEL}</span>
-<span>Every city is the same disc. The fill is how many of that city's own
-summers this one beats, so nothing between the marks is shaded and no city is
-drawn as empty.</span></div>
+<div class="key">{key_rows()}</div>
+<p class="knote"><strong style="color:var(--ink);font-weight:400">Record markers are
+sized by how far each city passed its own previous best</strong>, so {BIGGEST} are the
+largest marks on the map because they cleared their own records by the most, not
+because they are the hottest places on it. A city that is not at a record has no such
+figure, so it draws at the smallest size and its colour carries it. Nothing between
+the marks is shaded: this is {len(rows)} thermometers, not a temperature map.</p>
 
 <div class="seclab">How far from normal, city by city</div>
 <p class="subl">Ordered by how many of that city's own recorded summers this one beats.
