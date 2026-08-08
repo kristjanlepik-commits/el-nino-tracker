@@ -18,13 +18,21 @@ design:
   about the fact that Marseille had 34 hot days and Berlin had 8.
 
   There IS a defensible order and I had accepted too quickly that there
-  was not. Under a stationary climate the nth year of a record has
-  probability 1/n of being a record, so rank r in an N-year series has
-  plotting position r/N: the chance of landing this high by luck. That
-  breaks the tie honestly, because a record in 88 years IS rarer than a
-  record in 43, and it is the same arithmetic heat already uses for
-  expected_no_trend. It also survives the set growing to 100 cities,
-  which is what Kristjan was actually testing.
+  was not. It took three attempts and the reasoning is worth keeping,
+  because the first two are the ones a future chat would try again.
+
+  Plotting position r/(N+1), the chance of landing this high by luck,
+  breaks ties honestly but answers how UNLIKELY the rank is, which
+  rewards a long record. Kristjan's correction: the page asks how far
+  from normal this year is.
+
+  z against the 1991-2020 normal answers that question, and is wrong for
+  this data. Hot-day counts are right-skewed, so z understates the tail
+  and Berlin's 87th-percentile summer drew as ordinary variation.
+
+  Percentile, read from heat's payload and never derived here, is what
+  ships. It survives the set growing to 100 cities, which is what
+  Kristjan was actually testing.
 
   Each row then shows the city's own count against its own normal, which
   carries magnitude without inviting a cross-city comparison the method
@@ -79,6 +87,26 @@ for n, v in C.items():
                  "gated": bool(v.get("nights_metric_gated"))})
 rows.sort(key=lambda d: (-d["pct"], d["name"]))
 
+# Spelled out because the standfirst is prose, but DERIVED, because it was
+# typed. "Twenty-one cities" sat two clauses away from "14 of the 22" in the
+# same sentence when Amsterdam arrived, and the screen-reader label on the
+# map said twenty-one too, where nobody would have seen it.
+_ONES = ["zero", "one", "two", "three", "four", "five", "six", "seven",
+         "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
+         "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+_TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy",
+         "eighty", "ninety"]
+
+
+def words(n):
+    if n < 20:
+        return _ONES[n]
+    t, o = divmod(n, 10)
+    return _TENS[t] + (f"-{_ONES[o]}" if o else "")
+
+
+NCITY = words(len(rows)).capitalize()
+
 # VD Main's ruling, amending section 7: hue marks a MEASURED QUANTITY,
 # never a threshold on one. The record line is drawn by how long each
 # station has been running rather than by how hot the summer was, so
@@ -112,9 +140,22 @@ rows.sort(key=lambda d: (-d["pct"], d["name"]))
 # heat ruled for its night sd, so the map and the city pages can share a
 # scale. The window excludes 2026, so z is not bounded by the in-sample
 # ceiling of (n-1)/sqrt(n).
-# THREE bands, not four. Four split the middle into "far outside its
-# normal range" and "outside its normal range", which is not a distinction
-# a reader can act on, and it carried 6 and 7 cities.
+#
+# AND THEN PERCENTILE REPLACED z, which is where this actually landed. The
+# ordering was wrong three times and each party caught a different fault:
+# plotting position rewarded a long record (Kristjan), z was the right
+# question but the wrong statistic, and z understates on right-skewed count
+# data, so Berlin's 87th-percentile summer drew as "high, within its usual
+# variation" (VD Main). Percentile is read from the payload, never derived.
+# The z fields above are kept because the rows carry them, not because they
+# order anything; the sort key is pct.
+#
+# FOUR bands. An earlier cut had three, on the argument that splitting the
+# middle was not a distinction a reader could act on. The fourth is the
+# calm end, and it is the one D-043 is about: the scale has to show what an
+# unremarkable summer looks like even when no city is drawing one. No city
+# is in it, and the legend says so rather than leaving a reader to pair the
+# palest mark on the map with the bottom label.
 #
 # The labels describe DISTANCE only and never say "record". A record is a
 # rank claim and these bands are a distance claim: at any cut, cities that
@@ -237,7 +278,7 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
         f'class="cn">{d["name"]}</text>')
 
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
-       f'aria-label="Twenty-one European weather stations. Every city is the same '
+       f'aria-label="{NCITY} European weather stations. Every city is the same '
        f'disc, shaded by how many of that city\'s own recorded summers this one '
        f'beats, from hotter than every summer on its record down to hotter than '
        f'four in five.">'
@@ -440,7 +481,7 @@ margin-top:50px}}
 <span class="prod">Heat</span><span class="when">Week of 3 August 2026</span></div>
 
 <h1>How hot has the European summer been?</h1>
-<p class="stand">Twenty-one cities, each measured against its own thermometer and its
+<p class="stand">{NCITY} cities, each measured against its own thermometer and its
 own record rather than against each other. A hot day is one at or above that city's own
 95th percentile for July and August, so {C['Seville']['days']['thresholds_c']['95']}&nbsp;&deg;C
 in Seville and {C['Berlin']['days']['thresholds_c']['95']}&nbsp;&deg;C in Berlin.
