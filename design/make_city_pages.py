@@ -245,6 +245,16 @@ for name, v in sorted(C.items()):
     cut_txt = f"{int(cut.split('-')[1])} {MON[int(cut.split('-')[0]) - 1]}"
     dr = v["days"]["rank"]
 
+    # THE RELOCATION NOTE SITS WITH THE RANK, not in the footer, because the
+    # rank is what it undermines: "of 79" spans more than one site. D-081, a
+    # qualifier lives at the level of the thing it qualifies. Four cities
+    # carry one; the flag is read, never inferred from the move list.
+    reloc = (" " + v["rank"]["relocation_note_text"]
+             if v["rank"].get("requires_relocation_note") else "")
+    rank_txt = ("the most on record" if dr["value"] == 1
+                else f'{ordn(dr["value"])} of {dr["of_years"]}')
+    rank_cap = f"2026 is {rank_txt} for hot days.{reloc}"
+
     # The headline must name its period: base is a TO-DATE mean and reading
     # it as a season total overstates the change.
     head = (f"{name} used to get {base:.0f} hot day{'s' if round(base)!=1 else ''} "
@@ -259,22 +269,63 @@ for name, v in sorted(C.items()):
                     f"here, which is not true everywhere: a count and a peak are "
                     f"separate claims and each carries its own rank.")
     else:
+        # BOTH HALVES OF THIS SENTENCE WERE WRONG, and both in the way this
+        # template keeps failing: prose written from one city, templated to
+        # fifteen.
+        #
+        # "More hot days than any year on record" was Paris's day rank, and
+        # it is FALSE on the six pages whose count is not first: Amsterdam
+        # is 9th of 76, Hamburg 10th, Madrid 3rd, Seville 8th, Valencia 6th,
+        # Cologne 2nd. The clause now reads the rank it is describing.
+        #
+        # "The open ring" named a mark VD had already removed. The previous
+        # record is a filled dot on a drop line now, so the caption pointed
+        # a reader at something that is not on the chart.
+        if peak == pprev:
+            # Hamburg, 39.1 against 39.1. Rendered as a comparison it reads
+            # as a rendering error, and the reader's correction of it would
+            # be the more alarming answer. The convention is standing and
+            # holds across the channel: ties count against, and a tie is not
+            # a record.
+            versus = (f"at {peak}&nbsp;&deg;C, matching {pprev_y} exactly, the "
+                      f"dot on the drop line. A tie is not a record here: the "
+                      f"rank counts earlier years at or above 2026, so a year "
+                      f"that equals it keeps 2026 off first place.")
+        else:
+            versus = (f"at {peak}&nbsp;&deg;C against {pprev}&nbsp;&deg;C in "
+                      f"{pprev_y}, the dot on the drop line.")
         peak_cap = (f"The hottest day of {name}'s year, to the same date. "
                     f"<strong>2026 is the {ordn(prank)} hottest, not the hottest</strong>, "
-                    f"at {peak}&nbsp;&deg;C against {pprev}&nbsp;&deg;C in {pprev_y}, "
-                    f"the open ring. More hot days than any year on record and its "
-                    f"hottest day still short of one: a count and a peak are "
-                    f"different claims, and neither borrows the other's rank.")
+                    f"{versus} Its hot-day count is {rank_txt} "
+                    f"and its hottest single day {ordn(prank)}: a count and a peak "
+                    f"are different claims, and neither borrows the other's rank.")
 
     if gated:
+        # "averages about 0.0 a year" is what the single template produced for
+        # Amsterdam and Hamburg. It reads as a rounding artefact, and it
+        # understates the case: the point of the gate is that the base is too
+        # thin to divide by, and a base that rounds to zero makes that point
+        # better stated as a total than as an average.
+        nwin = [x for y, x in NI if 1961 <= y <= 1990]
+        ntot = int(sum(nwin))
+        if ntot == 0:
+            base_clause = (f'{name} did not record a single one in the whole of '
+                           f'1961-1990 by this date, so there is no base to '
+                           f'divide by')
+        elif round(nbase, 1) == 0.0:
+            base_clause = (f'{name} recorded {ntot} in the whole of 1961-1990 by '
+                           f'this date, so a ratio against that base would be '
+                           f'arithmetic rather than evidence')
+        else:
+            base_clause = (f'{name} averages about {nbase:.1f} a year, and '
+                           f'dividing by a base that thin produces a large '
+                           f'number and no evidence')
         night_block = (
             f'<div class="seclab">And the nights</div>'
             f'{bars(NI, max(x for _, x in NI) or 1)}'
             f'<p class="cap">{v["nights_2026"]} nights so far that never dropped below '
-            f'20&nbsp;&deg;C. <strong>No multiple is quoted here.</strong> {name} '
-            f'averages about {nbase:.1f} a year, and dividing by a base that thin '
-            f'produces a large number and no evidence, so the count is published and '
-            f'the ratio is withheld. '
+            f'20&nbsp;&deg;C. <strong>No multiple is quoted here.</strong> '
+            f'{base_clause}. The count is published and the ratio is withheld. '
             f'{sum(1 for c in C.values() if c.get("nights_metric_gated"))} of the '
             f'{len(C)} cities are gated this way.</p>')
     else:
@@ -293,16 +344,6 @@ for name, v in sorted(C.items()):
                  f'1961-1990 baseline is part-length and drawn from the warmer end of '
                  f'the period. The count and the rank stand; the ratio is not emitted '
                  f'at all rather than emitted with a warning.</p>')
-
-    # THE RELOCATION NOTE SITS WITH THE RANK, not in the footer, because the
-    # rank is what it undermines: "of 79" spans more than one site. D-081, a
-    # qualifier lives at the level of the thing it qualifies. Four cities
-    # carry one; the flag is read, never inferred from the move list.
-    reloc = (" " + v["rank"]["relocation_note_text"]
-             if v["rank"].get("requires_relocation_note") else "")
-    rank_txt = ("the most on record" if dr["value"] == 1
-                else f'{ordn(dr["value"])} of {dr["of_years"]}')
-    rank_cap = f"2026 is {rank_txt} for hot days.{reloc}"
 
     top = max(max(x for _, x in D), 1)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
