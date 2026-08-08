@@ -1,0 +1,53 @@
+# PROPOSAL for platform. Not merged: .github/workflows/ is platform's under
+# the ownership map, so this sits here until they move it.
+#
+# WHY IT IS URGENT IN A WAY WORKFLOWS USUALLY ARE NOT. This collects the only
+# data in the channel that cannot be fetched again later. Tallinn has no
+# licensed archive covering the current summer, so every hour this is not
+# running is an hour permanently absent from the record. A late merge does
+# not delay the feature; it shortens the series forever.
+#
+# Cloud rather than the laptop, because the laptop is not always awake and
+# this is exactly the job that must not depend on that.
+name: heat-collect
+
+on:
+  schedule:
+    # Hourly. A daily minimum built from one sample a day is a reading, not a
+    # minimum, so cadence is the whole point rather than a tuning choice.
+    - cron: "7 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  # Never two writers on an append-only file.
+  group: heat-collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sample
+        run: python heat/collect_forward.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "tls-heat-collector"
+          git config user.email "noreply@thelongswell.com"
+          git add heat/data/collected/
+          # No commit when nothing changed, so a failed fetch is a quiet
+          # no-op rather than an empty commit every hour.
+          git diff --cached --quiet || git commit -m "heat: collected sample"
+          # Rebase before pushing: an hourly job WILL race a human push, and
+          # losing an hour of samples to a rejected push is the one failure
+          # this job cannot tolerate.
+          git pull --rebase --autostash origin main
+          git push origin HEAD:main
