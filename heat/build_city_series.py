@@ -134,6 +134,31 @@ CITIES = {
     # already carry. Not a clean bill: the same one they have.
     "Amsterdam": dict(country="NL", station="Schiphol", cut=(8, 3),
                       file="knmi_Amsterdam.json"),
+    # PHASE 2, added 2026-08-08.
+    #
+    # Stockholm-Bromma, SMHI, CC-BY. A SINGLE CONTINUOUS station 1951 to now.
+    # The more central Observatoriekullen cannot be used without merging two
+    # instruments, since its automatic successor starts in 1996 and its
+    # predecessor ends in 2024. An airport rather than a city centre, the same
+    # trade-off as Barcelona against Madrid's park, and the station name is
+    # emitted so the choice is visible.
+    #
+    # Expected to gate on nights: zero tropical nights in 2026. That is the
+    # point rather than a problem. Every Phase 1 city sits in the hot half of
+    # Europe, so "every city in our set is elevated" was partly a finding and
+    # partly a consequence of which stations we held.
+    "Stockholm": dict(country="SE", station="Stockholm-Bromma", cut=(8, 3),
+                      file="smhi_Stockholm.json"),
+    # Praha-Karlov, CHMI. Cut at 07-31 because CHMI has not yet published
+    # August; every city already carries its own cut and no cross-city ranking
+    # is offered. Temperature record starts 1971, so both the percentile and
+    # sd baselines are complete but the 1961-1990 comparison is not, and the
+    # day multiple withholds itself by rule.
+    #
+    # NOT evidence for the geography headline. Prague at 14.4E is WEST of
+    # Vienna at 16.4E and does not extend our eastern reach.
+    "Prague":    dict(country="CZ", station="Praha-Karlov", cut=(7, 31),
+                      file="chmi_Prague.json"),
 }
 
 
@@ -296,7 +321,9 @@ def build(city, meta):
                    "FR": "Meteo-France, via data.gouv.fr",
                    "AT": "GeoSphere Austria",
                    "DE": "DWD Climate Data Center",
-                   "NL": "KNMI"}[meta["country"]],
+                   "NL": "KNMI",
+                   "SE": "SMHI",
+                   "CZ": "CHMI"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,

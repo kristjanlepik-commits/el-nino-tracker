@@ -232,6 +232,26 @@
    "excluded_years": [],
    "cut_at": "08-03",
    "source": "KNMI"
+  },
+  "Stockholm": {
+   "n": 30,
+   "mean": 0.3,
+   "sd": 0.84,
+   "z": -0.36,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "SMHI"
+  },
+  "Prague": {
+   "n": 30,
+   "mean": 0.8,
+   "sd": 1.35,
+   "z": 3.11,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "07-31",
+   "source": "CHMI"
   }
  }
 }
