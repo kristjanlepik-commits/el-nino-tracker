@@ -133,6 +133,15 @@ def units(k, accent=False):
     return "".join(f'<span class="{cls}"></span>' for _ in range(int(round(k))))
 
 
+def words_n(n):
+    """Small counts read better as words in prose. Only used where the number
+    is one to twelve, which is every case the night baselines produce."""
+    w = ["no nights", "one night", "two nights", "three nights", "four nights",
+         "five nights", "six nights", "seven nights", "eight nights",
+         "nine nights", "ten nights", "eleven nights", "twelve nights"]
+    return w[n] if 0 <= n < len(w) else f"{n} nights"
+
+
 def ordn(n):
     """11th, 12th, 13th are the cases a naive last-digit rule gets wrong, and
     ranks in the teens are common here. Two spellings existed before this:
@@ -303,24 +312,48 @@ for name, v in sorted(C.items()):
     # it as a season total overstates the change. Where the baseline is not
     # comparable the headline leads on the count and its rank instead, which
     # are both published, rather than on a comparison that is not.
+    # THE RANK IS IN THE HEADLINE, and the branch is on whether the baseline
+    # exists, NEVER on how alarming the answer is. Editor's ruling, and the
+    # reasoning is the part to keep: a separate shape for cities outside their
+    # top five would be a template deciding which cities get calibrated, on the
+    # criterion of how bad the number looks, and it breaks the moment a city
+    # crosses the boundary.
+    #
+    # It was six cities, not one. Berlin's 8 days against a 1961-1990 mean of
+    # 2.1 read as a near-quadrupling with 11th of 79 buried below the chart,
+    # which is louder than Stockholm and was the same defect.
+    rank_clause = ("more than in any summer on its record" if dr["value"] == 1
+                   else f"{ordn(dr['value'])} of its {dr['of_years']} summers")
     if mult_ok:
         head = (f"{name} used to get {base:.0f} hot day{'s' if round(base) != 1 else ''} "
-                f"by this point in the summer. This year: {now}.")
-    elif dr["value"] == 1:
-        head = (f"{name} has had {now} hot days by this point in the summer, "
-                f"more than in any summer on its record.")
+                f"by this point in the summer. This year: {now}, "
+                + ("more than in any summer on its record."
+                   if dr["value"] == 1
+                   else f"which is {rank_clause}."))
     else:
         head = (f"{name} has had {now} hot days by this point in the summer, "
-                f"{ordn(dr['value'])} of {dr['of_years']} years on this thermometer.")
+                f"{rank_clause}.")
 
     # THE PEAK CARRIES ITS OWN RANK. Seven cities have peak == record, so
     # the sentence branches rather than being templated.
-    if prank == 1:
+    if prank == 1 and dr["value"] == 1:
         peak_cap = (f"The hottest day of {name}'s year, to the same date. "
                     f"<strong>2026 is the hottest on this record too</strong>, at "
                     f"{peak}&nbsp;&deg;C. Both the count and the peak are records "
                     f"here, which is not true everywhere: a count and a peak are "
                     f"separate claims and each carries its own rank.")
+    elif prank == 1:
+        # "Both the count and the peak are records here" was rendering on
+        # Barcelona, Berlin and Prague, whose counts are 2nd of 87, 11th of 79
+        # and 4th of 56. The branch tested the PEAK being a record and then
+        # asserted something about both, which is the same shape as the
+        # Paris sentence published on six cities that contradicted it.
+        # The disagreement now leads the page, so this caption states the
+        # chart and points back rather than repeating it.
+        peak_cap = (f"The hottest day of {name}'s year, to the same date, with "
+                    f"2026 marked. <strong>It is the hottest this station has "
+                    f"recorded</strong>, at {peak}&nbsp;&deg;C, while the count "
+                    f"of hot days is {rank_txt}.")
     else:
         # BOTH HALVES OF THIS SENTENCE WERE WRONG, and both in the way this
         # template keeps failing: prose written from one city, templated to
@@ -361,7 +394,22 @@ for name, v in sorted(C.items()):
         # better stated as a total than as an average.
         nwin = [x for y, x in NI if 1961 <= y <= 1990]
         ntot = int(sum(nwin))
-        if ntot == 0:
+        if v["nights_2026"] == 0:
+            # Zero this year is not a smaller version of two: the instrument
+            # does not reach here. Editor's fix, and it puts the reason first
+            # so the zero reads as a property of the measure rather than as a
+            # blank. heat's own note says the same thing about the metric.
+            #
+            # THE FIGURE IS THE TO-CUT ONE, not nights_baseline_per_year.
+            # That field reads 0.3 for Stockholm where the matched total is 1
+            # night in thirty years, so it is on a wider basis than the count
+            # beside it. Pairing them would be the b6190 trap again.
+            base_clause = (f'The 20&nbsp;&deg;C night is a Mediterranean measure '
+                           f'and {name} is outside its range. None this year, and '
+                           f'{words_n(ntot)} in the whole of 1961-1990 by this '
+                           f'date. No multiple is quoted, because dividing by a '
+                           f'base that thin is arithmetic rather than evidence')
+        elif ntot == 0:
             base_clause = (f'{name} did not record a single one in the whole of '
                            f'1961-1990 by this date, so there is no base to '
                            f'divide by')
@@ -376,9 +424,11 @@ for name, v in sorted(C.items()):
         night_block = (
             f'<div class="seclab">And the nights</div>'
             f'{bars(NI, max(x for _, x in NI) or 1)}'
-            f'<p class="cap">{v["nights_2026"]} nights so far that never dropped below '
-            f'20&nbsp;&deg;C. <strong>No multiple is quoted here.</strong> '
-            f'{base_clause}. The count is published and the ratio is withheld. '
+            f'<p class="cap">'
+            + ("" if v["nights_2026"] == 0 else
+               f'{v["nights_2026"]} nights so far that never dropped below '
+               f'20&nbsp;&deg;C. <strong>No multiple is quoted here.</strong> ')
+            + f'{base_clause}. '
             f'{sum(1 for c in C.values() if c.get("nights_metric_gated"))} of the '
             f'{len(C)} cities are gated this way.</p>')
     else:
@@ -412,13 +462,37 @@ for name, v in sorted(C.items()):
     # theirs and I do not restate it; record_from is a field and says the
     # same thing without a second arithmetic.
     mult_note = ("" if mult_ok else
-                 f'<p class="cap"><strong>No 1961-1990 normal is shown for '
-                 f'{name}, and no multiple.</strong> This thermometer only starts '
-                 f'in {v["record_from"]}, so the 1961-1990 baseline every other city '
-                 f'is measured against covers {v["record_from"]} to 1990 here, the '
-                 f'warmer end of the period. A comparison against that would '
-                 f'understate itself while looking like the figures on every other '
-                 f'city page. The count and the rank are measured and stand.</p>')
+                 f'<p class="cap"><strong>No 1961-1990 comparison is shown for '
+                 f'{name}.</strong> This thermometer starts in '
+                 f'{v["record_from"]}, so that baseline would cover only its warmer '
+                 f'final years, and the figure would look like every other city\'s '
+                 f'while meaning something weaker. The count and the rank are '
+                 f'measured and stand.</p>')
+
+    # TWO INSTRUMENTS, TWO ANSWERS, AND IT GOES SECOND. Where the hottest
+    # single day is a record and the hot-day COUNT is not, the disagreement is
+    # the most interesting thing on the page and it was the last paragraph on
+    # it. Editor's call, and their framing: no "though", no "but", the
+    # disagreement is the finding rather than an awkwardness to bury.
+    #
+    # Branched on the data disagreeing, not on which answer is louder. Three
+    # cities today: Barcelona 2nd of 87, Berlin 11th of 79, Prague 4th of 56,
+    # each with a record peak.
+    peak_promoted = (prank == 1 and dr["value"] != 1)
+    peak_lead = ("" if not peak_promoted else
+                 f'<p class="stand" style="margin-top:18px">Its hottest single '
+                 f'day, {peak}&nbsp;&deg;C, is the hottest this station has '
+                 f'recorded. A count and a peak are different claims and neither '
+                 f'borrows the other\'s rank.</p>')
+
+    # The method moves out from under the headline and down to the chart it
+    # describes, and "95th percentile" becomes a thing a reader can picture.
+    # One summer day in twenty IS the 95th percentile, said so it can be used.
+    method = (f'<p class="cap">Hot here means {th}&nbsp;&deg;C or above, a level '
+              f'about one summer day in twenty used to reach at this station '
+              f'between 1971 and 2000. The bar has not moved; the number of days '
+              f'clearing it has. Every year is counted to {cut_txt}, so a '
+              f'part-finished summer is never set against complete ones.</p>')
 
     top = max(max(x for _, x in D), 1)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -447,11 +521,7 @@ for name, v in sorted(C.items()):
 <span class="when">{name} &middot; {S[name]['station']} &middot; to {cut_txt} 2026</span></div>
 
 <h1>{head}</h1>
-<p class="stand">A hot day here means one at or above {th}&nbsp;&deg;C, which is this
-station's own 95th percentile for July and August between 1971 and 2000. The bar for
-what counts as hot has not moved; the number of days clearing it has.
-Every figure below is counted to {cut_txt}, in 2026 and in every earlier year, so a
-part-finished summer is never set against complete ones.</p>
+{peak_lead}
 
 <div class="rows">{unit_rows}</div>
 {mult_note}
@@ -460,6 +530,7 @@ part-finished summer is never set against complete ones.</p>
 <div class="grid"><span class="gk">Hot days<em>above {th} &deg;C</em></span>
 <span>{bars(D, top)}</span></div>
 <p class="cap">{rank_cap}</p>
+{method}
 
 {night_block}
 
