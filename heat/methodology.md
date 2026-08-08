@@ -1,6 +1,6 @@
 # Heat: how these numbers are made
 
-The heat channel tracks two things in twenty-one European cities:
+The heat channel tracks two things in twenty-four European cities:
 **hot nights** and **days that pass each city's own extreme-heat
 thresholds**. Every figure is one thermometer in one city, compared
 against that same thermometer's own history.
@@ -75,6 +75,22 @@ Barcelona's record has real holes at 1928-1937 and 1939-1943.
 
 **None of these is a defect awaiting a fix.** They are properties of the
 measurement and they are permanent.
+
+**These cities are not a sample of Europe, and the bias runs toward heat.**
+They were chosen in stages, none of them random. The first fifteen were
+Spanish and French because the tropical-night measure only works where
+tropical nights are common, which is choosing cities on the basis of the
+thing being measured. Germany and Austria followed to reach further north.
+Amsterdam was added because it was expected to be hot. Stockholm was added
+deliberately to find a city that was not extreme, and is the only member
+picked against the prevailing direction.
+
+Fifteen of the twenty-four are Iberia and France. There is no city east of
+18.1 degrees, so no Poland, Baltics, Balkans or European Russia, and none
+from Italy, Greece, Portugal or the UK. **A representative sample would
+almost certainly show a smaller share of cities at a record.** Nothing on
+these pages supports a statement about Europe, and every count is a count of
+these cities only.
 
 **This is not a climate measurement.** A city thermometer records the
 city: buildings, tarmac and traffic warm it alongside any regional

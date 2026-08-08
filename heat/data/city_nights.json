@@ -11912,5 +11912,31 @@
   }
  },
  "sources_note": "Every published figure comes from a national met service that permits commercial reuse. ECA&D is not read anywhere in this pipeline.",
- "coverage_note": "Spain and France. The night metric does not work in northern Europe, where tropical nights are near zero and ratios divide by almost nothing."
+ "selection": {
+  "is_representative_of_europe": false,
+  "cities": 24,
+  "by_country": {
+   "AT": 1,
+   "CZ": 1,
+   "DE": 5,
+   "ES": 10,
+   "FR": 5,
+   "NL": 1,
+   "SE": 1
+  },
+  "longitude_span": [
+   -6.0,
+   18.1
+  ],
+  "latitude_span": [
+   36.7,
+   59.3
+  ],
+  "how_these_cities_were_chosen": "IN STAGES, EACH WITH ITS OWN BIAS, and not one of them random. The first fifteen were Spanish and French because the tropical-night metric only works where tropical nights are common, which is selecting on the very thing being measured. Germany and Austria were added to reach further north. Amsterdam was added because it was expected to be hot. Stockholm was added deliberately to find a city that was NOT extreme, and is the only member chosen against the prevailing direction.",
+  "what_may_not_be_said": "NOTHING HERE SUPPORTS A CLAIM ABOUT EUROPE. Not 'Europe is having its hottest summer', not 'European cities are breaking records', not a proportion presented as if the set were a sample of the continent. Every count is a count of THESE cities, chosen the way described above.",
+  "what_may_be_said": "Each city against its own record, and the pattern ACROSS this set stated as a pattern across this set. The map is 24 marks and means only what those 24 thermometers recorded.",
+  "known_absences": "No city east of 18.1 E, so no Poland, Baltics, Balkans, Ukraine or European Russia. No Italy, Greece, Portugal or the UK. Fifteen of the 24 are Iberia and France.",
+  "which_way_the_bias_runs": "TOWARD HEAT. A representative sample of European cities would almost certainly show a smaller share at a record, because the cities most likely to be extreme were the ones with a working metric and available data."
+ },
+ "coverage_note": "Seven countries, listed in selection.by_country. The 20 C night metric does not work in the northern half of the set, which is why the percentile night series exists and why ten cities are night-gated."
 }
