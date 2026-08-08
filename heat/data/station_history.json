@@ -1,0 +1,288 @@
+{
+ "_readme": "Documented station relocations, read from each service's own metadata rather than inferred from the data. The statistical approach was tested and does not work: see heat/blend_gate.py.",
+ "thresholds": {
+  "move_km": 1.0,
+  "elev_m": 20.0,
+  "earliest_year_that_matters": 1961
+ },
+ "stations": {
+  "Vienna": {
+   "city": "Vienna",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "composite": true,
+   "composite_components": "Hohe Warte 5901 (203 m) to 1992, Hohe Warte 5904 (198 m) after. Both at the same observatory.",
+   "composite_evidence": "GeoSphere types station 105 COMBINED and publishes its components. Measured against the individual station 5904: 19.84% identical before 1993 and 100.00% after, so the declared handover is exactly where the data changes.",
+   "composite_step_c": 0.44,
+   "composite_step_confidence": "suggestive, not established",
+   "composite_step_note": "Neighbour testing at the 1993 handover gives +0.44 C with the same sign against 3 of 4 neighbours. NOT ESTABLISHED: the only available neighbours are German cities 350 to 750 km away and one of them, Frankfurt, has a confirmed step of its own. A contaminated reference cannot settle it.",
+   "alternative_rejected": "The individual station 5904 was tried and rejected: this dataset carries no Tmin for it before 1991, giving 34 usable years against 77. Its valid_from of 1934 is when the STATION existed, not when this series holds its minima.",
+   "why": "",
+   "note": "Same-observatory instrument change, categorically milder than Murcia (two towns, 1.19 C) or Frankfurt (5.9 km, 0.57 C)."
+  },
+  "Paris": {
+   "city": "Paris",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 91027002",
+   "note": "Single position across the record."
+  },
+  "Marseille": {
+   "city": "Marseille",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 13054001",
+   "note": "Single position across the record."
+  },
+  "Nice": {
+   "city": "Nice",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 06088001",
+   "note": "Single position across the record."
+  },
+  "Montpellier": {
+   "city": "Montpellier",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 34154001",
+   "note": "Single position across the record."
+  },
+  "Lyon": {
+   "city": "Lyon",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 69299001",
+   "note": "Single position across the record."
+  },
+  "Amsterdam": {
+   "city": "Amsterdam",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "producer_inhomogeneity_warning": false,
+   "producer_warning_is_blanket": true,
+   "producer_warning_evidence": "Identical text returned for stations 240, 260, 280 and 380, including De Bilt, which KNMI uses for national climate reporting.",
+   "producer_warning_text": "KNMI: these time series are inhomogeneous because of station relocations and changes in observation techniques, and are not suitable for trend analysis.",
+   "why": "",
+   "method": "two-source comparison unavailable",
+   "note": "KNMI points to its homogenised daily series and to the Central Netherlands Temperature as the alternatives for climate work. Whether a homogenised series exists for Schiphol specifically has NOT been checked."
+  },
+  "Madrid": {
+   "city": "Madrid",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 1.08,
+   "split_year": 2018,
+   "step_c": -0.007,
+   "why": ""
+  },
+  "Barcelona": {
+   "city": "Barcelona",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 2.04,
+   "split_year": 2010,
+   "step_c": 0.022,
+   "why": ""
+  },
+  "Valencia": {
+   "city": "Valencia",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 0.0,
+   "split_year": null,
+   "step_c": null,
+   "why": ""
+  },
+  "Seville": {
+   "city": "Seville",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 1.04,
+   "split_year": 2020,
+   "step_c": 0.012,
+   "why": ""
+  },
+  "Malaga": {
+   "city": "Malaga",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 0.97,
+   "split_year": 1948,
+   "step_c": -0.001,
+   "why": ""
+  },
+  "Alicante": {
+   "city": "Alicante",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 1.15,
+   "split_year": 2012,
+   "step_c": 0.002,
+   "why": ""
+  },
+  "Murcia": {
+   "city": "Murcia",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 0.0,
+   "split_year": null,
+   "step_c": null,
+   "why": ""
+  },
+  "Palma": {
+   "city": "Palma",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 1.38,
+   "split_year": 2001,
+   "step_c": -0.006,
+   "why": ""
+  },
+  "Zaragoza": {
+   "city": "Zaragoza",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 0.0,
+   "split_year": null,
+   "step_c": null,
+   "why": ""
+  },
+  "Bilbao": {
+   "city": "Bilbao",
+   "positions": null,
+   "relocations_in_period": [],
+   "ok": true,
+   "history_available": false,
+   "method": "two-source comparison only",
+   "method_note": "AEMET publishes CURRENT position only: its station inventory has no validity dates and no position history, so the metadata check used for Germany, France and Austria is not available for Spain. What is here instead is a changepoint comparison against a retained independent copy of the same station, which found no step. WEAKER EVIDENCE, and recorded as such rather than as \"checked and clean\", because a relocation documented nowhere cannot be ruled out by data that agrees with itself.",
+   "changepoint_t": 0.0,
+   "split_year": null,
+   "step_c": null,
+   "why": ""
+  },
+  "Berlin": {
+   "city": "Berlin",
+   "positions": 8,
+   "relocations_in_period": [
+    {
+     "date": "19700910",
+     "km": 1.25,
+     "elev_change_m": 3.3,
+     "trigger": "distance"
+    }
+   ],
+   "ok": false,
+   "why": "1 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Hamburg": {
+   "city": "Hamburg",
+   "positions": 6,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Frankfurt": {
+   "city": "Frankfurt",
+   "positions": 10,
+   "relocations_in_period": [
+    {
+     "date": "20141022",
+     "km": 5.86,
+     "elev_change_m": 12.3,
+     "trigger": "distance"
+    }
+   ],
+   "ok": false,
+   "why": "1 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Munich": {
+   "city": "Munich",
+   "positions": 2,
+   "relocations_in_period": [
+    {
+     "date": "19970708",
+     "km": 3.1,
+     "elev_change_m": 4.6,
+     "trigger": "distance"
+    }
+   ],
+   "ok": false,
+   "why": "1 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Cologne": {
+   "city": "Cologne",
+   "positions": 6,
+   "relocations_in_period": [
+    {
+     "date": "19700321",
+     "km": 1.3,
+     "elev_change_m": 5.0,
+     "trigger": "distance"
+    },
+    {
+     "date": "19891115",
+     "km": 1.63,
+     "elev_change_m": 17.9,
+     "trigger": "distance"
+    }
+   ],
+   "ok": false,
+   "why": "2 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  }
+ }
+}

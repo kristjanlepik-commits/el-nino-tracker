@@ -18,13 +18,14 @@
   "lead": {
    "claim": "The extreme is concentrated in the middle latitudes, not at the hot end.",
    "superseded_claim_do_not_use": "Not one of these cities is having an ordinary summer for hot nights. FALSE for 21 cities: Berlin is at the 70.9th percentile on nights.",
-   "in_top_10pct": 19,
-   "in_top_5pct": 18,
-   "of_cities": 21
+   "in_top_10pct": 20,
+   "in_top_5pct": 19,
+   "of_cities": 22
   },
-  "records": 11,
-  "of_cities": 21,
+  "records": 12,
+  "of_cities": 22,
   "record_cities": [
+   "Amsterdam",
    "Bilbao",
    "Frankfurt",
    "Lyon",
@@ -49,6 +50,7 @@
    "Zaragoza"
   ],
   "metric_unreliable_cities": [
+   "Amsterdam",
    "Berlin",
    "Bilbao",
    "Cologne",
@@ -62,13 +64,13 @@
   "baseline": {
    "recomputed": {
     "median_year": 1,
-    "mean_year": 1.67,
+    "mean_year": 1.69,
     "worst_year_on_record": {
      "year": 2003,
      "cities": 12
     },
     "window": "1990-2025",
-    "of_cities": 21
+    "of_cities": 22
    },
    "typical_year_records": 0,
    "mean_2011_2025": 1.27,
@@ -89,7 +91,7 @@
  },
  "day_headline": {
   "records": 14,
-  "of_cities": 21,
+  "of_cities": 22,
   "record_cities": [
    "Alicante",
    "Bilbao",
@@ -109,13 +111,13 @@
   "headline_requires_baseline": true,
   "baseline": {
    "median_year": 0,
-   "mean_year": 1.14,
+   "mean_year": 1.17,
    "worst_year_on_record": {
     "year": 2003,
     "cities": 9
    },
    "window": "1990-2025",
-   "of_cities": 21
+   "of_cities": 22
   },
   "measure": "days at or above this city's own 95th percentile of July-August maxima, counted to the same cut",
   "may_say_worst_on_record": true,
@@ -137,16 +139,16 @@
     "day_percentile": 87.3
    },
    {
+    "city": "Amsterdam",
+    "day_percentile": 89.5
+   },
+   {
     "city": "Hamburg",
     "day_percentile": 90.1
    },
    {
     "city": "Seville",
     "day_percentile": 90.8
-   },
-   {
-    "city": "Valencia",
-    "day_percentile": 94.4
    }
   ],
   "mechanism": null,
@@ -164,6 +166,14 @@
      "day_percentile": 100.0,
      "night_percentile": 98.9,
      "night_metric_holds": true
+    },
+    {
+     "city": "Amsterdam",
+     "lat": 52.3,
+     "lon": 4.8,
+     "day_percentile": 89.5,
+     "night_percentile": 100.0,
+     "night_metric_holds": false
     },
     {
      "city": "Barcelona",
@@ -331,7 +341,7 @@
  "featured_cities": [
   "Paris",
   "Madrid",
-  "Bilbao"
+  "Vienna"
  ],
  "cities_without_day_multiple": [
   "Lyon",
@@ -365,6 +375,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -501,6 +513,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 21.17,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service. Compared against a second copy of the same station and no change of instrument was detected.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 11,
    "featured": true,
    "days": {
@@ -1213,6 +1246,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -1338,6 +1373,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 29.17,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service. Compared against a second copy of the same station and no change of instrument was detected.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -1684,6 +1740,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -1803,6 +1861,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 39.7,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service, and the second copy available is a redistribution of the same observations, so a change of instrument could not be ruled out by comparison.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -2159,6 +2238,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -2263,6 +2344,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 29.93,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service. Compared against a second copy of the same station and no change of instrument was detected.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -2581,6 +2683,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -2695,6 +2799,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 34.17,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service. Compared against a second copy of the same station and no change of instrument was detected.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 1,
    "featured": false,
    "days": {
@@ -3019,6 +3144,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -3137,6 +3264,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 35.87,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service. Compared against a second copy of the same station and no change of instrument was detected.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -3485,6 +3633,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -3556,6 +3706,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 34.27,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service, and the second copy available is a redistribution of the same observations, so a change of instrument could not be ruled out by comparison.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 2,
    "featured": false,
    "days": {
@@ -3766,6 +3937,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -3843,6 +4016,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 42.8,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service. Compared against a second copy of the same station and no change of instrument was detected.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -4072,6 +4266,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -4176,6 +4372,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 13.77,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service, and the second copy available is a redistribution of the same observations, so a change of instrument could not be ruled out by comparison.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 11,
    "featured": false,
    "days": {
@@ -4488,6 +4705,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -4597,8 +4816,29 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 1.17,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service, and the second copy available is a redistribution of the same observations, so a change of instrument could not be ruled out by comparison.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 8,
-   "featured": true,
+   "featured": false,
    "days": {
     "rank": {
      "value": 1,
@@ -4889,242 +5129,7 @@
     "2025": 37.4,
     "2026": 42.7
    },
-   "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis.",
-   "full_year_series": {
-    "1948": 1,
-    "1949": 2,
-    "1950": 3,
-    "1951": 1,
-    "1952": 1,
-    "1953": 2,
-    "1954": 0,
-    "1955": 4,
-    "1956": 0,
-    "1957": 0,
-    "1959": 1,
-    "1960": 0,
-    "1961": 3,
-    "1962": 0,
-    "1963": 0,
-    "1964": 2,
-    "1965": 0,
-    "1966": 0,
-    "1967": 0,
-    "1968": 1,
-    "1969": 0,
-    "1970": 0,
-    "1971": 1,
-    "1972": 0,
-    "1973": 5,
-    "1974": 0,
-    "1975": 0,
-    "1976": 1,
-    "1977": 0,
-    "1978": 3,
-    "1979": 0,
-    "1980": 0,
-    "1981": 1,
-    "1982": 2,
-    "1983": 7,
-    "1984": 0,
-    "1985": 1,
-    "1986": 1,
-    "1987": 1,
-    "1988": 0,
-    "1989": 2,
-    "1990": 3,
-    "1991": 1,
-    "1992": 0,
-    "1993": 0,
-    "1994": 4,
-    "1995": 1,
-    "1996": 0,
-    "1997": 7,
-    "1998": 1,
-    "1999": 1,
-    "2001": 3,
-    "2002": 0,
-    "2003": 16,
-    "2004": 6,
-    "2005": 4,
-    "2006": 11,
-    "2007": 2,
-    "2008": 2,
-    "2009": 6,
-    "2010": 3,
-    "2011": 4,
-    "2012": 2,
-    "2013": 6,
-    "2014": 3,
-    "2015": 2,
-    "2016": 1,
-    "2017": 4,
-    "2018": 6,
-    "2019": 5,
-    "2020": 4,
-    "2021": 2,
-    "2022": 14,
-    "2023": 12,
-    "2024": 8,
-    "2025": 10
-   },
-   "full_year_day_series": {
-    "1948": 2,
-    "1949": 7,
-    "1950": 6,
-    "1951": 2,
-    "1952": 4,
-    "1953": 1,
-    "1954": 1,
-    "1955": 7,
-    "1956": 2,
-    "1957": 7,
-    "1959": 2,
-    "1960": 2,
-    "1961": 9,
-    "1962": 9,
-    "1963": 2,
-    "1964": 10,
-    "1965": 2,
-    "1966": 6,
-    "1967": 5,
-    "1968": 5,
-    "1969": 3,
-    "1970": 4,
-    "1971": 3,
-    "1972": 1,
-    "1973": 6,
-    "1974": 5,
-    "1975": 3,
-    "1976": 6,
-    "1977": 1,
-    "1978": 1,
-    "1979": 1,
-    "1980": 3,
-    "1981": 4,
-    "1982": 9,
-    "1983": 5,
-    "1984": 7,
-    "1985": 13,
-    "1986": 8,
-    "1987": 10,
-    "1988": 5,
-    "1989": 6,
-    "1990": 14,
-    "1991": 7,
-    "1992": 9,
-    "1993": 7,
-    "1994": 3,
-    "1995": 6,
-    "1996": 4,
-    "1997": 1,
-    "1998": 4,
-    "1999": 5,
-    "2001": 4,
-    "2002": 1,
-    "2003": 14,
-    "2004": 8,
-    "2005": 12,
-    "2006": 7,
-    "2007": 4,
-    "2008": 3,
-    "2009": 7,
-    "2010": 4,
-    "2011": 10,
-    "2012": 8,
-    "2013": 9,
-    "2014": 3,
-    "2015": 9,
-    "2016": 13,
-    "2017": 9,
-    "2018": 3,
-    "2019": 9,
-    "2020": 7,
-    "2021": 6,
-    "2022": 22,
-    "2023": 16,
-    "2024": 2,
-    "2025": 11
-   },
-   "warmest_night_c": {
-    "1948": 20.6,
-    "1949": 22.2,
-    "1950": 21.0,
-    "1951": 20.4,
-    "1952": 20.4,
-    "1953": 20.6,
-    "1954": 18.6,
-    "1955": 21.2,
-    "1956": 18.8,
-    "1957": 19.2,
-    "1959": 20.8,
-    "1960": 19.4,
-    "1961": 22.8,
-    "1962": 19.8,
-    "1963": 19.6,
-    "1964": 20.6,
-    "1965": 18.4,
-    "1966": 18.6,
-    "1967": 19.0,
-    "1968": 20.2,
-    "1969": 19.8,
-    "1970": 19.0,
-    "1971": 20.4,
-    "1972": 19.6,
-    "1973": 20.6,
-    "1974": 18.8,
-    "1975": 19.0,
-    "1976": 20.0,
-    "1977": 18.8,
-    "1978": 20.2,
-    "1979": 19.4,
-    "1980": 18.4,
-    "1981": 20.4,
-    "1982": 22.2,
-    "1983": 25.0,
-    "1984": 17.4,
-    "1985": 21.2,
-    "1986": 20.4,
-    "1987": 20.6,
-    "1988": 19.6,
-    "1989": 20.5,
-    "1990": 21.8,
-    "1991": 20.3,
-    "1992": 19.5,
-    "1993": 18.5,
-    "1994": 21.0,
-    "1995": 20.6,
-    "1996": 19.4,
-    "1997": 21.8,
-    "1998": 20.3,
-    "1999": 20.6,
-    "2001": 22.0,
-    "2002": 19.3,
-    "2003": 23.5,
-    "2004": 23.3,
-    "2005": 20.7,
-    "2006": 21.6,
-    "2007": 20.7,
-    "2008": 20.2,
-    "2009": 21.3,
-    "2010": 21.4,
-    "2011": 21.9,
-    "2012": 21.7,
-    "2013": 21.6,
-    "2014": 20.1,
-    "2015": 21.9,
-    "2016": 20.6,
-    "2017": 22.2,
-    "2018": 22.4,
-    "2019": 21.3,
-    "2020": 21.7,
-    "2021": 20.7,
-    "2022": 22.6,
-    "2023": 21.7,
-    "2024": 21.7,
-    "2025": 21.7
-   },
-   "full_year_series_note": "Counted over whole years, so its completeness bar is stricter than the to-date series and it holds fewer years. The two are not interchangeable and must not share an axis."
+   "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis."
   },
   "Paris": {
    "country": "FR",
@@ -5151,6 +5156,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -5256,6 +5263,27 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 1.53,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 4,
    "featured": true,
    "days": {
@@ -5808,6 +5836,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -5913,6 +5943,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 21.53,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -6228,6 +6279,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -6333,6 +6386,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 30.73,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -6648,6 +6722,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -6753,6 +6829,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 17.6,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 6,
    "featured": false,
    "days": {
@@ -7068,6 +7165,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -7148,6 +7247,27 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 6.87,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 12,
    "featured": false,
    "days": {
@@ -7374,7 +7494,7 @@
    "record_to": 2025,
    "nights_2026": 17,
    "counted_to": "2026-08-03",
-   "last_observation": "2026-08-06",
+   "last_observation": "2026-08-07",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -7385,6 +7505,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -7490,8 +7612,29 @@
    "nights_metric_gated": false,
    "nights_baseline_per_year": 4.33,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "Station record combines two instruments at the same site, with a documented handover in 1993.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 1,
-   "featured": false,
+   "featured": true,
    "days": {
     "rank": {
      "value": 1,
@@ -7778,7 +7921,242 @@
     "2025": 36.8,
     "2026": 39.7
    },
-   "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis."
+   "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis.",
+   "full_year_series": {
+    "1950": 4,
+    "1951": 1,
+    "1952": 3,
+    "1953": 0,
+    "1954": 0,
+    "1955": 0,
+    "1956": 0,
+    "1957": 4,
+    "1958": 0,
+    "1959": 1,
+    "1960": 1,
+    "1961": 2,
+    "1962": 0,
+    "1963": 4,
+    "1964": 0,
+    "1965": 0,
+    "1966": 0,
+    "1967": 2,
+    "1968": 0,
+    "1969": 1,
+    "1970": 0,
+    "1971": 2,
+    "1972": 4,
+    "1973": 1,
+    "1974": 2,
+    "1975": 0,
+    "1976": 2,
+    "1977": 0,
+    "1978": 0,
+    "1979": 1,
+    "1980": 2,
+    "1981": 2,
+    "1982": 1,
+    "1983": 5,
+    "1984": 1,
+    "1985": 0,
+    "1986": 3,
+    "1987": 3,
+    "1988": 5,
+    "1989": 3,
+    "1990": 3,
+    "1991": 5,
+    "1992": 10,
+    "1993": 2,
+    "1994": 9,
+    "1995": 1,
+    "1996": 0,
+    "1997": 1,
+    "1998": 8,
+    "1999": 2,
+    "2000": 4,
+    "2001": 5,
+    "2002": 3,
+    "2003": 11,
+    "2004": 1,
+    "2005": 4,
+    "2006": 13,
+    "2007": 6,
+    "2008": 1,
+    "2009": 1,
+    "2010": 8,
+    "2011": 5,
+    "2012": 5,
+    "2013": 13,
+    "2014": 4,
+    "2015": 23,
+    "2016": 5,
+    "2017": 10,
+    "2018": 16,
+    "2019": 15,
+    "2020": 0,
+    "2021": 8,
+    "2022": 8,
+    "2023": 16,
+    "2024": 26,
+    "2025": 7
+   },
+   "full_year_day_series": {
+    "1950": 5,
+    "1951": 0,
+    "1952": 5,
+    "1953": 1,
+    "1954": 0,
+    "1955": 0,
+    "1956": 0,
+    "1957": 8,
+    "1958": 3,
+    "1959": 1,
+    "1960": 0,
+    "1961": 3,
+    "1962": 5,
+    "1963": 6,
+    "1964": 4,
+    "1965": 0,
+    "1966": 0,
+    "1967": 3,
+    "1968": 5,
+    "1969": 2,
+    "1970": 1,
+    "1971": 2,
+    "1972": 0,
+    "1973": 1,
+    "1974": 5,
+    "1975": 0,
+    "1976": 4,
+    "1977": 0,
+    "1978": 0,
+    "1979": 0,
+    "1980": 0,
+    "1981": 1,
+    "1982": 1,
+    "1983": 5,
+    "1984": 2,
+    "1985": 2,
+    "1986": 4,
+    "1987": 1,
+    "1988": 8,
+    "1989": 1,
+    "1990": 5,
+    "1991": 1,
+    "1992": 17,
+    "1993": 4,
+    "1994": 16,
+    "1995": 1,
+    "1996": 0,
+    "1997": 0,
+    "1998": 11,
+    "1999": 4,
+    "2000": 11,
+    "2001": 11,
+    "2002": 8,
+    "2003": 23,
+    "2004": 1,
+    "2005": 5,
+    "2006": 10,
+    "2007": 10,
+    "2008": 2,
+    "2009": 4,
+    "2010": 8,
+    "2011": 7,
+    "2012": 13,
+    "2013": 15,
+    "2014": 3,
+    "2015": 31,
+    "2016": 5,
+    "2017": 21,
+    "2018": 18,
+    "2019": 14,
+    "2020": 8,
+    "2021": 12,
+    "2022": 17,
+    "2023": 14,
+    "2024": 29,
+    "2025": 15
+   },
+   "warmest_night_c": {
+    "1950": 23.0,
+    "1951": 20.7,
+    "1952": 22.7,
+    "1953": 19.2,
+    "1954": 19.6,
+    "1955": 19.2,
+    "1956": 18.5,
+    "1957": 23.9,
+    "1958": 19.5,
+    "1959": 20.6,
+    "1960": 20.4,
+    "1961": 21.6,
+    "1962": 19.0,
+    "1963": 21.7,
+    "1964": 19.5,
+    "1965": 19.9,
+    "1966": 18.3,
+    "1967": 20.9,
+    "1968": 19.5,
+    "1969": 20.6,
+    "1970": 19.4,
+    "1971": 20.2,
+    "1972": 21.2,
+    "1973": 20.4,
+    "1974": 20.3,
+    "1975": 19.1,
+    "1976": 21.7,
+    "1977": 19.9,
+    "1978": 19.7,
+    "1979": 20.8,
+    "1980": 21.3,
+    "1981": 21.5,
+    "1982": 20.0,
+    "1983": 21.8,
+    "1984": 20.0,
+    "1985": 19.6,
+    "1986": 22.3,
+    "1987": 20.9,
+    "1988": 20.9,
+    "1989": 20.7,
+    "1990": 21.6,
+    "1991": 22.2,
+    "1992": 23.0,
+    "1993": 21.8,
+    "1994": 22.5,
+    "1995": 20.7,
+    "1996": 19.9,
+    "1997": 20.0,
+    "1998": 22.5,
+    "1999": 21.3,
+    "2000": 20.8,
+    "2001": 21.3,
+    "2002": 23.7,
+    "2003": 21.6,
+    "2004": 20.3,
+    "2005": 24.0,
+    "2006": 22.5,
+    "2007": 23.0,
+    "2008": 20.2,
+    "2009": 20.8,
+    "2010": 22.8,
+    "2011": 21.7,
+    "2012": 23.6,
+    "2013": 23.5,
+    "2014": 21.0,
+    "2015": 25.3,
+    "2016": 21.9,
+    "2017": 25.3,
+    "2018": 23.1,
+    "2019": 23.2,
+    "2020": 19.5,
+    "2021": 22.9,
+    "2022": 23.4,
+    "2023": 23.2,
+    "2024": 23.6,
+    "2025": 22.7
+   },
+   "full_year_series_note": "Counted over whole years, so its completeness bar is stricter than the to-date series and it holds fewer years. The two are not interchangeable and must not share an axis."
   },
   "Berlin": {
    "country": "DE",
@@ -7821,6 +8199,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": true,
+    "relocation_note_text": "This station moved 1.25 km in 1970, so the record is not one continuous site and 'of 79' spans more than one.",
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -7928,6 +8308,34 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 1.5,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [
+    {
+     "date": "19700910",
+     "km": 1.25,
+     "elev_change_m": 3.3,
+     "trigger": "distance"
+    }
+   ],
+   "station_moved_in_period": true,
+   "station_history_checked": true,
+   "station_disclosure": "Station moved 1.25 km in 1970.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -8261,6 +8669,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -8380,6 +8790,27 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 0.33,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -8741,6 +9172,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": true,
+    "relocation_note_text": "This station moved 5.86 km in 2014, so the record is not one continuous site and 'of 86' spans more than one.",
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -8864,6 +9297,34 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 1.37,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [
+    {
+     "date": "20141022",
+     "km": 5.86,
+     "elev_change_m": 12.3,
+     "trigger": "distance"
+    }
+   ],
+   "station_moved_in_period": true,
+   "station_history_checked": true,
+   "station_disclosure": "Station moved 5.86 km in 2014.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 9,
    "featured": false,
    "days": {
@@ -9207,6 +9668,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": true,
+    "relocation_note_text": "This station moved 3.1 km in 1997, so the record is not one continuous site and 'of 72' spans more than one.",
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -9309,6 +9772,34 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 0.77,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [
+    {
+     "date": "19970708",
+     "km": 3.1,
+     "elev_change_m": 4.6,
+     "trigger": "distance"
+    }
+   ],
+   "station_moved_in_period": true,
+   "station_history_checked": true,
+   "station_disclosure": "Station moved 3.1 km in 1997.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 2,
    "featured": false,
    "days": {
@@ -9611,6 +10102,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": true,
+    "relocation_note_text": "This station moved 1.3 km, 1.63 km in 1970, 1989, so the record is not one continuous site and 'of 69' spans more than one.",
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -9710,6 +10203,40 @@
    "nights_metric_gated": true,
    "nights_baseline_per_year": 0.37,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [
+    {
+     "date": "19700321",
+     "km": 1.3,
+     "elev_change_m": 5.0,
+     "trigger": "distance"
+    },
+    {
+     "date": "19891115",
+     "km": 1.63,
+     "elev_change_m": 17.9,
+     "trigger": "distance"
+    }
+   ],
+   "station_moved_in_period": true,
+   "station_history_checked": true,
+   "station_disclosure": "Station moved 1.3 km, 1.63 km in 1970, 1989.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
    "featured": false,
    "days": {
@@ -9975,6 +10502,447 @@
     "2024": 32.5,
     "2025": 37.8,
     "2026": 38.0
+   },
+   "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis."
+  },
+  "Amsterdam": {
+   "country": "NL",
+   "station": "Schiphol",
+   "source": {
+    "who": "KNMI",
+    "licence": "KNMI open data: reuse permitted, including commercial, with attribution",
+    "commercial_use": true,
+    "attribution": "Source: KNMI",
+    "lag_days": 2
+   },
+   "record_from": 1951,
+   "record_to": 2025,
+   "nights_2026": 3,
+   "counted_to": "2026-08-03",
+   "last_observation": "2026-08-05",
+   "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
+   "rank": {
+    "value": 1,
+    "of_years": 76,
+    "percentile": 100.0,
+    "ties_count_against": true,
+    "tied_with": [],
+    "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
+    "requires_series": true,
+    "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
+    "matched_to_same_date": true
+   },
+   "series_to_same_date": {
+    "cut_at": "08-03",
+    "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
+    "values": {
+     "1951": 0,
+     "1952": 0,
+     "1953": 0,
+     "1954": 0,
+     "1955": 0,
+     "1956": 0,
+     "1957": 1,
+     "1958": 0,
+     "1959": 0,
+     "1960": 0,
+     "1961": 0,
+     "1962": 0,
+     "1963": 0,
+     "1964": 0,
+     "1965": 0,
+     "1966": 0,
+     "1967": 0,
+     "1968": 0,
+     "1969": 0,
+     "1970": 0,
+     "1971": 0,
+     "1972": 0,
+     "1973": 0,
+     "1974": 0,
+     "1975": 0,
+     "1976": 0,
+     "1977": 0,
+     "1978": 0,
+     "1979": 0,
+     "1980": 0,
+     "1981": 0,
+     "1982": 0,
+     "1983": 0,
+     "1984": 0,
+     "1985": 0,
+     "1986": 0,
+     "1987": 0,
+     "1988": 0,
+     "1989": 0,
+     "1990": 0,
+     "1991": 0,
+     "1992": 0,
+     "1993": 0,
+     "1994": 0,
+     "1995": 0,
+     "1996": 0,
+     "1997": 0,
+     "1998": 0,
+     "1999": 0,
+     "2000": 0,
+     "2001": 0,
+     "2002": 0,
+     "2003": 0,
+     "2004": 0,
+     "2005": 0,
+     "2006": 1,
+     "2007": 0,
+     "2008": 0,
+     "2009": 0,
+     "2010": 1,
+     "2011": 0,
+     "2012": 0,
+     "2013": 0,
+     "2014": 1,
+     "2015": 0,
+     "2016": 0,
+     "2017": 0,
+     "2018": 2,
+     "2019": 0,
+     "2020": 0,
+     "2021": 0,
+     "2022": 0,
+     "2023": 0,
+     "2024": 0,
+     "2025": 0
+    },
+    "expected_slots": 75,
+    "due_slots": 75,
+    "due_note": "Equal to expected_slots: an annual series, every prior year already due.",
+    "first_slot": 1951,
+    "last_slot": 2025,
+    "unit": "year",
+    "slot_basis": "Span of the station record as held by the published source. Taken BEFORE any completeness filter and never from the emitted series.",
+    "values_present": 75,
+    "unusable_slots": [],
+    "unusable_note": "Observed and computed, but below the completeness bar of 90% of days from 1 May to the cut. OBSERVED BUT NOT USABLE, which is not absent. Must not be drawn as a gap.",
+    "gap_slots": 0,
+    "gap_note": "Slots with no record at all. This is the one to draw.",
+    "present_runs": [
+     [
+      1951,
+      2025
+     ]
+    ]
+   },
+   "nights_metric_gated": true,
+   "nights_baseline_per_year": 0.17,
+   "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
+     "reason": "2026 is not the worst year on the night measure. 2003 was worse."
+    },
+    "days": {
+     "may_say_worst_on_record": true,
+     "reason": "2026 sets more city day-records than any year in the window, including 2003. THE OPPOSITE OF THE NIGHTS RULE ABOVE. The two instruments do not share a caveat, and this page shows both."
+    },
+    "banned_words": [
+     "ordinary"
+    ],
+    "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": true,
+   "station_disclosure": "No published station history exists for this service, and no independent copy of this station is available, so a change of instrument could not be ruled out.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
+   "record_margin_nights": 1,
+   "featured": false,
+   "days": {
+    "rank": {
+     "value": 9,
+     "of_years": 76,
+     "percentile": 89.5,
+     "measured_on": "95",
+     "ties_count_against": true,
+     "tied_with": [
+      2005
+     ],
+     "requires_series": true,
+     "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
+     "margin_days": null
+    },
+    "series_to_same_date": {
+     "cut_at": "08-03",
+     "measured_on": "95",
+     "values": {
+      "1951": 0,
+      "1952": 1,
+      "1953": 0,
+      "1954": 0,
+      "1955": 0,
+      "1956": 0,
+      "1957": 5,
+      "1958": 0,
+      "1959": 4,
+      "1960": 0,
+      "1961": 2,
+      "1962": 0,
+      "1963": 0,
+      "1964": 2,
+      "1965": 0,
+      "1966": 1,
+      "1967": 2,
+      "1968": 2,
+      "1969": 5,
+      "1970": 0,
+      "1971": 2,
+      "1972": 2,
+      "1973": 2,
+      "1974": 0,
+      "1975": 2,
+      "1976": 10,
+      "1977": 1,
+      "1978": 2,
+      "1979": 1,
+      "1980": 0,
+      "1981": 1,
+      "1982": 8,
+      "1983": 6,
+      "1984": 1,
+      "1985": 1,
+      "1986": 5,
+      "1987": 1,
+      "1988": 0,
+      "1989": 3,
+      "1990": 2,
+      "1991": 4,
+      "1992": 3,
+      "1993": 0,
+      "1994": 8,
+      "1995": 9,
+      "1996": 3,
+      "1997": 0,
+      "1998": 4,
+      "1999": 4,
+      "2000": 5,
+      "2001": 1,
+      "2002": 4,
+      "2003": 4,
+      "2004": 1,
+      "2005": 7,
+      "2006": 13,
+      "2007": 1,
+      "2008": 1,
+      "2009": 2,
+      "2010": 6,
+      "2011": 2,
+      "2012": 0,
+      "2013": 6,
+      "2014": 3,
+      "2015": 5,
+      "2016": 2,
+      "2017": 3,
+      "2018": 10,
+      "2019": 9,
+      "2020": 4,
+      "2021": 1,
+      "2022": 5,
+      "2023": 4,
+      "2024": 2,
+      "2025": 6
+     },
+     "note": "Days at or above this city's own 95th percentile threshold, counted to the same cut as every other year. The 90 and 99 thresholds are emitted above but only the 95 series is ranked."
+    },
+    "thresholds_c": {
+     "90": 27.0,
+     "95": 28.7,
+     "99": 31.5
+    },
+    "threshold_basis": "90th/95th/99th percentile of this station's own July-August daily maxima, 1971-2000.",
+    "days_2026": {
+     "90": 16,
+     "95": 7,
+     "99": 5
+    },
+    "counts_per_year": {
+     "90": {
+      "b6190": 6.6,
+      "r1125": 12.3
+     },
+     "95": {
+      "b6190": 2.8,
+      "r1125": 6.9
+     },
+     "99": {
+      "b6190": 0.5,
+      "r1125": 1.9
+     }
+    },
+    "counts_window": {
+     "recent": "2011-2025",
+     "early": "1961-1990"
+    },
+    "mean_1961_1990_to_cut": 2.13,
+    "mean_1961_1990_full_year": 2.8,
+    "mean_note": "to_cut is comparable to days_2026 and to the ranked series. full_year is what a reader hears in 'a summer'. A headline using one with a chart showing the other is the error this pair exists to prevent.",
+    "multiple_available": true
+   },
+   "warmest_day_c": {
+    "1951": 28.6,
+    "1952": 31.0,
+    "1953": 29.6,
+    "1954": 27.6,
+    "1955": 28.4,
+    "1956": 27.0,
+    "1957": 32.3,
+    "1958": 27.2,
+    "1959": 32.7,
+    "1960": 28.2,
+    "1961": 31.7,
+    "1962": 26.3,
+    "1963": 26.4,
+    "1964": 30.2,
+    "1965": 26.5,
+    "1966": 29.0,
+    "1967": 29.2,
+    "1968": 30.4,
+    "1969": 30.4,
+    "1970": 28.3,
+    "1971": 29.6,
+    "1972": 31.0,
+    "1973": 30.9,
+    "1974": 26.1,
+    "1975": 32.5,
+    "1976": 32.3,
+    "1977": 29.2,
+    "1978": 31.2,
+    "1979": 29.7,
+    "1980": 28.5,
+    "1981": 29.7,
+    "1982": 31.6,
+    "1983": 32.1,
+    "1984": 29.7,
+    "1985": 29.0,
+    "1986": 30.1,
+    "1987": 30.4,
+    "1988": 27.7,
+    "1989": 31.1,
+    "1990": 34.5,
+    "1991": 32.2,
+    "1992": 30.7,
+    "1993": 28.2,
+    "1994": 33.2,
+    "1995": 32.3,
+    "1996": 33.2,
+    "1997": 32.5,
+    "1998": 31.5,
+    "1999": 31.7,
+    "2000": 32.9,
+    "2001": 31.8,
+    "2002": 32.6,
+    "2003": 33.3,
+    "2004": 32.4,
+    "2005": 32.9,
+    "2006": 33.7,
+    "2007": 29.2,
+    "2008": 29.4,
+    "2009": 32.5,
+    "2010": 33.6,
+    "2011": 31.9,
+    "2012": 31.8,
+    "2013": 32.2,
+    "2014": 33.7,
+    "2015": 33.0,
+    "2016": 33.0,
+    "2017": 30.6,
+    "2018": 35.7,
+    "2019": 36.4,
+    "2020": 33.7,
+    "2021": 29.1,
+    "2022": 35.5,
+    "2023": 31.8,
+    "2024": 31.6,
+    "2025": 35.8
+   },
+   "warmest_day_to_cut_c": {
+    "1951": 28.6,
+    "1952": 31.0,
+    "1953": 27.0,
+    "1954": 27.6,
+    "1955": 28.4,
+    "1956": 27.0,
+    "1957": 32.3,
+    "1958": 27.2,
+    "1959": 32.7,
+    "1960": 28.2,
+    "1961": 31.7,
+    "1962": 26.3,
+    "1963": 26.4,
+    "1964": 29.8,
+    "1965": 25.6,
+    "1966": 29.0,
+    "1967": 29.2,
+    "1968": 30.4,
+    "1969": 30.4,
+    "1970": 28.3,
+    "1971": 29.6,
+    "1972": 31.0,
+    "1973": 30.9,
+    "1974": 25.6,
+    "1975": 29.5,
+    "1976": 32.3,
+    "1977": 29.2,
+    "1978": 31.2,
+    "1979": 29.7,
+    "1980": 28.5,
+    "1981": 29.7,
+    "1982": 31.6,
+    "1983": 32.1,
+    "1984": 29.7,
+    "1985": 29.0,
+    "1986": 30.1,
+    "1987": 28.7,
+    "1988": 27.7,
+    "1989": 31.1,
+    "1990": 33.6,
+    "1991": 32.2,
+    "1992": 30.7,
+    "1993": 28.2,
+    "1994": 32.3,
+    "1995": 32.3,
+    "1996": 33.2,
+    "1997": 28.1,
+    "1998": 31.5,
+    "1999": 31.7,
+    "2000": 32.9,
+    "2001": 30.8,
+    "2002": 32.6,
+    "2003": 33.3,
+    "2004": 29.0,
+    "2005": 32.9,
+    "2006": 33.7,
+    "2007": 29.2,
+    "2008": 29.4,
+    "2009": 28.9,
+    "2010": 33.6,
+    "2011": 31.9,
+    "2012": 28.5,
+    "2013": 32.2,
+    "2014": 33.7,
+    "2015": 33.0,
+    "2016": 33.0,
+    "2017": 30.6,
+    "2018": 35.7,
+    "2019": 36.4,
+    "2020": 31.5,
+    "2021": 29.1,
+    "2022": 35.5,
+    "2023": 31.8,
+    "2024": 29.8,
+    "2025": 35.8,
+    "2026": 36.1
    },
    "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis."
   }

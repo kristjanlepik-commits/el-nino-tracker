@@ -41,7 +41,20 @@ ROOT = Path(__file__).resolve().parent.parent
 SERIES = ROOT / "heat" / "data" / "city_series.json"
 OUT = ROOT / "heat" / "data" / "city_nights.json"
 
-FEATURED = ("Paris", "Madrid", "Bilbao")
+# Product's ruling 2026-08-07. Bilbao is OUT and the argument is the one
+# neither design nor I made: Bilbao's headline figure is 13.7x, a ratio
+# against a 1.17-night baseline, which is precisely the construction the
+# nights gate exists to distrust. The number that made it look like a
+# featured city is the number we are not permitted to quote.
+#
+# Vienna in: the metric holds at 4.33 nights a year, it is at an outright
+# record on BOTH instruments, and it is neither Spanish nor French, which is
+# the point of the geography headline.
+#
+# Order is deliberate. PARIS IS THE GATED CASE, VIENNA THE UNGATED ONE, so
+# building them in that sequence exercises both branches of the optional
+# blocks template rather than discovering the second branch on city four.
+FEATURED = ("Paris", "Madrid", "Vienna")
 
 # For the map. Product's ruling 2026-08-07: the geography IS the headline, and
 # a map is the only rendering where "the extreme band is the middle of the
@@ -55,6 +68,7 @@ COORDS = {
     "Montpellier": (43.6, 3.9), "Lyon": (45.8, 4.8), "Vienna": (48.2, 16.4),
     "Munich": (48.1, 11.6), "Paris": (48.9, 2.4), "Frankfurt": (50.1, 8.7),
     "Cologne": (50.9, 7.1), "Berlin": (52.5, 13.4), "Hamburg": (53.6, 10.0),
+    "Amsterdam": (52.3, 4.8),
 }
 
 LICENCE = {
@@ -71,6 +85,10 @@ LICENCE = {
     "DE": {"licence": "GeoNutzV: reuse permitted, including commercial, "
                       "with attribution",
            "commercial_use": True, "attribution": "Source: DWD", "lag_days": 2},
+    "NL": {"licence": "KNMI open data: reuse permitted, including "
+                      "commercial, with attribution",
+           "commercial_use": True, "attribution": "Source: KNMI",
+           "lag_days": 2},
 }
 
 
@@ -135,6 +153,14 @@ def record_rate(S, key, pct="95", lo=1990, hi=2025):
 
 def main() -> int:
     S = json.loads(SERIES.read_text())
+    # Documented station relocations, read from each service's own metadata.
+    # The statistical route was built, calibrated and found to have no power
+    # at this effect size; see heat/blend_gate.py. A relocation is an
+    # administrative event and the service publishes it.
+    HP = ROOT / "heat/data/station_history.json"
+    HIST = json.loads(HP.read_text())["stations"] if HP.exists() else {}
+    EARLIEST_USED = (json.loads(HP.read_text())["thresholds"]
+                     ["earliest_year_that_matters"] if HP.exists() else 1961)
     B = json.loads((ROOT / "heat/data/record_rate_baseline.json").read_text())
     ties = S["tie_rule"]["ties_count_against_current_year"]
 
@@ -182,6 +208,26 @@ def main() -> int:
                     "This rank may not be rendered without the series below "
                     "it. A bare rank is an alarm; the same rank beside its "
                     "ordinary years is a calibrated statement.",
+                # Kristjan's ruling 2026-08-07: Frankfurt keeps its record and
+                # the 2014 move is stated on the page. The condition is that
+                # the asterisk is DRIVEN BY THIS FIELD, never typed, exactly
+                # as requires_series blocks a bare rank.
+                #
+                # Structural rather than a one-off because the night gate
+                # closed Frankfurt's worst exposure BY ACCIDENT. Luck that
+                # holds today is not a control, and the next city with a move
+                # may not be gated.
+                "requires_relocation_note": bool(
+                    HIST.get(c, {}).get("relocations_in_period")),
+                "relocation_note_text": (
+                    "This station moved {0} in {1}, so the record is not one "
+                    "continuous site and 'of {2}' spans more than one.".format(
+                        ", ".join(f"{m['km']} km" for m in
+                                  HIST[c]["relocations_in_period"]),
+                        ", ".join(m["date"][:4] for m in
+                                  HIST[c]["relocations_in_period"]),
+                        of_years)
+                    if HIST.get(c, {}).get("relocations_in_period") else None),
                 "matched_to_same_date": True,
             },
             "series_to_same_date": {
@@ -232,6 +278,101 @@ def main() -> int:
                 "RATIO, MULTIPLE OR RECORD; use the percentile warm-night "
                 "series instead. Applied by rule, not by list, so a city added "
                 "tomorrow is covered without anyone remembering to check.",
+            # EVERY CONSTRAINT A CITY PAGE CAN VIOLATE, ON THE CITY OBJECT.
+            #
+            # The nights gate was general and correct and STILL failed, because
+            # it was emitted at headline level and a city page renders one
+            # city. From my side the rule was plainly there; from design's it
+            # was invisible. That is a seam defect rather than either side's
+            # mistake, and it is not specific to the gate: four constraints
+            # sat where a city page could not reach them.
+            #
+            # The pair below is the dangerous one. The nights prohibition and
+            # the days permission are OPPOSITES on the same page, and a city
+            # page puts both instruments side by side. Three times today a
+            # caveat nearly travelled to the instrument it is false for.
+            "page_constraints": {
+                "nights": {
+                    "may_not_say": B["may_not_say"],
+                    "reason": "2026 is not the worst year on the night "
+                              "measure. 2003 was worse.",
+                },
+                "days": {
+                    "may_say_worst_on_record": True,
+                    "reason": "2026 sets more city day-records than any year "
+                              "in the window, including 2003. THE OPPOSITE OF "
+                              "THE NIGHTS RULE ABOVE. The two instruments do "
+                              "not share a caveat, and this page shows both.",
+                },
+                "banned_words": ["ordinary"],
+                "banned_words_reason":
+                    "No city in this set is ordinary. The least extreme "
+                    "readings are the 86th to 90th percentile of their own "
+                    "records. Calling one ordinary is the error that turned a "
+                    "91st-percentile Marseille into 'an ordinary summer'.",
+                "why_here":
+                    "Repeated on every city because a page renders one city "
+                    "and cannot be asked to read the headline object. A "
+                    "constraint the renderer cannot reach is a constraint "
+                    "that does not exist.",
+            },
+            # ON THE CITY, because a relocation qualifies THIS city's rank and
+            # a city page renders one city. Same rule as page_constraints.
+            "station_relocations": HIST.get(c, {}).get(
+                "relocations_in_period", []),
+            "station_moved_in_period": bool(
+                HIST.get(c, {}).get("relocations_in_period")),
+            "station_history_checked": c in HIST,
+            "station_disclosure": (
+                "Station history not yet checked."
+                if c not in HIST else
+                "The met service states this series is inhomogeneous, because "
+                "of station relocations and changes in observation technique, "
+                "and not suitable for comparison across time."
+                if HIST[c].get("producer_inhomogeneity_warning") else
+                # THREE cases here, not two, and the third was reading as the
+                # second. A city with NO second copy is not the same as a city
+                # whose second copy is a redistribution, and neither is the
+                # same as one that was genuinely compared. Amsterdam has no
+                # second copy at all; the branch fired because its changepoint
+                # value is ABSENT and absent was reading as zero.
+                ("No published station history exists for this service, and no "
+                 "independent copy of this station is available, so a change "
+                 "of instrument could not be ruled out."
+                 if HIST[c].get("changepoint_t") is None else
+                 "No published station history exists for this service, and "
+                 "the second copy available is a redistribution of the same "
+                 "observations, so a change of instrument could not be ruled "
+                 "out by comparison."
+                 if HIST[c]["changepoint_t"] < 0.01 else
+                 "No published station history exists for this service. "
+                 "Compared against a second copy of the same station and no "
+                 "change of instrument was detected.")
+                if HIST[c].get("history_available") is False else
+                "Station record combines two instruments at the same site, "
+                "with a documented handover in 1993."
+                if HIST[c].get("composite") else
+                "Station has not moved since {0}.".format(EARLIEST_USED)
+                if not HIST[c]["relocations_in_period"] else
+                "Station moved {0} in {1}.".format(
+                    ", ".join(f"{m['km']} km" for m in
+                              HIST[c]["relocations_in_period"]),
+                    ", ".join(m["date"][:4] for m in
+                              HIST[c]["relocations_in_period"]))),
+            "station_disclosure_note":
+                "Kristjan's ruling 2026-08-07: show the state per city rather "
+                "than verify quietly or hedge across the set. THREE DIFFERENT "
+                "FACTS and the reader gets whichever is true. Generated from "
+                "the fields, never typed. When a city moves from unchecked to "
+                "checked-and-clean the page improves with no copy change.",
+            "station_note":
+                "Documented moves inside the period we publish, from the met "
+                "service's own station history. WHERE THIS IS NON-EMPTY the "
+                "record is not a single continuous site, so 'Nth of M years' "
+                "overstates comparability and any baseline spanning the move "
+                "is computed across two sites. Empty list means checked and "
+                "clean; station_history_checked false means NOT CHECKED, "
+                "which is not the same thing.",
             "record_margin_nights": (n26 - max(below)) if r == 1 and below else None,
             "featured": c in FEATURED,
         }
@@ -366,7 +507,13 @@ def main() -> int:
     recs_ok = [c for c in recs if c in ok_cities]
     top5 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 95]
     top10 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 90]
-    thin = [c for c, v in cities.items() if v.get("record_margin_nights") == 1]
+    # A NIGHT-fragility list must not contain a city whose night metric is
+    # gated. Amsterdam arrived with 3 tropical nights against a baseline of
+    # 0.17 and landed in a list about one-night margins, which would have
+    # invited exactly the ratio the gate forbids.
+    thin = [c for c, v in cities.items()
+            if v.get("record_margin_nights") == 1
+            and not v["nights_metric_gated"]]
     nomult = sorted(c for c, v in cities.items()
                     if not v["days"]["multiple_available"])
 
@@ -536,6 +683,37 @@ def main() -> int:
             "Europe, where tropical nights are near zero and ratios divide by "
             "almost nothing.",
     }
+    # GUARD. A constraint that exists only at headline level is unreachable
+    # from a city page, which is how the nights gate came to look like a
+    # two-city list. This fails the emit rather than reporting it, because a
+    # check that cannot stop the thing it checks is a comment.
+    REQUIRED = ("page_constraints", "nights_metric_gated",
+                "nights_baseline_per_year", "rank", "days",
+                "series_to_same_date")
+    missing = {c: [k for k in REQUIRED if k not in v]
+               for c, v in cities.items()}
+    missing = {c: k for c, k in missing.items() if k}
+    if missing:
+        print(f"  FAIL: cities missing page-level fields: {missing}",
+              file=sys.stderr)
+        return 1
+    # The two caveats are opposites BY MEASUREMENT, not by assertion, so the
+    # guard recomputes the fact rather than comparing the two prose fields.
+    # My first version compared a sentence to a boolean, which is not a
+    # comparison at all: it fired on every city including the correct ones.
+    # A guard that cannot be wrong about the thing it guards is worth more
+    # than a guard that merely looks strict.
+    nights_worse_before = nbase["worst_year_on_record"]["cities"] >= len(recs)
+    days_worse_now = dbase["worst_year_on_record"]["cities"] < len(drecs)
+    if not (nights_worse_before and days_worse_now):
+        print(f"  FAIL: the nights/days caveat pair no longer holds. "
+              f"nights 2026={len(recs)} vs worst "
+              f"{nbase['worst_year_on_record']}; days 2026={len(drecs)} vs "
+              f"worst {dbase['worst_year_on_record']}. The page_constraints "
+              f"text asserts an inversion the data no longer supports.",
+              file=sys.stderr)
+        return 1
+
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else OUT
     out.write_text(json.dumps(payload, indent=1) + "\n")
     print(f"wrote {out}")

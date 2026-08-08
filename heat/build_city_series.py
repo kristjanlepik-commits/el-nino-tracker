@@ -93,6 +93,21 @@ CITIES = {
     # recorded ONE tropical night in 2026 and Berlin three. A 20 C count
     # cannot carry a ratio off that base, and no amount of extra data fixes
     # it, because the threshold is the problem rather than the record.
+    # GeoSphere 105, which is typed COMBINED. Within our window it splices
+    # two instruments AT THE SAME OBSERVATORY: Hohe Warte 5901 at 203 m to
+    # 1992, Hohe Warte 5904 at 198 m after. That is categorically milder than
+    # Murcia (two towns, 1.19 C) or Frankfurt (5.9 km, 0.57 C).
+    #
+    # The individual station 5904 was tried and REJECTED: this dataset carries
+    # no Tmin for it before 1991, so it yields 34 usable years against 77. The
+    # metadata's valid_from of 1934 is when the station existed, not when this
+    # series holds its minima, which is a trap worth naming.
+    #
+    # Neighbour testing at the declared 1993 handover gives +0.44 C with the
+    # same sign against 3 of 4 neighbours. SUGGESTIVE, not established: the
+    # neighbours are German cities 350-750 km away and one of them (Frankfurt)
+    # has a confirmed step of its own. Disclosed in the payload rather than
+    # resolved, and it is product's call whether Vienna stays featured.
     "Vienna":    dict(country="AT", station="Wien Hohe Warte", cut=(8, 3),
                       file="gs_Vienna.json"),
     "Berlin":    dict(country="DE", station="Berlin-Tempelhof", cut=(8, 3),
@@ -105,6 +120,20 @@ CITIES = {
                       file="dwd_Munich.json"),
     "Cologne":   dict(country="DE", station="Koeln/Bonn", cut=(8, 3),
                       file="dwd_Cologne.json"),
+    # REINSTATED 2026-08-07 after the hold, on evidence rather than argument.
+    #
+    # Amsterdam was held because KNMI prints "not suitable for trend analysis"
+    # on its responses. Tested: that text is IDENTICAL on every KNMI station,
+    # including De Bilt, the station KNMI itself uses for national climate
+    # reporting. It is a service-wide disclaimer on raw station data, not an
+    # assessment of Schiphol, and it is substantively what DWD says about the
+    # series behind five German cities we publish.
+    #
+    # KNMI publishes current position only, exactly like AEMET, so Amsterdam
+    # carries the no-published-history disclosure the ten Spanish cities
+    # already carry. Not a clean bill: the same one they have.
+    "Amsterdam": dict(country="NL", station="Schiphol", cut=(8, 3),
+                      file="knmi_Amsterdam.json"),
 }
 
 
@@ -124,13 +153,26 @@ def load_aemet(city, fname=None):
     return tn, tx
 
 
+# NUM_POSTE, pinned. Filtering by display name is the Murcia mistake in a
+# second costume: FOUR posts publish under the name NICE, at 2 m, 6 m, 37 m
+# and 79 m elevation and up to 8 km apart. Measured, they contribute no
+# temperature at all, only rain and wind, so the series was clean by luck
+# rather than by construction. Had one of them carried a Tmin, the loader
+# would have taken whichever row it read last and nothing would have said so.
+MF_POSTE = {
+    "Paris": "91027002", "Marseille": "13054001", "Nice": "06088001",
+    "Montpellier": "34154001", "Lyon": "69299001",
+}
+
+
 def load_mf(city, station):
     tn, tx = defaultdict(dict), defaultdict(dict)
+    poste = MF_POSTE[city]
     for part in ("hist", "recent"):
         p = SRC / f"mf_{city}_{part}.csv.gz"
         with gzip.open(p, "rt", encoding="latin-1") as fh:
             for r in csv.DictReader(fh, delimiter=";"):
-                if (r.get("NOM_USUEL") or "").strip().upper() != station:
+                if r.get("NUM_POSTE") != poste:
                     continue
                 d = r.get("AAAAMMJJ", "")
                 if len(d) != 8:
@@ -253,7 +295,8 @@ def build(city, meta):
         "source": {"ES": "AEMET OpenData",
                    "FR": "Meteo-France, via data.gouv.fr",
                    "AT": "GeoSphere Austria",
-                   "DE": "DWD Climate Data Center"}[meta["country"]],
+                   "DE": "DWD Climate Data Center",
+                   "NL": "KNMI"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,
