@@ -79,21 +79,22 @@ Barcelona's record has real holes at 1928-1937 and 1939-1943.
 **None of these is a defect awaiting a fix.** They are properties of the
 measurement and they are permanent.
 
-**These cities are not a sample of Europe, and the bias runs toward heat.**
-They were chosen in stages, none of them random. The first fifteen were
-Spanish and French because the tropical-night measure only works where
-tropical nights are common, which is choosing cities on the basis of the
-thing being measured. Germany and Austria followed to reach further north.
-Amsterdam was added because it was expected to be hot. Stockholm was added
-deliberately to find a city that was not extreme, and is the only member
-picked against the prevailing direction.
+**These cities were chosen to show where the abnormal heat is, and they are
+not a sample of Europe.** Both halves matter. This channel exists to show
+where the extremes are and how hard, so the cities are selected toward that
+and not drawn at random. The first fifteen were Spanish and French because
+the tropical-night measure only works where tropical nights are common;
+Germany and Austria reached further north; Stockholm was added to include a
+city that was not extreme.
 
-Fifteen of the twenty-four are Iberia and France. There is no city east of
-18.1 degrees, so no Poland, Baltics, Balkans or European Russia, and none
-from Italy, Greece, Portugal or the UK. **A representative sample would
-almost certainly show a smaller share of cities at a record.** Nothing on
-these pages supports a statement about Europe, and every count is a count of
-these cities only.
+**The consequence, and it is the only one:** no proportion here generalises
+to the continent. Fifteen of the twenty-four are Iberia and France, there is
+no city east of 18.1 degrees, and none from Italy, Greece, Portugal or the
+UK. A set chosen at random would show a smaller share of cities at a record,
+because it would include places where nothing is happening.
+
+So every count is a count of these cities. "Fourteen of twenty-four" is
+exactly that and never a statement about Europe.
 
 **This is not a climate measurement.** A city thermometer records the
 city: buildings, tarmac and traffic warm it alongside any regional
