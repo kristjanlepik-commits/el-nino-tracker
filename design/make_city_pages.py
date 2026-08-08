@@ -1,14 +1,15 @@
-"""All 21 heat city pages from one template.
+"""All 22 heat city pages from one template.
 
 Every page is a landing page: Kristjan's framing is that these get linked
 in promotion and a reader arrives caring about their own city. So the
 URL and the claim have to stand alone.
 
 THE BRANCHES, enumerated from the payload rather than discovered on city
-four. Eight cities need no special case; the other thirteen need one of:
+four. Eight cities need no special case; the other fourteen need one of:
 
-  night-gated (7)      Hamburg, Cologne, Munich, Bilbao, Frankfurt,
-                       Berlin, Paris. Under two hot nights a year, so no
+  night-gated (8)      Hamburg, Cologne, Munich, Bilbao, Frankfurt,
+                       Berlin, Paris, Amsterdam. Under two hot nights a
+                       year, so no
                        ratio, multiple or record may be quoted on nights.
                        Read from the payload flag, never inferred.
   no day multiple (3)  Lyon, Murcia, Palma. Station opened after 1961 so
@@ -30,7 +31,7 @@ part-finished 2026 is never set against complete seasons. The payload's
 b6190 is a WHOLE-YEAR mean and is deliberately unused: pairing it with a
 part-season count understates the change and misdescribes the basis.
 """
-import json, math, statistics as st
+import json, math, re, statistics as st
 from pathlib import Path
 
 R = Path(__file__).resolve().parent.parent
@@ -117,6 +118,52 @@ def line(data, w=880, h=104, mark_year=None, ring_year=None):
 def units(k, accent=False):
     cls = "u ua" if accent else "u"
     return "".join(f'<span class="{cls}"></span>' for _ in range(int(round(k))))
+
+
+def ordn(n):
+    """11th, 12th, 13th are the cases a naive last-digit rule gets wrong, and
+    ranks in the teens are common here. Two spellings existed before this:
+    an inline dict that stopped at 3rd, and a bare "th" that shipped
+    "2th of 87" on Barcelona and Cologne and "3th of 106" on Madrid."""
+    n = int(n)
+    suf = "th" if n % 100 in (11, 12, 13) else \
+        {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suf}"
+
+
+def text_of(html):
+    """Rendered words only. A guard that greps raw HTML finds nothing when a
+    phrase is split across tags, and reports that as proof of absence."""
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html)).strip()
+
+
+# Prohibitions the payload carries per city (D-104), checked against the
+# rendered page rather than trusted. heat repeats them on every city
+# "because a page renders one city and cannot be asked to read the headline
+# object", so the renderer has no excuse for not reading them.
+NIGHT_SUPERLATIVES = ["worst year", "worst summer", "worst on record",
+                      "most on record", "more than any year",
+                      "more hot nights than any"]
+
+
+def check_constraints(name, page_html, night_html, pc):
+    # Absent is a failure rather than a pass. A prohibition that quietly
+    # stops arriving is indistinguishable from one that was never violated,
+    # and the second is what the build would otherwise report.
+    if not pc:
+        raise SystemExit(f"{name}: no page_constraints in the payload. The "
+                         f"page will not be built without them.")
+    for w in pc.get("banned_words", []):
+        if re.search(rf"\b{re.escape(w)}\b", text_of(page_html), re.I):
+            raise SystemExit(f"{name}: the page uses the banned word "
+                             f"{w!r}. {pc.get('banned_words_reason', '')}")
+    if pc.get("nights", {}).get("may_not_say"):
+        low = text_of(night_html).lower()
+        for p in NIGHT_SUPERLATIVES:
+            if p in low:
+                raise SystemExit(
+                    f"{name}: the nights block claims {p!r}, and the payload "
+                    f"says it may not. {pc['nights']['may_not_say']}")
 
 
 CSS = """
@@ -212,9 +259,8 @@ for name, v in sorted(C.items()):
                     f"here, which is not true everywhere: a count and a peak are "
                     f"separate claims and each carries its own rank.")
     else:
-        ordn = {2: "2nd", 3: "3rd"}.get(prank, f"{prank}th")
         peak_cap = (f"The hottest day of {name}'s year, to the same date. "
-                    f"<strong>2026 is the {ordn} hottest, not the hottest</strong>, "
+                    f"<strong>2026 is the {ordn(prank)} hottest, not the hottest</strong>, "
                     f"at {peak}&nbsp;&deg;C against {pprev}&nbsp;&deg;C in {pprev_y}, "
                     f"the open ring. More hot days than any year on record and its "
                     f"hottest day still short of one: a count and a peak are "
@@ -247,6 +293,16 @@ for name, v in sorted(C.items()):
                  f'1961-1990 baseline is part-length and drawn from the warmer end of '
                  f'the period. The count and the rank stand; the ratio is not emitted '
                  f'at all rather than emitted with a warning.</p>')
+
+    # THE RELOCATION NOTE SITS WITH THE RANK, not in the footer, because the
+    # rank is what it undermines: "of 79" spans more than one site. D-081, a
+    # qualifier lives at the level of the thing it qualifies. Four cities
+    # carry one; the flag is read, never inferred from the move list.
+    reloc = (" " + v["rank"]["relocation_note_text"]
+             if v["rank"].get("requires_relocation_note") else "")
+    rank_txt = ("the most on record" if dr["value"] == 1
+                else f'{ordn(dr["value"])} of {dr["of_years"]}')
+    rank_cap = f"2026 is {rank_txt} for hot days.{reloc}"
 
     top = max(max(x for _, x in D), 1)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -291,8 +347,7 @@ part-finished summer is never set against complete ones.</p>
 <div class="seclab">Every summer on this thermometer</div>
 <div class="grid"><span class="gk">Hot days<em>above {th} &deg;C</em></span>
 <span>{bars(D, top)}</span></div>
-<p class="cap">2026 is {"the most on record" if dr["value"] == 1 else
-f'{dr["value"]}th of {dr["of_years"]}'} for hot days.</p>
+<p class="cap">{rank_cap}</p>
 {mult_note}
 
 {night_block}
@@ -304,13 +359,21 @@ f'{dr["value"]}th of {dr["of_years"]}'} for hot days.</p>
 <div class="src">
 <span>{S[name]['source']}, {S[name]['station']}, daily minimum and maximum</span>
 <span style="text-align:right">to {v['counted_to']}</span>
+<!-- Kristjan's ruling, 2026-08-07: show the state per city rather than
+     verify quietly or hedge across the set. Three different facts and the
+     reader gets whichever is true of their city. Generated by heat from
+     the station history, never typed here, so a city moving from unchecked
+     to checked-and-clean improves the page with no copy change. -->
+<span>{v['station_disclosure']}</span>
+<span style="text-align:right">station history</span>
 <span>Hot days, this station's own 95th percentile of July-August maxima, 1971 to 2000</span>
 <span style="text-align:right">{th} &deg;C</span>
 <span>Hot nights, ETCCDI index TR, at or above 20.0 &deg;C</span>
 <span style="text-align:right">not chosen by us</span>
 </div>
-<p style="margin-top:26px"><a class="back" href="index.html">All 21 cities</a></p>
+<p style="margin-top:26px"><a class="back" href="index.html">All {len(C)} cities</a></p>
 </main></body></html>"""
+    check_constraints(name, html, night_block, v.get("page_constraints", {}))
     out = R / f"docs/heat/{slug(name)}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)

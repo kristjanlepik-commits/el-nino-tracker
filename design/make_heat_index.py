@@ -30,7 +30,7 @@ design:
   carries magnitude without inviting a cross-city comparison the method
   refuses: every pair of numbers is on that city's own threshold.
 """
-import json, math, statistics as st
+import json, math, re, statistics as st
 from pathlib import Path
 
 R = Path(__file__).resolve().parent.parent
@@ -45,7 +45,14 @@ COAST = json.loads((R / "design/data/europe_coast.json").read_text())
 C, DH = N["cities"], N["day_headline"]
 
 BOX = {"ES": (36.0, 43.8, -9.3, 4.3), "FR": (41.3, 51.1, -5.2, 9.6),
-       "DE": (47.2, 55.1, 5.8, 15.1), "AT": (46.3, 49.1, 9.5, 17.2)}
+       "DE": (47.2, 55.1, 5.8, 15.1), "AT": (46.3, 49.1, 9.5, 17.2),
+       "NL": (50.7, 53.6, 3.3, 7.3)}
+# A country arriving in the payload with no box would otherwise skip the
+# check silently, which is the one failure this guard exists to prevent.
+for _n, _v in C.items():
+    if _v["country"] not in BOX:
+        raise SystemExit(f"{_n}: no bounding box for {_v['country']}, so its "
+                         f"coordinate cannot be checked. Add one.")
 rows = []
 for n, v in C.items():
     if n not in CO:
@@ -325,6 +332,39 @@ def city_row(i, d):
 all_rows = "".join(city_row(i, d) for i, d in enumerate(rows, 1))
 
 MAR, BER = C["Marseille"], C["Berlin"]
+
+# The bottom rung read "An ordinary summer for it", which heat's payload
+# bans outright for every city in this set, and the ban is the right call:
+# the palest mark on the map is Berlin at the 87th percentile of its own
+# record, so a reader pairing the palest disc with the bottom label lands
+# on exactly the false reading. The rung stays, because D-043 needs the
+# calm end of the scale drawn as legibly as the extreme, and it says so
+# itself. The emptiness is asserted only while it is true.
+F0_LABEL = "Beats fewer than 16 of every 20"
+if not [d for d in rows if d["pct"] < 80.0]:
+    F0_LABEL += ". No city in this set"
+
+# The same prohibition the city pages enforce, applied here. It exists
+# because the legend defect above was in a drawing, and the ban had only
+# ever been checked against prose.
+BANNED = sorted({w for v in C.values()
+                 for w in v.get("page_constraints", {}).get("banned_words", [])})
+
+# DERIVED, because both of these were hard-coded and both went wrong the
+# first time the payload changed under them. The met services listed a
+# four-service set after Amsterdam arrived on a fifth, and the cut dates
+# were typed. A citation that a reader can check is the whole pitch, so
+# the source block is the last place a stale string is acceptable.
+SERVICES = ", ".join(sorted({v["source"]["attribution"].replace("Source: ", "")
+                             for v in C.values()}))
+_MON = ["January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"]
+_cuts = sorted({v["counted_to"] for v in C.values()})
+_days = [str(int(c.split("-")[2])) for c in _cuts]
+_last = _cuts[-1].split("-")
+CUT_TXT = (" and ".join([", ".join(_days[:-1]), _days[-1]] if len(_days) > 2
+                        else _days) + f" {_MON[int(_last[1]) - 1]} {_last[0]}")
+
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Heat &middot; The Long Swell</title>
@@ -413,7 +453,7 @@ In a typical year {DH['baseline']['median_year']} of them do.</p>
 <span class="ks"><i style="background:var(--f3)"></i>A record. Its most hot days ever</span>
 <span class="ks"><i style="background:var(--f2)"></i>Hotter than 19 of every 20 of its summers</span>
 <span class="ks"><i style="background:var(--f1)"></i>Hotter than 16 of every 20</span>
-<span class="ks"><i style="background:var(--f0)"></i>An ordinary summer for it</span>
+<span class="ks"><i style="background:var(--f0)"></i>{F0_LABEL}</span>
 <span>Every city is the same disc. The fill is how many of that city's own
 summers this one beats, so nothing between the marks is shaded and no city is
 drawn as empty.</span></div>
@@ -449,17 +489,30 @@ year: dividing by a base that thin produces a large number and no evidence. The 
 a flag on each city rather than a threshold applied here.</p>
 
 <div class="src">
-<span>AEMET OpenData, Meteo-France, GeoSphere Austria, Deutscher Wetterdienst</span>
-<span style="text-align:right">to 2 and 3 August 2026</span>
+<span>{SERVICES}</span>
+<span style="text-align:right">to {CUT_TXT}</span>
 <span>Hot days, above each station's own 95th percentile of July-August maxima, 1971 to 2000</span>
 <span style="text-align:right">{len(rows)} stations</span>
-<span>Coastlines, Natural Earth 110m, merged land so no country borders are drawn</span>
-<span style="text-align:right">public domain</span>
+<span>Coastlines, {COAST["source"]}, merged land so no country borders are drawn</span>
+<span style="text-align:right">{COAST["licence"]}</span>
 </div>
 </main></body></html>"""
 out = R / "docs/heat/index.html"
 out.parent.mkdir(parents=True, exist_ok=True)
+# Strip comments and CSS FIRST. Tag-stripping alone leaves stylesheet text
+# and HTML comments in the string, so the guard would report a word that no
+# reader can see, and the natural fix for that false positive is to weaken
+# the guard.
+_body = re.sub(r"<(style|script)\b.*?</\1>", " ",
+               re.sub(r"<!--.*?-->", " ", html, flags=re.S), flags=re.S | re.I)
+_visible = re.sub(r"<[^>]+>", " ", _body)
+for _w in BANNED:
+    if re.search(rf"\b{re.escape(_w)}\b", _visible, re.I):
+        raise SystemExit(f"index: banned word {_w!r} is visible on the page.")
 out.write_text(html)
 print(f"wrote {out} | {len(rows)} cities, {len(coast)} coast rings, "
-      f"top is {rows[0]['name']} (p={rows[0]['p']:.3f}), "
-      f"last is {rows[-1]['name']} (p={rows[-1]['p']:.3f})")
+      # Report the quantity that ACTUALLY orders the list. This line still
+      # printed the Weibull plotting position after percentile replaced it,
+      # so the build log described an ordering the page no longer uses.
+      f"top is {rows[0]['name']} at pct {rows[0]['pct']:.1f}, "
+      f"last is {rows[-1]['name']} at pct {rows[-1]['pct']:.1f}")
