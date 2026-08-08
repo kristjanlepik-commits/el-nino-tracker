@@ -3,7 +3,10 @@
     "Station coordinates for the heat map. DESIGN-OWNED, not a measurement.",
     "Same basis as design/country_centroids.json: placing a mark on a map is",
     "cartography rather than science, so it does not belong in heat's payload.",
-    "Rounded to 0.01 degrees, which is far finer than a 22-mark map resolves.",
+    "Rounded to 0.01 degrees, which is far finer than the map resolves.",
+    "These are STATION positions, not city centres: Amsterdam is Schiphol and",
+    "Stockholm is Bromma, both several km out, and the label names the city",
+    "while the source line names the station.",
     "Validated at build time against each city's country bounding box and",
     "against heat's own geography.band, so a transposed pair fails the build."
   ],
@@ -29,6 +32,8 @@
     "Cologne":     {"lat": 50.94, "lon": 6.96},
     "Berlin":      {"lat": 52.52, "lon": 13.40},
     "Hamburg":     {"lat": 53.55, "lon": 9.99},
-    "Amsterdam":   {"lat": 52.31, "lon": 4.77}
+    "Amsterdam":   {"lat": 52.31, "lon": 4.77},
+    "Stockholm":   {"lat": 59.35, "lon": 17.94},
+    "Prague":      {"lat": 50.07, "lon": 14.43}
   }
 }
