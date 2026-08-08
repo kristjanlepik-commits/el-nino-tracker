@@ -449,54 +449,75 @@ def minichart(name, w=316, h=34):
 
 def city_row(i, d):
     nm = d["name"]
-    # "record" under every name repeated what the grouping already says.
-    lab = ("" if d["rank"] == 1 else f'{ordinal(d["rank"])} of {d["of"]} &middot; ')
+    # EVERY ROW SAYS ITS RANK, including the fourteen firsts. Editor's fix and
+    # it dissolves two separate defects at once.
+    #
+    # Before, a record row read "88 years of record" and a non-record read
+    # "2nd of 87", so the ABSENCE of a rank was the record signal. An absence
+    # cannot be read. It also left the block looking ordered while fourteen
+    # cities were level, so a reader could conclude Alicante beat Zaragoza
+    # when nothing separates them.
+    #
+    # Fourteen consecutive rows reading "1st of N" ARE the tie, visibly, with
+    # nothing to explain. It is also strictly more informative in the same
+    # space: the record length that "88 years of record" carried, plus the
+    # rank it omitted.
+    #
+    # READ, NEVER DERIVED. Ties count against throughout, so a year tied with
+    # 2026 keeps it off first place and a city can sit in the record group of
+    # the map's colouring while its rank value is not 1. The label says what
+    # days.rank.value says.
+    lab = f'{ordinal(d["rank"])} of {d["of"]} summers &middot; '
     href = PAGES.get(nm)
     title = (f'<a href="{href}" class="cty">{nm}</a>' if href
              else f'<span class="cty dim">{nm}</span>')
 
     return (f'<div class="lrow">'
-            f'<span class="lcty">{title}<span class="lsub">{lab}'
-            f'{d["of"]} years of record</span></span>'
+            f'<span class="lcty">{title}<span class="lsub">'
+            f'{lab.rstrip(" &middot; ")}</span></span>'
             f'<span class="lbar">{minichart(nm)}</span>'
             f'<span class="lval">{d["now"]}<span class="lbase">vs {d["base"]:.0f}</span>'
             f'</span></div>')
 
-# THE TIE IS DRAWN NOW, not explained. Fourteen cities are level at the top
-# and sit alphabetically inside that tie, and a reader who cannot see the tie
-# reads a vertical list as a ranking and concludes Alicante is worse than
-# Zaragoza when nothing separates them.
-#
-# Editor cut the 80-word paragraph that used to prevent this and was right to:
-# it was prose permanently compensating for a drawing. So the drawing does it.
-# A banded heading over each group says what the group is and how many are in
-# it, which is the same fact in four words and cannot be skipped the way a
-# paragraph under a chart can.
-#
-# An earlier comment here read "ONE list, the two groups are what the ruling
-# deletes". That ruling was about COLOUR, and about not splitting cities whose
-# plotting positions are equal into separate lists. Grouping cities that are
-# genuinely tied is the opposite move: it is the tie made visible rather than
-# a distinction invented.
-def group_head(kind, n):
-    if kind == "record":
-        txt = (f"{words(n).capitalize()} cities, level at the top. Each has had "
-               f"its most hot days on record, and nothing separates them, so "
-               f"they are listed alphabetically.")
-    else:
-        txt = (f"The other {words(n)}, ordered by where this summer sits in "
-               f"each city's own record.")
-    return f'<div class="lgrp">{txt}</div>'
-
-
+# THE TIE IS SHOWN BY THE ROWS THEMSELVES, see city_row. A banded heading
+# over each group did this for an hour and is gone: once every row states
+# its rank, fourteen consecutive firsts are the tie, and a band saying so
+# is a caption for a drawing that has started explaining itself.
 _recs = [d for d in rows if state(d) == "record"]
 _rest = [d for d in rows if state(d) != "record"]
-all_rows = (group_head("record", len(_recs))
-            + "".join(city_row(i, d) for i, d in enumerate(_recs, 1))
-            + group_head("rest", len(_rest))
-            + "".join(city_row(i, d) for i, d in enumerate(_rest, 1)))
+all_rows = "".join(city_row(i, d) for i, d in enumerate(rows, 1))
 
-MAR, BER = C["Marseille"], C["Berlin"]
+# THE DAY-NIGHT PAIR IS ASSEMBLED, and the typed one was false.
+#
+# Marseille and Berlin were the two cards under a sentence reading "they
+# lean opposite ways". They do not. Marseille is +7.8 toward days and
+# Berlin is +16.4, so Berlin leans toward days HARDER, and the page said
+# the opposite of what its own payload says. Editor caught it by going to
+# the numbers when I pushed to assemble the pair.
+#
+# Worth recording what made it survive: the two glosses that carried the
+# figures, "the days ran further" and "the other way round", were cut this
+# morning for being fragile relational phrasing. They were not fragile,
+# they were false, and cutting them removed the evidence a reader could
+# have checked while leaving the conclusion standing.
+#
+# UNGATED ONLY, and the restriction is doing real work rather than being
+# tidy. A naive argmax over the whole set picks Stockholm at +75.0, which
+# is a story about its nights being unremarkable rather than about the two
+# instruments disagreeing, and which we may not give a night rank to at
+# all because it is gated.
+_ung = [(v["days"]["rank"]["percentile"] - v["rank"]["percentile"], n)
+        for n, v in C.items() if not v.get("nights_metric_gated")]
+DAY_LEAD, NIGHT_LEAD = C[max(_ung)[1]], C[min(_ung)[1]]
+DAY_LEAD_N, NIGHT_LEAD_N = max(_ung)[1], min(_ung)[1]
+# THE SECTION DROPS, the build does not fail. Whether any city leans toward
+# days while another leans toward nights is a property of the weather, not a
+# defect, and a summer where it is not true is one the page still has to
+# render. Failing the build here was my first version and the extremes test
+# caught it inside a minute: with every city forced to the same rank there
+# is no contrast to show, which is correct, and the page must still exist.
+CONTRAST_OK = max(_ung)[0] > 0 > min(_ung)[0]
+_dl_days = next(d["now"] - d["prev_best"] for d in rows if d["name"] == DAY_LEAD_N)
 
 # The hero named Seville and Berlin to teach that the bar is per-city. Editor
 # is right that a typed example goes false in silence: Berlin stops being the
@@ -611,6 +632,21 @@ CUT_TXT = ", ".join(f"{_phrase(ds)} {_MON[int(m) - 1]}"
                     for (y, m), ds in sorted(_by_month.items())) + \
     f" {_cuts[-1][:4]}"
 
+CONTRAST_BLOCK = f"""<div class="seclab">Hot days and hot nights are different summers</div>
+<div class="two">
+<div><span class="tl">{DAY_LEAD_N}</span>Its most hot days on record, by
+{words(_dl_days)} days. For hot nights, {ordinal(DAY_LEAD['rank']['value'])} of
+{DAY_LEAD['rank']['of_years']}.</div>
+<div><span class="tl">{NIGHT_LEAD_N}</span>{ordinal(NIGHT_LEAD['days']['rank']['value'])} of
+{NIGHT_LEAD['days']['rank']['of_years']} for hot days. For hot nights,
+{ordinal(NIGHT_LEAD['rank']['value'])} of {NIGHT_LEAD['rank']['of_years']}.</div>
+</div>
+<p class="subl" style="margin-top:16px">If one measure could stand in for the other,
+these two would lean the same way. They lean opposite ways.
+<strong style="color:var(--ink);font-weight:500">{sum(1 for d in rows if d['gated'])}
+cities show no night figure at all.</strong> They average under two hot nights a year, and
+dividing by a base that small gives you a big number and no evidence.</p>""" if CONTRAST_OK else ""
+
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Heat &middot; The Long Swell</title>
@@ -672,13 +708,6 @@ line-height:1.8;color:var(--ink-faint);max-width:74ch}}
 text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:54px 0 6px}}
 .subl{{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:70ch;margin:12px 0 18px}}
-/* The group band. Quiet enough not to compete with the city names, loud
-   enough that a reader cannot scan past it into the rows below, which is
-   the whole job: it is here so the tie is seen rather than read about. */
-.lgrp{{font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.65;
-color:var(--ink-faint);background:var(--sunk);padding:10px 14px;
-margin:26px 0 0;max-width:74ch}}
-.lgrp:first-child{{margin-top:8px}}
 .lrow{{display:grid;grid-template-columns:170px 316px 1fr 74px;gap:16px;
 align-items:center;padding:9px 0;border-bottom:1px solid var(--rule)}}
 
@@ -728,18 +757,7 @@ days beat all {rows[0]['of']} summers it has on file. {rows[-1]['name']}'s
 just a longer record.</p>
 {all_rows}
 
-<div class="seclab">Hot days and hot nights are different summers</div>
-<div class="two">
-<div><span class="tl">Marseille</span>Its most hot days on record. For hot nights,
-{ordinal(MAR['rank']['value'])} of {MAR['rank']['of_years']}.</div>
-<div><span class="tl">Berlin</span>Hot days beat {BER['days']['rank']['percentile']:.0f} in
-100 of its own summers. Hot nights, {BER['rank']['percentile']:.0f} in 100.</div>
-</div>
-<p class="subl" style="margin-top:16px">If one measure could stand in for the other,
-these two would lean the same way. They lean opposite ways.
-<strong style="color:var(--ink);font-weight:500">{sum(1 for d in rows if d['gated'])}
-cities show no night figure at all.</strong> They average under two hot nights a year, and
-dividing by a base that small gives you a big number and no evidence.</p>
+{CONTRAST_BLOCK}
 
 <div class="src">
 <span>{SERVICES}</span>
