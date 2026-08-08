@@ -150,6 +150,7 @@ border-bottom:1px solid var(--rule)}
 <h1>Hamburg used to get 2 hot days by this point in the summer. This year: 8, which is 10th of its 91 summers.</h1>
 
 
+
 <div class="rows"><div class="urow"><span class="uk">By this date in a typical<br>summer of 1961-1990</span><span class="ug"><span class="u"></span><span class="u"></span></span><span class="un">2.0</span></div><div class="urow"><span class="uk">By this date<br>this summer</span><span class="ug"><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span></span><span class="un">8</span></div></div>
 
 
@@ -163,7 +164,7 @@ border-bottom:1px solid var(--rule)}
 
 <div class="seclab">And the hottest day of each summer</div>
 <svg viewBox="0 0 880 110" width="100%" style="height:110px" preserveAspectRatio="none"><polyline points="0.0,65.6 9.8,39.8 19.6,60.7 29.3,56.5 39.1,78.2 48.9,44.0 58.7,55.8 68.4,34.2 78.2,39.1 88.0,56.5 97.8,31.4 107.6,35.6 117.3,39.8 127.1,81.0 136.9,71.9 146.7,67.0 156.4,41.2 166.2,54.4 176.0,55.8 185.8,71.9 195.6,76.1 205.3,35.6 215.1,84.5 224.9,36.3 234.7,69.1 244.4,53.0 254.2,86.6 264.0,33.5 273.8,53.7 283.6,96.3 293.3,51.0 303.1,67.7 312.9,48.2 322.7,44.7 332.4,69.8 342.2,58.6 352.0,63.5 361.8,48.2 371.6,100.5 381.3,58.6 391.1,46.1 400.9,76.1 410.7,62.8 420.4,61.4 430.2,76.8 440.0,70.5 449.8,51.0 459.6,48.9 469.3,65.6 479.1,69.8 488.9,49.6 498.7,64.9 508.4,78.2 518.2,48.2 528.0,60.7 537.8,63.5 547.6,35.6 557.3,78.9 567.1,32.1 576.9,56.5 586.7,44.0 596.4,85.2 606.2,66.3 616.0,37.7 625.8,34.9 635.6,64.2 645.3,41.9 655.1,41.2 664.9,83.8 674.7,42.6 684.4,18.8 694.2,44.0 704.0,50.3 713.8,60.0 723.6,34.9 733.3,72.6 743.1,63.5 752.9,37.0 762.7,55.8 772.4,22.3 782.2,53.7 792.0,73.3 801.8,34.9 811.6,30.0 821.3,62.8 831.1,36.3 840.9,3.5 850.7,54.4 860.4,53.0 870.2,30.0 880.0,3.5" fill="none" stroke="var(--soft)" stroke-width="1.2"/><circle cx="840.9" cy="3.5" r="3.4" fill="var(--ink)"/><line x1="840.9" y1="3.5" x2="840.9" y2="104.0" stroke="var(--ink)" stroke-width="1" opacity="0.45"/><circle cx="880.0" cy="3.5" r="3.6" fill="var(--accent)"/></svg>
-<p class="cap">The hottest day of Hamburg's year, to the same date. <strong>2026 is the 2nd hottest, not the hottest</strong>, at 39.1&nbsp;&deg;C, matching 2022 exactly, the dot on the drop line. A tie is not a record here: the rank counts earlier years at or above 2026, so a year that equals it keeps 2026 off first place. Its hot-day count is 10th of 91 and its hottest single day 2nd: a count and a peak are different claims, and neither borrows the other's rank.</p>
+<p class="cap">Hamburg's hottest day this year, 39.1&nbsp;&deg;C, is <strong>2nd on this record</strong>. It matches 2022 exactly, the dot on the drop line. A tie is not a record: the rank counts earlier years at or above 2026, so a year that equals it keeps 2026 off first place. Its hot-day count is 10th of 91: a count and a peak are different claims, and neither borrows the other's rank.</p>
 
 <div class="src">
 <span>DWD Climate Data Center, Hamburg-Fuhlsbuettel, daily minimum and maximum</span>
@@ -177,7 +178,10 @@ border-bottom:1px solid var(--rule)}
 <span style="text-align:right">station history</span>
 <span>Hot days, this station's own 95th percentile of July-August maxima, 1971 to 2000</span>
 <span style="text-align:right">29.9 &deg;C</span>
-<span>Hot nights, ETCCDI index TR, at or above 20.0 &deg;C</span>
+<!-- Same defect editor found in the prose, in the line that DEFINES the
+     metric. 'At or above 20' drops the minimum and describes a night that
+     reached 20, which nearly every summer night does. -->
+<span>Hot nights, ETCCDI index TR, daily minimum never below 20.0 &deg;C</span>
 <span style="text-align:right">not chosen by us</span>
 </div>
 <p style="margin-top:26px"><a class="back" href="index.html">All 24 cities</a></p>

@@ -297,13 +297,33 @@ for name, v in sorted(C.items()):
     cut = S[name]["cut_at"]
     cut_txt = f"{int(cut.split('-')[1])} {MON[int(cut.split('-')[0]) - 1]}"
     dr = v["days"]["rank"]
+    peak_promoted = (prank == 1 and dr["value"] != 1)
 
     # THE RELOCATION NOTE SITS WITH THE RANK, not in the footer, because the
     # rank is what it undermines: "of 79" spans more than one site. D-081, a
     # qualifier lives at the level of the thing it qualifies. Four cities
     # carry one; the flag is read, never inferred from the move list.
-    reloc = (" " + v["rank"]["relocation_note_text"]
-             if v["rank"].get("requires_relocation_note") else "")
+    # THE NOTE GOVERNS THE STATION, not the count, and it sits above both
+    # ranks. Editor promoted the peak line and then caught what the promotion
+    # did: Berlin's peak record runs 1948 to 2026 and spans the move too, but
+    # the note was written to qualify the COUNT and sat downstream, so the one
+    # promoted sentence was the only record claim on the page with nothing
+    # attached to it. The conclusion moved up and its qualifier stayed put,
+    # which is this morning's failure in a different place.
+    #
+    # Composed from the payload's own relocation records rather than from
+    # heat's generated string, because that string names 'of 79' and is
+    # therefore about the count by construction.
+    _rel = v.get("station_relocations") or []
+    if v["rank"].get("requires_relocation_note") and _rel:
+        _moves = " and ".join(f"{m['km']} km in {m['date'][:4]}" for m in _rel)
+        station_note = (
+            f'<p class="stand" style="margin-top:16px">{name}\'s records begin '
+            f'in {v["record_from"]}, but the station moved {_moves}, so they are '
+            f'not one continuous site.</p>')
+    else:
+        station_note = ""
+    reloc = ""
     rank_txt = ("the most on record" if dr["value"] == 1
                 else f'{ordn(dr["value"])} of {dr["of_years"]}')
     rank_cap = f"2026 is {rank_txt} for hot days.{reloc}"
@@ -342,6 +362,15 @@ for name, v in sorted(C.items()):
                     f"{peak}&nbsp;&deg;C. Both the count and the peak are records "
                     f"here, which is not true everywhere: a count and a peak are "
                     f"separate claims and each carries its own rank.")
+    elif peak_promoted:
+        # Editor counted it: "11th of 79" three times and 39.9 C three times on
+        # one page. I had told them this was fixed. It was changed and it still
+        # said the same thing, which is not the same as fixed. The promoted
+        # line above carries the claim; this caption describes the chart and
+        # adds the one fact not stated anywhere else, the previous best.
+        peak_cap = (f"The hottest day of {name}'s summer, to the same date, "
+                    f"with 2026 marked. The previous best was "
+                    f"{pprev}&nbsp;&deg;C in {pprev_y}.")
     elif prank == 1:
         # "Both the count and the peak are records here" was rendering on
         # Barcelona, Berlin and Prague, whose counts are 2nd of 87, 11th of 79
@@ -373,18 +402,20 @@ for name, v in sorted(C.items()):
             # be the more alarming answer. The convention is standing and
             # holds across the channel: ties count against, and a tie is not
             # a record.
-            versus = (f"at {peak}&nbsp;&deg;C, matching {pprev_y} exactly, the "
-                      f"dot on the drop line. A tie is not a record here: the "
-                      f"rank counts earlier years at or above 2026, so a year "
-                      f"that equals it keeps 2026 off first place.")
+            # "here" read as a local quirk. It is the convention everywhere.
+            versus = (f"It matches {pprev_y} exactly, the dot on the drop line. "
+                      f"A tie is not a record: the rank counts earlier years at "
+                      f"or above 2026, so a year that equals it keeps 2026 off "
+                      f"first place.")
         else:
-            versus = (f"at {peak}&nbsp;&deg;C against {pprev}&nbsp;&deg;C in "
-                      f"{pprev_y}, the dot on the drop line.")
-        peak_cap = (f"The hottest day of {name}'s year, to the same date. "
-                    f"<strong>2026 is the {ordn(prank)} hottest, not the hottest</strong>, "
-                    f"{versus} Its hot-day count is {rank_txt} "
-                    f"and its hottest single day {ordn(prank)}: a count and a peak "
-                    f"are different claims, and neither borrows the other's rank.")
+            versus = (f"The previous best is {pprev}&nbsp;&deg;C in {pprev_y}, "
+                      f"the dot on the drop line.")
+        # "2026 is the 18th hottest day" says a year is a day. The subject is
+        # the day, so the sentence starts there.
+        peak_cap = (f"{name}'s hottest day this year, {peak}&nbsp;&deg;C, is "
+                    f"<strong>{ordn(prank)} on this record</strong>. {versus} "
+                    f"Its hot-day count is {rank_txt}: a count and a peak are "
+                    f"different claims, and neither borrows the other's rank.")
 
     if gated:
         # "averages about 0.0 a year" is what the single template produced for
@@ -437,11 +468,17 @@ for name, v in sorted(C.items()):
         night_block = (
             f'<div class="seclab">And the nights</div>'
             f'{bars(NI, max(x for _, x in NI) or 1)}'
+            # "at or above 20 C" drops the MINIMUM and reads as a night that
+            # reached 20, which nearly every summer night does. The metric is
+            # nights whose minimum never falls below it. The loose phrasing was
+            # on the two pages that also quote a night rank, so it was where a
+            # wrong reading cost most. And the night rank now uses the day
+            # rank's grammar, four lines above it on the same page.
             f'<p class="cap">{v["nights_2026"]} night'
-            f'{"" if v["nights_2026"] == 1 else "s"} so far at or above '
-            f'20&nbsp;&deg;C, against {nbase:.1f} in a typical 1961-1990 summer by '
-            f'this date. That is {ordn(nrank["value"])} of {nrank["of_years"]} on '
-            f'this station\'s record.</p>')
+            f'{"" if v["nights_2026"] == 1 else "s"} so far that never dropped '
+            f'below 20&nbsp;&deg;C, against {nbase:.1f} in a typical 1961-1990 '
+            f'summer by this date. That is {ordn(nrank["value"])} of its '
+            f'{nrank["of_years"]} summers.</p>')
 
     # The unit rows ARE the comparison, drawn. Leaving the baseline row in
     # place and withholding only the arithmetic would have kept the defect
@@ -480,7 +517,6 @@ for name, v in sorted(C.items()):
     # Branched on the data disagreeing, not on which answer is louder. Three
     # cities today: Barcelona 2nd of 87, Berlin 11th of 79, Prague 4th of 56,
     # each with a record peak.
-    peak_promoted = (prank == 1 and dr["value"] != 1)
     peak_lead = ("" if not peak_promoted else
                  f'<p class="stand" style="margin-top:18px">Its hottest single '
                  f'day, {peak}&nbsp;&deg;C, is the hottest this station has '
@@ -523,6 +559,7 @@ for name, v in sorted(C.items()):
 <span class="when">{name} &middot; {S[name]['station']} &middot; to {cut_txt} 2026</span></div>
 
 <h1>{head}</h1>
+{station_note}
 {peak_lead}
 
 <div class="rows">{unit_rows}</div>
@@ -552,7 +589,10 @@ for name, v in sorted(C.items()):
 <span style="text-align:right">station history</span>
 <span>Hot days, this station's own 95th percentile of July-August maxima, 1971 to 2000</span>
 <span style="text-align:right">{th} &deg;C</span>
-<span>Hot nights, ETCCDI index TR, at or above 20.0 &deg;C</span>
+<!-- Same defect editor found in the prose, in the line that DEFINES the
+     metric. 'At or above 20' drops the minimum and describes a night that
+     reached 20, which nearly every summer night does. -->
+<span>Hot nights, ETCCDI index TR, daily minimum never below 20.0 &deg;C</span>
 <span style="text-align:right">not chosen by us</span>
 </div>
 <p style="margin-top:26px"><a class="back" href="index.html">All {len(C)} cities</a></p>

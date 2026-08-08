@@ -150,6 +150,7 @@ border-bottom:1px solid var(--rule)}
 <h1>Bilbao used to get 3 hot days by this point in the summer. This year: 19, more than in any summer on its record.</h1>
 
 
+
 <div class="rows"><div class="urow"><span class="uk">By this date in a typical<br>summer of 1961-1990</span><span class="ug"><span class="u"></span><span class="u"></span><span class="u"></span></span><span class="un">2.6</span></div><div class="urow"><span class="uk">By this date<br>this summer</span><span class="ug"><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span></span><span class="un">19</span></div></div>
 
 
@@ -177,7 +178,10 @@ border-bottom:1px solid var(--rule)}
 <span style="text-align:right">station history</span>
 <span>Hot days, this station's own 95th percentile of July-August maxima, 1971 to 2000</span>
 <span style="text-align:right">33.0 &deg;C</span>
-<span>Hot nights, ETCCDI index TR, at or above 20.0 &deg;C</span>
+<!-- Same defect editor found in the prose, in the line that DEFINES the
+     metric. 'At or above 20' drops the minimum and describes a night that
+     reached 20, which nearly every summer night does. -->
+<span>Hot nights, ETCCDI index TR, daily minimum never below 20.0 &deg;C</span>
 <span style="text-align:right">not chosen by us</span>
 </div>
 <p style="margin-top:26px"><a class="back" href="index.html">All 24 cities</a></p>

@@ -150,6 +150,7 @@ border-bottom:1px solid var(--rule)}
 <h1>Stockholm used to get 2 hot days by this point in the summer. This year: 6, which is 19th of its 76 summers.</h1>
 
 
+
 <div class="rows"><div class="urow"><span class="uk">By this date in a typical<br>summer of 1961-1990</span><span class="ug"><span class="u"></span><span class="u"></span></span><span class="un">2.0</span></div><div class="urow"><span class="uk">By this date<br>this summer</span><span class="ug"><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span></span><span class="un">6</span></div></div>
 
 
@@ -163,7 +164,7 @@ border-bottom:1px solid var(--rule)}
 
 <div class="seclab">And the hottest day of each summer</div>
 <svg viewBox="0 0 880 110" width="100%" style="height:110px" preserveAspectRatio="none"><polyline points="0.0,73.6 11.7,72.6 23.5,46.1 35.2,63.8 46.9,20.6 58.7,39.2 70.4,60.8 82.1,69.7 93.9,41.2 105.6,75.5 117.3,64.8 129.1,99.1 140.8,63.8 152.5,73.6 164.3,99.1 176.0,45.1 187.7,63.8 199.5,35.3 211.2,43.2 222.9,26.5 234.7,66.7 246.4,41.2 258.1,41.2 269.9,77.5 281.6,59.8 293.3,43.2 305.1,54.0 316.8,51.0 328.5,46.1 340.3,72.6 352.0,72.6 363.7,37.3 375.5,18.6 387.2,81.4 398.9,75.5 410.7,48.1 422.4,66.7 434.1,65.7 445.9,39.2 457.6,64.8 469.3,42.2 481.1,54.9 492.8,75.5 504.5,4.9 516.3,53.0 528.0,73.6 539.7,55.9 551.5,88.3 563.2,33.4 574.9,87.3 586.7,40.2 598.4,56.9 610.1,43.2 621.9,89.3 633.6,28.5 645.3,27.5 657.1,43.2 668.8,38.3 680.5,50.0 692.3,30.4 704.0,60.8 715.7,86.3 727.5,63.8 739.2,30.4 750.9,54.9 762.7,46.1 774.4,67.7 786.1,28.5 797.9,34.3 809.6,38.3 821.3,33.4 833.1,13.7 844.8,52.0 856.5,46.1 868.3,47.1 880.0,40.2" fill="none" stroke="var(--soft)" stroke-width="1.2"/><circle cx="504.5" cy="4.9" r="3.4" fill="var(--ink)"/><line x1="504.5" y1="4.9" x2="504.5" y2="104.0" stroke="var(--ink)" stroke-width="1" opacity="0.45"/><circle cx="880.0" cy="40.2" r="3.6" fill="var(--accent)"/></svg>
-<p class="cap">The hottest day of Stockholm's year, to the same date. <strong>2026 is the 21st hottest, not the hottest</strong>, at 30.6&nbsp;&deg;C against 34.2&nbsp;&deg;C in 1994, the dot on the drop line. Its hot-day count is 19th of 76 and its hottest single day 21st: a count and a peak are different claims, and neither borrows the other's rank.</p>
+<p class="cap">Stockholm's hottest day this year, 30.6&nbsp;&deg;C, is <strong>21st on this record</strong>. The previous best is 34.2&nbsp;&deg;C in 1994, the dot on the drop line. Its hot-day count is 19th of 76: a count and a peak are different claims, and neither borrows the other's rank.</p>
 
 <div class="src">
 <span>SMHI, Stockholm-Bromma, daily minimum and maximum</span>
@@ -177,7 +178,10 @@ border-bottom:1px solid var(--rule)}
 <span style="text-align:right">station history</span>
 <span>Hot days, this station's own 95th percentile of July-August maxima, 1971 to 2000</span>
 <span style="text-align:right">28.3 &deg;C</span>
-<span>Hot nights, ETCCDI index TR, at or above 20.0 &deg;C</span>
+<!-- Same defect editor found in the prose, in the line that DEFINES the
+     metric. 'At or above 20' drops the minimum and describes a night that
+     reached 20, which nearly every summer night does. -->
+<span>Hot nights, ETCCDI index TR, daily minimum never below 20.0 &deg;C</span>
 <span style="text-align:right">not chosen by us</span>
 </div>
 <p style="margin-top:26px"><a class="back" href="index.html">All 24 cities</a></p>

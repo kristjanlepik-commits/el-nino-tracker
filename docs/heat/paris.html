@@ -150,6 +150,7 @@ border-bottom:1px solid var(--rule)}
 <h1>Paris used to get 2 hot days by this point in the summer. This year: 30, more than in any summer on its record.</h1>
 
 
+
 <div class="rows"><div class="urow"><span class="uk">By this date in a typical<br>summer of 1961-1990</span><span class="ug"><span class="u"></span><span class="u"></span></span><span class="un">1.8</span></div><div class="urow"><span class="uk">By this date<br>this summer</span><span class="ug"><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span></span><span class="un">30</span></div></div>
 
 
@@ -163,7 +164,7 @@ border-bottom:1px solid var(--rule)}
 
 <div class="seclab">And the hottest day of each summer</div>
 <svg viewBox="0 0 880 110" width="100%" style="height:110px" preserveAspectRatio="none"><polyline points="0.0,64.3 11.6,86.2 23.2,34.9 34.7,76.6 46.3,58.2 57.9,65.0 69.5,81.4 81.1,49.3 92.6,100.6 104.2,46.5 115.8,91.7 127.4,62.9 138.9,76.6 150.5,83.5 162.1,55.4 173.7,92.4 185.3,86.2 196.8,66.4 208.4,62.3 220.0,68.4 231.6,80.7 243.2,71.8 254.7,84.8 266.3,82.8 277.9,91.7 289.5,61.6 301.1,43.1 312.6,84.8 324.2,82.8 335.8,69.8 347.4,76.6 358.9,69.1 370.5,69.1 382.1,69.8 393.7,54.1 405.3,65.0 416.8,38.3 428.4,80.7 440.0,84.8 451.6,62.3 463.2,41.1 474.7,52.7 486.3,50.6 497.9,80.7 509.5,54.7 521.1,39.0 532.6,59.5 544.2,87.6 555.8,60.9 567.4,67.1 578.9,74.6 590.5,51.3 602.1,47.2 613.7,39.7 625.3,56.1 636.8,52.7 648.4,39.0 660.0,68.4 671.6,60.2 683.2,68.4 694.7,57.5 706.3,43.8 717.9,73.2 729.5,52.7 741.1,52.0 752.6,23.3 764.2,53.4 775.8,36.3 787.4,39.0 798.9,3.4 810.5,19.8 822.1,62.9 833.7,14.4 845.3,50.6 856.8,44.5 868.4,24.6 880.0,12.3" fill="none" stroke="var(--soft)" stroke-width="1.2"/><circle cx="798.9" cy="3.4" r="3.4" fill="var(--ink)"/><line x1="798.9" y1="3.4" x2="798.9" y2="104.0" stroke="var(--ink)" stroke-width="1" opacity="0.45"/><circle cx="880.0" cy="12.3" r="3.6" fill="var(--accent)"/></svg>
-<p class="cap">The hottest day of Paris's year, to the same date. <strong>2026 is the 2nd hottest, not the hottest</strong>, at 40.6&nbsp;&deg;C against 41.9&nbsp;&deg;C in 2019, the dot on the drop line. Its hot-day count is the most on record and its hottest single day 2nd: a count and a peak are different claims, and neither borrows the other's rank.</p>
+<p class="cap">Paris's hottest day this year, 40.6&nbsp;&deg;C, is <strong>2nd on this record</strong>. The previous best is 41.9&nbsp;&deg;C in 2019, the dot on the drop line. Its hot-day count is the most on record: a count and a peak are different claims, and neither borrows the other's rank.</p>
 
 <div class="src">
 <span>Meteo-France, via data.gouv.fr, ORLY, daily minimum and maximum</span>
@@ -177,7 +178,10 @@ border-bottom:1px solid var(--rule)}
 <span style="text-align:right">station history</span>
 <span>Hot days, this station's own 95th percentile of July-August maxima, 1971 to 2000</span>
 <span style="text-align:right">31.8 &deg;C</span>
-<span>Hot nights, ETCCDI index TR, at or above 20.0 &deg;C</span>
+<!-- Same defect editor found in the prose, in the line that DEFINES the
+     metric. 'At or above 20' drops the minimum and describes a night that
+     reached 20, which nearly every summer night does. -->
+<span>Hot nights, ETCCDI index TR, daily minimum never below 20.0 &deg;C</span>
 <span style="text-align:right">not chosen by us</span>
 </div>
 <p style="margin-top:26px"><a class="back" href="index.html">All 24 cities</a></p>
