@@ -1,26 +1,39 @@
-"""All 22 heat city pages from one template.
+"""Every heat city page from one template.
 
 Every page is a landing page: Kristjan's framing is that these get linked
 in promotion and a reader arrives caring about their own city. So the
 URL and the claim have to stand alone.
 
-THE BRANCHES, enumerated from the payload rather than discovered on city
-four. Eight cities need no special case; the other fourteen need one of:
+NO CITY LIST OR COUNT IS WRITTEN DOWN HERE. It was, three times, and it
+went stale within a day each time as heat added cities: 21, then 22 with
+Amsterdam, then 24 with Stockholm and Prague. Everything below is a flag
+read per city at build time.
 
-  night-gated (8)      Hamburg, Cologne, Munich, Bilbao, Frankfurt,
-                       Berlin, Paris, Amsterdam. Under two hot nights a
-                       year, so no
-                       ratio, multiple or record may be quoted on nights.
-                       Read from the payload flag, never inferred.
-  no day multiple (3)  Lyon, Murcia, Palma. Station opened after 1961 so
-                       the baseline is part-length and drawn from the
-                       warmer end. The field is ABSENT rather than
-                       flagged, so it cannot be rendered by accident.
-  peak IS a record (7) Barcelona, Berlin, Bilbao, Frankfurt, Marseille,
-                       Munich, Vienna. For these the hottest day of 2026
-                       IS the hottest on record, so the Paris sentence
-                       "its hottest day was still not a record" is FALSE
-                       and must not be templated.
+THE BRANCHES, each read from a payload field, none inferred:
+
+  nights_metric_gated     Under two hot nights a year, so no ratio,
+                          multiple or record may be quoted on nights.
+  multiple_available      False where the 1961-1990 window is too short
+                          to compare against. See below, because this is
+                          the one that bit.
+  peak IS a record        Where the hottest day of 2026 is also the
+                          hottest on record, so "its hottest day was
+                          still not a record" is FALSE and must not be
+                          templated. Computed from the series, not a
+                          flag, because it is a property of the chart
+                          this file draws.
+
+THE ABSENCE OF A FIELD IS NOT A PROHIBITION. This file believed for a
+fortnight that heat omitting the day multiple was enough to stop the page
+publishing one. It is not: an absent field cannot be printed, but it can
+be RECOMPUTED, and this file recomputed it. Murcia's headline read "used
+to get 2 hot days by this point. This year: 14" off a 1961-1990 window
+holding 6 of 30 years, with a note underneath saying no multiple was
+published. Bind to multiple_available, which says you may not.
+
+A COUNT AND A PEAK ARE DIFFERENT CLAIMS AND NEITHER BORROWS THE OTHER'S
+RANK. Nice has the most hot days on record and its twentieth hottest
+single day. Both true; either sentence alone misleads.
 
 A COUNT AND A PEAK ARE DIFFERENT CLAIMS AND NEITHER BORROWS THE OTHER'S
 RANK. Paris is 1st of 77 on the count of hot days and 2nd on its hottest
@@ -146,6 +159,25 @@ NIGHT_SUPERLATIVES = ["worst year", "worst summer", "worst on record",
                       "more hot nights than any"]
 
 
+def check_no_baseline_comparison(name, day_html):
+    """For a city whose day multiple is withheld, the DAY surfaces must not
+    compare 2026 against a 1961-1990 normal in any form. Checked against
+    rendered text because the defect was a drawing as much as a sentence:
+    two rows of unit blocks say "nine times" without printing a number.
+
+    Scoped to the day block, not the page. Run over the whole page it fired
+    on Lyon, whose NIGHT baseline is published and comparable: nights have
+    their own gate and the two are independent. A guard that fails on a
+    correct page is one somebody eventually deletes."""
+    t = text_of(day_html).lower()
+    for p in ("used to get", "in a typical", "typical summer"):
+        if p in t:
+            raise SystemExit(
+                f"{name}: multiple_available is false and the page still says "
+                f"{p!r}. The 1961-1990 window is too short here to compare "
+                f"against, which is why heat withholds it.")
+
+
 def check_constraints(name, page_html, night_html, pc):
     # Absent is a failure rather than a pass. A prohibition that quietly
     # stops arriving is indistinguishable from one that was never violated,
@@ -234,7 +266,19 @@ for name, v in sorted(C.items()):
     WD = series(yrs, "warmest_day_to_cut_c")
     th = v["days"]["thresholds_c"]["95"]
     now = v["days"]["days_2026"]["95"]
-    base = st.mean([x for y, x in D if 1961 <= y <= 1990])
+    # READ, never derived. The arithmetic here was right, and matched heat to
+    # two decimals on all 24, which is exactly why deriving it looked safe for
+    # a fortnight. The value is not the point: reading it means the flag that
+    # travels with it cannot be bypassed.
+    base = v["days"]["mean_1961_1990_to_cut"]
+    # THE PROHIBITION, not the absence. Four cities have a 1961-1990 window too
+    # short to compare against, so heat withholds the multiple. I had been
+    # treating the missing multiple field as the guard, and an absent field
+    # stops a value being printed without stopping it being recomputed, which
+    # is what this page did: a headline reading "Murcia used to get 2 hot days
+    # by this point. This year: 14", off a window holding 6 of 30 years, with
+    # a note underneath saying no multiple is published.
+    mult_ok = bool(v["days"]["multiple_available"])
     nbase = st.mean([x for y, x in NI if 1961 <= y <= 1990]) if NI else 0
     gated = bool(v.get("nights_metric_gated"))
     peak = dict(WD).get(2026)
@@ -256,9 +300,18 @@ for name, v in sorted(C.items()):
     rank_cap = f"2026 is {rank_txt} for hot days.{reloc}"
 
     # The headline must name its period: base is a TO-DATE mean and reading
-    # it as a season total overstates the change.
-    head = (f"{name} used to get {base:.0f} hot day{'s' if round(base)!=1 else ''} "
-            f"by this point in the summer. This year: {now}.")
+    # it as a season total overstates the change. Where the baseline is not
+    # comparable the headline leads on the count and its rank instead, which
+    # are both published, rather than on a comparison that is not.
+    if mult_ok:
+        head = (f"{name} used to get {base:.0f} hot day{'s' if round(base) != 1 else ''} "
+                f"by this point in the summer. This year: {now}.")
+    elif dr["value"] == 1:
+        head = (f"{name} has had {now} hot days by this point in the summer, "
+                f"more than in any summer on its record.")
+    else:
+        head = (f"{name} has had {now} hot days by this point in the summer, "
+                f"{ordn(dr['value'])} of {dr['of_years']} years on this thermometer.")
 
     # THE PEAK CARRIES ITS OWN RANK. Seven cities have peak == record, so
     # the sentence branches rather than being templated.
@@ -338,12 +391,34 @@ for name, v in sorted(C.items()):
             f'this date. That is {nrank["value"]} of {nrank["of_years"]} on this '
             f'station\'s record.</p>')
 
-    mult_note = ("" if name not in NO_MULT else
-                 f'<p class="cap"><strong>No multiple is published for '
-                 f'{name}\'s days.</strong> The station opened after 1961, so its '
-                 f'1961-1990 baseline is part-length and drawn from the warmer end of '
-                 f'the period. The count and the rank stand; the ratio is not emitted '
-                 f'at all rather than emitted with a warning.</p>')
+    # The unit rows ARE the comparison, drawn. Leaving the baseline row in
+    # place and withholding only the arithmetic would have kept the defect
+    # and hidden it better: two rows of blocks side by side say "nine times"
+    # whether or not the page prints the number.
+    if mult_ok:
+        unit_rows = (
+            f'<div class="urow"><span class="uk">By this date in a typical<br>'
+            f'summer of 1961-1990</span>'
+            f'<span class="ug">{units(base)}</span><span class="un">{base:.1f}</span></div>'
+            f'<div class="urow"><span class="uk">By this date<br>this summer</span>'
+            f'<span class="ug">{units(now, True)}</span><span class="un">{now}</span></div>')
+    else:
+        unit_rows = (
+            f'<div class="urow"><span class="uk">By this date<br>this summer</span>'
+            f'<span class="ug">{units(now, True)}</span><span class="un">{now}</span></div>')
+
+    # Sits with the unit rows, which is what it qualifies, rather than under
+    # the chart three sections down. The year count in heat's own note is
+    # theirs and I do not restate it; record_from is a field and says the
+    # same thing without a second arithmetic.
+    mult_note = ("" if mult_ok else
+                 f'<p class="cap"><strong>No 1961-1990 normal is shown for '
+                 f'{name}, and no multiple.</strong> This thermometer only starts '
+                 f'in {v["record_from"]}, so the 1961-1990 baseline every other city '
+                 f'is measured against covers {v["record_from"]} to 1990 here, the '
+                 f'warmer end of the period. A comparison against that would '
+                 f'understate itself while looking like the figures on every other '
+                 f'city page. The count and the rank are measured and stand.</p>')
 
     top = max(max(x for _, x in D), 1)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -375,21 +450,16 @@ for name, v in sorted(C.items()):
 <p class="stand">A hot day here means one at or above {th}&nbsp;&deg;C, which is this
 station's own 95th percentile for July and August between 1971 and 2000. The bar for
 what counts as hot has not moved; the number of days clearing it has.
-Both figures below are counted to {cut_txt}, in 2026 and in every earlier year, so a
+Every figure below is counted to {cut_txt}, in 2026 and in every earlier year, so a
 part-finished summer is never set against complete ones.</p>
 
-<div class="rows">
-  <div class="urow"><span class="uk">By this date in a typical<br>summer of 1961-1990</span>
-    <span class="ug">{units(base)}</span><span class="un">{base:.1f}</span></div>
-  <div class="urow"><span class="uk">By this date<br>this summer</span>
-    <span class="ug">{units(now, True)}</span><span class="un">{now}</span></div>
-</div>
+<div class="rows">{unit_rows}</div>
+{mult_note}
 
 <div class="seclab">Every summer on this thermometer</div>
 <div class="grid"><span class="gk">Hot days<em>above {th} &deg;C</em></span>
 <span>{bars(D, top)}</span></div>
 <p class="cap">{rank_cap}</p>
-{mult_note}
 
 {night_block}
 
@@ -415,6 +485,8 @@ part-finished summer is never set against complete ones.</p>
 <p style="margin-top:26px"><a class="back" href="index.html">All {len(C)} cities</a></p>
 </main></body></html>"""
     check_constraints(name, html, night_block, v.get("page_constraints", {}))
+    if not mult_ok:
+        check_no_baseline_comparison(name, head + unit_rows + mult_note + rank_cap)
     out = R / f"docs/heat/{slug(name)}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
