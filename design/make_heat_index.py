@@ -102,7 +102,34 @@ for n, v in C.items():
                  "prev_best": prev_best,
                  "margin": (now - prev_best) / prev_best if prev_best else 0.0,
                  "gated": bool(v.get("nights_metric_gated"))})
-rows.sort(key=lambda d: (-d["pct"], d["name"]))
+# ALPHABETICAL INSIDE BOTH GROUPS, records first. Editor's call and the
+# argument is the page's own thesis turned on the list: this is 24
+# thermometers and nothing between the marks means anything, so ordering
+# ten of them by extremity quietly asserts the cross-city scale the first
+# paragraph denies. The group split still carries the honest amount of
+# ordering, at a record or not, and the alphabet restarting at Amsterdam
+# marks the boundary without a divider.
+#
+# What forced it was showing the rank. Ordering by percentile while
+# printing a rank produces inversions by construction: Hamburg at 10th of
+# 91 sat above Amsterdam at 9th of 76, correctly, and read backwards. One
+# inverted pair in nine this week. The count is not stable, and at four it
+# stops looking like a subtlety and starts looking like a broken sort,
+# with nobody having changed a line of code.
+#
+# This is not the alphabetical list Kristjan rejected as boring. That one
+# was fourteen rows reading "record, 88 years" and nothing else. The
+# magnitude he wanted is now in the row, in the count, the chart and the
+# rank, rather than in the sort.
+rows.sort(key=lambda d: (d["rank"] != 1, d["name"]))
+
+# The extremes are NAMED, not taken from the ends of the list. Editor's
+# strip copy reads off the most and least unusual city, and with the sort
+# alphabetical rows[-1] is Valencia rather than Stockholm. Two sentences
+# that had quietly depended on the sort order, which is the same defect as
+# a typed city name and harder to see.
+LEAD = min(rows, key=lambda d: (-d["pct"], d["name"]))
+TAIL = min(rows, key=lambda d: (d["pct"], d["name"]))
 
 # Spelled out because the standfirst is prose, but DERIVED, because it was
 # typed. "Twenty-one cities" sat two clauses away from "14 of the 22" in the
@@ -751,9 +778,9 @@ Bigger mark, bigger margin over that city's own record.</p>
 
 <div class="seclab">How far from normal, city by city</div>
 <p class="subl">Each row is one city's entire record, one mark per summer.
-<strong style="color:var(--ink);font-weight:500">{rows[0]['name']}'s {rows[0]['now']} hot
-days beat all {rows[0]['of']} summers it has on file. {rows[-1]['name']}'s
-{rows[-1]['now']} beat {rows[-1]['pct']:.0f} in 100 of its own.</strong> A crowded row is
+<strong style="color:var(--ink);font-weight:500">{LEAD['name']}'s {LEAD['now']} hot
+days beat all {LEAD['of']} summers it has on file. {TAIL['name']}'s
+{TAIL['now']} beat {TAIL['pct']:.0f} in 100 of its own.</strong> A crowded row is
 just a longer record.</p>
 {all_rows}
 
@@ -785,5 +812,6 @@ print(f"wrote {out} | {len(rows)} cities, {len(coast)} coast rings, "
       # Report the quantity that ACTUALLY orders the list. This line still
       # printed the Weibull plotting position after percentile replaced it,
       # so the build log described an ordering the page no longer uses.
-      f"top is {rows[0]['name']} at pct {rows[0]['pct']:.1f}, "
-      f"last is {rows[-1]['name']} at pct {rows[-1]['pct']:.1f}")
+      f"most unusual {LEAD['name']} at pct {LEAD['pct']:.1f}, "
+      f"least {TAIL['name']} at pct {TAIL['pct']:.1f}, "
+      f"{sum(1 for d in rows if d['rank'] == 1)} at a record")
