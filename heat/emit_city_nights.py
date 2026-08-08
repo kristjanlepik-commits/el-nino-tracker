@@ -68,7 +68,8 @@ COORDS = {
     "Montpellier": (43.6, 3.9), "Lyon": (45.8, 4.8), "Vienna": (48.2, 16.4),
     "Munich": (48.1, 11.6), "Paris": (48.9, 2.4), "Frankfurt": (50.1, 8.7),
     "Cologne": (50.9, 7.1), "Berlin": (52.5, 13.4), "Hamburg": (53.6, 10.0),
-    "Amsterdam": (52.3, 4.8),
+    "Amsterdam": (52.3, 4.8), "Stockholm": (59.3, 18.1),
+    "Prague": (50.1, 14.4),
 }
 
 LICENCE = {
@@ -89,6 +90,11 @@ LICENCE = {
                       "commercial, with attribution",
            "commercial_use": True, "attribution": "Source: KNMI",
            "lag_days": 2},
+    "SE": {"licence": "CC-BY 4.0", "commercial_use": True,
+           "attribution": "Source: SMHI", "lag_days": 1},
+    "CZ": {"licence": "CHMI open data: reuse permitted with attribution",
+           "commercial_use": True, "attribution": "Source: CHMI",
+           "lag_days": 5},
 }
 
 
@@ -499,9 +505,10 @@ def main() -> int:
 
     ok_cities = sorted(c for c in cities
                        if S["cities"][c]["tropical_night_metric_works"])
-    ldays = sorted(((v["days"]["rank"]["percentile"], c)
-                    for c, v in cities.items()))[:4]
-    ldays = [{"city": c, "day_percentile": p} for p, c in ldays]
+    _low = sorted(((v["days"]["rank"]["percentile"], c)
+                   for c, v in cities.items()))
+    low_pct, low_city = _low[0]
+    ldays = [{"city": c, "day_percentile": p} for p, c in _low[:4]]
     nbase = record_rate(S, "nights")
     recs = sorted(c for c, v in cities.items() if v["rank"]["value"] == 1)
     recs_ok = [c for c in recs if c in ok_cities]
@@ -622,41 +629,59 @@ def main() -> int:
                 "applies. The two instruments do not share a caveat.",
         },
         "geography": {
-            "claim": "Every city in the set is elevated on days, and the "
-                     "EXTREME is concentrated in the middle latitudes rather "
-                     "than at the hot end.",
-            "elevated_holds_on": "days",
-            "elevated_note":
-                "Verified, not asserted: the lowest day percentile in the set "
-                "is Berlin at 87.3. THIS DOES NOT HOLD ON NIGHTS, where "
-                "Berlin sits at 70.9, so the claim must be made about days or "
-                "not at all.",
+            # COMPUTED, NOT WRITTEN. The previous version said "every city in
+            # the set is elevated on days" and pinned the evidence as "the
+            # lowest is Berlin at 87.3". Stockholm joined at 76.3 and the
+            # claim became false while still reading as verified.
+            #
+            # That is the SECOND time a sentence true of one membership
+            # survived into a larger one: the lead said "not one of these
+            # cities is having an ordinary summer" until Berlin arrived. Both
+            # were written as facts and were really facts-as-of-a-set-size.
+            # So this one is generated from the data every run and cannot rot.
+            "claim": ("The extreme is concentrated in the middle latitudes, "
+                      "not at the hot end."),
+            "lowest_day_percentile": {"city": low_city, "value": low_pct},
+            "all_elevated_on_days": low_pct >= 85.0,
+            "all_elevated_note":
+                ("Every city in the set sits above the 85th percentile of its "
+                 "own day record; the lowest is {0} at {1}."
+                 if low_pct >= 85.0 else
+                 "NOT every city is elevated: {0} sits at {1}, below the 85th "
+                 "percentile of its own record. A page must not say the whole "
+                 "set is elevated.").format(low_city, low_pct),
             "banned_word": "ordinary",
             "banned_word_note":
-                "No city in this set may be called ordinary. Seville is 89th "
-                "percentile, Hamburg 89th, Berlin 86th on days. Those are "
-                "elevated readings that are merely not the most extreme, and "
-                "calling them ordinary is the error that turned a 91st "
-                "percentile Marseille into 'an ordinary summer'.",
+                "No city ABOVE the 85th percentile may be called ordinary. "
+                "Where all_elevated_on_days is false the lowest city may "
+                "legitimately be described as having an unremarkable summer, "
+                "and that city is the most valuable member of the set: a "
+                "group where not everything is extreme is far harder to "
+                "dismiss than one where everything is.",
             "band": {"south_edge_lat": 38, "north_edge_lat": 51},
             "least_extreme_on_days": ldays,
             "mechanism": None,
             "mechanism_note":
                 "DELIBERATELY ABSENT. Stating the geography is measurement; "
-                "explaining it is speculation. The page says where, not why, "
-                "and a reader who wants why is better served by our saying we "
-                "do not know.",
+                "explaining it is speculation. The page says where, not why.",
             "map": {
                 "colour_by": "percentile within each city's own record",
                 "never_colour_by": "absolute temperature, which would redraw "
                                    "the Mediterranean climate map rather than "
                                    "this summer",
+                "scale_domain": [low_pct, 100.0],
+                "scale_domain_note":
+                    "Computed from the set, not fixed. On a 0-100 ramp every "
+                    "mark crowds the top sliver and the set reads as uniformly "
+                    "extreme, which is both less informative and less true. "
+                    "DO NOT use a diverging cool-to-hot scale: it would imply "
+                    "cities are cool, and above the 85th percentile none is.",
                 "quiet_cities": "must be visibly quiet, never absent. Their "
                                 "presence is what makes the map evidence "
                                 "rather than decoration.",
-                "not_a_surface": "21 marks, not an interpolated field. This is "
-                                 "21 thermometers and must not read as a "
-                                 "European temperature map.",
+                "not_a_surface": "marks, not an interpolated field. This is "
+                                 "one thermometer per city and must not read "
+                                 "as a European temperature map.",
                 "points": [
                     {"city": c, "lat": COORDS[c][0], "lon": COORDS[c][1],
                      "day_percentile": v["days"]["rank"]["percentile"],
