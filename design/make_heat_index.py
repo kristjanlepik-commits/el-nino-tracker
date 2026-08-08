@@ -462,9 +462,39 @@ def city_row(i, d):
             f'<span class="lval">{d["now"]}<span class="lbase">vs {d["base"]:.0f}</span>'
             f'</span></div>')
 
-# ONE list. The two groups are what the ruling deletes: they split cities
-# whose plotting positions are equal.
-all_rows = "".join(city_row(i, d) for i, d in enumerate(rows, 1))
+# THE TIE IS DRAWN NOW, not explained. Fourteen cities are level at the top
+# and sit alphabetically inside that tie, and a reader who cannot see the tie
+# reads a vertical list as a ranking and concludes Alicante is worse than
+# Zaragoza when nothing separates them.
+#
+# Editor cut the 80-word paragraph that used to prevent this and was right to:
+# it was prose permanently compensating for a drawing. So the drawing does it.
+# A banded heading over each group says what the group is and how many are in
+# it, which is the same fact in four words and cannot be skipped the way a
+# paragraph under a chart can.
+#
+# An earlier comment here read "ONE list, the two groups are what the ruling
+# deletes". That ruling was about COLOUR, and about not splitting cities whose
+# plotting positions are equal into separate lists. Grouping cities that are
+# genuinely tied is the opposite move: it is the tie made visible rather than
+# a distinction invented.
+def group_head(kind, n):
+    if kind == "record":
+        txt = (f"{words(n).capitalize()} cities, level at the top. Each has had "
+               f"its most hot days on record, and nothing separates them, so "
+               f"they are listed alphabetically.")
+    else:
+        txt = (f"The other {words(n)}, ordered by where this summer sits in "
+               f"each city's own record.")
+    return f'<div class="lgrp">{txt}</div>'
+
+
+_recs = [d for d in rows if state(d) == "record"]
+_rest = [d for d in rows if state(d) != "record"]
+all_rows = (group_head("record", len(_recs))
+            + "".join(city_row(i, d) for i, d in enumerate(_recs, 1))
+            + group_head("rest", len(_rest))
+            + "".join(city_row(i, d) for i, d in enumerate(_rest, 1)))
 
 MAR, BER = C["Marseille"], C["Berlin"]
 
@@ -514,8 +544,21 @@ STATE_ROWS = [("record", "Record"), ("near", "Near record"),
 
 
 def key_rows():
+    # The size cue is a SWATCH, not a sentence. Editor cut the 45-word
+    # explanation and sent the meaning back rather than writing a tighter
+    # version, which is the right call: "bigger mark equals hotter city" is
+    # what every reader assumes and it is wrong, so the correction belongs
+    # where they are already decoding marks. Two discs at the real floor and
+    # cap radii show the range and the words name the quantity.
+    size = (f'<span class="ks kz">'
+            f'<svg width="34" height="18" aria-hidden="true">'
+            f'<circle cx="6" cy="9" r="4" fill="{FILL["record"]}" '
+            f'stroke="var(--ink)" stroke-width="1"/>'
+            f'<circle cx="23" cy="9" r="8" fill="{FILL["record"]}" '
+            f'stroke="var(--ink)" stroke-width="1"/></svg>'
+            f'Size: margin over its own record</span>')
     return "".join(f'<span class="ks"><i style="background:{FILL[k]}"></i>'
-                   f'{nm}</span>' for k, nm in STATE_ROWS)
+                   f'{nm}</span>' for k, nm in STATE_ROWS) + size
 
 
 # The caption named Marseille and Nice, copied from VD's canvas where the
@@ -619,12 +662,23 @@ font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-faint)}}
 .key i{{display:inline-block;width:12px;height:12px;border-radius:50%;
 vertical-align:-2px;margin-right:8px}}
 .ks i{{border:1px solid var(--ink)}}
+/* The size swatch needs the discs vertically centred on the text and a
+   little more room than a 12px dot, so it sits apart from .ks i. */
+.kz{{display:inline-flex;align-items:center;gap:8px}}
+.kz svg{{flex:none}}
 .knote{{margin:14px 0 0;font-family:'IBM Plex Mono',monospace;font-size:11px;
 line-height:1.8;color:var(--ink-faint);max-width:74ch}}
 .seclab{{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.22em;
 text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:54px 0 6px}}
 .subl{{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:70ch;margin:12px 0 18px}}
+/* The group band. Quiet enough not to compete with the city names, loud
+   enough that a reader cannot scan past it into the rows below, which is
+   the whole job: it is here so the tie is seen rather than read about. */
+.lgrp{{font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.65;
+color:var(--ink-faint);background:var(--sunk);padding:10px 14px;
+margin:26px 0 0;max-width:74ch}}
+.lgrp:first-child{{margin-top:8px}}
 .lrow{{display:grid;grid-template-columns:170px 316px 1fr 74px;gap:16px;
 align-items:center;padding:9px 0;border-bottom:1px solid var(--rule)}}
 
