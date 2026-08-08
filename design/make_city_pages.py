@@ -426,8 +426,9 @@ for name, v in sorted(C.items()):
             f'{bars(NI, max(x for _, x in NI) or 1)}'
             f'<p class="cap">'
             + ("" if v["nights_2026"] == 0 else
-               f'{v["nights_2026"]} nights so far that never dropped below '
-               f'20&nbsp;&deg;C. <strong>No multiple is quoted here.</strong> ')
+               f'{v["nights_2026"]} night{"" if v["nights_2026"] == 1 else "s"} so '
+               f'far that never dropped below 20&nbsp;&deg;C. '
+               f'<strong>No multiple is quoted here.</strong> ')
             + f'{base_clause}. '
             f'{sum(1 for c in C.values() if c.get("nights_metric_gated"))} of the '
             f'{len(C)} cities are gated this way.</p>')
@@ -436,10 +437,11 @@ for name, v in sorted(C.items()):
         night_block = (
             f'<div class="seclab">And the nights</div>'
             f'{bars(NI, max(x for _, x in NI) or 1)}'
-            f'<p class="cap">{v["nights_2026"]} nights so far at or above '
+            f'<p class="cap">{v["nights_2026"]} night'
+            f'{"" if v["nights_2026"] == 1 else "s"} so far at or above '
             f'20&nbsp;&deg;C, against {nbase:.1f} in a typical 1961-1990 summer by '
-            f'this date. That is {nrank["value"]} of {nrank["of_years"]} on this '
-            f'station\'s record.</p>')
+            f'this date. That is {ordn(nrank["value"])} of {nrank["of_years"]} on '
+            f'this station\'s record.</p>')
 
     # The unit rows ARE the comparison, drawn. Leaving the baseline row in
     # place and withholding only the arithmetic would have kept the defect
