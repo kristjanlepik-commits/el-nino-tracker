@@ -16,11 +16,16 @@
  },
  "headline": {
   "lead": {
-   "claim": "The extreme is concentrated in the middle latitudes, not at the hot end.",
-   "superseded_claim_do_not_use": "Not one of these cities is having an ordinary summer for hot nights. FALSE for 21 cities: Berlin is at the 70.9th percentile on nights.",
+   "claim": "14 of these 24 cities are having their hottest summer on record for days above their own extreme threshold.",
+   "at_day_record": 14,
    "in_top_10pct": 21,
    "in_top_5pct": 20,
-   "of_cities": 24
+   "of_cities": 24,
+   "not_elevated": [
+    "Stockholm"
+   ],
+   "framing_rule": "NEVER phrase this as a universal. No 'none', 'not one', 'every' or 'all'. Two such claims have already gone false here as the set grew, and both read as verified while being wrong. State the count and let the reader see the table.",
+   "why_counts": "A count is checkable against the cities listed beside it and survives the set changing. A universal claim is a slogan that has to be re-proved every time a city is added, and nothing in the pipeline re-proves it."
   },
   "records": 12,
   "of_cities": 24,

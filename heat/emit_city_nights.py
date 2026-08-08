@@ -558,20 +558,41 @@ def main() -> int:
         },
         "headline": {
             "lead": {
-                # REPLACED 2026-08-07. The old claim, "not one of these cities
-                # is having an ordinary summer for hot nights", was true of
-                # fifteen cities and became FALSE the moment Berlin joined at
-                # the 70.9th percentile on nights. A lead that depends on the
-                # set's membership breaks silently every time the set grows.
-                # The geography does not.
-                "claim": "The extreme is concentrated in the middle "
-                         "latitudes, not at the hot end.",
-                "superseded_claim_do_not_use":
-                    "Not one of these cities is having an ordinary summer for "
-                    "hot nights. FALSE for 21 cities: Berlin is at the 70.9th "
-                    "percentile on nights.",
+                # DESCRIPTIVE AND COUNTED, never universal. Kristjan's ruling
+                # 2026-08-08: "we should not tie ourselves to some irrational
+                # slogans."
+                #
+                # Two universal claims have already broken here. "Not one of
+                # these cities is having an ordinary summer" went false when
+                # Berlin joined at the 70.9th percentile on nights. "Every
+                # city in the set is elevated on days" went false when
+                # Stockholm joined at 76.3. Both were true when written and
+                # both were really claims about a set size.
+                #
+                # A COUNT CANNOT BREAK THAT WAY. It restates itself every run,
+                # it is checkable against the table below it, and it does not
+                # need defending when the set grows. "Some of these cities are
+                # abnormally hot" is weaker as a slogan and stronger as a
+                # statement, which is the correct trade.
+                "claim": "{0} of these {1} cities are having their hottest "
+                         "summer on record for days above their own extreme "
+                         "threshold.".format(len(drecs), len(cities)),
+                "at_day_record": len(drecs),
                 "in_top_10pct": len(top10), "in_top_5pct": len(top5),
                 "of_cities": len(cities),
+                "not_elevated": [x["city"] for x in ldays
+                                 if x["day_percentile"] < 85.0],
+                "framing_rule":
+                    "NEVER phrase this as a universal. No 'none', 'not one', "
+                    "'every' or 'all'. Two such claims have already gone false "
+                    "here as the set grew, and both read as verified while "
+                    "being wrong. State the count and let the reader see the "
+                    "table.",
+                "why_counts":
+                    "A count is checkable against the cities listed beside it "
+                    "and survives the set changing. A universal claim is a "
+                    "slogan that has to be re-proved every time a city is "
+                    "added, and nothing in the pipeline re-proves it.",
             },
             "records": len(recs), "of_cities": len(cities),
             "record_cities": recs,
