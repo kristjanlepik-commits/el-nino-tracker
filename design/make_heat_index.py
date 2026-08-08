@@ -468,6 +468,15 @@ all_rows = "".join(city_row(i, d) for i, d in enumerate(rows, 1))
 
 MAR, BER = C["Marseille"], C["Berlin"]
 
+# The hero named Seville and Berlin to teach that the bar is per-city. Editor
+# is right that a typed example goes false in silence: Berlin stops being the
+# coolest threshold the moment a colder station joins, and nothing re-proves
+# it. These two are the highest and lowest threshold in the set, so the
+# sentence stays true whoever arrives, and the pair is as far apart as the
+# set allows, which is what makes the point.
+_th = sorted(((v["days"]["thresholds_c"]["95"], n) for n, v in C.items()))
+HOT_LO, HOT_HI = (_th[0][1], _th[0][0]), (_th[-1][1], _th[-1][0])
+
 # The legend is now three named states with their counts, not four rungs of
 # arithmetic. What it replaces read:
 #
@@ -536,10 +545,28 @@ SERVICES = ", ".join(sorted({v["source"]["attribution"].replace("Source: ", "")
 _MON = ["January", "February", "March", "April", "May", "June", "July",
         "August", "September", "October", "November", "December"]
 _cuts = sorted({v["counted_to"] for v in C.values()})
-_days = [str(int(c.split("-")[2])) for c in _cuts]
-_last = _cuts[-1].split("-")
-CUT_TXT = (" and ".join([", ".join(_days[:-1]), _days[-1]] if len(_days) > 2
-                        else _days) + f" {_MON[int(_last[1]) - 1]} {_last[0]}")
+
+
+def _phrase(items):
+    items = list(items)
+    if len(items) < 3:
+        return " and ".join(items)
+    return ", ".join(items[:-1]) + " and " + items[-1]
+
+
+# GROUPED BY MONTH. This read "to 31, 2 and 3 August 2026" the moment Prague
+# arrived with a 31 July cut, because it took the month from the last date
+# and applied it to all of them. A source line that misdates the data by a
+# month is the worst place in the page to be approximately right.
+_by_month = {}
+for _c in _cuts:
+    y, m, dd = _c.split("-")
+    _by_month.setdefault((y, m), []).append(str(int(dd)))
+# Months joined with a comma, days inside a month with "and". Joining both
+# levels the same way gave "31 July and 2 and 3 August".
+CUT_TXT = ", ".join(f"{_phrase(ds)} {_MON[int(m) - 1]}"
+                    for (y, m), ds in sorted(_by_month.items())) + \
+    f" {_cuts[-1][:4]}"
 
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -576,6 +603,14 @@ letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}}
 h1{{font-family:Spectral,serif;font-weight:400;font-size:52px;line-height:1.04;
 letter-spacing:-.02em;color:var(--ink);margin:40px 0 14px;max-width:20ch;text-wrap:balance}}
 .stand{{font-size:17.5px;line-height:1.62;max-width:60ch;margin:0}}
+/* The hero is two paragraphs now, the finding and then the method, and at
+   margin:0 they set as one block and the split does nothing. The gap is
+   larger than a paragraph break because the second one changes register:
+   it stops telling the reader what happened and starts telling them how it
+   was measured. Editor asked for air and this is the amount that reads as
+   deliberate rather than as a loose line. The first paragraph also carries
+   the finding, so it takes the larger size. */
+.stand + .stand{{margin-top:22px;font-size:16.5px;color:var(--ink-faint)}}
 .cn{{font-family:Spectral,serif;font-size:13px;fill:var(--ink)}}
 .cs{{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-faint);
 letter-spacing:.05em}}
@@ -618,52 +653,39 @@ margin-top:50px}}
 <span class="prod">Heat</span><span class="when">Week of 3 August 2026</span></div>
 
 <h1>How hot has the European summer been?</h1>
-<p class="stand">{NCITY} cities, each measured against its own thermometer and its
-own record rather than against each other. A hot day is one at or above that city's own
-95th percentile for July and August, so {C['Seville']['days']['thresholds_c']['95']}&nbsp;&deg;C
-in Seville and {C['Berlin']['days']['thresholds_c']['95']}&nbsp;&deg;C in Berlin.
-<strong style="color:var(--ink);font-weight:500">{DH['records']} of the
-{DH['of_cities']} have had more of them than in any year on record.</strong>
-In a typical year {DH['baseline']['median_year']} of them do.</p>
+<p class="stand"><strong style="color:var(--ink);font-weight:500">{DH['records']} of these
+{DH['of_cities']} European cities have had more hot days this summer than in any year on
+record.</strong> In a typical year, that number is {words(DH['baseline']['median_year'])}.</p>
+<p class="stand">A hot day means hot <em>for that city</em>: {HOT_HI[1]}&nbsp;&deg;C in
+{HOT_HI[0]}, {HOT_LO[1]}&nbsp;&deg;C in {HOT_LO[0]}. Each is measured against its own
+thermometer and its own history, never against the others.</p>
 
 {svg}
 <div class="key">{key_rows()}</div>
-<p class="knote"><strong style="color:var(--ink);font-weight:400">Record markers are
-sized by how far each city passed its own previous best</strong>, so {BIGGEST} are the
-largest marks on the map because they cleared their own records by the most, not
-because they are the hottest places on it. A city that is not at a record has no such
-figure, so it draws at the smallest size and its colour carries it. Nothing between
-the marks is shaded: this is {len(rows)} thermometers, not a temperature map.</p>
+<p class="knote"><strong style="color:var(--ink);font-weight:400">This is {len(rows)}
+thermometers, not a temperature map.</strong> Nothing between the marks means anything.
+Bigger mark, bigger margin over that city's own record.</p>
 
 <div class="seclab">How far from normal, city by city</div>
-<p class="subl">Ordered by how many of that city's own recorded summers this one beats.
-<strong style="color:var(--ink);font-weight:500">{rows[0]['name']} has had
-{rows[0]['now']} hot days, more than in any of its {rows[0]['of']} recorded summers;
-{rows[-1]['name']} has had {rows[-1]['now']}, which beats {rows[-1]['pct']:.0f} in 100 of
-its own.</strong> {len([d for d in rows if d['pct'] >= 99.95])} of the
-{len(rows)} beat every summer they have on record, so they tie at the top and are
-listed alphabetically inside that tie: nothing separates them, and inventing an order
-would mean ranking by how long each station has been running. Each strip is that
-city's whole record on one shared scale, so rows compare and a crowded strip is simply
-a longer record.</p>
+<p class="subl">Each row is one city's entire record, one mark per summer.
+<strong style="color:var(--ink);font-weight:500">{rows[0]['name']}'s {rows[0]['now']} hot
+days beat all {rows[0]['of']} summers it has on file. {rows[-1]['name']}'s
+{rows[-1]['now']} beat {rows[-1]['pct']:.0f} in 100 of its own.</strong> A crowded row is
+just a longer record.</p>
 {all_rows}
 
-<div class="seclab">Why we publish two measurements and not one</div>
+<div class="seclab">Hot days and hot nights are different summers</div>
 <div class="two">
-<div><span class="tl">Marseille</span>Its most hot days on record, and
-{MAR['rank']['value']}th of {MAR['rank']['of_years']} for hot nights. The days run
-further than the nights.</div>
-<div><span class="tl">Berlin</span>Hot days above {BER['days']['rank']['percentile']:.0f}
-per cent of its own summers, and hot nights at the
-{ordinal(round(BER['rank']['percentile']))} percentile. Here it is the other way round.</div>
+<div><span class="tl">Marseille</span>Its most hot days on record. For hot nights,
+{ordinal(MAR['rank']['value'])} of {MAR['rank']['of_years']}.</div>
+<div><span class="tl">Berlin</span>Hot days beat {BER['days']['rank']['percentile']:.0f} in
+100 of its own summers. Hot nights, {BER['rank']['percentile']:.0f} in 100.</div>
 </div>
-<p class="subl" style="margin-top:16px">If one measurement stood in for the other, those
-two cities would lean the same way. They lean opposite ways, which is how you can tell
-the instruments measure different things.
+<p class="subl" style="margin-top:16px">If one measure could stand in for the other,
+these two would lean the same way. They lean opposite ways.
 <strong style="color:var(--ink);font-weight:500">{sum(1 for d in rows if d['gated'])}
-cities publish no night ratio at all</strong>, each averaging under two hot nights a
-year: dividing by a base that thin produces a large number and no evidence. The gate is
-a flag on each city rather than a threshold applied here.</p>
+cities show no night figure at all.</strong> They average under two hot nights a year, and
+dividing by a base that small gives you a big number and no evidence.</p>
 
 <div class="src">
 <span>{SERVICES}</span>
