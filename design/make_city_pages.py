@@ -326,7 +326,13 @@ for name, v in sorted(C.items()):
     reloc = ""
     rank_txt = ("the most on record" if dr["value"] == 1
                 else f'{ordn(dr["value"])} of {dr["of_years"]}')
-    rank_cap = f"2026 is {rank_txt} for hot days.{reloc}"
+    # NO RANK CAPTION. Editor's rule and it needed no judgement from me: a
+    # caption never restates the number, the title or the source stamp,
+    # because a caption repeating what the image should say is a caption doing
+    # the image's job. Putting the rank in the headline made this one a repeat
+    # four lines down. Anchoring is pointing at the mark, and 2026 already
+    # carries an accent fill AND a full-height rule in bars(), so the bar
+    # identifies itself without being described.
 
     # The headline must name its period: base is a TO-DATE mean and reading
     # it as a season total overstates the change. Where the baseline is not
@@ -568,7 +574,6 @@ for name, v in sorted(C.items()):
 <div class="seclab">Every summer on this thermometer</div>
 <div class="grid"><span class="gk">Hot days<em>above {th} &deg;C</em></span>
 <span>{bars(D, top)}</span></div>
-<p class="cap">{rank_cap}</p>
 {method}
 
 {night_block}
@@ -599,7 +604,7 @@ for name, v in sorted(C.items()):
 </main></body></html>"""
     check_constraints(name, html, night_block, v.get("page_constraints", {}))
     if not mult_ok:
-        check_no_baseline_comparison(name, head + unit_rows + mult_note + rank_cap)
+        check_no_baseline_comparison(name, head + unit_rows + mult_note)
     out = R / f"docs/heat/{slug(name)}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
