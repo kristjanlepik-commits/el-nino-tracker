@@ -215,18 +215,26 @@ NCITY = words(len(rows)).capitalize()
 # scale has a calm end. It was empty when VD specified it and Stockholm
 # occupies it now, which is the argument for having drawn it early.
 #
-# The thresholds are FIXED, not fitted. A domain stretched to this
-# summer's spread would look better this week and would break in
-# February, and picking a cut on the size of the group it produces is the
-# thing we do not do in any channel.
-RECORD_PCT, NEAR_PCT = 99.95, 80.0
+# NEAR RECORD IS A RANK, NOT A PERCENTILE. Kristjan's call: a city is near
+# its record if this summer is among its five hottest, full stop. The 80th
+# percentile it replaced meant something different in every city, because a
+# percentile cut is a rank cut whose position moves with the length of the
+# record: 80 per cent of Madrid's 106 years leaves 21 summers above the
+# line and 80 per cent of Murcia's 43 leaves 8. Top five is the same
+# statement everywhere and a reader already knows what it means.
+#
+# The thresholds are FIXED, not fitted. A domain stretched to this summer's
+# spread would look better this week and break in February, and picking a
+# cut on the size of the group it produces is the thing we do not do in any
+# channel.
+NEAR_RANK = 5
 FILL = {"record": "var(--f3)", "near": "var(--f2)", "quiet": "var(--f0)"}
 
 
-def state(pct):
-    if pct >= RECORD_PCT:
+def state(d):
+    if d["rank"] == 1:
         return "record"
-    return "near" if pct >= NEAR_PCT else "quiet"
+    return "near" if d["rank"] <= NEAR_RANK else "quiet"
 
 
 # Sizing. Area, not radius, carries the margin, so radius goes as its
@@ -247,7 +255,7 @@ R_FLOOR, R_CAP, M_REF = 7.0, 14.0, 0.25
 
 
 def radius(d):
-    if state(d["pct"]) != "record":
+    if state(d) != "record":
         return R_FLOOR
     return min(R_CAP, R_FLOOR * math.sqrt(1 + max(0.0, d["margin"]) / M_REF))
 
@@ -323,7 +331,7 @@ marks, labels, leaders = [], [], []
 for d in sorted(rows, key=lambda d: PY(d["lat"])):
     x, y, r = PX(d["lon"]), PY(d["lat"]), radius(d)
     marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" '
-                 f'fill="{FILL[state(d["pct"])]}" stroke="var(--ink)" '
+                 f'fill="{FILL[state(d)]}" stroke="var(--ink)" '
                  f'stroke-width="1"/>')
     bw = len(d["name"]) * 7.1
     lx = x + r + GAP
@@ -359,15 +367,15 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
     # is what makes room for the larger record markers.
     labels.append(f'<text x="{lx:.1f}" y="{ly:.1f}" class="cn">{d["name"]}</text>')
 
-_nrec = len([d for d in rows if state(d["pct"]) == "record"])
+_nrec = len([d for d in rows if state(d) == "record"])
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
        f'aria-label="{NCITY} European weather stations in one of three states: '
        f'{_nrec} at a record for hot days, '
-       f'{len([d for d in rows if state(d["pct"]) == "near"])} near the top of '
-       f'their own history without reaching a record, and '
-       f'{len([d for d in rows if state(d["pct"]) == "quiet"])} within their '
-       f'historical range. Record markers are drawn larger the further a city '
-       f'passed its own previous best.">'
+       f'{len([d for d in rows if state(d) == "near"])} among their own five '
+       f'hottest summers without reaching a record, and '
+       f'{len([d for d in rows if state(d) == "quiet"])} outside their own top '
+       f'five. Record markers are drawn larger the further a city passed its '
+       f'own previous best.">'
        + "".join(f'<path d="{d}" fill="var(--land)" stroke="var(--coast)" '
                  f'stroke-width="0.9" stroke-linejoin="round"/>' for d in coast)
        + "".join(leaders) + "".join(marks) + "".join(labels) + "</svg>")
@@ -482,8 +490,18 @@ MAR, BER = C["Marseille"], C["Berlin"]
 # year on record") and the names carry their own meaning. A legend that
 # explains three words it did not need to explain is a legend a reader stops
 # reading.
+# The third label was "near average" and the top-five rule made it false.
+# The states are complementary, so moving the near-record boundary moves
+# this one too, and top five leaves Valencia here at 6th of 89, which is
+# the 94th percentile of its own record. Calling that near average is the
+# same class of error as calling Marseille's 91st-percentile summer
+# ordinary. Named by what it is instead, which is also the only one of the
+# three that stays true however the set grows.
+# All three read off the same scale, which is rank in that city's own
+# record. Mixing a rank term with a distance term is how the four-rung
+# legend got unreadable in the first place.
 STATE_ROWS = [("record", "Record"), ("near", "Near record"),
-              ("quiet", "Near average")]
+              ("quiet", "Outside its top five")]
 
 
 def key_rows():
@@ -497,7 +515,7 @@ def key_rows():
 # largest are Nice at 100 and Paris at 76. Exactly the hardcoded framing
 # product warned about, introduced by me twenty minutes after the warning,
 # and found by looking at the picture rather than by any check.
-_big = sorted((d for d in rows if state(d["pct"]) == "record"),
+_big = sorted((d for d in rows if state(d) == "record"),
               key=lambda d: -d["margin"])[:2]
 BIGGEST = (" and ".join(d["name"] for d in _big) if len(_big) > 1
            else (_big[0]["name"] if _big else "the largest records"))
