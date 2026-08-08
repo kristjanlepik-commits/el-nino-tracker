@@ -44,6 +44,9 @@ rather than combining them into one.
 | France | Météo-France via data.gouv.fr | Licence Ouverte 2.0 |
 | Austria | GeoSphere Austria | CC0, public domain |
 | Germany | DWD Climate Data Center | GeoNutzV, reuse with attribution |
+| Netherlands | KNMI | open data, reuse with attribution |
+| Sweden | SMHI | CC-BY 4.0 |
+| Czechia | CHMI | open data, reuse with attribution |
 
 One station per city, named in the data. Nights and days come from the
 same rows of the same station record, never assembled from two.
@@ -53,7 +56,7 @@ same rows of the same station record, never assembled from two.
 **Every year is cut to the same calendar day.** 2026 is compared against
 prior years counted to that same date, so a part-season is never ranked
 against complete ones. Cities in different countries have different cuts
-because the four met services publish on different lags, which is why **a
+because the seven met services publish on different lags, which is why **a
 cross-city ranking is not available** and we do not print one.
 
 **A year is usable if it holds 90% of its days from 1 May to the cut.**
@@ -103,13 +106,12 @@ give different numbers, and the choice is visible in the data rather than
 buried.
 
 **The 20 °C night count does not work everywhere, and we say where.**
-Seven of the twenty-one cities average too few tropical nights for the
-measure to carry a ratio: Berlin, Bilbao, Cologne, Frankfurt, Hamburg,
-Munich and Paris. **Two of those are long-standing members of the set**,
-not new additions: Paris averages 1.53 tropical nights a year and Bilbao
-1.17. In those cities we publish the percentile night metric and the
-count of records we quote **excludes them**, which is why the night
-headline reads "7 of 14" rather than "11 of 21".
+10 of the 24 cities average too few tropical nights for the measure to
+carry a ratio: Amsterdam, Berlin, Bilbao, Cologne, Frankfurt, Hamburg, Munich, Paris, Prague, Stockholm. Stockholm recorded none at all in 2026 and Amsterdam
+three. **Two of them are long-standing members of the set** rather than
+northern additions: Paris averages 1.53 tropical nights a year and Bilbao
+1.17. In those cities we publish the percentile night metric instead, and
+the count of records we quote **excludes them**.
 
 **The French thresholds have weaker standing than the Spanish ones.**
 AEMET publishes its percentile rule and we reproduce its published Madrid
@@ -130,17 +132,58 @@ typical year almost none of these cities sets a record. Both baselines
 are recomputed from the series on every run rather than stored, because a
 stale baseline is worse than none: it looks checked.
 
-**No city in this set is ordinary, and we do not use the word.** The
-least extreme readings are the 86th to 90th percentile of their own
-records. Those are elevated years that merely are not the most extreme,
-and calling them ordinary would misdescribe them in the direction that
-happens to make our set look tidier.
+**We do not describe an elevated year as ordinary.** Most of the least
+extreme readings here sit in the high 80s and 90s of their own records:
+those are elevated years that merely are not the most extreme, and calling
+them ordinary would misdescribe them in the direction that makes our set
+look tidier.
+
+**But some cities genuinely are having an unremarkable summer, and we say
+so.** Stockholm is at the 76th percentile of its own day record. A set in which
+everything is extreme invites the question of how the set was chosen; the
+cities that are not extreme are the ones that answer it.
+
+**We also avoid universal claims about the set.** Two have already gone
+false here as cities were added, each true when written and each really a
+claim about how many cities we held. Counts are used instead, because a
+count survives the set changing and can be checked against the table beside
+it.
 
 **Short records are short.** Murcia's is 43 years, Palma's 49, Lyon's 52.
 A rank of 1 of 43 is a weaker statement than 1 of 106 and the denominator
 is always printed with it.
 
 ## Version history
+
+### v1.3, 2026-08-08
+
+**What changed.** Three cities added: Amsterdam, Stockholm and Prague,
+taking the set to twenty-four across seven met services. A `selection`
+block was added stating how the cities were chosen and what that forbids.
+Universal claims were removed in favour of counts.
+
+**What went wrong to prompt it.** Two things, and they are the same thing
+at different scales.
+
+**Claims kept going false as the set grew.** "Not one of these cities is
+having an ordinary summer" was true of fifteen cities and false once Berlin
+joined. "Every city in the set is elevated on days" was true of twenty-two
+and false once Stockholm joined at the 76th percentile. Both were true when
+written, neither produced any error when it stopped being true, and the
+second carried the words "verified, not asserted" directly above a
+hardcoded verification.
+
+**And the set was never a sample of Europe.** The first fifteen cities were
+Spanish and French because the tropical-night measure only works where
+tropical nights are common, which is choosing cities on the basis of the
+thing being measured. That bias runs toward heat and had not been written
+down anywhere a reader could see it.
+
+**What it left open.** The set still holds no city east of 18.1 degrees and
+none from Italy, Greece, Portugal or the UK, so the geographic pattern it
+shows cannot be separated from the geography of where we happen to measure.
+Whether the percentile night metric should eventually replace the 20 °C
+count rather than sit beside it is still undecided.
 
 ### v1.2, 2026-08-07
 
