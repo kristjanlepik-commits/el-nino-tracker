@@ -32,7 +32,7 @@ import argparse
 import json
 import re
 import sys
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -113,6 +113,39 @@ def _crops_publication(doc: dict) -> date | None:
     if not isinstance(days, (int, float)):
         return None
     return date.today() - timedelta(days=int(days))
+
+
+
+def _newest_collected(doc) -> "date | None":
+    """Newest timestamp in an append-only collector file.
+
+    Not a dict: this layer reads JSONL, so the loader hands it a list.
+    """
+    if not isinstance(doc, list) or not doc:
+        return None
+    best = None
+    for s in doc:
+        v = s.get("ts") if isinstance(s, dict) else None
+        d = None
+        # Epoch seconds OR an ISO string. The collector writes epoch
+        # ints; I assumed ISO and the layer reported "no readable as-of
+        # date" against a file full of perfectly good timestamps, which
+        # is a guard failing open on the one dataset that cannot be
+        # refetched. Accept both rather than couple this to one writer.
+        if isinstance(v, (int, float)):
+            try:
+                d = datetime.fromtimestamp(v, tz=timezone.utc).date()
+            except (OverflowError, OSError, ValueError):
+                d = None
+        elif isinstance(v, str):
+            try:
+                d = datetime.fromisoformat(v.replace("Z", "+00:00")).date()
+            except ValueError:
+                d = None
+        if d is None:
+            continue
+        best = max(best, d) if best else d
+    return best
 
 
 def _latest_event_date(doc: dict) -> date | None:
@@ -199,6 +232,25 @@ LAYERS = [
     {"path": "crops/data/publication_log.json", "as_of": _crops_publication,
      "max_age": 20, "owner": "CRO", "pending_until": date(2026, 8, 26),
      "what": "the crops publication clock, behind /crops/"},
+    # Tallinn is BUILD-FORWARD: no archive reaches 2026 on a
+    # commercially clear source, so a missed hour is permanently absent
+    # rather than fetchable later. That makes silence the dangerous
+    # state here more than anywhere else on the site.
+    #
+    # The collector commits nothing when there is no new sample, which is
+    # correct: an empty commit every hour would be noise. But it means a
+    # permanently BROKEN fetch looks exactly like a quiet one, and the
+    # consecutive-no-op trap that cost Fire six days would cost this
+    # channel record it cannot get back.
+    #
+    # 1 day, not hours, because this file's own alerting cadence is the
+    # daily 06:30 UTC qa run; a tighter number could not be acted on any
+    # sooner. A healthy hourly collector is never more than an hour
+    # stale, so a full day means roughly 24 consecutive failures.
+    {"path": "heat/data/collected/Tallinn.jsonl", "as_of": _newest_collected,
+     "max_age": 1, "owner": "HEAT",
+     "what": "the Tallinn forward collector, whose missed hours are "
+             "permanent"},
     {"path": "docs/pacific-sst.json", "as_of": _from_key("observation_date"),
      "max_age": 14, "owner": "DESIGN", "what": "front page Pacific SST field, "
                                                "refreshed by hand"},
@@ -274,7 +326,9 @@ def main() -> int:
             rows.append((layer["path"], "absent", "-", layer["owner"]))
             continue
         try:
-            doc = json.loads(p.read_text())
+            raw = p.read_text()
+            doc = ([json.loads(l) for l in raw.splitlines() if l.strip()]
+                   if p.suffix == ".jsonl" else json.loads(raw))
         except (OSError, ValueError) as exc:
             problems.append(f"{layer['path']} is unreadable ({exc}). "
                             f"Owner: {layer['owner']}.")
