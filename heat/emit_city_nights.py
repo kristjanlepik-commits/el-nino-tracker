@@ -98,6 +98,40 @@ LICENCE = {
 }
 
 
+# Load-bearing for PROSE, not just for rendering. Editor's request 2026-08-08:
+# the banned-word rule depends on this number, and if it changes shape the
+# copy keeps rendering and quietly means something else. So it is emitted as
+# a field rather than living inside a generated sentence, and the guard below
+# refuses to write a payload where the prose contract has drifted.
+ELEVATED_PCT = 85.0
+
+# Every field the editor's rules bind to. A renderer failing is visible; copy
+# silently meaning something else is not.
+PROSE_CONTRACT = {
+    ("geography", "elevated_threshold_pct"): float,
+    ("geography", "all_elevated_on_days"): bool,
+    ("geography", "lowest_day_percentile"): dict,
+    ("geography", "banned_word"): str,
+    ("headline", "lead", "claim"): str,
+    ("headline", "lead", "framing_rule"): str,
+    ("headline", "lead", "not_elevated"): list,
+}
+
+
+def check_prose_contract(payload):
+    """Fail the emit if a field the copy is built from has changed shape."""
+    bad = []
+    for path, typ in PROSE_CONTRACT.items():
+        node = payload
+        for k in path:
+            node = node.get(k) if isinstance(node, dict) else None
+            if node is None and k != path[-1]:
+                break
+        if node is None or not isinstance(node, typ):
+            bad.append(".".join(path))
+    return bad
+
+
 def runs(years):
     ys = sorted(years)
     out, start, prev = [], ys[0], ys[0]
@@ -581,7 +615,7 @@ def main() -> int:
                 "in_top_10pct": len(top10), "in_top_5pct": len(top5),
                 "of_cities": len(cities),
                 "not_elevated": [x["city"] for x in ldays
-                                 if x["day_percentile"] < 85.0],
+                                 if x["day_percentile"] < ELEVATED_PCT],
                 "framing_rule":
                     "NEVER phrase this as a universal. No 'none', 'not one', "
                     "'every' or 'all'. Two such claims have already gone false "
@@ -663,22 +697,30 @@ def main() -> int:
             "claim": ("The extreme is concentrated in the middle latitudes, "
                       "not at the hot end."),
             "lowest_day_percentile": {"city": low_city, "value": low_pct},
-            "all_elevated_on_days": low_pct >= 85.0,
+            "elevated_threshold_pct": ELEVATED_PCT,
+            "elevated_threshold_note":
+                "LOAD-BEARING FOR PROSE. The banned-word rule is defined "
+                "against this number, so copy must read it here rather than "
+                "hardcoding 85. Changing it changes what may be written.",
+            "all_elevated_on_days": low_pct >= ELEVATED_PCT,
             "all_elevated_note":
-                ("Every city in the set sits above the 85th percentile of its "
-                 "own day record; the lowest is {0} at {1}."
-                 if low_pct >= 85.0 else
-                 "NOT every city is elevated: {0} sits at {1}, below the 85th "
+                ("Every city in the set sits above the {2}th percentile of "
+                 "its own day record; the lowest is {0} at {1}."
+                 if low_pct >= ELEVATED_PCT else
+                 "NOT every city is elevated: {0} sits at {1}, below the {2}th "
                  "percentile of its own record. A page must not say the whole "
-                 "set is elevated.").format(low_city, low_pct),
+                 "set is elevated.").format(low_city, low_pct,
+                                            int(ELEVATED_PCT)),
             "banned_word": "ordinary",
             "banned_word_note":
-                "No city ABOVE the 85th percentile may be called ordinary. "
+                "No city ABOVE the {0}th percentile may be called ordinary. "
+                .format(int(ELEVATED_PCT)) + 
                 "Where all_elevated_on_days is false the lowest city may "
-                "legitimately be described as having an unremarkable summer, "
-                "and that city is the most valuable member of the set: a "
-                "group where not everything is extreme is far harder to "
-                "dismiss than one where everything is.",
+                "legitimately be described as having an unremarkable summer. "
+                "STATE IT AND STOP: do not add a clause explaining what "
+                "naming it proves. Editor's rule 2026-08-08, and the reason "
+                "is that the exception persuades by being there, and arguing "
+                "that it persuades converts it back into an argument.",
             "band": {"south_edge_lat": 38, "north_edge_lat": 51},
             "least_extreme_on_days": ldays,
             "mechanism": None,
@@ -758,6 +800,12 @@ def main() -> int:
               f"worst {dbase['worst_year_on_record']}. The page_constraints "
               f"text asserts an inversion the data no longer supports.",
               file=sys.stderr)
+        return 1
+
+    drift = check_prose_contract(payload)
+    if drift:
+        print(f"  FAIL: prose contract drifted, copy would silently change "
+              f"meaning: {drift}", file=sys.stderr)
         return 1
 
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else OUT

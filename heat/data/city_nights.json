@@ -136,10 +136,12 @@
    "city": "Stockholm",
    "value": 76.3
   },
+  "elevated_threshold_pct": 85.0,
+  "elevated_threshold_note": "LOAD-BEARING FOR PROSE. The banned-word rule is defined against this number, so copy must read it here rather than hardcoding 85. Changing it changes what may be written.",
   "all_elevated_on_days": false,
   "all_elevated_note": "NOT every city is elevated: Stockholm sits at 76.3, below the 85th percentile of its own record. A page must not say the whole set is elevated.",
   "banned_word": "ordinary",
-  "banned_word_note": "No city ABOVE the 85th percentile may be called ordinary. Where all_elevated_on_days is false the lowest city may legitimately be described as having an unremarkable summer, and that city is the most valuable member of the set: a group where not everything is extreme is far harder to dismiss than one where everything is.",
+  "banned_word_note": "No city ABOVE the 85th percentile may be called ordinary. Where all_elevated_on_days is false the lowest city may legitimately be described as having an unremarkable summer. STATE IT AND STOP: do not add a clause explaining what naming it proves. Editor's rule 2026-08-08, and the reason is that the exception persuades by being there, and arguing that it persuades converts it back into an argument.",
   "band": {
    "south_edge_lat": 38,
    "north_edge_lat": 51
