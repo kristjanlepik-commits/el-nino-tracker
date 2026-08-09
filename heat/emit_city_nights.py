@@ -87,6 +87,31 @@ COORDS = {
     "Basel": (47.5, 7.6), "Lugano": (46.0, 8.96),
 }
 
+def _coord(city):
+    """(lat, lon, source) for a city's map mark.
+
+    Reads heat/data/station_coords.json, written by station_coords.py from
+    each service's own station list, and falls back to the hand-typed COORDS
+    above for cities not yet resolved. The fallback is LABELLED rather than
+    silent: a hand-typed value is off by 3 to 15 km, which is a data-quality
+    defect the page should disclose rather than hide behind 4 decimal places.
+    """
+    import json as _json
+    global _COORD_CACHE
+    if _COORD_CACHE is None:
+        path = ROOT / "heat" / "data" / "station_coords.json"
+        try:
+            _COORD_CACHE = _json.loads(path.read_text())
+        except Exception:
+            _COORD_CACHE = {}
+    r = _COORD_CACHE.get(city)
+    if r and r.get("coord_source") != "hand_typed":
+        return (r["lat"], r["lon"], r["coord_source"])
+    return (COORDS[city][0], COORDS[city][1], "hand_typed")
+
+
+_COORD_CACHE = None
+
 LICENCE = {
     "ES": {"licence": "AEMET legal notice: reuse for commercial and "
                       "non-commercial purposes",
@@ -891,11 +916,30 @@ def main() -> int:
                                  "one thermometer per city and must not read "
                                  "as a European temperature map.",
                 "points": [
-                    {"city": c, "lat": COORDS[c][0], "lon": COORDS[c][1],
+                    {"city": c, "lat": _coord(c)[0], "lon": _coord(c)[1],
+                     "coord_source": _coord(c)[2],
                      "day_percentile": v["days"]["rank"]["percentile"],
                      "night_percentile": v["rank"]["percentile"],
                      "night_metric_holds": c in ok_cities}
                     for c, v in sorted(cities.items())],
+                # PROVENANCE TRAVELS WITH THE POINT, not in a sibling file.
+                # station_coords.json existed for a whole afternoon carrying
+                # nine resolved coordinates that nothing downstream read,
+                # because the resolver was committed and never wired in here.
+                # Design found it by checking which nine had moved. Building
+                # the better data is not the same as shipping it.
+                "coord_resolution": {
+                    "resolved": sum(1 for c in cities
+                                    if _coord(c)[2] != "hand_typed"),
+                    "total": len(cities),
+                    "means": "the mark is the STATION, which is what the "
+                             "disclosure names and what completeness is "
+                             "measured on, not the city centre.",
+                    "hand_typed_means": "typed by me at 1 dp with no source, "
+                                        "off by 3 to 15 km where checked. "
+                                        "Legible rather than passing as "
+                                        "sourced.",
+                },
             },
         },
         "featured_cities": list(FEATURED),
@@ -924,11 +968,11 @@ def main() -> int:
                            for k in sorted({v["country"]
                                             for v in cities.values()})},
             "longitude_span": [
-                round(min(COORDS[c][1] for c in cities), 1),
-                round(max(COORDS[c][1] for c in cities), 1)],
+                round(min(_coord(c)[1] for c in cities), 1),
+                round(max(_coord(c)[1] for c in cities), 1)],
             "latitude_span": [
-                round(min(COORDS[c][0] for c in cities), 1),
-                round(max(COORDS[c][0] for c in cities), 1)],
+                round(min(_coord(c)[0] for c in cities), 1),
+                round(max(_coord(c)[0] for c in cities), 1)],
             "selection_is_deliberate": True,
             "how_these_cities_were_chosen":
                 "ON PURPOSE, toward where the abnormality is. That is what "
