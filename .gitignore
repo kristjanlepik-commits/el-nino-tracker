@@ -51,3 +51,11 @@ research
 # output drifts the moment either side changes, and 22 of them had already
 # drifted by the time platform found them in a 38,280-line diff.
 design/review/heat/
+
+# Design's local heat preview: build output, never served (not under
+# docs/), regenerable by design/preview_sync.py. It reached the repo
+# through an add -A and its 74 tracked files then showed as modified in
+# every chat's git status, which is how it blocked CRO's auto-push on
+# 2026-08-09: a rebase refuses while they are dirty, so one chat's
+# preview directory could stop another chat's commit reaching origin.
+heat-preview/
