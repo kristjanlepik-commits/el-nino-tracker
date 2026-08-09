@@ -895,6 +895,51 @@ NAV_KNOWN_STALE.update({
 })
 
 
+def check_gate_currency(violations, base):
+    """Is this gate itself out of date relative to what it will merge into?
+
+    A NEW FAILURE MODE, found 2026-08-09 and worse than the defect that
+    exposed it. Design reported qa_check clean as evidence their branch
+    was safe. It was clean. It was clean because the branch predated both
+    checks that would have caught the defect, so the gate ran without
+    them and said so in exactly the words a current gate uses.
+
+    A green result from a stale gate is indistinguishable from a green
+    result from a current one, and nothing in the output says which you
+    have. That is the whole problem: every other failure here announces
+    itself somehow.
+
+    SCOPED TO THIS FILE ON PURPOSE. "Your branch is behind" is true of
+    most branches most of the time and blocking on it would be noise
+    nobody reads. The narrow question is whether the CHECKS have moved,
+    because that is when a pass means something different from what the
+    reader thinks. Design's phrasing, which is the right one: a gate that
+    refuses to pass when its branch is behind the branch it will merge
+    into.
+
+    Silent when the base ref is unavailable. A shallow CI checkout or a
+    fresh clone has no origin/main, and a check that fails on absence of
+    information rather than on evidence is how a guard gets switched off.
+    """
+    code, _ = git("rev-parse", "--verify", "--quiet", base)
+    if code != 0:
+        return
+    code, behind = git("rev-list", "--count", f"HEAD..{base}")
+    if code != 0 or not behind.strip().isdigit() or int(behind) == 0:
+        return
+    me = "scripts/qa_check.py"
+    code, changed = git("log", "--format=%h %s", f"HEAD..{base}", "--", me)
+    if code != 0 or not changed.strip():
+        return
+    lines = [l for l in changed.strip().splitlines() if l.strip()]
+    violations.append(
+        f"this gate is {behind.strip()} commit(s) behind {base}, and "
+        f"{len(lines)} of them changed {me} itself. A pass here does not "
+        f"mean what a pass on {base} means, and nothing in the output "
+        f"would tell you. Rebase before trusting the result:\n"
+        + "\n".join(f"      {l}" for l in lines[:5]))
+
+
 def check_masthead_wellformed(violations):
     """One masthead per page, and a channel page marks its own section.
 
@@ -1182,6 +1227,7 @@ def main():
     # page is incomplete; a page with two mastheads is malformed, and
     # publishing malformed markup is worse than publishing nothing.
     check_masthead_wellformed(violations)
+    check_gate_currency(violations, args.base)
     check_large_files(violations)
     check_reserved_not_rendered(violations)
 
