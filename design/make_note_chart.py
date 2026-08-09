@@ -122,12 +122,37 @@ def draw(city, metric, reference=None):
     if reference:
         a, b = reference
         ref = {y: x for y, x in vals.items() if a <= y <= b}
+        # The reference period must be complete, and the refusal has to name
+        # WHICH kind of incomplete, because the two want different fixes.
+        #
+        # Editor asked for a second guard here: fail if the period intersects
+        # unusable_slots, so that leaving those years blank stays honest.
+        # The condition is right and the guard would be dead code. An
+        # unusable year has no value emitted, so it is already caught below
+        # as missing. What was actually wrong was this message, which called
+        # 1945 and 1948 "no observation" and so repeated, in the error path,
+        # the exact conflation the label above was just fixed for.
+        #
+        # A wrong error message is worse than a missing guard. It fires at
+        # the moment somebody is already confused and tells them a false
+        # thing about their data.
         missing = [y for y in range(a, b + 1) if y not in vals]
         if missing:
+            unusable = set(s.get("unusable_slots", []))
+            gaps = [y for y in missing if y not in unusable]
+            thin = [y for y in missing if y in unusable]
+            why = []
+            if gaps:
+                why.append(f"no record at all for {gaps}")
+            if thin:
+                why.append(f"{thin} observed but below the completeness bar, "
+                           f"so drawn as blanks and not counted")
             raise SystemExit(
-                f"REFUSING: {city} has no observation in {missing} inside the "
-                f"{a}-{b} reference period, so a total over it is a total over "
-                f"an unknown number of summers.")
+                f"REFUSING: the {a}-{b} reference period is not complete for "
+                f"{city}: {'; '.join(why)}. A total over it would be a total "
+                f"over an unknown number of summers, and the blank years are "
+                f"only honest while they sit outside the period being counted.")
+
         # Lighter than the bars, not the same grey. The first render
         # shaded the band in almost exactly the bar colour and the
         # columns inside it stopped reading, which on a chart whose
