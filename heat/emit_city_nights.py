@@ -339,10 +339,24 @@ def main() -> int:
         "means": ("every count of cities-at-something is a floor while any "
                   "city is short of the latest cut, because a city with no "
                   "observation on a day cannot register that day."),
-        "render_rule": ("prefix counts with 'at least' while "
-                        "counts_are_floors is true, and drop it when it is "
-                        "false. Never type either form."),
-        "direction": "counts can only rise as late sources land, never fall.",
+        # SCOPED TO THE FINDING COUNTS, and editor caught why it has to be.
+        # The first version said "prefix counts with 'at least'" without
+        # saying which, and `cities_short_of_it` lives in this same object
+        # and moves the OTHER WAY: it falls as late sources land. A renderer
+        # applying the rule as written produces "at least 21 cities are
+        # short of the cut", which is backwards, and it is exactly the
+        # mistake a renderer makes at 2am during a live event.
+        "floors_apply_to": ["cities_at_night_record", "cities_at_day_record",
+                            "cities_above_percentile"],
+        "ceilings_not_floors": ["cities_short_of_it"],
+        "render_rule": ("prefix a count in floors_apply_to with 'at least' "
+                        "while counts_are_floors is true, and drop it when "
+                        "false. Never apply it to ceilings_not_floors, "
+                        "which fall as late data lands. Never type either "
+                        "form."),
+        "direction": ("finding counts can only rise as late sources land. "
+                      "cities_short_of_it can only fall. They are not the "
+                      "same quantity and must not share a qualifier."),
     }
 
     def _reason(now, base, sub_now, sub_base, ok):
@@ -524,12 +538,30 @@ def main() -> int:
                     "Whether the two instruments happen to give the same "
                     "answer is a fact about this season, not a rule. A page "
                     "must read each one rather than carrying a caveat across.",
-                "banned_words": ["ordinary"],
-                "banned_words_reason":
-                    "No city in this set is ordinary. The least extreme "
-                    "readings are the 86th to 90th percentile of their own "
-                    "records. Calling one ordinary is the error that turned a "
-                    "91st-percentile Marseille into 'an ordinary summer'.",
+                # DERIVED PER CITY, not a blanket ban. Editor found the
+                # stated reason had become false: it said no city in the set
+                # is ordinary and that the least extreme sit at the 86th to
+                # 90th percentile. With the set at 36, Helsinki is the 51.8th
+                # percentile of its own record. By its own history that is an
+                # unremarkable summer, and the ban was preventing a TRUE
+                # sentence while its justification asserted the opposite of
+                # the data.
+                #
+                # A guard is a claim about the data and it goes stale exactly
+                # like copy does. This one was read, was correct, and the
+                # world moved under it when the set grew by twelve cities.
+                # That is the fourth instance today of something true when
+                # written, hard-coded, with no expiry attached.
+                #
+                # Editorially the point is the opposite of hiding it: a set
+                # where everything is extreme invites the question of how the
+                # set was chosen, and one genuinely unremarkable member
+                # answers it before it is asked.
+                # Set below, once both ranks exist on the entry. Placeholders
+                # rather than a blanket ban, so a stale claim cannot ship if
+                # the assignment is ever removed.
+                "banned_words": [],
+                "banned_words_reason": "",
                 "why_here":
                     "Repeated on every city because a page renders one city "
                     "and cannot be asked to read the headline object. A "
@@ -713,6 +745,38 @@ def main() -> int:
         # caveat is a sentence someone cuts for length. This cannot be
         # rendered away, and the prose version stays too, because the two
         # fail differently.
+        # THE "ordinary" BAN, DERIVED PER CITY. Editor found the old blanket
+        # ban's stated reason had become false: it said no city in the set is
+        # ordinary and the least extreme sit at the 86th to 90th percentile.
+        # With the set at 36, Helsinki is the 51.8th percentile of its own
+        # record. By its own history that is an unremarkable summer, so the
+        # ban was preventing a TRUE sentence while its justification asserted
+        # the opposite of the data.
+        #
+        # A guard is a claim about the data and goes stale exactly like copy.
+        # This one was read, was correct, and the world moved under it when
+        # the set grew by twelve cities. Fourth instance today of something
+        # true when written, hard-coded, with no expiry attached.
+        #
+        # Editorially the point is to NAME the quiet city rather than hide
+        # it: a set where everything is extreme invites the question of how
+        # the set was chosen, and one unremarkable member answers it first.
+        _pk = max(entry["rank"]["percentile"],
+                  entry["days"]["rank"]["percentile"])
+        _hot = _pk >= ELEVATED_PCT
+        entry["page_constraints"]["banned_words"] = ["ordinary"] if _hot else []
+        entry["page_constraints"]["banned_words_reason"] = (
+            f"This city is at the {_pk:g}th percentile of its own record, at "
+            f"or above the {ELEVATED_PCT:g}th, so 'ordinary' is false of it. "
+            "That is the error that turned a 91st-percentile Marseille into "
+            "'an ordinary summer'." if _hot else
+            f"NO BAN. This city is at the {_pk:g}th percentile of its own "
+            f"record, below the {ELEVATED_PCT:g}th on both instruments, so "
+            "by its own history this summer is unremarkable and may be "
+            "described that way. Say it plainly rather than reaching for a "
+            "softer word: a set in which every city is extreme invites the "
+            "question of how the set was chosen.")
+
         entry["record_scope"] = {
             "from_year": int(str(v["record_from"])[:4]),
             "text": f"our series, from {str(v['record_from'])[:4]}",
