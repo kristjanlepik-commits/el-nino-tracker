@@ -72,7 +72,7 @@ COORDS = {
     "Munich": (48.1, 11.6), "Paris": (48.9, 2.4), "Frankfurt": (50.1, 8.7),
     "Cologne": (50.9, 7.1), "Berlin": (52.5, 13.4), "Hamburg": (53.6, 10.0),
     "Amsterdam": (52.3, 4.8), "Stockholm": (59.3, 18.1),
-    "Prague": (50.1, 14.4),
+    "Prague": (50.1, 14.4), "Helsinki": (60.2, 24.9),
 }
 
 LICENCE = {
@@ -98,6 +98,8 @@ LICENCE = {
     "CZ": {"licence": "CHMI open data: reuse permitted with attribution",
            "commercial_use": True, "attribution": "Source: CHMI",
            "lag_days": 5},
+    "FI": {"licence": "CC-BY 4.0", "commercial_use": True,
+           "attribution": "Source: FMI", "lag_days": 1},
 }
 
 

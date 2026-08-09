@@ -159,6 +159,12 @@ CITIES = {
     # Vienna at 16.4E and does not extend our eastern reach.
     "Prague":    dict(country="CZ", station="Praha-Karlov", cut=(7, 31),
                       file="chmi_Prague.json"),
+    # FMI Helsinki Kaisaniemi, pinned by fmisid 100971 rather than by the
+    # place name the WFS also accepts. Verified to return the same
+    # coordinates for 1971, 1991 and 2026, which a name lookup would have
+    # hidden. Fourth city where that check was the whole difference.
+    "Helsinki":  dict(country="FI", station="Helsinki Kaisaniemi", cut=(8, 3),
+                      file="fmi_Helsinki.json"),
 }
 
 
@@ -323,7 +329,8 @@ def build(city, meta):
                    "DE": "DWD Climate Data Center",
                    "NL": "KNMI",
                    "SE": "SMHI",
-                   "CZ": "CHMI"}[meta["country"]],
+                   "CZ": "CHMI",
+                   "FI": "FMI"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,
