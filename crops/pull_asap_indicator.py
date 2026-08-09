@@ -148,19 +148,19 @@ def newest_dekad_in(path: Path):
     cycle legitimately returns a header and nothing else, which is why
     size was never the freshness test.
     """
-    last = None
+    best = None
     try:
         with path.open(encoding="utf-8", errors="replace") as fh:
             fh.readline()                      # header
             for line in fh:
-                if line.strip():
-                    last = line
+                parts = line.split(",")
+                if len(parts) > 10:
+                    d = parts[10].strip()
+                    if d and (best is None or d > best):
+                        best = d
     except OSError:
         return None
-    if not last:
-        return None
-    parts = last.split(",")
-    return parts[10].strip() if len(parts) > 10 else None
+    return best
 
 
 def probe_newest(indicator: str = "zFPARc"):

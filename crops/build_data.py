@@ -750,20 +750,29 @@ LAGS_BY_DESIGN = {"sm"}
 
 
 def newest_dekad(slug: str, cid: str):
-    """The last date in a cached file, or None if it holds no rows."""
+    """The MAXIMUM date in a cached file, or None if it holds no rows.
+
+    Not the last line. The export is ordered by region, not by date, and
+    a region whose instrument legitimately stops early puts an old date
+    at the end of the file. Egypt is the case: SPI is undefined in
+    hyper-arid regions outside the winter dekads, so Luxor's last row is
+    March while the file as a whole reaches July. Reading the last line
+    reported Egypt as four months stale and would have blocked every
+    build with a false positive.
+    """
     f = CACHE / f"{slug}_crop_growing_{cid}.csv"
     if not f.exists():
         return None
-    last = None
+    best = None
     with f.open(encoding="utf-8", errors="replace") as fh:
         fh.readline()
         for line in fh:
-            if line.strip():
-                last = line
-    if not last:
-        return None
-    parts = last.split(",")
-    return parts[10].strip() if len(parts) > 10 else None
+            parts = line.split(",")
+            if len(parts) > 10:
+                d = parts[10].strip()
+                if d and (best is None or d > best):
+                    best = d
+    return best
 
 
 def check_instruments_agree(catalogue: dict) -> list:
