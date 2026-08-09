@@ -743,7 +743,88 @@ SEASON_STARTS = json.loads(
 )["starts"] if (HERE / "season_starts.json").exists() else {}
 
 
-def build_stress(catalogue: dict) -> dict:
+# Soil moisture publishes one dekad behind the others, every dekad, on
+# purpose. That is the ONLY instrument allowed to lag, and it is allowed
+# to lag by exactly one publication.
+LAGS_BY_DESIGN = {"sm"}
+
+
+def newest_dekad(slug: str, cid: str):
+    """The last date in a cached file, or None if it holds no rows."""
+    f = CACHE / f"{slug}_crop_growing_{cid}.csv"
+    if not f.exists():
+        return None
+    last = None
+    with f.open(encoding="utf-8", errors="replace") as fh:
+        fh.readline()
+        for line in fh:
+            if line.strip():
+                last = line
+    if not last:
+        return None
+    parts = last.split(",")
+    return parts[10].strip() if len(parts) > 10 else None
+
+
+def check_instruments_agree(catalogue: dict) -> list:
+    """Every instrument for a place must be read at the same dekad.
+
+    WHY THIS REFUSES RATHER THAN WARNS. A partial pull does not produce
+    a wrong number here, it produces a MISSING one: the instrument has
+    no value at the newer dekad, so it is emitted absent with
+    "has not reported for this dekad yet". That sentence is a claim
+    about ASAP, and when the cause is our own incomplete fetch it is
+    FALSE. The page would blame the source for our gap, which is the
+    same defect as the skipped-reason conflation and reaches a reader
+    the same way.
+
+    It also silently guts the composite: five instruments a dekad behind
+    leaves severity with one, so severity disappears and the page looks
+    like an ASAP outage.
+
+    Requested by platform after crops_refresh.yml was found pulling only
+    zfparc, which would have put every country in this state every
+    dekad. Their fix protects against the mistake they made; this
+    protects against the next one nobody has made yet.
+
+    Cache only. A fetcher must never run inside a publish, so this
+    compares instruments against each other rather than against ASAP.
+    """
+    bad = []
+    for cid, name in catalogue.items():
+        spine = newest_dekad("zfparc", cid)
+        if spine is None:
+            continue                     # no crop data here at all
+        for slug, label, _unit, _w in INSTRUMENTS:
+            if slug == "zfparc" or slug in LAGS_BY_DESIGN:
+                continue
+            got = newest_dekad(slug, cid)
+            if got is None:
+                continue                 # absent everywhere, stated already
+            if got < spine:
+                bad.append({"place": name, "instrument": label,
+                            "holds": got, "spine_holds": spine})
+    return bad
+
+
+def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
+    stale = check_instruments_agree(catalogue)
+    if stale and not allow_mixed:
+        worst = sorted(stale, key=lambda r: r["place"])[:8]
+        lines = "\n".join(
+            f"    {r['place']}: {r['instrument']} holds {r['holds']}, "
+            f"cumulative vegetation holds {r['spine_holds']}"
+            for r in worst)
+        raise SystemExit(
+            f"REFUSING TO EMIT: {len(stale)} instrument-place pair(s) are "
+            f"read at an older dekad than the spine.\n{lines}"
+            + (f"\n    ... and {len(stale) - len(worst)} more"
+               if len(stale) > len(worst) else "")
+            + "\n  A place whose instruments disagree about their date "
+              "publishes absences that blame ASAP for our own gap, and "
+              "guts the composite.\n  Re-run crops/pull_asap_indicator.py "
+              "--all --batch to finish the pull. Override with "
+              "--allow-mixed-dekads only if you know why.")
     places, skipped = [], []
     latest_dekad = None
     # Every reported place's oriented instrument series, kept so the
@@ -1447,12 +1528,19 @@ def build_shares() -> dict:
 
 
 def main() -> int:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--allow-mixed-dekads", action="store_true",
+                    help="emit even when a place's instruments are read "
+                         "at different dekads. Only with a reason.")
+    args = ap.parse_args()
+
     OUT.mkdir(parents=True, exist_ok=True)
     catalogue = json.loads(
         (HERE / "asap_countries.json").read_text(encoding="utf-8")
     )["countries"]
 
-    stress = build_stress(catalogue)
+    stress = build_stress(catalogue, allow_mixed=args.allow_mixed_dekads)
     (OUT / "stress_current.json").write_text(
         json.dumps(stress, indent=1) + "\n", encoding="utf-8")
     print(f"stress_current.json: {stress['places_reported']} places, "
