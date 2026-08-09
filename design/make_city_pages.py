@@ -48,6 +48,19 @@ import json, math, re, statistics as st
 from pathlib import Path
 
 R = Path(__file__).resolve().parent.parent
+# THE PAGE CARRIES THE PAYLOAD IT WAS BUILT FROM. Editor found two city
+# pages a night stale, and found them by cross-checking heat's social
+# figures against the page copy: both numbers had been right when written
+# and the cut moved between them. A page carrying a stale count looks
+# exactly like a page carrying a correct one, which is why nothing caught
+# it and why the catch was luck rather than process.
+#
+# A short hash of the payload, stamped into every page, makes staleness a
+# thing that can be checked instead of noticed.
+import hashlib  # noqa: E402
+PAYLOAD_STAMP = hashlib.sha256(
+    (R / "heat/data/city_nights.json").read_bytes()).hexdigest()[:12]
+
 import sys
 sys.path.insert(0, str(R))
 from run_brief import (ANALYTICS_SNIPPET, PAGES_BASE_URL,   # noqa: E402
@@ -729,7 +742,7 @@ for name, v in sorted(C.items()):
 <meta name="twitter:title" content="{name}: {now} hot days so far this summer">
 <meta name="twitter:description" content="{head}">
 {ANALYTICS_SNIPPET}
-<style>{SITE_MASTHEAD_CSS}{CSS}</style></head><body><main>
+<style>{SITE_MASTHEAD_CSS}{CSS}</style><!-- payload {PAYLOAD_STAMP} --></head><body><main>
 {site_masthead("../", active="heat")}
 <div class="mast"><span class="house">The Long Swell</span>
 <span class="prod">Heat</span>

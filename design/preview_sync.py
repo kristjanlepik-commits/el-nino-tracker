@@ -18,6 +18,8 @@ means exactly one thing: a human changed it.
     .venv/bin/python design/preview_sync.py --force   overwrite anyway
 """
 import filecmp
+import hashlib
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -28,7 +30,43 @@ DST = Path.home() / "Documents/Claude Projects/El Nino Tracker/heat-preview"
 BASE = DST / ".baseline"
 
 
+def payload_stamp():
+    return hashlib.sha256(
+        (R / "heat/data/city_nights.json").read_bytes()).hexdigest()[:12]
+
+
+def stale_pages():
+    """Pages built from a payload other than the one on disk.
+
+    Editor found two city pages a night stale and found them by accident,
+    cross-checking heat's social figures against page copy they had reviewed
+    before the cut advanced. Both numbers were right when written. A page
+    carrying a stale count is indistinguishable from a correct one, so this
+    is the check that makes it visible rather than lucky.
+    """
+    want = payload_stamp()
+    out = []
+    for f in sorted(SRC.glob("*.html")):
+        m = re.search(r"<!-- payload ([0-9a-f]{12}) -->", f.read_text())
+        if not m:
+            out.append((f.name, "no stamp"))
+        elif m.group(1) != want:
+            out.append((f.name, f"built from {m.group(1)}, payload is {want}"))
+    return out
+
+
 def main(force=False):
+    stale = stale_pages()
+    if stale:
+        print("REFUSING TO SYNC. These pages were not built from the payload "
+              "now on disk, so they carry figures from an earlier cut:\n")
+        for n, why in stale[:6]:
+            print(f"    docs/heat/{n}  ({why})")
+        if len(stale) > 6:
+            print(f"    ... and {len(stale) - 6} more")
+        print("\nRe-run design/make_heat_index.py and design/make_city_pages.py.")
+        return 1
+
     if not SRC.is_dir():
         raise SystemExit(f"no build output at {SRC}")
     DST.mkdir(parents=True, exist_ok=True)
