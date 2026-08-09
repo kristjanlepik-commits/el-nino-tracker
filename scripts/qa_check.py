@@ -25,6 +25,7 @@ Exit 0 when clean, 1 when any violation is printed.
 """
 
 import argparse
+import ast
 import json
 import re
 import subprocess
@@ -857,6 +858,111 @@ def _compressed_size(path: Path) -> int:
 LARGE_FILE_ALLOWED: dict[str, str] = {}
 
 
+# Pages whose nav is known to lag, with the reason each one is allowed to.
+# THIS LIST MAY ONLY SHRINK. A page not on it that disagrees with CHANNELS
+# is a violation, so a NEW page or a NEW channel fails immediately; the
+# entries here are the backlog that existed when the check was written.
+#
+# Self-tightening on purpose, the same shape as the pending_until exemption
+# in check_freshness: an entry that starts passing is reported so it can be
+# deleted. An allowlist nobody prunes stops being an allowlist and becomes
+# a blind spot with a comment on it.
+NAV_KNOWN_STALE = {
+    # Frozen with the 2026-08-03 archive under invariant 5. The 08-10 brief
+    # regenerates it from CHANNELS, which already lists heat.
+    "docs/index.html": "frozen front page, regenerates on the Monday brief",
+    "docs/elnino/index.html": "regenerates on the Monday brief",
+}
+# The fire countries that dropped out of the qualifying set. They are kept
+# published so live URLs do not 404 and nothing regenerates them, so their
+# nav is frozen at whatever shipped the week they dropped. Several predate
+# the crops launch and are missing that entry too, which is the same defect
+# one channel earlier and the clearest evidence this recurs by default.
+#
+# NOT a permanent exemption. It ends when fire and design decide what a
+# dropped country page should say, which is already an open question in
+# publish_all's orphan notice. Whoever answers it deletes these lines.
+NAV_KNOWN_STALE.update({
+    f"docs/fires/{c}/index.html": "dropped from the fire qualifying set, "
+                                  "kept published, never regenerated"
+    for c in ("algeria", "australia", "belgium", "botswana",
+              "democratic-republic-of-the-congo", "ecuador", "ethiopia",
+              "germany", "greece", "india", "libya", "mexico", "morocco",
+              "portugal", "syria", "tunisia", "turkmenistan", "venezuela",
+              "zimbabwe")
+})
+
+
+def check_nav_consistency(violations, advisories):
+    """Does every page's nav agree with the channel list?
+
+    THE GENERAL FORM, and the reason this check exists rather than a
+    link check. Six defects this week were the same failure: a claim that
+    is false only in relation to something OUTSIDE the thing being
+    checked. Heat's framing, 2026-08-09, after finding the fifth. The fix
+    is not more checks, it is checks whose reference lies outside their
+    subject.
+
+    Here the subject is a page and the reference is CHANNELS in
+    run_brief.py. Every one of the 76 pages that lacked a heat entry on
+    the day heat launched was internally valid: real markup, resolving
+    links, correct against itself. qa_check, publish_all --check and the
+    link checker all passed them. The wrong property was one no single
+    page could see, which is why no per-page check could ever have found
+    it.
+
+    Read from source rather than imported, because importing run_brief
+    for a constant runs a module that renders briefs.
+    """
+    src = (ROOT / "run_brief.py").read_text()
+    m = re.search(r"^CHANNELS\s*=\s*(\[.*?\n\])", src, re.S | re.M)
+    if not m:
+        violations.append("qa_check: cannot find CHANNELS in run_brief.py, so "
+                          "nav consistency cannot be checked against anything. "
+                          "A check with no reference is not a check.")
+        return
+    expected = set()
+    for slug, _label, href in ast.literal_eval(m.group(1)):
+        expected.add((href or f"{slug}/").rstrip("/").split("/")[-1])
+
+    passing_stale = []
+    for p in sorted((ROOT / "docs").rglob("*.html")):
+        rel = str(p.relative_to(ROOT))
+        # Archived issues are immutable (invariant 5) and legitimately
+        # carry the nav of the week they were published.
+        if rel.startswith("docs/briefs/20"):
+            continue
+        nav = re.search(r'<nav class="prodnav".*?</nav>',
+                        p.read_text(encoding="utf-8", errors="replace"), re.S)
+        if not nav:
+            continue
+        got = {h.rstrip("/").split("/")[-1]
+               for h in re.findall(r'href="([^"]+)"', nav.group(0))
+               if not h.endswith(".html")}
+        if got == expected:
+            if rel in NAV_KNOWN_STALE:
+                passing_stale.append(rel)
+            continue
+        missing = ", ".join(sorted(expected - got)) or "none"
+        extra = ", ".join(sorted(got - expected))
+        msg = (f"{rel}: nav lists [{', '.join(sorted(got))}] and CHANNELS is "
+               f"[{', '.join(sorted(expected))}]. Missing: {missing}."
+               + (f" Unknown: {extra}." if extra else ""))
+        if rel in NAV_KNOWN_STALE:
+            advisories.append(f"{msg} Known: {NAV_KNOWN_STALE[rel]}.")
+        else:
+            violations.append(
+                msg + " Every link on this page resolves, which is why "
+                "nothing else catches it. Rebuild the page, or add it to "
+                "NAV_KNOWN_STALE with a reason if it genuinely cannot be.")
+
+    for rel in passing_stale:
+        advisories.append(
+            f"{rel} is in NAV_KNOWN_STALE and its nav now agrees with "
+            f"CHANNELS. Delete the entry; a stale exemption is how a guard "
+            f"quietly stops guarding.")
+
+
 def check_large_files(violations):
     """Is anything oversized being committed?
 
@@ -1020,6 +1126,12 @@ def main():
     check_page_lags_data(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
     check_allhands(violations)
+    # Advisory during a publish, blocking in CI, same split and same reason
+    # as check_emitted_fields: a nav that lags is a completeness defect and
+    # a stale page is worse than an under-linked one, so this must never
+    # hold the daily fire publish hostage.
+    check_nav_consistency(advisories if args.for_publish else violations,
+                          advisories)
     check_large_files(violations)
     check_reserved_not_rendered(violations)
 
