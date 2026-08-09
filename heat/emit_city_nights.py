@@ -1149,16 +1149,44 @@ def main() -> int:
                 "breaking records', not a proportion presented as if the set "
                 "were a sample of the continent. Every count is a count of "
                 "THESE cities, chosen the way described above.",
+            # ASSEMBLED, NOT TYPED, and design found why it has to be. These
+            # three sentences had gone stale against the machine fields
+            # beside them: "the map is 24 marks" next to cities: 36,
+            # "fifteen of the 24 are Iberia and France" when it is 18 of 36,
+            # and "no city east of 18.1 E" when Helsinki is at 24.9.
+            #
+            # The third is the one that changes a conclusion rather than a
+            # count. The bound was true when Stockholm was the easternmost
+            # city, and it stopped being true when Helsinki arrived, so a
+            # chat reading the field could not tell whether the conclusion
+            # it supports had survived the city that broke it.
+            #
+            # THE WORST PLACE IN THE PAYLOAD TO CARRY A STALE NUMBER, because
+            # these are the fields that tell another chat what it may not
+            # say. cities: 36 updated itself and the prose that scopes it did
+            # not, which is the Vienna collision again: a figure and the
+            # thing that bounds it, separated, with the bounding half going
+            # stale.
             "what_may_be_said":
                 "Each city against its own record, and the pattern across "
                 "this set stated as a pattern across this set. WHERE THE "
                 "ABNORMALITY IS AND HOW HARD, which is the thing these "
-                "cities were chosen to show. The map is 24 marks and means "
-                "what those 24 thermometers recorded.",
+                f"cities were chosen to show. The map is {len(cities)} marks "
+                f"and means what those {len(cities)} thermometers recorded.",
             "known_absences":
-                "No city east of 18.1 E, so no Poland, Baltics, Balkans, "
-                "Ukraine or European Russia. No Italy, Greece, Portugal or "
-                "the UK. Fifteen of the 24 are Iberia and France.",
+                f"No city east of "
+                f"{max(_coord(c)[1] for c in cities):.1f} E. No Italy, "
+                "Greece, Portugal or the UK. "
+                + (lambda n: f"{n} of {len(cities)} are Iberia and France.")(
+                    sum(1 for v in cities.values()
+                        if v["country"] in ("ES", "FR"))),
+            "known_absences_note":
+                "The longitude bound is DERIVED and moves when a city is "
+                "added. Which countries it excludes is a judgement that has "
+                "to be re-read against it, not carried forward: this "
+                "sentence previously said 18.1 E and named Poland, the "
+                "Baltics, the Balkans, Ukraine and European Russia, and kept "
+                "saying so after Helsinki moved the bound to 24.9 E.",
             "if_you_wanted_a_european_average":
                 "You would need a different set, chosen at random or by "
                 "population, and it would show a smaller share at a record. "
