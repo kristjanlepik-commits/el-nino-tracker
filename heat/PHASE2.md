@@ -79,15 +79,49 @@ days rather than months, every day we do not collect is permanently lost,
 while the MIDAS baseline keeps indefinitely. So: **registrations, then start
 the collector, then the baseline at leisure.**
 
-**LONDON IS A SUMMER-2027 CITY. Settled 2026-08-09, not estimated.**
+**RETRACTED, SAME DAY: "London is a summer-2027 city" was wrong.**
 
-    DataHub retention   48 HOURS, measured off the response
-    collector starts    7 August 2026, which is as far back as 48h reaches
-    June and July 2026  exist nowhere reachable
-    completeness bar    90% of days from 1 May
+I wrote it as "settled, not estimated" on 2026-08-09 after six routes failed.
+A seventh route works, and I had already built the tool for it.
 
-Two thirds of the 2026 season is unrecoverable, so a London page this year
-would fail its own completeness test.
+    SYNOP via OGIMET    03772, 1 May to 9 Aug 2026, 97% of days present
+    validated against   the MIDAS baseline itself, 2024 AND 2025
+    Tmin @ 06Z          100% within 0.5 C, bias +0.01, worst 0.5
+    Tmax @ 18Z          100% within 0.5 C, bias +0.00, worst 0.1
+    station identity    MIDAS heathrow / 00708 / 51.479,-0.453
+                        SYNOP 03772 Heathrow / 51.479,-0.451
+
+**Not a cross-instrument join.** Same thermometer, same 12-hour windows, a
+different transport. The join problem below was real for DataHub's hourly
+instantaneous readings and does not exist for SYNOP.
+
+**HOW I GOT IT WRONG, because the mistake generalises.** From ONE station,
+Tallinn, I concluded "SYNOP reproduces TMAX exactly and TMIN not at all" and
+wrote it into this file three times as the reason to reject Athens, Rome and
+London. It is not a property of SYNOP. It is a property of which hours a
+given service bulletins its 12-hour extremes at. UK stations report at 09
+and 21Z, which is exactly the MIDAS climatological day, and at 06 and 18Z.
+Estonia's schedule differs, so Tallinn behaved differently.
+
+**So ATHENS and ROME must be re-tested.** Both have clean histories stopping
+at 2025-08, which is precisely London's shape, and both were rejected on a
+rule derived from a single counter-example. That rejection is not safe.
+
+**THE OPEN ITEM IS LICENCE, NOT DATA.** OGIMET grants nothing: it is one
+person's server, states "we ask you not to abuse it", and asserts copyright
+on its own pages. The underlying bulletins are another matter. Under the WMO
+Unified Data Policy (Res. 1, Cg-Ext(2021)) the 00/06/12/18Z observations from
+RBSN stations are CORE data, free and unrestricted, commercial use included.
+
+That is why the numbers above use 06Z and 18Z rather than the 09Z and 21Z
+pair that matches MIDAS more tightly. **The core hours cost nothing**: same
+97% coverage, same 5 tropical nights, same 36.4 C warmest day.
+
+    MUST CONFIRM BEFORE PUBLISHING   that 03772 is an RBSN station.
+                                     Checkable in WMO OSCAR/Surface.
+
+NOAA is not an alternative route: ISD has no 2026 for this station (404) and
+its 2025 stops on 24 August, carrying extreme groups on only 74 of 236 days.
 
 **Baseline: DONE.** Full Heathrow MIDAS record, 1948-2025, 78 files, Open
 Government Licence, pulled 2026-08-09 while the CEDA token was live. The day
