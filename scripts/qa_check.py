@@ -868,12 +868,12 @@ LARGE_FILE_ALLOWED: dict[str, str] = {}
 # deleted. An allowlist nobody prunes stops being an allowlist and becomes
 # a blind spot with a comment on it.
 NAV_KNOWN_STALE = {
-    # docs/index.html was here and is gone: Kristjan asked for the front
-    # page HEAT link the same day, it was patched surgically, and the
-    # check reported the entry as prunable on its first real use. That is
-    # the self-expiring behaviour working, so the line went rather than
-    # being left to rot.
-    "docs/elnino/index.html": "regenerates on the Monday brief",
+    # EMPTY, and it got here the way it was designed to. Both original
+    # entries were reported as prunable by the check itself within hours:
+    # docs/index.html when Kristjan asked for the front page link the same
+    # day, docs/elnino/index.html when design regenerated it. Neither was
+    # remembered by a person. The dict stays because the next channel
+    # launch will need it.
 }
 # The fire countries that dropped out of the qualifying set. They are kept
 # published so live URLs do not 404 and nothing regenerates them, so their
