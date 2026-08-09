@@ -940,6 +940,66 @@ def check_gate_currency(violations, base):
         + "\n".join(f"      {l}" for l in lines[:5]))
 
 
+def check_heat_pages_match_reference(violations):
+    """Do the live heat pages match the payload product actually approved?
+
+    THE PUBLISH PATH IS `git push`, NOT publish_all. GitHub Pages serves
+    docs/ straight from the repo, so any commit carrying built HTML
+    publishes it. I closed the publish_all route this morning and wrote
+    that the gate "can no longer be routed around". It could: design built
+    36 city pages locally, committed them, I merged and pushed, and ten
+    cities plus two record-count jumps went live while the gate sat
+    reporting HOLD about them.
+
+    A gate on a path that does not publish is not a gate.
+
+    So this checks the artifact rather than the route: every city page
+    under docs/ must correspond to a city in the APPROVED payload, and
+    every approved city must have a page. Whatever tool built them, and
+    whoever pushed, the pages and the approved reference have to agree.
+
+    Why it matters more than a stale file, in design's words: the gate
+    would keep reporting HOLD on ten cities forever, so the signal stops
+    meaning anything, and when product finally approves believing they
+    are clearing ten cities they are actually clearing everything that
+    changed since the reference was written. An approval that does not
+    mean what the approver thinks it means is worse than no gate.
+    """
+    ref = ROOT / "heat/data/published/city_nights.json"
+    pages_dir = ROOT / "docs" / "heat"
+    if not ref.exists() or not pages_dir.exists():
+        return
+    try:
+        approved = set(json.loads(ref.read_text())["cities"])
+    except (OSError, ValueError, KeyError):
+        violations.append(
+            "heat/data/published/city_nights.json is unreadable, so there is "
+            "nothing to check the live heat pages against. That file is the "
+            "record of what readers were last approved to see.")
+        return
+
+    def slug(name):
+        return name.lower().replace(" ", "-")
+
+    on_disk = {p.stem for p in pages_dir.glob("*.html") if p.stem != "index"}
+    approved_slugs = {slug(c) for c in approved}
+
+    extra = sorted(on_disk - approved_slugs)
+    missing = sorted(approved_slugs - on_disk)
+    if extra:
+        violations.append(
+            f"docs/heat has {len(extra)} page(s) for cities not in the "
+            f"approved payload: {', '.join(extra)}. These are live to readers "
+            f"and the refresh gate has never cleared them, so it will keep "
+            f"reporting HOLD about changes that already shipped. Either the "
+            f"pages should not be published yet, or the reference should be "
+            f"promoted and product told what went out unreviewed.")
+    if missing:
+        violations.append(
+            f"the approved payload has {len(missing)} city(ies) with no page: "
+            f"{', '.join(missing)}. A reader following the index finds a 404.")
+
+
 def check_masthead_wellformed(violations):
     """One masthead per page, and a channel page marks its own section.
 
@@ -1227,6 +1287,7 @@ def main():
     # page is incomplete; a page with two mastheads is malformed, and
     # publishing malformed markup is worse than publishing nothing.
     check_masthead_wellformed(violations)
+    check_heat_pages_match_reference(violations)
     check_gate_currency(violations, args.base)
     check_large_files(violations)
     check_reserved_not_rendered(violations)
