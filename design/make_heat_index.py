@@ -572,7 +572,15 @@ def floor(n):
 _CR = N["geography"]["map"].get("coord_resolution", {"resolved": 0, "total": len(rows)})
 _nrec = len([d for d in rows if state(d) == "record"])
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
-       f'aria-label="{NCITY} European weather stations in one of three states: '
+       # "These", and the clause after it, are load-bearing rather than
+       # padding. A sighted reader is told twice that the set is not a
+       # sample of Europe: once in the lead, once in the note under the
+       # map. Both are visual text, so a screen reader user reaching this
+       # description was getting the count with neither. Same figures,
+       # weaker claim, purely by route (D-112).
+       f'aria-label="These {NCITY.lower()} European weather stations, chosen '
+       f'for where heat was expected rather than as a sample of the '
+       f'continent, in one of three states: '
        f'{floor(_nrec)} at a record for hot days, '
        f'{len([d for d in rows if state(d) == "near"])} among their own five '
        f'hottest summers without reaching a record, and '
@@ -1068,10 +1076,65 @@ out.parent.mkdir(parents=True, exist_ok=True)
 # the guard.
 _body = re.sub(r"<(style|script)\b.*?</\1>", " ",
                re.sub(r"<!--.*?-->", " ", html, flags=re.S), flags=re.S | re.I)
+#
+# Tag-stripping alone also deletes every aria-label, alt and title, which is
+# the text a screen reader user gets INSTEAD of the graphic rather than in
+# addition to it. So the checks below ran on the sighted reader's page only,
+# and the one route where a claim arrives unaccompanied by the surrounding
+# prose was the one route nothing checked. The map's aria-label was in fact
+# unscoped (fixed above); this guard did not find it and could not have.
 _visible = re.sub(r"<[^>]+>", " ", _body)
+_spoken = " ".join(m.group(1) for m in re.finditer(
+    r'(?:aria-label|alt|title)="([^"]*)"', _body, re.I))
+_readable = _visible + " " + _spoken
 for _w in BANNED:
-    if re.search(rf"\b{re.escape(_w)}\b", _visible, re.I):
-        raise SystemExit(f"index: banned word {_w!r} is visible on the page.")
+    if re.search(rf"\b{re.escape(_w)}\b", _readable, re.I):
+        raise SystemExit(f"index: banned word {_w!r} is published on the page "
+                         f"(check aria-labels too, not just visible text).")
+
+# D-112: no count over this city set may be published in a form that reads
+# as a fact about Europe. The cities were chosen BECAUSE they sit in the hot
+# part of the forecast map, so a proportion across them says nothing about a
+# continent nobody sampled. The test that settles it, from the ledger: a
+# real fact about Europe does not change when you add thermometers. Ours
+# moved the same day ten cities landed.
+#
+# What makes the lead legal is one word. "22 of these 36 European cities" is
+# scoped to the set; "22 of 36 European cities" is a claim about Europe.
+# Socials lost that word in five consecutive drafts, which is the whole
+# argument for a guard rather than a note: it is a single unstressed
+# syllable, it survives no rewrite, and its absence changes what the
+# sentence means without changing how it reads.
+#
+# The prose is editor's now (copy/heat_index.md), so this cannot be enforced
+# by design being careful. It has to fail the build.
+#
+# The count is matched in digits AND in words. The live defect was a
+# spelled-out one, in the map's aria-label: "Thirty-six European weather
+# stations", no scoping, while the sighted reader was told twice. A guard
+# reading only digits, or only visible text, calls that page clean on two
+# separate counts.
+if not N.get("selection", {}).get("is_representative_of_europe", True):
+    _NUM = (r"(?:\d[\d,]*|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|"
+            r"ninety|ten|eleven|twelve|(?:thir|four|fif|six|seven|eigh|nine)"
+            r"teen)(?:-\w+)?)")
+    _EUROPE = re.compile(
+        # \b matters more than it looks: without it the alternation happily
+        # starts at the "6" inside "these 36", the lookbehind sees "3 " and
+        # passes, and the guard reports the one sentence that is correct.
+        rf"(?<!these )\b{_NUM}\s+(?:of\s+(?:the\s+)?{_NUM}\s+)?"
+        # One optional word between "European" and the noun. The live defect
+        # read "European WEATHER stations", and a pattern demanding the two
+        # be adjacent missed it while looking like it covered the case.
+        rf"European\s+(?:\w+\s+)?"
+        rf"(?:cities|capitals|countries|stations|towns)\b", re.I)
+    _hit = _EUROPE.search(re.sub(r"\s+", " ", _readable))
+    if _hit:
+        raise SystemExit(
+            f"index: {_hit.group(0)!r} counts European cities without scoping "
+            f"the count to this set (D-112). The payload says "
+            f"is_representative_of_europe is false. Write 'of THESE n "
+            f"European cities', or drop the count.")
 out.write_text(html)
 print(f"wrote {out} | {len(rows)} cities, {len(coast)} coast rings, "
       # Report the quantity that ACTUALLY orders the list. This line still

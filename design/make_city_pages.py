@@ -269,7 +269,41 @@ def text_of(html):
     """
     body = re.sub(r"<(style|script)\b.*?</\1>", " ", html, flags=re.S | re.I)
     body = re.sub(r"<!--.*?-->", " ", body, flags=re.S)
-    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", body)).strip()
+    # aria-label, alt and title survive the tag strip on purpose. They are
+    # not decoration: they are what a screen reader user gets INSTEAD of the
+    # graphic, so a claim published only there is published to a reader who
+    # has no other route to it. Every guard built on text_of was checking
+    # the sighted page and calling it the page.
+    spoken = " ".join(m.group(1) for m in re.finditer(
+        r'(?:aria-label|alt|title)="([^"]*)"', body, re.I))
+    return re.sub(r"\s+", " ",
+                  re.sub(r"<[^>]+>", " ", body) + " " + spoken).strip()
+
+
+# D-112: a count over this city set may never be published in a form that
+# reads as a fact about Europe, because the cities were chosen for where the
+# heat was. Every city page footer said "36 European cities are measured
+# this way" until this guard was written; the count is ours, the continent
+# is not. Shared with make_heat_index.py by duplication rather than import,
+# which is the wrong trade if a third surface ever needs it.
+_NUM = (r"(?:\d[\d,]*|(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|"
+        r"ninety|ten|eleven|twelve|(?:thir|four|fif|six|seven|eigh|nine)"
+        r"teen)(?:-\w+)?)")
+_EUROPE = re.compile(
+    rf"(?<!these )\b{_NUM}\s+(?:of\s+(?:the\s+)?{_NUM}\s+)?"
+    rf"European\s+(?:\w+\s+)?"
+    rf"(?:cities|capitals|countries|stations|towns)\b", re.I)
+
+
+def check_europe_scope(name, html):
+    if N.get("selection", {}).get("is_representative_of_europe", True):
+        return
+    hit = _EUROPE.search(text_of(html))
+    if hit:
+        raise SystemExit(
+            f"{name}: {hit.group(0)!r} counts European cities without scoping "
+            f"the count to this set (D-112). Say 'these n', or drop the word "
+            f"European and let the count be a count of our own cities.")
 
 
 # Prohibitions the payload carries per city (D-104), checked against the
@@ -900,11 +934,12 @@ for name, v in sorted(C.items()):
      said twenty-three other cities exist. The index has the map, and the map
      is the invitation. -->
 <p class="stand" style="margin-top:34px;padding-top:22px;border-top:1px solid var(--rule)">
-{len(C)} European cities are measured this way, each against its own record.
+{len(C)} cities are measured this way, each against its own record.
 <a class="more" href="index.html">See them on the map</a></p>
 </main></body></html>"""
     check_constraints(name, html, night_block, v.get("page_constraints", {}))
     check_superlatives_dated(name, html)
+    check_europe_scope(name, html)
     # The page may not claim a window the station did not cover. Derived, so
     # it cannot drift, and guarded anyway because this is the defect that
     # sent the push back and it was invisible for a fortnight.
