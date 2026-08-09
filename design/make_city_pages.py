@@ -709,7 +709,12 @@ for name, v in sorted(C.items()):
      to checked-and-clean improves the page with no copy change. -->
 <span>{v['station_disclosure']}</span>
 <span style="text-align:right">station history</span>
-<span>Hot days, this station's own 95th percentile of July-August maxima, 1971 to 2000</span>
+<!-- DERIVED, not typed. This row is the formal DEFINITION of the threshold
+     and it carried the literal string "1971 to 2000" while the prose above
+     it had already been corrected to the per-station window. Murcia's page
+     therefore stated two different reference periods for the same number,
+     two paragraphs apart, and the false one was the definition. -->
+<span>Hot days, this station's own 95th percentile of July-August maxima, {thr_from} to 2000</span>
 <span style="text-align:right">{th} &deg;C</span>
 <!-- Same defect editor found in the prose, in the line that DEFINES the
      metric. 'At or above 20' drops the minimum and describes a night that
@@ -736,9 +741,26 @@ for name, v in sorted(C.items()):
     # The page may not claim a window the station did not cover. Derived, so
     # it cannot drift, and guarded anyway because this is the defect that
     # sent the push back and it was invisible for a fortnight.
-    if int(v["record_from"]) > 1971 and "between 1971 and 2000" in text_of(html):
-        raise SystemExit(f"{name}: the page says its threshold covers 1971 to "
-                         f"2000 and the station starts in {v['record_from']}.")
+    #
+    # THE GUARD USED TO MATCH ONE PHRASING and that is why it missed. It
+    # searched for the literal "between 1971 and 2000", which is how the
+    # prose says it; the definitions row said "maxima, 1971 to 2000", the
+    # same claim in different words. The prose was fixed, the guard went
+    # green, and the false sentence sat in the row that DEFINES the number.
+    #
+    # Heat named this shape the same morning: a guard per surface, and no
+    # guard on the question the surfaces share. So this one no longer asks
+    # "does the page contain this sentence" but "does the page anywhere
+    # claim a window that starts before the thermometer did", which is the
+    # question, and it holds for any future wording.
+    claimed = re.findall(r"(\d{4})\s*(?:to|and|-|–)\s*2000", text_of(html))
+    too_early = sorted({int(y) for y in claimed if int(y) < int(v["record_from"])})
+    if too_early:
+        raise SystemExit(
+            f"{name}: the page claims a threshold window starting "
+            f"{', '.join(str(y) for y in too_early)} and this station's record "
+            f"starts in {v['record_from']}. A window the thermometer did not "
+            f"cover cannot be stated as the period the level was set from.")
     if not mult_ok:
         check_no_baseline_comparison(name, head + unit_rows + mult_note + night_block)
     out = R / f"docs/heat/{slug(name)}.html"
