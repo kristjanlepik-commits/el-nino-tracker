@@ -76,6 +76,7 @@ SOURCES = {
         "service": "Met Office DataHub, Land Observations",
         "licence": "free tier, wdh_cdp_landobs_free",
         "key_file": "~/.metoffice_key",
+        "key_env": "METOFFICE_API_KEY",
         "header": "apikey",
         "kind": "json_hourly",
         "retention_hours": 48,
@@ -97,7 +98,25 @@ SOURCES = {
 def _london(cfg):
     """Met Office returns a JSON list of hourly observations."""
     import os
-    key = open(os.path.expanduser(cfg["key_file"])).read().strip()
+    # ENV FIRST, FILE SECOND. CI has no home directory to keep a key in,
+    # and this collector's whole value is that it runs somewhere that does
+    # not sleep. The local file stays as the fallback so a manual run on
+    # the laptop keeps working unchanged.
+    #
+    # Fails loudly rather than returning [] when neither exists. An empty
+    # list here is indistinguishable from "the API had nothing new", and
+    # this is the one source where quiet failure costs data permanently:
+    # DataHub retains 48 hours and nothing reaches back past that.
+    key = (os.environ.get(cfg.get("key_env", ""), "") or "").strip()
+    if not key:
+        path = os.path.expanduser(cfg["key_file"])
+        if not os.path.exists(path):
+            raise SystemExit(
+                f"London: no key. Set {cfg.get('key_env')} in the environment "
+                f"(CI) or write {cfg['key_file']} (local). Refusing to return "
+                f"an empty sample, which would look exactly like a quiet API "
+                f"and lose hours that cannot be refetched.")
+        key = open(path).read().strip()
     raw = subprocess.run(
         ["curl", "-sS", "--max-time", "60",
          "-H", f"{cfg['header']}: {key}",
