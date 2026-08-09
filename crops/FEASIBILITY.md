@@ -2019,3 +2019,43 @@ reversion from the series it differences, so the extreme of the change
 is systematically drawn from the extreme of the start. This is trap 7
 (shared trends manufacture correlation) once more, on a third quantity:
 first correlations, then ranks (trap 16), now differences.
+
+### 13g. The gated rate count, baselined, and the only count that survived
+
+Added 2026-08-09 on the 2026-07-21 dekad, answering how European
+countries reach the index. They cannot under the current rule, ever:
+the index selects on BREADTH, how many regions are at a record, and
+Europe's story is SPEED. England had zero regions at their worst while
+falling faster than in any year on record.
+
+| selection rule | European countries |
+|---|---|
+| regions at a record (current) | **none** |
+| severity rank 1 | **none** |
+| rate rank 1 AND holds the start-level control | **France, Hungary, Austria** |
+
+**Baselined, and it survives**, unlike the three counts before it:
+
+| | 2026 | prior mean | prior max | years at or above | p | ratio |
+|---|---|---|---|---|---|---|
+| raw rank 1 | 25 | 4.0 | 12 | **0 of 25** | 0.00 | 6.3x |
+| **gated (also holds)** | **13** | **2.6** | **10** | **0 of 25** | **0.00** | **4.9x** |
+
+Use the gated figure. Raw rank 1 gives 25 countries and roughly half are
+regression to the mean, which is trap 17 restated as a selection rule.
+
+**Why this one survived when the severity count did not.** It is
+computed on the crop-outcome instrument, so the crop gate is satisfied
+by construction; differencing removes the linear trend, so trap 16
+barely bites; and the start-level control removes trap 17 explicitly.
+The three failure modes that killed the earlier counts are each closed
+by a different property of this one, which is the reason to trust it
+rather than a reason to like it.
+
+**Three constraints on using it.** Slovakia does not qualify, failing
+the control at a margin of 0.012. **England does not appear at country
+level**: the UK is rank 1 raw and inflated under the control, and it is
+England the REGION that holds, so surfacing England means selecting at
+region level. And it is a description rather than a warning: a record
+rate at an ordinary level is followed by a bad level 2.9% of the time
+against 1.3% otherwise.
