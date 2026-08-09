@@ -308,6 +308,43 @@ def main() -> int:
                  "without_selected": [
                      _d_sub, _pre_d_sub["worst_year_on_record"]["cities"]]},
     }
+    # COVERAGE. Editor found this in their own copy and it applies to every
+    # count we publish, not only theirs. Services publish on different lags,
+    # so cities reach different dates. A city whose window ends on 3 August
+    # CANNOT register a record on the 4th, and 4 August was the peak.
+    #
+    # So every count of cities-at-something is a FLOOR, not a census, for as
+    # long as any city is short of the set's latest cut. More data can only
+    # add to it: a city already counted stays counted.
+    #
+    # A FIELD RATHER THAN A QUALIFIER IN PROSE, at editor's request and for
+    # their reason: "at least 22" versus "22" should be decided from the data
+    # rather than by whoever last edited the string. When every source
+    # reaches the cut, coverage_complete goes true and the qualifier
+    # disappears on its own.
+    #
+    # This is the third count to go wrong today. Counts keep getting through
+    # because they look like measurements rather than claims, and a
+    # denominator makes them look complete when it only makes them look it.
+    _cuts = {cc: vv["counted_to"] for cc, vv in S["cities"].items()}
+    _latest = max(_cuts.values())
+    _short = sorted(cc for cc, t in _cuts.items() if t < _latest)
+    coverage = {
+        "latest_cut": _latest,
+        "cities_at_latest_cut": len(_cuts) - len(_short),
+        "cities_short_of_it": len(_short),
+        "short_cities": {cc: _cuts[cc] for cc in _short},
+        "coverage_complete": not _short,
+        "counts_are_floors": bool(_short),
+        "means": ("every count of cities-at-something is a floor while any "
+                  "city is short of the latest cut, because a city with no "
+                  "observation on a day cannot register that day."),
+        "render_rule": ("prefix counts with 'at least' while "
+                        "counts_are_floors is true, and drop it when it is "
+                        "false. Never type either form."),
+        "direction": "counts can only rise as late sources land, never fall.",
+    }
+
     def _reason(now, base, sub_now, sub_base, ok):
         """Say which test decided it. A note that contradicts its own verdict
         is the failure platform found in the definitions row this morning."""
@@ -1000,6 +1037,7 @@ def main() -> int:
         # "you should also know about us picking cities that were in the hot
         # area of the map. If we would take all European cities, the data
         # would be very different."
+        "coverage": coverage,
         "selection": {
             "is_representative_of_europe": False,
             "cities": len(cities),
