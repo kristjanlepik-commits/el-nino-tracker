@@ -48,7 +48,23 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        site_masthead)
 N = json.loads((R / "heat/data/city_nights.json").read_text())
 S = json.loads((R / "heat/data/city_series.json").read_text())["cities"]
-CO = json.loads((R / "design/city_coords.json").read_text())["cities"]
+# COORDINATES COME FROM THE PAYLOAD. design/city_coords.json is deleted.
+#
+# I built it on the argument that placing a mark is cartography rather than
+# science, so it did not belong in heat's data. That was wrong in the only
+# way that matters: heat already emitted geography.map.points and had since
+# they wrote the map spec, so my file was a SECOND COPY of something that
+# existed, and a second copy drifts. It drifted the moment the set grew to
+# 36 and mine held 26, which rolled the whole channel back on a build.
+#
+# Same fix as legend_band and for the same reason: one definition, emitted
+# once, never re-derived. A check that two copies agree only makes the
+# duplication survivable, which is not the same as removing it.
+#
+# Theirs and mine agreed to a median of 4.1 km and a worst case of 13, which
+# is under a marker radius at this scale, so nothing moved visibly.
+CO = {p["city"]: {"lat": p["lat"], "lon": p["lon"]}
+      for p in N["geography"]["map"]["points"]}
 COAST = json.loads((R / "design/data/europe_coast.json").read_text())
 C, DH = N["cities"], N["day_headline"]
 
@@ -66,7 +82,10 @@ for _n, _v in C.items():
 rows = []
 for n, v in C.items():
     if n not in CO:
-        raise SystemExit(f"{n} has no coordinate")
+        raise SystemExit(
+            f"{n} is in the payload's cities but not in "
+            f"geography.map.points, so heat is emitting a city it cannot "
+            f"place. That is theirs to fix, not a coordinate to add here.")
     la, lo = CO[n]["lat"], CO[n]["lon"]
     s, nn, w, e = BOX[v["country"]]
     if not (s <= la <= nn and w <= lo <= e):

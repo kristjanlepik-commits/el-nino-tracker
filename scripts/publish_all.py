@@ -138,7 +138,6 @@ GENERATORS = [
     "crops/build_country_pages.py",
     "design/make_heat_index.py",
     "design/make_city_pages.py",
-    "design/city_coords.json",
     "design/data/europe_coast.json",
 ]
 
