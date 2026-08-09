@@ -66,6 +66,33 @@
    "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 69299001",
    "note": "Single position across the record."
   },
+  "Bordeaux": {
+   "city": "Bordeaux",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 33281001",
+   "note": "Single position across the record."
+  },
+  "Toulouse": {
+   "city": "Toulouse",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 31069001",
+   "note": "Single position across the record."
+  },
+  "Strasbourg": {
+   "city": "Strasbourg",
+   "positions": 1,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
+   "source_of_history": "LAT/LON/ALTI per row, NUM_POSTE 67124001",
+   "note": "Single position across the record."
+  },
   "Amsterdam": {
    "city": "Amsterdam",
    "positions": 1,
@@ -282,6 +309,41 @@
    ],
    "ok": false,
    "why": "2 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Hanover": {
+   "city": "Hanover",
+   "positions": 7,
+   "relocations_in_period": [
+    {
+     "date": "19641105",
+     "km": 1.51,
+     "elev_change_m": 1.0,
+     "trigger": "distance"
+    },
+    {
+     "date": "19671005",
+     "km": 1.25,
+     "elev_change_m": 0.3,
+     "trigger": "distance"
+    },
+    {
+     "date": "19920603",
+     "km": 1.42,
+     "elev_change_m": 1.9,
+     "trigger": "distance"
+    }
+   ],
+   "ok": false,
+   "why": "3 relocation(s) inside the period we publish",
+   "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
+  },
+  "Stuttgart": {
+   "city": "Stuttgart",
+   "positions": 7,
+   "relocations_in_period": [],
+   "ok": true,
+   "why": "",
    "note": "Documented relocations only, from the service's own station history. A move before 1961 cannot affect any window we use."
   }
  }

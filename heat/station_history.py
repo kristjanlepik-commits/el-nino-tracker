@@ -38,7 +38,9 @@ BASE = ("https://opendata.dwd.de/climate_environment/CDC/observations_germany"
         "/climate/daily/kl/historical/")
 
 DE = {"Berlin": "00433", "Hamburg": "01975", "Frankfurt": "01420",
-      "Munich": "03379", "Cologne": "02667"}
+      "Munich": "03379", "Cologne": "02667",
+      # Added 2026-08-09 with the forecast-selected cities.
+      "Hanover": "02014", "Stuttgart": "04928"}
 
 EARLIEST_USED = 1961      # nothing before our earliest baseline can matter
 MOVE_KM = 1.0             # beyond this a move is not a re-survey
@@ -148,7 +150,11 @@ FR = {c: {"city": c, "positions": 1, "relocations_in_period": [], "ok": True,
           "note": "Single position across the record."}
       for c, n in (("Paris", "91027002"), ("Marseille", "13054001"),
                    ("Nice", "06088001"), ("Montpellier", "34154001"),
-                   ("Lyon", "69299001"))}
+                   ("Lyon", "69299001"),
+                   # Added 2026-08-09, each verified to hold one position
+                   # across the whole record before being published.
+                   ("Bordeaux", "33281001"), ("Toulouse", "31069001"),
+                   ("Strasbourg", "67124001"))}
 
 
 # The Netherlands, and this is a PRODUCER WARNING rather than a check result.

@@ -13323,8 +13323,8 @@
    },
    "station_relocations": [],
    "station_moved_in_period": false,
-   "station_history_checked": false,
-   "station_disclosure": "Station history not yet checked.",
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
    "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
    "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 11,
@@ -13770,8 +13770,8 @@
    },
    "station_relocations": [],
    "station_moved_in_period": false,
-   "station_history_checked": false,
-   "station_disclosure": "Station history not yet checked.",
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
    "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
    "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 11,
@@ -14217,8 +14217,8 @@
    },
    "station_relocations": [],
    "station_moved_in_period": false,
-   "station_history_checked": false,
-   "station_disclosure": "Station history not yet checked.",
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
    "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
    "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 6,
@@ -14540,8 +14540,8 @@
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
-    "requires_relocation_note": false,
-    "relocation_note_text": null,
+    "requires_relocation_note": true,
+    "relocation_note_text": "This station moved 1.51 km, 1.25 km, 1.42 km in 1964, 1967, 1992, so the record is not one continuous site and 'of 88' spans more than one.",
     "matched_to_same_date": true
    },
    "series_to_same_date": {
@@ -14683,10 +14683,29 @@
     "banned_words_reason": "No city in this set is ordinary. The least extreme readings are the 86th to 90th percentile of their own records. Calling one ordinary is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
     "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
    },
-   "station_relocations": [],
-   "station_moved_in_period": false,
-   "station_history_checked": false,
-   "station_disclosure": "Station history not yet checked.",
+   "station_relocations": [
+    {
+     "date": "19641105",
+     "km": 1.51,
+     "elev_change_m": 1.0,
+     "trigger": "distance"
+    },
+    {
+     "date": "19671005",
+     "km": 1.25,
+     "elev_change_m": 0.3,
+     "trigger": "distance"
+    },
+    {
+     "date": "19920603",
+     "km": 1.42,
+     "elev_change_m": 1.9,
+     "trigger": "distance"
+    }
+   ],
+   "station_moved_in_period": true,
+   "station_history_checked": true,
+   "station_disclosure": "Station moved 1.51 km, 1.25 km, 1.42 km in 1964, 1967, 1992.",
    "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
    "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": null,
@@ -15157,8 +15176,8 @@
    },
    "station_relocations": [],
    "station_moved_in_period": false,
-   "station_history_checked": false,
-   "station_disclosure": "Station history not yet checked.",
+   "station_history_checked": true,
+   "station_disclosure": "Station has not moved since 1961.",
    "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
    "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
    "record_margin_nights": 7,
