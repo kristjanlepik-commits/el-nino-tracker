@@ -116,7 +116,7 @@
  "global": {
   "measures": "median across reported places of each place's own percentile position, per year, at this dekad",
   "buckets": {
-   "all_five": {
+   "all_available": {
     "instruments": [
      "Rainfall, 3-month",
      "Temperature",
@@ -124,7 +124,7 @@
      "Vegetation, current",
      "Water satisfaction"
     ],
-    "label": "all five instruments read together",
+    "label": "all five instruments available everywhere, read together",
     "raw": {
      "value": 0.584,
      "rank": 2,
@@ -161,7 +161,7 @@
       "2026": 0.584
      },
      "places_counted": 123,
-     "statement": "The joint 2nd most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of all five instruments read together, on the instruments as published, level with 2002"
+     "statement": "The joint 2nd most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of all five instruments available everywhere, read together, on the instruments as published, level with 2002"
     },
     "detrended": {
      "value": 0.592,
@@ -199,8 +199,95 @@
       "2026": 0.592
      },
      "places_counted": 123,
-     "statement": "The joint 3rd most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of all five instruments read together, on instruments with their linear trend removed, level with 2024"
+     "statement": "The joint 3rd most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of all five instruments available everywhere, read together, on instruments with their linear trend removed, level with 2024"
     }
+   },
+   "all_five": {
+    "instruments": [
+     "Rainfall, 3-month",
+     "Temperature",
+     "Vegetation, cumulative",
+     "Vegetation, current",
+     "Water satisfaction"
+    ],
+    "label": "all five instruments available everywhere, read together",
+    "raw": {
+     "value": 0.584,
+     "rank": 2,
+     "of": 26,
+     "tied_with": [
+      2002
+     ],
+     "series": {
+      "2001": 0.512,
+      "2002": 0.584,
+      "2003": 0.456,
+      "2004": 0.44,
+      "2005": 0.432,
+      "2006": 0.448,
+      "2007": 0.44,
+      "2008": 0.488,
+      "2009": 0.512,
+      "2010": 0.408,
+      "2011": 0.456,
+      "2012": 0.456,
+      "2013": 0.456,
+      "2014": 0.528,
+      "2015": 0.64,
+      "2016": 0.456,
+      "2017": 0.392,
+      "2018": 0.48,
+      "2019": 0.48,
+      "2020": 0.432,
+      "2021": 0.552,
+      "2022": 0.528,
+      "2023": 0.544,
+      "2024": 0.576,
+      "2025": 0.504,
+      "2026": 0.584
+     },
+     "places_counted": 123,
+     "statement": "The joint 2nd most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of all five instruments available everywhere, read together, on the instruments as published, level with 2002"
+    },
+    "detrended": {
+     "value": 0.592,
+     "rank": 3,
+     "of": 26,
+     "tied_with": [
+      2024
+     ],
+     "series": {
+      "2001": 0.552,
+      "2002": 0.64,
+      "2003": 0.472,
+      "2004": 0.416,
+      "2005": 0.448,
+      "2006": 0.48,
+      "2007": 0.432,
+      "2008": 0.488,
+      "2009": 0.536,
+      "2010": 0.392,
+      "2011": 0.448,
+      "2012": 0.472,
+      "2013": 0.448,
+      "2014": 0.552,
+      "2015": 0.624,
+      "2016": 0.448,
+      "2017": 0.392,
+      "2018": 0.48,
+      "2019": 0.464,
+      "2020": 0.424,
+      "2021": 0.536,
+      "2022": 0.536,
+      "2023": 0.512,
+      "2024": 0.592,
+      "2025": 0.432,
+      "2026": 0.592
+     },
+     "places_counted": 123,
+     "statement": "The joint 3rd most stressed of 26 observations for this point in the season, 2001-2026, taken as the median across 123 places of all five instruments available everywhere, read together, on instruments with their linear trend removed, level with 2024"
+    },
+    "_deprecated": "renamed to all_available on 2026-08-07 because it is not always five. Read that key; this one goes after design has migrated."
    },
    "crop_outcome": {
     "instruments": [
@@ -375,7 +462,8 @@
    "Vegetation, current",
    "Water satisfaction"
   ],
-  "buckets_do_not_partition": "crop_outcome and meteorology are named groups, not a partition: Vegetation, current and Water satisfaction belong to neither, being an instantaneous crop state and a modelled water balance. A page claiming the two diverged has to show what went into each.",
+  "buckets_do_not_partition": "crop_outcome and meteorology are named groups, not a partition: Vegetation, current and Water satisfaction belong to neither. A page claiming the two diverged has to show what went into each.",
+  "buckets_partition_everything": false,
   "qualifiers": [
    {
     "kind": "trend_sensitive",

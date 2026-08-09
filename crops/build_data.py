@@ -145,7 +145,12 @@ def _ordinal(n: int) -> str:
 
 
 def _year_list(years: list) -> str:
+    """Empty is a real input and used to raise IndexError, which took
+    the whole build down on the HEALTHY case. Callers must still not
+    build a sentence around an empty list; see the partition note."""
     ys = [str(y) for y in sorted(years)]
+    if not ys:
+        return ""
     if len(ys) == 1:
         return ys[0]
     return ", ".join(ys[:-1]) + " and " + ys[-1]
@@ -651,10 +656,32 @@ def build_global(per_place: list, cur_year: int) -> dict:
     # absent from all 123 today, and a bucket must be built from what
     # is present or its member list describes a different number.
     common = sorted(set.intersection(*[set(o) for o in per_place]))
+    # LABEL COMPUTED, NEVER ASSERTED. `common` is the strict
+    # intersection across places, so one place missing an instrument
+    # drops it for everyone. On 2026-07-11 that left five; it can leave
+    # three. Hardcoding "all five" would have published a statement
+    # saying five while averaging three, which the crash below was
+    # hiding. Same defect as every other one this week: correct
+    # arithmetic wearing a false description.
+    n = len(common)
+    word = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five",
+            6: "six"}.get(n, str(n))
     buckets = {
-        "all_five": _global_bucket(per_place, common, cur_year,
-                                   "all five instruments read together"),
+        "all_available": _global_bucket(
+            per_place, common, cur_year,
+            f"all {word} instruments available everywhere, read together"),
     }
+    # The old key kept as an alias, deliberately. templates/crops_index.py
+    # iterates ["all_five", ...] and CONTINUES past a missing key, so a
+    # straight rename would have silently dropped a row from the live
+    # table with nothing saying so. Same precedent as notable and
+    # selected_for_display: emit both across a switch, migrate, remove.
+    buckets["all_five"] = dict(buckets["all_available"],
+                               _deprecated="renamed to all_available on "
+                                           "2026-08-07 because it is not "
+                                           "always five. Read that key; "
+                                           "this one goes after design "
+                                           "has migrated.")
     for key, names in BUCKETS.items():
         buckets[key] = _global_bucket(
             per_place, names, cur_year,
@@ -667,12 +694,20 @@ def build_global(per_place: list, cur_year: int) -> dict:
                     "percentile position, per year, at this dekad",
         "buckets": buckets,
         "unassigned_instruments": leftover,
+        # Emitted ONLY when it is true. This sentence explains why the
+        # two named groups do not cover everything, and when they DO
+        # cover everything it described a state we were not in, then
+        # crashed trying to name the empty set. A note that only makes
+        # sense in a state you are not in does not belong in the payload
+        # when you are not in it.
         "buckets_do_not_partition": (
             "crop_outcome and meteorology are named groups, not a "
-            f"partition: {_year_list(leftover)} belong to neither, "
-            "being an instantaneous crop state and a modelled water "
-            "balance. A page claiming the two diverged has to show "
-            "what went into each."),
+            f"partition: {_year_list(leftover)} "
+            + ("belongs" if len(leftover) == 1 else "belong")
+            + " to neither. A page claiming the two diverged has to "
+              "show what went into each."
+            if leftover else None),
+        "buckets_partition_everything": not leftover,
         "qualifiers": [
             {
                 "kind": "trend_sensitive",
