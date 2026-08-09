@@ -55,7 +55,8 @@ C, DH = N["cities"], N["day_headline"]
 BOX = {"ES": (36.0, 43.8, -9.3, 4.3), "FR": (41.3, 51.1, -5.2, 9.6),
        "DE": (47.2, 55.1, 5.8, 15.1), "AT": (46.3, 49.1, 9.5, 17.2),
        "NL": (50.7, 53.6, 3.3, 7.3), "SE": (55.3, 69.1, 11.0, 24.2),
-       "CZ": (48.5, 51.1, 12.1, 18.9)}
+       "CZ": (48.5, 51.1, 12.1, 18.9), "FI": (59.7, 70.1, 20.5, 31.6),
+       "CH": (45.8, 47.8, 5.9, 10.5)}
 # A country arriving in the payload with no box would otherwise skip the
 # check silently, which is the one failure this guard exists to prevent.
 for _n, _v in C.items():
