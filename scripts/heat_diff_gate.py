@@ -31,13 +31,25 @@ gate compares are by construction the bands the page draws. A gate that
 reimplements its subject's logic drifts from it silently, and then passes
 while the page says something else, which is this week's whole lesson.
 
-ONE DEFINITION IS MINE AND NEEDS CONFIRMING. Product specified "the 2003
-comparison" without stating the arithmetic, and nothing in the payload
-names one, so this compares each city's 2026 extreme-day count against
-its own 2003 count at the same cut and flags a flip when any city crosses
-that line in either direction. That is the reading that matches how the
-pages use 2003, as a per-city benchmark year, but it is an assumption and
-it is flagged as such rather than buried.
+THE 2003 COMPARISON IS SET-LEVEL, AND THE PAYLOAD ALREADY ANSWERS IT.
+The first version of this gate compared each city's 2026 count against
+its own 2003 count. That was wrong, product corrected it, and the
+correction is worth keeping visible: per-city it fires constantly and
+does not track the claim at all. The question is how many cities in the
+SET are at a record now against how many were in 2003, per instrument.
+
+Better than recomputing that: `headline.may_say_worst_on_record` and
+`day_headline.may_say_worst_on_record` are already in the payload, and
+they are not the arithmetic. They carry the forecast-selection
+correction, which no count can see: six cities were chosen off a 2026
+forecast, so the set leans toward 2026's heat by construction, which
+makes "2003 was worse" conservative and "2026 is worse" circular. On
+2026-08-09 nights read 17 against 12 and STILL said False, because with
+the forecast-selected cities removed it does not clear.
+
+So this gate reads the flag rather than deriving it, exactly as it reads
+`state()` out of the renderer. Both counts are tracked too, so a crossing
+is reported even in the cases where the flag does not move.
 
 EXIT CODES follow the repo convention: 0 did work and it may publish,
 3 nothing to compare against, 2 held for product. A hold is not an error.
@@ -94,29 +106,22 @@ def summarise() -> dict:
     cities = {}
     for name, v in N["cities"].items():
         rank = v["days"]["rank"]["value"]
-        years = S[name]["years"]
+        cities[name] = {"rank": rank, "band": state({"rank": rank})}
 
-        def count(y):
-            rec = years.get(str(y)) or {}
-            d = rec.get("days_to_cut") or {}
-            return d.get(EXTREME)
-
-        now, then = count(2026), count(2003)
-        if now is None or then is None:
-            cmp2003 = None
-        elif now > then:
-            cmp2003 = "above"
-        elif now < then:
-            cmp2003 = "below"
-        else:
-            cmp2003 = "equal"
-        cities[name] = {"rank": rank,
-                        "band": state({"rank": rank}),
-                        "vs_2003": cmp2003}
+    def instrument(block):
+        base = block.get("baseline", {}).get("worst_year_on_record", {}) or {}
+        return {"records": block.get("records"),
+                "of_cities": block.get("of_cities"),
+                # 2003 names the count differently in the two blocks
+                # ("records" for nights, "cities" for days). Read both
+                # rather than pick one and silently get None.
+                "prior_worst_year": base.get("year"),
+                "prior_worst_count": base.get("records", base.get("cities")),
+                "may_say_worst": block.get("may_say_worst_on_record")}
 
     return {"counted_to": N["cities"][next(iter(N["cities"]))].get("counted_to"),
-            "headline_records": N["day_headline"]["records"],
-            "of_cities": N["day_headline"]["of_cities"],
+            "nights": instrument(N["headline"]),
+            "days": instrument(N["day_headline"]),
             "cities": cities}
 
 
@@ -124,11 +129,36 @@ def compare(prev: dict, now: dict) -> list[str]:
     """The four conditions. Returns the reasons to hold, empty if clear."""
     reasons = []
 
-    if prev["headline_records"] != now["headline_records"]:
-        reasons.append(
-            f"HEADLINE: {prev['headline_records']} cities at a day record "
-            f"becomes {now['headline_records']}. This is the sentence at the "
-            f"top of the channel.")
+    for inst in ("nights", "days"):
+        a, b = prev.get(inst, {}), now.get(inst, {})
+        if a.get("records") != b.get("records"):
+            reasons.append(
+                f"HEADLINE ({inst}): {a.get('records')} of {a.get('of_cities')} "
+                f"at a record becomes {b.get('records')} of "
+                f"{b.get('of_cities')}. This is the sentence at the top of the "
+                f"channel.")
+        # The claim gate, which is not the arithmetic. It carries the
+        # forecast-selection correction that no count can see, so it can
+        # move while the counts do not, and can stay put while they do.
+        if a.get("may_say_worst") != b.get("may_say_worst"):
+            reasons.append(
+                f"CLAIM ({inst}): may_say_worst_on_record goes "
+                f"{a.get('may_say_worst')} to {b.get('may_say_worst')}. This "
+                f"governs whether any page may say worst on record, and it is "
+                f"the one change here that rewrites sentences rather than "
+                f"numbers.")
+        # Crossing 2003 in either direction, reported even when the flag
+        # above does not move, because product's trigger is the set count
+        # crossing and the flag can be held back for selection reasons.
+        def side(d):
+            r, p = d.get("records"), d.get("prior_worst_count")
+            return None if r is None or p is None else (
+                "above" if r > p else "below" if r < p else "equal")
+        if side(a) != side(b):
+            reasons.append(
+                f"2003 ({inst}): the set was {side(a)} its "
+                f"{a.get('prior_worst_year')} count of {a.get('prior_worst_count')} "
+                f"and is now {side(b)} against {b.get('prior_worst_count')}.")
 
     gone = sorted(set(prev["cities"]) - set(now["cities"]))
     added = sorted(set(now["cities"]) - set(prev["cities"]))
@@ -147,12 +177,21 @@ def compare(prev: dict, now: dict) -> list[str]:
             reasons.append(
                 f"BAND: {name} moves from {a['band']} to {b['band']}, which "
                 f"changes its mark on the map and its group on the index.")
-        if a["vs_2003"] != b["vs_2003"]:
-            reasons.append(
-                f"2003: {name} was {a['vs_2003']} its 2003 count and is now "
-                f"{b['vs_2003']}. This is the comparison that governs whether "
-                f"a page may claim a worst-on-record summer.")
     return reasons
+
+
+def schema_ok(snap: dict) -> bool:
+    """Is this baseline comparable with what summarise() now produces?
+
+    The per-city 2003 comparison was replaced by a set-level one, so a
+    baseline written by the earlier version has fields this no longer
+    reads and lacks fields it needs. Comparing across that boundary threw
+    a KeyError, which is a bad failure but an honest one; passing would
+    have been the dangerous alternative. Refuse explicitly instead and
+    say what to do, because "re-baseline" is the correct action and
+    nobody should have to read a traceback to find it.
+    """
+    return all(k in snap for k in ("nights", "days", "cities"))
 
 
 def main() -> int:
@@ -177,12 +216,28 @@ def main() -> int:
         return 3
 
     prev = json.loads(snap.read_text())
+    if not schema_ok(prev):
+        if args.update:
+            snap.write_text(json.dumps(now, indent=2, sort_keys=True) + "\n")
+            print(f"heat-diff-gate: replaced an incomparable baseline at "
+                  f"{snap}. Nothing was compared, so this run asserts "
+                  f"nothing about the payload.")
+            return 0
+        print(f"heat-diff-gate: the baseline at {snap} predates the set-level "
+              f"2003 comparison and cannot be compared against. Re-baseline "
+              f"with --update once the current payload is known good. Not "
+              f"treating an incomparable baseline as a pass.")
+        return 3
     reasons = compare(prev, now)
 
     print(f"  cut        {prev.get('counted_to')} -> {now.get('counted_to')}")
-    print(f"  headline   {prev['headline_records']} -> "
-          f"{now['headline_records']} of {now['of_cities']} at a day record")
-    print(f"  cities     {len(now['cities'])}\n")
+    for inst in ("nights", "days"):
+        a, b = prev.get(inst, {}), now.get(inst, {})
+        print(f"  {inst:<9}  {a.get('records')} -> {b.get('records')} of "
+              f"{b.get('of_cities')} at a record | 2003 "
+              f"{b.get('prior_worst_count')} | may say worst: "
+              f"{a.get('may_say_worst')} -> {b.get('may_say_worst')}")
+    print(f"  cities     {len(prev['cities'])} -> {len(now['cities'])}\n")
 
     if reasons:
         print(f"HOLD: {len(reasons)} reader-visible change(s). This refresh "
