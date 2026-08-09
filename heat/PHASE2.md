@@ -180,6 +180,34 @@ ship day-only and lose the metric it is best at. Greek national open data
 
 No viable history at any standard. mgm.gov.tr unreachable.
 
+### Italy: a hard case, not a cheap one
+
+    Rome     GHCN IT000016239   1951 to 2025-08, 30/30 baseline, network 0
+                                GOOD HISTORY, STALE. Same shape as Athens
+                                and London.
+    Milan    GHCN ITE00100554   ends 2008, and network E so ECA&D anyway
+    Palermo  GHCN ITM00016410   ends 2009
+
+**No national open archive.** SCIA (ISPRA) and MeteoAM exist as web
+interfaces; the MeteoAM API path 404s and ARPA Lombardia is unreachable.
+Italy has no equivalent of DWD or Meteo-France: the data is split between a
+national agency and regional ARPAs, none publishing a daily archive in the
+shape the eight working services do.
+
+**Cost comparison, which is the point.** France, Germany and Switzerland were
+about an hour each because the fetcher already existed. Italy is a multi-day
+investigation with an uncertain outcome, closer to the UK than to Bordeaux.
+
+**Rome is the only one worth returning to**, and only via a second source for
+2026. SYNOP reproduces TMAX exactly and TMIN not at all, so Rome would ship
+day-only and lose the metric a Mediterranean city is best at.
+
+**The realistic path is asking ISPRA or MeteoAM directly**, the same move as
+the Keskkonnaagentuur request, rather than hunting for an endpoint.
+
+**Italy is also not in the August 2026 event:** Rome +5.9, Milan +7.3,
+Palermo +3.9, against Paris +13.6 and Bordeaux +12.8.
+
 ### UK and Ireland
 
 Six routes tested for the UK, all failing on currency or licence; see the

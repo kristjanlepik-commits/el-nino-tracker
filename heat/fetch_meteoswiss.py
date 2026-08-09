@@ -34,7 +34,9 @@ BASE = "https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn"
 
 TMIN, TMAX = "tre200dn", "tre200dx"
 CITIES = {"Zurich": ("sma", "Zurich/Fluntern"),
-          "Geneva": ("gve", "Geneve/Cointrin")}
+          "Geneva": ("gve", "Geneve/Cointrin"),
+          "Basel": ("bas", "Basel/Binningen"),
+          "Lugano": ("lug", "Lugano")}
 
 
 def _read(url, out):

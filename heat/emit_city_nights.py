@@ -83,6 +83,8 @@ COORDS = {
     "Zurich": (47.4, 8.6), "Bordeaux": (44.8, -0.6),
     "Toulouse": (43.6, 1.4), "Strasbourg": (48.6, 7.8),
     "Hanover": (52.4, 9.7), "Stuttgart": (48.8, 9.2), "Geneva": (46.2, 6.1),
+    "Leipzig": (51.3, 12.4), "Dresden": (51.1, 13.8),
+    "Basel": (47.5, 7.6), "Lugano": (46.0, 8.96),
 }
 
 LICENCE = {

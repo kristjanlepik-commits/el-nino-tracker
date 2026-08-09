@@ -185,6 +185,18 @@ CITIES = {
                       cut=(8, 3), file="dwd_Stuttgart.json"),
     "Geneva":    dict(country="CH", station="Geneve/Cointrin", cut=(8, 3),
                       file="mch_Geneva.json"),
+    # Added 2026-08-09, on fetchers already built. NOT forecast-selected:
+    # these are ordinary additions and must not join FORECAST_SELECTED, or
+    # the leave-one-out robustness test would exclude cities that carry no
+    # selection bias and weaken a claim for the wrong reason.
+    "Leipzig":   dict(country="DE", station="Leipzig-Holzhausen", cut=(8, 3),
+                      file="dwd_Leipzig.json"),
+    "Dresden":   dict(country="DE", station="Dresden-Klotzsche", cut=(8, 3),
+                      file="dwd_Dresden.json"),
+    "Basel":     dict(country="CH", station="Basel/Binningen", cut=(8, 3),
+                      file="mch_Basel.json"),
+    "Lugano":    dict(country="CH", station="Lugano", cut=(8, 3),
+                      file="mch_Lugano.json"),
 }
 
 

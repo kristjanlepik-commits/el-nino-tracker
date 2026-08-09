@@ -46,6 +46,11 @@ CITIES = {
     "Hanover":   ("02014", "Hannover"),
     # Schnarrenberg, the CITY station, not Echterdingen which is the airport.
     "Stuttgart": ("04928", "Stuttgart-Schnarrenberg"),
+    # Added 2026-08-09. Leipzig-Holzhausen's record starts in 1759, which
+    # would be the longest in the set by a century; whether the early years
+    # survive the completeness bar is a separate question the build answers.
+    "Leipzig":   ("02928", "Leipzig-Holzhausen"),
+    "Dresden":   ("01048", "Dresden-Klotzsche"),
 }
 
 MISSING = -999.0
