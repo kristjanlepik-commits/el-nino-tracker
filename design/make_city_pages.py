@@ -106,11 +106,15 @@ def bars(data, top, w=880, h=104, accent_last=True):
             out.append(f'<line x1="{i*bw + (bw-1.2)/2:.1f}" y1="0" '
                        f'x2="{i*bw + (bw-1.2)/2:.1f}" y2="{h:.1f}" '
                        f'stroke="var(--accent)" stroke-width="1"/>')
+    # The fixed ticks are dropped when they collide with the record's own
+    # first year. Lyon starts in 1975 and printed "1975" and "1976" on top of
+    # each other; so would any station starting within a few years of 2000.
+    _first = data[0][0]
+    _want = [_first] + [y for y in (1976, 2000, 2026) if abs(y - _first) > 6]
     ticks = "".join(
         f'<text x="{i*bw:.1f}" y="{h+13}" class="ax" '
         f'text-anchor="{"end" if y == 2026 else "start"}">{y}</text>'
-        for i, (y, _) in enumerate(data)
-        if y in (data[0][0], 1976, 2000, 2026))
+        for i, (y, _) in enumerate(data) if y in _want)
     # A Y AXIS, because the chart could not be read for magnitude. Kristjan:
     # it shows the shape of a record and not how many. Every bar was a
     # fraction of a maximum the reader was never told.
@@ -322,13 +326,19 @@ def check_no_baseline_comparison(name, day_html):
     on Lyon, whose NIGHT baseline is published and comparable: nights have
     their own gate and the two are independent. A guard that fails on a
     correct page is one somebody eventually deletes."""
+    # SCOPED TO THE 1961-1990 WINDOW, which is the thing heat withholds. It
+    # banned the phrase "in a typical" outright, and that was right only
+    # while these cities carried no comparison at all. They now carry a
+    # 1991-2020 one, complete for every one of them, so a guard against
+    # comparison as such would forbid the fix rather than the defect.
     t = text_of(day_html).lower()
-    for p in ("used to get", "in a typical", "typical summer"):
+    for p in ("used to get", "summer of 1961-1990", "typical 1961-1990"):
         if p in t:
             raise SystemExit(
                 f"{name}: multiple_available is false and the page still says "
-                f"{p!r}. The 1961-1990 window is too short here to compare "
-                f"against, which is why heat withholds it.")
+                f"{p!r}. Its 1961-1990 window is too short to compare against, "
+                f"which is why heat withholds that figure. 1991-2020 is the "
+                f"window this page may use.")
 
 
 def check_constraints(name, page_html, night_html, pc):
@@ -441,6 +451,30 @@ for name, v in sorted(C.items()):
     # by this point. This year: 14", off a window holding 6 of 30 years, with
     # a note underneath saying no multiple is published.
     mult_ok = bool(v["days"]["multiple_available"])
+    # THE COMPARISON ROW ALWAYS EXISTS. Kristjan's call, and he is right that
+    # dropping it was a misreading: heat withholds the 1961-1990 MULTIPLE for
+    # six cities because their record starts too late to fill that window,
+    # and I turned that into showing no past at all. A single row of squares
+    # is not a comparison, it is a decorative count of the number already in
+    # the headline.
+    #
+    # 1991-2020 is COMPLETE for all six, because it is the window their late
+    # start does not truncate. Lyon has 16 of 30 years in 1961-1990 and 30 of
+    # 30 in 1991-2020; Murcia has 7 and 30. So the row keeps its job and the
+    # label says which period it is, which is the honest version of a
+    # difference rather than a hidden one.
+    #
+    # This does not touch heat's prohibition, which is on the 1961-1990
+    # figure specifically. Told them what I did so they can overrule it.
+    _b9120 = [x["days_to_cut"]["95"] for y, x in yrs.items()
+              if 1991 <= int(y) <= 2020 and x.get("usable_to_cut")
+              and x.get("days_to_cut")]
+    if mult_ok:
+        cmp_val, cmp_period = base, "1961-1990"
+    elif len(_b9120) >= 28:
+        cmp_val, cmp_period = st.mean(_b9120), "1991-2020"
+    else:
+        cmp_val, cmp_period = None, None
     nbase = st.mean([x for y, x in NI if 1961 <= y <= 1990]) if NI else 0
     gated = bool(v.get("nights_metric_gated"))
     peak = dict(WD).get(2026)
@@ -692,29 +726,30 @@ for name, v in sorted(C.items()):
     # place and withholding only the arithmetic would have kept the defect
     # and hidden it better: two rows of blocks side by side say "nine times"
     # whether or not the page prints the number.
-    if mult_ok:
+    unit_rows = ""
+    if cmp_val is not None:
         unit_rows = (
             f'<div class="urow"><span class="uk">By this date in a typical<br>'
-            f'summer of 1961-1990</span>'
-            f'<span class="ug">{units(base)}</span><span class="un">{base:.1f}</span></div>'
-            f'<div class="urow"><span class="uk">By this date<br>this summer</span>'
-            f'<span class="ug">{units(now, True)}</span><span class="un">{now}</span></div>')
-    else:
-        unit_rows = (
-            f'<div class="urow"><span class="uk">By this date<br>this summer</span>'
-            f'<span class="ug">{units(now, True)}</span><span class="un">{now}</span></div>')
+            f'summer of {cmp_period}</span>'
+            f'<span class="ug">{units(cmp_val)}</span>'
+            f'<span class="un">{cmp_val:.1f}</span></div>')
+    unit_rows += (
+        f'<div class="urow"><span class="uk">By this date<br>this summer</span>'
+        f'<span class="ug">{units(now, True)}</span><span class="un">{now}</span></div>')
 
     # Sits with the unit rows, which is what it qualifies, rather than under
     # the chart three sections down. The year count in heat's own note is
     # theirs and I do not restate it; record_from is a field and says the
     # same thing without a second arithmetic.
     mult_note = ("" if mult_ok else
-                 f'<p class="cap"><strong>No 1961-1990 comparison is shown for '
-                 f'{name}.</strong> This thermometer starts in '
-                 f'{v["record_from"]}, so that baseline would cover only its warmer '
-                 f'final years, and the figure would look like every other city\'s '
-                 f'while meaning something weaker. The count and the rank are '
-                 f'measured and stand.</p>')
+                 f'<p class="cap"><strong>{name} is compared against 1991-2020, '
+                 f'not 1961-1990.</strong> This thermometer starts in '
+                 f'{v["record_from"]}, so the earlier window every other city uses '
+                 f'would cover only its warmer final years here, and a figure '
+                 f'against that would look like every other city\'s while meaning '
+                 f'something weaker. 1991-2020 is complete for this station, so it '
+                 f'is the one shown. The count and the rank are measured on the '
+                 f'full record and stand.</p>')
 
     # TWO INSTRUMENTS, TWO ANSWERS, AND IT GOES SECOND. Where the hottest
     # single day is a record and the hot-day COUNT is not, the disagreement is
