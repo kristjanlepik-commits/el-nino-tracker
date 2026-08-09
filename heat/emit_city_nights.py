@@ -777,9 +777,32 @@ def main() -> int:
             "softer word: a set in which every city is extreme invites the "
             "question of how the set was chosen.")
 
+        # FROM THE RANKED SERIES, NOT THE RAW RECORD START, and design found
+        # why. Frankfurt's source begins in 1935; its ranked series begins in
+        # 1937, because 1935 and 1936 fail the completeness bar. The footer
+        # printed "our series, from 1935" beside a chart starting in 1937, so
+        # it claimed two years the reader cannot see and the rank was never
+        # computed over.
+        #
+        # record_scope exists to BOUND A RANK CLAIM, so it has to name the
+        # window the rank was actually computed on. record_from answers a
+        # different question, when the station started reporting, and both
+        # are correct. That is the two-bases collision a third time: Vienna's
+        # previous high, the selection prose, and now this.
+        _ranked_years = sorted(
+            int(y) for y, d in yrs.items() if d.get("usable_to_cut"))
+        _from = (_ranked_years[0] if _ranked_years
+                 else int(str(v["record_from"])[:4]))
         entry["record_scope"] = {
-            "from_year": int(str(v["record_from"])[:4]),
-            "text": f"our series, from {str(v['record_from'])[:4]}",
+            "from_year": _from,
+            "record_starts": int(str(v["record_from"])[:4]),
+            "differs_because": (
+                "the record starts earlier than the ranked series: the "
+                "early years fail the completeness bar and are not ranked "
+                "over. Cite from_year, which is the window the rank was "
+                "computed on."
+                if _from != int(str(v["record_from"])[:4]) else None),
+            "text": f"our series, from {_from}",
             "is_all_time": False,
             "why": "the station may have observed before our record starts, "
                    "so a rank is against the record we hold and never "
