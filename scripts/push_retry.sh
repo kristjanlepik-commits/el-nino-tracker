@@ -48,13 +48,34 @@ for i in $(seq 1 "$ATTEMPTS"); do
   # --rebase, not merge: keeps main linear, and a data commit has no
   # reason to sit behind a merge bubble. Rebasing our own fresh commit
   # onto whatever landed is exactly the intended result.
-  if ! git rebase "origin/$BRANCH"; then
-    git rebase --abort || true
-    echo "::error::Rebase hit a real conflict against origin/$BRANCH." \
-         "Two jobs wrote the same file. Not resolving this automatically:" \
-         "a wrong guess here can corrupt published data. Inspect by hand." >&2
+  # --autostash because NINE CHATS SHARE ONE WORKING TREE. A plain rebase
+  # refuses outright when anyone has uncommitted work, and on 2026-08-09
+  # that was CRO mid-fix on crops/build_data.py while platform pushed an
+  # unrelated file. Autostash sets their work aside and puts it back.
+  #
+  # AND THE ERROR BELOW USED TO LIE. It asserted "a real conflict, two
+  # jobs wrote the same file" for ANY rebase failure, including the dirty
+  # tree above, which shares no file with anything. It cost a wrong
+  # diagnosis today: the message named a cause it had never checked, in
+  # the script whose job is to explain why a push stopped.
+  #
+  # It now reports what git actually said, and claims a conflict only
+  # after looking for one.
+  rebase_out=$(git rebase --autostash "origin/$BRANCH" 2>&1) || {
+    conflicted=$(git diff --name-only --diff-filter=U 2>/dev/null)
+    git rebase --abort 2>/dev/null || true
+    if [ -n "$conflicted" ]; then
+      echo "::error::Rebase hit a REAL CONFLICT against origin/$BRANCH on:" >&2
+      echo "$conflicted" | sed 's/^/  /' >&2
+      echo "::error::Two jobs wrote the same file. Not resolving this" \
+           "automatically: a wrong guess here can corrupt published data." >&2
+    else
+      echo "::error::Rebase failed against origin/$BRANCH, and NOT on a" \
+           "content conflict. Git said:" >&2
+      echo "$rebase_out" | sed 's/^/  /' >&2
+    fi
     exit 1
-  fi
+  }
 
   # Backoff so two racing jobs do not retry in lockstep forever. The
   # stagger matters more than the delay: without $i they would collide

@@ -259,7 +259,32 @@ def build(city, meta):
         tn, tx = load_mf(city, meta["station"])
     else:
         tn, tx = load_aemet(city, meta.get("file"))
-    cut, W = meta["cut"], window_days(meta["cut"])
+    # THE CUT IS DERIVED, NOT TYPED. Ratified by Kristjan via product
+    # 2026-08-09, and it is the same rule he gave for everything else here:
+    # no heat logic hardcoded, every element adjustable from the data.
+    #
+    # Platform found the failure it fixes. The weekly refresh pulled ten
+    # services through 8 August and not one published number moved, because
+    # the cut was a static per-city constant sitting days behind the
+    # observations. So the job fetched, rebuilt, committed, and changed
+    # nothing a reader could see. Six days of observations were outside it,
+    # including three of the hottest days Vienna has recorded.
+    #
+    # The cut is the LAST DAY THIS CITY ACTUALLY OBSERVED, per city, because
+    # services publish on different lags and a shared cut would throw away
+    # good days from the prompt ones. A city with a real observation on
+    # 8 August counts to 8 August; one that stops on 3 August counts to the
+    # 3rd and says so in counted_to.
+    #
+    # meta["cut"] survives as an explicit override for a city whose recent
+    # days are known bad. It is a floor on nothing: when set, it wins.
+    _cur = {(m, d) for (m, d), v in tx.get(CURRENT_YEAR, {}).items()
+            if v is not None}
+    _cur |= {(m, d) for (m, d), v in tn.get(CURRENT_YEAR, {}).items()
+             if v is not None}
+    cut = meta["cut"] if meta.get("cut_is_override") else (
+        max(_cur) if _cur else meta["cut"])
+    W = window_days(cut)
 
     # Thresholds are each city's own July-August maxima percentiles. AEMET's
     # published rule, reproduced exactly for Madrid (36.4) and Seville (41.2).
@@ -355,7 +380,10 @@ def build(city, meta):
         # reaches. They diverge whenever the source refreshes after the cut
         # was fixed, and advancing the cut is a substantive change rather than
         # a refresh: Malaga's record is held by ONE night.
-        "counted_to": f"{CURRENT_YEAR}-{meta['cut'][0]:02d}-{meta['cut'][1]:02d}",
+        # Reads the DERIVED cut, not meta["cut"]. These were the same value
+        # until the cut became data-driven, and this line kept the old one,
+        # so counted_to would have reported a date the counts no longer used.
+        "counted_to": f"{CURRENT_YEAR}-{cut[0]:02d}-{cut[1]:02d}",
         "last_observation": f"{CURRENT_YEAR}-{last[0]:02d}-{last[1]:02d}",
         "source": {"ES": "AEMET OpenData",
                    "FR": "Meteo-France, via data.gouv.fr",
