@@ -73,6 +73,7 @@ COORDS = {
     "Cologne": (50.9, 7.1), "Berlin": (52.5, 13.4), "Hamburg": (53.6, 10.0),
     "Amsterdam": (52.3, 4.8), "Stockholm": (59.3, 18.1),
     "Prague": (50.1, 14.4), "Helsinki": (60.2, 24.9),
+    "Zurich": (47.4, 8.6),
 }
 
 LICENCE = {
@@ -100,6 +101,10 @@ LICENCE = {
            "lag_days": 5},
     "FI": {"licence": "CC-BY 4.0", "commercial_use": True,
            "attribution": "Source: FMI", "lag_days": 1},
+    "CH": {"licence": "Swiss federal open data: reuse permitted, including "
+                      "commercial, with attribution",
+           "commercial_use": True, "attribution": "Source: MeteoSwiss",
+           "lag_days": 1},
 }
 
 

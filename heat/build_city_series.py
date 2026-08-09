@@ -165,6 +165,12 @@ CITIES = {
     # hidden. Fourth city where that check was the whole difference.
     "Helsinki":  dict(country="FI", station="Helsinki Kaisaniemi", cut=(8, 3),
                       file="fmi_Helsinki.json"),
+    # MeteoSwiss SMA, Zurich/Fluntern. The longest record in the set at 1864,
+    # and the columns are parameter codes differing by one character:
+    # tre200dn is the minimum, tre200dx the maximum. Picking the wrong one
+    # yields a plausible series that is silently the wrong quantity.
+    "Zurich":    dict(country="CH", station="Zurich/Fluntern", cut=(8, 3),
+                      file="mch_Zurich.json"),
 }
 
 
@@ -330,7 +336,8 @@ def build(city, meta):
                    "NL": "KNMI",
                    "SE": "SMHI",
                    "CZ": "CHMI",
-                   "FI": "FMI"}[meta["country"]],
+                   "FI": "FMI",
+                   "CH": "MeteoSwiss"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,
