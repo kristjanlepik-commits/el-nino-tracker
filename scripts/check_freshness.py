@@ -125,7 +125,19 @@ def _newest_collected(doc) -> "date | None":
         return None
     best = None
     for s in doc:
-        v = s.get("ts") if isinstance(s, dict) else None
+        # THE KEY IS NOT FIXED EITHER, which is the second half of the
+        # same mistake. Last time this read one VALUE format and Tallinn
+        # wrote the other; this time it read one KEY NAME and London
+        # writes "dt" ISO strings where Tallinn writes "ts" epoch ints.
+        # A guard that hardcodes its subject's field name fails open the
+        # moment a second subject arrives, and reports "no readable
+        # as-of date" against a file full of good timestamps.
+        v = None
+        if isinstance(s, dict):
+            for k in ("ts", "dt", "time", "observed_at"):
+                if s.get(k) is not None:
+                    v = s[k]
+                    break
         d = None
         # Epoch seconds OR an ISO string. The collector writes epoch
         # ints; I assumed ISO and the layer reported "no readable as-of
@@ -259,6 +271,27 @@ LAYERS = [
      "max_age": 1, "owner": "HEAT", "active_months": (5, 6, 7, 8, 9),
      "what": "the Tallinn forward collector, whose missed hours are "
              "permanent"},
+    # LONDON HAS A HARDER CLOCK THAN TALLINN, and it is the retention
+    # rather than the cadence. Met Office DataHub keeps 48 hours, measured
+    # off the response because the documentation is a JavaScript shell.
+    # Tallinn's feed is current-observation-only, so a missed run costs
+    # one reading; here a missed run costs nothing at all until 48 hours
+    # pass, and then it costs EVERYTHING since the last success.
+    #
+    # So 1 day is not a warning threshold, it is the last point at which
+    # acting still saves the data. At the 6-hourly cadence a full day of
+    # silence is four consecutive failures with roughly one day of margin
+    # left, which is the latest a daily 06:30 check could still be acted
+    # on before loss becomes permanent.
+    #
+    # NOT season-bound, unlike Tallinn. Tallinn's exemption is sound
+    # because a February sample cannot move a tropical-night count, and
+    # missing one costs one reading anyway. Here an off-season outage
+    # costs every hour in the window, and four commits a day is too cheap
+    # to trade against that.
+    {"path": "heat/data/collected/London.jsonl", "as_of": _newest_collected,
+     "max_age": 1, "owner": "HEAT",
+     "what": "the London forward collector, whose source retains 48 hours"},
     {"path": "docs/pacific-sst.json", "as_of": _from_key("observation_date"),
      "max_age": 14, "owner": "DESIGN", "what": "front page Pacific SST field, "
                                                "refreshed by hand"},

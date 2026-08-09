@@ -1,0 +1,91 @@
+name: heat-collect-london
+
+# SEPARATE FROM heat_collect.yml ON PURPOSE. Same script, different clock,
+# and folding them together would force one cadence onto two problems.
+#
+# Tallinn's feed returns ONE INSTANTANEOUS READING, so the sampling
+# interval IS the measurement: miss an hour and that hour is gone, and the
+# daily minimum has to be caught by sampling densely enough to land near
+# it. That is why heat_collect.yml runs 40 times a day and goes dense
+# through the local night.
+#
+# London's feed returns 48 HOURLY RECORDS per call and the collector
+# dedupes on timestamp. So cadence buys redundancy rather than resolution:
+# one successful call a day already captures every hour, with a full day
+# spare. Heat verified the dedupe by running it twice, 48 new then 0 new.
+#
+# Running London on Tallinn's schedule would make forty calls a day to
+# collect the same 48 rows, and produce commits that say nothing.
+#
+# THE RISK IS INVERTED, WHICH IS THE POINT. Met Office DataHub retains 48
+# hours, measured off the response because the documentation is a
+# JavaScript shell that returns nothing to a fetcher. So a missed run here
+# costs NOTHING at all, until two days pass, and then it costs every hour
+# since the last success. Tallinn degrades one reading at a time; London
+# is fine, fine, fine, then a hole.
+#
+# Six-hourly gives eight attempts inside every 48-hour window. Losing data
+# takes eight consecutive failures, and scripts/check_freshness.py reports
+# London stale after one day, which is the last point at which acting on
+# it still saves anything.
+#
+# NOT SEASON-BOUND, unlike Tallinn. Tallinn's May-September bound is sound
+# because a February sample cannot move a tropical-night count and missing
+# one costs a single reading. Here an off-season outage costs the whole
+# window, and four commits a day is too cheap to trade against that.
+
+on:
+  schedule:
+    # Six-hourly, offset off the hour. :00 is the most contended minute on
+    # GitHub's scheduler and two runs were already dropped from the
+    # Tallinn collector inside the 00-02 UTC window on 2026-08-09.
+    - cron: "17 1,7,13,19 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: heat-collect-london
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    # As with the Tallinn collector: with cancel-in-progress false, a hung
+    # run without a timeout would hold the group forever and every later
+    # run would queue behind it. The symptom would be "no new samples"
+    # rather than "a job failed", on data that cannot be refetched.
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sample
+        env:
+          # Heat wires heat/collect_forward.py to read this, falling back
+          # to ~/.metoffice_key locally. Named for the service rather than
+          # the city because one DataHub key serves any station we add.
+          METOFFICE_API_KEY: ${{ secrets.METOFFICE_API_KEY }}
+        run: |
+          if [ -z "${METOFFICE_API_KEY}" ]; then
+            echo "::warning::METOFFICE_API_KEY is not set, so London was not"
+            echo "::warning::collected. This is not silent: check_freshness"
+            echo "::warning::reports London stale after one day and the 48h"
+            echo "::warning::retention window makes that loss permanent."
+            exit 0
+          fi
+          python heat/collect_forward.py London
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "tls-heat-collector"
+          git config user.email "noreply@thelongswell.com"
+          git add heat/data/collected/
+          if git diff --cached --quiet; then
+            echo "No new London records this run; nothing to commit."
+            exit 0
+          fi
+          git commit -m "heat: collected London $(date -u +'%Y-%m-%dT%H:%MZ')"
+          bash scripts/push_retry.sh main
