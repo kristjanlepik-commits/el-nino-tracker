@@ -36,10 +36,16 @@ PY = str(VENV if VENV.exists() else sys.executable)
 # Everything make_heat_index.py imports or reads, directly or through
 # run_brief. Copied rather than symlinked so a mutation cannot reach the
 # real payload.
-COPY = ["design", "heat", "docs", "assets", "fetchers", "templates", "fires",
-        "crops", "run_brief.py", "sources.py", "tokens.py", "probs.py",
-        "snapshot.py", "analog.py", "editorial.py", "card.py", "fetch_all.py",
-        "impacts.md", "methodology.md"]
+# What to copy into the scratch tree. Derived from git rather than listed,
+# because the list version was a hand-maintained allowlist and it failed the
+# first time an input arrived that nobody remembered to add: copy/ landed,
+# the generator started requiring it, and this test reported the index as
+# broken at both extremes when the only thing missing was a file it had
+# declined to copy. A test that has to be told about each new input will
+# eventually be wrong about the build rather than the thing under test.
+COPY = sorted({p.split("/")[0] for p in subprocess.run(
+    ["git", "ls-files"], cwd=R, capture_output=True, text=True,
+    check=True).stdout.split()})
 
 
 def calm(nights, series):

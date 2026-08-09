@@ -863,7 +863,39 @@ CUT_TXT = ", ".join(f"{_phrase(ds)} {_MON[int(m) - 1]}"
                     for (y, m), ds in sorted(_by_month.items())) + \
     f" {_cuts[-1][:4]}"
 
-CONTRAST_BLOCK = f"""<div class="seclab">Hot days and hot nights are different summers</div>
+# Reader-facing prose lives in copy/heat_index.md, which editor owns. The
+# figures are assembled here and named; the sentences around them are not
+# ours to write. See design/copydeck.py for what the build refuses to do
+# silently. (The module is copydeck, not copy, because design/ goes on
+# sys.path and a file named copy.py there would shadow the stdlib module
+# for everything imported afterwards.)
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import copydeck  # noqa: E402
+
+_CONTRAST_SLOTS = ["contrast_label", "two_instruments"]
+COPY = copydeck.render(
+    "heat_index",
+    {
+        "records": floor(DH["records"]).capitalize(),
+        "of_cities": DH["of_cities"],
+        "typical_year": words(DH["baseline"]["median_year"]),
+        "hot_hi_c": HOT_HI[1], "hot_hi": HOT_HI[0],
+        "hot_lo_c": HOT_LO[1], "hot_lo": HOT_LO[0],
+        "n_cities": len(rows),
+        "lead_city": LEAD["name"], "lead_days": LEAD["now"],
+        "lead_years": LEAD["of"],
+        "tail_city": TAIL["name"], "tail_days": TAIL["now"],
+        "tail_pct": f"{TAIL['pct']:.0f}",
+        "gated": sum(1 for d in rows if d["gated"]),
+    },
+    wanted=(["headline", "lead", "method", "map_note", "strip_label",
+             "strip_intro"] + (_CONTRAST_SLOTS if CONTRAST_OK else [])),
+    withheld=({} if CONTRAST_OK else
+              {s: "no city leans both ways this week"
+               for s in _CONTRAST_SLOTS}),
+)
+
+CONTRAST_BLOCK = f"""<div class="seclab">{COPY['contrast_label']}</div>
 <div class="two">
 <div><span class="tl">{DAY_LEAD_N}</span>Its most hot days on record, by
 {words(_dl_days)} days. For hot nights, {ordinal(DAY_LEAD['rank']['value'])} of
@@ -872,11 +904,7 @@ CONTRAST_BLOCK = f"""<div class="seclab">Hot days and hot nights are different s
 {NIGHT_LEAD['days']['rank']['of_years']} for hot days. For hot nights,
 {ordinal(NIGHT_LEAD['rank']['value'])} of {NIGHT_LEAD['rank']['of_years']}.</div>
 </div>
-<p class="subl" style="margin-top:16px">If one measure could stand in for the other,
-these two would lean the same way. They lean opposite ways.
-<strong style="color:var(--ink);font-weight:500">{sum(1 for d in rows if d['gated'])}
-cities show no night figure at all.</strong> They average under two hot nights a year, and
-dividing by a base that small gives you a big number and no evidence.</p>""" if CONTRAST_OK else ""
+<p class="subl" style="margin-top:16px">{COPY['two_instruments']}</p>""" if CONTRAST_OK else ""
 
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -957,6 +985,10 @@ line-height:1.8;color:var(--ink-faint);max-width:74ch}}
 text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:54px 0 6px}}
 .subl{{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:70ch;margin:12px 0 18px}}
+/* Emphasis comes from copy/heat_index.md as a bare <strong>, so the weight
+   is decided here rather than typed into a sentence editor owns. */
+.stand strong,.subl strong{{color:var(--ink);font-weight:500}}
+.knote strong{{color:var(--ink);font-weight:400}}
 /* THREE cells, and this declared FOUR columns, so the empty 1fr sat
    between the chart and the number and swallowed every pixel of slack.
    Kristjan spotted the gap in the browser. The chart takes the
@@ -1002,29 +1034,19 @@ margin-top:50px}}
      column under 900px, where stacking is the honest layout anyway. -->
 <div class="hero">
 <div>
-<h1>How hot has the European summer been?</h1>
-<p class="stand"><strong style="color:var(--ink);font-weight:500">{floor(DH['records']).capitalize()} of these
-{DH['of_cities']} European cities have had more hot days this summer than in any year on
-record.</strong> In a typical year, that number is {words(DH['baseline']['median_year'])}.</p>
-<p class="stand">A hot day means hot <em>for that city</em>: {HOT_HI[1]}&nbsp;&deg;C in
-{HOT_HI[0]}, {HOT_LO[1]}&nbsp;&deg;C in {HOT_LO[0]}. Each is measured against its own
-thermometer and its own history, never against the others.</p>
+<h1>{COPY['headline']}</h1>
+<p class="stand">{COPY['lead']}</p>
+<p class="stand">{COPY['method']}</p>
 </div>
 <div class="mapcol">
 {svg}
 <div class="key">{key_rows()}</div>
-<p class="knote"><strong style="color:var(--ink);font-weight:400">This is {len(rows)}
-thermometers, not a temperature map.</strong> Nothing between the marks means anything.
-Bigger mark, bigger margin over that city's own record.</p>
+<p class="knote">{COPY['map_note']}</p>
 </div>
 </div>
 
-<div class="seclab">How far from normal, city by city</div>
-<p class="subl">Each row is one city's entire record, one mark per summer.
-<strong style="color:var(--ink);font-weight:500">{LEAD['name']}'s {LEAD['now']} hot
-days beat all {LEAD['of']} summers it has on file. {TAIL['name']}'s
-{TAIL['now']} beat {TAIL['pct']:.0f} in 100 of its own.</strong> A crowded row is
-just a longer record.</p>
+<div class="seclab">{COPY['strip_label']}</div>
+<p class="subl">{COPY['strip_intro']}</p>
 {all_rows}
 
 {CONTRAST_BLOCK}
