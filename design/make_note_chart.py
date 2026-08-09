@@ -147,9 +147,30 @@ def draw(city, metric, reference=None):
         zeros = [y for y, x in vals.items() if x == 0]
         ax.plot(zeros, [0] * len(zeros), marker="|", ls="none", ms=7,
                 mew=1.4, color="#B9B8B1", zorder=2)
-        gap = [y for y in range(years[0], years[-1] + 1) if y not in vals]
+        # THREE STATES, NOT TWO, and I got this wrong by inferring from
+        # missing values. A year can be absent from the series because
+        # nobody has a record of it, or because it was observed and fell
+        # below the completeness bar. Heat's field note is explicit:
+        # "OBSERVED BUT NOT USABLE, which is not absent. Must not be drawn
+        # as a gap." My first label read "no observations 1945 to 1948",
+        # and 1945 and 1948 were both observed. Only 1946 and 1947 are
+        # gaps, which is what gap_slots: 2 says.
+        #
+        # A missing key tells you a value is absent. It cannot tell you
+        # whether anyone looked. That is the same distinction as the
+        # dashed markers on the index map, and the reason this accounting
+        # is emitted at all rather than derived.
+        absent = [y for y in range(years[0], years[-1] + 1) if y not in vals]
+        unusable = set(s.get("unusable_slots", []))
+        gap = [y for y in absent if y not in unusable]
+        if gap and len(gap) != s.get("gap_slots", len(gap)):
+            raise SystemExit(
+                f"{city}: derived {len(gap)} gap year(s) but the payload says "
+                f"gap_slots is {s['gap_slots']}. Do not draw either number "
+                f"until they agree.")
         if gap:
-            ax.annotate(f"no observations\n{gap[0]} to {gap[-1]}",
+            ax.annotate(f"no record at all\n{gap[0]} to {gap[-1]}"
+                        if gap[-1] != gap[0] else f"no record at all\n{gap[0]}",
                         ((gap[0] + gap[-1]) / 2, ax.get_ylim()[1] * 0.34),
                         ha="center", va="bottom", fontsize=10, color=INK_FAINT)
     else:
