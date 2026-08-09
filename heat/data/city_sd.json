@@ -272,6 +272,66 @@
    "excluded_years": [],
    "cut_at": "08-03",
    "source": "MeteoSwiss"
+  },
+  "Bordeaux": {
+   "n": 30,
+   "mean": 3.17,
+   "sd": 3.04,
+   "z": 6.52,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "Meteo-France, via data.gouv.fr"
+  },
+  "Toulouse": {
+   "n": 30,
+   "mean": 6.03,
+   "sd": 4.98,
+   "z": 4.41,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "Meteo-France, via data.gouv.fr"
+  },
+  "Strasbourg": {
+   "n": 30,
+   "mean": 1.27,
+   "sd": 1.46,
+   "z": 6.66,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "Meteo-France, via data.gouv.fr"
+  },
+  "Hanover": {
+   "n": 30,
+   "mean": 0.33,
+   "sd": 0.84,
+   "z": 1.97,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "DWD Climate Data Center"
+  },
+  "Stuttgart": {
+   "n": 30,
+   "mean": 0.97,
+   "sd": 1.47,
+   "z": 8.85,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "DWD Climate Data Center"
+  },
+  "Geneva": {
+   "n": 30,
+   "mean": 0.63,
+   "sd": 1.13,
+   "z": 2.1,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "MeteoSwiss"
   }
  }
 }

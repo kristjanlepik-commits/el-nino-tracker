@@ -33,7 +33,8 @@ SRC = ROOT / "heat" / ".cache" / "src"
 BASE = "https://data.geo.admin.ch/ch.meteoschweiz.ogd-smn"
 
 TMIN, TMAX = "tre200dn", "tre200dx"
-CITIES = {"Zurich": ("sma", "Zurich/Fluntern")}
+CITIES = {"Zurich": ("sma", "Zurich/Fluntern"),
+          "Geneva": ("gve", "Geneve/Cointrin")}
 
 
 def _read(url, out):

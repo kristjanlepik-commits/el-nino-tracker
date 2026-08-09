@@ -73,7 +73,9 @@ COORDS = {
     "Cologne": (50.9, 7.1), "Berlin": (52.5, 13.4), "Hamburg": (53.6, 10.0),
     "Amsterdam": (52.3, 4.8), "Stockholm": (59.3, 18.1),
     "Prague": (50.1, 14.4), "Helsinki": (60.2, 24.9),
-    "Zurich": (47.4, 8.6),
+    "Zurich": (47.4, 8.6), "Bordeaux": (44.8, -0.6),
+    "Toulouse": (43.6, 1.4), "Strasbourg": (48.6, 7.8),
+    "Hanover": (52.4, 9.7), "Stuttgart": (48.8, 9.2), "Geneva": (46.2, 6.1),
 }
 
 LICENCE = {
@@ -880,6 +882,19 @@ def main() -> int:
                 "Germany and Austria reached north, Amsterdam was added "
                 "where heat was expected, and Stockholm was added to include "
                 "a city that was not extreme.",
+            "forecast_selected_cities": ["Bordeaux", "Toulouse", "Strasbourg",
+                                         "Hanover", "Stuttgart", "Geneva"],
+            "forecast_selected_note":
+                "A NEW SELECTION CRITERION, added 2026-08-09 and recorded "
+                "because it differs from the rest. Every earlier city was "
+                "chosen for where the abnormality HAD BEEN, or for where the "
+                "metric works. These six were chosen from a MODEL FORECAST of "
+                "the following week, all sitting +10 to +13 C above their "
+                "recent-August normal, and all on fetchers already built. "
+                "Their published figures remain pure observation; only the "
+                "decision to measure them was forecast-driven. Hanover is the "
+                "honest illustration: third-largest forecast anomaly in "
+                "Europe and currently 8th of 88 on observations.",
             "not_an_apology":
                 "Purposive selection is the right design for this channel "
                 "and is not a defect to be corrected. The only thing it "

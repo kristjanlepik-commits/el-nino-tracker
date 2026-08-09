@@ -40,6 +40,12 @@ CITIES = {
     "Frankfurt": ("01420", "Frankfurt/Main"),
     "Munich":    ("03379", "Muenchen-Stadt"),
     "Cologne":   ("02667", "Koeln/Bonn"),
+    # Added 2026-08-09, chosen from the forecast for next week's event rather
+    # than for coverage. Hannover +11.8 C and Stuttgart +11.5 C above their
+    # recent-August normal, among the largest anomalies in Europe.
+    "Hanover":   ("02014", "Hannover"),
+    # Schnarrenberg, the CITY station, not Echterdingen which is the airport.
+    "Stuttgart": ("04928", "Stuttgart-Schnarrenberg"),
 }
 
 MISSING = -999.0

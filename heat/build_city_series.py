@@ -171,6 +171,20 @@ CITIES = {
     # yields a plausible series that is silently the wrong quantity.
     "Zurich":    dict(country="CH", station="Zurich/Fluntern", cut=(8, 3),
                       file="mch_Zurich.json"),
+    # ADDED 2026-08-09, chosen from next week's forecast rather than for
+    # coverage. All six sit in the core of the event, +10 to +13 C above
+    # their recent-August normal, and all six are on fetchers already built
+    # and verified. That is the whole reason to pick these six: the cheapest
+    # cities happen to be the ones where the story is.
+    "Bordeaux":  dict(country="FR", station="BORDEAUX-MERIGNAC", cut=(8, 3)),
+    "Toulouse":  dict(country="FR", station="TOULOUSE-BLAGNAC", cut=(8, 3)),
+    "Strasbourg": dict(country="FR", station="STRASBOURG-ENTZHEIM", cut=(8, 3)),
+    "Hanover":   dict(country="DE", station="Hannover", cut=(8, 3),
+                      file="dwd_Hanover.json"),
+    "Stuttgart": dict(country="DE", station="Stuttgart-Schnarrenberg",
+                      cut=(8, 3), file="dwd_Stuttgart.json"),
+    "Geneva":    dict(country="CH", station="Geneve/Cointrin", cut=(8, 3),
+                      file="mch_Geneva.json"),
 }
 
 
@@ -199,6 +213,8 @@ def load_aemet(city, fname=None):
 MF_POSTE = {
     "Paris": "91027002", "Marseille": "13054001", "Nice": "06088001",
     "Montpellier": "34154001", "Lyon": "69299001",
+    "Bordeaux": "33281001", "Toulouse": "31069001",
+    "Strasbourg": "67124001",
 }
 
 
