@@ -79,9 +79,37 @@ days rather than months, every day we do not collect is permanently lost,
 while the MIDAS baseline keeps indefinitely. So: **registrations, then start
 the collector, then the baseline at leisure.**
 
-**London is a summer-2027 city unless DataHub's retention surprises us.**
-Shipping it now would mean a page whose numbers stop before the heat did, on
-the country most likely to check.
+**LONDON IS A SUMMER-2027 CITY. Settled 2026-08-09, not estimated.**
+
+    DataHub retention   48 HOURS, measured off the response
+    collector starts    7 August 2026, which is as far back as 48h reaches
+    June and July 2026  exist nowhere reachable
+    completeness bar    90% of days from 1 May
+
+Two thirds of the 2026 season is unrecoverable, so a London page this year
+would fail its own completeness test.
+
+**Baseline: DONE.** Full Heathrow MIDAS record, 1948-2025, 78 files, Open
+Government Licence, pulled 2026-08-09 while the CEDA token was live. The day
+convention was DERIVED rather than assumed: MIDAS gives a 09h overnight
+minimum and a 21h daytime maximum, and against GHCN over 11,000 shared days
+the same-calendar-day reading scores 66% while the shifted alternative scores
+2%. Residual disagreement is small and scattered, 98.7% of maxima within
+0.5 C, with no era-based divergence, so it is rounding or QC rather than two
+thermometers.
+
+**THE OPEN PROBLEM IS THE JOIN, NOT THE BASELINE.** London's history is true
+12-hour minimum-thermometer readings; its 2026 onward will be hourly
+INSTANTANEOUS temperatures, because that is all a 48-hour window can give. A
+minimum derived from hourly samples sits warmer than a true minimum, so
+ranking future summers against this baseline is a cross-instrument comparison
+of the kind that produced the Murcia error.
+
+**It cannot be calibrated yet.** MIDAS stops at 2025 and DataHub holds 48
+hours of 2026, so there is NO OVERLAP to measure the offset across. It
+becomes measurable when MIDAS publishes its 2026 release, which will overlap
+the hourly data being collected from today. The join is verifiable, just not
+yet, and today's collection is what makes that check possible.
 
 ### Tallinn, build-forward, collecting since 2026-08-08
 
