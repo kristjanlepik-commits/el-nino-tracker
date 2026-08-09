@@ -665,6 +665,46 @@ def main() -> int:
             "date and is the one comparable to days_2026 and to the ranked "
             "series. They are different facts and must not share an axis.")
 
+        # RECORD SCOPE. A rank is only ever against the record WE HOLD, and
+        # for most of these cities the station observed for decades before
+        # our series starts. Vienna's is the live case: Hohe Warte reached
+        # 39.8 C on 2026-08-04, above anything since 1950, and its
+        # observations begin well before 1950. "Vienna's hottest day ever"
+        # is false; "the hottest in the record we hold" is true.
+        #
+        # A FIELD, NOT A CAVEAT, at product's instruction and editor's. A
+        # caveat is a sentence someone cuts for length. This cannot be
+        # rendered away, and the prose version stays too, because the two
+        # fail differently.
+        entry["record_scope"] = {
+            "from_year": int(str(v["record_from"])[:4]),
+            "text": f"our series, from {str(v['record_from'])[:4]}",
+            "is_all_time": False,
+            "why": "the station may have observed before our record starts, "
+                   "so a rank is against the record we hold and never "
+                   "against the city's full history.",
+            "may_not_say": ["hottest ever", "all-time record",
+                            "hottest since records began"],
+        }
+
+        # THE LEADING RUN IS NOT EMITTED YET, and the reason is recorded
+        # rather than left as a gap. Editor's rule: "Vienna's five hottest
+        # days all fell in 2026" is the LENGTH OF THE LEADING RUN of
+        # current-year days in the all-time sorted daily list. A sixth hot
+        # day makes it six; a cool week leaves it at five. Typed into prose
+        # it goes wrong on the next hot day, silently, and in the flattering
+        # direction.
+        #
+        # It CANNOT be computed here. This emitter reads city_series.json,
+        # which carries per-year aggregates, and the run needs the daily
+        # series. It belongs in build_city_series.py, where the dailies
+        # live, and must be carried through as a field.
+        #
+        # Written down instead of half-built: I drafted it against two names
+        # that do not exist in this module, which would have failed on the
+        # first run. An empty field would have been worse, because a
+        # renderer would read zero as "no run" rather than "not computed".
+
         if c in FEATURED:
             full = {y: d for y, d in yrs.items() if d["usable_full_year"]}
             entry["full_year_series"] = {
