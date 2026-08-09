@@ -83,6 +83,32 @@ the collector, then the baseline at leisure.**
 Shipping it now would mean a page whose numbers stop before the heat did, on
 the country most likely to check.
 
+### Tallinn, build-forward, collecting since 2026-08-08
+
+    archive     no commercially licensed source reaches this summer
+                ENE00175051  1919 to 2026-05, ECA&D, non-commercial
+                EN000026038  1936 to 2025-08, stopped feeding
+    live        Riigi Ilmateenistus observations feed, open, no key
+    collector   hourly in GitHub Actions since 2026-08-08
+    history     REQUESTED from Keskkonnaagentuur 2026-08-08, awaiting reply
+
+**A summer-2027 city, and saying so plainly matters** because a running
+collector feels like progress and is not. Ranking a Tallinn summer needs a
+full June to August of samples, and the next one begins in ten months. What
+the collector buys is that the 2027 summer will exist when it arrives, which
+it would not if collection started then.
+
+**The request to Keskkonnaagentuur asks only for the years before 1991**,
+since their site already publishes 1991 onward. That covers the 1991-2020
+standard-deviation baseline; the 1971-2000 percentile baseline is the only
+genuinely missing piece and the one every other city uses.
+
+**The collector samples an INSTANTANEOUS temperature**, so any daily minimum
+derived from it is the lowest sample and sits warmer than a true minimum.
+That biases a tropical-night count downward, which is the safe direction,
+and it is NOT comparable with archive years measured by a minimum
+thermometer. A rank mixing the two would be the Murcia error in a new form.
+
 ## BLOCKED
 
 ### Warsaw

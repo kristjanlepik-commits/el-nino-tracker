@@ -252,6 +252,26 @@
    "excluded_years": [],
    "cut_at": "07-31",
    "source": "CHMI"
+  },
+  "Helsinki": {
+   "n": 30,
+   "mean": 1.03,
+   "sd": 2.44,
+   "z": -0.42,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "FMI"
+  },
+  "Zurich": {
+   "n": 30,
+   "mean": 0.8,
+   "sd": 1.67,
+   "z": 4.91,
+   "band_rel": 0.1313,
+   "excluded_years": [],
+   "cut_at": "08-03",
+   "source": "MeteoSwiss"
   }
  }
 }

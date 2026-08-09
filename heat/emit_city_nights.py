@@ -38,7 +38,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SERIES = ROOT / "heat" / "data" / "city_series.json"
+# HEAT_SERIES lets the extremes test point the emitter at a synthetic series.
+# Unset in every real run, so production reads the committed artifact.
+SERIES = Path(__import__("os").environ.get(
+    "HEAT_SERIES", ROOT / "heat" / "data" / "city_series.json"))
 OUT = ROOT / "heat" / "data" / "city_nights.json"
 
 # Product's ruling 2026-08-07. Bilbao is OUT and the argument is the one
@@ -69,7 +72,8 @@ COORDS = {
     "Munich": (48.1, 11.6), "Paris": (48.9, 2.4), "Frankfurt": (50.1, 8.7),
     "Cologne": (50.9, 7.1), "Berlin": (52.5, 13.4), "Hamburg": (53.6, 10.0),
     "Amsterdam": (52.3, 4.8), "Stockholm": (59.3, 18.1),
-    "Prague": (50.1, 14.4),
+    "Prague": (50.1, 14.4), "Helsinki": (60.2, 24.9),
+    "Zurich": (47.4, 8.6),
 }
 
 LICENCE = {
@@ -95,6 +99,12 @@ LICENCE = {
     "CZ": {"licence": "CHMI open data: reuse permitted with attribution",
            "commercial_use": True, "attribution": "Source: CHMI",
            "lag_days": 5},
+    "FI": {"licence": "CC-BY 4.0", "commercial_use": True,
+           "attribution": "Source: FMI", "lag_days": 1},
+    "CH": {"licence": "Swiss federal open data: reuse permitted, including "
+                      "commercial, with attribution",
+           "commercial_use": True, "attribution": "Source: MeteoSwiss",
+           "lag_days": 1},
 }
 
 
@@ -104,6 +114,7 @@ LICENCE = {
 # a field rather than living inside a generated sentence, and the guard below
 # refuses to write a payload where the prose contract has drifted.
 ELEVATED_PCT = 85.0
+MIN_SCALE_SPAN = 5.0     # a colour ramp needs a non-zero domain
 
 # Every field the editor's rules bind to. A renderer failing is visible; copy
 # silently meaning something else is not.
@@ -156,6 +167,17 @@ def rank_of(value, series, ties_against=True):
     return sum(1 for x in series.values() if x > value) + 1
 
 
+def _is_record(v, key, pct="95"):
+    """Is the current year at a record for this city on this instrument?"""
+    yrs = v["years"]
+    cur = str(max(int(y) for y in yrs))
+    now = (yrs[cur]["nights_to_cut"] if key == "nights"
+           else yrs[cur]["days_to_cut"][pct])
+    prior = [(d["nights_to_cut"] if key == "nights" else d["days_to_cut"][pct])
+             for y, d in yrs.items() if d["usable_to_cut"] and y != cur]
+    return bool(prior) and now > max(prior)
+
+
 def record_rate(S, key, pct="95", lo=1990, hi=2025):
     """How many cities set a record in each past year, on the same measure.
 
@@ -203,6 +225,25 @@ def main() -> int:
                      ["earliest_year_that_matters"] if HP.exists() else 1961)
     B = json.loads((ROOT / "heat/data/record_rate_baseline.json").read_text())
     ties = S["tie_rule"]["ties_count_against_current_year"]
+
+    # Each instrument's own answer, derived from the record counts. Done
+    # before the city loop because every city carries both.
+    _pre_n = record_rate(S, "nights")
+    _pre_d = record_rate(S, "days")
+    _n_now = sum(1 for cc, vv in S["cities"].items()
+                 if _is_record(vv, "nights"))
+    _d_now = sum(1 for cc, vv in S["cities"].items()
+                 if _is_record(vv, "days"))
+    nights_worst = _n_now > _pre_n["worst_year_on_record"]["cities"]
+    days_worst = _d_now > _pre_d["worst_year_on_record"]["cities"]
+    nights_reason = (
+        "{0} cities at a night record against {1} in {2}, the worst prior "
+        "year.".format(_n_now, _pre_n["worst_year_on_record"]["cities"],
+                       _pre_n["worst_year_on_record"]["year"]))
+    days_reason = (
+        "{0} cities at a day record against {1} in {2}, the worst prior "
+        "year.".format(_d_now, _pre_d["worst_year_on_record"]["cities"],
+                       _pre_d["worst_year_on_record"]["year"]))
 
     cities = {}
     for c, v in S["cities"].items():
@@ -331,19 +372,29 @@ def main() -> int:
             # the days permission are OPPOSITES on the same page, and a city
             # page puts both instruments side by side. Three times today a
             # caveat nearly travelled to the instrument it is false for.
+            # COMPUTED PER INSTRUMENT, never asserted. The first version
+            # hardcoded that the two caveats INVERT: nights may not claim the
+            # worst year, days may. That was true of August 2026 and is not a
+            # property of the channel. Fed a calm year the guard failed
+            # because NEITHER may claim it; fed a record year it failed
+            # because BOTH may. Found by the extremes test on its first run.
+            #
+            # What is permanent is that each instrument has its own answer and
+            # they must not be assumed to agree. That is now derived.
             "page_constraints": {
                 "nights": {
-                    "may_not_say": B["may_not_say"],
-                    "reason": "2026 is not the worst year on the night "
-                              "measure. 2003 was worse.",
+                    "may_say_worst_on_record": nights_worst,
+                    "reason": nights_reason,
                 },
                 "days": {
-                    "may_say_worst_on_record": True,
-                    "reason": "2026 sets more city day-records than any year "
-                              "in the window, including 2003. THE OPPOSITE OF "
-                              "THE NIGHTS RULE ABOVE. The two instruments do "
-                              "not share a caveat, and this page shows both.",
+                    "may_say_worst_on_record": days_worst,
+                    "reason": days_reason,
                 },
+                "instruments_agree": nights_worst == days_worst,
+                "instruments_agree_note":
+                    "Whether the two instruments happen to give the same "
+                    "answer is a fact about this season, not a rule. A page "
+                    "must read each one rather than carrying a caveat across.",
                 "banned_words": ["ordinary"],
                 "banned_words_reason":
                     "No city in this set is ordinary. The least extreme "
@@ -654,7 +705,17 @@ def main() -> int:
                 "expected_no_trend": B["expected_no_trend"],
                 "worst_year_on_record": {"year": 2003, "records": 12},
             },
+            "may_say_worst_on_record": nights_worst,
+            "may_say_worst_note": nights_reason + (
+                " This year exceeds it, so the claim is available."
+                if nights_worst else
+                " This year does NOT exceed it, so the claim is unavailable "
+                "and a page must not imply it."),
             "may_not_say": B["may_not_say"],
+            "may_not_say_note":
+                "Curated text, retained. Where it disagrees with "
+                "may_say_worst_on_record above, the COMPUTED field wins: that "
+                "one regenerates and this one does not.",
             "the_better_story": B["the_better_story"],
             "fragile_members": thin,
             "fragile_note":
@@ -676,12 +737,15 @@ def main() -> int:
             # 8, so it IS the worst year on record and saying so is correct.
             # Carrying the nights caveat across would understate a true
             # finding; carrying this claim back to nights would be false.
-            "may_say_worst_on_record": True,
-            "may_say_worst_note":
-                "2026 sets more city day-records than any year in the window, "
-                "including 2003. This is the OPPOSITE of the nights "
-                "constraint, where 2003 remains worse and `may_not_say` "
-                "applies. The two instruments do not share a caveat.",
+            # COMPUTED. This read True unconditionally, so a calm year would
+            # have told a page it may claim the worst on record with zero
+            # cities at one. Found by the extremes test, not by review.
+            "may_say_worst_on_record": days_worst,
+            "may_say_worst_note": days_reason + (
+                " This year exceeds it, so the claim is available."
+                if days_worst else
+                " This year does NOT exceed it, so the claim is unavailable "
+                "and a page must not imply it."),
         },
         "geography": {
             # COMPUTED, NOT WRITTEN. The previous version said "every city in
@@ -732,7 +796,12 @@ def main() -> int:
                 "never_colour_by": "absolute temperature, which would redraw "
                                    "the Mediterranean climate map rather than "
                                    "this summer",
-                "scale_domain": [low_pct, 100.0],
+                # A zero-width domain divides by zero in a renderer. When
+                # every city is at a record the floor collapses to 100, which
+                # the extremes test produced immediately. Floored to a usable
+                # span rather than left for design to discover.
+                "scale_domain": [min(low_pct, 100.0 - MIN_SCALE_SPAN), 100.0],
+                "scale_domain_floored": low_pct > 100.0 - MIN_SCALE_SPAN,
                 "scale_domain_note":
                     "Computed from the set, not fixed. On a 0-100 ramp every "
                     "mark crowds the top sliver and the set reads as uniformly "
@@ -766,10 +835,67 @@ def main() -> int:
             "Every published figure comes from a national met service that "
             "permits commercial reuse. ECA&D is not read anywhere in this "
             "pipeline.",
+        # THE MOST IMPORTANT LIMIT ON THIS PAYLOAD, and the easiest to forget
+        # because every individual number is correct. Kristjan, 2026-08-08:
+        # "you should also know about us picking cities that were in the hot
+        # area of the map. If we would take all European cities, the data
+        # would be very different."
+        "selection": {
+            "is_representative_of_europe": False,
+            "cities": len(cities),
+            "by_country": {k: sum(1 for v in cities.values()
+                                  if v["country"] == k)
+                           for k in sorted({v["country"]
+                                            for v in cities.values()})},
+            "longitude_span": [
+                round(min(COORDS[c][1] for c in cities), 1),
+                round(max(COORDS[c][1] for c in cities), 1)],
+            "latitude_span": [
+                round(min(COORDS[c][0] for c in cities), 1),
+                round(max(COORDS[c][0] for c in cities), 1)],
+            "selection_is_deliberate": True,
+            "how_these_cities_were_chosen":
+                "ON PURPOSE, toward where the abnormality is. That is what "
+                "this channel is for: showing where the extremes are and how "
+                "hard, not estimating a continental average. The first "
+                "fifteen were Spanish and French because the tropical-night "
+                "measure only works where tropical nights are common. "
+                "Germany and Austria reached north, Amsterdam was added "
+                "where heat was expected, and Stockholm was added to include "
+                "a city that was not extreme.",
+            "not_an_apology":
+                "Purposive selection is the right design for this channel "
+                "and is not a defect to be corrected. The only thing it "
+                "forbids is generalising a proportion to a population we did "
+                "not sample.",
+            "what_may_not_be_said":
+                "NOTHING HERE SUPPORTS A CLAIM ABOUT EUROPE. Not 'Europe is "
+                "having its hottest summer', not 'European cities are "
+                "breaking records', not a proportion presented as if the set "
+                "were a sample of the continent. Every count is a count of "
+                "THESE cities, chosen the way described above.",
+            "what_may_be_said":
+                "Each city against its own record, and the pattern across "
+                "this set stated as a pattern across this set. WHERE THE "
+                "ABNORMALITY IS AND HOW HARD, which is the thing these "
+                "cities were chosen to show. The map is 24 marks and means "
+                "what those 24 thermometers recorded.",
+            "known_absences":
+                "No city east of 18.1 E, so no Poland, Baltics, Balkans, "
+                "Ukraine or European Russia. No Italy, Greece, Portugal or "
+                "the UK. Fifteen of the 24 are Iberia and France.",
+            "if_you_wanted_a_european_average":
+                "You would need a different set, chosen at random or by "
+                "population, and it would show a smaller share at a record. "
+                "That is a different product and we are not making it. "
+                "Stated so the distinction is explicit rather than so the "
+                "selection reads as a flaw.",
+        },
         "coverage_note":
-            "Spain and France. The night metric does not work in northern "
-            "Europe, where tropical nights are near zero and ratios divide by "
-            "almost nothing.",
+            "Seven countries, listed in selection.by_country. The 20 C night "
+            "metric does not work in the northern half of the set, which is "
+            "why the percentile night series exists and why ten cities are "
+            "night-gated.",
     }
     # GUARD. A constraint that exists only at headline level is unreachable
     # from a city page, which is how the nights gate came to look like a
@@ -791,16 +917,19 @@ def main() -> int:
     # comparison at all: it fired on every city including the correct ones.
     # A guard that cannot be wrong about the thing it guards is worth more
     # than a guard that merely looks strict.
-    nights_worse_before = nbase["worst_year_on_record"]["cities"] >= len(recs)
-    days_worse_now = dbase["worst_year_on_record"]["cities"] < len(drecs)
-    if not (nights_worse_before and days_worse_now):
-        print(f"  FAIL: the nights/days caveat pair no longer holds. "
-              f"nights 2026={len(recs)} vs worst "
-              f"{nbase['worst_year_on_record']}; days 2026={len(drecs)} vs "
-              f"worst {dbase['worst_year_on_record']}. The page_constraints "
-              f"text asserts an inversion the data no longer supports.",
-              file=sys.stderr)
-        return 1
+    # Does the emitted permission match what the counts actually say? This
+    # checks CONSISTENCY, not a particular answer, so it holds in a calm year
+    # and a record year alike.
+    for label, emitted, expected in (
+            ("nights", nights_worst,
+             len(recs) > nbase["worst_year_on_record"]["cities"]),
+            ("days", days_worst,
+             len(drecs) > dbase["worst_year_on_record"]["cities"])):
+        if emitted != expected:
+            print(f"  FAIL: {label} may_say_worst_on_record is {emitted} but "
+                  f"the counts say {expected}. The copy would claim something "
+                  f"the data does not support.", file=sys.stderr)
+            return 1
 
     drift = check_prose_contract(payload)
     if drift:
