@@ -121,6 +121,7 @@ for n, v in C.items():
                  "now": now, "base": base,
                  "prev_best": prev_best,
                  "margin": (now - prev_best) / prev_best if prev_best else 0.0,
+                 "cut": v["counted_to"],
                  "gated": bool(v.get("nights_metric_gated"))})
 # ALPHABETICAL INSIDE BOTH GROUPS, records first. Editor's call and the
 # argument is the page's own thesis turned on the list: this is 24
@@ -148,6 +149,28 @@ rows.sort(key=lambda d: (d["rank"] != 1, d["name"]))
 # alphabetical rows[-1] is Valencia rather than Stockholm. Two sentences
 # that had quietly depended on the sort order, which is the same defect as
 # a typed city name and harder to see.
+# NOT MEASURED IS NOT THE SAME AS MEASURED AND ORDINARY. Editor's call and
+# it is the same defect as the fourteen tied cities: an absence used to
+# mean something, with no way for a reader to tell it from a value.
+#
+# The set is ragged. Fifteen cities are counted to 8 August and twenty-one
+# stop earlier, the Spanish ten on the 2nd or 3rd. The event peaked on the
+# 4th and 5th. So for those days Spain is NOT MEASURED, and drawing it in
+# the same fill as a city that was measured and came in unremarkable makes
+# the map assert the one thing we are declining to say. No caption fixes
+# that, and a caption trying to would be doing the drawing's job.
+#
+# THE RULE HERE IS THE OBSERVABLE FACT, not a judgement about which days
+# mattered: a city whose window ends before the set's latest cut has
+# unmeasured days at the end of it. That is conservative, it flags Paris at
+# the 4th as well as Seville at the 3rd, and it needs no threshold I would
+# have had to invent. Heat owns the methodological version and I have asked
+# for it; when they emit a flag this reads that instead.
+CUT_LATEST = max(d["cut"] for d in rows)
+for _d in rows:
+    _d["short"] = _d["cut"] < CUT_LATEST
+NSHORT = sum(1 for d in rows if d["short"])
+
 LEAD = min(rows, key=lambda d: (-d["pct"], d["name"]))
 TAIL = min(rows, key=lambda d: (d["pct"], d["name"]))
 
@@ -409,10 +432,19 @@ marks, labels, leaders, label_boxes, dropped = [], [], [], [], []
 for d in sorted(rows, key=lambda d: (_PRIO[state(d)], -d["margin"], PY(d["lat"]))):
     x, y, r = PX(d["lon"]), PY(d["lat"]), radius(d)
     href = PAGES[d["name"]]
-    marks.append(f'<a href="{href}" class="mk"><title>{d["name"]}</title>'
+    # A DASHED EDGE, not a fourth fill. The fill answers how unusual this
+    # summer was and that question is still answered: the rank is computed
+    # to this city's own cut, matched across every year, so it is correct
+    # rather than provisional. What the dash says is that the window ends
+    # earlier than the rest of the set, so the days at the end of it are
+    # not measured here at all. Composing it with the fill keeps both facts
+    # rather than letting one hide the other.
+    _edge = ' stroke-dasharray="2.5 2"' if d["short"] else ''
+    _cut = f', measured to {d["cut"]}' if d["short"] else ''
+    marks.append(f'<a href="{href}" class="mk"><title>{d["name"]}{_cut}</title>'
                  f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" '
                  f'fill="{FILL[state(d)]}" stroke="var(--ink)" '
-                 f'stroke-width="1"/></a>')
+                 f'stroke-width="1"{_edge}/></a>')
     # 7.1 per character underestimated Spectral at 13px, so the placer
     # believed Zaragoza and Alicante were clear of each other and they
     # overlapped on the page. Measured against the rendered widths: 7.9
@@ -542,11 +574,22 @@ OWNMAX = {d["name"]: max(
     [x["days_to_cut"]["95"] for y, x in S[d["name"]]["years"].items()
      if int(y) < 2026 and x.get("usable_to_cut") and x.get("days_to_cut")] or [1])
     for d in rows}
-_full = [d["name"] for d in rows if d["now"] >= OWNMAX[d["name"]]]
-_rec = [d["name"] for d in rows if d["rank"] == 1]
-if set(_full) - set(_rec) - {"Cologne"}:
-    raise SystemExit(f"a city draws a full bar without being a record and is not the "
-                     f"known tie: {sorted(set(_full) - set(_rec))}")
+# THE TIE IS READ, not named. This said `- {"Cologne"}`, a city typed into
+# the guard because it was the only tie the day the guard was written. The
+# cut advanced, Alicante drew level with its own 1964 at 21 days, and the
+# build stopped on a city that was behaving exactly as intended.
+#
+# A hard-coded exception is a guard that expires. tied_with is in the
+# payload and says which years match, so a full bar is legitimate whenever
+# the rank is 1 or the payload names a tie, and illegitimate otherwise.
+_full = {d["name"] for d in rows if d["now"] >= OWNMAX[d["name"]]}
+_ok = {d["name"] for d in rows
+       if d["rank"] == 1 or C[d["name"]]["days"]["rank"].get("tied_with")}
+if _full - _ok:
+    raise SystemExit(
+        f"a city draws a full bar while its rank is not 1 and the payload "
+        f"names no tie: {sorted(_full - _ok)}. Either the bar is scaled "
+        f"wrong or the rank is.")
 
 def minichart(name, w=316, h=34):
     """The city page's own chart, shrunk. Kristjan's idea, and it carries
@@ -724,8 +767,18 @@ def key_rows():
             f'<circle cx="23" cy="9" r="8" fill="{FILL["record"]}" '
             f'stroke="var(--ink)" stroke-width="1"/></svg>'
             f'Size: margin over its own record</span>')
+    # Its own key entry, per editor: not a gap and not a default fill. An
+    # absence a reader cannot tell from a value is the same defect as the
+    # fourteen tied cities showing no rank.
+    short = "" if not NSHORT else (
+        f'<span class="ks kz">'
+        f'<svg width="20" height="18" aria-hidden="true">'
+        f'<circle cx="10" cy="9" r="6.5" fill="none" stroke="var(--ink)" '
+        f'stroke-width="1" stroke-dasharray="2.5 2"/></svg>'
+        f'Dashed: not measured to {CUT_LATEST[8:].lstrip("0")} '
+        f'{_MON[int(CUT_LATEST[5:7]) - 1]}</span>')
     return "".join(f'<span class="ks"><i style="background:{FILL[k]}"></i>'
-                   f'{nm}</span>' for k, nm in STATE_ROWS) + size
+                   f'{nm}</span>' for k, nm in STATE_ROWS) + size + short
 
 
 # The caption named Marseille and Nice, copied from VD's canvas where the
