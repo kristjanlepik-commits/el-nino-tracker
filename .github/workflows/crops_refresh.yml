@@ -47,7 +47,12 @@ jobs:
     # is the full 123-country download rather than an increment. Bounded
     # anyway: an unbounded hang would hold the group and silently skip
     # every following day.
-    timeout-minutes: 60
+    # 120, not 60. CRO measured the full pull at about 75 minutes across
+    # both passes (zfparc alone was 12.4). The old 60 would have killed
+    # the job after the fix, at the finish line, discarding a completed
+    # download: the same failure the fires job had in July, where a 60
+    # minute cap sat under a 63 minute worst case.
+    timeout-minutes: 120
     permissions:
       contents: write
     steps:
@@ -104,7 +109,23 @@ jobs:
           set -e
           echo "Held ${{ steps.probe.outputs.held }}, newest published"
           echo "${{ steps.probe.outputs.newest }}. Pulling."
+          # TWO PULLS, NOT ONE. `--all` means all COUNTRIES, not all
+          # instruments: --indicator defaults to zfparc_crop_growing and
+          # the other five live behind --batch. CRO caught this in my file.
+          #
+          # With one line, the job fetched cumulative vegetation for 168
+          # countries and left water satisfaction, rainfall, current
+          # vegetation, soil moisture and temperature on the PREVIOUS
+          # dekad. The build then succeeds and the page publishes with one
+          # instrument from the new dekad and five from the old, on every
+          # country, every dekad, silently. That is the mixed-vintage state
+          # CRO says invalidates a two-instrument comparison.
+          #
+          # Third time today a step succeeded having fetched less than it
+          # appeared to, and the argument name is the trap: "--all" reads
+          # as everything and means every country.
           python crops/pull_asap_indicator.py --all
+          python crops/pull_asap_indicator.py --all --batch
           python crops/build_data.py
 
       # Commit the data, and ONLY the data. Rendering belongs to
