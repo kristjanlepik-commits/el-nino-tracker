@@ -98,8 +98,47 @@ def bars(data, top, w=880, h=104, accent_last=True):
         f'text-anchor="{"end" if y == 2026 else "start"}">{y}</text>'
         for i, (y, _) in enumerate(data)
         if y in (data[0][0], 1976, 2000, 2026))
-    return (f'<svg viewBox="0 0 {w} {h+18}" width="100%" style="height:{h+18}px" '
-            f'preserveAspectRatio="none">{"".join(out)}{ticks}</svg>')
+    # A Y AXIS, because the chart could not be read for magnitude. Kristjan:
+    # it shows the shape of a record and not how many. Every bar was a
+    # fraction of a maximum the reader was never told.
+    #
+    # Three lines rather than a full scale: the top, the middle and zero.
+    # Two would leave a reader interpolating and a full set of gridlines
+    # would compete with the bars, which are the subject. The middle tick is
+    # dropped when the maximum is small enough that halving it lands between
+    # whole days, since a chart of counts should not offer 3.5 of anything.
+    # The middle tick is placed at its TRUE height for a rounded value, not
+    # at half the pixel height for half the value. My first version only drew
+    # it when the maximum was even, which is why Lugano at 41 and Paris at 37
+    # had no middle tick at all: most maxima are odd.
+    _gy = [(0, top), (h, 0)]
+    if top >= 8:
+        _mid = round(top / 2)
+        if 0 < _mid < top:
+            _gy.insert(1, (h - _mid / top * h, _mid))
+    grid = []
+    for gy, gv in _gy:
+        dash = "" if gv == 0 else ' stroke-dasharray="2 4"'
+        grid.append(f'<line x1="0" y1="{gy:.1f}" x2="{w}" y2="{gy:.1f}" '
+                    f'stroke="var(--rule)" stroke-width="1"{dash}/>')
+        grid.append(f'<text x="{w + 6}" y="{gy + (9 if gv == top else 3):.1f}" '
+                    f'class="ax">{gv}</text>')
+    grid = "".join(grid)
+    # The axis sits in its own gutter so the bars keep the full plot width
+    # and the three charts stay the same width as each other.
+    # PROPORTIONAL, not stretched. Kristjan saw the axis numbers as a
+    # different typeface from the label beside them. They are the same face
+    # at nearly the same size: the SVG was scaling 0.47 horizontally against
+    # 1.0 vertically, so every glyph inside it was condensed to under half
+    # width while the HTML label next to it was untouched.
+    #
+    # Rectangles do not care and text does, which is why this went unnoticed
+    # until an axis put numbers inside the plot. All three charts share one
+    # viewBox width now, so they still render at identical heights to each
+    # other, which is the property the stack needs. What changes is that the
+    # height follows the width instead of being pinned.
+    return (f'<svg viewBox="0 0 {w + 34} {h+18}" width="100%" '
+            f'style="height:auto">{grid}{"".join(out)}{ticks}</svg>')
 
 
 def line(data, w=880, h=104, mark_year=None, ring_year=None,
@@ -160,8 +199,18 @@ def line(data, w=880, h=104, mark_year=None, ring_year=None,
     # axis ticks have always done exactly that; matching the box means the
     # vertical scale is 1 on all three, so nothing is distorted differently
     # from anything else on the page.
-    return (f'<svg viewBox="0 0 {w} {h+18}" width="100%" '
-            f'style="height:{h+18}px" preserveAspectRatio="none" role="img">'
+    # The same 34-unit gutter as the bar charts, carrying this chart's own
+    # axis: it is the only one whose height is a temperature rather than a
+    # count, so the top and bottom of its range are the numbers a reader
+    # needs to place any point on it.
+    axis = (f'<line x1="0" y1="{PAD:.1f}" x2="{w}" y2="{PAD:.1f}" '
+            f'stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/>'
+            f'<text x="{w + 6}" y="{PAD + 9:.1f}" class="ax">{hi - .5:.0f}</text>'
+            f'<line x1="0" y1="{h:.1f}" x2="{w}" y2="{h:.1f}" '
+            f'stroke="var(--rule)" stroke-width="1"/>'
+            f'<text x="{w + 6}" y="{h + 3:.1f}" class="ax">{lo + .5:.0f}</text>')
+    return (f'<svg viewBox="0 0 {w + 34} {h+18}" width="100%" '
+            f'style="height:auto" role="img">{axis}'
             f'<polyline points="{pts}" fill="none" stroke="var(--soft)" '
             f'stroke-width="1.2"/>{extra}</svg>')
 
@@ -289,7 +338,12 @@ color:var(--ink);text-align:right}
 text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:52px 0 14px}
 .cap{font-size:15.5px;line-height:1.6;max-width:72ch;margin:12px 0 0}
-.ax{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-faint)}
+/* 12 in viewBox units, not 9. The SVG scales to about 0.8 at full page
+   width, so 9 rendered at 7.2px against the 10.5px HTML label beside
+   it. Same family, same colour, and a third smaller, which is enough
+   to read as a different typeface. This lands at 9.7px effective. */
+.ax{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:var(--ink-faint)}
+.ay{fill:var(--ink-faint)}
 .vlab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;fill:var(--ink);
 font-weight:500}
 .vlab.va{fill:var(--accent)}

@@ -505,6 +505,7 @@ if _clash:
     raise SystemExit("map labels overlap: "
                      + "; ".join(f"{a} on {b}" for a, b in _clash))
 
+_CR = N["geography"]["map"].get("coord_resolution", {"resolved": 0, "total": len(rows)})
 _nrec = len([d for d in rows if state(d) == "record"])
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
        f'aria-label="{NCITY} European weather stations in one of three states: '
@@ -969,4 +970,9 @@ print(f"wrote {out} | {len(rows)} cities, {len(coast)} coast rings, "
       f"least {TAIL['name']} at pct {TAIL['pct']:.1f}, "
       f"{sum(1 for d in rows if d['rank'] == 1)} at a record, "
       f"{len(dropped)} name(s) dropped for room"
-      + (": " + ", ".join(sorted(dropped)) if dropped else ""))
+      + (" (" + ", ".join(sorted(dropped)) + ")" if dropped else "")
+      # Heat emits coord_resolution so the state is readable from the
+      # payload rather than by opening station_coords.json. 27 marks are
+      # still hand-typed and off by 3 to 15 km, which is under a marker
+      # radius here but is not where the disclosure says the station is.
+      + f", {_CR['resolved']}/{_CR['total']} marks at their resolved station")
