@@ -302,12 +302,31 @@ def ordinal(n):
 
 
 # ---- projection: Mercator, fitted to the marks, as VD used -----------------
-# Asymmetric padding, because every label now sits to the RIGHT of its
-# marker without exception. The rightmost stations, Stockholm at 17.9E and
-# Vienna at 16.4E, need their name to fit inside the frame or the constant
-# offset breaks on exactly the cities a reader is least able to guess.
-W, H, PAD = 900, 880, 52
-PAD_R = 158
+# THE BOX IS FITTED TO THE DATA, so the map never letterboxes and never
+# frames water. VD Main's diagnosis after Helsinki arrived: this is the one
+# element on the page whose HEIGHT IS SET BY ITS WIDTH, so it is the one
+# element that must not be full-bleed. At full content width the frame
+# wanted about 870px of height on its own and nothing above it could share
+# a screen with the first row of the list.
+#
+# Helsinki to Malaga is 36.3 degrees of Mercator latitude against 30.9 of
+# longitude, so the cities are 1.17 times taller than wide and the map is
+# portrait by geography rather than by choice. Deriving the box from that
+# ratio means no empty ocean is framed to make the aspect work, and it
+# re-derives itself when the set grows.
+#
+# The height is a CHOICE and the width follows, which is the way round that
+# keeps the map inside the fold. Paired with the two-column hero below, the
+# map sits beside the lead rather than under it.
+PAD, PAD_R = 52, 158
+_merc0 = lambda la: math.degrees(
+    math.log(math.tan(math.pi / 4 + math.radians(la) / 2)))
+_dlon = max(d["lon"] for d in rows) - min(d["lon"] for d in rows)
+_dmerc = (_merc0(max(d["lat"] for d in rows))
+          - _merc0(min(d["lat"] for d in rows)))
+IH_TARGET = 600
+W = round(_dlon / _dmerc * IH_TARGET) + PAD + PAD_R
+H = IH_TARGET + 2 * PAD
 # Height, because height is what binds: 24 degrees of longitude against 30
 # of Mercator latitude, so the shared scale comes from sy and the frame was
 # giving the Iberian cluster no room. Eight cities inside four degrees, each
@@ -361,7 +380,7 @@ placed = [{"x1": PX(d["lon"]) - radius(d) - 2, "x2": PX(d["lon"]) + radius(d) + 
 # own city. Moved above the map because the map now needs it.
 PAGES = {n: f"{n.lower().replace(chr(32), chr(45))}.html" for n in C}
 
-marks, labels, leaders = [], [], []
+marks, labels, leaders, label_boxes = [], [], [], []
 for d in sorted(rows, key=lambda d: PY(d["lat"])):
     x, y, r = PX(d["lon"]), PY(d["lat"]), radius(d)
     href = PAGES[d["name"]]
@@ -369,24 +388,56 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
                  f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" '
                  f'fill="{FILL[state(d)]}" stroke="var(--ink)" '
                  f'stroke-width="1"/></a>')
-    bw = len(d["name"]) * 7.1
+    # 7.1 per character underestimated Spectral at 13px, so the placer
+    # believed Zaragoza and Alicante were clear of each other and they
+    # overlapped on the page. Measured against the rendered widths: 7.9
+    # plus a two-unit pad covers every name in the set, and erring wide
+    # costs a displaced label where erring narrow costs a collision.
+    bw = len(d["name"]) * 7.9 + 2
     lx = x + r + GAP
     ly = y + 4
     # Down only, never up, so a reader scanning for a name never has to
     # look on the far side of the marker from where the rule says it is.
-    for step in range(0, 9):
-        cand = {"x1": lx, "x2": lx + bw, "y1": ly + step * LH - 11,
-                "y2": ly + step * LH + 4}
-        if cand["y2"] > H - 4:
+    # BOTH EXITS USED TO PLACE THE LABEL ANYWAY. Running past the frame
+    # broke out of the loop without moving ly, and exhausting the steps hit
+    # the else and did the same, so a name that could not find a slot was
+    # dropped on top of whatever was already there. That is how Zaragoza
+    # came to sit on Alicante, and nothing said so: the failure path and the
+    # success path produced identical-looking output.
+    #
+    # Now it searches the whole frame, and if it genuinely cannot fit it
+    # says so rather than overlapping. The guard below is the backstop.
+    # DOWN FIRST, ALWAYS, then up only when the frame below is exhausted.
+    # VD's rule is that the offset must be predictable, and it is: down is
+    # the rule and up is the documented exception, both carrying a leader
+    # back to the marker.
+    #
+    # A rule with no defined fallback is not a rule, it is a rule plus a
+    # silent failure. Alicante sits low enough that nothing fits below it,
+    # and the previous code responded by placing the name on top of
+    # Zaragoza's and saying nothing.
+    fitted = False
+    for direction in (1, -1):
+        for step in range(0 if direction == 1 else 1, 40):
+            dy = direction * step * LH
+            cand = {"x1": lx, "x2": lx + bw,
+                    "y1": ly + dy - 11, "y2": ly + dy + 4}
+            if cand["y2"] > H - 4 or cand["y1"] < 4:
+                break
+            if not any(overlap(p, cand) for p in placed):
+                ly += dy
+                fitted = True
+                break
+        if fitted:
             break
-        if not any(overlap(p, cand) for p in placed):
-            ly += step * LH
-            break
-    else:
-        step = 0
+    if not fitted:
+        raise SystemExit(
+            f"{d['name']}: no clear place for its label above or below its "
+            f"marker inside the frame. Widen the map column or raise "
+            f"IH_TARGET; do not let it overlap.")
     box = {"x1": lx, "x2": lx + bw, "y1": ly - 11, "y2": ly + 4}
     placed.append(box)
-    if ly > y + 5:
+    if abs(ly - (y + 4)) > 1:
         # Out from the marker's edge, along, then to the name. A displaced
         # label without a leader is a name floating beside the wrong city.
         # var(--ink-faint), not var(--coast). Drawn in the coastline's grey
@@ -403,6 +454,29 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
     # is what makes room for the larger record markers.
     labels.append(f'<a href="{href}" class="mk">'
                   f'<text x="{lx:.1f}" y="{ly:.1f}" class="cn">{d["name"]}</text></a>')
+    label_boxes.append((d["name"], box))
+
+# NO TWO NAMES MAY OVERLAP. Zaragoza sat on top of Alicante on the live
+# page, and both of my browser checks for it reported zero collisions
+# because they compared `{...el.getBBox()}`, which copies NOTHING: an
+# SVGRect keeps its properties on the prototype, so every comparison was
+# undefined against undefined and the check passed by never running.
+#
+# That is the third check this week to fail by not reaching the thing it
+# tested. So it moves into the build, where it is arithmetic on the boxes
+# the placer actually used rather than a measurement of the result.
+def _ov(a, b):
+    return (max(0, min(a["x2"], b["x2"]) - max(a["x1"], b["x1"])) *
+            max(0, min(a["y2"], b["y2"]) - max(a["y1"], b["y1"])))
+
+
+_clash = [(label_boxes[i][0], label_boxes[j][0])
+          for i in range(len(label_boxes))
+          for j in range(i + 1, len(label_boxes))
+          if _ov(label_boxes[i][1], label_boxes[j][1]) > 0]
+if _clash:
+    raise SystemExit("map labels overlap: "
+                     + "; ".join(f"{a} on {b}" for a, b in _clash))
 
 _nrec = len([d for d in rows if state(d) == "record"])
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
@@ -720,6 +794,19 @@ border-bottom:3px solid var(--ink)}}
 letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}}
 .when{{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;
 letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}}
+/* The map column is sized so the whole instrument clears the fold. Its
+   height follows its width, so the width is the thing that gets decided. */
+/* 620 rather than 560: the label size is fixed in viewBox units, so a
+   wider column renders the 26 city names larger without changing the
+   crowding. Enlarging the viewBox instead does the opposite, it makes
+   the names smaller to fit more of them, which is the wrong trade on a
+   map whose whole job is letting a reader find their own city. */
+.hero{{display:grid;grid-template-columns:minmax(0,1fr) 620px;gap:40px;
+align-items:start;margin-bottom:10px}}
+.mapcol{{min-width:0}}
+.mapcol svg{{max-height:64vh}}
+@media(max-width:900px){{.hero{{grid-template-columns:minmax(0,1fr);gap:26px}}
+.mapcol svg{{max-height:none}}}}
 h1{{font-family:Spectral,serif;font-weight:400;font-size:52px;line-height:1.04;
 letter-spacing:-.02em;color:var(--ink);margin:40px 0 14px;max-width:20ch;text-wrap:balance}}
 .stand{{font-size:17.5px;line-height:1.62;max-width:60ch;margin:0}}
@@ -787,6 +874,14 @@ margin-top:50px}}
 <div class="mast"><span class="house">The Long Swell</span>
 <span class="prod">Heat</span><span class="when">Week of 3 August 2026</span></div>
 
+<!-- TEXT LEFT, MAP RIGHT. VD Main, after Helsinki pushed the frame north:
+     the map is the only element whose height is set by its width, so it is
+     the only one that must not be full-bleed. Stacked, it ran about 870px
+     tall, so the lead and the instrument could not share a screen and
+     neither could the map and the first row of the list. Collapses to one
+     column under 900px, where stacking is the honest layout anyway. -->
+<div class="hero">
+<div>
 <h1>How hot has the European summer been?</h1>
 <p class="stand"><strong style="color:var(--ink);font-weight:500">{DH['records']} of these
 {DH['of_cities']} European cities have had more hot days this summer than in any year on
@@ -794,12 +889,15 @@ record.</strong> In a typical year, that number is {words(DH['baseline']['median
 <p class="stand">A hot day means hot <em>for that city</em>: {HOT_HI[1]}&nbsp;&deg;C in
 {HOT_HI[0]}, {HOT_LO[1]}&nbsp;&deg;C in {HOT_LO[0]}. Each is measured against its own
 thermometer and its own history, never against the others.</p>
-
+</div>
+<div class="mapcol">
 {svg}
 <div class="key">{key_rows()}</div>
 <p class="knote"><strong style="color:var(--ink);font-weight:400">This is {len(rows)}
 thermometers, not a temperature map.</strong> Nothing between the marks means anything.
 Bigger mark, bigger margin over that city's own record.</p>
+</div>
+</div>
 
 <div class="seclab">How far from normal, city by city</div>
 <p class="subl">Each row is one city's entire record, one mark per summer.
