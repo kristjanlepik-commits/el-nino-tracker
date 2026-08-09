@@ -868,9 +868,11 @@ LARGE_FILE_ALLOWED: dict[str, str] = {}
 # deleted. An allowlist nobody prunes stops being an allowlist and becomes
 # a blind spot with a comment on it.
 NAV_KNOWN_STALE = {
-    # Frozen with the 2026-08-03 archive under invariant 5. The 08-10 brief
-    # regenerates it from CHANNELS, which already lists heat.
-    "docs/index.html": "frozen front page, regenerates on the Monday brief",
+    # docs/index.html was here and is gone: Kristjan asked for the front
+    # page HEAT link the same day, it was patched surgically, and the
+    # check reported the entry as prunable on its first real use. That is
+    # the self-expiring behaviour working, so the line went rather than
+    # being left to rot.
     "docs/elnino/index.html": "regenerates on the Monday brief",
 }
 # The fire countries that dropped out of the qualifying set. They are kept
