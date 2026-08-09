@@ -608,11 +608,40 @@ for name, v in sorted(C.items()):
     # The method moves out from under the headline and down to the chart it
     # describes, and "95th percentile" becomes a thing a reader can picture.
     # One summer day in twenty IS the 95th percentile, said so it can be used.
+    # THE THRESHOLD STATES THE YEARS IT ACTUALLY RESTS ON. Heat sent the push
+    # back on this and the diagnosis is theirs: they built MIN_BASELINE_YEARS
+    # to withhold the 1961-1990 multiple where coverage is short, and never
+    # applied the same test to the 1971-2000 threshold window, which is short
+    # for the identical reason. One baseline guarded, the other not.
+    #
+    # "between 1971 and 2000" is factually wrong for Murcia, whose station
+    # starts in 1984. That is a wrong statement rather than a caveat we chose
+    # to omit, and withholding one figure for short coverage while printing
+    # another in silence is the shape a reader with an atlas finds first.
+    #
+    # NOT WITHHELD, unlike the multiple, on heat's ruling: a per-city
+    # threshold is a calibration against that city's own series and its rank
+    # stays meaningful. The multiple is withheld because it invites
+    # cross-city comparison; the threshold does not.
+    #
+    # THE SET IS NOT THE SAME as the withheld-multiple set, which is why this
+    # is computed rather than reusing mult_ok. Prague and Helsinki have a
+    # complete 1971-2000 window and a short 1961-1990 one. Three cities carry
+    # this note: Lyon 26 of 30, Palma 23, Murcia 17.
+    thr_from = max(1971, int(v["record_from"]))
+    thr_years = 2001 - thr_from
+    thr_note = ("" if thr_years >= 30 else
+                f' That window is {thr_years} of the 30 years every other '
+                f'city\'s threshold uses, because this thermometer only starts '
+                f'in {v["record_from"]}, so the level is set from its warmer '
+                f'years and sits a little high. The count below is an '
+                f'undercount rather than an overcount.')
     method = (f'<p class="cap">Hot here means {th}&nbsp;&deg;C or above, a level '
               f'about one summer day in twenty used to reach at this station '
-              f'between 1971 and 2000. The bar has not moved; the number of days '
-              f'clearing it has. Every year is counted to {cut_txt}, so a '
-              f'part-finished summer is never set against complete ones. '
+              f'between {thr_from} and 2000.{thr_note} The bar has not moved; '
+              f'the number of days clearing it has. Every year is counted to '
+              f'{cut_txt}, so a part-finished summer is never set against '
+              f'complete ones. '
               f'<strong>That threshold is {name}\'s own.</strong> It is not a '
               f'national standard and it is not comparable with another '
               f'city\'s: every figure on this page is measured against this '
@@ -704,6 +733,12 @@ for name, v in sorted(C.items()):
 <a class="more" href="index.html">See them on the map</a></p>
 </main></body></html>"""
     check_constraints(name, html, night_block, v.get("page_constraints", {}))
+    # The page may not claim a window the station did not cover. Derived, so
+    # it cannot drift, and guarded anyway because this is the defect that
+    # sent the push back and it was invisible for a fortnight.
+    if int(v["record_from"]) > 1971 and "between 1971 and 2000" in text_of(html):
+        raise SystemExit(f"{name}: the page says its threshold covers 1971 to "
+                         f"2000 and the station starts in {v['record_from']}.")
     if not mult_ok:
         check_no_baseline_comparison(name, head + unit_rows + mult_note + night_block)
     out = R / f"docs/heat/{slug(name)}.html"
