@@ -334,3 +334,44 @@ whether the current summer is published, not whether the archive is good.
 
 Italy, Greece, Portugal and the Baltics after that, and only after their
 currency is confirmed rather than assumed.
+
+## The source cache is the channel, and it exists once
+
+Found by platform 2026-08-09 when CI failed at "Rebuild the payload".
+
+    heat/.cache/src   132 MB, 47 files, gitignored and untracked
+    without it        build_city_series.py cannot produce the payload
+    so                every city page, the index and the map derive from
+                      one untracked directory on one laptop
+
+**IT IS WORSE THAN A MISSING ENTRY POINT, which is how it first reads.**
+Three fetchers have no main and no write: meteofrance, aemet, geosphere. They
+account for 110.5 of the 132 MB. But adding a main to them would not
+reconstitute anything, because they are not the code that built the cache:
+
+    fetch_meteofrance   CITIES lists 5 cities; the channel has 8 French ones.
+                        fetch() returns parsed rows; the cache holds
+                        mf_<City>_{hist,recent}.csv.gz, a different artifact.
+    fetch_aemet         series() returns (date, tmin) with NO tmax; the cache
+                        holds [date, min, max] triples.
+
+**So the production path was ad-hoc and was never committed.** A main written
+against these modules would emit the wrong shape from the wrong station list,
+which is worse than emitting nothing, because it would look like a fix.
+
+**ORDER: STORE IT DURABLY FIRST, REBUILD THE FETCHERS SECOND.** They are not
+alternatives. Durability is urgent and cheap; a correct fetcher per service is
+real work and can wait a week. Doing the interesting one first leaves the
+channel one disk failure from gone for however long the work takes.
+
+    archive   heat-src-cache-2026-08-09.tar.gz, 103 MB, 126 entries
+    sha256    3ff9578247fd6c5902536027a69480ddd5226b9dd550d0830c142c867efc4da0
+    handed to platform for durable storage, as the London baseline was
+
+**This is the third instance today of the same shape and by far the largest.**
+The London MIDAS baseline was 5.8 MB and single-copy until it became a
+release. The Tallinn collector wrote into a gitignored directory. This is
+132 MB and it is the input to everything. The pattern is not carelessness
+about backups; it is that a gitignored path is invisible to the check that
+would have caught it, so the data that most needs durability is exactly the
+data no guard is watching.
