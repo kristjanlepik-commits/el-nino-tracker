@@ -153,6 +153,23 @@ def facts(city, meta):
             "why_gated": "below about three nights in a typical year the "
                          "ratio divides by almost nothing and the metric "
                          "says more about the denominator than the summer.",
+            # THE GATE WORKS AGAINST WHOEVER IS WRITING THE POST, which is
+            # socials' finding and the reason it is stated on the datum
+            # rather than in a note somewhere. The BIGGEST multiples sit
+            # almost entirely on cities where this is false, because a thin
+            # base is exactly what produces a large ratio: Paris 18 nights
+            # against a typical 1, Toulouse 31 against 2, Lugano 42 against
+            # 2. Anyone scanning this file for a striking number finds the
+            # unpostable ones FIRST.
+            "post_form": (
+                f"{city} has had {cur_tn} nights above 20 C so far this "
+                f"summer, against {tn_median} by this date in a typical "
+                f"year." if tn_median >= 3 and cur_tn > tn_median else None),
+            "not_postable_reason": (
+                None if tn_median >= 3 else
+                "the typical count is too small for a ratio to mean "
+                "anything. A big multiple here is a fact about the "
+                "denominator. Do not post it however striking it looks."),
         },
     }
 
