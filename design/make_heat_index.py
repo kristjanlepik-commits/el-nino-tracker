@@ -364,7 +364,7 @@ for ring in COAST["rings"]:
 # So the side is never negotiable. A label that would collide keeps the
 # side and moves DOWN, and earns a hairline leader back to its marker. The
 # rule holds for all of them and the exceptions announce themselves.
-GAP, LH = 6.0, 15.0
+GAP, LH, MAX_STEPS = 6.0, 15.0, 2
 
 def overlap(a, b):
     return (max(0, min(a["x2"], b["x2"]) - max(a["x1"], b["x1"])) *
@@ -380,8 +380,14 @@ placed = [{"x1": PX(d["lon"]) - radius(d) - 2, "x2": PX(d["lon"]) + radius(d) + 
 # own city. Moved above the map because the map now needs it.
 PAGES = {n: f"{n.lower().replace(chr(32), chr(45))}.html" for n in C}
 
-marks, labels, leaders, label_boxes = [], [], [], []
-for d in sorted(rows, key=lambda d: PY(d["lat"])):
+# PLACEMENT ORDER IS PRIORITY ORDER, because the last cities placed are the
+# ones that find no room. Records first and the biggest margin first inside
+# that, so if a name has to go it is the least remarkable city on the map.
+# The marks themselves never move and never drop: every city is still drawn,
+# still clickable, and still carries its name in a <title> on hover.
+_PRIO = {"record": 0, "near": 1, "quiet": 2}
+marks, labels, leaders, label_boxes, dropped = [], [], [], [], []
+for d in sorted(rows, key=lambda d: (_PRIO[state(d)], -d["margin"], PY(d["lat"]))):
     x, y, r = PX(d["lon"]), PY(d["lat"]), radius(d)
     href = PAGES[d["name"]]
     marks.append(f'<a href="{href}" class="mk"><title>{d["name"]}</title>'
@@ -416,9 +422,13 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
     # silent failure. Alicante sits low enough that nothing fits below it,
     # and the previous code responded by placing the name on top of
     # Zaragoza's and saying nothing.
+    # Kristjan's rule: if there is no room for a name, drop it. A label three
+    # rows from its own marker, on a leader threading past four others, is
+    # not a label a reader can use, and at 36 cities twenty-six of them were
+    # in that state. Two steps is as far as a leader stays followable.
     fitted = False
     for direction in (1, -1):
-        for step in range(0 if direction == 1 else 1, 40):
+        for step in range(0 if direction == 1 else 1, MAX_STEPS + 1):
             dy = direction * step * LH
             cand = {"x1": lx, "x2": lx + bw,
                     "y1": ly + dy - 11, "y2": ly + dy + 4}
@@ -431,10 +441,8 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
         if fitted:
             break
     if not fitted:
-        raise SystemExit(
-            f"{d['name']}: no clear place for its label above or below its "
-            f"marker inside the frame. Widen the map column or raise "
-            f"IH_TARGET; do not let it overlap.")
+        dropped.append(d["name"])
+        continue
     box = {"x1": lx, "x2": lx + bw, "y1": ly - 11, "y2": ly + 4}
     placed.append(box)
     if abs(ly - (y + 4)) > 1:
@@ -486,7 +494,10 @@ svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" 
        f'hottest summers without reaching a record, and '
        f'{len([d for d in rows if state(d) == "quiet"])} outside their own top '
        f'five. Record markers are drawn larger the further a city passed its '
-       f'own previous best.">'
+       f'own previous best.'
+       + (f' {len(dropped)} marks are drawn without a printed name because '
+          f'there was no room beside them; every city is listed below.'
+          if dropped else '') + '">'
        + "".join(f'<path d="{d}" fill="var(--land)" stroke="var(--coast)" '
                  f'stroke-width="0.9" stroke-linejoin="round"/>' for d in coast)
        + "".join(leaders) + "".join(marks) + "".join(labels) + "</svg>")
@@ -937,4 +948,6 @@ print(f"wrote {out} | {len(rows)} cities, {len(coast)} coast rings, "
       # so the build log described an ordering the page no longer uses.
       f"most unusual {LEAD['name']} at pct {LEAD['pct']:.1f}, "
       f"least {TAIL['name']} at pct {TAIL['pct']:.1f}, "
-      f"{sum(1 for d in rows if d['rank'] == 1)} at a record")
+      f"{sum(1 for d in rows if d['rank'] == 1)} at a record, "
+      f"{len(dropped)} name(s) dropped for room"
+      + (": " + ", ".join(sorted(dropped)) if dropped else ""))
