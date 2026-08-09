@@ -893,6 +893,50 @@ NAV_KNOWN_STALE.update({
 })
 
 
+def check_masthead_wellformed(violations):
+    """One masthead per page, and a channel page marks its own section.
+
+    Both from design's sweep of 2026-08-09, which produced 77 pages with a
+    literal `<header class="field"><header class="field">` and a stray
+    closing tag, and stripped the `on` marker from 76 channel pages so
+    every country page lost the highlight saying which channel the reader
+    was in. qa_check and publish_all --check both passed it.
+
+    UNLIKE the nav check next door, this is not a cross-page property. A
+    doubled tag and a missing state class are visible inside one file, so
+    this is a plain gap rather than a blind spot, and worth saying so:
+    not every miss this week was the interesting kind.
+
+    Deliberately counts rather than parses. A regex HTML parser is a bad
+    idea in general, but "how many times does this exact string appear"
+    is counting, and the defect is duplication.
+    """
+    CHANNEL_DIRS = {"fires", "crops", "heat", "elnino"}
+    for p in sorted((ROOT / "docs").rglob("*.html")):
+        rel = str(p.relative_to(ROOT))
+        if rel.startswith("docs/briefs/20"):
+            continue
+        html = p.read_text(encoding="utf-8", errors="replace")
+        nav = re.search(r'<nav class="prodnav".*?</nav>', html, re.S)
+        if not nav:
+            continue
+        opens = len(re.findall(r'<header class="field"', html))
+        closes = len(re.findall(r"</header>", html))
+        if opens != 1 or closes != opens:
+            violations.append(
+                f"{rel}: {opens} opening <header class=\"field\"> and "
+                f"{closes} </header>. Exactly one of each. A sweep that "
+                f"wraps the masthead instead of replacing it produces this, "
+                f"and the page still renders, so nothing else notices.")
+        parts = rel.split("/")
+        if len(parts) > 2 and parts[1] in CHANNEL_DIRS and ' on"' not in nav.group(0):
+            violations.append(
+                f"{rel} is a {parts[1]} page and its nav marks no current "
+                f"section. The 'on' class is what tells a reader which "
+                f"channel they are in; without it the masthead is correct "
+                f"and says nothing about where they are.")
+
+
 def check_nav_consistency(violations, advisories):
     """Does every page's nav agree with the channel list?
 
@@ -1132,6 +1176,10 @@ def main():
     # hold the daily fire publish hostage.
     check_nav_consistency(advisories if args.for_publish else violations,
                           advisories)
+    # Blocking even during a publish, unlike the nav check. An under-linked
+    # page is incomplete; a page with two mastheads is malformed, and
+    # publishing malformed markup is worse than publishing nothing.
+    check_masthead_wellformed(violations)
     check_large_files(violations)
     check_reserved_not_rendered(violations)
 
