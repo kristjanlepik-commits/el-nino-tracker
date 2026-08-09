@@ -92,6 +92,17 @@ STEPS = [
     ("heat channel", [PY, "design/make_heat_index.py"]),
     ("heat city pages", [PY, "design/make_city_pages.py"]),
     ("fires country pages", [PY, "fires/build_country_pages.py"]),
+    # MISSING UNTIL 2026-08-09, and the omission was invisible because a
+    # page that is never rebuilt looks exactly like a page that does not
+    # need rebuilding. Every other channel's country pages were here; the
+    # 40 crops ones were not, so they had frozen on 5 August carrying a
+    # masthead with no HEAT entry and no way to acquire one.
+    #
+    # This builder does NOT fetch. It reads crops/data/*.json, which is
+    # why adding it is a render fix rather than the crops data job, which
+    # is still unbuilt (tls-internal#11). Rendering current pages from
+    # stale data does not make the data fresher and is not meant to.
+    ("crops country pages", [PY, "crops/build_country_pages.py"]),
 ]
 
 # The ENSO shell. Invariant 1 in CLAUDE.md: the weekly brief always
@@ -124,6 +135,7 @@ GENERATORS = [
     "fires/build_page.py",
     "fires/build_country_pages.py",
     "crops/build_page.py",
+    "crops/build_country_pages.py",
     "design/make_heat_index.py",
     "design/make_city_pages.py",
     "design/city_coords.json",
@@ -141,6 +153,14 @@ def snapshot_targets() -> dict[str, bytes | None]:
     for p in (ROOT / "docs" / "heat").glob("*.html"):
         saved[str(p.relative_to(ROOT))] = p.read_bytes()
     for p in (ROOT / "docs" / "fires").glob("*/index.html"):
+        rel = str(p.relative_to(ROOT))
+        saved[rel] = p.read_bytes()
+    # The crops country pages were absent here as well as from STEPS, and
+    # this is the worse of the two omissions. STEPS decides whether a page
+    # is rebuilt; this decides whether it can be RESTORED when a publish
+    # fails partway. D-028 rollback was silently not covering 40 live
+    # pages, so a half-finished crops build had no way back.
+    for p in (ROOT / "docs" / "crops").glob("*/index.html"):
         rel = str(p.relative_to(ROOT))
         saved[rel] = p.read_bytes()
     return saved
