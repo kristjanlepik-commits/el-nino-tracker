@@ -1,0 +1,138 @@
+name: crops-refresh
+
+# The crops data job. tls-internal#11, open since the channel launched on
+# 2026-08-04, and the only repair on a live public surface: /crops has
+# been serving dekad 2026-07-11 with no way to advance, because nothing
+# ever fetched.
+#
+# ASAP has published 2026-07-21. We hold 2026-07-11. So this is not
+# scaffolding for a future refresh; there is a dekad waiting.
+#
+# PROBE BEFORE DOWNLOAD, which is the whole reason this can run daily.
+# getIndicatorsInfo returns a small JSON when a dekad is published and a
+# literal [] when it is not, so one cheap GET decides whether a 30 MB
+# pull across 123 countries is worth starting. CRO built the probe; this
+# just obeys it.
+#
+# DAILY, not every ten days. ASAP publishes on a ~10 day cadence but not
+# on a schedule we control, so a job that runs every ten days can sit a
+# full cycle behind by bad luck. A daily probe costs one GET and catches
+# a new dekad within a day of it appearing.
+#
+# WHY NOT A CONSECUTIVE-NO-OP COUNTER: a legitimate no-op repeats for
+# nine days running here, so silence looks healthy right up until it is
+# not. Fire lost six days to exactly that shape. The staleness rule is an
+# ABSOLUTE bound, 20 days between publications, and it lives in
+# scripts/check_freshness.py rather than in this job, so it fires whether
+# or not this job is running at all.
+
+on:
+  schedule:
+    - cron: "41 5 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Pull even if no new dekad is published"
+        type: boolean
+        default: false
+
+concurrency:
+  group: crops-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    # crops/.cache/ is gitignored, so CI starts cold every run and a pull
+    # is the full 123-country download rather than an increment. Bounded
+    # anyway: an unbounded hang would hold the group and silently skip
+    # every following day.
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install -q -r requirements.txt || pip install -q requests
+
+      # Decides whether there is anything to do, and says so in the exit
+      # code rather than in prose. 0 did work, 3 nothing to do, anything
+      # else is broken: the repo convention, so a caller can tell "no new
+      # dekad" from "the probe fell over" without parsing output.
+      - name: Probe for a new dekad
+        id: probe
+        run: |
+          set -e
+          python crops/probe_asap.py > /tmp/probe.txt 2>&1 || {
+            echo "::error::the ASAP probe failed. This is not the same as"
+            echo "::error::no new dekad, and must not be read as one."
+            cat /tmp/probe.txt
+            exit 1
+          }
+          cat /tmp/probe.txt
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os, pathlib, subprocess
+          raw = subprocess.run(["python", "crops/probe_asap.py", "--json"],
+                               capture_output=True, text=True).stdout
+          doc = json.loads(raw[raw.index("{"):])
+          newest = doc["newest_published"]
+          held = json.loads(pathlib.Path("crops/data/stress_current.json")
+                            .read_text())["dekad"]
+          forced = os.environ.get("FORCED") == "true"
+          print(f"newest={newest}")
+          print(f"held={held}")
+          print(f"pull={'true' if (newest > held or forced) else 'false'}")
+          PY
+        env:
+          FORCED: ${{ inputs.force }}
+
+      - name: Nothing to do
+        if: steps.probe.outputs.pull != 'true'
+        run: |
+          echo "Held dekad ${{ steps.probe.outputs.held }} is the newest"
+          echo "published (${{ steps.probe.outputs.newest }}). No download."
+          echo "Exit 3 semantics: nothing to do is not a failure, and the"
+          echo "20-day absolute staleness bound in check_freshness.py is"
+          echo "what catches a source that has genuinely stopped."
+
+      - name: Pull and rebuild
+        if: steps.probe.outputs.pull == 'true'
+        run: |
+          set -e
+          echo "Held ${{ steps.probe.outputs.held }}, newest published"
+          echo "${{ steps.probe.outputs.newest }}. Pulling."
+          python crops/pull_asap_indicator.py --all
+          python crops/build_data.py
+
+      # Commit the data, and ONLY the data. Rendering belongs to
+      # scripts/publish_all.py, which is the single publish path; a second
+      # publisher here is how the heat gate got bypassed from the other
+      # side, and it was fixed today rather than designed in.
+      - name: Commit the payload
+        if: steps.probe.outputs.pull == 'true'
+        run: |
+          git config user.name  "tls-crops-refresh"
+          git config user.email "noreply@thelongswell.com"
+          git add crops/data/
+          if git diff --cached --quiet; then
+            echo "::warning::A new dekad was published and the derived data"
+            echo "::warning::did not change. That is possible but unusual;"
+            echo "::warning::worth CRO looking at before it is assumed fine."
+            exit 0
+          fi
+          git commit -m "crops: dekad ${{ steps.probe.outputs.newest }}"
+          bash scripts/push_retry.sh main
+          {
+            echo "## Crops refresh"
+            echo ""
+            echo "Advanced from \`${{ steps.probe.outputs.held }}\` to"
+            echo "\`${{ steps.probe.outputs.newest }}\`."
+            echo ""
+            echo "**Not yet live.** The next \`publish_all\` run renders it."
+            echo "Unlike heat, crops has no refresh gate, so nothing holds a"
+            echo "dekad that moves a country's figures. CRO and product may"
+            echo "want one."
+          } >> "$GITHUB_STEP_SUMMARY"

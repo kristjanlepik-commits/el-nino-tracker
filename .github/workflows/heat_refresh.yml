@@ -54,12 +54,41 @@ jobs:
       - name: Install deps
         run: pip install -q -r requirements.txt || pip install -q requests
 
-      # FAIL FAST, and do not commit a partial payload. Nine of the ten
-      # services need no credential; only AEMET does. A missing Spanish
-      # key or a dead service must not produce a payload quietly short of
-      # a country, because the gate would then hold on a set change that
-      # has nothing to do with the weather and everything to do with a
-      # fetch that failed.
+      # TWO credentials, not one. I claimed AEMET was the only fetcher
+      # needing a key, and the first live run proved otherwise at
+      # fetch_lsm.py: it uses cdsapi, which reads ~/.cdsapirc from inside
+      # the library rather than through any path this repo names, so a
+      # grep for credential handling in heat/ never touched it.
+      #
+      # That is the seventh probe in a day that returned an answer about
+      # something it had not looked at. Worth the line, because the fix
+      # for the class is the same every time: make the probe prove it
+      # found the thing before believing what it says about absence.
+      #
+      # Same format as weekly_brief.yml, which is the version already
+      # known to work against CDS.
+      - name: Configure CDS
+        env:
+          CDS_API_KEY: ${{ secrets.CDS_API_KEY }}
+        run: |
+          if [ -z "$CDS_API_KEY" ]; then
+            echo "::error::CDS_API_KEY is not set and heat/fetch_lsm.py needs"
+            echo "::error::it. Failing rather than producing a payload short"
+            echo "::error::of a city, which the gate would then hold on for"
+            echo "::error::a reason unrelated to the weather."
+            exit 1
+          fi
+          cat > ~/.cdsapirc <<EOF
+          url: https://cds.climate.copernicus.eu/api
+          key: $CDS_API_KEY
+          EOF
+          chmod 600 ~/.cdsapirc
+
+      # FAIL FAST, and do not commit a partial payload. A missing key or a
+      # dead service must not produce a payload quietly short of a country,
+      # because the gate would then hold on a set change that has nothing
+      # to do with the weather and everything to do with a fetch that
+      # failed.
       - name: Fetch
         env:
           AEMET_API_KEY: ${{ secrets.AEMET_API_KEY }}
