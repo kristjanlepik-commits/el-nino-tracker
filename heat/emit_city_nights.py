@@ -531,6 +531,23 @@ def main() -> int:
         if not v["day_counts_comparable"]:
             days["multiple_withheld_note"] = v["day_counts_note"]
         entry["days"] = days
+        # THE LEGEND BAND, emitted rather than derived by the renderer.
+        #
+        # Product ratified a refresh gate whose triggers include "any city
+        # changing legend band", because a city moving between bands changes
+        # the map's whole picture WITHOUT changing anyone's rank. The band was
+        # being derived inside design's template, so the gate could not see
+        # the property it was built to watch.
+        #
+        # Same seam defect as the nights gate living at headline level, only
+        # inverted: there a renderer could not reach a constraint, here a
+        # check could not reach a property. One definition, emitted once.
+        entry["legend_band"] = ("record" if dr == 1 else
+                                "near" if dr <= 5 else "outside")
+        entry["legend_band_note"] = (
+            "record = at its own highest on days; near = 2nd to 5th; "
+            "outside = 6th or lower. READ THIS, do not re-derive it: a second "
+            "definition living in a template is a second thing to drift.")
 
         # WARMEST-DAY SERIES, product 2026-08-07, and it is a page-structure
         # fix rather than a tidy-up. The Paris page LEADS on days and its
