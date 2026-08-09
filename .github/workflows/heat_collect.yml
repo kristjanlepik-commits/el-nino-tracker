@@ -22,10 +22,54 @@ name: heat-collect
 # Proposed by the Heat chat at heat/proposals/heat_collect.yml (053e50c).
 # Merged with three changes, noted at each site.
 
+# GITHUB ACTIONS CRON IS UTC. ALWAYS. There is no timezone field, and
+# nothing in the file will tell you when you get it wrong; the job simply
+# runs at the wrong time forever.
+#
+# Tallinn is UTC+3 (EEST) for the whole of May-September, so local night
+# 00:00-07:59 is UTC 21:00-04:59, which WRAPS MIDNIGHT UTC. Heat's
+# proposal asked for UTC hours 0-7. That is local 03:00-10:00: it misses
+# the first three hours of the night entirely and spends three of its
+# eight hours on full morning. The sample that lost the minimum on
+# 2026-08-09 was 12.9 C at local 02:38, which is 23:38 UTC, one hour
+# BEFORE the proposed window would have started.
+#
+# The season bound makes the +3 offset safe rather than lucky: Estonia is
+# on EEST from late March to late October, so no part of May-September
+# ever falls in EET. Widening the months past April or October
+# reintroduces a DST seam and these hour numbers stop being correct.
+#
+# Edge effect, small and stated rather than hidden: the month field is
+# also evaluated in UTC, so collection starts at local 03:00 on 1 May and
+# runs to local 02:59 on 1 October.
 on:
   schedule:
-    - cron: "7 * * * *"
+    # Daytime: hourly, local 08:00-23:59. A daily minimum never occurs
+    # here, so resolution buys nothing and the hourly cadence is only
+    # keeping the series continuous.
+    - cron: "7 5-20 * 5-9 *"
+    # Night: every 20 minutes, local 00:00-07:59. This is where the daily
+    # minimum lives and where the whole point of the collector sits.
+    #
+    # Minutes 9/29/49 rather than 0/20/40 on purpose. GitHub deprioritises
+    # scheduled runs under load and :00 is the most contended minute on
+    # the platform; the two runs actually dropped on 2026-08-09 were the
+    # 00:07 and 01:07 firings, inside the busiest UTC window there is.
+    - cron: "9,29,49 21-23,0-4 * 5-9 *"
   workflow_dispatch:
+
+# WHAT THIS BUYS, STATED HONESTLY: a smaller expected blind spot, NOT a
+# bounded one. GitHub does not guarantee scheduled execution and drops
+# firings silently. Three chances an hour instead of one is redundancy
+# against dropped runs as much as it is resolution, and neither cron nor
+# any change to it can promise a 20-minute interval. If the minimum ever
+# has to be defensible rather than indicative, that needs a source that
+# reports a true minimum, not a faster poll of an instantaneous one.
+#
+# Cost, also stated: ~40 commits a day in season, ~6,100 a year, all
+# mechanical. Heat's estimate of ~3,600 was the hourly-only figure; the
+# night change roughly doubles it back. For a readable human log:
+#   git log --invert-grep --grep='^heat: collected'
 
 # Own group, NOT `publish`. This renders nothing and publishes nothing,
 # so it has no reason to queue behind a channel build, and an hourly job

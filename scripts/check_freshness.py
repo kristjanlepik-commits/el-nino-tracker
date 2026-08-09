@@ -247,8 +247,16 @@ LAYERS = [
     # daily 06:30 UTC qa run; a tighter number could not be acted on any
     # sooner. A healthy hourly collector is never more than an hour
     # stale, so a full day means roughly 24 consecutive failures.
+    #
+    # active_months: the collector is bound to May-September in the cron,
+    # because Tallinn's tropical-night count is measured from 1 May and a
+    # February sample cannot move it. Without this key the layer would
+    # report STALE every single day from October to April, and a guard
+    # that cries wolf for seven months of the year is one nobody reads in
+    # the five months it works. Off-season silence is correct here, which
+    # is the opposite of every other layer in this file.
     {"path": "heat/data/collected/Tallinn.jsonl", "as_of": _newest_collected,
-     "max_age": 1, "owner": "HEAT",
+     "max_age": 1, "owner": "HEAT", "active_months": (5, 6, 7, 8, 9),
      "what": "the Tallinn forward collector, whose missed hours are "
              "permanent"},
     {"path": "docs/pacific-sst.json", "as_of": _from_key("observation_date"),
@@ -312,6 +320,30 @@ def check_truncation(problems: list) -> None:
                 f"truncation; this one takes it from the roster.")
 
 
+def _expected_run_date(today: date, months) -> date:
+    """The last date a seasonally-bound collector was expected to run.
+
+    In season this is today, so the layer behaves normally. Out of season
+    it is the final day of the most recent active month, and age is
+    measured against THAT rather than against today.
+
+    The second half is the part that matters. The obvious implementation
+    is to skip the layer entirely when out of season, and it has a hole:
+    a collector that dies in July, alarms for ten weeks, and is ignored
+    goes GREEN on 1 October and stays green until May. The failure would
+    be laundered into a clean bill of health by the exemption written to
+    make the guard quieter. Anchoring to the season end instead means a
+    mid-season death stays visible all winter, which is the whole winter
+    somebody has to notice it before the next season starts on top of it.
+    """
+    if today.month in months:
+        return today
+    d = today.replace(day=1) - timedelta(days=1)
+    while d.month not in months:
+        d = d.replace(day=1) - timedelta(days=1)
+    return d
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--as-of", help="pretend today is this date (testing)")
@@ -345,8 +377,12 @@ def main() -> int:
                 f"unchecked layer is how the last one froze for two days. "
                 f"Owner: {layer['owner']}.")
             continue
-        age = (today - as_of).days
-        rows.append((layer["path"], as_of.isoformat(), f"{age}d", layer["owner"]))
+        months = layer.get("active_months")
+        reference = _expected_run_date(today, months) if months else today
+        age = (reference - as_of).days
+        note = "" if reference == today else " off-season"
+        rows.append((layer["path"], as_of.isoformat(), f"{age}d{note}",
+                     layer["owner"]))
         if age > layer["max_age"]:
             problems.append(
                 f"{layer['path']} is {age} days old, budget {layer['max_age']}. "
