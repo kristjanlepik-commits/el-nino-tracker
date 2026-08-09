@@ -102,19 +102,36 @@ def bars(data, top, w=880, h=104, accent_last=True):
             f'preserveAspectRatio="none">{"".join(out)}{ticks}</svg>')
 
 
-def line(data, w=880, h=104, mark_year=None, ring_year=None):
+def line(data, w=880, h=104, mark_year=None, ring_year=None,
+         mark_val=None, ring_val=None):
+    """The two marked points carry their temperature.
+
+    Kristjan's change. This is the only chart on the page whose y axis is a
+    quantity rather than a count, and it had no axis at all, so a reader
+    could see that 2026 sat below the 2019 peak and not by how much. The
+    figures were in the caption underneath, which made the drawing depend on
+    prose to be read.
+
+    TWO THINGS THE FIRST VERSION GOT WRONG, both only visible in a browser.
+    The previous best is usually the highest point on the chart, so a label
+    placed above it fell outside the viewBox and did not render at all: hence
+    PAD, which is headroom rather than plot area. And the SVG scaled
+    non-uniformly to fit its column, which stretches rectangles harmlessly
+    and text visibly, so this chart now scales proportionally while the bar
+    charts keep the old behaviour.
+    """
+    PAD = 20
     lo = min(v for _, v in data) - .5
     hi = max(v for _, v in data) + .5
     px = lambda y: (y - data[0][0]) / (data[-1][0] - data[0][0]) * w
-    py = lambda v: h - (v - lo) / (hi - lo) * h
+    py = lambda v: PAD + (h - PAD) - (v - lo) / (hi - lo) * (h - PAD)
     pts = " ".join(f"{px(y):.1f},{py(v):.1f}" for y, v in data)
     extra = ""
     d = dict(data)
     if ring_year and ring_year in d:
         # NOT a hollow ring. Hollow is the null convention, and this is the
-        # one historical value the caption is comparing against, so it has
-        # to be the second strongest mark on the chart rather than the
-        # faintest. Same reasoning that removed the rings from the map.
+        # one historical value the caption compares against, so it has to be
+        # the second strongest mark rather than the faintest.
         extra += (f'<circle cx="{px(ring_year):.1f}" cy="{py(d[ring_year]):.1f}" '
                   f'r="3.4" fill="var(--ink)"/>'
                   f'<line x1="{px(ring_year):.1f}" y1="{py(d[ring_year]):.1f}" '
@@ -123,9 +140,30 @@ def line(data, w=880, h=104, mark_year=None, ring_year=None):
     if mark_year and mark_year in d:
         extra += (f'<circle cx="{px(mark_year):.1f}" cy="{py(d[mark_year]):.1f}" '
                   f'r="3.6" fill="var(--accent)"/>')
-    return (f'<svg viewBox="0 0 {w} {h+6}" width="100%" style="height:{h+6}px" '
-            f'preserveAspectRatio="none"><polyline points="{pts}" fill="none" '
-            f'stroke="var(--soft)" stroke-width="1.2"/>{extra}</svg>')
+    # Labels last, so they sit over the line. Both read leftwards from their
+    # own dot: 2026 is at the right edge and would otherwise overflow, and
+    # the previous best is usually just left of it, so anchoring both the
+    # same way keeps them from stacking on the same few pixels.
+    if mark_year and mark_val is not None and mark_year in d:
+        extra += (f'<text x="{px(mark_year) - 6:.1f}" y="{py(d[mark_year]) + 4:.1f}" '
+                  f'class="vlab va" text-anchor="end">{mark_val}&#8202;&deg;C</text>')
+    if ring_year and ring_val is not None and ring_year in d:
+        extra += (f'<text x="{px(ring_year) - 6:.1f}" y="{py(d[ring_year]) - 7:.1f}" '
+                  f'class="vlab" text-anchor="end">{ring_val}&#8202;&deg;C</text>')
+    # SAME BOX AS THE BAR CHARTS, h+18 tall and fixed in pixels, because the
+    # three only compare if they are the same height at every viewport. Left
+    # to scale proportionally this one rendered two thirds as tall as the
+    # others and the stack stopped reading as a stack.
+    #
+    # That puts preserveAspectRatio back to none, so text squashes to about
+    # 84 per cent horizontally at the page's full width. The bar charts'
+    # axis ticks have always done exactly that; matching the box means the
+    # vertical scale is 1 on all three, so nothing is distorted differently
+    # from anything else on the page.
+    return (f'<svg viewBox="0 0 {w} {h+18}" width="100%" '
+            f'style="height:{h+18}px" preserveAspectRatio="none" role="img">'
+            f'<polyline points="{pts}" fill="none" stroke="var(--soft)" '
+            f'stroke-width="1.2"/>{extra}</svg>')
 
 
 def units(k, accent=False):
@@ -252,6 +290,9 @@ text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:52px 0 14px}
 .cap{font-size:15.5px;line-height:1.6;max-width:72ch;margin:12px 0 0}
 .ax{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-faint)}
+.vlab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;fill:var(--ink);
+font-weight:500}
+.vlab.va{fill:var(--accent)}
 .grid{display:grid;grid-template-columns:136px minmax(0,1fr);gap:20px;align-items:end;
 margin-top:16px}
 .gk{font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.5;
@@ -459,8 +500,6 @@ for name, v in sorted(C.items()):
                            f'dividing by a base that thin produces a large '
                            f'number and no evidence')
         night_block = (
-            f'<div class="seclab">And the nights</div>'
-            f'{bars(NI, max(x for _, x in NI) or 1)}'
             f'<p class="cap">'
             + ("" if v["nights_2026"] == 0 else
                f'{v["nights_2026"]} night{"" if v["nights_2026"] == 1 else "s"} so '
@@ -472,8 +511,6 @@ for name, v in sorted(C.items()):
     else:
         nrank = v["rank"]
         night_block = (
-            f'<div class="seclab">And the nights</div>'
-            f'{bars(NI, max(x for _, x in NI) or 1)}'
             # "at or above 20 C" drops the MINIMUM and reads as a night that
             # reached 20, which nearly every summer night does. The metric is
             # nights whose minimum never falls below it. The loose phrasing was
@@ -571,15 +608,24 @@ for name, v in sorted(C.items()):
 <div class="rows">{unit_rows}</div>
 {mult_note}
 
+<!-- THE THREE CHARTS STACK WITH NOTHING BETWEEN THEM. Kristjan's change,
+     and the reason is that they only become comparable when the eye can
+     run down them: same width, same year span, same left label column, no
+     paragraph resetting the reader between each one. The prose that used
+     to sit in the gaps now sits below all three, in chart order. -->
 <div class="seclab">Every summer on this thermometer</div>
 <div class="grid"><span class="gk">Hot days<em>above {th} &deg;C</em></span>
 <span>{bars(D, top)}</span></div>
+<div class="grid"><span class="gk">Hot nights<em>never below 20 &deg;C</em></span>
+<span>{bars(NI, max(x for _, x in NI) or 1)}</span></div>
+<div class="grid"><span class="gk">Hottest day<em>&deg;C, each summer</em></span>
+<span>{line(WD, mark_year=2026, ring_year=None if prank == 1 else pprev_y,
+             mark_val=peak, ring_val=pprev)}</span></div>
+
 {method}
 
 {night_block}
 
-<div class="seclab">And the hottest day of each summer</div>
-{line(WD, mark_year=2026, ring_year=None if prank == 1 else pprev_y)}
 <p class="cap">{peak_cap}</p>
 
 <div class="src">
