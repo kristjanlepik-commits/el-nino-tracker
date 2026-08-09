@@ -90,13 +90,95 @@ ANALYTICS_SNIPPET = (
 # Invisible to the analytics guard, which counts the literal string
 # "plausible.io/js" and expects exactly one (scripts/publish_all.py).
 # Checked rather than assumed.
-EMAIL_CAPTURE_FORM_ID = "5d937174-9115-453d-8684-c00f417e416b"
-EMAIL_CAPTURE_SNIPPET = (
-    "<!-- Email capture by beehiiv. Double opt-in at publication and "
-    "form level. -->\n"
-    '<script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" '
-    f'data-beehiiv-form="{EMAIL_CAPTURE_FORM_ID}"></script>'
-)
+EMAIL_CAPTURE_FORM_ID = "9782858"
+EMAIL_CAPTURE_ACTION = (
+    f"https://app.kit.com/forms/{EMAIL_CAPTURE_FORM_ID}/subscriptions")
+
+
+# The subscribe page has its own stylesheet, so this lives in one
+# constant read by both rather than being pasted twice. Two copies of
+# a form style is how the front page and /subscribe drifted apart the
+# first time, when only one of them had a width rule.
+EMAIL_FORM_CSS = """  /* The form is ours now, so the note above is history: there is no
+     iframe and no fixed button width, and the input can be told to give
+     up its space last rather than first. The failure it describes is
+     structurally unavailable here. */
+  .ec-form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ec-lab {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .ec-in {
+    flex: 1 1 200px; min-width: 0;
+    font-family: var(--sans); font-size: 16px;   /* 16px: iOS zooms below it */
+    color: var(--ink); background: var(--paper);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 11px 12px; -webkit-appearance: none;
+  }
+  .ec-in::placeholder { color: var(--ink-faint); }
+  .ec-in:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .ec-sub {
+    flex: 0 0 auto;
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--paper); background: var(--ink);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 12px 20px; cursor: pointer;
+  }
+  .ec-sub:hover { background: var(--ink-soft); border-color: var(--ink-soft); }
+  .ec-sub:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (max-width: 420px) {
+    /* Full width both, rather than a button squeezing the field. The
+       field is the control that has to be legible while typing. */
+    .ec-in, .ec-sub { flex: 1 1 100%; }
+  }
+"""
+
+
+def email_capture_form(label="Subscribe", cls="ec-form"):
+    """A real form. No iframe, no third-party script, our own markup.
+
+    EVERY CONSTRAINT ABOVE CAME FROM THE IFRAME, so read the note above as
+    history rather than as rules. Beehiiv had no plain-HTML form, which is
+    why placement was the only lever and why the front page ended up with a
+    link: the embed measured absent on three of four cold loads, and when
+    it did arrive it was a white panel on bone paper with our wordmark
+    repeated inside it in a different serif and an input clipped to one
+    character at 300px, none of it reachable from our CSS.
+
+    Kit posts natively to the action below. Their own embed puts a
+    ck.5.js above it; product confirmed it is optional enhancement, so it
+    is dropped and the page carries ZERO third-party assets, which is
+    better than the two-placement compromise was ever going to be.
+
+    So the compromise is reversed rather than relaxed: the form goes
+    everywhere the link went, because the cost it was protecting against
+    was a script running on every surface that multiplies, and there is
+    no script.
+
+    STILL PROHIBITED, and not by the provider: no modal, no exit-intent,
+    no sticky bar, no slide-in. Product chose Kit's inline format so those
+    are not available to reach for later.
+
+    Double opt-in is on and auto-confirm off, so editor's "Confirmation
+    email required" stays true. On submit Kit shows its own confirmation
+    line; after the reader confirms, Kit redirects to /subscribed/.
+    """
+    return (
+        '<!-- Email capture by Kit. Double opt-in; posts natively, no '
+        'third-party script. -->\n'
+        f'<form class="{cls}" action="{EMAIL_CAPTURE_ACTION}" method="post">'
+        '<label class="ec-lab" for="ec-email">Email address</label>'
+        '<input id="ec-email" class="ec-in" type="email" name="email_address" '
+        'required autocomplete="email" placeholder="you@example.com">'
+        f'<button class="ec-sub" type="submit">{label}</button>'
+        '</form>'
+    )
+
+
+# Kept so the old constant name fails loudly rather than rendering nothing
+# if anything still imports it.
+EMAIL_CAPTURE_SNIPPET = email_capture_form()
 # Editor's approved promise, accepted 2026-08-06 (D-091). Defined here
 # rather than in templates/subscribe.py because the front page needs it
 # too and subscribe.py already imports from this module, so this is the
@@ -1045,7 +1127,7 @@ _PUBLIC_CSS_TEMPLATE = """
      is cross-origin and our CSS cannot reach inside it. The container
      is ours, and it should never be the reason the field is narrow. */
   .email-cap .ec-form { flex: 1 1 340px; min-width: 0; }
-  .email-cap .ec-form iframe { width: 100%; max-width: 100%; }
+  /*EMAIL_FORM_CSS*/
   @media (max-width: 700px) {
     /* Stack rather than share the row, and drop the 40px column gap,
        which is pure loss once the children are full width. */
@@ -1586,7 +1668,8 @@ _PUBLIC_CSS_TEMPLATE = """
 PUBLIC_CSS = (_PUBLIC_CSS_TEMPLATE
               .replace("/*MASTHEAD_CSS*/", SITE_MASTHEAD_CSS)
               .replace("/*VARS_LIGHT*/", T.css_vars_light())
-              .replace("/*VARS_DARK*/", T.css_vars_dark()))
+              .replace("/*VARS_DARK*/", T.css_vars_dark())
+              .replace("/*EMAIL_FORM_CSS*/", EMAIL_FORM_CSS))
 
 HTML_CSS = (_HTML_CSS_TEMPLATE
             .replace("/*VARS_LIGHT*/", T.css_vars_light())
@@ -2876,7 +2959,7 @@ def _email_capture_html() -> str:
         '<div class="ec-pitch">'
         '<span class="eyebrow">One email a week</span>'
         f'<p>{h(EMAIL_CAPTURE_PROMISE)}</p></div>'
-        '<a class="ec-btn" href="subscribe/">Subscribe</a>'
+        f'{email_capture_form()}'
         '</div></section>'
     )
 

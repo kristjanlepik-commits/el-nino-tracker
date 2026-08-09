@@ -174,9 +174,40 @@ h1 { font-size:30px; font-weight:500; line-height:1.2; margin:26px 0 12px;
 .stand { color:var(--ink-soft); margin:0 0 20px; max-width:58ch; }
 .fine { font-family:"IBM Plex Mono",monospace; font-size:11.5px;
   color:var(--ink-faint); margin:8px 0 0; }
-.formslot { padding:16px; background:var(--paper-sunk);
-  font-family:"IBM Plex Mono",monospace; font-size:12.5px;
-  color:var(--ink-faint); }
+  /* The form is ours now, so the note above is history: there is no
+     iframe and no fixed button width, and the input can be told to give
+     up its space last rather than first. The failure it describes is
+     structurally unavailable here. */
+  .ec-form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ec-lab {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .ec-in {
+    flex: 1 1 200px; min-width: 0;
+    font-family: var(--sans); font-size: 16px;   /* 16px: iOS zooms below it */
+    color: var(--ink); background: var(--paper);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 11px 12px; -webkit-appearance: none;
+  }
+  .ec-in::placeholder { color: var(--ink-faint); }
+  .ec-in:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .ec-sub {
+    flex: 0 0 auto;
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--paper); background: var(--ink);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 12px 20px; cursor: pointer;
+  }
+  .ec-sub:hover { background: var(--ink-soft); border-color: var(--ink-soft); }
+  .ec-sub:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (max-width: 420px) {
+    /* Full width both, rather than a button squeezing the field. The
+       field is the control that has to be legible while typing. */
+    .ec-in, .ec-sub { flex: 1 1 100%; }
+  }
+
 .seclab { font-family:"IBM Plex Mono",monospace; font-size:11px;
   letter-spacing:0.22em; text-transform:uppercase;
   color:var(--ink); margin:40px 0 4px; padding-bottom:8px;

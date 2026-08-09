@@ -51,6 +51,7 @@ sys.path.insert(0, str(ROOT))
 
 import tokens as T                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, EMAIL_CAPTURE_PROMISE,   # noqa: E402
+                       EMAIL_FORM_CSS, email_capture_form,
                        SITE_MASTHEAD_CSS,
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
@@ -149,9 +150,12 @@ def render_subscribe(issues=None, form_embed="", root_prefix="") -> str:
     the script is the only route and placement is the only lever. That
     is platform's to supply and mine to place.
     """
-    form = form_embed or (
-        '<div class="formslot">The form is served by our email provider '
-        'and is not yet wired on this build.</div>')
+    # The slot is gone. It existed because the form was a third-party
+    # script that platform supplied and might not have supplied yet; the
+    # form is our own markup now, so there is no state in which this page
+    # renders without one. An explanatory placeholder for a thing that
+    # cannot be missing is just a way to ship a broken page quietly.
+    form = form_embed or email_capture_form()
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -254,9 +258,7 @@ h1 {{ font-size:30px; font-weight:500; line-height:1.2; margin:26px 0 12px;
 .stand {{ color:var(--ink-soft); margin:0 0 20px; max-width:58ch; }}
 .fine {{ font-family:"{T.FONT_DATA}",monospace; font-size:11.5px;
   color:var(--ink-faint); margin:8px 0 0; }}
-.formslot {{ padding:16px; background:var(--paper-sunk);
-  font-family:"{T.FONT_DATA}",monospace; font-size:12.5px;
-  color:var(--ink-faint); }}
+{EMAIL_FORM_CSS}
 .seclab {{ font-family:"{T.FONT_DATA}",monospace; font-size:11px;
   letter-spacing:{T.TRACK_LABEL}em; text-transform:uppercase;
   color:var(--ink); margin:40px 0 4px; padding-bottom:8px;
