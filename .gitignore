@@ -46,3 +46,8 @@ research
 # so the only cheap moment to catch one of these is before it is pushed.
 *.npz
 *.npy
+
+# Built pages belong in docs/, never copied here. A snapshot of the real
+# output drifts the moment either side changes, and 22 of them had already
+# drifted by the time platform found them in a 38,280-line diff.
+design/review/heat/
