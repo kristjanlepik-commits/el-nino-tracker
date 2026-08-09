@@ -148,8 +148,35 @@ def facts(city, meta):
                           "copy as a literal.",
         },
         "tropical_nights": {
-            "current": cur_tn, "median_year": tn_median,
+            # NAMED median_to_cut, NOT median_year. Editor caught the first
+            # name: it held a to-cut value while saying year, which is the
+            # exact trap that produced the Palma error one field earlier.
+            # The next person to use it under time pressure would have used
+            # it as an annual figure and the arithmetic would have looked
+            # fine.
+            "current": cur_tn, "median_to_cut": tn_median,
+            "counted_to": _last,
+            "basis": f"median of {min(years)}-{max(y for y in years if y != CUR)}"
+                     f", each year counted to the same date",
             "metric_reaches_city": tn_median >= 3,
+            # NEVER RANK THESE ACROSS CITIES, and the reason is not the one
+            # the gate covers. Night records start in different years:
+            # Lyon 1975, Palma 1978, Murcia 1984 against Zaragoza 1951 and
+            # Madrid 1920. A city whose "typical" is drawn from a warmer era
+            # has a smaller multiple for the same real change, so Lyon's
+            # 6.4 and Zaragoza's 6.4 are not the same quantity. Editor's
+            # finding, and it is the 24-thermometers argument again.
+            #
+            # The direction is at least safe: a short warm baseline
+            # UNDERSTATES, so a city with a late record start has a real
+            # change larger than its multiple shows.
+            "comparable_across_cities": False,
+            "why_not_comparable": "baselines start in different years, so a "
+                                  "city with a late record start has a "
+                                  "warmer 'typical' and a smaller multiple "
+                                  "for the same real change. Never order "
+                                  "cities by this, in copy or in a thread.",
+            "baseline_from_year": min(years),
             "why_gated": "below about three nights in a typical year the "
                          "ratio divides by almost nothing and the metric "
                          "says more about the denominator than the summer.",
@@ -161,10 +188,25 @@ def facts(city, meta):
             # against a typical 1, Toulouse 31 against 2, Lugano 42 against
             # 2. Anyone scanning this file for a striking number finds the
             # unpostable ones FIRST.
+            # BASIS NAMED IN THE STRING, at editor's instruction, because
+            # the city pages state a different "typical" for the same city:
+            # Valencia reads 26.6 there (1961-1990 mean, to cut) and 29 here
+            # (all-year median, to cut). Both are defensible and neither is
+            # wrong, but published the same week on two surfaces with
+            # nothing to distinguish them, one number looks like it changed.
+            # Two measures visibly labelled read as two measures.
+            #
+            # NO MULTIPLE STATED. "51 against 10" is punchier than "five
+            # times" and it cannot be wrong. "By this date" is what stops
+            # the Palma error; neither phrase may be cut for length. A post
+            # that cannot fit them runs without the comparison, not without
+            # the basis.
             "post_form": (
-                f"{city} has had {cur_tn} nights above 20 C so far this "
-                f"summer, against {tn_median} by this date in a typical "
-                f"year." if tn_median >= 3 and cur_tn > tn_median else None),
+                f"{city}: {cur_tn} nights so far this year that never "
+                f"dropped below 20 C. By this date in a typical year "
+                f"across its {min(years)}-"
+                f"{max(y for y in years if y != CUR)} record: {tn_median}."
+                if tn_median >= 3 and cur_tn > tn_median else None),
             "not_postable_reason": (
                 None if tn_median >= 3 else
                 "the typical count is too small for a ratio to mean "
