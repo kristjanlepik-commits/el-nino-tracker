@@ -205,6 +205,23 @@ Two conditions ride with it, both ratified:
    complete when the owning chat AND design have both confirmed, since
    conditional approval is the normal case rather than the exception.
 
+   **A sign-off that leans on a guard is only as good as having read the
+   guard.** Heat's rule, from their own miss on 2026-08-09, and they
+   asked for it to be written down accurately rather than kindly. They
+   approved the heat pages saying "the build fails if a page claims a
+   window its station did not cover, and a guard beats a review". That
+   described the guard's INTENT. What it did was match one literal
+   string, so the definitions row made the same claim in different words
+   and passed, and the page they approved still carried the exact
+   sentence they had sent it back for.
+
+   Their file access was down at the time. The honest sentence was "I
+   cannot verify the guard"; instead they described what it was supposed
+   to do and called that coverage. **If you cannot read the guard, your
+   sign-off is a review, so call it a review.** "A guard beats a review"
+   is true, and it is the wrong sentence to reach for when you have
+   neither.
+
 Escalation, when speed and consistency collide: a piece ships in the
 generic template with a plainer chart, or it does not ship. It never
 ships outside the design system, because consistency is what makes the
