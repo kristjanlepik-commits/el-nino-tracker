@@ -428,7 +428,7 @@ for name, v in sorted(C.items()):
     else:
         station_note = ""
     reloc = ""
-    rank_txt = ("the most on record" if dr["value"] == 1
+    rank_txt = ("the most on record by this date" if dr["value"] == 1
                 else f'{ordn(dr["value"])} of {dr["of_years"]}')
     # NO RANK CAPTION. Editor's rule and it needed no judgement from me: a
     # caption never restates the number, the title or the source stamp,
@@ -452,7 +452,12 @@ for name, v in sorted(C.items()):
     # It was six cities, not one. Berlin's 8 days against a 1961-1990 mean of
     # 2.1 read as a near-quadrupling with 11th of 79 buried below the chart,
     # which is louder than Stockholm and was the same defect.
-    rank_clause = ("more than in any summer on its record" if dr["value"] == 1
+    # EVERY SUPERLATIVE CARRIES THE DATE. VD Main caught this on the
+    # headline and the same drop was in four places: a figure counted to 3
+    # August, stated as though it were a season total. The matched basis
+    # again, in the sentence a reader is most likely to quote.
+    rank_clause = ("more than in any summer on record by this date"
+                   if dr["value"] == 1
                    else f"{ordn(dr['value'])} of its {dr['of_years']} summers")
     if mult_ok:
         # ONE ROUNDING. The headline printed 2 and the squares row an inch
@@ -462,7 +467,7 @@ for name, v in sorted(C.items()):
         # difference between three cities to make one sentence read rounder.
         head = (f"{name} used to get {base:.1f} hot day{'s' if base != 1 else ''} "
                 f"by this point in the summer. This year: {now}, "
-                + ("more than in any summer on its record."
+                + ("more than in any summer on record by this date."
                    if dr["value"] == 1
                    else f"which is {rank_clause}."))
     else:
@@ -473,7 +478,8 @@ for name, v in sorted(C.items()):
     # the sentence branches rather than being templated.
     if prank == 1 and dr["value"] == 1:
         peak_cap = (f"The hottest day of {name}'s year, to the same date. "
-                    f"<strong>2026 is the hottest on this record too</strong>, at "
+                    f"<strong>2026 is the hottest on this record too, by this "
+                    f"date</strong>, at "
                     f"{peak}&nbsp;&deg;C. Both the count and the peak are records "
                     f"here, which is not true everywhere: a count and a peak are "
                     f"separate claims and each carries its own rank. The "
@@ -501,7 +507,8 @@ for name, v in sorted(C.items()):
         # chart and points back rather than repeating it.
         peak_cap = (f"The hottest day of {name}'s year, to the same date, with "
                     f"2026 marked. <strong>It is the hottest this station has "
-                    f"recorded</strong>, at {peak}&nbsp;&deg;C, while the count "
+                    f"recorded by this date</strong>, at {peak}&nbsp;&deg;C, "
+                    f"while the count "
                     f"of hot days is {rank_txt}.")
     else:
         # BOTH HALVES OF THIS SENTENCE WERE WRONG, and both in the way this
@@ -656,7 +663,8 @@ for name, v in sorted(C.items()):
     peak_lead = ("" if not peak_promoted else
                  f'<p class="stand" style="margin-top:18px">Its hottest single '
                  f'day, {peak}&nbsp;&deg;C, is the hottest this station has '
-                 f'recorded. A count and a peak are different claims and neither '
+                 f'recorded by this date. A count and a peak are different '
+                 f'claims and neither '
                  f'borrows the other\'s rank.</p>')
 
     # The method moves out from under the headline and down to the chart it
