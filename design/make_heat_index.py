@@ -355,12 +355,20 @@ def overlap(a, b):
 placed = [{"x1": PX(d["lon"]) - radius(d) - 2, "x2": PX(d["lon"]) + radius(d) + 2,
            "y1": PY(d["lat"]) - radius(d) - 2, "y2": PY(d["lat"]) + radius(d) + 2}
           for d in rows]
+# Kristjan: the cities on the map should be clickable. The list rows have
+# linked to the city pages since they were built; the marks never did, and
+# the map is the part of the page that invites a reader to look for their
+# own city. Moved above the map because the map now needs it.
+PAGES = {n: f"{n.lower().replace(chr(32), chr(45))}.html" for n in C}
+
 marks, labels, leaders = [], [], []
 for d in sorted(rows, key=lambda d: PY(d["lat"])):
     x, y, r = PX(d["lon"]), PY(d["lat"]), radius(d)
-    marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" '
+    href = PAGES[d["name"]]
+    marks.append(f'<a href="{href}" class="mk"><title>{d["name"]}</title>'
+                 f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" '
                  f'fill="{FILL[state(d)]}" stroke="var(--ink)" '
-                 f'stroke-width="1"/>')
+                 f'stroke-width="1"/></a>')
     bw = len(d["name"]) * 7.1
     lx = x + r + GAP
     ly = y + 4
@@ -393,7 +401,8 @@ for d in sorted(rows, key=lambda d: PY(d["lat"])):
     # invisible at marker size and nobody reads a map for a decimal. Both
     # belong in the list. Dropping them also halves the label mass, which
     # is what makes room for the larger record markers.
-    labels.append(f'<text x="{lx:.1f}" y="{ly:.1f}" class="cn">{d["name"]}</text>')
+    labels.append(f'<a href="{href}" class="mk">'
+                  f'<text x="{lx:.1f}" y="{ly:.1f}" class="cn">{d["name"]}</text></a>')
 
 _nrec = len([d for d in rows if state(d) == "record"])
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
@@ -412,7 +421,6 @@ svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" 
 # every city has a page now, so nothing renders as a dead name
 # Flat, matching the shipped shape: /heat/ is the index and /heat/<city>
 # sits beside it, so a link is a bare filename from either direction.
-PAGES = {n: f"{n.lower().replace(chr(32), chr(45))}.html" for n in C}
 # NOT a shared scale. The previous version divided every count by the
 # largest count in the set, so Marseille's 34 days at 33.9 C and Alicante's
 # 21 at 33.8 C were drawn against each other. Different thresholds, not the
@@ -470,7 +478,12 @@ def minichart(name, w=316, h=34):
         op = "" if y == 2026 else ' opacity="0.55"'
         out.append(f'<rect x="{x:.1f}" y="{h - v/top*h:.1f}" width="{bw:.1f}" '
                    f'height="{max(v/top*h, 1):.1f}" fill="{fill}"{op}/>')
-    return (f'<svg viewBox="0 0 {w} {h}" width="{w}" height="{h}" role="img" '
+    # width 100% with a 316-wide viewBox, so the chart fills the flexible
+    # column instead of leaving the gap Kristjan found. It must STRETCH
+    # rather than letterbox, and it carries no text, so nothing distorts:
+    # the bars simply get wider.
+    return (f'<svg viewBox="0 0 {w} {h}" width="100%" height="{h}" '
+            f'preserveAspectRatio="none" role="img" '
             f'aria-label="{name}: hot days every summer from {y0} to {y1}, '
             f'{len(ys)} years, with 2026 marked">{"".join(out)}</svg>')
 
@@ -719,6 +732,11 @@ letter-spacing:-.02em;color:var(--ink);margin:40px 0 14px;max-width:20ch;text-wr
    the finding, so it takes the larger size. */
 .stand + .stand{{margin-top:22px;font-size:16.5px;color:var(--ink-faint)}}
 .cn{{font-family:Spectral,serif;font-size:13px;fill:var(--ink)}}
+/* The whole mark is the target, disc and name together, so a reader
+   aiming at a 7px circle does not have to hit it. */
+.mk{{cursor:pointer}}
+.mk:hover circle{{stroke-width:2.4}}
+.mk:hover .cn{{fill:var(--accent);text-decoration:underline}}
 .cs{{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-faint);
 letter-spacing:.05em}}
 .key{{display:flex;flex-wrap:wrap;gap:14px 30px;align-items:center;margin:14px 0 0;
@@ -736,7 +754,13 @@ line-height:1.8;color:var(--ink-faint);max-width:74ch}}
 text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:54px 0 6px}}
 .subl{{font-size:15.5px;line-height:1.6;color:var(--soft);max-width:70ch;margin:12px 0 18px}}
-.lrow{{display:grid;grid-template-columns:170px 316px 1fr 74px;gap:16px;
+/* THREE cells, and this declared FOUR columns, so the empty 1fr sat
+   between the chart and the number and swallowed every pixel of slack.
+   Kristjan spotted the gap in the browser. The chart takes the
+   flexible column now, which is also the better use of it: the
+   minichart carries no text, so filling the width just makes the bars
+   wider rather than distorting anything. */
+.lrow{{display:grid;grid-template-columns:170px minmax(0,1fr) 74px;gap:16px;
 align-items:center;padding:9px 0;border-bottom:1px solid var(--rule)}}
 
 .cty{{font-size:17px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule)}}
