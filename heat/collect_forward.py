@@ -52,6 +52,34 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "heat" / "data" / "collected"
 
 SOURCES = {
+    # LONDON. Met Office DataHub, Land Observations, free tier.
+    #
+    # MEASURED RETENTION: 48 HOURS. Confirmed 2026-08-09 by reading the
+    # response rather than the documentation, which is a JavaScript shell
+    # that returns nothing to a fetcher. That single fact is why London is a
+    # build-forward city: its 2026 summer exists nowhere we can reach, and no
+    # archive will ever have it.
+    #
+    # BETTER THAN THE TALLINN COLLECTOR, and the difference matters. Each call
+    # returns 48 HOURLY records, not one instantaneous reading. So a daily run
+    # captures every hour with a full day of redundancy, and a derived daily
+    # minimum is the lowest of 24 hourly values rather than of one sample.
+    # Still not a true minimum-thermometer reading, and much closer to one.
+    #
+    # Queried by GEOHASH, not station id. gcpsvg covers west London near
+    # Heathrow. Recorded because the neighbouring cell gcpsve returns 404 and
+    # a future reader would otherwise assume the geohash was mistyped.
+    "London": {
+        "url": "https://data.hub.api.metoffice.gov.uk/observation-land/1/gcpsvg",
+        "station": "geohash gcpsvg, west London",
+        "wmo": None,
+        "service": "Met Office DataHub, Land Observations",
+        "licence": "free tier, wdh_cdp_landobs_free",
+        "key_file": "~/.metoffice_key",
+        "header": "apikey",
+        "kind": "json_hourly",
+        "retention_hours": 48,
+    },
     "Tallinn": {
         "url": "https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php",
         "station": "Tallinn-Harku",
@@ -66,8 +94,32 @@ SOURCES = {
 }
 
 
+def _london(cfg):
+    """Met Office returns a JSON list of hourly observations."""
+    import os
+    key = open(os.path.expanduser(cfg["key_file"])).read().strip()
+    raw = subprocess.run(
+        ["curl", "-sS", "--max-time", "60",
+         "-H", f"{cfg['header']}: {key}",
+         "-H", "accept: application/json", cfg["url"]],
+        capture_output=True).stdout.decode("utf-8", "replace")
+    try:
+        rows = json.loads(raw)
+    except Exception:
+        return []
+    out = []
+    for r in rows:
+        if r.get("temperature") is None or not r.get("datetime"):
+            continue
+        out.append({"dt": r["datetime"], "t": float(r["temperature"]),
+                    "station": cfg["station"]})
+    return out
+
+
 def sample(city):
     cfg = SOURCES[city]
+    if cfg.get("kind") == "json_hourly":
+        return _london(cfg)
     raw = subprocess.run(["curl", "-sS", "--max-time", "60", cfg["url"]],
                          capture_output=True).stdout.decode("utf-8", "replace")
     ts = re.search(r'timestamp="(\d+)"', raw)
@@ -91,6 +143,25 @@ def main() -> int:
         if s is None:
             print(f"  {city}: no observation returned", file=sys.stderr)
             rc = 1
+            continue
+        if isinstance(s, list):
+            # Hourly batches overlap by design, so dedupe on timestamp. The
+            # file is the artifact; writing the same hour twice would corrupt
+            # any later derivation of a daily minimum.
+            p = OUT / f"{city}.jsonl"
+            have = set()
+            if p.exists():
+                for line in open(p):
+                    try:
+                        have.add(json.loads(line)["dt"])
+                    except Exception:
+                        pass
+            new = [r for r in s if r["dt"] not in have]
+            with open(p, "a") as fh:
+                for r in new:
+                    fh.write(json.dumps(r) + "\n")
+            print(f"  {city}: {len(s)} returned, {len(new)} new, "
+                  f"{len(have) + len(new)} on file")
             continue
         p = OUT / f"{city}.jsonl"
         # Append-only. A collector that rewrites its own file can lose
