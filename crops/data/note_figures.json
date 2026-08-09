@@ -1,56 +1,56 @@
 {
  "_what": "Figures for the first Note. Derived from crops/data/stress_current.json, never typed. Re-run crops/build_note_figures.py to refresh.",
- "_dekad": "2026-07-11",
+ "_dekad": "2026-07-21",
  "_observation_window": "the ten days ending 20 July 2026",
  "_uk_naming": "the UK is named 'U.K. of Great Britain and Northern Ireland' in the payload, and England is a REGION under it, not a place. Searching 'UK' returns Ukraine.",
  "_attribution": "Not ENSO-linked. Channel call, not inherited: no established pathway ties northern European summer vegetation to ENSO, and no European pair qualified as ENSO-linked in the channel's own correlation work.",
  "_no_forecast": "Every figure here describes what has already been measured. The rate predicts poorly (a record rate at an ordinary level is followed by a bad level 2.9% of the time against 1.3% otherwise), so nothing here licenses a sentence about what comes next.",
  "england": {
   "rate": {
-   "change": -0.469,
+   "change": -0.532,
    "rank": 1,
    "of": 26,
-   "start_value": 0.619,
+   "start_value": 0.526,
    "start_rank": 3,
    "start_of": 26,
    "statement": "The steepest fall over 4 dekads of 26 observations for this point in the season, 2001-2026, from the 3rd highest starting level of those 26",
-   "holds_after_start_control": false,
-   "gap_to_next_year": -0.025,
-   "source": "places[94].regions[0].rate"
+   "holds_after_start_control": true,
+   "gap_to_next_year": -0.081,
+   "source": "places[67].regions[0].rate"
   },
   "level_now": {
-   "value": 0.15,
-   "rank": 17,
+   "value": -0.006,
+   "rank": 12,
    "of": 26,
-   "statement": "17th lowest of 26 observations for this point in the season, 2001-2026",
-   "source": "places[94].regions[0]"
+   "statement": "12th lowest of 26 observations for this point in the season, 2001-2026",
+   "source": "places[67].regions[0]"
   },
   "level_2025_same_dekad": {
-   "value": -0.394,
-   "means": "where 2025 ENDED at this dekad, against 2026's 0.15. The piece turns on this: 2025 fell almost as fast and finished far worse.",
-   "source": "places[94].regions[0].series['2025']"
+   "value": -0.48,
+   "means": "where 2025 ENDED at this dekad, against 2026's -0.006. The piece turns on this: 2025 fell almost as fast and finished far worse.",
+   "source": "places[67].regions[0].series['2025']"
   }
  },
  "france": {
   "rate": {
-   "change": -0.445,
+   "change": -0.462,
    "rank": 1,
    "of": 26,
-   "start_value": 0.736,
+   "start_value": 0.652,
    "start_rank": 2,
    "start_of": 26,
    "statement": "The steepest fall over 4 dekads of 26 observations for this point in the season, 2001-2026, from the 2nd highest starting level of those 26",
    "holds_after_start_control": true,
-   "gap_to_next_year": -0.245,
-   "source": "places[75].rate"
+   "gap_to_next_year": -0.243,
+   "source": "places[69].rate"
   },
   "crop_outcome_level_now": {
    "instrument": "Vegetation, cumulative",
    "rank": 20,
    "of": 26,
-   "statement": "20th lowest of 26 observations for this point in the season, 2001-2026",
+   "statement": "18th lowest of 26 observations for this point in the season, 2001-2026",
    "means": "BETTER than average. 19 of the 26 years were worse at this date.",
-   "source": "places[75].magnitude"
+   "source": "places[69].magnitude"
   },
   "instruments_at_a_record_by_LEVEL": [
    {
@@ -58,50 +58,42 @@
     "rank": 1,
     "of": 26,
     "worse_is": "low",
-    "value": -1.633,
-    "source": "places[75].instruments"
+    "value": -1.499,
+    "source": "places[69].instruments"
    },
    {
     "name": "Water satisfaction",
     "rank": 1,
     "of": 26,
     "worse_is": "low",
-    "value": 49.659,
-    "source": "places[75].instruments"
+    "value": 45.636,
+    "source": "places[69].instruments"
    },
    {
     "name": "Rainfall, 3-month",
     "rank": 1,
     "of": 26,
     "worse_is": "low",
-    "value": -1.66,
-    "source": "places[75].instruments"
-   },
-   {
-    "name": "Temperature",
-    "rank": 1,
-    "of": 26,
-    "worse_is": "high",
-    "value": 24.532,
-    "source": "places[75].instruments"
+    "value": -1.487,
+    "source": "places[69].instruments"
    }
   ],
   "_the_distinction_editor_asked_about": "These are two DIFFERENT quantities and they do not agree the way they appear to. The four record ranks are LEVELS at this dekad, on current vegetation, water satisfaction, rainfall and temperature. The rate is a CHANGE, over four dekads, on the season-cumulative crop indicator. That cumulative indicator is at rank 20 of 26, better than average. So: the weather is at a record, the cumulative crop signal is falling faster than in any year on record, and the crop outcome itself has not responded yet. State them separately."
  },
  "also_hold_after_the_control": [
   {
-   "place": "Slovakia",
-   "change": -0.3,
+   "place": "Hungary",
+   "change": -0.505,
    "rank": 1,
-   "level": "12th lowest of 26 observations for this point in the season, 2001-2026",
-   "source": "places[47].rate"
+   "level": "10th lowest of 26 observations for this point in the season, 2001-2026",
+   "source": "places[41].rate"
   },
   {
-   "place": "Hungary",
-   "change": -0.458,
+   "place": "Slovakia",
+   "change": -0.279,
    "rank": 1,
-   "level": "14th lowest of 26 observations for this point in the season, 2001-2026",
-   "source": "places[54].rate"
+   "level": "12th lowest of 26 observations for this point in the season, 2001-2026",
+   "source": "places[50].rate"
   }
  ]
 }
