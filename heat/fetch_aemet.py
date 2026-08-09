@@ -41,6 +41,25 @@ MADRID_RETIRO = "3195"          # same thermometer as ECA&D station 230
 
 
 def _key():
+    # Env first, file second, same shape as the London collector. CI has
+    # no home directory to keep a key in, and this is the only one of the
+    # ten heat fetchers that needs a credential at all, so it is the only
+    # thing standing between a weekly refresh and running unattended.
+    #
+    # Raises rather than returning empty when neither exists: a missing
+    # Spanish key would otherwise produce a payload silently short of
+    # every Spanish city, which the refresh gate would read as a set
+    # change and hold on, for a reason that has nothing to do with the
+    # weather.
+    env = (os.environ.get("AEMET_API_KEY", "") or "").strip()
+    if env:
+        return env
+    if not os.path.exists(KEY):
+        raise SystemExit(
+            "AEMET: no key. Set AEMET_API_KEY in the environment (CI) or "
+            "write ~/.aemet_key (local). Refusing to continue without one, "
+            "because the result would be a payload missing every Spanish "
+            "city rather than an error.")
     with open(KEY) as f:
         return f.read().strip()
 

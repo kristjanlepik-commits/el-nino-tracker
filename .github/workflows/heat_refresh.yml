@@ -1,0 +1,121 @@
+name: heat-refresh
+
+# The weekly heat refresh. Kristjan set the cadence 2026-08-08: Mondays,
+# May to September, frozen October to April.
+#
+# WHAT THIS JOB DOES NOT DO: publish. It fetches, rebuilds the payload,
+# commits it, and reports the refresh gate's verdict. Rendering stays with
+# scripts/publish_all.py, which is the one publish path and which now
+# consults heat/refresh_gate.py itself.
+#
+# That split is deliberate. Two paths that can both put heat pages live is
+# how a gate gets bypassed, and this repo has already had exactly that:
+# publish_all rebuilt heat pages from whatever was committed, so the
+# Monday brief would have rendered a HELD payload without asking the gate.
+# Adding a second publisher here would reopen it from the other side.
+#
+# So the contract is: this job decides what the DATA says. publish_all
+# decides whether pages move. The gate is consulted in one place.
+#
+# ORDER MATTERS. emit_city_nights.py reads ONLY heat/data/city_series.json
+# (the D-030 seam), and build_city_series.py writes it from the raw
+# dailies the fetchers pull. Running emit before build republishes last
+# week's payload while reporting success.
+
+on:
+  schedule:
+    # 06:23 UTC Monday, May to September. After the fires run at 03:10 and
+    # 05:30 so they are not competing for a runner, and well before the
+    # 13:00 brief, which is the thing that will render whatever this
+    # leaves behind. Offset off the hour: :00 is the most contended minute
+    # on GitHub's scheduler and two collector runs were already dropped
+    # inside the 00-02 UTC window on 2026-08-09.
+    - cron: "23 6 * 5-9 1"
+  workflow_dispatch:
+
+concurrency:
+  group: heat-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    # Ten fetchers against ten national services, several of them slow.
+    # Generous, but bounded: with cancel-in-progress false a hung run
+    # would hold the group and silently skip the following weeks.
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install -q -r requirements.txt || pip install -q requests
+
+      # FAIL FAST, and do not commit a partial payload. Nine of the ten
+      # services need no credential; only AEMET does. A missing Spanish
+      # key or a dead service must not produce a payload quietly short of
+      # a country, because the gate would then hold on a set change that
+      # has nothing to do with the weather and everything to do with a
+      # fetch that failed.
+      - name: Fetch
+        env:
+          AEMET_API_KEY: ${{ secrets.AEMET_API_KEY }}
+        run: |
+          set -e
+          for f in heat/fetch_*.py; do
+            echo "--- $f"
+            python "$f"
+          done
+
+      - name: Rebuild the payload
+        run: |
+          set -e
+          python heat/build_city_series.py
+          python heat/emit_city_nights.py
+
+      # Committed BEFORE the gate runs, and regardless of its verdict. The
+      # payload is the record of what the sources said this week; a held
+      # refresh is still a true observation and losing it because a rank
+      # moved would be the wrong trade. The gate governs PUBLISHING, not
+      # keeping.
+      - name: Commit the payload
+        run: |
+          git config user.name  "tls-heat-refresh"
+          git config user.email "noreply@thelongswell.com"
+          git add heat/data/city_series.json heat/data/city_nights.json
+          if git diff --cached --quiet; then
+            echo "Payload unchanged this week; nothing to commit."
+          else
+            git commit -m "heat: weekly refresh $(date -u +'%Y-%m-%d')"
+            bash scripts/push_retry.sh main
+          fi
+
+      # Reports the verdict; never fails the job on a HOLD. A hold is the
+      # gate working, not an error, and turning it red would train everyone
+      # to ignore a red heat-refresh. Written to the job summary so it is
+      # visible without opening logs, because there is no alerting yet.
+      - name: Refresh gate
+        run: |
+          set +e
+          out=$(python heat/refresh_gate.py 2>&1); code=$?
+          echo "$out"
+          {
+            echo "## Heat refresh gate"
+            echo ""
+            if [ $code -eq 0 ]; then
+              echo "**PUBLISH.** No rank, band, count or claim moved."
+              echo "The next publish_all run will render this payload."
+            else
+              echo "**HOLD.** Product decides before this ships."
+              echo "The last approved heat pages stay live; publish_all"
+              echo "skips the heat steps while this holds."
+            fi
+            echo ""
+            echo '```'
+            echo "$out"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit 0
