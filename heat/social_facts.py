@@ -135,7 +135,28 @@ def facts(city, meta):
         },
         "hottest_day": {"date": hottest_d, "c": hottest_v,
                         "is_current_year": hottest_d.startswith(str(CUR))},
-        "previous_high": {"date": prev[0], "c": prev[1]},
+        # PREVIOUS HIGH, WITH WHETHER THE CHART CAN SHOW IT. Editor found
+        # this on Vienna: the previous high is 38.5 on 2013-08-08, and
+        # Vienna's cut is 08-07, so the to-cut series reads 37.4 for 2013.
+        # Both figures are correct and they are different facts, exactly as
+        # warmest_note says. The trap is that copy cites the full-record
+        # high while the chart underneath plots the to-cut series, and the
+        # page then disagrees with itself with nothing to explain it.
+        #
+        # It is 11 of 36 cities, not a Vienna quirk, and the gaps reach
+        # 9.3 C at Bilbao. So it is a field: a renderer or a writer can see
+        # that the cited record is INVISIBLE in the chart beside it.
+        "previous_high": {
+            "date": prev[0], "c": prev[1],
+            "visible_in_to_cut_series": (
+                bool(prev[0]) and prev[0][5:] <= _last),
+            "if_not_visible": (
+                "the day this record was set falls AFTER this city's cut, "
+                "so the to-cut series cannot show it. Do not caption a "
+                "to-cut chart with this value: the chart will contradict "
+                "the caption. Cite it only against the full-record ranking."
+                if prev[0] and prev[0][5:] > _last else None),
+        },
         "leading_run": {
             "n": run,
             "dates": [d for d, _ in ranked[:run]],
