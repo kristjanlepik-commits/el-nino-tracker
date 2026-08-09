@@ -550,11 +550,30 @@ if _clash:
     raise SystemExit("map labels overlap: "
                      + "; ".join(f"{a} on {b}" for a, b in _clash))
 
+# A FINDING COUNT IS A FLOOR WHILE ANY CITY IS SHORT OF THE CUT. Heat emits
+# the rule and the page was not reading it: "22 of these 36" is a census
+# where the payload says floor. Twenty-one windows end before the latest
+# cut and eleven cities have no observation on the peak day, so they could
+# not register a record on it. More data can only raise the number.
+#
+# THE PREFIX IS READ, NOT TYPED, and it is applied only to the counts heat
+# names. cities_short_of_it sits in the same object and moves the OTHER
+# way: it falls as late data lands, so "at least 21 short" would be
+# backwards. Editor caught that before anyone wired it.
+_COV = N.get("coverage", {})
+_FLOOR = "at least " if _COV.get("counts_are_floors") else ""
+
+
+def floor(n):
+    """A finding count with its qualifier attached, or bare once coverage
+    is complete. Never call this on a coverage counter."""
+    return f"{_FLOOR}{n}"
+
 _CR = N["geography"]["map"].get("coord_resolution", {"resolved": 0, "total": len(rows)})
 _nrec = len([d for d in rows if state(d) == "record"])
 svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" '
        f'aria-label="{NCITY} European weather stations in one of three states: '
-       f'{_nrec} at a record for hot days, '
+       f'{floor(_nrec)} at a record for hot days, '
        f'{len([d for d in rows if state(d) == "near"])} among their own five '
        f'hottest summers without reaching a record, and '
        f'{len([d for d in rows if state(d) == "quiet"])} outside their own top '
@@ -984,7 +1003,7 @@ margin-top:50px}}
 <div class="hero">
 <div>
 <h1>How hot has the European summer been?</h1>
-<p class="stand"><strong style="color:var(--ink);font-weight:500">{DH['records']} of these
+<p class="stand"><strong style="color:var(--ink);font-weight:500">{floor(DH['records']).capitalize()} of these
 {DH['of_cities']} European cities have had more hot days this summer than in any year on
 record.</strong> In a typical year, that number is {words(DH['baseline']['median_year'])}.</p>
 <p class="stand">A hot day means hot <em>for that city</em>: {HOT_HI[1]}&nbsp;&deg;C in
