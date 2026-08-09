@@ -676,7 +676,7 @@ HOT_LO, HOT_HI = (_th[0][1], _th[0][0]), (_th[-1][1], _th[-1][0])
 # record. Mixing a rank term with a distance term is how the four-rung
 # legend got unreadable in the first place.
 STATE_ROWS = [("record", "Record"), ("near", "Near record"),
-              ("quiet", "Outside its top five")]
+              ("quiet", "Further from a record")]
 
 
 def key_rows():
@@ -768,11 +768,11 @@ html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 {ANALYTICS_SNIPPET}
 <style>{SITE_MASTHEAD_CSS}
 :root{{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
---ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#173F9E;--bar:#D3D2CB;--land:#E4E3DC;
+--ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#8E240A;--bar:#D3D2CB;--land:#E4E3DC;
 --f3:#8E240A;--f2:#C05B3D;--f0:#E8E7E2}}
 @media(prefers-color-scheme:dark){{:root{{--paper:#1A1A18;--sunk:#252521;
 --ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--coast:#43423C;
---accent:#6E97E8;--bar:#43423C;--land:#232321;
+--accent:#F0876A;--bar:#43423C;--land:#232321;
 --f3:#F0876A;--f2:#C05B3D;--f0:#2E2E2B}}}}
 /* The shared masthead expects these and a standalone page must set them.
    VD found all five missing: --mono fell back to inheritance so the
