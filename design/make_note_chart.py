@@ -86,7 +86,13 @@ def series(city, metric, reference=None):
                 f"reference period, which compares totals instead of dividing.")
         s, now = v["series_to_same_date"], v["nights_2026"]
         axis = "NIGHTS THAT NEVER FELL BELOW 20 °C"
-        sub = "the ETCCDI tropical-night index, one thermometer"
+        # PLAIN WORDS ON THE AXIS, provenance in the footer. Editor's
+        # standards forbid an unglossed index name, and ETCCDI was doing
+        # nothing for a reader on the one part of the figure that travels
+        # alone. It was also redundant: the line above already says what the
+        # index is, in words. The acronym still earns its place in the
+        # footer, where it says we did not invent the metric.
+        sub = "the standard tropical-night measure, one thermometer"
     else:
         d = v["days"]
         s, now = d["series_to_same_date"], d["days_2026"]["95"]
@@ -249,7 +255,10 @@ def draw(city, metric, reference=None):
         linespacing=1.35)
 
     # Everything a page would have carried elsewhere, on the image.
-    foot = [f"Every summer counted to {cut}, so the years compare.",
+    foot = []
+    if metric == "nights":
+        foot.append("Tropical nights, the ETCCDI TR index.")
+    foot += [f"Every summer counted to {cut}, so the years compare.",
             f"{v['record_scope']['text'].capitalize()}.",
             # Some services publish the station name in caps (ORLY,
             # VALENCIA) and others mixed (Wien Hohe Warte). Title-cased only
