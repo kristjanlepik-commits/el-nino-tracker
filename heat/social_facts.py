@@ -135,6 +135,25 @@ def facts(city, meta):
         },
         "hottest_day": {"date": hottest_d, "c": hottest_v,
                         "is_current_year": hottest_d.startswith(str(CUR))},
+        # TOP TEN INDIVIDUAL DAYS, one basis, dates included. Editor asked
+        # for this because the sentence the Note leads on is a day-level
+        # ranking and nothing in the payload exposed one, so the visual that
+        # matches the claim could not be built. The two series that do exist
+        # cannot substitute and disagree by construction: warmest_day_c is
+        # full-year and has no 2026 entry, warmest_day_to_cut_c is cut and
+        # reads 37.4 for the year the record was actually 38.5.
+        #
+        # BASIS STATED ON THE FIELD, because that is the whole problem this
+        # solves: every day in the record, no cut, no seasonal window. It is
+        # the same basis the five-hottest-days claim is made on, so a reader
+        # can check the claim against this list directly.
+        "hottest_days": {
+            "basis": "every individual day in the record, uncut and with no "
+                     "seasonal window. NOT comparable with warmest_day_c "
+                     "(full-year maxima) or warmest_day_to_cut_c (cut).",
+            "top": [{"date": d, "c": t, "year": int(d[:4])}
+                    for d, t in ranked[:10]],
+        },
         # PREVIOUS HIGH, WITH WHETHER THE CHART CAN SHOW IT. Editor found
         # this on Vienna: the previous high is 38.5 on 2013-08-08, and
         # Vienna's cut is 08-07, so the to-cut series reads 37.4 for 2013.
