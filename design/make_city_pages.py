@@ -796,8 +796,12 @@ for name, v in sorted(C.items()):
 {ANALYTICS_SNIPPET}
 <style>{SITE_MASTHEAD_CSS}{CSS}</style><!-- payload {PAYLOAD_STAMP} --></head><body><main>
 {site_masthead("../", active="heat")}
-<div class="mast"><span class="house">The Long Swell</span>
-<span class="prod">Heat</span>
+<!-- THE HOUSE NAME IS NOT REPEATED HERE. This bar predates the shared
+     masthead, which now sits directly above it and already carries the
+     wordmark, so the page printed "The Long Swell" twice inside 100px.
+     Kristjan spotted it. What this bar is for is the page's own
+     identity: the channel, and which station and cut it reports. -->
+<div class="mast"><span class="prod">Heat</span>
 <span class="when">{name} &middot; {S[name]['station']} &middot; to {cut_txt} 2026</span></div>
 
 <h1>{head}</h1>

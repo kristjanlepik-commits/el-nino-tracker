@@ -968,8 +968,12 @@ margin-top:50px}}
 .src span:nth-child(-n+2){{border-top:2.4px solid #8E8E88}}
 </style><!-- payload {PAYLOAD_STAMP} --></head><body><main>
 {site_masthead("../", active="heat")}
-<div class="mast"><span class="house">The Long Swell</span>
-<span class="prod">Heat</span><span class="when">Week of 3 August 2026</span></div>
+<!-- THE HOUSE NAME IS NOT REPEATED HERE. This bar predates the shared
+     masthead, which now sits directly above it and already carries the
+     wordmark, so the page printed "The Long Swell" twice inside 100px.
+     Kristjan spotted it. What this bar is for is the page's own
+     identity: the channel, and which station and cut it reports. -->
+<div class="mast"><span class="prod">Heat</span><span class="when">Week of 3 August 2026</span></div>
 
 <!-- TEXT LEFT, MAP RIGHT. VD Main, after Helsinki pushed the frame north:
      the map is the only element whose height is set by its width, so it is
