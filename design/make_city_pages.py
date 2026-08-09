@@ -303,6 +303,7 @@ color:var(--soft);display:grid;grid-template-columns:1fr auto;column-gap:30px;
 margin-top:48px}
 .src span{border-top:1px solid var(--rule);padding-top:9px}
 .src span:nth-child(-n+2){border-top:2.4px solid #8E8E88}
+.more{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
 .back{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;
 text-transform:uppercase;color:var(--ink-faint);text-decoration:none;
 border-bottom:1px solid var(--rule)}
@@ -339,6 +340,14 @@ for name, v in sorted(C.items()):
     cut_txt = f"{int(cut.split('-')[1])} {MON[int(cut.split('-')[0]) - 1]}"
     dr = v["days"]["rank"]
     peak_promoted = (prank == 1 and dr["value"] != 1)
+    # WHAT A TYPICAL SUMMER PEAKS AT. VD: 40.6 C is a number, and a reader
+    # has no idea whether that is remarkable for Paris or a normal August
+    # afternoon. "The previous best is 41.9" gives the ceiling and no floor.
+    #
+    # The MEDIAN of the whole record, not a baseline period, so it is safe on
+    # the four cities whose 1961-1990 window is withheld: it needs no window
+    # at all and cannot reintroduce the trap that was live this morning.
+    typical_peak = st.median([x for y, x in WD if y != 2026])
 
     # THE RELOCATION NOTE SITS WITH THE RANK, not in the footer, because the
     # rank is what it undermines: "of 79" spans more than one site. D-081, a
@@ -392,7 +401,12 @@ for name, v in sorted(C.items()):
     rank_clause = ("more than in any summer on its record" if dr["value"] == 1
                    else f"{ordn(dr['value'])} of its {dr['of_years']} summers")
     if mult_ok:
-        head = (f"{name} used to get {base:.0f} hot day{'s' if round(base) != 1 else ''} "
+        # ONE ROUNDING. The headline printed 2 and the squares row an inch
+        # below printed 1.8, and Paris 1.8, Berlin 2.1 and Stockholm 2.0 all
+        # became the same "2". VD Heat, from the reader's seat. The decimal
+        # goes in both, because the alternative is rounding away a real
+        # difference between three cities to make one sentence read rounder.
+        head = (f"{name} used to get {base:.1f} hot day{'s' if base != 1 else ''} "
                 f"by this point in the summer. This year: {now}, "
                 + ("more than in any summer on its record."
                    if dr["value"] == 1
@@ -408,7 +422,10 @@ for name, v in sorted(C.items()):
                     f"<strong>2026 is the hottest on this record too</strong>, at "
                     f"{peak}&nbsp;&deg;C. Both the count and the peak are records "
                     f"here, which is not true everywhere: a count and a peak are "
-                    f"separate claims and each carries its own rank.")
+                    f"separate claims and each carries its own rank. The "
+                    f"previous best was {pprev}&nbsp;&deg;C in {pprev_y}, the "
+                    f"dot on the drop line, and a typical summer here peaks "
+                    f"at {typical_peak:.1f}&nbsp;&deg;C.")
     elif peak_promoted:
         # Editor counted it: "11th of 79" three times and 39.9 C three times on
         # one page. I had told them this was fixed. It was changed and it still
@@ -417,7 +434,9 @@ for name, v in sorted(C.items()):
         # adds the one fact not stated anywhere else, the previous best.
         peak_cap = (f"The hottest day of {name}'s summer, to the same date, "
                     f"with 2026 marked. The previous best was "
-                    f"{pprev}&nbsp;&deg;C in {pprev_y}.")
+                    f"{pprev}&nbsp;&deg;C in {pprev_y}, the dot on the drop "
+                    f"line below it, and a typical summer here peaks at "
+                    f"{typical_peak:.1f}&nbsp;&deg;C.")
     elif prank == 1:
         # "Both the count and the peak are records here" was rendering on
         # Barcelona, Berlin and Prague, whose counts are 2nd of 87, 11th of 79
@@ -461,6 +480,7 @@ for name, v in sorted(C.items()):
         # the day, so the sentence starts there.
         peak_cap = (f"{name}'s hottest day this year, {peak}&nbsp;&deg;C, is "
                     f"<strong>{ordn(prank)} on this record</strong>. {versus} "
+                    f"A typical summer here peaks at {typical_peak:.1f}&nbsp;&deg;C. "
                     f"Its hot-day count is {rank_txt}: a count and a peak are "
                     f"different claims, and neither borrows the other's rank.")
 
@@ -519,8 +539,27 @@ for name, v in sorted(C.items()):
             # rank's grammar, four lines above it on the same page.
             f'<p class="cap">{v["nights_2026"]} night'
             f'{"" if v["nights_2026"] == 1 else "s"} so far that never dropped '
-            f'below 20&nbsp;&deg;C, against {nbase:.1f} in a typical 1961-1990 '
-            f'summer by this date. That is {ordn(nrank["value"])} of its '
+            f'below 20&nbsp;&deg;C'
+            # THE WITHHELD BASELINE WAS BEING PUBLISHED HERE, on the same
+            # screen as the note refusing it. VD Heat found it on Murcia:
+            # "No 1961-1990 comparison is shown for Murcia", and four
+            # paragraphs down, "against 9.4 in a typical 1961-1990 summer".
+            #
+            # It survived because the two prohibitions were checked
+            # separately and this line sits in the overlap. multiple_available
+            # is a flag on DAYS, the nights gate is a different flag, and I
+            # had deliberately scoped the guard away from the night block on
+            # the grounds that Lyon's nights were legitimately comparable.
+            # They are not: Lyon's record starts in 1975, so its 1961-1990
+            # night window holds 16 of 30 years for the same reason its day
+            # window does. Murcia's holds 7.
+            #
+            # The window is short because the STATION started late. That is
+            # not a property of days or of nights, so the flag governs every
+            # 1961-1990 figure on the page.
+            + (f', against {nbase:.1f} in a typical 1961-1990 summer by this '
+               f'date' if mult_ok else '')
+            + f'. That is {ordn(nrank["value"])} of its '
             f'{nrank["of_years"]} summers.</p>')
 
     # The unit rows ARE the comparison, drawn. Leaving the baseline row in
@@ -573,7 +612,11 @@ for name, v in sorted(C.items()):
               f'about one summer day in twenty used to reach at this station '
               f'between 1971 and 2000. The bar has not moved; the number of days '
               f'clearing it has. Every year is counted to {cut_txt}, so a '
-              f'part-finished summer is never set against complete ones.</p>')
+              f'part-finished summer is never set against complete ones. '
+              f'<strong>That threshold is {name}\'s own.</strong> It is not a '
+              f'national standard and it is not comparable with another '
+              f'city\'s: every figure on this page is measured against this '
+              f'station and nothing else.</p>')
 
     top = max(max(x for _, x in D), 1)
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -602,8 +645,8 @@ for name, v in sorted(C.items()):
 <span class="when">{name} &middot; {S[name]['station']} &middot; to {cut_txt} 2026</span></div>
 
 <h1>{head}</h1>
-{station_note}
 {peak_lead}
+{station_note}
 
 <div class="rows">{unit_rows}</div>
 {mult_note}
@@ -618,9 +661,8 @@ for name, v in sorted(C.items()):
 <span>{bars(D, top)}</span></div>
 <div class="grid"><span class="gk">Hot nights<em>never below 20 &deg;C</em></span>
 <span>{bars(NI, max(x for _, x in NI) or 1)}</span></div>
-<div class="grid"><span class="gk">Hottest day<em>&deg;C, each summer</em></span>
-<span>{line(WD, mark_year=2026, ring_year=None if prank == 1 else pprev_y,
-             mark_val=peak, ring_val=pprev)}</span></div>
+<div class="grid"><span class="gk">Hottest day<em>{min(x for _, x in WD):.0f} to {max(x for _, x in WD):.0f} &deg;C</em></span>
+<span>{line(WD, mark_year=2026, ring_year=pprev_y, mark_val=peak, ring_val=pprev)}</span></div>
 
 {method}
 
@@ -645,12 +687,25 @@ for name, v in sorted(C.items()):
      reached 20, which nearly every summer night does. -->
 <span>Hot nights, ETCCDI index TR, daily minimum never below 20.0 &deg;C</span>
 <span style="text-align:right">not chosen by us</span>
+<!-- VD Heat, reader's view: every figure is to 2 or 3 August and a reader
+     arriving later cannot tell whether the summer ended, whether the page is
+     stale, or when it changes. A returning reader sees the same 30 and
+     assumes nothing happened. -->
+<span>Updated weekly, each Monday</span>
+<span style="text-align:right">counted to {v['counted_to']}</span>
 </div>
-<p style="margin-top:26px"><a class="back" href="index.html">All {len(C)} cities</a></p>
+<!-- THE WAY OUT. VD Heat: the city page is the promotion surface, so most
+     readers arrive here first and this is the whole site to them. A Berliner
+     sent the Paris link had a masthead link to the channel and nothing that
+     said twenty-three other cities exist. The index has the map, and the map
+     is the invitation. -->
+<p class="stand" style="margin-top:34px;padding-top:22px;border-top:1px solid var(--rule)">
+{len(C)} European cities are measured this way, each against its own record.
+<a class="more" href="index.html">See them on the map</a></p>
 </main></body></html>"""
     check_constraints(name, html, night_block, v.get("page_constraints", {}))
     if not mult_ok:
-        check_no_baseline_comparison(name, head + unit_rows + mult_note)
+        check_no_baseline_comparison(name, head + unit_rows + mult_note + night_block)
     out = R / f"docs/heat/{slug(name)}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
