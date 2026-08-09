@@ -254,9 +254,18 @@ def ordn(n):
 
 
 def text_of(html):
-    """Rendered words only. A guard that greps raw HTML finds nothing when a
-    phrase is split across tags, and reports that as proof of absence."""
-    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html)).strip()
+    """Rendered words only.
+
+    Two ways to get this wrong and both have bitten. Greping raw HTML finds
+    nothing when a phrase is split across tags and reports that as proof of
+    absence. And stripping tags WITHOUT first removing style and script
+    leaves the whole stylesheet in the string, so a guard can match CSS, or
+    quote it back in an error, or clear a banned word that is only present
+    in a comment. I fixed that on the index and never carried it here.
+    """
+    body = re.sub(r"<(style|script)\b.*?</\1>", " ", html, flags=re.S | re.I)
+    body = re.sub(r"<!--.*?-->", " ", body, flags=re.S)
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", body)).strip()
 
 
 # Prohibitions the payload carries per city (D-104), checked against the
@@ -266,6 +275,41 @@ def text_of(html):
 NIGHT_SUPERLATIVES = ["worst year", "worst summer", "worst on record",
                       "most on record", "more than any year",
                       "more hot nights than any"]
+
+
+# A SUPERLATIVE MAY NOT LEAVE ITS DATE BEHIND. Editor's rule, generalised
+# from four instances in one day: whenever a figure and the thing that
+# calibrates it CAN be separated they will be, and the alarming half is the
+# one that survives. The gloss and its summary, the promoted claim and its
+# caveat, the count and its coverage, the rank and its headline.
+#
+# Most of that rule is not mechanically checkable. This part is: every
+# figure on these pages is counted to one date, so any superlative about
+# the record must say so or it reads as a season total.
+#
+# It exists because the sweep beat the fix twice today. VD reported one
+# instance and there were four; editor reported two pages of loose night
+# phrasing and the same fault was in the definition row on all 36. A
+# reported defect is a sample, not the population, and a guard is the only
+# thing that reads the population every time.
+SUPERLATIVES = ("more than in any summer", "hottest this station has recorded",
+                "hottest on this record", "most on record", "most hot days")
+QUALIFIERS = ("by this date", "to the same date", "by this point")
+
+
+def check_superlatives_dated(name, page_html):
+    t = text_of(page_html)
+    for m in re.finditer("|".join(map(re.escape, SUPERLATIVES)), t):
+        # A WINDOW, not a sentence. Splitting on full stops walked back
+        # through the masthead, which has none, and quoted a hundred
+        # characters of nav before reaching the phrase. The qualifier sits
+        # within a clause of the superlative or it is not attached to it.
+        frag = t[max(0, m.start() - 90):m.end() + 90]
+        if not any(q in frag for q in QUALIFIERS):
+            raise SystemExit(
+                f"{name}: a superlative with no date on it. Every figure here "
+                f"is counted to one day, so this reads as a season total:\n"
+                f"    ...{t[max(0, m.start() - 60):m.end() + 60]}...")
 
 
 def check_no_baseline_comparison(name, day_html):
@@ -821,6 +865,7 @@ for name, v in sorted(C.items()):
 <a class="more" href="index.html">See them on the map</a></p>
 </main></body></html>"""
     check_constraints(name, html, night_block, v.get("page_constraints", {}))
+    check_superlatives_dated(name, html)
     # The page may not claim a window the station did not cover. Derived, so
     # it cannot drift, and guarded anyway because this is the defect that
     # sent the push back and it was invisible for a fortnight.
