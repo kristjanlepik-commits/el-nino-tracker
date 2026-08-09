@@ -117,8 +117,31 @@ That is why the numbers above use 06Z and 18Z rather than the 09Z and 21Z
 pair that matches MIDAS more tightly. **The core hours cost nothing**: same
 97% coverage, same 5 tropical nights, same 36.4 C warmest day.
 
-    MUST CONFIRM BEFORE PUBLISHING   that 03772 is an RBSN station.
-                                     Checkable in WMO OSCAR/Surface.
+**CHECKED, AND IT CAME BACK AGAINST ME.** OSCAR/Surface for Heathrow:
+
+    GBON:Operational, RBON:Operational, GOS General:Operational
+    RBSN(S) - deprecated:CLOSED
+    RBCN - deprecated:Closed, CLIMAT(C) - deprecated:Closed
+
+**RBSN is closed at Heathrow, so the argument as I stated it fails.** RBSN has
+been superseded, and GBON is the designation the Unified Data Policy actually
+keys core data to. That is probably a stronger hook than the one I reached
+for, and "probably" is not a licence.
+
+Two residual questions I cannot settle from a search result, and neither
+should be waved through:
+
+    1  does GBON status carry the whole bulletin, or only the GBON-mandated
+       variables? GBON mandates instantaneous temperature, pressure, humidity
+       and wind. Our numbers are the 12-hour extremes in SECTION 333, which
+       is supplementary rather than mandated, and may not inherit core status
+    2  Rome/Ciampino shows RBON but NOT GBON, so even a clean GBON answer
+       would not cover all three cities
+
+**The honest position is that all three cities are blocked on the same
+question, and it is a question for a human.** The cheap resolution is asking
+the Met Office, HNMS and MeteoAM directly, which is the Keskkonnaagentuur
+move. I am not signing off any of the three until this is answered.
 
 NOAA is not an alternative route: ISD has no 2026 for this station (404) and
 its 2025 stops on 24 August, carrying extreme groups on only 74 of 236 days.
@@ -196,16 +219,25 @@ rather than the contingency.
 
 **Recorded so nobody re-runs these searches.** A negative result is a result.
 
-### Athens, the near miss
+### Athens: RESOLVED 2026-08-09, moved to viable
 
-    GHCN GR000016716 HELLINIKON, 9 km from centre
-    1955 to 2025-08, 30 of 30 baseline years, network 0 so no ECA&D licence
-    STOPS AUGUST 2025, exactly like the UK stations
+Previously rejected here on the SYNOP rule that turned out to be wrong.
 
-A clean 70-year history and no current summer. Its 2026 could only come from
-SYNOP, which reproduces TMAX exactly and TMIN not at all, so Athens would
-ship day-only and lose the metric it is best at. Greek national open data
-(opendata.hnms.gr) is unreachable.
+    station     GHCN GR000016716 = OSCAR 0-20000-0-16716 ATHINAI HELLINIKON
+    history     1955 to 2025-08, 30 of 30 baseline years, network 0
+    2026        SYNOP, 06Z min and 18Z max
+    coverage    99% min, 97% max, 96% both, 1 May to 9 Aug
+    agreement   100.0% EXACT against GHCN 2025, worst 0.0 C
+    programmes  GBON:Operational, RBON:Operational
+
+**The 100.0% is not independent validation and must not be described as
+such.** GHCN network 0 for Greece is built largely from the GTS synoptic
+stream, so this is the archive and the bulletins being the same thing rather
+than two sources agreeing. That is the RIGHT result for our purpose, which is
+whether SYNOP-2026 can extend the GHCN history without a splice, and it is
+weaker evidence than London's, where MIDAS is a genuinely separate archive.
+
+    2026 so far   68 tropical nights, warmest 38.3 C, 22 days at or above 35
 
 ### Istanbul
 
@@ -232,12 +264,34 @@ shape the eight working services do.
 about an hour each because the fetcher already existed. Italy is a multi-day
 investigation with an uncertain outcome, closer to the UK than to Bordeaux.
 
-**Rome is the only one worth returning to**, and only via a second source for
-2026. SYNOP reproduces TMAX exactly and TMIN not at all, so Rome would ship
-day-only and lose the metric a Mediterranean city is best at.
+**ROME: RESOLVED 2026-08-09.** The paragraph above costed Italy as a multi-day
+investigation with an uncertain outcome, "closer to the UK than to Bordeaux".
+That was wrong, and it was wrong for the same reason Athens was: it rested on
+the SYNOP rule generalised from Tallinn. Corrected, Rome took about twenty
+minutes.
 
-**The realistic path is asking ISPRA or MeteoAM directly**, the same move as
-the Keskkonnaagentuur request, rather than hunting for an endpoint.
+    station     GHCN IT000016239 = OSCAR 0-20000-0-16239 ROMA/CIAMPINO
+    history     1951 to 2025-08, 30 of 30 baseline years, network 0
+    2026        SYNOP, 06Z min and 18Z max
+    coverage    99% min, 99% max, 98% both, 1 May to 9 Aug
+    agreement   100.0% EXACT against GHCN 2025, worst 0.0 C
+    programmes  GOS General:Operational, RBON. NO GBON, unlike Athens
+                and Heathrow, which matters for the licence argument below.
+
+Same caveat as Athens: GHCN network 0 is GTS-derived, so this shows the
+archive and the bulletins are one thing, not two sources agreeing.
+
+**SYNOP is the more complete record here.** GHCN has only 61 of 92 summer
+2025 days for Rome's minimum; SYNOP has the season at 98%.
+
+    2026 so far   54 tropical nights, warmest 38.5 C, 33 days at or above 35
+
+Milan and Palermo are untouched by this and remain blocked: both GHCN records
+end long ago (2008, 2009) so there is no history to extend.
+
+**Do not read this as Italy being solved.** One station in Rome is now
+reachable. There is still no national daily archive, so a second Italian city
+needs the same per-station check rather than a fetcher.
 
 **Italy is also not in the August 2026 event:** Rome +5.9, Milan +7.3,
 Palermo +3.9, against Paris +13.6 and Bordeaux +12.8.
