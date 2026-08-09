@@ -59,6 +59,13 @@ OUT = ROOT / "heat" / "data" / "city_nights.json"
 # blocks template rather than discovering the second branch on city four.
 FEATURED = ("Paris", "Madrid", "Vienna")
 
+# Cities chosen from a FORECAST of the following week rather than from
+# observed history. Named here because any claim comparing 2026 against a
+# past year has to survive their removal: they were selected for 2026's heat
+# and would otherwise prove such a claim by construction.
+FORECAST_SELECTED = frozenset({"Bordeaux", "Toulouse", "Strasbourg",
+                               "Hanover", "Stuttgart", "Geneva"})
+
 # For the map. Product's ruling 2026-08-07: the geography IS the headline, and
 # a map is the only rendering where "the extreme band is the middle of the
 # domain" is legible. A table hides it; a ranked list sorts the quiet cities to
@@ -236,16 +243,71 @@ def main() -> int:
                  if _is_record(vv, "nights"))
     _d_now = sum(1 for cc, vv in S["cities"].items()
                  if _is_record(vv, "days"))
-    nights_worst = _n_now > _pre_n["worst_year_on_record"]["cities"]
-    days_worst = _d_now > _pre_d["worst_year_on_record"]["cities"]
-    nights_reason = (
-        "{0} cities at a night record against {1} in {2}, the worst prior "
-        "year.".format(_n_now, _pre_n["worst_year_on_record"]["cities"],
-                       _pre_n["worst_year_on_record"]["year"]))
-    days_reason = (
-        "{0} cities at a day record against {1} in {2}, the worst prior "
-        "year.".format(_d_now, _pre_d["worst_year_on_record"]["cities"],
-                       _pre_d["worst_year_on_record"]["year"]))
+    # LEAVE-ONE-OUT ON THE FORECAST-SELECTED CITIES. Product's ruling
+    # 2026-08-09, and the reasoning is theirs: six cities were chosen because
+    # 2026 is forecast hot there, so their 2026 counts are high BY
+    # CONSTRUCTION while their 2003 counts are incidental. That makes
+    # "2026 beats 2003" circular on this set and leaves "2003 beats 2026"
+    # safe, because the bias runs against it.
+    #
+    # I had checked that both sides recompute over the same 32 cities, which
+    # kills the counting-more-places artefact and is NOT this. The set itself
+    # is selected toward one of the two years being compared.
+    #
+    # So the claim must survive REMOVING the selected cities. That is a test
+    # rather than a judgement, and it discriminates: nights fails it, days
+    # passes. A blanket block would have withheld a defensible claim.
+    _sub = {"cities": {c: v for c, v in S["cities"].items()
+                       if c not in FORECAST_SELECTED},
+            "tie_rule": S["tie_rule"], "completeness": S["completeness"]}
+    _n_sub = sum(1 for c, v in _sub["cities"].items() if _is_record(v, "nights"))
+    _d_sub = sum(1 for c, v in _sub["cities"].items() if _is_record(v, "days"))
+    _pre_n_sub = record_rate(_sub, "nights")
+    _pre_d_sub = record_rate(_sub, "days")
+
+    nights_worst = (_n_now > _pre_n["worst_year_on_record"]["cities"]
+                    and _n_sub > _pre_n_sub["worst_year_on_record"]["cities"])
+    days_worst = (_d_now > _pre_d["worst_year_on_record"]["cities"]
+                  and _d_sub > _pre_d_sub["worst_year_on_record"]["cities"])
+    _loo = {
+        "test": "The claim must hold with the forecast-selected cities "
+                "REMOVED, because those cities were chosen for 2026's heat "
+                "and would otherwise prove the claim by construction.",
+        "excluded": sorted(FORECAST_SELECTED),
+        "nights": {"full": [_n_now, _pre_n["worst_year_on_record"]["cities"]],
+                   "without_selected": [
+                       _n_sub, _pre_n_sub["worst_year_on_record"]["cities"]]},
+        "days": {"full": [_d_now, _pre_d["worst_year_on_record"]["cities"]],
+                 "without_selected": [
+                     _d_sub, _pre_d_sub["worst_year_on_record"]["cities"]]},
+    }
+    def _reason(now, base, sub_now, sub_base, ok):
+        """Say which test decided it. A note that contradicts its own verdict
+        is the failure platform found in the definitions row this morning."""
+        head = ("{0} cities at a record against {1} in {2}, the worst prior "
+                "year.".format(now, base["cities"], base["year"]))
+        if ok:
+            return head + (" It exceeds that, and still exceeds it with the "
+                           "forecast-selected cities removed ({0} against "
+                           "{1}), so the claim does not rest on how those "
+                           "cities were chosen.".format(sub_now,
+                                                        sub_base["cities"]))
+        if now > base["cities"]:
+            return head + (" It exceeds that on the full set, BUT NOT WITH "
+                           "THE FORECAST-SELECTED CITIES REMOVED ({0} against "
+                           "{1}). Those six were chosen because 2026 is "
+                           "forecast hot there, so the claim would be true by "
+                           "construction. Unavailable, and not because the "
+                           "arithmetic fails.".format(sub_now,
+                                                      sub_base["cities"]))
+        return head + " It does not exceed that, so the claim is unavailable."
+
+    nights_reason = _reason(_n_now, _pre_n["worst_year_on_record"],
+                            _n_sub, _pre_n_sub["worst_year_on_record"],
+                            nights_worst)
+    days_reason = _reason(_d_now, _pre_d["worst_year_on_record"],
+                          _d_sub, _pre_d_sub["worst_year_on_record"],
+                          days_worst)
 
     cities = {}
     for c, v in S["cities"].items():
@@ -392,6 +454,7 @@ def main() -> int:
                     "may_say_worst_on_record": days_worst,
                     "reason": days_reason,
                 },
+                "selection_robustness": _loo,
                 "instruments_agree": nights_worst == days_worst,
                 "instruments_agree_note":
                     "Whether the two instruments happen to give the same "
@@ -725,11 +788,7 @@ def main() -> int:
                 "worst_year_on_record": {"year": 2003, "records": 12},
             },
             "may_say_worst_on_record": nights_worst,
-            "may_say_worst_note": nights_reason + (
-                " This year exceeds it, so the claim is available."
-                if nights_worst else
-                " This year does NOT exceed it, so the claim is unavailable "
-                "and a page must not imply it."),
+            "may_say_worst_note": nights_reason,
             "may_not_say": B["may_not_say"],
             "may_not_say_note":
                 "Curated text, retained. Where it disagrees with "
@@ -760,11 +819,7 @@ def main() -> int:
             # have told a page it may claim the worst on record with zero
             # cities at one. Found by the extremes test, not by review.
             "may_say_worst_on_record": days_worst,
-            "may_say_worst_note": days_reason + (
-                " This year exceeds it, so the claim is available."
-                if days_worst else
-                " This year does NOT exceed it, so the claim is unavailable "
-                "and a page must not imply it."),
+            "may_say_worst_note": days_reason,
         },
         "geography": {
             # COMPUTED, NOT WRITTEN. The previous version said "every city in
@@ -952,11 +1007,16 @@ def main() -> int:
     # Does the emitted permission match what the counts actually say? This
     # checks CONSISTENCY, not a particular answer, so it holds in a calm year
     # and a record year alike.
+    # Expected now includes the leave-one-out test, because the rule does.
+    # This guard fired when the rule changed and the guard did not, which is
+    # the guard being right rather than in the way.
     for label, emitted, expected in (
             ("nights", nights_worst,
-             len(recs) > nbase["worst_year_on_record"]["cities"]),
+             len(recs) > nbase["worst_year_on_record"]["cities"]
+             and _n_sub > _pre_n_sub["worst_year_on_record"]["cities"]),
             ("days", days_worst,
-             len(drecs) > dbase["worst_year_on_record"]["cities"])):
+             len(drecs) > dbase["worst_year_on_record"]["cities"]
+             and _d_sub > _pre_d_sub["worst_year_on_record"]["cities"])):
         if emitted != expected:
             print(f"  FAIL: {label} may_say_worst_on_record is {emitted} but "
                   f"the counts say {expected}. The copy would claim something "

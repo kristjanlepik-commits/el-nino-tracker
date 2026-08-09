@@ -130,6 +130,36 @@ So the geography headline stays unsettled, and product's fallback of saying
 "western Europe" rather than a latitude band is now the likely outcome
 rather than the contingency.
 
+## ATTEMPTED AND NOT AVAILABLE
+
+**Recorded so nobody re-runs these searches.** A negative result is a result.
+
+### Athens, the near miss
+
+    GHCN GR000016716 HELLINIKON, 9 km from centre
+    1955 to 2025-08, 30 of 30 baseline years, network 0 so no ECA&D licence
+    STOPS AUGUST 2025, exactly like the UK stations
+
+A clean 70-year history and no current summer. Its 2026 could only come from
+SYNOP, which reproduces TMAX exactly and TMIN not at all, so Athens would
+ship day-only and lose the metric it is best at. Greek national open data
+(opendata.hnms.gr) is unreachable.
+
+### Istanbul
+
+    GHCN TU000017062   1929 to 2007      long record, ends 19 years ago
+    GHCN TUM00017064   2014 to 2025-08   current-ish, far too short
+
+No viable history at any standard. mgm.gov.tr unreachable.
+
+### UK and Ireland
+
+Six routes tested for the UK, all failing on currency or licence; see the
+London section above. Met Eireann's data host (cli.fusio.net) is unreachable
+from here.
+
+**Neither is in the August 2026 event:** Dublin +6.3 against Paris +13.6.
+
 ## UNTESTED CANDIDATES
 
 Listed with what needs checking rather than a guess at the answer.

@@ -101,8 +101,8 @@
     "records": 12
    }
   },
-  "may_say_worst_on_record": true,
-  "may_say_worst_note": "17 cities at a night record against 15 in 2003, the worst prior year. This year exceeds it, so the claim is available.",
+  "may_say_worst_on_record": false,
+  "may_say_worst_note": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails.",
   "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
   "may_not_say_note": "Curated text, retained. Where it disagrees with may_say_worst_on_record above, the COMPUTED field wins: that one regenerates and this one does not.",
   "the_better_story": "Three of the four worst years on this measure are the last four years. A pattern rather than an event.",
@@ -151,7 +151,7 @@
   },
   "measure": "days at or above this city's own 95th percentile of July-August maxima, counted to the same cut",
   "may_say_worst_on_record": true,
-  "may_say_worst_note": "20 cities at a day record against 11 in 2003, the worst prior year. This year exceeds it, so the claim is available."
+  "may_say_worst_note": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
  },
  "geography": {
   "claim": "The extreme is concentrated in the middle latitudes, not at the hot end.",
@@ -639,14 +639,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -1503,14 +1534,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -1995,14 +2057,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -2482,14 +2575,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -2941,14 +3065,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -3410,14 +3565,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -3856,14 +4042,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -4170,14 +4387,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -4530,14 +4778,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -4978,14 +5257,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -5429,14 +5739,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -6113,14 +6454,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -6560,14 +6932,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -7007,14 +7410,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -7429,14 +7863,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -7798,14 +8263,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -8498,14 +8994,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -8984,14 +9511,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -9495,14 +10053,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -9974,14 +10563,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -10409,14 +11029,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -10846,14 +11497,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -11361,14 +12043,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -11795,14 +12508,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -12199,14 +12943,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -12655,14 +13430,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -13306,14 +14112,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -13753,14 +14590,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -14200,14 +15068,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -14668,14 +15567,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -15159,14 +16089,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
@@ -15581,14 +16542,45 @@
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
-     "may_say_worst_on_record": true,
-     "reason": "17 cities at a night record against 15 in 2003, the worst prior year."
+     "may_say_worst_on_record": false,
+     "reason": "17 cities at a record against 15 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (13 against 14). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "days": {
      "may_say_worst_on_record": true,
-     "reason": "20 cities at a day record against 11 in 2003, the worst prior year."
+     "reason": "20 cities at a record against 11 in 2003, the worst prior year. It exceeds that, and still exceeds it with the forecast-selected cities removed (15 against 9), so the claim does not rest on how those cities were chosen."
     },
-    "instruments_agree": true,
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "nights": {
+      "full": [
+       17,
+       15
+      ],
+      "without_selected": [
+       13,
+       14
+      ]
+     },
+     "days": {
+      "full": [
+       20,
+       11
+      ],
+      "without_selected": [
+       15,
+       9
+      ]
+     }
+    },
+    "instruments_agree": false,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [
      "ordinary"
