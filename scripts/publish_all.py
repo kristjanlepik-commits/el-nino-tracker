@@ -496,7 +496,37 @@ def main() -> None:
 
     saved = snapshot_targets()
 
-    for name, cmd in STEPS:
+    steps = list(STEPS)
+    # THE HEAT GATE MUST NOT BE ROUTABLE AROUND, which it was until now.
+    #
+    # heat/refresh_gate.py decides whether a refreshed payload may publish
+    # itself or needs product to look. But the heat pages are also rebuilt
+    # here, as two ordinary steps, from whatever is committed at
+    # heat/data/city_nights.json. So the Monday brief, or any hand run of
+    # this script, would have rendered a held payload straight onto the
+    # live pages without the gate being consulted at all.
+    #
+    # Nobody would have seen it happen. The gate would still be sitting
+    # there reporting HOLD, correctly, about pages that had already
+    # shipped. A guard that another path can bypass is not a guard, it is
+    # a report, and this project has shipped that shape twice.
+    #
+    # Skips the two heat steps rather than failing the publish: a held
+    # refresh means the LAST APPROVED pages stay up, which is the correct
+    # state, and it must never take the ENSO shell or another channel down
+    # with it (invariant 1, D-028).
+    gate = subprocess.run([PY, "heat/refresh_gate.py"], cwd=ROOT,
+                          capture_output=True, text=True)
+    heat_held = gate.returncode != 0
+    if heat_held:
+        steps = [s for s in steps if not s[0].startswith("heat")]
+        print("  HEAT HELD, its pages are NOT rebuilt this run. The last "
+              "approved heat pages stay live and every other channel "
+              "publishes normally.")
+        for line in (gate.stdout + gate.stderr).strip().splitlines():
+            print(f"    {line.strip()}")
+
+    for name, cmd in steps:
         # fires/*.py import tokens and run_brief from the repo root.
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True,
                            env={**__import__("os").environ,
@@ -548,6 +578,25 @@ def main() -> None:
                   "longer produces; run scripts/publish_all.py and commit.")
             raise SystemExit(1)
         return
+
+    # Advance the gate's reference, but ONLY when it passed and only on a
+    # real publish. The gate compares against the last payload a reader
+    # actually saw, so if that reference never moves it drifts further
+    # from the live pages every week and eventually holds on changes that
+    # already shipped.
+    #
+    # Safe precisely because the gate passed: a pass means no rank, band,
+    # count or claim moved, so promoting it asserts nothing new. On a HOLD
+    # the reference deliberately stays put, because the pages did too.
+    if not heat_held:
+        cur = ROOT / "heat/data/city_nights.json"
+        pub = ROOT / "heat/data/published/city_nights.json"
+        if cur.exists() and (not pub.exists() or pub.read_bytes() != cur.read_bytes()):
+            pub.parent.mkdir(parents=True, exist_ok=True)
+            pub.write_bytes(cur.read_bytes())
+            print("  promoted heat/data/published/city_nights.json to the "
+                  "payload just published; the gate now compares against "
+                  "what is actually live.")
 
     print(f"\npublished, all checks passed. {len(changed)} page(s) changed:")
     for c in changed:
