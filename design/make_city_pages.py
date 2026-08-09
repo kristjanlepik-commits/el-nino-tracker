@@ -469,23 +469,31 @@ for name, v in sorted(C.items()):
     # headline and the same drop was in four places: a figure counted to 3
     # August, stated as though it were a season total. The matched basis
     # again, in the sentence a reader is most likely to quote.
-    rank_clause = ("more than in any summer on record by this date"
-                   if dr["value"] == 1
-                   else f"{ordn(dr['value'])} of its {dr['of_years']} summers")
-    if mult_ok:
-        # ONE ROUNDING. The headline printed 2 and the squares row an inch
-        # below printed 1.8, and Paris 1.8, Berlin 2.1 and Stockholm 2.0 all
-        # became the same "2". VD Heat, from the reader's seat. The decimal
-        # goes in both, because the alternative is rounding away a real
-        # difference between three cities to make one sentence read rounder.
-        head = (f"{name} used to get {base:.1f} hot day{'s' if base != 1 else ''} "
-                f"by this point in the summer. This year: {now}, "
-                + ("more than in any summer on record by this date."
-                   if dr["value"] == 1
-                   else f"which is {rank_clause}."))
+    # ONE TIER, TEN WORDS. VD Main's diagnosis: the headline and the squares
+    # were the same sentence printed twice, eight inches apart, so shrinking
+    # the first half only made the duplicate quieter. The squares already say
+    # 1.7 against 37 better than words can, so the headline's job is what the
+    # comparison MEANS.
+    #
+    # Their record form, taken as written. For a city NOT at a record their
+    # form was "9 hot days so far, and the summer is not over", and that is
+    # the same sentence for Hamburg at the 92nd percentile and Helsinki at
+    # the 52nd. It would be the same for a city at 60th of 76. The only
+    # qualifier in it is true everywhere and reads as a warning, so the calm
+    # cities lead with an escalation and the rank is demoted to the line
+    # below: the small-grey-line pattern VD themselves ruled out, inverted.
+    #
+    # THE RANK IS WHAT THE HEADLINE IS FOR ON THOSE CITIES. The squares show
+    # a multiple, and a multiple alone always implies escalation. The rank is
+    # the only thing that corrects it and it appears in no graphic on the
+    # page. Same length, same structure, and it survives the boundary: at 8th
+    # of 91 it reads as notable, at 28th of 56 as unremarkable, off one
+    # template rather than two.
+    if dr["value"] == 1:
+        head = f"The most hot days {name} has recorded by this date."
     else:
-        head = (f"{name} has had {now} hot days by this point in the summer, "
-                f"{rank_clause}.")
+        head = (f"{now} hot days so far, {ordn(dr['value'])} of "
+                f"{name}'s {dr['of_years']} summers.")
 
     # THE PEAK CARRIES ITS OWN RANK. Seven cities have peak == record, so
     # the sentence branches rather than being templated.
