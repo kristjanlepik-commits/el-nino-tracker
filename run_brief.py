@@ -3133,11 +3133,30 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             f'{magn_pct}% chance of a 1997 / 2015-magnitude event.</p>'
         )
 
-    # CWWA from physical-state fetch
-    wwe_fresh = freshness.get("era5_wwe", {})
-    wwe_live = wwe_fresh.get("ok") and not wwe_fresh.get("used_fallback")
-    cwwa_value = phys.get("cwwa_ms_days") if wwe_live else None
-    cwwa_analogs = phys.get("cwwa_analogs", {}) if wwe_live else {}
+    # CWWA from physical-state fetch.
+    #
+    # THE GATE TESTS THE DATA, NOT THE METADATA ABOUT THE DATA, and science
+    # found the root cause after VD found the symptom. This read the
+    # freshness dict, which `scripts/publish_shell.py` passes as `{}` at
+    # both call sites, so `wwe_live` was False and the gate closed over
+    # `cwwa_ms_days = 519.21` that was sitting in the snapshot the whole
+    # time, with 157 series points and four analog years behind it.
+    #
+    # The front door and the site front page therefore rendered n/a for a
+    # measurement we held, while the archive for the same issue showed 519.
+    # Not staleness: the renderer discarding what it had because a second
+    # object failed to say it was allowed to.
+    #
+    # Testing the value makes every PAST issue whole too, because the data
+    # is already in every snapshot. Fixing it at the freshness end would
+    # only help from 08-17 forward.
+    #
+    # This also repairs the interaction with the empty-row rule I added
+    # earlier: dropping an all-n/a row is right, but under the old gate it
+    # permanently HID a measurement rather than disclosing an absence. The
+    # rule was fine and the gate feeding it was wrong.
+    cwwa_value = phys.get("cwwa_ms_days")
+    cwwa_analogs = phys.get("cwwa_analogs", {}) or {}
 
     def _cwwa_at(year, target_iso):
         ser = cwwa_analogs.get(year) or cwwa_analogs.get(str(year))
@@ -3149,7 +3168,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                 return float(v)
         return float(ser[-1][1])
 
-    target_iso = wwe_fresh.get("issued") or ""
+    # The date to compare the analogs at comes from the series itself, which
+    # is the same principle as the gate above: the data knows how far it
+    # reaches, and the metadata that used to say so is not always passed.
+    _cs = phys.get("cwwa_series") or []
+    target_iso = (_cs[-1][0] if _cs else "")
     cwwa_97 = _cwwa_at(1997, target_iso)
     cwwa_15 = _cwwa_at(2015, target_iso)
     cwwa_23 = _cwwa_at(2023, target_iso)
@@ -3189,8 +3212,8 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     jfm_2026_str = (_signed_temp(jfm_2026, 2) if jfm_2026 is not None else "−0.16")
 
     # Heat content cell for physical state table
-    hc_fresh = freshness.get("heat_content", {})
-    hc_live = hc_fresh.get("ok") and not hc_fresh.get("used_fallback")
+    # Same gate, same fix: the value decides, not the metadata about it.
+    hc_live = phys.get("heat_content_0_300m_estimate") is not None
     # F2, VD: ONE QUANTITY PRINTS ONCE. The hero strip carried +2.96 while
     # this cell carried "~+3.0°C (placeholder)" for the same number on the
     # same page, so a reader saw one quantity at two values and no way to
@@ -3578,10 +3601,10 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         # after that. The computed comparison already carries it.
     )
 
-    if wwe_live and cwwa_value is not None:
+    if cwwa_value is not None:
         physical_html += (
             f'<div class="note"><strong>CWWA:</strong> Live ERA5 daily 850 hPa zonal wind through '
-            f'{h(wwe_fresh.get("issued", ""))}, area-meaned over 5°N–5°S, 130°E–150°W and integrated '
+            f'{h(target_iso)}, area-meaned over 5°N–5°S, 130°E–150°W and integrated '
             f'for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. '
             f'Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism '
             f'that excites downwelling Kelvin waves and drives moderate-to-super event '
@@ -4369,7 +4392,8 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
         return float(ser[-1][1])
 
     if wwe_ok and cwwa_value is not None:
-        target_iso = wwe_fresh.get("issued") or ""
+        _cs = phys.get("cwwa_series") or []
+        target_iso = (_cs[-1][0] if _cs else "")
         a97 = _analog_value_at(1997, target_iso)
         a15 = _analog_value_at(2015, target_iso)
         cached_tag = " (cached)" if wwe_cached else ""
