@@ -390,7 +390,66 @@ def claim_shapes(country: dict) -> list:
     return out
 
 
-def _region_block(r: dict, all_regions: list, driver: str) -> str:
+def _region_layers(r: dict, legend: dict, absence: dict) -> str:
+    """A region's own five instruments, each against its own 26 years.
+
+    2,107 regions carried these and no page drew one. Every country page,
+    not only the European ones: it is invisible on Chad because five
+    record-low blocks fill the screen, and obvious on France because a
+    country with nothing at a record has nothing else to show. Same gap,
+    different backdrop.
+
+    Compact rather than a copy of the country block. The country's version
+    carries a name, a unit, a baseline mean and a statement per row; at
+    twenty-two regions that is five hundred rows of prose. This is the
+    figure, its rank, and the same track, which is what "against baseline"
+    actually needs.
+
+    NAMES AND UNITS COME FROM instrument_legend, never from a dict here.
+    The payload keys them (zfpar, wsi, spi3, sm, temp) and glosses them,
+    so a sixth instrument arrives named rather than as a bare code.
+
+    AN ABSENT INSTRUMENT KEEPS ITS ROW and prints CRO's own reason. Soil
+    moisture printing "not reported" with its own row rather than being
+    dropped is the ragged edge done correctly, and it was named as a thing
+    not to tidy away. Dropping it here would tidy it away 2,107 times.
+    """
+    ins = r.get("instruments") or {}
+    if not ins:
+        return ""
+    order = {k: i for i, k in enumerate(
+        ["zfparc", "zfpar", "wsi", "spi3", "sm", "temp"])}
+    rows = []
+    for key in sorted(ins, key=lambda k: order.get(k, 99)):
+        v = ins[key] or {}
+        meta = legend.get(key) or {}
+        name = h(meta.get("name", key))
+        if v.get("value") is None:
+            why = absence.get(v.get("absent", ""), "")
+            rows.append(f'<div class="rl rl-out"><span>{name}</span>'
+                        f'<span class="rlv">not reported</span><span></span>'
+                        f'<span class="rls">{h(why)}</span></div>')
+            continue
+        rec = v.get("rank") == 1
+        rows.append(
+            f'<div class="rl{" rl-rec" if rec else ""}"><span>{name}</span>'
+            f'<span class="rlv">{h(_fmt(v.get("value"), meta.get("unit")))}</span>'
+            f'{_rank_track(v.get("rank"), v.get("of"), rec)}'
+            # DIRECTION COMES FROM THE LEGEND. Four instruments are worse
+            # low and temperature is worse high, so a hard-coded "lowest"
+            # printed Alsace's rank 7 as "7th lowest" when it is the 7th
+            # WARMEST of 26. That inverts the reading on the one instrument
+            # where the alarming end differs, which is the mixed-sense
+            # defect VD flagged on the country block, reproduced 2,107
+            # times one level down.
+            f'<span class="rls">{h(_ord(v["rank"]))} '
+            f'{"highest" if meta.get("worse_is") == "high" else "lowest"} of '
+            f'{h(str(v.get("of", "")))}</span></div>')
+    return '<div class="rls-wrap">' + "".join(rows) + '</div>'
+
+
+def _region_block(r: dict, all_regions: list, driver: str,
+                  legend=None, absence=None) -> str:
     """One region. `driver` is the REGION's, never the country's.
 
     This read the country field and it is the Cairo fault one level
@@ -416,6 +475,7 @@ def _region_block(r: dict, all_regions: list, driver: str) -> str:
           <span class="rgstate">{h(r.get('statement', ''))}</span></p>
         {drv}
         {_series_chart(r.get('series') or {})}
+        {_region_layers(r, legend or {}, absence or {})}
         <p class="rgbasis">{h(r.get('basis', ''))}</p>
         {f'<ul class="rgq">{quals}</ul>' if quals else ''}
       </section>"""
@@ -546,7 +606,10 @@ def render(country: dict, root_prefix: str = "../../") -> str:
     #
     # Ordered by value, worst first, so the record lows are still the top
     # rows and a calm country is drawn rather than summarised (D-043).
-    blocks = "".join(_region_block(r, regions, r.get("driver"))
+    _legend = country.get("_instrument_legend") or {}
+    _absence = country.get("_absence_reasons") or {}
+    blocks = "".join(_region_block(r, regions, r.get("driver"),
+                                   _legend, _absence)
                      for r in regions)
     return f"""<!doctype html>
 <html lang="en">
@@ -628,6 +691,26 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   .ly {{ grid-template-columns:1fr auto; }}
   .rt {{ grid-column:1 / -1; }}
   .lys {{ grid-column:1 / -1; }} }}
+/* A REGION'S OWN FIVE, tighter than the country's. The country block
+   gives each instrument a name, a unit, a baseline mean and a sentence;
+   at twenty-two regions that is five hundred rows of prose. Here it is
+   the figure, the rank and the same track, which is what "against its
+   own baseline" actually needs. Same track component, so the two read
+   as one instrument at two scales rather than as two devices. */
+.rls-wrap {{ margin:12px 0 0; border-top:1px solid var(--rule); }}
+.rl {{ display:grid; grid-template-columns:10.5rem 4.5rem 96px 1fr;
+  gap:10px; padding:6px 0; border-bottom:1px solid var(--rule);
+  align-items:baseline; font-size:13px; }}
+.rlv {{ font-family:"IBM Plex Mono",monospace; font-size:13px;
+  font-variant-numeric:tabular-nums; text-align:right; }}
+.rls {{ font-size:11.5px; color:var(--ink-faint);
+  font-family:"IBM Plex Mono",monospace; }}
+.rl-rec .rlv {{ color:var(--crop); font-weight:600; }}
+.rl-out span, .rl-out .rlv {{ color:var(--ink-faint); }}
+.rl-out .rlv {{ font-style:italic; }}
+@media (max-width:600px) {{
+  .rl {{ grid-template-columns:1fr auto; }}
+  .rl .rt, .rls {{ grid-column:1 / -1; }} }}
 .note {{ margin:16px 0 0; font-size:13.5px; color:var(--ink-soft);
   max-width:64ch; }}
 .foot {{ margin-top:46px; padding-top:14px; border-top:1px solid var(--ink);

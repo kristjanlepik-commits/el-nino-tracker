@@ -54,7 +54,14 @@ def main() -> None:
             raise SystemExit(
                 f"{p['place']}: no `series` on {', '.join(missing)}. "
                 "Refusing to render a history chart with no history.")
-        p = dict(p, dekad=doc.get("dekad", ""))
+        # The instrument legend and the absence glosses are DOC-level and
+        # the template renders a place, so they ride along rather than
+        # being re-typed in the template. Names and reasons then come from
+        # CRO's payload, and a sixth instrument arrives named instead of as
+        # a bare key.
+        p = dict(p, dekad=doc.get("dekad", ""),
+                 _instrument_legend=doc.get("instrument_legend") or {},
+                 _absence_reasons=doc.get("absence_reasons") or {})
         out = os.path.join(OUTDIR, slugify(p["place"]))
         os.makedirs(out, exist_ok=True)
         with open(os.path.join(out, "index.html"), "w") as fh:
