@@ -156,7 +156,23 @@ def draw(city, metric, reference=None):
 
     ax.bar(years, [vals[y] for y in years], width=0.86, color=QUIET,
            linewidth=0)
-    ax.bar([2026], [now], width=0.86, color=NOW, linewidth=0)
+    # WHAT THE RED BAR MEANS, which VD asked and which the site had already
+    # answered on another channel. From templates/crops_country.py:
+    #
+    #   "The current year takes the channel hue ONLY when it is the lowest
+    #    in the series. A record year drawn in crop and an ordinary year
+    #    drawn in ink is the calibration rule applied to a bar, and it
+    #    means the colour carries the finding rather than the recency."
+    #
+    # That is D-043 applied to a bar, and it settles VD's question without
+    # a new rule: the hue is not "this year", it is "this year is a record".
+    # Both charts today are records, so nothing visible changes now. The
+    # first Note covering an ordinary summer is the one this is for, and it
+    # is exactly when a bar drawn in the ramp's hottest step would claim
+    # something the numbers do not.
+    _is_record = now > max(vals.values())
+    _mark = NOW if _is_record else INK
+    ax.bar([2026], [now], width=0.86, color=_mark, linewidth=0)
 
     prev = max(vals.values())
     # CLEAR SPACE AROUND THE MARK THAT CARRIES THE CLAIM. VD: the 2026 bar
@@ -250,7 +266,7 @@ def draw(city, metric, reference=None):
                 ha="left", fontsize=10.5, color=INK_FAINT)
     ax.annotate(f"{floor}{now}".strip(), (2026, now), xytext=(0, 7),
                 textcoords="offset points", ha="center", va="bottom",
-                fontsize=15, color=NOW, weight="bold")
+                fontsize=15, color=_mark, weight="bold")
 
     ax.yaxis.set_major_locator(MaxNLocator(4, integer=True))
     ax.tick_params(labelsize=11, colors=INK_FAINT, length=0)
