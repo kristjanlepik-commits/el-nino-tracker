@@ -15,6 +15,9 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO)
 
 from templates.crops_country import render, slugify, claim_shapes  # noqa: E402
+from templates.crops_index import PINNED, PINNED_REGIONS  # noqa: E402
+
+PINNED_PLACES = set(PINNED) | {c for c, _ in PINNED_REGIONS}
 
 DATA = os.path.join(REPO, "crops", "data", "stress_current.json")
 OUTDIR = os.path.join(REPO, "docs", "crops")
@@ -29,8 +32,19 @@ def main() -> None:
 
     written, shapes = 0, {}
     for p in places:
+        # A page is built when the country has a region at a record low
+        # OR when it is PINNED on the index. Pinned countries are shown
+        # every week whether or not anything is happening in them, which
+        # is the whole point of pinning, so by definition they need not
+        # have a record low. Without this the index names seven European
+        # countries that have nowhere to click, and the dead-link guard
+        # correctly refuses to link them.
+        #
+        # PINNED is imported rather than duplicated: two lists that can
+        # disagree about which countries are pinned is exactly the class
+        # of defect this channel keeps finding.
         lows = [r for r in (p.get("regions") or []) if r.get("rank") == 1]
-        if not lows:
+        if not lows and p["place"] not in PINNED_PLACES:
             continue
         # Fail loudly rather than drawing an empty chart. The series is
         # the reason this page exists; a region silently missing one
