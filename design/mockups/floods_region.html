@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Floods region page &middot; mockup</title>
+<title>Floods region page &middot; four states</title>
 <style>
 @font-face {
   font-family: "Spectral";
@@ -78,56 +78,48 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink-soft);
  font-family:"Spectral",Georgia,serif;font-size:17px;line-height:1.6}
-main{max-width:900px;margin:0 auto;padding:36px 26px 80px}
+main{max-width:900px;margin:0 auto;padding:36px 26px 90px}
 .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.22em;
  text-transform:uppercase;color:var(--ink-faint)}
-h1{font-weight:400;font-size:34px;line-height:1.14;color:var(--ink);margin:12px 0 2px}
-.when{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:26px}
+h1{font-weight:400;font-size:32px;color:var(--ink);margin:12px 0 22px}
+h2{font-weight:400;font-size:27px;color:var(--ink);margin:0 0 2px}
+.when{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+.note{margin:14px 0 0;font-size:15.5px;max-width:68ch}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:20px}
 @media(max-width:760px){.two{grid-template-columns:1fr}}
-.pan{border-top:3px solid var(--ink);padding:14px 0 16px}
-/* cannot_say is NOT a degraded view. Same weight of rule, same space; what
-   differs is that it shows its own evidence instead of a rank. */
-.pan-cannot_say{border-top-color:var(--ink)}
+.pan{border-top:3px solid var(--ink);padding:13px 0 15px}
 .pin{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;
  text-transform:uppercase;color:var(--ink)}
 .pmeas{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint);
- margin-bottom:12px}
-.fig{font-family:"IBM Plex Mono",monospace;font-size:42px;font-weight:500;
+ margin-bottom:11px}
+.fig{font-family:"IBM Plex Mono",monospace;font-size:40px;font-weight:500;
  color:var(--ink);line-height:1;font-variant-numeric:tabular-nums}
 .un{font-size:13px;color:var(--ink-faint);margin-left:5px}
-.cannot{font-family:"IBM Plex Mono",monospace;font-size:23px;letter-spacing:.02em;
- color:var(--ink);line-height:1.1}
+.cannot{font-family:"IBM Plex Mono",monospace;font-size:22px;color:var(--ink);
+ line-height:1.1}
+/* AWAITING IS NOT A DIMMER CANNOT-SAY. It carries no evidence at all,
+   because there is nothing yet to have evidence about; the shape says so
+   before any word is read. */
+.await{font-family:"IBM Plex Mono",monospace;font-size:22px;color:var(--ink-faint);
+ line-height:1.1}
 .rk{font-family:"IBM Plex Mono",monospace;font-size:15px;color:var(--ink);
  margin-top:8px;font-variant-numeric:tabular-nums}
 .of{color:var(--ink-faint)}
-.sub{display:block;font-size:11.5px;color:var(--ink-faint);margin-top:3px;
- letter-spacing:0;text-transform:none}
+.sub{display:block;font-size:11.5px;color:var(--ink-faint);margin-top:3px}
 .obs{margin-top:14px}
-.obsbar{height:10px;background:var(--paper-sunk);position:relative}
-.obsfill{height:10px;background:var(--ink)}
-.obsl{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint);
- margin-top:7px;line-height:1.6}
-.obsl b{color:var(--ink);font-weight:500}
+.obsbar{height:9px;background:var(--paper-sunk)}
+.obsfill{height:9px;background:var(--ink-faint)}
+.obsl{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint);
+ margin-top:6px;line-height:1.6}
+.obsl b{color:var(--ink)}
 .why{font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin:11px 0 0;
  padding-left:13px;border-left:2px solid var(--rule)}
 .pslots{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-faint);
  margin-top:14px;padding-top:9px;border-top:1px solid var(--rule)}
-.note{margin-top:30px;font-size:15.5px;color:var(--ink-soft);max-width:66ch}
-.sep{margin-top:56px;padding-top:8px;border-top:1px solid var(--rule)}
+.pslots b{color:var(--ink)}
+.sep{margin-top:50px}
 </style></head><body><main>
-
-<div class="eyebrow">Floods &middot; region page &middot; mockup, not published</div>
-<h1>Manila and the Pampanga basin</h1>
-<div class="when">Week of 2026-08-02 to 2026-08-08 &middot; read 2026-08-10</div>
-<p class="note"><strong>One instrument answered and the other could not.</strong>
-That is not a degraded view of this page. On this channel it is the finding.</p>
-<div class="two"><section class="pan pan-measured"><div class="pin">GPM IMERG Late Run v07</div><div class="pmeas">rainfall, NOT flooding</div><div class="fig">319.8<span class="un">mm</span></div><div class="rk">2<span class="of"> of 27</span><span class="sub">3.17&times; the median week</span></div><div class="pslots">7 of 7 days in, 26 prior years, ranked against them plus this week</div></section><section class="pan pan-cannot_say"><div class="pin">NASA MODIS MCDWD 3-Day composite</div><div class="pmeas">standing water outside the reference water mask</div><div class="cannot">cannot say</div><div class="rk"><span class="sub">this instrument cannot see this place well enough to rank it</span></div><div class="obs"><div class="obsbar"><div class="obsfill" style="width:19%"></div></div><div class="obsl"><b>4.5%</b> of the region was visible this week, against 23.2% in a median week</div></div><p class="why">across 20 years the flood measure tracks how much the satellite could see (rank correlation +0.82), so a ranking here would rank clear skies rather than floods</p><p class="why">the median week holds 174 flood pixels, below the 300 at which the two MODIS products stop agreeing</p><div class="pslots">7 of 6 days in, 20 prior years, ranked against them plus this week</div></section></div>
-
-<div class="sep"></div>
-<div class="eyebrow" style="margin-top:26px">The same page where both instruments answer</div>
-<h1>Juba and Shabelle basins</h1>
-<div class="when">Week of 2023-11-10 to 2023-11-16</div>
-<div class="two"><section class="pan pan-measured"><div class="pin">GPM IMERG Late Run v07</div><div class="pmeas">rainfall, NOT flooding</div><div class="fig">37.8<span class="un">mm</span></div><div class="rk">2<span class="of"> of 25</span><span class="sub">6.67&times; the median week</span></div><div class="pslots">7 of 7 days in, 24 prior years, ranked against them plus this week</div></section><section class="pan pan-measured"><div class="pin">NASA MODIS MCDWD 3-Day composite</div><div class="pmeas">standing water outside the reference water mask</div><div class="fig">17,579<span class="un">250m pixels</span></div><div class="rk">3<span class="of"> of 24</span><span class="sub">6.12&times; the median week</span></div><div class="pslots">7 of 7 days in, 23 prior years, ranked against them plus this week</div></section></div>
-
+<div class="eyebrow">Floods &middot; region page &middot; four states &middot; mockup</div>
+<h1>One template, four states, four real payloads</h1>
+<div class="sep"></div><h2>Manila and the Pampanga basin</h2><div class="when">Week of 2026-08-02 to 2026-08-08 &middot; read 2026-08-10</div><p class="note"><strong>One instrument answered and the other could not.</strong> That is not a degraded view of this page. On this channel it is the finding.</p><div class="two"><section class="pan pan-measured"><div class="pin">GPM IMERG Late Run v07</div><div class="pmeas">rainfall, NOT flooding</div><div class="fig">319.8<span class="un">mm</span></div><div class="rk">2<span class="of"> of 27</span><span class="sub">3.17&times; the median week</span></div><div class="pslots">7 of 7 days in &middot; 26 prior years</div></section><section class="pan pan-cannot_say"><div class="pin">NASA MODIS MCDWD 3-Day composite</div><div class="pmeas">standing water outside the reference water mask</div><div class="cannot">cannot say</div><div class="rk"><span class="sub">this region cannot be ranked on this instrument, in any week</span></div><p class="why">across 20 years the flood measure tracks how much the satellite could see (rank correlation +0.82), so a ranking here would rank clear skies rather than floods</p><p class="why">the median week holds 174 flood pixels, below the 300 at which the two MODIS products stop agreeing</p><div class="obs"><div class="obsbar"><div class="obsfill" style="width:19%"></div></div><div class="obsl"><b>4.5%</b> of the region was visible this week, far less than usual, against 23.2% in a median week</div></div><div class="pslots">7 days in, ahead of the 6 expected by this date &middot; 20 prior years</div></section></div><div class="sep"></div><h2>Manila and the Pampanga basin</h2><div class="when">Week of 2023-08-02 to 2023-08-08 &middot; read 2023-08-14</div><p class="note">The same region in a <strong>quiet</strong> week, with two days missing from the archive. Rainfall was 24th of 27, well below normal. The flood measure still cannot answer, and this time visibility was ordinary, which is the point: the disqualification is structural, not weather.</p><div class="two"><section class="pan pan-measured"><div class="pin">GPM IMERG Late Run v07</div><div class="pmeas">rainfall, NOT flooding</div><div class="fig">43.2<span class="un">mm</span></div><div class="rk">24<span class="of"> of 27</span><span class="sub">0.38&times; the median week</span></div><div class="pslots">7 of 7 days in &middot; 26 prior years</div></section><section class="pan pan-cannot_say"><div class="pin">NASA MODIS MCDWD 3-Day composite</div><div class="pmeas">standing water outside the reference water mask</div><div class="cannot">cannot say</div><div class="rk"><span class="sub">this region cannot be ranked on this instrument, in any week</span></div><p class="why">across 20 years the flood measure tracks how much the satellite could see (rank correlation +0.82), so a ranking here would rank clear skies rather than floods</p><p class="why">the median week holds 174 flood pixels, below the 300 at which the two MODIS products stop agreeing</p><div class="obs"><div class="obsbar"><div class="obsfill" style="width:90%"></div></div><div class="obsl"><b>20.8%</b> of the region was visible this week, about as much as usual, against 23.2% in a median week</div></div><div class="pslots"><b>5 of 7 days in</b>, 2 missing from the archive &middot; 20 prior years</div></section></div><div class="sep"></div><h2>Juba and Shabelle basins</h2><div class="when">Week of 2026-11-10 to 2026-11-16 &middot; read 2026-08-10</div><p class="note"><strong>Not yet.</strong> The Deyr window is three months away. Nothing has failed and nothing is missing.</p><div class="two"><section class="pan pan-awaiting_data"><div class="pin">GPM IMERG Late Run v07</div><div class="pmeas">rainfall, NOT flooding</div><div class="await">not yet</div><div class="rk"><span class="sub">this region qualifies and the period has not arrived</span></div><div class="pslots">0 of 7 days have happened yet &middot; 25 prior years</div></section><section class="pan pan-awaiting_data"><div class="pin">NASA MODIS MCDWD 3-Day composite</div><div class="pmeas">standing water outside the reference water mask</div><div class="await">not yet</div><div class="rk"><span class="sub">this region qualifies and the period has not arrived</span></div><div class="pslots">0 of 7 days have happened yet &middot; 23 prior years</div></section></div><div class="sep"></div><h2>Juba and Shabelle basins</h2><div class="when">Week of 2023-11-10 to 2023-11-16 &middot; read 2023-11-20</div><p class="note">And both instruments answering, on the event that opened the channel.</p><div class="two"><section class="pan pan-measured"><div class="pin">GPM IMERG Late Run v07</div><div class="pmeas">rainfall, NOT flooding</div><div class="fig">37.8<span class="un">mm</span></div><div class="rk">2<span class="of"> of 25</span><span class="sub">6.67&times; the median week</span></div><div class="pslots">7 of 7 days in &middot; 24 prior years</div></section><section class="pan pan-measured"><div class="pin">NASA MODIS MCDWD 3-Day composite</div><div class="pmeas">standing water outside the reference water mask</div><div class="fig">17,579<span class="un">250m pixels</span></div><div class="rk">3<span class="of"> of 24</span><span class="sub">6.12&times; the median week</span></div><div class="obs"><div class="obsbar"><div class="obsfill" style="width:94%"></div></div><div class="obsl"><b>87.6%</b> of the region was visible this week, about as much as usual, against 93.2% in a median week</div></div><div class="pslots">7 of 7 days in &middot; 23 prior years</div></section></div>
 </main></body></html>
