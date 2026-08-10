@@ -45,6 +45,10 @@ REGIONS = {
     "peru_ecuador_coast": {"lon": (-82.0, -75.0), "lat": (-12.0, 2.0)},
     "somalia_shabelle_juba": {"lon": (42.0, 46.5), "lat": (1.0, 6.5)},
     "kenya_tana": {"lon": (38.5, 40.5), "lat": (-2.5, 0.5)},
+    # Manila and the Pampanga basin draining into Manila Bay, plus the
+    # Zambales/Bataan coast. The area Reuters reported flooded on
+    # 2026-08-09 from monsoon rain enhanced by Typhoon Dolphin.
+    "manila_luzon_west": {"lon": (119.5, 121.5), "lat": (13.5, 16.0)},
 }
 
 
@@ -62,10 +66,10 @@ def grid_index(value, offset):
     return int(round((value + offset) / GRID_DEG - 0.5))
 
 
-def opendap_url(day):
+def opendap_url(day, short="GPM_3IMERGDF"):
     """Resolve the OPeNDAP endpoint for one day via CMR."""
     params = {
-        "short_name": "GPM_3IMERGDF",
+        "short_name": short,
         "version": "07",
         "temporal": f"{day}T00:00:00Z,{day}T23:59:59Z",
         "page_size": "1",
@@ -83,13 +87,13 @@ def opendap_url(day):
     return None
 
 
-def fetch_day(day, box, tok, tries=3):
+def fetch_day(day, box, tok, tries=3, short="GPM_3IMERGDF"):
     lon0, lon1 = sorted(box["lon"])
     lat0, lat1 = sorted(box["lat"])
     i0, i1 = grid_index(lon0, 180.0), grid_index(lon1, 180.0)
     j0, j1 = grid_index(lat0, 90.0), grid_index(lat1, 90.0)
 
-    base = opendap_url(day)
+    base = opendap_url(day, short)
     if base is None:
         return None
     ce = (
@@ -129,6 +133,13 @@ def main():
     ap.add_argument("--end", default="03-30")
     ap.add_argument("--years", default="2000-2025")
     ap.add_argument("--out", default=None)
+    # Final Run is science quality and about ten months behind; Late Run
+    # is one to two days behind. A fast-reaction answer needs Late, and
+    # the WHOLE comparison must then use Late, because mixing the two
+    # products across a baseline measures the product change rather than
+    # the weather. Late reaches back to 2000, so this costs nothing.
+    ap.add_argument("--product", default="GPM_3IMERGDF",
+                    choices=["GPM_3IMERGDF", "GPM_3IMERGDL"])
     args = ap.parse_args()
 
     box = REGIONS[args.region]
@@ -137,7 +148,8 @@ def main():
     m1, d1 = (int(x) for x in args.end.split("-"))
 
     here = os.path.dirname(os.path.abspath(__file__))
-    stem = f"imerg_baseline_{args.region}_{args.start}_{args.end}"
+    tag = "late" if args.product.endswith("DL") else "final"
+    stem = f"imerg_baseline_{args.region}_{args.start}_{args.end}_{tag}"
     out_path = args.out or os.path.join(here, "data", f"{stem}.jsonl")
     grid_path = os.path.join(os.path.dirname(out_path), f"{stem}_grids.npz")
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
@@ -171,7 +183,7 @@ def main():
         for day in days:
             iso = day.isoformat()
             try:
-                got = fetch_day(iso, box, tok)
+                got = fetch_day(iso, box, tok, short=args.product)
             except Exception as exc:
                 log(f"{iso}  FAILED {repr(exc)[:120]}")
                 continue
@@ -185,7 +197,7 @@ def main():
                 "date": iso,
                 "year": day.year,
                 "region": args.region,
-                "source": "GPM_3IMERGDF.07 Final Run",
+                "source": args.product + ".07",
                 "cells": int(arr.size),
                 "mean_mm": round(float(arr.mean()), 4),
                 "max_mm": round(float(arr.max()), 3),

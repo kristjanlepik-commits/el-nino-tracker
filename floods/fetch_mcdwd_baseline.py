@@ -76,6 +76,15 @@ REGIONS = {
                 "a different mechanism to Peru. Reference event the Deyr "
                 "floods of November 2023, Beledweyne.",
     },
+    "manila_luzon_west": {
+        "lon": (119.5, 121.5),
+        "lat": (13.5, 16.0),
+        "note": "Manila, the Pampanga basin draining into Manila Bay, and the "
+                "Zambales coast. Added 2026-08-10 as the first fast-reaction "
+                "test: Reuters reported monsoon flooding enhanced by Typhoon "
+                "Dolphin on 2026-08-09. Two tiles, so a 23-year same-week "
+                "baseline is 4.6 GB rather than the 13.9 GB a six-tile box costs.",
+    },
     "kenya_tana": {
         "lon": (38.5, 40.5),
         "lat": (-2.5, 0.5),
@@ -157,7 +166,16 @@ def listing(year, doy):
 
 def fetch_tile_stats(year, doy, tile, sl, tok):
     """Download one tile, slice to the box, return counts. Deletes the file."""
-    names = listing(year, doy)
+    # The listing call sat outside the try block, so a network drop that
+    # outlived http_json's retries propagated out of the worker, killed
+    # pool.map and ended the whole run. It happened twice on 2026-08-03
+    # and 08-10, both times an intermittent DNS failure lasting seconds.
+    # A day that cannot be listed is a skipped day, not a dead job: the
+    # run is resumable and will pick it up next pass.
+    try:
+        names = listing(year, doy)
+    except Exception as exc:
+        return {"tile": tile, "status": "listing_failed", "detail": repr(exc)[:120]}
     fname = names.get(tile)
     if fname is None:
         return {"tile": tile, "status": "absent"}
@@ -291,6 +309,10 @@ def main():
                 obs_weighted += r["obs_mean"] * r["px"]
                 water1 += r["water_ge1_px"]
                 water3 += r["water_ge3_px"]
+            if not any(r["status"] == "ok" for r in results):
+                log(f"{iso}  no tiles retrieved, NOT writing a record "
+                    f"({ {r['tile']: r['status'] for r in results} })")
+                continue
             rec = {
                 "year": year,
                 "doy": doy,
