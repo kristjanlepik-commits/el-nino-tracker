@@ -25,6 +25,14 @@
     "rank": 2,
     "of": 27
    },
+   "finding": {
+    "rank": 2,
+    "of": 27,
+    "tied_with_n": 0,
+    "ordinal_safe": true,
+    "claim": "extreme_ordinal",
+    "guards": []
+   },
    "peak_day_mm": 369.0,
    "verdict": "measured"
   },
@@ -54,7 +62,8 @@
    "cannot_say_reason": [
     "across 20 years the flood measure tracks how much the satellite could see (rank correlation +0.82), so a ranking here would rank clear skies rather than floods",
     "the median week holds 174 flood pixels, below the 300 at which the two MODIS products stop agreeing"
-   ]
+   ],
+   "cannot_say_summary": "the satellite that measures flooding here cannot see through the cloud that causes it"
   }
  ],
  "notes": []

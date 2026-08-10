@@ -112,6 +112,75 @@ def flood_series(base_path, window_days):
     return out
 
 
+# ---------------------------------------------------------------------
+# WHEN A RANK LICENSES A SUPERLATIVE
+#
+# Product's split (2026-08-10): design generates the finding line, the
+# editor owns the wording, floods decides when the CLAIM is permitted.
+# This is that decision, computed rather than judged per page.
+#
+# Heat's 59-59 Valencia tie is why this is not design's to decide: an
+# ordinal is a claim about separation, and separation is a property of
+# the data.
+
+MIN_RECORD = 20        # below this, no ordinal. Rank 2 of 8 is not "on record".
+TIE_MARGIN = 0.02      # values within 2% of the median apart are not separable
+EXTREME_RANK = 3       # top three may carry an ordinal
+EXTREME_RATIO = 1.5    # ...but only if the value is actually far from normal
+
+
+def classify(value, others, median, complete):
+    """Decide what class of claim the data permits. Never phrasing."""
+    n = len(others) + 1
+    margin = TIE_MARGIN * median if median else 0.0
+    tied = [o for o in others if abs(o - value) <= margin]
+    strictly_above = sum(1 for o in others if o > value + margin)
+    rank = strictly_above + 1
+
+    out = {"rank": rank, "of": n, "tied_with_n": len(tied),
+           "ordinal_safe": True, "claim": None, "guards": []}
+
+    if n < MIN_RECORD:
+        out["ordinal_safe"] = False
+        out["guards"].append(f"record is {n} periods, under the {MIN_RECORD} minimum")
+    if tied:
+        # An ordinal asserts separation. If another year sits inside the
+        # margin, "second wettest" is arbitrary between them.
+        out["ordinal_safe"] = False
+        out["guards"].append(f"{len(tied)} other period(s) within {TIE_MARGIN:.0%} "
+                             f"of this value; the ordinal is not separable")
+
+    ratio = value / median if median else None
+
+    # Incompleteness biases a TOTAL downward, so it biases the rank low.
+    # That makes a high rank safe (it can only rise) and a calm reading
+    # UNSAFE, which is the opposite of the intuition. The dangerous
+    # sentence on a short period is the reassuring one.
+    if not complete:
+        out["guards"].append("period incomplete; the total is understated, so the "
+                             "rank is a floor and a calm reading is NOT permitted")
+
+    if ratio is None:
+        out["claim"] = "no_baseline"
+    elif rank <= EXTREME_RANK and ratio >= EXTREME_RATIO and out["ordinal_safe"]:
+        out["claim"] = "extreme_ordinal"        # "second wettest in 27 years"
+    elif rank <= EXTREME_RANK and ratio < EXTREME_RATIO:
+        # Top of a flat distribution. The ordinal is true and oversells:
+        # every year near the top looks like this one.
+        out["claim"] = "extreme_flat"
+        out["guards"].append(f"top-{EXTREME_RANK} but only {ratio:.2f}x the median; "
+                             f"the distribution is flat and an ordinal alone oversells")
+    elif rank <= max(3, n // 4):
+        out["claim"] = "notable"                # "wetter than most years"
+    elif rank >= n - max(3, n // 4) + 1:
+        out["claim"] = "low"                    # context, never a headline here
+    else:
+        out["claim"] = "normal"                 # D-043: this must be sayable
+    if not complete and out["claim"] in ("normal", "low"):
+        out["claim"] = "incomplete_indeterminate"
+    return out
+
+
 def rank_of(value, others):
     """1 = highest. Rank, not ratio: rank is non-parametric and immune to
     the variance-regime problem Fire hit with a fixed multiple."""
@@ -186,6 +255,7 @@ def main():
             "value": round(cur, 1),
             "basis": {"median": round(med, 1), "x_median": round(cur / med, 2),
                       "rank": rank_of(cur, hist.values()), "of": len(hist) + 1},
+            "finding": classify(cur, list(hist.values()), med, True),
             "peak_day_mm": round(peaks[year], 0),
             "verdict": "measured",
         })
@@ -193,6 +263,14 @@ def main():
     # ---- flood extent ---------------------------------------------------
     fl = flood_series(args.flood_baseline, expected)
     if fl:
+        # The current year must not sit in its own comparison set. The
+        # rainfall path already excluded it; this one did not, so a
+        # payload was reporting the current period as tied with itself.
+        # Caught by the tie detector on its first real run, which is the
+        # detector doing more than it was written to do. Same family as
+        # the coverage gate that computed its denominator from the data
+        # under test.
+        fl.pop(year, None)
         yrs = sorted(fl)
         counts = np.array([fl[y]["flood_px"] for y in yrs], float)
         obs = np.array([fl[y]["observed_frac"] for y in yrs], float)
@@ -245,6 +323,8 @@ def main():
             s["basis"] = {"median": int(med_ct),
                           "x_median": round(cur_px / med_ct, 2) if med_ct else None,
                           "rank": rank_of(cur_px, hist), "of": len(hist) + 1}
+            s["finding"] = classify(cur_px, list(hist), med_ct,
+                                    len(cur_recs) >= due)
             s["verdict"] = "measured"
         elif qualifies and not cur_recs:
             s["verdict"] = "awaiting_data"
@@ -268,6 +348,16 @@ def main():
                     f"the median week holds {int(med_ct)} flood pixels, below the "
                     f"{COUNT_FLOOR} at which the two MODIS products stop agreeing")
             s["cannot_say_reason"] = why
+            # Design asked whether they may compress the reasons into one
+            # line. They may not compose it; it is a claim about the
+            # instrument. So it is authored here, from computed values,
+            # and travels as a field.
+            s["cannot_say_summary"] = (
+                "the satellite that measures flooding here cannot see through "
+                "the cloud that causes it"
+                if dep > OBS_DEPENDENCE_MAX else
+                "there is too little standing water here for the measurement "
+                "to be stable")
         payload["series"].append(s)
 
     with open(args.out, "w") as fh:

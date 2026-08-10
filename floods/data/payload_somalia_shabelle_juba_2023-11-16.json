@@ -25,6 +25,14 @@
     "rank": 2,
     "of": 25
    },
+   "finding": {
+    "rank": 2,
+    "of": 25,
+    "tied_with_n": 0,
+    "ordinal_safe": true,
+    "claim": "extreme_ordinal",
+    "guards": []
+   },
    "peak_day_mm": 53.0,
    "verdict": "measured"
   },
@@ -36,25 +44,34 @@
    "expected_slots": 7,
    "due_slots": 7,
    "values_present": 7,
-   "baseline_years": 23,
+   "present_may_exceed_due_because": "due_slots is computed from a conservative 3-day composite latency. When the product publishes sooner, present legitimately exceeds due. A validator asserting present <= due would fail this series for being correct.",
+   "baseline_years": 22,
    "observability": {
     "current": 0.8763,
-    "baseline_median": 0.932,
+    "baseline_median": 0.933,
     "baseline_min": 0.81
    },
    "qualification": {
-    "observability_dependence": 0.25,
+    "observability_dependence": 0.36,
     "max_allowed": 0.5,
-    "median_count": 2873,
+    "median_count": 2859,
     "count_floor": 300,
     "qualifies": true
    },
    "value": 17579,
    "basis": {
-    "median": 2873,
-    "x_median": 6.12,
+    "median": 2859,
+    "x_median": 6.15,
     "rank": 3,
-    "of": 24
+    "of": 23
+   },
+   "finding": {
+    "rank": 3,
+    "of": 23,
+    "tied_with_n": 0,
+    "ordinal_safe": true,
+    "claim": "extreme_ordinal",
+    "guards": []
    },
    "verdict": "measured"
   }
