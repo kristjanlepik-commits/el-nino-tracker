@@ -91,6 +91,24 @@ box, and over all cells rather than only cells with fire. Conditioning on
 where fires are would make the covariate endogenous in the same way
 ValidCounts is.
 
+WHAT THE BINDING CONSTRAINT ACTUALLY IS, measured rather than assumed. Not
+bandwidth and not CPU: CDS queue time. A single mid-size country-year sat
+queued for over eleven minutes with the TCP connection established to
+ECMWF and 0.6 seconds of CPU consumed, and cdsapi does not create its
+output file until the result is ready, so a queued request and a hung one
+look identical from the filesystem. Request SIZE is therefore the only
+lever, which is why wide countries are split into half-year chunks.
+
+RESTRICTING TO THE FIRE SEASON WAS TRIED AND DOES NOT HELP. It should have
+been the obvious saving, since the regression discards any week below the
+instrument floors, so cloud in a month the country never burns is fetched
+and then filtered out unused. Computed against the regression's own filter,
+it keeps 99% of the data: only Algeria narrows, and 27 of 28 countries have
+qualifying weeks in all twelve months. 500 hectares and 20 detections per
+week are low bars, and tropical fire is genuinely year-round. Recorded so
+the next person does not spend the same hour discovering there is no
+seasonal lever here.
+
 RESUMABLE. One cached JSON per country-year. A rerun skips what exists, so
 an interrupted pull costs minutes rather than the whole window.
 """
@@ -99,6 +117,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures as futures
 import json
+import logging
 import os
 import sys
 import tempfile
@@ -124,6 +143,7 @@ ALL_DAYS = [f"{d:02d}" for d in range(1, 32)]
 
 DATELINE_SPAN = 350.0   # a bbox this wide means the polygon wrapped
 DATELINE_EDGE = 170.0   # and has vertices near both edges
+HOURS_SPLIT_THRESHOLD = 6  # at or above this many UTC hours, halve the year
 
 
 def testable_countries() -> list[str]:
@@ -175,15 +195,20 @@ def hours_for_boxes(boxes) -> list[int]:
     return sorted(out)
 
 
-def _retrieve(area, year: str, hours: list[int], path: str) -> None:
+def _retrieve(area, year: str, months: list[str], hours: list[int],
+              path: str) -> None:
     import cdsapi
-    cdsapi.Client(quiet=True, progress=False).retrieve(
+    # quiet=False ON PURPOSE. The first concurrent run logged nothing for
+    # 21 minutes and I could not tell a queued request from a broken one,
+    # which is the state that has already cost this project a night. The
+    # CDS queue messages are the only thing that distinguishes them.
+    cdsapi.Client(quiet=False, progress=False).retrieve(
         DATASET,
         {
             "product_type": ["reanalysis"],
             "variable": [VARIABLE],
             "year": [year],
-            "month": ALL_MONTHS,
+            "month": months,
             "day": ALL_DAYS,
             "time": [f"{h:02d}:00" for h in hours],
             "data_format": "netcdf",
@@ -259,6 +284,14 @@ def fetch_country_year(iso: str, year: str, rings, boxes, hours) -> str:
         return "cached"
 
     pad = GRID[0]
+    # SPLIT BIG YEARS INTO HALVES. A wide country needs one UTC hour per
+    # time zone, so Russia's request is 12 hours x 365 days over a
+    # continental box, about 112 MB in one piece. Four of those in flight at
+    # once returned nothing in 21 minutes. Halving keeps each request small
+    # enough for CDS to serve promptly, at the cost of one extra request for
+    # the countries that need it.
+    month_chunks = ([ALL_MONTHS] if len(hours) < HOURS_SPLIT_THRESHOLD
+                    else [ALL_MONTHS[:6], ALL_MONTHS[6:]])
     totals: dict[str, list] = {}
     try:
         for west, south, east, north in boxes:
@@ -267,17 +300,18 @@ def fetch_country_year(iso: str, year: str, rings, boxes, hours) -> str:
             # pad cannot push a lobe back across the dateline it was split at.
             area = [min(90.0, north + pad), max(-180.0, west - pad),
                     max(-90.0, south - pad), min(180.0, east + pad)]
-            handle, tmp = tempfile.mkstemp(suffix=".nc")
-            os.close(handle)
-            try:
-                _retrieve(area, year, hours, tmp)
-                for day, (total, count) in _masked_sums(tmp, rings).items():
-                    acc = totals.setdefault(day, [0.0, 0])
-                    acc[0] += total
-                    acc[1] += count
-            finally:
-                if os.path.exists(tmp):
-                    os.remove(tmp)
+            for months in month_chunks:
+                handle, tmp = tempfile.mkstemp(suffix=".nc")
+                os.close(handle)
+                try:
+                    _retrieve(area, year, months, hours, tmp)
+                    for day, (total, count) in _masked_sums(tmp, rings).items():
+                        acc = totals.setdefault(day, [0.0, 0])
+                        acc[0] += total
+                        acc[1] += count
+                finally:
+                    if os.path.exists(tmp):
+                        os.remove(tmp)
 
         series = {day: round(total / count, 4)
                   for day, (total, count) in totals.items() if count}
@@ -305,6 +339,17 @@ def main() -> int:
                              "concurrent requests per user and being throttled "
                              "is slower than not asking.")
     args = parser.parse_args()
+
+    # WITHOUT THIS, quiet=False DOES NOTHING. cdsapi logs at INFO through the
+    # logging module, and an unconfigured root logger drops INFO on the
+    # floor, so the client prints its queue status to nowhere. The first
+    # attempt at this set quiet=False, produced no output for ten minutes,
+    # and looked exactly like a hung request. Turning on a logger is not the
+    # same as installing a handler for it, and the difference is invisible
+    # until the moment you need the output.
+    logging.basicConfig(level=logging.INFO,
+                        format="%(asctime)s %(message)s",
+                        datefmt="%H:%M:%S")
 
     isos = args.only if args.only else testable_countries()
     years = args.years if args.years else YEARS
@@ -338,18 +383,46 @@ def main() -> int:
         return 0
     print()
 
-    # LONGEST FIRST. Russia is 12 UTC hours over a continental box and costs
-    # far more than Botswana's single hour. Submitted in cost order so the
-    # expensive countries start immediately instead of straggling alone at
-    # the end while every worker but one sits idle.
     def cost(iso: str) -> float:
         boxes, hours = plan[iso]
         span = sum((east - west) * (north - south)
                    for west, south, east, north in boxes)
         return len(hours) * span
 
-    work = [(iso, year) for iso in sorted(isos, key=cost, reverse=True)
-            for year in years]
+    # ZIGZAG, BIGGEST AND SMALLEST ALTERNATING. Pure longest-first was worse
+    # than arrival order: it put all four workers on Russia at once, which is
+    # four of the largest possible requests in the CDS queue simultaneously,
+    # and nothing completed in 21 minutes. Alternating means any four
+    # consecutive jobs are two expensive and two cheap, so the cheap ones
+    # keep landing while an expensive one is served.
+    by_cost = sorted(isos, key=cost, reverse=True)
+    order, low, high = [], 0, len(by_cost) - 1
+    while low <= high:
+        order.append(by_cost[low])
+        low += 1
+        if low <= high:
+            order.append(by_cost[high])
+            high -= 1
+
+    # PAIRED, EXPENSIVE WITH CHEAP, ONE PAIR AT A TIME. Two constraints pull
+    # against each other. The per-country regression needs about 40 weeks, so
+    # a country is only usable once most of its 14 years are in, which argues
+    # for finishing countries one at a time. But four workers all drawing
+    # from one expensive country means four maximal requests in the CDS queue
+    # at once, which is what returned nothing in 21 minutes.
+    #
+    # Pairing satisfies both: each pair is one expensive country and one
+    # cheap one, their years interleaved, so at most two large requests are
+    # ever in flight and two whole countries complete every 28 jobs. Because
+    # the run is resumable and reports as it goes, stopping early leaves a
+    # set of COMPLETE countries the regression can use rather than a thin
+    # slice of all of them that it cannot.
+    work = []
+    for index in range(0, len(order), 2):
+        pair = order[index:index + 2]
+        for year in years:
+            for iso in pair:
+                work.append((iso, year))
     total = len(work)
     failures, done, fetched = [], 0, 0
     lock = threading.Lock()
@@ -360,8 +433,15 @@ def main() -> int:
         return iso, year, hours, fetch_country_year(iso, year, rings[iso],
                                                     boxes, hours)
 
+    # AS_COMPLETED, NOT pool.map. map yields in SUBMISSION order, so one slow
+    # first job head-of-line blocks every later result including failures.
+    # That is what made the previous run indistinguishable from a stall: work
+    # was in flight, nothing could be reported, and I could not tell which.
+    # Progress reporting must not depend on the slowest job finishing first.
     with futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
-        for iso, year, hours, status in pool.map(run, work):
+        pending = {pool.submit(run, job): job for job in work}
+        for future in futures.as_completed(pending):
+            iso, year, hours, status = future.result()
             with lock:
                 done += 1
                 if status not in ("cached", "fetched"):
