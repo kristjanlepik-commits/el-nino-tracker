@@ -157,18 +157,32 @@ main { max-width:800px; margin:0 auto; padding:24px 24px 80px; }
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--nino);
-    transition: color .12s;
+    /* ONE INK. D-101 retired channel colour and moved identity to type,
+       on the grounds that colour spent on wayfinding is colour unavailable
+       to data. The tokens went; this nav kept the hues, so four of six
+       items were still coloured months later.
+
+       VD's catch is the one that settles it: Notes rendered in the same
+       blue as El Nino. Notes is not a measured variable and can never hold
+       a hue under the ruling, so either the blue meant El Nino, in which
+       case it was wrong, or it meant "you are here", in which case blue
+       meant two things in one row and a reader could not tell which.
+
+       Identity is now the tracked mono against the Spectral wordmark, and
+       the current page is marked by weight and a rule rather than a hue.
+       The per-channel classes stay in the markup: they are hooks, and
+       deleting them is a change to every generator rather than to this
+       stylesheet. */
+    color: var(--ink-soft);
+    transition: color .12s, border-color .12s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
   }
-  .prodnav a.ch-fire { color: var(--fire); }
-  .prodnav a.ch-crop { color: var(--crop); }
-  /* Heat gets NO hue. Section 7 retired channel colour and heat never had
-     one, so its identity is type: the tracked mono against the Spectral
-     wordmark. Without this rule it inherits the .prodnav default, which is
-     var(--nino), and the heat channel renders in El Nino's blue. */
-  .prodnav a.ch-heat { color: var(--ink); }
   .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
   .prodnav a:hover { color: var(--ink); }
+  /* The current page, by weight and a rule. */
+  .prodnav a.on { color: var(--ink); font-weight: 600;
+    border-bottom-color: var(--ink); }
 
 .svb { margin-top:8px; }
 .svlab { margin:0; font-size:11px; letter-spacing:.09em;
