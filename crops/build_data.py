@@ -816,6 +816,55 @@ def check_instruments_agree(catalogue: dict) -> list:
     return bad
 
 
+def aggregate_weighting(regions: list, published_rank: int,
+                        of: int) -> dict:
+    """State how the country figure is built. Do NOT claim to measure
+    how wrong it is, because that cannot be measured from what we hold.
+
+    Every country value here is an UNWEIGHTED mean across its GAUL1
+    regions, so each region counts equally regardless of cropland area.
+    Where regions are very unequal that can invert the answer: the UK
+    publishes rank 18 of 26 while England, nearly all of its cropland,
+    is rank 12 and the three small-crop regions are 19, 20 and 21.
+
+    TWO SENSITIVITY MEASURES WERE BUILT AND BOTH FAILED. Recording them
+    so the next person does not rebuild either.
+
+      Extreme reweighting, the rank under 100% weight on one region:
+      fires on 62 of 123 countries and MISSES THE UK. With 80 regions
+      some region is always rank 1 and some always 26, so it measures
+      region count rather than risk.
+
+      Leave-one-region-out: discriminates properly, UK swings 3 and
+      Turkiye 0, but UNDERSTATES. Dropping to three equal regions never
+      approaches England's real share, so it reports 3 ranks of exposure
+      where the true error is about 6.
+
+    A flag that fires everywhere is useless and a flag that understates
+    is worse than none, because it looks like reassurance. So this
+    emits the METHOD, which is true, and the region count, which is a
+    real if crude measure of how much one region can carry. It does not
+    emit a sensitivity score. Fixing it needs crop area per GAUL1 unit,
+    which the ASAP export does not return and gaul_level=0 refuses with
+    HTTP 400. Tracked as tls-internal#16.
+    """
+    n = len([r for r in regions if isinstance(r.get("rank"), int)])
+    return {
+        "method": "unweighted mean across regions, NOT area-weighted",
+        "regions_averaged": n,
+        "one_region_carries": round(1 / n, 3) if n else None,
+        "published_rank": published_rank,
+        "of": of,
+        "caveat": (f"each of the {n} regions counts equally, so one "
+                   f"carries {round(100 / n)}% of this figure whatever "
+                   f"its cropland area. Where one region holds most of "
+                   f"the crop the country figure understates it. No "
+                   f"sensitivity score is emitted because it cannot be "
+                   f"computed without crop area per region."
+                   if n else "single region, no weighting choice"),
+    }
+
+
 def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
     stale = check_instruments_agree(catalogue)
     if stale and not allow_mixed:
@@ -1299,6 +1348,10 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                 "statement": _rank_statement(head["rank"], head["of"], latest.year),
             },
             "driver": driver,
+            # How exposed this country's figure is to a weighting we do
+            # not have. Free: it reuses the region ranks already emitted.
+            "aggregate": aggregate_weighting(
+                regions, head["rank"], head["of"]),
             # The counted measure answers "how many regions", the rank
             # answers "how unusual", and neither answers "how deep".
             # This does. Country level only: the per-instrument region

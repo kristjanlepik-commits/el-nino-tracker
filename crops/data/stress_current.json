@@ -715,6 +715,14 @@
     "statement": "lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 15,
+    "one_region_carries": 0.067,
+    "published_rank": 1,
+    "of": 26,
+    "caveat": "each of the 15 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.896,
@@ -1983,6 +1991,14 @@
     "statement": "lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 1,
+    "one_region_carries": 1.0,
+    "published_rank": 1,
+    "of": 26,
+    "caveat": "each of the 1 regions counts equally, so one carries 100% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.872,
@@ -2341,6 +2357,14 @@
     "statement": "lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 14,
+    "one_region_carries": 0.071,
+    "published_rank": 1,
+    "of": 26,
+    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.576,
@@ -3546,6 +3570,14 @@
     "statement": "lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 22,
+    "one_region_carries": 0.045,
+    "published_rank": 1,
+    "of": 26,
+    "caveat": "each of the 22 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.888,
@@ -5201,6 +5233,14 @@
     "statement": "2nd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 18,
+    "one_region_carries": 0.056,
+    "published_rank": 2,
+    "of": 26,
+    "caveat": "each of the 18 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.632,
@@ -6664,6 +6704,14 @@
     "statement": "2nd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 5,
+    "one_region_carries": 0.2,
+    "published_rank": 2,
+    "of": 26,
+    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.88,
@@ -7264,6 +7312,14 @@
     "statement": "2nd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 2,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.752,
@@ -8664,6 +8720,14 @@
     "statement": "2nd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 11,
+    "one_region_carries": 0.091,
+    "published_rank": 2,
+    "of": 26,
+    "caveat": "each of the 11 regions counts equally, so one carries 9% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.8,
@@ -9672,6 +9736,14 @@
     "statement": "2nd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 2,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.824,
@@ -11072,6 +11144,14 @@
     "statement": "3rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 5,
+    "one_region_carries": 0.2,
+    "published_rank": 3,
+    "of": 26,
+    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.832,
@@ -11696,6 +11776,14 @@
     "statement": "3rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 9,
+    "one_region_carries": 0.111,
+    "published_rank": 3,
+    "of": 26,
+    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.92,
@@ -12556,6 +12644,14 @@
     "statement": "3rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 3,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.808,
@@ -13369,6 +13465,14 @@
     "statement": "3rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 24,
+    "one_region_carries": 0.042,
+    "published_rank": 3,
+    "of": 26,
+    "caveat": "each of the 24 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.856,
@@ -15224,6 +15328,14 @@
     "statement": "3rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 7,
+    "one_region_carries": 0.143,
+    "published_rank": 3,
+    "of": 26,
+    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.92,
@@ -15974,6 +16086,14 @@
     "statement": "3rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 28,
+    "one_region_carries": 0.036,
+    "published_rank": 3,
+    "of": 26,
+    "caveat": "each of the 28 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.816,
@@ -18093,6 +18213,14 @@
     "statement": "3rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 12,
+    "one_region_carries": 0.083,
+    "published_rank": 3,
+    "of": 26,
+    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.976,
@@ -19170,6 +19298,14 @@
     "statement": "4th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 4,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.816,
@@ -19988,6 +20124,14 @@
     "statement": "4th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 10,
+    "one_region_carries": 0.1,
+    "published_rank": 4,
+    "of": 26,
+    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.92,
@@ -20935,6 +21079,14 @@
     "statement": "4th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 4,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.784,
@@ -22337,6 +22489,14 @@
     "statement": "4th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 1,
+    "one_region_carries": 1.0,
+    "published_rank": 4,
+    "of": 26,
+    "caveat": "each of the 1 regions counts equally, so one carries 100% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.6,
@@ -22697,6 +22857,14 @@
     "statement": "5th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 22,
+    "one_region_carries": 0.045,
+    "published_rank": 5,
+    "of": 26,
+    "caveat": "each of the 22 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.912,
@@ -24424,6 +24592,14 @@
     "statement": "5th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 5,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.704,
@@ -25223,6 +25399,14 @@
     "statement": "5th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 5,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.856,
@@ -26621,6 +26805,14 @@
     "statement": "5th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 24,
+    "one_region_carries": 0.042,
+    "published_rank": 5,
+    "of": 26,
+    "caveat": "each of the 24 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.696,
@@ -28474,6 +28666,14 @@
     "statement": "5th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 3,
+    "one_region_carries": 0.333,
+    "published_rank": 5,
+    "of": 26,
+    "caveat": "each of the 3 regions counts equally, so one carries 33% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.824,
@@ -28960,6 +29160,14 @@
     "statement": "5th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 16,
+    "one_region_carries": 0.062,
+    "published_rank": 5,
+    "of": 26,
+    "caveat": "each of the 16 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.616,
@@ -30297,6 +30505,14 @@
     "statement": "5th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 28,
+    "one_region_carries": 0.036,
+    "published_rank": 5,
+    "of": 26,
+    "caveat": "each of the 28 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.864,
@@ -32418,6 +32634,14 @@
     "statement": "6th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 5,
+    "one_region_carries": 0.2,
+    "published_rank": 6,
+    "of": 26,
+    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.688,
@@ -33036,6 +33260,14 @@
     "statement": "7th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 13,
+    "one_region_carries": 0.077,
+    "published_rank": 7,
+    "of": 26,
+    "caveat": "each of the 13 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.744,
@@ -34172,6 +34404,14 @@
     "statement": "7th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 10,
+    "one_region_carries": 0.1,
+    "published_rank": 7,
+    "of": 26,
+    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.592,
@@ -35119,6 +35359,14 @@
     "statement": "7th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 36,
+    "one_region_carries": 0.028,
+    "published_rank": 7,
+    "of": 26,
+    "caveat": "each of the 36 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.8,
@@ -37756,6 +38004,14 @@
     "statement": "7th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 11,
+    "one_region_carries": 0.091,
+    "published_rank": 7,
+    "of": 26,
+    "caveat": "each of the 11 regions counts equally, so one carries 9% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.648,
@@ -38764,6 +39020,14 @@
     "statement": "8th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 25,
+    "one_region_carries": 0.04,
+    "published_rank": 8,
+    "of": 26,
+    "caveat": "each of the 25 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.624,
@@ -40690,6 +40954,14 @@
     "statement": "8th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 7,
+    "one_region_carries": 0.143,
+    "published_rank": 8,
+    "of": 26,
+    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.736,
@@ -41440,6 +41712,14 @@
     "statement": "9th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 16,
+    "one_region_carries": 0.062,
+    "published_rank": 9,
+    "of": 26,
+    "caveat": "each of the 16 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.712,
@@ -42775,6 +43055,14 @@
     "statement": "9th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 24,
+    "one_region_carries": 0.042,
+    "published_rank": 9,
+    "of": 26,
+    "caveat": "each of the 24 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.616,
@@ -44631,6 +44919,14 @@
     "statement": "9th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 19,
+    "one_region_carries": 0.053,
+    "published_rank": 9,
+    "of": 26,
+    "caveat": "each of the 19 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.816,
@@ -46159,6 +46455,14 @@
     "statement": "9th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 9,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.888,
@@ -47559,6 +47863,14 @@
     "statement": "9th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 24,
+    "one_region_carries": 0.042,
+    "published_rank": 9,
+    "of": 26,
+    "caveat": "each of the 24 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.616,
@@ -49412,6 +49724,14 @@
     "statement": "9th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 13,
+    "one_region_carries": 0.077,
+    "published_rank": 9,
+    "of": 26,
+    "caveat": "each of the 13 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.792,
@@ -50552,6 +50872,14 @@
     "statement": "10th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 14,
+    "one_region_carries": 0.071,
+    "published_rank": 10,
+    "of": 26,
+    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.704,
@@ -51683,6 +52011,14 @@
     "statement": "10th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 7,
+    "one_region_carries": 0.143,
+    "published_rank": 10,
+    "of": 26,
+    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.84,
@@ -52435,6 +52771,14 @@
     "statement": "10th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 9,
+    "one_region_carries": 0.111,
+    "published_rank": 10,
+    "of": 26,
+    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.872,
@@ -53317,6 +53661,14 @@
     "statement": "10th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 10,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.688,
@@ -54718,6 +55070,14 @@
     "statement": "10th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 10,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.824,
@@ -55531,6 +55891,14 @@
     "statement": "10th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 33,
+    "one_region_carries": 0.03,
+    "published_rank": 10,
+    "of": 26,
+    "caveat": "each of the 33 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.704,
@@ -57976,6 +58344,14 @@
     "statement": "10th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 10,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.84,
@@ -58793,6 +59169,14 @@
     "statement": "11th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 9,
+    "one_region_carries": 0.111,
+    "published_rank": 11,
+    "of": 26,
+    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.6,
@@ -59671,6 +60055,14 @@
     "statement": "11th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 12,
+    "one_region_carries": 0.083,
+    "published_rank": 11,
+    "of": 26,
+    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.896,
@@ -60744,6 +61136,14 @@
     "statement": "12th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 23,
+    "one_region_carries": 0.043,
+    "published_rank": 12,
+    "of": 26,
+    "caveat": "each of the 23 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.704,
@@ -62532,6 +62932,14 @@
     "statement": "12th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 12,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.792,
@@ -63349,6 +63757,14 @@
     "statement": "13th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 10,
+    "one_region_carries": 0.1,
+    "published_rank": 13,
+    "of": 26,
+    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.36,
@@ -64299,6 +64715,14 @@
     "statement": "13th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 5,
+    "one_region_carries": 0.2,
+    "published_rank": 13,
+    "of": 26,
+    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.712,
@@ -64919,6 +65343,14 @@
     "statement": "13th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 4,
+    "one_region_carries": 0.25,
+    "published_rank": 13,
+    "of": 26,
+    "caveat": "each of the 4 regions counts equally, so one carries 25% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.768,
@@ -65476,6 +65908,14 @@
     "statement": "14th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 14,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.576,
@@ -66253,6 +66693,14 @@
     "statement": "14th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 14,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.64,
@@ -67072,6 +67520,14 @@
     "statement": "14th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 6,
+    "one_region_carries": 0.167,
+    "published_rank": 14,
+    "of": 26,
+    "caveat": "each of the 6 regions counts equally, so one carries 17% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.472,
@@ -67757,6 +68213,14 @@
     "statement": "16th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 10,
+    "one_region_carries": 0.1,
+    "published_rank": 16,
+    "of": 26,
+    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.496,
@@ -68704,6 +69168,14 @@
     "statement": "16th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 14,
+    "one_region_carries": 0.071,
+    "published_rank": 16,
+    "of": 26,
+    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.52,
@@ -69908,6 +70380,14 @@
     "statement": "17th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 10,
+    "one_region_carries": 0.1,
+    "published_rank": 17,
+    "of": 26,
+    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.792,
@@ -70855,6 +71335,14 @@
     "statement": "17th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 10,
+    "one_region_carries": 0.1,
+    "published_rank": 17,
+    "of": 26,
+    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.264,
@@ -71802,6 +72290,14 @@
     "statement": "17th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 28,
+    "one_region_carries": 0.036,
+    "published_rank": 17,
+    "of": 26,
+    "caveat": "each of the 28 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.56,
@@ -73915,6 +74411,14 @@
     "statement": "17th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 64,
+    "one_region_carries": 0.016,
+    "published_rank": 17,
+    "of": 26,
+    "caveat": "each of the 64 regions counts equally, so one carries 2% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.48,
@@ -78374,6 +78878,14 @@
     "statement": "17th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 17,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.512,
@@ -79776,6 +80288,14 @@
     "statement": "17th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 14,
+    "one_region_carries": 0.071,
+    "published_rank": 17,
+    "of": 26,
+    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.456,
@@ -80986,6 +81506,14 @@
     "statement": "18th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 50,
+    "one_region_carries": 0.02,
+    "published_rank": 18,
+    "of": 26,
+    "caveat": "each of the 50 regions counts equally, so one carries 2% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.592,
@@ -84533,6 +85061,14 @@
     "statement": "18th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 11,
+    "one_region_carries": 0.091,
+    "published_rank": 18,
+    "of": 26,
+    "caveat": "each of the 11 regions counts equally, so one carries 9% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.488,
@@ -85545,6 +86081,14 @@
     "statement": "18th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 4,
+    "one_region_carries": 0.25,
+    "published_rank": 18,
+    "of": 26,
+    "caveat": "each of the 4 regions counts equally, so one carries 25% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.8,
@@ -86100,6 +86644,14 @@
     "statement": "18th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 19,
+    "one_region_carries": 0.053,
+    "published_rank": 18,
+    "of": 26,
+    "caveat": "each of the 19 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.488,
@@ -87628,6 +88180,14 @@
     "statement": "18th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 22,
+    "one_region_carries": 0.045,
+    "published_rank": 18,
+    "of": 26,
+    "caveat": "each of the 22 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.832,
@@ -89355,6 +89915,14 @@
     "statement": "18th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 16,
+    "one_region_carries": 0.062,
+    "published_rank": 18,
+    "of": 26,
+    "caveat": "each of the 16 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.688,
@@ -90694,6 +91262,14 @@
     "statement": "19th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 10,
+    "one_region_carries": 0.1,
+    "published_rank": 19,
+    "of": 26,
+    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.76,
@@ -91637,6 +92213,14 @@
     "statement": "19th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 18,
+    "one_region_carries": 0.056,
+    "published_rank": 19,
+    "of": 26,
+    "caveat": "each of the 18 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.312,
@@ -93100,6 +93684,14 @@
     "statement": "20th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 6,
+    "one_region_carries": 0.167,
+    "published_rank": 20,
+    "of": 26,
+    "caveat": "each of the 6 regions counts equally, so one carries 17% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.4,
@@ -93787,6 +94379,14 @@
     "statement": "20th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 9,
+    "one_region_carries": 0.111,
+    "published_rank": 20,
+    "of": 26,
+    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.432,
@@ -94665,6 +95265,14 @@
     "statement": "20th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 20,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.64,
@@ -96063,6 +96671,14 @@
     "statement": "20th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 12,
+    "one_region_carries": 0.083,
+    "published_rank": 20,
+    "of": 26,
+    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.48,
@@ -97136,6 +97752,14 @@
     "statement": "20th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 36,
+    "one_region_carries": 0.028,
+    "published_rank": 20,
+    "of": 26,
+    "caveat": "each of the 36 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.472,
@@ -99773,6 +100397,14 @@
     "statement": "21st lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 15,
+    "one_region_carries": 0.067,
+    "published_rank": 21,
+    "of": 26,
+    "caveat": "each of the 15 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.544,
@@ -101041,6 +101673,14 @@
     "statement": "21st lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 24,
+    "one_region_carries": 0.042,
+    "published_rank": 21,
+    "of": 26,
+    "caveat": "each of the 24 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.608,
@@ -102906,6 +103546,14 @@
     "statement": "21st lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 9,
+    "one_region_carries": 0.111,
+    "published_rank": 21,
+    "of": 26,
+    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.44,
@@ -103788,6 +104436,14 @@
     "statement": "21st lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 11,
+    "one_region_carries": 0.091,
+    "published_rank": 21,
+    "of": 26,
+    "caveat": "each of the 11 regions counts equally, so one carries 9% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.392,
@@ -104796,6 +105452,14 @@
     "statement": "21st lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 21,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.752,
@@ -105610,6 +106274,14 @@
     "statement": "21st lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 22,
+    "one_region_carries": 0.045,
+    "published_rank": 21,
+    "of": 26,
+    "caveat": "each of the 22 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.408,
@@ -107337,6 +108009,14 @@
     "statement": "21st lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 19,
+    "one_region_carries": 0.053,
+    "published_rank": 21,
+    "of": 26,
+    "caveat": "each of the 19 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.624,
@@ -108877,6 +109557,14 @@
     "statement": "21st lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 15,
+    "one_region_carries": 0.067,
+    "published_rank": 21,
+    "of": 26,
+    "caveat": "each of the 15 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.4,
@@ -110145,6 +110833,14 @@
     "statement": "21st lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 13,
+    "one_region_carries": 0.077,
+    "published_rank": 21,
+    "of": 26,
+    "caveat": "each of the 13 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.304,
@@ -111281,6 +111977,14 @@
     "statement": "22nd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 18,
+    "one_region_carries": 0.056,
+    "published_rank": 22,
+    "of": 26,
+    "caveat": "each of the 18 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.448,
@@ -112744,6 +113448,14 @@
     "statement": "22nd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 12,
+    "one_region_carries": 0.083,
+    "published_rank": 22,
+    "of": 26,
+    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.544,
@@ -113819,6 +114531,14 @@
     "statement": "22nd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 21,
+    "one_region_carries": 0.048,
+    "published_rank": 22,
+    "of": 26,
+    "caveat": "each of the 21 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.504,
@@ -115485,6 +116205,14 @@
     "statement": "22nd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 76,
+    "one_region_carries": 0.013,
+    "published_rank": 22,
+    "of": 26,
+    "caveat": "each of the 76 regions counts equally, so one carries 1% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.464,
@@ -120722,6 +121450,14 @@
     "statement": "23rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 79,
+    "one_region_carries": 0.013,
+    "published_rank": 23,
+    "of": 26,
+    "caveat": "each of the 79 regions counts equally, so one carries 1% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.104,
@@ -126152,6 +126888,14 @@
     "statement": "23rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 32,
+    "one_region_carries": 0.031,
+    "published_rank": 23,
+    "of": 26,
+    "caveat": "each of the 32 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.4,
@@ -128527,6 +129271,14 @@
     "statement": "23rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 23,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.72,
@@ -129929,6 +130681,14 @@
     "statement": "23rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 17,
+    "one_region_carries": 0.059,
+    "published_rank": 23,
+    "of": 26,
+    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.288,
@@ -131329,6 +132089,14 @@
     "statement": "23rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 19,
+    "one_region_carries": 0.053,
+    "published_rank": 23,
+    "of": 26,
+    "caveat": "each of the 19 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.32,
@@ -132867,6 +133635,14 @@
     "statement": "23rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 5,
+    "one_region_carries": 0.2,
+    "published_rank": 23,
+    "of": 26,
+    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.432,
@@ -133491,6 +134267,14 @@
     "statement": "23rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 41,
+    "one_region_carries": 0.024,
+    "published_rank": 23,
+    "of": 26,
+    "caveat": "each of the 41 regions counts equally, so one carries 2% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.552,
@@ -136455,6 +137239,14 @@
     "statement": "23rd lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 47,
+    "one_region_carries": 0.021,
+    "published_rank": 23,
+    "of": 26,
+    "caveat": "each of the 47 regions counts equally, so one carries 2% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.448,
@@ -139811,6 +140603,14 @@
     "statement": "24th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 34,
+    "one_region_carries": 0.029,
+    "published_rank": 24,
+    "of": 26,
+    "caveat": "each of the 34 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.328,
@@ -142300,6 +143100,14 @@
     "statement": "24th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 31,
+    "one_region_carries": 0.032,
+    "published_rank": 24,
+    "of": 26,
+    "caveat": "each of the 31 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.48,
@@ -144610,6 +145418,14 @@
     "statement": "24th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 38,
+    "one_region_carries": 0.026,
+    "published_rank": 24,
+    "of": 26,
+    "caveat": "each of the 38 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.472,
@@ -147373,6 +148189,14 @@
     "statement": "24th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 9,
+    "one_region_carries": 0.111,
+    "published_rank": 24,
+    "of": 26,
+    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.456,
@@ -148253,6 +149077,14 @@
     "statement": "24th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 14,
+    "one_region_carries": 0.071,
+    "published_rank": 24,
+    "of": 26,
+    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.512,
@@ -149460,6 +150292,14 @@
     "statement": "24th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 7,
+    "one_region_carries": 0.143,
+    "published_rank": 24,
+    "of": 26,
+    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.352,
@@ -150210,6 +151050,14 @@
     "statement": "24th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 24,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.112,
@@ -151023,6 +151871,14 @@
     "statement": "25th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 25,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.224,
@@ -151836,6 +152692,14 @@
     "statement": "25th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 5,
+    "one_region_carries": 0.2,
+    "published_rank": 25,
+    "of": 26,
+    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.32,
@@ -152458,6 +153322,14 @@
     "statement": "25th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 13,
+    "one_region_carries": 0.077,
+    "published_rank": 25,
+    "of": 26,
+    "caveat": "each of the 13 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.248,
@@ -153596,6 +154468,14 @@
     "statement": "25th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 82,
+    "one_region_carries": 0.012,
+    "published_rank": 25,
+    "of": 26,
+    "caveat": "each of the 82 regions counts equally, so one carries 1% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.168,
@@ -159223,6 +160103,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 7,
+    "one_region_carries": 0.143,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.136,
@@ -159975,6 +160863,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 6,
+    "one_region_carries": 0.167,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 6 regions counts equally, so one carries 17% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.168,
@@ -160662,6 +161558,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 4,
+    "one_region_carries": 0.25,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 4 regions counts equally, so one carries 25% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.248,
@@ -161221,6 +162125,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 14,
+    "one_region_carries": 0.071,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.488,
@@ -162424,6 +163336,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 14,
+    "one_region_carries": 0.071,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.192,
@@ -163633,6 +164553,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 13,
+    "one_region_carries": 0.077,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 13 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.312,
@@ -164775,6 +165703,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 31,
+    "one_region_carries": 0.032,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 31 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.288,
@@ -167083,6 +168019,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 10,
+    "one_region_carries": 0.1,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.176,
@@ -168028,6 +168972,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 10,
+    "one_region_carries": 0.1,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.256,
@@ -168975,6 +169927,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 12,
+    "one_region_carries": 0.083,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.24,
@@ -170054,6 +171014,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 9,
+    "one_region_carries": 0.111,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.136,
@@ -170932,6 +171900,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "not identified",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 27,
+    "one_region_carries": 0.037,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 27 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.344,
@@ -172988,6 +173964,14 @@
     "statement": "26th lowest of 26 observations for this point in the season, 2001-2026"
    },
    "driver": "water",
+   "aggregate": {
+    "method": "unweighted mean across regions, NOT area-weighted",
+    "regions_averaged": 8,
+    "one_region_carries": 0.125,
+    "published_rank": 26,
+    "of": 26,
+    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+   },
    "severity": {
     "available": true,
     "value": 0.32,
