@@ -321,6 +321,27 @@ def _seas5_p_above(seas5_per_lead: list, threshold_oni: float) -> float | None:
     return 100.0 * float(n_above) / float(member_count)
 
 
+# A forecast probability is never displayed as 0 or 100. The 2026-08-10
+# issue published "100%" for the super rung, which was 99.850 rounded up:
+# the arithmetic was right and the claim was not. No forecast can assert
+# certainty, and rounding INTO certainty is worse than rounding away from
+# it, because the reader cannot see that it happened. NOAA's own table
+# sat at 99 the same week, so we were also rounding past a named agency
+# on the single most quotable number we publish.
+#
+# The stored value keeps full precision (`mid_exact`) and the unclamped
+# integer (`mid_unclamped`); only the display figure is bounded. Found by
+# the editor chat, which spotted that the ladder already retires rungs at
+# 100% and that this one was in breach of our own convention.
+DISPLAY_PCT_MIN = 1
+DISPLAY_PCT_MAX = 99
+
+
+def _display_pct(value: float) -> int:
+    """Round to an integer percent, never to 0 or 100."""
+    return max(DISPLAY_PCT_MIN, min(DISPLAY_PCT_MAX, int(round(value))))
+
+
 def smoothed_headline_buckets(
     strength_table: dict,
     seas5_per_lead: list | None,
@@ -383,7 +404,9 @@ def smoothed_headline_buckets(
         applied = raw if eff_cap is None else max(-eff_cap, min(eff_cap, raw))
         smoothed = max(0.0, min(100.0, p_anchor + applied))
         out[key] = {
-            "mid": int(round(smoothed)),
+            "mid": _display_pct(smoothed),
+            "mid_unclamped": int(round(smoothed)),
+            "mid_exact": round(smoothed, 2),
             "anchor": int(round(p_anchor)),
             "seas5": int(round(p_seas5)) if p_seas5 is not None else None,
             "consensus": int(round(p_model)),
