@@ -138,3 +138,65 @@ science's commit rather than with it. Kristjan found it by opening the
 site. Nothing in the publish path noticed, which makes it the same
 class as the front-page freshness guard (D-078) one surface along: the
 channel front door can drift out of a publish.
+
+---
+
+# Crops country pages for pinned countries: two changes, both mine
+
+2026-08-10. CRO has built the adapter (a page is generated when a
+country has a record-low region OR is in PINNED, importing the list from
+the index template rather than copying it) and is HOLDING the commit
+until the template lands. Their reason is right: generated-but-unlinked
+pages are the stale-page problem in advance rather than in arrears.
+
+## 1. The lede assumes the wrong subject
+
+Every pinned page currently opens:
+
+    0 of 22 crop regions in France are at their worst on record for
+    this point in the season. Its highest in any previous year was 0,
+    on a recent average of 0.
+
+Correct, and nonsense to read. **France's actual finding is that it is
+falling faster than in any year on record, with five of six instruments
+at or beside their record**, and the page opens by saying nothing is at
+a record. A correct number rendered misleadingly, which is precisely the
+gap D-030's sign-off exists to close, so CRO declined to sign it.
+
+The template assumes a country page's subject is a count of record-low
+regions. For a pinned country the subject is the country's own
+condition and the count is the least interesting thing about it. When
+the count is zero that sentence should not be the opening at all.
+
+Requirement is CRO's; the wording is mine and editor's.
+
+## 2. Every region gets a row
+
+Region blocks render empty on all seven pinned pages, because the
+template draws only rank-1 regions and these countries have none. This
+is VD's ask from the crops index review, and **the data now supports it
+channel-wide**: CRO restored per-region instrument layers on all 2,107
+regions at `da84e00`, so every region can carry its five layers rather
+than only the record lows.
+
+## 3. England still has no page
+
+England is pinned as a REGION and pages are per country. The UK page now
+exists and foregrounds nothing. Either region pages become a type, or
+the UK page leads with England and shows the other three as the
+minor-crop regions they are. CRO's view, which I share, is that the UK
+page foregrounding England is honest and cheap while a region page type
+is the better long-term shape.
+
+Remember why England is pinned at all: the UK country figure is an
+unweighted mean over four regions and England is nearly all the
+cropland, so the national number is dominated by three regions holding a
+small minority of the crop.
+
+## What is already good, so the rebuild does not lose it
+
+The five country instrument layers render with real values (France:
+cumulative vegetation +0.19 at 18th of 26, current vegetation -1.50 at
+lowest of 26, water satisfaction 46% at lowest of 26) and the severity
+block is present. The substance is there. It is sitting under a lede
+that contradicts it.
