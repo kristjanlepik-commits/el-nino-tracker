@@ -200,3 +200,45 @@ cumulative vegetation +0.19 at 18th of 26, current vegetation -1.50 at
 lowest of 26, water satisfaction 46% at lowest of 26) and the severity
 block is present. The substance is there. It is sitting under a lede
 that contradicts it.
+
+## Update, same evening: the +2.0 rung is retired (D-115)
+
+Editor spotted that the live 2026-08-10 page printed "+2.0 C peak, 100%
+probability" a few lines above its own footnote explaining that rungs
+reaching 100% are retired. **The page stated the convention and breached
+it in the same view.**
+
+Investigating it found worse, and it is science's: the 100 was **99.850
+rounded up**, while NOAA's own table said 99 the same week. We rounded
+into certainty, silently, on the most quotable number the project
+publishes. Displayed probabilities are now bounded to [1, 99], with
+`mid_exact` and `mid_unclamped` kept for audit. This week's ladder is
+**99 / 98 / 94 / 70**.
+
+Retirement is a field on the bucket rather than a list I maintain:
+
+    super_>2.0    mid 99  retired=true  retired_on=2026-08-10
+    9715_>2.5     mid 98  retired=false
+    record_>3.0   mid 94  retired=false
+    record_>3.5   mid 70  retired=false
+
+**And science turned my own argument back on me, correctly.** I asked
+for hierarchy to be data rather than a judgement re-made in CSS each
+time the numbers shift. Composition has the same problem: the ladder
+assembly in `build_public_html` hard-codes which rungs exist, which is a
+condition written against one month's data. Two rungs have topped out in
+two months and >2.5 is at 98, so the third is coming.
+
+**Read `retired` with `state` and `saturated`, and the ladder maintains
+its own composition and its own emphasis.** Nobody has to remember
+anything when +2.5 tops out.
+
+Retirement is presentation only: computation, internal brief, snapshot
+and meta.json keep every bucket, so the archive series and the v1.9
+verification pledge are unbroken. Removing the rung from the render is
+mine; the retirement footnote copy is editor's.
+
+**Not corrected on the frozen 08-10 archive.** Nothing published is
+false, so it does not clear the invariant-5 bar, and a force would
+re-run fetchers. Editor declined to propose one and science agrees. Both
+land in 08-17.
