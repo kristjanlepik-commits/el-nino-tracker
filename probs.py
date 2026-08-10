@@ -462,6 +462,7 @@ if __name__ == "__main__":
 
 SATURATION_MARGIN_PCT = 3.0   # within this of 0 or 100 counts as bounded
 LIVE_WITHIN_ISSUES = 2        # changed this recently counts as live
+SETTLED_MAX_MOVE_PCT = 1.0    # a settled rung has also stopped moving
 
 
 def annotate_liveness(buckets: dict, history: list) -> dict:
@@ -492,7 +493,16 @@ def annotate_liveness(buckets: dict, history: list) -> dict:
         moves = [abs(recent[i] - recent[i - 1]) for i in range(1, len(recent))]
         mean_move = round(sum(moves) / len(moves), 2) if moves else 0.0
         saturated = mid >= (100 - SATURATION_MARGIN_PCT) or mid <= SATURATION_MARGIN_PCT
-        if saturated:
+        # `saturated` is a BOUND property: how much headroom is left.
+        # `settled` is a NEWS property: no headroom AND no longer moving.
+        # These were conflated until 2026-08-10, when saturation
+        # short-circuited the movement test and labelled the +2.5 rung
+        # "settled" in the same week it moved 92 to 98, making it the
+        # second most volatile rung on the ladder. A rung can sit near the
+        # ceiling and still be resolving; that is news, not silence.
+        # Caught by the editor chat, which refused to write a retirement
+        # criterion the data contradicted.
+        if saturated and mean_move < SETTLED_MAX_MOVE_PCT:
             state = "settled"
         elif unchanged < LIVE_WITHIN_ISSUES:
             state = "live"
