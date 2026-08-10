@@ -887,9 +887,14 @@ NAV_KNOWN_STALE = {
 NAV_KNOWN_STALE.update({
     f"docs/fires/{c}/index.html": "dropped from the fire qualifying set, "
                                   "kept published, never regenerated"
+    # germany pruned 2026-08-10: it re-entered the qualifying set, so the
+    # page was regenerated and its nav is current again. The check
+    # reported the exemption as prunable the same run, which is the
+    # mechanism working: an entry that outlives its reason is how a guard
+    # quietly stops guarding.
     for c in ("algeria", "australia", "belgium", "botswana",
               "democratic-republic-of-the-congo", "ecuador", "ethiopia",
-              "germany", "greece", "india", "libya", "mexico", "morocco",
+              "greece", "india", "libya", "mexico", "morocco",
               "portugal", "syria", "tunisia", "turkmenistan", "venezuela",
               "zimbabwe")
 })
