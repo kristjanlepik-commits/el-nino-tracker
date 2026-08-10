@@ -40,6 +40,36 @@ def _to_jsonable(obj):
     return obj
 
 
+def load_bucket_history_pairs(before: date | None = None) -> list:
+    """(issue_date, buckets) for every archived issue, oldest first.
+
+    Unlimited by design: `settled_on` asks when a rung FIRST settled, so
+    truncating the history would move the answer forward as issues
+    accumulate.
+    """
+    root = Path(__file__).parent / "docs" / "briefs"
+    if not root.exists():
+        return []
+    out = []
+    for d in sorted(root.iterdir()):
+        try:
+            issue = date.fromisoformat(d.name)
+        except (ValueError, OSError):
+            continue
+        if before and issue >= before:
+            continue
+        meta = d / "meta.json"
+        if not meta.exists():
+            continue
+        try:
+            b = json.loads(meta.read_text()).get("headline_buckets") or {}
+        except Exception:
+            continue
+        out.append((d.name, {k: (v.get("mid") if isinstance(v, dict) else v)
+                             for k, v in b.items()}))
+    return out
+
+
 def load_bucket_history(before: date | None = None, limit: int = 12) -> list:
     """Published headline buckets from prior issues, oldest first.
 
@@ -88,7 +118,8 @@ def _headline_for_snapshot(fetched: dict, headline: dict | None) -> dict:
     import probs
     if headline:
         return probs.annotate_liveness(
-            headline, load_bucket_history(before=S.BRIEF_DATE))
+            headline, load_bucket_history(before=S.BRIEF_DATE),
+            history_pairs=load_bucket_history_pairs(before=S.BRIEF_DATE))
     try:
         import probs
         offset = (fetched.get("roni_to_oni_offset") or {}).get(
@@ -99,7 +130,8 @@ def _headline_for_snapshot(fetched: dict, headline: dict | None) -> dict:
             S.NEAREST_CPC_SEASON, offset=offset,
             nmme=fetched.get("nmme"))
         return probs.annotate_liveness(
-            computed, load_bucket_history(before=S.BRIEF_DATE))
+            computed, load_bucket_history(before=S.BRIEF_DATE),
+            history_pairs=load_bucket_history_pairs(before=S.BRIEF_DATE))
     except Exception as e:
         return {"error": f"headline not computed: {type(e).__name__}: {e}"}
 

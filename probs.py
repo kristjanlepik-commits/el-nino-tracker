@@ -465,7 +465,34 @@ LIVE_WITHIN_ISSUES = 2        # changed this recently counts as live
 SETTLED_MAX_MOVE_PCT = 1.0    # a settled rung has also stopped moving
 
 
-def annotate_liveness(buckets: dict, history: list) -> dict:
+def _first_settled_issue(key, history_pairs):
+    """Issue date on which `key` FIRST met the settled criterion, or None.
+
+    Derived from the published archive rather than recorded by hand, so it
+    cannot drift from the criterion that defines it. Note the consequence:
+    if the criterion changes, this date moves with it. That is honest and
+    traceable, but it means the date is a property of the current
+    definition of settled, not an immutable historical fact.
+    """
+    out = None
+    for i, (issue, b) in enumerate(history_pairs):
+        mid = b.get(key)
+        if mid is None:
+            continue
+        prior = [x[1].get(key) for x in history_pairs[:i] if x[1].get(key) is not None]
+        if len(prior) < 2:
+            continue
+        recent = (prior + [mid])[-5:]
+        moves = [abs(recent[j] - recent[j - 1]) for j in range(1, len(recent))]
+        mean = sum(moves) / len(moves) if moves else 0.0
+        sat = mid >= (100 - SATURATION_MARGIN_PCT) or mid <= SATURATION_MARGIN_PCT
+        if sat and mean < SETTLED_MAX_MOVE_PCT:
+            out = issue
+            break
+    return out
+
+
+def annotate_liveness(buckets: dict, history: list, history_pairs: list | None = None) -> dict:
     """Return `buckets` with a `liveness` block added per rung.
 
     `history` is an ordered list (oldest first) of prior bucket dicts,
@@ -510,6 +537,11 @@ def annotate_liveness(buckets: dict, history: list) -> dict:
             state = "quiet"
         out[key] = {**val, "liveness": {
             "state": state,
+            # When the rung stopped being a question, a fact about the
+            # EVENT. Distinct from retired_on, which is the issue we
+            # dropped it from the ladder, a fact about our cadence.
+            "settled_on": (_first_settled_issue(key, history_pairs)
+                           if history_pairs else None),
             "weeks_unchanged": unchanged,
             "mean_abs_move_recent": mean_move,
             "saturated": saturated,
