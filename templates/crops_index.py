@@ -181,6 +181,7 @@ PINNED_LABEL = {}
 # (place, region). Read from the region record, which carries its own rate,
 # control and series.
 PINNED_REGIONS = [("U.K. of Great Britain and Northern Ireland", "England")]
+_PINNED_PLACES = set(PINNED) | {c for c, _ in PINNED_REGIONS}
 
 
 def _pinned_row(p) -> str:
@@ -217,8 +218,30 @@ def _pinned_row(p) -> str:
     # record lows, and that change is what earns these countries a page.
     # Until then the name is text, which is honest about there being nothing
     # further to read.
-    has_page = any(r.get("rank") == 1 for r in (p.get("regions") or []))
-    title = (f'<a class="cglink" href="{h(_slug(p["place"]))}/">{h(name)}</a>'
+    # TEST WHAT THE BUILDER TESTS, rather than a predicate that happens to
+    # agree with it. This read "has a region at rank 1", which WAS the
+    # builder's rule until crops changed it to "record low OR pinned". All
+    # seven European pages then existed and served 200 while the index
+    # silently declined to link them, for four days, because the two rules
+    # had drifted apart.
+    #
+    # CRO imported PINNED into the builder specifically so the two files
+    # could not disagree about which countries are pinned, and neither of us
+    # noticed that PAGE EXISTENCE was independently re-derived here. Same
+    # fault one level down, on a different fact.
+    #
+    # AND NOTHING CAUGHT IT. The dead-link guard fires on a link that points
+    # nowhere; a link that should exist and does not is not malformed, so it
+    # is invisible to every check we have. Same shape as the coverage
+    # disclosure that vanished when its count reached zero: an absence fails
+    # nothing.
+    #
+    # PINNED_PLACES mirrors crops/build_country_pages.py. It should be
+    # imported from there once CRO exposes it as a named predicate; asked.
+    page_place = p.get("_page_place", p["place"])
+    has_page = (any(r.get("rank") == 1 for r in (p.get("regions") or []))
+                or page_place in _PINNED_PLACES)
+    title = (f'<a class="cglink" href="{h(_slug(page_place))}/">{h(name)}</a>'
              if has_page else h(name))
     return (f'<p class="cghead">{title}</p>'
             f'<p class="pinsub">{h(", ".join(bits))}.'
@@ -270,7 +293,14 @@ def _pinned_block(places) -> str:
             # crop_units is the country's; a region is one unit of it, and
             # printing the country's 4 next to a region name would say
             # England has four crop regions.
-            rows.append(_pinned_row(dict(rec, place=region, crop_units=None)))
+            # The row is a REGION but the page is its COUNTRY's, so the
+            # link test and the href both need the country. Testing
+            # rec["place"] asked whether "England" had a page, which
+            # nothing builds, and England alone stayed unlinked while
+            # the other six worked.
+            rows.append(_pinned_row(dict(rec, place=region,
+                                         crop_units=None,
+                                         _page_place=country)))
         else:
             absent.append(region)
     rows += [_pinned_row(by[c]) for c in PINNED
