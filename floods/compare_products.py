@@ -72,6 +72,7 @@ REGIONS = {
     "peru_ecuador_coast": {"lon": (-82.0, -75.0), "lat": (-12.0, 2.0)},
     "somalia_shabelle_juba": {"lon": (42.0, 46.5), "lat": (1.0, 6.5)},
     "kenya_tana": {"lon": (38.5, 40.5), "lat": (-2.5, 0.5)},
+    "manila_luzon_west": {"lon": (119.5, 121.5), "lat": (13.5, 16.0)},
     # High-signal monsoon regions, for a comparison that is not dominated
     # by false positives. Counts here run orders of magnitude above the
     # dry-season boxes above.

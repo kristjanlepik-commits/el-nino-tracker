@@ -1,0 +1,60 @@
+{
+ "region_id": "manila_luzon_west",
+ "label": "Manila and the Pampanga basin",
+ "window": {
+  "start": "2026-08-02",
+  "end": "2026-08-08"
+ },
+ "as_of": "2026-08-10",
+ "authorship": "agency",
+ "attribution": "attribution_pending",
+ "series": [
+  {
+   "id": "rainfall",
+   "instrument": "GPM IMERG Late Run v07",
+   "measures": "rainfall, NOT flooding",
+   "units": "mm, area mean over the region",
+   "expected_slots": 7,
+   "due_slots": 7,
+   "values_present": 7,
+   "baseline_years": 26,
+   "value": 319.8,
+   "basis": {
+    "median": 100.8,
+    "x_median": 3.17,
+    "rank": 2,
+    "of": 27
+   },
+   "peak_day_mm": 369.0,
+   "verdict": "measured"
+  },
+  {
+   "id": "flood_extent",
+   "instrument": "NASA MODIS MCDWD 3-Day composite",
+   "measures": "standing water outside the reference water mask",
+   "units": "250m pixels",
+   "expected_slots": 7,
+   "due_slots": 6,
+   "values_present": 5,
+   "baseline_years": 20,
+   "observability": {
+    "current": 0.0564,
+    "baseline_median": 0.232,
+    "baseline_min": 0.005
+   },
+   "qualification": {
+    "observability_dependence": 0.82,
+    "max_allowed": 0.5,
+    "median_count": 174,
+    "count_floor": 300,
+    "qualifies": false
+   },
+   "verdict": "cannot_say",
+   "cannot_say_reason": [
+    "across 20 years the flood measure tracks how much the satellite could see (rank correlation +0.82), so a ranking here would rank clear skies rather than floods",
+    "the median week holds 174 flood pixels, below the 300 at which the two MODIS products stop agreeing"
+   ]
+  }
+ ],
+ "notes": []
+}
