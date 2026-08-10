@@ -159,7 +159,11 @@ def draw(city, metric, reference=None):
     ax.bar([2026], [now], width=0.86, color=NOW, linewidth=0)
 
     prev = max(vals.values())
-    ax.set_xlim(years[0] - 1.5, 2027.5)
+    # CLEAR SPACE AROUND THE MARK THAT CARRIES THE CLAIM. VD: the 2026 bar
+    # touched the right plot boundary, so the one element the whole figure
+    # is about was the only one with nothing around it. Widened rather than
+    # nudged, so the left edge keeps the same breathing room.
+    ax.set_xlim(years[0] - 2.0, 2028.5)
     ax.set_ylim(0, max(now, prev) * 1.20)
     if reference:
         a, b = reference

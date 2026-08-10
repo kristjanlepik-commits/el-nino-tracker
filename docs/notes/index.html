@@ -217,10 +217,19 @@ h1 { font-family:"Spectral",Georgia,serif; font-weight:400;
 .foot a { color:var(--ink-faint); }
 .idx { list-style:none; padding:0; margin:26px 0 0; }
 .idx li { border-top:1px solid var(--rule); padding:16px 0; }
-.idx li:last-child { border-bottom:1px solid var(--rule); }
+/* NO CLOSING RULE. VD: the index had an empty block between the entry
+   and the footer, two hairlines with nothing between them, which reads
+   as room left for something that is not there. At one entry that makes
+   an index of one look unfinished rather than short. The list closes on
+   its last entry; the footer brings its own rule. */
+/* THE HOUSE LINK RULE, which this was not following. A hairline under a
+   21px heading reads as a rule, not an underline, and nothing else on the
+   row said the entry was clickable. Ink text, rule underline, and the
+   underline takes the hover colour with it. */
 .idx a { font-size:21px; color:var(--ink); text-decoration:none;
-  border-bottom:1px solid var(--rule); }
-.idx a:hover { border-bottom-color:var(--ink); }
+  border-bottom:1px solid var(--rule); padding-bottom:2px;
+  transition:border-color .12s, color .12s; }
+.idx a:hover { color:var(--nino); border-bottom-color:var(--nino); }
 .idx .lead { margin:10px 0 0; max-width:62ch; font-size:17px;
   line-height:1.6; color:var(--ink-soft); text-wrap:pretty; }
 .idx .when { display:block; font-family:"IBM Plex Mono",monospace;
