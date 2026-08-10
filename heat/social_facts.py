@@ -112,6 +112,43 @@ def _payload_nights_series(city):
     return {str(y): n for y, n in s.items()}
 
 
+def _run_above(tx, thr, last):
+    """Longest and current run of current-year days at or above `thr`.
+
+    A run is only as long as the days we hold. If a service lags two days,
+    a run in progress reads two days short, which understates rather than
+    overstates and is why this is postable while a forecast is not.
+    """
+    if thr is None:
+        return {"longest": None, "why": "no P95 threshold for this city"}
+    days = sorted(d for d in tx if d.startswith(str(CUR)))
+    best = cur = 0
+    best_end = cur_start = None
+    for d in days:
+        v = tx.get(d)
+        if v is not None and v >= thr:
+            cur += 1
+            if cur == 1:
+                cur_start = d
+            if cur > best:
+                best, best_end = cur, d
+        else:
+            cur = 0
+            cur_start = None
+    ongoing = cur if (days and days[-1][5:] == last) else 0
+    return {
+        "threshold_c": thr,
+        "longest": best,
+        "longest_ended": best_end,
+        "current": ongoing,
+        "in_progress": ongoing > 0,
+        "counted_to": last,
+        "means": "consecutive days at or above this city's own 95th "
+                 "percentile, measured. A run still under way reads short "
+                 "until the observations land.",
+    }
+
+
 def facts(city, meta):
     tx, tn = daily_max(city, meta), daily_min(city, meta)
     if not tx:
@@ -125,6 +162,8 @@ def facts(city, meta):
     # 1864, in the very field added so a number could not go stale between
     # my run and their draft.
     _scope = _payload_scope(city)
+    _p95 = (_PAYLOAD.get(city, {}).get('days', {})
+            .get('thresholds_c', {}).get('95'))
 
     # THE LEADING RUN. How many of the hottest days on record are this year,
     # counting from the top until a different year appears. A count, never a
@@ -209,6 +248,15 @@ def facts(city, meta):
         # solves: every day in the record, no cut, no seasonal window. It is
         # the same basis the five-hottest-days claim is made on, so a reader
         # can check the claim against this list directly.
+        # CONSECUTIVE RUN ABOVE THE CITY'S OWN THRESHOLD. Socials asked for
+        # this because a DURATION claim is much harder to wave away than a
+        # spike, and `social_facts.json` could not tell them whether a
+        # forecast six-day run completed or broke on day four.
+        #
+        # Measured, never forecast. This counts days we HOLD, so a run still
+        # in progress reads short until the observations land, which is the
+        # safe direction and the reason it can be posted at all.
+        "run_above_p95": _run_above(tx, _p95, _last),
         "hottest_days": {
             "basis": "every individual day in the record, uncut and with no "
                      "seasonal window. NOT comparable with warmest_day_c "
