@@ -145,7 +145,16 @@ def main() -> None:
     # that remains the citable record. Built from the same stored state
     # as the front page, so it needs no fetch and cannot drift from the
     # published numbers.
-    pages["elnino/index.html"] = R.build_public_html(
+    # THE CHANNEL PAGE HAS ITS OWN TEMPLATE NOW. build_public_html still
+    # renders the dated brief, which is a different artefact with a
+    # different job: the brief is the week's full record and keeps its
+    # impact outlook and numbered caveats. This page answers how big it
+    # gets, and its order follows that question rather than April's.
+    from templates.elnino_page import render as _render_elnino
+    pages["elnino/index.html"] = _render_elnino(
+        fetched, meta, R.S.BRIEF_DATE if hasattr(R, "S") else None,
+        root_prefix="../", briefs_href="../briefs/", asset_prefix="../")
+    _unused_elnino = R.build_public_html(
         fetched, shell_freshness, meta["headline_buckets"],
         methodology_href="../methodology.html", brief_date_iso=di,
         canonical_url=f"{base}/elnino/",

@@ -4150,9 +4150,15 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         # audit prose in three places, each doing a different job. One
         # place to stand for the reader who wants to audit, and no
         # interruption for the one who does not.
+        # THIS RENDERER NOW SERVES THE DATED BRIEF ONLY. /elnino/ has its
+        # own template (templates/elnino_page.py), so the brief keeps the
+        # impact outlook it has always carried and the channel page drops
+        # it, which is what was actually asked for. Removing it from both
+        # was me changing a surface nobody mentioned.
         body_sections = (_finding_line(headline, phys)
                          + physical_html + analyst_html + ladder_html
-                         + chart_html + sources_html + caveats_html)
+                         + chart_html + impacts_html + sources_html
+                         + caveats_html)
     body_sections = _number_sections(body_sections)
     return (head + body_sections + footer_html
             + '\n</body>\n</html>\n')
