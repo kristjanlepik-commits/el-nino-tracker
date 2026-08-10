@@ -154,19 +154,21 @@ def main() -> None:
     pages["elnino/index.html"] = _render_elnino(
         fetched, meta, R.S.BRIEF_DATE if hasattr(R, "S") else None,
         root_prefix="../", briefs_href="../briefs/", asset_prefix="../")
-    _unused_elnino = R.build_public_html(
-        fetched, shell_freshness, meta["headline_buckets"],
-        methodology_href="../methodology.html", brief_date_iso=di,
-        canonical_url=f"{base}/elnino/",
-        og_image_url=f"{base}/card.png",
-        world_map_href="../world-map.svg", briefs_href="../briefs/",
-        root_prefix="../", is_front=False,
-        as_published_href=f"../briefs/{di}/",
-        # analog.png and card.png sit beside the page on the front page
-        # and inside each dated dir. This page is a directory deeper, so
-        # it points at the rolling copies at the docs root, which track
-        # the current issue exactly as this page does.
-        asset_prefix="../")
+    # THE OLD build_public_html CALL FOR /elnino/ WAS HERE AND IS GONE.
+    # It was assigned to _unused_elnino and read by nothing: a full page
+    # rendered and discarded on every publish, left behind when the
+    # channel moved to templates/elnino_page.py.
+    #
+    # Worth recording what its removal means, because it changes an answer
+    # I gave earlier today. The reported defect was that /elnino/ showed
+    # "Sources not recorded this issue" and no CWWA row while the archive
+    # showed 519, and the cause was this file passing {} for freshness.
+    # That plumbing is fixed above and is still right for the front page.
+    # But /elnino/ no longer renders through build_public_html at all, and
+    # elnino_page.py references neither freshness nor cwwa, so the fix
+    # does not restore those elements to that page and I should not claim
+    # it does. Whether the channel front door SHOULD carry them is now a
+    # template question for design and editor, not a freshness bug.
 
     # /subscribe and /subscribed. Written but wired to nothing until now:
     # templates/subscribe.py had no caller anywhere, so neither page was
