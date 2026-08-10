@@ -222,8 +222,41 @@ def _pinned_row(p) -> str:
              if has_page else h(name))
     return (f'<p class="cghead">{title}</p>'
             f'<p class="pinsub">{h(", ".join(bits))}.'
-            + (f' {h(str(p["crop_units"]))} crop regions.'
-               if p.get("crop_units") else "") + '</p>')
+            + _agg_note(p) + '</p>')
+
+
+def _agg_note(p) -> str:
+    """How the country figure was built, next to the country figure.
+
+    CRO tried twice to emit a per-country "how exposed is this aggregate"
+    score and both attempts failed in ways worth not repeating: the cheap
+    one fired on 62 of 123 countries and missed the case it was built for,
+    and the leave-one-out version understated by half. A flag that fires
+    everywhere is useless and one that understates is worse than none,
+    because it reads as reassurance.
+
+    So there is no score, and this prints the method instead: how many
+    regions were averaged and what share one carries. That is true without
+    crop-area data, and on the country it was built for it states the whole
+    problem as a number rather than a judgement. It is also why England is
+    pinned as a region and the UK is not.
+    """
+    a = p.get("aggregate") or {}
+    if not a.get("regions_averaged"):
+        return ""
+    # CRO's OWN SENTENCE, not my arithmetic on their fields. I computed the
+    # share from one_region_carries and printed 4% where their caveat says
+    # 5%: round(0.045 * 100) is 4 in Python, which rounds halves to even.
+    # Two surfaces disagreeing about the same figure by a rounding rule is
+    # the smallest possible version of the drift this whole day was about,
+    # and the fix is the same one every time: read the computed string.
+    #
+    # Only the first sentence. The rest explains why no sensitivity score
+    # exists, which belongs in the methodology rather than beside a country.
+    first = (a.get("caveat") or "").split(". ")[0].strip().rstrip(".")
+    if not first:
+        return ""
+    return f' <span class="pinagg">{h(first[0].upper() + first[1:])}.</span>' 
 
 
 def _pinned_block(places) -> str:
