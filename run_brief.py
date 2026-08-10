@@ -2896,9 +2896,18 @@ def _issue_meta_html(brief_date_iso: str, offset_phrase: str,
     ones. So the furniture lands here and in the stamp instead, and the
     page keeps a single column.
     """
+    # F5, VD: the page printed "0 of 1 live" above five named agencies, a
+    # fraction with the wrong denominator. It is worse than that on
+    # inspection. `or 1` turns an EMPTY freshness dict into a denominator
+    # of one, so a run that recorded nothing renders as a confident
+    # "0 of 1 live" rather than as an absence.
+    #
+    # That is this week's shape one more time: knowing nothing rendered as
+    # knowing something bad. The cell now says which, and the per-source
+    # freshness VD wants lands with the ledger in the reorder.
     live = sum(1 for i in freshness.values()
                if i.get("ok") and not i.get("used_fallback"))
-    total = len(freshness) or 1
+    total = len(freshness)
     try:
         next_iso = (date.fromisoformat(brief_date_iso)
                     + timedelta(days=7)).isoformat()
@@ -2908,7 +2917,8 @@ def _issue_meta_html(brief_date_iso: str, offset_phrase: str,
         ("Issue", f"<b>{h(brief_date_iso)}</b>"),
         ("Methodology", f"<b>v{h(str(S.METHODOLOGY_VERSION))}</b>"),
         ("RONI offset", h(offset_phrase)),
-        ("Sources", f"<b>{live}</b> of {total} live"),
+        ("Sources", (f"<b>{live}</b> of {total} live" if total
+                     else "not recorded this issue")),
         ("Next issue", h(next_iso)),
         ("Archive", f'<a href="{h(briefs_href)}">every issue, immutable</a>'),
     ]
