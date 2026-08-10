@@ -336,6 +336,24 @@ def _seas5_p_above(seas5_per_lead: list, threshold_oni: float) -> float | None:
 DISPLAY_PCT_MIN = 1
 DISPLAY_PCT_MAX = 99
 
+# Rungs retired from the PUBLIC ladder, newest first, with the issue that
+# retired them. A rung pinned at the top carries no information, so it is
+# dropped from the reader-facing ladder while the computation, the
+# internal brief, the snapshot and meta.json keep every bucket, which is
+# what holds the archive series and the v1.9 verification pledge together.
+#
+# Emitted as data (`retired: true` on the bucket) rather than left as a
+# rung list in the renderer. Design asked for hierarchy to be data rather
+# than a judgement re-made in CSS each time the numbers shift; the same
+# argument applies to composition. A hard-coded rung list is a condition
+# written against one month's data, and this is the second time in two
+# months a rung has topped out.
+RETIRED_RUNGS = {
+    "moderate_>1.0": "2026-07-13",
+    "strong_>1.5":   "2026-07-13",
+    "super_>2.0":    "2026-08-10",   # D-115
+}
+
 
 def _display_pct(value: float) -> int:
     """Round to an integer percent, never to 0 or 100."""
@@ -405,6 +423,8 @@ def smoothed_headline_buckets(
         smoothed = max(0.0, min(100.0, p_anchor + applied))
         out[key] = {
             "mid": _display_pct(smoothed),
+            "retired": key in RETIRED_RUNGS,
+            "retired_on": RETIRED_RUNGS.get(key),
             "mid_unclamped": int(round(smoothed)),
             "mid_exact": round(smoothed, 2),
             "anchor": int(round(p_anchor)),
