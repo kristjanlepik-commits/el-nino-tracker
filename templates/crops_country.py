@@ -424,8 +424,24 @@ def _region_layers(r: dict, legend: dict, absence: dict) -> str:
         v = ins[key] or {}
         meta = legend.get(key) or {}
         name = h(meta.get("name", key))
-        if v.get("value") is None:
-            why = absence.get(v.get("absent", ""), "")
+        # THE SENTENCE BOUND TO THE DATUM, not the glossary keyed by its
+        # code. CRO's correction and the distribution proves it: sm carries
+        # no_current_value 1,999 times and undefined_at_this_dekad 108
+        # times, which are OPPOSITE claims about whether the reading will
+        # ever arrive, on the same instrument in the same dekad.
+        #
+        # absence_reasons is a glossary for a consumer that needs one. It
+        # is generic by construction: "the instrument has history here but
+        # no value for the dekad being reported". absent_because names the
+        # instrument and states this case: "Soil moisture has not reported
+        # for this dekad yet." Mapping the code re-derived a sentence the
+        # payload had already written, which is the composition defect this
+        # whole day has been about.
+        #
+        # Keyed on `available` rather than a null value, matching the
+        # country block, because those are two different questions.
+        if not v.get("available", v.get("value") is not None):
+            why = v.get("absent_because", "")
             rows.append(f'<div class="rl rl-out"><span>{name}</span>'
                         f'<span class="rlv">not reported</span><span></span>'
                         f'<span class="rls">{h(why)}</span></div>')
