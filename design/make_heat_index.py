@@ -57,7 +57,8 @@ PAYLOAD_STAMP = hashlib.sha256(
 
 import sys
 sys.path.insert(0, str(R))
-from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
+from run_brief import (ANALYTICS_SNIPPET, PAGES_BASE_URL,   # noqa: E402
+                       SITE_MASTHEAD_CSS,
                        site_masthead)
 N = json.loads((R / "heat/data/city_nights.json").read_text())
 S = json.loads((R / "heat/data/city_series.json").read_text())["cities"]
@@ -915,6 +916,16 @@ CONTRAST_BLOCK = f"""<div class="seclab">{COPY['contrast_label']}</div>
 <p class="subl" style="margin-top:16px">{COPY['two_instruments']}</p>""" if CONTRAST_OK else ""
 
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<!-- A page that declares summary_large_image and supplies no image is
+     WORSE than one that declares nothing: the platform reserves the
+     slot and renders it empty. Socials measured 136 channel pages
+     sharing with no image at all, heat declaring the large card and
+     showing a blank one. The house card is generic and beats an
+     empty slot; per-page cards wait for the citable chart, and will
+     have to carry their cut date so a stale one is visibly stale. -->
+<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Heat &middot; The Long Swell</title>
 {ANALYTICS_SNIPPET}

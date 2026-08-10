@@ -876,6 +876,15 @@ for name, v in sorted(C.items()):
 <meta property="og:title" content="{name}: {now} hot days so far this summer">
 <meta property="og:description" content="{head}">
 <meta property="og:url" content="{PAGES_BASE_URL}/heat/{slug(name)}.html">
+<!-- A page that declares summary_large_image and supplies no image is
+     WORSE than one that declares nothing: the platform reserves the
+     slot and renders it empty. Socials measured 136 channel pages
+     sharing with no image at all, heat declaring the large card and
+     showing a blank one. The house card is generic and beats an
+     empty slot; per-page cards wait for the citable chart, and will
+     have to carry their cut date so a stale one is visibly stale. -->
+<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{name}: {now} hot days so far this summer">
 <meta name="twitter:description" content="{head}">
