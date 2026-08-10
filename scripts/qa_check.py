@@ -894,6 +894,27 @@ NAV_KNOWN_STALE.update({
               "zimbabwe")
 })
 
+# And the crops countries in the same state, found by this guard when Notes
+# entered the nav. THE SAME DEFECT ONE CHANNEL LATER, which the comment
+# above predicted in as many words: it said the fire pages missing the crops
+# entry were "the clearest evidence this recurs by default", and it has now
+# recurred by default.
+#
+# What the two lists have in common is the real problem: a page that stops
+# being regenerated keeps its nav frozen at the week it dropped, so every
+# later channel launch silently widens the gap. Neither list is the fix.
+#
+# Same expiry as above: this ends when crops and design decide what a
+# dropped country page should say. Whoever answers it deletes these lines
+# and the fire block together, because it is one question.
+NAV_KNOWN_STALE.update({
+    f"docs/crops/{c}/index.html": "dropped from the crops qualifying set, "
+                                  "kept published, never regenerated"
+    for c in ("bolivia", "eritrea", "guyana", "india", "japan", "jordan",
+              "mauritania", "saudi-arabia", "senegal", "somalia",
+              "sri-lanka", "syrian-arab-republic")
+})
+
 
 def check_gate_currency(violations, base):
     """Is this gate itself out of date relative to what it will merge into?

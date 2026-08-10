@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How bad is it? | The Long Swell</title>
+<style>
+:root { color-scheme: light dark; }
+    --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px;
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+* { box-sizing: border-box; }
+body { margin:0; background:var(--paper); color:var(--ink-soft);
+  font-family:"Spectral",Georgia,serif; font-size:18px; line-height:1.68;
+  -webkit-font-smoothing:antialiased; }
+main { max-width:660px; margin:0 auto; padding:24px 24px 90px; }
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--nino);
+    transition: color .12s;
+  }
+  .prodnav a.ch-fire { color: var(--fire); }
+  .prodnav a.ch-crop { color: var(--crop); }
+  /* Heat gets NO hue. Section 7 retired channel colour and heat never had
+     one, so its identity is type: the tracked mono against the Spectral
+     wordmark. Without this rule it inherits the .prodnav default, which is
+     var(--nino), and the heat channel renders in El Nino's blue. */
+  .prodnav a.ch-heat { color: var(--ink); }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+h1 { font-family:"Spectral",Georgia,serif; font-weight:400;
+  font-size:38px; line-height:1.12; letter-spacing:-0.016em; color:var(--ink);
+  margin:30px 0 0; max-width:22ch; text-wrap:pretty; }
+/* THE BYLINE IS AT THE TOP because attribution is what makes a piece
+   citable (T10) and a journalist should not scroll to find who wrote it. */
+.byline { font-family:"IBM Plex Mono",monospace; font-size:11.5px;
+  letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--ink-faint); margin:18px 0 0; padding-bottom:20px;
+  border-bottom:1px solid var(--rule); }
+.byline .who { color:var(--ink); }
+.note p { margin:20px 0; max-width:62ch; text-wrap:pretty; }
+.note a { color:var(--ink); text-decoration:none;
+  border-bottom:1px solid var(--rule); }
+.note a:hover { border-bottom-color:var(--ink); }
+.note strong { color:var(--ink); font-weight:500; }
+.pull { font-size:23px; line-height:1.42; color:var(--ink);
+  border-left:2.4px solid var(--ink); padding:2px 0 2px 18px;
+  margin:26px 0; max-width:52ch; }
+.note figure { margin:30px 0; }
+.note figure img { width:100%; height:auto; display:block; }
+/* The source footer is 5a-required and may not be collapsible or
+   truncatable: it is what makes review a lookup rather than an audit. */
+.src { font-family:"IBM Plex Mono",monospace; font-size:11.5px;
+  line-height:1.72; color:var(--ink-faint); margin-top:38px; padding-top:18px;
+  border-top:2.4px solid var(--ink); max-width:70ch; }
+.src b { color:var(--ink); font-weight:400; }
+.foot { font-family:"IBM Plex Mono",monospace; font-size:11px;
+  color:var(--ink-faint); margin-top:44px; padding-top:16px;
+  border-top:1px solid var(--rule); }
+.foot a { color:var(--ink-faint); }
+.idx { list-style:none; padding:0; margin:26px 0 0; }
+.idx li { border-top:1px solid var(--rule); padding:16px 0; }
+.idx li:last-child { border-bottom:1px solid var(--rule); }
+.idx a { font-size:21px; color:var(--ink); text-decoration:none;
+  border-bottom:1px solid var(--rule); }
+.idx a:hover { border-bottom-color:var(--ink); }
+.idx .when { display:block; font-family:"IBM Plex Mono",monospace;
+  font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--ink-faint); margin-top:7px; }
+.stand { color:var(--ink-soft); max-width:58ch; margin:14px 0 0; }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+</script>
+</head>
+<!-- published 2026-08-10 -->
+<body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../../elnino/">El Niño</a><a class="ch-fire" href="../../fires/">Fires</a><a class="ch-crop" href="../../crops/">Crops</a><a class="ch-heat" href="../../heat/">Heat</a><a class="ch-notes on" href="../../notes/">Notes</a><a class="util" href="../../about.html">About</a></nav></div></div></header>
+
+<main>
+<h1>How bad is it?</h1>
+<p class="byline"><span class="who">Kristjan Lepik</span> &middot;
+  10 August 2026</p>
+<div class="note">
+<p>This year a strong El Niño started. Europe had its heatwaves and its fires. I started to wonder - how bad is it?</p>
+<p>Turns out that is not an easy question. There is a great amount of data sitting in different databases, and getting an answer out of it is another thing entirely.</p>
+<p>So I started building that.</p>
+<p>My grandfather <a href="https://wildcrowns.substack.com/p/ulo">Ülo</a> was a respected scientist and is my biggest idol in this life. While he hoped that I would become one as well, I am no scientist. I am too impatient, I want to test the result right away. I am a builder, an entrepreneur.</p>
+<p>A real builder must have science as a foundation. I have been working with scientists and big data for the last 10 years. From Teleport and Topia on relocation, and for the last five years with Arbonics and forestry climate data.</p>
+<p>So when I started to tackle "how bad is it?" for this year's climate event, I started from the scientific rigor of how to build it. The results were intriguing and one thing led to another. I decided to bring the different research parts together, and here is thelongswell.com: data based answers on Heat, Fires, Crops and El Niño. How bad is it?</p>
+<p>Two things the data has already told me.</p>
+<p><strong>Paris had 31 hot days by 8 August this year. In a typical summer between 1961 and 1990, it had two by the same date.</strong></p>
+<figure><img src="../charts/paris-days.png" alt="Paris hot days per summer, 1950 to 2026"></figure>
+<p>That is one thermometer, at Orly, measured against its own history. Not Paris against Seville, and not against a number someone decided counts as hot everywhere.</p>
+<p>Days are only half of it. Heat that does not lift overnight gets counted separately, because the body does most of its recovering when the temperature falls. A hot day you can sit out. A hot week without a cool night is a different thing.</p>
+<p><strong>Frankfurt has had 17 nights so far this year that never dropped below 20 °C. Across the whole second half of the twentieth century, 1950 to 2000, it had 26.</strong></p>
+<figure><img src="../charts/frankfurt-nights.png" alt="Frankfurt tropical nights per summer, 1937 to 2026"></figure>
+<p>Thirty-eight of those fifty-one summers had none at all.</p>
+<p>That is the thing I am actually building. Not a dashboard. A way of answering "how bad is it?" that you can check.</p>
+</div>
+<div class="src"><p><strong>Paris.</strong> Daily maxima and hot-day counts: Meteo-France via data.gouv.fr, station Orly, record from 1950, every summer counted to 8 August. A hot day is 31.8 °C or above, a level about one summer day in twenty used to reach at this station between 1971 and 2000. The 1961-1990 average to the same date is 2.0 days.</p>
+<p><strong>Frankfurt.</strong> Daily minima: DWD Climate Data Center, station Frankfurt am Main, ranked series from 1937, every summer counted to 8 August. A tropical night is one whose lowest temperature never falls below 20 °C, the standard ETCCDI TR index. This station moved 5.86 km in 2014, so this year's count and that baseline are not from the same site; stations nearby that did not move show a similar rise over the same period.</p>
+<p><strong>Both counts are floors.</strong> The season is unfinished, so each can only rise. Read from the Heat channel payload behind thelongswell.com/heat on 10 August 2026.</p></div>
+<div class="foot">Kristjan Lepik (2026). The Long Swell.
+  <a href="https://thelongswell.com/">thelongswell.com</a>
+</div>
+</main>
+</body>
+</html>
