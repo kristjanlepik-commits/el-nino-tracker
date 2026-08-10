@@ -246,6 +246,20 @@ def fetch_all() -> dict:
         if hp.get("analogs_same_month"):
             phys["heat_content_analogs_same_month"] = hp["analogs_same_month"]
             phys["heat_content_data_month"] = f"{hp['data_year']:04d}-{hp['data_month']:02d}"
+        # The whole monthly record, 1979-01 onward, keyed "YYYY-MM".
+        # The fetcher has always parsed it; it stopped here, so the
+        # snapshot carried four numbers and four numbers can only be
+        # drawn as bars.
+        #
+        # The record claim needs the series, not the value: "rank 1 of
+        # 571" and "already above 1997's own October peak" are both
+        # statements about the whole record, and a page that prints
+        # them while holding only a July snapshot is asserting something
+        # it cannot show. Emitting the series is what lets the render
+        # test the claim instead of trusting it, which is the same
+        # reason `series` exists in the fetcher payload at all.
+        if hp.get("series"):
+            phys["heat_content_series"] = hp["series"]
     if results["era5_wwe"].ok:
         wp = results["era5_wwe"].payload
         # CWWA replaces the legacy event-count metric (methodology v1.2).
