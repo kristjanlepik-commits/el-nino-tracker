@@ -155,6 +155,9 @@ def render_note(title, published_on, body_html, sources_html,
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:card" content="summary_large_image">
 <title>{h(title)} | {h(SITE_NAME)}</title>
 <style>{_css(root_prefix)}</style>
 {ANALYTICS_SNIPPET}
@@ -203,6 +206,9 @@ def render_index(notes, root_prefix="../") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:card" content="summary_large_image">
 <title>Notes | {h(SITE_NAME)}</title>
 <style>{_css(root_prefix)}</style>
 {ANALYTICS_SNIPPET}

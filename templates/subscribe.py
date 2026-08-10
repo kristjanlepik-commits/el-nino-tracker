@@ -161,6 +161,9 @@ def render_subscribe(issues=None, form_embed="", root_prefix="") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:card" content="summary_large_image">
 <title>Subscribe | {h(SITE_NAME)}</title>
 <meta name="description" content="{h(PROMISE_H)}">
 <style>{_css(root_prefix)}</style>
@@ -219,6 +222,9 @@ def render_subscribed(latest_href="briefs/", latest_label="the most recent issue
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="noindex">
 <title>You are subscribed | {h(SITE_NAME)}</title>
 <style>{_css(root_prefix)}</style>

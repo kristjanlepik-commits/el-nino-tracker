@@ -522,6 +522,13 @@ def render_html(markdown_text: str, title: str = None,
     if root_prefix is not None:
         head_assets = (
             f"<style>{T.font_faces_css(root_prefix + 'fonts/')}</style>\n"
+            # Shared by about.html, methodology.html and heat's methodology
+            # page. about.html was the site's last page declaring
+            # summary_large_image with no image, so it reserved a large card
+            # and rendered it blank, which is worse than declaring nothing.
+            + f'<meta property="og:image" content="{PAGES_BASE_URL}/card.png">\n'
+            + f'<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">\n'
+            + '<meta name="twitter:card" content="summary_large_image">\n'
             + _favicon_links(root_prefix)
             + (f"{ANALYTICS_SNIPPET}\n" if analytics else "")
         )
@@ -4652,6 +4659,8 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
 <title>{h(title)}</title>
 <meta property="og:title" content="{h(title)}">
 <meta property="og:description" content="{h(desc)}">
+<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
 <meta name="twitter:card" content="summary_large_image">
 <style>{T.font_faces_css(root_prefix + "fonts/")}</style>
 {_favicon_links(root_prefix)}<style>{PUBLIC_CSS}</style>
