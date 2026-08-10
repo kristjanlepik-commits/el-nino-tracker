@@ -421,6 +421,12 @@ def _region_block(r: dict, all_regions: list, driver: str) -> str:
       </section>"""
 
 
+def _and(names) -> str:
+    if len(names) == 1:
+        return names[0]
+    return ", ".join(names[:-1]) + " and " + names[-1]
+
+
 def _ord(n: int) -> str:
     """11-13 take 'th', which the naive n%10 rule gets wrong."""
     if 10 <= n % 100 <= 20:
@@ -450,7 +456,60 @@ def render(country: dict, root_prefix: str = "../../") -> str:
     # condition is the subject and the count is the least interesting thing
     # about it, so it stops being the opening and becomes a closing clause.
     rate, sev = country.get("rate") or {}, country.get("severity") or {}
-    if lows:
+
+    # ONE COUNTRY LEADS WITH A REGION, and it is not a special case so much
+    # as the honest reading of its own aggregate. Every country figure on
+    # this channel is an UNWEIGHTED mean across its regions. The UK has four
+    # and England is nearly all the cropland, so the national number is not
+    # England slightly diluted, it is dominated by three regions holding a
+    # small minority of the crop:
+    #
+    #     Scotland +0.376  N. Ireland +0.457  Wales +0.267
+    #     England  -0.006  national   +0.273
+    #
+    # So the page leads with England and says why, rather than opening on a
+    # figure whose construction it would then have to walk back. The reason
+    # goes ON THE PAGE, not just in the ledger: a reader who sees a region
+    # foregrounded is owed the explanation, and CRO and I agreeing about it
+    # in messages is not an explanation anyone can read.
+    #
+    # Read from PINNED_REGIONS rather than testing for the UK, so the second
+    # country with this shape needs no code. tls-internal#16 is open on
+    # area-weighting, which would retire this entirely.
+    from templates.crops_index import PINNED_REGIONS
+    _lead_name = dict((c, r) for c, r in PINNED_REGIONS).get(name)
+    lead_reg = next((r for r in regions if r["region"] == _lead_name), None)
+
+    if lead_reg is not None:
+        lr = lead_reg.get("rate") or {}
+        bits = []
+        if lead_reg.get("rank") and lead_reg.get("of"):
+            bits.append(f"{_ord(lead_reg['rank'])} lowest of "
+                        f"{lead_reg['of']} observations for this point in "
+                        f"the season")
+        # The region-level rate carries a rank without the `available`
+        # flag the country-level one has. Requiring it dropped England's
+        # rank 1 of 26 silently, which is the finding the page exists for.
+        if lr.get("rank"):
+            ctl = lr.get("_start_control") or {}
+            rk = (ctl["adjusted_rank"] if ctl and not ctl.get("holds")
+                  and ctl.get("adjusted_rank") else lr["rank"])
+            bits.append(f"{_ord(rk)} steepest fall of {lr['of']}")
+        stand = (f"{_lead_name} is " + ", and ".join(bits) + ". "
+                 if bits else f"{_lead_name} is within its own normal range. ")
+        others = [r["region"] for r in regions if r["region"] != _lead_name]
+        # The formal name is right in the title and unreadable in a
+        # sentence. "the U.K. of Great Britain and Northern Ireland
+        # figure" is what the payload key gives you, not what a reader
+        # calls it.
+        short = "UK" if name.startswith("U.K.") else name
+        stand += (f"This page leads with {_lead_name} because the "
+                  f"{short} figure is an unweighted mean across its {units} "
+                  f"crop regions, and {_lead_name} holds almost all the "
+                  f"cropland. {_and(others)} each count equally in that "
+                  f"average whatever their area, so the national number is "
+                  f"not {_lead_name} slightly diluted.")
+    elif lows:
         stand = (f"{len(lows)} of {units} crop regions in {name} are at "
                  f"their worst on record for this point in the season.")
         if cb.get("recent_max") is not None:
