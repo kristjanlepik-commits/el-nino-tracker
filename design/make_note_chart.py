@@ -39,8 +39,19 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt          # noqa: E402
 from matplotlib.ticker import MaxNLocator  # noqa: E402
 
+import hashlib
+
 R = Path(__file__).resolve().parent.parent
-N = json.loads((R / "heat/data/city_nights.json").read_text())
+_PAYLOAD = (R / "heat/data/city_nights.json").read_bytes()
+N = json.loads(_PAYLOAD)
+# Stamped into the PNG so a stale chart is detectable. The pages carry this
+# hash in an HTML comment and preview_sync refuses to ship a page built from
+# a different payload; charts had no equivalent, so when heat repaired the
+# Meteo-France fetcher and Paris's cut moved from 4 to 8 August, the
+# rendered chart went stale and nothing said so. Editor caught it by
+# comparing file times, which is the manual version of a control we already
+# have one artefact type along.
+PAYLOAD_STAMP = hashlib.sha256(_PAYLOAD).hexdigest()[:12]
 OUT = R / "docs/notes/charts"
 
 PAPER, INK, INK_SOFT, INK_FAINT = "#F1F0EC", "#1A1A18", "#3A3A36", "#6E6E67"
@@ -308,7 +319,8 @@ def draw(city, metric, reference=None):
     fig.tight_layout(rect=(0, 0.035 + 0.028 * len(lines), 1, 1))
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / f"{city.lower()}-{metric}.png"
-    fig.savefig(p, facecolor=PAPER)
+    fig.savefig(p, facecolor=PAPER,
+                metadata={"Software": f"tls-note-chart payload={PAYLOAD_STAMP}"})
     plt.close(fig)
     print(f"wrote {p} | {city} {metric}: {floor}{now} against a previous best "
           f"of {prev}, {len(years)} prior years from {years[0]}, cut {cut}")

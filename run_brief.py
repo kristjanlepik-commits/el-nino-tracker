@@ -261,6 +261,14 @@ CHANNELS = [
     ("fire", "Fires", "fires/"),
     ("crop", "Crops", "crops/"),
     ("heat", "Heat", "heat/"),
+    # NOTES IS NOT A CHANNEL and sits at the end of the run, next to About,
+    # because it is the human-voice surface rather than an instrument.
+    # Kristjan put it in the main nav on 2026-08-09, which reversed
+    # product's scoping of the index: a nav item needs a destination, and
+    # pointing it at a single Note breaks silently the moment there is a
+    # second one, with the nav still resolving to the first piece forever.
+    # So it points at /notes/, an index, even while that index has one row.
+    ("notes", "Notes", "notes/"),
 ]
 
 SITE_NAME = "The Long Swell"

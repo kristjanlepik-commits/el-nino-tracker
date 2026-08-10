@@ -103,6 +103,12 @@ STEPS = [
     # is still unbuilt (tls-internal#11). Rendering current pages from
     # stale data does not make the data fresher and is not meant to.
     ("crops country pages", [PY, "crops/build_country_pages.py"]),
+    # Notes go through the same path as everything else, so qa_check walks
+    # them: em-dashes, dead links, the shared masthead, one analytics tag.
+    # A new surface skipping the checks is how the fires page shipped with
+    # no masthead. No --date here: a Note that has never been published is
+    # minted by hand, and this run only ever refreshes published ones.
+    ("notes", [PY, "notes/build_notes.py"]),
 ]
 
 # The ENSO shell. Invariant 1 in CLAUDE.md: the weekly brief always
