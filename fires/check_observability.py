@@ -98,6 +98,7 @@ import math
 import os
 import random
 import statistics as st
+import sys
 from datetime import date
 
 FULL_HISTORY = os.path.join(os.path.dirname(__file__), "data", "full_history")
@@ -273,5 +274,156 @@ def report() -> None:
               f"{FUEL.get(iso, 'unclassified')}")
 
 
+CLOUD_CACHE = os.path.join(os.path.dirname(__file__), "data", "era5_cloud")
+SHUFFLES = 2000
+
+
+def _weekly_records(iso: str) -> list[tuple[float, float, float]]:
+    """(log area, log detections, mean cloud) per country-week.
+
+    Cloud is the mean over the same ISO week the other two are measured on,
+    sampled at each cell's own local overpass hour by the fetcher.
+
+    KNOWN EDGE, recorded rather than silently carried. Weeks are keyed by
+    (calendar year of the date, ISO week number of the date), which
+    disagrees with itself at year boundaries: 2021-01-01 is ISO week 53 of
+    2020. Cloud and detections use the identical convention so they align
+    with each other, and the area series carries its own. That matters only
+    for fire seasons spanning the new year, which among the test countries
+    means Australia. It is inherited from the original smoke test rather
+    than introduced here, and it costs at most the boundary week.
+    """
+    area_path = os.path.join(AREA_HISTORY, f"{iso}.json")
+    det_path = os.path.join(FULL_HISTORY, f"{iso}.json")
+    if not (os.path.exists(area_path) and os.path.exists(det_path)):
+        return []
+
+    cloud_by_week: dict[tuple[str, int], list[float]] = {}
+    if os.path.isdir(CLOUD_CACHE):
+        for name in os.listdir(CLOUD_CACHE):
+            if not name.startswith(f"{iso}_"):
+                continue
+            with open(os.path.join(CLOUD_CACHE, name)) as handle:
+                payload = json.load(handle)
+            for day, value in payload["cloud_fraction"].items():
+                cloud_by_week.setdefault((day[:4], _iso_week(day)), []).append(value)
+    if not cloud_by_week:
+        return []
+
+    with open(area_path) as handle:
+        area_years = json.load(handle)["years"]
+    with open(det_path) as handle:
+        detections = json.load(handle)
+    complete = {year for year in detections.get("_complete", [])
+                if len(detections.get(year, {})) >= MIN_DAYS_FOR_COMPLETE_YEAR}
+
+    rows = []
+    for year in sorted(complete):
+        weekly = area_years.get(year)
+        if not weekly:
+            continue
+        previous = 0
+        for week, total_to_date in sorted((int(k), v) for k, v in weekly.items()
+                                          if v is not None):
+            burned, previous = total_to_date - previous, total_to_date
+            if burned < MIN_WEEKLY_HECTARES:
+                continue
+            detected = sum(count for day, count in detections[year].items()
+                           if _iso_week(day) == week)
+            if detected < MIN_WEEKLY_DETECTIONS:
+                continue
+            cloud = cloud_by_week.get((year, week))
+            if not cloud:
+                continue
+            rows.append((math.log(burned), math.log(detected), st.mean(cloud)))
+    return rows
+
+
+def _fit_two(rows: list[tuple[float, float, float]]) -> float:
+    """Coefficient on cloud in log(det) = a + b*log(area) + c*cloud.
+
+    Returns c. NEGATIVE means cloud suppresses detections at matched fire
+    size, which is the blinding signature. Cloud is a TERM, never a
+    denominator; see D-132 and the header of fetch_era5_cloud.
+    """
+    import numpy as np
+
+    design = np.array([[1.0, area, cloud] for area, _det, cloud in rows])
+    observed = np.array([det for _area, det, _cloud in rows])
+    solution, *_ = np.linalg.lstsq(design, observed, rcond=None)
+    return float(solution[2])
+
+
+def cloud_test() -> None:
+    """Does cloud suppress detections at matched fire size?
+
+    Runs floods' shuffle null rather than a parametric p-value, because a
+    parametric one assumes independence that weekly fire data does not have.
+    """
+    import numpy as np
+
+    isos = sorted(row[0] for row in measure())
+    have = [iso for iso in isos if _weekly_records(iso)]
+    print(f"Cloud covariate available for {len(have)} of {len(isos)} "
+          f"test countries.")
+    if not have:
+        print("No cloud cache yet. Run fires/fetch_era5_cloud.py first.")
+        return
+
+    rng = np.random.default_rng(11)
+    pooled: list[tuple[float, float, float]] = []
+    print(f"\n{'country':<9}{'cloud coef':>12}{'null 95%':>20}{'weeks':>8}")
+    verdicts = []
+    for iso in have:
+        rows = _weekly_records(iso)
+        if len(rows) < MIN_WEEKS:
+            continue
+        coefficient = _fit_two(rows)
+
+        clouds = np.array([r[2] for r in rows])
+        null = []
+        for _ in range(SHUFFLES):
+            shuffled = rng.permutation(clouds)
+            null.append(_fit_two([(r[0], r[1], c)
+                                  for r, c in zip(rows, shuffled)]))
+        low, high = float(np.percentile(null, 2.5)), float(np.percentile(null, 97.5))
+        outside = coefficient < low or coefficient > high
+        verdicts.append((iso, coefficient, outside))
+        print(f"{iso:<9}{coefficient:>12.2f}{f'[{low:.2f}, {high:.2f}]':>20}"
+              f"{len(rows):>8}{'  *' if outside else ''}")
+
+        # Within-country demeaning, so the pooled fit cannot be driven by
+        # countries differing in average cloud and average fire size.
+        mean_area = st.mean(r[0] for r in rows)
+        mean_det = st.mean(r[1] for r in rows)
+        mean_cloud = st.mean(r[2] for r in rows)
+        pooled.extend((r[0] - mean_area, r[1] - mean_det, r[2] - mean_cloud)
+                      for r in rows)
+
+    if not pooled:
+        return
+    pooled_coefficient = _fit_two(pooled)
+    clouds = np.array([r[2] for r in pooled])
+    null = []
+    for _ in range(SHUFFLES // 4):
+        shuffled = rng.permutation(clouds)
+        null.append(_fit_two([(r[0], r[1], c) for r, c in zip(pooled, shuffled)]))
+    low, high = float(np.percentile(null, 2.5)), float(np.percentile(null, 97.5))
+
+    significant = sum(1 for _i, _c, out in verdicts if out)
+    negative = sum(1 for _i, c, out in verdicts if out and c < 0)
+    print(f"\nPOOLED, country-demeaned: cloud coefficient "
+          f"{pooled_coefficient:+.2f}, null 95% [{low:.2f}, {high:.2f}]")
+    print(f"{significant} of {len(verdicts)} countries outside their own null; "
+          f"{negative} of those negative.")
+    print("\nNegative means cloud SUPPRESSES detections at matched fire size.")
+    print("Read a null here as WEAK evidence: ERA5 cloud at 1 degree is a")
+    print("noisy proxy for cloud over a fire front, and that noise attenuates")
+    print("the coefficient toward zero, which is the false-negative direction.")
+
+
 if __name__ == "__main__":
-    report()
+    if "--cloud" in sys.argv:
+        cloud_test()
+    else:
+        report()
