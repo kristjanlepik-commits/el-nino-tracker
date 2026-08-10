@@ -574,6 +574,27 @@ overnight on one machine, none of them aware of the others.
   starting it unattended. A job that cannot resume turns a sleep into
   lost hours rather than lost minutes.
 
+- **Always commit with a pathspec. Never `git add -A`, never a bare
+  `git commit -a`.** Nine chats share one working tree, so at any moment
+  several of them have uncommitted work in it, and a broad add sweeps up
+  whatever happens to be in flight. This went both ways on 2026-08-10:
+  design's `add -A` published `docs/crops/index.html` before crops had
+  signed off, and hours later another chat's sweep carried platform's
+  uncommitted `scripts/qa_check.py` into a commit about heat methodology.
+
+  The code survives either way. What is lost is the reasoning: the change
+  lands under a message about something else, and this project's whole
+  discipline is that a decision which is not written down did not happen.
+  The second case cost two guards their explanation.
+
+  `git add path/one path/two` costs nothing and cannot do it.
+
+- **`git reset --hard` and `git clean` are for a scratch clone, not this
+  tree.** Same reason. Platform used a hard reset to build a test fixture
+  on 2026-08-09 and could not afterwards prove that nothing of anyone
+  else's had been in flight. Untracked files survive a hard reset; staged
+  and modified tracked files do not.
+
 - Run `.venv/bin/python scripts/qa_check.py` before any push that
   publishes to `docs/`. It enforces invariants 4, 5, and 6 plus link
   and structure checks; CI (`.github/workflows/qa.yml`) runs the same
