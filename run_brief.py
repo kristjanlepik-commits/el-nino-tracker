@@ -1155,6 +1155,14 @@ _PUBLIC_CSS_TEMPLATE = """
     font-variant-numeric: tabular-nums; }
   .chnow { font-family: var(--mono); font-size: 12px; font-weight: 600;
     fill: var(--ink); font-variant-numeric: tabular-nums; }
+  /* The finding, before any instrument is named. Product's ruling. */
+  .finding {
+    font-size: 21px; line-height: 1.5; color: var(--ink);
+    max-width: 60ch; margin: 26px 0 34px;
+    border-left: 2.4px solid var(--ink); padding-left: 18px;
+    text-wrap: pretty;
+  }
+  .finding strong { font-weight: 500; }
   /* ---------- email capture ---------- */
   .email-cap {
     border-top: 3px solid var(--ink);
@@ -3196,6 +3204,54 @@ def chart_prob_history(briefs_dir):
         f'{_ch_grid([0, 50, 100], n, lo, hi)}{paths}{labels}{ticks}</svg>')
 
 
+
+def _finding_line(headline, phys):
+    """The plain-language finding, generated from the payload, before any
+    instrument is named. Product's ruling, and it applies to every channel
+    page: a reader arrives asking how big this is, and the page has been
+    answering with apparatus.
+
+    GENERATED, NEVER AUTHORED. An authored line is heat's stale-claim
+    defect with a better view: it shipped three times and was true when
+    written on each occasion. Every number below comes from the fields, so
+    the sentence cannot outlive them.
+
+    The shape is settled-then-open: say what is no longer in question, then
+    what is, because that is the order the reader's own question has.
+    """
+    def mid(k):
+        v = (headline.get(k) or {}).get("mid")
+        # BOUNDED TO [1, 99]. VD's F1 and science's fix: this estimator does
+        # not express certainty, and a displayed 100 breached the page's own
+        # retirement convention in the same view. The payload still carries
+        # 100 until the 08-17 recompute, so the display clamps rather than
+        # waiting, because the sentence I am generating is the most quotable
+        # line on the page and 100% is the one number it must never print.
+        return None if v is None else max(1, min(99, int(v)))
+    settled = [(lab, mid(k)) for k, lab in
+               (("super_>2.0", "+2.0"), ("9715_>2.5", "+2.5"),
+                ("record_>3.0", "+3.0"), ("record_>3.5", "+3.5"))
+               if mid(k) is not None]
+    if not settled:
+        return ""
+    top_open = next(((lab, v) for lab, v in reversed(settled) if v < 90), None)
+    high_settled = next(((lab, v) for lab, v in settled if v >= 90), None)
+    bits = []
+    if high_settled:
+        bits.append(f"A peak above {high_settled[0]}&nbsp;&deg;C is settled at "
+                    f"{high_settled[1]}%.")
+    if top_open:
+        bits.append(f"What is still open is how far past it: "
+                    f"<strong>{top_open[1]}% for a peak beyond "
+                    f"{top_open[0]}&nbsp;&deg;C</strong>, a level no event in "
+                    f"the instrumental record has reached.")
+    hc = phys.get("heat_content_0_300m_estimate")
+    if hc is not None:
+        bits.append(f"Subsurface heat is at {hc:+.2f}&nbsp;&deg;C, the highest "
+                    f"in the 47-year record.")
+    return ('<p class="finding">' + " ".join(bits) + '</p>') if bits else ""
+
+
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       methodology_href: str, brief_date_iso: str,
                       canonical_url: str, og_image_url: str,
@@ -4073,9 +4129,30 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
                                         _issue_href(is_front, root_prefix))
                          + _email_capture_html())
     else:
-        body_sections = (ladder_html + analyst_html + chart_html
-                         + physical_html + impacts_html + sources_html
-                         + caveats_html)
+        # THE ORDER FOLLOWS THE QUESTION, and the old one followed April's.
+        # VD's F7: the page led with a probability ladder because in April
+        # whether a super event was coming was genuinely open. It is settled
+        # now, so the observations became the news and the order did not
+        # move. Evidence first, forecast second.
+        #
+        # "What's interesting this week" dissolves into observed rather than
+        # standing as its own section: a section that exists to hold rows
+        # which fit nowhere else is where placeholders breed, which is the
+        # same argument that removed the empty CWWA row.
+        # IMPACT OUTLOOK REMOVED from the channel page, Kristjan's call. It
+        # is an aggregation of other people's conditional ranges and it sat
+        # between our own evidence and our own provenance, which is the
+        # wrong place for the one section that is not our measurement.
+        #
+        # SOURCES AND CAVEATS BECOME ONE PROVENANCE REGISTER. VD's 03: the
+        # caveats are not the problem, they are the product's honesty. The
+        # problem was three registers in the reading path, 588 words of
+        # audit prose in three places, each doing a different job. One
+        # place to stand for the reader who wants to audit, and no
+        # interruption for the one who does not.
+        body_sections = (_finding_line(headline, phys)
+                         + physical_html + analyst_html + ladder_html
+                         + chart_html + sources_html + caveats_html)
     body_sections = _number_sections(body_sections)
     return (head + body_sections + footer_html
             + '\n</body>\n</html>\n')
