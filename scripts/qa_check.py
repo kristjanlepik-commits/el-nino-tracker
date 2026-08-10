@@ -914,42 +914,16 @@ NAV_KNOWN_STALE = {
 # NOT a permanent exemption. It ends when fire and design decide what a
 # dropped country page should say, which is already an open question in
 # publish_all's orphan notice. Whoever answers it deletes these lines.
-NAV_KNOWN_STALE.update({
-    f"docs/fires/{c}/index.html": "dropped from the fire qualifying set, "
-                                  "kept published, never regenerated"
-    # germany pruned 2026-08-10: it re-entered the qualifying set, so the
-    # page was regenerated and its nav is current again. The check
-    # reported the exemption as prunable the same run, which is the
-    # mechanism working: an entry that outlives its reason is how a guard
-    # quietly stops guarding.
-    for c in ("algeria", "australia", "belgium", "botswana",
-              "democratic-republic-of-the-congo", "ecuador", "ethiopia",
-              "greece", "india", "libya", "mexico", "morocco",
-              "portugal", "syria", "tunisia", "turkmenistan", "venezuela",
-              "zimbabwe")
-})
-
-# And the crops countries in the same state, found by this guard when Notes
-# entered the nav. THE SAME DEFECT ONE CHANNEL LATER, which the comment
-# above predicted in as many words: it said the fire pages missing the crops
-# entry were "the clearest evidence this recurs by default", and it has now
-# recurred by default.
+# BOTH BLOCKS DELETED 2026-08-10, and by the mechanism rather than by
+# anyone remembering. Product argued the advisory was a suppressed
+# failure, I gave the exemption an expiry, design fixed the nav at the
+# template within the hour, and the check then reported all thirty
+# entries as prunable in one run. Zero pages now disagree with CHANNELS.
 #
-# What the two lists have in common is the real problem: a page that stops
-# being regenerated keeps its nav frozen at the week it dropped, so every
-# later channel launch silently widens the gap. Neither list is the fix.
-#
-# Same expiry as above: this ends when crops and design decide what a
-# dropped country page should say. Whoever answers it deletes these lines
-# and the fire block together, because it is one question.
-NAV_KNOWN_STALE.update({
-    f"docs/crops/{c}/index.html": "dropped from the crops qualifying set, "
-                                  "kept published, never regenerated"
-    for c in ("bolivia", "eritrea", "guyana", "india", "japan", "jordan",
-              "mauritania", "saudi-arabia", "senegal", "somalia",
-              "sri-lanka", "syrian-arab-republic")
-})
-
+# Third self-expiring exemption to retire itself today, after
+# NAV_KNOWN_STALE's original two and the four cwwa_* snapshot entries.
+# The dict above stays empty on purpose: the next channel launch will
+# need it, and it now carries a date by construction.
 
 def check_gate_currency(violations, base):
     """Is this gate itself out of date relative to what it will merge into?
@@ -1037,7 +1011,15 @@ def check_heat_pages_match_reference(violations):
     def slug(name):
         return name.lower().replace(" ", "-")
 
-    on_disk = {p.stem for p in pages_dir.glob("*.html") if p.stem != "index"}
+    # Not every page in docs/heat is a city. The channel index was already
+    # excluded by name; the methodology page arrived and was reported as a
+    # city not in the approved payload, which is a true statement about a
+    # file and a false one about the channel.
+    #
+    # Named rather than pattern-matched, so a real stray page still fails.
+    NOT_CITIES = {"index", "methodology"}
+    on_disk = {p.stem for p in pages_dir.glob("*.html")
+               if p.stem not in NOT_CITIES}
     approved_slugs = {slug(c) for c in approved}
 
     extra = sorted(on_disk - approved_slugs)
@@ -1096,6 +1078,55 @@ def check_conflict_markers(violations):
                 f"{', '.join(map(str, hits[:6]))}. A merge or an autostash "
                 f"pop left this behind and it was committed. If the file is "
                 f"data, it has almost certainly stopped parsing.")
+
+
+def check_social_card(violations, advisories):
+    """Does a page promising a large share card actually supply one?
+
+    Socials' finding, 2026-08-10, measured on the live site. 37 pages
+    declare `summary_large_image` and carry no `og:image`, so every
+    platform reserves a large card and renders it EMPTY. The brief
+    archive and the front page are correct; the three channels added
+    since are not.
+
+    The pattern is worth more than the count and Socials named it: the
+    surfaces that predate the channel build-out carry the tag, the ones
+    added since do not. That is a missing shared head partial rather
+    than four independent oversights, which means the next channel
+    ships with the same gap unless the fix is structural.
+
+    SAME CLASS AS THE ANALYTICS-TAG AND MASTHEAD CHECKS already here: a
+    structural property, cheaply checkable, and invisible to every human
+    review because it only appears in somebody else's feed. Nobody
+    opening the page can see it.
+
+    NOT a violation yet, and dated rather than open-ended, for the same
+    reason as the nav exemption and on the same day so there is ONE
+    deadline: failing today would block heat from rebuilding on a defect
+    design fixes in a template, while fresh data waited. A page carrying
+    no card at all is not flagged; that is a design decision about
+    whether a surface is shareable, and a guard should not invent it.
+    """
+    offenders = []
+    for p in sorted((ROOT / "docs").rglob("*.html")):
+        rel = str(p.relative_to(ROOT))
+        html = p.read_text(encoding="utf-8", errors="replace")
+        if "summary_large_image" not in html:
+            continue
+        if re.search(r"""property=["']og:image["']""", html):
+            continue
+        offenders.append(rel)
+    if not offenders:
+        return
+    msg = (f"{len(offenders)} page(s) declare summary_large_image and supply "
+           f"no og:image, so a shared link renders an empty card. "
+           f"Exemption expires {NAV_STALE_EXPIRY}, after which these FAIL. "
+           f"The brief archive and front page do it correctly, so the fix is "
+           f"a shared head partial rather than {len(offenders)} edits.")
+    if date.today() > NAV_STALE_EXPIRY:
+        violations.append(msg)
+    else:
+        advisories.append(msg)
 
 
 def check_masthead_wellformed(violations):
@@ -1406,6 +1437,7 @@ def main():
     # page is incomplete; a page with two mastheads is malformed, and
     # publishing malformed markup is worse than publishing nothing.
     check_masthead_wellformed(violations)
+    check_social_card(violations, advisories)
     check_conflict_markers(violations)
     check_heat_pages_match_reference(violations)
     check_gate_currency(violations, args.base)

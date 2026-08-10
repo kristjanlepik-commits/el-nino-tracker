@@ -1059,7 +1059,13 @@ margin-top:50px}}
 
 {CONTRAST_BLOCK}
 
+<!-- The methodology link sits with the sources, not in the nav. The
+     shared masthead takes a methodology_href and does not render it,
+     so passing one there is silent and does nothing; this is the
+     place a reader checking a number is already looking. -->
 <div class="src">
+<span><a href="methodology.html">How these figures are built</a></span>
+<span style="text-align:right">Heat methodology</span>
 <span>{SERVICES}</span>
 <span style="text-align:right">to {CUT_TXT}</span>
 <span>Hot days, above each station's own 95th percentile of July-August maxima, 1971 to 2000</span>

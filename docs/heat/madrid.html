@@ -200,7 +200,13 @@ border-bottom:1px solid var(--rule)}
 
 <p class="cap">Madrid's hottest day this year, 39.5&nbsp;&deg;C, is <strong>7th on this record</strong>. The previous best is 40.7&nbsp;&deg;C in 2022, the dot on the drop line. A typical summer here peaks at 36.7&nbsp;&deg;C. Its hot-day count is 3rd of 106: a count and a peak are different claims, and neither borrows the other's rank.</p>
 
+<!-- The methodology link sits with the sources, not in the nav. The
+     shared masthead takes a methodology_href and does not render it,
+     so passing one there is silent and does nothing; this is the
+     place a reader checking a number is already looking. -->
 <div class="src">
+<span><a href="methodology.html">How these figures are built</a></span>
+<span style="text-align:right">Heat methodology</span>
 <span>AEMET OpenData, MADRID, RETIRO, daily minimum and maximum</span>
 <span style="text-align:right">to 2026-08-02</span>
 <!-- Kristjan's ruling, 2026-08-07: show the state per city rather than

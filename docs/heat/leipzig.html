@@ -200,7 +200,13 @@ border-bottom:1px solid var(--rule)}
 
 <p class="cap">The hottest day of Leipzig's summer, to the same date, with 2026 marked. The previous best was 38.4&nbsp;&deg;C in 2019, the dot on the drop line below it, and a typical summer here peaks at 32.5&nbsp;&deg;C.</p>
 
+<!-- The methodology link sits with the sources, not in the nav. The
+     shared masthead takes a methodology_href and does not render it,
+     so passing one there is silent and does nothing; this is the
+     place a reader checking a number is already looking. -->
 <div class="src">
+<span><a href="methodology.html">How these figures are built</a></span>
+<span style="text-align:right">Heat methodology</span>
 <span>DWD Climate Data Center, Leipzig-Holzhausen, daily minimum and maximum</span>
 <span style="text-align:right">to 2026-08-08</span>
 <!-- Kristjan's ruling, 2026-08-07: show the state per city rather than

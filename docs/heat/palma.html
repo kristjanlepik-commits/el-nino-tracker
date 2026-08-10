@@ -200,7 +200,13 @@ border-bottom:1px solid var(--rule)}
 
 <p class="cap">Palma's hottest day this year, 35.2&nbsp;&deg;C, is <strong>16th on this record</strong>. The previous best is 38.0&nbsp;&deg;C in 2003, the dot on the drop line. A typical summer here peaks at 34.0&nbsp;&deg;C. Its hot-day count is the most on record by this date: a count and a peak are different claims, and neither borrows the other's rank.</p>
 
+<!-- The methodology link sits with the sources, not in the nav. The
+     shared masthead takes a methodology_href and does not render it,
+     so passing one there is silent and does nothing; this is the
+     place a reader checking a number is already looking. -->
 <div class="src">
+<span><a href="methodology.html">How these figures are built</a></span>
+<span style="text-align:right">Heat methodology</span>
 <span>AEMET OpenData, PALMA, PUERTO, daily minimum and maximum</span>
 <span style="text-align:right">to 2026-08-03</span>
 <!-- Kristjan's ruling, 2026-08-07: show the state per city rather than

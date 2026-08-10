@@ -191,7 +191,6 @@ margin-top:50px}
 </style><!-- payload 59aa1162fc22 --></head><body><main>
 <header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../elnino/">El Niño</a><a class="ch-fire" href="../fires/">Fires</a><a class="ch-crop" href="../crops/">Crops</a><a class="ch-heat on" href="../heat/">Heat</a><a class="ch-notes" href="../notes/">Notes</a><a class="util" href="../about.html">About</a></nav></div></div></header>
 
-
 <!-- THE HOUSE NAME IS NOT REPEATED HERE. This bar predates the shared
      masthead, which now sits directly above it and already carries the
      wordmark, so the page printed "The Long Swell" twice inside 100px.
@@ -233,7 +232,13 @@ eight days. For hot nights, 8th of
 </div>
 <p class="subl" style="margin-top:16px">If one measure could stand in for the other, these two would lean the same way. They lean opposite ways. <strong>19 cities show no night figure at all.</strong> They average under two hot nights a year, and dividing by a base that small gives you a big number and no evidence.</p>
 
+<!-- The methodology link sits with the sources, not in the nav. The
+     shared masthead takes a methodology_href and does not render it,
+     so passing one there is silent and does nothing; this is the
+     place a reader checking a number is already looking. -->
 <div class="src">
+<span><a href="methodology.html">How these figures are built</a></span>
+<span style="text-align:right">Heat methodology</span>
 <span>AEMET, CHMI, DWD, FMI, GeoSphere Austria, KNMI, Meteo-France, MeteoSwiss, SMHI</span>
 <span style="text-align:right">to 31 July, 2, 3, 7, 8 and 9 August 2026</span>
 <span>Hot days, above each station's own 95th percentile of July-August maxima, 1971 to 2000</span>

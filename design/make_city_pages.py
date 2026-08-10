@@ -916,7 +916,13 @@ for name, v in sorted(C.items()):
 
 <p class="cap">{peak_cap}</p>
 
+<!-- The methodology link sits with the sources, not in the nav. The
+     shared masthead takes a methodology_href and does not render it,
+     so passing one there is silent and does nothing; this is the
+     place a reader checking a number is already looking. -->
 <div class="src">
+<span><a href="methodology.html">How these figures are built</a></span>
+<span style="text-align:right">Heat methodology</span>
 <span>{S[name]['source']}, {S[name]['station']}, daily minimum and maximum</span>
 <span style="text-align:right">to {v['counted_to']}</span>
 <!-- Kristjan's ruling, 2026-08-07: show the state per city rather than
