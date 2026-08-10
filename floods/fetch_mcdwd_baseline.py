@@ -85,6 +85,23 @@ REGIONS = {
                 "Dolphin on 2026-08-09. Two tiles, so a 23-year same-week "
                 "baseline is 4.6 GB rather than the 13.9 GB a six-tile box costs.",
     },
+    "parana_paraguay": {
+        "lon": (-60.0, -57.0),
+        "lat": (-34.0, -27.0),
+        "note": "Lower Parana and Paraguay, Argentina and Paraguay. Aftereffects "
+                "rank 2 for Sep-Mar 2026-27 and their best pure instrument match: "
+                "very slow riverine flooding on very flat open terrain. El Nino "
+                "wet over southeastern South America is among the more robust "
+                "South American teleconnections.",
+    },
+    "rio_grande_do_sul": {
+        "lon": (-56.0, -50.0),
+        "lat": (-32.0, -27.0),
+        "note": "Rio Grande do Sul, southern Brazil. Aftereffects rank 4, harder "
+                "than the Parana because catchments are steeper and onset faster. "
+                "Strongest recent precedent on their list: May 2024, ~181 deaths "
+                "and roughly USD 15bn (the loss figure is ECON's row, not ours).",
+    },
     "kenya_tana": {
         "lon": (38.5, 40.5),
         "lat": (-2.5, 0.5),
