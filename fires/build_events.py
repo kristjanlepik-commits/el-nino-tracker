@@ -239,11 +239,12 @@ def rebuild_rows(detail, end):
         rows.append({
             "iso": iso, "region": r["name"], "count": count,
             "multiple": round(multiple, 1), "rank": f"{rank} of {len(hist) + 1}",
-            "rank_n": rank, "z": round((count - mean) / sd if sd else 0.0, 2),
+            "rank_n": rank, "n_compared": len(hist) + 1,
+            "z": round((count - mean) / sd if sd else 0.0, 2),
             "lat": r["lat"], "lon": r["lon"], "centroid_basis": r["basis"],
             "attribution": attribution_for(iso, end.month),
             "title": make_title(rank, multiple, count,
-                                hist[prev_year], prev_year),
+                                hist[prev_year], prev_year, len(hist) + 1),
             "href": f"fires/{slugify(r['name'])}/",
         })
     return rows
@@ -359,7 +360,7 @@ def centroid(df, rings):
 ORDINAL = {2: "Second", 3: "Third", 4: "Fourth", 5: "Fifth"}
 
 
-def make_title(rank, multiple, count, prev_best, prev_year):
+def make_title(rank, multiple, count, prev_best, prev_year, n_compared):
     """Region-free claim, under the 45-character citable ceiling.
 
     Region-free because the landing page renders the region separately
@@ -384,7 +385,18 @@ def make_title(rank, multiple, count, prev_best, prev_year):
         else:
             t = f"Just past its {prev_year} record week"
     elif rank in ORDINAL:
-        t = f"{ORDINAL[rank]}-heaviest fire week since 2012"
+        # NOT "since 2012". The baseline has a hole in it: 2022 has no SNPP
+        # science archive over these days and is excluded forty lines below
+        # for good reason, so the comparison set is 13 past weeks plus this
+        # one, not fourteen years of continuous record.
+        #
+        # "Since 2012" asserts a span we do not have, and wherever the
+        # missing year would have outranked the current week the claim is
+        # WRONG rather than imprecise. It is also the sentence a reader
+        # lifts and quotes on its own, which is what D-051 is about: the
+        # qualifier has to survive being quoted alone. "Of N same weeks"
+        # does, and it stays true when the hole moves.
+        t = f"{ORDINAL[rank]}-heaviest of {n_compared} same weeks"
     else:
         t = f"Fire week at {multiple:.1f}x the seasonal norm"
     assert len(t) <= 45, f"title too long for citable: {len(t)}"
@@ -519,11 +531,21 @@ def main():
         z = (count - h["mean"]) / sd if sd else 0.0
         rows.append({
             "iso": iso, "region": h["name"], "count": count,
-            "multiple": round(multiple, 1), "rank": f"{rank} of 15",
-            "rank_n": rank, "z": round(z, 2), "lat": lat, "lon": lon,
+            # "of 15" WAS HARDCODED HERE, and it is the same defect as the
+            # prose one degree deeper: a denominator asserted rather than
+            # counted. rebuild_rows next to it derives len(hist) + 1
+            # correctly, and rebuild_rows only runs on a DEGRADED week, so
+            # the two paths disagreed and the wrong one was the normal one.
+            # This week happened to be degraded, which is the only reason
+            # the shipped rows were right.
+            "multiple": round(multiple, 1),
+            "rank": f"{rank} of {len(h['hist']) + 1}",
+            "rank_n": rank, "n_compared": len(h["hist"]) + 1,
+            "z": round(z, 2), "lat": lat, "lon": lon,
             "centroid_basis": basis,
             "attribution": attribution_for(iso, end.month),
-            "title": make_title(rank, multiple, count, prev_best, prev_year),
+            "title": make_title(rank, multiple, count, prev_best, prev_year,
+                                len(h["hist"]) + 1),
             "href": f"fires/{slugify(h['name'])}/",
         })
         print(f"{iso}: {count:,} x{multiple:.1f} rank {rank} "
@@ -805,7 +827,10 @@ def main():
             "region": r["region"],
             "title": r["title"],
             "stat": f"{r['multiple']:.1f}x",
-            "stat_label": "same-week 2012-25 mean",
+            # Derived, not "2012-25", which implied fourteen years the same
+            # way the title did. The multiple is against the mean of the
+            # baseline weeks we actually have.
+            "stat_label": f"same-week mean, {r['n_compared'] - 1} yrs",
             "attribution": r["attribution"],
             "anomalous": r["anomalous"],
             "qualifies_on": r.get("qualifies_on", []),
