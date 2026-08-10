@@ -276,7 +276,7 @@ carried forward. The bands are the spread, not a second opinion.</p>
  SEAS5 forecast median and spread carried forward to February 2027."></figure>
 </div>
 
-<div class="sec"><h2>05 &middot; Provenance</h2>
+<div class="sec"><h2>04 &middot; Provenance</h2>
 <p class="lede">What each source said, when it said it, and every caveat
 that governs a figure above. One register rather than three.</p>
 {_provenance(fetched, brief_date)}</div>
