@@ -212,9 +212,9 @@ def main():
     if args.modis:
         tok = open(os.path.expanduser("~/.earthdata_token")).read().strip()
         print(f"MODIS screen: {len(SAMPLE_YEARS)} sample years x 3 days, "
-              f"each region in its own flood season\n")
+              f"each region in its own flood season\n", flush=True)
         print(f"{'region':26s}{'season':>9s}{'tiles':>6s}{'GB':>6s}{'obs':>7s}"
-              f"{'flood/Mobs':>12s}  read")
+              f"{'flood/Mobs':>12s}  read", flush=True)
         rows = []
         for rid, (lo0, lo1, la0, la1, label, season) in cands.items():
             F, O, P = sample_modis(lo0, lo1, la0, la1, season, tok)
@@ -230,7 +230,7 @@ def main():
                              box=[lo0, lo1, la0, la1], tiles=nt, baseline_gb=gb,
                              modis_observability=round(obs, 3),
                              flood_per_million_observed=round(dens, 1), read=read))
-            print(f"{label:26s}{season:>9s}{nt:6d}{gb:6.1f}{obs:7.3f}{dens:12.1f}  {read}")
+            print(f"{label:26s}{season:>9s}{nt:6d}{gb:6.1f}{obs:7.3f}{dens:12.1f}  {read}", flush=True)
         rows.sort(key=lambda r: -r["modis_observability"])
         if args.out:
             json.dump({"screen": "MODIS archive, region's own flood season",
