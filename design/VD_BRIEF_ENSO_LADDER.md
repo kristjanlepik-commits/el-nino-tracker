@@ -110,3 +110,51 @@ Heat content stays a dated statement rather than a standing component:
 `research/decisions.md` D-115 for the retirement and the rounding.
 `design/VD_NOTES_REVIEW.md`, parked section, for science's own account
 of the correction. The payload fields are in the weekly meta.
+
+---
+
+## Queued: the SST spaghetti, and why it beats the analog tracker
+
+Kristjan, 2026-08-10, holding the current page as it is and flagging this
+as the improvement to make when the data lands.
+
+The reference is the Climate Reanalyzer form: **every year 1982-2026 as a
+thin line, the 1991-2020 mean picked out, 2026 in accent.**
+
+**Why it is better than what we have, and it is not "more lines".** The
+analog tracker compares 2026 to four SELECTED years. That is a strong
+object and it carries an implicit question a sceptical reader can ask:
+why those four? The spaghetti compares 2026 to ALL of them, so **"above
+every year in the record" stops being a claim we assert and becomes a
+thing the reader sees.** Selection disappears as an issue because there
+is no selection.
+
+It also shows the shape of the departure rather than its size. On the
+reference image 2026 tracks inside the envelope until roughly May and
+then leaves it entirely, which is a different and more useful fact than
+any single number, and it is exactly the "how bad is it" test: a bar
+gives a magnitude, a curve gives a story, and a full envelope gives a
+magnitude, a story and its context at once.
+
+**What it needs.** Science's `sst_by_year`, 2,345 weekly points,
+1981-09 to present. The fetcher gained `_sst_by_year()` AFTER the 08-10
+run, so no cache holds it and a refetch would show today's page data the
+issue never had. Lands in the 08-17 snapshot.
+
+**Two things to get right when building it.**
+
+The envelope must not read as a band of equal weight with 2026. Thin,
+low-contrast, no hue: the whole point is that one line is outside a crowd
+and the crowd is context rather than data anyone reads individually.
+
+And it must survive D-043. In a calm year 2026 sits INSIDE the envelope
+and the chart has to read as ordinary, not as a near miss. That is
+harder here than on a bar, because a spaghetti plot is visually dramatic
+by construction, and a chart that can only look alarming is advocacy.
+
+**Correction I owe on this, recorded so it does not repeat.** I told
+Kristjan three times we could not build "the sea temp chart". We already
+have one: the analog tracker's top panel IS Niño 3.4 SST over time. What
+we cannot yet build is this wider version. I searched for one specific
+thing, did not find it, and reported the capability as absent, which is
+the same error as the aria-label and the snapshot keys earlier today.
