@@ -564,13 +564,20 @@ def rate_block(pv: pd.DataFrame, doy: int, cur_year: int,
         block["qualifiers"] = _RATE_QUALIFIERS
         block["series"] = {int(y): float(v) for y, v in ch.items()}
     else:
-        # Region rows carry the claim and its basis, and point at the
-        # legend for what is identical everywhere. The series is dropped
-        # rather than shrunk: nothing renders a region rate history, and
-        # emitting a second per-region series contradicted the rule this
-        # file already states about vegetation-only series. It is one
-        # rebuild away if a region page ever wants it.
-        block["_see"] = "rate_legend"
+        # Region rows carry the claim, its basis and the diagnostic, and
+        # NOTHING that is identical on every row. Third time today I
+        # have had to strip constants from a per-datum block: they are
+        # cheap to add, invisible in review, and 2,107 regions turns
+        # 250 bytes into 0.7 MB against a 5 MB guard.
+        for k in ("window_dekads", "worse_is", "authorship",
+                  "evidence_basis", "available", "start_means",
+                  "start_of"):
+            block.pop(k, None)
+        # The series stays dropped: nothing renders a region rate
+        # history, and emitting a second per-region series contradicted
+        # the rule this file already states about vegetation-only
+        # series. One rebuild away if a region page ever wants it.
+
     return block
 
 
@@ -1167,11 +1174,17 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                 # top-level legend rather than 2,122 times each: this
                 # file is git-tracked and rewritten every dekad, so
                 # repeated strings are repo growth, not just size.
+                # Region layers are emitted for 2,122 regions x 5
+                # instruments, so every constant or derivable field here
+                # costs about 0.2 MB against a 5 MB guard. `available`
+                # is implied by the presence of a value, and
+                # baseline_mean is recoverable from the country block.
+                # Rank and `of` stay because a rank without its
+                # denominator is the defect this channel exists to
+                # avoid.
                 inst[slug] = {
                     "value": round(v, 3),
-                    "baseline_mean": round(float(h.mean()), 3),
                     "rank": rank_of(v, h, worse_is), "of": len(h) + 1,
-                    "available": True,
                 }
 
         # ...and then dropped again, deliberately. NOTHING READS IT.
@@ -1187,8 +1200,11 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         # right, and because restoring the emit is one line and one
         # 38-second rebuild with no fetch. Delete this block, not the
         # loop, when a region page exists.
-        for entry in regions:
-            entry.pop("instruments", None)
+        # RESTORED 2026-08-09. Dropped on 08-06 because nothing read it;
+        # the pinned European set now needs per-region layers, and none
+        # of those seven countries has a single region at a record low,
+        # so without this their pages have nothing to show. The reason
+        # for dropping it was sound and it stopped being true.
 
         _wsi = loaded.get("wsi")
         _spi = loaded.get("spi3")
