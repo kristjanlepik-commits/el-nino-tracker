@@ -884,6 +884,19 @@ LARGE_FILE_ALLOWED: dict[str, str] = {}
 # in check_freshness: an entry that starts passing is reported so it can be
 # deleted. An allowlist nobody prunes stops being an allowlist and becomes
 # a blind spot with a comment on it.
+# THE ESCAPE HATCH GETS AN EXPIRY, because 30 of them accumulated
+# silently and product is right about why. A guard that reports a defect
+# and then exits clean is not coverage, it is decoration that looks like
+# coverage: the list scrolls past, the exit code says clean, and every
+# publish since these pages were orphaned has been green while the nav
+# drifted through two channel launches.
+#
+# An advisory nobody has ever acted on is a suppressed failure. So these
+# entries stop being forgiven on a date, and after it they FAIL. The date
+# is the same for both blocks below because, as their own comments say,
+# they are one question: what a dropped country page should say.
+NAV_STALE_EXPIRY = date(2026, 8, 24)
+
 NAV_KNOWN_STALE = {
     # EMPTY, and it got here the way it was designed to. Both original
     # entries were reported as prunable by the check itself within hours:
@@ -1162,6 +1175,7 @@ def check_nav_consistency(violations, advisories):
         expected.add((href or f"{slug}/").rstrip("/").split("/")[-1])
 
     passing_stale = []
+    known = []
     for p in sorted((ROOT / "docs").rglob("*.html")):
         rel = str(p.relative_to(ROOT))
         # Archived issues are immutable (invariant 5) and legitimately
@@ -1185,12 +1199,32 @@ def check_nav_consistency(violations, advisories):
                f"[{', '.join(sorted(expected))}]. Missing: {missing}."
                + (f" Unknown: {extra}." if extra else ""))
         if rel in NAV_KNOWN_STALE:
-            advisories.append(f"{msg} Known: {NAV_KNOWN_STALE[rel]}.")
+            if date.today() > NAV_STALE_EXPIRY:
+                violations.append(
+                    f"{msg} Its exemption expired {NAV_STALE_EXPIRY}: "
+                    f"{NAV_KNOWN_STALE[rel]}. The reason was recorded with a "
+                    f"date so it could not be forgiven forever.")
+            else:
+                known.append(rel)
         else:
             violations.append(
                 msg + " Every link on this page resolves, which is why "
                 "nothing else catches it. Rebuild the page, or add it to "
                 "NAV_KNOWN_STALE with a reason if it genuinely cannot be.")
+
+    if known:
+        # ONE LINE, NOT THIRTY. The per-page list is what let this scroll
+        # past unread for two channel launches. A count is readable; a
+        # wall is not.
+        miss = {}
+        for rel in known:
+            miss[rel.split("/")[1]] = miss.get(rel.split("/")[1], 0) + 1
+        advisories.append(
+            f"{len(known)} page(s) carry a known-stale nav ("
+            + ", ".join(f"{v} under docs/{k}" for k, v in sorted(miss.items()))
+            + f"). Exemption expires {NAV_STALE_EXPIRY}, after which these "
+            f"FAIL. They are the dropped-country pages nothing regenerates; "
+            f"the fix is what a dropped page should say, not more entries.")
 
     for rel in passing_stale:
         advisories.append(
