@@ -118,6 +118,13 @@ def facts(city, meta):
         return None
     years = sorted({int(d[:4]) for d in tx})
     ranked = sorted(tx.items(), key=lambda kv: -kv[1])
+    # ONE SOURCE FOR THE BOUND. Every string below cites _scope, so a post
+    # cannot claim a wider record than the payload ranks over. post_form
+    # previously built its own span from the raw dailies, which is how
+    # socials came to draft "Leipzig since 1863" while the payload said
+    # 1864, in the very field added so a number could not go stale between
+    # my run and their draft.
+    _scope = _payload_scope(city)
 
     # THE LEADING RUN. How many of the hottest days on record are this year,
     # counting from the top until a different year appears. A count, never a
@@ -187,7 +194,7 @@ def facts(city, meta):
         # as the coordinates. So this no longer computes its own answer; it
         # reads the one the payload publishes and fails loudly if absent,
         # rather than silently falling back to the value that was wrong.
-        "record_scope": _payload_scope(city),
+        "record_scope": _scope,
         "hottest_day": {"date": hottest_d, "c": hottest_v,
                         "is_current_year": hottest_d.startswith(str(CUR))},
         # TOP TEN INDIVIDUAL DAYS, one basis, dates included. Editor asked
@@ -237,7 +244,7 @@ def facts(city, meta):
             "next_rank_year": (int(ranked[run][0][:4])
                                if run < len(ranked) else None),
             "post_form": (
-                f"{city}'s {run} hottest days since {min(years)} all fell in "
+                f"{city}'s {run} hottest days since {_scope['from_year']} all fell in "
                 f"{CUR}." if run >= 2 else None),
             "is_a_count": "recompute every run. Never write the number into "
                           "copy as a literal.",
@@ -251,7 +258,7 @@ def facts(city, meta):
             # fine.
             "current": cur_tn, "median_to_cut": tn_median,
             "counted_to": _last,
-            "basis": f"median of {min(years)}-{max(y for y in years if y != CUR)}"
+            "basis": f"median of {_scope['from_year']}-{max(y for y in _obs_years if y != CUR)}"
                      f", each year counted to the same date",
             "metric_reaches_city": tn_median >= 3,
             # NEVER RANK THESE ACROSS CITIES, and the reason is not the one
@@ -290,7 +297,7 @@ def facts(city, meta):
                                   "warmer 'typical' and a smaller multiple "
                                   "for the same real change. Never order "
                                   "cities by this, in copy or in a thread.",
-            "baseline_from_year": min(years),
+            "baseline_from_year": _scope["from_year"],
             "why_gated": "below about three nights in a typical year the "
                          "ratio divides by almost nothing and the metric "
                          "says more about the denominator than the summer.",
@@ -318,8 +325,8 @@ def facts(city, meta):
             "post_form": (
                 f"{city}: {cur_tn} nights so far this year that never "
                 f"dropped below 20 C. By this date in a typical year "
-                f"across its {min(years)}-"
-                f"{max(y for y in years if y != CUR)} record: {tn_median}."
+                f"across its {_scope['from_year']}-"
+                f"{max(y for y in _obs_years if y != CUR)} record: {tn_median}."
                 if tn_median >= 3 and cur_tn > tn_median else None),
             "not_postable_reason": (
                 None if tn_median >= 3 else
