@@ -1,8 +1,14 @@
 # Floods (FLO): baseline feasibility report
 
-Status: Phase 1 deliverable under D-032, for Kristjan's decision.
-Author: FLO chat, 2026-07-28. Brief: `research/handover_floods.md`.
-Nothing here is published; this report decides whether a channel opens.
+Status: **RATIFIED 2026-08-10 as D-120. The channel is open.**
+Phase 1 deliverable under D-032. Author: FLO chat, 2026-07-28.
+Brief: `research/handover_floods.md`.
+
+This report is now the standing methodology record rather than a
+proposal. The verdict below stands as ratified, with one addition the
+evidence forced after it was written: a THIRD publish gate, region
+qualification, in section 10c. Manila fails it and the reason is the
+best argument in this document for the whole approach.
 
 ## Verdict
 
@@ -410,6 +416,41 @@ only flood weeks and needs only that the instruments agree on ordering
 (their rank correlation is +0.83); and Sentinel-1 as either a bridge or
 Europe's own instrument, since radar sees through the cloud that makes
 European winter optical detection unreliable in the first place.
+
+## 10c. Region qualification, the third gate (added 2026-08-10)
+
+A region receives a flood-extent verdict only if its own history shows
+the instrument can see it. Two criteria, both computed from the
+region's baseline rather than assumed:
+
+    observability dependence   Spearman(observability, flood measure)
+                               across the baseline years, max 0.50
+    median count               at least 300 flood pixels per week
+
+**Manila is the case that forced this gate.** Added 2026-08-10 as an
+unplanned fast-reaction test. Across 20 complete years its flood measure
+tracks how much the satellite could see at **+0.82**, against +0.05 in
+Peru and +0.25 in Somalia. And one row settles it: **2012 reads ZERO
+flood pixels at 0.02 observability**, and 2012 was the Habagat that put
+much of Metro Manila underwater. The cloud that caused the flood blinded
+the sensor. A ranking there would have called the worst flood in the
+record unremarkable and crowned 2006 instead.
+
+Its median week holds 174 pixels, below the 300 floor, and only 2 of 20
+weeks clear 0.50 observability. In the current week the instrument saw
+4.5% of the region across seven days and detected nothing.
+
+The gate discriminates rather than always refusing: Somalia qualifies at
++0.25 dependence, 2,873 median pixels and 0.93 observability.
+
+**`cannot_say` is a first-class emitted output** with machine-readable
+reasons, distinct from `awaiting_data`, which means the region qualifies
+but the current period has not arrived. Those are opposite statements
+and must never render alike.
+
+**The axis this exposes is cloud climatology, not latitude.** Manila is
+tropical and fails anyway. Region selection has to consider observability
+history alongside catchment shape and calibration stability.
 
 ## 11. If floods opens
 
