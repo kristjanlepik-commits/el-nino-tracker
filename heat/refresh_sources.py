@@ -99,9 +99,9 @@ def refresh_aemet():
             done[city] = "no existing file, skipped"
             continue
         rows = {d: (mn, mx) for d, mn, mx in json.loads(path.read_text())}
-        station = meta.get("station_id") or meta.get("aemet_id")
+        station = B.ES_STATION_ID.get(city)
         if not station:
-            done[city] = "no station id in CITIES, skipped"
+            done[city] = "no verified station id, skipped"
             continue
         # Only the tail is refetched. The archive does not change and AEMET
         # rate-limits hard, so pulling 90 years to gain three days would be

@@ -51,6 +51,30 @@ WINDOW_START = (5, 1)
 WINDOW_BAR = 0.90
 FULL_YEAR_DAYS = 330
 TIE_COUNTS_AGAINST = True
+
+# AEMET station ids, RESOLVED AND VERIFIED 2026-08-10.
+#
+# These existed nowhere in the repo. The cache was built with them ad hoc and
+# only Madrid's ever reached the code, so when the pull broke on 2026-08-09
+# Spain could not be refetched at all: eleven ids had to be rediscovered
+# before a single day could be recovered. Spain sat stale through the peak of
+# a heat event and I reported that gap to two chats as AEMET's publication
+# lag, which it was not.
+#
+# RESOLVED BY NAME AND THEN VERIFIED, never trusted on the name alone. Every
+# id was checked against our own cached series over summer 2025: 46 shared
+# days each, 100.0% exact, worst difference 0.0 C. Name matching alone is the
+# error that put an air base's history under Murcia's name, and the check is
+# what makes these safe rather than the lookup.
+#
+# Murcia is 7178I, the CITY station, not the air base ECA&D blends in.
+ES_STATION_ID = {
+    "Madrid": "3195", "Barcelona": "0076", "Valencia": "8416",
+    "Seville": "5783", "Malaga": "6155A", "Alicante": "8025",
+    "Murcia": "7178I", "Palma": "B228", "Zaragoza": "9434",
+    "Bilbao": "1082",
+}
+
 CURRENT_YEAR = 2026
 TROPICAL_NIGHT_C = 20.0
 PCTL_BASELINE = (1971, 2000)
