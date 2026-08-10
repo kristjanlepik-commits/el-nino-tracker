@@ -80,6 +80,28 @@ def main() -> None:
 
     fetched = dict(snap)
     fetched["ecmwf_seas5"] = snap.get("ecmwf", {})
+    # THE SHELL RENDERED FROM A POORER INPUT THAN THE ARCHIVE IT LINKS TO,
+    # for as long as it has existed. Both build_public_html calls below
+    # passed `{}` for freshness, so the channel front door printed
+    # "Sources not recorded this issue" and dropped the CWWA row while the
+    # archive for the SAME issue showed 519. The page a citation lands on
+    # was systematically less complete than the page it cites.
+    #
+    # The `{}` was deliberate once and stopped being so. Its comment said
+    # the FRONT page no longer displays freshness, which was true; the
+    # same call was then copied for elnino/index.html, where it is
+    # displayed. A reason that applied to one page travelled to a page it
+    # did not apply to, which is why it read as intentional for weeks.
+    #
+    # Snapshots carry _freshness as of e49e223 (science, additive). Note
+    # this is empty for every issue before then, so those pages stay bare
+    # on this path alone; design is separately changing the CWWA gate to
+    # test the DATA rather than the freshness metadata, which is what
+    # makes the past issues whole. The data was always there:
+    # physical_state.cwwa_ms_days is 519.21 in the 2026-08-10 snapshot,
+    # which is also why the "the snapshot carries no wind data" reading of
+    # this defect was wrong. It is nested, not absent.
+    shell_freshness = snap.get("_freshness", {})
     fetched["roni_to_oni_offset"] = snap.get("roni_to_oni_offset_block", {})
     for key in ("oni_history", "nmme"):
         fetched.setdefault(key, {})
@@ -90,11 +112,14 @@ def main() -> None:
     # Build every page in memory FIRST. The checks below are worthless if
     # the file is already on disk when they run: an abort would leave a
     # bad front page live, which is exactly the failure this guards.
-    # freshness is {} on purpose: the front page no longer displays it,
-    # and passing a fabricated one would be inventing state.
+    # Freshness now comes from the snapshot (see shell_freshness above).
+    # The comment that stood here said `{}` was on purpose because the
+    # front page does not display it. That was true of THIS call and was
+    # then copied to the elnino one, where it is displayed, and the
+    # comment travelled with it and made the defect look deliberate.
     pages = {}
     pages["index.html"] = R.build_public_html(
-        fetched, {}, meta["headline_buckets"],
+        fetched, shell_freshness, meta["headline_buckets"],
         methodology_href="methodology.html", brief_date_iso=di,
         canonical_url=f"{base}/", og_image_url=f"{base}/card.png",
         world_map_href="world-map.svg", root_prefix="", is_front=True)
@@ -121,7 +146,7 @@ def main() -> None:
     # as the front page, so it needs no fetch and cannot drift from the
     # published numbers.
     pages["elnino/index.html"] = R.build_public_html(
-        fetched, {}, meta["headline_buckets"],
+        fetched, shell_freshness, meta["headline_buckets"],
         methodology_href="../methodology.html", brief_date_iso=di,
         canonical_url=f"{base}/elnino/",
         og_image_url=f"{base}/card.png",
