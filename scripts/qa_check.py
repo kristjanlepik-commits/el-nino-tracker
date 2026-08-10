@@ -250,10 +250,16 @@ def check_structure(violations):
 # at which point the diff compares 08-03 to 08-10 and goes quiet on its
 # own.
 KNOWN_SNAPSHOT_GAPS = {
-    ("2026-08-03.json", "physical_state.cwwa_analogs"),
-    ("2026-08-03.json", "physical_state.cwwa_domain"),
-    ("2026-08-03.json", "physical_state.cwwa_ms_days"),
-    ("2026-08-03.json", "physical_state.cwwa_series"),
+    # The four cwwa_* entries for 2026-08-03 were HERE and are gone, on
+    # the schedule this comment set for them: they expired the moment the
+    # 2026-08-10 snapshot existed, because the diff then compares 08-03 to
+    # 08-10 and goes quiet without help. Science flagged that the date had
+    # arrived rather than deleting them, which was right; the exemption is
+    # platform's to retire.
+    #
+    # Second self-expiring exemption to actually retire itself this week,
+    # after NAV_KNOWN_STALE emptied. Both were deleted because a check
+    # said the date had come, not because anyone remembered.
     # Not part of the outage: a stale April seed the ENSO tracker removed
     # in the same commit, which had been rendering only on the failure
     # path and so went unreviewed for months.
