@@ -3024,6 +3024,25 @@ def _number_sections(html_text: str) -> str:
                   repl, html_text)
 
 
+def _issued_with_age(issued, as_of):
+    """`issued 2026-07-09 · 32 days old`, or just the date if it will not parse.
+
+    The age is the part that stops a reader trusting a stale statement as
+    current, and it is the part nobody computes voluntarily.
+    """
+    txt = f"issued {issued}"
+    try:
+        d = date.fromisoformat(str(issued)[:10])
+        n = (as_of - d).days
+        if n >= 0:
+            txt += (" &middot; today" if n == 0 else
+                    " &middot; 1 day old" if n == 1 else
+                    f" &middot; {n} days old")
+    except (ValueError, TypeError):
+        pass
+    return txt
+
+
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       methodology_href: str, brief_date_iso: str,
                       canonical_url: str, og_image_url: str,
@@ -3549,23 +3568,34 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     sources_html = (
         '<section>'
         '<h2>Source-by-source check</h2>'
-        '<p class="section-sub">What each agency said this week, verbatim where useful.</p>'
+        # F4, VD: a month-old statement under a "this week" header is the
+        # headline-versus-footnote failure in miniature. Every item already
+        # carried its issue date; the header contradicted them all at once,
+        # and the header is what a skimming reader takes.
+        #
+        # Agencies publish on their own cadences, so "this week" was never
+        # going to be true of all four. The age is printed beside each date
+        # rather than left for the reader to compute against an issue date
+        # they have to find first.
+        '<p class="section-sub">What each agency last said, with the age of '
+        'each statement. Agencies publish on their own schedules, so these '
+        'are rarely all from the same week.</p>'
         '<ul class="src-list">'
         '<li>'
         '<span class="src-name">NOAA CPC strength table, NDJ 2026-27 (RONI)</span>'
-        f'<span class="src-issued">issued {h(str(cpc_issued))}</span>'
+        f'<span class="src-issued">{_issued_with_age(str(cpc_issued), S.BRIEF_DATE)}</span>'
         f'<div class="src-detail">super {cpc_super}%, strong {cpc_strong}%, moderate {cpc_moderate}%, '
         f'weak El Niño {cpc_weak}%, neutral {cpc_neutral}%, La Niña {cpc_la_nina}%.</div>'
         '</li>'
         '<li>'
         '<span class="src-name">IRI plume, DJF 2026-27</span>'
-        f'<span class="src-issued">issued {h(str(fetched["iri"]["issued"]))}</span>'
+        f'<span class="src-issued">{_issued_with_age(str(fetched["iri"]["issued"]), S.BRIEF_DATE)}</span>'
         f'<div class="src-detail">El Niño {iri_djf[2]}%, neutral {iri_djf[1]}%, '
         f'La Niña {iri_djf[0]}%. Strength not broken out in the public Quick Look.</div>'
         '</li>'
         '<li>'
         '<span class="src-name">BoM ENSO Outlook</span>'
-        f'<span class="src-issued">issued {h(str(bom["issued"]))}</span>'
+        f'<span class="src-issued">{_issued_with_age(str(bom["issued"]), S.BRIEF_DATE)}</span>'
         f'<div class="src-detail">{h(bom["alert_status"])}. Categorical only.</div>'
         '</li>'
         '<li>'
