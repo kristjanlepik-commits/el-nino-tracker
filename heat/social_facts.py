@@ -79,6 +79,39 @@ def daily_min(city, meta):
             if mn is not None}
 
 
+_PAYLOAD = None
+
+
+def _payload_scope(city):
+    """record_scope exactly as the payload publishes it, never recomputed."""
+    global _PAYLOAD
+    if _PAYLOAD is None:
+        p = ROOT / "heat" / "data" / "city_nights.json"
+        _PAYLOAD = json.loads(p.read_text())["cities"]
+    if city not in _PAYLOAD or "record_scope" not in _PAYLOAD[city]:
+        raise SystemExit(
+            f"{city}: no record_scope in the payload. Run "
+            f"emit_city_nights.py first. Refusing to compute a second "
+            f"answer here, which is how Frankfurt came to say 1935 on the "
+            f"surface socials reads and 1937 on the one it does not.")
+    return _PAYLOAD[city]["record_scope"]
+
+
+def _payload_nights_series(city):
+    """The usable per-year night counts the payload actually ranks over."""
+    global _PAYLOAD
+    if _PAYLOAD is None:
+        _payload_scope(city)
+    s = (_PAYLOAD.get(city, {}).get("series_to_same_date") or {}).get("values")
+    if not s:
+        raise SystemExit(
+            f"{city}: no night series in the payload. Run "
+            f"emit_city_nights.py first. Refusing to count raw years, which "
+            f"treats a year failing the completeness bar as an observed "
+            f"zero.")
+    return {str(y): n for y, n in s.items()}
+
+
 def facts(city, meta):
     tx, tn = daily_max(city, meta), daily_min(city, meta)
     if not tx:
@@ -118,6 +151,23 @@ def facts(city, meta):
     for d, v in tn.items():
         if v >= 20.0 and d[5:] <= _last:
             tn_by_year[int(d[:4])] = tn_by_year.get(int(d[:4]), 0) + 1
+    # THE USABLE YEARS, READ FROM THE PUBLISHED SERIES, not the years we
+    # happen to hold a reading in. Counting raw years reproduced socials'
+    # 59-of-90 exactly, and the published series gives 55 of 85.
+    #
+    # The gap between them is NOT the 1946-1947 gap editor inferred. It is
+    # 1935, 1936, 1945 and 1948, which have some observations and fail the
+    # completeness bar. So a year we hold three weeks of read as a year with
+    # no tropical nights. **A partial year counted as an observed zero,
+    # inside a sentence whose subject is counting zeros**, which is a level
+    # below the absence-as-zero we were both looking for.
+    #
+    # So this reads the series rather than deriving a second answer, for the
+    # same reason record_scope now does.
+    _series = _payload_nights_series(city)
+    _obs_years = sorted(int(y) for y in _series)
+    _zero_years = sum(1 for y, n in _series.items()
+                      if int(y) != CUR and n == 0)
     cur_tn = tn_by_year.get(CUR, 0)
     tn_hist = sorted(tn_by_year.get(y, 0) for y in years if y != CUR)
     tn_median = (tn_hist[len(tn_hist) // 2] if tn_hist else 0)
@@ -126,13 +176,18 @@ def facts(city, meta):
         "city": city,
         "country": meta["country"],
         "station": meta["station"],
-        "record_scope": {
-            "from_year": min(years),
-            "text": f"our series, from {min(years)}",
-            "is_all_time": False,
-            "may_not_say": ["hottest ever", "all-time record",
-                            "hottest since records began"],
-        },
+        # READ FROM THE PAYLOAD, NOT RECOMPUTED. This file derived the bound
+        # from the raw record start while emit_city_nights derived it from
+        # the ranked window, so Frankfurt read 1935 here and 1937 there.
+        # Editor found it because SOCIALS READS THIS FILE: the corrected
+        # bound was on the surface nobody publishes from and the wrong one
+        # was feeding posts.
+        #
+        # Two copies of a fact is the defect, which is the same conclusion
+        # as the coordinates. So this no longer computes its own answer; it
+        # reads the one the payload publishes and fails loudly if absent,
+        # rather than silently falling back to the value that was wrong.
+        "record_scope": _payload_scope(city),
         "hottest_day": {"date": hottest_d, "c": hottest_v,
                         "is_current_year": hottest_d.startswith(str(CUR))},
         # TOP TEN INDIVIDUAL DAYS, one basis, dates included. Editor asked
@@ -210,6 +265,25 @@ def facts(city, meta):
             # The direction is at least safe: a short warm baseline
             # UNDERSTATES, so a city with a late record start has a real
             # change larger than its multiple shows.
+            # THE DENOMINATOR, EMITTED, because socials needed it and no
+            # field offered it. They reached for the span 1935 to 2025 and
+            # got 90 years, then reported 59 zero summers where the series
+            # gives 55 of 85. The four years with no record at all, 1945 to
+            # 1948, became four more zeros: AN ABSENCE COUNTED AS A ZERO
+            # INSIDE A SENTENCE WHOSE SUBJECT IS COUNTING ZEROS.
+            #
+            # A span is not a count. Emitting years_observed means nobody
+            # has to subtract gaps from a range to find the denominator,
+            # which is the step that failed.
+            "years_observed": len(_obs_years),
+            "years_with_none": _zero_years,
+            "years_span": [min(years), max(years)],
+            "span_is_not_a_count": (
+                f"{max(years) - min(years) + 1} calendar years span the "
+                f"record and {len(_obs_years)} are USABLE. Use "
+                "years_observed as the denominator. The difference is years "
+                "with no record at all plus years too incomplete to rank, "
+                "and neither is a year without a tropical night."),
             "comparable_across_cities": False,
             "why_not_comparable": "baselines start in different years, so a "
                                   "city with a late record start has a "

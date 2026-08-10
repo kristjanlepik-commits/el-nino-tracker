@@ -76,14 +76,17 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
-   "from_year": 1938,
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1939,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1938"
+   "record_starts": 1938,
+   "text": "our series, from 1939",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "ALACANT/ALICANTE",
   "tropical_nights": {
@@ -96,8 +99,15 @@
    "metric_reaches_city": true,
    "not_postable_reason": null,
    "post_form": "Alicante: 56 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1938-2025 record: 22.",
+   "span_is_not_a_count": "89 calendar years span the record and 87 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 87,
+   "years_span": [
+    1938,
+    2026
+   ],
+   "years_with_none": 0
   }
  },
  "Amsterdam": {
@@ -177,6 +187,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1951,
    "is_all_time": false,
    "may_not_say": [
@@ -184,7 +195,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1951"
+   "record_starts": 1951,
+   "text": "our series, from 1951",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Schiphol",
   "tropical_nights": {
@@ -197,8 +210,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "76 calendar years span the record and 75 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 75,
+   "years_span": [
+    1951,
+    2026
+   ],
+   "years_with_none": 70
   }
  },
  "Barcelona": {
@@ -280,6 +300,7 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1924,
    "is_all_time": false,
    "may_not_say": [
@@ -287,7 +308,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1924"
+   "record_starts": 1924,
+   "text": "our series, from 1924",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "BARCELONA AEROPUERTO",
   "tropical_nights": {
@@ -300,8 +323,15 @@
    "metric_reaches_city": true,
    "not_postable_reason": null,
    "post_form": "Barcelona: 54 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1924-2025 record: 15.",
+   "span_is_not_a_count": "103 calendar years span the record and 86 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 86,
+   "years_span": [
+    1924,
+    2026
+   ],
+   "years_with_none": 2
   }
  },
  "Basel": {
@@ -383,14 +413,17 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
-   "from_year": 1876,
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1866,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1876"
+   "record_starts": 1865,
+   "text": "our series, from 1866",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Basel/Binningen",
   "tropical_nights": {
@@ -403,8 +436,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "151 calendar years span the record and 145 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 145,
+   "years_span": [
+    1876,
+    2026
+   ],
+   "years_with_none": 113
   }
  },
  "Berlin": {
@@ -487,6 +527,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1948,
    "is_all_time": false,
    "may_not_say": [
@@ -494,7 +535,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1948"
+   "record_starts": 1948,
+   "text": "our series, from 1948",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Berlin-Tempelhof",
   "tropical_nights": {
@@ -507,8 +550,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "79 calendar years span the record and 78 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 78,
+   "years_span": [
+    1948,
+    2026
+   ],
+   "years_with_none": 36
   }
  },
  "Bilbao": {
@@ -588,6 +638,7 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1947,
    "is_all_time": false,
    "may_not_say": [
@@ -595,7 +646,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1947"
+   "record_starts": 1947,
+   "text": "our series, from 1947",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "BILBAO AEROPUERTO",
   "tropical_nights": {
@@ -608,8 +661,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "80 calendar years span the record and 78 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 78,
+   "years_span": [
+    1947,
+    2026
+   ],
+   "years_with_none": 50
   }
  },
  "Bordeaux": {
@@ -693,6 +753,7 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1950,
    "is_all_time": false,
    "may_not_say": [
@@ -700,21 +761,30 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1950"
+   "record_starts": 1950,
+   "text": "our series, from 1950",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "BORDEAUX-MERIGNAC",
   "tropical_nights": {
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-07",
+   "counted_to": "08-08",
    "current": 23,
    "median_to_cut": 1,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 76,
+   "years_span": [
+    1950,
+    2026
+   ],
+   "years_with_none": 28
   }
  },
  "Cologne": {
@@ -794,14 +864,17 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
-   "from_year": 1957,
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1958,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1957"
+   "record_starts": 1957,
+   "text": "our series, from 1958",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Koeln/Bonn",
   "tropical_nights": {
@@ -814,8 +887,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "70 calendar years span the record and 68 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 68,
+   "years_span": [
+    1957,
+    2026
+   ],
+   "years_with_none": 55
   }
  },
  "Dresden": {
@@ -898,6 +978,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1934,
    "is_all_time": false,
    "may_not_say": [
@@ -905,7 +986,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1934"
+   "record_starts": 1934,
+   "text": "our series, from 1934",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Dresden-Klotzsche",
   "tropical_nights": {
@@ -918,8 +1001,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "93 calendar years span the record and 77 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 77,
+   "years_span": [
+    1934,
+    2026
+   ],
+   "years_with_none": 46
   }
  },
  "Frankfurt": {
@@ -1002,14 +1092,17 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
-   "from_year": 1935,
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1937,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1935"
+   "record_starts": 1935,
+   "text": "our series, from 1937",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Frankfurt/Main",
   "tropical_nights": {
@@ -1022,8 +1115,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "92 calendar years span the record and 85 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 85,
+   "years_span": [
+    1935,
+    2026
+   ],
+   "years_with_none": 55
   }
  },
  "Geneva": {
@@ -1103,6 +1203,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1954,
    "is_all_time": false,
    "may_not_say": [
@@ -1110,7 +1211,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1954"
+   "record_starts": 1954,
+   "text": "our series, from 1954",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Geneve/Cointrin",
   "tropical_nights": {
@@ -1123,8 +1226,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "73 calendar years span the record and 72 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 72,
+   "years_span": [
+    1954,
+    2026
+   ],
+   "years_with_none": 56
   }
  },
  "Hamburg": {
@@ -1204,6 +1314,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1936,
    "is_all_time": false,
    "may_not_say": [
@@ -1211,7 +1322,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1936"
+   "record_starts": 1936,
+   "text": "our series, from 1936",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Hamburg-Fuhlsbuettel",
   "tropical_nights": {
@@ -1224,8 +1337,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "91 calendar years span the record and 90 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 90,
+   "years_span": [
+    1936,
+    2026
+   ],
+   "years_with_none": 80
   }
  },
  "Hanover": {
@@ -1305,6 +1425,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1936,
    "is_all_time": false,
    "may_not_say": [
@@ -1312,7 +1433,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1936"
+   "record_starts": 1936,
+   "text": "our series, from 1936",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Hannover",
   "tropical_nights": {
@@ -1325,8 +1448,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "91 calendar years span the record and 87 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 87,
+   "years_span": [
+    1936,
+    2026
+   ],
+   "years_with_none": 78
   }
  },
  "Helsinki": {
@@ -1406,6 +1536,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1971,
    "is_all_time": false,
    "may_not_say": [
@@ -1413,7 +1544,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1971"
+   "record_starts": 1971,
+   "text": "our series, from 1971",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Helsinki Kaisaniemi",
   "tropical_nights": {
@@ -1426,8 +1559,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "56 calendar years span the record and 55 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 55,
+   "years_span": [
+    1971,
+    2026
+   ],
+   "years_with_none": 41
   }
  },
  "Leipzig": {
@@ -1510,14 +1650,17 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
-   "from_year": 1863,
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1864,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1863"
+   "record_starts": 1863,
+   "text": "our series, from 1864",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Leipzig-Holzhausen",
   "tropical_nights": {
@@ -1530,8 +1673,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "164 calendar years span the record and 142 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 142,
+   "years_span": [
+    1863,
+    2026
+   ],
+   "years_with_none": 98
   }
  },
  "Lugano": {
@@ -1611,14 +1761,17 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
-   "from_year": 1864,
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1865,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1864"
+   "record_starts": 1864,
+   "text": "our series, from 1865",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Lugano",
   "tropical_nights": {
@@ -1631,8 +1784,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "163 calendar years span the record and 161 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 161,
+   "years_span": [
+    1864,
+    2026
+   ],
+   "years_with_none": 51
   }
  },
  "Lyon": {
@@ -1712,6 +1872,7 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1975,
    "is_all_time": false,
    "may_not_say": [
@@ -1719,21 +1880,30 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1975"
+   "record_starts": 1975,
+   "text": "our series, from 1975",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "LYON-ST EXUPERY",
   "tropical_nights": {
    "baseline_from_year": 1975,
    "basis": "median of 1975-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-04",
-   "current": 32,
+   "counted_to": "08-08",
+   "current": 34,
    "median_to_cut": 5,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Lyon: 32 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1975-2025 record: 5.",
+   "post_form": "Lyon: 34 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1975-2025 record: 5.",
+   "span_is_not_a_count": "52 calendar years span the record and 51 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 51,
+   "years_span": [
+    1975,
+    2026
+   ],
+   "years_with_none": 11
   }
  },
  "Madrid": {
@@ -1813,6 +1983,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1920,
    "is_all_time": false,
    "may_not_say": [
@@ -1820,7 +1991,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1920"
+   "record_starts": 1920,
+   "text": "our series, from 1920",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "MADRID, RETIRO",
   "tropical_nights": {
@@ -1833,8 +2006,15 @@
    "metric_reaches_city": true,
    "not_postable_reason": null,
    "post_form": "Madrid: 51 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1920-2025 record: 10.",
+   "span_is_not_a_count": "107 calendar years span the record and 105 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 105,
+   "years_span": [
+    1920,
+    2026
+   ],
+   "years_with_none": 3
   }
  },
  "Malaga": {
@@ -1914,6 +2094,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1942,
    "is_all_time": false,
    "may_not_say": [
@@ -1921,7 +2102,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1942"
+   "record_starts": 1942,
+   "text": "our series, from 1942",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "MALAGA AEROPUERTO",
   "tropical_nights": {
@@ -1934,8 +2117,15 @@
    "metric_reaches_city": true,
    "not_postable_reason": null,
    "post_form": "Malaga: 57 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1942-2025 record: 26.",
+   "span_is_not_a_count": "85 calendar years span the record and 79 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 79,
+   "years_span": [
+    1942,
+    2026
+   ],
+   "years_with_none": 0
   }
  },
  "Marseille": {
@@ -2017,6 +2207,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1950,
    "is_all_time": false,
    "may_not_say": [
@@ -2024,21 +2215,30 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1950"
+   "record_starts": 1950,
+   "text": "our series, from 1950",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "MARIGNANE",
   "tropical_nights": {
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-04",
-   "current": 34,
-   "median_to_cut": 14,
+   "counted_to": "08-08",
+   "current": 37,
+   "median_to_cut": 16,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Marseille: 34 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 14.",
+   "post_form": "Marseille: 37 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 16.",
+   "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 76,
+   "years_span": [
+    1950,
+    2026
+   ],
+   "years_with_none": 1
   }
  },
  "Montpellier": {
@@ -2068,6 +2268,11 @@
      "year": 2025
     },
     {
+     "c": 39.0,
+     "date": "2026-08-05",
+     "year": 2026
+    },
+    {
      "c": 38.7,
      "date": "2026-07-06",
      "year": 2026
@@ -2088,19 +2293,14 @@
      "year": 2026
     },
     {
-     "c": 37.9,
-     "date": "2025-08-17",
-     "year": 2025
-    },
-    {
-     "c": 37.9,
-     "date": "2026-07-05",
+     "c": 38.2,
+     "date": "2026-08-06",
      "year": 2026
     },
     {
-     "c": 37.8,
-     "date": "2024-08-01",
-     "year": 2024
+     "c": 37.9,
+     "date": "2025-08-17",
+     "year": 2025
     }
    ]
   },
@@ -2118,6 +2318,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1950,
    "is_all_time": false,
    "may_not_say": [
@@ -2125,21 +2326,30 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1950"
+   "record_starts": 1950,
+   "text": "our series, from 1950",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "MONTPELLIER-AEROPORT",
   "tropical_nights": {
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-04",
-   "current": 42,
-   "median_to_cut": 9,
+   "counted_to": "08-08",
+   "current": 46,
+   "median_to_cut": 10,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Montpellier: 42 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 9.",
+   "post_form": "Montpellier: 46 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 10.",
+   "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 76,
+   "years_span": [
+    1950,
+    2026
+   ],
+   "years_with_none": 3
   }
  },
  "Munich": {
@@ -2221,14 +2431,17 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
-   "from_year": 1954,
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1955,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1954"
+   "record_starts": 1954,
+   "text": "our series, from 1955",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Muenchen-Stadt",
   "tropical_nights": {
@@ -2241,8 +2454,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "73 calendar years span the record and 71 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 71,
+   "years_span": [
+    1954,
+    2026
+   ],
+   "years_with_none": 45
   }
  },
  "Murcia": {
@@ -2322,6 +2542,7 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1984,
    "is_all_time": false,
    "may_not_say": [
@@ -2329,7 +2550,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1984"
+   "record_starts": 1984,
+   "text": "our series, from 1984",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "MURCIA",
   "tropical_nights": {
@@ -2342,8 +2565,15 @@
    "metric_reaches_city": true,
    "not_postable_reason": null,
    "post_form": "Murcia: 57 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1984-2025 record: 35.",
+   "span_is_not_a_count": "43 calendar years span the record and 42 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 42,
+   "years_span": [
+    1984,
+    2026
+   ],
+   "years_with_none": 0
   }
  },
  "Nice": {
@@ -2423,6 +2653,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1950,
    "is_all_time": false,
    "may_not_say": [
@@ -2430,21 +2661,30 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1950"
+   "record_starts": 1950,
+   "text": "our series, from 1950",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "NICE",
   "tropical_nights": {
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-04",
-   "current": 57,
-   "median_to_cut": 23,
+   "counted_to": "08-08",
+   "current": 61,
+   "median_to_cut": 24,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Nice: 57 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 23.",
+   "post_form": "Nice: 61 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 24.",
+   "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 76,
+   "years_span": [
+    1950,
+    2026
+   ],
+   "years_with_none": 0
   }
  },
  "Palma": {
@@ -2524,6 +2764,7 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1978,
    "is_all_time": false,
    "may_not_say": [
@@ -2531,7 +2772,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1978"
+   "record_starts": 1978,
+   "text": "our series, from 1978",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "PALMA, PUERTO",
   "tropical_nights": {
@@ -2544,8 +2787,15 @@
    "metric_reaches_city": true,
    "not_postable_reason": null,
    "post_form": "Palma: 59 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1978-2025 record: 43.",
+   "span_is_not_a_count": "49 calendar years span the record and 48 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 48,
+   "years_span": [
+    1978,
+    2026
+   ],
+   "years_with_none": 0
   }
  },
  "Paris": {
@@ -2625,6 +2875,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1950,
    "is_all_time": false,
    "may_not_say": [
@@ -2632,21 +2883,30 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1950"
+   "record_starts": 1950,
+   "text": "our series, from 1950",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "ORLY",
   "tropical_nights": {
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-04",
+   "counted_to": "08-08",
    "current": 18,
    "median_to_cut": 1,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 76,
+   "years_span": [
+    1950,
+    2026
+   ],
+   "years_with_none": 36
   }
  },
  "Prague": {
@@ -2726,6 +2986,7 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1971,
    "is_all_time": false,
    "may_not_say": [
@@ -2733,7 +2994,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1971"
+   "record_starts": 1971,
+   "text": "our series, from 1971",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Praha-Karlov",
   "tropical_nights": {
@@ -2746,8 +3009,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "56 calendar years span the record and 55 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 55,
+   "years_span": [
+    1971,
+    2026
+   ],
+   "years_with_none": 38
   }
  },
  "Seville": {
@@ -2827,6 +3097,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1951,
    "is_all_time": false,
    "may_not_say": [
@@ -2834,7 +3105,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1951"
+   "record_starts": 1951,
+   "text": "our series, from 1951",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "SEVILLA AEROPUERTO",
   "tropical_nights": {
@@ -2847,8 +3120,15 @@
    "metric_reaches_city": true,
    "not_postable_reason": null,
    "post_form": "Seville: 48 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1951-2025 record: 19.",
+   "span_is_not_a_count": "76 calendar years span the record and 75 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 75,
+   "years_span": [
+    1951,
+    2026
+   ],
+   "years_with_none": 1
   }
  },
  "Stockholm": {
@@ -2928,6 +3208,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1951,
    "is_all_time": false,
    "may_not_say": [
@@ -2935,7 +3216,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1951"
+   "record_starts": 1951,
+   "text": "our series, from 1951",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Stockholm-Bromma",
   "tropical_nights": {
@@ -2948,8 +3231,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "76 calendar years span the record and 75 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 75,
+   "years_span": [
+    1951,
+    2026
+   ],
+   "years_with_none": 69
   }
  },
  "Strasbourg": {
@@ -3032,6 +3322,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1950,
    "is_all_time": false,
    "may_not_say": [
@@ -3039,21 +3330,30 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1950"
+   "record_starts": 1950,
+   "text": "our series, from 1950",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "STRASBOURG-ENTZHEIM",
   "tropical_nights": {
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-07",
+   "counted_to": "08-08",
    "current": 13,
    "median_to_cut": 0,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 76,
+   "years_span": [
+    1950,
+    2026
+   ],
+   "years_with_none": 40
   }
  },
  "Stuttgart": {
@@ -3133,6 +3433,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1958,
    "is_all_time": false,
    "may_not_say": [
@@ -3140,7 +3441,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1958"
+   "record_starts": 1958,
+   "text": "our series, from 1958",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Stuttgart-Schnarrenberg",
   "tropical_nights": {
@@ -3153,8 +3456,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "69 calendar years span the record and 68 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 68,
+   "years_span": [
+    1958,
+    2026
+   ],
+   "years_with_none": 35
   }
  },
  "Toulouse": {
@@ -3234,6 +3544,7 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1950,
    "is_all_time": false,
    "may_not_say": [
@@ -3241,21 +3552,30 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1950"
+   "record_starts": 1950,
+   "text": "our series, from 1950",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "TOULOUSE-BLAGNAC",
   "tropical_nights": {
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-07",
+   "counted_to": "08-08",
    "current": 31,
    "median_to_cut": 2,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 76,
+   "years_span": [
+    1950,
+    2026
+   ],
+   "years_with_none": 16
   }
  },
  "Valencia": {
@@ -3335,14 +3655,17 @@
    "visible_in_to_cut_series": false
   },
   "record_scope": {
-   "from_year": 1937,
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1938,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1937"
+   "record_starts": 1937,
+   "text": "our series, from 1938",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "VALENCIA",
   "tropical_nights": {
@@ -3355,8 +3678,15 @@
    "metric_reaches_city": true,
    "not_postable_reason": null,
    "post_form": "Valencia: 60 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1937-2025 record: 29.",
+   "span_is_not_a_count": "90 calendar years span the record and 88 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 88,
+   "years_span": [
+    1937,
+    2026
+   ],
+   "years_with_none": 0
   }
  },
  "Vienna": {
@@ -3433,37 +3763,47 @@
    "is_a_count": "recompute every run. Never write the number into copy as a literal.",
    "n": 5,
    "next_rank_year": 2013,
-   "post_form": "Vienna's 5 hottest days since 1950 all fell in 2026."
+   "post_form": "Vienna's 5 hottest days since 1855 all fell in 2026."
   },
   "previous_high": {
    "c": 38.5,
    "date": "2013-08-08",
-   "if_not_visible": "the day this record was set falls AFTER this city's cut, so the to-cut series cannot show it. Do not caption a to-cut chart with this value: the chart will contradict the caption. Cite it only against the full-record ranking.",
-   "visible_in_to_cut_series": false
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
   },
   "record_scope": {
-   "from_year": 1950,
+   "differs_because": null,
+   "from_year": 1855,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1950"
+   "record_starts": 1855,
+   "text": "our series, from 1855",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Wien Hohe Warte",
   "tropical_nights": {
-   "baseline_from_year": 1950,
-   "basis": "median of 1950-2025, each year counted to the same date",
+   "baseline_from_year": 1855,
+   "basis": "median of 1855-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-07",
-   "current": 21,
-   "median_to_cut": 2,
+   "counted_to": "08-09",
+   "current": 22,
+   "median_to_cut": 1,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "172 calendar years span the record and 171 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 171,
+   "years_span": [
+    1855,
+    2026
+   ],
+   "years_with_none": 66
   }
  },
  "Zaragoza": {
@@ -3543,6 +3883,7 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
+   "differs_because": null,
    "from_year": 1951,
    "is_all_time": false,
    "may_not_say": [
@@ -3550,7 +3891,9 @@
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1951"
+   "record_starts": 1951,
+   "text": "our series, from 1951",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "ZARAGOZA, AEROPUERTO",
   "tropical_nights": {
@@ -3563,8 +3906,15 @@
    "metric_reaches_city": true,
    "not_postable_reason": null,
    "post_form": "Zaragoza: 45 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1951-2025 record: 7.",
+   "span_is_not_a_count": "76 calendar years span the record and 75 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 75,
+   "years_span": [
+    1951,
+    2026
+   ],
+   "years_with_none": 2
   }
  },
  "Zurich": {
@@ -3644,14 +3994,17 @@
    "visible_in_to_cut_series": true
   },
   "record_scope": {
-   "from_year": 1881,
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1882,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
     "all-time record",
     "hottest since records began"
    ],
-   "text": "our series, from 1881"
+   "record_starts": 1881,
+   "text": "our series, from 1882",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "station": "Zurich/Fluntern",
   "tropical_nights": {
@@ -3664,8 +4017,15 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
+   "span_is_not_a_count": "146 calendar years span the record and 144 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
-   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread."
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 144,
+   "years_span": [
+    1881,
+    2026
+   ],
+   "years_with_none": 121
   }
  }
 }
