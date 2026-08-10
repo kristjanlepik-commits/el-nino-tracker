@@ -134,8 +134,25 @@ def main():
 
     # ---- rainfall -------------------------------------------------------
     totals, peaks = rainfall_series(args.rain_baseline, args.region, expected)
+    hist_all = {y: v for y, v in totals.items() if y != year}
+    if year not in totals and hist_all:
+        # A series with a baseline but no current value must still be
+        # EMITTED, marked. Omitting it makes the absence invisible, which
+        # is the same defect as a short payload that does not say so.
+        payload["series"].append({
+            "id": "rainfall",
+            "instrument": "GPM IMERG Late Run v07",
+            "measures": "rainfall, NOT flooding",
+            "units": "mm, area mean over the region",
+            "expected_slots": expected,
+            "due_slots": min(expected, max(0, (as_of - start).days + 1
+                                           - LATENCY_DAYS["rainfall"])),
+            "values_present": 0,
+            "baseline_years": len(hist_all),
+            "verdict": "awaiting_data",
+        })
     if year in totals:
-        hist = {y: v for y, v in totals.items() if y != year}
+        hist = hist_all
         cur = totals[year]
         med = float(np.median(list(hist.values())))
         due = min(expected, max(0, (as_of - start).days + 1 - LATENCY_DAYS["rainfall"]))
@@ -201,6 +218,8 @@ def main():
                           "x_median": round(cur_px / med_ct, 2) if med_ct else None,
                           "rank": rank_of(cur_px, hist), "of": len(hist) + 1}
             s["verdict"] = "measured"
+        elif qualifies and not cur_recs:
+            s["verdict"] = "awaiting_data"
         elif qualifies:
             # The region CAN be measured; we just do not have the current
             # period yet. Emitting cannot_say here would be the same defect
