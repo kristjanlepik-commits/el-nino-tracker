@@ -3539,8 +3539,22 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '<tr>'
         f'<td>0–300 m heat content anomaly{_basis(hc_basis)}</td>'
         f'<td class="num">{h(hc_str)}</td>'
-        f'<td class="num">{_signed_temp(hc_97)}°C</td>'
-        f'<td class="num">{_signed_temp(hc_15)}°C</td>'
+        # TWO DECIMALS, the same as the hero strip and the prose bullet.
+        # This table took _signed_temp's one-decimal default while the other
+        # two render sites printed CPC's reported precision, so one page
+        # carried +1.83/+1.69 and +1.8/+1.7 for the same two numbers.
+        #
+        # Science's reason for choosing two rather than collapsing the
+        # others to one: the record ranking needs it. 1997-10 at +2.56 and
+        # 2026-06 at +2.26 do not separate at one decimal, and this figure
+        # is now rank 1 of 571 months on exactly that comparison.
+        #
+        # Display precision is not the comparison threshold. Whether a
+        # difference is claimable is HC_MATERIAL_MARGIN_C = 0.10, decided
+        # elsewhere and deliberately; collapsing the two is what produced
+        # the split in the first place.
+        f'<td class="num">{_signed_temp(hc_97, 2)}°C</td>'
+        f'<td class="num">{_signed_temp(hc_15, 2)}°C</td>'
         '</tr>'
         # F3, VD: apparatus with no data leaves the render. This row
         # printed n/a in all three columns, so it stated a measurement
