@@ -90,8 +90,28 @@ CANDIDATES = {
 
 ARCHIVE = "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/61/MCDWD_L3"
 
-# Sample years spread across the record rather than consecutive, so a
-# single anomalous season cannot carry the estimate.
+# WRONG, AND THE CONTROL PROVED IT TWICE.
+#
+# Three sample years cannot estimate observability when the year-to-year
+# spread is large. Manila ranges 0.01 to 0.83 between years; a 3-year
+# sample has median error 0.085 and 90th-percentile error 0.165 against
+# the truth, which is enough to cross the decision boundary. The three
+# years this used happened to include 2016 at 0.74 and a clear 2024, so
+# Manila screened at 0.539 against a true 0.232 and read "marginal"
+# rather than "likely fails".
+#
+# Compounding it, the estimate below POOLS: total observed over total
+# pixels, which is a mean weighted toward clear years, where the gate
+# uses the median of per-year values.
+#
+# The fix is ONE DAY IN EVERY YEAR rather than three days in three
+# years. Same idea, opposite axis: cover the variance, not the window.
+# It recovers Manila's 0.232 exactly, costs about 660 MB for a two-tile
+# region, and yields enough paired years to estimate the dependence
+# correlation as well, which a 3-year sample never could.
+#
+# Retained rather than deleted because the wrong version is the reason
+# the right one is shaped as it is.
 SAMPLE_YEARS = (2008, 2016, 2024)
 
 # Each region is sampled in ITS OWN flood season. Screening a
