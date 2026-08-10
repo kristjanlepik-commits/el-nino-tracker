@@ -5050,7 +5050,33 @@ def main():
     # snapshot file is the source of truth for next week's diff, so we
     # do NOT write it in preview mode (a preview run otherwise
     # corrupts the production diff history).
-    snap = snapshot.current_snapshot(fetched)
+    # THE HEADLINE IS COMPUTED ONCE, HERE, AND USED EVERYWHERE.
+    #
+    # Science asked for `current_snapshot(fetched, headline=...)` so the
+    # stored figure is byte-identical to the published one by construction
+    # rather than by two code paths agreeing. Right, and their one-line
+    # version does not work: `headline_smoothed` was computed twenty-one
+    # lines BELOW this call, so passing it raised NameError.
+    #
+    # Their second reason does not follow either, and it is the one they
+    # said was the real one. probs.annotate_liveness builds a new dict and
+    # returns it; it does not annotate in place. So passing the headline
+    # down would have put liveness in the snapshot and left meta.json,
+    # which main() writes from this variable, without it. Design would
+    # have bound to meta.json and reasonably concluded science had not
+    # shipped the field.
+    #
+    # So: annotate ONCE here, and hand the same object to both. The three
+    # lines moved up depend only on `fetched`, which is already complete.
+    offset = fetched.get("roni_to_oni_offset", {}).get("value", S.RONI_TO_ONI_OFFSET)
+    seas5_per_lead = fetched.get("ecmwf_seas5", {}).get("per_lead", []) or []
+    headline_smoothed = probs.annotate_liveness(
+        probs.smoothed_headline_buckets(
+            fetched["cpc_strength"]["table"], seas5_per_lead,
+            "NDJ 2026-27", offset=offset, nmme=fetched.get("nmme")),
+        snapshot.load_bucket_history(before=S.BRIEF_DATE))
+
+    snap = snapshot.current_snapshot(fetched, headline=headline_smoothed)
     prev = snapshot.load_prior_snapshot(before=S.BRIEF_DATE)
     d = snapshot.diff(prev, snap)
     diff_md = snapshot.render_diff_markdown(d)
@@ -5070,10 +5096,9 @@ def main():
     # build_markdown computes its own smoothed locally; we keep the legacy
     # `headline` variable above so editorial.generate keeps its current
     # input shape.
-    seas5_per_lead = fetched.get("ecmwf_seas5", {}).get("per_lead", []) or []
-    headline_smoothed = probs.smoothed_headline_buckets(
-        fetched["cpc_strength"]["table"], seas5_per_lead,
-        "NDJ 2026-27", offset=offset, nmme=fetched.get("nmme"))
+    # headline_smoothed, offset and seas5_per_lead are computed above, at
+    # the snapshot call, so one annotated object reaches the snapshot,
+    # meta.json and the public ladder. Do not recompute them here.
     analyst_read_md = editorial.generate(
         headline=headline,
         diff=d,
