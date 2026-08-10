@@ -241,30 +241,37 @@ jobs:
       # account-wide budget is not a race we can win by retrying, only by
       # waiting: the limit is 5,000 transactions per rolling 10 minutes, so
       # the budget refills on its own within one window.
+      # THE INLINE LOOP FAILED THE RUN IT EXISTED TO PROTECT, 2026-08-10.
+      # It ran 20 attempts at 60s under a 20 minute step budget. Those are
+      # the same number, so the loop could never reach its own "Proceeding
+      # anyway" fallback: the step timeout always fired first. A guard
+      # written to degrade gracefully was structurally unable to, and
+      # nothing in either file said the two budgets were equal.
+      #
+      # The FIRMS endpoint was unreadable for about twenty minutes, the
+      # step burned its budget, the daily run died, and the site sat a day
+      # stale until Kristjan asked. Second time in a fortnight a fires run
+      # reported trouble and nobody knew.
+      #
+      # FIRE'S RULE, which is the reusable part: an optimisation must never
+      # be able to fail the thing it optimises. This gate is belt over
+      # braces, because build_events already handles exhaustion in process
+      # (_http.OverLimit on HTTP 400, _quota.wait_for_quota suspends the
+      # caller). All it buys is runner minutes.
+      #
+      # fires/wait_for_quota.py exits 0 in every case including giving up,
+      # and its own budget defaults to 600s so it stays STRICTLY under the
+      # step timeout below and can always reach its fallback. The two
+      # numbers must never be equal again; that is what this step is for.
       - name: Wait for FIRMS quota to refill
         timeout-minutes: 20
-        run: |
-          for i in $(seq 1 20); do
-            # sed rather than embedded python: a multi-line python -c
-            # inside a YAML block scalar has to stay indented past the
-            # block, and getting that wrong silently truncates the whole
-            # file. It did, on the first attempt at this step.
-            q=$(curl -s --max-time 20 \
-              "https://firms.modaps.eosdis.nasa.gov/mapserver/mapkey_status/?MAP_KEY=$(cat ~/.firms_map_key)" \
-              | sed -n 's/.*"current_transactions" *: *\([0-9]\{1,\}\).*/\1/p')
-            [ -z "$q" ] && q=-1
-            if [ "$q" = "-1" ]; then
-              echo "Quota endpoint unreadable; waiting rather than guessing."
-            elif [ "$q" -lt 1500 ]; then
-              echo "Quota at $q/5000, enough headroom. Proceeding."
-              exit 0
-            else
-              echo "Quota at $q/5000, waiting 60s (attempt $i/20)."
-            fi
-            sleep 60
-          done
-          echo "::warning::Quota did not fall below 1500 in 20 minutes. \
-          Proceeding anyway; build_events may hit HTTP 400."
+        # PYTHONPATH, like every other fires invocation in this file. The
+        # script does `from fires import _quota`, and running it by path
+        # puts only its own directory on sys.path, so plain
+        # `python fires/wait_for_quota.py` raises ModuleNotFoundError. It
+        # would have failed at 03:10 tomorrow, in the step whose entire
+        # purpose is not failing the run.
+        run: PYTHONPATH="$PWD" python fires/wait_for_quota.py
 
       # continue-on-error, so a detections failure cannot take down the
       # burnt-area pull or the publish. Those refresh on a different clock
