@@ -20,3 +20,13 @@ anthropic>=0.40
 
 # HTML rendering of the brief (for email and standalone viewing)
 markdown>=3.5
+
+# HDF4 reader for the MODIS flood archive, which ships in HDF4 and cannot
+# be read by h5py or netCDF4. Requested by the floods chat once D-120
+# ratified the channel; until then they ran against a private venv rather
+# than touch this file on an unratified channel, which was the right call.
+#
+# Pure wheel, no system libraries: verified resolving before adding it,
+# because a dependency that needs libhdf4 present would break every
+# workflow's install step rather than only the one that uses it.
+pyhdf

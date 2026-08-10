@@ -216,3 +216,25 @@ jobs:
           else
             echo "No manifest change."
           fi
+
+      # FLO's guard, wired here rather than earlier for the reason already
+      # stated above the token check: a guard that runs BEFORE the capture
+      # can stop the one run whose data cannot be recovered, which makes
+      # the guard cause the harm it exists to prevent. It also has to run
+      # after the manifest commit, because it reconciles the manifest
+      # AGAINST the release store and both must be current for the
+      # comparison to mean anything.
+      #
+      # It treats the release store as authoritative and reports the two
+      # directions separately, which is the part worth keeping: "index
+      # wrong, data safe" and "data missing" have opposite severities and
+      # a single "mismatch" would flatten them.
+      #
+      # Exit 2 is unreadable, 1 is divergence, 0 is clean. Both non-zero
+      # cases fail the step: an unreadable store is not evidence of
+      # health, and this repo has already shipped one guard that treated
+      # an unreadable endpoint as permission to proceed.
+      - name: Reconcile the capture manifest against the release store
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 floods/check_capture_gaps.py
