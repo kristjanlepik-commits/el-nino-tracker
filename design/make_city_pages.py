@@ -515,6 +515,23 @@ for name, v in sorted(C.items()):
     prank = 1 + sum(1 for y, x in WD if x >= peak and y != 2026)
     pprev = max(x for y, x in WD if y != 2026)
     pprev_y = max(y for y, x in WD if x == pprev and y != 2026)
+    # THE FIRST USABLE YEAR, not the first year the thermometer reported.
+    # Nine cities have a partial first year excluded from the ranked series,
+    # so record_from runs one to two years earlier than the window every
+    # rank, axis and baseline on this page is computed on. Four live pages
+    # said one thing in prose and drew another on the axis beneath it.
+    #
+    # Leipzig was the one that mattered. Its sentence justified WHICH
+    # baseline the city gets, resting on a start year the chart underneath
+    # refuted, so the reasoning did not survive a reader checking it. The
+    # others read as a typo; that one read as an argument built on a wrong
+    # number.
+    #
+    # record_scope.from_year is not a new field: it already is the window
+    # the ranks use, and heat added record_from_note saying explicitly that
+    # record_from is NOT the answer to how far back we can see.
+    scope_from = str(v.get("record_scope", {}).get("from_year")
+                     or v["record_from"])
     cut = S[name]["cut_at"]
     cut_txt = f"{int(cut.split('-')[1])} {MON[int(cut.split('-')[0]) - 1]}"
     dr = v["days"]["rank"]
@@ -548,7 +565,7 @@ for name, v in sorted(C.items()):
         _moves = " and ".join(f"{m['km']} km in {m['date'][:4]}" for m in _rel)
         station_note = (
             f'<p class="stand" style="margin-top:16px">{name}\'s records begin '
-            f'in {v["record_from"]}, but the station moved {_moves}, so they are '
+            f'in {scope_from}, but the station moved {_moves}, so they are '
             f'not one continuous site.</p>')
     else:
         station_note = ""
@@ -778,7 +795,7 @@ for name, v in sorted(C.items()):
     mult_note = ("" if mult_ok else
                  f'<p class="cap"><strong>{name} is compared against 1991-2020, '
                  f'not 1961-1990.</strong> This thermometer starts in '
-                 f'{v["record_from"]}, so the earlier window every other city uses '
+                 f'{scope_from}, so the earlier window every other city uses '
                  f'would cover only its warmer final years here, and a figure '
                  f'against that would look like every other city\'s while meaning '
                  f'something weaker. 1991-2020 is complete for this station, so it '
@@ -829,7 +846,7 @@ for name, v in sorted(C.items()):
     thr_note = ("" if thr_years >= 30 else
                 f' That window is {thr_years} of the 30 years every other '
                 f'city\'s threshold uses, because this thermometer only starts '
-                f'in {v["record_from"]}, so the level is set from its warmer '
+                f'in {scope_from}, so the level is set from its warmer '
                 f'years and sits a little high. The count below is an '
                 f'undercount rather than an overcount.')
     method = (f'<p class="cap">Hot here means {th}&nbsp;&deg;C or above, a level '
