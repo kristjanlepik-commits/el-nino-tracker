@@ -27,15 +27,27 @@ SRC = ROOT / "notes"
 OUT = ROOT / "docs/notes"
 
 
-def lead_of(body):
-    """The standfirst for the index, taken from the piece itself.
+def lead_of(body, authored=None):
+    """The standfirst for the index.
 
-    Kristjan: a blog shows a lead, not only a title. Deriving it from the
-    first paragraph rather than adding a front-matter field, because a
-    hand-written summary is a second copy of the opening that can drift
-    from it, and this surface exists precisely so a human voice is not
-    paraphrased by anything.
+    Kristjan: a blog shows a lead, not only a title. I first derived it
+    from the first paragraph, on the argument that a hand-written summary
+    is a second copy of the opening that can drift from it.
+
+    VD's objection is better and I concede it: the first paragraph of the
+    first Note is the WONDERING, not the finding, so the index advertises
+    the least informative sentence in the piece it is selling. It is also
+    the paragraph carrying the ENSO-juxtaposition problem, so one string
+    ships that defect twice.
+
+    So an authored `lead:` line wins when there is one, and the first
+    paragraph is the fallback. The line is Kristjan's under D-093 like
+    every other word of a Note; this only gives it somewhere to live.
+    Drift is the price and it is the smaller one: a preview that
+    undersells the piece costs every reader who does not click.
     """
+    if authored:
+        return authored
     for para in re.split(r"\n\s*\n", body):
         para = para.strip()
         if para and not para.startswith(("!", ">", "#")):
@@ -53,8 +65,14 @@ def parse(path):
     if not m:
         raise SystemExit(f"{path}: no '# Title' on the first line.")
     title, rest = m.group(1).strip(), text[m.end():]
+    # An optional `lead: ...` line directly under the title, which the
+    # index previews instead of the opening paragraph.
+    lead = None
+    lm = re.match(r"\s*\nlead:\s*(.+)", rest)
+    if lm:
+        lead, rest = lm.group(1).strip(), rest[lm.end():]
     body, _, src = rest.partition("\n## Sources")
-    return title, body.strip(), src.strip()
+    return title, body.strip(), src.strip(), lead
 
 
 def inline(md):
@@ -87,7 +105,7 @@ def main(mint=None):
     for md in sorted(SRC.glob("*.md")):
         slug = md.stem
         d = OUT / slug
-        title, body, src = parse(md)
+        title, body, src, authored = parse(md)
 
         frozen = read_frozen_date(d)
         if frozen:
@@ -110,7 +128,7 @@ def main(mint=None):
         (d / "index.html").write_text(
             render_note(title, published_on, blocks(body), blocks(src)))
         notes.append({"slug": slug, "title": title,
-                      "published_on": published_on, "lead": lead_of(body)})
+                      "published_on": published_on, "lead": lead_of(body, authored)})
         print(f"  {slug}: {published_on}{' (minted)' if not frozen else ''}")
 
     if not notes:
