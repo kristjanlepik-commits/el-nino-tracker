@@ -36,6 +36,7 @@
    "expected_slots": 7,
    "due_slots": 6,
    "values_present": 7,
+   "present_may_exceed_due_because": "due_slots is computed from a conservative 3-day composite latency. When the product publishes sooner, present legitimately exceeds due. A validator asserting present <= due would fail this series for being correct.",
    "baseline_years": 20,
    "observability": {
     "current": 0.0448,

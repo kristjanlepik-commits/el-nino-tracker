@@ -197,6 +197,16 @@ def main():
             "expected_slots": expected,
             "due_slots": due,
             "values_present": len(cur_recs),
+            # Declared ON THE FIELD rather than left for a validator to
+            # trip over, following the crops pattern in
+            # research/spec_series_payload.md. Crops can never have a
+            # pending slot; floods has the mirror-image exception.
+            "present_may_exceed_due_because": (
+                "due_slots is computed from a conservative 3-day composite "
+                "latency. When the product publishes sooner, present "
+                "legitimately exceeds due. A validator asserting "
+                "present <= due would fail this series for being correct."
+            ),
             "baseline_years": len(yrs),
             "observability": {
                 "current": cur_obs,
