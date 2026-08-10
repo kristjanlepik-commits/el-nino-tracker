@@ -136,13 +136,15 @@ def _headline_for_snapshot(fetched: dict, headline: dict | None) -> dict:
         return {"error": f"headline not computed: {type(e).__name__}: {e}"}
 
 
-def current_snapshot(fetched: dict, headline: dict | None = None) -> dict:
+def current_snapshot(fetched: dict, headline: dict | None = None,
+                     freshness: dict | None = None) -> dict:
     """Capture the current state of inputs as a flat dict.
 
     `fetched` is the live (or seed-fallback) dict produced by
     fetch_all.fetch_all() with `_freshness` already popped off. It owns
     the per-source fields; sources.py only owns methodology constants
-    and target-season identifiers.
+    and target-season identifiers. Pass that popped `_freshness` back in
+    as the `freshness` argument; see the note on the stored key below.
 
     The snapshot key shape is preserved as `cpc_strength`, `iri`, `bom`,
     `ecmwf`, `physical_state` so the existing diff() keeps working. We
@@ -173,6 +175,24 @@ def current_snapshot(fetched: dict, headline: dict | None = None) -> dict:
         "nmme": fetched.get("nmme"),
         "bom": fetched["bom"],
         "physical_state": fetched["physical_state"],
+        # Per-source freshness, stored for the same reason as `nmme`
+        # above: a page rebuilt from this file cannot otherwise be
+        # rebuilt faithfully.
+        #
+        # Only run_brief.py's Monday run holds the live fetch result in
+        # memory. Every other publish path reads this file, so before
+        # this key existed scripts/publish_shell.py had nothing to pass
+        # and passed `{}`. That is not cosmetic: build_public_html gates
+        # the CWWA row on `freshness["era5_wwe"]`, not on the data, so
+        # an empty dict closes the gate over a value that is sitting in
+        # physical_state (519.21 on 2026-08-10). The result was that
+        # docs/index.html and docs/elnino/index.html permanently dropped
+        # the CWWA row and the source-freshness block, while the archive
+        # they link to carried both. The page a citation lands on was
+        # less complete than the page it cites.
+        #
+        # Found by VD's second-pass review, 2026-08-10. Do not drop.
+        "_freshness": dict(freshness or {}),
     })
 
 

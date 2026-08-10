@@ -5172,7 +5172,8 @@ def main():
             "NDJ 2026-27", offset=offset, nmme=fetched.get("nmme")),
         snapshot.load_bucket_history(before=S.BRIEF_DATE))
 
-    snap = snapshot.current_snapshot(fetched, headline=headline_smoothed)
+    snap = snapshot.current_snapshot(fetched, headline=headline_smoothed,
+                                     freshness=freshness)
     prev = snapshot.load_prior_snapshot(before=S.BRIEF_DATE)
     d = snapshot.diff(prev, snap)
     diff_md = snapshot.render_diff_markdown(d)
