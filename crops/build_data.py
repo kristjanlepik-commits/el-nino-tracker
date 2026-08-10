@@ -1182,9 +1182,21 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                 # Rank and `of` stay because a rank without its
                 # denominator is the defect this channel exists to
                 # avoid.
+                _rk = rank_of(v, h, worse_is)
                 inst[slug] = {
                     "value": round(v, 3),
-                    "rank": rank_of(v, h, worse_is), "of": len(h) + 1,
+                    "rank": _rk, "of": len(h) + 1,
+                    # Bound here for the same reason the country rows
+                    # bind it: a rank separated from its basis gets
+                    # reassembled by whoever renders it. Design was
+                    # composing "1st lowest of 26" in the template from
+                    # rank, of and worse_is, which is the composition
+                    # defect one field along, and they declined to ship
+                    # until this existed. Built by the SAME helper as
+                    # the country rows, so the two cannot drift.
+                    "statement": _rank_statement(
+                        _rk, len(h) + 1, latest.year,
+                        "low" if worse_is > 0 else "high"),
                 }
 
         # ...and then dropped again, deliberately. NOTHING READS IT.
