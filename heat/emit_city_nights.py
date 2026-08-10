@@ -408,7 +408,32 @@ def main() -> int:
         entry = {
             "country": v["country"], "station": v["station"],
             "source": {"who": v["source"], **LICENCE[v["country"]]},
+            # RAW STATION START. Kept because "when did this thermometer
+            # begin reporting" is a real question, and RENAMED IN MEANING by
+            # the note below because it is not the answer to "how far back
+            # can we see", which is what four live pages were using it for.
+            #
+            # Socials swept all 36 and found nine cities where a partial
+            # first year makes this one to two years earlier than the first
+            # usable year, and four pages publishing the overstated figure
+            # in prose directly above a chart whose axis contradicts it.
+            # Leipzig's page justifies its baseline window with "this
+            # thermometer starts in 1863" over an axis reading 1864.
+            #
+            # This is the same correction landing in one place and not its
+            # neighbour, for the fourth time: record_scope fixed, post_form
+            # not; post_form fixed, record_from not. So this field now says
+            # what it is not, rather than waiting to be read innocently.
             "record_from": v["record_from"], "record_to": v["record_to"],
+            "record_from_note":
+                "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial "
+                "first year appears here and is excluded from the ranked "
+                "series, so this is one to two years earlier than "
+                "record_scope.from_year in nine cities. ANY PROSE ABOUT HOW "
+                "FAR BACK THE RECORD GOES MUST USE record_scope.from_year: "
+                "it is the window the ranks are computed on and the one the "
+                "charts are drawn on. Use this field only to say when the "
+                "thermometer began reporting.",
             "nights_2026": n26,
             "counted_to": v["counted_to"],
             "last_observation": v["last_observation"],
