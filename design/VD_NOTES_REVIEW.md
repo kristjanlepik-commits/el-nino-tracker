@@ -126,9 +126,26 @@ as saturation climbs, which is the expiring-exception shape that has
 bitten this repo repeatedly. Render settled rungs as resolved and live
 rungs as the reading, and the layout follows the data upward on its own.
 
-Heat-content precondition is NOT met: +2.96 is still a single July
+~~Heat-content precondition is NOT met: +2.96 is still a single July
 print, next release early September, so it stays a dated statement
-rather than a standing component.
+rather than a standing component.~~
+
+**SUPERSEDED the same day by D-118.** Science confirmed the record:
++2.96 is rank 1 of 571 months, 1979-01 to 2026-07, previous high
+1997-10 at +2.56. So it takes hue under D-101 and ships as a STANDING
+component, not a dated statement, and the claim strengthens from "ahead
+of both analogs at the same month" to **above the highest value in the
+47-year record**, with roughly three months of seasonal build still
+ahead.
+
+The single-print caveat did not disappear, it moved: if the September
+release retreats, the hue leaves. VD put the retreat condition on the
+hue rather than beside it, which is better than either of us proposed
+and is the composition-follows-fields rule applied to a caveat.
+
+Struck rather than deleted, because the reasoning for the original call
+was sound on the evidence available and the thing that changed was the
+evidence.
 
 ## And a publish-order defect on my surface
 
