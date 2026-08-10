@@ -148,6 +148,17 @@ GENERATORS = [
 ]
 
 
+DATA_MUST_NOT_MOVE = ("data/events.json", "fires/data/current_week.json",
+                       "crops/data/stress_current.json",
+                       "docs/pacific-sst.json", "docs/pacific-sst.png")
+
+
+def snapshot_data_inputs() -> dict[str, bytes | None]:
+    """Bytes of every data file a publish must not touch, before it runs."""
+    return {rel: ((ROOT / rel).read_bytes() if (ROOT / rel).exists() else None)
+            for rel in DATA_MUST_NOT_MOVE}
+
+
 def snapshot_targets() -> dict[str, bytes | None]:
     """Current bytes of everything a publish may touch, including the
     per-country fire pages, which are discovered rather than listed."""
@@ -311,7 +322,7 @@ def check_declared_freshness(problems: list[str]) -> None:
                 f"Owner: {spec['owner']}.")
 
 
-def verify() -> list[str]:
+def verify(data_before: dict[str, bytes | None] | None = None) -> list[str]:
     """Every reason this publish should not be kept."""
     problems = []
     check_declared_freshness(problems)
@@ -407,12 +418,27 @@ def verify() -> list[str]:
     #    design/make_pacific_sst.py, which is deliberately outside the
     #    pipeline. If they move during a publish, someone wired that
     #    generator in.
-    for data_rel in ("data/events.json", "fires/data/current_week.json",
-                     "crops/data/stress_current.json",
-                     "docs/pacific-sst.json", "docs/pacific-sst.png"):
-        if git_changed(data_rel):
+    #    MEASURED AGAINST THE BYTES THIS RUN STARTED WITH, not against
+    #    git. The old version asked `git diff`, which reports any
+    #    uncommitted change to these files whatever produced it, so a
+    #    publish was rejected on 2026-08-10 because CRO happened to have
+    #    crops/data/stress_current.json open mid-fix. Nothing had run a
+    #    fetcher; the tree was simply dirty, as it usually is with nine
+    #    chats in it.
+    #
+    #    The message was confidently wrong, which is worse than a false
+    #    positive on its own: it named a cause ("a fetcher ran in a
+    #    publish path") that had not happened, and sent whoever read it
+    #    looking for a wiring bug. Same shape as push_retry naming a
+    #    conflict it had not checked for. The question is what THIS RUN
+    #    changed, so that is what it now compares.
+    for data_rel in DATA_MUST_NOT_MOVE:
+        if data_before is None:
+            continue
+        now = (ROOT / data_rel).read_bytes() if (ROOT / data_rel).exists() else None
+        if now != data_before.get(data_rel):
             problems.append(
-                f"{data_rel} changed during publish: a fetcher ran in a "
+                f"{data_rel} changed DURING this publish: a fetcher ran in a "
                 "publish path, which must never happen")
 
     # Country pages whose country has dropped out of the qualifying set.
@@ -500,6 +526,7 @@ def main() -> None:
         check_generators_clean()
 
     saved = snapshot_targets()
+    data_before = snapshot_data_inputs()
 
     steps = list(STEPS)
     # THE HEAT GATE MUST NOT BE ROUTABLE AROUND, which it was until now.
@@ -550,7 +577,7 @@ def main() -> None:
             raise SystemExit(1)
         print(f"  ran {name}")
 
-    problems = verify()
+    problems = verify(data_before)
     if problems:
         # Same rule for verification failures: if nothing is wrong with a
         # shell page, the shell still ships.
