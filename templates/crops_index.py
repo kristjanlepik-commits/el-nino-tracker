@@ -137,6 +137,127 @@ def _driver_note(e) -> str:
             'availability</span>')
 
 
+# Countries a reader comes looking for, shown every week whether or not
+# anything is happening in them. Kristjan, 2026-08-09: "some countries are
+# just always visible", the same arrangement Fires already uses.
+#
+# WHY THIS DOES NOT FIGHT CRO's GATE. The qualifying rule is rank 1 AND the
+# control holds, and it decides who gets SELECTED. A pinned country is not
+# selected; it is on the page because somebody went looking for it. So it
+# does not clear a selection bar, it only has to state its own figures
+# correctly, adjusted rank included.
+def _ord(n: int) -> str:
+    """1st, 2nd, 3rd. 11-13 take 'th', which the naive n%10 rule gets wrong."""
+    if 10 <= n % 100 <= 20:
+        return f"{n}th"
+    return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
+
+
+# ENGLAND IS PINNED AS A REGION, NOT THE UK AS A COUNTRY, and this is the
+# one entry that is not a country. CRO's ruling, and the reason is stronger
+# than the one I went in with.
+#
+# I proposed the UK aggregate showing its adjusted rank, on the argument
+# that the control had done its job and rank 2 was the honest figure. That
+# was the wrong objection. Every country figure on this channel is an
+# UNWEIGHTED mean over its regions, and the UK has four:
+#
+#     Scotland          +0.376
+#     Northern Ireland  +0.457
+#     Wales             +0.267
+#     England           -0.006
+#     national          +0.273   unweighted mean of the four
+#
+# England holds the overwhelming majority of UK cropland. So the national
+# number is not England slightly diluted; it is dominated by three regions
+# that are a small minority of the crop. The quantity being ranked is the
+# wrong quantity, which no adjusted rank repairs.
+#
+# England is also the thing a reader means by the British harvest, and it
+# holds the control at rank 1. The sound number and the surviving number
+# are the same number.
+PINNED = ["France", "Spain", "Germany", "Italy", "Hungary", "Austria"]
+PINNED_LABEL = {}
+# (place, region). Read from the region record, which carries its own rate,
+# control and series.
+PINNED_REGIONS = [("U.K. of Great Britain and Northern Ireland", "England")]
+
+
+def _pinned_row(p) -> str:
+    """One pinned country. Never a near-miss, never a warning."""
+    from templates.crops_country import slugify as _slug
+    name = PINNED_LABEL.get(p["place"], p["place"])
+    r, sv = p.get("rate") or {}, p.get("severity") or {}
+    bits = []
+    if sv.get("available") and sv.get("rank"):
+        bits.append(f"{_ord(sv['rank'])} most stressed of {sv['of']}")
+    if r.get("available") and r.get("rank"):
+        # THE ADJUSTED RANK, when the control says the raw one is inflated.
+        # Printing rank 1 here would publish the exact figure CRO's control
+        # exists to discount, on the one country most likely to be quoted.
+        ctl = r.get("_start_control") or {}
+        if ctl and not ctl.get("holds") and ctl.get("adjusted_rank"):
+            bits.append(f"{_ord(ctl['adjusted_rank'])} steepest fall of "
+                        f"{r['of']} once its high starting level is "
+                        f"accounted for")
+        else:
+            bits.append(f"{_ord(r['rank'])} steepest fall of {r['of']}")
+    # D-043: the calm case is drawn, not summarised, and it must not read as
+    # a near miss. An ordinary country says so in the same words every week.
+    if not bits:
+        bits.append("within its own normal range")
+    # LINKED ONLY IF THE PAGE EXISTS. crops/build_country_pages.py builds a
+    # page only for countries with a region at a record low, which a pinned
+    # country by definition may not have, so six of the seven links 404ed
+    # and the dead-link guard caught it before this shipped.
+    #
+    # Not worked around by pointing somewhere else. The country page is
+    # built around record-low regions and would render empty for these; VD's
+    # review already says every region should get a row rather than only the
+    # record lows, and that change is what earns these countries a page.
+    # Until then the name is text, which is honest about there being nothing
+    # further to read.
+    has_page = any(r.get("rank") == 1 for r in (p.get("regions") or []))
+    title = (f'<a class="cglink" href="{h(_slug(p["place"]))}/">{h(name)}</a>'
+             if has_page else h(name))
+    return (f'<p class="cghead">{title}</p>'
+            f'<p class="pinsub">{h(", ".join(bits))}.'
+            + (f' {h(str(p["crop_units"]))} crop regions.'
+               if p.get("crop_units") else "") + '</p>')
+
+
+def _pinned_block(places) -> str:
+    by = {p["place"]: p for p in places}
+    rows, absent = [], []
+    for country, region in PINNED_REGIONS:
+        p = by.get(country)
+        rec = next((r for r in (p.get("regions") or []) if r["region"] == region),
+                   None) if p else None
+        if rec and rec.get("rate"):
+            # crop_units is the country's; a region is one unit of it, and
+            # printing the country's 4 next to a region name would say
+            # England has four crop regions.
+            rows.append(_pinned_row(dict(rec, place=region, crop_units=None)))
+        else:
+            absent.append(region)
+    rows += [_pinned_row(by[c]) for c in PINNED
+             if c in by and by[c].get("publishable")]
+    absent += [c for c in PINNED if c not in by or not by[c].get("publishable")]
+    if not rows:
+        return ""
+    note = ""
+    if absent:
+        # Named, not dropped. A pinned country that silently vanishes is the
+        # absence-as-zero shape on the one list a reader checks by name.
+        note = (f'<p class="secsub">Not measurable this dekad: '
+                f'{h(", ".join(PINNED_LABEL.get(c, c) for c in absent))}.</p>')
+    return (f'<p class="seclab">Countries readers ask about</p>'
+            f'<p class="secsub">Shown every week, whether or not anything '
+            f'is happening in them. Each is measured against its own '
+            f'record and never against the others.</p>'
+            f'{"".join(rows)}{note}')
+
+
 def _country_group(country, regions, cb=None, units=None) -> str:
     """One country, with every region of it that is at a record low.
 
@@ -321,10 +442,23 @@ def _freshness(doc) -> str:
     if not dks:
         return ""
     newest, oldest = dks[-1], dks[0]
+    #
+    # A ZERO IS A MEASUREMENT AND MUST BE STATED. This clause used to vanish
+    # when the count reached zero, and CRO caught it on the live page: a
+    # reader who saw "1 place sits further back" last dekad and sees nothing
+    # this dekad cannot tell whether the gap closed or whether we stopped
+    # looking. The disclosure disappearing is indistinguishable from the
+    # disclosure being dropped, and only one of those is good news.
+    #
+    # Requirement is CRO's, wording is mine, per D-030. The zero now says
+    # more than the non-zero did, because full coverage is the fact a reader
+    # most wants and the version that rendered nothing was throwing it away.
+    n_all = len(doc.get("places", []))
     n_old = sum(1 for p in doc.get("places", []) if p.get("dekad") != newest)
     behind = (f" {n_old} place{'s' if n_old != 1 else ''} sit"
               f"{'' if n_old != 1 else 's'} further back, having gone "
-              f"out of season and stopped reporting." if n_old else "")
+              f"out of season and stopped reporting." if n_old else
+              f" All {n_all} places are reporting at this dekad.")
     return (f'<p class="fresh">Newest observation: the ten days to '
             f'{h(_dekad_end(newest))}.{behind} The source publishes every '
             f'ten days and has not published since, so this is the most '
@@ -779,6 +913,7 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         for c in ordered[:top_n])
     rest = max(0, len(ordered) - top_n)
     grouped_html = f"""
+      {_pinned_block(places)}
       <p class="seclab">Where the record lows are</p>
       <p class="secsub">Grouped by country, because a single region at a
         record low is common and several in one country is not. Countries
