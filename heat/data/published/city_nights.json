@@ -172,10 +172,8 @@
   "all_elevated_note": "NOT every city is elevated: Helsinki sits at 51.8, below the 85th percentile of its own record. A page must not say the whole set is elevated.",
   "banned_word": "ordinary",
   "banned_word_note": "No city ABOVE the 85th percentile may be called ordinary. Where all_elevated_on_days is false the lowest city may legitimately be described as having an unremarkable summer. STATE IT AND STOP: do not add a clause explaining what naming it proves. Editor's rule 2026-08-08, and the reason is that the exception persuades by being there, and arguing that it persuades converts it back into an argument.",
-  "band": {
-   "south_edge_lat": 38,
-   "north_edge_lat": 51
-  },
+  "band": null,
+  "band_removed_note": "A fixed latitude band was a finding about the 24-city set. It is not regenerated, because the claim itself is one we would not make now: the set spans 36.7N to 60.2N and no band describes it.",
   "least_extreme_on_days": [
    {
     "city": "Helsinki",

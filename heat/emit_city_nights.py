@@ -1075,7 +1075,27 @@ def main() -> int:
                 "naming it proves. Editor's rule 2026-08-08, and the reason "
                 "is that the exception persuades by being there, and arguing "
                 "that it persuades converts it back into an argument.",
-            "band": {"south_edge_lat": 38, "north_edge_lat": 51},
+            # `band` REMOVED, product ratified 2026-08-10. It held a fixed
+            # 38N to 51N, a v1.2 finding about a 24-city set, and by 36 it
+            # excluded ten cities including Helsinki at 60.2N and Stockholm
+            # at 59.3N. Nothing rendered it, so it was never a live defect.
+            #
+            # DROPPED RATHER THAN REGENERATED, and that is the whole point:
+            # regenerating it would have preserved a claim we would not make
+            # today. A latitude band was an answer about a set that no longer
+            # exists, and the honest move is to stop asserting it rather than
+            # to keep it arithmetically current.
+            #
+            # This is the counterpart to the day's other lesson. Most stale
+            # fields want assembling from the data. Some want deleting, and
+            # telling them apart is asking whether we would write the claim
+            # fresh today.
+            "band": None,
+            "band_removed_note":
+                "A fixed latitude band was a finding about the 24-city set. "
+                "It is not regenerated, because the claim itself is one we "
+                "would not make now: the set spans 36.7N to 60.2N and no "
+                "band describes it.",
             "least_extreme_on_days": ldays,
             "mechanism": None,
             "mechanism_note":
