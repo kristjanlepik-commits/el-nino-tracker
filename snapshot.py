@@ -208,7 +208,12 @@ def diff(prev: dict, curr: dict) -> dict:
         out["offset_curr"] = curr.get("roni_to_oni_offset")
 
     # Per-source issuance + summary
-    for src in ["cpc_strength", "iri", "ecmwf", "bom"]:
+    # "nmme" added 2026-08-10. It became a headline input in v1.8 but was
+    # never in this list, so on 08-10 the diff reported only a minor ECMWF
+    # re-issue while the August NMME init drove a 14-point move in the
+    # >3.0 bucket. The largest change of the week was absent from "what
+    # changed". A source that moves the headline must appear here.
+    for src in ["cpc_strength", "iri", "ecmwf", "bom", "nmme"]:
         prev_issued = _safe_get(prev, src, "issued")
         curr_issued = _safe_get(curr, src, "issued")
         new_release = (prev_issued != curr_issued)
@@ -238,6 +243,21 @@ def diff(prev: dict, curr: dict) -> dict:
                     entry["changes"].append(
                         f"DJF (LN, N, EN): {tuple(p_djf)} -> {tuple(c_djf)}"
                     )
+            elif src == "nmme":
+                # Surface the consensus move per threshold, which is what
+                # actually drives the headline, rather than only the init date.
+                p_fr = _safe_get(prev, "nmme", "ensemble_frac_above", default={}) or {}
+                c_fr = _safe_get(curr, "nmme", "ensemble_frac_above", default={}) or {}
+                if not p_fr and c_fr:
+                    entry["changes"].append(
+                        "first init stored in a snapshot; no prior to compare")
+                for thr in sorted(c_fr, key=lambda t: float(t)):
+                    pv, cv = p_fr.get(thr), c_fr.get(thr)
+                    if pv is None or cv is None or round(pv) == round(cv):
+                        continue
+                    entry["changes"].append(
+                        f"consensus above +{thr}: {pv:.0f}% -> {cv:.0f}% "
+                        f"(Delta {cv - pv:+.0f})")
         out["source_changes"].append(entry)
 
     # Physical state numerical deltas
@@ -315,8 +335,15 @@ def render_diff_markdown(d: dict) -> str:
         lines.append("**New agency releases since last issue:**")
         lines.append("")
         for s in new_releases:
-            lines.append(f"- **{s['source']}**: prior issued {s['prev_issued']}, "
-                         f"now issued {s['curr_issued']}.")
+            if s["prev_issued"] is None:
+                # A source newly stored in snapshots, not a re-release.
+                # "prior issued None" reads like a defect on a published page.
+                lines.append(f"- **{s['source']}**: now issued "
+                             f"{s['curr_issued']} (first issue with this "
+                             f"source recorded in the snapshot).")
+            else:
+                lines.append(f"- **{s['source']}**: prior issued {s['prev_issued']}, "
+                             f"now issued {s['curr_issued']}.")
             for c in s["changes"]:
                 lines.append(f"    - {c}")
         lines.append("")
