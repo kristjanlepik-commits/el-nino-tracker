@@ -91,13 +91,36 @@ box, and over all cells rather than only cells with fire. Conditioning on
 where fires are would make the covariate endogenous in the same way
 ValidCounts is.
 
-WHAT THE BINDING CONSTRAINT ACTUALLY IS, measured rather than assumed. Not
-bandwidth and not CPU: CDS queue time. A single mid-size country-year sat
-queued for over eleven minutes with the TCP connection established to
-ECMWF and 0.6 seconds of CPU consumed, and cdsapi does not create its
-output file until the result is ready, so a queued request and a hung one
-look identical from the filesystem. Request SIZE is therefore the only
-lever, which is why wide countries are split into half-year chunks.
+WHAT THE BINDING CONSTRAINT ACTUALLY IS. Read this before adding workers.
+
+I got this wrong once and the wrong version is instructive, so both are
+here. First diagnosis: CDS queue time. A mid-size country-year sat with the
+TCP connection established to ECMWF and 0.6 seconds of CPU used, and cdsapi
+creates no output file until a result is ready, so a queued request and a
+hung one are identical from the filesystem. All true, and not the cause.
+
+THE ACTUAL CAUSE IS CONCURRENCY AGAINST A SHARED ACCOUNT. Turning on the
+client's logging showed requests going "accepted" then "rejected" within
+ten seconds, including Botswana, which is one UTC hour over a small box and
+had succeeded minutes earlier. Size was never the problem. The timeline is
+unambiguous: sequential requests at 21:55 to 22:03 all succeeded; every
+request after 22:10, when four workers started, was rejected; and a single
+sequential request afterwards was accepted and stayed queued rather than
+being rejected at all.
+
+The CDS account is SHARED WITH THE OTHER CHATS. It carried 417 jobs on
+2026-08-10, 184 of them ERA5 single-levels from other work, and the most
+recent visible ones show the same accepted-then-rejected burst at 19:51,
+about three hours before mine. So another chat hit this exact wall first.
+
+CDS rejects rather than queues when a user exceeds its concurrent-request
+allowance, and the allowance is shared, so the safe worker count is not a
+property of this script. It is whatever the other chats are not using.
+Default to 1. Raising it is a coordination question, not a tuning one, and
+"it worked yesterday" is not evidence it is free today.
+
+This is the FIRMS quota problem again on a different service: a shared
+resource with no local view of who else is spending it.
 
 RESTRICTING TO THE FIRE SEASON WAS TRIED AND DOES NOT HELP. It should have
 been the obvious saving, since the regression discards any week below the
@@ -332,12 +355,15 @@ def main() -> int:
     parser.add_argument("--years", nargs="*", help="restrict to these years")
     parser.add_argument("--plan", action="store_true",
                         help="print the plan and exit without fetching")
-    parser.add_argument("--workers", type=int, default=4,
-                        help="concurrent CDS requests. The bottleneck is "
-                             "queue wait, not bandwidth, so this is close to "
-                             "a linear speedup. Kept low on purpose: CDS caps "
-                             "concurrent requests per user and being throttled "
-                             "is slower than not asking.")
+    parser.add_argument("--workers", type=int, default=1,
+                        help="concurrent CDS requests. DEFAULT 1 FOR A "
+                             "REASON: the CDS account is shared with the "
+                             "other chats, CDS REJECTS rather than queues "
+                             "when the shared concurrent allowance is "
+                             "exceeded, and four workers had a 100 percent "
+                             "rejection rate while one succeeds. Raising "
+                             "this is a coordination question, not a tuning "
+                             "one. Check .running-jobs first.")
     args = parser.parse_args()
 
     # WITHOUT THIS, quiet=False DOES NOTHING. cdsapi logs at INFO through the
