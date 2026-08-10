@@ -38,7 +38,7 @@ sys.path.insert(0, str(ROOT))
 import tokens as T                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
-                       site_masthead, chart_wind, chart_prob_history,
+                       site_masthead, chart_wind, chart_prob_history, chart_heat,
                        _finding_line, _issued_with_age)
 
 MON = ["January", "February", "March", "April", "May", "June", "July",
@@ -147,7 +147,12 @@ def render(fetched, meta, brief_date, root_prefix="../",
     headline = meta.get("headline_buckets") or {}
     di = brief_date.isoformat()
 
-    heat = _heat_rows(phys)
+    # The curve when the series is there, the bars only until it is. The
+    # series landed in the 08-10 snapshot (science, 35034e5), so the curve
+    # renders today and the bar fallback becomes dead weight the moment
+    # every issue carries it.
+    heat_curve = chart_heat(phys)
+    heat = heat_curve or _heat_rows(phys)
     wind = chart_wind(phys)
     hist = chart_prob_history(ROOT / "docs/briefs")
     n34 = phys.get("nino34_weekly_traditional")
@@ -161,7 +166,7 @@ def render(fetched, meta, brief_date, root_prefix="../",
             'of +2.56, with roughly three months of seasonal build still '
             'ahead.</p>'
             '<div class="tag">Ocean heat, 0 to 300 m &middot; equatorial '
-            'Pacific &middot; °C anomaly, July of each event year</div>'
+            'Pacific &middot; °C anomaly through each development year</div>'
             + heat)
     if n34 is not None:
         observed += (f'<p class="aside">Niño 3.4 is at {n34:+.1f}&nbsp;°C this '

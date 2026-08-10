@@ -3154,6 +3154,86 @@ def chart_wind(phys):
         f'{pairs[-1][1]:.0f}</text>{labels}{ticks}</svg>')
 
 
+def chart_heat(phys):
+    """Ocean heat through each development year, 2026 against the analogs.
+
+    The object that replaces four bars. Science shipped the 571-month
+    series into the 08-10 snapshot so this renders from frozen state, not
+    from a cache and not from a refetch.
+
+    DEVELOPMENT YEAR IS JAN THROUGH FEB OF THE FOLLOWING YEAR, 14 months.
+    A calendar slice cuts 1997 off at December and hides its turn, which
+    is half of what makes the curve worth drawing.
+
+    THE ASYMMETRY MUST BE VISIBLE and it is the one place this object can
+    mislead. 2026 is seven points against two complete fourteens, and a
+    line that stops because the DATA stops looks exactly like a line that
+    stops because the VALUE fell. It would mislead in the alarming
+    direction, which is the direction we owe the most scepticism. So the
+    months 2026 has not reached are shaded and named, and its marker is an
+    open circle where the analogs' peaks are filled: theirs say "this is
+    the peak", ours says "this is as far as we can see".
+    """
+    ser = phys.get("heat_content_series") or {}
+    if len(ser) < 100:
+        return ""
+
+    def dev(y0):
+        out = []
+        for i in range(14):
+            y, m = (y0, i + 1) if i < 12 else (y0 + 1, i - 11)
+            v = ser.get(f"{y}-{m:02d}")
+            if v is None:
+                break
+            out.append((i, v))
+        return out
+
+    cur = dev(2026)
+    peers = [(1997, "4 3", 1.5), (2015, "", 1.3), (2023, "1 3", 1.2)]
+    if len(cur) < 3:
+        return ""
+    n, lo, hi = 13, -0.6, 3.2
+    band_x = _ch_pt(cur[-1][0], 0, n, lo, hi)[0]
+    band = (f'<rect x="{band_x:.1f}" y="{_CH_T}" width="{_CH_W-_CH_R-band_x:.1f}" '
+            f'height="{_CH_H-_CH_T-_CH_B}" fill="var(--paper-sunk)" opacity=".5"/>'
+            f'<text x="{(band_x+_CH_W-_CH_R)/2:.1f}" y="{_CH_H-_CH_B-6}" '
+            f'text-anchor="middle" class="chx">2026 has not reached these months</text>')
+    lines, marks = "", ""
+    for y, dash, wid in peers:
+        d = dev(y)
+        if len(d) < 12:
+            continue
+        lines += (f'<path d="{_ch_path(d, n, lo, hi)}" fill="none" '
+                  f'stroke="var(--ink-faint)" stroke-width="{wid}" '
+                  f'stroke-dasharray="{dash}" opacity=".9"/>')
+        pk = max(d, key=lambda t: t[1])
+        px, py = _ch_pt(*pk, n, lo, hi)
+        marks += (f'<circle cx="{px:.1f}" cy="{py:.1f}" r="3.2" '
+                  f'fill="var(--ink-faint)"/>'
+                  f'<text x="{px:.1f}" y="{py-8:.1f}" text-anchor="middle" '
+                  f'class="chx">{y} peak {pk[1]:+.2f}</text>')
+    lx, ly = _ch_pt(*cur[-1], n, lo, hi)
+    M = ["Jan", "", "Mar", "", "May", "", "Jul", "", "Sep", "", "Nov", "", "Jan", ""]
+    ticks = "".join(
+        f'<text x="{_ch_pt(i,lo,n,lo,hi)[0]:.1f}" y="{_CH_H-10}" '
+        f'text-anchor="middle" class="chx">{lab}</text>'
+        for i, lab in enumerate(M) if lab)
+    return (
+        f'<svg viewBox="0 0 {_CH_W} {_CH_H}" width="100%" style="height:auto" '
+        f'role="img" aria-label="Ocean heat content 0 to 300 m through each '
+        f'development year. 2026 reaches +{cur[-1][1]:.2f} in July, above 1997 '
+        f'peaking at +2.56 in October and 2015 at +1.97 in August. 2026 has '
+        f'{len(cur)} months of observation against fourteen for the analogs, and '
+        f'the months it has not reached are shaded.">'
+        f'{band}{_ch_grid([0,1,2,3], n, lo, hi, "{:+g}")}{lines}{marks}'
+        f'<path d="{_ch_path(cur, n, lo, hi)}" fill="none" stroke="var(--nino)" '
+        f'stroke-width="2.6"/>'
+        f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="4.5" fill="var(--paper)" '
+        f'stroke="var(--nino)" stroke-width="2.2"/>'
+        f'<text x="{lx+9:.1f}" y="{ly+4:.1f}" class="chnow">2026 &middot; '
+        f'{cur[-1][1]:+.2f}, July</text>{ticks}</svg>')
+
+
 def chart_prob_history(briefs_dir):
     """Every published probability, every issue. Built from the frozen
     archives, so each point is a figure we published rather than one
