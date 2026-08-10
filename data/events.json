@@ -1,9 +1,16 @@
 {
   "degraded": {
     "days_used": 5,
-    "days_in_window": 6,
+    "days_in_window": 7,
+    "days_due": 6,
     "excluded": [
       "2026-08-03"
+    ],
+    "excluded_incomplete_archive": [
+      "2026-08-03"
+    ],
+    "excluded_for_comparability": [
+      "08-04"
     ]
   },
   "_readme": [

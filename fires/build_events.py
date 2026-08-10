@@ -667,9 +667,34 @@ def main():
             if r["hist"]:
                 r["mean"] = round(sum(r["hist"].values())
                                   / len(r["hist"]), 1)
+        # THE DENOMINATOR COMES FROM THE DECLARATION, NOT FROM THE DATA.
+        #
+        # This read len(day_totals), and day_totals is accumulated from
+        # r["daily"], so a day absent from the archive never creates a
+        # key and numerator and denominator fell together. It happened to
+        # read 6 today only because the comparability exclusion removed
+        # exactly one key. Product caught it, and it is the same failure
+        # named forty lines above as "the exact failure the slot counts
+        # exist to prevent, arriving inside the fix for it". It arrived
+        # once more, in the sentence that summarises the work.
+        #
+        # A NEW SHAPE, worth naming: the spec's case is a constraint
+        # emitted for the WHOLE payload being invisible to a page
+        # rendering ONE ROW. This is the inverse. A constraint emitted
+        # PER ROW was invisible to the sentence summarising the WHOLE.
+        #
+        # All four states, so the page can add up. A reader was told
+        # "5 of 6 days" and "seven whole UTC days" on one page, and the
+        # seventh day was unaccounted for anywhere.
+        sample = next(iter(detail.values()), {})
+        expected = sample.get("daily_expected", window_days)
+        comparability = sorted(defective_md)
         degraded = {"days_used": len(live_days),
-                    "days_in_window": len(day_totals),
-                    "excluded": dead}
+                    "days_in_window": expected,
+                    "days_due": expected - len(comparability),
+                    "excluded": dead,
+                    "excluded_incomplete_archive": dead,
+                    "excluded_for_comparability": comparability}
         # rows were built from the pre-degradation numbers, so rebuild
         rows = rebuild_rows(detail, end)
 

@@ -37,6 +37,17 @@ TAG_TEXT = {
 }
 
 
+def _pretty_md(md):
+    """"08-04" into "4 August", so the note reads as prose."""
+    MON = ["January", "February", "March", "April", "May", "June", "July",
+           "August", "September", "October", "November", "December"]
+    try:
+        m, d = md.split("-")
+        return f"{int(d)} {MON[int(m) - 1]}"
+    except (ValueError, IndexError):
+        return md
+
+
 def _tag(e):
     """The attribution chip, or nothing at all.
 
@@ -278,12 +289,30 @@ def build(events_doc, font_prefix="../fonts/"):
             parts.append(f"{int(dd)} {MON[int(m) - 1]}")
         days = (" and ".join(parts) if len(parts) < 3
                 else ", ".join(parts[:-1]) + " and " + parts[-1])
-        deg_note = (
-            f'<p class="degnote">This week covers {deg["days_used"]} of '
-            f'{deg["days_in_window"]} days. The NASA archive is incomplete '
-            f'for {days}, so those days are excluded from this week\'s '
-            f'counts and from every baseline they are measured against. '
-            f'The comparison is like-for-like; it is shorter.</p>')
+        # EVERY DAY OF THE WINDOW IS ACCOUNTED FOR, or the sentence
+        # cannot be checked.
+        #
+        # This said "5 of 6 days" on a page that also says "seven whole
+        # UTC days", and the seventh appeared nowhere. Two exclusions
+        # with different reasons were being reported as one number, so a
+        # reader could not reconcile the page with itself and the Method
+        # section was the only part telling the truth. Product's catch.
+        comp = deg.get("excluded_for_comparability") or []
+        parts = [f'This week covers {deg["days_used"]} of '
+                 f'{deg["days_in_window"]} days.']
+        if days:
+            parts.append(f'The NASA archive is incomplete for {days}, so '
+                         f'those days are excluded from this week\'s counts '
+                         f'and from every baseline they are measured '
+                         f'against.')
+        if comp:
+            when = ", ".join(_pretty_md(m) for m in comp)
+            parts.append(f'A further day, {when}, is set aside because the '
+                         f'archive is defective on that date in an earlier '
+                         f'year, and both sides of the comparison must cover '
+                         f'the same days.')
+        parts.append('The comparison is like-for-like; it is shorter.')
+        deg_note = f'<p class="degnote">{" ".join(parts)}</p>' 
     house_masthead = site_masthead("../", active="fire")
     return f"""<!doctype html>
 <html lang="en">
