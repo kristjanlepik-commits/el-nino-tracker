@@ -95,3 +95,46 @@ introduction. The chart-as-preview idea waits until the third Note.
 VD wants the Option D chart pattern, full record as bars, current year
 in accent, previous best as a dashed reference, to become the
 channel-wide pattern rather than a Notes one. Worth taking up with heat.
+
+---
+
+# Unrelated, and parked here only because it would otherwise be lost
+
+## The ENSO ladder reorder: science corrected their own evidence
+
+2026-08-10. Science had told me probabilities were static, which was the
+argument for leading with observations. **They withdrew it.** This week
+moved harder than any since June, on a real August NMME init:
+
+    issue        sup   >2.5   >3.0   >3.5   SST   CWWA
+    2026-08-03    98     92     80     55   2.3      -
+    2026-08-10   100     98     94     70   2.6    519
+
+Mean absolute weekly move since 2026-06-15: super 0.62, >2.5 2.25,
+>3.0 3.50, >3.5 5.60.
+
+**The ladder is not static, it is saturating from the bottom up, and
+volatility is now monotonic with height.** The observations-lead
+argument survives on its own merits, but a layout that de-emphasises
+the probability block as a unit would bury the most alive figure the
+site publishes, currently 70 per cent for a peak beyond +3.5 C.
+
+**Design against the field, never against which rung is live.**
+Science emits `state` (settled / live) and `saturated`. Hard-coding
+"the top rung is the live one" is true today and will stop being true
+as saturation climbs, which is the expiring-exception shape that has
+bitten this repo repeatedly. Render settled rungs as resolved and live
+rungs as the reading, and the layout follows the data upward on its own.
+
+Heat-content precondition is NOT met: +2.96 is still a single July
+print, next release early September, so it stays a dated statement
+rather than a standing component.
+
+## And a publish-order defect on my surface
+
+`/elnino/` served the previous issue for about twenty minutes after the
+2026-08-10 publish, because the channel shell regenerates after
+science's commit rather than with it. Kristjan found it by opening the
+site. Nothing in the publish path noticed, which makes it the same
+class as the front-page freshness guard (D-078) one surface along: the
+channel front door can drift out of a publish.
