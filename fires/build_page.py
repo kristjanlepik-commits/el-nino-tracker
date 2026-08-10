@@ -27,6 +27,10 @@ from run_brief import (ANALYTICS_SNIPPET, PAGES_BASE_URL,  # noqa: E402
 # analytics tag. Import it rather than pasting a duplicate, so there is
 # one source of truth to disable or rotate.
 EVENTS = os.path.join(REPO, "data", "events.json")
+# The baseline DECLARATION lives in the channel payload rather than
+# in events.json, which is why this page had been asserting the
+# window in prose instead of rendering it.
+WEEK = os.path.join(REPO, "fires", "data", "current_week.json")
 OUT = os.path.join(REPO, "docs", "fires", "index.html")
 
 TAG_TEXT = {
@@ -134,7 +138,7 @@ def _check_prose_assumptions():
                 f"then update _PROSE_ASSUMES.")
 
 
-def build(events_doc, font_prefix="../fonts/"):
+def build(events_doc, font_prefix="../fonts/", baseline=None):
     ev = events_doc["events"]
     window = ev[0]["source"] if ev else ""
     # The headline counted every country on the page and asserted all of
@@ -240,7 +244,7 @@ def build(events_doc, font_prefix="../fonts/"):
                   'stands out from its own year-to-year spread. For the '
                   'countries above, at least two agree. For these, only the '
                   'first does. That does not make them quiet, and several '
-                  'are having one of their heaviest weeks since 2012; it '
+                  'are having one of their heaviest weeks on this record; it '
                   'means the evidence is thinner, so they are listed apart '
                   'rather than ranked among the others.</p>')
     # Pinned countries, previously rendered in the same list as the
@@ -463,7 +467,7 @@ h1 {{
   <h1>{headline}</h1>
   {deg_note}
   <p class="standfirst">Every figure below compares a country only with
-  itself, against the same calendar week in each year since 2012. That
+  itself, {_baseline_phrase(baseline or {})}. That
   is what separates an unusual week from a merely busy one.</p>
 
   <p class="sectionlabel">Against their own record</p>
@@ -502,9 +506,52 @@ h1 {{
 """
 
 
+def _baseline_phrase(baseline):
+    """The comparison window, from the payload's own declaration.
+
+    Fires found this reading "since 2012" while the baseline holds 13
+    years, 2012 to 2025 with 2022 missing from the archive. The standfirst
+    overstated the record by a year, and every row claim inherited it:
+    "second-heaviest fire week since 2012" is a rank computed over 13
+    years attributed to a 14-year span. Where 2022 would have outranked
+    the current week, that is wrong rather than imprecise, and it is
+    exactly the sentence a reader lifts and quotes alone (D-051).
+
+    RENDERED FROM THE DECLARATION RATHER THAN BY CORRECTING THE YEAR, and
+    fires' reason for that is the better half of the report. The payload
+    carries `n_varies_by_country`, false this week and present because it
+    can be true. The moment it is, one global sentence is right for some
+    countries and wrong for others with nothing on the page to separate
+    them. Editing 2012 to 2013 is correct only until the next archive gap,
+    and the next gap will not announce itself.
+    """
+    n = baseline.get("n")
+    years = [int(y) for y in (baseline.get("years") or [])]
+    if not n or not years:
+        return "against the same calendar week in each earlier year"
+    lo, hi = min(years), max(years)
+    missing = sorted(set(range(lo, hi + 1)) - set(years))
+    phrase = f"against the same calendar week in each of {n} earlier years"
+    if baseline.get("n_varies_by_country"):
+        # A single sentence cannot be true for every row any more. Say the
+        # range and let each row carry its own count.
+        r = baseline.get("n_range") or [n, n]
+        return (f"against the same calendar week in earlier years, "
+                f"{r[0]} to {r[1]} of them depending on the country")
+    if missing:
+        gap = ", ".join(str(y) for y in missing)
+        return (f"{phrase}, {lo} to {hi}, with {gap} missing from the "
+                f"archive")
+    return f"{phrase}, {lo} to {hi}"
+
+
 def main():
     doc = json.load(open(EVENTS))
-    html = build(doc)
+    try:
+        baseline = json.load(open(WEEK)).get("baseline") or {}
+    except (OSError, ValueError):
+        baseline = {}
+    html = build(doc, baseline=baseline)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w") as f:
         f.write(html)
