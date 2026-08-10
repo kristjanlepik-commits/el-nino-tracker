@@ -27,6 +27,24 @@ SRC = ROOT / "notes"
 OUT = ROOT / "docs/notes"
 
 
+def lead_of(body):
+    """The standfirst for the index, taken from the piece itself.
+
+    Kristjan: a blog shows a lead, not only a title. Deriving it from the
+    first paragraph rather than adding a front-matter field, because a
+    hand-written summary is a second copy of the opening that can drift
+    from it, and this surface exists precisely so a human voice is not
+    paraphrased by anything.
+    """
+    for para in re.split(r"\n\s*\n", body):
+        para = para.strip()
+        if para and not para.startswith(("!", ">", "#")):
+            plain = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", para)
+            plain = re.sub(r"[*_]", "", plain).replace("\n", " ")
+            return re.sub(r"\s+", " ", plain).strip()
+    return ""
+
+
 def parse(path):
     """`# Title`, then body. Markdown kept deliberately small: bold, italic,
     links, images, blockquote-as-pull, and a `## Sources` tail."""
@@ -92,7 +110,7 @@ def main(mint=None):
         (d / "index.html").write_text(
             render_note(title, published_on, blocks(body), blocks(src)))
         notes.append({"slug": slug, "title": title,
-                      "published_on": published_on})
+                      "published_on": published_on, "lead": lead_of(body)})
         print(f"  {slug}: {published_on}{' (minted)' if not frozen else ''}")
 
     if not notes:

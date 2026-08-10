@@ -5,8 +5,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How bad is it? | The Long Swell</title>
 <style>
-:root { color-scheme: light dark; }
-    --paper: #F1F0EC;
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../fonts/plexmono-600.woff2") format("woff2");
+}
+:root { color-scheme: light dark;     --paper: #F1F0EC;
     --paper-sunk: #E7E6DF;
     --ink: #1A1A18;
     --ink-soft: #3A3A36;
@@ -29,8 +77,8 @@
     --rule-20: #C6C5C2;
     --land: #D9D8D0;
     --land-line: #C6C5C2;
-    --shell: 1180px;
-    --paper: #1A1A18;
+    --shell: 1180px; }
+@media (prefers-color-scheme: dark) { :root {     --paper: #1A1A18;
     --paper-sunk: #252521;
     --ink: #EDECE6;
     --ink-soft: #B4B3AB;
@@ -53,7 +101,7 @@
     --rule-45: #6A6A64;
     --rule-20: #333330;
     --land: #2E2E2A;
-    --land-line: #333330;
+    --land-line: #333330; } }
 * { box-sizing: border-box; }
 body { margin:0; background:var(--paper); color:var(--ink-soft);
   font-family:"Spectral",Georgia,serif; font-size:18px; line-height:1.68;
@@ -156,6 +204,8 @@ h1 { font-family:"Spectral",Georgia,serif; font-weight:400;
 .idx a { font-size:21px; color:var(--ink); text-decoration:none;
   border-bottom:1px solid var(--rule); }
 .idx a:hover { border-bottom-color:var(--ink); }
+.idx .lead { margin:10px 0 0; max-width:62ch; font-size:17px;
+  line-height:1.6; color:var(--ink-soft); text-wrap:pretty; }
 .idx .when { display:block; font-family:"IBM Plex Mono",monospace;
   font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
   color:var(--ink-faint); margin-top:7px; }

@@ -74,8 +74,9 @@ def read_frozen_date(out_dir: Path) -> str | None:
 
 
 CSS = f"""
-:root {{ color-scheme: light dark; }}
-{{VARS}}
+{{FONTS}}
+:root {{ color-scheme: light dark; {{VARS_LIGHT}} }}
+@media (prefers-color-scheme: dark) {{ :root {{ {{VARS_DARK}} }} }}
 * {{ box-sizing: border-box; }}
 body {{ margin:0; background:var(--paper); color:var(--ink-soft);
   font-family:"{T.FONT_PROSE}",Georgia,serif; font-size:18px; line-height:1.68;
@@ -118,6 +119,8 @@ h1 {{ font-family:"{T.FONT_PROSE}",Georgia,serif; font-weight:400;
 .idx a {{ font-size:21px; color:var(--ink); text-decoration:none;
   border-bottom:1px solid var(--rule); }}
 .idx a:hover {{ border-bottom-color:var(--ink); }}
+.idx .lead {{ margin:10px 0 0; max-width:62ch; font-size:17px;
+  line-height:1.6; color:var(--ink-soft); text-wrap:pretty; }}
 .idx .when {{ display:block; font-family:"{T.FONT_DATA}",monospace;
   font-size:11px; letter-spacing:{T.TRACK_LABEL}em; text-transform:uppercase;
   color:var(--ink-faint); margin-top:7px; }}
@@ -125,9 +128,23 @@ h1 {{ font-family:"{T.FONT_PROSE}",Georgia,serif; font-weight:400;
 """
 
 
-def _css() -> str:
-    return (CSS.replace("{VARS}", T.css_vars_light() + "\n" +
-                        T.css_vars_dark()))
+def _css(root_prefix="../../") -> str:
+    """Mirror templates/subscribe.py exactly, because it is already right.
+
+    My first version emitted css_vars_light() bare, outside any selector,
+    so every var(--paper) fell back to nothing and the page rendered on
+    white with system serif instead of bone paper and Spectral. Kristjan
+    saw it immediately: "it looks very different." The variables WERE in
+    the file, which is why a grep for --paper found them and told me
+    nothing; they were just not in a rule.
+
+    And the font faces were never loaded at all. A page that inherits the
+    masthead's markup but not its @font-face is a different-looking page
+    with a correct-looking stylesheet.
+    """
+    return (CSS.replace("{FONTS}", T.font_faces_css(root_prefix + "fonts/"))
+               .replace("{VARS_LIGHT}", T.css_variables())
+               .replace("{VARS_DARK}", T.css_variables(dark=True)))
 
 
 def render_note(title, published_on, body_html, sources_html,
@@ -139,7 +156,7 @@ def render_note(title, published_on, body_html, sources_html,
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{h(title)} | {h(SITE_NAME)}</title>
-<style>{_css()}</style>
+<style>{_css(root_prefix)}</style>
 {ANALYTICS_SNIPPET}
 </head>
 <!-- published {published_on} -->
@@ -175,7 +192,11 @@ def render_index(notes, root_prefix="../") -> str:
     """
     rows = "".join(
         f'<li><a href="{h(n["slug"])}/">{h(n["title"])}</a>'
-        f'<span class="when">{h(long_date(n["published_on"]))}</span></li>'
+        f'<span class="when">{h(long_date(n["published_on"]))}</span>'
+        # A title and a date is a file listing. Kristjan: a blog shows a
+        # lead. It is the piece's own opening paragraph rather than a
+        # written summary, so it cannot drift from the thing it introduces.
+        f'<p class="lead">{h(n["lead"])}</p></li>'
         for n in sorted(notes, key=lambda n: n["published_on"], reverse=True))
     return f"""<!doctype html>
 <html lang="en">
@@ -183,7 +204,7 @@ def render_index(notes, root_prefix="../") -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Notes | {h(SITE_NAME)}</title>
-<style>{_css()}</style>
+<style>{_css(root_prefix)}</style>
 {ANALYTICS_SNIPPET}
 </head>
 <body>

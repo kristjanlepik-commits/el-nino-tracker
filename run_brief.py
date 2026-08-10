@@ -165,9 +165,25 @@ def email_capture_form(label="Subscribe", cls="ec-form"):
     line; after the reader confirms, Kit redirects to /subscribed/.
     """
     return (
-        '<!-- Email capture by Kit. Double opt-in; posts natively, no '
-        'third-party script. -->\n'
-        f'<form class="{cls}" action="{EMAIL_CAPTURE_ACTION}" method="post">'
+        '<!-- Email capture by Kit. Double opt-in. -->\n'
+        # THE SCRIPT IS BACK, and the zero-script version was worse for a
+        # reader in a way neither product nor I predicted.
+        #
+        # Kit's post-submit action is "show a success message". With no
+        # script the browser NAVIGATES to Kit to render it, so a reader who
+        # subscribes lands on a Kit marketing page telling them the best
+        # creators on the web use Kit. Kristjan hit it live: "too much Kit."
+        #
+        # It is progressive enhancement over a form that already posts
+        # natively, so if it fails the form still works. That is a far
+        # weaker dependency than the Beehiiv iframe this replaced.
+        # "Zero third-party assets" was a property we were admiring rather
+        # than a benefit any reader received, and it cost them the one
+        # moment where staying on our own site matters most.
+        '<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>\n'
+        f'<form class="{cls}" action="{EMAIL_CAPTURE_ACTION}" method="post" '
+        f'data-sv-form="{EMAIL_CAPTURE_FORM_ID}" data-uid="11697d7626" '
+        f'data-format="inline" data-version="5">'
         '<label class="ec-lab" for="ec-email">Email address</label>'
         '<input id="ec-email" class="ec-in" type="email" name="email_address" '
         'required autocomplete="email" placeholder="you@example.com">'
