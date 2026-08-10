@@ -37,7 +37,32 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt          # noqa: E402
+from matplotlib import font_manager      # noqa: E402
 from matplotlib.ticker import MaxNLocator  # noqa: E402
+
+# THE HOUSE FACES, REGISTERED. VD: the two most quotable objects on the
+# site, the images that get screenshotted WITHOUT the page, were the only
+# things on it carrying none of its typography. Everything here rendered in
+# matplotlib's default sans while every page around it is Spectral and Plex
+# Mono.
+#
+# Both families ship static TTF for exactly this, so they register without
+# instancing a variable font. Registration only; which face each element
+# takes is decided at the point of use below.
+_FONT_DIR = Path(__file__).resolve().parent.parent / "assets/fonts"
+for _ttf in sorted(_FONT_DIR.rglob("*.ttf")):
+    font_manager.fontManager.addfont(str(_ttf))
+
+# EVERY TICK AND EVERY COUNT IS A FIGURE, so the default face is the data
+# face with tabular numerals: a column of years or counts that changes width
+# as the digits change is the one thing a chart must not do. Only the title
+# is prose, and it takes Spectral at the point of use.
+plt.rcParams.update({
+    "font.family": "IBM Plex Mono",
+    "font.size": 11,
+    "mathtext.default": "regular",
+})
+PROSE = {"family": "Spectral"}
 
 import hashlib
 
@@ -263,7 +288,7 @@ def draw(city, metric, reference=None):
                 f"The previous best was {prev}.")
     ax.set_title("\n".join(textwrap.wrap(head, 58)),
         fontsize=19, color=INK, loc="left", pad=16, weight="medium",
-        linespacing=1.35)
+        linespacing=1.35, **PROSE)
 
     # Everything a page would have carried elsewhere, on the image.
     foot = []
