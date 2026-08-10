@@ -1,0 +1,63 @@
+{
+ "region_id": "somalia_shabelle_juba",
+ "label": "Juba and Shabelle basins",
+ "window": {
+  "start": "2023-11-10",
+  "end": "2023-11-16"
+ },
+ "as_of": "2023-11-20",
+ "authorship": "agency",
+ "attribution": "attribution_pending",
+ "series": [
+  {
+   "id": "rainfall",
+   "instrument": "GPM IMERG Late Run v07",
+   "measures": "rainfall, NOT flooding",
+   "units": "mm, area mean over the region",
+   "expected_slots": 7,
+   "due_slots": 7,
+   "values_present": 7,
+   "baseline_years": 24,
+   "value": 37.8,
+   "basis": {
+    "median": 5.7,
+    "x_median": 6.67,
+    "rank": 2,
+    "of": 25
+   },
+   "peak_day_mm": 53.0,
+   "verdict": "measured"
+  },
+  {
+   "id": "flood_extent",
+   "instrument": "NASA MODIS MCDWD 3-Day composite",
+   "measures": "standing water outside the reference water mask",
+   "units": "250m pixels",
+   "expected_slots": 7,
+   "due_slots": 7,
+   "values_present": 7,
+   "baseline_years": 23,
+   "observability": {
+    "current": 0.8763,
+    "baseline_median": 0.932,
+    "baseline_min": 0.81
+   },
+   "qualification": {
+    "observability_dependence": 0.25,
+    "max_allowed": 0.5,
+    "median_count": 2873,
+    "count_floor": 300,
+    "qualifies": true
+   },
+   "value": 17579,
+   "basis": {
+    "median": 2873,
+    "x_median": 6.12,
+    "rank": 3,
+    "of": 24
+   },
+   "verdict": "measured"
+  }
+ ],
+ "notes": []
+}
