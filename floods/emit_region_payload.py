@@ -55,6 +55,24 @@ OBS_DEPENDENCE_MAX = 0.50  # Spearman(observability, measure) above this means
 LATENCY_DAYS = {"flood_extent": 3, "rainfall": 1}
 
 
+# NULL CONTROL, per D-128. The observability-dependence test was run
+# against data where the effect is known to be absent: 2000 shuffles of
+# the real flood counts against the real observability values. Mean
+# -0.000, 95% of nulls within -0.43 to +0.44. Manila's measured +0.82
+# exceeds 100% of them.
+#
+# The trap this avoids, and it is not hypothetical. Fire's first
+# observability test correlated a RATE, putting the same term in a
+# numerator and a denominator, and returned -0.69 on synthetic data
+# where the effect was absent. Had this test used flood-per-observed
+# instead of an absolute count, its own null control returns mean
+# -0.272 rather than 0.000, and the measurement would have been reading
+# Pearson's 1897 spurious correlation of ratios.
+#
+# So the measure below is an ABSOLUTE pixel count, deliberately, and
+# observability is a separate fraction of the box. No shared term.
+
+
 def spearman(a, b):
     ra = np.argsort(np.argsort(a)).astype(float)
     rb = np.argsort(np.argsort(b)).astype(float)
