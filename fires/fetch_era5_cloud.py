@@ -97,10 +97,12 @@ an interrupted pull costs minutes rather than the whole window.
 from __future__ import annotations
 
 import argparse
+import concurrent.futures as futures
 import json
 import os
 import sys
 import tempfile
+import threading
 
 import numpy as np
 
@@ -296,6 +298,12 @@ def main() -> int:
     parser.add_argument("--years", nargs="*", help="restrict to these years")
     parser.add_argument("--plan", action="store_true",
                         help="print the plan and exit without fetching")
+    parser.add_argument("--workers", type=int, default=4,
+                        help="concurrent CDS requests. The bottleneck is "
+                             "queue wait, not bandwidth, so this is close to "
+                             "a linear speedup. Kept low on purpose: CDS caps "
+                             "concurrent requests per user and being throttled "
+                             "is slower than not asking.")
     args = parser.parse_args()
 
     isos = args.only if args.only else testable_countries()
@@ -330,20 +338,40 @@ def main() -> int:
         return 0
     print()
 
-    failures, done, fetched = [], 0, 0
-    for iso in isos:
+    # LONGEST FIRST. Russia is 12 UTC hours over a continental box and costs
+    # far more than Botswana's single hour. Submitted in cost order so the
+    # expensive countries start immediately instead of straggling alone at
+    # the end while every worker but one sits idle.
+    def cost(iso: str) -> float:
         boxes, hours = plan[iso]
-        for year in years:
-            status = fetch_country_year(iso, year, rings[iso], boxes, hours)
-            done += 1
-            if status not in ("cached", "fetched"):
-                failures.append((iso, year, status))
-                print(f"  [{done}/{len(isos)*len(years)}] {iso} {year} "
-                      f"FAILED {status}", flush=True)
-            elif status == "fetched":
-                fetched += 1
-                print(f"  [{done}/{len(isos)*len(years)}] {iso} {year} ok "
-                      f"({len(hours)} hours)", flush=True)
+        span = sum((east - west) * (north - south)
+                   for west, south, east, north in boxes)
+        return len(hours) * span
+
+    work = [(iso, year) for iso in sorted(isos, key=cost, reverse=True)
+            for year in years]
+    total = len(work)
+    failures, done, fetched = [], 0, 0
+    lock = threading.Lock()
+
+    def run(job):
+        iso, year = job
+        boxes, hours = plan[iso]
+        return iso, year, hours, fetch_country_year(iso, year, rings[iso],
+                                                    boxes, hours)
+
+    with futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
+        for iso, year, hours, status in pool.map(run, work):
+            with lock:
+                done += 1
+                if status not in ("cached", "fetched"):
+                    failures.append((iso, year, status))
+                    print(f"  [{done}/{total}] {iso} {year} FAILED {status}",
+                          flush=True)
+                elif status == "fetched":
+                    fetched += 1
+                    print(f"  [{done}/{total}] {iso} {year} ok "
+                          f"({len(hours)} hours)", flush=True)
 
     print(f"\n{done} country-years processed, {fetched} newly fetched, "
           f"{len(failures)} failed.")
