@@ -3162,8 +3162,20 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # Heat content cell for physical state table
     hc_fresh = freshness.get("heat_content", {})
     hc_live = hc_fresh.get("ok") and not hc_fresh.get("used_fallback")
-    hc_str = (f"{phys['heat_content_0_300m_estimate']:+.2f}°C" if hc_live
-              else f"~{phys['heat_content_0_300m_estimate']:+.1f}°C (placeholder)")
+    # F2, VD: ONE QUANTITY PRINTS ONCE. The hero strip carried +2.96 while
+    # this cell carried "~+3.0°C (placeholder)" for the same number on the
+    # same page, so a reader saw one quantity at two values and no way to
+    # tell which was ours.
+    #
+    # The placeholder branch was rounding a live figure to one decimal and
+    # then labelling the rounding as provisional, which is the reverse of
+    # what a reader takes from the word: it reads as "we do not have this
+    # yet" when we do. When the fetcher genuinely has nothing, the cell
+    # says so plainly instead of printing a number at all.
+    hc_val = phys.get("heat_content_0_300m_estimate")
+    hc_str = (f"{hc_val:+.2f}°C" if hc_live and hc_val is not None
+              else "not fetched this issue" if hc_val is None
+              else f"{hc_val:+.2f}°C, carried forward")
 
     # Caveat numbers. v1.5: `headline` is the smoothed estimator output and
     # no longer carries lo/hi; fetch the CPC anchor's bootstrap range
@@ -3501,13 +3513,20 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<td class="num">{_signed_temp(hc_97)}°C</td>'
         f'<td class="num">{_signed_temp(hc_15)}°C</td>'
         '</tr>'
-        '<tr>'
-        '<td>Cumulative westerly wind anomaly since Mar 1<br>'
-        '<span style="color:var(--text-faint); font-size:12px">CWWA, ERA5 5°N–5°S, 130°E–150°W, m/s·days</span></td>'
-        f'<td class="num">{h(cwwa_curr_str)}</td>'
-        f'<td class="num">{h(cwwa_97_str)}</td>'
-        f'<td class="num">{h(cwwa_15_str)}</td>'
-        '</tr>'
+        # F3, VD: apparatus with no data leaves the render. This row
+        # printed n/a in all three columns, so it stated a measurement
+        # exists and we have none of it, three times. The basis line is
+        # good and comes back with the series; an empty row is not a
+        # disclosure, it is furniture.
+        + ('' if all(x in ('n/a', '', None)
+                     for x in (cwwa_curr_str, cwwa_97_str, cwwa_15_str)) else
+           '<tr>'
+           '<td>Cumulative westerly wind anomaly since Mar 1<br>'
+           '<span style="color:var(--text-faint); font-size:12px">CWWA, ERA5 5°N–5°S, 130°E–150°W, m/s·days</span></td>'
+           f'<td class="num">{h(cwwa_curr_str)}</td>'
+           f'<td class="num">{h(cwwa_97_str)}</td>'
+           f'<td class="num">{h(cwwa_15_str)}</td>'
+           '</tr>') +
         '</tbody></table>'
         # The heat_content_qualitative note is gone. It was a static seed
         # that had not moved since April while the computed sentence
