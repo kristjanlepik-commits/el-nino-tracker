@@ -451,16 +451,22 @@ def _region_layers(r: dict, legend: dict, absence: dict) -> str:
             f'<div class="rl{" rl-rec" if rec else ""}"><span>{name}</span>'
             f'<span class="rlv">{h(_fmt(v.get("value"), meta.get("unit")))}</span>'
             f'{_rank_track(v.get("rank"), v.get("of"), rec)}'
-            # DIRECTION COMES FROM THE LEGEND. Four instruments are worse
-            # low and temperature is worse high, so a hard-coded "lowest"
-            # printed Alsace's rank 7 as "7th lowest" when it is the 7th
-            # WARMEST of 26. That inverts the reading on the one instrument
-            # where the alarming end differs, which is the mixed-sense
-            # defect VD flagged on the country block, reproduced 2,107
-            # times one level down.
-            f'<span class="rls">{h(_ord(v["rank"]))} '
-            f'{"highest" if meta.get("worse_is") == "high" else "lowest"} of '
-            f'{h(str(v.get("of", "")))}</span></div>')
+            # THE PAYLOAD'S OWN SENTENCE, not one assembled here. CRO now
+            # emits `statement` on all 10,536 region instrument rows, which
+            # binds the rank to the window it was computed against.
+            #
+            # I composed this line for one afternoon, from rank, of and
+            # worse_is, and it was already wrong once: hard-coding "lowest"
+            # printed Alsace's temperature rank of 7 as "7th lowest" when
+            # temperature is worse high and it is the 7th WARMEST. A
+            # renderer that assembles a claim will eventually assemble a
+            # false one, and direction is exactly the kind of fact that
+            # belongs to the datum rather than to the template.
+            #
+            # Falls back to the composed form only if a row somehow lacks
+            # the field, so a payload regression degrades instead of
+            # printing a bare number with no basis.
+            f'<span class="rls">{h(v.get("statement") or (_ord(v["rank"]) + " " + ("highest" if meta.get("worse_is") == "high" else "lowest") + " of " + str(v.get("of", ""))))}</span></div>')
     return '<div class="rls-wrap">' + "".join(rows) + '</div>'
 
 
