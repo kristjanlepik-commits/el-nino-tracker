@@ -421,6 +421,13 @@ def _region_block(r: dict, all_regions: list, driver: str) -> str:
       </section>"""
 
 
+def _ord(n: int) -> str:
+    """11-13 take 'th', which the naive n%10 rule gets wrong."""
+    if 10 <= n % 100 <= 20:
+        return f"{n}th"
+    return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
+
+
 def render(country: dict, root_prefix: str = "../../") -> str:
     regions = sorted((country.get("regions") or []),
                      key=lambda r: r.get("value", 0))
@@ -432,18 +439,56 @@ def render(country: dict, root_prefix: str = "../../") -> str:
     # The count sentence carries its own baseline or it does not appear.
     # Four channels reached the same finding today: a count of
     # threshold-crossings is not a finding on its own.
-    if cb.get("recent_max") is not None:
-        stand = (f"{len(lows)} of {units} crop regions in {name} are at "
-                 f"their worst on record for this point in the season. "
-                 f"Its highest in any previous year was "
-                 f"{cb['recent_max']}, on a recent average of "
-                 f"{cb['recent_mean']:g}.")
-    else:
+    # THE COUNT IS NOT ALWAYS THE SUBJECT, and assuming it was produced the
+    # page CRO refused to sign. A pinned country is on the site because a
+    # reader came looking for it, not because it qualified, so it need not
+    # have a single region at a record. France opened with "0 of 22 crop
+    # regions are at their worst on record" directly above five instruments
+    # saying it is falling faster than in any year on record.
+    #
+    # Correct, and the wrong story. When the count is zero the country's own
+    # condition is the subject and the count is the least interesting thing
+    # about it, so it stops being the opening and becomes a closing clause.
+    rate, sev = country.get("rate") or {}, country.get("severity") or {}
+    if lows:
         stand = (f"{len(lows)} of {units} crop regions in {name} are at "
                  f"their worst on record for this point in the season.")
+        if cb.get("recent_max") is not None:
+            stand += (f" Its highest in any previous year was "
+                      f"{cb['recent_max']}, on a recent average of "
+                      f"{cb['recent_mean']:g}.")
+    else:
+        lead = []
+        # The adjusted rank where the control says the raw one is inflated,
+        # for the same reason the index prints it: publishing the figure the
+        # control exists to discount, on the countries most likely to be
+        # quoted, would be the worst place to do it.
+        if sev.get("available") and sev.get("rank"):
+            lead.append(f"{_ord(sev['rank'])} most stressed of {sev['of']} "
+                        f"observations for this point in the season")
+        if rate.get("available") and rate.get("rank"):
+            ctl = rate.get("_start_control") or {}
+            rk = (ctl["adjusted_rank"] if ctl and not ctl.get("holds")
+                  and ctl.get("adjusted_rank") else rate["rank"])
+            qual = ("" if rk == rate.get("rank") else
+                    ", once its high starting level is accounted for")
+            lead.append(f"{_ord(rk)} steepest fall of {rate['of']}{qual}")
+        head = (f"{name} is " + ", and ".join(lead) + "."
+                if lead else f"{name} is within its own normal range.")
+        stand = (f"{head} None of its {units} crop regions is at a record "
+                 f"low, which is the ordinary case and is what most of this "
+                 f"map looks like in most weeks.")
 
+    # EVERY REGION GETS A ROW. VD asked for this on the index and the same
+    # argument holds one level down: sixteen of nineteen regions got a bar
+    # and nothing else, so the record lows were a separate class rather than
+    # the top of one list. CRO restored per-region instrument layers on all
+    # 2,107 regions, which is what makes it renderable rather than a request.
+    #
+    # Ordered by value, worst first, so the record lows are still the top
+    # rows and a calm country is drawn rather than summarised (D-043).
     blocks = "".join(_region_block(r, regions, r.get("driver"))
-                     for r in lows)
+                     for r in regions)
     return f"""<!doctype html>
 <html lang="en">
 <head>
