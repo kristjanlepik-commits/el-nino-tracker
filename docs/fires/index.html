@@ -4,6 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<!-- Socials measured 136 channel pages sharing with NO image at all on
+     2026-08-10; fires was 42 of them. The house card is generic and
+     beats an empty slot.
+
+     ORDER MATTERS HERE: never declare summary_large_image without the
+     image. A page that declares it and has nothing to show is WORSE
+     than one that declares nothing, because the platform reserves the
+     space and renders it empty. Fires declared nothing, so it degraded
+     to a bare text card. All three lines land together or none do. -->
+<meta property="og:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:card" content="summary_large_image">
 <title>Fires | The Long Swell</title>
 <style>
 @font-face {

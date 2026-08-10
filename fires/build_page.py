@@ -21,8 +21,8 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO)
 
 import tokens as T  # noqa: E402
-from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
-                       lead_sentence, site_masthead)
+from run_brief import (ANALYTICS_SNIPPET, PAGES_BASE_URL,  # noqa: E402
+                       SITE_MASTHEAD_CSS, lead_sentence, site_masthead)
 # run_brief.py lives at the repo root and holds the single copy of the
 # analytics tag. Import it rather than pasting a duplicate, so there is
 # one source of truth to disable or rotate.
@@ -320,6 +320,18 @@ def build(events_doc, font_prefix="../fonts/"):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<!-- Socials measured 136 channel pages sharing with NO image at all on
+     2026-08-10; fires was 42 of them. The house card is generic and
+     beats an empty slot.
+
+     ORDER MATTERS HERE: never declare summary_large_image without the
+     image. A page that declares it and has nothing to show is WORSE
+     than one that declares nothing, because the platform reserves the
+     space and renders it empty. Fires declared nothing, so it degraded
+     to a bare text card. All three lines land together or none do. -->
+<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
+<meta name="twitter:card" content="summary_large_image">
 <title>Fires | The Long Swell</title>
 <style>
 {T.font_faces_css(font_prefix)}
