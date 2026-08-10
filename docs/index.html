@@ -707,6 +707,13 @@
   .chan p { margin: 0; font-size: 15px; color: var(--ink-soft); line-height: 1.55; }
   .chan.next h3, .chan.next p { color: var(--ink-faint); }
 
+  /* Trajectory objects. Figures take the data face with tabular numerals,
+     the same rule as everywhere else: a tick that changes width as its
+     digits change is the one thing a chart must not do. */
+  .chx { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint);
+    font-variant-numeric: tabular-nums; }
+  .chnow { font-family: var(--mono); font-size: 12px; font-weight: 600;
+    fill: var(--ink); font-variant-numeric: tabular-nums; }
   /* ---------- email capture ---------- */
   .email-cap {
     border-top: 3px solid var(--ink);

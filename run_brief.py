@@ -1148,6 +1148,13 @@ _PUBLIC_CSS_TEMPLATE = """
   .chan p { margin: 0; font-size: 15px; color: var(--ink-soft); line-height: 1.55; }
   .chan.next h3, .chan.next p { color: var(--ink-faint); }
 
+  /* Trajectory objects. Figures take the data face with tabular numerals,
+     the same rule as everywhere else: a tick that changes width as its
+     digits change is the one thing a chart must not do. */
+  .chx { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint);
+    font-variant-numeric: tabular-nums; }
+  .chnow { font-family: var(--mono); font-size: 12px; font-weight: 600;
+    fill: var(--ink); font-variant-numeric: tabular-nums; }
   /* ---------- email capture ---------- */
   .email-cap {
     border-top: 3px solid var(--ink);
@@ -3053,6 +3060,142 @@ def _issued_with_age(issued, as_of):
     return txt
 
 
+# ---------------------------------------------------------------------------
+# TRAJECTORY OBJECTS. Kristjan, on the first mockup, which was bars: "the bars
+# are very limiting with the story they tell. If our goal is to answer how bad
+# is it? The reader gets pretty much nothing."
+#
+# He is right and the test generalises past this page. A bar answers "how much
+# now". Anything answering "how bad is it" needs a series behind it, because
+# the answer is a shape: when it fell behind, when it turned, how far it has
+# left to run. Science put it the same way independently.
+#
+# Each object renders ONLY when its series is present. That is the same rule
+# as the gate above, and it means the heat chart appears by itself the week
+# the series lands in the payload rather than when somebody edits this file.
+# ---------------------------------------------------------------------------
+
+_CH_W, _CH_H, _CH_L, _CH_R, _CH_T, _CH_B = 760, 300, 46, 96, 16, 30
+
+
+def _ch_pt(i, v, n, lo, hi):
+    x = _CH_L + (i / n if n else 0) * (_CH_W - _CH_L - _CH_R)
+    y = _CH_T + (1 - (v - lo) / (hi - lo)) * (_CH_H - _CH_T - _CH_B)
+    return x, y
+
+
+def _ch_path(pairs, n, lo, hi):
+    return "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in
+                           (_ch_pt(i, v, n, lo, hi) for i, v in pairs))
+
+
+def _ch_grid(vals, n, lo, hi, fmt="{:g}"):
+    out = ""
+    for v in vals:
+        y = _ch_pt(0, v, n, lo, hi)[1]
+        out += (f'<line x1="{_CH_L}" y1="{y:.1f}" x2="{_CH_W-_CH_R}" y2="{y:.1f}" '
+                f'stroke="var(--rule)" stroke-width=".7"/>'
+                f'<text x="{_CH_L-8}" y="{y+3.5:.1f}" text-anchor="end" '
+                f'class="chx">{fmt.format(v)}</text>')
+    return out
+
+
+def chart_wind(phys):
+    """Cumulative westerly wind anomaly, 2026 against the analog years.
+
+    Analogs separate by WEIGHT AND DASH, never hue: VD's TRACE_PEERS point,
+    and it is what lets the object survive greyscale and a screenshot. 2025
+    is in it as the non-event reference and is the contrast that makes the
+    rest legible, at 11 against 1997's 829.
+    """
+    cur = phys.get("cwwa_series") or []
+    ana = phys.get("cwwa_analogs") or {}
+    if len(cur) < 10 or not ana:
+        return ""
+    n, lo = 184, 0.0
+    hi = max([v for _, v in cur] + [v for s in ana.values() for _, v in s]) * 1.06
+    peers = [("1997", "4 3", 1.5), ("2015", "", 1.3),
+             ("2023", "1 3", 1.2), ("2025", "6 3", 1.1)]
+    lines, labels = "", ""
+    for y, dash, wid in peers:
+        ser = ana.get(y) or ana.get(int(y)) or []
+        if not ser:
+            continue
+        pairs = list(enumerate(v for _, v in ser))
+        lines += (f'<path d="{_ch_path(pairs, n, lo, hi)}" fill="none" '
+                  f'stroke="var(--ink-faint)" stroke-width="{wid}" '
+                  f'stroke-dasharray="{dash}" opacity=".9"/>')
+        lx, ly = _ch_pt(len(pairs) - 1, pairs[-1][1], n, lo, hi)
+        labels += (f'<text x="{lx+6:.1f}" y="{ly+3.5:.1f}" class="chx">{y}</text>')
+    pairs = list(enumerate(v for _, v in cur))
+    lx, ly = _ch_pt(len(pairs) - 1, pairs[-1][1], n, lo, hi)
+    ticks = "".join(
+        f'<text x="{_ch_pt(i,lo,n,lo,hi)[0]:.1f}" y="{_CH_H-10}" '
+        f'text-anchor="middle" class="chx">{lab}</text>'
+        for i, lab in ((0, "1 Mar"), (61, "1 May"), (122, "1 Jul"), (183, "31 Aug")))
+    return (
+        f'<svg viewBox="0 0 {_CH_W} {_CH_H}" width="100%" style="height:auto" '
+        f'role="img" aria-label="Cumulative westerly wind anomaly since 1 March. '
+        f'2026 reaches {pairs[-1][1]:.0f} by early August, between the 2025 '
+        f'non-event reference near zero and 1997 at 829, and is still climbing.">'
+        f'{_ch_grid([0, 200, 400, 600, 800], n, lo, hi)}{lines}'
+        f'<path d="{_ch_path(pairs, n, lo, hi)}" fill="none" stroke="var(--ink)" '
+        f'stroke-width="2.6"/>'
+        f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="4" fill="var(--ink)"/>'
+        f'<text x="{lx+8:.1f}" y="{ly+4:.1f}" class="chnow">2026 &middot; '
+        f'{pairs[-1][1]:.0f}</text>{labels}{ticks}</svg>')
+
+
+def chart_prob_history(briefs_dir):
+    """Every published probability, every issue. Built from the frozen
+    archives, so each point is a figure we published rather than one
+    recomputed now.
+
+    A rung's line begins at the issue that rung was first published.
+    Science's instruction and the honest shape: before publication there is
+    only a CPC anchor, a different quantity sitting far below, and a dotted
+    lead-in would put two quantities on one line.
+    """
+    import glob as _glob
+    rows = []
+    for f in sorted(_glob.glob(str(Path(briefs_dir) / "*" / "meta.json"))):
+        try:
+            hb = json.loads(Path(f).read_text()).get("headline_buckets") or {}
+        except (OSError, ValueError):
+            continue
+        if hb:
+            rows.append((Path(f).parent.name, hb))
+    if len(rows) < 4:
+        return ""
+    n, lo, hi = len(rows) - 1, 0.0, 100.0
+    series = [("9715_>2.5", "+2.5 &deg;C", "", 2.4),
+              ("record_>3.0", "+3.0 &deg;C", "5 3", 2.0),
+              ("record_>3.5", "+3.5 &deg;C", "2 3", 1.8)]
+    paths, labels = "", ""
+    for key, lab, dash, wid in series:
+        pts = [(i, (hb.get(key) or {}).get("mid")) for i, (_, hb) in enumerate(rows)]
+        pts = [(i, v) for i, v in pts if v is not None]
+        if len(pts) < 2:
+            continue
+        paths += (f'<path d="{_ch_path(pts, n, lo, hi)}" fill="none" '
+                  f'stroke="var(--ink)" stroke-width="{wid}" '
+                  f'stroke-dasharray="{dash}" opacity=".9"/>')
+        lx, ly = _ch_pt(*pts[-1], n, lo, hi)
+        paths += f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="3.4" fill="var(--ink)"/>'
+        labels += (f'<text x="{lx+8:.1f}" y="{ly+4:.1f}" class="chx" '
+                   f'style="fill:var(--ink)">{lab} &middot; {pts[-1][1]}%</text>')
+    idx = [0, len(rows) // 3, 2 * len(rows) // 3, len(rows) - 1]
+    ticks = "".join(
+        f'<text x="{_ch_pt(i,lo,n,lo,hi)[0]:.1f}" y="{_CH_H-10}" '
+        f'text-anchor="middle" class="chx">{rows[i][0][5:]}</text>' for i in idx)
+    return (
+        f'<svg viewBox="0 0 {_CH_W} {_CH_H}" width="100%" style="height:auto" '
+        f'role="img" aria-label="Published probability for each peak magnitude, '
+        f'every issue from {rows[0][0]} to {rows[-1][0]}. Each line begins at the '
+        f'issue its rung was first published.">'
+        f'{_ch_grid([0, 50, 100], n, lo, hi)}{paths}{labels}{ticks}</svg>')
+
+
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       methodology_href: str, brief_date_iso: str,
                       canonical_url: str, og_image_url: str,
@@ -3411,6 +3554,8 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # part of the story.
     # Rung order is BUCKET_ORDER; the archive trend derives its column
     # order from the same constant. Reorder there, not here.
+    # Built from docs/briefs/*/meta.json, the frozen published output.
+    _prob_hist = chart_prob_history(Path(__file__).resolve().parent / 'docs/briefs')
     ladder_html = (
         '<section><h2>Probability ladder</h2>'
         '<p class="section-sub">Peak three-month ONI, DJF 2026-27. Each rung '
@@ -3424,6 +3569,21 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         + _render_rung("super",    "+2.0°C peak", headline["super_>2.0"],
                        "Very strong / super",   _prev_mid("super_>2.0"), delta_label)
         + '</div>'
+        # WHERE THOSE NUMBERS CAME FROM. The ladder answers "where is it now";
+        # this answers "how did it get here", and Kristjan's point is that the
+        # second is what "how bad is it" actually asks. They were never
+        # competing, which is why the rungs stay above it rather than being
+        # replaced by it.
+        #
+        # Built from the frozen archives, so every point is a figure we
+        # published rather than one recomputed now. That is the whole reason
+        # the object is trustworthy, and it exists only because the archives
+        # are immutable.
+        + (f'<p class="section-sub" style="margin-top:26px">Every published '
+           f'probability, every issue. A line begins at the issue its rung was '
+           f'first published: before that there is no consensus figure, only an '
+           f'anchor that sits far below, and drawing it would put a different '
+           f'quantity on the same line.</p>{_prob_hist}' if _prob_hist else '')
         + f'<p class="buckets-note">The "at least moderate" (+1.0°C) and "strong" (+1.5°C) '
           f'thresholds reached 100% in June and have been retired from the ladder; the event has '
           f'outgrown the bottom of the scale. Their full history stays in the '
@@ -3600,6 +3760,21 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         # removed the seed in f1a7477 and this rendered an empty note div
         # after that. The computed comparison already carries it.
     )
+
+    # THE CURVE, ABOVE THE NOTE. A row says 519 against 829 and stops. The
+    # curve says when 2026 fell behind, when it turned, and that the 2025
+    # non-event reference never left the floor, which is the comparison that
+    # makes the other three legible.
+    #
+    # 2026 draws in INK, not the accent. It is below both super analogs, and
+    # under D-043 colour carries the finding rather than the recency: drawing
+    # it in hue would claim a record this series does not hold.
+    _wind = chart_wind(phys)
+    if _wind:
+        physical_html += (
+            '<p class="section-sub" style="margin-top:22px">Cumulative westerly '
+            'wind anomaly since 1 March, against the same construction in the '
+            'analog years. 2025 is the non-event reference.</p>' + _wind)
 
     if cwwa_value is not None:
         physical_html += (
