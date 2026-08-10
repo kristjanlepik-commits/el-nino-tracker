@@ -1,6 +1,6 @@
 # Heat: how these numbers are made
 
-The heat channel tracks two things in twenty-four European cities:
+The heat channel tracks two things in thirty-six European cities:
 **hot nights** and **days that pass each city's own extreme-heat
 thresholds**. Every figure is one thermometer in one city, compared
 against that same thermometer's own history.
@@ -88,12 +88,12 @@ Germany and Austria reached further north; Stockholm was added to include a
 city that was not extreme.
 
 **The consequence, and it is the only one:** no proportion here generalises
-to the continent. Fifteen of the twenty-four are Iberia and France, there is
-no city east of 18.1 degrees, and none from Italy, Greece, Portugal or the
+to the continent. Eighteen of the thirty-six are Iberia and France, there is
+no city east of 24.9 degrees, and none from Italy, Greece, Portugal or the
 UK. A set chosen at random would show a smaller share of cities at a record,
 because it would include places where nothing is happening.
 
-So every count is a count of these cities. "Fourteen of twenty-four" is
+So every count is a count of these cities. "Twenty-two of thirty-six" is
 exactly that and never a statement about Europe.
 
 **This is not a climate measurement.** A city thermometer records the
@@ -107,8 +107,8 @@ give different numbers, and the choice is visible in the data rather than
 buried.
 
 **The 20 °C night count does not work everywhere, and we say where.**
-10 of the 24 cities average too few tropical nights for the measure to
-carry a ratio: Amsterdam, Berlin, Bilbao, Cologne, Frankfurt, Hamburg, Munich, Paris, Prague, Stockholm. Stockholm recorded none at all in 2026 and Amsterdam
+19 of the 36 cities average too few tropical nights for the measure to
+carry a ratio: Amsterdam, Basel, Berlin, Bilbao, Cologne, Dresden, Frankfurt, Geneva, Hamburg, Hanover, Helsinki, Leipzig, Munich, Paris, Prague, Stockholm, Strasbourg, Stuttgart, Zurich. Stockholm recorded none at all in 2026 and Amsterdam
 three. **Two of them are long-standing members of the set** rather than
 northern additions: Paris averages 1.53 tropical nights a year and Bilbao
 1.17. In those cities we publish the percentile night metric instead, and
