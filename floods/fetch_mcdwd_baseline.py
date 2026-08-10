@@ -103,10 +103,17 @@ REGIONS = {
                 "and roughly USD 15bn (the loss figure is ECON's row, not ours).",
     },
     "kenya_tana": {
-        "lon": (38.5, 40.5),
-        "lat": (-2.5, 0.5),
-        "note": "Tana river, Kenya. Riverine, same Deyr season as Somalia, "
-                "tests whether one season reads consistently across two basins.",
+        "lon": (38.0, 40.8),
+        "lat": (-3.0, 0.3),
+        "note": "Tana river, Kenya, from around Garissa down to the delta. "
+                "Riverine, same Deyr season as Somalia. ENLARGED 2026-08-10 "
+                "from (38.5,40.5,-2.5,0.5): the original box failed the count "
+                "floor at a median 157 flood pixels a week against a 300 "
+                "minimum, while its observability dependence was a healthy "
+                "+0.14. So it failed on SIZE, not on the instrument, unlike "
+                "Manila. The enlargement is free: both boxes span the same "
+                "four tiles, and the tile is the unit of cost, so the original "
+                "was paying for four tiles and using a fifth of them.",
     },
 }
 
