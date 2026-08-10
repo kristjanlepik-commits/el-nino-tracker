@@ -258,6 +258,17 @@ KNOWN_SNAPSHOT_GAPS = {
     # in the same commit, which had been rendering only on the failure
     # path and so went unreviewed for months.
     ("2026-08-03.json", "physical_state.heat_content_qualitative"),
+    # Same class, same commit (b3679e2), one week later because this seed
+    # was still present in the 08-03 snapshot and only disappears in the
+    # 08-10 diff. `wwe_qualitative` was a hand-written April sentence that
+    # rendered ONLY when the ERA5 fetch failed, so it sat unreviewed for
+    # months and then published a paragraph about "March and early April"
+    # conditions on the 2026-08-03 page. Removed deliberately; the CWWA
+    # failure note is now generated from the run's own state. Entry added
+    # by the ENSO tracker chat, whose removal it is, on 2026-08-10 with
+    # Kristjan's go-ahead to publish; flagged to platform in the same
+    # session since scripts/ is theirs.
+    ("2026-08-10.json", "physical_state.wwe_qualitative"),
 }
 
 
