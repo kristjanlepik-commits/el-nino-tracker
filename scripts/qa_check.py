@@ -1026,6 +1026,48 @@ def check_heat_pages_match_reference(violations):
             f"{', '.join(missing)}. A reader following the index finds a 404.")
 
 
+def check_conflict_markers(violations):
+    """Is a git conflict marker committed anywhere in the tree?
+
+    On 2026-08-10 `fires/data/country_history.json` was committed with
+    `<<<<<<< Updated upstream` in it. That is the AUTOSTASH marker
+    format, and autostash is something I added to scripts/push_retry.sh
+    the day before: a stash pop that conflicts leaves markers in the
+    working tree, the rebase itself having succeeded, so nothing in the
+    script's error path fires and the next `git add` commits them.
+
+    The file is the baseline every detections run reads. It stopped
+    being valid JSON, and the only thing that noticed was a freshness
+    layer reporting it "unreadable" hours later, in a run I made for an
+    unrelated reason.
+
+    Cheap, total, and it can never be forgotten: a marker at line start
+    is not a thing any of our generators emit. Checked across tracked
+    and untracked-but-not-ignored files, since an uncommitted marker is
+    a commit away from being a committed one.
+    """
+    pat = re.compile(r"^(<<<<<<< |=======$|>>>>>>> )")
+    for rel in repo_files():
+        path = ROOT / rel
+        if path.suffix.lower() not in TEXT_SUFFIXES or not path.is_file():
+            continue
+        # This file documents the markers it looks for.
+        if rel == "scripts/qa_check.py":
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        hits = [i + 1 for i, line in enumerate(text.splitlines())
+                if pat.match(line)]
+        if hits:
+            violations.append(
+                f"git conflict marker in {rel}, line(s) "
+                f"{', '.join(map(str, hits[:6]))}. A merge or an autostash "
+                f"pop left this behind and it was committed. If the file is "
+                f"data, it has almost certainly stopped parsing.")
+
+
 def check_masthead_wellformed(violations):
     """One masthead per page, and a channel page marks its own section.
 
@@ -1313,6 +1355,7 @@ def main():
     # page is incomplete; a page with two mastheads is malformed, and
     # publishing malformed markup is worse than publishing nothing.
     check_masthead_wellformed(violations)
+    check_conflict_markers(violations)
     check_heat_pages_match_reference(violations)
     check_gate_currency(violations, args.base)
     check_large_files(violations)

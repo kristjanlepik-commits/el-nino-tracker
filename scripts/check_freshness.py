@@ -31,6 +31,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -353,6 +354,69 @@ def check_truncation(problems: list) -> None:
                 f"truncation; this one takes it from the roster.")
 
 
+# RUN AGE IS NOT DATA AGE, and conflating them is why yesterday's failed
+# fires run was invisible. Fire's distinction, and it is the right one:
+#
+#   data age   is this page still worth a reader's time      days
+#   run age    did the scheduled job actually complete       hours
+#
+# The fires freshness budget of 2 days is correct for the first question,
+# and at that bound a single missed daily run sits inside budget and is
+# correctly silent. Nothing was wrong with that gate. But the job had
+# failed, the site sat a day stale, and it was found by Kristjan asking.
+#
+# Measured from the COMMIT the job makes, because that is the only
+# artifact of a run that survives it. A job that ran and committed nothing
+# is indistinguishable here from one that never ran, which is why this
+# only covers jobs that commit on every successful run. Crops is
+# deliberately absent: it commits once per dekad by design, so a run-age
+# check on it would fire for nine days out of ten.
+#
+# 30 HOURS, NOT FIRE'S PROPOSED 26. Their reasoning is right and their
+# number is too tight for this repo: GitHub's scheduler has drifted 2h25m
+# and 3h11m on these workflows, measured, so a legitimate 03:10 run can
+# land at 06:20 and open a 27 hour gap with nothing wrong. 30 still fires
+# on the FIRST miss rather than the second, because one skipped daily run
+# opens a ~48 hour gap; it just declines to cry wolf at the drift we know
+# the platform has.
+RUN_AGE = [
+    {"path": "fires/data/current_week.json", "max_hours": 30, "owner": "FIRE",
+     "what": "the daily fires detections job (03:10 UTC, 05:30 backstop)"},
+    {"path": "heat/data/collected/Tallinn.jsonl", "max_hours": 30,
+     "owner": "HEAT", "what": "the Tallinn forward collector"},
+]
+
+
+def _last_commit_utc(rel: str):
+    out = subprocess.run(
+        ["git", "log", "-1", "--format=%cI", "--", rel],
+        cwd=ROOT, capture_output=True, text=True)
+    if out.returncode != 0 or not out.stdout.strip():
+        return None
+    try:
+        return datetime.fromisoformat(out.stdout.strip()).astimezone(timezone.utc)
+    except ValueError:
+        return None
+
+
+def check_run_age(problems: list, rows: list, now: datetime) -> None:
+    for job in RUN_AGE:
+        last = _last_commit_utc(job["path"])
+        if last is None:
+            rows.append((job["path"], "no commit", "-", job["owner"]))
+            continue
+        hours = (now - last).total_seconds() / 3600
+        rows.append((job["path"], f"{last:%Y-%m-%d %H:%MZ}",
+                     f"{hours:.0f}h", job["owner"]))
+        if hours > job["max_hours"]:
+            problems.append(
+                f"{job['path']} was last committed {hours:.0f}h ago, budget "
+                f"{job['max_hours']}h. This is {job['what']}. The DATA may "
+                f"still be inside its own freshness budget, which is why "
+                f"nothing else reports this: the question here is whether the "
+                f"job ran, not whether the page is old. Owner: {job['owner']}.")
+
+
 def _expected_run_date(today: date, months) -> date:
     """The last date a seasonally-bound collector was expected to run.
 
@@ -422,6 +486,10 @@ def main() -> int:
                 f"This is {layer['what']}. The pages built from it are still "
                 f"well-formed, which is exactly why nothing else catches this. "
                 f"Owner: {layer['owner']}.")
+
+    run_rows = []
+    check_run_age(problems, run_rows, datetime.now(timezone.utc))
+    rows.extend(run_rows)
 
     w = max(len(r[0]) for r in rows) if rows else 20
     for path, as_of, age, owner in rows:
