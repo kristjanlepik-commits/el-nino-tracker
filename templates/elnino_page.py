@@ -142,8 +142,16 @@ def _provenance(fetched, brief_date):
 
 
 def render(fetched, meta, brief_date, root_prefix="../",
-           briefs_href="../briefs/", asset_prefix="../"):
+           briefs_href="../briefs/", asset_prefix="../", is_archive=False):
     phys = fetched.get("physical_state") or {}
+    # THE ARCHIVE PAGE IS THE PUBLISHED VERSION and must not link to
+    # itself. Found by rendering at archive depth rather than reasoning
+    # about it: the link RESOLVED, which is why no dead-link guard would
+    # ever catch it. A link that works and goes nowhere is invisible to
+    # every check we have.
+    _as_published = ("" if is_archive else
+                     ' &middot; <a href="' + h(briefs_href) +
+                     h(brief_date.isoformat()) + '/">as published</a>')
     headline = meta.get("headline_buckets") or {}
     di = brief_date.isoformat()
 
@@ -257,7 +265,7 @@ figure img{{width:100%;height:auto;display:block}}
                briefs_href=briefs_href)}
 <main>
 <div class="eyebrow">El Ni&ntilde;o 2026-27 &middot; week of {h(di)} &middot;
- <a href="{h(briefs_href)}{h(di)}/">as published</a></div>
+{_as_published}</div>
 <h1>How big does this one get?</h1>
 {_finding_line(headline, phys)}
 
