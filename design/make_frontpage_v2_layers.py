@@ -1,45 +1,31 @@
-"""Front page v2: VD's layout, real payloads, production coastline.
+"""Front page v2, LAYERED MAP: channel hue, shape and a legend.
 
-MOCKUP ONLY. Writes design/mockups/, never docs/.
+MOCKUP ONLY. The sibling of make_frontpage_v2.py, identical page, different
+map, so the two can be read side by side.
 
-VD's comp is the base and it earns it in three places: the evidence column
-beside every number, El Nino pulled out of the readings table because a
-forecast has no rank in its own history, and the channels footer carrying
-cadence and in-development state. All three are kept.
+WHY THIS EXISTS AS A SEPARATE FILE. VD's layered study bundles three
+changes and Kristjan has ruled on one of them:
 
-What this changes, each for a stated reason:
+    hue per channel      reverses D-101          NOT ruled on
+    shape per channel    additive, reverses nothing
+    size by severity     reverses D-146          RULED: uniform, yesterday
 
-1. THE LEDE. "Three channels measured this week. All three are outside
-   their normal range" answers how many of our instruments are unusual,
-   which is a sentence about us. It is also the largest type on the site
-   and contains no place, no magnitude and no date. Replaced with one
-   clause per channel in that channel's own units, fixed order, no
-   comparison between them, generated. It stays true on a calm week
-   because each clause simply states its negative.
+So this takes the first two and leaves the third. It answers "which
+instrument detected this", which is VD's real argument and a good one:
+on a map that is the datum, and type cannot carry it on ninety unlabelled
+marks. It does not let the mark carry magnitude, because a marker still
+cannot carry its own denominator and the caption that says so does not
+travel with a screenshot.
 
-2. EVERY COUNT IS GENERATED. The comp typed five that have moved or were
-   wrong: 20 Yemen regions (19), 1.2 Bilbao nights (1.4), 37 heat cities
-   (41), "23 more" fires (18 anomalous), "20 more" crops (36 countries).
+SHAPE IS THE PRIMARY SEPARATOR AND HUE IS REDUNDANT ON TOP. VD's first hue
+set failed its first real reader: Kristjan is red-green colourblind and
+could not tell fires from crops. That is not a palette bug to fix once, it
+is the reason hue may never carry a distinction alone here.
 
-3. THE ATTRIBUTION COLUMN COLLAPSES when no channel in the set runs
-   attribution, instead of leaving two rows trailing into white space that
-   reads as missing data.
+Crops takes the FLOOD token, which VD flagged as a cost booked forward:
+when Floods ships, the set needs choosing again and testing as a set.
 
-4. THE EL NINO BAND IS TYPOGRAPHIC. The comp gives it a blue rule and blue
-   label. D-101 retired channel hue, and the layered map's own case is
-   that hue should return on the MAP only, so a hued band on the page
-   contradicts the argument being made for it.
-
-5. UNIFORM MARKS ON THE REAL COASTLINE, because that is the thing being
-   ruled on and neither file shows it: the comp omits the coastline, the
-   layered study has it but also reverses D-146.
-
-6. THE HEAT ROW IS THE SET, not a lead city. The comp names Bilbao. Heat
-   emits no lead, so choosing one means inventing a cross-city ranking,
-   which is the exact move the page refuses everywhere else. Heat's own
-   emitted headline is a set statement, so the row shows that.
-
-Usage:  .venv/bin/python design/make_frontpage_v2.py
+Usage:  .venv/bin/python design/make_frontpage_v2_layers.py
 """
 import json
 import sys
@@ -51,6 +37,15 @@ sys.path.insert(0, str(ROOT))
 import tokens as T  # noqa: E402
 
 OUT = ROOT / "design" / "mockups"
+# Fires and crops take existing tokens; crops takes FLOOD, which is VD's
+# choice and a cost booked forward, because when Floods ships the set has to
+# be chosen again and CVD-tested as a set.
+#
+# Heat takes VD's purple, which is NOT in tokens.py. It cannot take NINO:
+# this page carries an El Nino band a few centimetres below the map, so a
+# blue heat marker would name the wrong channel. If this direction is taken,
+# the value belongs in tokens.py rather than here.
+HUE = {"fires": T.FIRE, "crops": T.FLOOD, "heat": "#5C2C96"}
 
 
 def load():
@@ -135,28 +130,45 @@ def map_svg(d, nino34):
         return ((lon + 180.0) / 360.0 * 800.0, (90.0 - lat) / 180.0 * 400.0)
 
     anom = {e["region"] for e in d["events"] if e.get("anomalous")}
-    open_marks, lit_marks = [], []
+    f_lit, f_open, c_lit = [], [], []
     for c in d["fires_week"]["countries"].values():
         if c.get("lat") is None:
             continue
-        (lit_marks if c.get("name") in anom else open_marks).append(
+        (f_lit if c.get("name") in anom else f_open).append(
             xy(c["lat"], c["lon"]))
-    seen = set()
     for p_ in d["crops"]["places"]:
         if any(r.get("rank") == 1 for r in (p_.get("regions") or [])):
             g = CROPS_XY.get(p_["place"])
             if g:
-                lit_marks.append(xy(*g))
+                c_lit.append(xy(*g))
 
-    def dots(pts, cls):
+    def shape(x, y, ch, lit):
+        """Shape carries the channel, hue repeats it, fill carries state.
+
+        Circle for fires, square of equal area for crops, so the layers
+        separate in greyscale and for a colourblind reader before hue does
+        any work at all. Equal area, not equal side: a square of side 2r
+        reads about a quarter heavier than a circle of radius r, and the
+        whole point is that no mark looks bigger than another.
+        """
+        col = HUE[ch]
+        fill = col if lit else "var(--paper)"
+        if ch == "crops":
+            side = 3.4 * 1.772
+            return ('<rect class="mk" x="%.1f" y="%.1f" width="%.1f" '
+                    'height="%.1f" fill="%s" stroke="%s"/>'
+                    % (x - side / 2, y - side / 2, side, side, fill, col))
+        return ('<circle class="mk" cx="%.1f" cy="%.1f" r="3.4" fill="%s" '
+                'stroke="%s"/>' % (x, y, fill, col))
+
+    def draw(pts, ch, lit):
         out, seen_ = [], set()
         for x, y in pts:
             k = (round(x, 1), round(y, 1))
             if k in seen_:
                 continue
             seen_.add(k)
-            out.append('<circle class="%s" cx="%.1f" cy="%.1f" r="3.4"/>'
-                       % (cls, x, y))
+            out.append(shape(x, y, ch, lit))
         return "".join(out)
 
     eq = xy(0, 0)[1]
@@ -224,12 +236,15 @@ def map_svg(d, nino34):
             '<text class="nbt" x="%.1f" y="%.1f">NI\u00d1O 3.4 &nbsp;%s</text>'
             '%s%s'
             '<circle class="agg" cx="%.1f" cy="%.1f" r="9"/>'
-            '%s</svg>'
+            '%s</g></svg>'
             % (body, eq, eq,
                w_tl[0] + 1, w_tl[1], w_br[0] - w_tl[0] - 1, w_br[1] - w_tl[1],
                b1, eq + 13, b2 - b1, b2 + 9, eq + 11,
                nino34,
-               dots(open_marks, "mo"), dots(lit_marks, "mk"),
+               '<g id="L-fires">' + draw(f_open, "fires", False)
+               + draw(f_lit, "fires", True) + '</g>'
+               + '<g id="L-crops">' + draw(c_lit, "crops", True) + '</g>',
+               '<g id="L-heat">',
                hx, hy, "".join(lab)))
 
 
@@ -340,6 +355,62 @@ def lede(d):
     out.append("<b>%d crop regions</b> are at their worst for this point in "
                "the season." % n_reg)
     return " ".join(out)
+
+
+
+LAYER_SCRIPT = """<script>
+// Reader-controlled, no interruption, and it never removes a place from the
+// record: hiding a layer is a view, and the counts beside each name stay
+// visible while it is off.
+document.querySelectorAll('.lg').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var on = b.getAttribute('aria-pressed') === 'true';
+    b.setAttribute('aria-pressed', String(!on));
+    var g = document.getElementById('L-' + b.dataset.layer);
+    if (g) g.style.display = on ? 'none' : '';
+  });
+});
+</script>"""
+
+
+def legend(d):
+    """Decodes only marks that are really on the map, and toggles the layers.
+
+    VD's toggles answer the real scaling problem honestly: seven channels of
+    qualifying marks will bury each other, and a reader-controlled layer
+    switch is defensible where a silent top-N gate is not.
+
+    The counts are derived from the drawn set, so the legend cannot claim a
+    layer the map does not have.
+    """
+    anom = sum(1 for e in d["events"] if e.get("anomalous"))
+    watched = sum(1 for c in d["fires_week"]["countries"].values()
+                  if c.get("lat") is not None)
+    crops_n = sum(1 for p_ in d["crops"]["places"]
+                  if any(r.get("rank") == 1 for r in (p_.get("regions") or []))
+                  and CROPS_XY.get(p_["place"]))
+    items = [
+        ("fires", "Fires", "%d of %d past their own record week"
+         % (anom, watched), '<circle cx="7" cy="7" r="4.2" fill="%s" '
+         'stroke="%s"/>' % (HUE["fires"], HUE["fires"])),
+        ("crops", "Crops", "%d countries with a region at a record low"
+         % crops_n, '<rect x="2.6" y="2.6" width="8.8" height="8.8" '
+         'fill="%s" stroke="%s"/>' % (HUE["crops"], HUE["crops"])),
+        ("heat", "Heat", "%d cities, one aggregate mark"
+         % len(d["heat"]["cities"]), '<circle cx="7" cy="7" r="5" fill="none" '
+         'stroke="%s" stroke-width="1.5" stroke-dasharray="2.5 2"/>'
+         % HUE["heat"]),
+    ]
+    out = ['<div class="lgd">']
+    for key, name, sub, sw in items:
+        out.append(
+            '<button class="lg" aria-pressed="true" data-layer="%s">'
+            '<svg width="14" height="14" aria-hidden="true">%s</svg>'
+            '<span>%s</span><span class="ct">%s</span></button>'
+            % (key, sw, h(name), h(sub)))
+    out.append('<span class="lgn">open mark = within its own range</span>')
+    out.append("</div>")
+    return "".join(out)
 
 
 def page(d):
@@ -461,7 +532,17 @@ h1 b{{font-weight:500;color:var(--ink)}}
  display:flex;justify-content:space-between;gap:20px;
  font-family:"{data}",monospace;font-size:11px;line-height:1.7;
  color:var(--ink-faint)}}
-svg .mk{{fill:var(--ink)}}
+.lgd{{display:flex;flex-wrap:wrap;align-items:center;gap:4px 26px;
+ padding:10px 0 0}}
+.lg{{background:none;border:none;padding:4px 0;margin:0;cursor:pointer;
+ display:flex;align-items:center;gap:8px;font-family:"{data}",monospace;
+ font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink)}}
+.lg .ct{{letter-spacing:.02em;text-transform:none;color:var(--ink-faint)}}
+.lg[aria-pressed="false"]{{opacity:.35}}
+.lgn{{font-family:"{data}",monospace;font-size:10.5px;letter-spacing:.02em;
+ color:var(--ink-faint);margin-left:auto}}
+svg .mk{{stroke-width:1}}
 /* THE CALM DENOMINATOR, drawn. Every fires country we watch is on the map;
    open means within its own range. Without them a dozen filled marks read
    as a broken map rather than as a quiet week, which is crops_map.py's own
@@ -512,10 +593,13 @@ Channels are never ranked against each other.</p>
 <div class="seclab">Where, this week
 <span class="r">uniform marks &middot; magnitude is in the readings below</span></div>
 {mapsvg}
+{legend}
 <p class="mapnote">Every mark is the same size, per D-146: the map answers
-WHERE, and magnitude lives in the readings below. A marker cannot carry its
-own denominator, so a sized mark would make a cross-instrument claim with
-none of the evidence attached. Positions are the channels&rsquo; own
+WHERE and WHICH INSTRUMENT, never how much. Shape carries the channel and
+hue repeats it, so the layers separate in greyscale and for a colourblind
+reader before colour does any work. Magnitude lives in the readings below,
+because a marker cannot carry its own denominator and a sized mark would
+make a cross-instrument claim with none of the evidence attached. Positions are the channels&rsquo; own
 coordinates where they emit them, which is heat for all 41 cities and fires
 for 90 of 94 countries; crops centroids are still design-side and should
 move to the payload. Coastline is the production world-map.svg.</p>
@@ -572,7 +656,7 @@ averaged</span>
 <span style="letter-spacing:.14em;text-transform:uppercase">one email a week
 &middot; subscribe</span></div>
 
-</div></body></html>""".format(
+</div>{script}</body></html>""".format(
         faces=T.font_faces_css("../../docs/fonts/"), vars=T.css_variables(),
         prose=T.FONT_PROSE, data=T.FONT_DATA, lede=lede(d), rows=rows,
 
@@ -581,14 +665,15 @@ averaged</span>
         n_ctry=sum(1 for p in d["crops"]["places"]
                    if any(r.get("rank") == 1 for r in (p.get("regions") or []))),
         p25=hb["9715_>2.5"]["mid"], p35=hb["record_>3.5"]["mid"],
-        n34=n34, mapsvg=map_svg(d, n34))
+        n34=n34, mapsvg=map_svg(d, n34), legend=legend(d),
+        script=LAYER_SCRIPT)
 
 
 def main():
     d = load()
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "frontpage_v2.html").write_text(page(d))
-    print("wrote design/mockups/frontpage_v2.html")
+    (OUT / "frontpage_v2_layers.html").write_text(page(d))
+    print("wrote design/mockups/frontpage_v2_layers.html")
     print("  lede:", lede(d).replace("<b>", "").replace("</b>", ""))
 
 
