@@ -79,6 +79,43 @@ N = json.loads(_PAYLOAD)
 PAYLOAD_STAMP = hashlib.sha256(_PAYLOAD).hexdigest()[:12]
 OUT = R / "docs/notes/charts"
 
+NOTES = R / "docs/notes"
+
+
+def _refuse_if_frozen(path: Path) -> None:
+    """A chart cited by a published Note is part of that Note. Freeze it.
+
+    The filename is <city>-<metric>.png with no date, in a directory every
+    Note shares, while the Note that cites it is frozen by publication date
+    and states its figures in prose. So rebuilding a chart for a LATER Note
+    silently rewrites the picture under an EARLIER one: the 10 August Note
+    says Paris had 31 hot days, and a September rebuild would hang a chart
+    reading 40-odd above that sentence. Nothing would fail. The page still
+    renders, the link still resolves, the numbers still disagree.
+
+    Same shape as the Pacific SST field on the front page, found the same
+    day: a figure and the text describing it living in two files that can
+    be updated independently. There the caption was baked at render time
+    and the image was not; here the prose is frozen and the image is not.
+
+    Refuse rather than warn. A warning printed into a terminal nobody is
+    reading is the decoration-that-looks-like-coverage failure. To publish
+    a fresh chart for a new Note, give it a distinct name.
+    """
+    if not path.exists():
+        return
+    name = path.name
+    for page in sorted(NOTES.glob("*/index.html")):
+        if name in page.read_text():
+            raise SystemExit(
+                "REFUSING to overwrite %s\n"
+                "  It is cited by the published Note %s, whose prose is\n"
+                "  frozen and states figures this chart would contradict.\n"
+                "  Charts under a published Note are frozen with it.\n"
+                "  For a new Note, render under a distinct filename." %
+                (path.relative_to(R), page.parent.name))
+
+
 PAPER, INK, INK_SOFT, INK_FAINT = "#F1F0EC", "#1A1A18", "#3A3A36", "#6E6E67"
 RULE, QUIET, NOW = "#CFCEC7", "#D8D7D1", "#8E240A"
 MON = ["January", "February", "March", "April", "May", "June", "July",
@@ -364,6 +401,7 @@ def draw(city, metric, reference=None):
     fig.tight_layout(rect=(0, 0.035 + 0.028 * len(lines), 1, 1))
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / f"{city.lower()}-{metric}.png"
+    _refuse_if_frozen(p)
     fig.savefig(p, facecolor=PAPER,
                 metadata={"Software": f"tls-note-chart payload={PAYLOAD_STAMP}"})
     plt.close(fig)
