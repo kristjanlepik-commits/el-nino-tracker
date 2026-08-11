@@ -69,6 +69,8 @@ N = json.loads((R / "heat/data/city_nights.json").read_text())
 S = json.loads((R / "heat/data/city_series.json").read_text())["cities"]
 C = N["cities"]
 NO_MULT = set(N["cities_without_day_multiple"])
+from design import copydeck  # noqa: E402
+CORRECTIONS = copydeck.load("heat_corrections")
 MON = ["January", "February", "March", "April", "May", "June", "July",
        "August", "September", "October", "November", "December"]
 slug = lambda n: n.lower().replace(" ", "-")
@@ -353,6 +355,29 @@ def _provisional_mark(v):
             'the licence that is unsettled, not the measurement.</p>')
 
 
+def _join_years(ys):
+    """1997 / 1997 and 2003 / 1997, 2003 and 2018."""
+    ys = [str(y) for y in sorted(ys)]
+    return ys[0] if len(ys) == 1 else ", ".join(ys[:-1]) + " and " + ys[-1]
+
+
+def _correction_block(name):
+    """Editor's explanation of a claim this page used to make.
+
+    The copy lives in copy/heat_corrections.md, which editor owns, for the
+    same reason the index copy does: prose inside a Python f-string in a
+    file design owns is prose editor cannot deliver. The FACTS in it are
+    generated above; this is the part that explains, which no field can.
+    """
+    raw = CORRECTIONS.get(slug(name))
+    if not raw:
+        return ""
+    paras = [copydeck._inline(x) for x in re.split(r"\n\s*\n", raw)
+             if x.strip()]
+    return ('<div class="corr"><p class="corr-k">Correction</p>'
+            + "".join(f"<p>{x}</p>" for x in paras) + "</div>")
+
+
 def check_no_silent_claim_reversal(name, head):
     """A published claim may not be withdrawn without the page saying so.
 
@@ -392,16 +417,15 @@ def check_no_silent_claim_reversal(name, head):
     was_record = prev.group(1).startswith("The most hot days")
     now_record = head.startswith("The most hot days")
     if was_record and not now_record:
-        v = C[name]
-        if not v.get("correction"):
+        if not CORRECTIONS.get(slug(name)):
             raise SystemExit(
                 f"{name}: this page claims a record today and would stop "
                 f"claiming one.\n"
                 f"  published: {prev.group(1)}\n"
                 f"  rebuild  : {head}\n"
-                f"  A withdrawn record must be visible on the page. Heat "
-                f"emits the fact as `correction`; editor words it. Neither "
-                f"exists yet, so this build stops rather than swapping the "
+                f"  A withdrawn record must be visible on the page. Add a "
+                f"'## {slug(name)}' block to copy/heat_corrections.md, which "
+                f"editor owns. This build stops rather than swapping the "
                 f"sentence in silence.")
 
 
@@ -536,6 +560,17 @@ letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
 h1{font-family:Spectral,serif;font-weight:400;font-size:50px;line-height:1.05;
 letter-spacing:-.02em;color:var(--ink);margin:40px 0 16px;max-width:19ch;text-wrap:balance}
 .stand{font-size:17.5px;line-height:1.62;max-width:62ch;margin:0}
+/* A CORRECTION IS NOT A WARNING. It sits in ink on paper with a rule
+   above it, the same weight as the page's own prose, because the page is
+   explaining itself rather than apologising. D-043 in a different costume:
+   the styling must not make a sound correction read as an incident. */
+.corr{margin:22px 0 0;padding:15px 0 0;border-top:2px solid var(--ink)}
+.corr p{margin:0 0 9px;max-width:60ch;font-size:15.5px;line-height:1.62;
+ color:var(--ink-soft)}
+.corr p:last-child{margin-bottom:0}
+.corr .corr-k{font-family:var(--mono,ui-monospace,monospace);font-size:9.5px;
+ letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);
+ margin-bottom:9px}
 .rows{display:flex;flex-direction:column;gap:22px;margin:34px 0 0}
 .urow{display:grid;grid-template-columns:196px 1fr 54px;gap:20px;align-items:center}
 .uk{font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.55;
@@ -732,8 +767,28 @@ for name, v in sorted(C.items()):
     # page. Same length, same structure, and it survives the boundary: at 8th
     # of 91 it reads as notable, at 28th of 56 as unremarkable, off one
     # template rather than two.
+    # A TIE FOR FIRST IS NOT A DEMOTION, AND THE OLD BRANCHING CALLED IT ONE.
+    # Two cases: rank 1, and everything else. So Palma at rank 2, tied with
+    # 2022 and beaten by nobody, read "2nd of Palma's 49 summers", which
+    # states that some year was hotter. None was.
+    #
+    # Editor caught it in their own draft ("second only to 2022" says 2022 was
+    # hotter) and it is Hamburg's shape from this morning on a second city, so
+    # it is a template branch rather than one page's copy.
+    #
+    # DERIVED FROM THE FIELDS, NOT RECOMPUTED. heat's tie_note is explicit
+    # that recomputing the rank with a strict greater-than gives a different
+    # and more alarming answer. So this never touches the series: rank counts
+    # prior years AT OR ABOVE, so if the rank is exactly one more than the
+    # number of tied years, every year keeping 2026 off first place is a tie
+    # and nothing exceeds it.
+    ties = list(dr.get("tied_with") or [])
+    ties_for_first = dr["value"] == 1 + len(ties) and ties
     if dr["value"] == 1:
         head = f"The most hot days {name} has recorded by this date."
+    elif ties_for_first:
+        head = (f"{now} hot days so far this year, matching "
+                f"{_join_years(ties)} for the most {name} has recorded.")
     else:
         head = (f"{now} hot days so far, {ordn(dr['value'])} of "
                 f"{name}'s {dr['of_years']} summers.")
@@ -1044,6 +1099,7 @@ for name, v in sorted(C.items()):
 
 <h1>{head}</h1>
 {_provisional_mark(v)}
+{_correction_block(name)}
 {peak_lead}
 {station_note}
 
@@ -1162,6 +1218,26 @@ for name, v in sorted(C.items()):
         notes.append(f"{name}: no day multiple")
     if prank == 1:
         notes.append(f"{name}: peak is also a record")
+
+# EVERY CORRECTION MUST HAVE REACHED A PAGE. copydeck.render() fails on a
+# slot nothing uses; I called load() directly and so bypassed it, and
+# promptly wrote a block that was never placed. Editor's prose sitting in a
+# tracked file that no page renders is the same loss as prose deleted, and
+# it looks like success from both ends.
+_placed = {slug(n) for n in built}
+_orphan = sorted(k for k in CORRECTIONS if k not in _placed)
+if _orphan:
+    raise SystemExit(
+        "copy/heat_corrections.md has %d block(s) for cities that were not "
+        "built: %s. A correction nobody renders is not a correction."
+        % (len(_orphan), ", ".join(_orphan)))
+for _n in built:
+    if slug(_n) in CORRECTIONS:
+        _h = dict(pending)[R / ("docs/heat/%s.html" % slug(_n))]
+        if 'class="corr"' not in _h:
+            raise SystemExit(
+                "%s has a correction block in copy/heat_corrections.md that "
+                "did not reach its page." % _n)
 
 # The single write point. Reached only when every city has passed.
 for _path, _html in pending:
