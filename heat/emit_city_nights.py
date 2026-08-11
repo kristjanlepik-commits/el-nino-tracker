@@ -85,6 +85,12 @@ COORDS = {
     "Hanover": (52.4, 9.7), "Stuttgart": (48.8, 9.2), "Geneva": (46.2, 6.1),
     "Leipzig": (51.3, 12.4), "Dresden": (51.1, 13.8),
     "Basel": (47.5, 7.6), "Lugano": (46.0, 8.96),
+    # Heathrow, and this one is NOT hand-typed. MIDAS gives 51.479,-0.453 and
+    # OSCAR gives 51-28-45N 000-27-02W for WMO 03772; they agree to three
+    # decimals, which is the check that confirmed the two transports are one
+    # station. Recorded here so London is not the only city whose mark is a
+    # guess when it is the one city whose position was actually verified.
+    "London": (51.479, -0.451),
 }
 
 def _coord(city):
@@ -137,6 +143,13 @@ LICENCE = {
            "lag_days": 5},
     "FI": {"licence": "CC-BY 4.0", "commercial_use": True,
            "attribution": "Source: FMI", "lag_days": 1},
+    "UK": {"licence": "Met Office. History from MIDAS Open under the Open "
+                      "Government Licence, commercial reuse permitted with "
+                      "attribution. THE 2026 SEASON IS PROVISIONAL: same "
+                      "station, bulletin transport, licence confirmation "
+                      "requested from the Met Office and not yet received.",
+           "commercial_use": True, "attribution": "Source: Met Office",
+           "lag_days": 1},
     "CH": {"licence": "Swiss federal open data: reuse permitted, including "
                       "commercial, with attribution",
            "commercial_use": True, "attribution": "Source: MeteoSwiss",

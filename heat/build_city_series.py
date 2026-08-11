@@ -105,6 +105,21 @@ CITIES = {
     "Palma":       dict(country="ES", station="PALMA, PUERTO", cut=(8, 2)),
     "Zaragoza":    dict(country="ES", station="ZARAGOZA, AEROPUERTO", cut=(8, 2)),
     "Bilbao":      dict(country="ES", station="BILBAO AEROPUERTO", cut=(8, 2)),
+    # LONDON, added 2026-08-10. The only city whose history and current
+    # season reach us by different transports, both from the same
+    # thermometer at Heathrow: MIDAS Open for 1949-2025 under the Open
+    # Government Licence, and the station's own SYNOP bulletins for 2026,
+    # because MIDAS Open publishes annually in arrears.
+    #
+    # Assembled by heat/build_london.py into the ordinary cache shape, so
+    # nothing here or downstream knows about the split. Provenance is
+    # emitted separately in heat/data/london_provenance.json.
+    #
+    # THE 2026 SEASON IS PROVISIONAL. Its licence is unresolved and the Met
+    # Office Library Team is sending the official file. When it lands,
+    # rerun the builder and this entry does not change.
+    "London":    dict(country="UK", station="Heathrow", cut=(8, 10),
+                      file="london.json"),
     "Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
     "Marseille":   dict(country="FR", station="MARIGNANE", cut=(8, 3)),
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
@@ -417,7 +432,11 @@ def build(city, meta):
                    "SE": "SMHI",
                    "CZ": "CHMI",
                    "FI": "FMI",
-                   "CH": "MeteoSwiss"}[meta["country"]],
+                   "CH": "MeteoSwiss",
+                   # History MIDAS Open, 2026 season the same
+                   # station's SYNOP bulletins. One thermometer,
+                   # two transports; see build_london.py.
+                   "UK": "Met Office"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,

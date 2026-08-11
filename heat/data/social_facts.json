@@ -1819,6 +1819,126 @@
    "years_with_none": 98
   }
  },
+ "London": {
+  "city": "London",
+  "country": "UK",
+  "hottest_day": {
+   "c": 40.2,
+   "date": "2022-07-19",
+   "is_current_year": false
+  },
+  "hottest_days": {
+   "basis": "every individual day in the record, uncut and with no seasonal window. NOT comparable with warmest_day_c (full-year maxima) or warmest_day_to_cut_c (cut).",
+   "top": [
+    {
+     "c": 40.2,
+     "date": "2022-07-19",
+     "year": 2022
+    },
+    {
+     "c": 37.9,
+     "date": "2003-08-10",
+     "year": 2003
+    },
+    {
+     "c": 37.9,
+     "date": "2019-07-25",
+     "year": 2019
+    },
+    {
+     "c": 37.8,
+     "date": "2020-07-31",
+     "year": 2020
+    },
+    {
+     "c": 37.1,
+     "date": "2022-07-18",
+     "year": 2022
+    },
+    {
+     "c": 36.7,
+     "date": "2015-07-01",
+     "year": 2015
+    },
+    {
+     "c": 36.5,
+     "date": "1990-08-03",
+     "year": 1990
+    },
+    {
+     "c": 36.4,
+     "date": "2020-08-07",
+     "year": 2020
+    },
+    {
+     "c": 36.4,
+     "date": "2026-06-26",
+     "year": 2026
+    },
+    {
+     "c": 35.7,
+     "date": "2020-08-11",
+     "year": 2020
+    }
+   ]
+  },
+  "leading_run": {
+   "dates": [],
+   "is_a_count": "recompute every run. Never write the number into copy as a literal.",
+   "n": 0,
+   "next_rank_year": 2022,
+   "post_form": null
+  },
+  "previous_high": {
+   "c": 40.2,
+   "date": "2022-07-19",
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
+  },
+  "record_scope": {
+   "differs_because": null,
+   "from_year": 1949,
+   "is_all_time": false,
+   "may_not_say": [
+    "hottest ever",
+    "all-time record",
+    "hottest since records began"
+   ],
+   "record_starts": 1949,
+   "text": "our series, from 1949",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
+  },
+  "run_above_p95": {
+   "counted_to": "08-10",
+   "current": 0,
+   "in_progress": false,
+   "longest": 8,
+   "longest_ended": "2026-07-12",
+   "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
+   "threshold_c": 29.5
+  },
+  "station": "Heathrow",
+  "tropical_nights": {
+   "baseline_from_year": 1949,
+   "basis": "median of 1949-2025, each year counted to the same date",
+   "comparable_across_cities": false,
+   "counted_to": "08-10",
+   "current": 5,
+   "median_to_cut": 0,
+   "metric_reaches_city": false,
+   "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
+   "post_form": null,
+   "span_is_not_a_count": "78 calendar years span the record and 77 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
+   "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 77,
+   "years_span": [
+    1949,
+    2026
+   ],
+   "years_with_none": 62
+  }
+ },
  "Lugano": {
   "city": "Lugano",
   "country": "CH",

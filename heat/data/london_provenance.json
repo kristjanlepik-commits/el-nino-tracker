@@ -1,0 +1,24 @@
+{
+ "station": "Heathrow, WMO 03772, MIDAS 00708",
+ "history": {
+  "source": "Met Office MIDAS Open",
+  "licence": "Open Government Licence, commercial reuse permitted",
+  "from": "1949-01-01",
+  "to": "2025-12-31",
+  "convention": "09h minimum and 21h maximum, climatological day"
+ },
+ "current_season": {
+  "source": "Met Office observations, SYNOP bulletins",
+  "transport": "OGIMET, a one-time archival pull",
+  "licence_status": "UNRESOLVED, asked of the Met Office",
+  "provisional": true,
+  "replaced_by": "Met Office Library Team file, expected",
+  "hours": "06Z minimum, 18Z maximum",
+  "validated": "against MIDAS 2024 and 2025, 100% of days within 0.5 C, worst 0.1 on maxima",
+  "days_with_both": 98,
+  "first": "2026-05-01",
+  "last": "2026-08-10"
+ },
+ "same_thermometer": true,
+ "why_not_a_splice": "one instrument, two transports, same 12-hour climatological day. Not the cross-instrument join that produced the Murcia error."
+}

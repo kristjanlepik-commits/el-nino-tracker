@@ -66,8 +66,20 @@ def _dwd():
 # Each entry becomes one service resolver. Unresolved cities keep their
 # hand-typed value AND say so in the payload, rather than disappearing or
 # being presented as sourced.
+def _met_office():
+    """Heathrow, verified rather than resolved from a list.
+
+    MIDAS station metadata gives 51.479,-0.453 and OSCAR/Surface gives
+    51-28-45N 000-27-02W for WMO 03772. They agree to three decimals, and
+    that agreement is what established that the MIDAS history and the SYNOP
+    season are one thermometer rather than two.
+    """
+    return {"London": (51.479, -0.451)}
+
+
 RESOLVERS = {
     "DWD": _dwd,
+    "MIDAS/OSCAR": _met_office,
 }
 
 # STILL HAND-TYPED, listed rather than left implicit. Each needs its service's
