@@ -3401,6 +3401,18 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     far_pct = headline.get("record_>3.5", {}).get("mid")
     description = (f"Weekly probability tracker for the developing 2026-27 El Niño "
                    f"event. {magn_pct}% chance of a 1997/2015-magnitude winter peak.")
+    # THE FRONT PAGE HAS ITS OWN TEMPLATE NOW, and returns before any of
+    # the assembly below. build_public_html still renders the dated brief,
+    # which is a different artefact with a different job: the brief is the
+    # week's full record, and this page answers where the climate is
+    # abnormal this week. Same split as /elnino/ took on 2026-08-11.
+    if is_front:
+        from templates.frontpage import render as _render_front
+        return _render_front(
+            headline, brief_date_iso, canonical_url or f"{PAGES_BASE_URL}/",
+            og_image_url or f"{PAGES_BASE_URL}/card.png",
+            root_prefix or "")
+
     if is_front:
         title = f"{SITE_NAME} · how big is this, actually?"
     else:

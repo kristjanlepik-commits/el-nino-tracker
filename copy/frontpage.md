@@ -30,3 +30,6 @@ Two things the generated fallback holds that a written lede must hold too:
   dropping the qualifier for rhythm makes it a claim we cannot support.
 
 ## lede
+
+**Paris has had 15 times more hot days this summer than its 1961-1990
+average.**

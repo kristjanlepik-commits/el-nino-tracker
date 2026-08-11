@@ -1,81 +1,58 @@
-"""Front page v2: VD's layout, real payloads, production coastline.
+"""The front page.
 
-MOCKUP ONLY. Writes design/mockups/, never docs/.
+PRODUCTION TEMPLATE. design/make_frontpage_v2.py renders it to
+design/mockups/ against the same payloads, so the mockup and the live page
+cannot drift.
 
-VD's comp is the base and it earns it in three places: the evidence column
-beside every number, El Nino pulled out of the readings table because a
-forecast has no rank in its own history, and the channels footer carrying
-cadence and in-development state. All three are kept.
+Structure, and who owns each part:
 
-What this changes, each for a stated reason:
-
-1. THE LEDE. "Three channels measured this week. All three are outside
-   their normal range" answers how many of our instruments are unusual,
-   which is a sentence about us. It is also the largest type on the site
-   and contains no place, no magnitude and no date. Replaced with one
-   clause per channel in that channel's own units, fixed order, no
-   comparison between them, generated. It stays true on a calm week
-   because each clause simply states its negative.
-
-2. EVERY COUNT IS GENERATED. The comp typed five that have moved or were
-   wrong: 20 Yemen regions (19), 1.2 Bilbao nights (1.4), 37 heat cities
-   (41), "23 more" fires (18 anomalous), "20 more" crops (36 countries).
-
-3. THE ATTRIBUTION COLUMN COLLAPSES when no channel in the set runs
-   attribution, instead of leaving two rows trailing into white space that
-   reads as missing data.
-
-4. THE EL NINO BAND IS TYPOGRAPHIC. The comp gives it a blue rule and blue
-   label. D-101 retired channel hue, and the layered map's own case is
-   that hue should return on the MAP only, so a hued band on the page
-   contradicts the argument being made for it.
-
-5. UNIFORM MARKS ON THE REAL COASTLINE, because that is the thing being
-   ruled on and neither file shows it: the comp omits the coastline, the
-   layered study has it but also reverses D-146.
-
-6. THE HEAT ROW IS THE SET, not a lead city. The comp names Bilbao. Heat
-   emits no lead, so choosing one means inventing a cross-city ranking,
-   which is the exact move the page refuses everywhere else. Heat's own
-   emitted headline is a set statement, so the row shows that.
-
-Usage:  .venv/bin/python design/make_frontpage_v2.py
+    standing question   above the map, never changes, product's D-155.
+                        A LABEL rather than a claim, which is why it
+                        survives a quiet week without changing shape, and
+                        it may never carry a number. Wording is editor's.
+    weekly lede         editor writes it (D-154). The generated three
+                        clauses are the FALLBACK for a week nobody does.
+    the map             one layer per channel, above a stated bar.
+    the readings        one row per channel, its own selection, its own
+                        units, its evidence beside it.
+    the wave            El Nino, outside the readings table because a
+                        forecast has no rank in its own history.
+    the note            Kristjan's, D-093.
+    the channels        every channel with its cadence, including the
+                        ones still in development.
+    subscribe           the same form and promise as /subscribe/.
 """
 import json
 import sys
+
+
 from html import escape as h
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 import tokens as T  # noqa: E402
-# The form, the promise and its CSS all come from run_brief so the
-# front page cannot drift from /subscribe/. One string, two
-# surfaces, which is the reason EMAIL_CAPTURE_PROMISE lives there
-# rather than in the subscribe template.
-# ONE MAP, NOT TWO. The front page draws the same block as the layered
-# study, imported rather than reimplemented, so the bar cannot be changed on
-# one surface and left on the other.
 from templates.frontpage_map import map_block  # noqa: E402
 from run_brief import (email_capture_form,  # noqa: E402
-                       EMAIL_CAPTURE_PROMISE, EMAIL_FORM_CSS)
+                       EMAIL_CAPTURE_PROMISE, EMAIL_FORM_CSS,
+                       ANALYTICS_SNIPPET, PAGES_BASE_URL, SITE_NAME)
 
-OUT = ROOT / "design" / "mockups"
 
-
-def load():
+def load(issue):
+    """Every payload the page reads. Nothing is fetched."""
     d = {}
     d["heat"] = json.load(open(ROOT / "heat/data/city_nights.json"))
     d["coords"] = json.load(open(ROOT / "heat/data/station_coords.json"))
     d["fires_week"] = json.load(open(ROOT / "fires/data/current_week.json"))
     d["events"] = json.load(open(ROOT / "data/events.json"))["events"]
     d["crops"] = json.load(open(ROOT / "crops/data/stress_current.json"))
-    d["meta"] = json.load(open(ROOT / "docs/briefs/2026-08-10/meta.json"))
+    d["meta"] = json.load(open(
+        ROOT / ("docs/briefs/%s/meta.json" % issue)))
     # meta.json carries the buckets; the observed value lives in the
     # snapshot. Reading it off meta returned None and the band printed
     # "n/a" beside two live percentages, which reads as a broken figure
     # rather than an absent one.
-    d["snap"] = json.load(open(ROOT / "snapshots/2026-08-10.json"))
+    d["snap"] = json.load(open(ROOT / ("snapshots/%s.json" % issue)))
     return d
 
 
@@ -494,7 +471,20 @@ def _spread(hb):
             + "; ".join(bits) + ".")
 
 
-def page(d):
+# PRODUCT'S D-155, and editor owns the wording. A STANDING question above
+# the map that never changes, with the weekly lede beneath it. It is a
+# LABEL rather than a claim, which is why it survives a quiet week without
+# changing shape, and product has ruled it may never carry a number.
+#
+# It replaces "how big is this, actually?", which Kristjan killed: "actually
+# is a bad word to use there, kind of garbage." That string was in three
+# places that had to agree, because the title and og:title are what a reader
+# sees in a browser tab and in every link preview, and two different
+# standing questions means clicking one and arriving at another.
+STANDING_QUESTION = "Where is the climate abnormal this week, and how bad?"
+
+
+def page(d, canonical, og_image_url, root_prefix, desc):
     _mb = map_block(d)
     rs = readings(d)
     # The chip column exists only if something in the SET uses it. Two rows
@@ -525,7 +515,20 @@ def page(d):
 
     return """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Front page v2 &middot; real payloads</title>
+<title>{sitename} &middot; {standing}</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{canonical}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{sitename}">
+<meta property="og:title" content="{sitename} &middot; {standing}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{ogimage}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{sitename} &middot; {standing}">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="{ogimage}">
+{analytics}
 <style>
 {faces}
 :root {{ {vars} }}
@@ -546,7 +549,14 @@ body{{margin:0;background:var(--paper);color:var(--ink-soft);
  text-transform:uppercase;color:var(--ink-faint)}}
 .asof .r{{margin-left:auto;display:flex;flex-wrap:wrap;gap:4px 14px;
  font-variant-numeric:tabular-nums}}
-h1{{margin:30px 0 0;font-weight:400;font-size:31px;line-height:1.3;
+/* THE STANDING QUESTION SITS ABOVE THE LEDE, per D-155: a label the page
+   always carries, then this week's finding beneath it. Set as a label
+   rather than a headline, because product ruled it is not a claim and may
+   never carry a number: if it competed with the lede for weight, a reader
+   would meet two headlines and neither would land. */
+.standing{{margin:22px 0 0;font-family:"{data}",monospace;font-size:11px;
+ letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint)}}
+h1{{margin:14px 0 0;font-weight:400;font-size:31px;line-height:1.3;
  letter-spacing:-.012em;color:var(--ink-soft);max-width:46ch;text-wrap:pretty}}
 h1 b{{font-weight:500;color:var(--ink)}}
 .stand{{margin:15px 0 0;font-size:17px;line-height:1.62;max-width:58ch;
@@ -706,6 +716,7 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
 <span>Heat through 08-11</span><span>Crops dekad to 07-31</span>
 <span>El Ni&ntilde;o issue 08-10</span></span></div>
 
+<p class="standing">{standing}</p>
 <h1>{lede}</h1>
 <p class="stand">Every reading is measured against its own place&rsquo;s
 history, and each says whether El Ni&ntilde;o is involved; most are not.
@@ -741,7 +752,8 @@ column is absent rather than empty.</span>
 
 <div class="wave"><span class="k">The wave &nbsp;&middot;&nbsp; El Ni&ntilde;o
 2026-27</span>
-<span class="v"><b>{p25}%</b> chance of a peak beyond +2.5&nbsp;&deg;C,
+<span class="v"><b class="ws-num num">{p25}</b>% chance of a peak beyond
++2.5&nbsp;&deg;C,
 <b>{p35}%</b> beyond +3.5</span>
 <span class="spread">{spread}</span>
 <span class="r">Ni&ntilde;o 3.4 {n34} &middot; issue 2026-08-10 &middot;
@@ -784,7 +796,7 @@ archive stays free and public whether you subscribe or not.</p></div></div>
 averaged</span></div>
 
 </div>{script}</body></html>""".format(
-        faces=T.font_faces_css("../../docs/fonts/"), vars=T.css_variables(),
+        faces=T.font_faces_css(root_prefix + "fonts/"), vars=T.css_variables(),
         prose=T.FONT_PROSE, data=T.FONT_DATA, lede=lede(d)[0], rows=rows,
         nino_col=T.NINO,
 
@@ -794,7 +806,9 @@ averaged</span></div>
                    if any(r.get("rank") == 1 for r in (p.get("regions") or []))),
         p25=hb["9715_>2.5"]["mid"], p35=hb["record_>3.5"]["mid"],
         spread=_spread(hb),
-        n34=n34,
+        n34=n34, standing=h(STANDING_QUESTION), sitename=h(SITE_NAME),
+        desc=h(desc), canonical=h(canonical), ogimage=h(og_image_url),
+        analytics=ANALYTICS_SNIPPET, root_prefix=root_prefix,
         mb_svg=_mb["svg"], mb_legend=_mb["legend"],
         mb_bar_f=_mb["bar_f"], mb_bar_c=_mb["bar_c"], mb_below=_mb["n_below"],
         mb_state="%d past their own record &middot; %d past the bar"
@@ -804,17 +818,20 @@ averaged</span></div>
         promise=h(EMAIL_CAPTURE_PROMISE), ecss=EMAIL_FORM_CSS)
 
 
-def main():
-    d = load()
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "frontpage_v2.html").write_text(page(d))
-    print("wrote design/mockups/frontpage_v2.html")
-    text, mode = lede(d)
-    print("  lede [%s]: %s" % (mode, text.replace("<b>", "").replace("</b>", "")))
-    if mode == "generated":
-        print("  (fallback. Editor writes the lede most weeks; copy/"
-              "frontpage.md '## lede' is unwritten.)")
 
 
-if __name__ == "__main__":
-    main()
+def render(meta, brief_date_iso, canonical_url, og_image_url,
+           root_prefix=""):
+    """The front page. Called from run_brief.build_public_html(is_front=True).
+
+    Reads the channel payloads itself rather than taking them as arguments,
+    the same way the mockup does, so the two cannot render different data.
+    Nothing here fetches.
+    """
+    d = load(brief_date_iso)
+    hb = d["meta"]["headline_buckets"]
+    magn = hb.get("9715_>2.5", {}).get("mid")
+    desc = ("Where the climate is abnormal this week, measured against each "
+            "place's own record. %s%% chance of a 1997/2015-magnitude El "
+            "Niño peak." % magn)
+    return page(d, canonical_url, og_image_url, root_prefix, desc)
