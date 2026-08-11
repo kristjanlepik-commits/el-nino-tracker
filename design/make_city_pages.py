@@ -320,10 +320,37 @@ def _provisional_block(v):
     if "PROVISIONAL" not in lic.upper():
         return ""
     _, _, tail = lic.partition("PROVISIONAL")
-    return ('<span style="grid-column:1/-1"><strong>This season is '
+    return ('<span style="grid-column:1/-1"><strong>The 2026 season is '
             'provisional.</strong>' + _esc(tail.lstrip(":").rstrip(".")) +
             '. The history is Met Office MIDAS Open under the Open '
-            'Government Licence.</span>')
+            'Government Licence, which is unambiguously ours to '
+            'republish.</span>')
+
+
+def _provisional_mark(v):
+    """The provisional mark, ADJACENT TO THE FIGURE rather than at the foot.
+
+    I put it in the source block first and product's instruction is that
+    this is not enough, for a reason worth keeping: the page ships now
+    BECAUSE people will look during a heatwave, and a page that gets
+    looked at gets screenshotted. A screenshot does not get pulled. If the
+    number can be lifted without the caveat, the caveat is not doing its
+    job.
+
+    Floods learned the same thing today about `cannot_say` travelling as
+    "nothing happened", and heat learned it about the counts being floors.
+    Three channels, one lesson: a qualifier that is not attached to the
+    figure is a qualifier that will be separated from it.
+    """
+    lic = ((v.get("source") or {}).get("licence") or "")
+    if "PROVISIONAL" not in lic.upper():
+        return ""
+    return ('<p class="provmark"><strong>2026 figures on this page are '
+            'provisional.</strong> The Met Office has been asked whether we '
+            'may republish this season and has not yet answered. The '
+            'numbers are the same Heathrow thermometer as the history and '
+            'were validated against it on every day of 2024 and 2025; it is '
+            'the licence that is unsettled, not the measurement.</p>')
 
 
 def check_europe_scope(name, html):
@@ -466,6 +493,10 @@ color:var(--ink-faint);text-align:right}
 .ua{background:var(--accent)}
 .un{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500;
 color:var(--ink);text-align:right}
+.provmark{ font-size:15px; line-height:1.55; color:var(--ink);
+  border-left:2.4px solid var(--ink); padding:2px 0 2px 15px; margin:18px 0 0;
+  max-width:62ch; }
+.provmark strong{ font-weight:500; }
 .seclab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.22em;
 text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
 padding-bottom:10px;margin:52px 0 14px}
@@ -931,6 +962,7 @@ for name, v in sorted(C.items()):
 <span class="when">{name} &middot; {S[name]['station']} &middot; to {cut_txt} 2026</span></div>
 
 <h1>{head}</h1>
+{_provisional_mark(v)}
 {peak_lead}
 {station_note}
 
