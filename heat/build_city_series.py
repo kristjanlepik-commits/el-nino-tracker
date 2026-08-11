@@ -583,11 +583,18 @@ def build(city, meta):
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,
         "night_thresholds_c": nth,
+        # DERIVED FROM THE PERIOD ACTUALLY USED. Editor caught these still
+        # reading 1971-2000 after three cities moved to 1991-2020, which
+        # would have put a source note claiming the old window four lines
+        # under copy explaining that the old window could not be built.
+        # The number is corrected and the field describing it is not: the
+        # day's most repeated defect, landing on the correction that exists
+        # to fix a description.
         "night_threshold_basis":
-            "90th/95th/99th percentile of this station's own July-August "
-            "daily MINIMA, 1971-2000. The locally calibrated night metric, "
-            "emitted alongside the 20 C tropical-night count rather than "
-            "replacing it.",
+            f"90th/95th/99th percentile of this station's own July-August "
+            f"daily MINIMA, {pctl[0]}-{pctl[1]}. The locally calibrated "
+            f"night metric, emitted alongside the 20 C tropical-night count "
+            f"rather than replacing it.",
         "tropical_night_metric_works":
             sum(1 for y in range(2011, 2026)
                 if years.get(str(y), {}).get("nights_to_cut", 0) >= 5) >= 8,
@@ -595,8 +602,12 @@ def build(city, meta):
             "False where the 20 C count is too rare to carry a ratio. Such a "
             "city must lead with the percentile night metric instead.",
         "threshold_basis":
-            "90th/95th/99th percentile of this station's own July-August "
-            "daily maxima, 1971-2000.",
+            f"90th/95th/99th percentile of this station's own July-August "
+            f"daily maxima, {pctl[0]}-{pctl[1]}."
+            + ("" if pctl == PCTL_BASELINE else
+               f" This station's record starts in {min(int(y) for y in years)}"
+               f" and cannot cover {PCTL_BASELINE[0]}-{PCTL_BASELINE[1]}, so "
+               f"the complete {pctl[0]}-{pctl[1]} WMO normal is used instead."),
         "day_counts": counts,
         "day_counts_baseline_years": n_early,
         "day_counts_comparable": comparable,
