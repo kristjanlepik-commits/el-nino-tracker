@@ -918,6 +918,23 @@ def main():
         exp = sorted({r.get("hist_expected") for r in detail.values()
                       if r.get("hist_expected")})
         json.dump({"window": win_key, "degraded": degraded,
+                   # FIRE's own freshness bound, per D-092: platform reports
+                   # a missing bound rather than guessing one, because a
+                   # guessed number that never fires is worse than none.
+                   #
+                   # data_as_of is the last day the window covers, which is
+                   # yesterday on a healthy run, so the normal age is 1. Two
+                   # tolerates a single missed run; three consecutive days
+                   # without a pull is not a blip and the pages should stop.
+                   #
+                   # WHAT THIS DOES NOT CATCH, stated so nobody reads more
+                   # into it: it measures whether the pipeline is RUNNING,
+                   # not whether what it produced is complete. On 2026-08-11
+                   # the window was perfectly current and still built from
+                   # five of seven days. That failure is caught by the
+                   # calendar set-difference above, not by this.
+                   "data_as_of": end.isoformat(),
+                   "max_data_age_days": 2,
                    "baseline": {
                        "window": win_key,
                        "years": all_years,
