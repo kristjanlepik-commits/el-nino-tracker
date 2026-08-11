@@ -49,6 +49,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 import tokens as T  # noqa: E402
+# The form, the promise and its CSS all come from run_brief so the
+# front page cannot drift from /subscribe/. One string, two
+# surfaces, which is the reason EMAIL_CAPTURE_PROMISE lives there
+# rather than in the subscribe template.
+from run_brief import (email_capture_form,  # noqa: E402
+                       EMAIL_CAPTURE_PROMISE, EMAIL_FORM_CSS)
 
 OUT = ROOT / "design" / "mockups"
 
@@ -457,6 +463,16 @@ h1 b{{font-weight:500;color:var(--ink)}}
 .chn .row .n{{font-family:"{data}",monospace;font-size:11px;letter-spacing:.16em;
  text-transform:uppercase;width:92px;color:var(--ink)}}
 .chn .row .c{{margin-left:auto;font-family:"{data}",monospace;font-size:10px}}
+.sub{{margin-top:44px;border-top:3px solid var(--ink);padding-top:18px;
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 48px;
+ align-items:start}}
+.sub .k{{font-family:"{data}",monospace;font-size:9.5px;letter-spacing:.22em;
+ text-transform:uppercase;color:var(--ink)}}
+.sub .p{{margin:9px 0 0;font-size:19px;line-height:1.45;color:var(--ink);
+ max-width:34ch;text-wrap:pretty}}
+.sub .fine{{margin:9px 0 0;font-family:"{data}",monospace;font-size:10.5px;
+ line-height:1.7;color:var(--ink-faint);max-width:52ch}}
+{ecss}
 .foot{{margin-top:40px;border-top:1px solid var(--rule);padding:16px 0 40px;
  display:flex;justify-content:space-between;gap:20px;
  font-family:"{data}",monospace;font-size:11px;line-height:1.7;
@@ -491,6 +507,7 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
  .note{{grid-template-columns:1fr}}
  .chn .grid{{grid-template-columns:1fr}}
  .foot,.more{{flex-direction:column}}
+ .sub{{grid-template-columns:1fr}}
 }}
 </style></head><body><div class="shell">
 
@@ -566,11 +583,15 @@ Econ</span><span>each needs its own baseline first</span>
 <span class="c">in development</span></div>
 </div></div>
 
+<div class="sub">
+<div><div class="k">One email a week</div>
+<p class="p">{promise}</p></div>
+<div>{form}<p class="fine">Confirmation email required. No spam, and the
+archive stays free and public whether you subscribe or not.</p></div></div>
+
 <div class="foot"><span>Lepik, K. (2026). The Long Swell. thelongswell.com
 &middot; every issue archived, immutable &middot; disagreements surfaced, not
-averaged</span>
-<span style="letter-spacing:.14em;text-transform:uppercase">one email a week
-&middot; subscribe</span></div>
+averaged</span></div>
 
 </div></body></html>""".format(
         faces=T.font_faces_css("../../docs/fonts/"), vars=T.css_variables(),
@@ -581,7 +602,9 @@ averaged</span>
         n_ctry=sum(1 for p in d["crops"]["places"]
                    if any(r.get("rank") == 1 for r in (p.get("regions") or []))),
         p25=hb["9715_>2.5"]["mid"], p35=hb["record_>3.5"]["mid"],
-        n34=n34, mapsvg=map_svg(d, n34))
+        n34=n34, mapsvg=map_svg(d, n34),
+        form=email_capture_form(label="Subscribe"),
+        promise=h(EMAIL_CAPTURE_PROMISE), ecss=EMAIL_FORM_CSS)
 
 
 def main():
