@@ -1473,6 +1473,35 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                                          "indicator for this country",
         },
         "chance_baseline_aggregate": aggregate,
+        # Editor needs "11 days ago" computed at render, and the 9 and
+        # the 18 of the cadence were about to become typed constants in
+        # a template, which is a number nobody owns. Emitted here with
+        # its provenance, because the two figures are not the same kind
+        # of thing: one is measured and one is an upper bound.
+        "publication_cadence": {
+            "publications_per_year": 36,
+            "publishes_on": "the 1st, 11th and 21st of each month",
+            "window_days": "10, except the 21st which runs to month end",
+            "observed_lag_days": {
+                "2026-07-21": {"value": 9, "basis": "measured: window "
+                               "closed 31 July, first seen published "
+                               "2026-08-09 by crops/probe_asap.py"},
+                "2026-07-11": {"value": 8, "basis": "UPPER BOUND, not a "
+                               "measurement: present in a cache pull "
+                               "dated 28 July, so published by then"},
+            },
+            "age_days": {
+                "floor": 9, "peak": 19,
+                "means": "the age of the newest observation CYCLES. It "
+                         "is at the floor the day a dekad publishes and "
+                         "grows by one each day until the next lands, "
+                         "roughly ten days later. Quoting the floor as "
+                         "the property is the error corrected in D-148.",
+            },
+            "_render": "the CURRENT age must be computed at render from "
+                       "`dekad` against today, never stored. A stored "
+                       "age is wrong the day after it is written.",
+        },
         # D-104: state the baseline window and whether the current
         # reading sits inside it, rather than leaving it to be inferred.
         # Three chats inferred it wrongly in one day: VD decided fires

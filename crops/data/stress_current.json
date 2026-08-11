@@ -76,6 +76,27 @@
   "recent_years_counted": 12,
   "_scope": "reported places only, never the full catalogue. A baseline over a wider set than the page shows is not like-for-like and the discrepancy is invisible in the current year."
  },
+ "publication_cadence": {
+  "publications_per_year": 36,
+  "publishes_on": "the 1st, 11th and 21st of each month",
+  "window_days": "10, except the 21st which runs to month end",
+  "observed_lag_days": {
+   "2026-07-21": {
+    "value": 9,
+    "basis": "measured: window closed 31 July, first seen published 2026-08-09 by crops/probe_asap.py"
+   },
+   "2026-07-11": {
+    "value": 8,
+    "basis": "UPPER BOUND, not a measurement: present in a cache pull dated 28 July, so published by then"
+   }
+  },
+  "age_days": {
+   "floor": 9,
+   "peak": 19,
+   "means": "the age of the newest observation CYCLES. It is at the floor the day a dekad publishes and grows by one each day until the next lands, roughly ten days later. Quoting the floor as the property is the error corrected in D-148."
+  },
+  "_render": "the CURRENT age must be computed at render from `dekad` against today, never stored. A stored age is wrong the day after it is written."
+ },
  "series_declaration": {
   "first": 2001,
   "last": 2026,
