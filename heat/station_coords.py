@@ -74,7 +74,12 @@ def _met_office():
     that agreement is what established that the MIDAS history and the SYNOP
     season are one thermometer rather than two.
     """
-    return {"London": (51.479, -0.451)}
+    return {"London": (51.479, -0.451),
+            # From the Met Office workbook headers, matching both the MIDAS
+            # records and the SYNOP stations to four decimals.
+            "Nottingham": (53.00528, -1.24969),
+            "Belfast": (54.66357, -6.22436),
+            "Aberdeen": (57.20506, -2.20370)}
 
 
 RESOLVERS = {

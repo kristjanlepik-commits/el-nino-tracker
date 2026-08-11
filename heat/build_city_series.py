@@ -171,6 +171,31 @@ CITIES = {
     # So Tallinn waits for Harku to accumulate baseline years, or for a
     # documented same-site continuation we can verify. The hourly collector
     # keeps running: it is still the only route to true minima at this site.
+    # NOTTINGHAM, BELFAST and ABERDEEN, added 2026-08-11. Same pattern as
+    # London and built by heat/build_uk.py: MIDAS Open for the history under
+    # the Open Government Licence, and the Met Office National
+    # Meteorological Library and Archive for the 2026 season, Crown
+    # Copyright with acknowledgement.
+    #
+    # Station identity was verified BEFORE any of this was built, by three
+    # independent sources agreeing: MIDAS coordinates, the SYNOP station's
+    # OGIMET coordinates, and the Met Office workbook's own header. Then
+    # validated day by day against summer 2025, 100% of days within 0.5 C.
+    #
+    # Nottingham is the case that needed it. Its SYNOP station is called
+    # "Nottingham Weather Centre" and its MIDAS record is "nottingham-
+    # watnall", and MIDAS lists three Nottingham stations. The name says
+    # nothing; 53.006,-1.251 on both sides says everything.
+    #
+    # Newcastle, Edinburgh and Birmingham were rejected here: their
+    # currently reporting stations opened in 2003, 1998 and 1997, so none
+    # covers the 1971-2000 baseline.
+    "Nottingham": dict(country="UK", station="Nottingham Watnall", cut=(8, 10),
+                       file="nottingham.json"),
+    "Belfast":   dict(country="UK", station="Belfast Aldergrove", cut=(8, 10),
+                      file="belfast.json"),
+    "Aberdeen":  dict(country="UK", station="Aberdeen Dyce", cut=(8, 10),
+                      file="aberdeen.json"),
     "Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
     "Marseille":   dict(country="FR", station="MARIGNANE", cut=(8, 3)),
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),

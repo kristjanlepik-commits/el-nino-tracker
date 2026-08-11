@@ -23725,6 +23725,6534 @@
     }
    }
   },
+  "Nottingham": {
+   "country": "UK",
+   "station": "Nottingham Watnall",
+   "counted_to": "2026-08-10",
+   "last_observation": "2026-08-10",
+   "source": "Met Office",
+   "cut_at": "08-10",
+   "record_from": 1957,
+   "record_to": 2025,
+   "thresholds_c": {
+    "90": 26.0,
+    "95": 27.9,
+    "99": 30.9
+   },
+   "night_thresholds_c": {
+    "90": 14.7,
+    "95": 15.6,
+    "99": 17.1
+   },
+   "night_threshold_basis": "90th/95th/99th percentile of this station's own July-August daily MINIMA, 1971-2000. The locally calibrated night metric, emitted alongside the 20 C tropical-night count rather than replacing it.",
+   "tropical_night_metric_works": false,
+   "tropical_night_metric_note": "False where the 20 C count is too rare to carry a ratio. Such a city must lead with the percentile night metric instead.",
+   "threshold_basis": "90th/95th/99th percentile of this station's own July-August daily maxima, 1971-2000.",
+   "day_counts": {
+    "90": {
+     "b6190": 6.4,
+     "r1125": 10.7
+    },
+    "95": {
+     "b6190": 2.7,
+     "r1125": 5.7
+    },
+    "99": {
+     "b6190": 0.4,
+     "r1125": 1.2
+    }
+   },
+   "day_counts_baseline_years": 30,
+   "day_counts_comparable": true,
+   "day_counts_note": "Comparable with the other cities: the 1961-1990 baseline is complete.",
+   "years": {
+    "1957": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 30.6,
+     "warmest_day_to_cut_c": 30.6,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1958": {
+     "window_days": 102,
+     "full_days": 363,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 27.2,
+     "warmest_day_to_cut_c": 27.2,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "1959": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 6,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 20,
+      "95": 8,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 30.6,
+     "warmest_day_to_cut_c": 30.6,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1960": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 29.4,
+     "warmest_day_to_cut_c": 29.4,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "1961": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 29.8,
+     "warmest_day_to_cut_c": 29.5,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1962": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.3,
+     "warmest_day_c": 25.0,
+     "warmest_day_to_cut_c": 25.0,
+     "warmest_night_to_cut_c": 14.6
+    },
+    "1963": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.5,
+     "warmest_day_c": 27.5,
+     "warmest_day_to_cut_c": 27.5,
+     "warmest_night_to_cut_c": 15.5
+    },
+    "1964": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 15.4,
+     "warmest_day_c": 28.1,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 15.4
+    },
+    "1965": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.3,
+     "warmest_day_c": 27.6,
+     "warmest_day_to_cut_c": 27.6,
+     "warmest_night_to_cut_c": 14.3
+    },
+    "1966": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.6,
+     "warmest_day_c": 27.4,
+     "warmest_day_to_cut_c": 25.1,
+     "warmest_night_to_cut_c": 14.3
+    },
+    "1967": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 8,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 17.4,
+     "warmest_day_c": 30.2,
+     "warmest_day_to_cut_c": 30.2,
+     "warmest_night_to_cut_c": 17.4
+    },
+    "1968": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 18.3,
+     "warmest_day_c": 30.7,
+     "warmest_day_to_cut_c": 30.7,
+     "warmest_night_to_cut_c": 18.3
+    },
+    "1969": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 30.7,
+     "warmest_day_to_cut_c": 30.7,
+     "warmest_night_to_cut_c": 16.4
+    },
+    "1970": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 3,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 3,
+      "99": 1
+     },
+     "warmest_night_c": 17.1,
+     "warmest_day_c": 31.8,
+     "warmest_day_to_cut_c": 31.8,
+     "warmest_night_to_cut_c": 17.1
+    },
+    "1971": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.1,
+     "warmest_day_c": 27.0,
+     "warmest_day_to_cut_c": 27.0,
+     "warmest_night_to_cut_c": 17.1
+    },
+    "1972": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.0,
+     "warmest_day_c": 25.0,
+     "warmest_day_to_cut_c": 25.0,
+     "warmest_night_to_cut_c": 14.0
+    },
+    "1973": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 29.1,
+     "warmest_day_to_cut_c": 26.4,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1974": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.7,
+     "warmest_day_c": 23.8,
+     "warmest_day_to_cut_c": 23.8,
+     "warmest_night_to_cut_c": 15.7
+    },
+    "1975": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 16,
+      "95": 9,
+      "99": 4
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 4,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 24,
+      "95": 16,
+      "99": 4
+     },
+     "warmest_night_c": 18.0,
+     "warmest_day_c": 33.8,
+     "warmest_day_to_cut_c": 33.8,
+     "warmest_night_to_cut_c": 18.0
+    },
+    "1976": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 21,
+      "95": 19,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 8,
+      "95": 5,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 31,
+      "95": 21,
+      "99": 2
+     },
+     "warmest_night_c": 17.4,
+     "warmest_day_c": 32.3,
+     "warmest_day_to_cut_c": 32.3,
+     "warmest_night_to_cut_c": 17.4
+    },
+    "1977": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.5,
+     "warmest_day_c": 26.3,
+     "warmest_day_to_cut_c": 26.3,
+     "warmest_night_to_cut_c": 16.5
+    },
+    "1978": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 27.0,
+     "warmest_day_to_cut_c": 27.0,
+     "warmest_night_to_cut_c": 15.3
+    },
+    "1979": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 28.1,
+     "warmest_day_to_cut_c": 28.1,
+     "warmest_night_to_cut_c": 16.4
+    },
+    "1980": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.0,
+     "warmest_day_c": 27.4,
+     "warmest_day_to_cut_c": 27.4,
+     "warmest_night_to_cut_c": 17.0
+    },
+    "1981": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 27.0,
+     "warmest_day_to_cut_c": 26.7,
+     "warmest_night_to_cut_c": 16.9
+    },
+    "1982": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 5,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 7,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 5,
+      "99": 0
+     },
+     "warmest_night_c": 17.3,
+     "warmest_day_c": 30.0,
+     "warmest_day_to_cut_c": 30.0,
+     "warmest_night_to_cut_c": 17.3
+    },
+    "1983": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 5,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 5,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 17,
+      "95": 7,
+      "99": 0
+     },
+     "warmest_night_c": 18.0,
+     "warmest_day_c": 30.5,
+     "warmest_day_to_cut_c": 30.5,
+     "warmest_night_to_cut_c": 18.0
+    },
+    "1984": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 12,
+      "95": 4,
+      "99": 1
+     },
+     "warmest_night_c": 17.5,
+     "warmest_day_c": 30.9,
+     "warmest_day_to_cut_c": 30.9,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1985": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 17.2,
+     "warmest_day_c": 28.0,
+     "warmest_day_to_cut_c": 27.3,
+     "warmest_night_to_cut_c": 15.5
+    },
+    "1986": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 27.8,
+     "warmest_day_to_cut_c": 27.8,
+     "warmest_night_to_cut_c": 16.4
+    },
+    "1987": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.7,
+     "warmest_day_c": 27.4,
+     "warmest_day_to_cut_c": 27.2,
+     "warmest_night_to_cut_c": 17.7
+    },
+    "1988": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 28.1,
+     "warmest_day_to_cut_c": 28.1,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "1989": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 6,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 13,
+      "95": 6,
+      "99": 1
+     },
+     "warmest_night_c": 16.6,
+     "warmest_day_c": 31.8,
+     "warmest_day_to_cut_c": 31.8,
+     "warmest_night_to_cut_c": 16.6
+    },
+    "1990": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 8,
+      "95": 5,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 4,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 12,
+      "95": 5,
+      "99": 2
+     },
+     "warmest_night_c": 18.1,
+     "warmest_day_c": 34.6,
+     "warmest_day_to_cut_c": 34.6,
+     "warmest_night_to_cut_c": 18.1
+    },
+    "1991": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 18.0,
+     "warmest_day_c": 27.6,
+     "warmest_day_to_cut_c": 27.6,
+     "warmest_night_to_cut_c": 17.4
+    },
+    "1992": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.6,
+     "warmest_day_c": 28.5,
+     "warmest_day_to_cut_c": 28.5,
+     "warmest_night_to_cut_c": 16.6
+    },
+    "1993": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.7,
+     "warmest_day_c": 25.9,
+     "warmest_day_to_cut_c": 25.9,
+     "warmest_night_to_cut_c": 15.7
+    },
+    "1994": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 8,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 12,
+      "95": 8,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 17.1,
+     "warmest_day_c": 30.8,
+     "warmest_day_to_cut_c": 30.8,
+     "warmest_night_to_cut_c": 17.1
+    },
+    "1995": {
+     "window_days": 85,
+     "full_days": 328,
+     "usable_to_cut": false,
+     "usable_full_year": false,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 19,
+      "95": 14,
+      "99": 6
+     },
+     "warm_nights_to_cut": {
+      "90": 16,
+      "95": 6,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 27,
+      "95": 22,
+      "99": 8
+     },
+     "warmest_night_c": 19.0,
+     "warmest_day_c": 32.4,
+     "warmest_day_to_cut_c": 32.4,
+     "warmest_night_to_cut_c": 19.0
+    },
+    "1996": {
+     "window_days": 100,
+     "full_days": 353,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 5,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 6,
+      "99": 2
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 32.1,
+     "warmest_day_to_cut_c": 32.1,
+     "warmest_night_to_cut_c": 16.9
+    },
+    "1997": {
+     "window_days": 94,
+     "full_days": 350,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 13,
+      "95": 7,
+      "99": 0
+     },
+     "warmest_night_c": 18.7,
+     "warmest_day_c": 30.6,
+     "warmest_day_to_cut_c": 30.6,
+     "warmest_night_to_cut_c": 16.8
+    },
+    "1998": {
+     "window_days": 102,
+     "full_days": 362,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 28.2,
+     "warmest_day_to_cut_c": 28.2,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1999": {
+     "window_days": 102,
+     "full_days": 360,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 15,
+      "95": 3,
+      "99": 2
+     },
+     "warmest_night_c": 17.2,
+     "warmest_day_c": 31.8,
+     "warmest_day_to_cut_c": 31.8,
+     "warmest_night_to_cut_c": 17.2
+    },
+    "2000": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.5,
+     "warmest_day_c": 30.7,
+     "warmest_day_to_cut_c": 30.7,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "2001": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 5,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 19.0,
+     "warmest_day_c": 28.9,
+     "warmest_day_to_cut_c": 28.0,
+     "warmest_night_to_cut_c": 19.0
+    },
+    "2002": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 17.9,
+     "warmest_day_c": 29.4,
+     "warmest_day_to_cut_c": 28.8,
+     "warmest_night_to_cut_c": 17.9
+    },
+    "2003": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 7,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 12,
+      "95": 7,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 13,
+      "95": 7,
+      "99": 1
+     },
+     "warmest_night_c": 19.1,
+     "warmest_day_c": 32.1,
+     "warmest_day_to_cut_c": 32.1,
+     "warmest_night_to_cut_c": 19.1
+    },
+    "2004": {
+     "window_days": 99,
+     "full_days": 359,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 16,
+      "95": 7,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 19.8,
+     "warmest_day_c": 29.2,
+     "warmest_day_to_cut_c": 29.2,
+     "warmest_night_to_cut_c": 19.8
+    },
+    "2005": {
+     "window_days": 102,
+     "full_days": 360,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 11,
+      "95": 5,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 9,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 15,
+      "95": 6,
+      "99": 0
+     },
+     "warmest_night_c": 17.6,
+     "warmest_day_c": 30.4,
+     "warmest_day_to_cut_c": 30.4,
+     "warmest_night_to_cut_c": 17.6
+    },
+    "2006": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 21,
+      "95": 12,
+      "99": 3
+     },
+     "warm_nights_to_cut": {
+      "90": 21,
+      "95": 13,
+      "99": 5
+     },
+     "days_full_year": {
+      "90": 23,
+      "95": 13,
+      "99": 3
+     },
+     "warmest_night_c": 19.6,
+     "warmest_day_c": 31.3,
+     "warmest_day_to_cut_c": 31.3,
+     "warmest_night_to_cut_c": 19.6
+    },
+    "2007": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 28.0,
+     "warmest_day_to_cut_c": 28.0,
+     "warmest_night_to_cut_c": 16.9
+    },
+    "2008": {
+     "window_days": 102,
+     "full_days": 363,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.6,
+     "warmest_day_c": 27.3,
+     "warmest_day_to_cut_c": 27.3,
+     "warmest_night_to_cut_c": 16.5
+    },
+    "2009": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 17.9,
+     "warmest_day_c": 29.4,
+     "warmest_day_to_cut_c": 29.4,
+     "warmest_night_to_cut_c": 17.9
+    },
+    "2010": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 11,
+      "95": 4,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.3,
+     "warmest_day_c": 27.0,
+     "warmest_day_to_cut_c": 27.0,
+     "warmest_night_to_cut_c": 16.3
+    },
+    "2011": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 4,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 5,
+      "99": 0
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 29.8,
+     "warmest_day_to_cut_c": 29.8,
+     "warmest_night_to_cut_c": 16.5
+    },
+    "2012": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.1,
+     "warmest_day_c": 27.8,
+     "warmest_day_to_cut_c": 27.8,
+     "warmest_night_to_cut_c": 17.1
+    },
+    "2013": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 11,
+      "95": 6,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 12,
+      "95": 8,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 12,
+      "95": 6,
+      "99": 0
+     },
+     "warmest_night_c": 17.5,
+     "warmest_day_c": 30.6,
+     "warmest_day_to_cut_c": 30.6,
+     "warmest_night_to_cut_c": 17.5
+    },
+    "2014": {
+     "window_days": 99,
+     "full_days": 362,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 17.1,
+     "warmest_day_c": 28.3,
+     "warmest_day_to_cut_c": 28.3,
+     "warmest_night_to_cut_c": 17.1
+    },
+    "2015": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 2,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 3,
+      "99": 1
+     },
+     "warmest_night_c": 17.6,
+     "warmest_day_c": 33.9,
+     "warmest_day_to_cut_c": 33.9,
+     "warmest_night_to_cut_c": 16.3
+    },
+    "2016": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 2,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 15,
+      "95": 8,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 4,
+      "99": 1
+     },
+     "warmest_night_c": 18.7,
+     "warmest_day_c": 31.0,
+     "warmest_day_to_cut_c": 31.0,
+     "warmest_night_to_cut_c": 18.7
+    },
+    "2017": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 4,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 17.7,
+     "warmest_day_c": 30.1,
+     "warmest_day_to_cut_c": 30.1,
+     "warmest_night_to_cut_c": 17.7
+    },
+    "2018": {
+     "window_days": 100,
+     "full_days": 362,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 23,
+      "95": 8,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 14,
+      "95": 10,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 23,
+      "95": 8,
+      "99": 1
+     },
+     "warmest_night_c": 17.5,
+     "warmest_day_c": 31.5,
+     "warmest_day_to_cut_c": 31.5,
+     "warmest_night_to_cut_c": 17.5
+    },
+    "2019": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 4,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 14,
+      "95": 10,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 7,
+      "99": 3
+     },
+     "warmest_night_c": 19.5,
+     "warmest_day_c": 36.1,
+     "warmest_day_to_cut_c": 36.1,
+     "warmest_night_to_cut_c": 19.5
+    },
+    "2020": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 6,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 11,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 12,
+      "95": 8,
+      "99": 3
+     },
+     "warmest_night_c": 18.1,
+     "warmest_day_c": 34.0,
+     "warmest_day_to_cut_c": 34.0,
+     "warmest_night_to_cut_c": 17.5
+    },
+    "2021": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 8,
+      "95": 5,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 14,
+      "95": 8,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 7,
+      "99": 0
+     },
+     "warmest_night_c": 16.8,
+     "warmest_day_c": 29.8,
+     "warmest_day_to_cut_c": 29.8,
+     "warmest_night_to_cut_c": 16.8
+    },
+    "2022": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 1,
+     "nights_full_year": 1,
+     "days_to_cut": {
+      "90": 14,
+      "95": 8,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 10,
+      "99": 6
+     },
+     "days_full_year": {
+      "90": 18,
+      "95": 12,
+      "99": 6
+     },
+     "warmest_night_c": 20.3,
+     "warmest_day_c": 39.8,
+     "warmest_day_to_cut_c": 39.8,
+     "warmest_night_to_cut_c": 20.3
+    },
+    "2023": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 5,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 15,
+      "95": 8,
+      "99": 0
+     },
+     "warmest_night_c": 17.9,
+     "warmest_day_c": 30.8,
+     "warmest_day_to_cut_c": 29.2,
+     "warmest_night_to_cut_c": 17.4
+    },
+    "2024": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 12,
+      "95": 6,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 17.3,
+     "warmest_day_c": 29.4,
+     "warmest_day_to_cut_c": 29.4,
+     "warmest_night_to_cut_c": 17.3
+    },
+    "2025": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 7,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 21,
+      "95": 12,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 19,
+      "95": 12,
+      "99": 3
+     },
+     "warmest_night_c": 19.4,
+     "warmest_day_c": 32.2,
+     "warmest_day_to_cut_c": 32.1,
+     "warmest_night_to_cut_c": 19.4
+    },
+    "2026": {
+     "window_days": 102,
+     "full_days": 222,
+     "usable_to_cut": true,
+     "usable_full_year": false,
+     "nights_to_cut": 1,
+     "nights_full_year": 1,
+     "days_to_cut": {
+      "90": 27,
+      "95": 16,
+      "99": 7
+     },
+     "warm_nights_to_cut": {
+      "90": 30,
+      "95": 23,
+      "99": 6
+     },
+     "days_full_year": {
+      "90": 27,
+      "95": 16,
+      "99": 7
+     },
+     "warmest_night_c": 21.3,
+     "warmest_day_c": 34.8,
+     "warmest_day_to_cut_c": 34.8,
+     "warmest_night_to_cut_c": 21.3
+    }
+   }
+  },
+  "Belfast": {
+   "country": "UK",
+   "station": "Belfast Aldergrove",
+   "counted_to": "2026-08-10",
+   "last_observation": "2026-08-10",
+   "source": "Met Office",
+   "cut_at": "08-10",
+   "record_from": 1930,
+   "record_to": 2025,
+   "thresholds_c": {
+    "90": 22.8,
+    "95": 24.2,
+    "99": 26.6
+   },
+   "night_thresholds_c": {
+    "90": 14.4,
+    "95": 15.3,
+    "99": 16.5
+   },
+   "night_threshold_basis": "90th/95th/99th percentile of this station's own July-August daily MINIMA, 1971-2000. The locally calibrated night metric, emitted alongside the 20 C tropical-night count rather than replacing it.",
+   "tropical_night_metric_works": false,
+   "tropical_night_metric_note": "False where the 20 C count is too rare to carry a ratio. Such a city must lead with the percentile night metric instead.",
+   "threshold_basis": "90th/95th/99th percentile of this station's own July-August daily maxima, 1971-2000.",
+   "day_counts": {
+    "90": {
+     "b6190": 6.8,
+     "r1125": 9.7
+    },
+    "95": {
+     "b6190": 3.1,
+     "r1125": 5.3
+    },
+    "99": {
+     "b6190": 0.6,
+     "r1125": 2.0
+    }
+   },
+   "day_counts_baseline_years": 30,
+   "day_counts_comparable": true,
+   "day_counts_note": "Comparable with the other cities: the 1961-1990 baseline is complete.",
+   "years": {
+    "1930": {
+     "window_days": 0,
+     "full_days": 31,
+     "usable_to_cut": false,
+     "usable_full_year": false,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 7.8,
+     "warmest_day_c": 10.0,
+     "warmest_day_to_cut_c": -99,
+     "warmest_night_to_cut_c": -99
+    },
+    "1931": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 13.9,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 13.9
+    },
+    "1932": {
+     "window_days": 102,
+     "full_days": 364,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 25.0,
+     "warmest_day_to_cut_c": 25.0,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1933": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 11,
+      "95": 3,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 8,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 3,
+      "99": 1
+     },
+     "warmest_night_c": 17.2,
+     "warmest_day_c": 27.2,
+     "warmest_day_to_cut_c": 27.2,
+     "warmest_night_to_cut_c": 17.2
+    },
+    "1934": {
+     "window_days": 101,
+     "full_days": 364,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 10,
+      "95": 8,
+      "99": 3
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 8,
+      "99": 3
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 29.4,
+     "warmest_day_to_cut_c": 29.4,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1935": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.2,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 17.2
+    },
+    "1936": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 25.0,
+     "warmest_day_to_cut_c": 25.0,
+     "warmest_night_to_cut_c": 14.4
+    },
+    "1937": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 25.6,
+     "warmest_day_to_cut_c": 25.6,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "1938": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "1939": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 5,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 5,
+      "99": 2
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 27.8,
+     "warmest_day_to_cut_c": 27.8,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "1940": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 7,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 15,
+      "95": 8,
+      "99": 2
+     },
+     "warmest_night_c": 14.4,
+     "warmest_day_c": 27.2,
+     "warmest_day_to_cut_c": 27.2,
+     "warmest_night_to_cut_c": 14.4
+    },
+    "1941": {
+     "window_days": 102,
+     "full_days": 364,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 25.6,
+     "warmest_day_to_cut_c": 25.6,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1942": {
+     "window_days": 102,
+     "full_days": 364,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 1,
+      "99": 1
+     },
+     "warmest_night_c": 15.0,
+     "warmest_day_c": 27.2,
+     "warmest_day_to_cut_c": 27.2,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "1943": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 25.6,
+     "warmest_day_to_cut_c": 25.6,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1944": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.8,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 14.4
+    },
+    "1945": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 23.3,
+     "warmest_day_to_cut_c": 23.3,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "1946": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 15.0,
+     "warmest_day_c": 25.0,
+     "warmest_day_to_cut_c": 25.0,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "1947": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 22,
+      "95": 10,
+      "99": 2
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 27.2,
+     "warmest_day_to_cut_c": 24.4,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "1948": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 3
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 3,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 3,
+      "99": 3
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 28.3,
+     "warmest_day_to_cut_c": 28.3,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1949": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 17,
+      "95": 10,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 20,
+      "95": 10,
+      "99": 2
+     },
+     "warmest_night_c": 17.2,
+     "warmest_day_c": 28.3,
+     "warmest_day_to_cut_c": 28.3,
+     "warmest_night_to_cut_c": 17.2
+    },
+    "1950": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 1,
+      "99": 1
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 28.3,
+     "warmest_day_to_cut_c": 28.3,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "1951": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 23.3,
+     "warmest_day_to_cut_c": 23.3,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1952": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 8,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 26.1,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1953": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 24.4,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1954": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.0,
+     "warmest_day_c": 21.1,
+     "warmest_day_to_cut_c": 21.1,
+     "warmest_night_to_cut_c": 14.4
+    },
+    "1955": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 15,
+      "95": 9,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 8,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 24,
+      "95": 14,
+      "99": 2
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 27.8,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1956": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1957": {
+     "window_days": 102,
+     "full_days": 364,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 25.6,
+     "warmest_day_to_cut_c": 25.6,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1958": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1959": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 13,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 17.2,
+     "warmest_day_c": 25.6,
+     "warmest_day_to_cut_c": 25.0,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "1960": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1961": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.6,
+     "warmest_day_c": 23.5,
+     "warmest_day_to_cut_c": 21.4,
+     "warmest_night_to_cut_c": 14.6
+    },
+    "1962": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.1,
+     "warmest_day_c": 22.6,
+     "warmest_day_to_cut_c": 22.6,
+     "warmest_night_to_cut_c": 14.0
+    },
+    "1963": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 14.1,
+     "warmest_day_c": 25.0,
+     "warmest_day_to_cut_c": 25.0,
+     "warmest_night_to_cut_c": 14.1
+    },
+    "1964": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 15.1,
+     "warmest_day_c": 24.2,
+     "warmest_day_to_cut_c": 24.2,
+     "warmest_night_to_cut_c": 15.1
+    },
+    "1965": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.6,
+     "warmest_day_c": 22.3,
+     "warmest_day_to_cut_c": 22.3,
+     "warmest_night_to_cut_c": 13.0
+    },
+    "1966": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.0,
+     "warmest_day_c": 22.8,
+     "warmest_day_to_cut_c": 22.8,
+     "warmest_night_to_cut_c": 13.8
+    },
+    "1967": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 22.6,
+     "warmest_day_to_cut_c": 22.6,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "1968": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.7,
+     "warmest_day_c": 24.0,
+     "warmest_day_to_cut_c": 24.0,
+     "warmest_night_to_cut_c": 14.3
+    },
+    "1969": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 4,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 17.2,
+     "warmest_day_c": 25.2,
+     "warmest_day_to_cut_c": 25.2,
+     "warmest_night_to_cut_c": 17.2
+    },
+    "1970": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 11,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 25.9,
+     "warmest_day_to_cut_c": 25.9,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "1971": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.2,
+     "warmest_day_c": 25.3,
+     "warmest_day_to_cut_c": 25.3,
+     "warmest_night_to_cut_c": 16.2
+    },
+    "1972": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 14.5,
+     "warmest_day_c": 26.2,
+     "warmest_day_to_cut_c": 26.2,
+     "warmest_night_to_cut_c": 14.5
+    },
+    "1973": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 15.9,
+     "warmest_day_c": 26.5,
+     "warmest_day_to_cut_c": 23.5,
+     "warmest_night_to_cut_c": 15.8
+    },
+    "1974": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.4,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 14.4
+    },
+    "1975": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 18,
+      "95": 8,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 22,
+      "95": 10,
+      "99": 1
+     },
+     "warmest_night_c": 18.3,
+     "warmest_day_c": 27.5,
+     "warmest_day_to_cut_c": 27.5,
+     "warmest_night_to_cut_c": 18.3
+    },
+    "1976": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 15,
+      "95": 10,
+      "99": 6
+     },
+     "warm_nights_to_cut": {
+      "90": 14,
+      "95": 6,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 27,
+      "95": 19,
+      "99": 7
+     },
+     "warmest_night_c": 16.3,
+     "warmest_day_c": 27.9,
+     "warmest_day_to_cut_c": 27.9,
+     "warmest_night_to_cut_c": 16.3
+    },
+    "1977": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 10,
+      "95": 7,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 7,
+      "99": 1
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 28.0,
+     "warmest_day_to_cut_c": 28.0,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "1978": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 15.9,
+     "warmest_day_c": 24.5,
+     "warmest_day_to_cut_c": 24.5,
+     "warmest_night_to_cut_c": 14.9
+    },
+    "1979": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.5,
+     "warmest_day_c": 23.4,
+     "warmest_day_to_cut_c": 23.4,
+     "warmest_night_to_cut_c": 16.5
+    },
+    "1980": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.1,
+     "warmest_day_c": 22.4,
+     "warmest_day_to_cut_c": 22.4,
+     "warmest_night_to_cut_c": 14.9
+    },
+    "1981": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 23.8,
+     "warmest_day_to_cut_c": 23.6,
+     "warmest_night_to_cut_c": 14.1
+    },
+    "1982": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 26.1,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 16.4
+    },
+    "1983": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 18,
+      "95": 8,
+      "99": 3
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 23,
+      "95": 11,
+      "99": 4
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 28.6,
+     "warmest_day_to_cut_c": 28.6,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1984": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 6,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 25.7,
+     "warmest_day_to_cut_c": 25.7,
+     "warmest_night_to_cut_c": 15.5
+    },
+    "1985": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 15.9,
+     "warmest_day_c": 24.2,
+     "warmest_day_to_cut_c": 24.2,
+     "warmest_night_to_cut_c": 15.3
+    },
+    "1986": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "1987": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 17.5,
+     "warmest_day_c": 24.7,
+     "warmest_day_to_cut_c": 24.7,
+     "warmest_night_to_cut_c": 14.3
+    },
+    "1988": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 23.1,
+     "warmest_day_to_cut_c": 23.1,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1989": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 19,
+      "95": 13,
+      "99": 4
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 5,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 19,
+      "95": 13,
+      "99": 4
+     },
+     "warmest_night_c": 17.0,
+     "warmest_day_c": 28.8,
+     "warmest_day_to_cut_c": 28.8,
+     "warmest_night_to_cut_c": 17.0
+    },
+    "1990": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 8,
+      "95": 5,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 5,
+      "99": 1
+     },
+     "warmest_night_c": 16.8,
+     "warmest_day_c": 26.7,
+     "warmest_day_to_cut_c": 26.7,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1991": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 11,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 15,
+      "95": 5,
+      "99": 0
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 25.0,
+     "warmest_day_to_cut_c": 24.7,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "1992": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.8,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 14.8
+    },
+    "1993": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 22.3,
+     "warmest_day_to_cut_c": 21.7,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "1994": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 23.8,
+     "warmest_day_to_cut_c": 23.8,
+     "warmest_night_to_cut_c": 15.6
+    },
+    "1995": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 22,
+      "95": 14,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 12,
+      "95": 6,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 31,
+      "95": 22,
+      "99": 5
+     },
+     "warmest_night_c": 17.0,
+     "warmest_day_c": 29.0,
+     "warmest_day_to_cut_c": 29.0,
+     "warmest_night_to_cut_c": 17.0
+    },
+    "1996": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 16.5,
+     "warmest_day_c": 25.3,
+     "warmest_day_to_cut_c": 25.3,
+     "warmest_night_to_cut_c": 16.5
+    },
+    "1997": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 12,
+      "95": 5,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 17,
+      "95": 6,
+      "99": 0
+     },
+     "warmest_night_c": 17.6,
+     "warmest_day_c": 25.1,
+     "warmest_day_to_cut_c": 25.1,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1998": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 4,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 24.0,
+     "warmest_day_to_cut_c": 24.0,
+     "warmest_night_to_cut_c": 15.8
+    },
+    "1999": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 10,
+      "95": 4,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 11,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 4,
+      "99": 1
+     },
+     "warmest_night_c": 18.1,
+     "warmest_day_c": 27.3,
+     "warmest_day_to_cut_c": 27.3,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "2000": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.2,
+     "warmest_day_c": 24.2,
+     "warmest_day_to_cut_c": 24.2,
+     "warmest_night_to_cut_c": 16.2
+    },
+    "2001": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.9,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 16.2
+    },
+    "2002": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 24.4,
+     "warmest_day_to_cut_c": 24.4,
+     "warmest_night_to_cut_c": 15.5
+    },
+    "2003": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 5,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 6,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 5,
+      "99": 1
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 27.3,
+     "warmest_day_to_cut_c": 27.3,
+     "warmest_night_to_cut_c": 16.4
+    },
+    "2004": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.5,
+     "warmest_day_c": 23.8,
+     "warmest_day_to_cut_c": 23.8,
+     "warmest_night_to_cut_c": 16.5
+    },
+    "2005": {
+     "window_days": 102,
+     "full_days": 361,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 2,
+      "99": 1
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 27.6,
+     "warmest_day_to_cut_c": 27.6,
+     "warmest_night_to_cut_c": 16.9
+    },
+    "2006": {
+     "window_days": 100,
+     "full_days": 362,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 18,
+      "95": 9,
+      "99": 3
+     },
+     "warm_nights_to_cut": {
+      "90": 15,
+      "95": 10,
+      "99": 5
+     },
+     "days_full_year": {
+      "90": 18,
+      "95": 9,
+      "99": 3
+     },
+     "warmest_night_c": 17.3,
+     "warmest_day_c": 28.6,
+     "warmest_day_to_cut_c": 28.6,
+     "warmest_night_to_cut_c": 17.3
+    },
+    "2007": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 15.1,
+     "warmest_day_c": 24.3,
+     "warmest_day_to_cut_c": 24.3,
+     "warmest_night_to_cut_c": 15.1
+    },
+    "2008": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 15.8,
+     "warmest_day_c": 24.6,
+     "warmest_day_to_cut_c": 24.6,
+     "warmest_night_to_cut_c": 15.7
+    },
+    "2009": {
+     "window_days": 102,
+     "full_days": 362,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 8,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 17.2,
+     "warmest_day_c": 25.9,
+     "warmest_day_to_cut_c": 25.9,
+     "warmest_night_to_cut_c": 16.5
+    },
+    "2010": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 24.4,
+     "warmest_day_to_cut_c": 24.4,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "2011": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.6,
+     "warmest_day_c": 24.3,
+     "warmest_day_to_cut_c": 24.3,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "2012": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 15.1,
+     "warmest_day_c": 25.0,
+     "warmest_day_to_cut_c": 25.0,
+     "warmest_night_to_cut_c": 15.1
+    },
+    "2013": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 17,
+      "95": 9,
+      "99": 4
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 9,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 17,
+      "95": 9,
+      "99": 4
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 27.7,
+     "warmest_day_to_cut_c": 27.7,
+     "warmest_night_to_cut_c": 16.9
+    },
+    "2014": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 4,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 4,
+      "99": 2
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 26.8,
+     "warmest_day_to_cut_c": 26.8,
+     "warmest_night_to_cut_c": 16.1
+    },
+    "2015": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 3,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.6,
+     "warmest_day_c": 24.8,
+     "warmest_day_to_cut_c": 24.8,
+     "warmest_night_to_cut_c": 16.6
+    },
+    "2016": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 3,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 3,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 3,
+      "99": 1
+     },
+     "warmest_night_c": 19.3,
+     "warmest_day_c": 27.3,
+     "warmest_day_to_cut_c": 27.3,
+     "warmest_night_to_cut_c": 18.2
+    },
+    "2017": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 15.7,
+     "warmest_day_c": 25.4,
+     "warmest_day_to_cut_c": 25.4,
+     "warmest_night_to_cut_c": 15.2
+    },
+    "2018": {
+     "window_days": 102,
+     "full_days": 364,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 22,
+      "95": 11,
+      "99": 4
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 7,
+      "99": 5
+     },
+     "days_full_year": {
+      "90": 22,
+      "95": 11,
+      "99": 4
+     },
+     "warmest_night_c": 17.3,
+     "warmest_day_c": 29.5,
+     "warmest_day_to_cut_c": 29.5,
+     "warmest_night_to_cut_c": 17.3
+    },
+    "2019": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 9,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 17.7,
+     "warmest_day_c": 25.6,
+     "warmest_day_to_cut_c": 25.6,
+     "warmest_night_to_cut_c": 17.7
+    },
+    "2020": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 15.9,
+     "warmest_day_c": 26.5,
+     "warmest_day_to_cut_c": 26.5,
+     "warmest_night_to_cut_c": 15.9
+    },
+    "2021": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 12,
+      "95": 10,
+      "99": 7
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 16,
+      "95": 12,
+      "99": 7
+     },
+     "warmest_night_c": 17.6,
+     "warmest_day_c": 30.0,
+     "warmest_day_to_cut_c": 30.0,
+     "warmest_night_to_cut_c": 17.6
+    },
+    "2022": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 4,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 7,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 7,
+      "99": 5
+     },
+     "warmest_night_c": 18.6,
+     "warmest_day_c": 30.8,
+     "warmest_day_to_cut_c": 30.8,
+     "warmest_night_to_cut_c": 18.6
+    },
+    "2023": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 6,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 12,
+      "95": 7,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 16,
+      "95": 11,
+      "99": 2
+     },
+     "warmest_night_c": 17.4,
+     "warmest_day_c": 27.2,
+     "warmest_day_to_cut_c": 27.2,
+     "warmest_night_to_cut_c": 17.4
+    },
+    "2024": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 18.0,
+     "warmest_day_c": 23.8,
+     "warmest_day_to_cut_c": 23.8,
+     "warmest_night_to_cut_c": 18.0
+    },
+    "2025": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 6,
+      "99": 4
+     },
+     "warm_nights_to_cut": {
+      "90": 16,
+      "95": 7,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 14,
+      "95": 8,
+      "99": 5
+     },
+     "warmest_night_c": 18.2,
+     "warmest_day_c": 29.4,
+     "warmest_day_to_cut_c": 29.4,
+     "warmest_night_to_cut_c": 18.2
+    },
+    "2026": {
+     "window_days": 102,
+     "full_days": 222,
+     "usable_to_cut": true,
+     "usable_full_year": false,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 16,
+      "95": 9,
+      "99": 4
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 16,
+      "95": 9,
+      "99": 4
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 28.8,
+     "warmest_day_to_cut_c": 28.8,
+     "warmest_night_to_cut_c": 16.4
+    }
+   }
+  },
+  "Aberdeen": {
+   "country": "UK",
+   "station": "Aberdeen Dyce",
+   "counted_to": "2026-08-10",
+   "last_observation": "2026-08-10",
+   "source": "Met Office",
+   "cut_at": "08-10",
+   "record_from": 1957,
+   "record_to": 2025,
+   "thresholds_c": {
+    "90": 22.2,
+    "95": 23.8,
+    "99": 26.0
+   },
+   "night_thresholds_c": {
+    "90": 13.1,
+    "95": 14.1,
+    "99": 15.4
+   },
+   "night_threshold_basis": "90th/95th/99th percentile of this station's own July-August daily MINIMA, 1971-2000. The locally calibrated night metric, emitted alongside the 20 C tropical-night count rather than replacing it.",
+   "tropical_night_metric_works": false,
+   "tropical_night_metric_note": "False where the 20 C count is too rare to carry a ratio. Such a city must lead with the percentile night metric instead.",
+   "threshold_basis": "90th/95th/99th percentile of this station's own July-August daily maxima, 1971-2000.",
+   "day_counts": {
+    "90": {
+     "b6190": 7.5,
+     "r1125": 10.1
+    },
+    "95": {
+     "b6190": 3.3,
+     "r1125": 5.1
+    },
+    "99": {
+     "b6190": 0.6,
+     "r1125": 1.4
+    }
+   },
+   "day_counts_baseline_years": 30,
+   "day_counts_comparable": true,
+   "day_counts_note": "Comparable with the other cities: the 1961-1990 baseline is complete.",
+   "years": {
+    "1957": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 15.0,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "1958": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 1,
+      "99": 1
+     },
+     "warmest_night_c": 13.9,
+     "warmest_day_c": 28.3,
+     "warmest_day_to_cut_c": 28.3,
+     "warmest_night_to_cut_c": 13.9
+    },
+    "1959": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 12,
+      "95": 4,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 23,
+      "95": 10,
+      "99": 2
+     },
+     "warmest_night_c": 18.9,
+     "warmest_day_c": 27.8,
+     "warmest_day_to_cut_c": 27.8,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "1960": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 1,
+      "99": 1
+     },
+     "warmest_night_c": 13.9,
+     "warmest_day_c": 26.1,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 13.3
+    },
+    "1961": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.7,
+     "warmest_day_c": 23.6,
+     "warmest_day_to_cut_c": 23.6,
+     "warmest_night_to_cut_c": 14.2
+    },
+    "1962": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 13.1,
+     "warmest_day_c": 24.4,
+     "warmest_day_to_cut_c": 24.4,
+     "warmest_night_to_cut_c": 11.3
+    },
+    "1963": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 13.4,
+     "warmest_day_c": 22.2,
+     "warmest_day_to_cut_c": 22.2,
+     "warmest_night_to_cut_c": 13.4
+    },
+    "1964": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 8,
+      "95": 3,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 3,
+      "99": 2
+     },
+     "warmest_night_c": 14.3,
+     "warmest_day_c": 26.8,
+     "warmest_day_to_cut_c": 26.8,
+     "warmest_night_to_cut_c": 13.4
+    },
+    "1965": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 12.9,
+     "warmest_day_c": 23.6,
+     "warmest_day_to_cut_c": 23.6,
+     "warmest_night_to_cut_c": 12.5
+    },
+    "1966": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.0,
+     "warmest_day_c": 22.9,
+     "warmest_day_to_cut_c": 22.9,
+     "warmest_night_to_cut_c": 13.5
+    },
+    "1967": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.1,
+     "warmest_day_c": 23.4,
+     "warmest_day_to_cut_c": 23.4,
+     "warmest_night_to_cut_c": 14.1
+    },
+    "1968": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.2,
+     "warmest_day_c": 22.5,
+     "warmest_day_to_cut_c": 21.6,
+     "warmest_night_to_cut_c": 14.5
+    },
+    "1969": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 11,
+      "95": 7,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 12,
+      "95": 7,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 7,
+      "99": 1
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 27.4,
+     "warmest_day_to_cut_c": 27.4,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1970": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 14.3,
+     "warmest_day_c": 24.6,
+     "warmest_day_to_cut_c": 24.6,
+     "warmest_night_to_cut_c": 13.9
+    },
+    "1971": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 13.8,
+     "warmest_day_c": 25.4,
+     "warmest_day_to_cut_c": 25.4,
+     "warmest_night_to_cut_c": 13.1
+    },
+    "1972": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 13.6,
+     "warmest_day_c": 23.7,
+     "warmest_day_to_cut_c": 23.7,
+     "warmest_night_to_cut_c": 13.6
+    },
+    "1973": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 14.7,
+     "warmest_day_c": 24.1,
+     "warmest_day_to_cut_c": 22.6,
+     "warmest_night_to_cut_c": 14.7
+    },
+    "1974": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.8,
+     "warmest_day_c": 22.7,
+     "warmest_day_to_cut_c": 22.7,
+     "warmest_night_to_cut_c": 14.1
+    },
+    "1975": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 16,
+      "95": 12,
+      "99": 3
+     },
+     "warm_nights_to_cut": {
+      "90": 15,
+      "95": 8,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 24,
+      "95": 17,
+      "99": 5
+     },
+     "warmest_night_c": 17.8,
+     "warmest_day_c": 27.6,
+     "warmest_day_to_cut_c": 27.6,
+     "warmest_night_to_cut_c": 15.7
+    },
+    "1976": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 19,
+      "95": 11,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 14,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 25,
+      "95": 15,
+      "99": 3
+     },
+     "warmest_night_c": 15.1,
+     "warmest_day_c": 28.4,
+     "warmest_day_to_cut_c": 27.6,
+     "warmest_night_to_cut_c": 15.1
+    },
+    "1977": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 8,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 15.8,
+     "warmest_day_c": 24.9,
+     "warmest_day_to_cut_c": 24.9,
+     "warmest_night_to_cut_c": 15.8
+    },
+    "1978": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 14.5,
+     "warmest_day_c": 25.4,
+     "warmest_day_to_cut_c": 25.4,
+     "warmest_night_to_cut_c": 14.2
+    },
+    "1979": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.5,
+     "warmest_day_c": 23.7,
+     "warmest_day_to_cut_c": 23.7,
+     "warmest_night_to_cut_c": 14.5
+    },
+    "1980": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 14.3,
+     "warmest_day_c": 24.6,
+     "warmest_day_to_cut_c": 24.6,
+     "warmest_night_to_cut_c": 14.2
+    },
+    "1981": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 2,
+      "99": 1
+     },
+     "warmest_night_c": 16.6,
+     "warmest_day_c": 26.5,
+     "warmest_day_to_cut_c": 25.2,
+     "warmest_night_to_cut_c": 13.6
+    },
+    "1982": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 12,
+      "95": 5,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 6,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 14,
+      "95": 5,
+      "99": 1
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 26.1,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "1983": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 6,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 20,
+      "95": 10,
+      "99": 2
+     },
+     "warmest_night_c": 19.4,
+     "warmest_day_c": 26.8,
+     "warmest_day_to_cut_c": 25.8,
+     "warmest_night_to_cut_c": 19.4
+    },
+    "1984": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 10,
+      "95": 5,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 15,
+      "95": 7,
+      "99": 0
+     },
+     "warmest_night_c": 15.0,
+     "warmest_day_c": 25.9,
+     "warmest_day_to_cut_c": 25.9,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "1985": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 15.6,
+     "warmest_day_c": 24.4,
+     "warmest_day_to_cut_c": 24.4,
+     "warmest_night_to_cut_c": 14.0
+    },
+    "1986": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 3,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 3,
+      "99": 1
+     },
+     "warmest_night_c": 15.2,
+     "warmest_day_c": 28.0,
+     "warmest_day_to_cut_c": 28.0,
+     "warmest_night_to_cut_c": 15.2
+    },
+    "1987": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 2,
+      "99": 1
+     },
+     "warmest_night_c": 15.2,
+     "warmest_day_c": 26.1,
+     "warmest_day_to_cut_c": 24.8,
+     "warmest_night_to_cut_c": 15.2
+    },
+    "1988": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.6,
+     "warmest_day_c": 22.6,
+     "warmest_day_to_cut_c": 22.6,
+     "warmest_night_to_cut_c": 14.6
+    },
+    "1989": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 10,
+      "95": 5,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 5,
+      "99": 1
+     },
+     "warmest_night_c": 15.1,
+     "warmest_day_c": 26.6,
+     "warmest_day_to_cut_c": 26.6,
+     "warmest_night_to_cut_c": 15.1
+    },
+    "1990": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 8,
+      "95": 3,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 6,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 5,
+      "99": 1
+     },
+     "warmest_night_c": 15.4,
+     "warmest_day_c": 27.7,
+     "warmest_day_to_cut_c": 27.7,
+     "warmest_night_to_cut_c": 15.1
+    },
+    "1991": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 5,
+      "99": 1
+     },
+     "warmest_night_c": 15.8,
+     "warmest_day_c": 26.0,
+     "warmest_day_to_cut_c": 24.0,
+     "warmest_night_to_cut_c": 15.8
+    },
+    "1992": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 14.3,
+     "warmest_day_c": 24.7,
+     "warmest_day_to_cut_c": 24.7,
+     "warmest_night_to_cut_c": 14.3
+    },
+    "1993": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 12.9,
+     "warmest_day_c": 23.4,
+     "warmest_day_to_cut_c": 23.4,
+     "warmest_night_to_cut_c": 12.9
+    },
+    "1994": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 8,
+      "95": 3,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 5,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 3,
+      "99": 1
+     },
+     "warmest_night_c": 15.4,
+     "warmest_day_c": 26.1,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 15.4
+    },
+    "1995": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 8,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 4,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 23,
+      "95": 15,
+      "99": 5
+     },
+     "warmest_night_c": 17.4,
+     "warmest_day_c": 29.7,
+     "warmest_day_to_cut_c": 26.7,
+     "warmest_night_to_cut_c": 17.4
+    },
+    "1996": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 5,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 7,
+      "99": 1
+     },
+     "warmest_night_c": 15.2,
+     "warmest_day_c": 26.1,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 14.8
+    },
+    "1997": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 1,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 12,
+      "95": 5,
+      "99": 1
+     },
+     "warmest_night_c": 16.8,
+     "warmest_day_c": 27.4,
+     "warmest_day_to_cut_c": 25.0,
+     "warmest_night_to_cut_c": 16.8
+    },
+    "1998": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 14.7,
+     "warmest_day_c": 25.1,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 14.5
+    },
+    "1999": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 4,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 5,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 25.7,
+     "warmest_day_to_cut_c": 25.7,
+     "warmest_night_to_cut_c": 15.9
+    },
+    "2000": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.1,
+     "warmest_day_c": 23.0,
+     "warmest_day_to_cut_c": 22.5,
+     "warmest_night_to_cut_c": 17.1
+    },
+    "2001": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 3,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 3,
+      "99": 1
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 27.1,
+     "warmest_day_to_cut_c": 27.1,
+     "warmest_night_to_cut_c": 16.9
+    },
+    "2002": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 11,
+      "95": 6,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.7,
+     "warmest_day_c": 23.3,
+     "warmest_day_to_cut_c": 22.6,
+     "warmest_night_to_cut_c": 15.3
+    },
+    "2003": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 22,
+      "95": 9,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 23.9,
+     "warmest_day_to_cut_c": 23.9,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "2004": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 14,
+      "95": 8,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 4,
+      "99": 1
+     },
+     "warmest_night_c": 16.5,
+     "warmest_day_c": 26.1,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 16.5
+    },
+    "2005": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 5,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 5,
+      "99": 0
+     },
+     "warmest_night_c": 17.2,
+     "warmest_day_c": 24.6,
+     "warmest_day_to_cut_c": 24.6,
+     "warmest_night_to_cut_c": 17.2
+    },
+    "2006": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 16,
+      "95": 10,
+      "99": 4
+     },
+     "warm_nights_to_cut": {
+      "90": 20,
+      "95": 9,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 18,
+      "95": 10,
+      "99": 4
+     },
+     "warmest_night_c": 18.1,
+     "warmest_day_c": 29.8,
+     "warmest_day_to_cut_c": 29.8,
+     "warmest_night_to_cut_c": 18.1
+    },
+    "2007": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 15.7,
+     "warmest_day_c": 25.8,
+     "warmest_day_to_cut_c": 23.0,
+     "warmest_night_to_cut_c": 15.7
+    },
+    "2008": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 4,
+      "99": 0
+     },
+     "warmest_night_c": 14.9,
+     "warmest_day_c": 25.3,
+     "warmest_day_to_cut_c": 25.3,
+     "warmest_night_to_cut_c": 14.9
+    },
+    "2009": {
+     "window_days": 99,
+     "full_days": 362,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 3,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 14,
+      "95": 7,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 3,
+      "99": 2
+     },
+     "warmest_night_c": 16.3,
+     "warmest_day_c": 26.3,
+     "warmest_day_to_cut_c": 26.3,
+     "warmest_night_to_cut_c": 16.3
+    },
+    "2010": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 8,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 13.9,
+     "warmest_day_c": 23.5,
+     "warmest_day_to_cut_c": 23.5,
+     "warmest_night_to_cut_c": 13.9
+    },
+    "2011": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 25.4,
+     "warmest_day_to_cut_c": 25.4,
+     "warmest_night_to_cut_c": 14.2
+    },
+    "2012": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.8,
+     "warmest_day_c": 25.2,
+     "warmest_day_to_cut_c": 22.6,
+     "warmest_night_to_cut_c": 16.8
+    },
+    "2013": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 12,
+      "95": 6,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 15,
+      "95": 9,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 17,
+      "95": 8,
+      "99": 0
+     },
+     "warmest_night_c": 15.7,
+     "warmest_day_c": 25.4,
+     "warmest_day_to_cut_c": 25.4,
+     "warmest_night_to_cut_c": 15.7
+    },
+    "2014": {
+     "window_days": 102,
+     "full_days": 363,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 15.0,
+     "warmest_day_c": 24.6,
+     "warmest_day_to_cut_c": 24.6,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "2015": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 1,
+      "99": 1
+     },
+     "warmest_night_c": 14.7,
+     "warmest_day_c": 26.7,
+     "warmest_day_to_cut_c": 26.7,
+     "warmest_night_to_cut_c": 14.3
+    },
+    "2016": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 8,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 15.5,
+     "warmest_day_c": 25.9,
+     "warmest_day_to_cut_c": 25.8,
+     "warmest_night_to_cut_c": 14.7
+    },
+    "2017": {
+     "window_days": 102,
+     "full_days": 359,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 8,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 25.7,
+     "warmest_day_to_cut_c": 25.7,
+     "warmest_night_to_cut_c": 16.9
+    },
+    "2018": {
+     "window_days": 102,
+     "full_days": 351,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 16,
+      "95": 10,
+      "99": 3
+     },
+     "warm_nights_to_cut": {
+      "90": 15,
+      "95": 7,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 16,
+      "95": 10,
+      "99": 3
+     },
+     "warmest_night_c": 16.8,
+     "warmest_day_c": 27.2,
+     "warmest_day_to_cut_c": 27.2,
+     "warmest_night_to_cut_c": 16.8
+    },
+    "2019": {
+     "window_days": 101,
+     "full_days": 363,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 5,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 17,
+      "95": 13,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 6,
+      "99": 2
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 26.1,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 16.4
+    },
+    "2020": {
+     "window_days": 102,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 15.1,
+     "warmest_day_c": 24.5,
+     "warmest_day_to_cut_c": 24.5,
+     "warmest_night_to_cut_c": 14.4
+    },
+    "2021": {
+     "window_days": 102,
+     "full_days": 363,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 19,
+      "95": 5,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 5,
+      "99": 2
+     },
+     "warmest_night_c": 15.9,
+     "warmest_day_c": 27.5,
+     "warmest_day_to_cut_c": 27.5,
+     "warmest_night_to_cut_c": 15.9
+    },
+    "2022": {
+     "window_days": 101,
+     "full_days": 364,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 17,
+      "95": 11,
+      "99": 4
+     },
+     "warm_nights_to_cut": {
+      "90": 14,
+      "95": 9,
+      "99": 6
+     },
+     "days_full_year": {
+      "90": 20,
+      "95": 12,
+      "99": 5
+     },
+     "warmest_night_c": 18.3,
+     "warmest_day_c": 29.7,
+     "warmest_day_to_cut_c": 27.8,
+     "warmest_night_to_cut_c": 18.3
+    },
+    "2023": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 4,
+      "99": 2
+     },
+     "days_full_year": {
+      "90": 17,
+      "95": 9,
+      "99": 4
+     },
+     "warmest_night_c": 16.5,
+     "warmest_day_c": 27.0,
+     "warmest_day_to_cut_c": 26.1,
+     "warmest_night_to_cut_c": 16.5
+    },
+    "2024": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 2,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 2,
+      "99": 1
+     },
+     "warmest_night_c": 15.7,
+     "warmest_day_c": 26.6,
+     "warmest_day_to_cut_c": 26.6,
+     "warmest_night_to_cut_c": 15.7
+    },
+    "2025": {
+     "window_days": 102,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 5,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 19,
+      "95": 14,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 20,
+      "95": 10,
+      "99": 3
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 27.4,
+     "warmest_day_to_cut_c": 27.4,
+     "warmest_night_to_cut_c": 16.9
+    },
+    "2026": {
+     "window_days": 102,
+     "full_days": 222,
+     "usable_to_cut": true,
+     "usable_full_year": false,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 10,
+      "95": 5,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 21,
+      "95": 8,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 5,
+      "99": 1
+     },
+     "warmest_night_c": 16.1,
+     "warmest_day_c": 29.4,
+     "warmest_day_to_cut_c": 29.4,
+     "warmest_night_to_cut_c": 16.1
+    }
+   }
+  },
   "Paris": {
    "country": "FR",
    "station": "ORLY",

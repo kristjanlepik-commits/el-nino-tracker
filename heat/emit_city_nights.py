@@ -91,6 +91,9 @@ COORDS = {
     # station. Recorded here so London is not the only city whose mark is a
     # guess when it is the one city whose position was actually verified.
     "London": (51.479, -0.451),
+    "Nottingham": (53.0053, -1.2497),
+    "Belfast": (54.6636, -6.2244),
+    "Aberdeen": (57.2051, -2.2037),
     "Tallinn": (59.398, 24.603),
 }
 
