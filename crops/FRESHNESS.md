@@ -204,3 +204,41 @@ source. What crops can be is right about the season with 26 years behind
 it, one to three weeks back. That is a different product from being
 current and should be sold as one. Only a faster driver layer changes
 the floor; everything else polices it.
+
+## The age cycles, and a floor quoted as a property goes stale
+
+Added 2026-08-11, after product ratified D-145 on the reading that ASAP
+"now delivers at 9 days" and Kristjan re-decided it as D-148 once the
+range was measured.
+
+**The age of the newest observation is not a number, it is a range.** A
+dekad stays newest for ten days until the next publishes, so:
+
+| | days past window close |
+|---|---|
+| just after a dekad lands | **9** |
+| the day product measured (2026-08-09) | 9 |
+| two days later (2026-08-11) | **11**, already outside the 5-to-10 bound |
+| just before the next lands | **15 to 18** |
+
+**So "no more than 5 to 10 days old" is met for one to four days in
+every ten**, not continuously. The defensible claim is *never more than
+one publication behind its source, 9 to 18 days depending where you are
+in the cycle*.
+
+**Both of us made the same error and I made it twice.** Product measured
+the floor and reported it as the property. I then corrected them, and
+went on quoting my own 9-day figure across a working session that
+spanned two calendar days, by which time it was 11. **A measurement of a
+cycling quantity carries a timestamp or it is not a measurement.**
+
+Checked before blaming the machine: local time agrees with ASAP's own
+`Date` header to within one second, so this was elapsed time rather than
+clock drift. `crops/data/publication_log.json` timestamps are sound.
+
+**The second lag no source removes.** Cumulative FPAR integrates from
+season start, so it dilutes a late shock by construction: even a
+zero-latency vegetation feed would have understated England in July.
+5-to-10 days was never reachable for an OUTCOME claim from any source,
+which is why a faster driver layer was the wrong purchase and USDA Crop
+Progress, faster in KIND, is the right one.
