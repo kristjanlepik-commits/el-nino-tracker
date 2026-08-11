@@ -165,6 +165,32 @@ If you notice a decision that was acted on but never logged, say so,
 including when it is one of Kristjan's asides. Silent gaps are the
 failure mode; a false alarm costs nothing.
 
+## Blocked on Kristjan? File it, do not send it (D-149)
+
+If you are blocked on something **only Kristjan can do**, add it to
+**`research/awaiting_kristjan.md`** rather than messaging him. It
+renders at the top of his admin home page. Four lines:
+
+    ## <short title>
+    Owner: <your chat>
+    Filed: YYYY-MM-DD
+    Needs: <the single action, in his words: what to do, not what broke>
+    Why: <one line on what is blocked or lost until he does it>
+
+Delete your item when it is done. Thirteen chats each deciding to tell
+him produces thirteen interrupts and no list; one file produces one
+list he reads when he chooses.
+
+**Still message him** when it is genuinely urgent, or when it is a
+question rather than a task. A blocked build costing a day is a
+message; a decision open a fortnight is a file.
+
+**Verify before you file, and verify again before you leave something
+sitting there.** The first version of that file asked him to create a
+chat that had existed for days. A wrong item at the top of that page is
+worse than an empty list, because it spends exactly the attention the
+page exists to protect.
+
 ## Who builds what (D-030, 2026-07-28)
 
     Fires, Floods, Crops   fetch the data, own that it is
