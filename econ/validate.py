@@ -391,8 +391,13 @@ def check_components(where, cm, component_defs):
     """
     if cm.get("_ratified_by") != "D-074":
         err(f"{where}: component model must cite its ratifying decision")
-    if cm.get("total_is_a_floor") is not True:
-        err(f"{where}: a component total with any gap is a floor and must say so")
+    # A total is a floor only if coverage understates AND every counted
+    # component understates. Direction separates these; magnitude does
+    # not. Strategy's one-directional date check is the same shape:
+    # a gap in the wrong direction is impossible, a gap in the right
+    # direction is routine.
+    if cm.get("floor_on_coverage") is not True:
+        err(f"{where}: a component set with gaps understates on coverage and must say so")
 
     comps = cm.get("components") or {}
     if not comps:
@@ -438,6 +443,24 @@ def check_components(where, cm, component_defs):
                 err(f"{cw}.sources[{i}]: must name its estimator")
             if sc.get("independence") not in {"independent", "shared_parameter"}:
                 err(f"{cw}.sources[{i}]: must declare independence")
+
+    VALUE_DIRECTIONS = {"understates", "overstates", "unresolved"}
+    counted_dirs = []
+    for cid, c in comps.items():
+        if c.get("status") not in {"counted", "estimated_from_shared_parameter",
+                                   "tls_estimated"}:
+            continue
+        vd = c.get("value_direction")
+        if vd not in VALUE_DIRECTIONS:
+            err(f"{where}.{cid}: a counted component must declare value_direction "
+                f"in {sorted(VALUE_DIRECTIONS)}")
+        else:
+            counted_dirs.append(vd)
+
+    if cm.get("total_is_a_floor") is True and any(v != "understates" for v in counted_dirs):
+        err(f"{where}: total_is_a_floor is true but a counted component does not "
+            f"understate ({counted_dirs}); a floor needs every counted line to be a "
+            f"lower bound, not only the gaps")
 
     # A floor total must be consistent with what is actually counted.
     counted = [cid for cid, c in comps.items()
