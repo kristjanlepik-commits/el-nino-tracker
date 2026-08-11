@@ -9,29 +9,29 @@
   },
   "period": {
     "from": "2026-01-01",
-    "to": "2026-07-22",
-    "status_note": "Season is open. Week 29 of a Mediterranean fire season that peaks in August."
+    "to": "2026-08-05",
+    "status_note": "Season is open and at its seasonal peak. Spain stands at 95 percent of its own same-week record."
   },
   "attribution_tag": "not_enso_linked",
   "attribution_note": "The Mediterranean is the region this site uses as its control for events with no El Nino link, and this is the strongest fire anomaly in the 2026 data. Not being linked to El Nino is a finding, not a caveat.",
   "evidence_basis": "compiled",
   "authorship": "agency",
-  "generated": "2026-07-29",
+  "generated": "2026-08-11",
   "layers": [
     {
       "kind": "hazard",
       "label": "Burnt area, year to date",
-      "value": 175989,
+      "value": 222892,
       "units": "hectares",
-      "issued": "2026-07-22",
+      "issued": "2026-08-05",
       "estimator_note": "Copernicus EFFIS, via this site's fire channel",
       "source_url": "https://effis.jrc.ec.europa.eu/",
       "evidence_basis": "measured",
       "comparison": {
         "basis": "same week of prior seasons, computed by Copernicus",
         "mean": 35735.6,
-        "multiple": 4.92,
-        "note": "4.92 times the same-week average"
+        "multiple": 4.72,
+        "note": "4.72 times the same-week average, and 95 percent of the same-week record"
       }
     },
     {
@@ -43,7 +43,8 @@
       "estimator_note": "Spanish Ministry for Ecological Transition",
       "source_url": "https://www.euronews.com/business/2026/07/27/spains-wave-of-wildfires-costs-up-to-3275-billion-in-firefighting-alone",
       "evidence_basis": "measured",
-      "corroboration_note": "Two independent measures of the same physical quantity, about 2 percent apart. Physical quantities converge; the money figures on this page do not. That contrast is the point of this section."
+      "corroboration_note": "Two independent measures of the same physical quantity, about 2 percent apart. Physical quantities converge; the money figures on this page do not. That contrast is the point of this section.",
+      "_note": "Ministry figure of 172,396 ha dated 2026-07-27. Retained as the source's own dated figure; superseded as a current measure by the EFFIS layer above."
     },
     {
       "kind": "money",
@@ -157,7 +158,7 @@
   "headline_candidate": {
     "text": "Four published figures for Spanish firefighting costs run from EUR 1.7 billion to EUR 7.6 billion. Every one of them is the same cost per hectare multiplied by a different burnt area.",
     "form": "several sources that look like corroboration are one calculation with different denominators",
-    "supporting": "The parameter is EUR 10,000 to 19,000 per hectare. Spain's official annual spending on fighting fires implies about EUR 4,170.",
+    "supporting": "The parameter is EUR 10,000 to 19,000 per hectare. Spain's official annual spending on fighting fires implies about EUR 4,170. Applied to Spain's area on 5 August, the same parameter gives EUR 2.2 to 4.2 billion.",
     "evidence_basis": "combined",
     "_guardrail": "Three of the four figures are for the 2025 season and one is for 2026, so the sentence must say firefighting costs rather than implying one event. The claim is about how the figures were constructed, which is checkable by dividing each by its own area, and it is not a claim that any of them is wrong. Organisation types are stated without any inference about the figures: if the copy leaves a reader thinking the numbers are inflated, it has done something the data does not support.",
     "_status": "candidate, not approved copy. Editor owns the wording.",
@@ -264,7 +265,37 @@
         "excludes": [
           "restoration"
         ],
-        "_incentive_note": "Organisation type is stated as a bare fact. No inference is drawn about the figures and none is available from this data. The checkable claim is only about construction: divide each published figure by its own burnt area and the same per-hectare parameter appears. Copy that leaves a reader concluding the numbers are inflated has gone beyond what the data supports."
+        "_incentive_note": "Organisation type is stated as a bare fact. No inference is drawn about the figures and none is available from this data. The checkable claim is only about construction: divide each published figure by its own burnt area and the same per-hectare parameter appears. Copy that leaves a reader concluding the numbers are inflated has gone beyond what the data supports.",
+        "tls_estimate": {
+          "status": "published",
+          "authorship": "tls_built",
+          "evidence_basis": "combined",
+          "value_low": 2229,
+          "value_high": 4235,
+          "currency": "EUR",
+          "scale": "million",
+          "issued": "2026-08-11",
+          "method": "The published per-hectare firefighting cost of EUR 10,000 to 19,000, applied to Spain's burnt area of 222,892 hectares as measured by Copernicus EFFIS on 5 August 2026.",
+          "range_low": 2229,
+          "range_high": 4235,
+          "inputs": [
+            {
+              "label": "per-hectare firefighting cost, EUR 10,000 to 19,000",
+              "verified": true,
+              "estimator_note": "Forescat, via Greenpeace/Asemfo and Euronews reporting",
+              "category": "response_cost"
+            },
+            {
+              "label": "burnt area, 222,892 ha at 2026-08-05",
+              "verified": true,
+              "estimator_note": "Copernicus EFFIS",
+              "category": "response_cost"
+            }
+          ],
+          "_why": "The published figures use an area three weeks old. This applies the same parameter to the current area so the reader sees a like-for-like number rather than a stale one. It is ours and labelled as ours; the parameter and the area both belong to named sources.",
+          "_inherits": "Carries the same shared-parameter caveat and the same unreconciled official figure as the published estimates, because it uses the identical parameter."
+        },
+        "_superseded_area_note": "The published EUR 1,723 to 3,275 million was computed against 172,396 hectares on 27 July. Spain has burned roughly 50,000 hectares more since."
       },
       "carbon": {
         "status": "gap_with_basis_available",
