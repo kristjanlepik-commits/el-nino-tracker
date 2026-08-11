@@ -103,8 +103,18 @@ jobs:
         with:
           python-version: "3.12"
 
+      # NAMED EXPLICITLY. With no argument this iterates every city in
+      # SOURCES, and London arrived in that dict on 2026-08-10 with a key
+      # this workflow does not hold. Combined with collect_forward now
+      # RAISING on a missing key rather than returning empty, one city's
+      # absent credential killed the whole run: Tallinn stopped collecting
+      # for 51 hours, on the one dataset where a missed hour is permanent.
+      #
+      # I made it raise so a missing key could not silently lose data. It
+      # loudly lost data on a different city instead. London has its own
+      # workflow and its own secret; this one is Tallinn's.
       - name: Sample
-        run: python heat/collect_forward.py
+        run: python heat/collect_forward.py Tallinn
 
       - name: Commit if changed
         run: |

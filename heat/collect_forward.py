@@ -158,7 +158,16 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     rc = 0
     for city in (sys.argv[1:] or SOURCES):
-        s = sample(city)
+        # ONE CITY MUST NOT BE ABLE TO STOP THE OTHERS. A missing London
+        # key raised straight out of this loop and Tallinn never got its
+        # turn. Per-city isolation, and rc still ends non-zero so the run
+        # goes red: the failure is reported without being contagious.
+        try:
+            s = sample(city)
+        except SystemExit as exc:
+            print(f"  {city}: {exc}", file=sys.stderr)
+            rc = 1
+            continue
         if s is None:
             print(f"  {city}: no observation returned", file=sys.stderr)
             rc = 1
