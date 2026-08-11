@@ -399,10 +399,26 @@ DISPLAY_PCT_MAX = 99
 # argument applies to composition. A hard-coded rung list is a condition
 # written against one month's data, and this is the second time in two
 # months a rung has topped out.
+#
+# THIS DICT IS THE RECORD OF WHEN, NOT THE CRITERION. The criterion is
+# computed in annotate_liveness (`state == "settled"`: saturated AND no
+# longer moving) and compared against this dict on every run. A rung that
+# meets it while missing from here comes back as `retirement_due` and
+# prints a warning.
+#
+# The two are kept apart deliberately. Deriving these dates from liveness
+# would retire +2.0 on 2026-07-13, the issue it settled, and contradict
+# the four frozen archives that published it live through 2026-08-03.
+# Dates are history and cannot be recomputed; a criterion is a check and
+# must be. Anything that reads this dict AS the rule, rather than as the
+# log, will eventually claim the ladder maintains itself. A public page
+# claimed exactly that on 2026-08-11.
 RETIRED_RUNGS = {
     "moderate_>1.0": "2026-07-13",
     "strong_>1.5":   "2026-07-13",
-    "super_>2.0":    "2026-08-10",   # D-115
+    "super_>2.0":    "2026-08-10",   # D-115. Settled 07-13, retired 08-10:
+                                     # 28 days pinned at the bound, which is
+                                     # the gap `retirement_due` now catches.
 }
 
 
@@ -597,5 +613,37 @@ def annotate_liveness(buckets: dict, history: list, history_pairs: list | None =
             "weeks_unchanged": unchanged,
             "mean_abs_move_recent": mean_move,
             "saturated": saturated,
+            # Settled but still on the ladder: the criterion says it should
+            # go, RETIRED_RUNGS says it has not. See the note below.
+            "retirement_due": state == "settled" and not val.get("retired"),
         }}
+
+    # The criterion is computed; the retirement is recorded by hand. This is
+    # the only thing that keeps the two from drifting apart silently.
+    #
+    # +2.0 settled on 2026-07-13 and was retired on 2026-08-10, so it sat
+    # pinned at the bound for twenty-eight days, carrying no information,
+    # while the page told readers a rung "retires when it reaches the display
+    # bound rather than when someone edits this page". That sentence was
+    # false: retirement happens exactly when someone edits RETIRED_RUNGS.
+    # Nothing detected the gap because nothing compared the two facts, and
+    # both were sitting in this file.
+    #
+    # Deliberately a WARNING rather than a hard failure. Invariant 1 says
+    # run_brief.py always produces a brief and must never crash on a Monday,
+    # and retirement is partly an editorial call (D-115 was Kristjan's, not a
+    # threshold's). So the machine's job is to make the call impossible to
+    # miss, not to make it automatically.
+    #
+    # Deliberately NOT retroactive either. Recomputing retirement from
+    # liveness would date +2.0 to 07-13 and contradict four frozen archives
+    # that published it live. RETIRED_RUNGS stays the record of WHEN;
+    # `retirement_due` is the check on WHETHER.
+    due = sorted(k for k, v in out.items()
+                 if isinstance(v, dict)
+                 and (v.get("liveness") or {}).get("retirement_due"))
+    if due:
+        print(f"WARNING: rung(s) settled but still on the ladder: {due}. "
+              f"A settled rung carries no information; add it to "
+              f"RETIRED_RUNGS with this issue's date, or say why not.")
     return out
