@@ -271,7 +271,13 @@ def check_generators_clean() -> None:
 FRESHNESS_DECLARATIONS = [
     {"data": "crops/data/stress_current.json", "date_key": "dekad",
      "pages": ("docs/crops/",), "owner": "CRO"},
-    {"data": "fires/data/current_week.json", "date_key": None,
+    # data_as_of, set by FIRE under D-092. It was None here, and that is
+    # the whole reason their guard read as installed while doing nothing:
+    # with a bound present and no date key, the NOTICE stops printing and
+    # the age is never evaluated, so "declared a bound that can never
+    # fire" looks exactly like "covered". Fire verified it by setting the
+    # date 222 days stale against a bound of 2 and getting zero problems.
+    {"data": "fires/data/current_week.json", "date_key": "data_as_of",
      "pages": ("docs/fires/",), "owner": "FIRE"},
 ]
 
@@ -300,13 +306,40 @@ def check_declared_freshness(problems: list[str]) -> None:
                   f"number; platform will not guess it (D-092).")
             continue
 
+        # A BOUND YOU CANNOT EVALUATE IS WORSE THAN NO BOUND, and Fire
+        # found this the hard way: with a bound declared and date_key
+        # None, the NOTICE above stops printing and the age below is
+        # never computed, so "declared a bound that can never fire" is
+        # indistinguishable from "covered". They set data_as_of 222 days
+        # stale against a bound of 2 and got zero problems. They would
+        # have shipped it as done had they trusted the notice clearing.
+        #
+        # The undeclared state at least announces itself. This one went
+        # quiet on being half-configured, which is the failure this file
+        # keeps finding elsewhere: silence that reads as health.
         key = spec["date_key"]
-        raw = doc.get(key) if key else None
+        if not key:
+            problems.append(
+                f"{spec['data']} declares {BOUND_KEY}={bound} but platform "
+                f"has no date_key for it, so the bound can never fire and "
+                f"the pages ship unchecked while LOOKING checked. Set "
+                f"date_key in FRESHNESS_DECLARATIONS. Owner: {spec['owner']}, "
+                f"but the missing half is platform's.")
+            continue
+        raw = doc.get(key)
         if not isinstance(raw, str):
+            problems.append(
+                f"{spec['data']} declares {BOUND_KEY}={bound} and has no "
+                f"usable '{key}' to measure against ({raw!r}). A bound that "
+                f"cannot be evaluated is not a bound. Owner: {spec['owner']}.")
             continue
         try:
             as_of = date.fromisoformat(raw[:10])
         except ValueError:
+            problems.append(
+                f"{spec['data']}: '{key}' is {raw!r}, which is not a date, so "
+                f"its declared bound of {bound} cannot be applied. "
+                f"Owner: {spec['owner']}.")
             continue
 
         age = (date.today() - as_of).days
