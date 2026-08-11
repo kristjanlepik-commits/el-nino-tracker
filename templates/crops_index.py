@@ -906,11 +906,24 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     from templates.crops_country import slugify as _slug
     _has_page = {p["place"] for p in places
                  if any(r.get("rank") == 1 for r in (p.get("regions") or []))}
+    # The label for a linked-but-not-clustered dot, stated here because
+    # this is where the fact lives. A page is granted for holding a region
+    # at its worst on record, so that is what the dot says. Counted from
+    # the payload rather than asserted, since "regions" reads as several
+    # and one is the common case.
+    _n1 = {p["place"]: sum(1 for r in (p.get("regions") or [])
+                           if r.get("rank") == 1) for p in places}
+    quiet_labels = {
+        p: ("one crop region at its worst on record" if _n1[p] == 1
+            else f"{_n1[p]} crop regions at their worst on record")
+        for p in _has_page}
+
     world_map = map_block(
         [p["place"] for p in places],
         [(c, c) for c, _, _ in clusters],
         map_href=root_prefix + "world-map.svg",
-        hrefs={p: _slug(p) + "/" for p in _has_page})
+        hrefs={p: _slug(p) + "/" for p in _has_page},
+        quiet_labels=quiet_labels)
 
     cur_dk = _dekad_index(doc.get("dekad", ""))
     NOV = 31                      # dekad 31 is 1-10 November

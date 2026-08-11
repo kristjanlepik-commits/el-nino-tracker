@@ -64,7 +64,7 @@ def _xy(place: str) -> tuple[float, float]:
 
 
 def map_block(all_places, lit, map_href: str = "../world-map.svg",
-              hrefs: dict | None = None) -> str:
+              hrefs: dict | None = None, quiet_labels: dict | None = None) -> str:
     """all_places: every place name measured. lit: [(place, label)] flagged.
 
     `hrefs` maps a place to its country page. The map is the way IN to
@@ -94,9 +94,37 @@ def map_block(all_places, lit, map_href: str = "../world-map.svg",
         left, top = _xy(p)
         style = f'left:{left:.2f}%;top:{top:.2f}%'
         if hrefs.get(p):
+            # THE LABEL MUST STATE THE FACT THAT EARNED THE LINK, and this
+            # said the opposite of it on 31 of 31 linked quiet dots.
+            #
+            # Two rules grant two different things here. LIT comes from the
+            # cluster list, the five worst places. The LINK comes from
+            # having a page, which crops grants for holding a region at its
+            # worst on record. So every quiet dot that is clickable is, by
+            # construction, a country with a record-low region, and the
+            # label written for the quiet state told a screen reader it was
+            # "within its own normal range".
+            #
+            # Not a near miss and not a rounding: China, Ukraine, Peru,
+            # Turkiye and 27 others, each holding at least one region at
+            # its worst in 26 years, described as normal in published text
+            # (D-112b). Nothing failed. The dot rendered, the link resolved,
+            # the dead-link guard passed, and the sentence was false.
+            #
+            # Same fault one level down from the one already recorded in
+            # crops_index.py: two rules that must agree, re-derived in two
+            # places. So the caller now states the label and a missing one
+            # stops the build, exactly like a missing centroid above. A
+            # default here is what let the two drift in silence.
+            if p not in (quiet_labels or {}):
+                raise SystemExit(
+                    "crops map: %s is linked but has no quiet label.\n"
+                    "A linked dot must say what earned it the link; the "
+                    "old default said 'within its own normal range' and "
+                    "was false for every country it was applied to." % p)
             dots.append(f'<a class="cm-q cm-a" style="{style}" '
-                        f'href="{h(hrefs[p])}" aria-label="{h(p)}, within '
-                        f'its own normal range"></a>')
+                        f'href="{h(hrefs[p])}" '
+                        f'aria-label="{h(p)}, {h(quiet_labels[p])}"></a>')
         else:
             dots.append(f'<span class="cm-q" style="{style}"></span>')
     for p, label in sorted(lit, key=lambda t: t[0]):
