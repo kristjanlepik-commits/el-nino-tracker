@@ -449,33 +449,49 @@ def _generated_lede(d):
 
 
 def _spread(hb):
-    """The disagreement, beside the figure it governs.
+    """The disagreement, beside the figure it governs, and NOT as a range.
 
     EDITOR'S RULING, D-051 applied: a headline probability may not appear
     bare in large type, because the qualifier travels with the datum and
-    nothing else on the page will carry it once the band is screenshotted.
+    nothing else survives a screenshot of the band.
 
-    This band printed 98% and 70% side by side with nothing attached, which
-    is worse than it looks: the two numbers have completely different
-    standing. The models agree within 11 points on +2.5 and disagree by 71
-    on +3.5, which is the widest spread the site publishes. A reader given
-    both bare would reasonably take them as equally settled.
+    MY FIRST VERSION RENDERED IT AS "27 to 98 across the six models" AND
+    SCIENCE CORRECTED BOTH HALVES OF THAT.
 
-    Nobody flagged this. It predates the ruling and I found it while fixing
-    the lede, which is the only reason it is here rather than live.
+    27 is not a model. It is the CPC anchor, their published probability
+    table fitted with a skew-normal, and it is the one number in the set
+    that is not a model run. Putting it at the bottom of a model range
+    misattributes it.
 
-    Surfacing the disagreement rather than averaging it away is the house
-    rule (T-thesis, and CLAUDE.md's editorial constraints), so this prints
-    the range rather than a confidence adjective.
+    And the models do not span a range. This week four sit at 98 or above,
+    two at 40 or below, and none is in between. It is a SPLIT, not a
+    spread. "Somewhere between 27 and 98" tells a reader we are unsure;
+    the truth is sharper and more reportable, which is that four of six
+    call it near-certain, two call it unlikely, and 70% is a value no
+    individual model produces. Rendering it as a range averages away
+    exactly the structure the house rule exists to surface.
+
+    So this prints each figure on its own footing and makes no range claim.
+    The sharper form science would prefer, "four of six models at or above
+    98%, two at or below 40%", is NOT DERIVABLE from meta.json, which
+    carries only anchor, consensus, seas5 and n_models. Typing their
+    numbers here would put six per-model values in a template that cannot
+    know when they move, which is the defect I have spent the day removing
+    from other people's files. Asked them for the field; until it exists
+    this renders what the payload supports and no more.
     """
     b = hb.get("record_>3.5") or {}
-    vals = [b.get("anchor"), b.get("consensus"), b.get("seas5")]
-    vals = [v for v in vals if v is not None]
-    if len(vals) < 2:
+    bits = []
+    if b.get("anchor") is not None:
+        bits.append("CPC&rsquo;s own table implies %d%%" % b["anchor"])
+    if b.get("consensus") is not None:
+        bits.append("the model consensus is %d%%" % b["consensus"])
+    if b.get("seas5") is not None:
+        bits.append("ECMWF SEAS5 alone is %d%%" % b["seas5"])
+    if not bits:
         return ""
-    lo, hi = min(vals), max(vals)
-    return ("the +3.5 figure spans %d to %d across the six models, "
-            "the widest disagreement on the site" % (lo, hi))
+    return ("The +3.5 figure is ours, and no single model produces it: "
+            + "; ".join(bits) + ".")
 
 
 def page(d):
