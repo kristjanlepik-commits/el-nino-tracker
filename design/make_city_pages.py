@@ -787,8 +787,13 @@ for name, v in sorted(C.items()):
     if dr["value"] == 1:
         head = f"The most hot days {name} has recorded by this date."
     elif ties_for_first:
-        head = (f"{now} hot days so far this year, matching "
-                f"{_join_years(ties)} for the most {name} has recorded.")
+        # "the most X has recorded" is a superlative with nothing under it.
+        # Editor's wording merged with heat's: heat's carried the
+        # denominator, editor's was shorter, and the denominator is the part
+        # worth keeping. Same reason the rank never ships without its series.
+        head = (f"{now} hot days so far this year, equalling "
+                f"{_join_years(ties)} for the most in {name}'s "
+                f"{dr['of_years']} summers.")
     else:
         head = (f"{now} hot days so far, {ordn(dr['value'])} of "
                 f"{name}'s {dr['of_years']} summers.")
