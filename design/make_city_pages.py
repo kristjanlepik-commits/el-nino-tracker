@@ -295,6 +295,37 @@ _EUROPE = re.compile(
     rf"(?:cities|capitals|countries|stations|towns)\b", re.I)
 
 
+def _provisional_block(v):
+    from html import escape as _esc
+    """A season whose licence is unresolved says so, on the page.
+
+    London is the only city whose history and current season arrive by
+    different transports. Both are the same thermometer at Heathrow and
+    heat validated every day of 2024 and 2025 to within 0.5 C, so the
+    NUMBERS are sound. What is unresolved is the LICENCE: the Met Office
+    has been asked whether we may republish the season and has not yet
+    answered.
+
+    The payload already carried this inside source.licence and no page
+    rendered that field, so the notice existed and reached no reader.
+    Heat said it was not optional and they are right: a figure whose
+    right to be published is unsettled is a different thing from one
+    that is, and only we can see the difference.
+
+    Attribution is Met Office, never OGIMET. OGIMET is the transport for
+    a one-time archival pull, not the source of the observations, and
+    showing a transport as a source would credit the wrong body.
+    """
+    lic = ((v.get("source") or {}).get("licence") or "")
+    if "PROVISIONAL" not in lic.upper():
+        return ""
+    _, _, tail = lic.partition("PROVISIONAL")
+    return ('<span style="grid-column:1/-1"><strong>This season is '
+            'provisional.</strong>' + _esc(tail.lstrip(":").rstrip(".")) +
+            '. The history is Met Office MIDAS Open under the Open '
+            'Government Licence.</span>')
+
+
 def check_europe_scope(name, html):
     if N.get("selection", {}).get("is_representative_of_europe", True):
         return
@@ -933,6 +964,7 @@ for name, v in sorted(C.items()):
 <span><a href="methodology.html">How these figures are built</a></span>
 <span style="text-align:right">Heat methodology</span>
 <span>{S[name]['source']}, {S[name]['station']}, daily minimum and maximum</span>
+{_provisional_block(v)}
 <span style="text-align:right">to {v['counted_to']}</span>
 <!-- Kristjan's ruling, 2026-08-07: show the state per city rather than
      verify quietly or hedge across the set. Three different facts and the
