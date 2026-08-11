@@ -645,6 +645,31 @@ def main():
         dead = sorted(d for d, v in day_totals.items()
                       if med and v < med * INCOMPLETE_DAY_FRACTION)
 
+    # ABSENT IS NOT THIN, and only thin was being checked.
+    #
+    # The test above compares each day's total against the median of the
+    # days THAT ARE THERE. A day the archive never returned never becomes a
+    # key in day_totals, so it cannot be too low, so `dead` stays empty and
+    # `degraded` stays null. On 2026-08-11 the page therefore presented a
+    # seven-day window built from five days and disclosed nothing, with the
+    # missing pair including yesterday.
+    #
+    # Set-difference against the calendar, per the same rule floods reached:
+    # verify ABSENCE, not just values. Days removed on purpose for
+    # comparability are excluded from this, because those are declared
+    # elsewhere and are not a gap.
+    expected_days = [(end - timedelta(days=offset)).isoformat()
+                     for offset in range(window_days - 1, -1, -1)]
+    unexplained = [d for d in expected_days
+                   if d not in day_totals and d[5:] not in defective_md]
+    if unexplained:
+        print(f"::error::{win_key} is MISSING {len(unexplained)} of "
+              f"{window_days} days entirely, and not for comparability: "
+              f"{', '.join(unexplained)}. These are absent from the archive "
+              f"rather than thin, so the median test cannot see them. The "
+              f"window is reported as degraded.", file=sys.stderr, flush=True)
+        dead = sorted(set(dead) | set(unexplained))
+
     degraded = None
     if dead:
         live_days = [d for d in sorted(day_totals) if d not in dead]

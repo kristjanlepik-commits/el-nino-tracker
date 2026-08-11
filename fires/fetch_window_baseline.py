@@ -47,6 +47,9 @@ ROSTER = os.path.join(REPO, "fires", "data", "tracked_countries.json")
 KEY = open(os.path.expanduser("~/.firms_map_key")).read().strip()
 
 YEARS = list(range(2012, 2026))
+# Below this many baseline years, a rank stops meaning much and dropping the
+# defective calendar day from both sides becomes the lesser loss again.
+MIN_BASELINE_YEARS = 8
 WORKERS = 3
 DAYS_PER_SEC = 6.0
 
@@ -498,13 +501,61 @@ def main() -> None:
               f"page silently.", file=sys.stderr)
         raise SystemExit(1)
 
-    dropped = sorted({f"{d.month:02d}-{d.day:02d}"
-                      for y in YEARS
-                      for d in (window_dates(start, end, y) or [])
-                      if d and d.isoformat() in DEFECTIVE})
-    if dropped:
-        print(f"  calendar days dropped from BOTH sides (archive defective "
-              f"in some year): {', '.join(dropped)}", file=sys.stderr)
+    # DROP THE DEFECTIVE YEAR, NOT THE CALENDAR DAY.
+    #
+    # This used to scan every year in YEARS and, if ANY of them had a
+    # defective date, drop that calendar day from BOTH sides. Two things
+    # were wrong with it, and on 2026-08-11 they cost the live page its two
+    # most useful days including yesterday.
+    #
+    # First, it counted years that are ALREADY OUT of the baseline. 2022 has
+    # no archive at all over this window and is removed twenty lines above,
+    # yet its missing 08-10 still dropped 08-10 from the current week. That
+    # is a day of real, fresh observation discarded to stay comparable with
+    # a year nothing is being compared against.
+    #
+    # Second, and more basic: the current week is the PRODUCT and the
+    # baseline is the REFERENCE. Losing one reference year out of thirteen
+    # costs almost nothing; losing one current day out of seven costs 14% of
+    # the headline and, when it is the newest day, is exactly the staleness
+    # readers notice. 2021-08-04 being thin is not a reason to delete
+    # 2026-08-04.
+    #
+    # So a year with a defective date leaves the baseline, and every day of
+    # the current week survives. The fallback remains, because the trade
+    # inverts if enough years are defective: below MIN_BASELINE_YEARS the
+    # baseline is too thin to rank against and dropping the day is the
+    # lesser loss again.
+    surviving = sorted({y for rec in out.values() for y in rec["hist"]})
+    defective_years = {}
+    for y in YEARS:
+        if str(y) not in surviving:
+            continue          # already excluded; its gaps cost nothing
+        bad = sorted(d.isoformat() for d in (window_dates(start, end, y) or [])
+                     if d and d.isoformat() in DEFECTIVE)
+        if bad:
+            defective_years[str(y)] = bad
+
+    dropped = []
+    if defective_years and len(surviving) - len(defective_years) >= MIN_BASELINE_YEARS:
+        print(f"  years dropped from the BASELINE (defective dates in this "
+              f"window), current week keeps all its days: "
+              f"{', '.join(f'{y} [{chr(32).join(v)}]' for y, v in sorted(defective_years.items()))}",
+              file=sys.stderr)
+        for rec in out.values():
+            for y in defective_years:
+                rec["hist"].pop(y, None)
+            if rec["hist"]:
+                rec["mean"] = round(sum(rec["hist"].values())
+                                    / len(rec["hist"]), 1)
+    elif defective_years:
+        dropped = sorted({d[5:] for dates in defective_years.values()
+                          for d in dates})
+        print(f"  FALLING BACK to dropping calendar days from both sides: "
+              f"excluding the {len(defective_years)} defective years would "
+              f"leave only {len(surviving) - len(defective_years)} baseline "
+              f"years, below the {MIN_BASELINE_YEARS} needed to rank "
+              f"against. Days dropped: {', '.join(dropped)}", file=sys.stderr)
     doc = {"window": win, "sensor": "VIIRS_SNPP_SP", "years": "2012-2025",
            "days_excluded_defective": dropped,
            "years_excluded_no_archive": no_archive,
