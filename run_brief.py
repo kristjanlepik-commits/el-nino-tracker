@@ -5504,6 +5504,7 @@ def main():
         }
     today_offset = (S.BRIEF_DATE.toordinal() - date(S.BRIEF_DATE.year, 3, 1).toordinal()) / 30.44
     live_oni_by_year = fetched.get("oni_history", {}).get("by_year") or None
+    _ANALOG_ONI = "analog_oni.png"
     analog.plot(str(brief_dir / "analog.png"),
                 cwwa_data=cwwa_data,
                 seas5_per_lead=fetched.get("ecmwf_seas5", {}).get("per_lead"),
@@ -5516,6 +5517,31 @@ def main():
                 # p25, p75} shape either way.
                 cfsv2_median=(fetched.get("nmme", {}).get("pooled_trajectory")
                               or fetched.get("nmme", {}).get("cfsv2_trajectory")))
+
+    # SECOND RENDER, single panel, for the public /elnino/ page only.
+    # Science's shape (5bafd0e). analog.png stays two-panel and
+    # unchanged, so the internal brief, the Monday email and every dated
+    # archive keep exactly what they have and send_email.py needs no edit.
+    #
+    # VD found /elnino/ drawing the cumulative westerly wind anomaly
+    # TWICE: once as section 01's inline SVG and again as this figure's
+    # lower panel. Dropping the panel from the shared file would have
+    # fixed the public page and silently removed a panel from Kristjan's
+    # email, which has one reader and no section 01 to fall back on.
+    #
+    # So the failure mode is loud by construction. Half-done wiring shows
+    # a visibly duplicated chart on a public page, which somebody
+    # notices, rather than an email quietly losing a panel, which nobody
+    # does. Design's reasoning and it is the right trade.
+    analog.plot(str(brief_dir / _ANALOG_ONI),
+                cwwa_data=cwwa_data,
+                seas5_per_lead=fetched.get("ecmwf_seas5", {}).get("per_lead"),
+                current_develop_year=S.BRIEF_DATE.year,
+                today_offset=today_offset,
+                live_oni_by_year=live_oni_by_year,
+                cfsv2_median=(fetched.get("nmme", {}).get("pooled_trajectory")
+                              or fetched.get("nmme", {}).get("cfsv2_trajectory")),
+                include_cwwa=False)
 
     # 3. Snapshot current inputs and diff against last issue. The
     # snapshot file is the source of truth for next week's diff, so we
@@ -5648,6 +5674,12 @@ def main():
     print(f"wrote: {docs_brief_dir / 'index.html'}")
     shutil.copyfile(brief_dir / "analog.png", DOCS_DIR / "analog.png")
     shutil.copyfile(brief_dir / "analog.png", docs_brief_dir / "analog.png")
+    # Docs root only. /elnino/ reads it from there via asset_prefix
+    # "../"; the dated archive deliberately keeps the two-panel
+    # analog.png, because an archive is the record of what was
+    # published that week and this variant existed for no issue
+    # before 2026-08-17.
+    shutil.copyfile(brief_dir / _ANALOG_ONI, DOCS_DIR / _ANALOG_ONI)
     (docs_brief_dir / "meta.json").write_text(json.dumps({
         "date": S.BRIEF_DATE.isoformat(),
         # methodology_version pinned per-issue so the MoM delta loader can
