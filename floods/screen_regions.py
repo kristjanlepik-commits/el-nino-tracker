@@ -112,7 +112,7 @@ ARCHIVE = "https://ladsweb.modaps.eosdis.nasa.gov/archive/allData/61/MCDWD_L3"
 #
 # Retained rather than deleted because the wrong version is the reason
 # the right one is shaped as it is.
-SAMPLE_YEARS = (2008, 2016, 2024)
+SAMPLE_YEARS = tuple(range(2003, 2026))   # every year, one day each
 
 # Each region is sampled in ITS OWN flood season. Screening a
 # Mediterranean winter basin in July measures the wrong month and would
@@ -124,9 +124,14 @@ SEASON_WINDOW = {
 }
 
 
-def sample_modis(lo0, lo1, la0, la1, season, tok, ndays=3):
-    """Fetch a few days of MODIS in the region's flood season and return
-    observed fraction and flood density. Streams and discards."""
+def sample_modis(lo0, lo1, la0, la1, season, tok, ndays=1):
+    """One day in EVERY year, returning PER-YEAR values.
+
+    Returns (per_year_observability, per_year_flood_counts). The caller
+    takes medians and the dependence correlation, so the estimate matches
+    what the gate actually computes: a median of per-year values and a
+    rank correlation across years. Pooling would weight clear years and
+    read high, which is half of why the first version passed Manila."""
     import subprocess, tempfile, urllib.request
     from pyhdf.SD import SD, SDC
     mon, day = SEASON_WINDOW.get(season, (8, 5))
@@ -140,8 +145,9 @@ def sample_modis(lo0, lo1, la0, la1, season, tok, ndays=3):
             c1 = min(4800, int(np.ceil((min(lo1, tl0 + 10) - tl0) / (10 / 4800))))
             if r1 > r0 and c1 > c0:
                 tiles[f"h{h:02d}v{v:02d}"] = (r0, r1, c0, c1)
-    F = O = P = 0
+    per_year_obs, per_year_flood = {}, {}
     for yr in SAMPLE_YEARS:
+        F = O = P = 0
         for k in range(ndays):
             doy = (dt.date(yr, mon, day) + dt.timedelta(days=k)).timetuple().tm_yday
             try:
@@ -175,7 +181,10 @@ def sample_modis(lo0, lo1, la0, la1, season, tok, ndays=3):
                 finally:
                     if os.path.exists(tmp):
                         os.unlink(tmp)
-    return (F, O, P)
+        if P:
+            per_year_obs[yr] = O / P
+            per_year_flood[yr] = F
+    return per_year_obs, per_year_flood
 
 
 def load_capture(d):
@@ -234,7 +243,7 @@ def main():
         print(f"MODIS screen: {len(SAMPLE_YEARS)} sample years x 3 days, "
               f"each region in its own flood season\n", flush=True)
         print(f"{'region':26s}{'season':>9s}{'tiles':>6s}{'GB':>6s}{'obs':>7s}"
-              f"{'flood/Mobs':>12s}  read", flush=True)
+              f"{'obs dep':>9s}{'est wk px':>11s}  gate", flush=True)
         rows = []
         for rid, (lo0, lo1, la0, la1, label, season) in cands.items():
             F, O, P = sample_modis(lo0, lo1, la0, la1, season, tok)
@@ -251,7 +260,7 @@ def main():
                              modis_observability=round(obs, 3),
                              flood_per_million_observed=round(dens, 1), read=read))
             print(f"{label:26s}{season:>9s}{nt:6d}{gb:6.1f}{obs:7.3f}{dens:12.1f}  {read}", flush=True)
-        rows.sort(key=lambda r: -r["modis_observability"])
+        rows.sort(key=lambda r: (not r["predicted_qualify"], -r["modis_observability"]))
         if args.out:
             json.dump({"screen": "MODIS archive, region's own flood season",
                        "sample_years": list(SAMPLE_YEARS),
