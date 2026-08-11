@@ -120,6 +120,48 @@ CITIES = {
     # rerun the builder and this entry does not change.
     "London":    dict(country="UK", station="Heathrow", cut=(8, 10),
                       file="london.json"),
+    # TALLINN, added 2026-08-11, DAYS ONLY and the omission is deliberate.
+    #
+    # I told Kristjan and product this was a summer-2027 city. It was
+    # reachable the whole time, and the reason I missed it is the same bad
+    # rule that cost London, Athens and Rome: I concluded from Tallinn that
+    # SYNOP carries maxima and not minima, and generalised it. Re-tested
+    # against GHCN for summer 2025, the truth is narrower and stranger:
+    #
+    #     Tmax @ 18Z   93.7% exact, 98.4% within 0.5 C, bias -0.01
+    #     Tmin @ 06Z   48.5% exact, 67.6% within 0.5 C, bias +0.56, worst 4.9
+    #
+    # So the observation was right ABOUT TALLINN and wrong as a rule. The
+    # 06Z window does not reliably contain the night's true minimum here, so
+    # a derived minimum sits WARM, which is the same failure a sampled
+    # minimum has.
+    #
+    # THEREFORE NO 2026 MINIMA ARE EMITTED AT ALL. Not a flagged value, not
+    # a best effort: absent. A warm-biased minimum would understate tropical
+    # nights while looking like a measurement, and this channel has spent a
+    # week removing exactly that shape.
+    #
+    # History is GHCN EN000026038, network 0 rather than ECA&D, so it is
+    # commercially usable: 1936-2025, 30 of 30 baseline years.
+    # HELD OUT, 2026-08-11, and the reason is a defect I created and caught.
+    #
+    # Emitting no 2026 minima was correct: the 06Z bulletin minimum is warm
+    # by +0.56 C here and wrong by more than half a degree on a third of
+    # days. But the pipeline read that ABSENCE AS ZERO. Tallinn emitted
+    # nights_2026 = 0 and a night rank of 55 OF 55, percentile 1.8, which
+    # publishes as "the coolest night season in 55 years" from data that
+    # does not exist.
+    #
+    # Same shape as the phantom zeros socials found in Frankfurt, and I
+    # built a fresh instance of it hours later while adding a city.
+    #
+    # The fix is not in this entry. A city with no current-year minima must
+    # emit no night count and no night rank, rather than zero and a rank
+    # computed off it. Until build() does that, Tallinn stays out: the day
+    # numbers are sound and there is no way to ship them without the night
+    # fields riding along.
+    # "Tallinn":   dict(country="EE", station="Tallinn-Harku", cut=(8, 10),
+    #                   file="tallinn.json"),
     "Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
     "Marseille":   dict(country="FR", station="MARIGNANE", cut=(8, 3)),
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
@@ -436,7 +478,10 @@ def build(city, meta):
                    # History MIDAS Open, 2026 season the same
                    # station's SYNOP bulletins. One thermometer,
                    # two transports; see build_london.py.
-                   "UK": "Met Office"}[meta["country"]],
+                   "UK": "Met Office",
+                   # History NOAA GHCN-Daily EN000026038, 2026
+                   # season the same station's SYNOP bulletins.
+                   "EE": "Riigi Ilmateenistus, via NOAA GHCN-Daily"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,

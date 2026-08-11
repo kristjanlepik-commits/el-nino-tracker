@@ -91,6 +91,7 @@ COORDS = {
     # station. Recorded here so London is not the only city whose mark is a
     # guess when it is the one city whose position was actually verified.
     "London": (51.479, -0.451),
+    "Tallinn": (59.398, 24.603),
 }
 
 def _coord(city):
@@ -143,6 +144,13 @@ LICENCE = {
            "lag_days": 5},
     "FI": {"licence": "CC-BY 4.0", "commercial_use": True,
            "attribution": "Source: FMI", "lag_days": 1},
+    "EE": {"licence": "NOAA GHCN-Daily, US federal open data, for the "
+                      "history. 2026 season from the station's own WMO "
+                      "synoptic bulletins. Estonian service credited as "
+                      "the originating observer.",
+           "commercial_use": True,
+           "attribution": "Source: Riigi Ilmateenistus / Keskkonnaagentuur",
+           "lag_days": 1},
     "UK": {"licence": "Met Office. History from MIDAS Open under the Open "
                       "Government Licence, commercial reuse permitted with "
                       "attribution. THE 2026 SEASON IS PROVISIONAL: same "
