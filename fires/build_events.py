@@ -244,7 +244,9 @@ def rebuild_rows(detail, end):
             "lat": r["lat"], "lon": r["lon"], "centroid_basis": r["basis"],
             "attribution": attribution_for(iso, end.month),
             "title": make_title(rank, multiple, count,
-                                hist[prev_year], prev_year, len(hist) + 1),
+                                hist[prev_year], prev_year,
+                                r["hist_expected"] + 1,
+                                r["hist_expected"] + 1 - (len(hist) + 1)),
             "href": f"fires/{slugify(r['name'])}/",
         })
     return rows
@@ -360,7 +362,7 @@ def centroid(df, rings):
 ORDINAL = {2: "Second", 3: "Third", 4: "Fourth", 5: "Fifth"}
 
 
-def make_title(rank, multiple, count, prev_best, prev_year, n_compared):
+def make_title(rank, multiple, count, prev_best, prev_year, n_span, n_excluded):
     """Region-free claim, under the 45-character citable ceiling.
 
     Region-free because the landing page renders the region separately
@@ -385,18 +387,26 @@ def make_title(rank, multiple, count, prev_best, prev_year, n_compared):
         else:
             t = f"Just past its {prev_year} record week"
     elif rank in ORDINAL:
-        # NOT "since 2012". The baseline has a hole in it: 2022 has no SNPP
-        # science archive over these days and is excluded forty lines below
-        # for good reason, so the comparison set is 13 past weeks plus this
-        # one, not fourteen years of continuous record.
+        # NOT "since 2012", which asserts a continuous span we do not have,
+        # and wherever a missing year would have outranked the current week
+        # that claim is WRONG rather than imprecise. It is also the sentence
+        # a reader lifts and quotes on its own, which is what D-051 is
+        # about: the qualifier has to survive being quoted alone.
         #
-        # "Since 2012" asserts a span we do not have, and wherever the
-        # missing year would have outranked the current week the claim is
-        # WRONG rather than imprecise. It is also the sentence a reader
-        # lifts and quotes on its own, which is what D-051 is about: the
-        # qualifier has to survive being quoted alone. "Of N same weeks"
-        # does, and it stays true when the hole moves.
-        t = f"{ORDINAL[rank]}-heaviest of {n_compared} same weeks"
+        # AND NOT a bare "of 13" either. Product's argument, which is the
+        # better one: "of 15, 2 excluded" SHOWS the gap, while "of 13"
+        # hides it inside a smaller number that looks complete. A reader
+        # given 13 has no way to know 15 seasons exist.
+        #
+        # "Excluded" rather than "absent" or "unobserved" on purpose: the
+        # two exclusions are different in kind. 2022 has no archive and was
+        # never observed; 2021 was observed and dropped deliberately so
+        # this week could keep a day it was defective on. "Unobserved"
+        # would be false of the second. "Excluded" is true of both, and the
+        # payload carries the distinction for anyone who needs it.
+        t = (f"{ORDINAL[rank]}-heaviest of {n_span} seasons"
+             if not n_excluded else
+             f"{ORDINAL[rank]}-heaviest of {n_span}, {n_excluded} excluded")
     else:
         t = f"Fire week at {multiple:.1f}x the seasonal norm"
     assert len(t) <= 45, f"title too long for citable: {len(t)}"
@@ -411,6 +421,10 @@ def main():
     # each country's hist actually holds, so a consumer can see 13 of 14
     # rather than inferring a 13-year record.
     YEARS_EXPECTED = list(range(2012, datetime.now(timezone.utc).year))
+    # Years the baseline dropped deliberately so the current week could keep
+    # a day they were defective on. Distinct from years with no archive,
+    # which are a genuine gap and stay counted as due.
+    years_defective = sorted(hist_doc.get("years_excluded_defective") or [])
     now_utc = datetime.now(timezone.utc)
 
     # Yesterday is only guaranteed closed once NRT processing has caught
@@ -521,8 +535,23 @@ def main():
                        # thing a renderer resolves by guessing.
                        "daily_expected": window_days,
                        "daily_due": window_days,
+                       # DUE NO LONGER EQUALS EXPECTED ON THE YEAR SERIES,
+                       # and the comment above explaining why it always did
+                       # was written when the only missing year was 2022,
+                       # which is genuinely absent from the archive and so
+                       # is a real gap that should be drawn as one.
+                       #
+                       # Since 2026-08-11 a year can also be dropped ON
+                       # PURPOSE, so the current week can keep a day that
+                       # year was defective on. That is a comparability
+                       # exclusion, exactly like the day-side case, and the
+                       # rule there applies here: DUE falls, EXPECTED does
+                       # not. Product found the consequence of not doing
+                       # this: every country reported 14 due while holding
+                       # 12, so two deliberate exclusions read as two gaps.
                        "hist_expected": len(YEARS_EXPECTED),
-                       "hist_due": len(YEARS_EXPECTED),
+                       "hist_due": len(YEARS_EXPECTED) - len(years_defective),
+                       "hist_excluded_for_comparability": years_defective,
                        "lat": lat, "lon": lon, "basis": basis}
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
@@ -545,7 +574,8 @@ def main():
             "centroid_basis": basis,
             "attribution": attribution_for(iso, end.month),
             "title": make_title(rank, multiple, count, prev_best, prev_year,
-                                len(h["hist"]) + 1),
+                                len(YEARS_EXPECTED) + 1,
+                                len(YEARS_EXPECTED) + 1 - (len(h["hist"]) + 1)),
             "href": f"fires/{slugify(h['name'])}/",
         })
         print(f"{iso}: {count:,} x{multiple:.1f} rank {rank} "

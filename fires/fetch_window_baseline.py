@@ -569,6 +569,15 @@ def main() -> None:
     doc = {"window": win, "sensor": "VIIRS_SNPP_SP", "years": "2012-2025",
            "days_excluded_defective": dropped,
            "years_excluded_no_archive": no_archive,
+           # DECLARED, because otherwise the exclusion is invisible and
+           # indistinguishable from a hole in the record. These years exist
+           # in the archive and were dropped ON PURPOSE, so that the current
+           # week could keep a day one of them was defective on. That is the
+           # opposite kind of absence from no_archive above, and a consumer
+           # that cannot tell them apart will either draw a deliberate
+           # exclusion as a gap or hide a real gap inside a smaller
+           # denominator. Both were happening before this line existed.
+           "years_excluded_defective": sorted(defective_years),
            "built": datetime.utcnow().isoformat(timespec="seconds") + "Z",
            "countries": out}
     with open(OUT, "w") as fh:
