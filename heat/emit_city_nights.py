@@ -305,15 +305,49 @@ def main() -> int:
     _pre_n_sub = record_rate(_sub, "nights")
     _pre_d_sub = record_rate(_sub, "days")
 
-    nights_worst = (_n_now > _pre_n["worst_year_on_record"]["cities"]
-                    and _n_sub > _pre_n_sub["worst_year_on_record"]["cities"])
-    days_worst = (_d_now > _pre_d["worst_year_on_record"]["cities"]
-                  and _d_sub > _pre_d_sub["worst_year_on_record"]["cities"])
+    # CROSS-YEAR RECORD COUNTS ARE NOT PUBLISHABLE. Product ruling
+    # 2026-08-10, and the reasoning goes further than the bug that prompted
+    # it. Adding London flipped this from false to true, 20 cities at a night
+    # record against 19 in 2003, on a one-city margin, and London was added
+    # that day BECAUSE London was hot.
+    #
+    # I proposed recomputing on a fixed city set. That is not enough, and
+    # product was right that it only LOOKS like the rigorous answer. A fixed
+    # set fixes comparability of MEMBERSHIP. It does not fix the defect,
+    # which is that OUR SET WAS ASSEMBLED DURING 2026 WITH KNOWLEDGE OF 2026.
+    # Same-set arithmetic does not repair a set selected on the outcome
+    # variable, so every recomputation inherits the selection.
+    #
+    # THE GENERAL RULE, one rung above the one we already had. A claim
+    # quantified over a set must be regenerated from the set. AND a claim
+    # quantified over a set is only comparable ACROSS TIME if the set was
+    # chosen without reference to any of the years being compared. Ours was
+    # not and cannot retroactively become so.
+    #
+    # WHAT SURVIVES IS NEARLY EVERYTHING. Selection cannot bias a comparison
+    # a city makes with itself, so every per-city rank stands. The selection
+    # effect kills the aggregate, not the instrument: "20 of our 36" is
+    # publishable with the set named, "more than 2003" is not publishable at
+    # all. London being added because it is hot makes the aggregate
+    # meaningless and makes "London's hottest since 1949" no less true.
+    #
+    # EARNING IT BACK is a 2027 capability: declare the selection rule,
+    # freeze the set, and cross-year counts become valid from the freeze
+    # forward. Better honestly in eighteen months than fraudulently now.
+    nights_worst = False
+    days_worst = False
+    _cross_year_note = (
+        "NOT COMPUTED. A cross-year record count requires a city set chosen "
+        "without reference to the years being compared. This set was "
+        "assembled during 2026 with knowledge of 2026, so no recomputation "
+        "repairs it, including on a fixed set. Per-city ranks are unaffected: "
+        "selection cannot bias a comparison a city makes with itself.")
     _loo = {
         "test": "The claim must hold with the forecast-selected cities "
                 "REMOVED, because those cities were chosen for 2026's heat "
                 "and would otherwise prove the claim by construction.",
         "excluded": sorted(FORECAST_SELECTED),
+        "cross_year_comparison": _cross_year_note,
         "nights": {"full": [_n_now, _pre_n["worst_year_on_record"]["cities"]],
                    "without_selected": [
                        _n_sub, _pre_n_sub["worst_year_on_record"]["cities"]]},
@@ -1314,9 +1348,20 @@ def main() -> int:
             ("days", days_worst,
              len(drecs) > dbase["worst_year_on_record"]["cities"]
              and _d_sub > _pre_d_sub["worst_year_on_record"]["cities"])):
-        if emitted != expected:
-            print(f"  FAIL: {label} may_say_worst_on_record is {emitted} but "
-                  f"the counts say {expected}. The copy would claim something "
+        # THE ARITHMETIC CHECK NOW ONLY APPLIES IN ONE DIRECTION. Product
+        # ruled 2026-08-10 that a cross-year record count is not publishable
+        # from this set at all, so the flag is forced False regardless of
+        # what the counts say. Emitting False while the counts say True is
+        # now the CORRECT state, not a drift.
+        #
+        # The guard is kept for the other direction, which is the dangerous
+        # one: True while the counts say False would claim something the data
+        # does not support. It fired correctly when I forced the flag and
+        # had not yet taught it the ruling, which is the guard being right
+        # rather than in the way.
+        if emitted and not expected:
+            print(f"  FAIL: {label} may_say_worst_on_record is True but "
+                  f"the counts say False. The copy would claim something "
                   f"the data does not support.", file=sys.stderr)
             return 1
 
