@@ -71,6 +71,20 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true",
                     help="write to .publish-check/ instead of docs/")
+    # OPT-IN, AND IT MUST STAY OPT-IN. Science flagged that the
+    # archive-freeze guard lives in run_brief.main(), so a dated archive
+    # rendered from here routes around it by design. They were right to
+    # raise it rather than let me find out later.
+    #
+    # So this is a flag rather than a page in the default list: a stray or
+    # scheduled shell publish can never rewrite an archive, and rewriting
+    # one is an act somebody has to type. qa_check's check_frozen still
+    # sees the result and will fail the commit unless run with
+    # --allow-frozen-edits, which is the second gate and stays.
+    ap.add_argument("--rebuild-archive", action="store_true",
+                    help=("re-render docs/briefs/<latest>/index.html from the "
+                          "stored snapshot. Overwrites a frozen archive: "
+                          "needs Kristjan's authorisation per invariant 5."))
     args = ap.parse_args()
 
     di = latest_issue()
@@ -170,6 +184,39 @@ def main() -> None:
     # it does. Whether the channel front door SHOULD carry them is now a
     # template question for design and editor, not a freshness bug.
 
+    # THE DATED ARCHIVE, only when asked for. Kristjan authorised
+    # replacing the 2026-08-10 page with the new design (D-133), and no
+    # path existed to re-render a dated archive without fetching:
+    # run_brief's --date/--force all refetch, which on a Tuesday would
+    # stamp Tuesday values into a Monday issue and invent a _freshness
+    # block that issue never had. Science's point, and the reason this
+    # exists: "most likely identical" is the problem, not the reassurance.
+    #
+    # Built from the same stored state as everything else here, so it
+    # cannot drift from the published numbers.
+    if args.rebuild_archive:
+        # prev_* are what make the page carry its week-over-week
+        # comparisons. Omitting them would render a page that looks right
+        # and is quietly missing the diff the original had, which is the
+        # failure mode this whole file exists to avoid. All three come
+        # from stored state; none of them fetches.
+        import snapshot as _snap
+        prev = _snap.load_prior_snapshot(before=S.BRIEF_DATE)
+        pages[f"briefs/{di}/index.html"] = R.build_public_html(
+            fetched, shell_freshness, meta["headline_buckets"],
+            methodology_href="../../methodology.html", brief_date_iso=di,
+            canonical_url=f"{base}/briefs/{di}/",
+            og_image_url=f"{base}/briefs/{di}/card.png",
+            world_map_href="../../world-map.svg",
+            prev_headline=R._load_prev_headline_smoothed(S.BRIEF_DATE),
+            prev_snapshot=prev,
+            prev_headline_month=R._load_month_prior_headline_smoothed(
+                S.BRIEF_DATE),
+            briefs_href="../", root_prefix="../../", is_front=False)
+        print(f"REBUILDING FROZEN ARCHIVE briefs/{di}/index.html. This "
+              f"overwrites a published record under invariant 5; qa_check "
+              f"will flag it and needs --allow-frozen-edits to pass.")
+
     # /subscribe and /subscribed. Written but wired to nothing until now:
     # templates/subscribe.py had no caller anywhere, so neither page was
     # ever published and every link pointing at them would have 404ed.
@@ -217,8 +264,16 @@ def main() -> None:
                 f"ABORT: {rel} has {n} analytics tags, expected exactly 1")
     if tags != 1:
         raise SystemExit(f"ABORT: expected exactly 1 analytics tag, got {tags}")
+    # PERMIT EXACTLY ONE PATH, never disable the guard. With
+    # --rebuild-archive the current issue's own archive may be
+    # rewritten and nothing else: any other date, and every
+    # snapshot, still aborts. The guard caught this flag on its
+    # first run, which is the argument for writing it as an
+    # exception rather than a bypass: a future edit that widens
+    # the page list still hits it.
+    allowed = {f"briefs/{di}/index.html"} if args.rebuild_archive else set()
     for rel in pages:
-        if FROZEN_RE.search(rel):
+        if FROZEN_RE.search(rel) and rel not in allowed:
             raise SystemExit(f"ABORT: refusing to write a frozen surface: {rel}")
     print("  match confirmed, no drift")
 
