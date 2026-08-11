@@ -353,6 +353,58 @@ def _provisional_mark(v):
             'the licence that is unsettled, not the measurement.</p>')
 
 
+def check_no_silent_claim_reversal(name, head):
+    """A published claim may not be withdrawn without the page saying so.
+
+    Palma's live page says "The most hot days Palma has recorded by this
+    date." Today's rebuild says "17 hot days so far, 2nd of Palma's 49
+    summers." Both are correct: the threshold rose because the station
+    starts in 1978 and cannot cover 1971-2000, so its baseline moved to a
+    complete normal, the bar went up, and 2026 no longer clears the
+    previous best. The 2026 figure never moved. The measuring stick did.
+
+    That is a correction we found ourselves and should be pleased about.
+    What it must not be is quiet. A reader who screenshotted the record
+    sentence and comes back finds it gone with nothing on the page
+    admitting it was ever there, and there is no way for them to tell a
+    correction from a retraction we hoped nobody noticed.
+
+    NOTHING WOULD HAVE CAUGHT THIS. The new page is internally consistent,
+    every figure agrees with the payload, qa_check passes, and the only
+    evidence of the reversal lives in a file the build overwrites. It is
+    the two-artefact shape again: the defect is a relationship between the
+    published page and the next one, and every guard we have inspects one
+    page at a time.
+
+    So this one compares. It reads the claim currently in docs/, which is
+    what a reader last saw, and refuses when a record becomes a non-record
+    with no correction field to render. Heat emits the fact and editor
+    words it (D-030); until that field exists the build stops, which is
+    the point. A correction nobody has written is not a correction.
+    """
+    live = R / f"docs/heat/{slug(name)}.html"
+    if not live.exists():
+        return                      # a new city has no previous claim
+    prev = re.search(r'<meta name="description" content="([^"]+)"',
+                     live.read_text())
+    if not prev:
+        return
+    was_record = prev.group(1).startswith("The most hot days")
+    now_record = head.startswith("The most hot days")
+    if was_record and not now_record:
+        v = C[name]
+        if not v.get("correction"):
+            raise SystemExit(
+                f"{name}: this page claims a record today and would stop "
+                f"claiming one.\n"
+                f"  published: {prev.group(1)}\n"
+                f"  rebuild  : {head}\n"
+                f"  A withdrawn record must be visible on the page. Heat "
+                f"emits the fact as `correction`; editor words it. Neither "
+                f"exists yet, so this build stops rather than swapping the "
+                f"sentence in silence.")
+
+
 def check_europe_scope(name, html):
     if N.get("selection", {}).get("is_representative_of_europe", True):
         return
@@ -526,7 +578,7 @@ text-transform:uppercase;color:var(--ink-faint);text-decoration:none;
 border-bottom:1px solid var(--rule)}
 """
 
-built, notes = [], []
+built, notes, pending = [], [], []
 for name, v in sorted(C.items()):
     yrs = S[name]["years"]
     D = series(yrs, "days_to_cut", "95")
@@ -1064,6 +1116,7 @@ for name, v in sorted(C.items()):
 </main></body></html>"""
     check_constraints(name, html, night_block, v.get("page_constraints", {}))
     check_superlatives_dated(name, html)
+    check_no_silent_claim_reversal(name, head)
     check_europe_scope(name, html)
     # The page may not claim a window the station did not cover. Derived, so
     # it cannot drift, and guarded anyway because this is the defect that
@@ -1090,9 +1143,18 @@ for name, v in sorted(C.items()):
             f"cover cannot be stated as the period the level was set from.")
     if not mult_ok:
         check_no_baseline_comparison(name, head + unit_rows + mult_note + night_block)
-    out = R / f"docs/heat/{slug(name)}.html"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(html)
+    # BUFFERED, NOT WRITTEN. Every guard in this file raises SystemExit,
+    # and the loop is alphabetical, so a city failing at P had already
+    # overwritten twenty-five live pages by the time it stopped. The build
+    # reported a failure and left docs/ half rebuilt: some pages on the new
+    # payload, the rest on the old, and nothing on any page saying which.
+    #
+    # Found by tripping my own new guard on Palma. A guard that fires
+    # mid-loop turns one refusal into a partially published site, which is
+    # worse than the defect it was catching.
+    #
+    # So nothing reaches docs/ until every city has passed every check.
+    pending.append((R / f"docs/heat/{slug(name)}.html", html))
     built.append(name)
     if gated:
         notes.append(f"{name}: night-gated")
@@ -1100,6 +1162,11 @@ for name, v in sorted(C.items()):
         notes.append(f"{name}: no day multiple")
     if prank == 1:
         notes.append(f"{name}: peak is also a record")
+
+# The single write point. Reached only when every city has passed.
+for _path, _html in pending:
+    _path.parent.mkdir(parents=True, exist_ok=True)
+    _path.write_text(_html)
 
 print(f"built {len(built)} city pages")
 for n in notes:
