@@ -117,6 +117,33 @@ def main() -> int:
         return 1
     DOC.write_text(head + sep + tail)
     print(f"  {changed} live claims regenerated, version history untouched")
+
+    # A CORRECT SOURCE AND A PUBLISHED CORRECTION ARE TWO EVENTS, and until
+    # now nothing connected them. Design nearly published a page that was
+    # right in markdown and stale in HTML: docs/heat/methodology.html still
+    # said thirty-six in four places, including "19 of the 36 cities" where
+    # the truth was 24 of 41, while this script reported success.
+    #
+    # So the script was honest and the reader was wrong, which is the exact
+    # gap it exists to close, one surface further out. It now refuses to
+    # report success while the rendered page is older than the source.
+    # CONTENT, NOT MTIME. An mtime check fires on every run because this
+    # script rewrites the markdown each time, and a guard that always fires
+    # is one people learn to ignore. This asks the only question that
+    # matters: does the page a reader sees carry the current count?
+    rendered = ROOT / "docs" / "heat" / "methodology.html"
+    if rendered.exists():
+        html = rendered.read_text(errors="replace")
+        want = _w(len(d["cities"]))
+        stale = [w for w in ("thirty-six", "twenty-four", "twenty-one",
+                             "fifteen", "forty") if w != want and
+                 f"in {w} European cities" in html]
+        if want not in html or stale:
+            print(f"  STALE RENDER: docs/heat/methodology.html does not say "
+                  f"{want}. The markdown is correct and the page a reader "
+                  f"sees is not. Re-render before publishing.",
+                  file=sys.stderr)
+            return 1
     return 0
 
 
