@@ -34,13 +34,28 @@ ROOT = Path(__file__).resolve().parent.parent
 DOC = ROOT / "heat" / "methodology.md"
 PAYLOAD = ROOT / "heat" / "data" / "city_nights.json"
 
-WORDS = {15: "fifteen", 17: "seventeen", 18: "eighteen", 19: "nineteen",
-         21: "twenty-one", 22: "twenty-two", 24: "twenty-four",
-         36: "thirty-six", 40: "forty"}
+# GENERATED, not enumerated. The hand-written map stopped at 40 and the set
+# reached 41 the same afternoon, so a number-word helper became the thing
+# that went stale. Design found it. A lookup table of the numbers we happen
+# to use today is the same defect as a typed count.
+_ONES = ["zero", "one", "two", "three", "four", "five", "six", "seven",
+         "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
+         "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+_TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy",
+         "eighty", "ninety"]
+
+
+def _word(n):
+    if n < 20:
+        return _ONES[n]
+    if n < 100:
+        t, o = divmod(n, 10)
+        return _TENS[t] + ("-" + _ONES[o] if o else "")
+    return str(n)
 
 
 def _w(n):
-    return WORDS.get(n, str(n))
+    return _word(n)
 
 
 def rules(d):
@@ -55,13 +70,16 @@ def rules(d):
         (r"The heat channel tracks two things in [a-z\-]+ European cities:",
          f"The heat channel tracks two things in {_w(n)} European cities:"),
         # line 91: the selection consequence
-        (r"[A-Z][a-z]+ of the [a-z\-]+ are Iberia and France, there is\nno city east of [\d.]+ degrees",
+        (r"[A-Z][a-z\-]+ of the [a-z\-]+ are Iberia and France, there is\nno city east of [\d.]+ degrees",
          f"{_w(iberia_fr).capitalize()} of the {_w(n)} are Iberia and France, "
          f"there is\nno city east of {east} degrees"),
         # line 96: the worked example of the framing rule. Uses a REAL current
         # figure rather than a decorative one, so it cannot drift from the
         # thing it is teaching.
-        (r'"[A-Z][a-z]+ of [a-z\-]+" is',
+        # Number words may be hyphenated now that they are generated,
+        # so the anchor must allow it. The previous pattern silently
+        # stopped matching the moment the count reached twenty-two.
+        (r'"[A-Z][a-z\-]+ of [a-z\-]+" is',
          f'"{_w(day_rec).capitalize()} of {_w(n)}" is'),
         # line 110: the gate, which is the one that has been retyped three
         # times. The LIST is regenerated too, not just the count, because a
