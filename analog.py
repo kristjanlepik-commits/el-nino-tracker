@@ -199,7 +199,7 @@ def _months_from_mar1_for_dateiso(date_iso: str, develop_year: int) -> float:
     return days / 30.44   # average days per month
 
 
-def _plot_oni(ax, series):
+def _plot_oni(ax, series, with_cwwa_panel: bool = True):
     for event in [1997, 2015, 2023, 2025, 2026]:
         if event not in series:
             continue
@@ -254,12 +254,21 @@ def _plot_oni(ax, series):
     ax.set_xlim(-3, 12)
     ax.set_ylim(Y_BOT_ONI, Y_TOP_ONI)
     ax.set_ylabel("Niño 3.4 ONI (traditional, °C)")
-    ax.set_title(
-        "Analog tracker: 2026-27 vs reference events\n"
-        "Top: ONI 3-month running mean (ERSST.v5, 1991-2020 climo). "
-        "Bottom: cumulative westerly wind anomaly (ERA5, 5N-5S, 130E-150W).",
-        fontsize=11,
-    )
+    # The subtitle names the panels, so it MUST follow the panel count. On
+    # the single-panel variant the old text still said "Bottom: cumulative
+    # westerly wind anomaly", describing a panel that was not there. Caught
+    # by looking at the render; nothing in the pipeline can catch it, because
+    # a caption is valid text whether or not the thing it describes exists.
+    # Same shape as the alt text that described one panel of a two-panel
+    # figure (design, 2026-08-11): the defect is the RELATIONSHIP between
+    # caption and image, and every check we have looks at one or the other.
+    subtitle = ("Top: ONI 3-month running mean (ERSST.v5, 1991-2020 climo). "
+                "Bottom: cumulative westerly wind anomaly "
+                "(ERA5, 5N-5S, 130E-150W)."
+                if with_cwwa_panel else
+                "ONI 3-month running mean (ERSST.v5, 1991-2020 climo).")
+    ax.set_title("Analog tracker: 2026-27 vs reference events\n" + subtitle,
+                 fontsize=11)
     ax.grid(True, axis="y", color=T.CHART_GRID, alpha=0.9, linewidth=0.7)
     ax.legend(loc="lower right", fontsize=9, facecolor=T.PAPER,
               edgecolor=T.RULE, framealpha=1.0, borderpad=0.7)
@@ -403,10 +412,31 @@ def _plot_cwwa(ax, current_series, analogs, current_develop_year):
 
     `current_series` is a list of (date_iso, value) for the current develop year.
     `analogs` is dict[year_int -> list[(date_iso, value)]] for reference years.
+
+    Keys are coerced to int because they arrive as int on a LIVE fetch and as
+    str on a cache-served one: the fetcher builds `{y: ... for y in
+    ANALOG_YEARS}` with int years, and `.fetch_cache/` round-trips that dict
+    through JSON, which stringifies every key. `STYLE` is int-keyed, so the
+    uncoerced string form matched nothing and every analog curve was dropped
+    by the `not in STYLE` skip below, silently, leaving a chart that still
+    rendered with a legend and a single 2026 line.
+
+    That path became reachable when fetch_all started merging cached results
+    instead of discarding them (the `not used_fallback` guards came off so a
+    cache would beat a seed). Before that change a cache-served week produced
+    no `cwwa_series` and the honest "CWWA data not available" placeholder;
+    after it, the week would have produced a comparison chart with nothing to
+    compare against. Loud failure turned quiet, which is the wrong direction.
     """
     plotted_anything = False
+    skipped = []
     for yr, ser in (analogs or {}).items():
+        try:
+            yr = int(yr)
+        except (TypeError, ValueError):
+            pass
         if yr not in STYLE:
+            skipped.append(yr)
             continue
         xs = [_months_from_mar1_for_dateiso(d, yr) for d, _ in ser]
         ys = [v for _, v in ser]
@@ -432,6 +462,13 @@ def _plot_cwwa(ax, current_series, analogs, current_develop_year):
                 alpha=s.get("alpha", 1.0), zorder=s.get("zorder", 5))
         plotted_anything = True
 
+    # A comparison chart that silently drops its comparisons is worse than one
+    # that admits it has none, so say so rather than leaving the reader with a
+    # lone curve that looks complete.
+    if skipped:
+        print(f"WARNING: analog.py dropped CWWA analog years {sorted(skipped)}: "
+              f"no STYLE entry. Expected one of {sorted(STYLE)}.")
+
     ax.set_xlim(-3, 12)
     if not plotted_anything:
         ax.text(0.5, 0.5, "CWWA data not available", transform=ax.transAxes,
@@ -452,20 +489,46 @@ def plot(out_path: str, cwwa_data: dict | None = None,
          seas5_per_lead: list | None = None,
          current_develop_year: int = 2026, today_offset: float | None = None,
          live_oni_by_year: dict | None = None,
-         cfsv2_median: list | None = None):
-    """Render the two-panel analog chart. If `cwwa_data` is supplied (with keys
+         cfsv2_median: list | None = None,
+         include_cwwa: bool = True):
+    """Render the analog chart. If `cwwa_data` is supplied (with keys
     `cwwa_series` and `cwwa_analogs`), the bottom panel shows CWWA trajectories;
     otherwise it stays empty with a placeholder message. If `seas5_per_lead` is
     supplied, overlay the SEAS5 ensemble median as a dashed forecast on the ONI
     panel. If `live_oni_by_year` is supplied (CPC oni.ascii format,
     dict[year -> dict[season -> oni]]), the current develop-year ONI rows on
     the top panel are refreshed from that live data; historical rows stay
-    sourced from the CSV."""
+    sourced from the CSV.
+
+    `include_cwwa=False` renders the ONI panel alone. The public channel page
+    draws CWWA itself as inline SVG, so the panel is a duplicate THERE and a
+    reader meeting one curve in two visual languages reasonably reads it as
+    two measurements. It is not a duplicate anywhere else: the internal brief
+    and the Monday email embed this PNG and draw CWWA nowhere, so on those
+    surfaces the panel is the only trajectory and dropping it would leave a
+    three-number table row in its place.
+
+    Hence two files rather than one flag flipped. `analog.png` keeps both
+    panels for the brief and the email; the public page takes the single-panel
+    variant. Naming it that way round is deliberate: if the wiring is only
+    half-done, the public page shows a duplicated panel and someone notices
+    within a week, whereas the inverse would leave send_email.py inlining a
+    file whose meaning had changed, silently costing the email its only curve.
+    The loud failure is the one to choose (design's call, 2026-08-11)."""
     series = load_trajectories(live_oni_by_year=live_oni_by_year,
                                override_year=current_develop_year)
-    fig, (ax_oni, ax_cwwa) = plt.subplots(2, 1, figsize=(10, 9), sharex=True,
-                                          gridspec_kw={"height_ratios": [3, 2]})
-    _plot_oni(ax_oni, series)
+    if include_cwwa:
+        fig, (ax_oni, ax_cwwa) = plt.subplots(
+            2, 1, figsize=(10, 9), sharex=True,
+            gridspec_kw={"height_ratios": [3, 2]})
+        axes = (ax_oni, ax_cwwa)
+    else:
+        # Same width and the same ONI-panel height as the 3:2 split above, so
+        # the two variants are visually interchangeable above the fold.
+        fig, ax_oni = plt.subplots(1, 1, figsize=(10, 5.4))
+        ax_cwwa = None
+        axes = (ax_oni,)
+    _plot_oni(ax_oni, series, with_cwwa_panel=include_cwwa)
     seas5_end = None
     if seas5_per_lead:
         seas5_end = _plot_seas5_forecast(ax_oni, seas5_per_lead,
@@ -481,25 +544,29 @@ def plot(out_path: str, cwwa_data: dict | None = None,
     _plot_obs_to_forecast_connector(ax_oni, series.get(current_develop_year),
                                     seas5_per_lead, current_develop_year)
 
-    _plot_cwwa(ax_cwwa, (cwwa_data or {}).get("cwwa_series"),
-               (cwwa_data or {}).get("cwwa_analogs"), current_develop_year)
+    if ax_cwwa is not None:
+        _plot_cwwa(ax_cwwa, (cwwa_data or {}).get("cwwa_series"),
+                   (cwwa_data or {}).get("cwwa_analogs"), current_develop_year)
 
     if today_offset is not None:
-        for ax in (ax_oni, ax_cwwa):
+        for ax in axes:
             ax.axvline(today_offset, color=T.CHART_TODAY, linestyle=":", alpha=0.5,
                        linewidth=0.8)
 
     # Calendar x-axis: relabel the shared months-since-March-1 axis with
     # calendar months so the reader does not have to do the arithmetic.
     # Internal coordinates are unchanged; this is tick cosmetics only.
-    ax_cwwa.set_xlim(-3, 12)
-    ax_cwwa.set_xticks(_CALENDAR_XTICKS)
-    ax_cwwa.set_xticklabels(_CALENDAR_XLABELS)
+    # Applied to the BOTTOM axis, which is ax_cwwa when it exists (sharex
+    # carries it to the ONI panel) and ax_oni when it does not.
+    bottom = ax_cwwa if ax_cwwa is not None else ax_oni
+    bottom.set_xlim(-3, 12)
+    bottom.set_xticks(_CALENDAR_XTICKS)
+    bottom.set_xticklabels(_CALENDAR_XLABELS)
 
     fig.tight_layout()
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     fig.patch.set_facecolor(T.PAPER)
-    for _ax in (ax_oni, ax_cwwa):
+    for _ax in axes:
         _ax.set_facecolor(T.PAPER)
         for _sp in ("top", "right"):
             _ax.spines[_sp].set_visible(False)
