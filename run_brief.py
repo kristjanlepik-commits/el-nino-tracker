@@ -3318,8 +3318,21 @@ def _finding_line(headline, phys):
     high_settled = next(((lab, v) for lab, v in settled if v >= 90), None)
     bits = []
     if high_settled:
-        bits.append(f"A peak above {high_settled[0]}&nbsp;&deg;C is settled at "
-                    f"{high_settled[1]}%.")
+        # NO NUMBER ON A SATURATED RUNG. Science sent this back and they are
+        # right: 99 is the BOUND, not an estimate. Printing it as a
+        # percentage presents a display artifact as a measurement, which is
+        # the 100% failure one step quieter and harder to spot.
+        #
+        # It also contradicted the archive one click away, where the frozen
+        # record holds mid = 100 and nothing on either page explained the
+        # difference. Dropping the number makes that seam disappear rather
+        # than needing a label, which is better than explaining it.
+        #
+        # And it is what D-115 and D-116 already decided. A saturated rung
+        # has stopped discriminating and leaves the ladder; retiring it and
+        # then quoting its value takes it both ways, and the figure being
+        # quoted is the one retirement existed to remove.
+        bits.append(f"A peak above {high_settled[0]}&nbsp;&deg;C is settled.")
     if top_open:
         bits.append(f"What is still open is how far past it: "
                     f"<strong>{top_open[1]}% for a peak beyond "
