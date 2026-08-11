@@ -222,6 +222,62 @@ def marks(d):
     return out
 
 
+
+# --------------------------------------------------------------------------
+# LABEL PLACEMENT, COMPUTED. VD's open item, and the reason it cannot stay
+# hand-placed: I nudged Chad upward this afternoon because its name landed on
+# Sudan's square, and that nudge is correct for one week's data. Next week
+# Chad may not qualify, Sudan may be larger, and the nudge silently becomes
+# a label sitting on a different neighbour. A hand-placed label is a constant
+# pretending to be a layout.
+#
+# Deliberately simple: four candidate positions, each tested against every
+# drawn mark, first clear one wins. Not an optimiser. It only has to beat a
+# fixed offset, and it has to be legible to whoever reads it next.
+#
+# Text width is ESTIMATED rather than measured, because there is no browser
+# here. Both faces are metrically stable enough at these sizes that a 0.55em
+# advance is within a few pixels over a country name, and the box is padded
+# to absorb the error. An estimate that is slightly wide costs a candidate;
+# one that is slightly narrow costs a collision, so it errs wide.
+def _text_w(txt, size):
+    return len(txt) * size * 0.55
+
+
+def place_label(m, others, r):
+    """Return (dx, dy, anchor) for m's label, avoiding every other mark."""
+    name_w = _text_w(m["name"], 13)
+    h_ = 30                                    # name plus claim line
+    cands = [
+        (r + 6, 4, "start"), (-(r + 6), 4, "end"),
+        (0, -(r + 8), "middle"), (0, r + 18, "middle"),
+    ]
+    for dx, dy, anchor in cands:
+        x0 = m["x"] + dx
+        if anchor == "end":
+            box = (x0 - name_w, x0)
+        elif anchor == "middle":
+            box = (x0 - name_w / 2, x0 + name_w / 2)
+        else:
+            box = (x0, x0 + name_w)
+        top = m["y"] + dy - 12
+        clash = False
+        for o in others:
+            if o is m:
+                continue
+            orr = HEAT_R if o["ch"] == "heat" else radius(o["sev"])
+            if (box[0] - orr < o["x"] < box[1] + orr
+                    and top - orr < o["y"] < top + h_ + orr):
+                clash = True
+                break
+        if not clash:
+            return dx, dy, anchor
+    # Every candidate collides, which is information rather than a failure:
+    # take the default and let it be visibly crowded rather than silently
+    # moved somewhere arbitrary.
+    return cands[0]
+
+
 def draw(m, labelled):
     r = HEAT_R if m["ch"] == "heat" else radius(m["sev"])
     col = HUE[m["ch"]]
@@ -245,11 +301,7 @@ def draw(m, labelled):
         a.append('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="%s" stroke="%s" '
                  'stroke-width="1.2"/>' % (m["x"], m["y"], r, fill, col))
 
-    dx, dy, anchor = (r + 6, 4, "start")
-    if m.get("left"):
-        dx, anchor = -(r + 6), "end"
-    if m.get("nudge"):
-        dx, dy = m["nudge"]
+    dx, dy, anchor = m.get("place") or (r + 6, 4, "start")
     cls = "" if labelled else ' class="hov"'
     a.append('<text%s x="%.1f" y="%.1f" text-anchor="%s" class="mln%s">%s</text>'
              % ("", m["x"] + dx, m["y"] + dy, anchor,
@@ -301,7 +353,14 @@ document.querySelectorAll('.lg').forEach(function (b) {
 </script>"""
 
 
-def page(d):
+def map_block(d):
+    """The map, its legend and its state-line counts, for any page.
+
+    Returned as a block rather than inlined so the front page and this
+    study draw the SAME map. Two copies of a map is how a bar gets changed
+    on one surface and not the other, which is the drift this whole day has
+    been about.
+    """
     allm = marks(d)
     ms = [m for m in allm if clears_bar(m)]
     # Counted BEFORE the filter, so the page can say what it is not showing.
@@ -315,17 +374,11 @@ def page(d):
 
     top = max((m for m in ms if m["ch"] == "fires"), key=lambda m: m["sev"])
     topc = max((m for m in ms if m["ch"] == "crops"), key=lambda m: m["sev"])
-    labelled = {id(top), id(topc)}
-    # Chad and Sudan are 11 degrees apart and both large this week, so the
-    # left-anchored default put Chad's name on top of Sudan's square. Lifted
-    # rather than nudged sideways, because the neighbour is horizontal.
-    # VD's open item stands: this pass must be computed, not hand-placed.
-    topc["nudge"] = (0, -(radius(topc["sev"]) + 7))
+    heat = next(m for m in ms if m["ch"] == "heat")
+    labelled = {id(top), id(topc), id(heat)}
     for m in ms:
-        if m["ch"] == "heat":
-            labelled.add(id(m))
-            m["nudge"] = (-96, -34)
-            m["left"] = True
+        r = HEAT_R if m["ch"] == "heat" else radius(m["sev"])
+        m["place"] = place_label(m, ms, r)
 
     layers = {}
     for m in ms:
@@ -350,6 +403,29 @@ def page(d):
     n_below = sum(below.values())
     n_rec = n_shown + n_below
 
+    svg = (
+        '<svg viewBox="0 20 800 336" width="100%" style="display:block" '
+        'role="img" aria-label="World map of this week\u2019s readings. One '
+        'colour and one shape per channel; a mark\u2019s size is that '
+        'channel\u2019s own severity measure and sizes compare only within a '
+        'channel. Fires are circles, crops are squares, heat is one dashed '
+        'aggregate. Only places past a stated bar are drawn.">'
+        + body
+        + '<line class="eq" x1="0" y1="%.1f" x2="800" y2="%.1f"/>' % (eq, eq)
+        + '<rect class="sstw" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>'
+          % (wtl[0] + 1, wtl[1], wbr[0] - wtl[0] - 1, wbr[1] - wtl[1])
+        + '<path class="nb" d="M%.1f,%.1f v-7 h%.1f v7"/>'
+          % (b1, eq + 13, b2 - b1)
+        + '<text class="nbt" x="%.1f" y="%.1f">NI\u00d1O 3.4 &nbsp;%s</text>'
+          % (b2 + 9, eq + 11, n34)
+        + gs + '</svg>')
+    return dict(svg=svg, legend=legend(d, ms), script=SCRIPT,
+                n_rec=n_rec, n_shown=n_shown, n_below=n_below,
+                bar_f=BAR["fires"][2], bar_c=BAR["crops"][2])
+
+
+def page(d):
+    b = map_block(d)
     return """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Front map, layered &middot; real payloads</title>
@@ -412,18 +488,7 @@ mockup, not published</span></div>
 <span>{n_city} cities in one aggregate</span></span></div>
 </div>
 
-<svg viewBox="0 20 800 336" width="100%" style="display:block" role="img"
- aria-label="World map of this week's readings. One colour and one shape per
- channel; a mark's size is that channel's own severity measure and sizes
- compare only within a channel. Fires are circles, crops are squares, heat is
- one dashed aggregate.">
-{world}
-<line class="eq" x1="0" y1="{eq:.1f}" x2="800" y2="{eq:.1f}"/>
-<rect class="sstw" x="{wx:.1f}" y="{wy:.1f}" width="{ww:.1f}" height="{wh:.1f}"/>
-<path class="nb" d="M{b1:.1f},{brk:.1f} v-7 h{bw:.1f} v7"/>
-<text class="nbt" x="{b2:.1f}" y="{brt:.1f}">NI&Ntilde;O 3.4 &nbsp;{n34}</text>
-{gs}
-</svg>
+{svg}
 
 <div class="shell">
 {legend}
@@ -454,13 +519,10 @@ time.</p>
 {script}
 </body></html>""".format(
         faces=T.font_faces_css("../../docs/fonts/"), vars=T.css_variables(),
-        prose=T.FONT_PROSE, data=T.FONT_DATA, world=body, gs=gs,
-        legend=legend(d, ms), script=SCRIPT, nino_col=T.NINO,
-        eq=eq, wx=wtl[0] + 1, wy=wtl[1], ww=wbr[0] - wtl[0] - 1,
-        wh=wbr[1] - wtl[1], b1=b1, b2=b2 + 9, bw=b2 - b1,
-        brk=eq + 13, brt=eq + 11, n34=n34,
-        n_rec=n_rec, n_shown=n_shown, n_below=n_below,
-        bar_f=BAR["fires"][2], bar_c=BAR["crops"][2],
+        prose=T.FONT_PROSE, data=T.FONT_DATA, nino_col=T.NINO,
+        svg=b["svg"], legend=b["legend"], script=b["script"],
+        n_rec=b["n_rec"], n_shown=b["n_shown"], n_below=b["n_below"],
+        bar_f=b["bar_f"], bar_c=b["bar_c"],
         n_city=len(d["heat"]["cities"]))
 
 

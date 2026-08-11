@@ -53,6 +53,10 @@ import tokens as T  # noqa: E402
 # front page cannot drift from /subscribe/. One string, two
 # surfaces, which is the reason EMAIL_CAPTURE_PROMISE lives there
 # rather than in the subscribe template.
+# ONE MAP, NOT TWO. The front page draws the same block as the layered
+# study, imported rather than reimplemented, so the bar cannot be changed on
+# one surface and left on the other.
+from design.make_front_map_layered import map_block  # noqa: E402
 from run_brief import (email_capture_form,  # noqa: E402
                        EMAIL_CAPTURE_PROMISE, EMAIL_FORM_CSS)
 
@@ -317,6 +321,49 @@ def _ord(n):
 
 
 def lede(d):
+    """Editor's sentence if there is one, the generated clauses if not.
+
+    PRODUCT'S RULING, 2026-08-11, reversing the emphasis in D-123 rather
+    than the mechanism: editor writes the lede most weeks, and the
+    generated form is the fallback for the week nobody does.
+
+    They refused the rule I proposed, that the page lead with the channel
+    holding the largest count of places past their own record, and the
+    reason is better than the ranking objection I expected. The rule
+    compares 22 cities with 18 countries with 69 crop regions. Those are
+    different units, crop regions are sub-national and outnumber cities by
+    construction, so it would pick crops nearly every week whatever
+    happened in the world: not the biggest story, the smallest unit. Any
+    count-based rule has that shape, and a share-based one swaps it for a
+    claim about our own coverage.
+
+    And no fixed rule repairs it, because leading with something IS the
+    claim. A stated rule makes the choice predictable rather than neutral.
+
+    WHICH MODE RAN IS PRINTED AT BUILD. An empty copy block and a copy
+    block nobody wrote look identical from here, and "generated because
+    editor was busy" must not be indistinguishable from "generated because
+    that was the right call".
+    """
+    written = _editor_lede()
+    if written:
+        return written, "editor"
+    return _generated_lede(d), "generated"
+
+
+def _editor_lede():
+    """The `## lede` block from copy/frontpage.md, or None if left empty."""
+    from design import copydeck
+    # THE GUIDANCE LIVES ABOVE THE FIRST HEADING, where copydeck treats it
+    # as the file's own notes and never renders it. My first version put it
+    # inside the block with a marker string, and a test writing one sentence
+    # above the notes rendered the sentence AND the notes into the headline.
+    # Instructions in a slot are copy, whatever they say about themselves.
+    raw = (copydeck.load("frontpage").get("lede") or "").strip()
+    return copydeck._inline(raw) if raw else None
+
+
+def _generated_lede(d):
     """One clause per channel, own units, fixed order, no comparison.
 
     The state line product specified is right to refuse a superlative and
@@ -349,6 +396,7 @@ def lede(d):
 
 
 def page(d):
+    _mb = map_block(d)
     rs = readings(d)
     # The chip column exists only if something in the SET uses it. Two rows
     # trailing into an empty cell reads as missing data; a column that is
@@ -477,28 +525,63 @@ h1 b{{font-weight:500;color:var(--ink)}}
  display:flex;justify-content:space-between;gap:20px;
  font-family:"{data}",monospace;font-size:11px;line-height:1.7;
  color:var(--ink-faint)}}
-svg .mk{{fill:var(--ink)}}
+/* The layered map's own styles, so the imported block renders the same on
+   both surfaces. */
+.lgd{{display:flex;flex-wrap:wrap;align-items:center;gap:2px 26px;
+ padding:10px 0 0}}
+.lg{{background:none;border:none;padding:4px 0;margin:0;cursor:pointer;
+ display:flex;align-items:center;gap:8px;font-family:"{data}",monospace;
+ font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+ color:var(--ink-soft)}}
+.lg:hover{{color:var(--ink)}}
+.lg .ct{{letter-spacing:.04em;color:var(--ink-faint)}}
+.lg[aria-pressed="false"]{{opacity:.35}}
+.lg:focus-visible{{outline:2px solid var(--ink);outline-offset:3px}}
+svg a{{text-decoration:none}}
+svg .hov{{opacity:0;transition:opacity 120ms}}
+svg a:hover .hov,svg a:focus-visible .hov{{opacity:1}}
+svg .ring{{fill:none;stroke:var(--ink);stroke-width:2;opacity:0}}
+svg a:focus-visible .ring{{opacity:1}}
+svg .mln{{font-family:"{prose}",Georgia,serif;font-size:13px;fill:var(--ink);
+ stroke:var(--paper);stroke-width:3;paint-order:stroke}}
+svg .mlc{{font-family:"{data}",monospace;font-size:9.5px;fill:var(--ink-soft);
+ stroke:var(--paper);stroke-width:3;paint-order:stroke}}
+svg .eq{{stroke:var(--rule);stroke-width:1}}
+svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
+ stroke-dasharray:4 4}}
+svg .nb{{fill:none;stroke:{nino_col};stroke-width:1.8}}
+svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
+ fill:{nino_col};stroke:var(--paper);stroke-width:3;paint-order:stroke}}
+
 /* THE CALM DENOMINATOR, drawn. Every fires country we watch is on the map;
    open means within its own range. Without them a dozen filled marks read
    as a broken map rather than as a quiet week, which is crops_map.py's own
    rule arriving on a second surface. Same size as a filled mark: the fill
    says which, the size says nothing. */
-svg .mo{{fill:none;stroke:var(--ink-faint);stroke-width:1}}
 /* Heat is ONE mark for its whole set, dashed and unfilled, because it
    carries no state: a set-level fill would assert one for 41 cities at
    once and the per-city states live on the Heat page. VD's answer to Q8. */
-svg .agg{{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-dasharray:3 2.5}}
 svg .eq{{stroke:var(--rule);stroke-width:1}}
 svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
  stroke-dasharray:4 4}}
 svg .nb{{fill:none;stroke:var(--ink);stroke-width:1.6}}
 svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
  fill:var(--ink);stroke:var(--paper);stroke-width:2.5;paint-order:stroke}}
-svg .ldr{{stroke:var(--ink-faint);stroke-width:1}}
-svg .mlk{{font-family:"{data}",monospace;font-size:7.5px;letter-spacing:.14em;
- fill:var(--ink);stroke:var(--paper);stroke-width:2.5;paint-order:stroke}}
 svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
  stroke:var(--paper);stroke-width:2.5;paint-order:stroke}}
+@media (max-width:620px){{
+ /* 390px. THE MAP IS THE PART THAT BREAKS: an 800-unit viewBox at 350
+    real pixels draws a 3.4 radius as 1.5px and stacks every label into a
+    heap. Marks grow in viewBox units through the CSS geometry property so
+    they stay tappable, and the labels come off, because the two named
+    places are unreadable at this width and the claim is on the mark
+    itself, reachable by tap. The state line above still carries the
+    counts, so nothing that was said is lost. */
+ svg .mln,svg .mlc,svg .nbt{{display:none}}
+ svg circle.ring{{r:11}}
+ .lgd{{gap:2px 16px}}
+ .rfg{{font-size:20px}}
+}}
 @media (max-width:1000px){{
  .shell{{padding:0 20px}}
  h1{{font-size:23px}}
@@ -507,6 +590,7 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
  .note{{grid-template-columns:1fr}}
  .chn .grid{{grid-template-columns:1fr}}
  .foot,.more{{flex-direction:column}}
+ .sub{{grid-template-columns:1fr}}
  .sub{{grid-template-columns:1fr}}
 }}
 </style></head><body><div class="shell">
@@ -527,15 +611,19 @@ history, and each says whether El Ni&ntilde;o is involved; most are not.
 Channels are never ranked against each other.</p>
 
 <div class="seclab">Where, this week
-<span class="r">uniform marks &middot; magnitude is in the readings below</span></div>
-{mapsvg}
-<p class="mapnote">Every mark is the same size, per D-146: the map answers
-WHERE, and magnitude lives in the readings below. A marker cannot carry its
-own denominator, so a sized mark would make a cross-instrument claim with
-none of the evidence attached. Positions are the channels&rsquo; own
-coordinates where they emit them, which is heat for all 41 cities and fires
-for 90 of 94 countries; crops centroids are still design-side and should
-move to the payload. Coastline is the production world-map.svg.</p>
+<span class="r">{mb_state}</span></div>
+{mb_svg}
+{mb_legend}
+<p class="mapnote"><b>The map draws only what clears a stated bar: fires at
+{mb_bar_f}, crops with {mb_bar_c}.</b> {mb_below} more places passed their own
+record this week and not the bar; every one is counted by its channel and on
+its channel page, so the bar decides what is DRAWN, never what is measured.
+It is a fixed number rather than one tuned each week to keep the map tidy.
+One hue and one shape per channel, sized by that channel&rsquo;s own measure:
+<b>sizes compare within a channel, never across channels</b>. Shape carries
+the channel and hue repeats it, so the split survives greyscale and
+colourblindness. Every mark is a link; hover or focus shows its claim with its
+denominator.</p>
 
 <div class="seclab" style="border-bottom:none;margin-top:40px">The readings
 &nbsp;&middot;&nbsp; one slot per channel
@@ -593,16 +681,22 @@ archive stays free and public whether you subscribe or not.</p></div></div>
 &middot; every issue archived, immutable &middot; disagreements surfaced, not
 averaged</span></div>
 
-</div></body></html>""".format(
+</div>{script}</body></html>""".format(
         faces=T.font_faces_css("../../docs/fonts/"), vars=T.css_variables(),
-        prose=T.FONT_PROSE, data=T.FONT_DATA, lede=lede(d), rows=rows,
+        prose=T.FONT_PROSE, data=T.FONT_DATA, lede=lede(d)[0], rows=rows,
+        nino_col=T.NINO,
 
         n_fire=sum(1 for e in d["events"] if e.get("anomalous")),
         n_city=len(d["heat"]["cities"]),
         n_ctry=sum(1 for p in d["crops"]["places"]
                    if any(r.get("rank") == 1 for r in (p.get("regions") or []))),
         p25=hb["9715_>2.5"]["mid"], p35=hb["record_>3.5"]["mid"],
-        n34=n34, mapsvg=map_svg(d, n34),
+        n34=n34,
+        mb_svg=_mb["svg"], mb_legend=_mb["legend"],
+        mb_bar_f=_mb["bar_f"], mb_bar_c=_mb["bar_c"], mb_below=_mb["n_below"],
+        mb_state="%d past their own record &middot; %d past the bar"
+                 % (_mb["n_rec"], _mb["n_shown"]),
+        script=_mb["script"],
         form=email_capture_form(label="Subscribe"),
         promise=h(EMAIL_CAPTURE_PROMISE), ecss=EMAIL_FORM_CSS)
 
@@ -612,7 +706,11 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "frontpage_v2.html").write_text(page(d))
     print("wrote design/mockups/frontpage_v2.html")
-    print("  lede:", lede(d).replace("<b>", "").replace("</b>", ""))
+    text, mode = lede(d)
+    print("  lede [%s]: %s" % (mode, text.replace("<b>", "").replace("</b>", "")))
+    if mode == "generated":
+        print("  (fallback. Editor writes the lede most weeks; copy/"
+              "frontpage.md '## lede' is unwritten.)")
 
 
 if __name__ == "__main__":
