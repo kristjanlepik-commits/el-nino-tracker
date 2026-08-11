@@ -79,17 +79,45 @@ CURRENT_YEAR = 2026
 TROPICAL_NIGHT_C = 20.0
 PCTL_BASELINE = (1971, 2000)
 
-# PER-CITY BASELINE PERIODS. Product ruling 2026-08-11, and it is deliberately
-# a CLOSED SET rather than a free choice. A city whose record cannot cover
-# 1971-2000 may use another COMPLETE WMO standard normal, and nothing else.
+# BASELINE PERIOD, SELECTED BY RULE. Product D-151, 2026-08-11, with two
+# tightenings they added to what I proposed.
 #
-# An open choice of window is a knob that eventually gets turned toward the
-# answer someone wants, so the permitted periods are enumerated here and a
-# city naming anything else fails the build rather than being trusted.
+# TWO PERIODS, NOT THREE. 1961-1990 is excluded because it is the only one
+# that runs the wrong way: it is the coolest normal, so it gives a LOWER
+# threshold and an OVERSTATED count, which is the D-043 direction we refuse.
+# And no station reporting today can plausibly need it, since a complete
+# 1961-1990 alongside an incomplete 1991-2020 describes a station that has
+# stopped. Excluding it costs nothing and removes the only unsafe branch.
 #
-# The direction is safe: a later normal is warmer, so the threshold comes out
-# HIGHER and the count is UNDERSTATED against what 1971-2000 would give.
-WMO_NORMALS = {(1961, 1990), (1971, 2000), (1991, 2020)}
+# NOBODY CHOOSES. I proposed a per-city declaration; product removed the
+# choice entirely, on my own argument that the fix for a knob is removing it
+# rather than being careful with it. The rule is:
+#
+#     prefer 1971-2000. If not complete at 30/30, use 1991-2020 if complete
+#     at 30/30. Otherwise the city gets no thresholds.
+#
+# So the safe direction is structural rather than a fact about Tallinn.
+WMO_NORMALS = [(1971, 2000), (1991, 2020)]
+
+
+def pick_baseline(tx, tn):
+    """The first complete standard normal, in the fixed order above.
+
+    Complete means 30 of 30 years carrying at least 100 May-August days with
+    both extremes. A period that is merely long enough is not enough: a
+    truncated window is what the bar exists to refuse.
+    """
+    per = {}
+    for y, dd in tx.items():
+        n = sum(1 for (m, _d), v in dd.items()
+                if m in (5, 6, 7, 8) and v is not None)
+        per[y] = n
+    for lo, hi in WMO_NORMALS:
+        if sum(1 for y in range(lo, hi + 1) if per.get(y, 0) >= 100) == hi - lo + 1:
+            return (lo, hi)
+    return None
+
+
 COMPARE_EARLY = (1961, 1990)
 COMPARE_RECENT = (2011, 2025)
 MIN_BASELINE_YEARS = 27          # of 30; below this a multiple is not comparable
@@ -219,7 +247,7 @@ CITIES = {
     # The three other Tallinn stations in that archive are not read. Four
     # stations in relay are not one record.
     "Tallinn":   dict(country="EE", station="Tallinn-Harku", cut=(8, 10),
-                      file="tallinn.json", pctl_baseline=(1991, 2020)),
+                      file="tallinn.json"),
     "Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
     "Marseille":   dict(country="FR", station="MARIGNANE", cut=(8, 3)),
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
@@ -427,13 +455,12 @@ def build(city, meta):
 
     # Thresholds are each city's own July-August maxima percentiles. AEMET's
     # published rule, reproduced exactly for Madrid (36.4) and Seville (41.2).
-    # The city's own period if it declares one, otherwise the default.
-    pctl = tuple(meta.get("pctl_baseline") or PCTL_BASELINE)
-    if pctl not in WMO_NORMALS:
+    pctl = pick_baseline(tx, tn)
+    if pctl is None:
         raise SystemExit(
-            f"{city}: pctl_baseline {pctl} is not a WMO standard normal. "
-            f"Permitted: {sorted(WMO_NORMALS)}. An arbitrary window is the "
-            f"knob this restriction exists to remove.")
+            f"{city}: no complete WMO standard normal in the record. "
+            f"Tried {WMO_NORMALS}. A city with no complete baseline gets no "
+            f"thresholds rather than a truncated one.")
     ja = [v for y in range(pctl[0], pctl[1] + 1)
           for (m, _), v in tx.get(y, {}).items() if m in (7, 8)]
     th = {str(p): round(float(np.percentile(ja, p)), 1) for p in (90, 95, 99)}
