@@ -267,7 +267,19 @@ def readings(d):
              else int(_hist)) + 1
     span = (geo or {}).get("hist_expected", 0) + 1
     excl = (geo or {}).get("hist_excluded_for_comparability") or []
-    gap = span - n_obs - len(excl)
+    # THE GAP COMES FROM hist_due, NOT FROM SUBTRACTION. Fires emits
+    # hist_due as expected minus the deliberate exclusions, so the archive
+    # gap is due minus held and needs no arithmetic here. My version
+    # recomputed it from expected and the exclusion list, which agrees with
+    # theirs this week and would drift the moment they add a second kind of
+    # exclusion, which they did today: years_excluded_defective now sits
+    # beside years_excluded_no_archive.
+    #
+    # Same rule I have been applying to other people's constants all day.
+    # A number derived in two places is a number that will disagree in one.
+    due = (geo or {}).get("hist_due")
+    held = len(_hist) if isinstance(_hist, (dict, list)) else int(_hist or 0)
+    gap = (due - held) if due is not None else (span - n_obs - len(excl))
     ev_bits = "same-week mean &middot; heaviest of %d observed weeks" % n_obs
     tail = []
     if gap:
