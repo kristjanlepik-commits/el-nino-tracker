@@ -80,12 +80,21 @@ PEAK_WINDOW_LAST = (2027, 2)     # Feb 2027
 
 # Traditional ONI thresholds (deg C). +3.0 is included because the 2026
 # multi-model consensus clusters near +3.3, so +2.5 saturates toward
-# certainty and stops discriminating at the top. +3.0 exceeds every
-# event in the instrumental record (1997 ~2.4, 2015 ~2.6, 1877 ~2.5 on
-# HadISST), so the "above +3.0" fraction is a directly-measured count of
-# members forecasting an unprecedented event. Unlike the CPC-anchored
-# headline (where +3.0 would be a deep skew-normal tail extrapolation
-# beyond CPC's published bins), here it is an empirical member count.
+# certainty and stops discriminating at the top. +3.0 exceeds every event
+# in the instrumental record, so the "above +3.0" fraction is a
+# directly-measured count of members forecasting an unprecedented event.
+# Unlike the CPC-anchored headline (where +3.0 would be a deep
+# skew-normal tail extrapolation beyond CPC's published bins), here it is
+# an empirical member count.
+#
+# Record peaks, from data/oni_historical.csv, which is the series we
+# publish: 2015-16 NDJ +2.80, 1997-98 OND/NDJ +2.40, 2023-24 +2.10.
+# This comment previously said 2015 was "~2.6", which is that event's OND
+# value rather than its peak. Nothing computed read the comment, so no
+# published number was ever wrong. It came within one sentence of making
+# one: a front-page lede was drafted on 2026-08-11 claiming nothing in
+# the record had passed +2.5, which 2015 did. Quote the CSV, not this
+# file, and if the two ever disagree the CSV wins.
 THRESHOLDS = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5]   # traditional ONI degC
 
 # Months base for the NMME files' 'target' coordinate, which uses
