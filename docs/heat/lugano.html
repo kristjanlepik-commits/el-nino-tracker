@@ -136,6 +136,17 @@ letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
 h1{font-family:Spectral,serif;font-weight:400;font-size:50px;line-height:1.05;
 letter-spacing:-.02em;color:var(--ink);margin:40px 0 16px;max-width:19ch;text-wrap:balance}
 .stand{font-size:17.5px;line-height:1.62;max-width:62ch;margin:0}
+/* A CORRECTION IS NOT A WARNING. It sits in ink on paper with a rule
+   above it, the same weight as the page's own prose, because the page is
+   explaining itself rather than apologising. D-043 in a different costume:
+   the styling must not make a sound correction read as an incident. */
+.corr{margin:22px 0 0;padding:15px 0 0;border-top:2px solid var(--ink)}
+.corr p{margin:0 0 9px;max-width:60ch;font-size:15.5px;line-height:1.62;
+ color:var(--ink-soft)}
+.corr p:last-child{margin-bottom:0}
+.corr .corr-k{font-family:var(--mono,ui-monospace,monospace);font-size:9.5px;
+ letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);
+ margin-bottom:9px}
 .rows{display:flex;flex-direction:column;gap:22px;margin:34px 0 0}
 .urow{display:grid;grid-template-columns:196px 1fr 54px;gap:20px;align-items:center}
 .uk{font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.55;
@@ -176,7 +187,7 @@ margin-top:48px}
 .back{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;
 text-transform:uppercase;color:var(--ink-faint);text-decoration:none;
 border-bottom:1px solid var(--rule)}
-</style><!-- payload edcf2bd146f0 --></head><body><main>
+</style><!-- payload 4fe13277af46 --></head><body><main>
 <header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../elnino/">El Niño</a><a class="ch-fire" href="../fires/">Fires</a><a class="ch-crop" href="../crops/">Crops</a><a class="ch-heat on" href="../heat/">Heat</a><a class="ch-notes" href="../notes/">Notes</a><a class="util" href="../about.html">About</a></nav></div></div></header>
 
 <!-- THE HOUSE NAME IS NOT REPEATED HERE. This bar predates the shared
@@ -188,6 +199,7 @@ border-bottom:1px solid var(--rule)}
 <span class="when">Lugano &middot; Lugano &middot; to 8 August 2026</span></div>
 
 <h1>The most hot days Lugano has recorded by this date.</h1>
+
 
 
 
@@ -256,6 +268,6 @@ border-bottom:1px solid var(--rule)}
      said twenty-three other cities exist. The index has the map, and the map
      is the invitation. -->
 <p class="stand" style="margin-top:34px;padding-top:22px;border-top:1px solid var(--rule)">
-37 cities are measured this way, each against its own record.
+41 cities are measured this way, each against its own record.
 <a class="more" href="index.html">See them on the map</a></p>
 </main></body></html>
