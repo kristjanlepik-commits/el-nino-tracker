@@ -123,6 +123,59 @@ def radius(sev):
     return max(FLOOR, COEF * math.sqrt(sev))
 
 
+
+# --------------------------------------------------------------------------
+# THE BAR. Kristjan, 2026-08-11: "let's not show all, show only the most
+# extreme, then we need to think what is the bar."
+#
+# It is a DISPLAY threshold, not a finding threshold. A place below it is
+# still measured, still reported, still on its channel page and still in the
+# channel's own count. What changes is whether it is drawn here. That
+# distinction is the whole reason this can be done at all: a map that omits
+# places without saying so is a silent top-N, which is the thing this
+# project refuses everywhere else.
+#
+# Three rules it has to keep:
+#
+# 1. IN EACH CHANNEL'S OWN UNITS, never a shared score. Fires speaks in
+#    multiples of its own same-week mean; crops speaks in regions at a
+#    record low. There is no bar that means the same thing to both.
+#
+# 2. A FIXED NUMBER, never tuned to a target count. 3x yields six countries
+#    this week and may yield twenty in September. If it is moved then to
+#    keep the map tidy, it has stopped being a threshold and become a top-N
+#    wearing a threshold's clothes, and nobody outside this file would be
+#    able to tell.
+#
+# 3. WHAT IT EXCLUDES IS COUNTED ON THE PAGE. Not logged to a terminal:
+#    printed where the reader is, because the gap between "nothing else
+#    happened" and "twelve more places cleared their own record but not this
+#    bar" is exactly what a reader cannot infer from an empty map.
+#
+# Why these two values. Both are round, both are sayable in one clause, and
+# both sit at a natural step in this week's distribution rather than in the
+# middle of a run. Fires: one country at 6.2x, then 4.5, 4.0, 3.8, 3.8, 3.1,
+# and then a long tail from 2.7 down to 1.5, so 3x is a shelf rather than a
+# slice. Crops: seventeen countries have exactly one region at a record low
+# and one region is a common event, nine have two, ten have three or more,
+# so three is where "a region had a bad year" becomes "this country is
+# having one".
+BAR = {
+    "fires": ("multiple", 3.0,
+              "three times its own same-week mean or more"),
+    "crops": ("regions", 3,
+              "three or more regions at a record low"),
+}
+
+
+def clears_bar(m):
+    """Above the bar, in that channel's own units. Heat is one aggregate and
+    is not a candidate for a threshold: it is a locator, not a reading."""
+    if m["ch"] == "heat":
+        return True
+    return (m["sev"] or 0) >= BAR[m["ch"]][1]
+
+
 def marks(d):
     """Every mark, from the payloads, with its claim and its denominator."""
     out = []
@@ -249,13 +302,25 @@ document.querySelectorAll('.lg').forEach(function (b) {
 
 
 def page(d):
-    ms = marks(d)
+    allm = marks(d)
+    ms = [m for m in allm if clears_bar(m)]
+    # Counted BEFORE the filter, so the page can say what it is not showing.
+    below = {}
+    for m in allm:
+        if m["ch"] != "heat" and m["sev"] and not clears_bar(m):
+            below[m["ch"]] = below.get(m["ch"], 0) + 1
+    watched = sum(1 for m in allm if m["ch"] == "fires")
     # Biggest first so a small mark is never hidden under a large one.
     ms.sort(key=lambda m: -(HEAT_R if m["ch"] == "heat" else radius(m["sev"])))
 
     top = max((m for m in ms if m["ch"] == "fires"), key=lambda m: m["sev"])
     topc = max((m for m in ms if m["ch"] == "crops"), key=lambda m: m["sev"])
     labelled = {id(top), id(topc)}
+    # Chad and Sudan are 11 degrees apart and both large this week, so the
+    # left-anchored default put Chad's name on top of Sudan's square. Lifted
+    # rather than nudged sideways, because the neighbour is horizontal.
+    # VD's open item stands: this pass must be computed, not hand-placed.
+    topc["nudge"] = (0, -(radius(topc["sev"]) + 7))
     for m in ms:
         if m["ch"] == "heat":
             labelled.add(id(m))
@@ -281,8 +346,9 @@ def page(d):
         "nino34_weekly_traditional")
     n34 = ("%+.1f&nbsp;&deg;C" % nino) if nino is not None else ""
 
-    n_out = sum(1 for m in ms if m["ch"] != "heat" and m["sev"])
-    n_in = sum(1 for m in ms if m["ch"] != "heat" and not m["sev"])
+    n_shown = sum(1 for m in ms if m["ch"] != "heat")
+    n_below = sum(below.values())
+    n_rec = n_shown + n_below
 
     return """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -341,9 +407,9 @@ svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
 <span class="r">Front map, layered &middot; week of 2026-08-10 &middot;
 mockup, not published</span></div>
 <div class="lab">Where, this week
-<span class="r"><span>{n_out} places outside their own range</span>
-<span>{n_in} within it</span><span>{n_city} cities in one aggregate</span>
-<span>derived from the marks</span></span></div>
+<span class="r"><span>{n_rec} places past their own record</span>
+<span>{n_shown} past the bar, drawn</span>
+<span>{n_city} cities in one aggregate</span></span></div>
 </div>
 
 <svg viewBox="0 20 800 336" width="100%" style="display:block" role="img"
@@ -361,15 +427,25 @@ mockup, not published</span></div>
 
 <div class="shell">
 {legend}
-<p class="cap">One hue and one shape per channel; a mark&rsquo;s size is that
+<p class="cap"><b>The map draws only what clears a stated bar: fires at
+{bar_f}, crops with {bar_c}.</b> {n_below} more places passed their own
+record this week and not the bar, and every one of them is counted by its
+channel and on its channel page; the bar decides what is DRAWN, never what
+is measured. It is a fixed number rather than one tuned each week to keep
+the map tidy, so a busy week draws a busy map. One hue and one shape per
+channel; a mark&rsquo;s size is that
 channel&rsquo;s own severity measure: fires by the multiple of its same-week
 mean, crops by regions at a record low, heat as one unsized aggregate.
 <b>Sizes compare within a channel, never across channels</b>, because the
-channels measure different things against different records. Channels differ
+channels measure different things against different records: on this week's
+data Chad at five record-low regions draws larger than every fire mark but
+Georgia, and those two numbers share no scale at all. Channels differ
 by shape as well as hue, so the layer split survives colourblindness and
 greyscale; hue never carries a distinction alone. Click a legend entry to hide
 or show its layer. Every mark is a link; hover or focus shows its claim with
-its denominator. Calm places stay drawn at the floor size, never removed. The
+its denominator. Places within their own normal range are counted in the line above rather
+than drawn, which is what makes the map legible; the floor size still
+applies to everything on it. The
 dashed window is the extent of the Pacific SST field, which is the matplotlib
 PNG in production. Coastline is the repo&rsquo;s own world-map.svg, drawn
 directly rather than fetched, so the page needs no third party at read
@@ -383,7 +459,9 @@ time.</p>
         eq=eq, wx=wtl[0] + 1, wy=wtl[1], ww=wbr[0] - wtl[0] - 1,
         wh=wbr[1] - wtl[1], b1=b1, b2=b2 + 9, bw=b2 - b1,
         brk=eq + 13, brt=eq + 11, n34=n34,
-        n_out=n_out, n_in=n_in, n_city=len(d["heat"]["cities"]))
+        n_rec=n_rec, n_shown=n_shown, n_below=n_below,
+        bar_f=BAR["fires"][2], bar_c=BAR["crops"][2],
+        n_city=len(d["heat"]["cities"]))
 
 
 def main():
