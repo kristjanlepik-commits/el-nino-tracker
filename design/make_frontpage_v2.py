@@ -384,14 +384,54 @@ def _generated_lede(d):
     recs = [(p, r) for p, r in recs if r]
     n_reg = sum(len(r) for _, r in recs)
 
+    # EVERY CLAUSE HAS A ZERO FORM, and until editor checked it none did.
+    # This docstring said each clause states its negative on a calm week and
+    # then never built it, so a quiet week would have printed "At least 0 of
+    # 41 cities have had more hot days than in any year on record", which is
+    # not flat, it is a sentence we would not publish. Same failure heat made
+    # in August: describing what a guard was meant to do and calling that
+    # coverage. I described the fallback I meant to write.
     out = []
-    out.append("<b>%s%d of %d cities</b> have had more hot days than in any "
-               "year on record." % ("At least " if floors else "",
-                                    dh["records"], dh["of_cities"]))
-    out.append("<b>%d countries</b> are past their own record fire week."
-               % n_fire)
-    out.append("<b>%d crop regions</b> are at their worst for this point in "
-               "the season." % n_reg)
+    if dh["records"]:
+        out.append("<b>%s%d of %d cities</b> have had more hot days than in "
+                   "any year on record." % ("At least " if floors else "",
+                                            dh["records"], dh["of_cities"]))
+    else:
+        out.append("<b>No city</b> of the %d measured has had more hot days "
+                   "than in an earlier year." % dh["of_cities"])
+
+    if n_fire == 1:
+        # The singular is not a plural with the s removed: "1 country is
+        # past their own record fire week" needs "its". Exercised below,
+        # because one is the count this clause will most often carry in a
+        # normal week and the one nobody renders while building.
+        out.append("<b>1 country</b> is past its own record fire week.")
+    elif n_fire:
+        out.append("<b>%d countries</b> are past their own record fire week."
+                   % n_fire)
+    else:
+        out.append("<b>No country</b> is past its own record fire week.")
+
+    # THE CROPS COUNT NEVER SHIPS WITHOUT ITS DISTRIBUTION. Editor's catch,
+    # and the sharper of the two: 69 regions at a record low reads as
+    # alarming and is an ordinary number. The crops page exists partly to
+    # say so, with 81 as the even-spread expectation and 24 to 104 as the
+    # last twelve years. The bare count in the largest type on the site, one
+    # link above the page that calibrates it, is the exact error that page
+    # was built to prevent.
+    cb = d["crops"].get("chance_baseline_aggregate") or {}
+    lo, hi = cb.get("recent_min"), cb.get("recent_max")
+    if not n_reg:
+        out.append("<b>No crop region</b> is at its worst for this point in "
+                   "the season.")
+    elif lo is not None and hi is not None and n_reg <= hi:
+        out.append("<b>%d crop regions</b> are at their worst for this point "
+                   "in the season, an ordinary number: the last twelve years "
+                   "ran %d to %d." % (n_reg, lo, hi))
+    else:
+        out.append("<b>%d crop regions</b> are at their worst for this point "
+                   "in the season, more than in any of the last twelve "
+                   "years." % n_reg)
     return " ".join(out)
 
 
