@@ -426,49 +426,85 @@ def _generated_lede(d):
 
 
 def _spread(hb):
-    """The disagreement, beside the figure it governs, and NOT as a range.
+    """The disagreement, beside the figure it governs, in the shape it has.
 
     EDITOR'S RULING, D-051 applied: a headline probability may not appear
     bare in large type, because the qualifier travels with the datum and
     nothing else survives a screenshot of the band.
 
-    MY FIRST VERSION RENDERED IT AS "27 to 98 across the six models" AND
-    SCIENCE CORRECTED BOTH HALVES OF THAT.
+    MY FIRST VERSION RENDERED "27 to 98 across the six models" AND SCIENCE
+    CORRECTED BOTH HALVES. 27 is the CPC anchor, their published table
+    fitted with a skew-normal, and it is the one figure in the set that is
+    not a model run. And the models do not span a range: this week four sit
+    at 98 or above, two at 40 or below, and none between. It is a SPLIT.
 
-    27 is not a model. It is the CPC anchor, their published probability
-    table fitted with a skew-normal, and it is the one number in the set
-    that is not a model run. Putting it at the bottom of a model range
-    misattributes it.
+    That version was a worse failure than the bare number it replaced.
+    "Somewhere between 27 and 98" tells a reader we are unsure; the truth is
+    that two camps are each quite sure and disagree, and 70% is a value no
+    model produces. A qualifier that removes the finding is a new shape:
+    every other defect this week was an ABSENCE, which is at least neutral,
+    and this one installs a false structure while wearing the costume of
+    diligence.
 
-    And the models do not span a range. This week four sit at 98 or above,
-    two at 40 or below, and none is in between. It is a SPLIT, not a
-    spread. "Somewhere between 27 and 98" tells a reader we are unsure;
-    the truth is sharper and more reportable, which is that four of six
-    call it near-certain, two call it unlikely, and 70% is a value no
-    individual model produces. Rendering it as a range averages away
-    exactly the structure the house rule exists to surface.
+    SO THE DATA DECIDES THE SHAPE, NOT ME. The split is taken at the largest
+    gap between adjacent models. If that gap is wide the set is bimodal and
+    the sentence says so; if it is narrow the models really do spread and
+    the sentence says that instead. Hard-coding "it is a split" would be
+    the same error one level up: true this week, and silently wrong the week
+    the models converge.
 
-    So this prints each figure on its own footing and makes no range claim.
-    The sharper form science would prefer, "four of six models at or above
-    98%, two at or below 40%", is NOT DERIVABLE from meta.json, which
-    carries only anchor, consensus, seas5 and n_models. Typing their
-    numbers here would put six per-model values in a template that cannot
-    know when they move, which is the defect I have spent the day removing
-    from other people's files. Asked them for the field; until it exists
-    this renders what the payload supports and no more.
+    n_members travels with the percentages because it must. Two of the six
+    run ten-member ensembles, so their figures move in ten-point steps and a
+    bare 30 beside a 32-member 100 invites a precision neither has.
+
+    per_model lands with the 2026-08-17 issue. Until then this falls back to
+    the three figures meta.json does carry, each on its own footing, with no
+    range claim.
     """
     b = hb.get("record_>3.5") or {}
-    bits = []
-    if b.get("anchor") is not None:
-        bits.append("CPC&rsquo;s own table implies %d%%" % b["anchor"])
-    if b.get("consensus") is not None:
-        bits.append("the model consensus is %d%%" % b["consensus"])
-    if b.get("seas5") is not None:
-        bits.append("ECMWF SEAS5 alone is %d%%" % b["seas5"])
+    anchor = ("CPC&rsquo;s own table implies %d%%" % b["anchor"]
+              if b.get("anchor") is not None else "")
+
+    pm = b.get("per_model") or {}
+    if pm:
+        vals = sorted(((v.get("pct"), v.get("n_members"), k)
+                       for k, v in pm.items() if v.get("pct") is not None),
+                      reverse=True)
+        if len(vals) >= 3:
+            gaps = [(vals[i][0] - vals[i + 1][0], i)
+                    for i in range(len(vals) - 1)]
+            gap, at = max(gaps)
+            hi, lo = vals[:at + 1], vals[at + 1:]
+            small = min((n for _, n, _ in vals if n), default=None)
+            step = (" The smallest ensembles carry %d members, so those "
+                    "figures move in %d-point steps." % (small, round(100 / small))
+                    if small and small <= 12 else "")
+            if gap >= 20:
+                body = ("%s of %s models put it at %g%% or above and %s at "
+                        "%g%% or below, with none in between"
+                        % (_word(len(hi)), _word(len(vals)), hi[-1][0],
+                           _word(len(lo)), lo[0][0]))
+            else:
+                body = ("the %s models run from %g%% to %g%%"
+                        % (_word(len(vals)), vals[-1][0], vals[0][0]))
+            return ("The +3.5 figure is ours, and no model produces it: "
+                    + body + ". " + anchor + "." + step)
+
+    bits = [x for x in (
+        anchor,
+        "the model consensus is %d%%" % b["consensus"]
+        if b.get("consensus") is not None else "",
+        "ECMWF SEAS5 alone is %d%%" % b["seas5"]
+        if b.get("seas5") is not None else "") if x]
     if not bits:
         return ""
     return ("The +3.5 figure is ours, and no single model produces it: "
             + "; ".join(bits) + ".")
+
+
+def _word(n):
+    return {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five",
+            6: "Six"}.get(n, str(n)).lower()
 
 
 # PRODUCT'S D-155, and editor owns the wording. A STANDING question above
