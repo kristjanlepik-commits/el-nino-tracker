@@ -143,25 +143,34 @@ CITIES = {
     #
     # History is GHCN EN000026038, network 0 rather than ECA&D, so it is
     # commercially usable: 1936-2025, 30 of 30 baseline years.
-    # HELD OUT, 2026-08-11, and the reason is a defect I created and caught.
+    # TALLINN: OUT, and now for a MEASURED reason rather than a guess.
     #
-    # Emitting no 2026 minima was correct: the 06Z bulletin minimum is warm
-    # by +0.56 C here and wrong by more than half a degree on a third of
-    # days. But the pipeline read that ABSENCE AS ZERO. Tallinn emitted
-    # nights_2026 = 0 and a night rank of 55 OF 55, percentile 1.8, which
-    # publishes as "the coolest night season in 55 years" from data that
-    # does not exist.
+    # Keskkonnaagentuur sent their archive 2026-08-11. It contains FOUR
+    # Tallinn stations in relay, not one record:
     #
-    # Same shape as the phantom zeros socials found in Frankfurt, and I
-    # built a fresh instance of it hours later while adding a city.
+    #     Majakas    1919-1949        Ulemiste   1937-1980
+    #     Kose       1948-1964        Harku      1980-2026
     #
-    # The fix is not in this entry. A city with no current-year minima must
-    # emit no night count and no night rank, rather than zero and a rank
-    # computed off it. Until build() does that, Tallinn stays out: the day
-    # numbers are sound and there is no way to ship them without the night
-    # fields riding along.
-    # "Tallinn":   dict(country="EE", station="Tallinn-Harku", cut=(8, 10),
-    #                   file="tallinn.json"),
+    # Harku is the station the collector and the SYNOP bulletins report, and
+    # alone it runs 1980-2026: 21 of the 30 baseline years, below the bar of
+    # 27. So Tallinn does not qualify on a single station.
+    #
+    # AND THE ROUTE I NEARLY SHIPPED WAS THE MURCIA ERROR AGAIN. GHCN
+    # EN000026038 advertises 1936-2025 with 30 of 30 baseline years, which is
+    # why it looked like the answer this morning. Measured against the
+    # Estonian archive:
+    #
+    #     GHCN vs Harku     1980-1989   100.00% identical
+    #     GHCN vs Harku     1990-2025    66.90%
+    #     GHCN vs Ulemiste  1960-1979    75.89%
+    #
+    # Perfect agreement with one station for one decade, then divergence.
+    # That is a blended series, and a days-only Tallinn built on it would
+    # have ranked a 2026 Harku value against a history that is not Harku.
+    #
+    # So Tallinn waits for Harku to accumulate baseline years, or for a
+    # documented same-site continuation we can verify. The hourly collector
+    # keeps running: it is still the only route to true minima at this site.
     "Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
     "Marseille":   dict(country="FR", station="MARIGNANE", cut=(8, 3)),
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
