@@ -392,9 +392,19 @@ def main() -> None:
     # and the early return would skip it until the window happened to
     # roll, which is how a roster edit could look applied and do nothing.
     absent = [i for i in isos if i not in prev.get("countries", {})]
-    if prev.get("window") == win and not absent:
-        print(f"baseline already covers {win}, nothing to do")
+    # AND "window already covered" is also not the same as "still correct".
+    # The cached baseline is only valid for the LOGIC that built it. On
+    # 2026-08-11 the defective-day handling changed from dropping a calendar
+    # day to dropping the defective year, which changes the baseline without
+    # changing the window, and the early return would have skipped it. That
+    # is the same shape as the roster case above: applied, and doing nothing.
+    force = "--force" in sys.argv
+    if prev.get("window") == win and not absent and not force:
+        print(f"baseline already covers {win}, nothing to do "
+              f"(pass --force after changing how it is computed)")
         return
+    if force:
+        print(f"--force: rebuilding {win} even though it is already covered")
     if prev.get("window") == win and absent:
         # Only the new ones need fetching; the rest are already correct
         # for this window, so do not spend the quota again.
