@@ -522,24 +522,69 @@ def _freshness(doc) -> str:
               f"{'' if n_old != 1 else 's'} further back, having gone "
               f"out of season and stopped reporting." if n_old else
               f" All {n_all} places are reporting at this dekad.")
+    # EDITOR'S CHANGE, approved under D-148, and the reasoning is theirs:
+    # the old sentence was honest and defensive. Nothing in it was false,
+    # and it apologised for the latency before a reader had objected. The
+    # latency is the product. Sold as the confirming instrument, 9 to 18
+    # days back is what crops IS; sold as current, it is something a reader
+    # finds out.
+    #
+    # THE AGE IS COMPUTED, NEVER TYPED. Typed, it becomes the exact stale
+    # figure it exists to prevent, and it goes stale silently, which is the
+    # shape this whole day has been about. Show the number AND the range:
+    # the range is a property of ASAP's cadence and explains why the number
+    # moves; the number is the fact a reader can check. A range alone is a
+    # bare rank with no series behind it.
+    #
+    # The 9 and the 18 are typed here and should not stay that way. They
+    # are a property of the source rather than of a season, so they belong
+    # in the crops payload; asked, and this carries them until CRO answers.
+    age = _days_since(newest)
+    age_txt = ("" if age is None else
+               ", today" if age == 0 else ", yesterday" if age == 1 else
+               f", {age} days ago")
     return (f'<p class="fresh">Newest observation: the ten days to '
-            f'{h(_dekad_end(newest))}.{behind} The source publishes every '
-            f'ten days and has not published since, so this is the most '
-            f'recent reading available rather than a reading of today.</p>')
+            f'{h(_dekad_end(newest))}{age_txt}.{behind}</p>'
+            f'<p class="fresh"><strong>Crops is the confirming '
+            f'instrument.</strong> It is never more than one publication '
+            f'behind its source, which puts it 9 to 18 days back depending '
+            f'where the cycle sits. It answers how a season compares with '
+            f'twenty-six others, not what happened yesterday.</p>')
 
 
-def _dekad_end(iso: str) -> str:
-    """The dekad label is its START. A reader needs when it ENDS."""
+def _dekad_end_date(iso: str):
+    """The dekad's last day, as a date, or None if the label is unparseable.
+
+    ONE definition of where a dekad ends. I wrote a second one for the age
+    and caught it before it shipped: same rule, different arithmetic, in
+    two functions that must always agree. That is the fault I have reported
+    on three other surfaces today, so it does not get to live here.
+    _dekad_end formats this for a reader; _days_since counts from it.
+    """
     import datetime
     try:
         y, m, d = (int(x) for x in iso.split("-"))
     except (ValueError, AttributeError):
-        return iso
-    end = (datetime.date(y, m, d) + datetime.timedelta(days=9)
-           if d in (1, 11) else
-           (datetime.date(y, m + 1, 1) - datetime.timedelta(days=1)
-            if m < 12 else datetime.date(y, 12, 31)))
-    return f"{end.day} {end.strftime('%B')}"
+        return None
+    if d in (1, 11):
+        return datetime.date(y, m, d) + datetime.timedelta(days=9)
+    return (datetime.date(y, m + 1, 1) - datetime.timedelta(days=1)
+            if m < 12 else datetime.date(y, 12, 31))
+
+
+def _days_since(iso: str):
+    """Whole days from the dekad's end to today. Rendered, so it cannot
+    go stale; None when the label does not parse, so the caller drops the
+    clause rather than printing a guess."""
+    import datetime
+    end = _dekad_end_date(iso)
+    return None if end is None else (datetime.date.today() - end).days
+
+
+def _dekad_end(iso: str) -> str:
+    """The dekad label is its START. A reader needs when it ENDS."""
+    end = _dekad_end_date(iso)
+    return iso if end is None else f"{end.day} {end.strftime('%B')}"
 
 
 def _two_ways(g) -> str:
