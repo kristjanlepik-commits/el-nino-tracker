@@ -1,0 +1,23 @@
+{
+ "station": "Tallinn-Harku, WMO 26038",
+ "source": "Keskkonnaagentuur, Estonian Environment Agency",
+ "attribution": "Source: Keskkonnaagentuur",
+ "history": "1980-2026",
+ "stations_in_archive_NOT_used": [
+  "Tallinn-Majakas 1919-1949",
+  "Tallinn-Kose 1948-1964",
+  "Tallinn-Ulemiste 1937-1980"
+ ],
+ "why_not_used": "four stations in relay are not one record. Ranking a 2026 Harku value against another station's history is the Murcia error.",
+ "baseline_coverage": {
+  "1971-2000": 21,
+  "1981-2010": 30,
+  "1991-2020": 30
+ },
+ "blocked_on": "a per-city baseline period, with product",
+ "season_2026": {
+  "days": 212,
+  "first": "2026-01-01",
+  "last": "2026-07-31"
+ }
+}
