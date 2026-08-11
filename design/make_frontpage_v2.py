@@ -435,6 +435,37 @@ def _generated_lede(d):
     return " ".join(out)
 
 
+
+def _spread(hb):
+    """The disagreement, beside the figure it governs.
+
+    EDITOR'S RULING, D-051 applied: a headline probability may not appear
+    bare in large type, because the qualifier travels with the datum and
+    nothing else on the page will carry it once the band is screenshotted.
+
+    This band printed 98% and 70% side by side with nothing attached, which
+    is worse than it looks: the two numbers have completely different
+    standing. The models agree within 11 points on +2.5 and disagree by 71
+    on +3.5, which is the widest spread the site publishes. A reader given
+    both bare would reasonably take them as equally settled.
+
+    Nobody flagged this. It predates the ruling and I found it while fixing
+    the lede, which is the only reason it is here rather than live.
+
+    Surfacing the disagreement rather than averaging it away is the house
+    rule (T-thesis, and CLAUDE.md's editorial constraints), so this prints
+    the range rather than a confidence adjective.
+    """
+    b = hb.get("record_>3.5") or {}
+    vals = [b.get("anchor"), b.get("consensus"), b.get("seas5")]
+    vals = [v for v in vals if v is not None]
+    if len(vals) < 2:
+        return ""
+    lo, hi = min(vals), max(vals)
+    return ("the +3.5 figure spans %d to %d across the six models, "
+            "the widest disagreement on the site" % (lo, hi))
+
+
 def page(d):
     _mb = map_block(d)
     rs = readings(d)
@@ -529,6 +560,8 @@ h1 b{{font-weight:500;color:var(--ink)}}
 .wave .v{{font-size:17px;color:var(--ink)}}
 .wave .v b{{font-family:"{data}",monospace;font-weight:600;
  font-variant-numeric:tabular-nums}}
+.wave .spread{{font-family:"{data}",monospace;font-size:10.5px;
+ line-height:1.6;color:var(--ink-faint);flex-basis:100%;max-width:74ch}}
 .wave .r{{margin-left:auto;font-family:"{data}",monospace;font-size:10.5px;
  color:var(--ink-faint);font-variant-numeric:tabular-nums}}
 .note{{margin-top:44px;border-top:3px solid var(--ink);padding-top:18px;
@@ -682,6 +715,7 @@ column is absent rather than empty.</span>
 2026-27</span>
 <span class="v"><b>{p25}%</b> chance of a peak beyond +2.5&nbsp;&deg;C,
 <b>{p35}%</b> beyond +3.5</span>
+<span class="spread">{spread}</span>
 <span class="r">Ni&ntilde;o 3.4 {n34} &middot; issue 2026-08-10 &middot;
 this week&rsquo;s issue &rarr;</span></div>
 
@@ -731,6 +765,7 @@ averaged</span></div>
         n_ctry=sum(1 for p in d["crops"]["places"]
                    if any(r.get("rank") == 1 for r in (p.get("regions") or []))),
         p25=hb["9715_>2.5"]["mid"], p35=hb["record_>3.5"]["mid"],
+        spread=_spread(hb),
         n34=n34,
         mb_svg=_mb["svg"], mb_legend=_mb["legend"],
         mb_bar_f=_mb["bar_f"], mb_bar_c=_mb["bar_c"], mb_below=_mb["n_below"],
