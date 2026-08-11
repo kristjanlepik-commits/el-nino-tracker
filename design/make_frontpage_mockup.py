@@ -228,7 +228,7 @@ WORLD_BODY = (_body.replace('fill="#cfcdc2"', 'fill="var(--paper-sunk)"')
                    .replace('stroke="#b8b6ab"', 'stroke="var(--rule)"'))
 
 
-def page(slots, marks, title, stand, note=True):
+def page(slots, marks, title, stand, note=True, invented=None):
     rows = "".join(slot(s) for s in slots)
     mk = "".join('<circle class="mk" cx="%.1f" cy="%.1f" r="3.4"/>' % xy
                  for xy in marks)
@@ -248,6 +248,14 @@ def page(slots, marks, title, stand, note=True):
         map_note = ("The map is empty because no channel is reporting anything "
                     "unusual, not because it failed to draw. Every instrument "
                     "reported; each is in its usual range.")
+
+    # These files are now one click from the admin home page, which
+    # discovers local boards by rule. A page carrying "All 37 cities" and
+    # "99%" that someone opens cold reads as this week until they find the
+    # small print, and "mockup, not published" does not say the FIGURES are
+    # invented. The banner does, at the top, before anything numeric.
+    banner = ('<div class="invented"><b>Invented numbers.</b> %s Nothing on '
+              'this page is a measurement.</div>' % h(invented)) if invented else ""
 
     note_block = """
 <div class="note">
@@ -270,6 +278,10 @@ body{{margin:0;background:var(--paper);color:var(--ink-soft);
  font-family:"{prose}",Georgia,serif;font-size:17px;line-height:1.6;
  -webkit-font-smoothing:antialiased}}
 main{{max-width:900px;margin:0 auto;padding:30px 26px 90px}}
+.invented{{background:var(--ink);color:var(--paper);padding:11px 15px;
+ margin:0 0 22px;font-family:"{data}",monospace;font-size:12px;line-height:1.55;
+ letter-spacing:.02em}}
+.invented b{{letter-spacing:.09em;text-transform:uppercase;font-size:11px}}
 .eyebrow{{font-family:"{data}",monospace;font-size:9.5px;letter-spacing:.22em;
  text-transform:uppercase;color:var(--ink-faint)}}
 h1{{font-weight:400;font-size:38px;line-height:1.12;color:var(--ink);
@@ -317,7 +329,7 @@ svg .mk{{fill:var(--ink)}}
 }}
 </style></head><body><main>
 
-<div class="eyebrow">The Long Swell &middot; mockup, not published</div>
+{banner}<div class="eyebrow">The Long Swell &middot; mockup, not published</div>
 <h1>{title}</h1>
 <p class="stand">{stand}</p>
 
@@ -335,7 +347,8 @@ svg .mk{{fill:var(--ink)}}
 {note}
 
 </main></body></html>""".format(
-        title=h(title), stand=h(stand), rows=rows, marks=mk, note=note_block,
+        banner=banner, title=h(title), stand=h(stand), rows=rows, marks=mk,
+        note=note_block,
         world=WORLD_BODY, map_head=h(map_head), map_note=h(map_note),
         faces=T.font_faces_css("../../docs/fonts/"), vars=T.css_variables(),
         prose=T.FONT_PROSE, data=T.FONT_DATA)
@@ -357,7 +370,9 @@ def main():
         synthetic("quiet", QUIET_HEADS), [],
         "How big is this, actually?",
         "Five instruments, each measuring one thing against its own record. "
-        "This week, none of them is unusual."))
+        "This week, none of them is unusual.",
+        invented="An acceptance test: what the front page looks like in a week "
+                 "when every channel is quiet."))
 
     # Acceptance test 2: everything at once. The test is that it does NOT
     # escalate: same type, same weights, no red, no exclamation.
@@ -365,7 +380,9 @@ def main():
         synthetic("reporting", RECORD_HEADS), marks_for(PLACES),
         "How big is this, actually?",
         "Five instruments, each measuring one thing against its own record. "
-        "Nothing here is ranked against anything else."))
+        "Nothing here is ranked against anything else.",
+        invented="An acceptance test: what the front page looks like if every "
+                 "channel were at a record at once. It is not."))
 
     for f in ("frontpage.html", "frontpage_quiet.html", "frontpage_record.html"):
         print("wrote design/mockups/%s" % f)
