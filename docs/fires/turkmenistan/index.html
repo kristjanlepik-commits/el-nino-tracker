@@ -2,10 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- ALL THREE LINES LAND TOGETHER OR NONE DO. A page that declares
+     summary_large_image and supplies no image is worse than one that
+     declares nothing: the platform reserves the space and renders it
+     empty. That is why heat was worse off than fires despite looking
+     better configured, 36 pages declaring the card with nothing to show
+     against fires declaring nothing and degrading to a text card.
+     The house card is generic and beats an empty slot; per-page cards
+     wait for the citable chart, and fires is the worst case for them
+     because its figures change daily, so any card here needs its window
+     stamped on the face rather than only regenerated. -->
 <meta property="og:image" content="https://thelongswell.com/card.png">
 <meta name="twitter:image" content="https://thelongswell.com/card.png">
 <meta name="twitter:card" content="summary_large_image">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Turkmenistan fires | The Long Swell</title>
@@ -192,13 +201,32 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 28px 80px; }
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--nino);
-    transition: color .12s;
+    /* ONE INK. D-101 retired channel colour and moved identity to type,
+       on the grounds that colour spent on wayfinding is colour unavailable
+       to data. The tokens went; this nav kept the hues, so four of six
+       items were still coloured months later.
+
+       VD's catch is the one that settles it: Notes rendered in the same
+       blue as El Nino. Notes is not a measured variable and can never hold
+       a hue under the ruling, so either the blue meant El Nino, in which
+       case it was wrong, or it meant "you are here", in which case blue
+       meant two things in one row and a reader could not tell which.
+
+       Identity is now the tracked mono against the Spectral wordmark, and
+       the current page is marked by weight and a rule rather than a hue.
+       The per-channel classes stay in the markup: they are hooks, and
+       deleting them is a change to every generator rather than to this
+       stylesheet. */
+    color: var(--ink-soft);
+    transition: color .12s, border-color .12s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
   }
-  .prodnav a.ch-fire { color: var(--fire); }
-  .prodnav a.ch-crop { color: var(--crop); }
   .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
   .prodnav a:hover { color: var(--ink); }
+  /* The current page, by weight and a rule. */
+  .prodnav a.on { color: var(--ink); font-weight: 600;
+    border-bottom-color: var(--ink); }
 .mono, .cell-lab, .ch-lab, .cell-sub, .hero, .rail, .tag, .ew-stat,
 .cx-s, .cx-b, .foot {
   font-family: "IBM Plex Mono", ui-monospace, monospace; }
@@ -284,8 +312,6 @@ h1 { font-size: 40px; font-weight: 500; line-height: 1.13;
   .ew-row { grid-template-columns: 3.8rem 1fr; }
   .ew-row .tag { grid-column: 2; justify-self: start; margin-top: 5px; }
 }
-
-.stalestamp { margin: 0 0 18px; padding: 10px 14px; background: var(--paper-sunk); color: var(--ink-soft); font-size: 13.5px; max-width: 64ch; }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
@@ -297,30 +323,28 @@ plausible.init()
 <body>
 <header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../../elnino/">El Niño</a><a class="ch-fire on" href="../../fires/">Fires</a><a class="ch-crop" href="../../crops/">Crops</a><a class="ch-heat" href="../../heat/">Heat</a><a class="ch-notes" href="../../notes/">Notes</a><a class="util" href="../../about.html">About</a></nav></div></div></header>
 
-
 <main>
-<p id="lastassessed" class="stalestamp">Checked for the week of 3 to 9 August: this country did not clear the anomaly gate, so no new assessment was published. The figures below are from the last week it did, and are not current.</p>
   <p class="eyebrow">Turkmenistan &middot;
-     31 July to 6 August</p>
+     4 to 10 August</p>
   <h1>Turkmenistan had its second-heaviest fire week for this point in the year since 2012</h1>
   <p class="stand">Two questions, side by side. How bad was this week, measured against every week like it. How bad is the year, measured against every season on record. Different instruments, different units, and one of them is not finished.</p>
 
   <div class="grid">
       <div class="col">
-        <p class="cell-lab">This week &middot; 31 July to 6 August</p>
+        <p class="cell-lab">This week &middot; 4 to 10 August</p>
         <p class="hero" style="color:var(--fire)">
-          1.6&times;</p>
+          1.3&times;</p>
         <p class="cell-sub">active-fire detections against the same-week
-          mean of 468, 2012 to 2025<br>
+          mean of 500, 2012 to 2025<br>
           NASA FIRMS SNPP VIIRS, daily, 375 m<br>
-          <span class="verdict">Cleared the anomaly gate for this week. Standardised anomaly z = +2.2</span></p>
+          <span class="verdict">Cleared the anomaly gate for this week. Standardised anomaly z = +2.8</span></p>
         <p class="ch-lab">Against the same week, every year</p>
-        <svg viewBox="0 0 420 168" class="ch" role="img" aria-label="Detections in the same week, every year since 2012"><rect x="5.4" y="101.2" width="19.2" height="42.8" fill="var(--rule-45)"/><rect x="35.4" y="106.2" width="19.2" height="37.8" fill="var(--rule-45)"/><rect x="65.4" y="40.5" width="19.2" height="103.5" fill="var(--rule-45)"/><rect x="95.4" y="88.4" width="19.2" height="55.6" fill="var(--rule-45)"/><rect x="125.4" y="67.6" width="19.2" height="76.4" fill="var(--rule-45)"/><rect x="155.4" y="86.1" width="19.2" height="57.9" fill="var(--rule-45)"/><rect x="185.4" y="78.5" width="19.2" height="65.5" fill="var(--rule-45)"/><rect x="215.4" y="78.1" width="19.2" height="65.9" fill="var(--rule-45)"/><rect x="245.4" y="75.1" width="19.2" height="68.9" fill="var(--rule-45)"/><rect x="275.4" y="87.0" width="19.2" height="57.0" fill="var(--rule-45)"/><rect x="305.4" y="98.5" width="19.2" height="45.5" fill="var(--rule-45)"/><rect x="335.4" y="80.3" width="19.2" height="63.7" fill="var(--rule-45)"/><rect x="365.4" y="69.9" width="19.2" height="74.1" fill="var(--rule-45)"/><rect x="395.4" y="44.9" width="19.2" height="99.1" fill="var(--fire)"/><line x1="0" y1="81.3" x2="420" y2="81.3" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 4"/><text class="cx-s" x="2.0" y="75.3" text-anchor="start" fill="var(--ink-soft)">same-week mean 468</text><text class="cx-s" x="0.0" y="162.0" text-anchor="start" fill="var(--ink-soft)">2012</text><text class="cx-s" x="420.0" y="162.0" text-anchor="end" fill="var(--ink-soft)">2026</text><text class="cx-b" x="420.0" y="37.9" text-anchor="end" fill="var(--fire)" font-weight="600">741</text></svg>
+        <svg viewBox="0 0 420 168" class="ch" role="img" aria-label="Detections in the same week, every year since 2012"><rect x="5.4" y="105.3" width="19.2" height="38.7" fill="var(--rule-45)"/><rect x="35.4" y="110.0" width="19.2" height="34.0" fill="var(--rule-45)"/><rect x="65.4" y="40.5" width="19.2" height="103.5" fill="var(--rule-45)"/><rect x="95.4" y="89.1" width="19.2" height="54.9" fill="var(--rule-45)"/><rect x="125.4" y="78.5" width="19.2" height="65.5" fill="var(--rule-45)"/><rect x="155.4" y="86.8" width="19.2" height="57.2" fill="var(--rule-45)"/><rect x="185.4" y="100.2" width="19.2" height="43.8" fill="var(--rule-45)"/><rect x="215.4" y="86.8" width="19.2" height="57.2" fill="var(--rule-45)"/><rect x="245.4" y="69.5" width="19.2" height="74.5" fill="var(--rule-45)"/><rect x="275.4" y="92.8" width="19.2" height="51.2" fill="var(--rule-45)"/><rect x="305.4" y="94.2" width="19.2" height="49.8" fill="var(--rule-45)"/><rect x="335.4" y="92.7" width="19.2" height="51.3" fill="var(--rule-45)"/><rect x="365.4" y="70.3" width="19.2" height="73.7" fill="var(--rule-45)"/><rect x="395.4" y="66.4" width="19.2" height="77.6" fill="var(--fire)"/><line x1="0" y1="85.9" x2="420" y2="85.9" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 4"/><text class="cx-s" x="2.0" y="79.9" text-anchor="start" fill="var(--ink-soft)">same-week mean 500</text><text class="cx-s" x="0.0" y="162.0" text-anchor="start" fill="var(--ink-soft)">2012</text><text class="cx-s" x="420.0" y="162.0" text-anchor="end" fill="var(--ink-soft)">2026</text><text class="cx-b" x="420.0" y="59.4" text-anchor="end" fill="var(--fire)" font-weight="600">668</text></svg>
         <p class="ch-note">Each year&rsquo;s detections in the same window
           of the year, same sensor throughout.</p>
         <p class="ch-lab">The seven days</p>
-        <svg viewBox="0 0 420 150" class="ch" role="img" aria-label="Detections day by day this week"><rect x="20.0" y="39.8" width="30.0" height="86.2" fill="var(--fire)"/><text class="cx-s" x="35.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">31</text><rect x="90.0" y="62.2" width="30.0" height="63.8" fill="var(--fire)"/><text class="cx-s" x="105.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">01</text><rect x="160.0" y="85.1" width="30.0" height="40.9" fill="var(--fire)"/><text class="cx-s" x="175.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">02</text><rect x="230.0" y="126.0" width="30.0" height="1.2" fill="var(--fire)"/><text class="cx-s" x="245.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">03</text><rect x="300.0" y="41.7" width="30.0" height="84.3" fill="var(--fire)"/><text class="cx-s" x="315.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">05</text><rect x="370.0" y="40.3" width="30.0" height="85.7" fill="var(--fire)"/><text class="cx-s" x="385.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">06</text><line x1="0" y1="93.4" x2="420" y2="93.4" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 4"/><text class="cx-s" x="2.0" y="87.4" text-anchor="start" fill="var(--ink-soft)">one seventh of a normal week, 67</text></svg>
-        <p class="ch-note">5 of 6 days cleared one seventh of a normal week. The peak, 177 on 31 July, is 3 times that line.</p>
+        <svg viewBox="0 0 420 150" class="ch" role="img" aria-label="Detections day by day this week"><rect x="27.0" y="41.3" width="30.0" height="84.7" fill="var(--fire)"/><text class="cx-s" x="42.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">05</text><rect x="111.0" y="39.8" width="30.0" height="86.2" fill="var(--fire)"/><text class="cx-s" x="126.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">06</text><rect x="195.0" y="73.1" width="30.0" height="52.9" fill="var(--fire)"/><text class="cx-s" x="210.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">07</text><rect x="279.0" y="66.2" width="30.0" height="59.8" fill="var(--fire)"/><text class="cx-s" x="294.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">08</text><rect x="363.0" y="82.4" width="30.0" height="43.6" fill="var(--fire)"/><text class="cx-s" x="378.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">09</text><line x1="0" y1="91.0" x2="420" y2="91.0" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 4"/><text class="cx-s" x="2.0" y="85.0" text-anchor="start" fill="var(--ink-soft)">one seventh of a normal week, 71</text></svg>
+        <p class="ch-note">5 of 5 days cleared one seventh of a normal week. The peak, 176 on 6 August, is 2 times that line.</p>
       </div>
       <div class="col">
         <p class="cell-lab">This year &middot; since 1 January</p>
@@ -356,7 +380,7 @@ plausible.init()
 
   <div class="ew">
     <p class="ew-lab">The same week elsewhere</p>
-    <a class="ew-row" href="../greece/"><span class="ew-stat">6.2x</span><span class="ew-name">Greece</span><span class="ew-claim">Second-heaviest fire week since 2012</span></a><a class="ew-row" href="../cuba/"><span class="ew-stat">5.3x</span><span class="ew-name">Cuba</span><span class="ew-claim">Well clear of its 2025 record week</span></a><a class="ew-row" href="../papua-new-guinea/"><span class="ew-stat">5.0x</span><span class="ew-name">Papua New Guinea</span><span class="ew-claim">Well clear of its 2014 record week</span></a>
+    <a class="ew-row" href="../georgia/"><span class="ew-stat">6.2x</span><span class="ew-name">Georgia</span><span class="ew-claim">Well clear of its 2016 record week</span></a><a class="ew-row" href="../cuba/"><span class="ew-stat">4.7x</span><span class="ew-name">Cuba</span><span class="ew-claim">Well clear of its 2015 record week</span></a><a class="ew-row" href="../republic-of-serbia/"><span class="ew-stat">4.3x</span><span class="ew-name">Republic of Serbia</span><span class="ew-claim">Well clear of its 2013 record week</span></a>
   </div>
 
   <div class="foot">
