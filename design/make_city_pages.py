@@ -903,17 +903,46 @@ for name, v in sorted(C.items()):
     # is computed rather than reusing mult_ok. Prague and Helsinki have a
     # complete 1971-2000 window and a short 1961-1990 one. Three cities carry
     # this note: Lyon 26 of 30, Palma 23, Murcia 17.
-    thr_from = max(1971, int(v["record_from"]))
-    thr_years = 2001 - thr_from
-    thr_note = ("" if thr_years >= 30 else
-                f' That window is {thr_years} of the 30 years every other '
-                f'city\'s threshold uses, because this thermometer only starts '
-                f'in {scope_from}, so the level is set from its warmer '
-                f'years and sits a little high. The count below is an '
+    # READ THE PERIOD, NEVER ASSUME IT. This computed max(1971, ...) against
+    # a hard 2001, which was true of every city until this afternoon and is
+    # now false for Tallinn: product allowed a city whose record cannot cover
+    # 1971-2000 to use another complete WMO normal, and Tallinn is on
+    # 1991-2020 (D-151).
+    #
+    # Left alone, the arithmetic did not merely mislabel the window, it
+    # INVENTED A SHORTFALL. Tallinn starts in 1980 and covers 1991-2020
+    # completely, so there is no shortfall at all, and the old expression
+    # would have printed "21 of the 30 years every other city's threshold
+    # uses, so the level sits a little high" underneath a threshold that is
+    # perfectly well founded. A caveat that is false is worse than a missing
+    # one, because a reader discounts a sound number on our say-so.
+    #
+    # Same shape as record_scope and as the aria-labels on the crops map
+    # this afternoon: a constant that quietly became a variable.
+    bl_lo, bl_hi = (v.get("pctl_baseline") or [1971, 2000])
+    bl_span = bl_hi + 1 - bl_lo
+    thr_from = max(int(bl_lo), int(v["record_from"]))
+    thr_years = bl_hi + 1 - thr_from
+    thr_note = ("" if thr_years >= bl_span else
+                f' That window is {thr_years} of the {bl_span} years this '
+                f'city\'s threshold period runs to, because this thermometer '
+                f'only starts in {scope_from}, so the level is set from its '
+                f'warmer years and sits a little high. The count below is an '
                 f'undercount rather than an overcount.')
+    # A NON-DEFAULT PERIOD IS DISCLOSED, not silently substituted. Heat's
+    # note carries why it matters: a later normal runs warmer, so the
+    # threshold sits higher and the count understates.
+    if v.get("pctl_baseline_is_default") is False and v.get("pctl_baseline_note"):
+        # Heat's note is a fragment, not a sentence: it opens lower case
+        # because it was written to follow a colon. Dropped in after a full
+        # stop it read "between 1991 and 2020. the percentile thresholds",
+        # so the capital is added here rather than asking them to rewrite a
+        # field several surfaces consume.
+        _n = str(v["pctl_baseline_note"]).strip()
+        thr_note += " " + _n[:1].upper() + _n[1:]
     method = (f'<p class="cap">Hot here means {th}&nbsp;&deg;C or above, a level '
               f'about one summer day in twenty used to reach at this station '
-              f'between {thr_from} and 2000.{thr_note} The bar has not moved; '
+              f'between {thr_from} and {bl_hi}.{thr_note} The bar has not moved; '
               f'the number of days clearing it has. Every year is counted to '
               f'{cut_txt}, so a part-finished summer is never set against '
               f'complete ones. '
@@ -1010,7 +1039,7 @@ for name, v in sorted(C.items()):
      it had already been corrected to the per-station window. Murcia's page
      therefore stated two different reference periods for the same number,
      two paragraphs apart, and the false one was the definition. -->
-<span>Hot days, this station's own 95th percentile of July-August maxima, {thr_from} to 2000</span>
+<span>Hot days, this station's own 95th percentile of July-August maxima, {thr_from} to {bl_hi}</span>
 <span style="text-align:right">{th} &deg;C</span>
 <!-- Same defect editor found in the prose, in the line that DEFINES the
      metric. 'At or above 20' drops the minimum and describes a night that
@@ -1051,7 +1080,7 @@ for name, v in sorted(C.items()):
     # "does the page contain this sentence" but "does the page anywhere
     # claim a window that starts before the thermometer did", which is the
     # question, and it holds for any future wording.
-    claimed = re.findall(r"(\d{4})\s*(?:to|and|-|–)\s*2000", text_of(html))
+    claimed = re.findall(r"(\d{4})\s*(?:to|and|-|–)\s*%d" % bl_hi, text_of(html))
     too_early = sorted({int(y) for y in claimed if int(y) < int(v["record_from"])})
     if too_early:
         raise SystemExit(

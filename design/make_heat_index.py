@@ -91,7 +91,7 @@ BOX = {"ES": (36.0, 43.8, -9.3, 4.3), "FR": (41.3, 51.1, -5.2, 9.6),
        # future Scottish or Northern Irish station passes without another
        # edit here. The guard's whole value is that a new country stops
        # the build rather than skipping the check.
-       "UK": (49.8, 60.9, -8.7, 1.9)}
+       "UK": (49.8, 60.9, -8.7, 1.9), "EE": (57.5, 59.7, 21.7, 28.2)}
 # A country arriving in the payload with no box would otherwise skip the
 # check silently, which is the one failure this guard exists to prevent.
 for _n, _v in C.items():
@@ -849,6 +849,38 @@ BANNED = sorted({w for v in C.values()
 # four-service set after Amsterdam arrived on a fifth, and the cut dates
 # were typed. A citation that a reader can check is the whole pitch, so
 # the source block is the last place a stale string is acceptable.
+
+# ONE ROW, ONE CLAIM, AND IT IS NOW A CLAIM ABOUT FORTY-ONE CITIES ON TWO
+# PERIODS. This row said "1971 to 2000" as a flat constant. Product allowed
+# a city whose record cannot cover that window to use another complete WMO
+# normal (D-151), and Tallinn is on 1991-2020, so the row became false for
+# one station the moment the payload landed.
+#
+# The index cannot print a per-city window because it is a set-level row, so
+# it states what is true of the set and names the exception. Derived, so a
+# second non-default city changes the sentence without anybody editing it,
+# and a set that returns to one period says one period again.
+def _pctl_periods(cities):
+    from collections import Counter
+    per = Counter()
+    for v in cities.values():
+        lo, hi = (v.get("pctl_baseline") or [1971, 2000])
+        per[(int(lo), int(hi))] += 1
+    if len(per) == 1:
+        (lo, hi), _ = per.most_common(1)[0]
+        return "%d to %d" % (lo, hi)
+    (lo, hi), _ = per.most_common(1)[0]
+    others = sorted(k for k in per if k != (lo, hi))
+    names = []
+    for k in others:
+        who = sorted(n for n, v in cities.items()
+                     if tuple(v.get("pctl_baseline") or [1971, 2000]) == k)
+        names.append("%d to %d for %s" % (k[0], k[1], ", ".join(who)))
+    return "%d to %d, and %s" % (lo, hi, "; ".join(names))
+
+
+PCTL_PERIODS = _pctl_periods(N["cities"])
+
 SERVICES = ", ".join(sorted({v["source"]["attribution"].replace("Source: ", "")
                              for v in C.values()}))
 _MON = ["January", "February", "March", "April", "May", "June", "July",
@@ -1084,7 +1116,7 @@ margin-top:50px}}
 <span style="text-align:right">Heat methodology</span>
 <span>{SERVICES}</span>
 <span style="text-align:right">to {CUT_TXT}</span>
-<span>Hot days, above each station's own 95th percentile of July-August maxima, 1971 to 2000</span>
+<span>Hot days, above each station's own 95th percentile of July-August maxima, {PCTL_PERIODS}</span>
 <span style="text-align:right">{len(rows)} stations</span>
 <span>Coastlines, {COAST["source"]}, merged land so no country borders are drawn</span>
 <span style="text-align:right">{COAST["licence"]}</span>
