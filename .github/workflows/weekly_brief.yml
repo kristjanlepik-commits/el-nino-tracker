@@ -61,6 +61,32 @@ jobs:
             echo "CDS_API_KEY not set; ECMWF and ERA5 fetchers will fall back."
           fi
 
+      # IMMEDIATELY BEFORE THE RENDER, because the caption and the image
+      # are coupled and only look independent. build_public_html reads
+      # docs/pacific-sst.json at RENDER time and bakes its figures into
+      # the caption, while the PNG is a separate file the page merely
+      # points at. So refreshing the pair by hand between runs leaves a
+      # fresh image under a caption stating the old numbers, and design
+      # measured how far apart they had drifted: 5.2% of cells beyond
+      # scale becoming 8.7%, the week's highest +5.71 C becoming +6.18 C.
+      #
+      # That is the qualifier separated from its figure, which is the
+      # defect this house has spent the week removing from payloads.
+      # Running the generator here makes image and caption land together
+      # by construction rather than by anyone remembering.
+      #
+      # NOT in publish_all, and this is the reason the hand path existed
+      # at all: this FETCHES, from NOAA PSL OPeNDAP, and publish_all runs
+      # renderers only. The weekly job is where fetching belongs.
+      #
+      # continue-on-error because invariant 1 outranks a fresh picture: if
+      # NOAA is unreachable the brief still ships with last week's field,
+      # and check_freshness reports the age. A stale image is a worse page;
+      # no brief is a worse week.
+      - name: Refresh the Pacific SST field
+        continue-on-error: true
+        run: python design/make_pacific_sst.py
+
       - name: Run brief
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
