@@ -297,6 +297,57 @@ def _model_consensus_p_above(seas5_per_lead, nmme, threshold_oni: float):
     return pooled, 1 + n_nmme
 
 
+def _per_model_p_above(seas5_per_lead: list | None, nmme: dict | None,
+                       threshold_oni: float) -> dict:
+    """Every individual model's percent above `threshold_oni`, with the member
+    count each is computed from.
+
+    Emitted so a render can state the SHAPE of the disagreement instead of its
+    width. On 2026-08-10 at +3.5 the six models were 100, 100, 100, 98, 40, 30:
+    four near-certain, two doubtful, none in between. Summarising that as "27
+    to 98" (which also mistook the CPC anchor for a model) told the reader we
+    were unsure, when in fact two camps were each confident and disagreed. The
+    published 70 is a value no single model produces, and only per-model
+    figures let a page say so and stay true when the split changes.
+
+    `n_members` travels with each percent because it is the qualifier that
+    makes the percent readable: NCAR_CCSM4 and NCAR_CESM1 carry 10 members, so
+    their fractions move in 10-point steps and a single member flipping swings
+    one of them a tenth of the scale. A bare 30 alongside a 32-member 100
+    invites a precision neither has.
+
+    Two constructions are mixed here, deliberately and visibly. NMME entries
+    are the fraction of members whose PEAK over the Nov-Feb window clears the
+    threshold; the SEAS5 entry is the fraction above it at a SINGLE lead (the
+    last available). Both are member fractions, so they are comparable, but a
+    peak-over-window fraction is structurally the more generous of the two.
+    `basis` records which is which rather than leaving them to look identical.
+    Reconciling them would move published numbers, so it is a methodology
+    change for a version bump, not a quiet fix.
+    """
+    out: dict = {}
+    for name, m in ((nmme or {}).get("models") or {}).items():
+        if not isinstance(m, dict) or "error" in m:
+            continue
+        pct = (m.get("frac_above") or {}).get(f"{threshold_oni:.1f}")
+        if pct is None:
+            continue
+        out[name] = {"pct": round(float(pct), 1),
+                     "n_members": m.get("n_members"),
+                     "basis": "peak over Nov 2026 - Feb 2027"}
+    if seas5_per_lead:
+        head = seas5_per_lead[-1]
+        n_above = (head.get("members_above") or {}).get(f"{threshold_oni:.1f}")
+        n_total = head.get("member_count")
+        if n_above is not None and n_total:
+            out["ECMWF_SEAS5"] = {
+                "pct": round(100.0 * float(n_above) / float(n_total), 1),
+                "n_members": n_total,
+                "basis": f"single lead {head.get('lead')}",
+            }
+    return out
+
+
 def _seas5_p_above(seas5_per_lead: list, threshold_oni: float) -> float | None:
     """Fraction of SEAS5 ensemble members exceeding the threshold at the max
     available lead, in traditional-ONI-equivalent terms.
@@ -431,6 +482,7 @@ def smoothed_headline_buckets(
             "seas5": int(round(p_seas5)) if p_seas5 is not None else None,
             "consensus": int(round(p_model)),
             "n_models": n_models,
+            "per_model": _per_model_p_above(seas5_per_lead, nmme, threshold),
             "weight": eff_weight,
             "mode": "consensus" if consensus_mode else "seas5_fallback",
             "deflection": round(applied, 1),
