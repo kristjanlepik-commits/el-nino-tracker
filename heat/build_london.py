@@ -105,6 +105,56 @@ def from_synop(begin, end):
     return out
 
 
+OFFICIAL = ROOT / "heat" / "data" / "official" / "Heathrow_Jan_2026-Present.xlsx"
+
+
+def from_official():
+    """The Met Office's own daily maxima and minima, when they have sent them.
+
+    THIS IS THE SOURCE, and the SYNOP season is the fallback. It arrived
+    2026-08-11 from the Met Office National Meteorological Library and
+    Archive, covering 1 January to 9 August 2026, with the station stated as
+    HEATHROW at 51.47895, -0.45158, which matches MIDAS to four decimals.
+
+    It also settles the licence. The workbook's INFO sheet states the data
+    is provided under the Met Office's re-use obligations and that re-use in
+    a product requires acknowledgement of the source under Crown Copyright.
+    That is permission with a condition, not silence.
+
+    ONE CAVEAT THAT DID NOT EXIST BEFORE: the same sheet says values are
+    subject to QC changes for up to twelve months from capture. So these
+    numbers can move, and a page quoting them is quoting a figure that may
+    be revised. That is a better problem than an unlicensed one and it is
+    still a real one.
+    """
+    if not OFFICIAL.exists():
+        return {}
+    import datetime as _dt
+    import openpyxl
+    ws = openpyxl.load_workbook(OFFICIAL, data_only=True)["HEATHROW_DAILY"]
+    rows = list(ws.iter_rows(values_only=True))
+    hdr = next(i for i, r in enumerate(rows) if r and r[0] == "Date and time")
+    out = {}
+    for r in rows[hdr + 1:]:
+        if not r or r[0] in (None, ""):
+            continue
+        d = r[0]
+        if isinstance(d, _dt.datetime):
+            key = d.strftime("%Y-%m-%d")
+        else:
+            s = str(d).strip().split()[-1]
+            try:
+                dd, mm, yy = s.split("/")
+            except ValueError:
+                continue
+            key = f"{yy}-{mm}-{dd}"
+        try:
+            out[key] = (float(r[2]), float(r[1]))
+        except (TypeError, ValueError):
+            continue
+    return out
+
+
 def main() -> int:
     hist = from_midas()
     if not hist:
@@ -112,10 +162,16 @@ def main() -> int:
               file=sys.stderr)
         return 1
     cur = {}
-    for a, b in (("202605010000", "202605312359"),
-                 ("202606010000", "202607312359"),
-                 ("202608010000", "202608312359")):
-        cur.update(from_synop(a, b))
+    official = from_official()
+    if official:
+        cur = official
+        season_source = "official"
+    else:
+        for a, b in (("202605010000", "202605312359"),
+                     ("202606010000", "202607312359"),
+                     ("202608010000", "202608312359")):
+            cur.update(from_synop(a, b))
+        season_source = "synop"
     # 2026 never overwrites history and history never reaches 2026, so the
     # provenance of any given day is unambiguous by construction.
     merged = dict(hist)
@@ -135,11 +191,24 @@ def main() -> int:
             "convention": "09h minimum and 21h maximum, climatological day",
         },
         "current_season": {
-            "source": "Met Office observations, SYNOP bulletins",
-            "transport": "OGIMET, a one-time archival pull",
-            "licence_status": "UNRESOLVED, asked of the Met Office",
-            "provisional": True,
-            "replaced_by": "Met Office Library Team file, expected",
+            "source": ("Met Office National Meteorological Library and "
+                       "Archive, daily maxima and minima"
+                       if season_source == "official" else
+                       "Met Office observations, SYNOP bulletins"),
+            "transport": ("supplied directly by the Met Office"
+                          if season_source == "official" else
+                          "OGIMET, a one-time archival pull"),
+            "licence_status": ("Crown Copyright. Provided under the Met "
+                               "Office's re-use obligations; re-use in a "
+                               "product requires acknowledgement of the "
+                               "source. RESOLVED."
+                               if season_source == "official" else
+                               "UNRESOLVED, asked of the Met Office"),
+            "provisional": season_source != "official",
+            "subject_to_qc_revision": (
+                "Met Office state values may change under quality control "
+                "for up to twelve months from capture."
+                if season_source == "official" else None),
             "hours": "06Z minimum, 18Z maximum",
             "validated": "against MIDAS 2024 and 2025, 100% of days within "
                          "0.5 C, worst 0.1 on maxima",
