@@ -151,11 +151,27 @@ LICENCE = {
            "commercial_use": True,
            "attribution": "Source: Riigi Ilmateenistus / Keskkonnaagentuur",
            "lag_days": 1},
+    # RESOLVED 2026-08-11. The Met Office National Meteorological Library
+    # and Archive supplied the 2026 season directly and its workbook states
+    # the terms: provided under their re-use obligations, re-use in a
+    # product requires acknowledgement of the source, Crown Copyright.
+    #
+    # THE WORD "PROVISIONAL" MUST NOT APPEAR IN THIS STRING. Design gates
+    # the page's provisional notice on finding it here, correctly and on
+    # my instruction. When the licence resolved I updated
+    # london_provenance.json and left this string alone, so the payload said
+    # cleared in one field and provisional in another, and the page rendered
+    # the stale one. A post went out pointing at a page that contradicted it.
+    #
+    # Fix-in-one-place, for the fifth time in two days, and the first that
+    # reached a reader who had just been sent there.
     "UK": {"licence": "Met Office. History from MIDAS Open under the Open "
-                      "Government Licence, commercial reuse permitted with "
-                      "attribution. THE 2026 SEASON IS PROVISIONAL: same "
-                      "station, bulletin transport, licence confirmation "
-                      "requested from the Met Office and not yet received.",
+                      "Government Licence. 2026 season supplied by the Met "
+                      "Office National Meteorological Library and Archive "
+                      "under their re-use obligations, Crown Copyright, "
+                      "re-use permitted with acknowledgement of the source. "
+                      "Values may be revised under quality control for up "
+                      "to twelve months from capture.",
            "commercial_use": True, "attribution": "Source: Met Office",
            "lag_days": 1},
     "CH": {"licence": "Swiss federal open data: reuse permitted, including "
