@@ -95,6 +95,7 @@ COORDS = {
     "Belfast": (54.6636, -6.2244),
     "Aberdeen": (57.2051, -2.2037),
     "Tallinn": (59.398, 24.603),
+    "Tallinn": (59.398, 24.603),
 }
 
 def _coord(city):
@@ -147,10 +148,11 @@ LICENCE = {
            "lag_days": 5},
     "FI": {"licence": "CC-BY 4.0", "commercial_use": True,
            "attribution": "Source: FMI", "lag_days": 1},
-    "EE": {"licence": "NOAA GHCN-Daily, US federal open data, for the "
-                      "history. 2026 season from the station's own WMO "
-                      "synoptic bulletins. Estonian service credited as "
-                      "the originating observer.",
+    "EE": {"licence": "Keskkonnaagentuur, the Estonian Environment Agency, "
+                      "supplied on request. Station Tallinn-Harku only; "
+                      "the three other Tallinn stations in the same "
+                      "archive are a relay, not one record, and are not "
+                      "read.",
            "commercial_use": True,
            "attribution": "Source: Riigi Ilmateenistus / Keskkonnaagentuur",
            "lag_days": 1},
@@ -499,6 +501,20 @@ def main() -> int:
             # not; post_form fixed, record_from not. So this field now says
             # what it is not, rather than waiting to be read innocently.
             "record_from": v["record_from"], "record_to": v["record_to"],
+            # CARRIED THROUGH, not recomputed. Product's 2026-08-11 ruling
+            # lets a city whose record cannot cover 1971-2000 use another
+            # complete WMO standard normal, so the period that built a
+            # threshold is no longer the same for every city and must
+            # travel with it. Same rule as record_scope: a page cannot
+            # state a threshold without stating what built it.
+            "pctl_baseline": v.get("pctl_baseline"),
+            "pctl_baseline_is_default": v.get("pctl_baseline_is_default"),
+            "pctl_baseline_note":
+                "the percentile thresholds on this page are computed over "
+                "this period. Where it is not the default 1971-2000, the "
+                "city's record does not cover that window and a complete "
+                "later WMO normal is used instead, which yields a HIGHER "
+                "threshold and so understates rather than overstates.",
             "record_from_note":
                 "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial "
                 "first year appears here and is excluded from the ranked "

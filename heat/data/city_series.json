@@ -18,6 +18,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1920,
    "record_to": 2025,
    "thresholds_c": {
@@ -2950,6 +2955,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1924,
    "record_to": 2025,
    "thresholds_c": {
@@ -5369,6 +5379,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1937,
    "record_to": 2025,
    "thresholds_c": {
@@ -7842,6 +7857,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1951,
    "record_to": 2025,
    "thresholds_c": {
@@ -9937,6 +9957,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1942,
    "record_to": 2025,
    "thresholds_c": {
@@ -12275,6 +12300,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1938,
    "record_to": 2025,
    "thresholds_c": {
@@ -14721,6 +14751,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1984,
    "record_to": 2025,
    "thresholds_c": {
@@ -15922,6 +15957,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1978,
    "record_to": 2025,
    "thresholds_c": {
@@ -17285,6 +17325,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1951,
    "record_to": 2025,
    "thresholds_c": {
@@ -19380,6 +19425,11 @@
    "last_observation": "2026-08-06",
    "source": "AEMET OpenData",
    "cut_at": "08-06",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1947,
    "record_to": 2025,
    "thresholds_c": {
@@ -21583,6 +21633,11 @@
    "last_observation": "2026-08-09",
    "source": "Met Office",
    "cut_at": "08-09",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1949,
    "record_to": 2025,
    "thresholds_c": {
@@ -23732,6 +23787,11 @@
    "last_observation": "2026-08-10",
    "source": "Met Office",
    "cut_at": "08-10",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1957,
    "record_to": 2025,
    "thresholds_c": {
@@ -25665,6 +25725,11 @@
    "last_observation": "2026-08-10",
    "source": "Met Office",
    "cut_at": "08-10",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1930,
    "record_to": 2025,
    "thresholds_c": {
@@ -28327,6 +28392,11 @@
    "last_observation": "2026-08-10",
    "source": "Met Office",
    "cut_at": "08-10",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1957,
    "record_to": 2025,
    "thresholds_c": {
@@ -30253,6 +30323,1320 @@
     }
    }
   },
+  "Tallinn": {
+   "country": "EE",
+   "station": "Tallinn-Harku",
+   "counted_to": "2026-07-31",
+   "last_observation": "2026-07-31",
+   "source": "Keskkonnaagentuur, Estonian Environment Agency",
+   "cut_at": "07-31",
+   "pctl_baseline": [
+    1991,
+    2020
+   ],
+   "pctl_baseline_is_default": false,
+   "record_from": 1980,
+   "record_to": 2025,
+   "thresholds_c": {
+    "90": 26.4,
+    "95": 28.1,
+    "99": 31.2
+   },
+   "night_thresholds_c": {
+    "90": 16.4,
+    "95": 17.6,
+    "99": 20.1
+   },
+   "night_threshold_basis": "90th/95th/99th percentile of this station's own July-August daily MINIMA, 1971-2000. The locally calibrated night metric, emitted alongside the 20 C tropical-night count rather than replacing it.",
+   "tropical_night_metric_works": false,
+   "tropical_night_metric_note": "False where the 20 C count is too rare to carry a ratio. Such a city must lead with the percentile night metric instead.",
+   "threshold_basis": "90th/95th/99th percentile of this station's own July-August daily maxima, 1971-2000.",
+   "day_counts": {
+    "90": {
+     "r1125": 12.3
+    },
+    "95": {
+     "r1125": 6.5
+    },
+    "99": {
+     "r1125": 1.6
+    }
+   },
+   "day_counts_baseline_years": 10,
+   "day_counts_comparable": false,
+   "day_counts_note": "NOT COMPARABLE and the multiple is withheld. This station's 1961-1990 baseline holds only 10 of 30 years, drawn from the warmer end of the period, so the multiple would understate itself while looking like the figures beside it.",
+   "years": {
+    "1980": {
+     "window_days": 92,
+     "full_days": 245,
+     "usable_to_cut": true,
+     "usable_full_year": false,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.3,
+     "warmest_day_c": 27.5,
+     "warmest_day_to_cut_c": 27.5,
+     "warmest_night_to_cut_c": 15.5
+    },
+    "1981": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.3,
+     "warmest_day_c": 28.5,
+     "warmest_day_to_cut_c": 28.5,
+     "warmest_night_to_cut_c": 16.3
+    },
+    "1982": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 7,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 18.0,
+     "warmest_day_c": 28.6,
+     "warmest_day_to_cut_c": 28.4,
+     "warmest_night_to_cut_c": 18.0
+    },
+    "1983": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 14,
+      "95": 5,
+      "99": 0
+     },
+     "warmest_night_c": 17.7,
+     "warmest_day_c": 29.0,
+     "warmest_day_to_cut_c": 28.5,
+     "warmest_night_to_cut_c": 17.6
+    },
+    "1984": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 17.5,
+     "warmest_day_c": 28.4,
+     "warmest_day_to_cut_c": 28.4,
+     "warmest_night_to_cut_c": 15.3
+    },
+    "1985": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 17.5,
+     "warmest_day_c": 27.1,
+     "warmest_day_to_cut_c": 27.1,
+     "warmest_night_to_cut_c": 16.2
+    },
+    "1986": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.8,
+     "warmest_day_c": 29.9,
+     "warmest_day_to_cut_c": 29.0,
+     "warmest_night_to_cut_c": 15.8
+    },
+    "1987": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 15.0,
+     "warmest_day_c": 26.0,
+     "warmest_day_to_cut_c": 26.0,
+     "warmest_night_to_cut_c": 15.0
+    },
+    "1988": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 1,
+     "nights_full_year": 1,
+     "days_to_cut": {
+      "90": 10,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 5,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 20.5,
+     "warmest_day_c": 29.3,
+     "warmest_day_to_cut_c": 29.3,
+     "warmest_night_to_cut_c": 20.5
+    },
+    "1989": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 10,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 30.8,
+     "warmest_day_to_cut_c": 30.8,
+     "warmest_night_to_cut_c": 16.4
+    },
+    "1990": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 27.0,
+     "warmest_day_to_cut_c": 26.5,
+     "warmest_night_to_cut_c": 15.9
+    },
+    "1991": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.5,
+     "warmest_day_c": 27.7,
+     "warmest_day_to_cut_c": 26.0,
+     "warmest_night_to_cut_c": 14.4
+    },
+    "1992": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 5,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 6,
+      "99": 1
+     },
+     "warmest_night_c": 18.2,
+     "warmest_day_c": 34.2,
+     "warmest_day_to_cut_c": 31.0,
+     "warmest_night_to_cut_c": 17.0
+    },
+    "1993": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.7,
+     "warmest_day_c": 27.8,
+     "warmest_day_to_cut_c": 27.8,
+     "warmest_night_to_cut_c": 16.7
+    },
+    "1994": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 6,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 17,
+      "95": 8,
+      "99": 2
+     },
+     "warmest_night_c": 18.3,
+     "warmest_day_c": 34.3,
+     "warmest_day_to_cut_c": 34.3,
+     "warmest_night_to_cut_c": 18.3
+    },
+    "1995": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 7,
+      "95": 5,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 9,
+      "95": 5,
+      "99": 0
+     },
+     "warmest_night_c": 18.7,
+     "warmest_day_c": 30.2,
+     "warmest_day_to_cut_c": 30.2,
+     "warmest_night_to_cut_c": 18.7
+    },
+    "1996": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 14.7,
+     "warmest_day_c": 26.3,
+     "warmest_day_to_cut_c": 25.4,
+     "warmest_night_to_cut_c": 13.9
+    },
+    "1997": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 13,
+      "95": 5,
+      "99": 1
+     },
+     "warmest_night_c": 19.7,
+     "warmest_day_c": 31.3,
+     "warmest_day_to_cut_c": 31.3,
+     "warmest_night_to_cut_c": 19.7
+    },
+    "1998": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 26.9,
+     "warmest_day_to_cut_c": 26.9,
+     "warmest_night_to_cut_c": 16.4
+    },
+    "1999": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 13,
+      "95": 7,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 16,
+      "95": 7,
+      "99": 1
+     },
+     "warmest_night_c": 19.7,
+     "warmest_day_c": 31.7,
+     "warmest_day_to_cut_c": 31.7,
+     "warmest_night_to_cut_c": 19.7
+    },
+    "2000": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.6,
+     "warmest_day_c": 27.4,
+     "warmest_day_to_cut_c": 27.4,
+     "warmest_night_to_cut_c": 16.6
+    },
+    "2001": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 6,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 19.6,
+     "warmest_day_c": 28.1,
+     "warmest_day_to_cut_c": 28.1,
+     "warmest_night_to_cut_c": 19.6
+    },
+    "2002": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 1,
+     "nights_full_year": 1,
+     "days_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 20.0,
+     "warmest_day_c": 29.5,
+     "warmest_day_to_cut_c": 29.5,
+     "warmest_night_to_cut_c": 20.0
+    },
+    "2003": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 3,
+     "nights_full_year": 4,
+     "days_to_cut": {
+      "90": 8,
+      "95": 4,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 6,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 5,
+      "99": 0
+     },
+     "warmest_night_c": 21.0,
+     "warmest_day_c": 30.5,
+     "warmest_day_to_cut_c": 30.5,
+     "warmest_night_to_cut_c": 21.0
+    },
+    "2004": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 18.5,
+     "warmest_day_c": 28.8,
+     "warmest_day_to_cut_c": 27.6,
+     "warmest_night_to_cut_c": 17.2
+    },
+    "2005": {
+     "window_days": 92,
+     "full_days": 363,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 16.9,
+     "warmest_day_c": 29.4,
+     "warmest_day_to_cut_c": 29.4,
+     "warmest_night_to_cut_c": 16.8
+    },
+    "2006": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 14,
+      "95": 8,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 16,
+      "95": 8,
+      "99": 2
+     },
+     "warmest_night_c": 19.0,
+     "warmest_day_c": 32.1,
+     "warmest_day_to_cut_c": 32.1,
+     "warmest_night_to_cut_c": 19.0
+    },
+    "2007": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 7,
+      "99": 0
+     },
+     "warmest_night_c": 18.4,
+     "warmest_day_c": 29.7,
+     "warmest_day_to_cut_c": 29.4,
+     "warmest_night_to_cut_c": 17.3
+    },
+    "2008": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 25.9,
+     "warmest_day_to_cut_c": 24.6,
+     "warmest_night_to_cut_c": 16.4
+    },
+    "2009": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.0,
+     "warmest_day_c": 27.8,
+     "warmest_day_to_cut_c": 27.8,
+     "warmest_night_to_cut_c": 16.0
+    },
+    "2010": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 4,
+     "nights_full_year": 6,
+     "days_to_cut": {
+      "90": 19,
+      "95": 10,
+      "99": 4
+     },
+     "warm_nights_to_cut": {
+      "90": 18,
+      "95": 12,
+      "99": 4
+     },
+     "days_full_year": {
+      "90": 23,
+      "95": 12,
+      "99": 4
+     },
+     "warmest_night_c": 21.7,
+     "warmest_day_c": 32.3,
+     "warmest_day_to_cut_c": 32.3,
+     "warmest_night_to_cut_c": 21.7
+    },
+    "2011": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 4,
+     "nights_full_year": 4,
+     "days_to_cut": {
+      "90": 15,
+      "95": 7,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 15,
+      "95": 10,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 15,
+      "95": 7,
+      "99": 2
+     },
+     "warmest_night_c": 21.7,
+     "warmest_day_c": 31.2,
+     "warmest_day_to_cut_c": 31.2,
+     "warmest_night_to_cut_c": 21.7
+    },
+    "2012": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 1,
+     "nights_full_year": 1,
+     "days_to_cut": {
+      "90": 4,
+      "95": 3,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 3,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 21.7,
+     "warmest_day_c": 30.6,
+     "warmest_day_to_cut_c": 30.6,
+     "warmest_night_to_cut_c": 21.7
+    },
+    "2013": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 6,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 7,
+      "95": 6,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 8,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 19.0,
+     "warmest_day_c": 30.3,
+     "warmest_day_to_cut_c": 29.2,
+     "warmest_night_to_cut_c": 18.8
+    },
+    "2014": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 1,
+     "days_to_cut": {
+      "90": 17,
+      "95": 10,
+      "99": 3
+     },
+     "warm_nights_to_cut": {
+      "90": 8,
+      "95": 6,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 23,
+      "95": 15,
+      "99": 6
+     },
+     "warmest_night_c": 20.0,
+     "warmest_day_c": 32.0,
+     "warmest_day_to_cut_c": 32.0,
+     "warmest_night_to_cut_c": 19.8
+    },
+    "2015": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 17.0,
+     "warmest_day_c": 28.4,
+     "warmest_day_to_cut_c": 27.3,
+     "warmest_night_to_cut_c": 15.7
+    },
+    "2016": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 3,
+      "95": 0,
+      "99": 0
+     },
+     "warmest_night_c": 16.8,
+     "warmest_day_c": 27.7,
+     "warmest_day_to_cut_c": 27.7,
+     "warmest_night_to_cut_c": 16.8
+    },
+    "2017": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 1,
+      "95": 0,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 0,
+      "95": 0,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 16.4,
+     "warmest_day_c": 28.3,
+     "warmest_day_to_cut_c": 26.4,
+     "warmest_night_to_cut_c": 16.2
+    },
+    "2018": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 5,
+     "nights_full_year": 7,
+     "days_to_cut": {
+      "90": 17,
+      "95": 10,
+      "99": 3
+     },
+     "warm_nights_to_cut": {
+      "90": 13,
+      "95": 8,
+      "99": 5
+     },
+     "days_full_year": {
+      "90": 25,
+      "95": 14,
+      "99": 3
+     },
+     "warmest_night_c": 22.3,
+     "warmest_day_c": 34.2,
+     "warmest_day_to_cut_c": 34.2,
+     "warmest_night_to_cut_c": 22.3
+    },
+    "2019": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 11,
+      "95": 6,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 4,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 14,
+      "95": 6,
+      "99": 1
+     },
+     "warmest_night_c": 19.8,
+     "warmest_day_c": 31.6,
+     "warmest_day_to_cut_c": 31.6,
+     "warmest_night_to_cut_c": 19.8
+    },
+    "2020": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 1,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 6,
+      "95": 1,
+      "99": 0
+     },
+     "warmest_night_c": 18.2,
+     "warmest_day_c": 28.9,
+     "warmest_day_to_cut_c": 28.9,
+     "warmest_night_to_cut_c": 18.2
+    },
+    "2021": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 3,
+     "nights_full_year": 3,
+     "days_to_cut": {
+      "90": 20,
+      "95": 13,
+      "99": 5
+     },
+     "warm_nights_to_cut": {
+      "90": 20,
+      "95": 17,
+      "99": 3
+     },
+     "days_full_year": {
+      "90": 20,
+      "95": 13,
+      "99": 5
+     },
+     "warmest_night_c": 22.2,
+     "warmest_day_c": 32.6,
+     "warmest_day_to_cut_c": 32.6,
+     "warmest_night_to_cut_c": 22.2
+    },
+    "2022": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 1,
+     "nights_full_year": 4,
+     "days_to_cut": {
+      "90": 9,
+      "95": 8,
+      "99": 2
+     },
+     "warm_nights_to_cut": {
+      "90": 10,
+      "95": 7,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 23,
+      "95": 17,
+      "99": 5
+     },
+     "warmest_night_c": 20.7,
+     "warmest_day_c": 32.9,
+     "warmest_day_to_cut_c": 32.3,
+     "warmest_night_to_cut_c": 20.7
+    },
+    "2023": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 0,
+     "nights_full_year": 1,
+     "days_to_cut": {
+      "90": 8,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 2,
+      "95": 1,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 10,
+      "95": 3,
+      "99": 1
+     },
+     "warmest_night_c": 20.9,
+     "warmest_day_c": 32.0,
+     "warmest_day_to_cut_c": 29.3,
+     "warmest_night_to_cut_c": 18.2
+    },
+    "2024": {
+     "window_days": 92,
+     "full_days": 366,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 1,
+     "nights_full_year": 1,
+     "days_to_cut": {
+      "90": 12,
+      "95": 7,
+      "99": 1
+     },
+     "warm_nights_to_cut": {
+      "90": 12,
+      "95": 5,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 17,
+      "95": 10,
+      "99": 1
+     },
+     "warmest_night_c": 20.0,
+     "warmest_day_c": 32.3,
+     "warmest_day_to_cut_c": 32.3,
+     "warmest_night_to_cut_c": 20.0
+    },
+    "2025": {
+     "window_days": 92,
+     "full_days": 365,
+     "usable_to_cut": true,
+     "usable_full_year": true,
+     "nights_to_cut": 1,
+     "nights_full_year": 1,
+     "days_to_cut": {
+      "90": 9,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 5,
+      "99": 1
+     },
+     "days_full_year": {
+      "90": 11,
+      "95": 3,
+      "99": 0
+     },
+     "warmest_night_c": 20.5,
+     "warmest_day_c": 30.1,
+     "warmest_day_to_cut_c": 30.1,
+     "warmest_night_to_cut_c": 20.5
+    },
+    "2026": {
+     "window_days": 92,
+     "full_days": 212,
+     "usable_to_cut": true,
+     "usable_full_year": false,
+     "nights_to_cut": 0,
+     "nights_full_year": 0,
+     "days_to_cut": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warm_nights_to_cut": {
+      "90": 9,
+      "95": 3,
+      "99": 0
+     },
+     "days_full_year": {
+      "90": 5,
+      "95": 2,
+      "99": 0
+     },
+     "warmest_night_c": 18.1,
+     "warmest_day_c": 28.3,
+     "warmest_day_to_cut_c": 28.3,
+     "warmest_night_to_cut_c": 18.1
+    }
+   }
+  },
   "Paris": {
    "country": "FR",
    "station": "ORLY",
@@ -30260,6 +31644,11 @@
    "last_observation": "2026-08-08",
    "source": "Meteo-France, via data.gouv.fr",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1950,
    "record_to": 2025,
    "thresholds_c": {
@@ -32382,6 +33771,11 @@
    "last_observation": "2026-08-08",
    "source": "Meteo-France, via data.gouv.fr",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1950,
    "record_to": 2025,
    "thresholds_c": {
@@ -34504,6 +35898,11 @@
    "last_observation": "2026-08-08",
    "source": "Meteo-France, via data.gouv.fr",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1950,
    "record_to": 2025,
    "thresholds_c": {
@@ -36626,6 +38025,11 @@
    "last_observation": "2026-08-08",
    "source": "Meteo-France, via data.gouv.fr",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1950,
    "record_to": 2025,
    "thresholds_c": {
@@ -38748,6 +40152,11 @@
    "last_observation": "2026-08-08",
    "source": "Meteo-France, via data.gouv.fr",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1975,
    "record_to": 2025,
    "thresholds_c": {
@@ -40192,6 +41601,11 @@
    "last_observation": "2026-08-09",
    "source": "GeoSphere Austria",
    "cut_at": "08-09",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1855,
    "record_to": 2025,
    "thresholds_c": {
@@ -44879,6 +46293,11 @@
    "last_observation": "2026-08-08",
    "source": "DWD Climate Data Center",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1948,
    "record_to": 2025,
    "thresholds_c": {
@@ -47055,6 +48474,11 @@
    "last_observation": "2026-08-08",
    "source": "DWD Climate Data Center",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1936,
    "record_to": 2025,
    "thresholds_c": {
@@ -49555,6 +50979,11 @@
    "last_observation": "2026-08-08",
    "source": "DWD Climate Data Center",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1935,
    "record_to": 2025,
    "thresholds_c": {
@@ -52028,6 +53457,11 @@
    "last_observation": "2026-08-08",
    "source": "DWD Climate Data Center",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1954,
    "record_to": 2025,
    "thresholds_c": {
@@ -54042,6 +55476,11 @@
    "last_observation": "2026-08-08",
    "source": "DWD Climate Data Center",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1957,
    "record_to": 2025,
    "thresholds_c": {
@@ -55975,6 +57414,11 @@
    "last_observation": "2026-08-07",
    "source": "KNMI",
    "cut_at": "08-07",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1951,
    "record_to": 2025,
    "thresholds_c": {
@@ -58070,6 +59514,11 @@
    "last_observation": "2026-08-08",
    "source": "SMHI",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1951,
    "record_to": 2025,
    "thresholds_c": {
@@ -60165,6 +61614,11 @@
    "last_observation": "2026-07-31",
    "source": "CHMI",
    "cut_at": "07-31",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1971,
    "record_to": 2025,
    "thresholds_c": {
@@ -61717,6 +63171,11 @@
    "last_observation": "2026-08-08",
    "source": "FMI",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1971,
    "record_to": 2025,
    "thresholds_c": {
@@ -63269,6 +64728,11 @@
    "last_observation": "2026-08-08",
    "source": "MeteoSwiss",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1881,
    "record_to": 2025,
    "thresholds_c": {
@@ -67254,6 +68718,11 @@
    "last_observation": "2026-08-08",
    "source": "Meteo-France, via data.gouv.fr",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1950,
    "record_to": 2025,
    "thresholds_c": {
@@ -69376,6 +70845,11 @@
    "last_observation": "2026-08-08",
    "source": "Meteo-France, via data.gouv.fr",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1950,
    "record_to": 2025,
    "thresholds_c": {
@@ -71498,6 +72972,11 @@
    "last_observation": "2026-08-08",
    "source": "Meteo-France, via data.gouv.fr",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1950,
    "record_to": 2025,
    "thresholds_c": {
@@ -73620,6 +75099,11 @@
    "last_observation": "2026-08-08",
    "source": "DWD Climate Data Center",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1936,
    "record_to": 2025,
    "thresholds_c": {
@@ -76039,6 +77523,11 @@
    "last_observation": "2026-08-08",
    "source": "DWD Climate Data Center",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1958,
    "record_to": 2025,
    "thresholds_c": {
@@ -77945,6 +79434,11 @@
    "last_observation": "2026-08-08",
    "source": "MeteoSwiss",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1954,
    "record_to": 2025,
    "thresholds_c": {
@@ -79959,6 +81453,11 @@
    "last_observation": "2026-08-08",
    "source": "DWD Climate Data Center",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1863,
    "record_to": 2025,
    "thresholds_c": {
@@ -83914,6 +85413,11 @@
    "last_observation": "2026-08-08",
    "source": "DWD Climate Data Center",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1934,
    "record_to": 2025,
    "thresholds_c": {
@@ -86090,6 +87594,11 @@
    "last_observation": "2026-08-08",
    "source": "MeteoSwiss",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1865,
    "record_to": 2025,
    "thresholds_c": {
@@ -90161,6 +91670,11 @@
    "last_observation": "2026-08-08",
    "source": "MeteoSwiss",
    "cut_at": "08-08",
+   "pctl_baseline": [
+    1971,
+    2000
+   ],
+   "pctl_baseline_is_default": true,
    "record_from": 1864,
    "record_to": 2025,
    "thresholds_c": {

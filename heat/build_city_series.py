@@ -78,6 +78,18 @@ ES_STATION_ID = {
 CURRENT_YEAR = 2026
 TROPICAL_NIGHT_C = 20.0
 PCTL_BASELINE = (1971, 2000)
+
+# PER-CITY BASELINE PERIODS. Product ruling 2026-08-11, and it is deliberately
+# a CLOSED SET rather than a free choice. A city whose record cannot cover
+# 1971-2000 may use another COMPLETE WMO standard normal, and nothing else.
+#
+# An open choice of window is a knob that eventually gets turned toward the
+# answer someone wants, so the permitted periods are enumerated here and a
+# city naming anything else fails the build rather than being trusted.
+#
+# The direction is safe: a later normal is warmer, so the threshold comes out
+# HIGHER and the count is UNDERSTATED against what 1971-2000 would give.
+WMO_NORMALS = {(1961, 1990), (1971, 2000), (1991, 2020)}
 COMPARE_EARLY = (1961, 1990)
 COMPARE_RECENT = (2011, 2025)
 MIN_BASELINE_YEARS = 27          # of 30; below this a multiple is not comparable
@@ -196,6 +208,18 @@ CITIES = {
                       file="belfast.json"),
     "Aberdeen":  dict(country="UK", station="Aberdeen Dyce", cut=(8, 10),
                       file="aberdeen.json"),
+    # TALLINN, in on product's ruling 2026-08-11. Harku alone, 1980-2026,
+    # built by heat/build_tallinn.py from Keskkonnaagentuur's archive.
+    #
+    # Its percentile thresholds use 1991-2020, the WMO CURRENT standard
+    # normal, because Harku gives 21 of 30 years on our 1971-2000 default
+    # and 30 of 30 on this one. A complete later normal, not a shortened
+    # earlier one, and the direction understates rather than overstates.
+    #
+    # The three other Tallinn stations in that archive are not read. Four
+    # stations in relay are not one record.
+    "Tallinn":   dict(country="EE", station="Tallinn-Harku", cut=(8, 10),
+                      file="tallinn.json", pctl_baseline=(1991, 2020)),
     "Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
     "Marseille":   dict(country="FR", station="MARIGNANE", cut=(8, 3)),
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
@@ -403,7 +427,14 @@ def build(city, meta):
 
     # Thresholds are each city's own July-August maxima percentiles. AEMET's
     # published rule, reproduced exactly for Madrid (36.4) and Seville (41.2).
-    ja = [v for y in range(PCTL_BASELINE[0], PCTL_BASELINE[1] + 1)
+    # The city's own period if it declares one, otherwise the default.
+    pctl = tuple(meta.get("pctl_baseline") or PCTL_BASELINE)
+    if pctl not in WMO_NORMALS:
+        raise SystemExit(
+            f"{city}: pctl_baseline {pctl} is not a WMO standard normal. "
+            f"Permitted: {sorted(WMO_NORMALS)}. An arbitrary window is the "
+            f"knob this restriction exists to remove.")
+    ja = [v for y in range(pctl[0], pctl[1] + 1)
           for (m, _), v in tx.get(y, {}).items() if m in (7, 8)]
     th = {str(p): round(float(np.percentile(ja, p)), 1) for p in (90, 95, 99)}
 
@@ -418,7 +449,7 @@ def build(city, meta):
     # standard and "tropical night" is a term a reader already knows; the
     # percentile is abstract but travels. Mediterranean cities carry both,
     # northern cities can only carry the second.
-    jn = [v for y in range(PCTL_BASELINE[0], PCTL_BASELINE[1] + 1)
+    jn = [v for y in range(pctl[0], pctl[1] + 1)
           for (m, _), v in tn.get(y, {}).items() if m in (7, 8)]
     nth = {str(p): round(float(np.percentile(jn, p)), 1) for p in (90, 95, 99)}
 
@@ -513,10 +544,15 @@ def build(city, meta):
                    # station's SYNOP bulletins. One thermometer,
                    # two transports; see build_london.py.
                    "UK": "Met Office",
-                   # History NOAA GHCN-Daily EN000026038, 2026
-                   # season the same station's SYNOP bulletins.
-                   "EE": "Riigi Ilmateenistus, via NOAA GHCN-Daily"}[meta["country"]],
+                   # Keskkonnaagentuur's own archive, Harku only. NOT
+                   # GHCN EN000026038, which is a blend of Harku and
+                   # Ulemiste and was the route this replaced.
+                   "EE": "Keskkonnaagentuur, Estonian Environment Agency"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
+        # EMITTED, so no page or post can state a threshold without the
+        # period that built it. Same rule as record_scope.
+        "pctl_baseline": list(pctl),
+        "pctl_baseline_is_default": pctl == PCTL_BASELINE,
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,
         "night_thresholds_c": nth,
