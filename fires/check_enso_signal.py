@@ -96,13 +96,34 @@ Two instruments with different failure modes giving the same ratio is what
 makes this a fire signal rather than a seeing signal. `burnt_area_seasons`
 below runs it.
 
-A TRAP IN THE CLASSIFICATION, worth knowing before using enso_events.csv
-anywhere. A year absent from the file reads as "neutral" by DEFAULT, not by
-classification. 2026 is absent, because the current event has not been
-closed out under the five-consecutive-season rule, so it silently labels
-as neutral. Any test that includes the current year will therefore file the
-event we are living through as a non-event. This module excludes 2026 for
-that reason AND because its Aug-Oct season is still running.
+A TRAP IN THE CLASSIFICATION, HIT HERE AND SINCE FIXED AT SOURCE. The
+original `enso_events.csv` was event-indexed, so a year absent from it read
+as "neutral" by DEFAULT rather than by classification. 2026 is absent,
+because the CPC rule needs five consecutive seasons and the current run is
+two, so the event we are living through silently classified as a non-event
+AND dragged the neutral baseline down while doing it. The first burnt-area
+run here did exactly that, and nothing flagged it; it was caught because a
+number looked too small.
+
+Aftereffects fixed the interface rather than documenting around it.
+`data/enso_year_status.csv` now carries every year 1950 to present with an
+explicit type of el_nino, la_nina, neutral or UNDECIDED, plus a reason
+separating closed from series_incomplete. A missing year is now a bug
+rather than a signal, and the live event is visible as in progress instead
+of invisible.
+
+This module reads that file and excludes years by their DECLARED STATE
+rather than by hardcoding 2026, which would go stale the moment the run
+closes. That distinction is the same one that bit this channel three times
+in a day: a denominator, a record span and a window count all asserted
+where they should have been derived.
+
+WHAT THE UNDECIDED STATE DOES NOT DO, per aftereffects and worth repeating
+before anyone leans on this: it does not make 2026 classifiable. Any test
+wanting the current event in it has to make a judgement their file
+deliberately declines to make. Take that from the brief's forecast
+probabilities with their issue date, labelled as FORECAST rather than as
+state, and never joined to this column.
 
 Also excluded: 2014 carries only 10 days of Aug-Oct detection coverage, and
 2022 carries 82 of 92. Restricting to seasons with 90+ days changes
@@ -121,6 +142,7 @@ import statistics as st
 HERE = os.path.dirname(__file__)
 REPO = os.path.dirname(HERE)
 EVENTS = os.path.join(REPO, "data", "enso_events.csv")
+YEAR_STATUS = os.path.join(REPO, "data", "enso_year_status.csv")
 FULL_HISTORY = os.path.join(HERE, "data", "full_history")
 
 SEASON_MONTHS = ("08", "09", "10")
@@ -128,25 +150,43 @@ MIN_SEASON_DAYS = 80          # near-complete Aug-Oct coverage
 SHUFFLES = 20000
 SEASON_START_WEEK = 30        # cumulative burnt area at end of July
 SEASON_END_WEEK = 44          # and at end of October
-# A year absent from enso_events.csv reads as neutral by DEFAULT rather than
-# by classification, so including the current year would file the event we
-# are living through as a non-event. Its season is also still running.
-CURRENT_YEAR_EXCLUDED = 2026
+# Phases a year must NOT be in to enter the test. "undecided" is a real
+# state, not a missing value: the CPC rule needs five consecutive seasons
+# and the current event's run is shorter, so it cannot be classified yet.
+# Read it rather than hardcoding a year, which would go stale the moment
+# the run closes.
+EXCLUDED_PHASES = {"undecided"}
 
 
 def enso_phase_by_year() -> dict[int, str]:
-    """develop_year..peak_year -> phase, from the desk that owns the labels."""
-    with open(EVENTS) as handle:
+    """year -> phase, from the desk that owns the labels. Never inferred.
+
+    Reads data/enso_year_status.csv, which carries EVERY year and an
+    explicit "undecided" for years the CPC five-season rule cannot yet
+    decide. The earlier event-indexed file could not express that: a year
+    absent from it read as "neutral", so the event currently in progress
+    silently classified as a non-event and dragged the neutral baseline
+    down. Aftereffects fixed the interface after this channel hit it.
+
+    A year missing from the file is now a bug rather than a signal, so this
+    does not default.
+    """
+    with open(YEAR_STATUS) as handle:
         rows = [line for line in handle if not line.startswith("#")]
-    span: dict[int, str] = {}
-    for event in csv.DictReader(io.StringIO("".join(rows))):
-        for year in range(int(event["develop_year"]), int(event["peak_year"]) + 1):
-            span[year] = event["type"]
-    return span
+    return {int(r["year"]): r["type"]
+            for r in csv.DictReader(io.StringIO("".join(rows)))}
 
 
 def seasons(iso: str) -> list[tuple[str, int, str]]:
-    """(year, Aug-Oct detection total, phase) for near-complete seasons."""
+    """(year, Aug-Oct detection total, phase) for near-complete seasons.
+
+    Years whose ENSO state is undecided are excluded, same as the burnt-area
+    version. Today the season-length filter would drop 2026 anyway, since
+    its year is not complete, so this is belt over braces. It is here
+    because those two filters answer different questions and will come
+    apart: a year can be complete and still unclassifiable, which is
+    exactly what next January looks like.
+    """
     path = os.path.join(FULL_HISTORY, f"{iso}.json")
     if not os.path.exists(path):
         return []
@@ -160,8 +200,10 @@ def seasons(iso: str) -> list[tuple[str, int, str]]:
                 if day[5:7] in SEASON_MONTHS]
         if len(days) < MIN_SEASON_DAYS:
             continue
-        out.append((year, sum(c for _d, c in days),
-                    phase.get(int(year), "neutral")))
+        state = phase.get(int(year), "undecided")
+        if state in EXCLUDED_PHASES:
+            continue
+        out.append((year, sum(c for _d, c in days), state))
     return out
 
 
@@ -173,7 +215,9 @@ def burnt_area_seasons(iso: str = "IDN") -> list[tuple[str, float, str]]:
     scar persists and is mapped later. If ENSO were only changing how well
     we SEE fire, this series would not carry the signal.
 
-    2026 excluded: incomplete season, and it would silently label neutral.
+    Years the classifier calls "undecided" are excluded, which currently
+    means 2026: its season is also still running, but the exclusion is on
+    the declared state rather than on the date.
     """
     path = os.path.join(HERE, "data", "area_history", f"{iso}.json")
     if not os.path.exists(path):
@@ -183,7 +227,7 @@ def burnt_area_seasons(iso: str = "IDN") -> list[tuple[str, float, str]]:
     phase = enso_phase_by_year()
     out = []
     for year in sorted(years):
-        if int(year) >= CURRENT_YEAR_EXCLUDED:
+        if phase.get(int(year), "undecided") in EXCLUDED_PHASES:
             continue
         weekly = {int(k): v for k, v in years[year].items() if v is not None}
         if not weekly:
@@ -247,9 +291,11 @@ def report(iso: str = "IDN") -> None:
 
     p = permutation_p([t for _y, t, _p in rows], [p for _y, _t, p in rows])
     print(f"\n  permutation p = {p:.4f} ({SHUFFLES:,} label shuffles)")
-    print("\n  Hotspots, not burnt area. ENSO changes cloud and cloud changes")
-    print("  detections, so part of this could be an observability signal")
-    print("  rather than a fire signal. See the module docstring.")
+    print("\n  These are hotspots, which cloud can suppress, and ENSO moves")
+    print("  cloud. That alternative is CLOSED rather than open: run")
+    print("  burnt_area_seasons() for the scar-based instrument, which")
+    print("  gives 3.40x for 2015 against 2012 where hotspots give 3.48x.")
+    print("  Two instruments, different failure modes, same ratio.")
 
 
 if __name__ == "__main__":
