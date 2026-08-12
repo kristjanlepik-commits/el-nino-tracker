@@ -808,7 +808,8 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
 <p class="mapnote"><b>Only what clears a stated bar is drawn: fires at
 {mb_bar_f}, crops with {mb_bar_c}.</b> {mb_below} more places passed their
 own record and not the bar; each is counted on its channel page. Marks are
-sized within a channel, never across.</p>
+sized within a channel, never across. <a href="{rp}about.html">How this is
+built &rarr;</a></p>
 
 <div class="seclab" style="border-bottom:none;margin-top:40px">The readings
 &nbsp;&middot;&nbsp; one slot per channel
