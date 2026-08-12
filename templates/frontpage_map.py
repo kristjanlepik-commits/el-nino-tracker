@@ -160,7 +160,8 @@ def marks(d):
                      "weeks" % (e.get("stat", ""), n_obs))
         else:
             sev, claim = 0, "within its own normal range"
-        out.append(dict(ch="fires", name=name, x=xy(c["lat"], c["lon"])[0],
+        out.append(dict(ch="fires", name=name,
+                        is_record=bool(e and "record" in (e.get("qualifies_on") or [])), x=xy(c["lat"], c["lon"])[0],
                         y=xy(c["lat"], c["lon"])[1], sev=sev, claim=claim,
                         href="fires/%s/" % slug(name)))
 
@@ -374,7 +375,11 @@ def map_block(d, root_prefix=""):
 
     n_shown = sum(1 for m in ms if m["ch"] != "heat")
     n_below = sum(below.values())
-    n_rec = n_shown + n_below
+    # RECORDS, NOT THE GATE. A fires country can clear the anomaly gate on
+    # multiple or z alone without being at rank 1, so summing the gated set
+    # overstated "past their own record" by five.
+    n_rec = sum(1 for m in allm if m["ch"] == "crops" and m["sev"]) + \
+        sum(1 for m in allm if m["ch"] == "fires" and m.get("is_record"))
 
     # THE PACIFIC SST FIELD IS THE GROUND LAYER, not an outline. VD's study
     # says so explicitly and the previous front page drew it; my rebuild

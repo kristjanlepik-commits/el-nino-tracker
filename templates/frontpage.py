@@ -33,9 +33,10 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 import tokens as T  # noqa: E402
 from templates.frontpage_map import map_block  # noqa: E402
-from run_brief import (email_capture_form,  # noqa: E402
+from run_brief import (email_capture_form, site_masthead,  # noqa: E402
                        EMAIL_CAPTURE_PROMISE, EMAIL_FORM_CSS,
-                       ANALYTICS_SNIPPET, PAGES_BASE_URL, SITE_NAME)
+                       ANALYTICS_SNIPPET, PAGES_BASE_URL, SITE_NAME,
+                       SITE_MASTHEAD_CSS)
 
 
 def load(issue):
@@ -269,7 +270,16 @@ def readings(d):
         fig=str(top.get("stat", "")).replace("x", "\u00d7"),
         ev=ev_bits + ("<br>of a %d-year span: %s" % (span, "; ".join(tail))
                       if tail else ""),
-        src="NASA FIRMS SNPP &middot; week to 10 Aug", tag="attribution pending"))
+        # D-076: "pending" comes OFF reader-facing surfaces as a NULL, not
+        # as a softer word. It is a work state rather than a finding and
+        # carries nothing to a reader; Kristjan's reasoning was that it
+        # reads as researcher design rather than reader design. The null IS
+        # the finding, and its correct render is no chip, exactly as heat
+        # and crops get no column. I turned the null back into the word the
+        # decision removed, on the most-read surface we have.
+        src="NASA FIRMS SNPP &middot; week to 10 Aug",
+        tag={"enso": "ENSO-loaded window",
+             "non_enso": "not ENSO-linked"}.get(top.get("attribution"), "")))
 
     dh = d["heat"]["day_headline"]
     floors = (d["heat"].get("coverage") or {}).get("counts_are_floors")
@@ -375,7 +385,12 @@ def _generated_lede(d):
     """
     dh = d["heat"]["day_headline"]
     floors = (d["heat"].get("coverage") or {}).get("counts_are_floors")
-    n_fire = sum(1 for e in d["events"] if e.get("anomalous"))
+    # ANOMALOUS IS NOT A RECORD. 18 countries clear the anomaly gate; 13
+    # of them are at rank 1. The other five qualify on multiple or z alone,
+    # so "past their own record fire week" overstated by five. Read the
+    # qualifier rather than the gate.
+    n_fire = sum(1 for e in d["events"]
+                 if e.get("anomalous") and "record" in (e.get("qualifies_on") or []))
     recs = [(p["place"], [r for r in (p.get("regions") or [])
                           if r.get("rank") == 1]) for p in d["crops"]["places"]]
     recs = [(p, r) for p, r in recs if r]
@@ -578,6 +593,7 @@ def page(d, canonical, og_image_url, root_prefix, desc, brief_date_iso):
 {analytics}
 <style>
 {faces}
+{mastcss}
 :root {{ {vars} }}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--paper);color:var(--ink-soft);
@@ -761,11 +777,7 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
 }}
 </style></head><body><div class="shell">
 
-<div class="mast"><span class="wm">The Long Swell</span>
-<span class="nav"><a href="{rp}elnino/">El Ni&ntilde;o</a>
-<a href="{rp}fires/">Fires</a><a href="{rp}heat/">Heat</a>
-<a href="{rp}crops/">Crops</a><a href="{rp}notes/">Notes</a>
-<a href="{rp}about.html">About</a></span></div>
+{masthead}
 
 <div class="asof"><span style="color:var(--ink)">Updated {updated}</span></div>
 
@@ -790,8 +802,7 @@ evidence beside it</span></div>
 <div class="more"><span style="max-width:74ch">Chips mark attribution where a
 channel runs it. Fires does; Heat and Crops do not assess attribution, so the
 column is absent rather than empty.</span>
-<span style="white-space:nowrap"><a href="{rp}fires/">Fires, {n_fire}
-countries &rarr;</a> &nbsp;&middot;&nbsp; <a href="{rp}heat/">Heat,
+<span style="white-space:nowrap"><a href="{rp}fires/">Fires, {n_fire} countries &rarr;</a> &nbsp;&middot;&nbsp; <a href="{rp}heat/">Heat,
 {n_city} cities &rarr;</a> &nbsp;&middot;&nbsp; <a href="{rp}crops/">Crops,
 {n_ctry} countries &rarr;</a></span></div>
 
@@ -847,15 +858,17 @@ averaged</span></div>
         nino_col=T.NINO,
 
         n_fire=sum(1 for e in d["events"] if e.get("anomalous")),
+        n_fire_rec=sum(1 for e in d["events"] if e.get("anomalous")
+                       and "record" in (e.get("qualifies_on") or [])),
         n_city=len(d["heat"]["cities"]),
         n_ctry=sum(1 for p in d["crops"]["places"]
                    if any(r.get("rank") == 1 for r in (p.get("regions") or []))),
         p25=hb["9715_>2.5"]["mid"], p35=hb["record_>3.5"]["mid"],
         spread=_spread(hb),
-        n34=n34, rp=root_prefix, issue=brief_date_iso,
+        n34=n34, rp=root_prefix, masthead=site_masthead(root_prefix), issue=brief_date_iso,
         updated=max([x for x in (brief_date_iso, _cut) if x]), standing=h(STANDING_QUESTION), sitename=h(SITE_NAME),
         desc=h(desc), canonical=h(canonical), ogimage=h(og_image_url),
-        analytics=ANALYTICS_SNIPPET, root_prefix=root_prefix,
+        analytics=ANALYTICS_SNIPPET, mastcss=SITE_MASTHEAD_CSS, root_prefix=root_prefix,
         mb_svg=_mb["svg"], mb_legend=_mb["legend"],
         mb_bar_f=_mb["bar_f"], mb_bar_c=_mb["bar_c"], mb_below=_mb["n_below"],
         # "past the bar" was defined in the caption BELOW the map, so a
