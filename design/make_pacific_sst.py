@@ -67,6 +67,10 @@ LAT_S, LAT_N = -28.0, 28.0
 DAYS = 7
 UPSCALE = 3          # keeps the nine steps crisp once the browser scales it
 
+# VD's ruling 2026-08-12, option 13a. Cells whose anomaly is smaller
+# than this draw as paper. The window stays at 28 degrees.
+FILL_FLOOR = 1.0
+
 PNG = ROOT / "docs" / "pacific-sst.png"
 META = ROOT / "docs" / "pacific-sst.json"
 
@@ -170,8 +174,35 @@ def main() -> None:
     # this draws each step at full opacity or not at all, and the note
     # tells the reader that page inside the band means near zero.
     neutral_step = len(T.ANOMALY) // 2
-    drawn = pacific & (idx != neutral_step)
+    # VD's ruling, option 13a: THRESHOLD THE FILL AT +/- 1.0 DEGREES.
+    #
+    # Their diagnosis, which is better than the one in the ask I sent them.
+    # I asked for a quieter ramp; the root cause is not the ramp's weight
+    # but that almost nothing was unshaded. The palest warm step covered
+    # most of the basin, because most of the basin is slightly above its
+    # 1991-2020 normal, which is true and is not news. The field spent its
+    # whole ink budget saying "warmer than average nearly everywhere" and
+    # had nothing left to say where the event is.
+    #
+    # So this is the palette's founding rule being applied where it was
+    # not: colour is earned by DEPARTURE from a baseline, and a +0.3 cell
+    # has not earned any. It is not a cosmetic reduction, and it removes
+    # nothing the field was actually reporting.
+    #
+    # NOT an opacity change. VD were explicit: the field carries data and
+    # attenuation is for furniture. Each step still draws at full opacity
+    # or not at all.
+    drawn = pacific & (idx != neutral_step) & (np.abs(anom) >= FILL_FLOOR)
     rgba[..., 3] = np.where(drawn, 255, 0).astype(np.uint8)
+
+    # The share now left as paper, so the caption can state it rather than
+    # a template asserting it. Companion to fraction_beyond_scale: one says
+    # what runs off the top of the scale, this says what sits below its
+    # bottom, and both are derived every run.
+    _water = pacific & np.isfinite(anom)
+    unshaded = (float(np.mean(np.abs(anom[_water]) < FILL_FLOOR))
+                if _water.any() else 0.0)
+    print(f"unshaded below +/-{FILL_FLOOR} C: {unshaded:.1%} of water in window")
 
     # How neutral the band's own edges are, since that is what has to do
     # the softening now. Reported so a future refresh cannot quietly
@@ -202,6 +233,8 @@ def main() -> None:
         "anomaly_max": round(float(np.nanmax(anom)), 2),
         "full_scale": T.OCEAN_SCALE,
         "fraction_beyond_scale": round(clipped, 4),
+        "fill_floor": FILL_FLOOR,
+        "fraction_unshaded": round(unshaded, 4),
         "edge_neutral_north": north,
         "edge_neutral_south": south,
         "source": "NOAA OISST v2.1 (0.25 deg daily) vs 1991-2020 climatology",

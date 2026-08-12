@@ -106,7 +106,15 @@ body{{margin:0;background:var(--paper);color:var(--ink-soft);
 svg a{{text-decoration:none}}
 svg .hov{{opacity:0;transition:opacity 120ms}}
 svg a:hover .hov,svg a:focus-visible .hov{{opacity:1}}
+svg .halo{{fill:none;stroke:var(--paper);stroke-width:2.4}}
 svg .ring{{fill:none;stroke:var(--ink);stroke-width:2;opacity:0}}
+/* BREACH 4, and it is what makes the field look like it runs onto the
+   land. The ocean does stop at the coast and the field stops with it, but
+   the land is nearly the same value as the page, so the boundary reads as
+   a bleed rather than as a shore. A visible coastline turns the honest
+   edge into an edge a reader can see, which is the whole of VD's point:
+   the crop edges and the coast must not look identical. */
+svg .landline path{{stroke:{rule_dark};stroke-width:.5;stroke-opacity:.45}}
 svg a:focus-visible .ring{{opacity:1}}
 svg .mln{{font-family:"{prose}",Georgia,serif;font-size:13px;fill:var(--ink);
  stroke:var(--paper);stroke-width:3;paint-order:stroke}}
@@ -116,8 +124,6 @@ svg .ldr{{stroke:var(--ink-faint);stroke-width:1}}
 svg .eq{{stroke:var(--rule);stroke-width:1}}
 svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
  stroke-dasharray:4 4}}
-svg .nbh{{fill:none;stroke:var(--paper);stroke-width:4;
- stroke-linejoin:round}}
 svg .nb{{fill:none;stroke:{nino_col};stroke-width:1.8}}
 svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
  fill:{nino_col};stroke:var(--paper);stroke-width:3;paint-order:stroke}}
@@ -165,6 +171,7 @@ time.</p>
 </body></html>""".format(
         faces=T.font_faces_css("../../docs/fonts/"), vars=T.css_variables(),
         prose=T.FONT_PROSE, data=T.FONT_DATA, nino_col=T.NINO,
+        rule_dark=T.RULE_DARK,
         svg=b["svg"], legend=b["legend"], script=b["script"],
         n_rec=b["n_rec"], n_shown=b["n_shown"], n_below=b["n_below"],
         bar_f=b["bar_f"], bar_c=b["bar_c"],

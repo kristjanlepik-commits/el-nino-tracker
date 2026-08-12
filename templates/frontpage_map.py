@@ -252,8 +252,14 @@ def draw(m, labelled):
          'aria-label="%s, %s: %s">'
          % (h(m["href"]), h(m["ch"].title()), h(m["name"]),
             h(re_plain(m["claim"])))]
+    # BREACH 3, VD: marks over or beside the field lost their separation.
+    # Against a pink flank the ink hairline stops doing its job. D-023
+    # applied to marks: a paper ring at r+2, fill none, OUTSIDE the radius
+    # that carries the number, so it never eats into the mark itself.
+    a.append('<circle class="halo" cx="%.1f" cy="%.1f" r="%.1f"/>'
+             % (m["x"], m["y"], r + 2))
     a.append('<circle class="ring" cx="%.1f" cy="%.1f" r="%.1f"/>'
-             % (m["x"], m["y"], r + 2.5))
+             % (m["x"], m["y"], r + 4.5))
     if m["ch"] == "crops":
         side = r * 1.772
         a.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" '
@@ -368,7 +374,6 @@ def map_block(d, root_prefix=""):
     eq = xy(0, 0)[1]
     wtl, wbr = xy(28, -180), xy(-28, -70)
     b1, b2 = xy(0, -170)[0], xy(0, -120)[0]
-    bn, bs = xy(5, -170)[1], xy(-5, -170)[1]
     nino = (d["snap"].get("physical_state") or {}).get(
         "nino34_weekly_traditional")
     n34 = ("%+.1f&nbsp;&deg;C" % nino) if nino is not None else ""
@@ -428,16 +433,40 @@ def map_block(d, root_prefix=""):
         'channel\u2019s own severity measure and sizes compare only within a '
         'channel. Fires are circles, crops are squares, heat is one dashed '
         'aggregate. Only places past a stated bar are drawn.">'
-        + sst + body
+        + sst
+        # BREACH 4: the field stops dead against the Americas. That edge is
+        # honest, the ocean does stop there, so it must not be softened.
+        # The defect is that the CROP edges and the COAST looked identical,
+        # so the honest edge inherited the clipped-image feeling from the
+        # chosen ones. A LAND_LINE hairline separates them.
+        + body.replace('<g ', '<g class="landline" ', 1)
         + '<line class="eq" x1="0" y1="%.1f" x2="800" y2="%.1f"/>' % (eq, eq)
-        + '<rect class="sstw" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>'
-          % (wtl[0] + 1, wtl[1], wbr[0] - wtl[0] - 1, wbr[1] - wtl[1])
-        + '<rect class="nbh" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>'
-          % (b1, bn, b2 - b1, bs - bn)
-        + '<rect class="nb" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>'
-          % (b1, bn, b2 - b1, bs - bn)
+        # THE DASHED WINDOW IS GONE. Its east bound is 70W, which is inland
+        # over South America, so the frame crossed a continent while the
+        # field itself stops at the water. Kristjan: it should not go to
+        # the land.
+        #
+        # Removing the frame rather than moving it, because with the fill
+        # thresholded the field is a recognisable shape rather than a
+        # coloured rectangle, and no longer needs an edge drawn round it to
+        # say where it stops. It is also the third piece of furniture on
+        # one object, after the bracket and the label, and VD's own note
+        # was that the crop edge read as a clipped image.
+        # BREACH 1, VD: nothing is enclosed on four sides. I replaced the
+        # ruled bracket with a box this morning to fix its latitude, and
+        # the box came back with a paper halo stroke as well, which reads
+        # as a cutout rather than a locator. The bracket asserts LONGITUDE
+        # ONLY, which was the logged and accepted trade.
+        #
+        # It hangs below the equator so it sits on page the threshold has
+        # freed rather than inside the tongue.
+        + '<path class="nb" d="M%.1f,%.1f v-6 h%.1f v6"/>'
+          % (b1, eq + 15, b2 - b1)
+        # BREACH 2: text is never set inside an anomaly fill without a
+        # paper halo. .nbt carries one, and with the fill thresholded the
+        # label now sits on bare ground rather than on the darkest step.
         + '<text class="nbt" x="%.1f" y="%.1f">NI\u00d1O 3.4 &nbsp;%s</text>'
-          % (b2 + 8, bs + 9, n34)
+          % (b1, eq + 29, n34)
         + gs + '</svg>')
     return dict(svg=svg, legend=legend(d, ms), script=SCRIPT,
                 sst_date=sst_date, n_crops_drawn=n_crops_drawn,

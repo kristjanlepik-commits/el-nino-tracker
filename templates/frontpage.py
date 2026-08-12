@@ -745,19 +745,28 @@ h1 b{{font-weight:500;color:var(--ink)}}
 svg a{{text-decoration:none}}
 svg .hov{{opacity:0;transition:opacity 120ms}}
 svg a:hover .hov,svg a:focus-visible .hov{{opacity:1}}
+svg .halo{{fill:none;stroke:var(--paper);stroke-width:2.4}}
 svg .ring{{fill:none;stroke:var(--ink);stroke-width:2;opacity:0}}
+/* BREACH 4, and it is what makes the field look like it runs onto the
+   land. The ocean does stop at the coast and the field stops with it, but
+   the land is nearly the same value as the page, so the boundary reads as
+   a bleed rather than as a shore. A visible coastline turns the honest
+   edge into an edge a reader can see, which is the whole of VD's point:
+   the crop edges and the coast must not look identical. */
+svg .landline path{{stroke:{rule_dark};stroke-width:.5;stroke-opacity:.45}}
 svg a:focus-visible .ring{{opacity:1}}
 svg .mln{{font-family:"{prose}",Georgia,serif;font-size:13px;fill:var(--ink);
  stroke:var(--paper);stroke-width:3;paint-order:stroke}}
 svg .mlc{{font-family:"{data}",monospace;font-size:9.5px;fill:var(--ink-soft);
  stroke:var(--paper);stroke-width:3;paint-order:stroke}}
-svg .sstfield{{opacity:.92}}
+/* FULL OPACITY. VD: the field carries data and attenuation is for
+   furniture only. The weight problem was solved by thresholding the
+   fill, not by fading it. */
+svg .sstfield{{opacity:1}}
 svg .ldr{{stroke:var(--ink-faint);stroke-width:1}}
 svg .eq{{stroke:var(--rule);stroke-width:1}}
 svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
  stroke-dasharray:4 4}}
-svg .nbh{{fill:none;stroke:var(--paper);stroke-width:4;
- stroke-linejoin:round}}
 svg .nb{{fill:none;stroke:{nino_col};stroke-width:1.8}}
 svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
  fill:{nino_col};stroke:var(--paper);stroke-width:3;paint-order:stroke}}
@@ -770,7 +779,10 @@ svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
 /* Heat is ONE mark for its whole set, dashed and unfilled, because it
    carries no state: a set-level fill would assert one for 41 cities at
    once and the per-city states live on the Heat page. VD's answer to Q8. */
-svg .sstfield{{opacity:.92}}
+/* FULL OPACITY. VD: the field carries data and attenuation is for
+   furniture only. The weight problem was solved by thresholding the
+   fill, not by fading it. */
+svg .sstfield{{opacity:1}}
 svg .ldr{{stroke:var(--ink-faint);stroke-width:1}}
 svg .eq{{stroke:var(--rule);stroke-width:1}}
 svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
@@ -896,7 +908,8 @@ averaged</span></div>
         n34=n34, rp=root_prefix, masthead=site_masthead(root_prefix), issue=brief_date_iso,
         updated=max([x for x in (brief_date_iso, _cut) if x]), standing=h(STANDING_QUESTION), sitename=h(SITE_NAME),
         desc=h(desc), canonical=h(canonical), ogimage=h(og_image_url),
-        analytics=ANALYTICS_SNIPPET, mastcss=SITE_MASTHEAD_CSS, root_prefix=root_prefix,
+        analytics=ANALYTICS_SNIPPET, mastcss=SITE_MASTHEAD_CSS,
+        rule_dark=T.RULE_DARK, root_prefix=root_prefix,
         mb_svg=_mb["svg"], mb_legend=_mb["legend"],
         mb_bar_f=_mb["bar_f"], mb_bar_c=_mb["bar_c"], mb_below=_mb["n_below"],
         # "past the bar" was defined in the caption BELOW the map, so a
