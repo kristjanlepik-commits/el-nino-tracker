@@ -1,28 +1,30 @@
 # Full CPC Oceanic Nino Index (ONI) seasonal series, 1950 to present.
+#
+# PRODUCTION DEPENDENCY. analog.py reads this file (methodology 1.10,
+# 2026-08-12). It is no longer a research convenience. Do not reorder,
+# reformat or hand-edit rows; refresh it from source instead, via
+# fetchers/oni_history.py, which already pulls the whole series.
+#
 # Source:  https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt
-# Fetched: 2026-08-12 via fetchers/oni_history.py (which already pulled the
-#          full series; this file simply persists it).
-# Issued:  2026-07-31 (last complete season in the CPC file)
+# Fetched: 2026-08-11 via fetchers/oni_history.py
+# Issued:  2026-07-31 (last complete season in the CPC file at fetch)
 #
 # Year convention is CPC's: year Y's DJF spans Dec(Y-1) to Feb(Y), and
 # year Y's NDJ spans Nov(Y) to Jan(Y+1). So the 1997-98 event peaks at
 # NDJ 1997 and DJF 1998, both present below.
 #
-# WARNING, READ BEFORE MIXING WITH data/oni_historical.csv.
-# This series and data/oni_historical.csv DISAGREE, systematically and
-# worst at El Nino peaks. Measured 2026-08-11 across the 59 overlapping
-# rows: 39 mismatch beyond rounding. Mean difference (that file minus
-# this one) by event, peak seasons ASO to DJF only:
-#     1997-98  +0.017     2015-16  +0.138     2023-24  +0.080
-# 1997-98 and the 2025-26 rows agree closely; 2015-16 and 2023-24 do
-# not. That file peaks 2015-16 at NDJ 2.8 where this one reads 2.59.
-# The cause is not established here and is the ENSO tracker chat's to
-# resolve, since data/oni_historical.csv and fetchers/ are theirs.
-# Do not silently substitute one for the other.
+# HISTORY, RESOLVED. This file was created 2026-08-11 alongside a measured
+# disagreement with the then-live data/oni_historical.csv: 39 of 59
+# overlapping rows differed beyond rounding, worst at El Nino peaks (mean
+# +0.138 over 2015-16 peak seasons, +0.080 over 2023-24, +0.017 over
+# 1997-98), and the gap scaled with anomaly magnitude rather than era,
+# which ruled out a base-period explanation. That file was hand-assembled;
+# it was retired 2026-08-12 and analog.py repointed here. The
+# disagreement is settled, not live. CPC's value for the NDJ 2015-16 peak,
+# +2.59, is the record high since 1950.
 #
-# This file is internally consistent across all 77 years (one source,
-# one convention), which is what makes it usable for testing a
-# teleconnection against a channel's own instrument.
+# Note for anyone citing the record: the largest event in this series is
+# 2015-16 at +2.59, not the more famous 1997-98 at +2.37.
 year,season,oni
 1950,DJF,-1.32
 1950,JFM,-1.20
