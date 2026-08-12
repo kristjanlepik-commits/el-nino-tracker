@@ -872,6 +872,69 @@ def aggregate_weighting(regions: list, published_rank: int,
     }
 
 
+def rate_count_baseline(panels: list, doy: int, cur_year: int) -> dict:
+    """How many places reach rank 1 on the rate in a normal year.
+
+    Design withheld the rate block rather than render "13 countries" bare,
+    which was right: a count without its distribution is the error this
+    channel's own chance_baseline exists to prevent, and it reached our
+    headline four hours earlier. They also refused to type the 10 and the
+    2.6 out of a chat message, which is the rule we agreed after a figure
+    went through four people and came out four different numbers.
+
+    Computed the same way as the current year, for every year, so the
+    comparison is like for like: rank 1 on the change AND rank 1 after the
+    starting level is controlled for. The gate matters here as much as it
+    does live: on the raw rank alone 2026 reads 25, and roughly half of
+    those are a steep fall from a high start rather than news.
+    """
+    raw, gated = {}, {}
+    a, b = doy - RATE_BACK, doy
+    n = 0
+    for pv in panels:
+        if pv is None or a not in pv.columns or b not in pv.columns:
+            continue
+        ch = (pv[b] - pv[a]).dropna().round(3)
+        st = pv[a].dropna()
+        idx = [y for y in ch.index.intersection(st.index)
+               if BASE_FIRST <= y <= cur_year]
+        if cur_year not in idx or len(idx) < 20:
+            continue
+        n += 1
+        ch, st = ch.loc[idx], st.loc[idx]
+        slope, icept, *_ = stats.linregress(st.values, ch.values)
+        res = ch - (slope * st + icept)
+        for y in idx:
+            if int((ch.drop(index=y) < ch.loc[y]).sum()) + 1 == 1:
+                raw[y] = raw.get(y, 0) + 1
+                if int((res.drop(index=y) < res.loc[y]).sum()) + 1 == 1:
+                    gated[y] = gated.get(y, 0) + 1
+    out = {"places_counted": n, "window_dekads": RATE_BACK}
+    for label, c in (("raw", raw), ("holding_the_control", gated)):
+        prior = [c.get(y, 0) for y in range(BASE_FIRST, cur_year)]
+        cur = c.get(cur_year, 0)
+        out[label] = {
+            "this_year": cur,
+            "prior_mean": round(float(np.mean(prior)), 1) if prior else None,
+            "prior_max": max(prior) if prior else None,
+            "prior_min": min(prior) if prior else None,
+            "prior_years_at_or_above": sum(1 for v in prior if v >= cur),
+            "prior_years_counted": len(prior),
+            "series": {int(y): c.get(y, 0)
+                       for y in range(BASE_FIRST, cur_year + 1)},
+        }
+    out["publish"] = "holding_the_control"
+    out["_why"] = ("the raw count includes places whose steep fall is a "
+                   "fall from a high start, which is arithmetic rather "
+                   "than news. Publish the gated figure.")
+    out["_whole_set"] = ("this compares a COUNT against the history of "
+                         "the same count, so it needs no multiplicity "
+                         "correction. It does NOT establish any single "
+                         "country: rank 1 of 26 has p = 1/26, so a set "
+                         "this size produces about four by chance.")
+    return out
+
+
 def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
     stale = check_instruments_agree(catalogue)
     if stale and not allow_mixed:
@@ -897,6 +960,7 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
     # blocks use. Recomputing it elsewhere is what lost the tie
     # convention and the scope three times in one day.
     per_place_oriented = []
+    rate_panels = []
 
     for cid, name in catalogue.items():
         base = load("zfparc", cid)
@@ -1411,6 +1475,7 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         })
         if oriented:
             per_place_oriented.append(oriented)
+        rate_panels.append(country_panel)
 
     places.sort(key=lambda p: (p["magnitude"]["value"],
                                -p["magnitude"]["of"]))
@@ -1571,6 +1636,11 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                      f"plus the current one.",
         },
         "rate_legend": rate_legend(),
+        "rate_count_baseline": rate_count_baseline(
+            rate_panels,
+            (int(latest_dekad[5:7]) - 1) * 3
+            + ((int(latest_dekad[8:10]) - 1) // 10) + 1,
+            int(latest_dekad[:4])) if rate_panels else None,
         "global": build_global(per_place_oriented,
                                int(latest_dekad[:4])) if per_place_oriented
                   else None,
