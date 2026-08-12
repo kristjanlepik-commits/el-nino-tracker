@@ -1,3 +1,29 @@
+# RETIRED 2026-08-12. DO NOT USE AS A DATA SOURCE.
+#
+# Superseded by data/oni_full_history.csv (CPC's own series, persisted from
+# fetchers/oni_history.py). analog.py reads that file now; methodology 1.10.
+#
+# This file disagreed with CPC's current ONI in 39 of its 59 rows, worst at
+# the peaks the analog chart exists to compare. It read NDJ 2015 as 2.8
+# where CPC reads 2.59, and the direction was conservative: inflated
+# analogs made 2026 look milder against them than it is.
+#
+# Kept rather than deleted because it is the series that produced every
+# archive up to and including 2026-08-10, and those archives are immutable.
+# Reproducing an old chart needs the data the old chart was drawn from.
+# Nothing else should read it.
+#
+# It could not be repaired, only replaced. Three explanations were tested
+# and each failed on part of the file: a base-period difference is additive
+# but these errors scale with anomaly size; ERSST reprocessing would spare
+# settled events but 1997 JAS is out by 0.11; monthly values mistaken for
+# the 3-month mean fit several rows exactly and fail every NDJ row. The
+# rows came from different places, so there was no single wrong step to
+# undo.
+#
+# Original header follows, including a climatology claim its own values do
+# not match:
+#
 # Traditional Niño 3.4 ONI (3-month running mean, ERSST.v5, 1991-2020 climo)
 # Source: https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/ensostuff/ONI_v5.php
 # Each row: develop_year, season_label, oni

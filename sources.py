@@ -23,7 +23,17 @@ from __future__ import annotations
 
 from datetime import date, timedelta
 
-METHODOLOGY_VERSION = "1.9"
+# 1.10 (2026-08-12): the analog chart's historical trajectories now come
+# from CPC's own ONI series (data/oni_full_history.csv, byte-identical to
+# fetchers/oni_history.py) instead of the hand-assembled
+# data/oni_historical.csv, which had drifted from CPC in 39 of 59 rows.
+# Plotted peaks move: 2015-16 from 2.8 to 2.59, 2023-24 from 2.1 to 1.99,
+# 1997-98 unchanged at 2.4. The old file overstated the analogs, so the
+# comparison it drew made 2026 look milder against them than it is.
+# Bumped because a reader comparing this week's chart to a frozen archive
+# will see the analog lines themselves move, which no previous bump has
+# done.
+METHODOLOGY_VERSION = "1.10"
 
 
 def _most_recent_monday(today: date | None = None) -> date:

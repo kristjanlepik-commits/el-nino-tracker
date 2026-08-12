@@ -12,6 +12,7 @@ from __future__ import annotations
 import csv
 import glob
 import os
+import re
 from datetime import date
 from pathlib import Path
 
@@ -64,7 +65,29 @@ SEASON_DEF = {
     "NDJ": (0, 12),
 }
 
-CSV_PATH = Path(__file__).parent / "data" / "oni_historical.csv"
+# CPC's own series, persisted from fetchers/oni_history.py and verified
+# byte-identical to it across all 918 rows.
+#
+# This replaced data/oni_historical.csv on 2026-08-12. That file was a
+# hand-assembled copy that had drifted from CPC: 39 of its 59 rows differed
+# beyond rounding, worst at the peaks the chart exists to compare, and it
+# read NDJ 2015 as 2.8 where CPC reads 2.59.
+#
+# It could not be corrected, only replaced, and that is the part worth
+# keeping. Three explanations were tested and each failed on part of the
+# file. A base-period difference is additive and would shift an era
+# uniformly; the errors scale with anomaly size instead (aftereffects'
+# test: +0.091 mean where |ONI| >= 1.5, -0.006 where |ONI| < 0.5). ERSST
+# reprocessing would spare settled events; 1997 JAS is out by 0.11. Monthly
+# values mistaken for the 3-month mean fit several rows to a hundredth
+# (2023 ASO exact, 2015 ASO 0.01) and fail every NDJ row and the whole La
+# Nina year. Rows come from different places. There was no single wrong
+# transformation to invert, so any repair would have been us choosing
+# numbers, which is how the file got that way.
+#
+# The bias was CONSERVATIVE, which is why nothing caught it: inflated
+# analogs made 2026 look milder against them than it is.
+CSV_PATH = Path(__file__).parent / "data" / "oni_full_history.csv"
 
 
 def months_since_march1(record_year: int, develop_year: int, season: str) -> int:
@@ -111,7 +134,10 @@ def load_trajectories(live_oni_by_year: dict | None = None,
 
     series: dict[int, list[tuple[int, float]]] = {}
     for r in rows:
-        y = int(r["develop_year"])
+        # `year` in the CPC-derived file, `develop_year` in the retired one.
+        # Both name the same thing: the calendar year the season is filed
+        # under, which _event_for then maps to its develop-year event.
+        y = int(r.get("year") or r["develop_year"])
         if override_year is not None and y == override_year and live_oni_by_year:
             # Skip CSV rows for the override year; we'll use live data instead.
             continue
@@ -206,7 +232,19 @@ def _plot_oni(ax, series, with_cwwa_panel: bool = True):
         xs = [pt[0] for pt in series[event]]
         ys = [pt[1] for pt in series[event]]
         s = STYLE[event]
-        kwargs = {"color": s["color"], "label": s["label_oni"], "linewidth": s["lw"]}
+        # The token label carries a data value ("2015-16 (super, peak 2.8)")
+        # and design owns the wording, so recompute only the NUMBER from the
+        # series actually being drawn and leave the rest of their string
+        # alone. Without this the legend disagreed with its own line the
+        # moment the source series changed: on 2026-08-12 the switch to
+        # CPC's record moved 2015 from 2.8 to 2.59 and the legend went on
+        # saying 2.8, which is the caption-versus-figure failure again.
+        # Extreme by absolute value, so a La Nina peer reports its minimum.
+        label = s["label_oni"]
+        if ys:
+            label = re.sub(r"peak\s+-?\d+(?:\.\d+)?",
+                           f"peak {max(ys, key=abs):.1f}", label)
+        kwargs = {"color": s["color"], "label": label, "linewidth": s["lw"]}
         if "marker" in s:
             kwargs["marker"] = s["marker"]
             kwargs["markersize"] = s["ms"]
