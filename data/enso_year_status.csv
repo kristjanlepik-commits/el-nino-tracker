@@ -1,0 +1,110 @@
+# ENSO state by YEAR, 1950 to present. Every year in the CPC series has a
+# row here. If a year is missing from this file, that is a bug, not a signal.
+#
+# Derived: 2026-08-12 from data/oni_full_history.csv.
+# Issued:  2026-07-31 (last complete season in the CPC series)
+#
+# WHY THIS FILE EXISTS, AND WHEN TO PREFER IT OVER data/enso_events.csv.
+# enso_events.csv lists only years that HAVE an event, so a consumer
+# joining on it treats an absent year as neutral. That is wrong for any
+# year the rule cannot yet decide, and it silently misfiles the event
+# currently in progress. Reported by the Fire channel 2026-08-11, who hit
+# it: 2026 arrived in a test labelled neutral and pulled the neutral
+# median down. Use THIS file for any per-year classification.
+#
+# type is one of:
+#   el_nino / la_nina  a qualifying event peaks in this develop year
+#   neutral            the year is complete in the series and no event
+#                      qualifies. A real classification, not a default.
+#   undecided          the rule CANNOT decide yet. Never read as neutral.
+#
+# reason explains a non-event year:
+#   closed             fully determined by the data
+#   series_incomplete  fewer than 12 seasons present for this year
+#   open_run           a run of the right sign is still open at the end of
+#                      the series and has not yet reached five seasons
+#
+# Rule is CPC's, applied mechanically: >=5 consecutive overlapping 3-month
+# seasons at or beyond +/-0.5. Strength bands on the peak: weak 0.5-0.9,
+# moderate 1.0-1.4, strong 1.5-1.9, very_strong >=2.0.
+#
+# Evidence basis: Combined (D-033). Inputs Measured (CPC); segmentation and
+# banding apply CPC's published rule. No per-year judgement is exercised.
+year,type,strength,peak_oni,peak_season,peak_year,n_seasons,reason
+1950,neutral,,,,,,closed
+1951,el_nino,moderate,1.03,SON,1951,8,closed
+1952,neutral,,,,,,closed
+1953,el_nino,weak,0.78,SON,1953,9,closed
+1954,neutral,,,,,,closed
+1955,la_nina,strong,-1.59,OND,1955,14,closed
+1956,neutral,,,,,,closed
+1957,el_nino,strong,1.69,DJF,1958,14,closed
+1958,neutral,,,,,,closed
+1959,neutral,,,,,,closed
+1960,neutral,,,,,,closed
+1961,neutral,,,,,,closed
+1962,neutral,,,,,,closed
+1963,el_nino,moderate,1.19,OND,1963,8,closed
+1964,la_nina,weak,-0.8,SON,1964,9,closed
+1965,el_nino,strong,1.82,OND,1965,10,closed
+1966,neutral,,,,,,closed
+1967,neutral,,,,,,closed
+1968,el_nino,weak,0.98,DJF,1969,8,closed
+1969,neutral,,,,,,closed
+1970,la_nina,moderate,-1.36,JFM,1971,19,closed
+1971,neutral,,,,,,closed
+1972,el_nino,strong,1.84,OND,1972,10,closed
+1973,la_nina,very_strong,-2.04,NDJ,1973,14,closed
+1974,neutral,,,,,,closed
+1975,la_nina,strong,-1.58,NDJ,1975,18,closed
+1976,el_nino,weak,0.84,NDJ,1976,6,closed
+1977,el_nino,weak,0.84,OND,1977,5,closed
+1978,neutral,,,,,,closed
+1979,neutral,,,,,,closed
+1980,neutral,,,,,,closed
+1981,neutral,,,,,,closed
+1982,el_nino,very_strong,2.14,DJF,1983,14,closed
+1983,la_nina,weak,-0.96,OND,1983,5,closed
+1984,la_nina,moderate,-1.06,NDJ,1984,9,closed
+1985,neutral,,,,,,closed
+1986,neutral,,,,,,closed
+1987,el_nino,moderate,1.49,ASO,1987,17,closed
+1988,la_nina,strong,-1.85,NDJ,1988,13,closed
+1989,neutral,,,,,,closed
+1990,neutral,,,,,,closed
+1991,el_nino,strong,1.54,DJF,1992,13,closed
+1992,neutral,,,,,,closed
+1993,neutral,,,,,,closed
+1994,el_nino,weak,0.97,NDJ,1994,5,closed
+1995,la_nina,moderate,-1.05,OND,1995,8,closed
+1996,neutral,,,,,,closed
+1997,el_nino,very_strong,2.37,NDJ,1997,12,closed
+1998,neutral,,,,,,closed
+1999,la_nina,strong,-1.53,NDJ,1999,24,closed
+2000,la_nina,weak,-0.78,NDJ,2000,5,closed
+2001,neutral,,,,,,closed
+2002,el_nino,moderate,1.19,OND,2002,8,closed
+2003,neutral,,,,,,closed
+2004,el_nino,weak,0.71,NDJ,2004,7,closed
+2005,la_nina,weak,-0.86,DJF,2006,5,closed
+2006,el_nino,weak,0.88,OND,2006,5,closed
+2007,la_nina,strong,-1.76,DJF,2008,11,closed
+2008,la_nina,weak,-0.89,DJF,2009,5,closed
+2009,el_nino,strong,1.5,NDJ,2009,9,closed
+2010,la_nina,strong,-1.57,OND,2010,12,closed
+2011,la_nina,moderate,-1.02,OND,2011,7,closed
+2012,neutral,,,,,,closed
+2013,neutral,,,,,,closed
+2014,neutral,,,,,,closed
+2015,el_nino,very_strong,2.59,NDJ,2015,20,closed
+2016,neutral,,,,,,closed
+2017,la_nina,weak,-0.76,NDJ,2017,5,closed
+2018,el_nino,moderate,1.05,NDJ,2018,10,closed
+2019,el_nino,weak,0.75,NDJ,2019,6,closed
+2020,la_nina,moderate,-1.11,OND,2020,8,closed
+2021,la_nina,weak,-0.91,OND,2021,17,closed
+2022,neutral,,,,,,closed
+2023,el_nino,strong,1.99,NDJ,2023,11,closed
+2024,neutral,,,,,,closed
+2025,neutral,,,,,,closed
+2026,undecided,,,,,,series_incomplete

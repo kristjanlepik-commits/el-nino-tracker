@@ -1,3 +1,17 @@
+# WARNING, ADDED 2026-08-11 AFTER THIS FILE CAUSED A MISCLASSIFICATION.
+# This file is EVENT-indexed: it lists only years that have an event. A
+# year absent from it is NOT thereby neutral. It may be a year the rule
+# cannot yet decide, including the event currently in progress: 2026 is
+# absent because its trailing run is two seasons long and the rule needs
+# five, so a consumer joining on this file files the live event as a
+# non-event and drags any neutral group down with it. The Fire channel
+# hit exactly this on 2026-08-11 and caught it only because the number
+# looked too small.
+#
+# For per-year classification use data/enso_year_status.csv, which has a
+# row for every year and an explicit "undecided" state. Use this file
+# only when you want event-level attributes (peak, duration, strength).
+#
 # ENSO events derived from data/oni_full_history.csv, 1950 to present.
 # Derived: 2026-08-12 by the aftereffects desk.
 #
