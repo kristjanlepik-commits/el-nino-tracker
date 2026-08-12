@@ -82,9 +82,98 @@ def _met_office():
             "Aberdeen": (57.20506, -2.20370)}
 
 
+def _meteofrance():
+    """Coordinates from the station's OWN rows in the archive we read.
+
+    The QUOT files carry LAT and LON per NUM_POSTE, so this reads the mark
+    out of the same rows the temperatures come from. That makes a coordinate
+    and a reading incapable of describing different places, which is the
+    failure hand-typing produced: Frankfurt 15 km out because I typed the
+    city and the station is the airport.
+    """
+    import csv as _csv, gzip as _gzip
+    from build_city_series import MF_POSTE, SRC as _SRC
+    out = {}
+    for city, poste in MF_POSTE.items():
+        f = _SRC / f"mf_{city}_recent.csv.gz"
+        if not f.exists():
+            continue
+        with _gzip.open(f, "rt", encoding="latin-1") as fh:
+            for r in _csv.DictReader(fh, delimiter=";"):
+                if (r.get("NUM_POSTE") or "").strip() != str(poste):
+                    continue
+                try:
+                    out[city] = (float(r["LAT"]), float(r["LON"]))
+                except (KeyError, ValueError):
+                    pass
+                break
+    return out
+
+
+def _aemet():
+    """AEMET's own station inventory, keyed by the VERIFIED station ids.
+
+    Keyed on ES_STATION_ID rather than on the station name. The name is what
+    put an air base's history under Murcia's, and the ids in that table were
+    each checked against our cached series before being trusted.
+    """
+    import json as _json
+    import fetch_aemet as A
+    from build_city_series import ES_STATION_ID
+    key = A._key()
+    meta = _json.loads(A._get(
+        "https://opendata.aemet.es/opendata/api/valores/climatologicos/"
+        f"inventarioestaciones/todasestaciones/?api_key={key}"))
+    inv = {r["indicativo"]: r for r in _json.loads(A._get(meta["datos"]))}
+
+    def dms(v):
+        # AEMET writes 404924N, degrees minutes seconds then a hemisphere.
+        h = v[-1]
+        d, m, sec = int(v[0:2]), int(v[2:4]), int(v[4:6])
+        val = d + m / 60 + sec / 3600
+        return -val if h in ("S", "W") else val
+    out = {}
+    for city, sid in ES_STATION_ID.items():
+        r = inv.get(sid)
+        if not r:
+            continue
+        try:
+            out[city] = (round(dms(r["latitud"]), 4), round(dms(r["longitud"]), 4))
+        except Exception:
+            continue
+    return out
+
+
+def _ghcn():
+    """Larnaca and Tallinn, from the GHCN station list they are built from.
+
+    Both cities read GHCN for their history, so this takes the mark from the
+    same inventory as the data rather than from a second source that could
+    disagree with it.
+    """
+    ids = {"Larnaca": "CY000176090", "Tallinn": "EN000026038"}
+    raw = subprocess.run(
+        ["curl", "-sS", "--max-time", "180",
+         "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"],
+        capture_output=True).stdout.decode("utf-8", "replace")
+    want = {v: k for k, v in ids.items()}
+    out = {}
+    for line in raw.splitlines():
+        sid = line[:11]
+        if sid in want:
+            try:
+                out[want[sid]] = (float(line[12:20]), float(line[21:30]))
+            except ValueError:
+                continue
+    return out
+
+
 RESOLVERS = {
     "DWD": _dwd,
     "MIDAS/OSCAR": _met_office,
+    "Meteo-France": _meteofrance,
+    "AEMET": _aemet,
+    "GHCN": _ghcn,
 }
 
 # STILL HAND-TYPED, listed rather than left implicit. Each needs its service's

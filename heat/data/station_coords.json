@@ -5,9 +5,9 @@
   "lon": -2.2037
  },
  "Alicante": {
-  "coord_source": "hand_typed",
-  "lat": 38.3,
-  "lon": -0.5
+  "coord_source": "AEMET",
+  "lat": 38.3725,
+  "lon": -0.4942
  },
  "Amsterdam": {
   "coord_source": "hand_typed",
@@ -15,9 +15,9 @@
   "lon": 4.8
  },
  "Barcelona": {
-  "coord_source": "hand_typed",
-  "lat": 41.4,
-  "lon": 2.2
+  "coord_source": "AEMET",
+  "lat": 41.2928,
+  "lon": 2.07
  },
  "Basel": {
   "coord_source": "hand_typed",
@@ -35,14 +35,14 @@
   "lon": 13.402
  },
  "Bilbao": {
-  "coord_source": "hand_typed",
-  "lat": 43.3,
-  "lon": -2.9
+  "coord_source": "AEMET",
+  "lat": 43.2981,
+  "lon": -2.9064
  },
  "Bordeaux": {
-  "coord_source": "hand_typed",
-  "lat": 44.8,
-  "lon": -0.6
+  "coord_source": "Meteo-France",
+  "lat": 44.8307,
+  "lon": -0.6913
  },
  "Cologne": {
   "coord_source": "DWD",
@@ -80,7 +80,7 @@
   "lon": 24.9
  },
  "Larnaca": {
-  "coord_source": "hand_typed",
+  "coord_source": "GHCN",
   "lat": 34.8831,
   "lon": 33.6331
  },
@@ -100,29 +100,29 @@
   "lon": 8.96
  },
  "Lyon": {
-  "coord_source": "hand_typed",
-  "lat": 45.8,
-  "lon": 4.8
+  "coord_source": "Meteo-France",
+  "lat": 45.7265,
+  "lon": 5.0778
  },
  "Madrid": {
-  "coord_source": "hand_typed",
-  "lat": 40.4,
-  "lon": -3.7
+  "coord_source": "AEMET",
+  "lat": 40.4114,
+  "lon": -3.6778
  },
  "Malaga": {
-  "coord_source": "hand_typed",
-  "lat": 36.7,
-  "lon": -4.5
+  "coord_source": "AEMET",
+  "lat": 36.6661,
+  "lon": -4.4822
  },
  "Marseille": {
-  "coord_source": "hand_typed",
-  "lat": 43.3,
-  "lon": 5.4
+  "coord_source": "Meteo-France",
+  "lat": 43.437,
+  "lon": 5.2115
  },
  "Montpellier": {
-  "coord_source": "hand_typed",
-  "lat": 43.6,
-  "lon": 3.9
+  "coord_source": "Meteo-France",
+  "lat": 43.5762,
+  "lon": 3.9647
  },
  "Munich": {
   "coord_source": "DWD",
@@ -130,14 +130,14 @@
   "lon": 11.5429
  },
  "Murcia": {
-  "coord_source": "hand_typed",
-  "lat": 38.0,
-  "lon": -1.1
+  "coord_source": "AEMET",
+  "lat": 38.0019,
+  "lon": -1.1708
  },
  "Nice": {
-  "coord_source": "hand_typed",
-  "lat": 43.7,
-  "lon": 7.3
+  "coord_source": "Meteo-France",
+  "lat": 43.6488,
+  "lon": 7.209
  },
  "Nottingham": {
   "coord_source": "MIDAS/OSCAR",
@@ -145,14 +145,14 @@
   "lon": -1.2497
  },
  "Palma": {
-  "coord_source": "hand_typed",
-  "lat": 39.6,
-  "lon": 2.7
+  "coord_source": "AEMET",
+  "lat": 39.5542,
+  "lon": 2.6253
  },
  "Paris": {
-  "coord_source": "hand_typed",
-  "lat": 48.9,
-  "lon": 2.4
+  "coord_source": "Meteo-France",
+  "lat": 48.718,
+  "lon": 2.397
  },
  "Prague": {
   "coord_source": "hand_typed",
@@ -160,9 +160,9 @@
   "lon": 14.4
  },
  "Seville": {
-  "coord_source": "hand_typed",
-  "lat": 37.4,
-  "lon": -6.0
+  "coord_source": "AEMET",
+  "lat": 37.4167,
+  "lon": -5.8792
  },
  "Stockholm": {
   "coord_source": "hand_typed",
@@ -170,9 +170,9 @@
   "lon": 18.1
  },
  "Strasbourg": {
-  "coord_source": "hand_typed",
-  "lat": 48.6,
-  "lon": 7.8
+  "coord_source": "Meteo-France",
+  "lat": 48.5495,
+  "lon": 7.6403
  },
  "Stuttgart": {
   "coord_source": "DWD",
@@ -180,19 +180,19 @@
   "lon": 9.2
  },
  "Tallinn": {
-  "coord_source": "hand_typed",
-  "lat": 59.398,
-  "lon": 24.603
+  "coord_source": "GHCN",
+  "lat": 59.3831,
+  "lon": 24.5831
  },
  "Toulouse": {
-  "coord_source": "hand_typed",
-  "lat": 43.6,
-  "lon": 1.4
+  "coord_source": "Meteo-France",
+  "lat": 43.621,
+  "lon": 1.3788
  },
  "Valencia": {
-  "coord_source": "hand_typed",
-  "lat": 39.5,
-  "lon": -0.4
+  "coord_source": "AEMET",
+  "lat": 39.4806,
+  "lon": -0.3664
  },
  "Vienna": {
   "coord_source": "hand_typed",
@@ -200,9 +200,9 @@
   "lon": 16.4
  },
  "Zaragoza": {
-  "coord_source": "hand_typed",
-  "lat": 41.7,
-  "lon": -0.9
+  "coord_source": "AEMET",
+  "lat": 41.6606,
+  "lon": -1.0042
  },
  "Zurich": {
   "coord_source": "hand_typed",
