@@ -746,7 +746,14 @@ def _rate_block(doc) -> str:
     if not held:
         return ""
 
+    # THE FIELD NAMES WHICH VARIANT TO PUBLISH. It carries both the raw
+    # rank-1 count and the one holding the start control, and `publish`
+    # says which is the claim. Reading `publish` rather than picking means
+    # CRO can change the published variant without touching this file, and
+    # means I cannot quietly render the more alarming of the two: raw is 25
+    # against a prior max of 12, gated is 13 against 10.
     base = doc.get("rate_count_baseline") or {}
+    base = base.get(base.get("publish") or "") or {}
     prior_max, prior_mean = base.get("prior_max"), base.get("prior_mean")
     if prior_max is None or prior_mean is None:
         print("  rate block WITHHELD: %d countries qualify, and the count has "
