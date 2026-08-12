@@ -248,6 +248,26 @@ CITIES = {
     # stations in relay are not one record.
     "Tallinn":   dict(country="EE", station="Tallinn-Harku", cut=(8, 10),
                       file="tallinn.json"),
+    # LARNACA, added 2026-08-11, and the first city outside Europe proper.
+    # Prompted by a reader asking what is happening in Cyprus and North
+    # Africa, which our set could not answer at all.
+    #
+    # Built by heat/build_bridge.py: GHCN 1976-2016 plus the station's own
+    # SYNOP bulletins for 2014-2026, one station, two transports. Validated
+    # on summer 2016, the last year both hold: 100.0% of days exact at 06Z
+    # and 18Z, worst 0.0 C.
+    #
+    # Uses the 1991-2020 normal under D-151: the station opened in 1976 so
+    # 1971-2000 can never pass, and 1991-2020 is complete at 30/30 only
+    # because the bridge reaches back to 2014. GHCN holds 2014-2016 at 61,
+    # 72 and 63 days, below the bar, so the gap began where the archive
+    # THINNED rather than where it ended.
+    #
+    # THE 2026 SEASON IS BULLETIN-SOURCED AND ITS LICENCE IS UNRESOLVED.
+    # Same position London was in before the Met Office supplied its own
+    # file. The Cyprus Department of Meteorology is the equivalent ask.
+    "Larnaca":   dict(country="CY", station="Larnaca Airport", cut=(8, 10),
+                      file="larnaca.json"),
     "Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
     "Marseille":   dict(country="FR", station="MARIGNANE", cut=(8, 3)),
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
@@ -574,7 +594,8 @@ def build(city, meta):
                    # Keskkonnaagentuur's own archive, Harku only. NOT
                    # GHCN EN000026038, which is a blend of Harku and
                    # Ulemiste and was the route this replaced.
-                   "EE": "Keskkonnaagentuur, Estonian Environment Agency"}[meta["country"]],
+                   "EE": "Keskkonnaagentuur, Estonian Environment Agency",
+                   "CY": "NOAA GHCN-Daily and WMO synoptic bulletins"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
         # EMITTED, so no page or post can state a threshold without the
         # period that built it. Same rule as record_scope.

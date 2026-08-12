@@ -95,6 +95,7 @@ COORDS = {
     "Belfast": (54.6636, -6.2244),
     "Aberdeen": (57.2051, -2.2037),
     "Tallinn": (59.398, 24.603),
+    "Larnaca": (34.8831, 33.6331),
     "Tallinn": (59.398, 24.603),
 }
 
@@ -148,6 +149,13 @@ LICENCE = {
            "lag_days": 5},
     "FI": {"licence": "CC-BY 4.0", "commercial_use": True,
            "attribution": "Source: FMI", "lag_days": 1},
+    "CY": {"licence": "History from NOAA GHCN-Daily, US federal open data. "
+                      "2014-2026 from the station's own WMO synoptic "
+                      "bulletins, licence UNRESOLVED and not yet confirmed "
+                      "with the Cyprus Department of Meteorology.",
+           "commercial_use": False,
+           "attribution": "Source: Cyprus Department of Meteorology",
+           "lag_days": 1},
     "EE": {"licence": "Keskkonnaagentuur, the Estonian Environment Agency, "
                       "supplied on request. Station Tallinn-Harku only; "
                       "the three other Tallinn stations in the same "

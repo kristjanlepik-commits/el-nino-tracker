@@ -16,11 +16,11 @@
  },
  "headline": {
   "lead": {
-   "claim": "22 of these 41 cities are having their hottest summer on record for days above their own extreme threshold.",
+   "claim": "22 of these 42 cities are having their hottest summer on record for days above their own extreme threshold.",
    "at_day_record": 22,
    "in_top_10pct": 34,
    "in_top_5pct": 30,
-   "of_cities": 41,
+   "of_cities": 42,
    "not_elevated": [
     "Tallinn",
     "Helsinki",
@@ -31,7 +31,7 @@
    "why_counts": "A count is checkable against the cities listed beside it and survives the set changing. A universal claim is a slogan that has to be re-proved every time a city is added, and nothing in the pipeline re-proves it."
   },
   "records": 20,
-  "of_cities": 41,
+  "of_cities": 42,
   "record_cities": [
    "Amsterdam",
    "Basel",
@@ -55,7 +55,7 @@
    "Zurich"
   ],
   "records_where_metric_holds": 10,
-  "of_cities_where_metric_holds": 17,
+  "of_cities_where_metric_holds": 18,
   "record_cities_where_metric_holds": [
    "Bordeaux",
    "Lugano",
@@ -99,13 +99,13 @@
   "baseline": {
    "recomputed": {
     "median_year": 1,
-    "mean_year": 2.44,
+    "mean_year": 2.58,
     "worst_year_on_record": {
      "year": 2003,
      "cities": 20
     },
     "window": "1990-2025",
-    "of_cities": 41
+    "of_cities": 42
    },
    "typical_year_records": 0,
    "mean_2011_2025": 1.27,
@@ -128,7 +128,7 @@
  },
  "day_headline": {
   "records": 22,
-  "of_cities": 41,
+  "of_cities": 42,
   "record_cities": [
    "Basel",
    "Bilbao",
@@ -156,13 +156,13 @@
   "headline_requires_baseline": true,
   "baseline": {
    "median_year": 1,
-   "mean_year": 1.83,
+   "mean_year": 1.94,
    "worst_year_on_record": {
     "year": 2003,
     "cities": 14
    },
    "window": "1990-2025",
-   "of_cities": 41
+   "of_cities": 42
   },
   "measure": "days at or above this city's own 95th percentile of July-August maxima, counted to the same cut",
   "may_say_worst_on_record": false,
@@ -357,6 +357,15 @@
      "day_percentile": 51.8,
      "night_percentile": 1.8,
      "night_metric_holds": false
+    },
+    {
+     "city": "Larnaca",
+     "lat": 34.8831,
+     "lon": 33.6331,
+     "coord_source": "hand_typed",
+     "day_percentile": 82.4,
+     "night_percentile": 84.3,
+     "night_metric_holds": true
     },
     {
      "city": "Leipzig",
@@ -586,7 +595,7 @@
    ],
    "coord_resolution": {
     "resolved": 13,
-    "total": 41,
+    "total": 42,
     "means": "the mark is the STATION, which is what the disclosure names and what completeness is measured on, not the city centre.",
     "hand_typed_means": "typed by me at 1 dp with no source, off by 3 to 15 km where checked. Legible rather than passing as sourced."
    }
@@ -599,6 +608,7 @@
  ],
  "cities_without_day_multiple": [
   "Helsinki",
+  "Larnaca",
   "Leipzig",
   "Lyon",
   "Murcia",
@@ -8549,6 +8559,392 @@
     "record_starts": 1980,
     "differs_because": null,
     "text": "our series, from 1980",
+    "is_all_time": false,
+    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history.",
+    "may_not_say": [
+     "hottest ever",
+     "all-time record",
+     "hottest since records began"
+    ]
+   }
+  },
+  "Larnaca": {
+   "country": "CY",
+   "station": "Larnaca Airport",
+   "source": {
+    "who": "NOAA GHCN-Daily and WMO synoptic bulletins",
+    "licence": "History from NOAA GHCN-Daily, US federal open data. 2014-2026 from the station's own WMO synoptic bulletins, licence UNRESOLVED and not yet confirmed with the Cyprus Department of Meteorology.",
+    "commercial_use": false,
+    "attribution": "Source: Cyprus Department of Meteorology",
+    "lag_days": 1
+   },
+   "record_from": 1976,
+   "record_to": 2025,
+   "pctl_baseline": [
+    1991,
+    2020
+   ],
+   "pctl_baseline_is_default": false,
+   "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
+   "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
+   "nights_2026": 65,
+   "counted_to": "2026-08-12",
+   "last_observation": "2026-08-12",
+   "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
+   "rank": {
+    "value": 9,
+    "of_years": 51,
+    "percentile": 84.3,
+    "ties_count_against": true,
+    "tied_with": [
+     2009,
+     2022
+    ],
+    "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
+    "requires_series": true,
+    "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
+    "requires_relocation_note": false,
+    "relocation_note_text": null,
+    "matched_to_same_date": true
+   },
+   "series_to_same_date": {
+    "cut_at": "08-12",
+    "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
+    "values": {
+     "1976": 28,
+     "1977": 47,
+     "1978": 40,
+     "1979": 41,
+     "1980": 40,
+     "1981": 43,
+     "1982": 41,
+     "1983": 34,
+     "1984": 33,
+     "1985": 33,
+     "1986": 49,
+     "1987": 46,
+     "1988": 60,
+     "1989": 44,
+     "1990": 45,
+     "1991": 55,
+     "1992": 43,
+     "1993": 48,
+     "1994": 54,
+     "1995": 63,
+     "1996": 59,
+     "1997": 57,
+     "1998": 59,
+     "1999": 64,
+     "2000": 64,
+     "2001": 72,
+     "2002": 56,
+     "2003": 63,
+     "2004": 55,
+     "2005": 54,
+     "2006": 57,
+     "2007": 58,
+     "2008": 61,
+     "2009": 65,
+     "2010": 56,
+     "2011": 54,
+     "2012": 64,
+     "2013": 59,
+     "2014": 57,
+     "2015": 51,
+     "2016": 63,
+     "2017": 58,
+     "2018": 79,
+     "2019": 75,
+     "2020": 61,
+     "2021": 57,
+     "2022": 65,
+     "2023": 67,
+     "2024": 82,
+     "2025": 67
+    },
+    "expected_slots": 50,
+    "due_slots": 50,
+    "due_note": "Equal to expected_slots: an annual series, every prior year already due.",
+    "first_slot": 1976,
+    "last_slot": 2025,
+    "unit": "year",
+    "slot_basis": "Span of the station record as held by the published source. Taken BEFORE any completeness filter and never from the emitted series.",
+    "values_present": 50,
+    "unusable_slots": [],
+    "unusable_note": "Observed and computed, but below the completeness bar of 90% of days from 1 May to the cut. OBSERVED BUT NOT USABLE, which is not absent. Must not be drawn as a gap.",
+    "gap_slots": 0,
+    "gap_note": "Slots with no record at all. This is the one to draw.",
+    "present_runs": [
+     [
+      1976,
+      2025
+     ]
+    ]
+   },
+   "nights_metric_gated": false,
+   "nights_baseline_per_year": 59.47,
+   "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
+   "page_constraints": {
+    "nights": {
+     "may_say_worst_on_record": false,
+     "reason": "20 cities at a record against 20 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+    },
+    "days": {
+     "may_say_worst_on_record": false,
+     "reason": "22 cities at a record against 14 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (17 against 11). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+    },
+    "selection_robustness": {
+     "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
+     "excluded": [
+      "Bordeaux",
+      "Geneva",
+      "Hanover",
+      "Strasbourg",
+      "Stuttgart",
+      "Toulouse"
+     ],
+     "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
+     "nights": {
+      "full": [
+       20,
+       20
+      ],
+      "without_selected": [
+       16,
+       16
+      ]
+     },
+     "days": {
+      "full": [
+       22,
+       14
+      ],
+      "without_selected": [
+       17,
+       11
+      ]
+     }
+    },
+    "instruments_agree": true,
+    "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
+    "banned_words": [],
+    "banned_words_reason": "NO BAN. This city is at the 84.3th percentile of its own record, below the 85th on both instruments, so by its own history this summer is unremarkable and may be described that way. Say it plainly rather than reaching for a softer word: a set in which every city is extreme invites the question of how the set was chosen.",
+    "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
+   },
+   "station_relocations": [],
+   "station_moved_in_period": false,
+   "station_history_checked": false,
+   "station_disclosure": "Station history not yet checked.",
+   "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
+   "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
+   "record_margin_nights": null,
+   "featured": false,
+   "days": {
+    "rank": {
+     "value": 10,
+     "of_years": 51,
+     "percentile": 82.4,
+     "measured_on": "95",
+     "ties_count_against": true,
+     "tied_with": [
+      2000,
+      2002,
+      2012,
+      2017
+     ],
+     "requires_series": true,
+     "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
+     "margin_days": null
+    },
+    "series_to_same_date": {
+     "cut_at": "08-12",
+     "measured_on": "95",
+     "values": {
+      "1976": 0,
+      "1977": 3,
+      "1978": 4,
+      "1979": 6,
+      "1980": 4,
+      "1981": 1,
+      "1982": 2,
+      "1983": 1,
+      "1984": 0,
+      "1985": 0,
+      "1986": 0,
+      "1987": 5,
+      "1988": 6,
+      "1989": 1,
+      "1990": 2,
+      "1991": 0,
+      "1992": 1,
+      "1993": 3,
+      "1994": 0,
+      "1995": 3,
+      "1996": 2,
+      "1997": 0,
+      "1998": 6,
+      "1999": 2,
+      "2000": 7,
+      "2001": 2,
+      "2002": 7,
+      "2003": 2,
+      "2004": 3,
+      "2005": 1,
+      "2006": 2,
+      "2007": 11,
+      "2008": 3,
+      "2009": 3,
+      "2010": 3,
+      "2011": 3,
+      "2012": 7,
+      "2013": 0,
+      "2014": 1,
+      "2015": 2,
+      "2016": 5,
+      "2017": 7,
+      "2018": 5,
+      "2019": 2,
+      "2020": 8,
+      "2021": 20,
+      "2022": 0,
+      "2023": 9,
+      "2024": 21,
+      "2025": 6
+     },
+     "note": "Days at or above this city's own 95th percentile threshold, counted to the same cut as every other year. The 90 and 99 thresholds are emitted above but only the 95 series is ranked."
+    },
+    "thresholds_c": {
+     "90": 35.5,
+     "95": 36.3,
+     "99": 38.2
+    },
+    "threshold_basis": "90th/95th/99th percentile of this station's own July-August daily maxima, 1991-2020. This station's record starts in 1976 and cannot cover 1971-2000, so the complete 1991-2020 WMO normal is used instead.",
+    "days_2026": {
+     "90": 14,
+     "95": 7,
+     "99": 2
+    },
+    "counts_per_year": {
+     "90": {
+      "r1125": 10.7
+     },
+     "95": {
+      "r1125": 5.0
+     },
+     "99": {
+      "r1125": 0.7
+     }
+    },
+    "counts_window": {
+     "recent": "2011-2025",
+     "early": "1961-1990"
+    },
+    "mean_1961_1990_to_cut": 2.33,
+    "mean_1961_1990_full_year": 3.07,
+    "mean_note": "to_cut is comparable to days_2026 and to the ranked series. full_year is what a reader hears in 'a summer'. A headline using one with a chart showing the other is the error this pair exists to prevent.",
+    "multiple_available": false,
+    "multiple_withheld_note": "NOT COMPARABLE and the multiple is withheld. This station's 1961-1990 baseline holds only 14 of 30 years, drawn from the warmer end of the period, so the multiple would understate itself while looking like the figures beside it."
+   },
+   "legend_band": "outside",
+   "legend_band_note": "record = at its own highest on days; near = 2nd to 5th; outside = 6th or lower. READ THIS, do not re-derive it: a second definition living in a template is a second thing to drift.",
+   "warmest_day_c": {
+    "1977": 37.9,
+    "1978": 39.9,
+    "1979": 38.5,
+    "1980": 38.2,
+    "1981": 37.5,
+    "1982": 39.6,
+    "1983": 37.0,
+    "1984": 35.4,
+    "1985": 37.6,
+    "1986": 36.4,
+    "1987": 38.0,
+    "1988": 39.7,
+    "1989": 37.7,
+    "1990": 37.7,
+    "1991": 36.5,
+    "1992": 37.2,
+    "1993": 38.1,
+    "1994": 39.7,
+    "1995": 38.3,
+    "1996": 36.5,
+    "1997": 35.6,
+    "1998": 41.1,
+    "1999": 37.0,
+    "2000": 38.9,
+    "2001": 36.9,
+    "2002": 40.7,
+    "2003": 37.6,
+    "2004": 37.4,
+    "2005": 36.4,
+    "2006": 39.2,
+    "2007": 40.1,
+    "2008": 37.0,
+    "2009": 38.0,
+    "2010": 38.6,
+    "2011": 37.1,
+    "2012": 38.5,
+    "2013": 37.0
+   },
+   "warmest_day_to_cut_c": {
+    "1976": 35.6,
+    "1977": 37.9,
+    "1978": 39.9,
+    "1979": 38.5,
+    "1980": 38.2,
+    "1981": 37.5,
+    "1982": 37.8,
+    "1983": 37.0,
+    "1984": 35.4,
+    "1985": 35.7,
+    "1986": 35.3,
+    "1987": 38.0,
+    "1988": 39.7,
+    "1989": 37.7,
+    "1990": 37.7,
+    "1991": 34.0,
+    "1992": 37.0,
+    "1993": 38.1,
+    "1994": 34.4,
+    "1995": 38.3,
+    "1996": 36.5,
+    "1997": 35.6,
+    "1998": 41.1,
+    "1999": 37.0,
+    "2000": 38.9,
+    "2001": 36.9,
+    "2002": 40.7,
+    "2003": 37.6,
+    "2004": 37.4,
+    "2005": 36.4,
+    "2006": 39.2,
+    "2007": 40.1,
+    "2008": 37.0,
+    "2009": 38.0,
+    "2010": 38.6,
+    "2011": 37.1,
+    "2012": 38.5,
+    "2013": 35.9,
+    "2014": 38.0,
+    "2015": 39.6,
+    "2016": 38.0,
+    "2017": 39.9,
+    "2018": 37.8,
+    "2019": 36.4,
+    "2020": 40.6,
+    "2021": 39.2,
+    "2022": 36.1,
+    "2023": 40.4,
+    "2024": 41.5,
+    "2025": 38.0,
+    "2026": 38.4
+   },
+   "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis.",
+   "record_scope": {
+    "from_year": 1976,
+    "record_starts": 1976,
+    "differs_because": null,
+    "text": "our series, from 1976",
     "is_all_time": false,
     "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history.",
     "may_not_say": [
@@ -23837,14 +24233,16 @@
  },
  "sources_note": "Every published figure comes from a national met service that permits commercial reuse. ECA&D is not read anywhere in this pipeline.",
  "coverage": {
-  "latest_cut": "2026-08-10",
-  "cities_at_latest_cut": 3,
-  "cities_short_of_it": 38,
+  "latest_cut": "2026-08-12",
+  "cities_at_latest_cut": 1,
+  "cities_short_of_it": 41,
   "short_cities": {
+   "Aberdeen": "2026-08-10",
    "Alicante": "2026-08-08",
    "Amsterdam": "2026-08-07",
    "Barcelona": "2026-08-08",
    "Basel": "2026-08-08",
+   "Belfast": "2026-08-10",
    "Berlin": "2026-08-08",
    "Bilbao": "2026-08-08",
    "Bordeaux": "2026-08-08",
@@ -23866,6 +24264,7 @@
    "Munich": "2026-08-08",
    "Murcia": "2026-08-08",
    "Nice": "2026-08-08",
+   "Nottingham": "2026-08-10",
    "Palma": "2026-08-08",
    "Paris": "2026-08-08",
    "Prague": "2026-07-31",
@@ -23896,10 +24295,11 @@
  },
  "selection": {
   "is_representative_of_europe": false,
-  "cities": 41,
+  "cities": 42,
   "by_country": {
    "AT": 1,
    "CH": 4,
+   "CY": 1,
    "CZ": 1,
    "DE": 9,
    "EE": 1,
@@ -23912,10 +24312,10 @@
   },
   "longitude_span": [
    -6.2,
-   24.9
+   33.6
   ],
   "latitude_span": [
-   36.7,
+   34.9,
    60.2
   ],
   "selection_is_deliberate": true,
@@ -23931,8 +24331,8 @@
   "forecast_selected_note": "A NEW SELECTION CRITERION, added 2026-08-09 and recorded because it differs from the rest. Every earlier city was chosen for where the abnormality HAD BEEN, or for where the metric works. These six were chosen from a MODEL FORECAST of the following week, all sitting +10 to +13 C above their recent-August normal, and all on fetchers already built. Their published figures remain pure observation; only the decision to measure them was forecast-driven. Hanover is the honest illustration: third-largest forecast anomaly in Europe and currently 8th of 88 on observations.",
   "not_an_apology": "Purposive selection is the right design for this channel and is not a defect to be corrected. The only thing it forbids is generalising a proportion to a population we did not sample.",
   "what_may_not_be_said": "NOTHING HERE SUPPORTS A CLAIM ABOUT EUROPE. Not 'Europe is having its hottest summer', not 'European cities are breaking records', not a proportion presented as if the set were a sample of the continent. Every count is a count of THESE cities, chosen the way described above.",
-  "what_may_be_said": "Each city against its own record, and the pattern across this set stated as a pattern across this set. WHERE THE ABNORMALITY IS AND HOW HARD, which is the thing these cities were chosen to show. The map is 41 marks and means what those 41 thermometers recorded.",
-  "known_absences": "No city east of 24.9 E. No Italy, Greece, Portugal or the UK. 18 of 41 are Iberia and France.",
+  "what_may_be_said": "Each city against its own record, and the pattern across this set stated as a pattern across this set. WHERE THE ABNORMALITY IS AND HOW HARD, which is the thing these cities were chosen to show. The map is 42 marks and means what those 42 thermometers recorded.",
+  "known_absences": "No city east of 33.6 E. No Italy, Greece, Portugal or the UK. 18 of 42 are Iberia and France.",
   "known_absences_note": "The longitude bound is DERIVED and moves when a city is added. Which countries it excludes is a judgement that has to be re-read against it, not carried forward: this sentence previously said 18.1 E and named Poland, the Baltics, the Balkans, Ukraine and European Russia, and kept saying so after Helsinki moved the bound to 24.9 E.",
   "if_you_wanted_a_european_average": "You would need a different set, chosen at random or by population, and it would show a smaller share at a record. That is a different product and we are not making it. Stated so the distinction is explicit rather than so the selection reads as a flaw."
  },
