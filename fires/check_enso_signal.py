@@ -74,17 +74,40 @@ as evidence rather than as settled.
 One country. Indonesia is the strongest ENSO fire teleconnection there is,
 so this says nothing about the other 93.
 
-HOTSPOTS, NOT BURNT AREA. Detections are an observability-limited
-instrument, and this channel has separately measured that cloud suppresses
-them (see check_observability.cloud_test). ENSO changes cloud. So some part
-of an apparent ENSO fire signal could be an ENSO OBSERVABILITY signal:
-drier El Nino conditions mean clearer skies mean more detections at the
-same amount of fire. The burnt-area version of this test would not have
-that problem and has not been run. Until it has, this result carries that
-alternative explanation rather than excluding it.
+THE OBSERVABILITY ALTERNATIVE, RAISED AND THEN CLOSED. Detections are an
+observability-limited instrument, this channel has measured that cloud
+suppresses them (check_observability.cloud_test), and ENSO changes cloud.
+So an apparent ENSO FIRE signal could have been an ENSO OBSERVABILITY
+signal: drier El Nino conditions, clearer skies, more detections at the
+same amount of fire.
 
-That last caveat is the important one and it was not obvious. It only
-surfaced because the cloud measurement landed the same day.
+Run on BURNT AREA instead, which is a scar mapped after the fact and is not
+blinded the same way, the signal holds and the two instruments agree
+closely:
+
+    burnt area, Aug-Oct   el_nino  n=4  median 4,101,728 ha  ranks 1,3,5,6
+                          neutral  n=7  median   739,746 ha
+                          la_nina  n=3  median   593,608 ha  ranks 9,11,13
+                          permutation p = 0.0424
+
+    2015 against 2012     3.40x on burnt area, 3.48x on hotspots
+
+Two instruments with different failure modes giving the same ratio is what
+makes this a fire signal rather than a seeing signal. `burnt_area_seasons`
+below runs it.
+
+A TRAP IN THE CLASSIFICATION, worth knowing before using enso_events.csv
+anywhere. A year absent from the file reads as "neutral" by DEFAULT, not by
+classification. 2026 is absent, because the current event has not been
+closed out under the five-consecutive-season rule, so it silently labels
+as neutral. Any test that includes the current year will therefore file the
+event we are living through as a non-event. This module excludes 2026 for
+that reason AND because its Aug-Oct season is still running.
+
+Also excluded: 2014 carries only 10 days of Aug-Oct detection coverage, and
+2022 carries 82 of 92. Restricting to seasons with 90+ days changes
+nothing (ranks identical, p 0.0127 against 0.0124), which is the check
+worth having rather than the assurance.
 """
 from __future__ import annotations
 
@@ -103,6 +126,12 @@ FULL_HISTORY = os.path.join(HERE, "data", "full_history")
 SEASON_MONTHS = ("08", "09", "10")
 MIN_SEASON_DAYS = 80          # near-complete Aug-Oct coverage
 SHUFFLES = 20000
+SEASON_START_WEEK = 30        # cumulative burnt area at end of July
+SEASON_END_WEEK = 44          # and at end of October
+# A year absent from enso_events.csv reads as neutral by DEFAULT rather than
+# by classification, so including the current year would file the event we
+# are living through as a non-event. Its season is also still running.
+CURRENT_YEAR_EXCLUDED = 2026
 
 
 def enso_phase_by_year() -> dict[int, str]:
@@ -132,6 +161,42 @@ def seasons(iso: str) -> list[tuple[str, int, str]]:
         if len(days) < MIN_SEASON_DAYS:
             continue
         out.append((year, sum(c for _d, c in days),
+                    phase.get(int(year), "neutral")))
+    return out
+
+
+def burnt_area_seasons(iso: str = "IDN") -> list[tuple[str, float, str]]:
+    """(year, Aug-Oct burnt hectares, phase) from the OTHER instrument.
+
+    The point of running this is that burnt area fails differently from
+    detections. A detection needs a clear view at the moment of overpass; a
+    scar persists and is mapped later. If ENSO were only changing how well
+    we SEE fire, this series would not carry the signal.
+
+    2026 excluded: incomplete season, and it would silently label neutral.
+    """
+    path = os.path.join(HERE, "data", "area_history", f"{iso}.json")
+    if not os.path.exists(path):
+        return []
+    with open(path) as handle:
+        years = json.load(handle)["years"]
+    phase = enso_phase_by_year()
+    out = []
+    for year in sorted(years):
+        if int(year) >= CURRENT_YEAR_EXCLUDED:
+            continue
+        weekly = {int(k): v for k, v in years[year].items() if v is not None}
+        if not weekly:
+            continue
+
+        def cumulative_at(week, series=weekly):
+            keys = [k for k in series if k <= week]
+            return series[max(keys)] if keys else 0.0
+
+        if not cumulative_at(SEASON_END_WEEK):
+            continue
+        out.append((year,
+                    cumulative_at(SEASON_END_WEEK) - cumulative_at(SEASON_START_WEEK),
                     phase.get(int(year), "neutral")))
     return out
 
