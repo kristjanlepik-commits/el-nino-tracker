@@ -265,19 +265,27 @@ def readings(d):
         tail.append("%s excluded as not comparable" % ", ".join(excl))
     rows.append(dict(
         ch="Fires", place=top["region"], claim=top.get("title", ""),
-        fig=top.get("stat", ""),
+        # House rule: every figure is typeset. Fires emits "6.2x".
+        fig=str(top.get("stat", "")).replace("x", "\u00d7"),
         ev=ev_bits + ("<br>of a %d-year span: %s" % (span, "; ".join(tail))
                       if tail else ""),
         src="NASA FIRMS SNPP &middot; week to 10 Aug", tag="attribution pending"))
 
     dh = d["heat"]["day_headline"]
     floors = (d["heat"].get("coverage") or {}).get("counts_are_floors")
+    # THE SUBJECT IS THE SUBSET, NOT THE SET. VD: this read "41 cities /
+    # More hot days than in any year on record" with 22 in the figure
+    # column, so the sentence's subject was the whole set and the number was
+    # a part of it. D-141's label-from-set defect, on the row a reader is
+    # most likely to quote.
     rows.append(dict(
-        ch="Heat", place="%d cities" % dh["of_cities"],
+        ch="Heat", place="%d of %d cities" % (dh["records"], dh["of_cities"]),
         claim="More hot days than in any year on record",
         fig="%d" % dh["records"],
-        ev="each against its own 95th percentile &middot; %sof %d measured"
-           % ("at least, " if floors else "", dh["of_cities"])
+        ev="each against its own 95th percentile &middot; %s%d of %d measured"
+           % ("at least ", dh["records"], dh["of_cities"]) if floors else
+           "each against its own 95th percentile &middot; %d of %d measured"
+           % (dh["records"], dh["of_cities"])
            + "<br>station records, counted to the same date each year",
         src="", tag=""))
 
@@ -547,6 +555,9 @@ def page(d, canonical, og_image_url, root_prefix, desc, brief_date_iso):
     hb = d["meta"]["headline_buckets"]
     nino = (d["snap"].get("physical_state") or {}).get(
         "nino34_weekly_traditional")
+    _cuts = [v.get('counted_to') for v in d['heat']['cities'].values()
+             if v.get('counted_to')]
+    _cut = max(_cuts) if _cuts else None
     n34 = ("%+.1f&nbsp;&deg;C" % nino) if nino is not None else "n/a"
 
     return """<!doctype html><html lang="en"><head><meta charset="utf-8">
@@ -660,14 +671,14 @@ h1 b{{font-weight:500;color:var(--ink)}}
 .chn .row .n{{font-family:"{data}",monospace;font-size:11px;letter-spacing:.16em;
  text-transform:uppercase;width:92px;color:var(--ink)}}
 .chn .row .c{{margin-left:auto;font-family:"{data}",monospace;font-size:10px}}
-.sub{{margin-top:44px;border-top:3px solid var(--ink);padding-top:18px;
+.ebd{{margin-top:44px;border-top:3px solid var(--ink);padding-top:18px;
  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 48px;
  align-items:start}}
-.sub .k{{font-family:"{data}",monospace;font-size:9.5px;letter-spacing:.22em;
+.ebd .k{{font-family:"{data}",monospace;font-size:9.5px;letter-spacing:.22em;
  text-transform:uppercase;color:var(--ink)}}
-.sub .p{{margin:9px 0 0;font-size:19px;line-height:1.45;color:var(--ink);
+.ebd .p{{margin:9px 0 0;font-size:19px;line-height:1.45;color:var(--ink);
  max-width:34ch;text-wrap:pretty}}
-.sub .fine{{margin:9px 0 0;font-family:"{data}",monospace;font-size:10.5px;
+.ebd .fine{{margin:9px 0 0;font-family:"{data}",monospace;font-size:10.5px;
  line-height:1.7;color:var(--ink-faint);max-width:52ch}}
 {ecss}
 .foot{{margin-top:40px;border-top:1px solid var(--rule);padding:16px 0 40px;
@@ -696,10 +707,11 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:13px;fill:var(--ink);
 svg .mlc{{font-family:"{data}",monospace;font-size:9.5px;fill:var(--ink-soft);
  stroke:var(--paper);stroke-width:3;paint-order:stroke}}
 svg .sstfield{{opacity:.92}}
+svg .ldr{{stroke:var(--ink-faint);stroke-width:1}}
 svg .eq{{stroke:var(--rule);stroke-width:1}}
 svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
  stroke-dasharray:4 4}}
-svg .nbh{{fill:none;stroke:var(--paper);stroke-width:4.2;
+svg .nbh{{fill:none;stroke:var(--paper);stroke-width:4;
  stroke-linejoin:round}}
 svg .nb{{fill:none;stroke:{nino_col};stroke-width:1.8}}
 svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
@@ -714,6 +726,7 @@ svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
    carries no state: a set-level fill would assert one for 41 cities at
    once and the per-city states live on the Heat page. VD's answer to Q8. */
 svg .sstfield{{opacity:.92}}
+svg .ldr{{stroke:var(--ink-faint);stroke-width:1}}
 svg .eq{{stroke:var(--rule);stroke-width:1}}
 svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
  stroke-dasharray:4 4}}
@@ -743,8 +756,8 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
  .note{{grid-template-columns:1fr}}
  .chn .grid{{grid-template-columns:1fr}}
  .foot,.more{{flex-direction:column}}
- .sub{{grid-template-columns:1fr}}
- .sub{{grid-template-columns:1fr}}
+ .ebd{{grid-template-columns:1fr}}
+ .ebd{{grid-template-columns:1fr}}
 }}
 </style></head><body><div class="shell">
 
@@ -754,7 +767,7 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
 <a href="{rp}crops/">Crops</a><a href="{rp}notes/">Notes</a>
 <a href="{rp}about.html">About</a></span></div>
 
-<div class="asof"><span style="color:var(--ink)">Week of {issue}</span></div>
+<div class="asof"><span style="color:var(--ink)">Updated {updated}</span></div>
 
 <p class="standing">{standing}</p>
 <h1>{lede}</h1>
@@ -817,7 +830,7 @@ Econ</span><span>each needs its own baseline first</span>
 <span class="c">in development</span></div>
 </div></div>
 
-<div class="sub">
+<div class="ebd">
 <div><div class="k">One email a week</div>
 <p class="p">{promise}</p></div>
 <div>{form}<p class="fine">Confirmation email required. No spam, and the
@@ -838,13 +851,17 @@ averaged</span></div>
                    if any(r.get("rank") == 1 for r in (p.get("regions") or []))),
         p25=hb["9715_>2.5"]["mid"], p35=hb["record_>3.5"]["mid"],
         spread=_spread(hb),
-        n34=n34, rp=root_prefix, issue=brief_date_iso, standing=h(STANDING_QUESTION), sitename=h(SITE_NAME),
+        n34=n34, rp=root_prefix, issue=brief_date_iso,
+        updated=max([x for x in (brief_date_iso, _cut) if x]), standing=h(STANDING_QUESTION), sitename=h(SITE_NAME),
         desc=h(desc), canonical=h(canonical), ogimage=h(og_image_url),
         analytics=ANALYTICS_SNIPPET, root_prefix=root_prefix,
         mb_svg=_mb["svg"], mb_legend=_mb["legend"],
         mb_bar_f=_mb["bar_f"], mb_bar_c=_mb["bar_c"], mb_below=_mb["n_below"],
-        mb_state="%d past their own record &middot; %d past the bar"
-                 % (_mb["n_rec"], _mb["n_shown"]),
+        # "past the bar" was defined in the caption BELOW the map, so a
+        # first-time reader met the term before its definition. Says what
+        # it means instead.
+        mb_state="%d places drawn, of %d past their own record"
+                 % (_mb["n_shown"], _mb["n_rec"]),
         mb_sst=(" &middot; ocean field observed 7 days to %s"
                 % _mb["sst_date"]) if _mb.get("sst_date") else "",
         script=_mb["script"],

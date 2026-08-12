@@ -269,6 +269,12 @@ def draw(m, labelled):
 
     dx, dy, anchor = m.get("place") or (r + 6, 4, "start")
     cls = "" if labelled else ' class="hov"'
+    if anchor != "start" or abs(dy) > 8:
+        a.append('<line class="ldr" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>'
+                 % (m["x"] + (dx / abs(dx) * r if dx else 0),
+                    m["y"] + (dy / abs(dy) * r if abs(dy) > r else 0),
+                    m["x"] + dx - (4 if dx > 0 else -4 if dx < 0 else 0),
+                    m["y"] + dy - 4))
     a.append('<text%s x="%.1f" y="%.1f" text-anchor="%s" class="mln%s">%s</text>'
              % ("", m["x"] + dx, m["y"] + dy, anchor,
                 "" if labelled else " hov", h(m["name"])))
@@ -361,6 +367,7 @@ def map_block(d, root_prefix=""):
     eq = xy(0, 0)[1]
     wtl, wbr = xy(28, -180), xy(-28, -70)
     b1, b2 = xy(0, -170)[0], xy(0, -120)[0]
+    bn, bs = xy(5, -170)[1], xy(-5, -170)[1]
     nino = (d["snap"].get("physical_state") or {}).get(
         "nino34_weekly_traditional")
     n34 = ("%+.1f&nbsp;&deg;C" % nino) if nino is not None else ""
@@ -411,12 +418,12 @@ def map_block(d, root_prefix=""):
         + '<line class="eq" x1="0" y1="%.1f" x2="800" y2="%.1f"/>' % (eq, eq)
         + '<rect class="sstw" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>'
           % (wtl[0] + 1, wtl[1], wbr[0] - wtl[0] - 1, wbr[1] - wtl[1])
-        + '<path class="nbh" d="M%.1f,%.1f v-7 h%.1f v7"/>'
-          % (b1, eq + 13, b2 - b1)
-        + '<path class="nb" d="M%.1f,%.1f v-7 h%.1f v7"/>'
-          % (b1, eq + 13, b2 - b1)
+        + '<rect class="nbh" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>'
+          % (b1, bn, b2 - b1, bs - bn)
+        + '<rect class="nb" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>'
+          % (b1, bn, b2 - b1, bs - bn)
         + '<text class="nbt" x="%.1f" y="%.1f">NI\u00d1O 3.4 &nbsp;%s</text>'
-          % (b2 + 9, eq + 11, n34)
+          % (b2 + 8, bs + 9, n34)
         + gs + '</svg>')
     return dict(svg=svg, legend=legend(d, ms), script=SCRIPT,
                 sst_date=sst_date,
