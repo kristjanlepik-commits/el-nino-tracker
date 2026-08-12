@@ -375,3 +375,49 @@ release. The Tallinn collector wrote into a gitignored directory. This is
 about backups; it is that a gitignored path is invisible to the check that
 would have caught it, so the data that most needs durability is exactly the
 data no guard is watching.
+
+## North Africa and Cyprus: VERIFIED VIABLE, 2026-08-11
+
+Prompted by a reader question on Facebook about North Africa and Cyprus,
+which our 41 cities cannot answer: nothing in the set sits south of Malaga
+or east of Helsinki.
+
+Five stations pass the bar. Archive from GHCN-Daily, current season from
+the station's own SYNOP bulletins, which is the London pattern.
+
+    Casablanca   MOM00060155  ANFA               net M  1957-2025
+    Marrakech    MOM00060230  MENARA             net M  1957-2025
+    Algiers      AG000060390  ALGER-DAR EL BEIDA net 0  1940-2025
+    Tunis        TSM00060715  CARTHAGE           net M  1957-2025
+    Larnaca      CY000176090  LARNACA            net 0  1976-2025
+
+All five carry BOTH extremes, reach 2025, and return SYNOP for August 2026.
+The four African ones cover 1971-2000 outright.
+
+**CYPRUS IS ONLY REACHABLE BECAUSE OF D-151.** Larnaca starts in 1976 and
+cannot cover 1971-2000. Under the ruling made hours earlier it uses the
+complete 1991-2020 normal instead. Without that, the one place the reader
+actually asked about would have been unbuildable.
+
+**NETWORK E IS THE FILTER THAT MATTERS HERE.** Several of the longest North
+African records are ECA&D and therefore non-commercial: Oujda 1910-2025,
+Tangier 1912-2025, Biskra 1880-2025, and every Libyan station. Excluding
+them is what leaves the five above, and a search that ranked on record
+length alone would have picked exactly the ones we may not publish.
+
+**Egypt and Turkey have no usable CITY.** What passes is Siwa, Kharga,
+Dakhla, Minya, Rize, Isparta, Sivas, Kastamonu: desert, Nile-valley and
+provincial sites. No Cairo, no Alexandria, no Istanbul. So neither country
+can be answered with a name a reader recognises, and that is a data fact
+rather than a shortage of effort.
+
+**Still to do before any of these is a city:** station identity verified
+against the SYNOP coordinates and then day by day, as for Heathrow,
+Nottingham, Aldergrove and Dyce; and a current-season route that does not
+depend on a volunteer's server, which for the UK meant the Met Office
+library and here means asking each national service.
+
+**What this would NOT settle**, and it is the reader's actual question: we
+could show Larnaca has more days above its own bar than it used to. We
+could not show that this paralyses daytime activity. That is impact
+attribution and it belongs to the aftereffects thread.
