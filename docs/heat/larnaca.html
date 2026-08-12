@@ -1,0 +1,273 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Larnaca &middot; Heat &middot; The Long Swell</title>
+<meta name="description" content="7 hot days so far, 10th of Larnaca's 51 summers.">
+<link rel="canonical" href="https://thelongswell.com/heat/larnaca.html">
+<!-- These pages are the promotion surface: Kristjan links a city and a
+     reader arrives caring about that city. Without share metadata a
+     promoted link renders as a bare URL with no title and no claim. The
+     description IS the headline, so what a reader sees before clicking is
+     the same sentence they see after. -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="The Long Swell">
+<meta property="og:title" content="Larnaca: 7 hot days so far this summer">
+<meta property="og:description" content="7 hot days so far, 10th of Larnaca's 51 summers.">
+<meta property="og:url" content="https://thelongswell.com/heat/larnaca.html">
+<!-- A page that declares summary_large_image and supplies no image is
+     WORSE than one that declares nothing: the platform reserves the
+     slot and renders it empty. Socials measured 136 channel pages
+     sharing with no image at all, heat declaring the large card and
+     showing a blank one. The house card is generic and beats an
+     empty slot; per-page cards wait for the citable chart, and will
+     have to carry their cut date so a stale one is visibly stale. -->
+<meta property="og:image" content="https://thelongswell.com/heat/cards/larnaca.png">
+<meta name="twitter:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Larnaca: 7 hot days so far this summer">
+<meta name="twitter:description" content="7 hot days so far, 10th of Larnaca's 51 summers.">
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init()
+</script>
+<style>/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    /* ONE INK. D-101 retired channel colour and moved identity to type,
+       on the grounds that colour spent on wayfinding is colour unavailable
+       to data. The tokens went; this nav kept the hues, so four of six
+       items were still coloured months later.
+
+       VD's catch is the one that settles it: Notes rendered in the same
+       blue as El Nino. Notes is not a measured variable and can never hold
+       a hue under the ruling, so either the blue meant El Nino, in which
+       case it was wrong, or it meant "you are here", in which case blue
+       meant two things in one row and a reader could not tell which.
+
+       Identity is now the tracked mono against the Spectral wordmark, and
+       the current page is marked by weight and a rule rather than a hue.
+       The per-channel classes stay in the markup: they are hooks, and
+       deleting them is a change to every generator rather than to this
+       stylesheet. */
+    color: var(--ink-soft);
+    transition: color .12s, border-color .12s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+  }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+  /* The current page, by weight and a rule. */
+  .prodnav a.on { color: var(--ink); font-weight: 600;
+    border-bottom-color: var(--ink); }
+:root{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
+--ink-faint:#6E6E67;--rule:#CFCEC7;--accent:#8E240A}
+@media(prefers-color-scheme:dark){:root{--paper:#1A1A18;--sunk:#252521;
+--ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--accent:#F0876A}}
+/* The shared masthead expects these and a standalone page must set them.
+   Fixed on the index and NOT propagated here, which is exactly VD's
+   argument for a shared template before twenty more pages are built.
+   Without them the product nav renders in Spectral instead of tracked
+   mono, which is the mechanism section 7 uses INSTEAD of hue, every nav
+   item collapses to one inherited colour, and the masthead runs 120px
+   wider than the content on each side. */
+:root{--mono:'IBM Plex Mono',ui-monospace,monospace;--serif:Spectral,Georgia,serif;
+--nino:#173F9E;--fire:#B32E10;--crop:#2E5C16;--shell-max:940px;--shell-pad:24px;
+--hist:#8E8E88}
+@media(prefers-color-scheme:dark){:root{--nino:#6E97E8;--fire:#E8714E;--crop:#7CB84E;
+--hist:#5A5A55}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--soft);
+font-family:Spectral,Georgia,serif;font-size:17px;line-height:1.55}
+main{max-width:940px;margin:0 auto;padding:0 24px 90px}
+.mast{display:flex;align-items:baseline;gap:13px;padding:20px 0 11px;
+border-bottom:3px solid var(--ink)}
+.house{font-size:21px;font-weight:500;color:var(--ink)}
+.prod{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;font-weight:600;
+letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+.when{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;
+letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+h1{font-family:Spectral,serif;font-weight:400;font-size:50px;line-height:1.05;
+letter-spacing:-.02em;color:var(--ink);margin:40px 0 16px;max-width:19ch;text-wrap:balance}
+.stand{font-size:17.5px;line-height:1.62;max-width:62ch;margin:0}
+/* A CORRECTION IS NOT A WARNING. It sits in ink on paper with a rule
+   above it, the same weight as the page's own prose, because the page is
+   explaining itself rather than apologising. D-043 in a different costume:
+   the styling must not make a sound correction read as an incident. */
+.corr{margin:22px 0 0;padding:15px 0 0;border-top:2px solid var(--ink)}
+.corr p{margin:0 0 9px;max-width:60ch;font-size:15.5px;line-height:1.62;
+ color:var(--ink-soft)}
+.corr p:last-child{margin-bottom:0}
+.corr .corr-k{font-family:var(--mono,ui-monospace,monospace);font-size:9.5px;
+ letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);
+ margin-bottom:9px}
+.rows{display:flex;flex-direction:column;gap:22px;margin:34px 0 0}
+.urow{display:grid;grid-template-columns:196px 1fr 54px;gap:20px;align-items:center}
+.uk{font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.55;
+color:var(--ink-faint);text-align:right}
+.ug{display:flex;flex-wrap:wrap;gap:4px}
+.u{width:19px;height:19px;background:var(--ink);display:block}
+.ua{background:var(--accent)}
+.un{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500;
+color:var(--ink);text-align:right}
+.provmark{ font-size:15px; line-height:1.55; color:var(--ink);
+  border-left:2.4px solid var(--ink); padding:2px 0 2px 15px; margin:18px 0 0;
+  max-width:62ch; }
+.provmark strong{ font-weight:500; }
+.seclab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.22em;
+text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
+padding-bottom:10px;margin:52px 0 14px}
+.cap{font-size:15.5px;line-height:1.6;max-width:72ch;margin:12px 0 0}
+/* 12 in viewBox units, not 9. The SVG scales to about 0.8 at full page
+   width, so 9 rendered at 7.2px against the 10.5px HTML label beside
+   it. Same family, same colour, and a third smaller, which is enough
+   to read as a different typeface. This lands at 9.7px effective. */
+.ax{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:var(--ink-faint)}
+.ay{fill:var(--ink-faint)}
+.vlab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;fill:var(--ink);
+font-weight:500}
+.vlab.va{fill:var(--accent)}
+.grid{display:grid;grid-template-columns:136px minmax(0,1fr);gap:20px;align-items:end;
+margin-top:16px}
+.gk{font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.5;
+letter-spacing:.06em;text-transform:uppercase;color:var(--ink);padding-bottom:8px}
+.gk em{display:block;font-style:normal;color:var(--ink-faint);letter-spacing:.03em}
+.src{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.9;
+color:var(--soft);display:grid;grid-template-columns:1fr auto;column-gap:30px;
+margin-top:48px}
+.src span{border-top:1px solid var(--rule);padding-top:9px}
+.src span:nth-child(-n+2){border-top:2.4px solid #8E8E88}
+.more{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
+.back{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;
+text-transform:uppercase;color:var(--ink-faint);text-decoration:none;
+border-bottom:1px solid var(--rule)}
+</style><!-- payload 15c49f5216ac --></head><body><main>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../elnino/">El Niño</a><a class="ch-fire" href="../fires/">Fires</a><a class="ch-crop" href="../crops/">Crops</a><a class="ch-heat on" href="../heat/">Heat</a><a class="ch-notes" href="../notes/">Notes</a><a class="util" href="../about.html">About</a></nav></div></div></header>
+
+<!-- THE HOUSE NAME IS NOT REPEATED HERE. This bar predates the shared
+     masthead, which now sits directly above it and already carries the
+     wordmark, so the page printed "The Long Swell" twice inside 100px.
+     Kristjan spotted it. What this bar is for is the page's own
+     identity: the channel, and which station and cut it reports. -->
+<div class="mast"><span class="prod">Heat</span>
+<span class="when">Larnaca &middot; Larnaca Airport &middot; to 12 August 2026</span></div>
+
+<h1>7 hot days so far, 10th of Larnaca's 51 summers.</h1>
+
+
+
+
+
+<div class="rows"><div class="urow"><span class="uk">By this date in a typical<br>summer of 1991-2020</span><span class="ug"><span class="u"></span><span class="u"></span><span class="u"></span></span><span class="un">3.4</span></div><div class="urow"><span class="uk">By this date<br>this summer</span><span class="ug"><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span></span><span class="un">7</span></div></div>
+<p class="cap"><strong>Larnaca is compared against 1991-2020, not 1961-1990.</strong> This thermometer starts in 1976, so the earlier window every other city uses would cover only its warmer final years here, and a figure against that would look like every other city's while meaning something weaker. 1991-2020 is complete for this station, so it is the one shown. The count and the rank are measured on the full record and stand.</p>
+
+<!-- THE THREE CHARTS STACK WITH NOTHING BETWEEN THEM. Kristjan's change,
+     and the reason is that they only become comparable when the eye can
+     run down them: same width, same year span, same left label column, no
+     paragraph resetting the reader between each one. The prose that used
+     to sit in the gaps now sits below all three, in chart order. -->
+<div class="seclab">Every summer on this thermometer</div>
+<div class="grid"><span class="gk">Hot days<em>above 36.3 &deg;C</em></span>
+<span><svg viewBox="0 0 914 122" width="100%" style="height:auto"><line x1="0" y1="0.0" x2="880" y2="0.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="9.0" class="ax">21</text><line x1="0" y1="54.5" x2="880" y2="54.5" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="57.5" class="ax">10</text><line x1="0" y1="104.0" x2="880" y2="104.0" stroke="var(--rule)" stroke-width="1"/><text x="886" y="107.0" class="ax">0</text><rect x="17.3" y="89.1" width="16.1" height="14.9" fill="var(--hist)"/><rect x="34.5" y="84.2" width="16.1" height="19.8" fill="var(--hist)"/><rect x="51.8" y="74.3" width="16.1" height="29.7" fill="var(--hist)"/><rect x="69.0" y="84.2" width="16.1" height="19.8" fill="var(--hist)"/><rect x="86.3" y="99.0" width="16.1" height="5.0" fill="var(--hist)"/><rect x="103.5" y="94.1" width="16.1" height="9.9" fill="var(--hist)"/><rect x="120.8" y="99.0" width="16.1" height="5.0" fill="var(--hist)"/><rect x="189.8" y="79.2" width="16.1" height="24.8" fill="var(--hist)"/><rect x="207.1" y="74.3" width="16.1" height="29.7" fill="var(--hist)"/><rect x="224.3" y="99.0" width="16.1" height="5.0" fill="var(--hist)"/><rect x="241.6" y="94.1" width="16.1" height="9.9" fill="var(--hist)"/><rect x="276.1" y="99.0" width="16.1" height="5.0" fill="var(--hist)"/><rect x="293.3" y="89.1" width="16.1" height="14.9" fill="var(--hist)"/><rect x="327.8" y="89.1" width="16.1" height="14.9" fill="var(--hist)"/><rect x="345.1" y="94.1" width="16.1" height="9.9" fill="var(--hist)"/><rect x="379.6" y="74.3" width="16.1" height="29.7" fill="var(--hist)"/><rect x="396.9" y="94.1" width="16.1" height="9.9" fill="var(--hist)"/><rect x="414.1" y="69.3" width="16.1" height="34.7" fill="var(--hist)"/><rect x="431.4" y="94.1" width="16.1" height="9.9" fill="var(--hist)"/><rect x="448.6" y="69.3" width="16.1" height="34.7" fill="var(--hist)"/><rect x="465.9" y="94.1" width="16.1" height="9.9" fill="var(--hist)"/><rect x="483.1" y="89.1" width="16.1" height="14.9" fill="var(--hist)"/><rect x="500.4" y="99.0" width="16.1" height="5.0" fill="var(--hist)"/><rect x="517.6" y="94.1" width="16.1" height="9.9" fill="var(--hist)"/><rect x="534.9" y="49.5" width="16.1" height="54.5" fill="var(--hist)"/><rect x="552.2" y="89.1" width="16.1" height="14.9" fill="var(--hist)"/><rect x="569.4" y="89.1" width="16.1" height="14.9" fill="var(--hist)"/><rect x="586.7" y="89.1" width="16.1" height="14.9" fill="var(--hist)"/><rect x="603.9" y="89.1" width="16.1" height="14.9" fill="var(--hist)"/><rect x="621.2" y="69.3" width="16.1" height="34.7" fill="var(--hist)"/><rect x="655.7" y="99.0" width="16.1" height="5.0" fill="var(--hist)"/><rect x="672.9" y="94.1" width="16.1" height="9.9" fill="var(--hist)"/><rect x="690.2" y="79.2" width="16.1" height="24.8" fill="var(--hist)"/><rect x="707.5" y="69.3" width="16.1" height="34.7" fill="var(--hist)"/><rect x="724.7" y="79.2" width="16.1" height="24.8" fill="var(--hist)"/><rect x="742.0" y="94.1" width="16.1" height="9.9" fill="var(--hist)"/><rect x="759.2" y="64.4" width="16.1" height="39.6" fill="var(--hist)"/><rect x="776.5" y="5.0" width="16.1" height="99.0" fill="var(--hist)"/><rect x="811.0" y="59.4" width="16.1" height="44.6" fill="var(--hist)"/><rect x="828.2" y="0.0" width="16.1" height="104.0" fill="var(--hist)"/><rect x="845.5" y="74.3" width="16.1" height="29.7" fill="var(--hist)"/><rect x="862.7" y="69.3" width="16.1" height="34.7" fill="var(--accent)"/><line x1="870.8" y1="0" x2="870.8" y2="104.0" stroke="var(--accent)" stroke-width="1"/><text x="0.0" y="117" class="ax" text-anchor="start">1976</text><text x="414.1" y="117" class="ax" text-anchor="start">2000</text><text x="862.7" y="117" class="ax" text-anchor="end">2026</text></svg></span></div>
+<div class="grid"><span class="gk">Hot nights<em>never below 20 &deg;C</em></span>
+<span><svg viewBox="0 0 914 122" width="100%" style="height:auto"><line x1="0" y1="0.0" x2="880" y2="0.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="9.0" class="ax">82</text><line x1="0" y1="52.0" x2="880" y2="52.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="55.0" class="ax">41</text><line x1="0" y1="104.0" x2="880" y2="104.0" stroke="var(--rule)" stroke-width="1"/><text x="886" y="107.0" class="ax">0</text><rect x="0.0" y="68.5" width="16.1" height="35.5" fill="var(--hist)"/><rect x="17.3" y="44.4" width="16.1" height="59.6" fill="var(--hist)"/><rect x="34.5" y="53.3" width="16.1" height="50.7" fill="var(--hist)"/><rect x="51.8" y="52.0" width="16.1" height="52.0" fill="var(--hist)"/><rect x="69.0" y="53.3" width="16.1" height="50.7" fill="var(--hist)"/><rect x="86.3" y="49.5" width="16.1" height="54.5" fill="var(--hist)"/><rect x="103.5" y="52.0" width="16.1" height="52.0" fill="var(--hist)"/><rect x="120.8" y="60.9" width="16.1" height="43.1" fill="var(--hist)"/><rect x="138.0" y="62.1" width="16.1" height="41.9" fill="var(--hist)"/><rect x="155.3" y="62.1" width="16.1" height="41.9" fill="var(--hist)"/><rect x="172.5" y="41.9" width="16.1" height="62.1" fill="var(--hist)"/><rect x="189.8" y="45.7" width="16.1" height="58.3" fill="var(--hist)"/><rect x="207.1" y="27.9" width="16.1" height="76.1" fill="var(--hist)"/><rect x="224.3" y="48.2" width="16.1" height="55.8" fill="var(--hist)"/><rect x="241.6" y="46.9" width="16.1" height="57.1" fill="var(--hist)"/><rect x="258.8" y="34.2" width="16.1" height="69.8" fill="var(--hist)"/><rect x="276.1" y="49.5" width="16.1" height="54.5" fill="var(--hist)"/><rect x="293.3" y="43.1" width="16.1" height="60.9" fill="var(--hist)"/><rect x="310.6" y="35.5" width="16.1" height="68.5" fill="var(--hist)"/><rect x="327.8" y="24.1" width="16.1" height="79.9" fill="var(--hist)"/><rect x="345.1" y="29.2" width="16.1" height="74.8" fill="var(--hist)"/><rect x="362.4" y="31.7" width="16.1" height="72.3" fill="var(--hist)"/><rect x="379.6" y="29.2" width="16.1" height="74.8" fill="var(--hist)"/><rect x="396.9" y="22.8" width="16.1" height="81.2" fill="var(--hist)"/><rect x="414.1" y="22.8" width="16.1" height="81.2" fill="var(--hist)"/><rect x="431.4" y="12.7" width="16.1" height="91.3" fill="var(--hist)"/><rect x="448.6" y="33.0" width="16.1" height="71.0" fill="var(--hist)"/><rect x="465.9" y="24.1" width="16.1" height="79.9" fill="var(--hist)"/><rect x="483.1" y="34.2" width="16.1" height="69.8" fill="var(--hist)"/><rect x="500.4" y="35.5" width="16.1" height="68.5" fill="var(--hist)"/><rect x="517.6" y="31.7" width="16.1" height="72.3" fill="var(--hist)"/><rect x="534.9" y="30.4" width="16.1" height="73.6" fill="var(--hist)"/><rect x="552.2" y="26.6" width="16.1" height="77.4" fill="var(--hist)"/><rect x="569.4" y="21.6" width="16.1" height="82.4" fill="var(--hist)"/><rect x="586.7" y="33.0" width="16.1" height="71.0" fill="var(--hist)"/><rect x="603.9" y="35.5" width="16.1" height="68.5" fill="var(--hist)"/><rect x="621.2" y="22.8" width="16.1" height="81.2" fill="var(--hist)"/><rect x="638.4" y="29.2" width="16.1" height="74.8" fill="var(--hist)"/><rect x="655.7" y="31.7" width="16.1" height="72.3" fill="var(--hist)"/><rect x="672.9" y="39.3" width="16.1" height="64.7" fill="var(--hist)"/><rect x="690.2" y="24.1" width="16.1" height="79.9" fill="var(--hist)"/><rect x="707.5" y="30.4" width="16.1" height="73.6" fill="var(--hist)"/><rect x="724.7" y="3.8" width="16.1" height="100.2" fill="var(--hist)"/><rect x="742.0" y="8.9" width="16.1" height="95.1" fill="var(--hist)"/><rect x="759.2" y="26.6" width="16.1" height="77.4" fill="var(--hist)"/><rect x="776.5" y="31.7" width="16.1" height="72.3" fill="var(--hist)"/><rect x="793.7" y="21.6" width="16.1" height="82.4" fill="var(--hist)"/><rect x="811.0" y="19.0" width="16.1" height="85.0" fill="var(--hist)"/><rect x="828.2" y="0.0" width="16.1" height="104.0" fill="var(--hist)"/><rect x="845.5" y="19.0" width="16.1" height="85.0" fill="var(--hist)"/><rect x="862.7" y="21.6" width="16.1" height="82.4" fill="var(--accent)"/><line x1="870.8" y1="0" x2="870.8" y2="104.0" stroke="var(--accent)" stroke-width="1"/><text x="0.0" y="117" class="ax" text-anchor="start">1976</text><text x="414.1" y="117" class="ax" text-anchor="start">2000</text><text x="862.7" y="117" class="ax" text-anchor="end">2026</text></svg></span></div>
+<div class="grid"><span class="gk">Hottest day<em>34 to 42 &deg;C</em></span>
+<span><svg viewBox="0 0 914 122" width="100%" style="height:auto" role="img"><line x1="0" y1="20.0" x2="880" y2="20.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="29.0" class="ax">42</text><line x1="0" y1="104.0" x2="880" y2="104.0" stroke="var(--rule)" stroke-width="1"/><text x="886" y="107.0" class="ax">34</text><polyline points="0.0,83.2 17.6,60.5 35.2,40.8 52.8,54.6 70.4,57.6 88.0,64.5 105.6,61.5 123.2,69.4 140.8,85.2 158.4,82.3 176.0,86.2 193.6,59.5 211.2,42.7 228.8,62.5 246.4,62.5 264.0,99.1 281.6,69.4 299.2,58.5 316.8,95.1 334.4,56.6 352.0,74.4 369.6,83.2 387.2,28.9 404.8,69.4 422.4,50.6 440.0,70.4 457.6,32.8 475.2,63.5 492.8,65.5 510.4,75.3 528.0,47.7 545.6,38.8 563.2,69.4 580.8,59.5 598.4,53.6 616.0,68.4 633.6,54.6 651.2,80.3 668.8,59.5 686.4,43.7 704.0,59.5 721.6,40.8 739.2,61.5 756.8,75.3 774.4,33.8 792.0,47.7 809.6,78.3 827.2,35.8 844.8,24.9 862.4,59.5 880.0,55.6" fill="none" stroke="var(--soft)" stroke-width="1.2"/><circle cx="844.8" cy="24.9" r="3.4" fill="var(--ink)"/><line x1="844.8" y1="24.9" x2="844.8" y2="104.0" stroke="var(--ink)" stroke-width="1" opacity="0.45"/><circle cx="880.0" cy="55.6" r="3.6" fill="var(--accent)"/><text x="874.0" y="59.6" class="vlab va" text-anchor="end">38.4&#8202;&deg;C</text><text x="838.8" y="17.9" class="vlab" text-anchor="end">41.5&#8202;&deg;C</text></svg></span></div>
+
+<p class="cap">Hot here means 36.3&nbsp;&deg;C or above, a level about one summer day in twenty used to reach at this station between 1991 and 2020. The percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates. The bar has not moved; the number of days clearing it has. Every year is counted to 12 August, so a part-finished summer is never set against complete ones. <strong>That threshold is Larnaca's own.</strong> It is not a national standard and it is not comparable with another city's: every figure on this page is measured against this station and nothing else.</p>
+
+<p class="cap">65 nights so far that never dropped below 20&nbsp;&deg;C. That is 9th of its 51 summers.</p>
+
+<p class="cap">Larnaca's hottest day this year, 38.4&nbsp;&deg;C, is <strong>17th on this record</strong>. The previous best is 41.5&nbsp;&deg;C in 2024, the dot on the drop line. A typical summer here peaks at 37.8&nbsp;&deg;C. Its hot-day count is 10th of 51: a count and a peak are different claims, and neither borrows the other's rank.</p>
+
+<!-- The methodology link sits with the sources, not in the nav. The
+     shared masthead takes a methodology_href and does not render it,
+     so passing one there is silent and does nothing; this is the
+     place a reader checking a number is already looking. -->
+<div class="src">
+<span><a href="methodology.html">How these figures are built</a></span>
+<span style="text-align:right">Heat methodology</span>
+<span>NOAA GHCN-Daily and WMO synoptic bulletins, Larnaca Airport, daily minimum and maximum</span>
+
+<span style="text-align:right">to 2026-08-12</span>
+<!-- Kristjan's ruling, 2026-08-07: show the state per city rather than
+     verify quietly or hedge across the set. Three different facts and the
+     reader gets whichever is true of their city. Generated by heat from
+     the station history, never typed here, so a city moving from unchecked
+     to checked-and-clean improves the page with no copy change. -->
+<span>Station history not yet checked.</span>
+<span style="text-align:right">station history</span>
+<!-- DERIVED, not typed. This row is the formal DEFINITION of the threshold
+     and it carried the literal string "1971 to 2000" while the prose above
+     it had already been corrected to the per-station window. Murcia's page
+     therefore stated two different reference periods for the same number,
+     two paragraphs apart, and the false one was the definition. -->
+<span>Hot days, this station's own 95th percentile of July-August maxima, 1991 to 2020</span>
+<span style="text-align:right">36.3 &deg;C</span>
+<!-- Same defect editor found in the prose, in the line that DEFINES the
+     metric. 'At or above 20' drops the minimum and describes a night that
+     reached 20, which nearly every summer night does. -->
+<span>Hot nights, ETCCDI index TR, daily minimum never below 20.0 &deg;C</span>
+<span style="text-align:right">not chosen by us</span>
+<!-- VD Heat, reader's view: every figure is to 2 or 3 August and a reader
+     arriving later cannot tell whether the summer ended, whether the page is
+     stale, or when it changes. A returning reader sees the same 30 and
+     assumes nothing happened. -->
+<span>Updated weekly, each Monday</span>
+<span style="text-align:right">counted to 2026-08-12</span>
+</div>
+<!-- THE WAY OUT. VD Heat: the city page is the promotion surface, so most
+     readers arrive here first and this is the whole site to them. A Berliner
+     sent the Paris link had a masthead link to the channel and nothing that
+     said twenty-three other cities exist. The index has the map, and the map
+     is the invitation. -->
+<p class="stand" style="margin-top:34px;padding-top:22px;border-top:1px solid var(--rule)">
+42 cities are measured this way, each against its own record.
+<a class="more" href="index.html">See them on the map</a></p>
+</main></body></html>

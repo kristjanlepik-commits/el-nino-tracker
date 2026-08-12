@@ -91,7 +91,8 @@ BOX = {"ES": (36.0, 43.8, -9.3, 4.3), "FR": (41.3, 51.1, -5.2, 9.6),
        # future Scottish or Northern Irish station passes without another
        # edit here. The guard's whole value is that a new country stops
        # the build rather than skipping the check.
-       "UK": (49.8, 60.9, -8.7, 1.9), "EE": (57.5, 59.7, 21.7, 28.2)}
+       "UK": (49.8, 60.9, -8.7, 1.9), "EE": (57.5, 59.7, 21.7, 28.2),
+       "CY": (34.5, 35.8, 32.2, 34.7)}
 # A country arriving in the payload with no box would otherwise skip the
 # check silently, which is the one failure this guard exists to prevent.
 for _n, _v in C.items():
