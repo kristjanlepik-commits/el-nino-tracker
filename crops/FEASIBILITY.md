@@ -2059,3 +2059,101 @@ England the REGION that holds, so surfacing England means selecting at
 region level. And it is a description rather than a warning: a record
 rate at an ordinary level is followed by a bad level 2.9% of the time
 against 1.3% otherwise.
+
+### 13h. How to rank "how bad is it" across five instruments, and why we should not build an index
+
+Added 2026-08-11, from Kristjan's question: the site ranks on vegetation
+alone, there are five sublayers, and if four are extreme while
+vegetation is average we may be hiding important countries.
+
+The worry is correct. The answer is not an index.
+
+**JRC ALREADY PUBLISHES ONE, AND WE HAD IT UNCOLLECTED IN THE CACHE.**
+`crops/.cache/asap_warnings/warnings_ts.csv`: 2.1 million rows,
+2001-05-21 to present, per GAUL1 unit. It is **a cascade, not an
+average**:
+
+| level | what it means |
+|---|---|
+| 1 | at least 25% of active area anomalous on **WSI** only, a driver |
+| 2 | at least 25% anomalous on **zNDVIc** only, the outcome |
+| 3 | **both** WSI and zNDVIc: driver and crop response confirmed |
+| 4 | zNDVIc anomaly **at senescence**, too late to recover |
+
+Plus "with exceptional conditions" variants, `Successful season`, `Off
+season` and `Insufficient area`.
+
+**This is the structure the severity composite got wrong.** Averaging
+five instruments destroys the information that four are inputs and one
+is the response, which is how Hungary reached severity rank 1 on a
+median cumulative crop signal (trap 14). JRC encodes the causal sequence
+instead of flattening it. Building our own would also be original
+modelling, which the build philosophy bars outright.
+
+**IT CONFIRMS THE WORRY, AND THE GAP IS LARGE.** At 2026-07-11, **118
+countries have at least one unit under warning. Our selection shows
+36.** Two of the missing are exactly the case Kristjan describes:
+
+    Austria    9 of 9 active units under warning, one at LEVEL 4
+    Hungary    7 of 7 active units under warning
+
+Neither appears in our list, because the list counts regions at a record
+low on cumulative vegetation and neither country has one.
+
+**AND IT CANNOT BE RANKED AGAINST HISTORY. This is the finding that
+stops it being a selector.** Share of active units under warning, ranked
+against each country's own 25 years at the same dekad:
+
+| | |
+|---|---|
+| countries at "rank 1 of 26" | 50 |
+| of those, **ties at a ceiling rather than records** | **45** |
+
+Belgium: 2 units, eleven prior years already at 100%. Belize: one unit,
+twelve. **The measure saturates**, because it is a share of a binary
+over a small denominator. Only the large-unit countries (Cambodia 23,
+Chad 18) produce a clean record.
+
+**So ASAP's warning is a good CLASSIFICATION and a bad RANKING.** It is
+publishable as a described state, "all nine Austrian units are under
+warning and one is at level 4", and it is not publishable as "rank 1 of
+26".
+
+**WHAT DOES RANK, AND SURFACES THE SAME COUNTRIES, IS THE RATE.** France,
+Hungary and Austria are all rank 1 on the four-dekad fall and all hold
+the start-level control (13f, 13g). It is baselined at p = 0.00 against
+a prior mean of 2.6 and survives every gate that killed the other three
+measures.
+
+**THE PROPOSAL: THREE RULES, EACH LABELLED BY ITS QUESTION, NEVER
+MERGED.**
+
+| rule | question | status |
+|---|---|---|
+| **breadth** | how much of a country is at a record | live |
+| **speed** | how fast is it deteriorating | built, baselined, unrendered |
+| **state** | what stage is the stress at | ASAP's cascade, cited, not built |
+
+Merging them is the error D-090's first constraint names, and it arrived
+as a SUM on the front page this week: 53 places, where fires' 17 are
+countries past their own record week and crops' 36 are countries with
+any one region at a record, seventeen of them qualifying on a single
+region out of as many as eighty-two.
+
+**THREE COSTS, none fatal, all real.**
+
+- ASAP's warnings are built on **zNDVIc**; we pull **zFPARc**. Adopting
+  them puts two different vegetation indices on one page.
+- The warnings file names the UK **`U.K.`**; our indicators say **`U.K.
+  of Great Britain and Northern Ireland`**. A join on name silently
+  drops it, which is the same shape as the two-rules-in-two-places
+  defects that cost us seven unlinked pages and a false aria-label.
+- The warnings cache is one dekad behind the indicators (2026-07-11
+  against 2026-07-21) and would need its own refresh in the job.
+
+**On pinning the UK, France and Spain to the front page.** The data
+supports it and reader relevance (T11) argues for it. But **they are not
+extreme on crop outcome**: France is 18th of 26, the UK 12th. They are
+extreme on drivers and on rate. A pinned row must say which, or a reader
+sees a familiar country on a crops page and infers a record that is not
+there.
