@@ -925,7 +925,20 @@ COPY = copydeck.render(
     {
         "records": floor(DH["records"]).capitalize(),
         "of_cities": DH["of_cities"],
-        "typical_year": words(DH["baseline"]["median_year"]),
+        # REMOVED, and not because it was unused. "In a typical year, that
+        # number is N" counts records across years, which product ruled
+        # unpublishable on 2026-08-11 as rule 5f: our set was assembled
+        # during 2026 with knowledge of 2026, and it is explicitly not
+        # rescuable by freezing the set and recomputing, because a set
+        # chosen with hindsight is still hindsight.
+        #
+        # It was live on this page the whole time. The 5f audit recorded
+        # "no draft in this queue makes a cross-year count comparison",
+        # which was true of the queue and not of the site: the audit
+        # checked drafts and the claim was already published.
+        #
+        # A German reader read it off the live page and asked Kristjan for
+        # the source, in good faith, which is how it surfaced.
         "hot_hi_c": HOT_HI[1], "hot_hi": HOT_HI[0],
         "hot_lo_c": HOT_LO[1], "hot_lo": HOT_LO[0],
         "n_cities": len(rows),

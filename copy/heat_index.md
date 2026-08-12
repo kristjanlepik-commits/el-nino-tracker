@@ -26,8 +26,7 @@ How hot has the European summer been?
 ## lead
 
 **{records} of these {of_cities} European cities have had more hot days
-this summer than in any year on record.** In a typical year, that number is
-{typical_year}.
+this summer than in any year on record.**
 
 ## method
 
