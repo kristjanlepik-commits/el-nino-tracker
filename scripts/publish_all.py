@@ -618,7 +618,23 @@ def main() -> None:
         restore(saved, keep_shell=not shell_hit)
         scope = "everything restored" if shell_hit else \
             "channels restored; the ENSO shell still publishes (invariant 1)"
-        print(f"\nPUBLISH REJECTED, {scope}:")
+        # SAY WHAT SURVIVED, not only what was rejected. Fire spent a
+        # morning diagnosing a fetcher that was working perfectly,
+        # because "publish rejected, everything restored" reads exactly
+        # like "your data pull was thrown away". It was not: the channel
+        # jobs commit their data BEFORE calling this, so a rejection here
+        # costs the render and nothing else, and the remedy is a re-run of
+        # this script with no refetch.
+        #
+        # Verified on the run that prompted it (31564975402): "Commit the
+        # data pulls" succeeded, "Publish" failed. Thirty-four minutes of
+        # FIRMS pulling was committed and pushed, and reported to its
+        # owner as lost.
+        print(f"\nPUBLISH REJECTED, {scope}.")
+        print("Committed DATA is untouched: channel jobs commit before "
+              "publishing, so nothing fetched has been lost and no refetch "
+              "is needed. Fix the finding below and re-run this script.")
+        print()
         for p in problems:
             print(f"  {p}")
         raise SystemExit(1)

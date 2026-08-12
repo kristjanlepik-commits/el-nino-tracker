@@ -1129,6 +1129,56 @@ def check_social_card(violations, advisories):
         advisories.append(msg)
 
 
+def check_masthead_present(violations):
+    """Does every published shell and channel page still HAVE a masthead?
+
+    THE GATE THAT CAN STOP THE PIPELINE WAS NOT AVAILABLE TO THE PERSON
+    MOST LIKELY TO TRIP IT. publish_all asserted this and qa_check did
+    not, so design ran qa_check and publish_shell --check on every push,
+    passed both, and still broke the site-wide publish. Design found the
+    asymmetry in themselves and volunteered it; fire passed it on.
+
+    check_masthead_wellformed next door only inspects a masthead that is
+    already there, and skips a page without one, which is precisely the
+    case that failed. Presence and well-formedness are different
+    questions and only one of them was asked here.
+
+    The page set comes from publish_all rather than being restated, so
+    the two cannot drift into disagreeing about what must carry it. That
+    is the same defect one level up: two lists, one fact.
+
+    STILL THE LITERAL class="prodnav", deliberately. Design's new front
+    page used class="nav" carrying the same links, so no reader could
+    have seen a difference and this fired anyway. They fixed it by
+    adopting site_masthead() rather than asking for a second accepted
+    string, which is the right call: a bespoke nav on the one page that
+    defines the design system is exactly what drifts. Teaching the guard
+    more spellings would license that.
+    """
+    try:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from publish_all import TARGETS
+    except Exception as exc:
+        violations.append(
+            f"qa_check: cannot read TARGETS from publish_all ({exc}), so the "
+            f"masthead-presence check has no page list and is not running. "
+            f"A check with no subject is not a check.")
+        return
+
+    pages = [ROOT / rel for rel in TARGETS]
+    pages += sorted((ROOT / "docs" / "fires").glob("*/index.html"))
+    for p in pages:
+        if not p.exists():
+            continue
+        rel = str(p.relative_to(ROOT))
+        if 'class="prodnav"' not in p.read_text(errors="ignore"):
+            violations.append(
+                f"{rel} has no shared masthead: no link home, a dead end. "
+                f"publish_all rejects the whole publish on this, and a "
+                f"rejection discards every channel's completed work for that "
+                f"run, so it is worth catching here first.")
+
+
 def check_masthead_wellformed(violations):
     """One masthead per page, and a channel page marks its own section.
 
@@ -1437,6 +1487,7 @@ def main():
     # page is incomplete; a page with two mastheads is malformed, and
     # publishing malformed markup is worse than publishing nothing.
     check_masthead_wellformed(violations)
+    check_masthead_present(violations)
     check_social_card(violations, advisories)
     check_conflict_markers(violations)
     check_heat_pages_match_reference(violations)
