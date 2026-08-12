@@ -32,7 +32,7 @@ a city's own July and August temperatures from 1971 to 2000, and Palma's
 record starts in 1978, so seven of those thirty years do not exist here.
 A part-length window drawn from the cooler end set the bar too low. Palma
 now uses the complete 1991 to 2020 normal, the bar rises from 33.0 °C to
-33.6 °C, and 2026 ties rather than leads.
+33.6 °C, and 2026 no longer leads.
 
-A tie counts against us here, so the rank beside it reads second of 49.
-**No measurement changed. Not one day. The bar did.**
+The rank beside it reads second of 49, behind 2022.
+**No measurement changed here. Not one day. The bar did.**

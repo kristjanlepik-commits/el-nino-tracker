@@ -414,8 +414,25 @@ def check_no_silent_claim_reversal(name, head):
                      live.read_text())
     if not prev:
         return
-    was_record = prev.group(1).startswith("The most hot days")
-    now_record = head.startswith("The most hot days")
+    # MATCH THE CLAIM, NOT ONE PHRASING. This tested a single literal
+    # prefix, "The most hot days", and Palma's page had since moved to the
+    # tie wording, "equalling 2022 for the most in Palma's 49 summers". So
+    # when heat's Spain refresh broke that tie and 2022 pulled ahead, the
+    # page went from claiming a shared record to claiming none and THE
+    # GUARD DID NOT FIRE, because the string it watches was not the string
+    # on the page.
+    #
+    # That is heat's own August failure repeated in my file: a guard that
+    # matches one literal while the claim it protects has three wordings.
+    # The question is "did this page claim to lead its own record", so that
+    # is what is asked.
+    def _claims_record(txt):
+        t = txt.lower()
+        return ("the most hot days" in t or "the most on record" in t
+                or "the most in " in t)
+
+    was_record = _claims_record(prev.group(1))
+    now_record = _claims_record(head)
     if was_record and not now_record:
         if not CORRECTIONS.get(slug(name)):
             raise SystemExit(
@@ -614,6 +631,18 @@ border-bottom:1px solid var(--rule)}
 """
 
 built, notes, pending = [], [], []
+
+# SOCIALS' ASK, and their second constraint met structurally. Every page
+# returned the same og:image, the El Nino weekly card, so a shared heat city
+# page previewed with an ENSO chart: on-brand and off-subject, and the
+# reader most affected is the one who never clicks.
+#
+# Generated HERE rather than on its own schedule. A card on a separate
+# cadence is London's stale provisional notice with a longer fuse, because
+# nobody looks at a preview image after it ships.
+from design.make_city_cards import draw_all as _draw_cards  # noqa: E402
+_cards = _draw_cards()
+print("built %d share cards" % len(_cards))
 for name, v in sorted(C.items()):
     yrs = S[name]["years"]
     D = series(yrs, "days_to_cut", "95")
@@ -1086,7 +1115,7 @@ for name, v in sorted(C.items()):
      showing a blank one. The house card is generic and beats an
      empty slot; per-page cards wait for the citable chart, and will
      have to carry their cut date so a stale one is visibly stale. -->
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
+<meta property="og:image" content="{PAGES_BASE_URL}/heat/cards/{slug(name)}.png">
 <meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{name}: {now} hot days so far this summer">
