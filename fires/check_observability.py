@@ -80,9 +80,28 @@ This test can only see suppression that VARIES WITH FIRE SIZE. A blindness
 that is uniform, or that varies with something other than size, passes it
 untouched. Two live ones:
 
-  - CLOUD. The channel still cannot distinguish a cloud-covered day from a
-    calm one, and there is no cloud product wired in. That is the real
-    observability limit here and it is unmeasured, not measured-and-clear.
+  - CLOUD. NOW MEASURED, AND IT IS REAL. See `cloud_test` below and
+    `fetch_era5_cloud.py`. At matched fire size, cloud suppresses
+    detections: pooled coefficient -0.76 country-demeaned, and -1.22 once
+    the seasonal cycle is removed as well, against a shuffle null of about
+    plus or minus 0.10. Sixteen of seventeen countries fall outside their
+    own null.
+    Removing the season STRENGTHENED it, which matters: season was the
+    confound most likely to have manufactured this, and it was masking the
+    effect instead.
+    In practice, at matched fire size, a 0.2 rise in cloud fraction costs
+    22% of detections, and the observed within-country daily cloud sd is
+    0.17, so swings that size are ordinary rather than extreme. Full
+    overcast costs 70%.
+    A LOWER BOUND, not an estimate: ERA5 cloud at 1 degree is a noisy proxy
+    for cloud over a fire front and that noise attenuates toward zero.
+    NOT THE SMOKE ANSWER. This is total cloud blinding and cannot separate
+    meteorological cloud from smoke; that still needs the MCDWD arm.
+    Three countries came out POSITIVE (BRA +0.42, CHN +0.87, ZMB +0.52).
+    No explanation offered, because I do not have one and picking a story
+    would be worse than recording the anomaly.
+    THE CONSEQUENCE FOR READERS, which is the point of having measured it:
+    a quiet week can be a blinded week, and nothing on the page says so.
   - Detection floor. Fires below the pixel threshold are absent from both
     instruments, so this comparison cannot see them at all.
 
