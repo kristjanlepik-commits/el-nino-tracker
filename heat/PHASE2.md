@@ -458,3 +458,46 @@ one. That is the Rebecca route and it is the only one left.
 
 **Cyprus is untested against this and must be** before it is called viable.
 Larnaca's span passes; its per-year element coverage has not been counted.
+
+### The bulletins bridge the gap, 2026-08-11
+
+I ruled North Africa out on GHCN's sparse recent maxima and gave Cyprus a
+chart ending in 2016. Both conclusions were premature: **the same SYNOP route
+that rescued London fills exactly the years GHCN lacks.**
+
+**LARNACA VALIDATES EXACTLY.** Against GHCN over summer 2016, the last year
+both hold:
+
+    Tmin @ 06Z   n=58   100.0% exact   worst 0.0
+    Tmax @ 18Z   n=76   100.0% exact   worst 0.0
+
+And OGIMET carries Larnaca for 2017, 2023 and 2026. So Cyprus is
+GHCN 1976-2016 plus bulletins 2017-2026: one station, two transports,
+validated on the overlap. **The same shape as London and legal for the same
+reason.**
+
+**NORTH AFRICA: the bulletins cover the years GHCN does not.**
+
+    Algiers    Jul 2018 and Jul 2022   both present
+    Tunis      Jul 2022                present
+    Casablanca Jul 2018                empty, retry needed
+
+GHCN's Algiers had ONE usable recent year in fifteen. The bulletins have the
+rest, so the rejection stands only against GHCN alone.
+
+**WHAT IS STILL REQUIRED, and it is not small.** Bridging a ten-year gap is
+different from adding a current season: the bridge years become part of the
+RANKED SERIES, not just the current value. So each needs per-year
+completeness counted across the bridge, not merely presence sampled in one
+July. A month that returns bytes is not a year that passes the bar.
+
+**And the licence question returns.** These are OGIMET pulls, and OGIMET is
+one person's server. For London that was resolved by the Met Office supplying
+the season directly. The equivalent here is ONM Algeria, INM Tunisia, DGM
+Morocco and the Cyprus Department of Meteorology, which is the Rebecca route
+and the only one that ends in something publishable.
+
+**The pattern worth naming: I have now twice concluded a city was unreachable
+from ONE source's gaps.** London on six routes, and these four on GHCN. Both
+times the station was transmitting the whole time and the archive was the
+thin thing.
