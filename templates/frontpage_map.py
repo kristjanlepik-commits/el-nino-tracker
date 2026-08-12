@@ -319,7 +319,7 @@ document.querySelectorAll('.lg').forEach(function (b) {
 </script>"""
 
 
-def map_block(d):
+def map_block(d, root_prefix=""):
     """The map, its legend and its state-line counts, for any page.
 
     Returned as a block rather than inlined so the front page and this
@@ -369,6 +369,37 @@ def map_block(d):
     n_below = sum(below.values())
     n_rec = n_shown + n_below
 
+    # THE PACIFIC SST FIELD IS THE GROUND LAYER, not an outline. VD's study
+    # says so explicitly and the previous front page drew it; my rebuild
+    # kept only the dashed extent, which is a box where the ocean should be.
+    # Kristjan asked for the visual back.
+    #
+    # It carries its own observation date, because it is a static picture of
+    # a moving field refreshed out of band, and a picture that does not say
+    # how old it is goes quietly wrong. The date comes from the JSON beside
+    # the PNG rather than from the issue date; those are different facts and
+    # the asset can be older than the issue around it.
+    sst = ""
+    sst_date = ""
+    try:
+        meta_p = ROOT / "docs" / "pacific-sst.json"
+        png = ROOT / "docs" / "pacific-sst.png"
+        if meta_p.exists() and png.exists():
+            sm = json.loads(meta_p.read_text())
+            need = ("lon_west", "lon_east", "lat_south", "lat_north",
+                    "observation_date")
+            if all(sm.get(k) is not None for k in need):
+                tl = xy(sm["lat_north"], sm["lon_west"])
+                br = xy(sm["lat_south"], sm["lon_east"])
+                sst = ('<image class="sstfield" href="%spacific-sst.png" '
+                       'x="%.2f" y="%.2f" width="%.2f" height="%.2f" '
+                       'preserveAspectRatio="none" aria-hidden="true"/>'
+                       % (root_prefix, tl[0], tl[1], br[0] - tl[0],
+                          br[1] - tl[1]))
+                sst_date = sm["observation_date"]
+    except (OSError, ValueError):
+        sst = ""
+
     svg = (
         '<svg viewBox="0 20 800 336" width="100%" style="display:block" '
         'role="img" aria-label="World map of this week\u2019s readings. One '
@@ -376,16 +407,19 @@ def map_block(d):
         'channel\u2019s own severity measure and sizes compare only within a '
         'channel. Fires are circles, crops are squares, heat is one dashed '
         'aggregate. Only places past a stated bar are drawn.">'
-        + body
+        + sst + body
         + '<line class="eq" x1="0" y1="%.1f" x2="800" y2="%.1f"/>' % (eq, eq)
         + '<rect class="sstw" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>'
           % (wtl[0] + 1, wtl[1], wbr[0] - wtl[0] - 1, wbr[1] - wtl[1])
+        + '<path class="nbh" d="M%.1f,%.1f v-7 h%.1f v7"/>'
+          % (b1, eq + 13, b2 - b1)
         + '<path class="nb" d="M%.1f,%.1f v-7 h%.1f v7"/>'
           % (b1, eq + 13, b2 - b1)
         + '<text class="nbt" x="%.1f" y="%.1f">NI\u00d1O 3.4 &nbsp;%s</text>'
           % (b2 + 9, eq + 11, n34)
         + gs + '</svg>')
     return dict(svg=svg, legend=legend(d, ms), script=SCRIPT,
+                sst_date=sst_date,
                 n_rec=n_rec, n_shown=n_shown, n_below=n_below,
                 bar_f=BAR["fires"][2], bar_c=BAR["crops"][2])
 

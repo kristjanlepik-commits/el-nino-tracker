@@ -520,8 +520,8 @@ def _word(n):
 STANDING_QUESTION = "Where is the climate abnormal this week, and how bad?"
 
 
-def page(d, canonical, og_image_url, root_prefix, desc):
-    _mb = map_block(d)
+def page(d, canonical, og_image_url, root_prefix, desc, brief_date_iso):
+    _mb = map_block(d, root_prefix)
     rs = readings(d)
     # The chip column exists only if something in the SET uses it. Two rows
     # trailing into an empty cell reads as missing data; a column that is
@@ -626,7 +626,7 @@ h1 b{{font-weight:500;color:var(--ink)}}
 /* TYPOGRAPHIC, NOT HUED. The comp gives this band a blue rule and a blue
    label; D-101 retired channel hue and the case being made for its return
    is scoped to map markers. */
-.wave{{margin-top:40px;background:var(--paper-sunk);border-left:3px solid
+.wave{{text-decoration:none;color:inherit;margin-top:40px;background:var(--paper-sunk);border-left:3px solid
  var(--ink);padding:16px 20px;display:flex;flex-wrap:wrap;align-items:baseline;
  gap:8px 20px}}
 .wave .k{{font-family:"{data}",monospace;font-size:9.5px;letter-spacing:.2em;
@@ -644,9 +644,11 @@ h1 b{{font-weight:500;color:var(--ink)}}
  text-transform:uppercase;color:var(--ink)}}
 .note .sub{{font-family:"{data}",monospace;font-size:10px;line-height:1.7;
  color:var(--ink-faint);margin-top:6px}}
-.note .pull{{font-weight:500;font-size:26px;line-height:1.32;color:var(--ink);
+.pullwrap{{text-decoration:none;color:inherit;display:block}}
+.pullwrap:hover .pull{{color:var(--nino)}}
+.note .pull{{display:block;font-weight:500;font-size:26px;line-height:1.32;color:var(--ink);
  max-width:44ch;text-wrap:pretty}}
-.note .by{{font-family:"{data}",monospace;font-size:11px;color:var(--ink-faint);
+.note .by{{display:block;font-family:"{data}",monospace;font-size:11px;color:var(--ink-faint);
  margin-top:10px}}
 .chn{{margin-top:44px;border-top:1px solid var(--rule);padding-top:16px}}
 .chn .k{{font-family:"{data}",monospace;font-size:9.5px;letter-spacing:.22em;
@@ -693,9 +695,12 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:13px;fill:var(--ink);
  stroke:var(--paper);stroke-width:3;paint-order:stroke}}
 svg .mlc{{font-family:"{data}",monospace;font-size:9.5px;fill:var(--ink-soft);
  stroke:var(--paper);stroke-width:3;paint-order:stroke}}
+svg .sstfield{{opacity:.92}}
 svg .eq{{stroke:var(--rule);stroke-width:1}}
 svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
  stroke-dasharray:4 4}}
+svg .nbh{{fill:none;stroke:var(--paper);stroke-width:4.2;
+ stroke-linejoin:round}}
 svg .nb{{fill:none;stroke:{nino_col};stroke-width:1.8}}
 svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
  fill:{nino_col};stroke:var(--paper);stroke-width:3;paint-order:stroke}}
@@ -708,6 +713,7 @@ svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
 /* Heat is ONE mark for its whole set, dashed and unfilled, because it
    carries no state: a set-level fill would assert one for 41 cities at
    once and the per-city states live on the Heat page. VD's answer to Q8. */
+svg .sstfield{{opacity:.92}}
 svg .eq{{stroke:var(--rule);stroke-width:1}}
 svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
  stroke-dasharray:4 4}}
@@ -743,35 +749,24 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
 </style></head><body><div class="shell">
 
 <div class="mast"><span class="wm">The Long Swell</span>
-<span class="nav"><a href="#">El Ni&ntilde;o</a><a href="#">Fires</a>
-<a href="#">Heat</a><a href="#">Crops</a><a href="#">Notes</a>
-<a href="#">About</a></span></div>
+<span class="nav"><a href="{rp}elnino/">El Ni&ntilde;o</a>
+<a href="{rp}fires/">Fires</a><a href="{rp}heat/">Heat</a>
+<a href="{rp}crops/">Crops</a><a href="{rp}notes/">Notes</a>
+<a href="{rp}about.html">About</a></span></div>
 
-<div class="asof"><span style="color:var(--ink)">Week of 2026-08-10</span>
-<span class="r"><span>Fires through 08-10, daily</span>
-<span>Heat through 08-11</span><span>Crops dekad to 07-31</span>
-<span>El Ni&ntilde;o issue 08-10</span></span></div>
+<div class="asof"><span style="color:var(--ink)">Week of {issue}</span></div>
 
 <p class="standing">{standing}</p>
 <h1>{lede}</h1>
-<p class="stand">Every reading is measured against its own place&rsquo;s
-history, and each says whether El Ni&ntilde;o is involved; most are not.
-Channels are never ranked against each other.</p>
-
 <div class="seclab">Where, this week
-<span class="r">{mb_state}</span></div>
+<span class="r">{mb_state}{mb_sst}</span></div>
 {mb_svg}
 {mb_legend}
-<p class="mapnote"><b>The map draws only what clears a stated bar: fires at
-{mb_bar_f}, crops with {mb_bar_c}.</b> {mb_below} more places passed their own
-record this week and not the bar; every one is counted by its channel and on
-its channel page, so the bar decides what is DRAWN, never what is measured.
-It is a fixed number rather than one tuned each week to keep the map tidy.
-One hue and one shape per channel, sized by that channel&rsquo;s own measure:
-<b>sizes compare within a channel, never across channels</b>. Shape carries
-the channel and hue repeats it, so the split survives greyscale and
-colourblindness. Every mark is a link; hover or focus shows its claim with its
-denominator.</p>
+<p class="mapnote"><b>Only what clears a stated bar is drawn: fires at
+{mb_bar_f}, crops with {mb_bar_c}.</b> {mb_below} more places passed their
+own record and not the bar; each is counted on its channel page. Marks are
+sized within a channel, never across. <a href="{rp}about.html">How this is
+built &rarr;</a></p>
 
 <div class="seclab" style="border-bottom:none;margin-top:40px">The readings
 &nbsp;&middot;&nbsp; one slot per channel
@@ -782,18 +777,19 @@ evidence beside it</span></div>
 <div class="more"><span style="max-width:74ch">Chips mark attribution where a
 channel runs it. Fires does; Heat and Crops do not assess attribution, so the
 column is absent rather than empty.</span>
-<span style="white-space:nowrap"><a href="#">Fires, {n_fire} countries
-&rarr;</a> &nbsp;&middot;&nbsp; <a href="#">Heat, {n_city} cities &rarr;</a>
-&nbsp;&middot;&nbsp; <a href="#">Crops, {n_ctry} countries &rarr;</a></span></div>
+<span style="white-space:nowrap"><a href="{rp}fires/">Fires, {n_fire}
+countries &rarr;</a> &nbsp;&middot;&nbsp; <a href="{rp}heat/">Heat,
+{n_city} cities &rarr;</a> &nbsp;&middot;&nbsp; <a href="{rp}crops/">Crops,
+{n_ctry} countries &rarr;</a></span></div>
 
-<div class="wave"><span class="k">The wave &nbsp;&middot;&nbsp; El Ni&ntilde;o
+<a class="wave" href="{rp}elnino/"><span class="k">The wave &nbsp;&middot;&nbsp; El Ni&ntilde;o
 2026-27</span>
 <span class="v"><b class="ws-num num">{p25}</b>% chance of a peak beyond
 +2.5&nbsp;&deg;C,
 <b>{p35}%</b> beyond +3.5</span>
 <span class="spread">{spread}</span>
-<span class="r">Ni&ntilde;o 3.4 {n34} &middot; issue 2026-08-10 &middot;
-this week&rsquo;s issue &rarr;</span></div>
+<span class="r">Ni&ntilde;o 3.4 {n34} &middot; issue {issue} &middot;
+the El Ni&ntilde;o tracker &rarr;</span></a>
 
 <div class="note">
 <div><div class="k">Notes</div>
@@ -842,13 +838,15 @@ averaged</span></div>
                    if any(r.get("rank") == 1 for r in (p.get("regions") or []))),
         p25=hb["9715_>2.5"]["mid"], p35=hb["record_>3.5"]["mid"],
         spread=_spread(hb),
-        n34=n34, standing=h(STANDING_QUESTION), sitename=h(SITE_NAME),
+        n34=n34, rp=root_prefix, issue=brief_date_iso, standing=h(STANDING_QUESTION), sitename=h(SITE_NAME),
         desc=h(desc), canonical=h(canonical), ogimage=h(og_image_url),
         analytics=ANALYTICS_SNIPPET, root_prefix=root_prefix,
         mb_svg=_mb["svg"], mb_legend=_mb["legend"],
         mb_bar_f=_mb["bar_f"], mb_bar_c=_mb["bar_c"], mb_below=_mb["n_below"],
         mb_state="%d past their own record &middot; %d past the bar"
                  % (_mb["n_rec"], _mb["n_shown"]),
+        mb_sst=(" &middot; ocean field observed 7 days to %s"
+                % _mb["sst_date"]) if _mb.get("sst_date") else "",
         script=_mb["script"],
         form=email_capture_form(label="Subscribe"),
         promise=h(EMAIL_CAPTURE_PROMISE), ecss=EMAIL_FORM_CSS)
@@ -870,4 +868,5 @@ def render(meta, brief_date_iso, canonical_url, og_image_url,
     desc = ("Where the climate is abnormal this week, measured against each "
             "place's own record. %s%% chance of a 1997/2015-magnitude El "
             "Niño peak." % magn)
-    return page(d, canonical_url, og_image_url, root_prefix, desc)
+    return page(d, canonical_url, og_image_url, root_prefix, desc,
+                brief_date_iso)

@@ -115,6 +115,8 @@ svg .mlc{{font-family:"{data}",monospace;font-size:9.5px;fill:var(--ink-soft);
 svg .eq{{stroke:var(--rule);stroke-width:1}}
 svg .sstw{{fill:none;stroke:var(--ink-faint);stroke-width:1;
  stroke-dasharray:4 4}}
+svg .nbh{{fill:none;stroke:var(--paper);stroke-width:4.2;
+ stroke-linejoin:round}}
 svg .nb{{fill:none;stroke:{nino_col};stroke-width:1.8}}
 svg .nbt{{font-family:"{data}",monospace;font-size:9.5px;font-weight:600;
  fill:{nino_col};stroke:var(--paper);stroke-width:3;paint-order:stroke}}
