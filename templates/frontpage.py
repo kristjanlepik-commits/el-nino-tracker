@@ -401,8 +401,20 @@ def _generated_lede(d):
     # So this prefers a field and refuses to invent one. Until fires emit
     # it, the clause states the fact the page itself defines two inches
     # below the map, which no reader has to take on trust.
-    _fire_field = None
-    n_fire = _fire_field
+    # THE OWNER HAS RULED, which is the resolution product proposed rather
+    # than an override of it. Four values were in play; fires own the
+    # definition, chose "at rank 1", and verified the count against their
+    # own payload on the advanced window. My derivation from `qualifies_on`
+    # returns exactly their number, 14 of 16 anomalous, so the page states
+    # the count they stand behind rather than one of the three nobody owns.
+    #
+    # It is still DERIVED here rather than read from a field, and that is
+    # the part still owed: asked fires to emit it, so a change to what
+    # "record" means updates this page without anyone re-deriving. Until
+    # then this is a derivation with the owner's signature on it, which is
+    # better than my own reading and worse than a field.
+    n_fire = sum(1 for e in d["events"] if e.get("anomalous")
+                 and "record" in (e.get("qualifies_on") or []))
 
     recs = [(p["place"], [r for r in (p.get("regions") or [])
                           if r.get("rank") == 1]) for p in d["crops"]["places"]]
@@ -418,15 +430,7 @@ def _generated_lede(d):
         out.append("<b>No city</b> of the %d measured has had more hot days "
                    "than in an earlier year." % dh["of_cities"])
 
-    if n_fire is None:
-        # No field yet. The bar is stated on this page, so a count against
-        # it is checkable here; a count against "their own record" is not,
-        # until fires publish which set that names.
-        n_bar = sum(1 for e in d["events"] if e.get("anomalous")
-                    and float(str(e.get("stat", "0")).rstrip("x") or 0) >= 3.0)
-        out.append("<b>%d countries</b> burned at three times their own "
-                   "same-week average or more." % n_bar)
-    elif n_fire == 1:
+    if n_fire == 1:
         # The singular is not a plural with the s removed: "1 country is
         # past their own record fire week" needs "its". Exercised below,
         # because one is the count this clause will most often carry in a
@@ -888,8 +892,8 @@ averaged</span></div>
         # "past the bar" was defined in the caption BELOW the map, so a
         # first-time reader met the term before its definition. Says what
         # it means instead.
-        mb_state="%d places drawn &middot; %d crop countries hold a "
-                 "record low" % (_mb["n_shown"], _mb["n_rec"]),
+        mb_state="%d places drawn, of %d past their own record"
+                 % (_mb["n_shown"], _mb["n_rec"]),
         mb_sst=(" &middot; ocean field observed 7 days to %s"
                 % _mb["sst_date"]) if _mb.get("sst_date") else "",
         script=_mb["script"],

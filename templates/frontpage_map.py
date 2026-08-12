@@ -376,13 +376,13 @@ def map_block(d, root_prefix=""):
     n_shown = sum(1 for m in ms if m["ch"] != "heat")
     n_crops_drawn = sum(1 for m in ms if m["ch"] == "crops")
     n_below = sum(below.values())
-    # THE STATE LINE CARRIED THE SAME CONTESTED COUNT. "Past their own
-    # record" is well defined for crops, whose records are rank 1 in a
-    # 26-year series, and is NOT yet well defined for fires: four plausible
-    # values exist for it and the sentence never said which set it counts.
-    # So the line no longer sums the two. It states what is drawn against
-    # the bar the caption defines, and leaves "record" to crops.
-    n_rec = sum(1 for m in allm if m["ch"] == "crops" and m["sev"])
+    # RECORDS, NOT THE GATE, and fires have now ruled on which is which.
+    # A fires country can clear the anomaly gate on multiple or z alone
+    # without being at rank 1, so summing the gated set overstated this.
+    # Reading is_record gives 14 on the current window, which is the number
+    # fires verified against their own payload.
+    n_rec = sum(1 for m in allm if m["ch"] == "crops" and m["sev"]) + \
+        sum(1 for m in allm if m["ch"] == "fires" and m.get("is_record"))
 
     # THE PACIFIC SST FIELD IS THE GROUND LAYER, not an outline. VD's study
     # says so explicitly and the previous front page drew it; my rebuild
