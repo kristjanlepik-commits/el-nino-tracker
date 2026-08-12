@@ -1,0 +1,66 @@
+# ENSO events derived from data/oni_full_history.csv, 1950 to present.
+# Derived: 2026-08-12 by the aftereffects desk.
+#
+# Rule is NOAA CPC's published definition, applied mechanically:
+#   an event is >=5 CONSECUTIVE overlapping 3-month seasons at or beyond
+#   +0.5 (El Nino) or -0.5 (La Nina).
+# Strength is by the event's peak ONI, on CPC's published bands:
+#   weak 0.5-0.9, moderate 1.0-1.4, strong 1.5-1.9, very_strong >=2.0.
+#
+# develop_year is the year the event's peak season sits in, shifted back
+# one where the peak falls in DJF/JFM/FMA, so the 1997-98 event (peak NDJ
+# 1997) is develop_year 1997 and the label reads 1997-98.
+#
+# Evidence basis: Combined (D-033). The inputs are Measured (the CPC
+# series); the event segmentation and strength banding are this file
+# applying CPC's own published rule to them. No judgement is exercised
+# per event. Peak values inherit the base-period caveat documented in
+# data/oni_full_history.csv, so 2015-16 reads 2.59 here where
+# data/oni_historical.csv reads 2.8.
+#
+# Intended use: classifying a year as El Nino, La Nina or neutral when
+# testing a teleconnection against a channel's own measured instrument.
+# A year absent from this file had no qualifying event.
+develop_year,label,type,peak_oni,peak_season,peak_year,n_seasons,strength
+1949,1949-50,la_nina,-1.32,DJF,1950,13,moderate
+1951,1951-52,el_nino,1.03,SON,1951,8,moderate
+1953,1953-54,el_nino,0.78,SON,1953,9,weak
+1955,1955-56,la_nina,-1.59,OND,1955,14,strong
+1957,1957-58,el_nino,1.69,DJF,1958,14,strong
+1963,1963-64,el_nino,1.19,OND,1963,8,moderate
+1964,1964-65,la_nina,-0.8,SON,1964,9,weak
+1965,1965-66,el_nino,1.82,OND,1965,10,strong
+1968,1968-69,el_nino,0.98,DJF,1969,8,weak
+1970,1970-71,la_nina,-1.36,JFM,1971,19,moderate
+1972,1972-73,el_nino,1.84,OND,1972,10,strong
+1973,1973-74,la_nina,-2.04,NDJ,1973,14,very_strong
+1975,1975-76,la_nina,-1.58,NDJ,1975,18,strong
+1976,1976-77,el_nino,0.84,NDJ,1976,6,weak
+1977,1977-78,el_nino,0.84,OND,1977,5,weak
+1982,1982-83,el_nino,2.14,DJF,1983,14,very_strong
+1983,1983-84,la_nina,-0.96,OND,1983,5,weak
+1984,1984-85,la_nina,-1.06,NDJ,1984,9,moderate
+1987,1987-88,el_nino,1.49,ASO,1987,17,moderate
+1988,1988-89,la_nina,-1.85,NDJ,1988,13,strong
+1991,1991-92,el_nino,1.54,DJF,1992,13,strong
+1994,1994-95,el_nino,0.97,NDJ,1994,5,weak
+1995,1995-96,la_nina,-1.05,OND,1995,8,moderate
+1997,1997-98,el_nino,2.37,NDJ,1997,12,very_strong
+1999,1999-00,la_nina,-1.53,NDJ,1999,24,strong
+2000,2000-01,la_nina,-0.78,NDJ,2000,5,weak
+2002,2002-03,el_nino,1.19,OND,2002,8,moderate
+2004,2004-05,el_nino,0.71,NDJ,2004,7,weak
+2005,2005-06,la_nina,-0.86,DJF,2006,5,weak
+2006,2006-07,el_nino,0.88,OND,2006,5,weak
+2007,2007-08,la_nina,-1.76,DJF,2008,11,strong
+2008,2008-09,la_nina,-0.89,DJF,2009,5,weak
+2009,2009-10,el_nino,1.5,NDJ,2009,9,strong
+2010,2010-11,la_nina,-1.57,OND,2010,12,strong
+2011,2011-12,la_nina,-1.02,OND,2011,7,moderate
+2015,2015-16,el_nino,2.59,NDJ,2015,20,very_strong
+2017,2017-18,la_nina,-0.76,NDJ,2017,5,weak
+2018,2018-19,el_nino,1.05,NDJ,2018,10,moderate
+2019,2019-20,el_nino,0.75,NDJ,2019,6,weak
+2020,2020-21,la_nina,-1.11,OND,2020,8,moderate
+2021,2021-22,la_nina,-0.91,OND,2021,17,weak
+2023,2023-24,el_nino,1.99,NDJ,2023,11,strong
