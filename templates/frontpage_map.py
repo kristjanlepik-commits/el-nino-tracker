@@ -381,8 +381,14 @@ def map_block(d, root_prefix=""):
     # without being at rank 1, so summing the gated set overstated this.
     # Reading is_record gives 14 on the current window, which is the number
     # fires verified against their own payload.
+    # Fires' own published count over ALL tracked countries, not the gated
+    # subset and not a recount of the marks. The marks are what is DRAWN;
+    # the record count is what is TRUE, and the noise floor makes those
+    # different numbers.
     n_rec = sum(1 for m in allm if m["ch"] == "crops" and m["sev"]) + \
-        sum(1 for m in allm if m["ch"] == "fires" and m.get("is_record"))
+        (d.get("events_counts") or {}).get(
+            "record",
+            sum(1 for m in allm if m["ch"] == "fires" and m.get("is_record")))
 
     # THE PACIFIC SST FIELD IS THE GROUND LAYER, not an outline. VD's study
     # says so explicitly and the previous front page drew it; my rebuild

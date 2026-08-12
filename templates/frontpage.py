@@ -45,7 +45,13 @@ def load(issue):
     d["heat"] = json.load(open(ROOT / "heat/data/city_nights.json"))
     d["coords"] = json.load(open(ROOT / "heat/data/station_coords.json"))
     d["fires_week"] = json.load(open(ROOT / "fires/data/current_week.json"))
-    d["events"] = json.load(open(ROOT / "data/events.json"))["events"]
+    _ev = json.load(open(ROOT / "data/events.json"))
+    d["events"] = _ev["events"]
+    # Every count fires consider defensible, each next to its population.
+    # Read, never recomputed: a number that lives only in a message gets
+    # recomputed by whoever needs it next, and they get a defensible
+    # different answer.
+    d["events_counts"] = _ev.get("counts") or {}
     d["crops"] = json.load(open(ROOT / "crops/data/stress_current.json"))
     d["meta"] = json.load(open(
         ROOT / ("docs/briefs/%s/meta.json" % issue)))
@@ -401,20 +407,25 @@ def _generated_lede(d):
     # So this prefers a field and refuses to invent one. Until fires emit
     # it, the clause states the fact the page itself defines two inches
     # below the map, which no reader has to take on trust.
-    # THE OWNER HAS RULED, which is the resolution product proposed rather
-    # than an override of it. Four values were in play; fires own the
-    # definition, chose "at rank 1", and verified the count against their
-    # own payload on the advanced window. My derivation from `qualifies_on`
-    # returns exactly their number, 14 of 16 anomalous, so the page states
-    # the count they stand behind rather than one of the three nobody owns.
+    # READ THE FIELD. Fires now publish a `counts` block with every
+    # defensible count beside the population and rule that produced it, so
+    # nothing here recomputes one.
     #
-    # It is still DERIVED here rather than read from a field, and that is
-    # the part still owed: asked fires to emit it, so a change to what
-    # "record" means updates this page without anyone re-deriving. Until
-    # then this is a derivation with the owner's signature on it, which is
-    # better than my own reading and worse than a field.
-    n_fire = sum(1 for e in d["events"] if e.get("anomalous")
-                 and "record" in (e.get("qualifies_on") or []))
+    # `record` (17) rather than `record_among_anomalous` (14) is the key
+    # this sentence wants. The gated one is a fact about the MARKER SET
+    # rather than about the world: the 150-detection noise floor removes
+    # real records in small countries, which is what turned 17 into 14.
+    #
+    # MY REPLACEMENT SENTENCE WAS FALSE IN THE OTHER DIRECTION and fires
+    # caught it. "6 countries burned at three times their own same-week
+    # average or more" counted MARKS ON A MAP and claimed something about
+    # COUNTRIES. Eight did. Lebanon at 5.4x is the highest multiple on the
+    # board and appears nowhere on the page, because it sits under the
+    # noise floor. Same defect as the one I had just fixed, pointing the
+    # other way, and it UNDERSTATED, which is the harder direction to
+    # notice because nothing looks exaggerated.
+    _counts = (d["events_counts"] or {})
+    n_fire = _counts.get("record")
 
     recs = [(p["place"], [r for r in (p.get("regions") or [])
                           if r.get("rank") == 1]) for p in d["crops"]["places"]]
@@ -875,9 +886,8 @@ averaged</span></div>
         prose=T.FONT_PROSE, data=T.FONT_DATA, lede=lede(d)[0], rows=rows,
         nino_col=T.NINO,
 
-        n_fire=sum(1 for e in d["events"] if e.get("anomalous")),
-        n_fire_rec=sum(1 for e in d["events"] if e.get("anomalous")
-                       and "record" in (e.get("qualifies_on") or [])),
+        n_fire=d["events_counts"].get("anomalous",
+               sum(1 for e in d["events"] if e.get("anomalous"))),
         n_city=len(d["heat"]["cities"]),
         n_ctry=sum(1 for p in d["crops"]["places"]
                    if any(r.get("rank") == 1 for r in (p.get("regions") or []))),
