@@ -421,3 +421,40 @@ library and here means asking each national service.
 could show Larnaca has more days above its own bar than it used to. We
 could not show that this paralyses daytime activity. That is impact
 attribution and it belongs to the aftereffects thread.
+
+### North Africa: RULED OUT on maxima completeness, 2026-08-11
+
+I called these three verified viable on record length and SYNOP currency,
+then tried to build them. **All three fail, and the check that caught it is
+the one I nearly skipped.**
+
+    TMAX May-Aug usable years (>=100 days)
+                  1971-2000   1991-2020   recent 15   2025
+    Algiers          29/30       10/30        1/15       14
+    Casablanca       22/30       11/30        7/15       90
+    Tunis            25/30       11/30        2/15       82
+
+**The SYNOP side is perfect.** All three reproduce GHCN exactly where both
+hold a value: 100.0% within 0.5 C, worst 0.0, at 06Z and 18Z. The bulletins
+are not the problem.
+
+**GHCN's North African MAXIMA are sparse in recent decades.** Algiers has one
+usable recent year in fifteen. So a rank of "2026 against its own record"
+would rest on a handful of comparison years, and no baseline period is
+complete: neither 1971-2000 nor the 1991-2020 alternative D-151 permits.
+
+**Minima are fine.** The asymmetry is what makes this easy to miss: a
+station-level check on "does GHCN have data" passes, and only a per-element,
+per-year completeness count finds it.
+
+**So the earlier VERIFIED VIABLE line above was wrong**, and it was wrong
+because I checked record SPAN and current-season presence, which is points 2
+and 3 of the bar, and not whether the years in between carry the element the
+metric actually counts. Span is not coverage.
+
+**What would unblock them: a national service, as with the UK.** ONM Algeria,
+DGM Morocco and INM Tunisia hold their own archives; GHCN's copy is the thin
+one. That is the Rebecca route and it is the only one left.
+
+**Cyprus is untested against this and must be** before it is called viable.
+Larnaca's span passes; its per-year element coverage has not been counted.
