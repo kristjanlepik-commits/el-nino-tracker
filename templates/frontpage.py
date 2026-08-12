@@ -441,17 +441,31 @@ def _generated_lede(d):
         out.append("<b>No city</b> of the %d measured has had more hot days "
                    "than in an earlier year." % dh["of_cities"])
 
-    if n_fire == 1:
-        # The singular is not a plural with the s removed: "1 country is
-        # past their own record fire week" needs "its". Exercised below,
-        # because one is the count this clause will most often carry in a
-        # normal week and the one nobody renders while building.
-        out.append("<b>1 country</b> is past its own record fire week.")
-    elif n_fire:
-        out.append("<b>%d countries</b> are past their own record fire week."
-                   % n_fire)
-    else:
-        out.append("<b>No country</b> is past its own record fire week.")
+    # THE FIRES CLAUSE IS WITHHELD, editor's instruction and product's
+    # arithmetic. A place at rank 1 of n observations is rank 1 by chance
+    # with probability 1/n, so the count expected by chance is places
+    # divided by observations per place:
+    #
+    #     heat    42 cities  / 77 years = 0.5 expected, 22 observed   40x
+    #     fires   94 places  / 14 years = 6.7 expected, 17 observed  2.5x
+    #
+    # Fires' record is only fourteen years deep, so roughly two in five of
+    # those countries could be chance. The sentence reads EXACTLY like
+    # heat's and is a far weaker claim, and two clauses side by side in
+    # identical grammar assert an equivalence the numbers do not support.
+    #
+    # This is not the fires count being wrong. It is a count published
+    # without its null distribution, one level up from a figure published
+    # without its denominator, and we have now shipped without each of
+    # those once. Filed as #21 for fires to null it against its own
+    # history, as crops did.
+    #
+    # Withheld LOUDLY. A clause that quietly stops appearing is the absence
+    # that fails nothing.
+    if n_fire:
+        print("  lede: fires clause WITHHELD (#21). %d records against ~%.1f "
+              "expected by chance on a 14-year record; needs a null "
+              "distribution before it can sit beside heat's." % (n_fire, 6.7))
 
     # THE CROPS COUNT NEVER SHIPS WITHOUT ITS DISTRIBUTION. Editor's catch,
     # and the sharper of the two: 69 regions at a record low reads as
