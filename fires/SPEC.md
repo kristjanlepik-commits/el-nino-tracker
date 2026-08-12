@@ -57,11 +57,43 @@ Confirmed with Kristjan 2026-07-25:
 REFRAMED 2026-07-29 by D-042 and D-043. ENSO is a data layer, not the
 frame. The bar for covering a country is a computable baseline and a
 measured extreme, NOT an established ENSO link, and "not ENSO-linked"
-is a finding rather than an apology. This channel tags zero of 45
-countries as ENSO-linked and its strongest 2026 anomaly is the
-Mediterranean, its own declared control region; under the old weighting
-that read as a disappointing result, and it is simply what the
-measurements say.
+is a finding rather than an apology.
+
+The evidence offered for that in July was: this channel tagged zero of 45
+countries as ENSO-linked, and its strongest 2026 anomaly was the
+Mediterranean, its own declared control region. Under the old weighting
+that read as a disappointing result, and it was simply what the
+measurements said.
+
+**BOTH OF THOSE NUMBERS HAVE SINCE MOVED, AND THE REFRAMING DOES NOT
+DEPEND ON THEM.** As of the 2026-08-05..08-11 window, one country carries
+an `enso` tag (Indonesia) and the strongest anomaly is the United Kingdom
+at z 8.04, with Spain the only Mediterranean member of the drawn set.
+
+Two things have to be said separately about that, because collapsing them
+would be exactly the over-claiming the attribution vocabulary exists to
+prevent:
+
+- **The tag count changed for a CALENDAR reason.** Indonesia's `enso` tag
+  is window-gated to August through October, so it opened on 1 August by
+  rule and would have opened in a quiet week too. It is not evidence about
+  this fire.
+- **Indonesia being at a record inside that window is a separate and real
+  observation.** 20,416 hotspots against a previous high of 18,075, its
+  highest in 13 observed same-weeks, in the R5 region and the season the
+  teleconnection actually predicts. That is the first time this event has
+  produced the case the literature describes. It is evidence, not proof,
+  and the seasonal peak is still ahead.
+
+The reframing survives either number. D-042 said ENSO is a data layer, not
+the frame; that is true whether the count is zero or twenty. A version of
+this argument that needed the count to stay at zero would have been
+fragile, and a channel that quietly stopped citing the number once it moved
+would be doing the thing the tag exists to prevent. Report it moving.
+
+Numbers dated on purpose. A bare count in a spec goes stale silently, which
+is how this paragraph came to assert two things that were true in July and
+false by 12 August.
 
 The gate implements this already: it ranks on z-score, multiple and
 rank-on-record against each country's own history, and ENSO appears
