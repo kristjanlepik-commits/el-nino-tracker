@@ -181,7 +181,11 @@ PINNED_LABEL = {}
 # (place, region). Read from the region record, which carries its own rate,
 # control and series.
 PINNED_REGIONS = [("U.K. of Great Britain and Northern Ireland", "England")]
-_PINNED_PLACES = set(PINNED) | {c for c, _ in PINNED_REGIONS}
+# IMPORTED, NOT DERIVED. CRO's instruction, and it has drifted twice: seven
+# European pages unlinked for four days, then the lit-versus-linked label
+# bug fixed this evening. The builder decides which countries have a page,
+# so the builder's own set is what decides which are linked.
+from crops.build_country_pages import PINNED_PLACES as _PINNED_PLACES  # noqa: E402
 
 
 def _pinned_row(p) -> str:
@@ -956,11 +960,28 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # at its worst on record, so that is what the dot says. Counted from
     # the payload rather than asserted, since "regions" reads as several
     # and one is the common case.
+    # TWO THINGS CRO SENT BACK, both in a label that stands alone.
+    #
+    # "at its worst on record" drops FOR THIS POINT IN THE SEASON, which
+    # turns "worst for late July" into "worst ever". Their own sentence is
+    # "lowest of 26 observations for this point in the season, 2001-2026",
+    # and an aria-label is the worst place to lose the qualifier because
+    # there is no surrounding paragraph to carry it.
+    #
+    # And the count needs its basis. Turkiye is 2 OF 79. "2 crop regions at
+    # their worst" is true and tells a reader nothing about whether that is
+    # 2 of 4 or 2 of 79. CRO's country-aggregate warning does NOT apply to a
+    # count of regions, which is honest in a way an unweighted mean is not;
+    # what applies is that a number without its basis is the binding this
+    # whole channel rests on.
     _n1 = {p["place"]: sum(1 for r in (p.get("regions") or [])
                            if r.get("rank") == 1) for p in places}
+    _of = {p["place"]: len(p.get("regions") or []) for p in places}
     quiet_labels = {
-        p: ("one crop region at its worst on record" if _n1[p] == 1
-            else f"{_n1[p]} crop regions at their worst on record")
+        p: ("one of its %d crop regions is at its worst on record for this "
+            "point in the season" % _of[p] if _n1[p] == 1
+            else "%d of its %d crop regions are at their worst on record for "
+                 "this point in the season" % (_n1[p], _of[p]))
         for p in _has_page}
 
     world_map = map_block(

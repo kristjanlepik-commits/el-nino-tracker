@@ -402,10 +402,11 @@ def map_block(d, root_prefix=""):
     # subset and not a recount of the marks. The marks are what is DRAWN;
     # the record count is what is TRUE, and the noise floor makes those
     # different numbers.
-    n_rec = sum(1 for m in allm if m["ch"] == "crops" and m["sev"]) + \
-        (d.get("events_counts") or {}).get(
-            "record",
-            sum(1 for m in allm if m["ch"] == "fires" and m.get("is_record")))
+    # KEPT APART. Each channel's own count, in its own units, never added.
+    n_crops_rec = sum(1 for m in allm if m["ch"] == "crops" and m["sev"])
+    n_fires_rec = (d.get("events_counts") or {}).get(
+        "record",
+        sum(1 for m in allm if m["ch"] == "fires" and m.get("is_record")))
 
     # THE PACIFIC SST FIELD IS THE GROUND LAYER, not an outline. VD's study
     # says so explicitly and the previous front page drew it; my rebuild
@@ -482,7 +483,8 @@ def map_block(d, root_prefix=""):
         + gs + '</svg>')
     return dict(svg=svg, legend=legend(d, ms), script=SCRIPT,
                 sst_date=sst_date, n_crops_drawn=n_crops_drawn,
-                n_rec=n_rec, n_shown=n_shown, n_below=n_below,
+                n_crops_rec=n_crops_rec, n_fires_rec=n_fires_rec,
+                n_shown=n_shown, n_below=n_below,
                 bar_f=BAR["fires"][2], bar_c=BAR["crops"][2],
                 below_crops=below.get("crops", 0),
                 below_fires=below.get("fires", 0))

@@ -934,8 +934,21 @@ averaged</span></div>
         # "past the bar" was defined in the caption BELOW the map, so a
         # first-time reader met the term before its definition. Says what
         # it means instead.
-        mb_state="%d places drawn, of %d past their own record"
-                 % (_mb["n_shown"], _mb["n_rec"]),
+        # SPLIT, NOT SUMMED. CRO's send-back, and the evidence is blunt:
+        # 17 of the 36 crops countries qualify on a SINGLE region, one of
+        # them 1 of 82. Fires' 17 is a country past its own record WEEK;
+        # crops' 36 counts a country where one region of eighty-two hit a
+        # record. Those are not the same event, and adding them made 53 a
+        # count of nothing in particular.
+        #
+        # D-090's first constraint, never rank across instrument types,
+        # arriving as a SUM rather than a table. A sum is a table with one
+        # row. Each channel's count beside its own name needs no extra
+        # words to be honest.
+        mb_state="%d drawn &middot; %d fire countries past their own record "
+                 "week &middot; %d crop countries with a region at a record "
+                 "low" % (_mb["n_shown"], _mb["n_fires_rec"],
+                          _mb["n_crops_rec"]),
         mb_sst=(" &middot; ocean field observed 7 days to %s"
                 % _mb["sst_date"]) if _mb.get("sst_date") else "",
         script=_mb["script"],
