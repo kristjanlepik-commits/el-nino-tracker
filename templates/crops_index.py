@@ -698,6 +698,86 @@ def _global_block(g) -> str:
       <ul class="gbq">{quals}</ul>"""
 
 
+def _rate_block(doc) -> str:
+    """Countries falling fastest, where the COUNT is the finding.
+
+    CRO's three constraints, ratified with the ship, and the reason each
+    exists:
+
+    1. THE COUNT IS THE FINDING. "N countries are falling faster than in any
+       year on record" is a WHOLE-SET test: it asks whether N is an unusual
+       number of countries to be at rank 1, against the distribution of that
+       same count across the prior years. No multiplicity correction is owed
+       on it, and p = 0.00 survives testing 123 countries at once because it
+       was never a per-country test.
+
+    2. A NAMED COUNTRY IS AN EXAMPLE, NOT A FINDING. An individual at rank 1
+       of 26 has p = 1/26, so across 123 countries you expect about 4.7 by
+       chance against a measured prior mean of 4.0: roughly a fifth of the
+       set is chance. Countries may be NAMED as members. None may be called
+       individually unusual BECAUSE it is rank 1.
+
+    3. WHAT DISTINGUISHES INDIVIDUALS IS THE GAP, not the rank. France sits
+       0.243 clear of its next year and Slovakia 0.012, twenty-fold apart on
+       identical ranks. So the examples are chosen by gap, and the gap is
+       printed beside each, which is what stops a name reading as a finding.
+
+    THE SET IS rank 1 AND `_start_control.holds`. Without the control this
+    is 25 countries rather than 13, because a steep fall from a high
+    starting point is arithmetic rather than news, and CRO's own note says
+    roughly half of rate-based leads are inflated by construction.
+
+    WITHHELD UNTIL THE COUNT HAS ITS OWN BASELINE. "13 countries" bare is a
+    count published without its distribution, which is the error editor
+    caught on this channel's own headline four hours ago and the error the
+    chance-baseline block exists to prevent. The prior maximum and prior
+    mean are in CRO's message and not in the payload, and a number typed
+    from a message is the thing this whole file refuses. Asked for the
+    field; until it lands the build says so rather than rendering nothing.
+    """
+    places = doc.get("places") or []
+    held = []
+    for p_ in places:
+        r = p_.get("rate") or {}
+        ctl = r.get("_start_control") or {}
+        if r.get("available") and r.get("rank") == 1 and ctl.get("holds"):
+            held.append((p_["place"], abs(ctl.get("gap_to_next_year") or 0.0),
+                         r.get("of")))
+    if not held:
+        return ""
+
+    base = doc.get("rate_count_baseline") or {}
+    prior_max, prior_mean = base.get("prior_max"), base.get("prior_mean")
+    if prior_max is None or prior_mean is None:
+        print("  rate block WITHHELD: %d countries qualify, and the count has "
+              "no baseline in the payload. Needs rate_count_baseline with "
+              "prior_max and prior_mean; a bare count is the error the "
+              "chance baseline exists to prevent." % len(held))
+        return ""
+
+    held.sort(key=lambda t: -t[1])
+    egs = held[:3]
+    names = ", ".join("%s (%.2f clear of its next year)" % (n, g)
+                      for n, g, _ in egs)
+    of = egs[0][2] if egs else 26
+    return (
+        '<div class="ratewrap">'
+        '<p class="ceyebrow">Falling fastest</p>'
+        '<p class="clede"><strong>%d countries are falling faster than in any '
+        'year on record</strong>, against a prior maximum of %s and a typical '
+        '%s. That is a count of countries, tested as a set: it asks whether '
+        '%d is an unusual number to be at a record, not whether any one of '
+        'them is.</p>'
+        '<p class="cnote">Rank 1 of %s on the four-dekad fall, and still rank '
+        '1 once the level it fell from is controlled for. An individual '
+        'country at rank 1 is what chance produces about four times over a '
+        'set this size, so these are named as members rather than as '
+        'findings: %s. The figure beside each is how far clear of its own '
+        'next-worst year it sits, which is what separates them, and it is '
+        'not a rank.</p></div>' % (len(held), prior_max, prior_mean,
+                                   len(held), of, names))
+
+
 def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     places = doc["places"]
     # The REGION's driver, not the country's. This took p.get("driver")
@@ -1238,6 +1318,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
        qualifier that applies to all 81 rows equally. Kristjan's rule,
        and it is the right cut: anything the same on every row, or not
        about this dekad, sits below the content. -->
+  {_rate_block(doc)}
   {_two_ways(doc.get("global") or {})}
 
   {_global_block(doc.get("global") or {})}
