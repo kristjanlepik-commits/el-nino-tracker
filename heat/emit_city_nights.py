@@ -515,6 +515,12 @@ def main() -> int:
             # threshold is no longer the same for every city and must
             # travel with it. Same rule as record_scope: a page cannot
             # state a threshold without stating what built it.
+            # Carried through, not recomputed. This is the answer to the
+            # reader challenge on Heathrow, and it is useless in a file no
+            # page reads, which is where pctl_baseline sat for an hour.
+            "station_class": v.get("station_class"),
+            "station_class_note": v.get("station_class_note"),
+            "station_class_limit": v.get("station_class_limit"),
             "pctl_baseline": v.get("pctl_baseline"),
             "pctl_baseline_is_default": v.get("pctl_baseline_is_default"),
             "pctl_baseline_note":

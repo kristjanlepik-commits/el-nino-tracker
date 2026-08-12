@@ -75,6 +75,80 @@ ES_STATION_ID = {
     "Bilbao": "1082",
 }
 
+
+# STATION CLASS, product ruling 2026-08-12, prompted by readers on X asking
+# whether Heathrow's record is inflated by the airport growing around it.
+#
+# OUR EXISTING FIELD ANSWERS THE WRONG QUESTION. station_history_checked says
+# DID THE STATION MOVE. The challenge is DID ITS SURROUNDINGS CHANGE, and
+# Heathrow can be clean on the first while being exactly what they mean.
+#
+# NOT DERIVED FROM THE NAME, and product's own search shows why: they looked
+# for "airport" and found 7 of 42, missing Heathrow, because its station name
+# is "Heathrow". The same substring misses Schiphol, Orly, Marignane,
+# Merignac, Blagnac, Entzheim, Cointrin, Aldergrove, Dyce, Fuhlsbuettel,
+# Klotzsche and Bromma. Every one is an airport and none says so.
+#
+# So this is an EXPLICIT TABLE, the same decision as ES_STATION_ID: a fact
+# about each station, recorded once, rather than inferred from a string that
+# was never meant to carry it.
+#
+# "unverified" MEANS NOT YET ESTABLISHED, NOT "not an airport". A city absent
+# from the airport list has not been cleared; it has not been checked. That
+# distinction is the whole reason station_history_checked needed a third
+# state, and repeating the error one field over would be indefensible.
+#
+# NO DETECTOR. Product was explicit and they are right: we built one for
+# relocations, calibrated it on 105 clean pairs, proved it had no power and
+# kept it as marked dead code. Site-context change is harder than relocation
+# and has no clean-pair set to calibrate against. State the class and stop.
+STATION_CLASS = {
+    # Airports, established from the station being the named civil airport
+    # of that city. Where the name does not say so it is given here.
+    "London": "airport",        # Heathrow
+    "Amsterdam": "airport",     # Schiphol
+    "Paris": "airport",         # Orly
+    "Marseille": "airport",     # Marignane
+    "Bordeaux": "airport",      # Merignac
+    "Toulouse": "airport",      # Blagnac
+    "Strasbourg": "airport",    # Entzheim
+    "Lyon": "airport",          # Saint-Exupery
+    "Montpellier": "airport",
+    "Nice": "airport",          # Cote d'Azur, poste 06088001
+    "Geneva": "airport",        # Cointrin
+    "Cologne": "airport",       # Koeln/Bonn
+    "Hamburg": "airport",       # Fuhlsbuettel
+    "Dresden": "airport",       # Klotzsche
+    "Stockholm": "airport",     # Bromma
+    "Belfast": "airport",       # Aldergrove
+    "Aberdeen": "airport",      # Dyce
+    "Larnaca": "airport",
+    "Barcelona": "airport",
+    "Bilbao": "airport",
+    "Malaga": "airport",
+    "Seville": "airport",
+    "Zaragoza": "airport",
+    # Named for a closed airport. Tempelhof ceased flying in 2008, so the
+    # site's context CHANGED WITHIN OUR RECORD and in the opposite direction
+    # to the objection being raised about Heathrow.
+    "Berlin": "former airport",
+    # City and observatory sites, established from the station name stating
+    # the district or observatory rather than an aerodrome.
+    "Madrid": "urban",          # Retiro park
+    "Vienna": "urban",          # Hohe Warte observatory
+    "Munich": "urban",          # Muenchen-Stadt
+    "Helsinki": "urban",        # Kaisaniemi park
+    "Prague": "urban",          # Praha-Karlov
+    "Zurich": "urban",          # Fluntern, not Kloten airport
+    "Stuttgart": "urban",       # Schnarrenberg
+    "Basel": "suburban",        # Binningen observatory
+    "Leipzig": "suburban",      # Holzhausen
+}
+STATION_CLASS_UNVERIFIED = (
+    "Alicante", "Valencia", "Murcia", "Palma", "Frankfurt", "Hanover",
+    "Lugano", "Nottingham", "Tallinn",
+)
+
 CURRENT_YEAR = 2026
 TROPICAL_NIGHT_C = 20.0
 PCTL_BASELINE = (1971, 2000)
@@ -597,6 +671,20 @@ def build(city, meta):
                    "EE": "Keskkonnaagentuur, Estonian Environment Agency",
                    "CY": "NOAA GHCN-Daily and WMO synoptic bulletins"}[meta["country"]],
         "cut_at": f"{cut[0]:02d}-{cut[1]:02d}",
+        "station_class": STATION_CLASS.get(city, "unverified"),
+        "station_class_note":
+            "What kind of site this is, which is a DIFFERENT question from "
+            "whether the station moved. An airport that grew around a "
+            "thermometer that never budged is clean on station history and "
+            "is exactly the thing readers challenge. 'unverified' means not "
+            "yet established, NOT that the site is unremarkable.",
+        "station_class_limit":
+            ("This station is at an airport. Its surroundings have changed "
+             "over the record in ways we have not measured, so part of its "
+             "long-term warming may be local to the site rather than "
+             "regional. The rank is true of this thermometer."
+             if STATION_CLASS.get(city) in ("airport", "former airport")
+             else None),
         # EMITTED, so no page or post can state a threshold without the
         # period that built it. Same rule as record_scope.
         "pctl_baseline": list(pctl),

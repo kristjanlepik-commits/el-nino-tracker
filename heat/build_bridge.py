@@ -46,7 +46,12 @@ CITIES = {
     # years GHCN holds PARTIALLY, at 61, 72 and 63 days. A gap does not
     # begin where an archive ends; it begins where the archive thins.
     "Larnaca":    ("17609", "CY000176090", 2014, "06", "18"),
-    "Algiers":    ("60390", "AG000060390", 2010, "06", "18"),
+    # BRIDGE FROM 1999. Algiers is short on exactly two years of 1971-2000,
+    # 1999 at 60 days and 2000 at 92, so closing those two makes the
+    # PREFERRED baseline complete and no exception is needed. OGIMET has
+    # 2000 and nothing at 1995, so the archive begins in between; 1999 is
+    # the year this turns on.
+    "Algiers":    ("60390", "AG000060390", 1999, "06", "18"),
     "Tunis":      ("60715", "TSM00060715", 2010, "06", "18"),
     "Casablanca": ("60155", "MOM00060155", 2010, "06", "18"),
 }
