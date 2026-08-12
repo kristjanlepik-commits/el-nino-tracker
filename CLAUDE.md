@@ -354,7 +354,15 @@ cannot be forgotten; a ticket can.
 - `analog.py` chart math: SEAS5 fan computation, threshold gridlines,
   projection logic, and in-figure annotations whose text is
   auto-generated from data
-- `data/oni_historical.csv`
+- `data/oni_full_history.csv`, CPC's own series and a PRODUCTION
+  dependency: `analog.py` reads it for a published chart. Refresh it from
+  `fetchers/oni_history.py`, never by hand.
+  `data/oni_historical.csv` is RETIRED (2026-08-12, methodology 1.10)
+  after it was found to have drifted from CPC in 39 of 59 rows, worst at
+  El Nino peaks. It is kept read-only rather than deleted so the drift
+  stays auditable; its own header says DO NOT USE AS A DATA SOURCE.
+  `data/enso_events.csv` and `data/enso_year_status.csv` sit alongside it
+  for year classification.
 - `methodology.md` (the scientific argument, including the "Impact
   aggregation" subsection that describes the *method*; the *content*
   in `impacts.md` is editor-side)
