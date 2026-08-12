@@ -343,10 +343,22 @@ def map_block(d, root_prefix=""):
     allm = marks(d)
     ms = [m for m in allm if clears_bar(m)]
     # Counted BEFORE the filter, so the page can say what it is not showing.
+    # PER CHANNEL, IN EACH CHANNEL'S OWN PREDICATE. This summed the two
+    # into one number and put it in a sentence a reader checks against the
+    # crops page: 36 was 26 crops plus 10 fires, and CRO could not
+    # reconcile it because it is not a crops number.
+    #
+    # The fires half was wrong twice over. It counted marks that cleared
+    # the ANOMALY GATE, and only 8 of those 10 are at rank 1, so "passed
+    # their own record" was false for two of them.
     below = {}
     for m in allm:
-        if m["ch"] != "heat" and m["sev"] and not clears_bar(m):
-            below[m["ch"]] = below.get(m["ch"], 0) + 1
+        if m["ch"] == "heat" or clears_bar(m):
+            continue
+        if m["ch"] == "crops" and m["sev"]:
+            below["crops"] = below.get("crops", 0) + 1
+        elif m["ch"] == "fires" and m.get("is_record"):
+            below["fires"] = below.get("fires", 0) + 1
     watched = sum(1 for m in allm if m["ch"] == "fires")
     # Biggest first so a small mark is never hidden under a large one.
     ms.sort(key=lambda m: -(HEAT_R if m["ch"] == "heat" else radius(m["sev"])))
@@ -471,6 +483,8 @@ def map_block(d, root_prefix=""):
     return dict(svg=svg, legend=legend(d, ms), script=SCRIPT,
                 sst_date=sst_date, n_crops_drawn=n_crops_drawn,
                 n_rec=n_rec, n_shown=n_shown, n_below=n_below,
-                bar_f=BAR["fires"][2], bar_c=BAR["crops"][2])
+                bar_f=BAR["fires"][2], bar_c=BAR["crops"][2],
+                below_crops=below.get("crops", 0),
+                below_fires=below.get("fires", 0))
 
 

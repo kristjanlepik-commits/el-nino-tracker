@@ -460,19 +460,35 @@ def _generated_lede(d):
     # last twelve years. The bare count in the largest type on the site, one
     # link above the page that calibrates it, is the exact error that page
     # was built to prevent.
+    # CRO'S WORDING, and their objection was to the ROUTE rather than the
+    # conclusion. Editor's reasoning was that 69 sits below the even-spread
+    # expectation of 81, and 81 is regions divided by 26: the uniform
+    # baseline, which "never a uniform 1/26 baseline" is the oldest standing
+    # rule on this channel. It fails in different directions in different
+    # places and cannot be corrected, only counted.
+    #
+    # Against the EMPIRICAL baseline the picture is close to the opposite:
+    # nine of the last twelve years sit below 69, so it is above average and
+    # comfortably inside the range. "An ordinary number" was defensible on
+    # the range and wrong on the reason, and CRO's point is that the wrong
+    # reason is the dangerous half, because the next call made that way will
+    # not be lucky.
     cb = d["crops"].get("chance_baseline_aggregate") or {}
     lo, hi = cb.get("recent_min"), cb.get("recent_max")
+    series = cb.get("series") or {}
+    recent = sorted(series.items())[-13:-1]        # the twelve prior years
+    n_under = sum(1 for _, v in recent if v < n_reg)
     if not n_reg:
         out.append("<b>No crop region</b> is at its worst for this point in "
                    "the season.")
-    elif lo is not None and hi is not None and n_reg <= hi:
+    elif recent and lo is not None and hi is not None:
         out.append("<b>%d crop regions</b> are at their worst for this point "
-                   "in the season, an ordinary number: the last twelve years "
-                   "ran %d to %d." % (n_reg, lo, hi))
+                   "in the season: more than in %s of the last %s years, and "
+                   "well inside a range that has run %d to %d."
+                   % (n_reg, _word(n_under), _word(len(recent)), lo, hi))
     else:
         out.append("<b>%d crop regions</b> are at their worst for this point "
-                   "in the season, more than in any of the last twelve "
-                   "years." % n_reg)
+                   "in the season." % n_reg)
     return " ".join(out)
 
 
@@ -555,8 +571,9 @@ def _spread(hb):
 
 
 def _word(n):
-    return {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five",
-            6: "Six"}.get(n, str(n)).lower()
+    return {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+            7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
+            12: "twelve"}.get(n, str(n))
 
 
 # PRODUCT'S D-155, and editor owns the wording. A STANDING question above
@@ -829,8 +846,9 @@ svg .mln{{font-family:"{prose}",Georgia,serif;font-size:12px;fill:var(--ink);
 {mb_svg}
 {mb_legend}
 <p class="mapnote"><b>Only what clears a stated bar is drawn: fires at
-{mb_bar_f}, crops with {mb_bar_c}.</b> {mb_below} more places passed their
-own record and not the bar; each is counted on its channel page. Marks are
+{mb_bar_f}, crops with {mb_bar_c}.</b> {mb_below} more crop countries and {mb_below_f} more
+fire countries passed their own record without clearing it; each is counted
+on its channel page. Marks are
 sized within a channel, never across. <a href="{rp}about.html">How this is
 built &rarr;</a></p>
 
@@ -911,7 +929,8 @@ averaged</span></div>
         analytics=ANALYTICS_SNIPPET, mastcss=SITE_MASTHEAD_CSS,
         rule_dark=T.RULE_DARK, root_prefix=root_prefix,
         mb_svg=_mb["svg"], mb_legend=_mb["legend"],
-        mb_bar_f=_mb["bar_f"], mb_bar_c=_mb["bar_c"], mb_below=_mb["n_below"],
+        mb_bar_f=_mb["bar_f"], mb_bar_c=_mb["bar_c"],
+        mb_below=_mb["below_crops"], mb_below_f=_mb["below_fires"],
         # "past the bar" was defined in the caption BELOW the map, so a
         # first-time reader met the term before its definition. Says what
         # it means instead.
