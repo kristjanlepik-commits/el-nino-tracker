@@ -42,7 +42,8 @@ sys.path.insert(0, str(ROOT))
 import tokens as T                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
-                       site_masthead)
+                       site_masthead, email_capture_form,
+                       EMAIL_CAPTURE_PROMISE, EMAIL_FORM_CSS)
 
 MON = ["January", "February", "March", "April", "May", "June", "July",
        "August", "September", "October", "November", "December"]
@@ -103,6 +104,17 @@ h1 {{ font-family:"{T.FONT_PROSE}",Georgia,serif; font-weight:400;
   margin:26px 0; max-width:52ch; }}
 .note figure {{ margin:30px 0; }}
 .note figure img {{ width:100%; height:auto; display:block; }}
+.ebd {{ margin-top:40px; border-top:3px solid var(--ink); padding-top:18px;
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:20px 48px; align-items:start; }}
+.ebk {{ font-family:"{T.FONT_DATA}",monospace; font-size:9.5px; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--ink); }}
+.ebp {{ margin:9px 0 0; font-size:19px; line-height:1.45; color:var(--ink);
+  max-width:34ch; text-wrap:pretty; }}
+.ebf {{ margin:9px 0 0; font-family:"{T.FONT_DATA}",monospace; font-size:10.5px;
+  line-height:1.7; color:var(--ink-faint); max-width:52ch; }}
+@media (max-width:640px) {{ .ebd {{ grid-template-columns:1fr; }} }}
+{EMAIL_FORM_CSS}
 /* The source footer is 5a-required and may not be collapsible or
    truncatable: it is what makes review a lookup rather than an audit. */
 .src {{ font-family:"{T.FONT_DATA}",monospace; font-size:11.5px;
@@ -156,6 +168,25 @@ def _css(root_prefix="../../") -> str:
                .replace("{VARS_DARK}", T.css_variables(dark=True)))
 
 
+def _subscribe(root_prefix="../../"):
+    """The same form, promise and CSS as the front page and /subscribe/.
+
+    A reader who has just finished something Kristjan wrote by hand is the
+    likeliest subscriber on the site, and until now the Notes surface was
+    the only reader-facing one that asked for nothing.
+
+    Imported rather than restated. Three surfaces carrying three copies of
+    one promise is how they end up saying three different things.
+    """
+    return (
+        '<div class="ebd">'
+        '<div><div class="ebk">One email a week</div>'
+        '<p class="ebp">%s</p></div>'
+        '<div>%s<p class="ebf">Confirmation email required. No spam, and '
+        'every note stays free and public whether you subscribe or not.</p>'
+        '</div></div>' % (h(EMAIL_CAPTURE_PROMISE), email_capture_form()))
+
+
 def render_note(title, published_on, body_html, sources_html,
                 root_prefix="../../") -> str:
     """One Note. `published_on` is frozen by the caller, never minted here."""
@@ -184,6 +215,7 @@ def render_note(title, published_on, body_html, sources_html,
 {body_html}
 </div>
 <div class="src">{sources_html}</div>
+{_subscribe(root_prefix)}
 <div class="foot">{h(AUTHOR_NAME)} (2026). {h(SITE_NAME)}.
   <a href="{h(PAGES_BASE_URL)}/">{h(PAGES_BASE_URL.split("//")[-1])}</a>
 </div>
@@ -231,6 +263,7 @@ def render_index(notes, root_prefix="../") -> str:
 <p class="stand">The channel pages are the instrument. These are written by
   hand, about what the instruments are showing.</p>
 <ul class="idx">{rows}</ul>
+{_subscribe(root_prefix)}
 <div class="foot">{h(AUTHOR_NAME)} (2026). {h(SITE_NAME)}.
   <a href="{h(PAGES_BASE_URL)}/">{h(PAGES_BASE_URL.split("//")[-1])}</a>
 </div>
