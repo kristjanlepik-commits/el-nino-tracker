@@ -262,6 +262,31 @@ def fetch_one(slug: str, spec: dict, country_id: int, name: str,
               f"{header[:60]!r}", flush=True)
         return "fail"
 
+    # SHRINKAGE REFUSED, adopted from heat's safe_write.py 2026-08-13.
+    # The header check above catches an HTML error page and an empty
+    # body. It does NOT catch a well-formed CSV with rows missing, and
+    # that is the failure that does the damage: heat truncated
+    # Nottingham to 222 rows of a 28,714-row record, which is 0.8% and
+    # sails through any emptiness test.
+    #
+    # This export returns the FULL series every time, so row count only
+    # grows. A decrease means a partial response or a mask revision, and
+    # both deserve a human rather than a silent overwrite of good data.
+    def _rows(f):
+        with f.open(encoding="utf-8", errors="replace") as fh:
+            return sum(1 for _ in fh) - 1
+    new_rows = _rows(tmp)
+    if out.exists():
+        old_rows = _rows(out)
+        if new_rows < old_rows:
+            tmp.unlink(missing_ok=True)
+            print(f"  FAIL {name} (id {country_id}): response has "
+                  f"{new_rows:,} rows against {old_rows:,} already on "
+                  f"disk. REFUSING to overwrite good data with a shorter "
+                  f"file. Re-run to retry; use --allow-shrink only if a "
+                  f"mask revision genuinely removed regions.", flush=True)
+            return "fail"
+
     tmp.rename(out)
     if target:
         manifest[key] = target
@@ -284,6 +309,9 @@ def main() -> int:
     ap.add_argument("--dekad", default=None,
                     help="target dekad YYYYMMDD; probed from ASAP when "
                          "omitted")
+    ap.add_argument("--allow-shrink", action="store_true",
+                    help="accept a response with fewer rows than the "
+                         "cached file. Only for a real mask revision.")
     ap.add_argument("--no-refresh", action="store_true",
                     help="old behaviour: presence alone means done")
     args = ap.parse_args()
