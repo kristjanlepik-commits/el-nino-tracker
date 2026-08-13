@@ -154,6 +154,21 @@ def main() -> int:
     for city, (county, sdir, sheet, fname) in STATIONS.items():
         hist, nfiles = midas_years(county, sdir, tok)
         cur = official(sheet)
+        # REFUSE TO WRITE A TRUNCATED FILE. On 2026-08-13 this wrote before it
+        # checked, MIDAS returned nothing for Nottingham, and the city's file
+        # went from 69 years to 222 rows of 2026 alone. The crash came one
+        # line later, at min() on an empty year set, so the traceback looked
+        # like a reporting bug while the damage was already on disk.
+        #
+        # These files are in a gitignored cache, so there is no revert. An
+        # empty history is always a fetch failure and never a fact about the
+        # station, and the safe response to a failed fetch is to keep what we
+        # have. Raising here loses the run; writing here loses the record.
+        if not hist:
+            raise SystemExit(
+                f"  {city}: MIDAS returned no history ({nfiles} files seen). "
+                f"Refusing to overwrite {fname}, which still holds the good "
+                f"record. Nothing written; re-run when CEDA answers.")
         merged = dict(hist)
         merged.update({d: v for d, v in cur.items() if d.startswith("2026")})
         rows = [[d, mn, mx] for d, (mn, mx) in sorted(merged.items())]
