@@ -2153,10 +2153,36 @@ region out of as many as eighty-two.
 
 **On pinning the UK, France and Spain to the front page.** The data
 supports it and reader relevance (T11) argues for it. But **they are not
-extreme on crop outcome**: France is 18th of 26, the UK 12th. They are
+extreme on crop outcome**: ~~France is 18th of 26, the UK 12th~~. They are
 extreme on drivers and on rate. A pinned row must say which, or a reader
 sees a familiar country on a crops page and infers a record that is not
 there.
+
+**CORRECTED 2026-08-13: the two figures above were struck because they
+carry the wrong names, and the error is the channel's signature one so
+it stays visible rather than being quietly rewritten.** At doy 21, the
+newest dekad when that sentence was written, the crop-outcome level
+ranks were **France 19th of 26, the U.K. 18th, England 12th, Spain
+23rd**. So "France is 18th" is the U.K.'s number and "the UK 12th" is
+England's: every figure real, every label shifted one row.
+
+**The paragraph's conclusion is unaffected**, which is exactly why it
+survived a read: none of the three is extreme on crop outcome either
+way, so the argument for a qualifier on the pinned row still stands and
+nothing downstream of it was wrong. A defect that changes no conclusion
+is the hardest kind to notice and the easiest kind to propagate.
+
+**And it propagated within the day.** Editorial quoted "France was 18th
+when the pinned-row copy was specced this morning" back to me and was
+sending it on to product as the worked argument for assembling the
+pinned row rather than typing it. The argument is right and the number
+was mine and wrong. Caught only because the new dekad put France at
+12th and the size of the jump looked worth re-deriving.
+
+**Trap 18.** *A number and its label are two claims. Checking that the
+number is right does not check that it is against the right name.* Every
+guard on this channel tests values. None of them tests attribution, and
+a row-shift produces a table where every individual figure verifies.
 
 ### 13i. The rate is less stationary than 13g assumed, measured at dekad 2026-08-01
 
