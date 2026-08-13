@@ -60,8 +60,13 @@ Cologne, 2026-08-13:
 
 `NNW` of 69 cm is exactly the October 2018 record the press cites. So an
 observed reading against an observed reference, same gauge and same
-units, is available for free today. The current reading was 50.0 cm at
-10:45, with the API's own `stateMnwMhw` flag reading `low`.
+units, is available for free today. The API's own `stateMnwMhw` flag
+reads `low`.
+
+The level is falling while this was being written, which is worth dating
+rather than rounding: **50.0 cm at 10:45**, **49 cm at 12:00** (CRO),
+against 92 cm a month earlier. Any figure quoted from here needs its
+timestamp attached.
 
 ## The two things that block a superlative, and they are one layer down
 
@@ -75,11 +80,17 @@ while the unit did not.
 
 Unresolved. The API does not expose datum history; BfG would.
 
-**2. `NNW` and `MNW` carry no `validFrom` at all.** The reference period
-is simply absent from the response. "Lowest on record" is unanswerable
-until we know which record, and CRO's own warning about a 13-year z
-against a 30-year one applies most sharply to the figure that looks most
-quotable.
+**2. `NNW` and `MNW` carry no reference period at all.** CRO confirmed
+independently that `NNW` returns `timeStart`, `timeEnd` and `validFrom`
+all null. The period is not merely unstated in our request, it is absent
+from the source. "Lowest on record" is unanswerable until we know which
+record, and CRO's own warning about a 13-year z against a 30-year one
+applies most sharply to the figure that looks most quotable.
+
+Note the ordering, which is what makes this sharp rather than pedantic:
+the datum became valid in **November 2019**, *after* the October 2018
+record that `NNW` encodes. So the published extreme predates the ruler
+it is served on.
 
 Until both are settled, the defensible sentence is that the reading sits
 below the published NNW for that gauge, attributed to WSV, with the

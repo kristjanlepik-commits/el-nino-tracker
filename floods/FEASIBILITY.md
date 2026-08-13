@@ -452,6 +452,37 @@ and must never render alike.
 tropical and fails anyway. Region selection has to consider observability
 history alongside catchment shape and calibration stability.
 
+## 10d. This instrument has no low-water tail (added 2026-08-13)
+
+Written at CRO's request, because two chats proposed the same thing
+independently and the next one will too.
+
+The proposal is natural: river low water looks like a flood series read
+at the other end, so read the existing instrument at its lower tail
+rather than acquiring a new one. **It cannot be done, and the reason is
+definitional rather than a question of sensitivity.**
+
+MCDWD classifies water *outside* the normal channel. The channel itself
+is masked as permanent water and is not part of the measure. So a river
+falling within its banks moves no pixel between classes: the channel
+reads permanent water at flood stage, at mean flow, and at a record low
+alike. There is no faint signal to dig out, and no compositing, box
+redrawing or threshold change recovers one, because the quantity is not
+being measured at all.
+
+Resolution compounds it. At 250 m the Rhine at Cologne is roughly one
+pixel wide, so even the wetted width, which the product does not report,
+would be quantised past usefulness.
+
+The same applies to the other instrument for a different reason: IMERG
+read at the low tail is meteorological drought, which is the crops
+channel's ground rather than a way onto ours.
+
+**So river low water is a new acquisition for anybody, not a re-read for
+us.** Gauge data, which this channel holds in no form. Detail, access
+paths and the two blockers that stop a superlative are in
+`floods/RIVER_LOW_WATER.md`; the routing decision is D-159.
+
 ## 11. If floods opens
 
 Phase 2, in dependency order:
