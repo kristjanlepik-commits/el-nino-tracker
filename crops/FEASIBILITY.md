@@ -2157,3 +2157,84 @@ extreme on crop outcome**: France is 18th of 26, the UK 12th. They are
 extreme on drivers and on rate. A pinned row must say which, or a reader
 sees a familiar country on a crops page and infers a record that is not
 there.
+
+### 13i. The rate is less stationary than 13g assumed, measured at dekad 2026-08-01
+
+Added 2026-08-13, on the first dekad that reaches into August. Read
+this next to 13g rather than instead of it: **the two measure different
+things and the difference is the point.**
+
+13g says, of the rate: *"Differencing removes a linear trend by
+construction, so trap 16 barely bites."* That sentence is doing real
+work, because it is the reason the rate was the one measure of four
+that was kept. It is too strong, and the gap is specific.
+
+**Differencing removes the WITHIN-SEASON trend. It does not remove the
+ACROSS-YEAR trend in the seasonal drop itself.** Our rate is
+`level(year, doy 22) - level(year, doy 18)`: a difference taken inside
+each year, then compared across years. Nothing in that construction
+prevents the size of the mid-season fall from drifting decade to
+decade, and at this dekad it measurably does.
+
+| pooled across 163 countries, doy 22 | |
+|---|---|
+| trend in the 4-dekad CHANGE, 2001-2025 | **-0.0036/yr, p = 0.002** |
+| trend in the LEVEL, 2001-2025 | **+0.0125/yr, p < 0.001** |
+| 2026 change vs the 2001-2025 mean | **-3.63 sd** |
+| 2026 level vs the 2001-2025 mean | **+1.29 sd** |
+
+Over 25 years the change trend is worth -0.09, against a 2026 deviation
+of about -0.16. So roughly half of what a bare rank reads as anomaly at
+this dekad is drift.
+
+**The count claim degrades monotonically as controls are added, and
+each control has its OWN baseline.** Comparing a controlled count
+against the raw baseline is the mismatch that made this look stronger
+than it is on first pass; the controls change the statistic, so they
+change how often any year tops it.
+
+| control | 2026 | 2001-2025 mean | max | years at or above 2026 |
+|---|---|---|---|---|
+| none | 29 | 5.4 | 18 | **0 of 25** |
+| start level (trap 17) | 20 | 5.7 | 21 | 1 of 25 |
+| time detrend (trap 16) | 16 | 5.9 | 19 | 1 of 25 |
+| both | **12** | 6.0 | 21 | **2 of 25** |
+
+Under both controls 2026 is about a one-in-nine year, not a record.
+**"Unprecedented" survives only with no control at all.**
+
+**Why this is not a contradiction of 13g.** 13g counted 122 in-season
+places under the crop-calendar gate at an earlier dekad and found the
+detrend survived, 20 to 13 at p = 0.04. This counts 163 countries with
+a full record, ungated, at doy 22. Different unit, different filter,
+different dekad, and the baselines are built differently too. What
+carries across is the mechanism, not the number: the rate inherits a
+cross-year trend that 13g's one-line justification says it cannot have.
+
+**What the aggregate loses, the individual places keep.** The
+country-level claims are far more robust than the count built from
+them:
+
+| | raw | start | time | both |
+|---|---|---|---|---|
+| England (region) | 1 | 1 | 1 | 1 |
+| France | 1 | 1 | 1 | 1 |
+| U.K. (country) | 1 | 2 | 1 | 2 |
+| Hungary | 1 | 1 | 2 | 2 |
+| Slovakia | 2 | 2 | 4 | 4 |
+
+England and France are the steepest fall on record under every control.
+That is the publishable finding at this dekad. **"How many countries"
+is the fragile claim; "which country" is the sturdy one**, which is
+D-079 arriving again from a direction we did not expect.
+
+**Trap 16 restated, third time of asking.** *A transformation that
+removes a trend in one direction does not remove it in another. Say
+which direction was removed and test the other.* Differencing across
+the season removed the trend we were looking at; nobody tested the one
+across years, because the phrase "by construction" reads like a proof
+and stops the checking.
+
+**Not yet done, and it should be before any of this reaches a page:**
+this is `zfparc` alone, so it is not the severity picture. The full
+six-instrument refresh was still running when it was computed.
