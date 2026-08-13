@@ -755,6 +755,32 @@ def _rate_block(doc) -> str:
     base = doc.get("rate_count_baseline") or {}
     base = base.get(base.get("publish") or "") or {}
     prior_max, prior_mean = base.get("prior_max"), base.get("prior_mean")
+
+    # NO RECORD-COUNT SUPERLATIVE UNTIL THE PAYLOAD SAYS IT SURVIVES THE
+    # CONTROLS. CRO, section 13i: on the 2026-08-01 dekad the count is 29
+    # raw, 20 controlling for start level, 16 detrended, and 12 with both,
+    # and at 12 there are 2 of 25 prior years at or above. So it is at or
+    # near the top of the record on every reading and NOT a record on the
+    # fully controlled one.
+    #
+    # The variant I published controls for start level and NOT for time,
+    # and the series is not stationary: the pooled 4-dekad change trends
+    # -0.0036/yr at p = 0.002 and the level +0.0125/yr at p < 0.001, so a
+    # bare rank does not mean unusual. "Falling faster than in any year on
+    # record" was therefore a superlative one control short, and it was
+    # live for about an hour.
+    #
+    # This gates on the CLAIM rather than on my reading of which variant is
+    # safe: the payload has to declare that the superlative survives, and
+    # absent that declaration nothing renders. Same shape as reading
+    # `publish` rather than choosing a variant myself.
+    if not base.get("superlative_survives_controls"):
+        print("  rate block WITHHELD: the published variant does not declare "
+              "superlative_survives_controls. CRO 13i: 29 raw, 20 start-level, "
+              "16 detrended, 12 both, and 2 of 25 prior years at or above at "
+              "12. A record-count claim needs the fully controlled figure.")
+        return ""
+
     if prior_max is None or prior_mean is None:
         print("  rate block WITHHELD: %d countries qualify, and the count has "
               "no baseline in the payload. Needs rate_count_baseline with "
