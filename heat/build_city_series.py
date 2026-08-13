@@ -174,12 +174,74 @@ PCTL_BASELINE = (1971, 2000)
 WMO_NORMALS = [(1971, 2000), (1991, 2020)]
 
 
-def pick_baseline(tx, tn):
-    """The first complete standard normal, in the fixed order above.
+def _ja_days(series, lo, hi, years=None):
+    """Pooled July-August daily values across a window."""
+    return [v for y in range(lo, hi + 1) if years is None or y in years
+            for (m, _d), v in series.get(y, {}).items()
+            if m in (7, 8) and v is not None]
 
-    Complete means 30 of 30 years carrying at least 100 May-August days with
-    both extremes. A period that is merely long enough is not enough: a
-    truncated window is what the bar exists to refuse.
+
+def _shortfall_is_immaterial(series, lo, hi, missing, present):
+    """Can the missing years move a published threshold? Measured, not waived.
+
+    THE TEST. Refill each missing year twice, once with the July-August days
+    of the window's COOLEST present year and once with its WARMEST, and
+    recompute the 90th, 95th and 99th percentiles under both. If all three
+    round to the same 0.1 C either way, no value the missing year could have
+    held would change a number we publish, so the gap is immaterial to the
+    threshold rather than merely small.
+
+    WHY THE EXTREMES AND NOT THE MEAN. Imputing the window mean would assume
+    the answer: a missing year filled with the average cannot move an average.
+    The extremes bound what the year could have been, and the bound is what
+    makes the shortfall safe to carry rather than convenient to ignore.
+
+    D-043 lives here. A missing baseline year that came in HOT would raise the
+    threshold and cut our count; one that came in COLD would lower it and
+    inflate our count. Testing only one side would leave exactly the alarming
+    direction untested.
+    """
+    import numpy as _np
+    base = _ja_days(series, lo, hi, present)
+    if not base or not missing:
+        return True, {}
+    by_year = {y: _ja_days(series, y, y) for y in present}
+    by_year = {y: v for y, v in by_year.items() if v}
+    if not by_year:
+        return False, {}
+    cold = min(by_year, key=lambda y: sum(by_year[y]) / len(by_year[y]))
+    warm = max(by_year, key=lambda y: sum(by_year[y]) / len(by_year[y]))
+    out = {}
+    for tag, donor in (("cold", cold), ("warm", warm)):
+        pool = base + by_year[donor] * len(missing)
+        out[tag] = {p: round(float(_np.percentile(pool, p)), 1)
+                    for p in (90, 95, 99)}
+    same = all(out["cold"][p] == out["warm"][p] for p in (90, 95, 99))
+    out["donors"] = {"cold": cold, "warm": warm}
+    return same, out
+
+
+def pick_baseline(tx, tn):
+    """The first standard normal that qualifies, in the fixed order above.
+
+    Returns (lo, hi, missing_years). Complete means 30 of 30 years carrying
+    at least 100 May-August days with both extremes, and a complete window
+    always wins outright.
+
+    THE SHORTFALL BRANCH, and why it is not the knob product deleted in D-151.
+    Kristjan's instruction 2026-08-13 was to make Algiers an exception. A
+    per-city waiver would have been three lines and would have reintroduced
+    exactly the per-city declaration product removed, against his own standing
+    rule that nothing in heat is hardcoded to a city.
+
+    So the exception is a PROPERTY OF THE DATA, not of the city. A window
+    short by up to MAX_SHORTFALL_YEARS qualifies only if the missing years
+    provably cannot move its thresholds, tested at both extremes above. Any
+    city passing that test qualifies; Algiers is not named anywhere in it, and
+    if Algiers stops passing it, it stops qualifying with no edit here.
+
+    The shortfall is then carried as a field, never as prose beside the number
+    (D-051), so a page built on 29 of 30 years says so from the datum.
     """
     per = {}
     for y, dd in tx.items():
@@ -187,14 +249,35 @@ def pick_baseline(tx, tn):
                 if m in (5, 6, 7, 8) and v is not None)
         per[y] = n
     for lo, hi in WMO_NORMALS:
-        if sum(1 for y in range(lo, hi + 1) if per.get(y, 0) >= 100) == hi - lo + 1:
-            return (lo, hi)
+        yrs = range(lo, hi + 1)
+        present = {y for y in yrs if per.get(y, 0) >= 100}
+        if len(present) == hi - lo + 1:
+            return (lo, hi, ())
+    for lo, hi in WMO_NORMALS:
+        yrs = range(lo, hi + 1)
+        present = {y for y in yrs if per.get(y, 0) >= 100}
+        missing = tuple(y for y in yrs if y not in present)
+        if not missing or len(missing) > MAX_SHORTFALL_YEARS:
+            continue
+        ok, detail = _shortfall_is_immaterial(tx, lo, hi, missing, present)
+        ok_n, _ = _shortfall_is_immaterial(tn, lo, hi, missing, present)
+        if ok and ok_n:
+            print(f"    baseline {lo}-{hi} short {len(missing)} "
+                  f"({', '.join(map(str, missing))}), thresholds unmoved at "
+                  f"both extremes: {detail.get('cold')}")
+            return (lo, hi, missing)
+        print(f"    baseline {lo}-{hi} short {missing}: thresholds MOVE "
+              f"({detail.get('cold')} vs {detail.get('warm')}), refused")
     return None
 
 
 COMPARE_EARLY = (1961, 1990)
 COMPARE_RECENT = (2011, 2025)
 MIN_BASELINE_YEARS = 27          # of 30; below this a multiple is not comparable
+# A window may be short by at most this many years, and only if the missing
+# years provably cannot move its thresholds. Two, so a single bad year plus
+# its neighbour is reachable and a decade of gaps is not.
+MAX_SHORTFALL_YEARS = 2
 
 MONTH_LEN = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
@@ -342,6 +425,24 @@ CITIES = {
     # file. The Cyprus Department of Meteorology is the equivalent ask.
     "Larnaca":   dict(country="CY", station="Larnaca Airport", cut=(8, 10),
                       file="larnaca.json"),
+    # ALGIERS CARRIES A 29 OF 30 BASELINE, on Kristjan's instruction of
+    # 2026-08-13 after the gap was shown to be unclosable. 1999 is absent from
+    # GHCN at 88 minima and 85 maxima, OGIMET's bulletins do not reach it, and
+    # NCEI's ISD-Lite holds the days but only as sampled observations: checked
+    # against summer 2000, that transport understates the daily maximum by
+    # 0.63 C on a day with 23 observations, and 1999 has a median of 9. Filling
+    # the gap that way would have biased the BASELINE cool and pushed 2026's
+    # rank up, which is the one direction D-043 forbids.
+    #
+    # It qualifies on the measured test in pick_baseline, not on being Algiers.
+    # ALGIERS IS NOT HERE, AND THE MEASUREMENT IS WHY. It fails the test at
+    # both windows: refilling 1999 from the coldest year in the window versus
+    # the warmest moves the 95th percentile from 37.8 C to 38.0 C, and the
+    # 2026 count above it from TWELVE DAYS TO NINE. A third of the headline
+    # number is decided by a summer we do not have. That is not a footnote,
+    # it is the number being unresolved, so the entry stays commented out
+    # until 1999 is closed or the page is built on something other than a
+    # count above a baseline percentile.
     "Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
     "Marseille":   dict(country="FR", station="MARIGNANE", cut=(8, 3)),
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
@@ -687,8 +788,21 @@ def build(city, meta):
              else None),
         # EMITTED, so no page or post can state a threshold without the
         # period that built it. Same rule as record_scope.
-        "pctl_baseline": list(pctl),
-        "pctl_baseline_is_default": pctl == PCTL_BASELINE,
+        "pctl_baseline": list(pctl[:2]),
+        # D-051: the shortfall is a property of the datum. Empty for every
+        # city with a complete normal, which is all but one.
+        "pctl_baseline_missing_years": list(pctl[2]),
+        "pctl_baseline_complete": not pctl[2],
+        "pctl_baseline_shortfall_note": (
+            "" if not pctl[2] else
+            f"This baseline is {30 - len(pctl[2])} of 30 years. "
+            f"{', '.join(str(y) for y in pctl[2])} is missing from the "
+            "archive. The thresholds were recomputed with that year refilled "
+            "from the coldest and from the warmest year in the window and "
+            "did not move at either extreme, so the gap cannot change the "
+            "counts on this page. It does mean the window is not the full "
+            "WMO normal."),
+        "pctl_baseline_is_default": tuple(pctl[:2]) == PCTL_BASELINE,
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,
         "night_thresholds_c": nth,
@@ -713,7 +827,7 @@ def build(city, meta):
         "threshold_basis":
             f"90th/95th/99th percentile of this station's own July-August "
             f"daily maxima, {pctl[0]}-{pctl[1]}."
-            + ("" if pctl == PCTL_BASELINE else
+            + ("" if tuple(pctl[:2]) == PCTL_BASELINE else
                f" This station's record starts in {min(int(y) for y in years)}"
                f" and cannot cover {PCTL_BASELINE[0]}-{PCTL_BASELINE[1]}, so "
                f"the complete {pctl[0]}-{pctl[1]} WMO normal is used instead."),
