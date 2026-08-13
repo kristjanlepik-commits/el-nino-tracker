@@ -25,6 +25,7 @@ import subprocess
 import sys
 import zipfile
 from pathlib import Path
+from safe_write import write_series
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "heat" / ".cache" / "src"
@@ -109,8 +110,7 @@ def main() -> int:
     SRC.mkdir(parents=True, exist_ok=True)
     for city in (sys.argv[1:] or CITIES):
         rows = fetch(city)
-        (SRC / f"dwd_{city}.json").write_text(json.dumps(
-            [[d, mn, mx] for d, mn, mx in rows]))
+        write_series(SRC / f"dwd_{city}.json", [[d, mn, mx] for d, mn, mx in rows], label=city)
         n26 = sum(1 for d, mn, _ in rows
                   if d.startswith("2026") and mn is not None and mn >= 20.0)
         print(f"  {city:10s} {len(rows):6d} days  {rows[0][0]} to {rows[-1][0]}"

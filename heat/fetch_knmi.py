@@ -19,6 +19,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+from safe_write import write_series
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "heat" / ".cache" / "src"
@@ -49,8 +50,7 @@ def main() -> int:
     SRC.mkdir(parents=True, exist_ok=True)
     for city, (sid, name) in CITIES.items():
         rows = fetch(sid)
-        (SRC / f"knmi_{city}.json").write_text(json.dumps(
-            [[d, a, b] for d, a, b in rows]))
+        write_series(SRC / f"knmi_{city}.json", [[d, a, b] for d, a, b in rows], label=city)
         trop = sum(1 for d, a, _ in rows
                    if d.startswith("2026") and a is not None and a >= 20.0)
         print(f"  {city:10s} {name:10s} {len(rows):6d} days  {rows[0][0]} to "

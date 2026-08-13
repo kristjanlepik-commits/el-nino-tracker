@@ -35,6 +35,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "heat"))
 
 import synop  # noqa: E402
+from safe_write import write_series
 
 SRC = ROOT / "heat" / ".cache" / "src"
 OGIMET = "https://www.ogimet.com/cgi-bin/getsynop"
@@ -160,8 +161,9 @@ def main() -> int:
         b71 = sum(1 for y in range(1971, 2001) if per.get(y, 0) >= MIN_DAYS)
         b91 = sum(1 for y in range(1991, 2021) if per.get(y, 0) >= MIN_DAYS)
         recent = [y for y in range(2017, 2027) if per.get(y, 0) >= MIN_DAYS]
-        (SRC / f"{city.lower()}.json").write_text(json.dumps(
-            [[d, mn, mx] for d, (mn, mx) in sorted(rows.items())]))
+        write_series(SRC / f"{city.lower()}.json",
+                     [[d, mn, mx] for d, (mn, mx) in sorted(rows.items())],
+                     label=city)
         print(f"  {city}: usable {len(ok)} years, {ok[0] if ok else '-'}"
               f" to {ok[-1] if ok else '-'}")
         print(f"    1971-2000 {b71}/30   1991-2020 {b91}/30   "
