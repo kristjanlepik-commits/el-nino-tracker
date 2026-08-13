@@ -220,9 +220,23 @@ def pull_year(iso, year):
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--only", nargs="*",
+                    help="restrict to these ISO codes. Without it the run "
+                         "covers the whole roster, which after the skip fix "
+                         "below means every country that was previously "
+                         "skipped, so scope it deliberately.")
+    ap.add_argument("--plan", action="store_true",
+                    help="report what would be fetched and exit")
+    args = ap.parse_args()
+
     targets = list(json.load(open(SEED))["countries"])
+    if args.only:
+        targets = [i for i in targets if i in set(args.only)]
     t0 = time.time()
     done = 0
+    plan = {}
     for i, iso in enumerate(targets, 1):
         path = os.path.join(OUTDIR, f"{iso}.json")
         doc = {}
@@ -231,10 +245,32 @@ def main():
                 doc = json.load(open(path))
             except ValueError:
                 doc = {}
-        todo = [y for y in YEARS if str(y) not in doc]
-        # '_complete' is a marker, not a year; never fetch it.
-        todo = [y for y in todo if not str(y).startswith('_')]
+
+        # SKIP ON THE MARKER, NOT ON THE KEY.
+        #
+        # This read `str(y) not in doc`, so a year KEY existing counted as
+        # that year being done. The daily job writes this same file as a
+        # per-day window cache, and it creates year keys holding about
+        # FIFTEEN days. So every country whose window cache was written
+        # before its full-year build was permanently skipped: the key was
+        # there, the year was not.
+        #
+        # It left 65 of 94 countries holding a file that looks populated
+        # and carries a fortnight per year. Estonia was one, which is how
+        # it surfaced: its 14 year keys held 15 days each and no analysis
+        # could use any of them.
+        #
+        # `_complete` is the right test and the file already says so
+        # thirty lines down: it exists because a fire-free day and an
+        # unfetched day are both simply absent, so completeness has to be
+        # recorded rather than inferred from how full a year looks. The
+        # skip inferred it anyway.
+        complete = set(doc.get("_complete", []))
+        todo = [y for y in YEARS if str(y) not in complete]
         if not todo:
+            continue
+        plan[iso] = todo
+        if args.plan:
             continue
         for y in todo:
             try:
@@ -243,10 +279,36 @@ def main():
                 # rows, so a short year is normal; a year missing most of
                 # its days is a swallowed failure. 300 is well below any
                 # plausible real count and well above a corrupted one.
-                if len(got) < 300:
+                # WHAT THIS GUARD IS ACTUALLY FOR, restated because the old
+                # version tested a proxy that only holds for busy countries.
+                #
+                # It read `len(got) < 300`, on the reasoning that a year
+                # missing most of its days is a swallowed failure. That is
+                # true in Angola, which burns a million detections a year and
+                # has rows on nearly every day. It is FALSE in Estonia, which
+                # has detections on 155 days of 2012 and is simply a small,
+                # cold, wet country where most days have no fire at all. A
+                # day with no fire has no rows, so it is absent, so it looked
+                # like a gap. Estonia could not be archived at all.
+                #
+                # The thing the guard was reaching for is "did the fetch
+                # cover the year", and that is already known: pull_year
+                # chunks every day of the year and _chunk raises after three
+                # failed tries, so a return means every chunk succeeded.
+                #
+                # What remains worth catching is the SILENT EMPTY: an
+                # upstream that answers 200 with no rows for a range that
+                # should have them. That shows up as a year of exactly zero
+                # against a country whose other years are not zero, which is
+                # a test that works at both ends of the size range.
+                others = [sum(v.values()) for k, v in doc.items()
+                          if not k.startswith("_") and isinstance(v, dict)]
+                if sum(got.values()) == 0 and any(t > 0 for t in others):
                     raise RuntimeError(
-                        f"{iso} {y}: only {len(got)} days, refusing to "
-                        f"store a partial year")
+                        f"{iso} {y}: zero detections across the whole year "
+                        f"while other years are non-zero. Refusing to store; "
+                        f"this is the silent-empty upstream case, not a "
+                        f"quiet year.")
                 doc[str(y)] = got
                 # Record the year as WHOLE. The daily job reads this same
                 # file as a per-day cache and cannot otherwise tell a
@@ -266,6 +328,12 @@ def main():
         log(f"[{i}/{len(targets)}] {iso}: {len(doc)} years, {tot:,} "
             f"detections ({(time.time()-t0)/60:.0f} min elapsed, "
             f"{done} built this run)")
+    if args.plan:
+        total = sum(len(v) for v in plan.values())
+        log(f"PLAN: {len(plan)} countries, {total} country-years to fetch")
+        for iso, years in sorted(plan.items()):
+            log(f"  {iso}: {len(years)} years  {years[0]}..{years[-1]}")
+        return
     log(f"FULLBASELINESDONE {len(os.listdir(OUTDIR))} countries on disk")
 
 
