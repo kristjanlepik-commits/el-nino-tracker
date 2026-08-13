@@ -383,7 +383,18 @@ def main() -> int:
         # An indicator that fails wholesale is a wrong id or a changed
         # endpoint, not bad luck. Stop rather than grind through four
         # more the same way.
-        if counts["fail"] and counts["ok"] == 0:
+        #
+        # skip == 0 IS LOAD BEARING. Without it this reads "nothing
+        # succeeded" when the truth is "nothing needed doing", which is
+        # the normal state of a resumed run. Measured 2026-08-13: a
+        # retry after a network drop reported zfpar 0 fetched, 167
+        # present, 1 failed, and this guard called that "no data at
+        # all" and stopped before sm and temp. Every retry would have
+        # stopped in the same place, so the supervisor could never
+        # finish the run: a livelock built out of a safety check.
+        # Wholesale failure means nothing succeeded AND nothing was
+        # already there.
+        if counts["fail"] and counts["ok"] == 0 and counts["skip"] == 0:
             print(f"::error::{slug} produced no data at all; stopping "
                   f"before the remaining indicators", flush=True)
             return 1
