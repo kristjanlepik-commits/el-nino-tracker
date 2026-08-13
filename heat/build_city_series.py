@@ -138,7 +138,7 @@ STATION_CLASS = {
     "Vienna": "urban",          # Hohe Warte observatory
     "Munich": "urban",          # Muenchen-Stadt
     "Helsinki": "urban",        # Kaisaniemi park
-    "Prague": "urban",          # Praha-Karlov
+    "Prague": "suburban",       # Praha-Libus, southern edge, not central Karlov
     "Zurich": "urban",          # Fluntern, not Kloten airport
     "Stuttgart": "urban",       # Schnarrenberg
     "Basel": "suburban",        # Binningen observatory
@@ -418,7 +418,7 @@ CITIES = {
     #
     # NOT evidence for the geography headline. Prague at 14.4E is WEST of
     # Vienna at 16.4E and does not extend our eastern reach.
-    "Prague":    dict(country="CZ", station="Praha-Karlov", cut=(7, 31),
+    "Prague":    dict(country="CZ", station="Praha-Libuš", cut=(7, 31),
                       file="chmi_Prague.json"),
     # FMI Helsinki Kaisaniemi, pinned by fmisid 100971 rather than by the
     # place name the WFS also accepts. Verified to return the same

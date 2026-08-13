@@ -14,7 +14,10 @@ and swapping in a differently-windowed minimum for one country would make
 that city's count incomparable with the other twenty-two while looking
 identical.
 
-Station 11520 is Praha-Karlov, a central observatory with a record to 1921.
+Station 11520 is Praha-Libus, on the southern edge of the city, record
+from 1971. It is NOT Praha-Karlov: that is 11519, central, observing since
+1920. This file named it Karlov for months and the name reached the live
+page, because the name was typed beside the id rather than read from CHMI.
 """
 from __future__ import annotations
 
@@ -28,7 +31,7 @@ SRC = ROOT / "heat" / ".cache" / "src"
 HIST = "https://opendata.chmi.cz/meteorology/climate/historical/data/daily"
 RECENT = "https://opendata.chmi.cz/meteorology/climate/recent/data/daily"
 
-CITIES = {"Prague": ("11520", "Praha-Karlov")}
+CITIES = {"Prague": ("11520", "Praha-Libus")}
 CURRENT_YEAR = 2026
 
 
