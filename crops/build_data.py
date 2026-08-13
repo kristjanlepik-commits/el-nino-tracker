@@ -888,7 +888,7 @@ def rate_count_baseline(panels: list, doy: int, cur_year: int) -> dict:
     does live: on the raw rank alone 2026 reads 25, and roughly half of
     those are a steep fall from a high start rather than news.
     """
-    raw, gated = {}, {}
+    raw, start_c, time_c, both_c = {}, {}, {}, {}
     a, b = doy - RATE_BACK, doy
     n = 0
     for pv in panels:
@@ -902,31 +902,90 @@ def rate_count_baseline(panels: list, doy: int, cur_year: int) -> dict:
             continue
         n += 1
         ch, st = ch.loc[idx], st.loc[idx]
-        slope, icept, *_ = stats.linregress(st.values, ch.values)
-        res = ch - (slope * st + icept)
+        yrs = np.array(idx, dtype=float)
+
+        def _resid(cols):
+            A = np.column_stack([np.ones(len(ch))] + cols)
+            beta, *_ = np.linalg.lstsq(A, ch.values, rcond=None)
+            return pd.Series(ch.values - A @ beta, index=ch.index)
+
+        res = {"start": _resid([st.values]),
+               "time": _resid([yrs]),
+               "both": _resid([st.values, yrs])}
+        # CONJUNCTION, deliberately: a place counts only if it is rank 1
+        # on the raw change AND still rank 1 once the control is applied.
+        # The alternative is an independent argmin on the residual, which
+        # is a different statistic and gives different numbers. Both are
+        # defensible; mixing them is not, and every variant here uses the
+        # same convention so the baselines stay like for like.
         for y in idx:
-            if int((ch.drop(index=y) < ch.loc[y]).sum()) + 1 == 1:
-                raw[y] = raw.get(y, 0) + 1
-                if int((res.drop(index=y) < res.loc[y]).sum()) + 1 == 1:
-                    gated[y] = gated.get(y, 0) + 1
+            if int((ch.drop(index=y) < ch.loc[y]).sum()) + 1 != 1:
+                continue
+            raw[y] = raw.get(y, 0) + 1
+            for store, key in ((start_c, "start"), (time_c, "time"),
+                               (both_c, "both")):
+                r = res[key]
+                if int((r.drop(index=y) < r.loc[y]).sum()) + 1 == 1:
+                    store[y] = store.get(y, 0) + 1
+
     out = {"places_counted": n, "window_dekads": RATE_BACK}
-    for label, c in (("raw", raw), ("holding_the_control", gated)):
+    # Each variant names what it is MISSING, not what it has. A reader of
+    # the payload needs to know why a figure cannot carry a superlative,
+    # and "controls for starting level" does not say that "drift" is still
+    # unhandled. The fully controlled row names its controls instead.
+    variants = (("raw", raw, False,
+                 "starting level or drift in the series"),
+                ("holding_the_control", start_c, False,
+                 "drift in the series"),
+                ("time_detrended", time_c, False, "starting level"),
+                ("both_controls", both_c, True,
+                 "starting level and drift in the series"))
+    for label, c, fully, controls in variants:
         prior = [c.get(y, 0) for y in range(BASE_FIRST, cur_year)]
         cur = c.get(cur_year, 0)
+        at_or_above = sum(1 for v in prior if v >= cur)
+        survives = bool(fully and at_or_above == 0)
+        if not fully:
+            licence = (
+                "NO SUPERLATIVE FROM THIS VARIANT AT ANY COUNT. It does not "
+                f"control for {controls}, so a count that tops it is not a "
+                "record, however large the margin, and "
+                "prior_years_at_or_above being 0 here does not license one. "
+                "Comparison only.")
+        elif survives:
+            licence = (
+                f"Licensed: this many places are falling faster over "
+                f"{RATE_BACK} dekads than in any year of the record, after "
+                f"controlling for {controls}.")
+        else:
+            licence = (
+                "NOT LICENSED AS A RECORD. The publishable form is 'at or "
+                "near the top of the record on every reading'. "
+                f"{at_or_above} prior year(s) of {len(prior)} match or beat "
+                "this count once fully controlled.")
         out[label] = {
             "this_year": cur,
             "prior_mean": round(float(np.mean(prior)), 1) if prior else None,
             "prior_max": max(prior) if prior else None,
             "prior_min": min(prior) if prior else None,
-            "prior_years_at_or_above": sum(1 for v in prior if v >= cur),
+            "prior_years_at_or_above": at_or_above,
             "prior_years_counted": len(prior),
+            "fully_controlled": fully,
+            "superlative_survives_controls": survives,
+            "licensed_claim": licence,
             "series": {int(y): c.get(y, 0)
                        for y in range(BASE_FIRST, cur_year + 1)},
         }
-    out["publish"] = "holding_the_control"
-    out["_why"] = ("the raw count includes places whose steep fall is a "
-                   "fall from a high start, which is arithmetic rather "
-                   "than news. Publish the gated figure.")
+    out["publish"] = "both_controls"
+    out["_why"] = (
+        "the raw count includes places whose steep fall is a fall from a "
+        "high start, which is arithmetic rather than news; and the 4-dekad "
+        "change carries an across-year trend, so a bare rank is partly "
+        "drift. Both controls are needed and 13i measures why. Every "
+        "variant carries superlative_survives_controls and licensed_claim "
+        "because knowing WHICH figure to publish is not the same as knowing "
+        "WHAT it licenses: on 2026-08-13 the correct variant was rendered "
+        "and a record superlative shipped anyway, one control short.")
     out["_whole_set"] = ("this compares a COUNT against the history of "
                          "the same count, so it needs no multiplicity "
                          "correction. It does NOT establish any single "
