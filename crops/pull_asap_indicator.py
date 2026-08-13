@@ -364,10 +364,17 @@ def main() -> int:
             result = fetch_one(slug, spec, cid, name, target, manifest)
             counts[result] += 1
             totals[result] += 1
-            if result == "ok" and i < len(targets):
-                time.sleep(PAUSE_SECONDS)
-
-        _save_manifest(manifest)
+            # Save after every success, not once per indicator. Saving at
+            # the end of the loop means a kill 29 countries in leaves 29
+            # refreshed files and NO record that they were refreshed, so
+            # the re-run fetches them again and the cache sits at mixed
+            # dekads with nothing on disk explaining why. Measured: that
+            # is exactly what a 2 minute timeout did on 2026-08-13. One
+            # small write per 3 second pause costs nothing.
+            if result == "ok":
+                _save_manifest(manifest)
+                if i < len(targets):
+                    time.sleep(PAUSE_SECONDS)
         mins = (time.time() - started) / 60
         print(f"\n{slug}: done in {mins:.1f} min, {counts['ok']} fetched, "
               f"{counts['skip']} present, {counts['fail']} failed",
