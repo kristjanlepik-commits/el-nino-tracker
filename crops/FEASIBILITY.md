@@ -2264,3 +2264,63 @@ and stops the checking.
 **Not yet done, and it should be before any of this reaches a page:**
 this is `zfparc` alone, so it is not the severity picture. The full
 six-instrument refresh was still running when it was computed.
+
+### 13j. The count and the member trade places between channels
+
+Added 2026-08-13 at design's request, and they were right to ask.
+
+On the same site in the same week, two opposite rules are both correct:
+
+| | the sturdy claim | the fragile one |
+|---|---|---|
+| fires, heat | **the count** | a named member |
+| the crops rate | **a named place** | the count |
+
+Fires and heat settled that a count is a finding and a named member is
+only an example, because their counts survive their nulls while any
+individual member sits well inside chance. On the crops rate it is
+reversed: the count falls from 29 to 11 as controls are added and two
+prior years then match it, while England and France hold rank 1 under
+every control.
+
+**Both statements have the same root, which is the thing to carry
+away:** the count and the member are separate claims and each needs its
+own test. Neither channel's rule is transferable, and the danger is
+precisely that each reads like a general principle. Whoever meets one
+first will reach for it on the other surface, where it is exactly
+backwards.
+
+**The practical form.** Never infer the strength of a count from the
+strength of its members, or the reverse. Test both, publish whichever
+survives, and say which one you tested. On this channel that means the
+pinned row leads with England and France by name and does not carry a
+count superlative behind them.
+
+### 13k. Knowing which figure to publish is not knowing what it licenses
+
+Added 2026-08-13. The rate block was live for about an hour carrying
+"13 countries are falling faster than in any year on record, against a
+prior maximum of 10 and a typical 2.6", and design took it down.
+
+**Nothing was misread.** The payload said `publish:
+"holding_the_control"` and design rendered exactly that variant. The
+defect is that `holding_the_control` controls for starting level and
+NOT for drift, and its row read 18 against a prior max of 14 with
+`prior_years_at_or_above: 0`. That shape is indistinguishable from a
+record, so the superlative followed from the numbers as emitted.
+
+**A count and its licence are two different facts and only one of them
+was in the payload.** Fixed by emitting both, per variant:
+`fully_controlled`, `superlative_survives_controls`, and a
+`licensed_claim` sentence. A variant that is not fully controlled now
+refuses a superlative **at any count**, however large the margin, and
+says so in its own field rather than leaving the margin to argue for
+it.
+
+**Why a field and not a rule in design's head.** Design declined to
+gate on their own reading of which variant is safe, having just
+demonstrated that reading `publish` correctly is not sufficient. That
+is the right instinct and it generalises: **every qualifier this
+channel relies on has to be a property of the datum** (D-051), because
+the alternative is a rule that lives in one chat's context, and this
+project's whole discipline is that such a rule does not exist.
