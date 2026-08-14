@@ -70,6 +70,9 @@ S = json.loads((R / "heat/data/city_series.json").read_text())["cities"]
 C = N["cities"]
 NO_MULT = set(N["cities_without_day_multiple"])
 from design import copydeck  # noqa: E402
+from templates.subscribe_band import band as _band, css as _bandcss
+_SUB_BAND = _band()
+
 CORRECTIONS = copydeck.load("heat_corrections")
 MON = ["January", "February", "March", "April", "May", "June", "July",
        "August", "September", "October", "November", "December"]
@@ -629,6 +632,7 @@ margin-top:48px}
 text-transform:uppercase;color:var(--ink-faint);text-decoration:none;
 border-bottom:1px solid var(--rule)}
 """
+CSS += _bandcss()
 
 built, notes, pending = [], [], []
 
@@ -1163,6 +1167,18 @@ for name, v in sorted(C.items()):
      shared masthead takes a methodology_href and does not render it,
      so passing one there is silent and does nothing; this is the
      place a reader checking a number is already looking. -->
+<!-- BUSINESS'S FINDING, measured on the first real week: ~47 of ~51
+     social post URLs pointed at /heat or /heat/<city>, and the form lived
+     only on the front page at line 470 of 485. So ~90% of 800 uniques
+     landed where subscribing was IMPOSSIBLE. Four subscribers from eight
+     hundred visitors is an absent ask, not a weak one.
+
+     HERE rather than in the footer: a reader who has just seen their own
+     city's record is at the only moment they will be interested, and the
+     footer is where interest goes to die. That is exactly where the front
+     page put it. -->
+{_SUB_BAND}
+
 <div class="src">
 <span><a href="methodology.html">How these figures are built</a></span>
 <span style="text-align:right">Heat methodology</span>

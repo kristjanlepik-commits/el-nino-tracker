@@ -882,6 +882,13 @@ def _pctl_periods(cities):
 
 PCTL_PERIODS = _pctl_periods(N["cities"])
 
+# 510 of the week's 800 entries landed here and there was no way to
+# subscribe from it. Business's measurement, and the highest-traffic
+# surface we have.
+from templates.subscribe_band import band as _band, css as _bandcss  # noqa: E402
+_SUB_BAND = _band()
+_BAND_CSS = _bandcss()
+
 SERVICES = ", ".join(sorted({v["source"]["attribution"].replace("Source: ", "")
                              for v in C.values()}))
 _MON = ["January", "February", "March", "April", "May", "June", "July",
@@ -980,7 +987,7 @@ html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Heat &middot; The Long Swell</title>
 {ANALYTICS_SNIPPET}
-<style>{SITE_MASTHEAD_CSS}
+<style>{SITE_MASTHEAD_CSS}{_BAND_CSS}
 :root{{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
 --ink-faint:#6E6E67;--rule:#CFCEC7;--coast:#C6C5C2;--accent:#8E240A;--bar:#D3D2CB;--land:#E4E3DC;
 --f3:#8E240A;--f2:#C05B3D;--f0:#E8E7E2}}
@@ -1125,6 +1132,8 @@ margin-top:50px}}
      shared masthead takes a methodology_href and does not render it,
      so passing one there is silent and does nothing; this is the
      place a reader checking a number is already looking. -->
+{_SUB_BAND}
+
 <div class="src">
 <span><a href="methodology.html">How these figures are built</a></span>
 <span style="text-align:right">Heat methodology</span>
