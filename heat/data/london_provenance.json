@@ -7,6 +7,19 @@
   "to": "2025-12-31",
   "convention": "09h minimum and 21h maximum, climatological day"
  },
+ "season_provenance": {
+  "official_to": "2026-08-09",
+  "synop_days": [
+   "2026-08-10",
+   "2026-08-11",
+   "2026-08-12",
+   "2026-08-13"
+  ],
+  "overlap_days": 9,
+  "overlap_worst_c": 0.1,
+  "agree": true,
+  "note": "Days after the workbook come from the station's own WMO bulletins, checked against the official series where they overlap. Not applied when they disagree."
+ },
  "current_season": {
   "source": "Met Office National Meteorological Library and Archive, daily maxima and minima",
   "transport": "supplied directly by the Met Office",

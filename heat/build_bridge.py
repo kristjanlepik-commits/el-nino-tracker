@@ -74,6 +74,22 @@ CITIES = {
     # Zagreb is the cleanest of the three: 123 days a year almost throughout,
     # one short year at 2020, and the archive simply stops after 2023.
     "Zagreb":     ("14240", "HR000142360", 2020, "06", "18"),
+    # ROME, shipped 2026-08-13 BECAUSE it is unremarkable rather than despite
+    # it. Rome sits at +5.9 against Paris at +13.6 and is not in the August
+    # event, which socials offered as a reason to drop it. It is the reason to
+    # ship it: adding a city because it is hot is the selection effect D-141
+    # killed this morning, and the option to add Italy uncontaminated expires
+    # the moment the forecast verifies. A quiet city beside a loud one is what
+    # makes the loud one credible.
+    # Ciampino is an AIRPORT and one station in Rome is not Italy solved;
+    # both ride in the station class and record_scope rather than in prose.
+    # BRIDGE FROM 1999, not 2024. The first run started where the archive
+    # STOPS and left 1971-2000 at 28/30 and 1991-2020 at 13/30, because
+    # GHCN holds every year from 1999 PARTIALLY: 62 to 95 days, never zero,
+    # so nothing looked absent. Same trap as Larnaca, and this is the third
+    # time: a gap begins where an archive THINS, not where it ends, and a
+    # partial year is invisible to any check that asks whether a year exists.
+    "Rome":       ("16239", "IT000016239", 1999, "06", "18"),
 }
 MIN_DAYS = 100          # May-Aug days with both extremes for a usable year
 
@@ -108,6 +124,37 @@ def ghcn(gid):
     return out
 
 
+def detect_hours(raw, fallback=("06", "18")):
+    """Which hours does THIS station bulletin its extremes at? Measured.
+
+    FOURTH TIME TODAY, and the first three were cheaper. Tallinn's SYNOP hours
+    got generalised into a rule that rejected Athens, Rome and London for
+    weeks. Belfast's 21Z maximum. Rothamsted's 09h/24h window, which silently
+    dropped 89 of 115 years out of the Heathrow neighbour test and had me
+    reporting that the archive did not reach back far enough.
+
+    This one was the most expensive because it failed QUIETLY. Rome bulletins
+    its maximum at 17Z and its minimum at 05Z. Asking for 06 and 18 returned
+    nine stray maxima and no minima at all, so every bridged year came out
+    partial, and a partial year looks exactly like a station that reports
+    intermittently. Rome was refused a baseline on that basis.
+
+    So the hours are read off the data. Whichever hour carries the most
+    maxima is the maximum hour, same for minima, and they need not be the
+    same hour or even the same count.
+    """
+    import collections as _c
+    hx, hn = _c.Counter(), _c.Counter()
+    for _d, h, tx, tn in synop.parse_ogimet(raw):
+        if tx is not None:
+            hx[h] += 1
+        if tn is not None:
+            hn[h] += 1
+    if not hx or not hn:
+        return fallback
+    return hn.most_common(1)[0][0], hx.most_common(1)[0][0]
+
+
 def synop_year(block, year, hmin, hmax):
     """One May-to-August pull, CACHED TO DISK.
 
@@ -136,12 +183,18 @@ def synop_year(block, year, hmin, hmax):
                 f.write_text(raw)
                 break
             time.sleep(8)
+    # DETECT THE CONVENTION FOR THIS YEAR, not for this station. Rome
+    # bulletins at 05Z/17Z in 2001 and at 06Z/18Z now, so a station-level
+    # probe read 2001, applied it to every year, and wiped out the recent
+    # coverage it had just been fixed to recover. A reporting convention is a
+    # property of a station AND a period, and only the data knows which.
+    hn, hx = detect_hours(raw, (hmin, hmax))
     out = {}
     for d, h, tx, tn in synop.parse_ogimet(raw):
         mn, mx = out.get(d, (None, None))
-        if h == hmin and tn is not None:
+        if h == hn and tn is not None:
             mn = tn
-        if h == hmax and tx is not None:
+        if h == hx and tx is not None:
             mx = tx
         out[d] = (mn, mx)
     return out

@@ -312,8 +312,16 @@ Listed with what needs checking rather than a guess at the answer.
     Oslo          MET Norway Frost API, CC-BY, needs a free key.
     Copenhagen    DMI open data, needs a free key. Currency unchecked.
     Riga/Tallinn/Vilnius   licences and currency both unknown.
-    Rome, Milan   Italy has no single national daily open archive;
-                  regional services. Expect this to be the hard one.
+    Milan         Italy has no single national daily open archive;
+                  regional services. Untested.
+                  ROME IS NOT HERE ANY MORE. It was tested and it took about
+                  twenty minutes (see above): GHCN IT000016239 is Roma/Ciampino,
+                  30 of 30 baseline years, and the 2026 SYNOP season reproduces
+                  GHCN 2025 exactly. Leaving it in this list cost six weeks,
+                  because a chat reading a roadmap deprioritises what the
+                  roadmap says is hard, and this file said "expect this to be
+                  the hard one" forty-five lines below the note recording that
+                  it was not. Shipped 2026-08-13.
     Athens        HNMS open data is limited. Unchecked.
     Zurich        MeteoSwiss opendata, recently opened. Unchecked.
     Lisbon        IPMA. Licence unchecked.

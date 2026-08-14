@@ -233,6 +233,14 @@ def main() -> int:
             "from": min(hist), "to": max(hist),
             "convention": "09h minimum and 21h maximum, climatological day",
         },
+        # THE EXTENSION IS A FIELD OR IT DID NOT HAPPEN. This dict was
+        # computed, printed and then dropped on the floor: assigned to a local
+        # and never written anywhere. I told design to render it and design
+        # found it did not exist, which is the same error as every other one
+        # today, describing what something was meant to do instead of checking
+        # what it did. A page carrying four bulletin days with no disclosure is
+        # exactly what the validation was FOR.
+        "season_provenance": season_provenance,
         "current_season": {
             "source": ("Met Office National Meteorological Library and "
                        "Archive, daily maxima and minima"
