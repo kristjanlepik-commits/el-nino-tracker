@@ -386,13 +386,50 @@ def facts(city, meta):
 
 
 def main() -> int:
-    out = {}
+    # A CITY THAT PRODUCES NOTHING IS AN ERROR, NOT AN OMISSION. This file
+    # silently held 41 cities while the site published 42, because Larnaca was
+    # added after the last run and `if f:` dropped it without a word. Socials
+    # built a card footer reading "our 41 cities" off it. The count was wrong
+    # in a published artifact and nothing in the pipeline could see it.
+    out, missing = {}, []
     for city, meta in B.CITIES.items():
         f = facts(city, meta)
         if f:
             out[city] = f
+        else:
+            missing.append(city)
+    if missing:
+        raise SystemExit(
+            f"  refusing to write: no facts for {missing}. Every city in "
+            f"CITIES must produce facts or the file under-counts the set "
+            f"while looking complete.")
+
+    # STAMP WHAT THIS WAS BUILT FROM, so a consumer can tell whether it is
+    # reading pre-gate or post-gate numbers. The refresh gate can hold for
+    # hours while the working tree already carries the new counts, and every
+    # number in this file is real throughout, which is exactly why a stale
+    # one passes review. Socials came within about ninety minutes of posting
+    # counts from a held refresh under an older date.
+    gated = (ROOT / "heat" / "data" / "published" / "city_nights.json")
+    cur = json.loads((ROOT / "heat" / "data" / "city_nights.json").read_text())
+    pub = json.loads(gated.read_text()) if gated.exists() else {}
+    cuts = {c: v.get("counted_to") for c, v in cur.get("cities", {}).items()}
+    out["_meta"] = {
+        "cities": len(out),
+        "counted_to": sorted({v for v in cuts.values() if v}),
+        "matches_published": cur.get("cities", {}).keys() == pub.get(
+            "cities", {}).keys() and all(
+            pub["cities"].get(c, {}).get("counted_to") == cuts.get(c)
+            for c in cuts),
+        "matches_published_note": (
+            "False means the refresh gate has not passed these numbers and "
+            "the live pages still show the previous ones. Do not publish from "
+            "this file while False; every value in it is real, which is what "
+            "makes that mistake invisible."),
+    }
     OUT.write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
-    runs = sorted(((v["leading_run"]["n"], c) for c, v in out.items()),
+    runs = sorted(((v["leading_run"]["n"], c) for c, v in out.items()
+                    if c != "_meta"),
                   reverse=True)
     print(f"  {len(out)} cities")
     print("  strongest leading runs:")

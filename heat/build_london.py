@@ -164,9 +164,52 @@ def main() -> int:
     cur = {}
     official = from_official()
     if official:
-        cur = official
+        cur = dict(official)
         season_source = "official"
+        # EXTEND WITH BULLETINS PAST THE WORKBOOK'S LAST DAY, rather than
+        # stopping there. The workbook is sent by hand and reached 10 August
+        # while Heathrow was recording 34.0 C on the 12th and 37.7 C on the
+        # 13th. A page that stops four days short during the days people are
+        # actually looking is a worse artifact than one that says which days
+        # came by which transport.
+        #
+        # THIS IS ONLY LEGAL BECAUSE THE TWO AGREE. The bulletins reproduce
+        # the official series on their overlap, which is the same test that
+        # made London publishable and the same one that would have caught
+        # Murcia. It is re-run below on every build rather than remembered:
+        # if they ever diverge, the extension is dropped and the page stops
+        # at the workbook, because a disagreement means one of them is wrong
+        # and we do not know which.
+        last = max(official)
+        y, m, d = (int(x) for x in last.split("-"))
+        tail = from_synop(f"{y}{m:02d}010000", f"{y}1231 2359".replace(" ", ""))
+        overlap = [k for k in tail if k in official
+                   and official[k][1] is not None and tail[k][1] is not None]
+        worst = max((abs(tail[k][1] - official[k][1]) for k in overlap),
+                    default=None)
+        agree = len(overlap) >= 5 and worst is not None and worst <= 0.5
+        added = []
+        if agree:
+            for k, v in sorted(tail.items()):
+                if k > last and v[0] is not None and v[1] is not None:
+                    cur[k] = v
+                    added.append(k)
+        season_provenance = {
+            "official_to": last,
+            "synop_days": added,
+            "overlap_days": len(overlap),
+            "overlap_worst_c": None if worst is None else round(worst, 1),
+            "agree": agree,
+            "note": ("Days after the workbook come from the station's own WMO "
+                     "bulletins, checked against the official series where "
+                     "they overlap. Not applied when they disagree."),
+        }
+        print(f"  official to {last}; bulletins agree on {len(overlap)} days "
+              f"(worst {worst} C); extended by {len(added)}: {added}")
     else:
+        season_provenance = {"official_to": None, "synop_days": [],
+                             "agree": None, "note": "No workbook; season is "
+                             "entirely bulletin-sourced."}
         for a, b in (("202605010000", "202605312359"),
                      ("202606010000", "202607312359"),
                      ("202608010000", "202608312359")):

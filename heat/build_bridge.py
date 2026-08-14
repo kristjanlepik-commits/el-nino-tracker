@@ -55,6 +55,25 @@ CITIES = {
     "Algiers":    ("60390", "AG000060390", 1999, "06", "18"),
     "Tunis":      ("60715", "TSM00060715", 2010, "06", "18"),
     "Casablanca": ("60155", "MOM00060155", 2010, "06", "18"),
+    # EASTERN EUROPE, added 2026-08-13 on Kristjan's instruction, because the
+    # forecast moves the heat east after mid-August and we hold three cities
+    # east of Vienna out of forty-two.
+    #
+    # Each starts where its archive THINS rather than where it ends, which is
+    # the Larnaca lesson: bridging from the last year present left 1991-2020 at
+    # 27/30 because GHCN held 2014-2016 partially.
+    #
+    # BUDAPEST CAN NEVER HAVE 1971-2000. GHCN begins in 1973 and OGIMET does
+    # not reach the 1970s, so 1971 and 1972 are zero and unclosable. Its only
+    # possible baseline is 1991-2020, where thirteen years sit just under the
+    # bar at 91 to 99 days. Those are days missing, not years missing.
+    "Budapest":   ("12843", "HUM00012843", 1998, "06", "18"),
+    # Vilnius already has a COMPLETE 1971-2000. Everything from 2010 runs 20 to
+    # 53 days, so the bridge is for the ranked series rather than the baseline.
+    "Vilnius":    ("26730", "LH000026730", 2009, "06", "18"),
+    # Zagreb is the cleanest of the three: 123 days a year almost throughout,
+    # one short year at 2020, and the archive simply stops after 2023.
+    "Zagreb":     ("14240", "HR000142360", 2020, "06", "18"),
 }
 MIN_DAYS = 100          # May-Aug days with both extremes for a usable year
 
