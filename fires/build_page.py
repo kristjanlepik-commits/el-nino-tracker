@@ -23,6 +23,10 @@ sys.path.insert(0, REPO)
 import tokens as T  # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, PAGES_BASE_URL,  # noqa: E402
                        SITE_MASTHEAD_CSS, lead_sentence, site_masthead)
+# The subscribe unit, one component across every channel surface. The
+# promise inside it is editor's under D-091 and is never restated here.
+from templates.subscribe_band import (band as SUB_BAND,  # noqa: E402
+                                      css as SUB_BAND_CSS)
 # run_brief.py lives at the repo root and holds the single copy of the
 # analytics tag. Import it rather than pasting a duplicate, so there is
 # one source of truth to disable or rotate.
@@ -366,6 +370,7 @@ body {{
 main {{ max-width: 760px; margin: 0 auto; padding: 28px 24px 80px; }}
 
 {SITE_MASTHEAD_CSS}
+{SUB_BAND_CSS()}
 .masthead {{
   display: flex; align-items: baseline; gap: 14px;
   padding: 18px 0 10px; border-bottom: 2.4px solid var(--rule-45);
@@ -481,6 +486,8 @@ h1 {{
   anywhere on this list, and none of them appear on it: the southern
   African savanna burns on that scale every dry season, so all three
   sit at or near their own normal. Volume is not news; departure is.</p>
+
+  {SUB_BAND()}
 
   <div class="foot">
     <p><b>What a detection is.</b> One satellite pixel, about 375 m
