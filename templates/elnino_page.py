@@ -41,6 +41,11 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        site_masthead, chart_wind, chart_prob_history, chart_heat,
                        _finding_line, _issued_with_age)
 
+from templates.subscribe_band import (band as _band,  # noqa: E402
+                                      css as _bandcss)
+_SUB_BAND = _band()
+_BAND_CSS = _bandcss()
+
 MON = ["January", "February", "March", "April", "May", "June", "July",
        "August", "September", "October", "November", "December"]
 
@@ -203,7 +208,7 @@ def render(fetched, meta, brief_date, root_prefix="../",
 <meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
 <meta name="twitter:card" content="summary_large_image">
 <title>El Ni&ntilde;o 2026-27 &middot; {h(SITE_NAME)}</title>
-<style>
+<style>{_BAND_CSS}
 {T.font_faces_css(root_prefix + "fonts/")}
 :root {{ color-scheme: light dark; {T.css_variables()} }}
 @media (prefers-color-scheme: dark) {{ :root {{ {T.css_variables(dark=True)} }} }}
@@ -290,6 +295,8 @@ carried forward. The bands are the spread, not a second opinion.</p>
 <p class="lede">What each source said, when it said it, and every caveat
 that governs a figure above. One register rather than three.</p>
 {_provenance(fetched, brief_date)}</div>
+
+{_SUB_BAND}
 
 <div class="foot">{h(AUTHOR_NAME)} (2026). {h(SITE_NAME)}.
  <a href="{h(PAGES_BASE_URL)}/">{h(PAGES_BASE_URL.split("//")[-1])}</a>

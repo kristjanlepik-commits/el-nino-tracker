@@ -8,6 +8,58 @@
 <meta name="twitter:card" content="summary_large_image">
 <title>El Ni&ntilde;o 2026-27 &middot; The Long Swell</title>
 <style>
+.ebd { margin:38px 0 0; border-top:3px solid var(--ink); padding-top:17px;
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px 44px; align-items:start; }
+.ebk { font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--ink); }
+.ebp { margin:9px 0 0; font-size:18px; line-height:1.45; color:var(--ink);
+  max-width:34ch; text-wrap:pretty; }
+.ebf { margin:9px 0 0; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  line-height:1.7; color:var(--ink-faint); max-width:52ch; }
+/* THE PHONE IS THE CASE THAT MATTERS. Business's constraint: the traffic
+   that converted worst arrived on a city page from a cold social link, very
+   likely on a phone. Two columns become one, and the field goes full width
+   rather than sharing a row with the button at 340px. */
+@media (max-width:640px) {
+  .ebd { grid-template-columns:1fr; gap:14px; margin-top:30px; }
+  .ebp { font-size:17px; }
+}
+  /* The form is ours now, so the note above is history: there is no
+     iframe and no fixed button width, and the input can be told to give
+     up its space last rather than first. The failure it describes is
+     structurally unavailable here. */
+  .ec-form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ec-lab {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .ec-in {
+    flex: 1 1 200px; min-width: 0;
+    font-family: var(--sans); font-size: 16px;   /* 16px: iOS zooms below it */
+    color: var(--ink); background: var(--paper);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 11px 12px; -webkit-appearance: none;
+  }
+  .ec-in::placeholder { color: var(--ink-faint); }
+  .ec-in:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .ec-sub {
+    flex: 0 0 auto;
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--paper); background: var(--ink);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 12px 20px; cursor: pointer;
+  }
+  .ec-sub:hover { background: var(--ink-soft); border-color: var(--ink-soft); }
+  .ec-sub:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (max-width: 420px) {
+    /* Full width both, rather than a button squeezing the field. The
+       field is the control that has to be legible while typing. */
+    .ec-in, .ec-sub { flex: 1 1 100%; }
+  }
+
+
 @font-face {
   font-family: "Spectral";
   font-style: normal;
@@ -266,6 +318,10 @@ carried forward. The bands are the spread, not a second opinion.</p>
 <p class="lede">What each source said, when it said it, and every caveat
 that governs a figure above. One register rather than three.</p>
 <div class="ledger"><div class="k">CPC</div><div>issued 2026-07-09 &middot; 32 days old</div><div class="k">IRI</div><div>issued 2026-07-20 &middot; 21 days old</div><div class="k">BoM</div><div>issued 2026-07-28 &middot; 13 days old</div><div class="k">ECMWF SEAS5</div><div>issued 2026-08-01 &middot; 9 days old</div><div class="k">Displayed probabilities</div><div>bounded to [1, 99]; this estimator does not express certainty</div><div class="k">Rungs retired</div><div>+1.0, +1.5 and +2.0 reached the bound and left the ladder. Their full history stays in the archive.</div><div class="k">Ocean heat</div><div>CPC heat content index, mean 0-300 m anomaly, 180W-100W, 1981-2010 climatology. Rank 1 of 571 months, 1979-01 to 2026-07. The figure carries hue while the record stands.</div><div class="k">Wind forcing</div><div>ERA5, 5N-5S, 130E-150W, m/s&middot;days, cumulative since 1 March and therefore not comparable to a climatological mean at a given day.</div></div></div>
+
+<div class="ebd"><div><div class="ebk">One email a week</div><p class="ebp">We find climate signals in the data, and send you the ones that matter.</p></div><div><!-- Email capture by Kit. Double opt-in. -->
+<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+<form class="ec-form" action="https://app.kit.com/forms/9782858/subscriptions" method="post" data-sv-form="9782858" data-uid="11697d7626" data-format="inline" data-version="5"><label class="ec-lab" for="ec-email">Email address</label><input id="ec-email" class="ec-in" type="email" name="email_address" required autocomplete="email" placeholder="you@example.com"><button class="ec-sub" type="submit">Subscribe</button></form><p class="ebf">Confirmation email required. No spam, and every figure here stays free and public whether you subscribe or not.</p></div></div>
 
 <div class="foot">Kristjan Lepik (2026). The Long Swell.
  <a href="https://thelongswell.com/">thelongswell.com</a>
