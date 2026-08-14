@@ -753,7 +753,36 @@ SEASON_STARTS = json.loads(
 # Soil moisture publishes one dekad behind the others, every dekad, on
 # purpose. That is the ONLY instrument allowed to lag, and it is allowed
 # to lag by exactly one publication.
-LAGS_BY_DESIGN = {"sm"}
+# slug -> the most dekads behind the spine that is NORMAL for it.
+#
+# Soil moisture publishes behind the others, so requiring equality would
+# block every build. But an UNBOUNDED exemption cannot tell a normal lag
+# from a stalled product. Measured 2026-08-14: sm sat THREE dekads
+# (about 30 days) behind the spine, having not advanced since 6 August
+# while the spine advanced twice, and nothing reported it because the
+# exemption was total. FRESHNESS.md still documented that lag as one.
+#
+# Same shape as the ASAP staleness rule in CLAUDE.md: an absolute bound,
+# never an open-ended allowance. Exceeding it is REPORTED, not fatal,
+# because sm is emitted absent rather than averaged into severity, so a
+# stall degrades the composite from six instruments to five rather than
+# corrupting it. A wrong number would justify refusing; a stated absence
+# justifies saying how big it is.
+LAGS_BY_DESIGN = {"sm": 1}
+
+
+def _newest_ordinal(df) -> int:
+    """Absolute dekad number for a loaded panel, so lags subtract.
+
+    36 dekads a year on the 1st, 11th and 21st. Without this a lag has
+    to be eyeballed from two dates, which is how "a dekad behind" stayed
+    in the docs while the real gap grew to three.
+    """
+    if df is None or len(df) == 0:
+        return None
+    y = int(df.year.max())
+    dy = int(df.loc[df.year == y, "doy"].max())
+    return y * 36 + dy
 
 
 def newest_dekad(slug: str, cid: str):
@@ -821,6 +850,47 @@ def check_instruments_agree(catalogue: dict) -> list:
                 bad.append({"place": name, "instrument": label,
                             "holds": got, "spine_holds": spine})
     return bad
+
+
+def _ord_from_label(d) -> int:
+    """Absolute dekad number from a YYYYMMDD dekad label."""
+    d = int(d)
+    y, m, day = d // 10000, (d // 100) % 100, d % 100
+    return y * 36 + (m - 1) * 3 + min((day - 1) // 10, 2) + 1
+
+
+def check_expected_lags(catalogue: dict) -> list:
+    """Instruments exempted by LAGS_BY_DESIGN that exceed their bound.
+
+    WARNS, it does not refuse, and the split is deliberate.
+    check_instruments_agree refuses because an instrument silently a
+    dekad behind guts the composite while the page still looks healthy.
+    Here the instrument is already emitted absent with its reason, so a
+    stall costs the composite one input and states that it did. Refusing
+    would take the whole channel down for a source problem we cannot fix
+    and have already disclosed.
+
+    What it catches is the thing an unbounded exemption cannot: a
+    product that has stopped rather than one that is merely behind.
+    """
+    over = []
+    for cid, name in catalogue.items():
+        spine = newest_dekad("zfparc", cid)
+        if spine is None:
+            continue
+        for slug, label, _unit, _w in INSTRUMENTS:
+            allowed = LAGS_BY_DESIGN.get(slug)
+            if allowed is None:
+                continue
+            got = newest_dekad(slug, cid)
+            if got is None:
+                continue
+            behind = _ord_from_label(spine) - _ord_from_label(got)
+            if behind > allowed:
+                over.append({"place": name, "instrument": label,
+                             "holds": got, "spine_holds": spine,
+                             "dekads_behind": behind, "expected": allowed})
+    return over
 
 
 def aggregate_weighting(regions: list, published_rank: int,
@@ -995,6 +1065,19 @@ def rate_count_baseline(panels: list, doy: int, cur_year: int) -> dict:
 
 
 def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
+    over = check_expected_lags(catalogue)
+    if over:
+        worst = max(r["dekads_behind"] for r in over)
+        by_inst = sorted({r["instrument"] for r in over})
+        print(f"  WARNING: {len(over)} place-instrument pair(s) exceed the "
+              f"lag we treat as normal, worst {worst} dekads behind: "
+              f"{', '.join(by_inst)}.", flush=True)
+        print(f"  Not fatal. These are emitted absent with the gap stated "
+              f"per datum, so the composite loses an input rather than "
+              f"carrying a stale one. But a lag this size is a stalled "
+              f"product, not a publication schedule, and the bound exists "
+              f"so it cannot pass unremarked.", flush=True)
+
     stale = check_instruments_agree(catalogue)
     if stale and not allow_mixed:
         worst = sorted(stale, key=lambda r: r["place"])[:8]
@@ -1086,11 +1169,32 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                 })
                 continue
             if np.isnan(cur):
+                # STATE THE SIZE OF THE GAP, not just that there is one.
+                # This said "has not reported for this dekad yet", and
+                # "yet" implies the next dekad will bring it. On
+                # 2026-08-14 soil moisture was THREE dekads behind and
+                # had not moved since 6 August while the spine advanced
+                # twice, so the sentence described a 30 day stall as a
+                # normal wait. An absence carries its magnitude or a
+                # reader supplies their own.
+                own = _newest_ordinal(d)
+                behind = (latest.year * 36 + doy - own
+                          if own is not None else None)
+                if behind and behind > 0:
+                    because = (
+                        f"{label} has not reported for this dekad. Its "
+                        f"newest observation is {behind} dekad"
+                        f"{'s' if behind > 1 else ''} behind the "
+                        f"crop-outcome instrument.")
+                else:
+                    because = (f"{label} has not reported for this dekad "
+                               f"yet.")
                 instruments.append({
                     "name": label, "value": None, "unit": unit,
                     "available": False, "absent": "no_current_value",
-                    "absent_because": f"{label} has not reported for this "
-                                      f"dekad yet.",
+                    "absent_because": because,
+                    "dekads_behind_spine": behind,
+                    "expected_lag_dekads": LAGS_BY_DESIGN.get(slug, 0),
                     "source": "JRC ASAP", "authorship": "agency",
                     "qualifiers": [],
                 })
