@@ -91,6 +91,32 @@ reported for this dekad yet": it publishes a dekad behind the others.
 So the composite is five instruments where six exist, everywhere,
 today.
 
+**CORRECTED 2026-08-14: "a dekad behind" is no longer true and has not
+been for a week.** Soil moisture is **three dekads behind** the spine,
+about 30 days, and five behind on some countries. It has not advanced
+since 6 August while the crop-outcome instrument advanced twice, so
+this is a **stalled product rather than a publication schedule**.
+
+**Nothing reported it, and that is the more useful half.** The absence
+was exempted from the consistency guard by an unbounded rule
+(`LAGS_BY_DESIGN` was a set, not a bound), so any lag was normal by
+definition. A permanent outage would have looked identical to a normal
+wait, forever, and the emitted sentence would have kept saying "yet".
+
+Both are fixed. The exemption is now a maximum in dekads and exceeding
+it warns at build time; the absence carries `dekads_behind_spine` and
+`expected_lag_dekads` as fields. **It warns rather than refuses**,
+because soil moisture is emitted absent rather than averaged in, so a
+stall costs the composite one input and states that it did. The
+composite really is five instruments of six, which is what this section
+already said, and that part was right.
+
+**The general form, and it is the third time this file has hit it.**
+*An exemption with no bound is not a rule, it is a blind spot.* The
+staleness clock, the reader-relevance bound and now this all needed an
+absolute limit, and in every case the version without one looked like
+it was working.
+
 **CHECKED AND CLEARED 2026-08-06.** The open question was whether
 temperature and rainfall publish AHEAD of cumulative vegetation, which
 would have made the divergence claim mixed-vintage: two figures read on
