@@ -101,8 +101,26 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
     # most of the live set carries no attribution tag at all, and the
     # house context does not travel into a channel page as an assumption.
     week_mult = now / mean if mean else 0.0
+    # "SINCE 2012" ASSERTS A SPAN THIS BASELINE DOES NOT HAVE.
+    #
+    # min(hist) is derived rather than hardcoded, which is why this
+    # survived the round of fixes that caught the index title and
+    # stat_label: it looked like the correct pattern. It is not. The
+    # earliest year present is 2012 and the baseline holds THIRTEEN
+    # years, because 2022 has no SNPP science archive over most windows
+    # and is excluded on purpose. "Since 2012" reads as fourteen
+    # continuous years, and wherever the missing year would have
+    # outranked this week the claim is wrong rather than imprecise.
+    #
+    # Counting the weeks we actually compared cannot say something
+    # untrue, and it stays correct when the hole moves, which it does:
+    # the excluded year is 2021 in some windows and 2022 in others,
+    # because the exclusion follows the defective DATES rather than a
+    # fixed year.
+    compared = len(hist) + 1
     week_claim = (f"{name} had its {ORD.get(rank, str(rank) + 'th-heaviest')} "
-                  f"fire week for this point in the year since {min(hist)}")
+                  f"fire week for this point in the year, of "
+                  f"{compared} compared")
     claim = week_claim
 
     # The channel's own flags decide what kind of claim is available.

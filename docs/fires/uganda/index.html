@@ -227,6 +227,21 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 28px 80px; }
   /* The current page, by weight and a rule. */
   .prodnav a.on { color: var(--ink); font-weight: 600;
     border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }
 .mono, .cell-lab, .ch-lab, .cell-sub, .hero, .rail, .tag, .ew-stat,
 .cx-s, .cx-b, .foot {
   font-family: "IBM Plex Mono", ui-monospace, monospace; }
@@ -326,7 +341,7 @@ plausible.init()
 <main>
   <p class="eyebrow">Uganda &middot;
      8 to 14 August</p>
-  <h1>Uganda had its highest fire week for this point in the year since 2012</h1>
+  <h1>Uganda had its highest fire week for this point in the year, of 14 compared</h1>
   <p class="stand">Two questions, side by side. How bad was this week, measured against every week like it. How bad is the year, measured against every season on record. Different instruments, different units, and one of them is not finished.</p>
 
   <div class="grid">
