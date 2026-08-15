@@ -209,6 +209,16 @@ def cpc_headline_buckets(strength_table: dict, season: str = "NDJ 2026-27",
         # bucket is almost entirely model-member-driven. It is the brief's
         # single least-anchored figure; see the caveat in run_brief.py.
         "record_>3.5":   round(p_above(loc, scale, shape, 3.5 - offset)),
+        # Added 2026-08-15, on the same argument that added +3.0 and +3.5:
+        # +3.5 reached 65 and is still climbing, so the ladder was running
+        # out of headroom again. Prompted by CFSv2 alone being quoted
+        # publicly at ~95% above +4.0 for November; our CFSv2 agrees, and
+        # the point of the rung is to show that four other models do not.
+        #
+        # The CPC anchor here is meaningless, further past the top of
+        # CPC's table than +3.5 already was. Read this rung as a direct
+        # model member count and nothing else.
+        "record_>4.0":   round(p_above(loc, scale, shape, 4.0 - offset)),
     }
 
 
@@ -332,9 +342,16 @@ def _per_model_p_above(seas5_per_lead: list | None, nmme: dict | None,
         pct = (m.get("frac_above") or {}).get(f"{threshold_oni:.1f}")
         if pct is None:
             continue
+        # Read the basis the fetcher actually used rather than asserting
+        # one. This string was hardcoded as "peak over Nov 2026 - Feb 2027"
+        # and went on saying so after the fetcher moved to an ONI 3-month
+        # mean on 2026-08-15, which is the same caption-describing-the-
+        # wrong-figure defect this field exists to prevent.
+        basis = {"oni_3mo_mean": "peak ONI (3-month mean), Nov 2026 - Feb 2027",
+                 "monthly_peak": "peak monthly value, Nov 2026 - Feb 2027"}
         out[name] = {"pct": round(float(pct), 1),
                      "n_members": m.get("n_members"),
-                     "basis": "peak over Nov 2026 - Feb 2027"}
+                     "basis": basis.get(m.get("basis"), m.get("basis") or "unknown")}
     if seas5_per_lead:
         head = seas5_per_lead[-1]
         n_above = (head.get("members_above") or {}).get(f"{threshold_oni:.1f}")
@@ -463,6 +480,7 @@ def smoothed_headline_buckets(
         "9715_>2.5":     2.5,
         "record_>3.0":   3.0,
         "record_>3.5":   3.5,
+        "record_>4.0":   4.0,
     }
     # Mode selection: consensus when NMME is available, else SEAS5-only.
     consensus_mode = bool(nmme and nmme.get("ok"))

@@ -105,7 +105,7 @@ PEAK_WINDOW_LAST = (2027, 2)     # Feb 2027
 # that had drifted from CPC and it was retired the next day. Quote
 # oni_full_history.csv or the fetcher, never this comment, and if a
 # number here disagrees with CPC then CPC wins.
-THRESHOLDS = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5]   # traditional ONI degC
+THRESHOLDS = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0]   # traditional ONI degC
 
 # Months base for the NMME files' 'target' coordinate, which uses
 # "months since 1960-01-02 21:00:00".
