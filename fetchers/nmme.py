@@ -87,14 +87,24 @@ PEAK_WINDOW_LAST = (2027, 2)     # Feb 2027
 # skew-normal tail extrapolation beyond CPC's published bins), here it is
 # an empirical member count.
 #
-# Record peaks, from data/oni_historical.csv, which is the series we
-# publish: 2015-16 NDJ +2.80, 1997-98 OND/NDJ +2.40, 2023-24 +2.10.
-# This comment previously said 2015 was "~2.6", which is that event's OND
-# value rather than its peak. Nothing computed read the comment, so no
-# published number was ever wrong. It came within one sentence of making
-# one: a front-page lede was drafted on 2026-08-11 claiming nothing in
-# the record had passed +2.5, which 2015 did. Quote the CSV, not this
-# file, and if the two ever disagree the CSV wins.
+# Record peaks, from CPC's own ONI series (data/oni_full_history.csv,
+# persisted from fetchers/oni_history.py):
+#
+#     2015-16  NDJ  +2.59      <- the record
+#     1997-98  NDJ  +2.37
+#     1982-83  NDJ  +2.12
+#     2023-24  NDJ  +1.99
+#
+# The record year is 2015-16, not the more famous 1997-98.
+#
+# This comment has now been wrong in both directions in one week, which
+# is why it names its source. It originally said 2015 was "~2.6", which
+# was right. On 2026-08-11 I "corrected" it to +2.80 to match
+# data/oni_historical.csv, and instructed the reader to prefer that file
+# on disagreement. Both were wrong: the CSV was a hand-assembled copy
+# that had drifted from CPC and it was retired the next day. Quote
+# oni_full_history.csv or the fetcher, never this comment, and if a
+# number here disagrees with CPC then CPC wins.
 THRESHOLDS = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5]   # traditional ONI degC
 
 # Months base for the NMME files' 'target' coordinate, which uses
