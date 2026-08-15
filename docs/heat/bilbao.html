@@ -214,6 +214,20 @@ border-bottom:1px solid var(--rule)}
 @media(max-width:640px){
 .grid{grid-template-columns:minmax(0,1fr);gap:6px;align-items:stretch}
 .gk{padding-bottom:0}
+/* THE UNIT SQUARES BUILT A TOWER. 196px of label and 54px of figure plus
+   two 20px gaps leave 48px of a 338px phone column for the squares, so a
+   19px square wrapped at TWO per row and this summer's 34 days ran
+   seventeen rows down the screen, past the fold, beside an empty left
+   half. The comparison is the point of the block and it cannot be seen
+   when the two quantities do not share a screen.
+   Label and figure take the top line, the squares wrap across the full
+   width beneath them: fourteen per row, so 34 is three rows against one
+   for a typical summer, and the ratio reads at a glance again. */
+.urow{grid-template-columns:minmax(0,1fr) auto;
+ grid-template-areas:"key val" "sq sq";gap:9px 14px;align-items:baseline}
+.uk{grid-area:key;text-align:left}
+.un{grid-area:val}
+.ug{grid-area:sq}
 /* Font size inside an SVG is in viewBox units, so it shrinks with the
    chart: 12 units across 914 drawn at 338px is 4.4 real pixels. A larger
    size at this width buys legibility, but only up to the point where the
