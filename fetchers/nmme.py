@@ -268,10 +268,78 @@ def _raw_peaks(model: str, init: str) -> dict:
     return result
 
 
+def _oni_peaks_from_members(members_by_month: dict) -> list:
+    """Per-member peak ONI over the target window, from monthly member values.
+
+    ONI is a THREE-MONTH RUNNING MEAN. Until 2026-08-15 the threshold
+    fractions were computed from each member's peak MONTHLY Nino 3.4 value
+    and then compared against CPC's ONI-based strength table, so the anchor
+    and the consensus were two different quantities being blended. A running
+    mean cuts peaks, so the monthly basis overstated every upper rung, and by
+    more the higher the rung:
+
+        threshold   monthly    ONI
+          >3.0        100       96
+          >3.5         79       70
+          >4.0         57       43
+
+    Seasons are the 3-month windows CENTRED in the target window, so the
+    NDJ/DJF peak CPC's table describes is the one measured here.
+
+    Members are matched by position across months, so a month whose member
+    count differs (an all-NaN column dropped upstream) is skipped rather than
+    silently misaligning one member's November with another's December.
+    """
+    if not members_by_month:
+        return []
+    counts = {len(v) for v in members_by_month.values() if v}
+    if not counts:
+        return []
+    n_members = max(counts, key=lambda c: sum(
+        1 for v in members_by_month.values() if len(v) == c))
+    usable = {k: v for k, v in members_by_month.items() if len(v) == n_members}
+
+    lo = PEAK_WINDOW_FIRST[0] * 12 + (PEAK_WINDOW_FIRST[1] - 1)
+    hi = PEAK_WINDOW_LAST[0] * 12 + (PEAK_WINDOW_LAST[1] - 1)
+    windows = []
+    for centre in range(lo, hi + 1):
+        keys = []
+        for off in (-1, 0, 1):
+            y, m = divmod(centre + off, 12)
+            keys.append(f"{y:04d}-{m + 1:02d}")
+        if all(k in usable for k in keys):
+            windows.append(keys)
+    if not windows:
+        return []
+
+    peaks = []
+    for j in range(n_members):
+        peaks.append(round(max(
+            sum(usable[k][j] for k in w) / 3.0 for w in windows), 2))
+    return peaks
+
+
 def _download_and_extract_peaks(model: str, init: str) -> dict:
-    """Raw cached peaks plus freshly-computed threshold fractions."""
+    """Raw cached peaks plus freshly-computed threshold fractions.
+
+    Fractions come from the ONI-basis peaks (3-month running mean), because
+    they are compared against, and blended with, a CPC anchor derived from
+    CPC's ONI-based strength table. `peaks_per_member` stays as it was, the
+    peak MONTHLY value, since the trajectory and the pooled band are monthly
+    objects; it is simply no longer what the probabilities are computed from.
+
+    Falls back to the monthly basis only when a cache predates
+    members_by_month (the v2 entries used by the backfill), so an old cache
+    degrades to the previous behaviour rather than to no number at all. The
+    `basis` field says which was used, so a consumer never has to guess.
+    """
     raw = _raw_peaks(model, init)
-    return {**raw, "frac_above": _frac_above(raw["peaks_per_member"])}
+    oni = _oni_peaks_from_members(raw.get("members_by_month") or {})
+    if oni:
+        return {**raw, "oni_peaks_per_member": oni,
+                "frac_above": _frac_above(oni), "basis": "oni_3mo_mean"}
+    return {**raw, "frac_above": _frac_above(raw["peaks_per_member"]),
+            "basis": "monthly_peak"}
 
 
 def _weighted_percentile(values, weights, pct: float) -> float:

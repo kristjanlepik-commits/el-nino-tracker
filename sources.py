@@ -33,7 +33,16 @@ from datetime import date, timedelta
 # Bumped because a reader comparing this week's chart to a frozen archive
 # will see the analog lines themselves move, which no previous bump has
 # done.
-METHODOLOGY_VERSION = "1.10"
+# 1.11 (2026-08-15): NMME threshold fractions are computed on an ONI basis
+# (3-month running mean) instead of each member's peak MONTHLY value. The
+# anchor comes from CPC's ONI-based strength table, so the two sides of the
+# blend were different quantities and the monthly side overstated every
+# upper rung. Published numbers move DOWN: +3.5 from 73 to 65, +3.0 from 97
+# to 93, +2.5 unchanged at 99. ECMWF SEAS5 is still on the monthly basis
+# and at a single lead; its cache holds no per-member values, so correcting
+# it needs a fetcher change and a CDS refetch. It is 1 of 6 models, and the
+# NMME fix captures roughly ten of the eleven points.
+METHODOLOGY_VERSION = "1.11"
 
 
 def _most_recent_monday(today: date | None = None) -> date:
