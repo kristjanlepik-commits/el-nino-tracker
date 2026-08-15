@@ -3100,6 +3100,46 @@ def _issued_with_age(issued, as_of):
 
 _CH_W, _CH_H, _CH_L, _CH_R, _CH_T, _CH_B = 760, 300, 46, 96, 16, 30
 
+# Minimum vertical separation between two end-labels, in user units. The
+# labels render at 10 units with a box about 12.5 tall, so anything closer
+# than this overlaps.
+_CH_LABEL_GAP = 13.0
+
+
+def _ch_declutter(ys, gap=_CH_LABEL_GAP, top=None, bottom=None):
+    """Nudge end-label y-positions apart, preserving their order.
+
+    End labels sit at the y of their own line's last point, which is correct
+    until two series converge. On 2026-08-10 the +2.5 and +3.0 rungs closed to
+    98 and 94, putting their labels 10.2 units apart with 12.5-unit boxes: a
+    2.4-unit overlap on desktop, today, found by design. It is marginal now
+    and gets worse every week those two converge, which is exactly the
+    direction this event is heading.
+
+    Fixed generally rather than by nudging one label, because the collision is
+    a function of the data and the data keeps moving. Returns adjusted ys in
+    the input order. Order is preserved so a label never crosses its own line
+    or another's: a legible chart that lies about which line a number belongs
+    to would be worse than the overlap.
+    """
+    top = _CH_T + 4 if top is None else top
+    bottom = (_CH_H - _CH_B - 4) if bottom is None else bottom
+    order = sorted(range(len(ys)), key=lambda i: ys[i])
+    out = list(ys)
+    # Sweep down, then back up, so the block stays inside the plot area.
+    prev = None
+    for i in order:
+        y = max(out[i], top if prev is None else prev + gap)
+        out[i] = y
+        prev = y
+    if prev is not None and prev > bottom:
+        prev = None
+        for i in reversed(order):
+            y = min(out[i], bottom if prev is None else prev - gap)
+            out[i] = y
+            prev = y
+    return out
+
 
 def _ch_pt(i, v, n, lo, hi):
     x = _CH_L + (i / n if n else 0) * (_CH_W - _CH_L - _CH_R)
@@ -3274,7 +3314,10 @@ def chart_prob_history(briefs_dir):
     series = [("9715_>2.5", "+2.5 &deg;C", "", 2.4),
               ("record_>3.0", "+3.0 &deg;C", "5 3", 2.0),
               ("record_>3.5", "+3.5 &deg;C", "2 3", 1.8)]
-    paths, labels = "", ""
+    # Collect first, emit second: the labels have to be decluttered against
+    # each other, so none can be written until all their positions are known.
+    ends = []
+    paths = ""
     for key, lab, dash, wid in series:
         pts = [(i, (hb.get(key) or {}).get("mid")) for i, (_, hb) in enumerate(rows)]
         pts = [(i, v) for i, v in pts if v is not None]
@@ -3285,8 +3328,17 @@ def chart_prob_history(briefs_dir):
                   f'stroke-dasharray="{dash}" opacity=".9"/>')
         lx, ly = _ch_pt(*pts[-1], n, lo, hi)
         paths += f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="3.4" fill="var(--ink)"/>'
-        labels += (f'<text x="{lx+8:.1f}" y="{ly+4:.1f}" class="chx" '
-                   f'style="fill:var(--ink)">{lab} &middot; {pts[-1][1]}%</text>')
+        ends.append((lx, ly, f"{lab} &middot; {pts[-1][1]}%"))
+
+    labels = ""
+    for (lx, ly, txt), ny in zip(ends, _ch_declutter([e[1] for e in ends])):
+        # Where a label has been moved off its own point, draw a hairline
+        # back to the dot so the number stays attached to its line.
+        if abs(ny - ly) > 0.6:
+            labels += (f'<line x1="{lx+3:.1f}" y1="{ly:.1f}" x2="{lx+7:.1f}" '
+                       f'y2="{ny:.1f}" stroke="var(--ink-faint)" stroke-width=".7"/>')
+        labels += (f'<text x="{lx+8:.1f}" y="{ny+4:.1f}" class="chx" '
+                   f'style="fill:var(--ink)">{txt}</text>')
     idx = [0, len(rows) // 3, 2 * len(rows) // 3, len(rows) - 1]
     ticks = "".join(
         f'<text x="{_ch_pt(i,lo,n,lo,hi)[0]:.1f}" y="{_CH_H-10}" '
