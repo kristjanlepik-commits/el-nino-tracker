@@ -117,7 +117,13 @@ def bars(data, top, w=880, h=104, accent_last=True):
     _first = data[0][0]
     _want = [_first] + [y for y in (1976, 2000, 2026) if abs(y - _first) > 6]
     ticks = "".join(
-        f'<text x="{i*bw:.1f}" y="{h+13}" class="ax" '
+        # h+18 rather than h+13, and the box below grows to match. The
+        # gutter held five units under the baseline, which is enough for
+        # a 12-unit label and nothing larger, so the phone rule that
+        # states a readable size had its year labels sitting on the bars.
+        # The gutter now fits the size the phone needs; on a desktop it
+        # reads as three units more air under the axis.
+        f'<text x="{i*bw:.1f}" y="{h+18}" class="ax" '
         f'text-anchor="{"end" if y == 2026 else "start"}">{y}</text>'
         for i, (y, _) in enumerate(data) if y in _want)
     # A Y AXIS, because the chart could not be read for magnitude. Kristjan:
@@ -159,7 +165,11 @@ def bars(data, top, w=880, h=104, accent_last=True):
     # viewBox width now, so they still render at identical heights to each
     # other, which is the property the stack needs. What changes is that the
     # height follows the width instead of being pinned.
-    return (f'<svg viewBox="0 0 {w + 34} {h+18}" width="100%" '
+    # -4 at the top: the topmost y-axis number is drawn at the zero line
+    # and its ascenders sat outside the box, so "34" published with its
+    # crown sliced off on every one of these pages. Four units of headroom
+    # costs nothing and is the difference between a number and a defect.
+    return (f'<svg viewBox="0 -9 {w + 34} {h+35}" width="100%" '
             f'style="height:auto">{grid}{"".join(out)}{ticks}</svg>')
 
 
@@ -231,7 +241,10 @@ def line(data, w=880, h=104, mark_year=None, ring_year=None,
             f'<line x1="0" y1="{h:.1f}" x2="{w}" y2="{h:.1f}" '
             f'stroke="var(--rule)" stroke-width="1"/>'
             f'<text x="{w + 6}" y="{h + 3:.1f}" class="ax">{lo + .5:.0f}</text>')
-    return (f'<svg viewBox="0 0 {w + 34} {h+18}" width="100%" '
+    # Same four units of headroom as the bar charts above, for the same
+    # reason: the peak-year label sits at the top of its own range and
+    # was clipped by half a unit at the phone's larger axis size.
+    return (f'<svg viewBox="0 -4 {w + 34} {h+22}" width="100%" '
             f'style="height:auto" role="img">{axis}'
             f'<polyline points="{pts}" fill="none" stroke="var(--soft)" '
             f'stroke-width="1.2"/>{extra}</svg>')
@@ -631,6 +644,33 @@ margin-top:48px}
 .back{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;
 text-transform:uppercase;color:var(--ink-faint);text-decoration:none;
 border-bottom:1px solid var(--rule)}
+/* THE CHART WAS 182 PIXELS WIDE ON A PHONE. A 136px label column against
+   a 386px screen left the record, which is the whole point of this page,
+   in a fifth of the width: a 914-unit viewBox squeezed to 182px renders
+   its axis numbers at 2.4px, and a century of summers becomes a smudge.
+   These 42 pages are where the social traffic lands and most of it lands
+   on a phone, so this was the instrument failing for most readers who
+   ever saw it. The label sits above the chart and the chart takes the
+   full width. Same on the source register, which held a 1fr against an
+   auto column and wrapped every line. */
+@media(max-width:640px){
+.grid{grid-template-columns:minmax(0,1fr);gap:6px;align-items:stretch}
+.gk{padding-bottom:0}
+/* Font size inside an SVG is in viewBox units, so it shrinks with the
+   chart: 12 units across 914 drawn at 338px is 4.4 real pixels. A larger
+   size at this width buys legibility, but only up to the point where the
+   labels start colliding with the bars they annotate, because their
+   positions are fixed in the same units. 18 is the largest that clears
+   every label on every one of the 42 pages, checked rather than judged;
+   it lands near 6.7px, which is small and readable rather than the 4.4px
+   smudge it replaces. The width fix above is the larger part of this. */
+.ax{font-size:18px}
+.vlab{font-size:17px}
+.src{grid-template-columns:minmax(0,1fr);row-gap:0}
+.src span{padding-top:7px}
+.src span:nth-child(even){border-top:0;padding-top:0;padding-bottom:7px;
+ text-align:left !important;color:var(--ink-faint)}
+}
 """
 CSS += _bandcss()
 

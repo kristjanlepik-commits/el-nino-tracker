@@ -236,6 +236,21 @@ main{max-width:820px;margin:0 auto;padding:34px 26px 90px}
   /* The current page, by weight and a rule. */
   .prodnav a.on { color: var(--ink); font-weight: 600;
     border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }
 .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:9.5px;
  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);
  margin-top:26px}
@@ -266,6 +281,14 @@ h1{font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;
  color:var(--ink-faint)}
 .track{position:relative;height:21px;background:var(--paper-sunk)}
 .fill{position:absolute;left:0;top:0;height:21px}
+/* THE BAR HAD ZERO WIDTH ON A PHONE, which is worse than the 12px of
+   sideways scroll it also caused. 72 + 68 + 190 of fixed columns plus
+   three gaps exceed a 390px screen on their own, so the flexible track
+   between them collapsed to nothing and "98%" rendered as a number
+   beside an invisible instrument. Every ocean-heat and rung row on the
+   page was affected. Label and figure share the top line, the bar takes
+   the full width beneath them, and the note sits under the bar it
+   annotates. */
 .chx{font-family:"IBM Plex Mono",monospace;font-size:10px;
  fill:var(--ink-faint);font-variant-numeric:tabular-nums}
 .chnow{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
@@ -280,6 +303,57 @@ figure img{width:100%;height:auto;display:block}
  color:var(--ink-faint);margin-top:44px;padding-top:16px;
  border-top:1px solid var(--rule)}
 .foot a{color:var(--ink-faint)}
+
+/* THE PHONE RULES GO LAST, and that placement is the whole point rather
+   than tidiness. They sat above the base rules for one build: a media
+   query adds no specificity, so every declaration that named the same
+   property as a later rule lost, silently. The ledger stayed two columns
+   and the chart text stayed at 4.4px while the block that fixed them was
+   right there in the stylesheet, and both read as done. */
+@media (max-width:640px) {
+  /* THE BAR HAD ZERO WIDTH ON A PHONE, which is worse than the 12px of
+     sideways scroll it also caused. 72 + 68 + 190 of fixed columns plus
+     three gaps exceed a 390px screen on their own, so the flexible track
+     between them collapsed to nothing and "98%" rendered as a number
+     beside an invisible instrument. Label and figure share the top line,
+     the bar takes the full width, the note sits under what it annotates. */
+  .r,.r.wide{grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:"yr val" "bar bar" "note note";gap:5px 12px;
+    padding:9px 0}
+  .yr{grid-area:yr} .v{grid-area:val}
+  .track{grid-area:bar} .note{grid-area:note}
+  /* THE CHART TEXT IS LEFT ALONE, and this is a deliberate non-fix rather
+     than an oversight. It renders at 4.4px on a phone, which is not
+     readable, and every way of enlarging it from here makes the page
+     worse: measured across sizes 10 to 20 on the live payload, anything
+     past 11 units collides. At 20 the ocean-heat annotation lands on four
+     month ticks and "1997 peak +2.56" lands on "2026 · +2.96, July"; at
+     13 there are still three collisions. The annotations are positioned
+     for a 760-unit box and no CSS reaches their coordinates.
+
+     Overlapping labels are worse than small ones, because a reader can
+     zoom past small and cannot unread a number sitting on another number.
+     So this waits for the one fix that works: science emitting a narrow
+     viewBox for these three charts, filed rather than bodged. The analog
+     raster below gets the scroll treatment because it can; these cannot,
+     since scrolling their section would carry its prose off-screen. */
+  /* THE ANALOG CHART IS A RASTER, so none of the above reaches it. It is
+     1748px wide with two stacked panels and a six-entry legend, and at
+     334px every label in it is illegible. Squeezing it to fit produced a
+     picture of a chart rather than a chart. It keeps a readable width and
+     the panel scrolls: a swipe to read the axis beats a figure that
+     cannot be read at all. */
+  figure{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  figure img{width:auto;min-width:700px;max-width:none}
+  /* The provenance register held a 200px key column against 112px of
+     value, so every source note wrapped to five lines beside a mostly
+     empty label. One column: the key reads as a heading over what it
+     names. */
+  .ledger{grid-template-columns:minmax(0,1fr)}
+  .ledger>div{padding:0;border-top:0}
+  .ledger .k{padding:11px 0 2px;border-top:1px solid var(--rule)}
+  .ledger>div:not(.k){padding-bottom:11px}
+}
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>

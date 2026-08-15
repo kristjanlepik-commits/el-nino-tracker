@@ -144,6 +144,21 @@ plausible.init()
   /* The current page, by weight and a rule. */
   .prodnav a.on { color: var(--ink); font-weight: 600;
     border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }
 :root {     --paper: #F1F0EC;
     --paper-sunk: #E7E6DF;
     --ink: #1A1A18;
@@ -222,7 +237,10 @@ h1 b{font-weight:500;color:var(--ink)}
  font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.7;
  color:var(--ink-faint)}
 .more a{color:var(--ink);text-decoration:none;
- border-bottom:1px solid var(--rule)}
+ border-bottom:1px solid var(--rule);white-space:nowrap}
+/* The channel row wraps between its links and never inside one. On a
+   phone it stacks; the separators go with the line above them. */
+.chl{display:inline-block}
 /* TYPOGRAPHIC, NOT HUED. The comp gives this band a blue rule and a blue
    label; D-101 retired channel hue and the case being made for its return
    is scoped to map markers. */
@@ -422,7 +440,12 @@ evidence beside it</span></div>
 <div class="more"><span style="max-width:74ch">Chips mark attribution where a
 channel runs it. Fires does; Heat and Crops do not assess attribution, so the
 column is absent rather than empty.</span>
-<span style="white-space:nowrap"><a href="fires/">Fires, 19 countries &rarr;</a> &nbsp;&middot;&nbsp; <a href="heat/">Heat,
+<!-- NOWRAP ON EACH LINK, NEVER ON THE ROW. Holding all three together
+     made the row 129px wider than a 390px phone, so the whole front page
+     scrolled sideways: the one layout fault a reader cannot ignore and
+     the one no desktop check sees. Each link still refuses to break its
+     own label; the row breaks between them. -->
+<span class="chl"><a href="fires/">Fires, 19 countries &rarr;</a> &nbsp;&middot;&nbsp; <a href="heat/">Heat,
 42 cities &rarr;</a> &nbsp;&middot;&nbsp; <a href="crops/">Crops,
 36 countries &rarr;</a></span></div>
 

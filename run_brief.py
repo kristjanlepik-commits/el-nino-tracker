@@ -646,6 +646,21 @@ SITE_MASTHEAD_CSS = """
   /* The current page, by weight and a rule. */
   .prodnav a.on { color: var(--ink); font-weight: 600;
     border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }
 """.strip()
 
 _PUBLIC_CSS_TEMPLATE = """
@@ -4978,6 +4993,17 @@ def _about_section(num: str, label: str, body: str, aside: str = "",
     )
 
 
+def _subscribe_band_block() -> str:
+    """The shared subscribe unit, with its styling, for pages built here.
+
+    Imported inside the function rather than at module scope because
+    templates/subscribe_band.py imports from this module, and a top-level
+    import would close the circle.
+    """
+    from templates.subscribe_band import band, css
+    return f"<style>{css()}</style>{band()}"
+
+
 def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
                      briefs_href: str = "briefs/") -> str:
     """The About page.
@@ -5140,6 +5166,12 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
               'because they are what makes the rest believable.</p>'
             + '</div>'
             + "".join(secs)
+            # ABOUT HAD NO WAY TO SUBSCRIBE, and it is the page a reader
+            # reaches by deciding to check whether to trust us. It carried
+            # the form's stylesheet and no form, which is why a search for
+            # "ec-form" found three hits and reported a unit that was not
+            # there. Same component as every other surface.
+            + _subscribe_band_block()
             + '</main></div>\n'
             + '<footer class="field"><div class="field-shell"><div class="foot">'
             + '<div class="foot-top">'

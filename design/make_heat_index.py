@@ -428,6 +428,27 @@ for ring in COAST["rings"]:
 # rule holds for all of them and the exceptions announce themselves.
 GAP, LH, MAX_STEPS = 6.0, 15.0, 2
 
+# THE MAP DOES NOT RENDER ON THE INDEX ANY MORE.
+#
+# Product's reading, and it matches mine: an object that needs three
+# defensive sentences before it can be read is an object that is not
+# working. This one needs them. It has to say the set is not a sample of
+# Europe, that mark size means margin rather than magnitude, and that
+# absence of a mark means no station rather than no heat. Every one of
+# those sentences is true, and a reader who has to be told three things
+# before looking is being asked to do the page's job.
+#
+# What the map was for, a reader finding their own city, the list does
+# better and already does: 36 named rows, each linked, each carrying its
+# own number, ordered by how far past its own record it went.
+#
+# THE CODE STAYS BEHIND THIS FLAG RATHER THAN BEING DELETED, for one
+# week. Kristjan has not seen the page without it, and flipping a
+# constant back is a smaller thing to be wrong about than restoring four
+# hundred lines. If it is still False next Monday it should be deleted
+# properly, because a flag nobody flips is dead code wearing a switch.
+RENDER_MAP = False
+
 def overlap(a, b):
     return (max(0, min(a["x2"], b["x2"]) - max(a["x1"], b["x1"])) *
             max(0, min(a["y2"], b["y2"]) - max(a["y1"], b["y1"])))
@@ -553,7 +574,7 @@ _clash = [(label_boxes[i][0], label_boxes[j][0])
           for i in range(len(label_boxes))
           for j in range(i + 1, len(label_boxes))
           if _ov(label_boxes[i][1], label_boxes[j][1]) > 0]
-if _clash:
+if _clash and RENDER_MAP:
     raise SystemExit("map labels overlap: "
                      + "; ".join(f"{a} on {b}" for a, b in _clash))
 
@@ -600,6 +621,56 @@ svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" 
        + "".join(f'<path d="{d}" fill="var(--land)" stroke="var(--coast)" '
                  f'stroke-width="0.9" stroke-linejoin="round"/>' for d in coast)
        + "".join(leaders) + "".join(marks) + "".join(labels) + "</svg>")
+
+# WHAT THE PAGE OWES A READER ONCE THE MAP IS GONE. The map's aria-label
+# carried the three-state census and the clause saying the set is not a
+# sample of Europe, and under D-112b that label is published text rather
+# than an accessibility afterthought. Cutting the figure would have taken
+# both with it and no guard would have said a word, because removing a
+# true sentence breaks nothing.
+#
+# So the selection clause renders as visible text beside the lead, where
+# every reader gets it by the same route. See census_line for why the
+# three-state count does not come with it.
+MAPCOL = ""
+HERO_COLS = "minmax(0,1fr)"
+# A SOURCE LINE FOR AN ABSENT FIGURE IS A FALSE PROVENANCE CLAIM. The
+# footer credited the coastline data because the page drew coastlines. It
+# does not any more, so the credit goes with the drawing.
+COAST_ROW = ""
+if RENDER_MAP:
+    COAST_ROW = (f'<span>Coastlines, {COAST["source"]}, merged land so no '
+                 f'country borders are drawn</span>'
+                 f'<span style="text-align:right">{COAST["licence"]}</span>')
+if RENDER_MAP:
+    MAPCOL = ('<div class="mapcol">{svg}<div class="key">{key}</div>'
+              '<p class="knote">{note}</p></div>')
+    HERO_COLS = "minmax(0,1fr) 620px"
+
+
+def census_line():
+    """The one clause the map was carrying that the page still owes.
+
+    THE SELECTION CLAUSE IS THE HALF THAT MATTERS.
+    "Chosen for where heat was expected rather than as a sample of the
+    continent" appeared nowhere on the page except inside the map's
+    aria-label, which under D-112b is published text rather than an
+    accessibility extra. So it was published, and cutting the figure
+    would have unpublished it. Forty-two European stations without that
+    clause reads as a survey of Europe, which is the one thing this set
+    is not. It is editor's sentence, carried across unchanged rather
+    than rewritten, and editor is told it moved.
+
+    THE THREE-STATE COUNT DOES NOT COME WITH IT, and that is deliberate.
+    On the map it was doing real work, because a reader cannot scan
+    forty-two coloured discs and arrive at 22, 9 and 11. Under a list
+    where every row states its own rank it is a summary of the thing
+    directly beneath it, and it cost four lines between the answer and
+    the first city. The lead already carries the number that matters.
+    """
+    return (f'These {NCITY.lower()} stations were chosen for where heat was '
+            f'expected rather than as a sample of the continent.')
+
 
 # ---- the list: ordered, and each row carries its own magnitude -------------
 # every city has a page now, so nothing renders as a dead name
@@ -683,6 +754,13 @@ def minichart(name, w=316, h=34):
             f'{len(ys)} years, with 2026 marked">{"".join(out)}</svg>')
 
 
+def _short_date(iso):
+    """2026-08-09 as "9 Aug". Abbreviated because it sits in a subline
+    beside the rank, and the year is the same for every row on the page."""
+    y, m, dd = (int(x) for x in iso.split("-"))
+    return f'{dd} {"Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()[m - 1]}'
+
+
 def city_row(i, d):
     nm = d["name"]
     # EVERY ROW SAYS ITS RANK, including the fourteen firsts. Editor's fix and
@@ -704,6 +782,19 @@ def city_row(i, d):
     # the map's colouring while its rank value is not 1. The label says what
     # days.rank.value says.
     lab = f'{ordinal(d["rank"])} of {d["of"]} summers &middot; '
+    # THE SHORT-WINDOW QUALIFIER TRAVELS WITH THE DATUM (D-051), and until
+    # now it did not travel far enough. Twenty-one of these stations stop
+    # short of the latest cut, and the only place the page said so was a
+    # dashed edge and a <title> on a map mark: hover-only, which on a phone
+    # means nobody. Cutting the map would have taken the last route to it,
+    # and the count beside it would have stayed a floor with no visible
+    # reason. It reads in the row now, on every device.
+    # ON EVERY ROW, not only the short ones. Gating it on `short` put the
+    # date on 41 rows and left the 42nd bare, and the bare one was the
+    # station measured FURTHEST, so absence marked the best-covered city.
+    # That is the defect editor already fixed once on this page, where a
+    # missing rank was the record signal. An absence cannot be read.
+    lab += f'to {_short_date(d["cut"])} &middot; '
     href = PAGES.get(nm)
     title = (f'<a href="{href}" class="cty">{nm}</a>' if href
              else f'<span class="cty dim">{nm}</span>')
@@ -1022,7 +1113,9 @@ letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}}
    crowding. Enlarging the viewBox instead does the opposite, it makes
    the names smaller to fit more of them, which is the wrong trade on a
    map whose whole job is letting a reader find their own city. */
-.hero{{display:grid;grid-template-columns:minmax(0,1fr) 620px;gap:40px;
+/* One column while RENDER_MAP is False: the hero is text, and the list
+   starts directly under it rather than 870px down the page. */
+.hero{{display:grid;grid-template-columns:{HERO_COLS};gap:40px;
 align-items:start;margin-bottom:10px}}
 .mapcol{{min-width:0}}
 .mapcol svg{{max-height:64vh}}
@@ -1072,9 +1165,24 @@ padding-bottom:10px;margin:54px 0 6px}}
    flexible column now, which is also the better use of it: the
    minichart carries no text, so filling the width just makes the bars
    wider rather than distorting anything. */
-.lrow{{display:grid;grid-template-columns:170px minmax(0,1fr) 74px;gap:16px;
+/* 215 rather than 170: the subline now carries the window's end date as
+   well as the rank, and at 170 it wrapped on 33 of the 42 rows, breaking
+   "12 Aug" across two lines. The chart column gives up 45px of 696 and
+   loses nothing, since it stretches rather than letterboxing. */
+.lrow{{display:grid;grid-template-columns:215px minmax(0,1fr) 74px;gap:16px;
 align-items:center;padding:9px 0;border-bottom:1px solid var(--rule)}}
 
+/* THE ROW STACKS ON A PHONE, and this is not a refinement. Three fixed
+   columns at 390px left the chart 21px wide, and it was 66px before the
+   name column grew, so the instrument has been unreadable on a phone for
+   as long as it has existed. That is the traffic this page actually gets:
+   a cold social link, on a city page, on a phone. Name and figure share
+   the first line, the record spans the full width beneath them. */
+@media(max-width:640px){{
+.lrow{{grid-template-columns:minmax(0,1fr) 66px;
+  grid-template-areas:"name val" "bar bar";gap:7px 12px;padding:11px 0}}
+.lcty{{grid-area:name}} .lval{{grid-area:val}} .lbar{{grid-area:bar}}
+}}
 .cty{{font-size:17px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule)}}
 .cty.dim{{color:var(--soft);border:0}}
 .lcty{{display:flex;flex-direction:column;gap:2px}}
@@ -1113,13 +1221,14 @@ margin-top:50px}}
 <div>
 <h1>{COPY['headline']}</h1>
 <p class="stand">{COPY['lead']}</p>
-<p class="stand">{COPY['method']}</p>
+<!-- THE QUALIFIER SITS WITH THE CLAIM IT QUALIFIES. The lead says "these
+     42 European cities", and whether that means Europe is the first thing
+     a reader is entitled to know, not something to meet five hundred
+     pixels down. One sentence, joined to the method paragraph so the
+     hero stays two blocks and the first city keeps its place. -->
+<p class="stand">{census_line()} {COPY['method']}</p>
 </div>
-<div class="mapcol">
-{svg}
-<div class="key">{key_rows()}</div>
-<p class="knote">{COPY['map_note']}</p>
-</div>
+{MAPCOL}
 </div>
 
 <div class="seclab">{COPY['strip_label']}</div>
@@ -1141,8 +1250,7 @@ margin-top:50px}}
 <span style="text-align:right">to {CUT_TXT}</span>
 <span>Hot days, above each station's own 95th percentile of July-August maxima, {PCTL_PERIODS}</span>
 <span style="text-align:right">{len(rows)} stations</span>
-<span>Coastlines, {COAST["source"]}, merged land so no country borders are drawn</span>
-<span style="text-align:right">{COAST["licence"]}</span>
+{COAST_ROW}
 </div>
 </main></body></html>"""
 out = R / "docs/heat/index.html"

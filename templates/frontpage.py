@@ -709,7 +709,10 @@ h1 b{{font-weight:500;color:var(--ink)}}
  font-family:"{data}",monospace;font-size:11px;line-height:1.7;
  color:var(--ink-faint)}}
 .more a{{color:var(--ink);text-decoration:none;
- border-bottom:1px solid var(--rule)}}
+ border-bottom:1px solid var(--rule);white-space:nowrap}}
+/* The channel row wraps between its links and never inside one. On a
+   phone it stacks; the separators go with the line above them. */
+.chl{{display:inline-block}}
 /* TYPOGRAPHIC, NOT HUED. The comp gives this band a blue rule and a blue
    label; D-101 retired channel hue and the case being made for its return
    is scoped to map markers. */
@@ -875,7 +878,12 @@ evidence beside it</span></div>
 <div class="more"><span style="max-width:74ch">Chips mark attribution where a
 channel runs it. Fires does; Heat and Crops do not assess attribution, so the
 column is absent rather than empty.</span>
-<span style="white-space:nowrap"><a href="{rp}fires/">Fires, {n_fire} countries &rarr;</a> &nbsp;&middot;&nbsp; <a href="{rp}heat/">Heat,
+<!-- NOWRAP ON EACH LINK, NEVER ON THE ROW. Holding all three together
+     made the row 129px wider than a 390px phone, so the whole front page
+     scrolled sideways: the one layout fault a reader cannot ignore and
+     the one no desktop check sees. Each link still refuses to break its
+     own label; the row breaks between them. -->
+<span class="chl"><a href="{rp}fires/">Fires, {n_fire} countries &rarr;</a> &nbsp;&middot;&nbsp; <a href="{rp}heat/">Heat,
 {n_city} cities &rarr;</a> &nbsp;&middot;&nbsp; <a href="{rp}crops/">Crops,
 {n_ctry} countries &rarr;</a></span></div>
 
