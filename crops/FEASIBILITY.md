@@ -2324,3 +2324,61 @@ is the right instinct and it generalises: **every qualifier this
 channel relies on has to be a property of the datum** (D-051), because
 the alternative is a rule that lives in one chat's context, and this
 project's whole discipline is that such a rule does not exist.
+
+### 13l. A constant field can still be load-bearing, and this one cost the channel its best story
+
+Added 2026-08-16, after Kristjan's week 32 retro marked crops the only
+failing channel: *"we might have some great content from interesting
+countries (UK, France etc), we are not surfacing it at all."*
+
+He was right, and the cause was one boolean.
+
+**What the reader saw.** The pinned row on `/crops/` said **"England
+within its own normal range"**, while England's region record carried
+rank 1 of 26, the steepest 4-dekad fall in its 26-year record, holding
+under every control. France, Spain, Germany and Italy each got two
+figures on the same row.
+
+So this was not a story that failed to appear. It was an **active null
+claim about the one country in the news**, shown to a reader who had
+come looking for exactly that, in the same week Reuters ran Britain's
+worst cereal harvest in four decades.
+
+**The cause.** `rate_block(..., full=False)` stripped `available` from
+region blocks along with genuinely constant fields, to keep 2,107
+regions from repeating identical text. Design's pinned row gates on
+`available` and `rank` together, so the gate failed and the row fell
+through to its calm case, which is written to read as reassurance.
+
+**The reasoning error, which is the transferable part.** I classified
+`available` as constant because it is `True` on every block that
+carries a value. That is true and it is the wrong test. An absent rate
+emits `available: false` with a reason, so a consumer reads the field
+to tell a real rate from a missing one. Stripping it made present and
+absent **indistinguishable to anything downstream**.
+
+> **The test for a constant is not "does the value vary". It is "does
+> any consumer branch on it".** A field whose value never changes can
+> still be load-bearing, because what the consumer reads is its
+> PRESENCE.
+
+**The size argument was weaker than it looked, too.** I stripped it
+against a raw-byte figure. One boolean identical across 2,084 blocks
+costs **4 KB gzipped**, because byte-identical repetition is precisely
+what compression removes. The guard measures gzipped bytes. This is the
+second time on this channel that a raw-byte reading has driven a
+decision that a gzipped reading would not have supported.
+
+**Trap 19.** *De-duplicating a payload deletes gates as readily as it
+deletes noise, and the two look identical in a diff.* Before dropping a
+field from a per-datum block, grep the consumers for it. A field nobody
+reads is noise; a field somebody branches on is a contract, whatever
+its value.
+
+**And the failure mode is worse than silence.** D-043 says the calm
+case must not read as a near miss, so it is written to sound settled.
+That is right, and it means a gate that wrongly routes a place into the
+calm case does not produce a gap a reviewer would notice. It produces a
+confident, well-formed sentence that is false. Everything on this
+channel that checks values would pass it, and did, for as long as it
+was live.
