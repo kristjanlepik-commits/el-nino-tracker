@@ -217,26 +217,63 @@ def build(today: dt.date | None = None) -> dict:
             # data so the page cannot be built the other way round by
             # accident, and so a caption writer has the true sentence to
             # hand rather than having to derive it.
-            "record_percentile": round(
-                100 * sum(1 for m in mults if area_now * m < record["season_end"])
-                / len(mults)),
+            # A COUNT, NOT A PERCENTILE. Science's call and it is right.
+            # "5 of 20 prior seasons would have finished above the record"
+            # is unimpeachable. "The record sits at the 75th percentile" is
+            # the same fact wearing a lab coat, and it invites being read as
+            # a 25% probability by exactly the reader the headline rule is
+            # protecting.
+            #
+            # It is also model-dependent in a way a percentile conceals:
+            # 5 of 20 under multiplicative, 1 of 20 under additive. A number
+            # that swings fivefold on a modelling choice must not be dressed
+            # as a distributional statistic.
             "analogs_exceeding_record": sum(
                 1 for m in mults if area_now * m >= record["season_end"]),
+            "analogs_total": len(mults),
             "median_below_record": (area_now * st.median(mults)
                                     < record["season_end"]),
             "headline_rule": (
-                "The central outcome does NOT break the record; the record "
-                "sits high in the spread. 'Could exceed the record' is true "
-                "and 'on course to exceed it' is false. Lead with the "
-                "median, never the maximum."),
+                "The central outcome does NOT break the record. State it as "
+                "a count: 5 of the 20 prior seasons would have finished above "
+                "the record from here, and the median lands below it. 'Could "
+                "exceed the record' is true and 'on course to exceed it' is "
+                "false. Lead with the median, never the maximum, and never "
+                "restate the count as a percentile or a probability."),
             "analogs": [{k: v for k, v in a.items() if not k.startswith("_")}
                         for a in analogs],
             "caveat": (
                 "An envelope of what prior seasons did, not a probability "
                 "distribution and not a forecast. Twenty seasons is twenty "
-                "samples, they are not independent, and the fire regime is not "
-                "stationary. The median is what a typical season did from here, "
-                "never what is expected."),
+                "samples and the fire regime is not stationary. The median is "
+                "what a typical season did from here, never what is expected."),
+            # BOTH KNOWN BIASES RUN THE SAME WAY, TOWARD THE ALARMING
+            # ANSWER, which is the direction this channel owes scepticism.
+            # Reviewed by the ENSO tracker desk on the emitted file rather
+            # than from principle; every figure below reproduced here.
+            "known_biases": [
+                "Mild regression to the mean. The multiplier is slightly "
+                "negatively correlated with the season to date (r = -0.19), "
+                "so a high-standing season is projected a little high. 2026 "
+                "is a high-standing season.",
+                "The season is arriving earlier. The multiplier trends down "
+                "over time (r = -0.21 against year; median 1.66 in the older "
+                "half of the record against 1.46 in the recent half), so flat "
+                "weighting over-projects. Too weak to weight on at 20 points, "
+                "strong enough to state.",
+            ],
+            "why_multiplicative": (
+                "Each model predicts its OWN residual should vanish. Additive "
+                "assumes remaining burn is independent of the season to date, "
+                "and it is not: r = +0.54. Multiplicative assumes the "
+                "MULTIPLIER is independent of the season to date, and it very "
+                "nearly is: r = -0.19. So the record rejects additive and "
+                "supports multiplicative, and spanning both would widen the "
+                "band using a model this data rejects."),
+            "stability": (
+                "Leave-one-out over the 20 seasons moves the minimum by 2%, "
+                "the median by 1% and the maximum by 4%. No band edge depends "
+                "on a single season, including the maximum."),
             "why_not_a_point": (
                 f"A single week can add a third of a season. The largest weekly "
                 f"increment has been a median "

@@ -1149,10 +1149,10 @@
   "record_year": "2025",
   "record_ha": 1034552,
   "record_inside_envelope": true,
-  "record_percentile": 75,
   "analogs_exceeding_record": 5,
+  "analogs_total": 20,
   "median_below_record": true,
-  "headline_rule": "The central outcome does NOT break the record; the record sits high in the spread. 'Could exceed the record' is true and 'on course to exceed it' is false. Lead with the median, never the maximum.",
+  "headline_rule": "The central outcome does NOT break the record. State it as a count: 5 of the 20 prior seasons would have finished above the record from here, and the median lands below it. 'Could exceed the record' is true and 'on course to exceed it' is false. Lead with the median, never the maximum, and never restate the count as a percentile or a probability.",
   "analogs": [
    {
     "year": "2006",
@@ -1275,7 +1275,13 @@
     "multiplier": 1.449
    }
   ],
-  "caveat": "An envelope of what prior seasons did, not a probability distribution and not a forecast. Twenty seasons is twenty samples, they are not independent, and the fire regime is not stationary. The median is what a typical season did from here, never what is expected.",
+  "caveat": "An envelope of what prior seasons did, not a probability distribution and not a forecast. Twenty seasons is twenty samples and the fire regime is not stationary. The median is what a typical season did from here, never what is expected.",
+  "known_biases": [
+   "Mild regression to the mean. The multiplier is slightly negatively correlated with the season to date (r = -0.19), so a high-standing season is projected a little high. 2026 is a high-standing season.",
+   "The season is arriving earlier. The multiplier trends down over time (r = -0.21 against year; median 1.66 in the older half of the record against 1.46 in the recent half), so flat weighting over-projects. Too weak to weight on at 20 points, strong enough to state."
+  ],
+  "why_multiplicative": "Each model predicts its OWN residual should vanish. Additive assumes remaining burn is independent of the season to date, and it is not: r = +0.54. Multiplicative assumes the MULTIPLIER is independent of the season to date, and it very nearly is: r = -0.19. So the record rejects additive and supports multiplicative, and spanning both would widen the band using a model this data rejects.",
+  "stability": "Leave-one-out over the 20 seasons moves the minimum by 2%, the median by 1% and the maximum by 4%. No band edge depends on a single season, including the maximum.",
   "why_not_a_point": "A single week can add a third of a season. The largest weekly increment has been a median 25% of the whole season across prior years, and in 2025 weeks 32 and 33 together were 57% of the record. A point estimate would be false precision over exactly that."
  }
 }
