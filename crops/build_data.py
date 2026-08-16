@@ -409,6 +409,26 @@ _RATE_QUALIFIERS = [
 ]
 
 
+def _licensed_fall_claim(rank: int, of: int, start_rank, holds) -> str:
+    """The short rate sentence that is safe to print, in every case.
+
+    Built only from MEASURED quantities, the raw rank and the start
+    rank. Never from the fitted residual: `_start_control.adjusted_rank`
+    is a diagnostic, and a fitted number on a public page is original
+    modelling, which this project does not do.
+
+    When the control fails, the honest short form is not a different
+    rank. It is the same rank with the reason it does not stand, bound
+    into the same sentence so the two cannot be separated by a layout.
+    """
+    base = f"{_ordinal(rank)} steepest fall of {of}"
+    if not start_rank or holds:
+        return base
+    return (f"{base}, but from the {_ordinal(start_rank)} highest "
+            f"starting level of those {of}, so it is not a record fall "
+            f"once that is accounted for")
+
+
 def rate_block(pv: pd.DataFrame, doy: int, cur_year: int,
                full: bool = True) -> dict:
     """How fast a place is deteriorating, ranked against its own record.
@@ -531,6 +551,27 @@ def rate_block(pv: pd.DataFrame, doy: int, cur_year: int,
         "start_rank": start_rank,
         "start_of": len(start) if start_rank else None,
         "_start_control": control,
+        # PUBLIC, because design needed this and had to reach into the
+        # private dict to get it. `_start_control` is a diagnostic and
+        # underscore-prefixed means it never renders, yet the pinned row
+        # was reading `_start_control.adjusted_rank` and printing it.
+        # That is a FITTED number on a page, which check_rate_lead.py
+        # calls never publishable and which the aggregator posture
+        # forbids: we cite, we do not author.
+        #
+        # Design were not wrong to do it. Printing rank 1 for a place
+        # whose control fails publishes the exact figure the control
+        # exists to discount, so with only a raw rank and a private
+        # diagnostic they had to choose between two bad options. The
+        # missing thing was a publishable form, and that is mine.
+        #
+        # So: `control_holds` says whether the rank stands on its own,
+        # and `licensed_claim` is the short sentence that is safe to
+        # print either way. Both are built from MEASURED quantities,
+        # rank and start_rank, never from the fit.
+        "control_holds": bool(control.get("holds")),
+        "licensed_claim": _licensed_fall_claim(rank, of, start_rank,
+                                               control.get("holds")),
         "start_means": "the level this fall began from, ranked 1 = "
                        "highest on record. A steep fall from a high "
                        "start is partly regression toward the mean.",
