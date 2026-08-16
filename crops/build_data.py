@@ -569,9 +569,28 @@ def rate_block(pv: pd.DataFrame, doy: int, cur_year: int,
         # have had to strip constants from a per-datum block: they are
         # cheap to add, invisible in review, and 2,107 regions turns
         # 250 bytes into 0.7 MB against a 5 MB guard.
+        #
+        # `available` IS NOT IN THIS LIST AND MUST NOT GO BACK IN.
+        # It was, and it cost the channel its best story. It is True on
+        # every block that carries a value, so it looks exactly like the
+        # constants above. It is not one: an absent rate emits
+        # `available: False` with a reason, so a consumer tests
+        # `available` to tell a real rate from a missing one. Stripping
+        # it made a present rate indistinguishable from an absent one.
+        #
+        # What that did: design's pinned row gates on
+        # `r.get("available") and r.get("rank")`. England's region rate
+        # carried rank 1, the steepest fall in its 26 year record,
+        # holding under every control, and rendered as "England within
+        # its own normal range" because the boolean was missing. The one
+        # country in the news, told to the reader as a null.
+        #
+        # THE TEST FOR A CONSTANT IS NOT "DOES THE VALUE VARY". It is
+        # "does any consumer branch on it". A field whose value never
+        # changes can still be load-bearing, because what the consumer
+        # reads is its PRESENCE.
         for k in ("window_dekads", "worse_is", "authorship",
-                  "evidence_basis", "available", "start_means",
-                  "start_of"):
+                  "evidence_basis", "start_means", "start_of"):
             block.pop(k, None)
         # The series stays dropped: nothing renders a region rate
         # history, and emitting a second per-region series contradicted
