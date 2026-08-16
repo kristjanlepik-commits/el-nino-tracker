@@ -199,17 +199,27 @@ def _pinned_row(p) -> str:
     bits = []
     if sv.get("available") and sv.get("rank"):
         bits.append(f"{_ord(sv['rank'])} most stressed of {sv['of']}")
-    if r.get("available") and r.get("rank"):
-        # THE ADJUSTED RANK, when the control says the raw one is inflated.
-        # Printing rank 1 here would publish the exact figure CRO's control
-        # exists to discount, on the one country most likely to be quoted.
-        ctl = r.get("_start_control") or {}
-        if ctl and not ctl.get("holds") and ctl.get("adjusted_rank"):
-            bits.append(f"{_ord(ctl['adjusted_rank'])} steepest fall of "
-                        f"{r['of']} once its high starting level is "
-                        f"accounted for")
-        else:
-            bits.append(f"{_ord(r['rank'])} steepest fall of {r['of']}")
+    if r.get("available") and r.get("licensed_claim"):
+        # CRO'S SENTENCE, NOT MY ARITHMETIC. This used to print
+        # `_start_control.adjusted_rank` when the control failed, which put
+        # a FITTED residual rank on a public page: Spain read "14th
+        # steepest fall of 26 once its high starting level is accounted
+        # for" and 14 was a number no measurement produced. The aggregator
+        # posture is that we cite and do not author, and a rank out of a
+        # regression is authorship however carefully it is labelled.
+        #
+        # The honest short form when a control fails is not a DIFFERENT
+        # rank, it is the same rank with the reason it does not stand,
+        # bound into one sentence so no layout can separate them. Spain's
+        # real rank is 8th. CRO now emits that sentence per block, so this
+        # renders it and reads nothing underscore-prefixed.
+        #
+        # Their root-cause line is the one to keep: an underscore prefix is
+        # a convention, not a barrier, and a consumer with a gap will cross
+        # it. Rendering a private field is a defect in the payload rather
+        # than a rule to obey more carefully, so it gets reported, not
+        # worked around.
+        bits.append(r["licensed_claim"])
     # D-043: the calm case is drawn, not summarised, and it must not read as
     # a near miss. An ordinary country says so in the same words every week.
     if not bits:
@@ -701,6 +711,80 @@ def _global_block(g) -> str:
       <ul class="gbq">{quals}</ul>"""
 
 
+RATE_AXIS_SHOWN = 12
+
+
+def _rate_axis(doc) -> str:
+    """The second ordering. Kristjan's call, CRO's spec.
+
+    WHY THE PAGE NEEDS TWO AXES AND NOT A BETTER ONE. The index orders by
+    severity magnitude, which is right: a rank is not a magnitude, and a
+    country at rank 1 of 26 on a flat series has found nothing. But France
+    sits at z 0.017 and the U.K. at 0.088 on cumulative vegetation, which
+    is average by construction, so no honest reordering of THAT axis ever
+    lifts them. Their entire signal is in how fast they are falling. One
+    axis cannot carry both, and the one that was missing is the sturdier.
+
+    SORTED ON rate.value, NEVER ON rate.rank. CRO's instruction and the
+    reason is visible in the output: twenty-six places tie at rank 1, so a
+    rank sort would put them in whatever order the payload happened to
+    hold. The value is the 4-dekad change in the cumulative vegetation
+    score, a magnitude in the same sense the severity ordering uses, so
+    this keeps the page's own principle rather than bending it for a
+    second list.
+
+    GATED ON rate.control_holds. A steep fall from a high starting level is
+    partly regression toward the mean; start against change correlates
+    about -0.38 across the reported places, so this is the common case
+    rather than an edge. Eighty-three of the 123 fail it and none of them
+    appears here.
+
+    THE FIGURE SHOWN IS THE ONE SORTED ON. Eight of the top twelve read
+    "1st steepest fall of 26", because they genuinely tie; without the
+    magnitude beside them the order would look arbitrary and a reader
+    would be right to distrust it.
+    """
+    rows = []
+    for p in doc.get("places") or []:
+        r = p.get("rate") or {}
+        if (r.get("available") and r.get("control_holds")
+                and r.get("value") is not None and r.get("licensed_claim")):
+            rows.append((r["value"], p["place"], r["licensed_claim"]))
+    if not rows:
+        return ""
+    rows.sort()                                  # most negative first
+    shown, total = rows[:RATE_AXIS_SHOWN], len(rows)
+    excluded = sum(1 for p in doc.get("places") or []
+                   if (p.get("rate") or {}).get("available")
+                   and not (p.get("rate") or {}).get("control_holds"))
+
+    out = "".join(
+        f"""
+      <div class="crow">
+        <span class="cz">{v:+.2f}</span>
+        <span class="cmain">
+          <span class="cplace">{h(PINNED_LABEL.get(name, name))}</span>
+          <span class="cclaim">{h(claim)}</span>
+        </span>
+      </div>""" for v, name, claim in shown)
+
+    # NO SILENT CAP. The list is cut at twelve and the page says so, with
+    # both the number that cleared the gate and the number the control
+    # removed. A truncated list that does not announce its truncation
+    # reads as "these are the ones", which is a different claim.
+    return (
+        '<p class="seclab">Falling fastest</p>'
+        '<p class="note">A different question from the one above: not how '
+        'stressed a place is, but how fast it has got worse. Ordered by the '
+        'change in cumulative vegetation score over the last four dekads, '
+        'steepest first, which is the figure shown. A place appears only if '
+        f'that fall holds once its starting level is controlled for: {excluded} '
+        'of the reported places fall from a high start, where part of the drop '
+        'is a return toward the average, and none of them is listed. '
+        f'The {len(shown)} steepest of {total} that hold.</p>'
+        + out)
+
+
 def _rate_block(doc) -> str:
     """Countries falling fastest, where the COUNT is the finding.
 
@@ -742,10 +826,12 @@ def _rate_block(doc) -> str:
     held = []
     for p_ in places:
         r = p_.get("rate") or {}
-        ctl = r.get("_start_control") or {}
-        if r.get("available") and r.get("rank") == 1 and ctl.get("holds"):
-            held.append((p_["place"], abs(ctl.get("gap_to_next_year") or 0.0),
-                         r.get("of")))
+        # control_holds is the public field for exactly this test. It was
+        # _start_control.holds, which is the same boolean read through a
+        # private door; the margin it sorted on was private too, so the
+        # order now comes from rate.value, which is a measured quantity.
+        if r.get("available") and r.get("rank") == 1 and r.get("control_holds"):
+            held.append((p_["place"], abs(r.get("value") or 0.0), r.get("of")))
     if not held:
         return ""
 
@@ -1349,6 +1435,8 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
   {world_map}
 
   {grouped_html}
+
+  {_rate_axis(doc)}
 
   <!-- AFTER THE COUNTRY LIST, BEFORE THE APPARATUS. It sat at 98% of the
        page, under every block that is the same every week. The boundary

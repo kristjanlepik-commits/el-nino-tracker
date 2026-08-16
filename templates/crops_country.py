@@ -572,11 +572,16 @@ def render(country: dict, root_prefix: str = "../../") -> str:
         # The region-level rate carries a rank without the `available`
         # flag the country-level one has. Requiring it dropped England's
         # rank 1 of 26 silently, which is the finding the page exists for.
-        if lr.get("rank"):
-            ctl = lr.get("_start_control") or {}
-            rk = (ctl["adjusted_rank"] if ctl and not ctl.get("holds")
-                  and ctl.get("adjusted_rank") else lr["rank"])
-            bits.append(f"{_ord(rk)} steepest fall of {lr['of']}")
+        # CRO'S SENTENCE, NOT A FITTED RANK. This printed
+        # `_start_control.adjusted_rank`, a regression residual, whenever
+        # the control failed. We cite and do not author, and a rank out of
+        # a fit is authored however carefully it is labelled. The public
+        # form carries the real rank AND the reason it does not stand, in
+        # one sentence, so no layout can separate the two halves.
+        if lr.get("licensed_claim"):
+            bits.append(lr["licensed_claim"])
+        elif lr.get("rank"):
+            bits.append(f"{_ord(lr['rank'])} steepest fall of {lr['of']}")
         stand = (f"{_lead_name} is " + ", and ".join(bits) + ". "
                  if bits else f"{_lead_name} is within its own normal range. ")
         others = [r["region"] for r in regions if r["region"] != _lead_name]
@@ -607,13 +612,12 @@ def render(country: dict, root_prefix: str = "../../") -> str:
         if sev.get("available") and sev.get("rank"):
             lead.append(f"{_ord(sev['rank'])} most stressed of {sev['of']} "
                         f"observations for this point in the season")
-        if rate.get("available") and rate.get("rank"):
-            ctl = rate.get("_start_control") or {}
-            rk = (ctl["adjusted_rank"] if ctl and not ctl.get("holds")
-                  and ctl.get("adjusted_rank") else rate["rank"])
-            qual = ("" if rk == rate.get("rank") else
-                    ", once its high starting level is accounted for")
-            lead.append(f"{_ord(rk)} steepest fall of {rate['of']}{qual}")
+        # Same fix as the region lead above: the licensed sentence rather
+        # than a residual rank this renderer computed a qualifier for.
+        if rate.get("available") and rate.get("licensed_claim"):
+            lead.append(rate["licensed_claim"])
+        elif rate.get("available") and rate.get("rank"):
+            lead.append(f"{_ord(rate['rank'])} steepest fall of {rate['of']}")
         head = (f"{name} is " + ", and ".join(lead) + "."
                 if lead else f"{name} is within its own normal range.")
         stand = (f"{head} None of its {units} crop regions is at a record "
