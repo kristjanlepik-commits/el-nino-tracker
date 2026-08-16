@@ -2382,3 +2382,21 @@ calm case does not produce a gap a reviewer would notice. It produces a
 confident, well-formed sentence that is false. Everything on this
 channel that checks values would pass it, and did, for as long as it
 was live.
+
+**Product's formulation, which is sharper than mine and is the version
+to remember:**
+
+> **A boolean that is stripped as a constant does not fail, it
+> defaults.** And where the default is the calm branch, the failure is
+> silent and reassuring.
+
+That is the whole mechanism in two sentences. A missing value does not
+announce itself; it takes whichever path the code treats as ordinary.
+Every consumer of this payload has an ordinary path, and on a channel
+whose job is to say when nothing is happening, the ordinary path is a
+claim.
+
+**So the check to run before dropping any field is not "is it
+constant".** It is: *if this field went missing, which branch would the
+consumer take, and what would that branch say to a reader?* If the
+answer is a sentence rather than a blank, the field is a contract.
