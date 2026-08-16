@@ -4725,14 +4725,44 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
               f"ECMWF SEAS5 member counts in caveat 2 are a second quantitative "
               f"cross-check.")
     md.append("")
-    for label, key in [
-        ("At least moderate (>+1.0°C peak)", "moderate_>1.0"),
-        ("Strong (>+1.5°C peak)",            "strong_>1.5"),
-        ("Very strong / super (>+2.0°C peak)", "super_>2.0"),
-        ("1997/2015 magnitude (>+2.5°C peak)", "9715_>2.5"),
-        ("Beyond instrumental record (>+3.0°C peak)", "record_>3.0"),
-        ("Far beyond record (>+3.5°C peak)", "record_>3.5"),
-    ]:
+    # Labels only. WHICH rungs appear is driven by the buckets themselves,
+    # not by this list, so a new threshold reaches the internal brief the
+    # moment probs.py emits it.
+    #
+    # It was a hardcoded list ending at +3.5, and design caught what that
+    # would have done on Monday: the brief would have listed rungs stopping
+    # at "far beyond record" while its OWN model table, two rows below,
+    # carried a >+4.0 column at 43% consensus. The reader most likely to
+    # notice is the one it is written for.
+    #
+    # Exactly the defect design had just fixed in the public renderer, in a
+    # different list, in my file. Two hardcoded lists, one data source; the
+    # second was always going to outlive the fix to the first.
+    #
+    # The internal brief keeps RETIRED rungs, unlike the public ladder. It
+    # is the audit surface and the full series is the point of it; retiring
+    # is a decision about what a reader is asked to attend to, not about
+    # what we know.
+    _BUCKET_LABELS = {
+        "moderate_>1.0": "At least moderate (>+1.0°C peak)",
+        "strong_>1.5":   "Strong (>+1.5°C peak)",
+        "super_>2.0":    "Very strong / super (>+2.0°C peak)",
+        "9715_>2.5":     "1997/2015 magnitude (>+2.5°C peak)",
+        "record_>3.0":   "Beyond instrumental record (>+3.0°C peak)",
+        "record_>3.5":   "Far beyond record (>+3.5°C peak)",
+        "record_>4.0":   "Nothing to compare it to (>+4.0°C peak)",
+    }
+
+    def _threshold_of(bucket_key: str) -> float:
+        try:
+            return float(bucket_key.split("_>")[-1])
+        except (ValueError, IndexError):
+            return 0.0
+
+    for key in sorted(headline, key=_threshold_of):
+        if not isinstance(headline.get(key), dict):
+            continue
+        label = _BUCKET_LABELS.get(key, key)
         s = smoothed.get(key, {})
         smoothed_pct = s.get("mid")
         anchor_pct = s.get("anchor")

@@ -664,7 +664,16 @@ def annotate_liveness(buckets: dict, history: list, history_pairs: list | None =
             "saturated": saturated,
             # Settled but still on the ladder: the criterion says it should
             # go, RETIRED_RUNGS says it has not. See the note below.
-            "retirement_due": state == "settled" and not val.get("retired"),
+            # Fall back to RETIRED_RUNGS when the field is absent, and let
+            # the field win wherever it exists. `retired` is stamped at
+            # COMPUTE time, so any bucket frozen before D-115 carries no
+            # such key, and reading a missing key as "not retired" is how
+            # design put +1.0, +1.5 and +2.0 back on the live ladder at 99%
+            # while testing the data-driven renderer: a payload predating
+            # the field it is being read for. Nothing passes frozen buckets
+            # here today; this is so that stays harmless when something does.
+            "retirement_due": state == "settled" and not (
+                val["retired"] if "retired" in val else key in RETIRED_RUNGS),
         }}
 
     # The criterion is computed; the retirement is recorded by hand. This is
