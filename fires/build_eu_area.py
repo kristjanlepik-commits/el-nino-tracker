@@ -206,6 +206,29 @@ def build(today: dt.date | None = None) -> dict:
             "record_ha": record["season_end"],
             "record_inside_envelope": (area_now * mults[0] <= record["season_end"]
                                        <= area_now * mults[-1]),
+            # THE MAXIMUM IS THE INTERESTING NUMBER AND THE MEDIAN IS NOT,
+            # so a reader skimming a funnel takes the top of it as the
+            # forecast. Strategy's point, and it is right: shown without
+            # weight on the centre, this reads as "worse than the worst year
+            # ever" whatever the caption says.
+            #
+            # The record is NOT the central outcome. It sits high in the
+            # spread, and the median lands below it. These fields say so as
+            # data so the page cannot be built the other way round by
+            # accident, and so a caption writer has the true sentence to
+            # hand rather than having to derive it.
+            "record_percentile": round(
+                100 * sum(1 for m in mults if area_now * m < record["season_end"])
+                / len(mults)),
+            "analogs_exceeding_record": sum(
+                1 for m in mults if area_now * m >= record["season_end"]),
+            "median_below_record": (area_now * st.median(mults)
+                                    < record["season_end"]),
+            "headline_rule": (
+                "The central outcome does NOT break the record; the record "
+                "sits high in the spread. 'Could exceed the record' is true "
+                "and 'on course to exceed it' is false. Lead with the "
+                "median, never the maximum."),
             "analogs": [{k: v for k, v in a.items() if not k.startswith("_")}
                         for a in analogs],
             "caveat": (
