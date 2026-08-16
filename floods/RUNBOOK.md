@@ -8,6 +8,31 @@ not an estimate.
 This exists so the path does not depend on whoever happens to be in the
 conversation.
 
+## Readiness is a warm path, not a stockpile (D-163)
+
+The instinct is to pre-fetch baselines for likely regions so an answer
+is waiting when the news breaks. **It does not work, and the reason is
+structural rather than budgetary.** A baseline is a specific calendar
+window, and weather does not pick windows. A region pre-positioned for
+its Deyr fortnight is no help when the flood arrives in March.
+
+What IS window independent is qualification: whether the instrument can
+see a region at all. So qualify in advance, and baseline on demand.
+
+Measured, not estimated:
+
+    rainfall answer, from nothing      ~33 min,  10 MB
+    flood-extent baseline, per tile    ~60 min, 2.3 GB
+
+Thirty-three minutes is inside any news cycle. That is the capability
+worth advertising to the forward desk, and it is worth saying plainly to
+anyone planning a fortnight ahead: a European event does not need to
+have been anticipated, it needs half an hour.
+
+This generalises past floods. Standing coverage of anything
+baseline-relative is close to impossible, because every reading here is
+against its own record.
+
 ## The short version
 
     1. draw the box on the catchment          5 min
