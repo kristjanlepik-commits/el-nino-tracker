@@ -139,9 +139,28 @@ def _same_week_bars(hist: dict, now: int, mean: float, year: int) -> str:
     out.append(_halo("cx-s", W, H - 6, str(year), anchor="end"))
     out.append(_halo("cx-b", W, Y(vals[-1]) - 7, f"{now:,}", anchor="end",
                      fill=emphasis(now, mean), weight="600"))
+    # COUNT WHAT WAS COMPARED; NEVER NAME A START YEAR. This said "every
+    # year since {years[0]}", which renders as 2012 and asserts a
+    # continuous fourteen-year span the baseline does not have: 2022 has
+    # no SNPP science archive over most windows and is excluded on
+    # purpose, so thirteen years are compared. Wherever the missing year
+    # would have outranked the current week, "every year since" is wrong
+    # rather than merely loose. Fire found it and it is the same defect
+    # they had already fixed in the visible headline.
+    #
+    # WHY IT SURVIVED TWO INSPECTIONS, mine included, and this is the part
+    # worth remembering: years[0] is DERIVED from the series, so it wore
+    # the shape of the corrected pattern. Deriving a value does not make
+    # the sentence built on it true. It only makes a wrong claim
+    # recompute itself. "Derive, do not hardcode" is necessary and not
+    # sufficient.
+    #
+    # Hardcoding 13 would be wrong too: the excluded year is 2021 in some
+    # windows and 2022 in others, because the exclusion follows the
+    # defective dates and the window rolls daily. Count the series.
     return (f'<svg viewBox="0 0 {W} {H}" class="ch" role="img" '
-            f'aria-label="Detections in the same week, every year since '
-            f'{years[0]}">' + "".join(out) + "</svg>")
+            f'aria-label="Detections in the same week, {len(years)} years '
+            f'compared">' + "".join(out) + "</svg>")
 
 
 def _daily_bars(daily: dict, mean: float) -> str:

@@ -447,7 +447,7 @@ GAP, LH, MAX_STEPS = 6.0, 15.0, 2
 # constant back is a smaller thing to be wrong about than restoring four
 # hundred lines. If it is still False next Monday it should be deleted
 # properly, because a flag nobody flips is dead code wearing a switch.
-RENDER_MAP = False
+RENDER_MAP = True
 
 def overlap(a, b):
     return (max(0, min(a["x2"], b["x2"]) - max(a["x1"], b["x1"])) *
@@ -482,8 +482,14 @@ for d in sorted(rows, key=lambda d: (_PRIO[state(d)], -d["margin"], PY(d["lat"])
     # rather than letting one hide the other.
     _edge = ' stroke-dasharray="2.5 2"' if d["short"] else ''
     _cut = f', measured to {d["cut"]}' if d["short"] else ''
+    # THE RADIUS TRAVELS AS A CUSTOM PROPERTY as well as an attribute, so
+    # the phone rule can scale every mark by one factor without flattening
+    # them to a single size. Radius here means margin over the city's own
+    # record, so a fixed r on mobile would delete the encoding; a common
+    # multiplier keeps every ratio between marks exactly as drawn.
     marks.append(f'<a href="{href}" class="mk"><title>{d["name"]}{_cut}</title>'
                  f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" '
+                 f'style="--r:{r:.1f}" '
                  f'fill="{FILL[state(d)]}" stroke="var(--ink)" '
                  f'stroke-width="1"{_edge}/></a>')
     # 7.1 per character underestimated Spectral at 13px, so the placer
@@ -544,9 +550,12 @@ for d in sorted(rows, key=lambda d: (_PRIO[state(d)], -d["margin"], PY(d["lat"])
         # the leader was invisible against the land it crosses, which makes
         # a displaced label worse than no leader: the reader sees a name
         # sitting beside a city it does not belong to and no thread back.
-        leaders.append(f'<path d="M{x + r:.1f},{y:.1f} H{lx - 4:.1f} '
-                       f'V{ly - 4:.1f}" fill="none" stroke="var(--ink-faint)" '
-                       f'stroke-width="0.9"/>')
+        # Classed so the phone rule can take the leaders off with the
+        # labels they lead to. A leader pointing at nothing is worse than
+        # no leader.
+        leaders.append(f'<path class="ldr" d="M{x + r:.1f},{y:.1f} '
+                       f'H{lx - 4:.1f} V{ly - 4:.1f}" fill="none" '
+                       f'stroke="var(--ink-faint)" stroke-width="0.9"/>')
     # No sublabel. "record" under a darkest-fill marker is the fill said
     # twice and the legend already defines it; 98.6 against 98.1 is
     # invisible at marker size and nobody reads a map for a decimal. Both
@@ -643,9 +652,13 @@ if RENDER_MAP:
                  f'country borders are drawn</span>'
                  f'<span style="text-align:right">{COAST["licence"]}</span>')
 if RENDER_MAP:
-    MAPCOL = ('<div class="mapcol">{svg}<div class="key">{key}</div>'
-              '<p class="knote">{note}</p></div>')
     HERO_COLS = "minmax(0,1fr) 620px"
+# MAPCOL itself is assembled further down, once svg, key_rows() and COPY
+# exist. It was written here as a plain string holding {svg} and {key},
+# which are not substituted by anything: flipping RENDER_MAP on shipped
+# the literal braces into the page, exactly as {_BAND_CSS} once did. The
+# lesson is the same one and it is cheap to forget: a template string is
+# only a template where something formats it.
 
 
 def census_line():
@@ -1053,6 +1066,16 @@ COPY = copydeck.render(
                for s in _CONTRAST_SLOTS}),
 )
 
+if RENDER_MAP:
+    # The clip is its OWN element, wrapping the figure and nothing else.
+    # Putting overflow:hidden on the whole column took the legend with it
+    # and sliced every explanatory line down the middle: "Size", "mark",
+    # "over", "its", "own". The map is the only thing that overflows on
+    # purpose, so it is the only thing inside the clip.
+    MAPCOL = (f'<div class="mapcol"><div class="mapclip">{svg}</div>'
+              f'<div class="key">{key_rows()}</div>'
+              f'<p class="knote">{COPY["map_note"]}</p></div>')
+
 CONTRAST_BLOCK = f"""<div class="seclab">{COPY['contrast_label']}</div>
 <div class="two">
 <div><span class="tl">{DAY_LEAD_N}</span>Its most hot days on record, by
@@ -1119,6 +1142,41 @@ letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}}
 align-items:start;margin-bottom:10px}}
 .mapcol{{min-width:0}}
 .mapcol svg{{max-height:64vh}}
+/* The drawn radius, restated as a property so the phone rule can scale
+   the whole set by one factor. Identical to the r attribute here. */
+.mk circle{{r:calc(var(--r) * 1px)}}
+/* THE MAP ON A PHONE. Three things are wrong with simply letting it
+   shrink, and all three are fixed here rather than by a second render:
+   duplicating the SVG would cost 175KB of coastline on the connection
+   least able to afford it, and 61% of readers arrive on a phone.
+
+   1. THE LABELS GO. Twenty-eight city names in a 830-unit box drawn at
+      338px render at about 5px and stack on each other. The marks stay
+      tappable and every city is named in the list below, which is the
+      better instrument for finding your own city anyway. The leaders go
+      with them, since a leader pointing at nothing is worse than none.
+
+   2. THE LABEL GUTTER GOES WITH THEM. {PAD_R} of the {W} units on the
+      right exist to hold names. With the names gone that is a fifth of
+      the width drawing nothing, so the map is widened past the column
+      and the empty strip is clipped: the visible {W} minus {PAD_R} units
+      then fill the phone edge to edge. No viewBox change, so nothing is
+      reprojected and every mark keeps its place.
+
+   3. THE MARKS GROW, by a common multiplier rather than to a fixed size.
+      R_FLOOR draws at 3.5px here, which is under a fingertip. Scaling
+      all of them by 2 keeps every ratio between marks exactly as drawn,
+      so the encoding survives: radius is still margin over that city's
+      own record. */
+@media(max-width:640px){{
+  /* .mapclip svg, NOT .mapcol svg: the legend's size swatch is an svg in
+     the same column, and the looser selector widened that to 123.5% too,
+     shoving its own caption into a one-word column. */
+  .mapclip{{overflow:hidden}}
+  .mapclip svg{{max-height:none;width:{100 * W / (W - PAD_R):.1f}%}}
+  svg .cn,svg .ldr{{display:none}}
+  .mk circle{{r:calc(var(--r) * 2px)}}
+}}
 @media(max-width:900px){{.hero{{grid-template-columns:minmax(0,1fr);gap:26px}}
 .mapcol svg{{max-height:none}}}}
 h1{{font-family:Spectral,serif;font-weight:400;font-size:52px;line-height:1.04;
