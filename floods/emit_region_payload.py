@@ -194,7 +194,9 @@ def main():
     ap.add_argument("--window", required=True, help="MM-DD:MM-DD")
     ap.add_argument("--as-of", required=True, help="YYYY-MM-DD")
     ap.add_argument("--rain-baseline", required=True)
-    ap.add_argument("--flood-baseline", required=True)
+    # Optional since 2026-08-16. Omitting it yields verdict not_assessed
+    # on the flood series, never cannot_say, and never silence.
+    ap.add_argument("--flood-baseline", default=None)
     ap.add_argument("--flood-current", default=None)
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
@@ -261,7 +263,42 @@ def main():
         })
 
     # ---- flood extent ---------------------------------------------------
-    fl = flood_series(args.flood_baseline, expected)
+    # A THIRD STATE, added 2026-08-16 for the Spanish fast-reaction case.
+    #
+    # This file already distinguishes "we cannot see this region" from "we
+    # have not looked yet". A rainfall-only region is neither: the flood
+    # baseline was never built, so the instrument has not been assessed at
+    # all. Until now that case emitted NO flood series whatsoever, and a
+    # page rendering the payload would have shown a rainfall answer with
+    # nothing at all saying the second instrument was missing. Silent
+    # omission is the one outcome this file exists to prevent, and it was
+    # reachable by simply not passing an argument.
+    #
+    # not_assessed is therefore a first-class verdict. It must never be
+    # rendered as cannot_say: cannot_say is a MEASURED claim about the
+    # instrument, earned from 20+ years of observability, and borrowing it
+    # for "we did not fetch it" would launder an absence into a finding.
+    fl = flood_series(args.flood_baseline, expected) if args.flood_baseline else {}
+    if not args.flood_baseline:
+        payload["series"].append({
+            "id": "flood_extent",
+            "instrument": "NASA MODIS MCDWD 3-Day composite",
+            "measures": "standing water outside the reference water mask",
+            "units": "250m pixels",
+            "expected_slots": expected,
+            "due_slots": 0,
+            "values_present": 0,
+            "baseline_years": 0,
+            "verdict": "not_assessed",
+            "not_assessed_reason": [
+                "no flood-extent baseline has been built for this region, so "
+                "the instrument's ability to see it is unknown and untested"
+            ],
+            "not_assessed_summary": (
+                "we have not measured flooding here; this page reports "
+                "rainfall only"
+            ),
+        })
     if fl:
         # The current year must not sit in its own comparison set. The
         # rainfall path already excluded it; this one did not, so a

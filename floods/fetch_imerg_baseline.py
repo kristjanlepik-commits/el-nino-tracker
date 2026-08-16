@@ -49,6 +49,24 @@ REGIONS = {
     # Zambales/Bataan coast. The area Reuters reported flooded on
     # 2026-08-09 from monsoon rain enhanced by Typhoon Dolphin.
     "manila_luzon_west": {"lon": (119.5, 121.5), "lat": (13.5, 16.0)},
+    # Eastern Pyrenees and the upper Segre, the Ebro's largest tributary.
+    # Located from data rather than from a news report: an Iberia-wide
+    # IMERG scan for 2026-08-01..14 put the fortnight maximum at 42.45N
+    # 1.27E, with this catchment at 36.8 mm mean against 6.1 mm for
+    # Iberia as a whole.
+    #
+    # CAVEAT ON THE BOX, and it is the reason ebro_basin is fetched
+    # alongside it. This box was drawn AFTER seeing where the rain fell,
+    # so it is selected on the outcome. Applying it to all 27 years
+    # removes the bias within the comparison but NOT the bias in having
+    # chosen this catchment because it was wet. The defensible claim is
+    # therefore "this catchment against its own history", never "the
+    # wettest place in Spain", which would need every catchment screened
+    # on equal terms.
+    "catalonia_pyrenees": {"lon": (0.3, 2.2), "lat": (41.9, 42.9)},
+    # Drawn in the screen candidate list BEFORE this event, so its
+    # selection is independent of the outcome. The honest control.
+    "ebro_basin": {"lon": (-2.0, 1.0), "lat": (41.0, 43.0)},
 }
 
 
