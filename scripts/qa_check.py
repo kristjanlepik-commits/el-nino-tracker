@@ -1385,6 +1385,53 @@ ALLHANDS_MAX_ENTRIES = 10
 ALLHANDS_MAX_AGE_DAYS = 30
 
 
+def check_allhands_cadence(advisories):
+    """Has a standing entry that claims a weekly rewrite gone stale?
+
+    Aftereffects raised this as a CLASS rather than an incident, and they
+    are right that it is the escalation map's finding at a new site: any
+    recurring push that depends on a chat being awake has no liveness
+    signal. No reader of the board can tell "a quiet fortnight" from "the
+    desk did not run", because both look like an entry that has not
+    changed. That is worse than a job which fails loudly.
+
+    THE CHECK READS THE ENTRY'S OWN DATE, not whether a new entry
+    appeared, and that distinction is theirs. The look-ahead is ONE
+    standing entry rewritten in place each Monday, because a weekly
+    append would evict a standing entry every week under D-059's
+    ten-entry window and leave the board nothing but look-aheads inside
+    two months. So no new entry ever appears, and a check watching for
+    one would never fire.
+
+    8 days, not 7. A Monday rewrite that slips to Tuesday is late, not
+    broken, and a guard that cries on the first hour of lateness gets
+    ignored by the second week. Same reasoning as the 30-hour run-age
+    bound: allow the known slack, catch the miss.
+
+    Advisory. A stale look-ahead misleads a planner; it does not put a
+    wrong number in front of a reader, and this must never block a
+    publish.
+    """
+    board = ROOT / "research" / "allhands.md"
+    if not board.exists():
+        return          # worktrees have no research/; that is its own check
+    pat = re.compile(r"^## (\d{4}-\d{2}-\d{2}) · (.*REWRITTEN WEEKLY.*)$",
+                     re.M | re.I)
+    for m in pat.finditer(board.read_text(encoding="utf-8", errors="replace")):
+        try:
+            when = date.fromisoformat(m.group(1))
+        except ValueError:
+            continue
+        age = (date.today() - when).days
+        if age > 8:
+            advisories.append(
+                f"research/allhands.md: \"{m.group(2)[:52]}\" declares a "
+                f"weekly rewrite and its date is {age} days old. Either the "
+                f"desk that owns it has not run, or it ran and did not update "
+                f"the date. A reader cannot tell those from a quiet week, "
+                f"which is the point of checking it here.")
+
+
 def check_allhands(violations):
     """Is the all-hands board still inside its cap?
 
@@ -1477,6 +1524,7 @@ def main():
     check_page_lags_data(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
     check_allhands(violations)
+    check_allhands_cadence(advisories)
     # Advisory during a publish, blocking in CI, same split and same reason
     # as check_emitted_fields: a nav that lags is a completeness defect and
     # a stale page is worse than an under-linked one, so this must never
