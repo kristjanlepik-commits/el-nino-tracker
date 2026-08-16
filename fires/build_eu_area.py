@@ -144,6 +144,30 @@ def build(today: dt.date | None = None) -> dict:
     mults = sorted(a["_exact"] for a in analogs)
     record = max(analogs, key=lambda a: a["season_end"])
 
+    # THE MULTIPLICATIVE TAIL EXTRAPOLATES PAST ANYTHING EVER OBSERVED, so
+    # the upper bound is capped at the largest absolute addition on record.
+    #
+    # Science established that multiplicative is the right model for the
+    # CENTRE, and it is: the multiplier is nearly independent of the season
+    # to date (r = -0.19) while remaining burn plainly is not (r = +0.54).
+    # That argument holds where the analogs stand near where we stand.
+    #
+    # It fails in the tail. The largest multiplier in the record, 2.67,
+    # comes from a season that stood at 16% of this one, so it is applied
+    # to a base six times larger than the one that produced it. The result
+    # asked for 962,394 ha of new burning against a largest-ever addition
+    # after this week of 567,446 ha: 1.7x anything observed in 21 years.
+    #
+    # Kristjan caught it as implausible before the arithmetic did, which is
+    # the useful order. Capping at the biggest observed addition keeps the
+    # bound inside the record rather than inside the model, and it lands on
+    # exactly the additive maximum, which is a reassuring coincidence rather
+    # than a second model sneaking in.
+    additions = sorted(a["season_end"] - a["at_this_week"] for a in analogs)
+    ceiling = area_now + additions[-1]
+    uncapped_max = area_now * mults[-1]
+    capped = uncapped_max > ceiling
+
     # How concentrated is a season? The single largest weekly increment as
     # a share of the whole, across prior seasons. This is the number that
     # justifies refusing a point estimate.
@@ -198,7 +222,19 @@ def build(today: dt.date | None = None) -> dict:
             "from_area_ha": round(area_now),
             "analog_min_ha": round(area_now * mults[0]),
             "analog_median_ha": round(area_now * st.median(mults)),
-            "analog_max_ha": round(area_now * mults[-1]),
+            "analog_max_ha": round(min(uncapped_max, ceiling)),
+            "analog_max_uncapped_ha": round(uncapped_max),
+            "analog_max_capped": capped,
+            "cap_basis": (
+                f"Capped at the largest absolute addition after this week in "
+                f"the record, {additions[-1]:,.0f} ha. The uncapped "
+                f"multiplicative maximum was {uncapped_max:,.0f} ha, which "
+                f"would need {uncapped_max - area_now:,.0f} ha of new burning, "
+                f"{(uncapped_max - area_now) / additions[-1]:.2f}x more than "
+                f"any season has added from here in 21 years. The extreme "
+                f"multiplier comes from a season standing far below this one, "
+                f"so applying it to this base extrapolates outside the "
+                f"record."),
             "analog_min_multiple": round(mults[0], 3),
             "analog_median_multiple": round(st.median(mults), 3),
             "analog_max_multiple": round(mults[-1], 3),
@@ -231,6 +267,16 @@ def build(today: dt.date | None = None) -> dict:
             "analogs_exceeding_record": sum(
                 1 for m in mults if area_now * m >= record["season_end"]),
             "analogs_total": len(mults),
+            # HOW MANY OF THOSE EXCEEDANCES ARE PHYSICALLY UNPRECEDENTED.
+            # Every analog that takes this season past the record does so by
+            # requiring more new burning than any season has ever added from
+            # this week. That does not make it impossible, but it means the
+            # exceedance count rests entirely on extrapolation rather than on
+            # anything observed, and a reader given "5 of 20" without this
+            # would take it as five precedents. There are none.
+            "exceedances_beyond_observed_addition": sum(
+                1 for m in mults
+                if area_now * m >= record["season_end"] and area_now * m > ceiling),
             "median_below_record": (area_now * st.median(mults)
                                     < record["season_end"]),
             "headline_rule": (
