@@ -230,8 +230,7 @@ def measure() -> list[tuple[str, float, int, float]]:
         with open(detections_path) as handle:
             detections = json.load(handle)
 
-        complete = {year for year in detections.get("_complete", [])
-                    if len(detections.get(year, {})) >= MIN_DAYS_FOR_COMPLETE_YEAR}
+        complete = set(detections.get("_complete", []))
 
         log_area, log_detections = [], []
         for year in sorted(complete):
@@ -348,8 +347,16 @@ def _weekly_records(iso: str) -> list[tuple[float, float, float]]:
         area_years = json.load(handle)["years"]
     with open(det_path) as handle:
         detections = json.load(handle)
-    complete = {year for year in detections.get("_complete", [])
-                if len(detections.get(year, {})) >= MIN_DAYS_FOR_COMPLETE_YEAR}
+    # TRUST THE MARKER. The day count second-guessed it and was wrong for
+    # small countries: Belgium's complete years hold 251 to 304 days
+    # because most Belgian days have no fire at all, so a 300-day floor
+    # discarded 12 of its 14 complete years and made the country
+    # unanalysable. Same defect as the builder's, which was fixed today.
+    # _complete is written per year only after every chunk of that year
+    # fetched successfully, and it is accurate on partially built files
+    # too: CHN, MWI and PNG carry it for exactly the years that hold
+    # 304 to 366 days.
+    complete = set(detections.get("_complete", []))
 
     rows = []
     for year in sorted(complete):
