@@ -116,6 +116,7 @@ import json
 import math
 import os
 import random
+import re
 import statistics as st
 import sys
 from datetime import date
@@ -320,7 +321,21 @@ def _weekly_records(iso: str) -> list[tuple[float, float, float]]:
     cloud_by_week: dict[tuple[str, int], list[float]] = {}
     if os.path.isdir(CLOUD_CACHE):
         for name in os.listdir(CLOUD_CACHE):
-            if not name.startswith(f"{iso}_"):
+            # MATCH THE SHAPE, NOT THE PREFIX. This read startswith(iso_),
+            # and the cache had accumulated 192 copies named like
+            # "AGO_2012 2.json", the pattern a Finder or sync duplicate
+            # takes. Every one matched the prefix and was read a second
+            # time.
+            #
+            # It happened to be harmless HERE, because the values are
+            # averaged and duplicating every value leaves a mean unchanged,
+            # which I verified rather than assumed. It would NOT have been
+            # harmless in anything that counts files, and the coverage
+            # report I read earlier was inflated by exactly this.
+            #
+            # A prefix test accepts anything that begins correctly. The
+            # filename has a shape; check the shape.
+            if not re.fullmatch(rf"{iso}_\d{{4}}\.json", name):
                 continue
             with open(os.path.join(CLOUD_CACHE, name)) as handle:
                 payload = json.load(handle)
