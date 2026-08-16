@@ -85,14 +85,52 @@ def load_jsonl(p):
     return [json.loads(l) for l in open(p) if l.strip()]
 
 
-def rainfall_series(base_path, region, window_days):
+def rainfall_series(base_path, region, window_days, current_year=None):
+    """Totals per year, on a window harmonised across every year.
+
+    A SOURCE GAP USED TO DELETE THE CURRENT YEAR SILENTLY. The old rule
+    was len(v) == window_days, which drops any year missing a day. IMERG
+    published nothing for 2026-08-10, so on the Spanish fortnight that
+    rule discarded 2026 itself and the payload would have carried a
+    27-year baseline and no current value, with nothing saying why.
+
+    The fix is to compare like with like rather than to drop a year.
+    Days absent from the CURRENT year are excluded from EVERY year, so
+    all totals are summed over the same calendar days. Dropping the day
+    from 2026 alone would dock it one day of rain and bias it low, which
+    on a 14-day window is around 7% of the total and enough to move a
+    rank.
+
+    The excluded days are returned rather than swallowed, because a
+    harmonised window is a smaller claim than the nominal one and the
+    page has to be able to say so.
+    """
     recs = load_jsonl(base_path)
-    by = collections.defaultdict(list)
+    by = collections.defaultdict(dict)
     for r in recs:
-        by[r["year"]].append(r)
-    years = {y: v for y, v in by.items() if len(v) == window_days}
-    totals = {y: sum(x["mean_mm"] for x in v) for y, v in years.items()}
-    return totals, {y: max(x["max_mm"] for x in v) for y, v in years.items()}
+        by[r["year"]][r["date"][5:]] = r
+
+    # The current year defines the usable window. Without one there is
+    # nothing to harmonise against, so fall back to the nominal rule.
+    excluded = []
+    if current_year is not None and current_year in by:
+        usable = set(by[current_year])
+        nominal = {d for y in by for d in by[y]}
+        excluded = sorted(nominal - usable)
+    else:
+        usable = None
+
+    years, totals, peaks = {}, {}, {}
+    for y, dd in by.items():
+        days = usable if usable is not None else set(dd)
+        if usable is None and len(dd) != window_days:
+            continue
+        if usable is not None and not usable.issubset(dd):
+            continue          # this year genuinely lacks a day 2026 has
+        years[y] = [dd[d] for d in sorted(days)]
+        totals[y] = sum(x["mean_mm"] for x in years[y])
+        peaks[y] = max(x["max_mm"] for x in years[y])
+    return totals, peaks, sorted(usable) if usable else [], excluded
 
 
 def flood_series(base_path, window_days):
@@ -222,7 +260,8 @@ def main():
     }
 
     # ---- rainfall -------------------------------------------------------
-    totals, peaks = rainfall_series(args.rain_baseline, args.region, expected)
+    totals, peaks, used_days, excluded_days = rainfall_series(
+        args.rain_baseline, args.region, expected, current_year=year)
     hist_all = {y: v for y, v in totals.items() if y != year}
     if year not in totals and hist_all:
         # A series with a baseline but no current value must still be
@@ -252,7 +291,23 @@ def main():
             "units": "mm, area mean over the region",
             "expected_slots": expected,
             "due_slots": due,
-            "values_present": expected,
+            # Was hardcoded to `expected`, which asserted a full window
+            # even when the source had a gap. It is the count of days
+            # actually summed.
+            "values_present": len(used_days) or expected,
+            # A harmonised window is a SMALLER claim than the nominal
+            # one, so it travels rather than being quietly absorbed. The
+            # page must be able to say "13 of 14 days, the same 13 in
+            # every year" instead of implying a fortnight.
+            "window_days_nominal": expected,
+            "window_days_compared": len(used_days) or expected,
+            "days_excluded": excluded_days,
+            "days_excluded_reason": (
+                "absent from the source for the current period, so excluded "
+                "from every year to keep the comparison like for like; "
+                "excluding them from the current year alone would understate "
+                "it and bias its rank low"
+            ) if excluded_days else None,
             "baseline_years": len(hist),
             "value": round(cur, 1),
             "basis": {"median": round(med, 1), "x_median": round(cur / med, 2),

@@ -1,0 +1,62 @@
+{
+ "region_id": "catalonia_pyrenees",
+ "label": "Eastern Pyrenees and upper Segre",
+ "window": {
+  "start": "2026-08-01",
+  "end": "2026-08-14"
+ },
+ "as_of": "2026-08-16",
+ "authorship": "agency",
+ "attribution": "attribution_pending",
+ "series": [
+  {
+   "id": "rainfall",
+   "instrument": "GPM IMERG Late Run v07",
+   "measures": "rainfall, NOT flooding",
+   "units": "mm, area mean over the region",
+   "expected_slots": 14,
+   "due_slots": 14,
+   "values_present": 13,
+   "window_days_nominal": 14,
+   "window_days_compared": 13,
+   "days_excluded": [
+    "08-10"
+   ],
+   "days_excluded_reason": "absent from the source for the current period, so excluded from every year to keep the comparison like for like; excluding them from the current year alone would understate it and bias its rank low",
+   "baseline_years": 26,
+   "value": 69.4,
+   "basis": {
+    "median": 21.9,
+    "x_median": 3.17,
+    "rank": 1,
+    "of": 27
+   },
+   "finding": {
+    "rank": 1,
+    "of": 27,
+    "tied_with_n": 0,
+    "ordinal_safe": true,
+    "claim": "extreme_ordinal",
+    "guards": []
+   },
+   "peak_day_mm": 76.0,
+   "verdict": "measured"
+  },
+  {
+   "id": "flood_extent",
+   "instrument": "NASA MODIS MCDWD 3-Day composite",
+   "measures": "standing water outside the reference water mask",
+   "units": "250m pixels",
+   "expected_slots": 14,
+   "due_slots": 0,
+   "values_present": 0,
+   "baseline_years": 0,
+   "verdict": "not_assessed",
+   "not_assessed_reason": [
+    "no flood-extent baseline has been built for this region, so the instrument's ability to see it is unknown and untested"
+   ],
+   "not_assessed_summary": "we have not measured flooding here; this page reports rainfall only"
+  }
+ ],
+ "notes": []
+}
