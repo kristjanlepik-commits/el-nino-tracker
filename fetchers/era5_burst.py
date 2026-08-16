@@ -48,7 +48,8 @@ Cache layout:
 - era5_burst_peakseries_{year}_*.json:  per-day spatial peak series
                                         (algorithm-independent, derived
                                         directly from ERA5 anomalies)
-- era5_burst_events_{year}_*_v17.json:  events detected by v1.7 algorithm
+- era5_burst_events_{year}_*_v18.json:  events detected by v1.7 algorithm,
+                                        v18 adds censoring flags
                                         (algorithm-version-tagged so a
                                         future v1.8 detector reuses the
                                         peakseries cache without CDS calls)
@@ -80,7 +81,7 @@ SAMPLE_TIME = "12:00"
 ANALOG_YEARS = [1997, 2015, 2023, 2025]
 
 # Algorithm version tag; bump when detection logic changes.
-ALGORITHM_VERSION = "v17"
+ALGORITHM_VERSION = "v18"
 
 # Burst detection parameters
 WINDOW_LAT_DEG = 5.0
@@ -290,7 +291,28 @@ def _detect_events(peak_series: np.ndarray, dates: list[str]) -> list[dict]:
                 break
 
         duration = event_end_idx - event_start_idx + 1
-        if duration < MIN_DURATION_DAYS:
+
+        # An event still above threshold on the LAST observed day has not been
+        # seen to end. Its end date and duration are lower bounds, set by where
+        # the data stops rather than by the atmosphere. ERA5 runs about six
+        # days behind, so the current year's most recent event is censored
+        # more often than not: on 2026-08-15 the active burst was reported as
+        # a finished 16-day event ending 2026-08-09, which was simply the last
+        # day we had.
+        #
+        # Emitted rather than corrected, because there is nothing to correct.
+        # A consumer that prints durations needs to say "16 days so far", and
+        # one that compares against analog years must not treat a censored
+        # duration as comparable to a completed one.
+        ongoing = event_end_idx == n - 1
+
+        # The same censoring can DELETE an event: one that began within
+        # MIN_DURATION_DAYS of the data edge is dropped for being too short
+        # when it may simply be too young. Kept when it is still active, and
+        # flagged, so a burst that starts near the boundary is visible as
+        # provisional instead of absent. Absence is the harder failure to
+        # notice, and this week has been a lesson in that.
+        if duration < MIN_DURATION_DAYS and not ongoing:
             continue
 
         events.append({
@@ -299,6 +321,11 @@ def _detect_events(peak_series: np.ndarray, dates: list[str]) -> list[dict]:
             "duration_days": duration,
             "peak_ms": round(float(p_val), 2),
             "peak_date": dates[p_idx],
+            # True when the event is still above threshold on the last
+            # observed day: `end` and `duration_days` are then lower bounds,
+            # and `peak_ms` may yet be exceeded.
+            "ongoing": ongoing,
+            "provisional_short": duration < MIN_DURATION_DAYS,
         })
     return events
 
