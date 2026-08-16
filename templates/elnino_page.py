@@ -63,9 +63,7 @@ MON = ["January", "February", "March", "April", "May", "June", "July",
 # A key with no entry renders its threshold and no descriptor. Inventing
 # a phrase for a rung beyond the record is a claim about how far beyond
 # it lies, and that is editor's sentence rather than this file's.
-RUNG_NOTE = {"9715_>2.5": "1997 / 2015 magnitude",
-             "record_>3.0": "beyond the observed record",
-             "record_>3.5": "far beyond it"}
+from templates.rung_copy import NOTE as RUNG_NOTE  # noqa: E402
 
 
 def _threshold_of(key):
@@ -149,12 +147,10 @@ def _rung_rows(headline):
     """
     rows = [(k, v) for k, v in (headline or {}).items()
             if _threshold_of(k) is not None]
-    # ASCENDING, which is this page's own order and not the brief's. The
-    # brief ladder runs highest-first; this one starts at the rung nearest
-    # certainty and escalates, which is how the section reads. Driving
-    # composition from the data must not silently restyle a page: the
-    # first render of this change flipped all three rows.
-    rows.sort(key=lambda kv: _threshold_of(kv[0]))
+    # HIGHEST FIRST. Kristjan's call, looking at the +4.0 rung: the top of
+    # the ladder is where the open question is, and it puts this page in
+    # the same order as the dated brief, which has always run that way.
+    rows.sort(key=lambda kv: _threshold_of(kv[0]), reverse=True)
     out = ""
     for key, b in rows:
         if _is_retired(key, b):

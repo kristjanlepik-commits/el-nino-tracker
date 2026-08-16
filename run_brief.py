@@ -3856,17 +3856,15 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         except ValueError:
             return None
 
-    # Descriptors are editor's words. A key with no entry renders its
-    # threshold and no descriptor rather than a phrase invented here: a
-    # rung above the record needs a sentence about how far beyond it lies,
-    # and that is a claim rather than a label.
-    _RUNG_TEXT = {
-        "record_>3.5": ("far", "Far beyond the record", "most uncertain"),
-        "record_>3.0": ("record", "Beyond the instrumental record",
-                        "highly uncertain"),
-        "9715_>2.5":   ("magn", "1997 / 2015 magnitude", None),
-        "super_>2.0":  ("super", "Very strong / super", None),
-    }
+    # Descriptors and pills come from templates/rung_copy.py, which both
+    # this ladder and the /elnino/ page read. They each held their own list
+    # and had drifted: the same rung said "Beyond the instrumental record"
+    # here and "beyond the observed record" there. Editor ruled the wording;
+    # the two copies were the defect.
+    from templates import rung_copy as _rc
+    _RUNG_CLS = {"record_>4.0": "far", "record_>3.5": "far",
+                 "record_>3.0": "record", "9715_>2.5": "magn",
+                 "super_>2.0": "super"}
     _rungs_html = []
     for _key, _b in sorted(
             ((k, v) for k, v in headline.items()
@@ -3874,11 +3872,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             key=lambda kv: _threshold_of(kv[0]), reverse=True):
         if _is_retired(_key, _b) or _b.get("mid") is None:
             continue
-        _cls, _lab, _tag = _RUNG_TEXT.get(
-            _key, ("far", "", "most uncertain"))
         _rungs_html.append(_render_rung(
-            _cls, f"+{_threshold_of(_key):.1f}°C peak", _b, _lab,
-            _prev_mid(_key), delta_label, tag=_tag))
+            _RUNG_CLS.get(_key, "far"),
+            f"+{_threshold_of(_key):.1f}°C peak", _b,
+            _rc.note(_key, sentence_case=True),
+            _prev_mid(_key), delta_label, tag=_rc.tag(_key)))
     ladder_rungs = "".join(_rungs_html)
 
     # Retired rungs (2026-07-13, Kristjan's call): +1.0 "at least moderate"
