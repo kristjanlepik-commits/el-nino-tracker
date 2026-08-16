@@ -322,9 +322,59 @@ def readings(d):
         fig="%d of %d" % (len(n1), len(regs)),
         ev="%s most stressed of %d observations, 2001-2026"
            % (_ord(sev.get("rank", 0)), sev.get("of", 0))
-           + "<br>five instruments read together &middot; dekad to 31 July",
+           + "<br>" + _crops_provenance(d["crops"], best),
         src="", tag=""))
     return rows
+
+
+def _crops_provenance(doc, place):
+    """The instrument count and the window, both read from the payload.
+
+    THIS LINE WAS TYPED: "five instruments read together, dekad to 31
+    July". Both halves were hardcoded and both went wrong in the usual
+    way. The window moved to the dekad of 1 August when ASAP published,
+    so the front page has been stating a window one dekad behind its own
+    crops page. Nothing failed, because a sentence cannot notice that it
+    is out of date.
+
+    FIVE OF SIX, NOT FIVE. The legend declares six instruments and the
+    page reads five: ASAP soil moisture is carried on all 123 places with
+    available:false and three dekads behind the spine, measured here
+    rather than taken on report. A reader who counts the instrument rows
+    on a country page finds six and is entitled to know why one of them
+    never speaks. "Five" is true and answers a question the reader did
+    not ask; "five of six" answers the one they will.
+
+    Both numbers now move on their own, so the instrument returns to the
+    sentence the week it returns to the data.
+    """
+    legend = doc.get("instrument_legend") or {}
+    ins = place.get("instruments") or []
+    live = sum(1 for i in ins if i.get("available"))
+    total = len(legend) or len(ins)
+    count = ("%s of %s instruments read together"
+             % (_WORD.get(live, live), _WORD.get(total, total)))
+    return "%s &middot; dekad to %s" % (count, _dekad_end(doc.get("dekad")))
+
+
+_WORD = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+         7: "seven", 8: "eight"}
+
+
+def _dekad_end(iso):
+    """An ASAP dekad label is its first day; the window is the ten days
+    from it, so the readable end is the tenth. "2026-08-01" reads as
+    "10 August", which is what the crops page already says."""
+    if not iso:
+        return "an unstated window"
+    y, m, dd = (int(x) for x in iso.split("-"))
+    end = {1: 10, 11: 20}.get(dd)
+    if end is None:                      # the third dekad runs to month end
+        import calendar
+        end = calendar.monthrange(y, m)[1]
+    return "%d %s" % (end, ["January", "February", "March", "April", "May",
+                            "June", "July", "August", "September", "October",
+                            "November", "December"][m - 1])
 
 
 def _ord(n):
