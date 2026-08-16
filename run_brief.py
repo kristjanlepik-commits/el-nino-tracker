@@ -1771,6 +1771,25 @@ HTML_CSS = (_HTML_CSS_TEMPLATE
             .replace("/*VARS_DARK*/", T.css_vars_dark()))
 
 
+def _is_retired(key, bucket):
+    """Retirement, with an ABSENT field read as unknown rather than false.
+
+    Caught by rendering the current frozen payload rather than only the
+    Monday shape. probs.py stamps `retired` at compute time, so buckets
+    frozen before D-115 carry no such key, and `bucket.get("retired")`
+    returns None for them. Taking that as "not retired" put +1.0, +1.5 and
+    +2.0 back on the ladder at 99% the moment the list stopped guarding
+    them: a data-driven renderer reading a field its data predates.
+
+    So a missing field falls back to probs.RETIRED_RUNGS, which is the
+    written record of when each rung went. The field wins where it exists.
+    """
+    if "retired" in bucket:
+        return bool(bucket["retired"])
+    from probs import RETIRED_RUNGS
+    return key in RETIRED_RUNGS
+
+
 def _render_rung(css_class: str, threshold: str, pct_dict: dict, label_main: str,
                  prev_mid: int | None = None,
                  delta_label: str = "vs last month",
@@ -3804,18 +3823,63 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # dotted, faintest, tagged "most uncertain". +3.5 has effectively no
     # agency anchor and is the least-anchored figure on the ladder. Both
     # guarded so the brief still renders if a headline dict lacks them.
-    far_rung = ""
-    if "record_>3.5" in headline:
-        far_rung = _render_rung(
-            "far", "+3.5°C peak", headline["record_>3.5"],
-            "Far beyond the record", _prev_mid("record_>3.5"),
-            delta_label, tag="most uncertain")
-    record_rung = ""
-    if "record_>3.0" in headline:
-        record_rung = _render_rung(
-            "record", "+3.0°C peak", headline["record_>3.0"],
-            "Beyond the instrumental record", _prev_mid("record_>3.0"),
-            delta_label, tag="highly uncertain")
+    # THE LADDER IS DRIVEN BY THE BUCKETS, NOT BY A LIST IN THIS FILE.
+    #
+    # Science caught this by rendering Monday's page from cache on Sunday
+    # night, which is the only reason it was caught at all: the cron runs
+    # at 13:00 UTC and it was wrong in BOTH directions. +2.0 carries
+    # `retired: true, retired_on: 2026-08-10` in every bucket since D-115
+    # and this renderer had never read the field, so tomorrow would have
+    # published a rung retired a week earlier, still at 99%. And +4.0,
+    # which Kristjan asked for, was absent because nobody had added it to
+    # the list here.
+    #
+    # A hard-coded rung list is a condition written against one month's
+    # data. probs.py says exactly that above RETIRED_RUNGS and it is right:
+    # two rungs have topped out in two months. So composition comes from
+    # the data now, and the next rung appears without a code change.
+    #
+    # TWO CONTRACTS, both science's, both load-bearing:
+    #
+    #   retired: true   the rung leaves the LADDER only. Its history stays
+    #                   in meta.json and in the archives, so the
+    #                   probability-history chart keeps its full line.
+    #
+    #   mid: None       no publishable figure. Renders as NOTHING, never as
+    #                   text and never as zero. It is what +4.0 collapses
+    #                   to on a cached payload, where its CPC anchor is a
+    #                   tail extrapolation beyond the published bins: 14%
+    #                   against a real consensus of 43.
+    def _threshold_of(key):
+        try:
+            return float(key.split(">")[-1])
+        except ValueError:
+            return None
+
+    # Descriptors are editor's words. A key with no entry renders its
+    # threshold and no descriptor rather than a phrase invented here: a
+    # rung above the record needs a sentence about how far beyond it lies,
+    # and that is a claim rather than a label.
+    _RUNG_TEXT = {
+        "record_>3.5": ("far", "Far beyond the record", "most uncertain"),
+        "record_>3.0": ("record", "Beyond the instrumental record",
+                        "highly uncertain"),
+        "9715_>2.5":   ("magn", "1997 / 2015 magnitude", None),
+        "super_>2.0":  ("super", "Very strong / super", None),
+    }
+    _rungs_html = []
+    for _key, _b in sorted(
+            ((k, v) for k, v in headline.items()
+             if _threshold_of(k) is not None),
+            key=lambda kv: _threshold_of(kv[0]), reverse=True):
+        if _is_retired(_key, _b) or _b.get("mid") is None:
+            continue
+        _cls, _lab, _tag = _RUNG_TEXT.get(
+            _key, ("far", "", "most uncertain"))
+        _rungs_html.append(_render_rung(
+            _cls, f"+{_threshold_of(_key):.1f}°C peak", _b, _lab,
+            _prev_mid(_key), delta_label, tag=_tag))
+    ladder_rungs = "".join(_rungs_html)
 
     # Retired rungs (2026-07-13, Kristjan's call): +1.0 "at least moderate"
     # and +1.5 "strong" had been pinned at 100% since mid-June and carried
@@ -3835,12 +3899,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         'is computed independently; adding one does not recalculate the '
         'others.</p>'
         '<div class="ladder">'
-        + far_rung
-        + record_rung
-        + _render_rung("magn",     "+2.5°C peak", headline["9715_>2.5"],
-                       "1997 / 2015 magnitude", _prev_mid("9715_>2.5"), delta_label)
-        + _render_rung("super",    "+2.0°C peak", headline["super_>2.0"],
-                       "Very strong / super",   _prev_mid("super_>2.0"), delta_label)
+        + ladder_rungs
         + '</div>'
         # WHERE THOSE NUMBERS CAME FROM. The ladder answers "where is it now";
         # this answers "how did it get here", and Kristjan's point is that the

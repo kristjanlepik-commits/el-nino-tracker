@@ -49,12 +49,49 @@ _BAND_CSS = _bandcss()
 MON = ["January", "February", "March", "April", "May", "June", "July",
        "August", "September", "October", "November", "December"]
 
-# The rungs the page draws. +1.0, +1.5 and +2.0 have reached the display
-# bound and left the ladder (D-115/D-116). Read from the payload rather
-# than assumed: a rung that is not emitted simply does not render.
-RUNGS = [("9715_>2.5", "+2.5 °C", "1997 / 2015 magnitude"),
-         ("record_>3.0", "+3.0 °C", "beyond the observed record"),
-         ("record_>3.5", "+3.5 °C", "far beyond it")]
+# The DESCRIPTOR for a rung, where one exists. The rungs themselves are
+# not listed here any more.
+#
+# This was a list of three, with a comment claiming the page read the
+# payload. It read this list. It would have drawn +2.0 had the list said
+# so, and it omitted +4.0 because the list did not, which is the same
+# defect science found in build_public_html on the night before the cron
+# that would have published it. A rung list in a renderer is a condition
+# written against one month's data; two rungs have topped out in two
+# months.
+#
+# A key with no entry renders its threshold and no descriptor. Inventing
+# a phrase for a rung beyond the record is a claim about how far beyond
+# it lies, and that is editor's sentence rather than this file's.
+RUNG_NOTE = {"9715_>2.5": "1997 / 2015 magnitude",
+             "record_>3.0": "beyond the observed record",
+             "record_>3.5": "far beyond it"}
+
+
+def _threshold_of(key):
+    try:
+        return float(key.split(">")[-1])
+    except ValueError:
+        return None
+
+
+def _is_retired(key, bucket):
+    """Retirement, with an ABSENT field read as unknown rather than false.
+
+    Caught by rendering the current frozen payload rather than only the
+    Monday shape. probs.py stamps `retired` at compute time, so buckets
+    frozen before D-115 carry no such key, and `bucket.get("retired")`
+    returns None for them. Taking that as "not retired" put +1.0, +1.5 and
+    +2.0 back on the ladder at 99% the moment the list stopped guarding
+    them: a data-driven renderer reading a field its data predates.
+
+    So a missing field falls back to probs.RETIRED_RUNGS, which is the
+    written record of when each rung went. The field wins where it exists.
+    """
+    if "retired" in bucket:
+        return bool(bucket["retired"])
+    from probs import RETIRED_RUNGS
+    return key in RETIRED_RUNGS
 
 
 def _clamp(v):
@@ -101,18 +138,62 @@ def _heat_rows(phys):
 
 
 def _rung_rows(headline):
+    """Every live rung, highest first, from the buckets themselves.
+
+    Science's two contracts. `retired: true` takes a rung off the ladder
+    and nowhere else: its history stays in meta.json and the archives, so
+    the probability-history chart keeps its full line. `mid: None` means
+    no publishable figure and renders as NOTHING, never as text and never
+    as zero, which is what +4.0 collapses to on a cached payload where its
+    CPC anchor is a tail extrapolation beyond the published bins.
+    """
+    rows = [(k, v) for k, v in (headline or {}).items()
+            if _threshold_of(k) is not None]
+    # ASCENDING, which is this page's own order and not the brief's. The
+    # brief ladder runs highest-first; this one starts at the rung nearest
+    # certainty and escalates, which is how the section reads. Driving
+    # composition from the data must not silently restyle a page: the
+    # first render of this change flipped all three rows.
+    rows.sort(key=lambda kv: _threshold_of(kv[0]))
     out = ""
-    for key, lab, note in RUNGS:
-        mid = _clamp((headline.get(key) or {}).get("mid"))
+    for key, b in rows:
+        if _is_retired(key, b):
+            continue
+        mid = _clamp(b.get("mid"))
         if mid is None:
             continue
+        lab = f"+{_threshold_of(key):.1f} \u00b0C"
+        note = RUNG_NOTE.get(key, "")
         out += (f'<div class="r wide"><span class="yr">{lab}</span>'
                 f'{_bar(mid)}<span class="v">{mid}<span class="u">%</span></span>'
                 f'<span class="note">{h(note)}</span></div>')
     return out
 
 
-def _provenance(fetched, brief_date):
+def _retired_phrase(headline):
+    """The retired rungs, named from the data rather than typed.
+
+    This register read "+1.0, +1.5 and +2.0" as a literal. It was accurate
+    the day it was written and it is the same shape of thing as the rung
+    list that nearly published a retired rung on Monday: a sentence about
+    which rungs have gone, maintained by hand, one retirement away from
+    being wrong. It now lists whatever carries `retired: true`.
+    """
+    keys = [k for k, v in (headline or {}).items()
+            if _is_retired(k, v) and _threshold_of(k) is not None]
+    if not keys:
+        return "No rung has left the ladder."
+    labs = [f"+{_threshold_of(k):.1f}" for k in
+            sorted(keys, key=lambda k: _threshold_of(k))]
+    if len(labs) == 1:
+        return (f"{labs[0]} reached the bound and left the ladder. Its full "
+                f"history stays in the archive.")
+    joined = ", ".join(labs[:-1]) + f" and {labs[-1]}"
+    return (f"{joined} reached the bound and left the ladder. Their full "
+            f"history stays in the archive.")
+
+
+def _provenance(fetched, brief_date, headline=None):
     """One register. VD's 03: the caveats are not the problem, they are the
     product's honesty. The problem was three registers in the reading path,
     each doing a different job, none of them reachable from the figure it
@@ -133,8 +214,7 @@ def _provenance(fetched, brief_date):
         '<div class="k">Displayed probabilities</div>'
         '<div>bounded to [1, 99]; this estimator does not express certainty</div>'
         '<div class="k">Rungs retired</div>'
-        '<div>+1.0, +1.5 and +2.0 reached the bound and left the ladder. '
-        'Their full history stays in the archive.</div>'
+        f'<div>{_retired_phrase(headline)}</div>'
         '<div class="k">Ocean heat</div>'
         '<div>CPC heat content index, mean 0-300 m anomaly, 180W-100W, '
         '1981-2010 climatology. Rank 1 of 571 months, 1979-01 to 2026-07. '
@@ -360,7 +440,7 @@ carried forward. The bands are the spread, not a second opinion.</p>
 <div class="sec"><h2>04 &middot; Provenance</h2>
 <p class="lede">What each source said, when it said it, and every caveat
 that governs a figure above. One register rather than three.</p>
-{_provenance(fetched, brief_date)}</div>
+{_provenance(fetched, brief_date, headline)}</div>
 
 <div class="foot">{h(AUTHOR_NAME)} (2026). {h(SITE_NAME)}.
  <a href="{h(PAGES_BASE_URL)}/">{h(PAGES_BASE_URL.split("//")[-1])}</a>
