@@ -221,10 +221,9 @@ def fetch_all() -> dict:
         # "1997 same week" column actually is the same week.
         if p.get("analogs_same_week"):
             phys["nino34_analogs_same_week"] = p["analogs_same_week"]
-        phys["used_fallback"] = r.used_fallback
-        phys["fallback_note"] = (None if not r.used_fallback else
-                                 f"live fetch failed; using last-good cache "
-                                 f"(issued {r.issued})")
+        # NOTE: phys-level used_fallback/ok are set once, after all four
+        # constituents have merged. This line used to set them here, from
+        # oisst_weekly alone. See the block at the end of the assembly.
         if p.get("roni_to_oni_offset") is not None:
             out["roni_to_oni_offset"] = {
                 "value": p["roni_to_oni_offset"],
@@ -279,6 +278,49 @@ def fetch_all() -> dict:
         phys["wwb_events_detail"] = bp.get("events_detail", [])
         phys["wwb_analogs"] = bp.get("analogs", {})
         phys["wwb_domain"] = bp.get("domain")
+
+    # Physical-state health, computed from ALL FOUR constituents once they
+    # have merged.
+    #
+    # Until 2026-08-16 `ok` was seeded True and never touched again, and
+    # `used_fallback` was set from oisst_weekly alone, inside that
+    # fetcher's block. So both fields described one quarter of the object
+    # at best and nothing at worst. Measured across two real weeks they
+    # were identical: 2026-08-03, when ERA5 failed outright and the page
+    # had no CWWA at all, and 2026-08-10, when everything fetched live,
+    # both reported ok=True used_fallback=False. A consumer asking whether
+    # physical_state could be trusted got the same answer either way.
+    #
+    # `sources` carries the per-constituent detail rather than collapsing
+    # it, because "something in here is stale" is not actionable and
+    # "era5_wwe is stale, heat_content is live" is. The collapsed booleans
+    # stay for existing consumers, and are now derived rather than
+    # asserted.
+    _PHYS_SOURCES = ("oisst_weekly", "heat_content", "era5_wwe", "era5_burst")
+    phys["sources"] = {
+        name: {
+            "ok": bool(results[name].ok),
+            "used_fallback": bool(getattr(results[name], "used_fallback", False)),
+            "issued": results[name].issued,
+            "error": results[name].error,
+        }
+        for name in _PHYS_SOURCES if name in results
+    }
+    _merged = [s for s in phys["sources"].values() if s["ok"]]
+    # ok means "at least one constituent delivered", which is what the
+    # object's own always-ships guarantee promises. It is deliberately not
+    # "all four": a week with heat content but no wind is degraded, not
+    # unusable, and the page renders what it has. Which parts are missing
+    # is the question `sources` answers.
+    phys["ok"] = bool(_merged)
+    phys["used_fallback"] = any(s["used_fallback"] for s in phys["sources"].values())
+    _stale = sorted(n for n, s in phys["sources"].items()
+                    if s["used_fallback"] or not s["ok"])
+    phys["fallback_note"] = (
+        None if not _stale else
+        "not fully live: " + ", ".join(
+            f"{n} ({'cache' if phys['sources'][n]['ok'] else 'failed'})"
+            for n in _stale))
 
     # ONI history is consumed only by analog.py to keep current-year ONI
     # rows up to date with CPC's latest publication.
