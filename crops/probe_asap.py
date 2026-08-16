@@ -35,6 +35,13 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 LOG = HERE / "data" / "publication_log.json"
+
+# A first sighting this long after a dekad's window closed cannot be a
+# publication event, so its first_seen is when we started looking. 20
+# days is the staleness bound already agreed for this source: a genuine
+# publication is always inside it, and anything outside it would have
+# fired that rule first.
+BACKFILL_AFTER_DAYS = 20
 BASE = ("https://agricultural-production-hotspots.ec.europa.eu"
         "/getIndicatorsInfo.php")
 INDICATOR = "zFPARc"
@@ -131,11 +138,30 @@ def main() -> int:
             fresh = "first_seen" not in seen[key]
             seen[key].update({"published": True,
                               "first_seen": seen[key].get("first_seen", now)})
-            if fresh and first_ever:
+            # BACKFILL IS A PROPERTY OF THE DEKAD, NOT OF THE RUN.
+            #
+            # This used to be `fresh and first_ever`, so only the very
+            # first probe of an empty log marked anything. Any later run
+            # reaching further back then recorded months-old dekads as
+            # genuinely first seen today: on 2026-08-16 a default-range
+            # probe wrote 15 entries claiming we first saw January's
+            # dekad that afternoon, unflagged, which would have
+            # corrupted the one statistic this log exists to produce.
+            #
+            # A dekad cannot have been published today if its window
+            # closed long ago. If we are seeing it for the first time
+            # more than the staleness bound after it closed, either the
+            # source stalled and we would have caught that, or we simply
+            # were not looking. Either way first_seen is when we started
+            # looking, not when it published, and no age may come from
+            # it.
+            stale_first_sight = (today - d).days - 10 > BACKFILL_AFTER_DAYS
+            if fresh and (first_ever or stale_first_sight):
                 seen[key]["backfilled"] = True
             newest = max(newest or key, key)
             print(f"  {key}  published"
-                  + ("  (backfilled, age unknown)" if fresh and first_ever
+                  + ("  (backfilled, age unknown)"
+                     if seen[key].get("backfilled")
                      else "  (NEW)" if fresh else ""))
         else:
             print(f"  {key}  not yet")
