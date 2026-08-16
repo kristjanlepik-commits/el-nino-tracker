@@ -94,6 +94,42 @@ jobs:
         env:
           FORCED: ${{ inputs.force }}
 
+      # THE QUIET DAYS ARE THE MEASUREMENT. Committed on EVERY run, and
+      # immediately after the probe rather than at the end, for two
+      # reasons.
+      #
+      # The commit used to be gated on pull == true, so a day where ASAP
+      # published nothing recorded its observation, tore the runner down
+      # and threw it away. Those days are the whole point: last_probed
+      # "nothing published" followed by the next run's first_seen brackets
+      # a publication to a single day. Without them every interval we can
+      # compute is an upper bound on OUR polling, not a measurement of
+      # THEIR cadence, which is why three estimates of ASAP's lag
+      # disagree (3 days, 6 to 9, about 8) and none is the number. D-148
+      # already had to correct D-145 over exactly this.
+      #
+      # And HERE rather than after the pull, because the pull can run 76
+      # minutes and fail at the end. On 2026-08-13 it fetched 839 files,
+      # hit one transient failure and exited, discarding the lot. The
+      # observation is cheap and already made; it should not be hostage
+      # to the expensive step that follows.
+      #
+      # ONLY this path, never `git add crops/data/`. On a no-pull run
+      # nothing else should move, and a broad add on a tree nine chats
+      # share is how the crops page was published before sign-off on
+      # 2026-08-10.
+      - name: Commit the probe observation
+        run: |
+          git config user.name  "tls-crops-refresh"
+          git config user.email "noreply@thelongswell.com"
+          git add crops/data/publication_log.json
+          if git diff --cached --quiet; then
+            echo "Probe recorded nothing new to log."
+          else
+            git commit -m "crops: probe $(date -u +'%Y-%m-%d'), newest ${{ steps.probe.outputs.newest }}"
+            bash scripts/push_retry.sh main
+          fi
+
       - name: Nothing to do
         if: steps.probe.outputs.pull != 'true'
         run: |
