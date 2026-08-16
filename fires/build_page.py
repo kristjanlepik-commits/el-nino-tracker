@@ -27,6 +27,10 @@ from run_brief import (ANALYTICS_SNIPPET, PAGES_BASE_URL,  # noqa: E402
 # promise inside it is editor's under D-091 and is never restated here.
 from templates.subscribe_band import (band as SUB_BAND,  # noqa: E402
                                       css as SUB_BAND_CSS)
+# The EU burnt-area season chart. Fire's data and fire's three constraints;
+# the drawing is design's. Kept in its own module so this file gains one
+# call rather than three hundred lines of geometry.
+from templates import eu_area_chart as EU_AREA  # noqa: E402
 # run_brief.py lives at the repo root and holds the single copy of the
 # analytics tag. Import it rather than pasting a duplicate, so there is
 # one source of truth to disable or rotate.
@@ -153,6 +157,12 @@ def build(events_doc, font_prefix="../fonts/", baseline=None):
     # them, which is a wrong claim rather than a loose one. It counts the
     # anomaly flag now, and the context countries are listed under their
     # own heading rather than folded into the number.
+    # THE EU SEASON BLOCK, or nothing at all. An absent or unreadable
+    # payload renders no section rather than an empty one: this figure is
+    # on a different evidence basis from everything else on the page, so a
+    # placeholder for it would be worse than its absence.
+    eu_block, eu_css = EU_AREA.block(EU_AREA.load(REPO))
+
     anom = [e for e in ev if e.get("anomalous")]
     ctx = [e for e in ev if e.get("volume_context") and not e.get("anomalous")]
     rest = [e for e in ev if e not in anom and e not in ctx]
@@ -371,6 +381,7 @@ main {{ max-width: 760px; margin: 0 auto; padding: 28px 24px 80px; }}
 
 {SITE_MASTHEAD_CSS}
 {SUB_BAND_CSS()}
+{eu_css}
 .masthead {{
   display: flex; align-items: baseline; gap: 14px;
   padding: 18px 0 10px; border-bottom: 2.4px solid var(--rule-45);
@@ -489,6 +500,8 @@ h1 {{
 
   {ctx_block}
   {rest_block}
+
+  {eu_block}
 
   <p class="note">Ranked by how far above normal, not by size. Angola,
   DR Congo and Zambia each recorded more detections this week than
