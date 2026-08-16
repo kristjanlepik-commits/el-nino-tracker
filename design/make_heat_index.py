@@ -1168,7 +1168,15 @@ align-items:start;margin-bottom:10px}}
       all of them by 2 keeps every ratio between marks exactly as drawn,
       so the encoding survives: radius is still margin over that city's
       own record. */
+/* The method paragraph renders in the hero on a wide screen and at the
+   foot on a phone. Never both, and by display rather than visibility, so
+   whichever is not shown is out of the accessibility tree as well and a
+   screen reader hears the sentence once. */
+.methm{{display:none}}
 @media(max-width:640px){{
+  .meth{{display:none}}
+  .methm{{display:block;margin-top:36px;max-width:60ch;font-size:16.5px;
+    color:var(--ink-faint)}}
   /* .mapclip svg, NOT .mapcol svg: the legend's size swatch is an svg in
      the same column, and the looser selector widened that to 123.5% too,
      shoving its own caption into a one-word column. */
@@ -1283,8 +1291,14 @@ margin-top:50px}}
      42 European cities", and whether that means Europe is the first thing
      a reader is entitled to know, not something to meet five hundred
      pixels down. One sentence, joined to the method paragraph so the
-     hero stays two blocks and the first city keeps its place. -->
-<p class="stand">{census_line()} {COPY['method']}</p>
+     hero stays two blocks and the first city keeps its place.
+
+     ON A PHONE IT MOVES TO THE END. Kristjan, looking at the restored
+     map: four lines of method between the answer and the figure, on a
+     screen where the figure is what the reader came for. It is not
+     dropped, only deferred, and it renders from the same two values in
+     both places so the copies cannot drift. -->
+<p class="stand meth">{census_line()} {COPY['method']}</p>
 </div>
 {MAPCOL}
 </div>
@@ -1300,6 +1314,11 @@ margin-top:50px}}
      so passing one there is silent and does nothing; this is the
      place a reader checking a number is already looking. -->
 {_SUB_BAND}
+
+<!-- The phone's copy of the method paragraph. Same two values as the one
+     in the hero, so they cannot say different things; only one of the two
+     is ever displayed, so a screen reader hears it once. -->
+<p class="stand methm">{census_line()} {COPY['method']}</p>
 
 <div class="src">
 <span><a href="methodology.html">How these figures are built</a></span>
