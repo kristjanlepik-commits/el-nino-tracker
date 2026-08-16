@@ -65,7 +65,27 @@ ANALYTICS_SNIPPET = (
     "window.plausible=window.plausible||function()"
     "{(plausible.q=plausible.q||[]).push(arguments)},"
     "plausible.init=plausible.init||function(i){plausible.o=i||{}};\n"
-    "plausible.init()\n"
+    # ONE PAGE, ONE URL. GitHub Pages serves /heat/ and /heat/index.html,
+    # and /heat/london and /heat/london.html, as separate paths with
+    # byte-identical content, so Plausible counted each pair twice and
+    # split the traffic: 510 against 12, and 9 against 4. Neither variant
+    # is broken; the measurement is.
+    #
+    # The page's own <link rel="canonical"> is the authority where it
+    # exists, because it is already rendered and already correct. Channel
+    # indexes carry none, so those fall back to dropping a trailing
+    # index.html, which is the only ambiguity there.
+    #
+    # WRAPPED, AND IT RETURNS THE PAYLOAD UNCHANGED ON ANY ERROR. A
+    # throw inside transformRequest would drop the event, so a bug here
+    # would stop analytics site-wide and look exactly like quiet traffic.
+    # The failure mode is "not normalised", never "not counted".
+    "plausible.init({transformRequest:function(p){try{"
+    "var c=document.querySelector('link[rel=canonical]');"
+    "var u=c&&c.href?c.href:p.u;"
+    "if(u)u=u.replace(/\\/index\\.html(\\?|#|$)/,'/$1');"
+    "if(u)p.u=u;"
+    "}catch(e){}return p}})\n"
     "</script>"
 )
 
