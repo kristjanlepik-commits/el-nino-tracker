@@ -264,6 +264,13 @@ SMOOTHING_CAP_PPT = 10.0   # max ±10 ppt deflection per bucket
 # consensus-led: CPC is a minor anchor. The deflection is governed by the
 # weight (result is always between the anchor and the consensus), so no
 # per-bucket cap is applied in consensus mode.
+# Highest threshold at which CPC's own table still supports the anchor.
+# Their published strength bins top out at >=2.0 RONI, so +2.5 traditional
+# is the last rung the fit is reading rather than extrapolating. Above this
+# the anchor is a deep skew-normal tail and is only ever a MINORITY term in
+# a model-led blend, never a figure to publish alone.
+ANCHOR_TRUSTED_MAX_C = 2.5
+
 CONSENSUS_WEIGHT = 0.85
 
 
@@ -497,10 +504,34 @@ def smoothed_headline_buckets(
         p_seas5 = _seas5_p_above(seas5_per_lead, threshold) if seas5_per_lead else None
         p_model, n_models = _model_consensus_p_above(seas5_per_lead, nmme, threshold)
         if p_model is None:
-            out[key] = {"mid": int(round(p_anchor)),
+            # No model consensus. For rungs INSIDE CPC's published bins the
+            # anchor stands on its own and is publishable. Above them it is a
+            # deep skew-normal tail extrapolation, which every comment in
+            # this file describes as unreliable, so publishing it as the
+            # headline would print a number we have already said means
+            # nothing.
+            #
+            # Caught by rendering Monday's page from cache before it shipped.
+            # nmme computes ensemble_frac_above at FETCH time, so a payload
+            # cached before +4.0 existed carries no 4.0 entry; the consensus
+            # came back None and the rung collapsed to its anchor. It would
+            # have rendered 14% for +4.0 against a real consensus of 43.
+            # A live Monday recomputes it for free (raw peaks are cached, no
+            # download), so this only bites on a fallback week, which is
+            # exactly when nobody is watching.
+            publishable = threshold <= ANCHOR_TRUSTED_MAX_C
+            out[key] = {"mid": int(round(p_anchor)) if publishable else None,
                         "anchor": int(round(p_anchor)),
                         "seas5": None, "consensus": None, "n_models": 0,
+                        "retired": key in RETIRED_RUNGS,
+                        "retired_on": RETIRED_RUNGS.get(key),
                         "weight": eff_weight, "mode": "anchor_only",
+                        "publishable": publishable,
+                        "unpublishable_reason": (
+                            None if publishable else
+                            f"no model consensus at +{threshold:.1f}, and the "
+                            f"CPC anchor there is a tail extrapolation beyond "
+                            f"its published bins"),
                         "deflection": 0}
             continue
         raw = eff_weight * (p_model - p_anchor)
