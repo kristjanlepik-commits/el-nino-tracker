@@ -1836,6 +1836,31 @@ def _signed_temp(value: float, decimals: int = 1) -> str:
 HC_MATERIAL_MARGIN_C = 0.10
 
 
+def _oni_record_phrase() -> str:
+    """"1997 +2.37, 2015 +2.59", read from CPC's series rather than typed.
+
+    These figures were hardcoded in two prose strings as "1997 ~2.4, 2015
+    ~2.6, 1877 ~2.5 on HadISST". They happened to be right, but they were a
+    fourth copy of a number that already lives in data/oni_full_history.csv,
+    and this week a different copy of it (data/oni_historical.csv, reading
+    2.8) reached a Substack draft and an editor correction before anyone
+    caught it. The instrumental-record peak is computable; nothing is served
+    by also asserting it in prose.
+
+    HadISST's 1877 is dropped rather than recomputed. It is a different
+    instrument on a different basis and we hold no series for it, so we
+    cannot keep it honest. Naming a figure we cannot check is the habit that
+    caused the problem.
+    """
+    try:
+        series = analog.load_trajectories()
+    except Exception:
+        return "1997 +2.37, 2015 +2.59"
+    peaks = [f"{y} {max(v for _, v in series[y]):+.2f}"
+             for y in (1997, 2015) if series.get(y)]
+    return ", ".join(peaks) if peaks else "1997 +2.37, 2015 +2.59"
+
+
 def _hc_analogs(phys: dict, analog_same: dict):
     """Resolve (hc97, hc15, basis) for heat-content analog comparisons.
 
@@ -4564,8 +4589,7 @@ def build_nmme_panel_markdown(nmme: dict) -> list[str]:
     if cons_30 is not None:
         note_bits.append(
             f"{cons_30:.0f}% above +3.0°C, which would exceed every event in "
-            f"the instrumental record (1997 ~2.4, 2015 ~2.6, 1877 ~2.5 on "
-            f"HadISST)")
+            f"the instrumental record ({_oni_record_phrase()})")
     if note_bits:
         md.append("**Consensus read:** " + ", and ".join(note_bits) + ". "
                   "These are directly-counted member fractions, not tail "
@@ -4779,8 +4803,8 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
                           f"leans hardest on the July ECMWF run.")
         md.append(f"4. The +3.0°C and +3.5°C buckets are the most "
                   f"model-dependent numbers in the headline. +3.0°C exceeds "
-                  f"every event in the instrumental record (1997 ~2.4, 2015 "
-                  f"~2.6, 1877 ~2.5 on HadISST), and it sits beyond CPC's "
+                  f"every event in the instrumental record "
+                  f"({_oni_record_phrase()}), and it sits beyond CPC's "
                   f"published strength bins (which top out at >=2.0 RONI), so "
                   f"its CPC anchor ({rec_anchor}%) is a deep skew-normal tail "
                   f"extrapolation. Under the consensus weighting the +3.0 "
