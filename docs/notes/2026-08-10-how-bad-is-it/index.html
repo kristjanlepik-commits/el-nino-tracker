@@ -300,7 +300,7 @@ h1 { font-family:"Spectral",Georgia,serif; font-weight:400;
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
 <script>
 window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-plausible.init()
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
 </script>
 </head>
 <!-- published 2026-08-10 -->
