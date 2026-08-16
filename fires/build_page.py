@@ -478,6 +478,15 @@ h1 {{
   <p class="sectionlabel">Against their own record</p>
   {''.join(rows)}
   {weak_block}
+
+  <!-- AFTER THE ANOMALOUS COUNTRIES, BEFORE THE CONTEXT TIERS. Placed at
+       the foot of the list it measured 86% down the page, because on this
+       page the list IS the page. The honest boundary is not "after all the
+       rows" but after the rows that answer the question: everything below
+       this line is a country shown for scale or shown so it can be
+       checked, explicitly not unusual. -->
+  {SUB_BAND()}
+
   {ctx_block}
   {rest_block}
 
@@ -486,8 +495,6 @@ h1 {{
   anywhere on this list, and none of them appear on it: the southern
   African savanna burns on that scale every dry season, so all three
   sit at or near their own normal. Volume is not news; departure is.</p>
-
-  {SUB_BAND()}
 
   <div class="foot">
     <p><b>What a detection is.</b> One satellite pixel, about 375 m

@@ -905,6 +905,18 @@ it is another thing entirely. So I started building that.</span>
 <span class="by">How bad is it? &middot; 10 August 2026 &middot; read the
 note &rarr;</span></a></div></div>
 
+<!-- AFTER THE READINGS AND THE NOTE, BEFORE THE DIRECTORY. It was at
+     96% of the page, under the channel table, which is the same defect
+     this whole unit was built to fix: a form at line 470 of 485. A reader
+     who has met the map, the three readings, the wave and the note has
+     had the week; the channel table is a directory of where to go next
+     and belongs on the far side of the ask. -->
+<div class="ebd">
+<div><div class="k">One email a week</div>
+<p class="p">{promise}</p></div>
+<div>{form}<p class="fine">Confirmation email required. No spam, and the
+archive stays free and public whether you subscribe or not.</p></div></div>
+
 <div class="chn"><div class="k">Channels &nbsp;&middot;&nbsp; each reads one
 domain against its own baselines</div>
 <div class="grid">
@@ -922,12 +934,6 @@ hand</span><span class="c">occasional</span></div>
 Econ</span><span>each needs its own baseline first</span>
 <span class="c">in development</span></div>
 </div></div>
-
-<div class="ebd">
-<div><div class="k">One email a week</div>
-<p class="p">{promise}</p></div>
-<div>{form}<p class="fine">Confirmation email required. No spam, and the
-archive stays free and public whether you subscribe or not.</p></div></div>
 
 <div class="foot"><span>Lepik, K. (2026). The Long Swell. thelongswell.com
 &middot; every issue archived, immutable &middot; disagreements surfaced, not

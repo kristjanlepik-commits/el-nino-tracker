@@ -350,12 +350,17 @@ carried forward. The bands are the spread, not a second opinion.</p>
  the same series drawn in section 01."></figure>
 </div>
 
+<!-- AFTER THE TRAJECTORY, BEFORE THE REGISTER. It sat at 93% of the
+     page, under the provenance section, which is the apparatus by its own
+     description: sources, ages and caveats. A reader who has followed the
+     finding, the ocean, the outlook and the chart has what they came for
+     at exactly this line. -->
+{_SUB_BAND}
+
 <div class="sec"><h2>04 &middot; Provenance</h2>
 <p class="lede">What each source said, when it said it, and every caveat
 that governs a figure above. One register rather than three.</p>
 {_provenance(fetched, brief_date)}</div>
-
-{_SUB_BAND}
 
 <div class="foot">{h(AUTHOR_NAME)} (2026). {h(SITE_NAME)}.
  <a href="{h(PAGES_BASE_URL)}/">{h(PAGES_BASE_URL.split("//")[-1])}</a>

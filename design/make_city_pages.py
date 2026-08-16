@@ -1211,6 +1211,13 @@ for name, v in sorted(C.items()):
 <div class="grid"><span class="gk">Hottest day<em>{min(x for _, x in WD):.0f} to {max(x for _, x in WD):.0f} &deg;C</em></span>
 <span>{line(WD, mark_year=2026, ring_year=pprev_y, mark_val=peak, ring_val=pprev)}</span></div>
 
+<!-- AFTER THE SERIES, BEFORE THE APPARATUS. It was at 68% of the page,
+     which was the best of the five surfaces and still below the method
+     prose, the night gate and the peak caption. The reader has now seen
+     their own city's whole record; everything under this point explains
+     how it was measured. This is the moment, and it is the last one. -->
+{_SUB_BAND}
+
 {method}
 
 {night_block}
@@ -1221,18 +1228,6 @@ for name, v in sorted(C.items()):
      shared masthead takes a methodology_href and does not render it,
      so passing one there is silent and does nothing; this is the
      place a reader checking a number is already looking. -->
-<!-- BUSINESS'S FINDING, measured on the first real week: ~47 of ~51
-     social post URLs pointed at /heat or /heat/<city>, and the form lived
-     only on the front page at line 470 of 485. So ~90% of 800 uniques
-     landed where subscribing was IMPOSSIBLE. Four subscribers from eight
-     hundred visitors is an absent ask, not a weak one.
-
-     HERE rather than in the footer: a reader who has just seen their own
-     city's record is at the only moment they will be interested, and the
-     footer is where interest goes to die. That is exactly where the front
-     page put it. -->
-{_SUB_BAND}
-
 <div class="src">
 <span><a href="methodology.html">How these figures are built</a></span>
 <span style="text-align:right">Heat methodology</span>

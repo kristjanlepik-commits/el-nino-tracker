@@ -1307,13 +1307,19 @@ margin-top:50px}}
 <p class="subl">{COPY['strip_intro']}</p>
 {all_rows}
 
-{CONTRAST_BLOCK}
-
-<!-- The methodology link sits with the sources, not in the nav. The
-     shared masthead takes a methodology_href and does not render it,
-     so passing one there is silent and does nothing; this is the
-     place a reader checking a number is already looking. -->
+<!-- AFTER THE THING THEY CAME FOR, BEFORE THE APPARATUS. Product measured
+     this form at 96% down the page, which is the defect we set out to fix
+     wearing different clothes: the front page had it at line 470 of 485
+     and we moved it to the foot of five more pages instead.
+     Directly under the list is the moment: the reader has found their
+     city and has what they came for, and the next thing they meet is the
+     ask rather than the definitions, the sources and the footer.
+     Not higher, which is Kristjan's caveat and the half that is easy to
+     lose: a form above the finding interrupts what the reader came for,
+     and we would deserve the bounce. -->
 {_SUB_BAND}
+
+{CONTRAST_BLOCK}
 
 <!-- The phone's copy of the method paragraph. Same two values as the one
      in the hero, so they cannot say different things; only one of the two

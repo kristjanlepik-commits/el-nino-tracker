@@ -29,7 +29,7 @@
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
 <script>
 window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-plausible.init()
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
 </script>
 <style>/* ---------- masthead ---------- */
   /* Self-contained: a page that does not include PUBLIC_CSS has no link
@@ -328,6 +328,15 @@ border-bottom:1px solid var(--rule)}
 <div class="grid"><span class="gk">Hottest day<em>30 to 40 &deg;C</em></span>
 <span><svg viewBox="0 -4 914 126" width="100%" style="height:auto" role="img"><line x1="0" y1="20.0" x2="880" y2="20.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="29.0" class="ax">40</text><line x1="0" y1="104.0" x2="880" y2="104.0" stroke="var(--rule)" stroke-width="1"/><text x="886" y="107.0" class="ax">30</text><polyline points="0.0,62.7 11.6,82.2 23.2,46.2 34.7,90.5 46.3,75.5 57.9,82.2 69.5,100.2 81.1,50.8 92.6,82.2 104.2,61.2 115.8,98.8 127.4,88.2 138.9,73.3 150.5,86.0 162.1,56.7 173.7,94.2 185.3,95.7 196.8,83.8 208.4,77.7 220.0,73.3 231.6,74.7 243.2,79.2 254.7,85.2 266.3,80.8 277.9,87.5 289.5,77.7 301.1,64.2 312.6,89.0 324.2,81.5 335.8,87.5 347.4,85.2 358.9,89.0 370.5,81.5 382.1,62.0 393.7,62.7 405.3,63.5 416.8,57.5 428.4,89.7 440.0,74.0 451.6,87.5 463.2,59.7 474.7,70.2 486.3,61.2 497.9,83.8 509.5,65.8 521.1,70.2 532.6,80.8 544.2,92.8 555.8,54.5 567.4,81.5 578.9,78.5 590.5,80.8 602.1,55.2 613.7,38.0 625.3,77.7 636.8,69.5 648.4,53.8 660.0,69.5 671.6,82.2 683.2,81.5 694.7,56.0 706.3,71.0 717.9,74.0 729.5,53.8 741.1,49.2 752.6,36.5 764.2,64.2 775.8,62.0 787.4,53.8 798.9,35.0 810.5,53.8 822.1,69.5 833.7,38.8 845.3,53.0 856.8,75.5 868.4,50.0 880.0,23.8" fill="none" stroke="var(--soft)" stroke-width="1.2"/><circle cx="798.9" cy="35.0" r="3.4" fill="var(--ink)"/><line x1="798.9" y1="35.0" x2="798.9" y2="104.0" stroke="var(--ink)" stroke-width="1" opacity="0.45"/><circle cx="880.0" cy="23.8" r="3.6" fill="var(--accent)"/><text x="874.0" y="27.8" class="vlab va" text-anchor="end">40.4&#8202;&deg;C</text><text x="792.9" y="28.0" class="vlab" text-anchor="end">38.9&#8202;&deg;C</text></svg></span></div>
 
+<!-- AFTER THE SERIES, BEFORE THE APPARATUS. It was at 68% of the page,
+     which was the best of the five surfaces and still below the method
+     prose, the night gate and the peak caption. The reader has now seen
+     their own city's whole record; everything under this point explains
+     how it was measured. This is the moment, and it is the last one. -->
+<div class="ebd"><div><div class="ebk">One email a week</div><p class="ebp">We find climate signals in the data, and send you the ones that matter.</p></div><div><!-- Email capture by Kit. Double opt-in. -->
+<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+<form class="ec-form" action="https://app.kit.com/forms/9782858/subscriptions" method="post" data-sv-form="9782858" data-uid="11697d7626" data-format="inline" data-version="5"><label class="ec-lab" for="ec-email">Email address</label><input id="ec-email" class="ec-in" type="email" name="email_address" required autocomplete="email" placeholder="you@example.com"><button class="ec-sub" type="submit">Subscribe</button></form><p class="ebf">Confirmation email required. No spam, and every figure here stays free and public whether you subscribe or not.</p></div></div>
+
 <p class="cap">Hot here means 32.0&nbsp;&deg;C or above, a level about one summer day in twenty used to reach at this station between 1971 and 2000. The bar has not moved; the number of days clearing it has. Every year is counted to 11 August, so a part-finished summer is never set against complete ones. <strong>That threshold is Strasbourg's own.</strong> It is not a national standard and it is not comparable with another city's: every figure on this page is measured against this station and nothing else.</p>
 
 <p class="cap">13 nights so far that never dropped below 20&nbsp;&deg;C. <strong>No multiple is quoted here.</strong> Strasbourg averages about 0.3 a year, and dividing by a base that thin produces a large number and no evidence. 24 of the 42 cities are gated this way.</p>
@@ -338,20 +347,6 @@ border-bottom:1px solid var(--rule)}
      shared masthead takes a methodology_href and does not render it,
      so passing one there is silent and does nothing; this is the
      place a reader checking a number is already looking. -->
-<!-- BUSINESS'S FINDING, measured on the first real week: ~47 of ~51
-     social post URLs pointed at /heat or /heat/<city>, and the form lived
-     only on the front page at line 470 of 485. So ~90% of 800 uniques
-     landed where subscribing was IMPOSSIBLE. Four subscribers from eight
-     hundred visitors is an absent ask, not a weak one.
-
-     HERE rather than in the footer: a reader who has just seen their own
-     city's record is at the only moment they will be interested, and the
-     footer is where interest goes to die. That is exactly where the front
-     page put it. -->
-<div class="ebd"><div><div class="ebk">One email a week</div><p class="ebp">We find climate signals in the data, and send you the ones that matter.</p></div><div><!-- Email capture by Kit. Double opt-in. -->
-<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
-<form class="ec-form" action="https://app.kit.com/forms/9782858/subscriptions" method="post" data-sv-form="9782858" data-uid="11697d7626" data-format="inline" data-version="5"><label class="ec-lab" for="ec-email">Email address</label><input id="ec-email" class="ec-in" type="email" name="email_address" required autocomplete="email" placeholder="you@example.com"><button class="ec-sub" type="submit">Subscribe</button></form><p class="ebf">Confirmation email required. No spam, and every figure here stays free and public whether you subscribe or not.</p></div></div>
-
 <div class="src">
 <span><a href="methodology.html">How these figures are built</a></span>
 <span style="text-align:right">Heat methodology</span>

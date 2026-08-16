@@ -1350,6 +1350,13 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 
   {grouped_html}
 
+  <!-- AFTER THE COUNTRY LIST, BEFORE THE APPARATUS. It sat at 98% of the
+       page, under every block that is the same every week. The boundary
+       this sits on is the one the comment below already names: the list
+       is what a reader came for, everything under it is invariant or
+       explanatory. -->
+  {_SUB_BAND}
+
   <!-- Everything below is identical every week or not specific to
        today: the proof behind the lede's "typical" figure, and the
        qualifier that applies to all 81 rows equally. Kristjan's rule,
@@ -1378,8 +1385,6 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
        `method_short`. A renderer that truncates prose is deciding
        something it does not know. If the short form is ever missing,
        the full string wraps rather than being cut. -->
-  {_SUB_BAND}
-
   <div class="foot">{h(AUTHOR_NAME)} (2026). {h(SITE_NAME)}, Crops.
     <a href="{h(PAGES_BASE_URL)}/">{h(PAGES_BASE_URL.split("//")[-1])}</a>
     &middot; {h(doc.get('method_short') or doc.get('method', ''))} &middot; baseline

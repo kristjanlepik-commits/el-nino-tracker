@@ -29,7 +29,7 @@
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
 <script>
 window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-plausible.init()
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
 </script>
 <style>/* ---------- masthead ---------- */
   /* Self-contained: a page that does not include PUBLIC_CSS has no link
@@ -328,6 +328,15 @@ border-bottom:1px solid var(--rule)}
 <div class="grid"><span class="gk">Hottest day<em>29 to 41 &deg;C</em></span>
 <span><svg viewBox="0 -4 914 126" width="100%" style="height:auto" role="img"><line x1="0" y1="20.0" x2="880" y2="20.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="29.0" class="ax">41</text><line x1="0" y1="104.0" x2="880" y2="104.0" stroke="var(--rule)" stroke-width="1"/><text x="886" y="107.0" class="ax">29</text><polyline points="0.0,66.5 9.9,70.3 19.8,84.9 29.7,100.8 39.6,77.9 49.4,89.4 59.3,57.5 69.2,77.9 118.7,65.2 128.5,76.6 138.4,78.5 148.3,48.6 158.2,84.3 168.1,80.5 178.0,77.3 187.9,99.5 197.8,45.5 207.6,92.5 217.5,61.4 227.4,91.3 237.3,76.6 247.2,82.4 257.1,57.5 267.0,60.7 276.9,86.2 286.7,81.7 296.6,75.4 306.5,83.0 316.4,69.0 326.3,88.7 336.2,64.5 346.1,79.2 356.0,77.9 365.8,90.0 375.7,77.3 385.6,56.9 395.5,81.1 405.4,80.5 415.3,83.0 425.2,84.9 435.1,88.1 444.9,69.6 454.8,58.8 464.7,51.8 474.6,77.9 484.5,58.8 494.4,83.0 504.3,79.2 514.2,77.3 524.0,61.4 533.9,62.0 543.8,51.8 553.7,83.0 563.6,58.2 573.5,56.9 583.4,76.0 593.3,82.4 603.1,49.3 613.0,65.8 622.9,67.7 632.8,70.3 642.7,46.1 652.6,38.5 662.5,70.9 672.4,68.4 682.2,56.9 692.1,65.8 702.0,68.4 711.9,86.2 721.8,53.1 731.7,75.4 741.6,61.4 751.5,51.2 761.3,60.7 771.2,37.8 781.1,58.8 791.0,62.0 800.9,49.3 810.8,29.5 820.7,46.1 830.6,63.3 840.4,40.4 850.3,49.9 860.2,70.3 870.1,40.4 880.0,23.2" fill="none" stroke="var(--soft)" stroke-width="1.2"/><circle cx="810.8" cy="29.5" r="3.4" fill="var(--ink)"/><line x1="810.8" y1="29.5" x2="810.8" y2="104.0" stroke="var(--ink)" stroke-width="1" opacity="0.45"/><circle cx="880.0" cy="23.2" r="3.6" fill="var(--accent)"/><text x="874.0" y="27.2" class="vlab va" text-anchor="end">41.1&#8202;&deg;C</text><text x="804.8" y="22.5" class="vlab" text-anchor="end">40.1&#8202;&deg;C</text></svg></span></div>
 
+<!-- AFTER THE SERIES, BEFORE THE APPARATUS. It was at 68% of the page,
+     which was the best of the five surfaces and still below the method
+     prose, the night gate and the peak caption. The reader has now seen
+     their own city's whole record; everything under this point explains
+     how it was measured. This is the moment, and it is the last one. -->
+<div class="ebd"><div><div class="ebk">One email a week</div><p class="ebp">We find climate signals in the data, and send you the ones that matter.</p></div><div><!-- Email capture by Kit. Double opt-in. -->
+<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+<form class="ec-form" action="https://app.kit.com/forms/9782858/subscriptions" method="post" data-sv-form="9782858" data-uid="11697d7626" data-format="inline" data-version="5"><label class="ec-lab" for="ec-email">Email address</label><input id="ec-email" class="ec-in" type="email" name="email_address" required autocomplete="email" placeholder="you@example.com"><button class="ec-sub" type="submit">Subscribe</button></form><p class="ebf">Confirmation email required. No spam, and every figure here stays free and public whether you subscribe or not.</p></div></div>
+
 <p class="cap">Hot here means 32.1&nbsp;&deg;C or above, a level about one summer day in twenty used to reach at this station between 1971 and 2000. The bar has not moved; the number of days clearing it has. Every year is counted to 12 August, so a part-finished summer is never set against complete ones. <strong>That threshold is Frankfurt's own.</strong> It is not a national standard and it is not comparable with another city's: every figure on this page is measured against this station and nothing else.</p>
 
 <p class="cap">17 nights so far that never dropped below 20&nbsp;&deg;C. <strong>No multiple is quoted here.</strong> Frankfurt averages about 0.3 a year, and dividing by a base that thin produces a large number and no evidence. 24 of the 42 cities are gated this way.</p>
@@ -338,20 +347,6 @@ border-bottom:1px solid var(--rule)}
      shared masthead takes a methodology_href and does not render it,
      so passing one there is silent and does nothing; this is the
      place a reader checking a number is already looking. -->
-<!-- BUSINESS'S FINDING, measured on the first real week: ~47 of ~51
-     social post URLs pointed at /heat or /heat/<city>, and the form lived
-     only on the front page at line 470 of 485. So ~90% of 800 uniques
-     landed where subscribing was IMPOSSIBLE. Four subscribers from eight
-     hundred visitors is an absent ask, not a weak one.
-
-     HERE rather than in the footer: a reader who has just seen their own
-     city's record is at the only moment they will be interested, and the
-     footer is where interest goes to die. That is exactly where the front
-     page put it. -->
-<div class="ebd"><div><div class="ebk">One email a week</div><p class="ebp">We find climate signals in the data, and send you the ones that matter.</p></div><div><!-- Email capture by Kit. Double opt-in. -->
-<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
-<form class="ec-form" action="https://app.kit.com/forms/9782858/subscriptions" method="post" data-sv-form="9782858" data-uid="11697d7626" data-format="inline" data-version="5"><label class="ec-lab" for="ec-email">Email address</label><input id="ec-email" class="ec-in" type="email" name="email_address" required autocomplete="email" placeholder="you@example.com"><button class="ec-sub" type="submit">Subscribe</button></form><p class="ebf">Confirmation email required. No spam, and every figure here stays free and public whether you subscribe or not.</p></div></div>
-
 <div class="src">
 <span><a href="methodology.html">How these figures are built</a></span>
 <span style="text-align:right">Heat methodology</span>
