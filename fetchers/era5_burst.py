@@ -74,7 +74,17 @@ from ._common import CACHE_DIR, FetchResult, now_iso
 DATASET = "reanalysis-era5-pressure-levels"
 REGION = [10, 130, -10, 210]   # N, W, S, E in 0-360 longitude; wider than CWWA's 5N-5S
 CLIM_YEARS = list(range(1991, 2021))
-CLIM_MONTHS = ["03", "04", "05", "06", "07", "08"]
+# Month range. Defaults to Mar-Aug, which is what production runs on and
+# what the built caches cover. TLS_ERA5_END_MONTH extends it WITHOUT
+# changing production: the cache filenames carry the range (see
+# _month_tag), so a Mar-Dec build writes new files and leaves the Mar-Aug
+# ones untouched. That separation is deliberate. Changing this constant
+# directly would make the next Monday run try to build a Sep-Dec
+# climatology from cold, which is hours of CDS, and invariant 1 says the
+# brief always builds and never hangs on a Monday. Build the caches with
+# the variable first, verify, then flip the default.
+_END_MONTH = int(os.environ.get("TLS_ERA5_END_MONTH", "8"))
+CLIM_MONTHS = [f"{m:02d}" for m in range(3, _END_MONTH + 1)]
 ALL_DAYS = [f"{d:02d}" for d in range(1, 32)]
 SAMPLE_TIME = "12:00"
 
@@ -123,11 +133,30 @@ def _mmdd(times: xr.DataArray) -> np.ndarray:
 
 
 def _clim_path() -> str:
-    return str(CACHE_DIR / f"era5_burst_clim_{CLIM_YEARS[0]}-{CLIM_YEARS[-1]}_130E-150W_10NS_MarAug.nc")
+    return str(CACHE_DIR / f"era5_burst_clim_{CLIM_YEARS[0]}-{CLIM_YEARS[-1]}_130E-150W_10NS_{_month_tag()}.nc")
+
+
+def _month_tag() -> str:
+    """Month-range tag for cache filenames.
+
+    Load-bearing, not cosmetic. Both cache keys previously omitted the
+    month range: the climatology path hardcoded the literal string
+    "MarAug" and the peakseries path carried no months at all. So
+    extending CLIM_MONTHS past August would have returned the SAME paths,
+    loaded the stale Mar-Aug files, and reported success while producing
+    Mar-Aug data labelled as covering more. A multi-hour CDS job that
+    silently no-ops is worse than one that fails.
+
+    A cache key has to encode everything that changes what is inside it.
+    """
+    import calendar
+    return (f"{calendar.month_abbr[int(CLIM_MONTHS[0])]}"
+            f"{calendar.month_abbr[int(CLIM_MONTHS[-1])]}")
 
 
 def _peakseries_path(year: int) -> str:
-    return str(CACHE_DIR / f"era5_burst_peakseries_{year}_130E-150W_10NS.json")
+    return str(CACHE_DIR /
+               f"era5_burst_peakseries_{year}_130E-150W_10NS_{_month_tag()}.json")
 
 
 def _events_path(year: int) -> str:
@@ -227,9 +256,10 @@ def _load_or_build_analog_peakseries(year: int, clim: xr.DataArray) -> tuple[lis
     if os.path.exists(path):
         data = json.loads(open(path).read())
         return data["dates"], np.array(data["peaks"], dtype=np.float64)
-    dates, peaks = _compute_peakseries(year, 8, clim)
+    dates, peaks = _compute_peakseries(year, _END_MONTH, clim)
     with open(path, "w") as f:
-        json.dump({"year": year, "end_month": 8, "dates": dates, "peaks": peaks.tolist()}, f)
+        json.dump({"year": year, "end_month": _END_MONTH, "dates": dates,
+                   "peaks": peaks.tolist()}, f)
     return dates, peaks
 
 

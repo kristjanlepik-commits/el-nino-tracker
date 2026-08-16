@@ -59,7 +59,17 @@ from ._common import CACHE_DIR, FetchResult, now_iso
 DATASET = "reanalysis-era5-pressure-levels"
 REGION = [5, 130, -5, 210]   # N, W, S, E in 0-360 longitude
 CLIM_YEARS = list(range(1991, 2021))
-CLIM_MONTHS = ["03", "04", "05", "06", "07", "08"]
+# Month range. Defaults to Mar-Aug, which is what production runs on and
+# what the built caches cover. TLS_ERA5_END_MONTH extends it WITHOUT
+# changing production: the cache filenames carry the range (see
+# _month_tag), so a Mar-Dec build writes new files and leaves the Mar-Aug
+# ones untouched. That separation is deliberate. Changing this constant
+# directly would make the next Monday run try to build a Sep-Dec
+# climatology from cold, which is hours of CDS, and invariant 1 says the
+# brief always builds and never hangs on a Monday. Build the caches with
+# the variable first, verify, then flip the default.
+_END_MONTH = int(os.environ.get("TLS_ERA5_END_MONTH", "8"))
+CLIM_MONTHS = [f"{m:02d}" for m in range(3, _END_MONTH + 1)]
 ALL_DAYS = [f"{d:02d}" for d in range(1, 32)]
 SAMPLE_TIME = "12:00"
 
@@ -93,11 +103,22 @@ def _area_mean_u(ds: xr.Dataset) -> xr.DataArray:
 
 
 def _clim_path() -> str:
-    return str(CACHE_DIR / f"era5_cwwa_clim_{CLIM_YEARS[0]}-{CLIM_YEARS[-1]}_130E-150W_MarAug.nc")
+    return str(CACHE_DIR / f"era5_cwwa_clim_{CLIM_YEARS[0]}-{CLIM_YEARS[-1]}_130E-150W_{_month_tag()}.nc")
+
+
+def _month_tag() -> str:
+    """Month-range tag for cache filenames. See the note in era5_burst.py:
+    both fetchers previously hardcoded "MarAug" in the climatology path and
+    omitted months from the per-year path, so extending the window would
+    have silently reused the old files and produced Mar-Aug data under a
+    wider label."""
+    import calendar
+    return (f"{calendar.month_abbr[int(CLIM_MONTHS[0])]}"
+            f"{calendar.month_abbr[int(CLIM_MONTHS[-1])]}")
 
 
 def _analog_path(year: int) -> str:
-    return str(CACHE_DIR / f"era5_cwwa_analog_{year}_130E-150W.json")
+    return str(CACHE_DIR / f"era5_cwwa_analog_{year}_130E-150W_{_month_tag()}.json")
 
 
 def _mmdd(times: xr.DataArray) -> np.ndarray:
@@ -156,7 +177,7 @@ def _build_or_load_analog(year: int, clim: xr.DataArray) -> list[tuple[str, floa
     path = _analog_path(year)
     if os.path.exists(path):
         return [tuple(pt) for pt in json.loads(open(path).read())]
-    series = _cwwa_series_for_year(year, 8, clim)
+    series = _cwwa_series_for_year(year, _END_MONTH, clim)
     with open(path, "w") as f:
         json.dump([list(pt) for pt in series], f)
     return series
