@@ -104,6 +104,9 @@ BATCH = ["wsi_crop_growing", "spi3_crop_growing", "zfpar_crop_growing",
 
 PAUSE_SECONDS = 3
 TIMEOUT_SECONDS = 420
+# Long enough that a 502 or a slow generation has passed, short enough
+# that two passes do not meaningfully extend a 76 minute run.
+RETRY_PAUSE = 60
 
 # Priority set: every country in the FEASIBILITY.md lead test, every
 # country the unit-count gate wrongly dropped, and the major producers
@@ -358,6 +361,7 @@ def main() -> int:
         print(f"{'=' * 70}", flush=True)
 
         counts = {"ok": 0, "skip": 0, "fail": 0}
+        failed = []
         started = time.time()
         for i, (cid, name) in enumerate(targets, 1):
             print(f"[{i}/{len(targets)}] {name}", flush=True)
@@ -371,10 +375,53 @@ def main() -> int:
             # dekads with nothing on disk explaining why. Measured: that
             # is exactly what a 2 minute timeout did on 2026-08-13. One
             # small write per 3 second pause costs nothing.
+            if result == "fail":
+                failed.append((cid, name))
             if result == "ok":
                 _save_manifest(manifest)
                 if i < len(targets):
                     time.sleep(PAUSE_SECONDS)
+
+        # RETRY THE STRAGGLERS BEFORE DECLARING THE INDICATOR DONE.
+        #
+        # Every failure seen on this endpoint has been transient: HTTP 502
+        # on two countries (2026-08-09), a 420s timeout on a 1.1 MB file
+        # while an 11.4 MB file downloaded fine in the same run
+        # (2026-08-13). None was a bad id or a changed endpoint.
+        #
+        # Without this, one straggler poisons the whole run. The CI job on
+        # 2026-08-13 fetched 839 files across 76 minutes, hit exactly one
+        # failure, exited 1, and `set -e` killed the step before the
+        # rebuild: 76 minutes of good data discarded for one country. The
+        # local supervisor loop I wrote by hand the same day was the same
+        # fix at the wrong level, because it re-ran everything to recover
+        # one file.
+        #
+        # Fixing it here rather than in the workflow fixes it for every
+        # caller at once, and the workflow is not ours to edit.
+        for attempt in (1, 2):
+            if not failed:
+                break
+            print(f"\n  retry pass {attempt}: {len(failed)} straggler(s) "
+                  f"after {RETRY_PAUSE}s", flush=True)
+            time.sleep(RETRY_PAUSE)
+            again = []
+            for cid, name in failed:
+                r = fetch_one(slug, spec, cid, name, target, manifest)
+                if r == "fail":
+                    again.append((cid, name))
+                    continue
+                counts["fail"] -= 1
+                totals["fail"] -= 1
+                counts[r] += 1
+                totals[r] += 1
+                _save_manifest(manifest)
+                time.sleep(PAUSE_SECONDS)
+            recovered = len(failed) - len(again)
+            print(f"  retry pass {attempt}: {recovered} recovered, "
+                  f"{len(again)} still failing", flush=True)
+            failed = again
+
         mins = (time.time() - started) / 60
         print(f"\n{slug}: done in {mins:.1f} min, {counts['ok']} fetched, "
               f"{counts['skip']} present, {counts['fail']} failed",
