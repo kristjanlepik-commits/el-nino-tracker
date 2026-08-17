@@ -388,7 +388,15 @@ def verify(data_before: dict[str, bytes | None] | None = None) -> list[str]:
     # dated reason and an owner, not just an entry.
     expect_masthead: dict = {}
 
-    pages = [ROOT / rel for rel in TARGETS]
+    # HTML checks, so HTML pages only. TARGETS deliberately also carries
+    # sitemap.xml and robots.txt for the D-028 roll-back, and neither has
+    # an analytics tag or a masthead by design. Without this filter the
+    # two of them fail four checks apiece and REJECT EVERY PUBLISH, which
+    # is what happened the moment they were added: the sitemap generator
+    # ran, the guard rejected the publish, everything rolled back, and the
+    # site had no sitemap while the code that builds one was working
+    # perfectly. Product hit it trying to ship a capture fix.
+    pages = [ROOT / rel for rel in TARGETS if rel.endswith(".html")]
     pages += sorted((ROOT / "docs" / "fires").glob("*/index.html"))
     for p in pages:
         rel = str(p.relative_to(ROOT))
