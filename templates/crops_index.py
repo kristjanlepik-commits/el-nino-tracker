@@ -380,6 +380,58 @@ def _pinned_block(places) -> str:
             f'{"".join(rows)}{note}')
 
 
+
+def _every_place(places, already) -> str:
+    """Every published place we cover, linked, whatever it is doing.
+
+    CRO'S RULING AND THE REASON IS THE GOOD PART: "is this newsworthy this
+    week" should stop deciding "should this page exist". All 123 places are
+    built and published, so all 123 are listed, and the tail is LISTED
+    RATHER THAN DROPPED. Removing the category beats managing it.
+
+    IT ALSO CLOSES AN ORPHAN PROBLEM WE MADE. Taking crops out of noindex
+    under D-172 turned 81 unlinked country pages from consistently unlisted
+    into indexable and reachable from nowhere, which search engines treat
+    worse than the noindex it replaced. Linking them is the fix; the
+    alternative, noindexing what we do not surface, was a partial revert
+    wearing different clothes.
+
+    A DIRECTORY, NOT A READING LIST. The groups above give the countries
+    with something happening their full treatment. These are names, ordered
+    by the same severity the page orders everything by, wrapping rather than
+    stacking: 81 full rows would add six screens to a page already at
+    eleven on a phone, and the tail is a place a reader goes looking for a
+    country rather than one they read down.
+
+    D-043: the calm case is drawn, not summarised. A country with nothing
+    at a record appears here in the same type as one that does, because
+    "we looked and it is ordinary" is a result.
+    """
+    from templates.crops_country import slugify as _slug
+    seen = {c.lower() for c in already}
+    rows = [p_ for p_ in places
+            if (p_.get("_page_place") or p_["place"]).lower() not in seen]
+    if not rows:
+        return ""
+    rows.sort(key=lambda p_: ((p_.get("severity") or {}).get("rank") or 999))
+    links = " &middot; ".join(
+        f'<a class="tlink" href="{h(_slug(p_.get("_page_place") or p_["place"]))}/">'
+        f'{h(PINNED_LABEL.get(p_["place"], p_["place"]))}</a>' for p_ in rows)
+    # NO CLAIM ABOUT WHAT IS IN HERE BEYOND THE ORDERING. The first draft
+    # said "none has a region at a record low", which was false the moment
+    # it rendered: the tail also holds the record-low countries beyond the
+    # group cut, 22 of them today. The groups above show the countries with
+    # something happening; this is everything else we publish, and the only
+    # safe sentence about a set assembled by subtraction is how it is
+    # ordered.
+    return (f'<p class="seclab">Everywhere else we measure</p>'
+            f'<p class="secsub">{len(rows)} more places, in the same order '
+            f'as above: worst first by how this dekad ranks against that '
+            f'place\'s own 26 years. Every place we publish has a page, '
+            f'whether or not anything is happening in it.</p>'
+            f'<p class="tail">{links}</p>')
+
+
 def _country_group(country, regions, cb=None, units=None) -> str:
     """One country, with every region of it that is at a record low.
 
@@ -1307,7 +1359,8 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         how far their worst region has fallen.</p>
       {groups}
       <p class="note">{rest} further countries hold one or two regions at
-        a record low, which is what an ordinary dekad looks like.</p>"""
+        a record low, which is what an ordinary dekad looks like.</p>
+      {_every_place(places, ordered[:top_n])}"""
 
     # The separate lead block is gone. Its content lives in the first
     # group now, and `_also` with it: those five countries are their own
@@ -1474,6 +1527,10 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
    it keeps its columns on a phone rather than stacking into fifteen rows. */
 @media (max-width:600px) {{ .icounts {{ grid-template-columns:minmax(0,1fr) 2.2rem 2.8rem;
   font-size:11px; }} }}
+.tail {{ margin:8px 0 0; font-size:13.5px; line-height:2.0;
+  color:var(--ink-faint); max-width:64ch; }}
+.tlink {{ color:var(--ink-soft); text-decoration:none;
+  border-bottom:1px solid var(--rule); white-space:nowrap; }}
 .note {{ margin:20px 0 0; font-size:14px; color:var(--ink-soft);
   max-width:64ch; }}
 .foot {{ margin-top:46px; padding-top:14px; border-top:1px solid var(--ink);
