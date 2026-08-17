@@ -152,7 +152,67 @@ EMAIL_FORM_CSS = """  /* The form is ours now, so the note above is history: the
        field is the control that has to be legible while typing. */
     .ec-in, .ec-sub { flex: 1 1 100%; }
   }
+  /* The reader's answer. Empty until the submit resolves, and it takes a
+     whole row so it never squeezes the field. Kristjan found the form on
+     2026-08-17 doing exactly what this element exists to prevent:
+     subscribing him successfully and telling him nothing. */
+  .ec-msg { flex: 1 1 100%; margin: 8px 0 0; font-family: var(--sans);
+            font-size: 14px; line-height: 1.45; }
+  .ec-msg:empty { display: none; }
+  .ec-msg-ok { color: var(--ink); }
+  .ec-msg-err { color: var(--ink); }
 """
+
+
+# Ours, inline, and about 20 lines, which is the whole argument for not
+# using Kit's 33KB script: what a reader is told after subscribing is the
+# one thing in this flow we cannot afford to have rendered by a stranger's
+# markup contract.
+#
+# DELEGATED AND IDEMPOTENT ON PURPOSE. The unit appears on 51 pages and
+# /subscribe renders its own copy, so this string can legitimately land
+# twice on one page. A per-form listener attached twice fires twice and
+# double-posts; a delegated listener behind a flag cannot.
+#
+# If `fetch` is missing the handler returns without preventDefault, so the
+# native POST proceeds. That is the Kit-marketing-page landing, which is
+# bad and is not silent.
+EMAIL_CAPTURE_SCRIPT = """<script>
+(function () {
+  if (window.__ecBound || !window.fetch) { return; }
+  window.__ecBound = 1;
+  document.addEventListener('submit', function (e) {
+    var f = e.target;
+    if (!f || !f.classList || !f.classList.contains('ec-form')) { return; }
+    e.preventDefault();
+    var btn = f.querySelector('.ec-sub');
+    var msg = f.querySelector('.ec-msg');
+    var input = f.querySelector('.ec-in');
+    var was = btn ? btn.textContent : '';
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending'; }
+    if (msg) { msg.className = 'ec-msg'; msg.textContent = ''; }
+    fetch(f.action, {
+      method: 'POST',
+      body: new FormData(f),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (r) {
+      if (!r.ok) { throw new Error(r.status); }
+      if (btn) { btn.textContent = 'Subscribed'; }
+      if (input) { input.readOnly = true; }
+      if (msg) {
+        msg.className = 'ec-msg ec-msg-ok';
+        msg.textContent = 'Now check your email to confirm your subscription.';
+      }
+    }).catch(function () {
+      if (btn) { btn.disabled = false; btn.textContent = was; }
+      if (msg) {
+        msg.className = 'ec-msg ec-msg-err';
+        msg.textContent = 'That did not send. Please try again.';
+      }
+    });
+  }, false);
+})();
+</script>"""
 
 
 def email_capture_form(label="Subscribe", cls="ec-form"):
@@ -186,21 +246,34 @@ def email_capture_form(label="Subscribe", cls="ec-form"):
     """
     return (
         '<!-- Email capture by Kit. Double opt-in. -->\n'
-        # THE SCRIPT IS BACK, and the zero-script version was worse for a
-        # reader in a way neither product nor I predicted.
+        # ck.5.js IS GONE, and the reason is the defect it caused rather
+        # than the asset count. Kristjan, 2026-08-17: "clicking on
+        # subscribe does nothing."
         #
-        # Kit's post-submit action is "show a success message". With no
-        # script the browser NAVIGATES to Kit to render it, so a reader who
-        # subscribes lands on a Kit marketing page telling them the best
-        # creators on the web use Kit. Kristjan hit it live: "too much Kit."
+        # The comment that used to sit here was right that a bare native
+        # POST navigates to Kit's marketing page, and it added the script
+        # to stop that. The script does stop it: measured, it binds to this
+        # form and calls preventDefault. What it then cannot do is render
+        # the replacement. It writes its success message into
+        # `.formkit-alert` inside `.formkit-form`, and this form is neither;
+        # it also injects none of its own markup, because it binds its
+        # injector to `script[data-uid=...]` and the tag here never carried
+        # one.
         #
-        # It is progressive enhancement over a form that already posts
-        # natively, so if it fails the form still works. That is a far
-        # weaker dependency than the Beehiiv iframe this replaced.
-        # "Zero third-party assets" was a property we were admiring rather
-        # than a benefit any reader received, and it cost them the one
-        # moment where staying on our own site matters most.
-        '<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>\n'
+        # So it intercepted the submit, subscribed the reader, and showed
+        # them nothing. Every subscriber since it landed submitted into
+        # silence, which was a larger funnel leak than the confirmation
+        # email copy everyone was looking at.
+        #
+        # "Progressive enhancement, so if it fails the form still works"
+        # was the load-bearing claim and it was false: the enhancement did
+        # not fail, it succeeded halfway and suppressed the fallback.
+        #
+        # We now own the submit, so the response is ours to render and
+        # cannot disagree with our markup. CORS on the Kit endpoint is
+        # verified from this origin. If JS is off the form still posts
+        # natively, which is the old Kit-page landing: worse, but reachable
+        # only by a reader who has JS disabled, and never silent.
         f'<form class="{cls}" action="{EMAIL_CAPTURE_ACTION}" method="post" '
         f'data-sv-form="{EMAIL_CAPTURE_FORM_ID}" data-uid="11697d7626" '
         f'data-format="inline" data-version="5">'
@@ -208,7 +281,9 @@ def email_capture_form(label="Subscribe", cls="ec-form"):
         '<input id="ec-email" class="ec-in" type="email" name="email_address" '
         'required autocomplete="email" placeholder="you@example.com">'
         f'<button class="ec-sub" type="submit">{label}</button>'
-        '</form>'
+        '<p class="ec-msg" role="status" aria-live="polite"></p>'
+        '</form>\n'
+        + EMAIL_CAPTURE_SCRIPT
     )
 
 
