@@ -3,10 +3,10 @@
   "counts": {
     "tracked": 94,
     "anomalous": 20,
-    "record": 22,
-    "record_among_anomalous": 16,
+    "record": 23,
+    "record_among_anomalous": 15,
     "at_least_2x": 22,
-    "at_least_3x": 11,
+    "at_least_3x": 12,
     "drawn": 20,
     "_definitions": {
       "tracked": "countries with a same-week baseline this window. The population every other count is taken from unless it says otherwise.",
@@ -30,84 +30,91 @@
     },
     "members": [
       {
+        "iso": "BEL",
+        "region": "Belgium",
+        "z": 21.13,
+        "multiple": 4.6,
+        "why": "z"
+      },
+      {
         "iso": "CUB",
         "region": "Cuba",
-        "z": 18.03,
-        "multiple": 7.0,
+        "z": 18.22,
+        "multiple": 8.2,
         "why": "z"
       },
       {
         "iso": "GBR",
         "region": "United Kingdom",
-        "z": 13.05,
-        "multiple": 7.2,
-        "why": "z"
-      },
-      {
-        "iso": "BEL",
-        "region": "Belgium",
-        "z": 12.55,
-        "multiple": 3.3,
-        "why": "z"
-      },
-      {
-        "iso": "DEU",
-        "region": "Germany",
-        "z": 6.6,
-        "multiple": 2.8,
+        "z": 12.9,
+        "multiple": 6.6,
         "why": "z"
       },
       {
         "iso": "SRB",
         "region": "Republic of Serbia",
-        "z": 6.34,
-        "multiple": 4.3,
+        "z": 6.56,
+        "multiple": 4.7,
+        "why": "z"
+      },
+      {
+        "iso": "DEU",
+        "region": "Germany",
+        "z": 6.25,
+        "multiple": 2.6,
         "why": "z"
       },
       {
         "iso": "COL",
         "region": "Colombia",
-        "z": 6.1,
-        "multiple": 2.9,
+        "z": 4.88,
+        "multiple": 2.6,
         "why": "z"
       },
       {
         "iso": "UGA",
         "region": "Uganda",
-        "z": 4.74,
+        "z": 4.7,
         "multiple": 4.3,
-        "why": "z"
-      },
-      {
-        "iso": "FRA",
-        "region": "France",
-        "z": 3.44,
-        "multiple": 2.2,
         "why": "z"
       },
       {
         "iso": "HRV",
         "region": "Croatia",
-        "z": 3.42,
-        "multiple": 5.7,
-        "why": "z"
-      },
-      {
-        "iso": "ECU",
-        "region": "Ecuador",
-        "z": 3.28,
-        "multiple": 2.7,
+        "z": 3.98,
+        "multiple": 6.5,
         "why": "z"
       },
       {
         "iso": "VEN",
         "region": "Venezuela",
-        "z": 3.27,
-        "multiple": 1.7,
+        "z": 3.68,
+        "multiple": 1.6,
+        "why": "z"
+      },
+      {
+        "iso": "ECU",
+        "region": "Ecuador",
+        "z": 3.64,
+        "multiple": 3.0,
+        "why": "z"
+      },
+      {
+        "iso": "TKM",
+        "region": "Turkmenistan",
+        "z": 3.26,
+        "multiple": 1.5,
+        "why": "z"
+      },
+      {
+        "iso": "FRA",
+        "region": "France",
+        "z": 3.05,
+        "multiple": 2.1,
         "why": "z"
       }
     ],
-    "n": 11,
+    "n": 12,
     "gate_cap": 20,
     "gate_cap_binding": true
   },
@@ -123,10 +130,41 @@
   ],
   "events": [
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
+      "region": "Cuba",
+      "title": "4.9x its previous record week",
+      "stat": "8.2x",
+      "stat_label": "same-week mean, 13 yrs",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "multiple",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "multiple",
+          "record"
+        ],
+        "z": 18.22,
+        "multiple": 8.2,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 18.22,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/cuba/"
+    },
+    {
+      "date": "2026-08-16",
       "region": "United Kingdom",
-      "title": "3.0x its previous record week",
-      "stat": "7.2x",
+      "title": "3.1x its previous record week",
+      "stat": "6.6x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": "non_enso",
       "anomalous": true,
@@ -142,53 +180,22 @@
           "multiple",
           "record"
         ],
-        "z": 13.05,
-        "multiple": 7.2,
+        "z": 12.9,
+        "multiple": 6.6,
         "rank_in_record": 1
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 13.05,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": 12.9,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/united-kingdom/"
     },
     {
-      "date": "2026-08-15",
-      "region": "Cuba",
-      "title": "4.4x its previous record week",
-      "stat": "7.0x",
-      "stat_label": "same-week mean, 13 yrs",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "z",
-        "multiple",
-        "record"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "multiple",
-          "record"
-        ],
-        "z": 18.03,
-        "multiple": 7.0,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": true,
-      "z": 18.03,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/cuba/"
-    },
-    {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
       "region": "Croatia",
       "title": "Well clear of its 2017 record week",
-      "stat": "5.7x",
+      "stat": "6.5x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": null,
       "anomalous": true,
@@ -204,22 +211,22 @@
           "multiple",
           "record"
         ],
-        "z": 3.42,
-        "multiple": 5.7,
+        "z": 3.98,
+        "multiple": 6.5,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": 3.42,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": 3.98,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/croatia/"
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
       "region": "Republic of Serbia",
       "title": "Well clear of its 2024 record week",
-      "stat": "4.3x",
+      "stat": "4.7x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": null,
       "anomalous": true,
@@ -235,19 +242,50 @@
           "multiple",
           "record"
         ],
-        "z": 6.34,
-        "multiple": 4.3,
+        "z": 6.56,
+        "multiple": 4.7,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 6.56,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/republic-of-serbia/"
+    },
+    {
+      "date": "2026-08-16",
+      "region": "Belgium",
+      "title": "3.1x its previous record week",
+      "stat": "4.6x",
+      "stat_label": "same-week mean, 13 yrs",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "multiple",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "multiple",
+          "record"
+        ],
+        "z": 21.13,
+        "multiple": 4.6,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": 6.34,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/republic-of-serbia/"
+      "z": 21.13,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/belgium/"
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
       "region": "Uganda",
       "title": "Well clear of its 2018 record week",
       "stat": "4.3x",
@@ -266,22 +304,51 @@
           "multiple",
           "record"
         ],
-        "z": 4.74,
+        "z": 4.7,
         "multiple": 4.3,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 4.74,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": 4.7,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/uganda/"
     },
     {
-      "date": "2026-08-15",
-      "region": "Belgium",
-      "title": "Well clear of its 2012 record week",
-      "stat": "3.3x",
+      "date": "2026-08-16",
+      "region": "Bosnia and Herzegovina",
+      "title": "Second-heaviest of 15, 1 excluded",
+      "stat": "3.1x",
+      "stat_label": "same-week mean, 13 yrs",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "multiple"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "multiple"
+        ],
+        "z": 2.05,
+        "multiple": 3.1,
+        "rank_in_record": 2
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": true,
+      "z": 2.05,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/bosnia-and-herzegovina/"
+    },
+    {
+      "date": "2026-08-16",
+      "region": "Ecuador",
+      "title": "Well clear of its 2020 record week",
+      "stat": "3.0x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": null,
       "anomalous": true,
@@ -297,51 +364,24 @@
           "multiple",
           "record"
         ],
-        "z": 12.55,
-        "multiple": 3.3,
+        "z": 3.64,
+        "multiple": 3.0,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": 12.55,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/belgium/"
+      "z": 3.64,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/ecuador/"
     },
     {
-      "date": "2026-08-15",
-      "region": "Spain",
-      "title": "Second-heaviest of 15, 1 excluded",
-      "stat": "3.0x",
-      "stat_label": "same-week mean, 13 yrs",
-      "attribution": "non_enso",
-      "anomalous": true,
-      "qualifies_on": [
-        "multiple"
-      ],
-      "strength": {
-        "verdict": "multiple_only",
-        "signals": [
-          "multiple"
-        ],
-        "z": 0.98,
-        "multiple": 3.0,
-        "rank_in_record": 2
-      },
-      "pinned": true,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 0.98,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/spain/"
-    },
-    {
-      "date": "2026-08-15",
-      "region": "Colombia",
-      "title": "Well clear of its 2018 record week",
+      "date": "2026-08-16",
+      "region": "Indonesia",
+      "title": "Just past its 2012 record week",
       "stat": "2.9x",
       "stat_label": "same-week mean, 13 yrs",
-      "attribution": null,
+      "attribution": "enso",
       "anomalous": true,
       "qualifies_on": [
         "z",
@@ -355,82 +395,22 @@
           "multiple",
           "record"
         ],
-        "z": 6.1,
+        "z": 2.27,
         "multiple": 2.9,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 6.1,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/colombia/"
-    },
-    {
-      "date": "2026-08-15",
-      "region": "Germany",
-      "title": "Well clear of its 2025 record week",
-      "stat": "2.8x",
-      "stat_label": "same-week mean, 13 yrs",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "z",
-        "multiple",
-        "record"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "multiple",
-          "record"
-        ],
-        "z": 6.6,
-        "multiple": 2.8,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 6.6,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/germany/"
-    },
-    {
-      "date": "2026-08-15",
-      "region": "Indonesia",
-      "title": "Second-heaviest of 15, 1 excluded",
-      "stat": "2.8x",
-      "stat_label": "same-week mean, 13 yrs",
-      "attribution": "enso",
-      "anomalous": true,
-      "qualifies_on": [
-        "z",
-        "multiple"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "multiple"
-        ],
-        "z": 2.16,
-        "multiple": 2.8,
-        "rank_in_record": 2
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 2.16,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": 2.27,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/indonesia/"
     },
     {
-      "date": "2026-08-15",
-      "region": "Ecuador",
-      "title": "Well clear of its 2012 record week",
-      "stat": "2.7x",
+      "date": "2026-08-16",
+      "region": "Colombia",
+      "title": "Well clear of its 2018 record week",
+      "stat": "2.6x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": null,
       "anomalous": true,
@@ -446,22 +426,53 @@
           "multiple",
           "record"
         ],
-        "z": 3.28,
-        "multiple": 2.7,
+        "z": 4.88,
+        "multiple": 2.6,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
-      "multiple_unstable": true,
-      "z": 3.28,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/ecuador/"
+      "multiple_unstable": false,
+      "z": 4.88,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/colombia/"
     },
     {
-      "date": "2026-08-15",
-      "region": "Bosnia and Herzegovina",
+      "date": "2026-08-16",
+      "region": "Germany",
+      "title": "Well clear of its 2025 record week",
+      "stat": "2.6x",
+      "stat_label": "same-week mean, 13 yrs",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "multiple",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "multiple",
+          "record"
+        ],
+        "z": 6.25,
+        "multiple": 2.6,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 6.25,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/germany/"
+    },
+    {
+      "date": "2026-08-16",
+      "region": "Papua New Guinea",
       "title": "Second-heaviest of 15, 1 excluded",
-      "stat": "2.5x",
+      "stat": "2.3x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": null,
       "anomalous": true,
@@ -473,53 +484,49 @@
         "signals": [
           "multiple"
         ],
-        "z": 1.45,
-        "multiple": 2.5,
+        "z": 0.95,
+        "multiple": 2.3,
         "rank_in_record": 2
       },
       "pinned": false,
       "volume_context": false,
-      "multiple_unstable": true,
-      "z": 1.45,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/bosnia-and-herzegovina/"
+      "multiple_unstable": false,
+      "z": 0.95,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/papua-new-guinea/"
     },
     {
-      "date": "2026-08-15",
-      "region": "Austria",
-      "title": "Well clear of its 2025 record week",
+      "date": "2026-08-16",
+      "region": "Spain",
+      "title": "Second-heaviest of 15, 1 excluded",
       "stat": "2.2x",
       "stat_label": "same-week mean, 13 yrs",
-      "attribution": null,
+      "attribution": "non_enso",
       "anomalous": true,
       "qualifies_on": [
-        "z",
-        "multiple",
-        "record"
+        "multiple"
       ],
       "strength": {
-        "verdict": "corroborated",
+        "verdict": "multiple_only",
         "signals": [
-          "z",
-          "multiple",
-          "record"
+          "multiple"
         ],
-        "z": 2.92,
+        "z": 0.53,
         "multiple": 2.2,
-        "rank_in_record": 1
+        "rank_in_record": 2
       },
-      "pinned": false,
+      "pinned": true,
       "volume_context": false,
-      "multiple_unstable": true,
-      "z": 2.92,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/austria/"
+      "multiple_unstable": false,
+      "z": 0.53,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/spain/"
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
       "region": "France",
       "title": "Just past its 2016 record week",
-      "stat": "2.2x",
+      "stat": "2.1x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": "non_enso",
       "anomalous": true,
@@ -535,22 +542,49 @@
           "multiple",
           "record"
         ],
-        "z": 3.44,
-        "multiple": 2.2,
+        "z": 3.05,
+        "multiple": 2.1,
         "rank_in_record": 1
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 3.44,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": 3.05,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/france/"
     },
     {
-      "date": "2026-08-15",
-      "region": "India",
-      "title": "Well clear of its 2015 record week",
-      "stat": "1.8x",
+      "date": "2026-08-16",
+      "region": "Ukraine",
+      "title": "Third-heaviest of 15, 1 excluded",
+      "stat": "2.1x",
+      "stat_label": "same-week mean, 13 yrs",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "multiple"
+      ],
+      "strength": {
+        "verdict": "multiple_only",
+        "signals": [
+          "multiple"
+        ],
+        "z": 1.58,
+        "multiple": 2.1,
+        "rank_in_record": 3
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 1.58,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/ukraine/"
+    },
+    {
+      "date": "2026-08-16",
+      "region": "Libya",
+      "title": "Well clear of its 2025 record week",
+      "stat": "1.9x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": null,
       "anomalous": true,
@@ -564,47 +598,20 @@
           "z",
           "record"
         ],
-        "z": 2.94,
-        "multiple": 1.8,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": true,
-      "z": 2.94,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/india/"
-    },
-    {
-      "date": "2026-08-15",
-      "region": "Libya",
-      "title": "Just past its 2023 record week",
-      "stat": "1.7x",
-      "stat_label": "same-week mean, 13 yrs",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "record"
-      ],
-      "strength": {
-        "verdict": "record_only",
-        "signals": [
-          "record"
-        ],
-        "z": 1.93,
-        "multiple": 1.7,
+        "z": 2.86,
+        "multiple": 1.9,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 1.93,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": 2.86,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/libya/"
     },
     {
-      "date": "2026-08-15",
-      "region": "Poland",
+      "date": "2026-08-16",
+      "region": "Mexico",
       "title": "Second-heaviest of 15, 1 excluded",
       "stat": "1.7x",
       "stat_label": "same-week mean, 13 yrs",
@@ -618,50 +625,21 @@
         "signals": [
           "z"
         ],
-        "z": 2.13,
+        "z": 2.03,
         "multiple": 1.7,
         "rank_in_record": 2
       },
       "pinned": false,
       "volume_context": false,
-      "multiple_unstable": true,
-      "z": 2.13,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/poland/"
+      "multiple_unstable": false,
+      "z": 2.03,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/mexico/"
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
       "region": "Venezuela",
       "title": "Well clear of its 2019 record week",
-      "stat": "1.7x",
-      "stat_label": "same-week mean, 13 yrs",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "z",
-        "record"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "record"
-        ],
-        "z": 3.27,
-        "multiple": 1.7,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 3.27,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/venezuela/"
-    },
-    {
-      "date": "2026-08-15",
-      "region": "Mexico",
-      "title": "Just past its 2019 record week",
       "stat": "1.6x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": null,
@@ -676,68 +654,22 @@
           "z",
           "record"
         ],
-        "z": 2.02,
+        "z": 3.68,
         "multiple": 1.6,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 2.02,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/mexico/"
+      "z": 3.68,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/venezuela/"
     },
     {
-      "date": "2026-08-15",
-      "region": "United Republic of Tanzania",
-      "title": "Second-heaviest of 15, 1 excluded",
-      "stat": "1.5x",
-      "stat_label": "same-week mean, 13 yrs",
-      "attribution": null,
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": 1.5,
-        "multiple": 1.5,
-        "rank_in_record": 2
-      },
-      "pinned": false,
-      "volume_context": true,
-      "multiple_unstable": false,
-      "z": 1.5,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/united-republic-of-tanzania/"
-    },
-    {
-      "date": "2026-08-15",
-      "region": "United States of America",
-      "title": "Fifth-heaviest of 15, 1 excluded",
-      "stat": "1.5x",
-      "stat_label": "same-week mean, 13 yrs",
-      "attribution": "non_enso",
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": 0.94,
-        "multiple": 1.5,
-        "rank_in_record": 5
-      },
-      "pinned": true,
-      "volume_context": true,
-      "multiple_unstable": false,
-      "z": 0.94,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/united-states-of-america/"
-    },
-    {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
       "region": "Turkmenistan",
-      "title": "Just past its 2016 record week",
-      "stat": "1.4x",
+      "title": "Just past its 2017 record week",
+      "stat": "1.5x",
       "stat_label": "same-week mean, 13 yrs",
       "attribution": null,
       "anomalous": true,
@@ -751,19 +683,92 @@
           "z",
           "record"
         ],
-        "z": 2.33,
-        "multiple": 1.4,
+        "z": 3.26,
+        "multiple": 1.5,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 2.33,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": 3.26,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/turkmenistan/"
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
+      "region": "United Republic of Tanzania",
+      "title": "Third-heaviest of 15, 1 excluded",
+      "stat": "1.5x",
+      "stat_label": "same-week mean, 13 yrs",
+      "attribution": null,
+      "anomalous": false,
+      "qualifies_on": [],
+      "strength": {
+        "verdict": "none",
+        "signals": [],
+        "z": 1.34,
+        "multiple": 1.5,
+        "rank_in_record": 3
+      },
+      "pinned": false,
+      "volume_context": true,
+      "multiple_unstable": false,
+      "z": 1.34,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/united-republic-of-tanzania/"
+    },
+    {
+      "date": "2026-08-16",
+      "region": "India",
+      "title": "Just past its 2015 record week",
+      "stat": "1.4x",
+      "stat_label": "same-week mean, 13 yrs",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "record"
+      ],
+      "strength": {
+        "verdict": "record_only",
+        "signals": [
+          "record"
+        ],
+        "z": 1.48,
+        "multiple": 1.4,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": true,
+      "z": 1.48,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/india/"
+    },
+    {
+      "date": "2026-08-16",
+      "region": "Russia",
+      "title": "Fourth-heaviest of 15, 1 excluded",
+      "stat": "1.4x",
+      "stat_label": "same-week mean, 13 yrs",
+      "attribution": null,
+      "anomalous": false,
+      "qualifies_on": [],
+      "strength": {
+        "verdict": "none",
+        "signals": [],
+        "z": 0.71,
+        "multiple": 1.4,
+        "rank_in_record": 4
+      },
+      "pinned": false,
+      "volume_context": true,
+      "multiple_unstable": false,
+      "z": 0.71,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/russia/"
+    },
+    {
+      "date": "2026-08-16",
       "region": "Angola",
       "title": "Third-heaviest of 15, 1 excluded",
       "stat": "1.2x",
@@ -774,19 +779,42 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": 0.87,
+        "z": 0.77,
         "multiple": 1.2,
         "rank_in_record": 3
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": 0.87,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": 0.77,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/angola/"
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
+      "region": "United States of America",
+      "title": "Fire week at 1.2x the seasonal norm",
+      "stat": "1.2x",
+      "stat_label": "same-week mean, 13 yrs",
+      "attribution": "non_enso",
+      "anomalous": false,
+      "qualifies_on": [],
+      "strength": {
+        "verdict": "none",
+        "signals": [],
+        "z": 0.3,
+        "multiple": 1.2,
+        "rank_in_record": 6
+      },
+      "pinned": true,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 0.3,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/united-states-of-america/"
+    },
+    {
+      "date": "2026-08-16",
       "region": "Mozambique",
       "title": "Fire week at 1.1x the seasonal norm",
       "stat": "1.1x",
@@ -797,42 +825,19 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": 0.18,
-        "multiple": 1.1,
-        "rank_in_record": 6
-      },
-      "pinned": false,
-      "volume_context": true,
-      "multiple_unstable": false,
-      "z": 0.18,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/mozambique/"
-    },
-    {
-      "date": "2026-08-15",
-      "region": "Russia",
-      "title": "Fire week at 1.1x the seasonal norm",
-      "stat": "1.1x",
-      "stat_label": "same-week mean, 13 yrs",
-      "attribution": null,
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": 0.09,
+        "z": 0.2,
         "multiple": 1.1,
         "rank_in_record": 7
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": 0.09,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
-      "href": "fires/russia/"
+      "z": 0.2,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
+      "href": "fires/mozambique/"
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
       "region": "Democratic Republic of the Congo",
       "title": "Fire week at 1.0x the seasonal norm",
       "stat": "1.0x",
@@ -843,19 +848,19 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": 0.03,
+        "z": 0.12,
         "multiple": 1.0,
         "rank_in_record": 8
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": 0.03,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": 0.12,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/democratic-republic-of-the-congo/"
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
       "region": "Zambia",
       "title": "Fire week at 0.9x the seasonal norm",
       "stat": "0.9x",
@@ -866,19 +871,19 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -0.6,
+        "z": -0.4,
         "multiple": 0.9,
         "rank_in_record": 8
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": -0.6,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": -0.4,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/zambia/"
     },
     {
-      "date": "2026-08-15",
+      "date": "2026-08-16",
       "region": "Canada",
       "title": "Fire week at 0.3x the seasonal norm",
       "stat": "0.3x",
@@ -889,15 +894,15 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -0.61,
+        "z": -0.66,
         "multiple": 0.3,
         "rank_in_record": 9
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": -0.61,
-      "source": "NASA FIRMS SNPP, wk Aug 9-15",
+      "z": -0.66,
+      "source": "NASA FIRMS SNPP, wk Aug 10-16",
       "href": "fires/canada/"
     }
   ]
