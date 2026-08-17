@@ -262,7 +262,41 @@ def _pinned_row(p) -> str:
              if has_page else h(name))
     return (f'<p class="cghead">{title}</p>'
             f'<p class="pinsub">{h(", ".join(bits))}.'
-            + _agg_note(p) + '</p>')
+            + _agg_note(p) + '</p>' + _instrument_counts(p))
+
+
+
+def _instrument_counts(p) -> str:
+    """Every instrument's region count, on the country it belongs to.
+
+    PRODUCT'S CONDITION AND THE WHOLE POINT: these ship WITH editor's two
+    sentences and never before them. "12th of 26" beside "19 of 22 at their
+    own record" reads as self-contradiction unless the page has already said
+    that the headline measure is the harvest and the others are current
+    conditions.
+
+    Cumulative vegetation is ASAP's own warning basis and integrates from
+    season start, so it is structurally the LAST instrument to move and
+    reads calmest exactly when a fast deterioration is under way. France
+    today: 0 of 22 at their own record on the cumulative measure, 19 of 22
+    on the current one, same country and same day. The page was not wrong
+    about that, it was silent about what a reader needs in order to read it.
+
+    EVERY INSTRUMENT THE PAYLOAD EMITS, in the payload's own order, which
+    puts the headline measure first. Editor's example listed four and the
+    payload carries five; rendering their four would be this renderer
+    deciding which instruments count, which is the one thing it must not do.
+    """
+    rr = p.get("regions_at_record") or {}
+    if not rr:
+        return ""
+    rows = "".join(
+        f'<div class="irow"><span class="ilab">{h(v.get("label") or k)}</span>'
+        f'<span class="inum">{v.get("at_record")}</span>'
+        f'<span class="iof">of {v.get("of")}</span></div>'
+        for k, v in rr.items()
+        if v.get("at_record") is not None and v.get("of"))
+    return f'<div class="icounts">{rows}</div>' if rows else ""
 
 
 def _agg_note(p) -> str:
@@ -335,6 +369,14 @@ def _pinned_block(places) -> str:
             f'<p class="secsub">Shown every week, whether or not anything '
             f'is happening in them. Each is measured against its own '
             f'record and never against the others.</p>'
+            # EDITOR'S SENTENCES, FINAL, and product's condition is that they
+            # are the PRECONDITION for the counts rather than a caption on
+            # them. "12th of 26" beside "19 of 22 at their own record" reads
+            # as self-contradiction unless the page has first said which
+            # measure is the harvest and which are current conditions.
+            f'<p class="secsub"><strong>The top number tracks the harvest, '
+            f'and a harvest takes a season to go wrong.</strong> The others '
+            f'are current conditions, which is why they moved first.</p>'
             f'{"".join(rows)}{note}')
 
 
@@ -1420,6 +1462,18 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 .also li {{ padding:4px 0; border-bottom:1px solid var(--rule);
   font-variant-numeric:tabular-nums; }}
 .alsoc {{ color:var(--ink); font-weight:600; }}
+.icounts {{ margin:6px 0 0 0; display:grid;
+  grid-template-columns:minmax(0,1fr) 2.4rem 3rem; gap:1px 10px;
+  font-family:"{T.FONT_DATA}",monospace; font-size:11.5px;
+  color:var(--ink-faint); max-width:30rem; }}
+.irow {{ display:contents; }}
+.ilab {{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }}
+.inum {{ text-align:right; color:var(--ink); font-variant-numeric:tabular-nums; }}
+.iof {{ color:var(--ink-faint); font-variant-numeric:tabular-nums; }}
+/* The instrument list is the one place a reader compares five numbers, so
+   it keeps its columns on a phone rather than stacking into fifteen rows. */
+@media (max-width:600px) {{ .icounts {{ grid-template-columns:minmax(0,1fr) 2.2rem 2.8rem;
+  font-size:11px; }} }}
 .note {{ margin:20px 0 0; font-size:14px; color:var(--ink-soft);
   max-width:64ch; }}
 .foot {{ margin-top:46px; padding-top:14px; border-top:1px solid var(--ink);
