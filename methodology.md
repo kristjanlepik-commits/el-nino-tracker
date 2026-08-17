@@ -323,6 +323,38 @@ sub-bursts. v1.7 splits these correctly by peak. The methodology
 change log entry under "Versioning and change log" documents the
 swap and resulting count changes.
 
+### Comparing against analog years: match on the last observation
+
+Every analog comparison we publish (CWWA, burst counts, subsurface
+heat, the ONI trajectories) is anchored to **the current year's most
+recent observation**, never to today's calendar date.
+
+The two differ because our instruments lag. ERA5 runs roughly six days
+behind, so on 17 August 2026 the newest wind data available is 11
+August. Reading an analog year at 17 August and comparing it against
+2026 at 11 August gives the analog six extra days it has lived and the
+current year has not.
+
+For a cumulative quantity this is not a rounding issue, because the
+integral only ever rises. Measured on the 2026-08-17 issue:
+
+| match date | 1997 CWWA | 2026 as % of 1997 |
+| --- | --- | --- |
+| 11 Aug, the last 2026 observation | 704.6 | **77%** |
+| 17 Aug, today's calendar date | 746.3 | 73% |
+
+**The error always runs the same way**: it makes the current year look
+weaker relative to its analogs than it is, because the analog is
+credited with days nobody can yet see. Four points of understatement on
+a headline comparison is enough to change which sentence a reader takes
+away.
+
+This is the same shape as a right-censored wind burst reading as a
+finished one (`fetchers/era5_burst.py`, `ongoing`): a quantity whose
+apparent value is partly an artefact of where the data stops. The
+general rule is that **the observation window, not the calendar, defines
+"the same point in the season"**.
+
 ## What is explicitly out of scope
 
 - **No custom statistical or ML model.** As above, sample size argues
