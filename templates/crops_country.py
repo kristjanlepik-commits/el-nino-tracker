@@ -49,6 +49,47 @@ from templates.crops_severity import (severity_block,          # noqa: E402
                                       SEVERITY_CSS)
 
 
+
+
+def _region_counts_block(p):
+    """How many regions are at their own record, per instrument.
+
+    THE SAME BLOCK THE INDEX CARRIES, on the page it is most needed. The
+    index shows this for six pinned countries; a country page is where a
+    reader goes to ask exactly this question about one country, and it was
+    the one place not answering it.
+
+    It sits directly under the standfirst rather than lower down, because
+    the standfirst makes a claim about ONE instrument and this is the set
+    that claim belongs to. Separating them by a screen would leave the
+    negative reading alone for as long as it takes to scroll.
+    """
+    rr = p.get("regions_at_record") or {}
+    rows = "".join(
+        f'<div class="irow"><span class="ilab">{h(v.get("label") or k)}</span>'
+        f'<span class="inum">{v.get("at_record")}</span>'
+        f'<span class="iof">of {v.get("of")}</span></div>'
+        for k, v in rr.items()
+        if v.get("at_record") is not None and v.get("of"))
+    return f'<div class="icounts">{rows}</div>' if rows else ""
+
+
+def _headline_instrument(p):
+    """The label of the measure the standfirst's claim is about.
+
+    Read from regions_at_record rather than named here: the headline
+    instrument is whichever one the payload puts first, and crops changing
+    that order should change this sentence rather than leave it asserting
+    the old one.
+    """
+    rr = p.get("regions_at_record") or {}
+    for _k, v in rr.items():
+        lab = (v.get("label") or "").strip()
+        if lab:
+            return lab[0].lower() + lab[1:]
+    return "the harvest measure"
+
+
 def slugify(name: str) -> str:
     import re
     s = re.sub(r"[^\w\s-]", "", name.lower().replace("'", "")).strip()
@@ -620,9 +661,30 @@ def render(country: dict, root_prefix: str = "../../") -> str:
             lead.append(f"{_ord(rate['rank'])} steepest fall of {rate['of']}")
         head = (f"{name} is " + ", and ".join(lead) + "."
                 if lead else f"{name} is within its own normal range.")
+        # NAME THE INSTRUMENT, because this sentence is true of ONE of them.
+        #
+        # It read "None of its 22 crop regions is at a record low" on
+        # France, where 19 of 22 are at their own record on current
+        # vegetation and 18 of 22 on water satisfaction. Only cumulative
+        # vegetation, the harvest measure, has none, and the sentence never
+        # said which instrument it meant.
+        #
+        # D-051, the qualifier travelling with its datum, and worse than the
+        # index defect that preceded it: the index UNDER-REPORTED, this
+        # ASSERTS A NEGATIVE. A reader was told nothing is at a record on the
+        # page where four of five instruments say otherwise. Product found
+        # it; the same argument as the five-instrument call on the index,
+        # which is that naming one instrument's result without naming the
+        # instrument decides for the reader which one counts.
+        # POINTS AT THE ROW RATHER THAN INLINING THE LABEL. "on vegetation,
+        # cumulative" reads badly because the label carries its own comma,
+        # and rewriting it into "cumulative vegetation" would be this
+        # renderer editing the channel's instrument names. The counts sit
+        # immediately below with the harvest measure first, so naming its
+        # ROLE and pointing at its position is both readable and exact.
         stand = (f"{head} None of its {units} crop regions is at a record "
-                 f"low, which is the ordinary case and is what most of this "
-                 f"map looks like in most weeks.")
+                 f"low on the measure that tracks the harvest, the first "
+                 f"row below, which is also the last of the five to move.")
 
     # EVERY REGION GETS A ROW. VD asked for this on the index and the same
     # argument holds one level down: sixteen of nineteen regions got a bar
@@ -678,6 +740,14 @@ main {{ max-width:800px; margin:0 auto; padding:24px 24px 80px; }}
   text-transform:uppercase; color:var(--ink-faint); margin:22px 0 10px; }}
 h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   letter-spacing:-0.015em; }}
+.icounts {{ margin:10px 0 0; display:grid;
+  grid-template-columns:minmax(0,1fr) 2.4rem 3rem; gap:1px 10px;
+  font-family:"{T.FONT_DATA}",monospace; font-size:11.5px;
+  color:var(--ink-faint); max-width:30rem; }}
+.irow {{ display:contents; }}
+.ilab {{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }}
+.inum {{ text-align:right; color:var(--ink); font-variant-numeric:tabular-nums; }}
+.iof {{ color:var(--ink-faint); font-variant-numeric:tabular-nums; }}
 .stand {{ color:var(--ink-soft); max-width:60ch; margin:0; }}
 .rg {{ margin-top:38px; padding-top:14px;
   border-top:1px solid var(--rule); }}
@@ -758,6 +828,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
     &middot; dekad {h(country.get('dekad', ''))}</p>
   <h1>{h(name)}</h1>
   <p class="stand">{h(stand)}</p>
+  {_region_counts_block(country)}
 
   <p class="eyebrow" style="margin-top:34px">How bad is it, against this
     country&rsquo;s own record</p>
