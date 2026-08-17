@@ -257,6 +257,9 @@ h1 { font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 .ilab { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .inum { text-align:right; color:var(--ink); font-variant-numeric:tabular-nums; }
 .iof { color:var(--ink-faint); font-variant-numeric:tabular-nums; }
+.ilab.hlrow { color:var(--ink); }
+.hlmark { margin-left:8px; font-size:10px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-faint); }
 .stand { color:var(--ink-soft); max-width:60ch; margin:0; }
 .rg { margin-top:38px; padding-top:14px;
   border-top:1px solid var(--rule); }
@@ -342,8 +345,8 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
   <p class="eyebrow"><a href="../../crops/">Crops</a>
     &middot; dekad 2026-08-01</p>
   <h1>Mozambique</h1>
-  <p class="stand">Mozambique is 9th most stressed of 26 observations for this point in the season, and 2nd steepest fall of 26. None of its 11 crop regions is at a record low on the measure that tracks the harvest, the first row below, which is also the last of the five to move.</p>
-  <div class="icounts"><div class="irow"><span class="ilab">Vegetation, cumulative</span><span class="inum">0</span><span class="iof">of 11</span></div><div class="irow"><span class="ilab">Vegetation, current</span><span class="inum">1</span><span class="iof">of 11</span></div><div class="irow"><span class="ilab">Water satisfaction</span><span class="inum">0</span><span class="iof">of 11</span></div><div class="irow"><span class="ilab">Rainfall, 3-month</span><span class="inum">2</span><span class="iof">of 11</span></div><div class="irow"><span class="ilab">Temperature</span><span class="inum">0</span><span class="iof">of 11</span></div></div>
+  <p class="stand">Mozambique is 9th most stressed of 26 observations for this point in the season, and 2nd steepest fall of 26. None of its 11 crop regions is at a record low on the measure that tracks the harvest, marked below, which is also the slowest of them to move.</p>
+  <div class="icounts"><div class="irow"><span class="ilab hlrow">Vegetation, cumulative<span class="hlmark">the harvest measure</span></span><span class="inum">0</span><span class="iof">of 11</span></div><div class="irow"><span class="ilab">Vegetation, current</span><span class="inum">1</span><span class="iof">of 11</span></div><div class="irow"><span class="ilab">Water satisfaction</span><span class="inum">0</span><span class="iof">of 11</span></div><div class="irow"><span class="ilab">Rainfall, 3-month</span><span class="inum">2</span><span class="iof">of 11</span></div><div class="irow"><span class="ilab">Temperature</span><span class="inum">0</span><span class="iof">of 11</span></div></div>
 
   <p class="eyebrow" style="margin-top:34px">How bad is it, against this
     country&rsquo;s own record</p>

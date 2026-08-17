@@ -65,29 +65,47 @@ def _region_counts_block(p):
     negative reading alone for as long as it takes to scroll.
     """
     rr = p.get("regions_at_record") or {}
+    hl = _headline_key(p)
     rows = "".join(
-        f'<div class="irow"><span class="ilab">{h(v.get("label") or k)}</span>'
-        f'<span class="inum">{v.get("at_record")}</span>'
+        f'<div class="irow"><span class="ilab{" hlrow" if k == hl else ""}">'
+        f'{h(v.get("label") or k)}'
+        + ('<span class="hlmark">the harvest measure</span>' if k == hl else '')
+        + f'</span><span class="inum">{v.get("at_record")}</span>'
         f'<span class="iof">of {v.get("of")}</span></div>'
         for k, v in rr.items()
         if v.get("at_record") is not None and v.get("of"))
     return f'<div class="icounts">{rows}</div>' if rows else ""
 
 
-def _headline_instrument(p):
-    """The label of the measure the standfirst's claim is about.
+def _headline_key(p):
+    """Which instrument the standfirst's negative is about, by PROPERTY.
 
-    Read from regions_at_record rather than named here: the headline
-    instrument is whichever one the payload puts first, and crops changing
-    that order should change this sentence rather than leave it asserting
-    the old one.
+    IT WAS "WHICHEVER THE PAYLOAD PUTS FIRST", AND THAT BROKE THE HOUR CRO
+    COMMITTED AN ORDER. `regions_at_record` lists cumulative vegetation
+    first; the new `instrument_order.order` puts it FIFTH of six, because
+    that order is ascending by how much time each number summarises. So a
+    sentence saying "the first row below" was true only while two different
+    orderings happened to agree, and the render is about to adopt the one
+    that disagrees.
+
+    The harvest measure is identifiable without either ordering: it is the
+    one summarising the longest window, 30 dekads from sowing. Ties break
+    on the legend's own display_order, which the payload marks as arbitrary
+    rather than meaningful.
     """
-    rr = p.get("regions_at_record") or {}
-    for _k, v in rr.items():
-        lab = (v.get("label") or "").strip()
-        if lab:
-            return lab[0].lower() + lab[1:]
-    return "the harvest measure"
+    # The builder already rides the doc-level legend along on the place
+    # dict as _instrument_legend, so this needs no new argument and no
+    # second path to the same fact.
+    leg = (p or {}).get("_instrument_legend") or {}
+    best, best_w = None, -1
+    for k, v in leg.items():
+        w = v.get("window_dekads")
+        if isinstance(w, (int, float)) and w > best_w:
+            best, best_w = k, w
+        elif isinstance(w, (int, float)) and w == best_w and best is not None:
+            if (v.get("display_order") or 99) < (leg[best].get("display_order") or 99):
+                best = k
+    return best
 
 
 def slugify(name: str) -> str:
@@ -676,15 +694,15 @@ def render(country: dict, root_prefix: str = "../../") -> str:
         # it; the same argument as the five-instrument call on the index,
         # which is that naming one instrument's result without naming the
         # instrument decides for the reader which one counts.
-        # POINTS AT THE ROW RATHER THAN INLINING THE LABEL. "on vegetation,
-        # cumulative" reads badly because the label carries its own comma,
-        # and rewriting it into "cumulative vegetation" would be this
-        # renderer editing the channel's instrument names. The counts sit
-        # immediately below with the harvest measure first, so naming its
-        # ROLE and pointing at its position is both readable and exact.
+        # NAMES THE ROLE, NEVER THE POSITION. The first version said "the
+        # first row below", which coupled a sentence to a render order this
+        # file does not own: CRO's instrument_order puts the harvest measure
+        # fifth of six, so the sentence would have gone false the moment the
+        # rows were reordered, silently and on 86 pages. The row it means is
+        # marked in the block instead, so the two cannot drift.
         stand = (f"{head} None of its {units} crop regions is at a record "
-                 f"low on the measure that tracks the harvest, the first "
-                 f"row below, which is also the last of the five to move.")
+                 f"low on the measure that tracks the harvest, marked below, "
+                 f"which is also the slowest of them to move.")
 
     # EVERY REGION GETS A ROW. VD asked for this on the index and the same
     # argument holds one level down: sixteen of nineteen regions got a bar
@@ -748,6 +766,9 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 .ilab {{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }}
 .inum {{ text-align:right; color:var(--ink); font-variant-numeric:tabular-nums; }}
 .iof {{ color:var(--ink-faint); font-variant-numeric:tabular-nums; }}
+.ilab.hlrow {{ color:var(--ink); }}
+.hlmark {{ margin-left:8px; font-size:10px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-faint); }}
 .stand {{ color:var(--ink-soft); max-width:60ch; margin:0; }}
 .rg {{ margin-top:38px; padding-top:14px;
   border-top:1px solid var(--rule); }}
