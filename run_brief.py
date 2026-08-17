@@ -3417,6 +3417,7 @@ def chart_prob_history(briefs_dir):
 
 
 _FINDING_SAYS_SETTLED = False
+_FINDING_SAYS_OPEN = False
 
 
 def _finding_line(headline, phys):
@@ -3479,7 +3480,13 @@ def _finding_line(headline, phys):
         # then quoting its value takes it both ways, and the figure being
         # quoted is the one retirement existed to remove.
         bits.append(f"A peak above {high_settled[0]}&nbsp;&deg;C is settled.")
-    if top_open:
+    # THE OPEN-RUNG SENTENCE IS OUT OF THE LEDE. Editor, carrying Kristjan's
+    # edit: the ladder sits immediately below and states the same figure, so
+    # the lede was restating it. Gated rather than deleted because the
+    # "instrumental record" wording inside it is editor's ruling and this is
+    # the only place it was ever published; if the sentence comes back it
+    # comes back as ruled.
+    if top_open and _FINDING_SAYS_OPEN:
         bits.append(f"What is still open is how far past it: "
                     f"<strong>{top_open[1]}% for a peak beyond "
                     f"{top_open[0]}&nbsp;&deg;C</strong>, a level no event in "
@@ -3510,10 +3517,17 @@ def _finding_line(headline, phys):
     lede = _ocean_lede(phys)
     if lede:
         first, analog_sentence = lede
-        wind = _wind_sentence(phys)
-        bits.insert(0, f"<strong>{first} {wind}</strong>" if wind
-                    else f"<strong>{first}</strong>")
-        bits.insert(1, analog_sentence)
+        # THE PICTURE, NOT THE ABSTRACTION. Kristjan's edit and editor
+        # agrees: "the ocean got to where 1997 finished, three months
+        # early" is something a reader can see. "77% of 1997's winds" is
+        # the more interesting fact analytically, which is not the same as
+        # the better sentence to read, and it needs a paragraph before it
+        # means anything.
+        #
+        # _wind_sentence stays, computed and tested, and is called by
+        # nothing. Editor: do not put the winds back on my initiative; if
+        # they belong anywhere it is a later decision and Kristjan's.
+        bits.insert(0, f"<strong>{first} {analog_sentence}</strong>".strip())
     return ('<p class="finding">' + " ".join(bits) + '</p>') if bits else ""
 
 
