@@ -59,16 +59,28 @@ from ._common import CACHE_DIR, FetchResult, now_iso
 DATASET = "reanalysis-era5-pressure-levels"
 REGION = [5, 130, -5, 210]   # N, W, S, E in 0-360 longitude
 CLIM_YEARS = list(range(1991, 2021))
-# Month range. Defaults to Mar-Aug, which is what production runs on and
-# what the built caches cover. TLS_ERA5_END_MONTH extends it WITHOUT
-# changing production: the cache filenames carry the range (see
-# _month_tag), so a Mar-Dec build writes new files and leaves the Mar-Aug
-# ones untouched. That separation is deliberate. Changing this constant
-# directly would make the next Monday run try to build a Sep-Dec
-# climatology from cold, which is hours of CDS, and invariant 1 says the
-# brief always builds and never hangs on a Monday. Build the caches with
-# the variable first, verify, then flip the default.
-_END_MONTH = int(os.environ.get("TLS_ERA5_END_MONTH", "8"))
+# Month range. Now Mar-DEC: the analog years run to 31 December so the
+# comparison survives the Nov-Dec peak. It was Mar-Aug until 2026-08-17,
+# which meant every wind object lost its analogs at the end of August,
+# weeks before the event was due to peak.
+#
+# TLS_ERA5_END_MONTH still overrides it, and the cache filenames carry the
+# range (see _month_tag), so the Mar-Aug files are still on disk and a
+# rollback is one variable rather than a rebuild. The caches were built
+# under the variable and verified BEFORE this default moved, because
+# changing it against cold caches would make the next Monday run pull a
+# Sep-Dec climatology from CDS, which is hours, and invariant 1 says the
+# brief always builds and never hangs on a Monday.
+#
+# The chart ships UNTREATED per D-176: no data boundary marked, no dimming
+# of the analog continuations. Design and Science both argued for marking
+# it, on the grounds that comparing 2026's censored series against four
+# complete ones invites reading 546/1410 (39%) where the true same-date
+# figure is 546/705 (77%). Kristjan ruled otherwise and reaffirmed when
+# asked to distinguish the two readings. Recorded so the next chat to see
+# an unmarked censored series here knows it is a decision, not an
+# oversight, and does not quietly "fix" it.
+_END_MONTH = int(os.environ.get("TLS_ERA5_END_MONTH", "12"))
 CLIM_MONTHS = [f"{m:02d}" for m in range(3, _END_MONTH + 1)]
 ALL_DAYS = [f"{d:02d}" for d in range(1, 32)]
 SAMPLE_TIME = "12:00"
