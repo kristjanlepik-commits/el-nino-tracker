@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- A page that declares summary_large_image and supplies no image is
+     WORSE than one that declares nothing: the platform reserves the
+     slot and renders it empty. Socials measured 136 channel pages
+     sharing with no image at all, heat declaring the large card and
+     showing a blank one. The house card is generic and beats an
+     empty slot; per-page cards wait for the citable chart, and will
+     have to carry their cut date so a stale one is visibly stale. -->
+<meta property="og:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived
+     by copy from the fires template in da318b1, one day before crops
+     launched, and no ledger entry ever decided it either way. It was
+     not a posture on this channel, it was a contradiction: the front
+     page is indexable, carries /crops/ in the main nav and links
+     eleven crops country pages by absolute URL, so the tag removed
+     discovery without removing exposure. Fires stays unlisted and
+     that is coherent, because fires is not promoted that way. -->
+<title>Cameroon | Crops | The Long Swell</title>
+<style>
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../fonts/plexmono-600.woff2") format("woff2");
+}
+:root {     --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px; }
+@media (prefers-color-scheme: dark) { :root {     --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330; } }
+* { box-sizing:border-box; }
+:root { --shell-max:800px; --shell-pad:24px; }
+body { margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Spectral",Georgia,serif; font-size:16.5px; line-height:1.55; }
+main { max-width:800px; margin:0 auto; padding:24px 24px 80px; }
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    /* ONE INK. D-101 retired channel colour and moved identity to type,
+       on the grounds that colour spent on wayfinding is colour unavailable
+       to data. The tokens went; this nav kept the hues, so four of six
+       items were still coloured months later.
+
+       VD's catch is the one that settles it: Notes rendered in the same
+       blue as El Nino. Notes is not a measured variable and can never hold
+       a hue under the ruling, so either the blue meant El Nino, in which
+       case it was wrong, or it meant "you are here", in which case blue
+       meant two things in one row and a reader could not tell which.
+
+       Identity is now the tracked mono against the Spectral wordmark, and
+       the current page is marked by weight and a rule rather than a hue.
+       The per-channel classes stay in the markup: they are hooks, and
+       deleting them is a change to every generator rather than to this
+       stylesheet. */
+    color: var(--ink-soft);
+    transition: color .12s, border-color .12s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+  }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+  /* The current page, by weight and a rule. */
+  .prodnav a.on { color: var(--ink); font-weight: 600;
+    border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }
+
+.svb { margin-top:8px; }
+.svlab { margin:0; font-size:11px; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-faint);
+  font-family:"IBM Plex Mono",monospace; }
+/* The Combined register is bound to the number, not adjacent to it.
+   Everything else on these pages is one series against its own history,
+   so a reader has no reason to expect the register to change, and a
+   footnote is separable by a layout decision in exactly the way
+   `statement` exists to prevent. */
+.svtag { display:inline-block; margin-left:8px; padding:1px 6px;
+  background:var(--paper-sunk); color:var(--ink-soft);
+  letter-spacing:.04em; text-transform:none; }
+.svbig { margin:6px 0 0; font-size:29px; font-weight:600;
+  line-height:1.1; color:var(--crop); }
+.svof { display:block; font-size:14px; font-weight:400;
+  color:var(--ink-soft); margin-top:4px; }
+.svst { margin:8px 0 0; font-size:13px; color:var(--ink-soft);
+  max-width:64ch; font-family:"IBM Plex Mono",monospace; }
+.sv { width:100%; height:auto; display:block; margin:14px 0 2px; }
+.sv text { font-family:"IBM Plex Mono",monospace; }
+.sv-x { font-size:10px; fill:var(--ink-faint); }
+.sv-y { font-size:10.5px; fill:var(--ink); }
+.svq { margin:12px 0 0; padding-left:18px; font-size:12.5px;
+  color:var(--ink-faint); max-width:66ch; }
+.svq li { margin-bottom:4px; }
+.svabs { margin:0; font-size:13.5px; color:var(--ink-faint); }
+
+.eyebrow, .rgval, .foot, .sc text, .rgbasis {
+  font-family:"IBM Plex Mono", ui-monospace, monospace; }
+.eyebrow { font-size:11px; letter-spacing:0.22em;
+  text-transform:uppercase; color:var(--ink-faint); margin:22px 0 10px; }
+h1 { font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
+  letter-spacing:-0.015em; }
+.stand { color:var(--ink-soft); max-width:60ch; margin:0; }
+.rg { margin-top:38px; padding-top:14px;
+  border-top:1px solid var(--rule); }
+.rg h2 { font-size:19px; font-weight:600; margin:0 0 4px; }
+.rgval { font-size:26px; color:var(--crop); margin:0; font-weight:600;
+  font-variant-numeric:tabular-nums; }
+.rgstate { display:block; font-size:12.5px; color:var(--ink-soft);
+  font-weight:400; margin-top:3px; }
+.rgdrv { margin:8px 0 0; font-size:13.5px; color:var(--ink-faint); }
+.sc { width:100%; height:auto; display:block; margin:12px 0 2px; }
+.sc-x { font-size:10px; fill:var(--ink-faint); }
+.rgbasis { margin:4px 0 0; font-size:11px; color:var(--ink-faint); }
+.rgq { margin:8px 0 0; padding-left:18px; font-size:13.5px;
+  color:var(--ink-soft); max-width:62ch; }
+.peers { margin-top:14px; }
+.rr { width:100%; height:auto; display:block; }
+.rr text { font-family:"IBM Plex Mono",monospace; }
+.rr-n { font-size:11.5px; fill:var(--ink); }
+.rr-ax { font-size:10px; fill:var(--ink-faint); }
+.pat { margin:6px 0 0; font-size:18px; line-height:1.4; max-width:56ch; }
+/* The grid is the receipt, so it is quiet. The pattern sentence above
+   carries the finding: showing all five and weighting all five equally
+   are different decisions and Kristjan asked for the first. */
+.lys-wrap { margin-top:16px; border-top:1px solid var(--rule); }
+.lyleg { margin:14px 0 0; font-size:11.5px; color:var(--ink-faint);
+  font-family:"IBM Plex Mono",monospace; }
+.rt { width:96px; height:12px; display:block; align-self:center; }
+.ly { display:grid; grid-template-columns:11.5rem 5rem 96px 1fr; gap:12px;
+  padding:9px 0; border-bottom:1px solid var(--rule); align-items:baseline; }
+.lyn { font-size:14px; }
+.lyv { font-family:"IBM Plex Mono",monospace; font-size:14.5px;
+  font-variant-numeric:tabular-nums; text-align:right; }
+.lys { font-size:12.5px; color:var(--ink-faint); }
+/* Hue marks a RECORD and nothing else. 6th of 26 is poor and is not
+   news; colouring it would spend the channel colour on exactly what
+   this page spent the day learning not to. */
+.ly-rec .lyv { color:var(--crop); font-weight:600; }
+/* An absent instrument is dimmed, not hidden, and carries the channel's
+   own reason. Hiding it would let a reader conclude we do not measure
+   it here, which is a different claim from "it has not arrived yet". */
+.ly-out .lyn, .ly-out .lyv { color:var(--ink-faint); }
+.ly-out .lyv { font-style:italic; }
+@media (max-width:600px) {
+  .ly { grid-template-columns:1fr auto; }
+  .rt { grid-column:1 / -1; }
+  .lys { grid-column:1 / -1; } }
+/* A REGION'S OWN FIVE, tighter than the country's. The country block
+   gives each instrument a name, a unit, a baseline mean and a sentence;
+   at twenty-two regions that is five hundred rows of prose. Here it is
+   the figure, the rank and the same track, which is what "against its
+   own baseline" actually needs. Same track component, so the two read
+   as one instrument at two scales rather than as two devices. */
+.rls-wrap { margin:12px 0 0; border-top:1px solid var(--rule); }
+.rl { display:grid; grid-template-columns:10.5rem 4.5rem 96px 1fr;
+  gap:10px; padding:6px 0; border-bottom:1px solid var(--rule);
+  align-items:baseline; font-size:13px; }
+.rlv { font-family:"IBM Plex Mono",monospace; font-size:13px;
+  font-variant-numeric:tabular-nums; text-align:right; }
+.rls { font-size:11.5px; color:var(--ink-faint);
+  font-family:"IBM Plex Mono",monospace; }
+.rl-rec .rlv { color:var(--crop); font-weight:600; }
+.rl-out span, .rl-out .rlv { color:var(--ink-faint); }
+.rl-out .rlv { font-style:italic; }
+@media (max-width:600px) {
+  .rl { grid-template-columns:1fr auto; }
+  .rl .rt, .rls { grid-column:1 / -1; } }
+.note { margin:16px 0 0; font-size:13.5px; color:var(--ink-soft);
+  max-width:64ch; }
+.foot { margin-top:46px; padding-top:14px; border-top:1px solid var(--ink);
+  font-size:11.5px; color:var(--ink-faint); }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script>
+</head>
+<body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../../elnino/">El Niño</a><a class="ch-fire" href="../../fires/">Fires</a><a class="ch-crop on" href="../../crops/">Crops</a><a class="ch-heat" href="../../heat/">Heat</a><a class="ch-notes" href="../../notes/">Notes</a><a class="util" href="../../about.html">About</a></nav></div></div></header>
+
+<main>
+  <p class="eyebrow"><a href="../../crops/">Crops</a>
+    &middot; dekad 2026-08-01</p>
+  <h1>Cameroon</h1>
+  <p class="stand">Cameroon is 13th most stressed of 26 observations for this point in the season, and 25th steepest fall of 26. None of its 10 crop regions is at a record low, which is the ordinary case and is what most of this map looks like in most weeks.</p>
+
+  <p class="eyebrow" style="margin-top:34px">How bad is it, against this
+    country&rsquo;s own record</p>
+  
+      <div class="svb">
+        <p class="svlab">Five instruments read together
+          <span class="svtag">our combination, not an observation</span></p>
+        <p class="svbig">13th worst
+          <span class="svof">of 26 years at this point in the season</span></p>
+        <p class="svst">The 13th most stressed of 26 observations for this point in the season, 2001-2026, across 5 instruments read together</p>
+        <svg class="sv" viewBox="0 0 660 150" role="img" aria-label="This country in every year of the record for the same point in the season, five instruments read together"><line x1="8" y1="120" x2="652" y2="120" stroke="var(--rule)" stroke-width="1"/><rect x="12.7" y="79.2" width="15.4" height="40.8" fill="var(--ink-faint)"/><rect x="37.5" y="85.6" width="15.4" height="34.4" fill="var(--ink-faint)"/><rect x="62.2" y="77.6" width="15.4" height="42.4" fill="var(--ink-faint)"/><rect x="87.0" y="82.4" width="15.4" height="37.6" fill="var(--ink-faint)"/><rect x="111.8" y="87.2" width="15.4" height="32.8" fill="var(--ink-faint)"/><rect x="136.6" y="96.8" width="15.4" height="23.2" fill="var(--ink-faint)"/><rect x="161.3" y="84.8" width="15.4" height="35.2" fill="var(--ink-faint)"/><rect x="186.1" y="85.6" width="15.4" height="34.4" fill="var(--ink-faint)"/><rect x="210.9" y="56.0" width="15.4" height="64.0" fill="var(--ink-faint)"/><rect x="235.6" y="72.0" width="15.4" height="48.0" fill="var(--ink-faint)"/><rect x="260.4" y="72.0" width="15.4" height="48.0" fill="var(--ink-faint)"/><rect x="285.2" y="58.4" width="15.4" height="61.6" fill="var(--ink-faint)"/><rect x="309.9" y="72.8" width="15.4" height="47.2" fill="var(--ink-faint)"/><rect x="334.7" y="51.2" width="15.4" height="68.8" fill="var(--ink-faint)"/><rect x="359.5" y="34.4" width="15.4" height="85.6" fill="var(--ink-faint)"/><rect x="384.2" y="76.8" width="15.4" height="43.2" fill="var(--ink-faint)"/><rect x="409.0" y="81.6" width="15.4" height="38.4" fill="var(--ink-faint)"/><rect x="433.8" y="80.0" width="15.4" height="40.0" fill="var(--ink-faint)"/><rect x="458.6" y="96.0" width="15.4" height="24.0" fill="var(--ink-faint)"/><rect x="483.3" y="56.0" width="15.4" height="64.0" fill="var(--ink-faint)"/><rect x="508.1" y="36.0" width="15.4" height="84.0" fill="var(--ink-faint)"/><rect x="532.9" y="45.6" width="15.4" height="74.4" fill="var(--ink-faint)"/><rect x="557.6" y="87.2" width="15.4" height="32.8" fill="var(--ink-faint)"/><rect x="582.4" y="32.0" width="15.4" height="88.0" fill="var(--ink-faint)"/><rect x="607.2" y="58.4" width="15.4" height="61.6" fill="var(--ink-faint)"/><rect x="631.9" y="74.4" width="15.4" height="45.6" fill="var(--crop)"/><text class="sv-y" x="639.6" y="69.4" text-anchor="middle">2026</text><text class="sv-x" x="20.4" y="142" text-anchor="start">2001</text><text class="sv-x" x="639.6" y="142" text-anchor="end">2026</text></svg>
+        <ul class="svq"><li>Every input is measured against its own record, but no source publishes this average. It is our combination, not an observation.</li><li>This value places the country against itself, so it does not rank countries against each other. Its year-to-year spread here is 0.184, and that spread differs by place, so a higher value elsewhere can be a less unusual year than this one. The rank is the comparable figure.</li><li>A reading of conditions to date. It carries no statement about the rest of the season.</li></ul>
+      </div>
+
+  <p class="eyebrow" style="margin-top:34px">What the instruments say</p>
+  <p class="pat">The canopy is in its best third, while water satisfaction and rainfall are in mid-range.</p>
+  <p class="lyleg">Each track is that instrument&rsquo;s own 26 years, worst on the left.</p><div class="lys-wrap"><div class="ly"><span class="lyn">Vegetation, cumulative</span><span class="lyv">+0.32</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="24 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="86.6" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="lys">24th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="ly"><span class="lyn">Vegetation, current</span><span class="lyv">+0.39</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="23 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="83.0" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="lys">23rd lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="ly"><span class="lyn">Water satisfaction</span><span class="lyv">99%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="13 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="46.2" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="lys">13th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="ly"><span class="lyn">Rainfall, 3-month</span><span class="lyv">-0.18</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="11 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="38.8" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="lys">11th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="ly ly-out"><span class="lyn">Soil moisture</span><span class="lyv">not reported</span><span></span><span class="lys">Soil moisture has not reported for this dekad. Its newest observation is 3 dekads behind the crop-outcome instrument.</span></div><div class="ly"><span class="lyn">Temperature</span><span class="lyv">21.7 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="2 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="5.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="lys">2nd highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+  <p class="note">Five instruments, each against its own 26 years for
+    this point in the season. They are shown together because they
+    disagree: across the regions on this site, roughly a quarter have
+    vegetation at a record low while water or rainfall sits in its best
+    third. This page reports where each one sits and does not say what
+    caused what.</p>
+
+  <p class="eyebrow" style="margin-top:34px">Every region of Cameroon,
+    worst to least</p>
+  <p class="secsub">Each bar is the full spread of that region&rsquo;s
+    previous 25 years at this point in the season. The dot is this year.
+    A dot at the left of a wide bar and a dot at the left of a narrow
+    bar are different findings, which is why the history is drawn rather
+    than described.</p>
+  <div class="peers"><svg class="rr" viewBox="0 0 660 241" role="img" aria-label="Each region of this country: the spread of its previous 25 years, with this year marked"><line x1="386.6" y1="18.0" x2="386.6" y2="219.0" stroke="var(--rule)" stroke-width="1"/><text class="rr-ax" x="386.6" y="13.0" text-anchor="middle">its normal</text><text class="rr-ax" x="150" y="235.0">worse</text><text class="rr-ax" x="644" y="235.0" text-anchor="end">better</text><text class="rr-n" x="0" y="40.0">Nord</text><rect x="176.5" y="32.5" width="356.6" height="8" fill="var(--paper-sunk)"/><circle cx="300.8" cy="36.5" r="4.2" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.6"/><text class="rr-n" x="0" y="61.0">Extrême - Nord</text><rect x="239.0" y="53.5" width="247.6" height="8" fill="var(--paper-sunk)"/><circle cx="361.5" cy="57.5" r="4.2" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.6"/><text class="rr-n" x="0" y="82.0">Adamaoua</text><rect x="205.2" y="74.5" width="256.9" height="8" fill="var(--paper-sunk)"/><circle cx="383.1" cy="78.5" r="4.2" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.6"/><text class="rr-n" x="0" y="103.0">Ouest</text><rect x="238.6" y="95.5" width="244.1" height="8" fill="var(--paper-sunk)"/><circle cx="408.5" cy="99.5" r="4.2" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.6"/><text class="rr-n" x="0" y="124.0">Centre</text><rect x="291.8" y="116.5" width="165.4" height="8" fill="var(--paper-sunk)"/><circle cx="449.2" cy="120.5" r="4.2" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.6"/><text class="rr-n" x="0" y="145.0">Est</text><rect x="218.0" y="137.5" width="300.1" height="8" fill="var(--paper-sunk)"/><circle cx="462.1" cy="141.5" r="4.2" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.6"/><text class="rr-n" x="0" y="166.0">Littoral</text><rect x="200.8" y="158.5" width="416.7" height="8" fill="var(--paper-sunk)"/><circle cx="475.6" cy="162.5" r="4.2" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.6"/><text class="rr-n" x="0" y="187.0">Nord - Ouest</text><rect x="289.3" y="179.5" width="248.3" height="8" fill="var(--paper-sunk)"/><circle cx="486.2" cy="183.5" r="4.2" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.6"/><text class="rr-n" x="0" y="208.0">Sud - Ouest</text><rect x="196.3" y="200.5" width="366.5" height="8" fill="var(--paper-sunk)"/><circle cx="523.0" cy="204.5" r="4.2" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.6"/></svg></div>
+  <p class="note">Regions in colour are at their worst on record. The
+    rest are placed on the same scale so a single deep region inside an
+    otherwise ordinary country reads differently from a country where
+    the whole distribution has moved.</p>
+
+  
+      <section class="rg" id="nord">
+        <h2>Nord</h2>
+        <p class="rgval">-0.67
+          <span class="rgstate">6th lowest of 26 observations for this point in the season, 2001-2026</span></p>
+        
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="49.7" x2="652" y2="49.7" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="35.6" width="15.0" height="14.2" fill="var(--ink-faint)"/><rect x="37.7" y="49.7" width="15.0" height="0.5" fill="var(--ink-faint)"/><rect x="62.4" y="49.7" width="15.0" height="0.2" fill="var(--ink-faint)"/><rect x="87.2" y="16.5" width="15.0" height="33.3" fill="var(--ink-faint)"/><rect x="112.0" y="43.1" width="15.0" height="6.7" fill="var(--ink-faint)"/><rect x="136.7" y="35.3" width="15.0" height="14.4" fill="var(--ink-faint)"/><rect x="161.5" y="16.0" width="15.0" height="33.7" fill="var(--ink-faint)"/><rect x="186.3" y="39.6" width="15.0" height="10.2" fill="var(--ink-faint)"/><rect x="211.0" y="34.6" width="15.0" height="15.1" fill="var(--ink-faint)"/><rect x="235.8" y="35.6" width="15.0" height="14.1" fill="var(--ink-faint)"/><rect x="260.6" y="49.7" width="15.0" height="13.1" fill="var(--ink-faint)"/><rect x="285.3" y="33.2" width="15.0" height="16.5" fill="var(--ink-faint)"/><rect x="310.1" y="49.5" width="15.0" height="0.2" fill="var(--ink-faint)"/><rect x="334.9" y="49.7" width="15.0" height="3.2" fill="var(--ink-faint)"/><rect x="359.7" y="49.7" width="15.0" height="38.2" fill="var(--ink-faint)"/><rect x="384.4" y="46.0" width="15.0" height="3.7" fill="var(--ink-faint)"/><rect x="409.2" y="49.7" width="15.0" height="2.8" fill="var(--ink-faint)"/><rect x="434.0" y="49.7" width="15.0" height="5.7" fill="var(--ink-faint)"/><rect x="458.7" y="49.7" width="15.0" height="7.4" fill="var(--ink-faint)"/><rect x="483.5" y="49.7" width="15.0" height="29.6" fill="var(--ink-faint)"/><rect x="508.3" y="49.7" width="15.0" height="21.4" fill="var(--ink-faint)"/><rect x="533.0" y="49.7" width="15.0" height="17.1" fill="var(--ink-faint)"/><rect x="557.8" y="49.7" width="15.0" height="5.8" fill="var(--ink-faint)"/><rect x="582.6" y="49.7" width="15.0" height="25.9" fill="var(--ink-faint)"/><rect x="607.3" y="49.7" width="15.0" height="48.4" fill="var(--ink-faint)"/><rect x="632.1" y="49.7" width="15.0" height="19.8" fill="var(--ink)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <div class="rls-wrap"><div class="rl"><span>Vegetation, cumulative</span><span class="rlv">-0.67</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="6 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="20.4" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">6th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Vegetation, current</span><span class="rlv">-0.43</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="8 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="27.8" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">8th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Water satisfaction</span><span class="rlv">98%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="11 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="38.8" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">11th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Rainfall, 3-month</span><span class="rlv">+1.23</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="24 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="86.6" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">24th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-out"><span>Soil moisture</span><span class="rlv">not reported</span><span></span><span class="rls">Soil moisture has not reported for this dekad. Its newest observation is 3 dekads behind the crop-outcome instrument.</span></div><div class="rl"><span>Temperature</span><span class="rlv">25.5 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="5 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="16.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">5th highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+      <section class="rg" id="extrême-nord">
+        <h2>Extrême - Nord</h2>
+        <p class="rgval">-0.20
+          <span class="rgstate">10th lowest of 26 observations for this point in the season, 2001-2026</span></p>
+        <p class="rgdrv">Vegetation here usually tracks water availability.</p>
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="49.2" x2="652" y2="49.2" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="46.3" width="15.0" height="2.9" fill="var(--ink-faint)"/><rect x="37.7" y="49.2" width="15.0" height="31.3" fill="var(--ink-faint)"/><rect x="62.4" y="16.1" width="15.0" height="33.0" fill="var(--ink-faint)"/><rect x="87.2" y="16.7" width="15.0" height="32.4" fill="var(--ink-faint)"/><rect x="112.0" y="30.8" width="15.0" height="18.4" fill="var(--ink-faint)"/><rect x="136.7" y="49.2" width="15.0" height="6.1" fill="var(--ink-faint)"/><rect x="161.5" y="43.4" width="15.0" height="5.8" fill="var(--ink-faint)"/><rect x="186.3" y="42.8" width="15.0" height="6.3" fill="var(--ink-faint)"/><rect x="211.0" y="49.2" width="15.0" height="23.9" fill="var(--ink-faint)"/><rect x="235.8" y="49.2" width="15.0" height="11.0" fill="var(--ink-faint)"/><rect x="260.6" y="33.5" width="15.0" height="15.7" fill="var(--ink-faint)"/><rect x="285.3" y="20.6" width="15.0" height="28.6" fill="var(--ink-faint)"/><rect x="310.1" y="49.2" width="15.0" height="10.2" fill="var(--ink-faint)"/><rect x="334.9" y="49.2" width="15.0" height="22.5" fill="var(--ink-faint)"/><rect x="359.7" y="49.2" width="15.0" height="49.0" fill="var(--ink-faint)"/><rect x="384.4" y="49.2" width="15.0" height="2.0" fill="var(--ink-faint)"/><rect x="409.2" y="49.2" width="15.0" height="10.7" fill="var(--ink-faint)"/><rect x="434.0" y="44.6" width="15.0" height="4.5" fill="var(--ink-faint)"/><rect x="458.7" y="18.0" width="15.0" height="31.2" fill="var(--ink-faint)"/><rect x="483.5" y="46.6" width="15.0" height="2.6" fill="var(--ink-faint)"/><rect x="508.3" y="49.2" width="15.0" height="19.9" fill="var(--ink-faint)"/><rect x="533.0" y="47.7" width="15.0" height="1.5" fill="var(--ink-faint)"/><rect x="557.8" y="16.0" width="15.0" height="33.2" fill="var(--ink-faint)"/><rect x="582.6" y="49.2" width="15.0" height="7.6" fill="var(--ink-faint)"/><rect x="607.3" y="49.2" width="15.0" height="22.3" fill="var(--ink-faint)"/><rect x="632.1" y="49.2" width="15.0" height="8.3" fill="var(--ink)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <div class="rls-wrap"><div class="rl"><span>Vegetation, cumulative</span><span class="rlv">-0.20</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="10 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="35.1" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">10th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Vegetation, current</span><span class="rlv">+0.27</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="20 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="71.9" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">20th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Water satisfaction</span><span class="rlv">100%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="17 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="60.9" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">17th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Rainfall, 3-month</span><span class="rlv">+0.38</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="13 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="46.2" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">13th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-out"><span>Soil moisture</span><span class="rlv">not reported</span><span></span><span class="rls">Soil moisture has not reported for this dekad. Its newest observation is 3 dekads behind the crop-outcome instrument.</span></div><div class="rl"><span>Temperature</span><span class="rlv">26.3 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="2 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="5.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">2nd highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+      <section class="rg" id="adamaoua">
+        <h2>Adamaoua</h2>
+        <p class="rgval">-0.03
+          <span class="rgstate">13th lowest of 26 observations for this point in the season, 2001-2026</span></p>
+        
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="40.1" x2="652" y2="40.1" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="40.1" width="15.0" height="6.1" fill="var(--ink-faint)"/><rect x="37.7" y="24.0" width="15.0" height="16.2" fill="var(--ink-faint)"/><rect x="62.4" y="40.1" width="15.0" height="7.1" fill="var(--ink-faint)"/><rect x="87.2" y="32.5" width="15.0" height="7.7" fill="var(--ink-faint)"/><rect x="112.0" y="32.7" width="15.0" height="7.5" fill="var(--ink-faint)"/><rect x="136.7" y="40.1" width="15.0" height="12.3" fill="var(--ink-faint)"/><rect x="161.5" y="36.5" width="15.0" height="3.6" fill="var(--ink-faint)"/><rect x="186.3" y="37.2" width="15.0" height="2.9" fill="var(--ink-faint)"/><rect x="211.0" y="16.0" width="15.0" height="24.1" fill="var(--ink-faint)"/><rect x="235.8" y="40.1" width="15.0" height="24.0" fill="var(--ink-faint)"/><rect x="260.6" y="40.1" width="15.0" height="5.8" fill="var(--ink-faint)"/><rect x="285.3" y="40.1" width="15.0" height="2.9" fill="var(--ink-faint)"/><rect x="310.1" y="17.8" width="15.0" height="22.3" fill="var(--ink-faint)"/><rect x="334.9" y="31.5" width="15.0" height="8.6" fill="var(--ink-faint)"/><rect x="359.7" y="40.1" width="15.0" height="58.0" fill="var(--ink-faint)"/><rect x="384.4" y="24.5" width="15.0" height="15.6" fill="var(--ink-faint)"/><rect x="409.2" y="21.0" width="15.0" height="19.1" fill="var(--ink-faint)"/><rect x="434.0" y="40.1" width="15.0" height="1.3" fill="var(--ink-faint)"/><rect x="458.7" y="39.8" width="15.0" height="0.3" fill="var(--ink-faint)"/><rect x="483.5" y="40.1" width="15.0" height="8.3" fill="var(--ink-faint)"/><rect x="508.3" y="40.1" width="15.0" height="10.8" fill="var(--ink-faint)"/><rect x="533.0" y="40.1" width="15.0" height="0.4" fill="var(--ink-faint)"/><rect x="557.8" y="31.1" width="15.0" height="9.0" fill="var(--ink-faint)"/><rect x="582.6" y="40.1" width="15.0" height="2.3" fill="var(--ink-faint)"/><rect x="607.3" y="40.1" width="15.0" height="25.9" fill="var(--ink-faint)"/><rect x="632.1" y="40.1" width="15.0" height="1.1" fill="var(--ink)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <div class="rls-wrap"><div class="rl"><span>Vegetation, cumulative</span><span class="rlv">-0.03</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="13 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="46.2" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">13th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Vegetation, current</span><span class="rlv">-0.27</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="9 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="31.4" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">9th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Water satisfaction</span><span class="rlv">99%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="24 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="86.6" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">24th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Rainfall, 3-month</span><span class="rlv">+0.98</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="23 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="83.0" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">23rd lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-out"><span>Soil moisture</span><span class="rlv">not reported</span><span></span><span class="rls">Soil moisture has not reported for this dekad. Its newest observation is 3 dekads behind the crop-outcome instrument.</span></div><div class="rl"><span>Temperature</span><span class="rlv">21.2 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="2 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="5.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">2nd highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+      <section class="rg" id="ouest">
+        <h2>Ouest</h2>
+        <p class="rgval">+0.17
+          <span class="rgstate">17th lowest of 26 observations for this point in the season, 2001-2026</span></p>
+        <p class="rgdrv">Vegetation here usually tracks water availability.</p>
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="48.3" x2="652" y2="48.3" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="48.3" width="15.0" height="49.0" fill="var(--ink-faint)"/><rect x="37.7" y="35.0" width="15.0" height="13.4" fill="var(--ink-faint)"/><rect x="62.4" y="48.3" width="15.0" height="12.3" fill="var(--ink-faint)"/><rect x="87.2" y="16.0" width="15.0" height="32.3" fill="var(--ink-faint)"/><rect x="112.0" y="35.8" width="15.0" height="12.5" fill="var(--ink-faint)"/><rect x="136.7" y="48.3" width="15.0" height="11.9" fill="var(--ink-faint)"/><rect x="161.5" y="40.9" width="15.0" height="7.4" fill="var(--ink-faint)"/><rect x="186.3" y="44.2" width="15.0" height="4.2" fill="var(--ink-faint)"/><rect x="211.0" y="48.3" width="15.0" height="37.0" fill="var(--ink-faint)"/><rect x="235.8" y="48.3" width="15.0" height="23.0" fill="var(--ink-faint)"/><rect x="260.6" y="48.3" width="15.0" height="36.7" fill="var(--ink-faint)"/><rect x="285.3" y="47.7" width="15.0" height="0.7" fill="var(--ink-faint)"/><rect x="310.1" y="21.4" width="15.0" height="27.0" fill="var(--ink-faint)"/><rect x="334.9" y="23.1" width="15.0" height="25.2" fill="var(--ink-faint)"/><rect x="359.7" y="48.3" width="15.0" height="8.8" fill="var(--ink-faint)"/><rect x="384.4" y="45.0" width="15.0" height="3.4" fill="var(--ink-faint)"/><rect x="409.2" y="48.3" width="15.0" height="1.3" fill="var(--ink-faint)"/><rect x="434.0" y="29.3" width="15.0" height="19.0" fill="var(--ink-faint)"/><rect x="458.7" y="26.5" width="15.0" height="21.8" fill="var(--ink-faint)"/><rect x="483.5" y="22.1" width="15.0" height="26.3" fill="var(--ink-faint)"/><rect x="508.3" y="48.3" width="15.0" height="4.9" fill="var(--ink-faint)"/><rect x="533.0" y="48.3" width="15.0" height="49.8" fill="var(--ink-faint)"/><rect x="557.8" y="48.3" width="15.0" height="0.1" fill="var(--ink-faint)"/><rect x="582.6" y="48.3" width="15.0" height="8.6" fill="var(--ink-faint)"/><rect x="607.3" y="48.3" width="15.0" height="12.6" fill="var(--ink-faint)"/><rect x="632.1" y="41.0" width="15.0" height="7.4" fill="var(--ink)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <div class="rls-wrap"><div class="rl"><span>Vegetation, cumulative</span><span class="rlv">+0.17</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="17 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="60.9" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">17th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Vegetation, current</span><span class="rlv">+0.86</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="26 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="94.0" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">26th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Water satisfaction</span><span class="rlv">99%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="10 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="35.1" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">10th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Rainfall, 3-month</span><span class="rlv">-1.22</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="5 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="16.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">5th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-out"><span>Soil moisture</span><span class="rlv">not reported</span><span></span><span class="rls">Soil moisture has not reported for this dekad. Its newest observation is 3 dekads behind the crop-outcome instrument.</span></div><div class="rl"><span>Temperature</span><span class="rlv">20.0 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="2 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="5.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">2nd highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+      <section class="rg" id="centre">
+        <h2>Centre</h2>
+        <p class="rgval">+0.48
+          <span class="rgstate">24th lowest of 26 observations for this point in the season, 2001-2026</span></p>
+        <p class="rgdrv">Vegetation here usually tracks water availability.</p>
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="51.0" x2="652" y2="51.0" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="51.0" width="15.0" height="44.1" fill="var(--ink-faint)"/><rect x="37.7" y="32.7" width="15.0" height="18.4" fill="var(--ink-faint)"/><rect x="62.4" y="26.6" width="15.0" height="24.5" fill="var(--ink-faint)"/><rect x="87.2" y="34.6" width="15.0" height="16.5" fill="var(--ink-faint)"/><rect x="112.0" y="16.0" width="15.0" height="35.0" fill="var(--ink-faint)"/><rect x="136.7" y="51.0" width="15.0" height="5.6" fill="var(--ink-faint)"/><rect x="161.5" y="51.0" width="15.0" height="2.8" fill="var(--ink-faint)"/><rect x="186.3" y="46.1" width="15.0" height="4.9" fill="var(--ink-faint)"/><rect x="211.0" y="21.8" width="15.0" height="29.2" fill="var(--ink-faint)"/><rect x="235.8" y="51.0" width="15.0" height="22.3" fill="var(--ink-faint)"/><rect x="260.6" y="33.0" width="15.0" height="18.0" fill="var(--ink-faint)"/><rect x="285.3" y="51.0" width="15.0" height="16.7" fill="var(--ink-faint)"/><rect x="310.1" y="51.0" width="15.0" height="29.0" fill="var(--ink-faint)"/><rect x="334.9" y="51.0" width="15.0" height="20.4" fill="var(--ink-faint)"/><rect x="359.7" y="51.0" width="15.0" height="31.1" fill="var(--ink-faint)"/><rect x="384.4" y="51.0" width="15.0" height="7.9" fill="var(--ink-faint)"/><rect x="409.2" y="50.3" width="15.0" height="0.8" fill="var(--ink-faint)"/><rect x="434.0" y="29.2" width="15.0" height="21.8" fill="var(--ink-faint)"/><rect x="458.7" y="40.1" width="15.0" height="11.0" fill="var(--ink-faint)"/><rect x="483.5" y="51.0" width="15.0" height="15.4" fill="var(--ink-faint)"/><rect x="508.3" y="51.0" width="15.0" height="4.5" fill="var(--ink-faint)"/><rect x="533.0" y="51.0" width="15.0" height="16.3" fill="var(--ink-faint)"/><rect x="557.8" y="19.7" width="15.0" height="31.4" fill="var(--ink-faint)"/><rect x="582.6" y="51.0" width="15.0" height="26.6" fill="var(--ink-faint)"/><rect x="607.3" y="51.0" width="15.0" height="47.1" fill="var(--ink-faint)"/><rect x="632.1" y="20.0" width="15.0" height="31.1" fill="var(--ink)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <div class="rls-wrap"><div class="rl"><span>Vegetation, cumulative</span><span class="rlv">+0.48</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="24 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="86.6" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">24th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Vegetation, current</span><span class="rlv">+0.60</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="23 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="83.0" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">23rd lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Water satisfaction</span><span class="rlv">97%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="3 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="9.4" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">3rd lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-rec"><span>Rainfall, 3-month</span><span class="rlv">-1.97</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="1 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="2.0" cy="6.0" r="3.6" fill="var(--crop)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-out"><span>Soil moisture</span><span class="rlv">not reported</span><span></span><span class="rls">Soil moisture has not reported for this dekad. Its newest observation is 3 dekads behind the crop-outcome instrument.</span></div><div class="rl"><span>Temperature</span><span class="rlv">23.0 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="11 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="38.8" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">11th highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+      <section class="rg" id="est">
+        <h2>Est</h2>
+        <p class="rgval">+0.58
+          <span class="rgstate">23rd lowest of 26 observations for this point in the season, 2001-2026</span></p>
+        <p class="rgdrv">Vegetation here usually tracks water availability.</p>
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="52.0" x2="652" y2="52.0" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="52.0" width="15.0" height="38.8" fill="var(--ink-faint)"/><rect x="37.7" y="24.1" width="15.0" height="27.9" fill="var(--ink-faint)"/><rect x="62.4" y="52.0" width="15.0" height="3.7" fill="var(--ink-faint)"/><rect x="87.2" y="52.0" width="15.0" height="7.8" fill="var(--ink-faint)"/><rect x="112.0" y="36.5" width="15.0" height="15.5" fill="var(--ink-faint)"/><rect x="136.7" y="40.4" width="15.0" height="11.6" fill="var(--ink-faint)"/><rect x="161.5" y="52.0" width="15.0" height="14.8" fill="var(--ink-faint)"/><rect x="186.3" y="43.1" width="15.0" height="8.9" fill="var(--ink-faint)"/><rect x="211.0" y="32.2" width="15.0" height="19.8" fill="var(--ink-faint)"/><rect x="235.8" y="52.0" width="15.0" height="0.3" fill="var(--ink-faint)"/><rect x="260.6" y="50.5" width="15.0" height="1.4" fill="var(--ink-faint)"/><rect x="285.3" y="52.0" width="15.0" height="10.3" fill="var(--ink-faint)"/><rect x="310.1" y="28.5" width="15.0" height="23.5" fill="var(--ink-faint)"/><rect x="334.9" y="52.0" width="15.0" height="46.2" fill="var(--ink-faint)"/><rect x="359.7" y="52.0" width="15.0" height="17.7" fill="var(--ink-faint)"/><rect x="384.4" y="52.0" width="15.0" height="12.9" fill="var(--ink-faint)"/><rect x="409.2" y="41.5" width="15.0" height="10.5" fill="var(--ink-faint)"/><rect x="434.0" y="16.0" width="15.0" height="36.0" fill="var(--ink-faint)"/><rect x="458.7" y="38.8" width="15.0" height="13.2" fill="var(--ink-faint)"/><rect x="483.5" y="52.0" width="15.0" height="10.2" fill="var(--ink-faint)"/><rect x="508.3" y="52.0" width="15.0" height="2.7" fill="var(--ink-faint)"/><rect x="533.0" y="52.0" width="15.0" height="21.4" fill="var(--ink-faint)"/><rect x="557.8" y="44.0" width="15.0" height="8.0" fill="var(--ink-faint)"/><rect x="582.6" y="52.0" width="15.0" height="21.9" fill="var(--ink-faint)"/><rect x="607.3" y="52.0" width="15.0" height="2.0" fill="var(--ink-faint)"/><rect x="632.1" y="31.3" width="15.0" height="20.7" fill="var(--ink)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <div class="rls-wrap"><div class="rl"><span>Vegetation, cumulative</span><span class="rlv">+0.58</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="23 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="83.0" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">23rd lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Vegetation, current</span><span class="rlv">-0.62</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="5 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="16.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">5th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Water satisfaction</span><span class="rlv">98%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="16 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="57.2" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">16th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Rainfall, 3-month</span><span class="rlv">-0.13</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="14 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="49.8" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">14th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-out"><span>Soil moisture</span><span class="rlv">not reported</span><span></span><span class="rls">Soil moisture is not defined for this region at this point in the season.</span></div><div class="rl"><span>Temperature</span><span class="rlv">22.7 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="10 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="35.1" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">10th highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+      <section class="rg" id="littoral">
+        <h2>Littoral</h2>
+        <p class="rgval">+0.69
+          <span class="rgstate">20th lowest of 26 observations for this point in the season, 2001-2026</span></p>
+        
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="61.5" x2="652" y2="61.5" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="16.0" width="15.0" height="45.5" fill="var(--ink-faint)"/><rect x="37.7" y="61.5" width="15.0" height="14.2" fill="var(--ink-faint)"/><rect x="62.4" y="53.4" width="15.0" height="8.1" fill="var(--ink-faint)"/><rect x="87.2" y="61.5" width="15.0" height="14.2" fill="var(--ink-faint)"/><rect x="112.0" y="23.4" width="15.0" height="38.1" fill="var(--ink-faint)"/><rect x="136.7" y="16.0" width="15.0" height="45.5" fill="var(--ink-faint)"/><rect x="161.5" y="38.4" width="15.0" height="23.1" fill="var(--ink-faint)"/><rect x="186.3" y="38.4" width="15.0" height="23.1" fill="var(--ink-faint)"/><rect x="211.0" y="61.5" width="15.0" height="6.6" fill="var(--ink-faint)"/><rect x="235.8" y="61.5" width="15.0" height="36.6" fill="var(--ink-faint)"/><rect x="260.6" y="23.4" width="15.0" height="38.1" fill="var(--ink-faint)"/><rect x="285.3" y="61.5" width="15.0" height="29.2" fill="var(--ink-faint)"/><rect x="310.1" y="61.5" width="15.0" height="14.2" fill="var(--ink-faint)"/><rect x="334.9" y="45.8" width="15.0" height="15.8" fill="var(--ink-faint)"/><rect x="359.7" y="60.8" width="15.0" height="0.8" fill="var(--ink-faint)"/><rect x="384.4" y="53.4" width="15.0" height="8.1" fill="var(--ink-faint)"/><rect x="409.2" y="61.5" width="15.0" height="21.6" fill="var(--ink-faint)"/><rect x="434.0" y="61.5" width="15.0" height="0.0" fill="var(--ink-faint)"/><rect x="458.7" y="44.5" width="15.0" height="17.0" fill="var(--ink-faint)"/><rect x="483.5" y="61.5" width="15.0" height="25.4" fill="var(--ink-faint)"/><rect x="508.3" y="61.5" width="15.0" height="17.0" fill="var(--ink-faint)"/><rect x="533.0" y="61.5" width="15.0" height="25.4" fill="var(--ink-faint)"/><rect x="557.8" y="61.5" width="15.0" height="0.0" fill="var(--ink-faint)"/><rect x="582.6" y="61.5" width="15.0" height="8.4" fill="var(--ink-faint)"/><rect x="607.3" y="61.5" width="15.0" height="0.0" fill="var(--ink-faint)"/><rect x="632.1" y="44.0" width="15.0" height="17.5" fill="var(--ink)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <div class="rls-wrap"><div class="rl"><span>Vegetation, cumulative</span><span class="rlv">+0.69</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="20 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="71.9" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">20th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Vegetation, current</span><span class="rlv">+0.83</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="22 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="79.3" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">22nd lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Water satisfaction</span><span class="rlv">100%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="5 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="16.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">5th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Rainfall, 3-month</span><span class="rlv">-0.56</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="13 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="46.2" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">13th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-out"><span>Soil moisture</span><span class="rlv">not reported</span><span></span><span class="rls">Soil moisture is not defined for this region at this point in the season.</span></div><div class="rl rl-rec"><span>Temperature</span><span class="rlv">21.8 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="1 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="2.0" cy="6.0" r="3.6" fill="var(--crop)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+      <section class="rg" id="nord-ouest">
+        <h2>Nord - Ouest</h2>
+        <p class="rgval">+0.77
+          <span class="rgstate">24th lowest of 26 observations for this point in the season, 2001-2026</span></p>
+        <p class="rgdrv">Vegetation here usually tracks water availability.</p>
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="66.0" x2="652" y2="66.0" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="66.0" width="15.0" height="15.1" fill="var(--ink-faint)"/><rect x="37.7" y="53.8" width="15.0" height="12.2" fill="var(--ink-faint)"/><rect x="62.4" y="66.0" width="15.0" height="7.3" fill="var(--ink-faint)"/><rect x="87.2" y="55.5" width="15.0" height="10.5" fill="var(--ink-faint)"/><rect x="112.0" y="66.0" width="15.0" height="1.8" fill="var(--ink-faint)"/><rect x="136.7" y="66.0" width="15.0" height="5.4" fill="var(--ink-faint)"/><rect x="161.5" y="47.3" width="15.0" height="18.6" fill="var(--ink-faint)"/><rect x="186.3" y="60.1" width="15.0" height="5.8" fill="var(--ink-faint)"/><rect x="211.0" y="66.0" width="15.0" height="18.3" fill="var(--ink-faint)"/><rect x="235.8" y="66.0" width="15.0" height="26.5" fill="var(--ink-faint)"/><rect x="260.6" y="66.0" width="15.0" height="16.5" fill="var(--ink-faint)"/><rect x="285.3" y="66.0" width="15.0" height="30.3" fill="var(--ink-faint)"/><rect x="310.1" y="52.9" width="15.0" height="13.1" fill="var(--ink-faint)"/><rect x="334.9" y="50.6" width="15.0" height="15.4" fill="var(--ink-faint)"/><rect x="359.7" y="66.0" width="15.0" height="24.4" fill="var(--ink-faint)"/><rect x="384.4" y="60.9" width="15.0" height="5.0" fill="var(--ink-faint)"/><rect x="409.2" y="66.0" width="15.0" height="32.2" fill="var(--ink-faint)"/><rect x="434.0" y="58.2" width="15.0" height="7.8" fill="var(--ink-faint)"/><rect x="458.7" y="29.3" width="15.0" height="36.7" fill="var(--ink-faint)"/><rect x="483.5" y="16.0" width="15.0" height="50.0" fill="var(--ink-faint)"/><rect x="508.3" y="66.0" width="15.0" height="1.9" fill="var(--ink-faint)"/><rect x="533.0" y="66.0" width="15.0" height="20.7" fill="var(--ink-faint)"/><rect x="557.8" y="52.0" width="15.0" height="14.0" fill="var(--ink-faint)"/><rect x="582.6" y="49.5" width="15.0" height="16.5" fill="var(--ink-faint)"/><rect x="607.3" y="41.9" width="15.0" height="24.1" fill="var(--ink-faint)"/><rect x="632.1" y="33.0" width="15.0" height="32.9" fill="var(--ink)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <div class="rls-wrap"><div class="rl"><span>Vegetation, cumulative</span><span class="rlv">+0.77</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="24 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="86.6" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">24th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Vegetation, current</span><span class="rlv">+1.38</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="26 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="94.0" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">26th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Water satisfaction</span><span class="rlv">98%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="5 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="16.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">5th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Rainfall, 3-month</span><span class="rlv">-0.48</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="8 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="27.8" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">8th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-out"><span>Soil moisture</span><span class="rlv">not reported</span><span></span><span class="rls">Soil moisture has not reported for this dekad. Its newest observation is 3 dekads behind the crop-outcome instrument.</span></div><div class="rl"><span>Temperature</span><span class="rlv">18.2 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="2 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="5.7" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">2nd highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+      <section class="rg" id="sud-ouest">
+        <h2>Sud - Ouest</h2>
+        <p class="rgval">+1.06
+          <span class="rgstate">25th lowest of 26 observations for this point in the season, 2001-2026</span></p>
+        
+        <svg class="sc" viewBox="0 0 660 132" role="img" aria-label="This region in every year of the record for the same point in the season"><line x1="8" y1="55.5" x2="652" y2="55.5" stroke="var(--rule)" stroke-width="1"/><rect x="12.9" y="28.1" width="15.0" height="27.4" fill="var(--ink-faint)"/><rect x="37.7" y="48.6" width="15.0" height="6.9" fill="var(--ink-faint)"/><rect x="62.4" y="55.5" width="15.0" height="24.3" fill="var(--ink-faint)"/><rect x="87.2" y="55.5" width="15.0" height="21.6" fill="var(--ink-faint)"/><rect x="112.0" y="55.5" width="15.0" height="12.1" fill="var(--ink-faint)"/><rect x="136.7" y="55.5" width="15.0" height="4.2" fill="var(--ink-faint)"/><rect x="161.5" y="55.5" width="15.0" height="14.5" fill="var(--ink-faint)"/><rect x="186.3" y="49.0" width="15.0" height="6.5" fill="var(--ink-faint)"/><rect x="211.0" y="47.8" width="15.0" height="7.7" fill="var(--ink-faint)"/><rect x="235.8" y="31.9" width="15.0" height="23.6" fill="var(--ink-faint)"/><rect x="260.6" y="55.5" width="15.0" height="5.5" fill="var(--ink-faint)"/><rect x="285.3" y="55.5" width="15.0" height="42.6" fill="var(--ink-faint)"/><rect x="310.1" y="55.5" width="15.0" height="18.4" fill="var(--ink-faint)"/><rect x="334.9" y="42.7" width="15.0" height="12.8" fill="var(--ink-faint)"/><rect x="359.7" y="39.0" width="15.0" height="16.5" fill="var(--ink-faint)"/><rect x="384.4" y="55.5" width="15.0" height="23.4" fill="var(--ink-faint)"/><rect x="409.2" y="43.8" width="15.0" height="11.7" fill="var(--ink-faint)"/><rect x="434.0" y="30.0" width="15.0" height="25.5" fill="var(--ink-faint)"/><rect x="458.7" y="16.0" width="15.0" height="39.5" fill="var(--ink-faint)"/><rect x="483.5" y="55.4" width="15.0" height="0.1" fill="var(--ink-faint)"/><rect x="508.3" y="55.5" width="15.0" height="9.0" fill="var(--ink-faint)"/><rect x="533.0" y="40.6" width="15.0" height="14.9" fill="var(--ink-faint)"/><rect x="557.8" y="47.4" width="15.0" height="8.1" fill="var(--ink-faint)"/><rect x="582.6" y="29.9" width="15.0" height="25.6" fill="var(--ink-faint)"/><rect x="607.3" y="55.5" width="15.0" height="3.8" fill="var(--ink-faint)"/><rect x="632.1" y="24.9" width="15.0" height="30.6" fill="var(--ink)"/><text class="sc-x" x="20.4" y="126" text-anchor="start">2001</text><text class="sc-x" x="639.6" y="126" text-anchor="end">2026</text></svg>
+        <div class="rls-wrap"><div class="rl"><span>Vegetation, cumulative</span><span class="rlv">+1.06</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="25 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="90.3" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">25th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Vegetation, current</span><span class="rlv">+0.89</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="24 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="86.6" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">24th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Water satisfaction</span><span class="rlv">100%</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="4 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="13.0" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">4th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl"><span>Rainfall, 3-month</span><span class="rlv">+0.18</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="18 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="64.6" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">18th lowest of 26 observations for this point in the season, 2001-2026</span></div><div class="rl rl-out"><span>Soil moisture</span><span class="rlv">not reported</span><span></span><span class="rls">Soil moisture has not reported for this dekad. Its newest observation is 3 dekads behind the crop-outcome instrument.</span></div><div class="rl"><span>Temperature</span><span class="rlv">16.8 °C</span><svg class="rt" viewBox="0 0 96 12" role="img" aria-label="3 of 26, worst at left"><line x1="2" y1="6.0" x2="94" y2="6.0" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/><circle cx="9.4" cy="6.0" r="3.6" fill="var(--ink)" stroke="var(--paper)" stroke-width="1.4"/></svg><span class="rls">3rd highest of 26 observations for this point in the season, 2001-2026</span></div></div>
+        <p class="rgbasis">same dekad, 2001-2025</p>
+        
+      </section>
+
+  <p class="note">This measurement is of the crop canopy and not of what
+    stressed it: heat, drought, disease and late planting are not
+    separable here, which is why no claim on this page names a cause.</p>
+
+  <div class="foot">Kristjan Lepik (2026). The Long Swell, Crops.
+    <a href="https://thelongswell.com/">thelongswell.com</a>
+  </div>
+</main>
+</body>
+</html>

@@ -1,4 +1,4 @@
-"""Write docs/crops/<country>/index.html for every country with a record low.
+"""Write docs/crops/<country>/index.html for EVERY published place.
 
 Thin adapter, same shape as crops/build_page.py and fires builders: it
 reads the channel's validated JSON and hands each country to the
@@ -6,6 +6,25 @@ template. No science here and no layout here.
 
 Does NOT fetch. crops/pull_asap_indicator.py must never be reachable
 from a publish path.
+
+WHY EVERY PLACE, changed 2026-08-17 on Kristjan's call. This used to
+build only countries with a region at a record low, or pinned ones. That
+rule made "is this newsworthy this week" also decide "should this page
+exist", and those are different questions.
+
+The consequence was 14 live pages nobody maintained. When a country
+stopped qualifying the builder skipped it and last month's file stayed
+on disk: India, China, Japan and Russia among them, ten of the fourteen
+frozen on the 11 July dekad and still serving it on 17 August. Every one
+of them was present in the payload with current data the whole time. And
+they were kept out of search only by a `noindex` tag baked into those
+stale files, from a template that no longer emits it (D-172), so the
+exclusion was an artefact rather than a rule.
+
+Building all 123 removes the category instead of managing it. There is
+no qualifying set to remember, no unmaintained remainder, and a page
+that exists is current by construction. A calm country renders the calm
+case, which the template already did for the pinned European set.
 """
 import json
 import os
@@ -44,8 +63,6 @@ def main() -> None:
         # disagree about which countries are pinned is exactly the class
         # of defect this channel keeps finding.
         lows = [r for r in (p.get("regions") or []) if r.get("rank") == 1]
-        if not lows and p["place"] not in PINNED_PLACES:
-            continue
         # Fail loudly rather than drawing an empty chart. The series is
         # the reason this page exists; a region silently missing one
         # would render a blank block that looks like a design choice.
