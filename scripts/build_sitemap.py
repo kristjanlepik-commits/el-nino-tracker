@@ -54,8 +54,14 @@ def commit_dates() -> dict[str, str]:
     walks the log once and keeps the first date each path appears with,
     which is its most recent commit because git log is newest-first.
     """
+    # core.quotePath=false or non-ASCII paths come back C-escaped, as
+    # "docs/crops/t\303\274rkiye/index.html", which matches no real path
+    # and silently costs those pages their lastmod. Caught on türkiye,
+    # the one such page we have; it reported as "not in any commit" while
+    # being perfectly well committed.
     out = subprocess.run(
-        ["git", "log", "--format=%cI", "--name-only", "--no-renames"],
+        ["git", "-c", "core.quotePath=false",
+         "log", "--format=%cI", "--name-only", "--no-renames"],
         cwd=ROOT, capture_output=True, text=True).stdout
     dates: dict[str, str] = {}
     stamp = ""
