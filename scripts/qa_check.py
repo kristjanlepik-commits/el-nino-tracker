@@ -275,6 +275,27 @@ KNOWN_SNAPSHOT_GAPS = {
     # Kristjan's go-ahead to publish; flagged to platform in the same
     # session since scripts/ is theirs.
     ("2026-08-10.json", "physical_state.wwe_qualitative"),
+    # NOT a loss. CPC's strength table is a ROLLING NINE-SEASON WINDOW, so
+    # when they issued the 13 August table the earliest season dropped off
+    # the front and a new one appeared at the back:
+    #
+    #     2026-08-10   JJA 2026 ... FMA 2027    9 seasons
+    #     2026-08-17            ... MAM 2027    9 seasons, JJA rotated out
+    #
+    # The leaf `cpc_strength.table.JJA 2026` genuinely disappears, the
+    # guard collapses to the top two levels, and the whole block reads as
+    # gone. Verified before suppressing: both snapshots hold 9 entries and
+    # the new one is issued 2026-08-13, so the table advanced rather than
+    # emptied.
+    #
+    # PLATFORM, THIS WILL RECUR AND AN ALLOWLIST IS THE WRONG CURE. Every
+    # CPC issuance rotates the window, so roughly monthly this fires and
+    # someone adds another dated line. The check that would actually hold
+    # is "the block lost leaves AND gained none" or a leaf-count floor;
+    # a rolling window is a legitimate shape your guard has no way to
+    # express. Entry added by the ENSO tracker chat on 2026-08-17 with
+    # Kristjan's go-ahead to publish, since scripts/ is yours.
+    ("2026-08-17.json", "cpc_strength.table"),
 }
 
 

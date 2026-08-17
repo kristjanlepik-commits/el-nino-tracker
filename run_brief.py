@@ -4759,8 +4759,16 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
         except (ValueError, IndexError):
             return 0.0
 
-    for key in sorted(headline, key=_threshold_of):
-        if not isinstance(headline.get(key), dict):
+    # Iterate SMOOTHED, not `headline`. `headline` is
+    # cpc_headline_with_uncertainty, which returns only four buckets (it
+    # exists to attach a bootstrap CI to +2.5), so driving the list off it
+    # silently truncated the brief at +2.5 and dropped +3.0, +3.5 and +4.0.
+    # My own bug, introduced while fixing the hardcoded list this rung
+    # list replaced, and it made the brief WORSE than the thing it fixed:
+    # six rungs became four. Caught by reading the published brief rather
+    # than by trusting the change.
+    for key in sorted(smoothed, key=_threshold_of):
+        if not isinstance(smoothed.get(key), dict):
             continue
         label = _BUCKET_LABELS.get(key, key)
         s = smoothed.get(key, {})
@@ -5864,6 +5872,40 @@ def main():
     prev_headline_smoothed_month = _load_month_prior_headline_smoothed(S.BRIEF_DATE)
 
     archive_rel = f"briefs/{S.BRIEF_DATE.isoformat()}/"
+
+    # meta.json is written BEFORE the pages, because the front page now
+    # reads it. templates/frontpage.py loads
+    # docs/briefs/<issue>/meta.json to render the El Nino band, and this
+    # write used to sit AFTER both pages were built, so the front page
+    # reached back for an archive that did not exist yet and the whole
+    # publish died with FileNotFoundError on 2026-08-17.
+    #
+    # It is hoisted rather than the page builds being reordered because
+    # meta.json depends on nothing but the date, the methodology version
+    # and the computed buckets, all of which are settled by here. Moving
+    # the writes around instead would have shuffled the analog copies and
+    # the card, which have their own ordering reasons.
+    #
+    # WHY NO PREVIEW CAUGHT IT: --preview skips docs/ regeneration
+    # entirely, so the front-page path never executes in a preview run.
+    # Design verified this issue from a full live preview and could not
+    # have seen it. A mode that cannot exercise the failing code cannot
+    # clear it, which is worth remembering before treating a green
+    # preview as a green publish.
+    docs_brief_dir.mkdir(parents=True, exist_ok=True)
+    (docs_brief_dir / "meta.json").write_text(json.dumps({
+        "date": S.BRIEF_DATE.isoformat(),
+        # methodology_version pinned per-issue so the MoM delta loader can
+        # detect version mismatches across the 4-week comparison window
+        # and hide the delta when headlines are not strictly comparable.
+        "methodology_version": str(S.METHODOLOGY_VERSION),
+        # v1.5: full smoothed structure (mid + anchor + seas5 + deflection
+        # per bucket) so the archive index AND any future audit can
+        # reconstruct the headline math from this single artifact.
+        "headline_buckets": headline_smoothed,
+    }, indent=2))
+    print(f"wrote: {docs_brief_dir / 'meta.json'}")
+
     public_html_index = build_public_html(
         fetched, freshness, headline_smoothed,
         methodology_href="methodology.html",
@@ -5907,18 +5949,7 @@ def main():
     # published that week and this variant existed for no issue
     # before 2026-08-17.
     shutil.copyfile(brief_dir / _ANALOG_ONI, DOCS_DIR / _ANALOG_ONI)
-    (docs_brief_dir / "meta.json").write_text(json.dumps({
-        "date": S.BRIEF_DATE.isoformat(),
-        # methodology_version pinned per-issue so the MoM delta loader can
-        # detect version mismatches across the 4-week comparison window
-        # and hide the delta when headlines are not strictly comparable.
-        "methodology_version": str(S.METHODOLOGY_VERSION),
-        # v1.5: full smoothed structure (mid + anchor + seas5 + deflection
-        # per bucket) so the archive index AND any future audit can
-        # reconstruct the headline math from this single artifact.
-        "headline_buckets": headline_smoothed,
-    }, indent=2))
-    print(f"wrote: {docs_brief_dir / 'meta.json'}")
+    # meta.json is written earlier now, before the pages that read it.
 
     # 7. Archive index (regenerated each run from meta.json files)
     (DOCS_DIR / "briefs" / "index.html").write_text(build_archive_html())
