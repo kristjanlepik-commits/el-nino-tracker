@@ -1057,6 +1057,9 @@ CUT_TXT = ", ".join(f"{_phrase(ds)} {_MON[int(m) - 1]}"
 # for everything imported afterwards.)
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import copydeck  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from templates.page_head import head_meta  # noqa: E402
+from run_brief import SITE_NAME  # noqa: E402
 
 _CONTRAST_SLOTS = ["contrast_label", "two_instruments"]
 COPY = copydeck.render(
@@ -1115,6 +1118,13 @@ CONTRAST_BLOCK = f"""<div class="seclab">{COPY['contrast_label']}</div>
 </div>
 <p class="subl" style="margin-top:16px">{COPY['two_instruments']}</p>""" if CONTRAST_OK else ""
 
+# Plain text for the meta description: the lead carries markup and
+# entities, and a description is a single line of prose.
+import re as _re
+from html import unescape as _un
+_desc_plain = " ".join(_un(_re.sub(r"<[^>]+>", " ", COPY["lead"])).split())
+_og_title = "Heat \u00b7 " + SITE_NAME
+
 html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <!-- A page that declares summary_large_image and supplies no image is
      WORSE than one that declares nothing: the platform reserves the
@@ -1123,10 +1133,13 @@ html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
      showing a blank one. The house card is generic and beats an
      empty slot; per-page cards wait for the citable chart, and will
      have to carry their cut date so a stale one is visibly stale. -->
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Canonical, description and share cards from templates/page_head.py.
+     The 45 city pages had all three and this index had none, which is the
+     per-template pattern inside one channel rather than only across them.
+     The description is the lead the page already shows. -->
+{head_meta(title=_og_title, description=_desc_plain,
+           path="/heat/")}
 <title>Heat &middot; The Long Swell</title>
 {ANALYTICS_SNIPPET}
 <style>{SITE_MASTHEAD_CSS}{_BAND_CSS}

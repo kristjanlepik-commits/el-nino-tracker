@@ -90,6 +90,7 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        site_masthead)
 from templates.chance_baseline import scales_block, CHANCE_CSS  # noqa: E402
 from templates.crops_map import map_block, CROPS_MAP_CSS       # noqa: E402
+from templates.page_head import head_meta                     # noqa: E402
 from templates.subscribe_band import band as _band, css as _bandcss  # noqa: E402
 _SUB_BAND = _band()
 _BAND_CSS = _bandcss()
@@ -1350,6 +1351,12 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         _country_group(c, by_country[c], *cb_of.get(c, (None, None)))
         for c in ordered[:top_n])
     rest = max(0, len(ordered) - top_n)
+    # Stripped here rather than inline: the headline carries entities and
+    # markup, and a meta description is plain text.
+    import re as _re
+    from html import unescape as _un
+    _headline_plain = " ".join(
+        _un(_re.sub(r"<[^>]+>", " ", headline or "")).split())
     grouped_html = f"""
       {_pinned_block(places)}
       <p class="seclab">Where the record lows are</p>
@@ -1378,10 +1385,13 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
      showing a blank one. The house card is generic and beats an
      empty slot; per-page cards wait for the citable chart, and will
      have to carry their cut date so a stale one is visibly stale. -->
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Canonical, description and share cards from templates/page_head.py.
+     This page carried an og:image and a twitter card and none of the other
+     three, the same shape as its own 123 country pages before tonight.
+     The description is the page's own headline, stripped of markup. -->
+{head_meta(title="Crops | " + SITE_NAME, description=_headline_plain,
+           path="/crops/")}
 <!-- INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived
      by copy from the fires template in da318b1, one day before crops
      launched, and no ledger entry ever decided it either way. It was
