@@ -809,15 +809,30 @@ def city_row(i, d):
     # missing rank was the record signal. An absence cannot be read.
     lab += f'to {_short_date(d["cut"])} &middot; '
     href = PAGES.get(nm)
-    title = (f'<a href="{href}" class="cty">{nm}</a>' if href
+    title = (f'<span class="cty">{nm}</span>' if href
              else f'<span class="cty dim">{nm}</span>')
 
-    return (f'<div class="lrow">'
-            f'<span class="lcty">{title}<span class="lsub">'
-            f'{lab.rstrip(" &middot; ")}</span></span>'
-            f'<span class="lbar">{minichart(nm)}</span>'
-            f'<span class="lval">{d["now"]}<span class="lbase">vs {d["base"]:.0f}</span>'
-            f'</span></div>')
+    # THE WHOLE ROW IS THE TARGET, not the city's name.
+    #
+    # Measured at 375x812: the row is 109px tall and the name inside it was
+    # a 27px link, so 82px of every row looked tappable and was not. Apple's
+    # minimum is 44px and the misses do not land on nothing, they land on
+    # the row a reader was not aiming at. Product had been reading the ~5%
+    # index-to-city click-through as weak interest; part of it is a motor
+    # task the geometry does not allow.
+    #
+    # The element becomes the anchor rather than gaining one, so there is no
+    # second focusable thing inside it and a keyboard reader tabs once per
+    # city rather than once per name. The chart and the figure come along,
+    # which is right: they describe the city the row is about.
+    inner = (f'<span class="lcty">{title}<span class="lsub">'
+             f'{lab.rstrip(" &middot; ")}</span></span>'
+             f'<span class="lbar">{minichart(nm)}</span>'
+             f'<span class="lval">{d["now"]}'
+             f'<span class="lbase">vs {d["base"]:.0f}</span></span>')
+    if href:
+        return f'<a class="lrow" href="{href}">{inner}</a>'
+    return f'<div class="lrow">{inner}</div>'
 
 # THE TIE IS SHOWN BY THE ROWS THEMSELVES, see city_row. A banded heading
 # over each group did this for an hour and is gone: once every row states
@@ -1249,6 +1264,11 @@ align-items:center;padding:9px 0;border-bottom:1px solid var(--rule)}}
   grid-template-areas:"name val" "bar bar";gap:7px 12px;padding:11px 0}}
 .lcty{{grid-area:name}} .lval{{grid-area:val}} .lbar{{grid-area:bar}}
 }}
+/* The row is the anchor now, so it carries the link behaviour and the
+   name keeps only the look of one. text-decoration:none on a.lrow stops
+   the browser underlining the chart and the figure along with it. */
+a.lrow{{text-decoration:none;color:inherit}}
+a.lrow:hover .cty{{border-bottom-color:var(--ink)}}
 .cty{{font-size:17px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule)}}
 .cty.dim{{color:var(--soft);border:0}}
 .lcty{{display:flex;flex-direction:column;gap:2px}}
