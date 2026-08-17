@@ -83,6 +83,11 @@ TARGETS = [
     "docs/heat/index.html",
     "docs/subscribe/index.html",
     "docs/subscribed/index.html",
+    # In TARGETS so the D-028 roll-back covers them. A sitemap that
+    # survives a rolled-back publish describes a site that no longer
+    # exists, and it is the one file whose whole job is to be believed.
+    "docs/sitemap.xml",
+    "docs/robots.txt",
 ]
 
 STEPS = [
@@ -109,6 +114,12 @@ STEPS = [
     # no masthead. No --date here: a Note that has never been published is
     # minted by hand, and this run only ever refreshes published ones.
     ("notes", [PY, "notes/build_notes.py"]),
+    # LAST, and that ordering is the whole point. This walks docs/ and
+    # lists what is actually there, so running it before the pages exist
+    # would publish a sitemap describing the PREVIOUS run. Generated
+    # rather than hand-written for the same reason the masthead is: a
+    # list of 184 URLs maintained by hand is a list that is wrong.
+    ("sitemap", [PY, "scripts/build_sitemap.py"]),
 ]
 
 # The ENSO shell. Invariant 1 in CLAUDE.md: the weekly brief always
@@ -128,6 +139,8 @@ SHELL_TARGETS = {
     "docs/heat/index.html",
     "docs/subscribe/index.html",
     "docs/subscribed/index.html",
+    "docs/sitemap.xml",
+    "docs/robots.txt",
 }
 
 # Every file whose contents change what a publish produces. Publishing
@@ -145,6 +158,7 @@ GENERATORS = [
     "design/make_heat_index.py",
     "design/make_city_pages.py",
     "design/data/europe_coast.json",
+    "scripts/build_sitemap.py",
 ]
 
 

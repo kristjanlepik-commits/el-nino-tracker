@@ -27,6 +27,7 @@ Exit 0 when clean, 1 when any violation is printed.
 import argparse
 import ast
 import json
+import posixpath
 import re
 import subprocess
 from datetime import date
@@ -1201,7 +1202,13 @@ def check_masthead_present(violations):
             f"A check with no subject is not a check.")
         return
 
-    pages = [ROOT / rel for rel in TARGETS]
+    # HTML only. TARGETS is "everything a publish may touch", which is the
+    # right set for the roll-back it was written for and a superset of the
+    # right set here: it now also carries sitemap.xml and robots.txt, and
+    # asking an XML file for a nav bar is a category error, not a defect.
+    # Reusing another list's subject is cheaper than keeping a second list
+    # until the moment the two questions stop being the same question.
+    pages = [ROOT / rel for rel in TARGETS if rel.endswith(".html")]
     pages += sorted((ROOT / "docs" / "fires").glob("*/index.html"))
     for p in pages:
         if not p.exists():
@@ -1348,6 +1355,89 @@ def check_nav_consistency(violations, advisories):
             f"{rel} is in NAV_KNOWN_STALE and its nav now agrees with "
             f"CHANNELS. Delete the entry; a stale exemption is how a guard "
             f"quietly stops guarding.")
+
+
+def check_orphan_pages(violations, advisories):
+    """Is every page we want INDEXED reachable by a link from some page?
+
+    Business measured 38 unlinked pages on 2026-08-17 and proposed a check
+    with a hand-maintained allowlist for the ones unlisted on purpose,
+    warning it would cry wolf otherwise. The warning was right and the
+    allowlist is not needed: 37 of the 38 already declared `noindex` in
+    their own markup, so the intent is recorded ON the page and this check
+    can simply read it.
+
+    That matters beyond saving a list. An allowlist is the recurring defect
+    in this repo, a claim whose reference lives outside the thing being
+    checked: it would have needed all 53 fires entries, and it would have
+    been wrong the moment fires went listed, silently, with nobody
+    remembering it existed. Reading the page's own tag cannot drift from
+    the page.
+
+    So the question is narrow on purpose. A noindex page with no inbound
+    link is CONSISTENT and says nothing. A page asking to be indexed that
+    nothing links to is the defect, because a crawler reaches it only via
+    the sitemap and a reader cannot reach it at all.
+
+    Advisory during a publish, like the nav check: an under-linked page is
+    incomplete, not malformed, and must not hold a channel's publish.
+    """
+    docs = ROOT / "docs"
+    pages = sorted(docs.rglob("*.html"))
+    if not pages:
+        violations.append(
+            "orphan check walked docs/ and found no pages at all. A link "
+            "check that examines nothing passes silently, which is worse "
+            "than no check.")
+        return
+
+    linked = set()
+    for p in pages:
+        rel = str(p.parent.relative_to(docs)).replace("\\", "/")
+        here = "/" if rel == "." else f"/{rel}/"
+        html = p.read_text(encoding="utf-8", errors="ignore")
+        for href in re.findall(r'href="([^"#?]+)', html):
+            if href.startswith(("http://", "https://", "mailto:")):
+                if "thelongswell.com" not in href:
+                    continue
+                href = re.sub(r"^https?://[^/]+", "", href) or "/"
+            if not href.startswith("/"):
+                href = posixpath.normpath(posixpath.join(here, href))
+            linked.add(href)
+            linked.add(href.rstrip("/") or "/")
+
+    orphans = []
+    for p in pages:
+        html = p.read_text(encoding="utf-8", errors="ignore")
+        m = re.search(r'<meta[^>]+name=["\']robots["\'][^>]*>', html, re.I)
+        if m and "noindex" in m.group(0).lower():
+            continue
+        rel = str(p.relative_to(docs)).replace("\\", "/")
+        if rel.endswith("index.html"):
+            canon = "/" + rel[:-len("index.html")]
+        else:
+            canon = "/" + rel
+        if canon in linked or canon.rstrip("/") in linked:
+            continue
+        if canon + "index.html" in linked:
+            continue
+        # The site root is the entry point by definition; nothing needs to
+        # link to it. It never surfaced on the live site because the
+        # masthead logo happens to link home, which is an accidental pass
+        # rather than a correct one, and those are the ones that bite.
+        if canon == "/":
+            continue
+        orphans.append(canon)
+
+    if orphans:
+        advisories.append(
+            f"{len(orphans)} indexable page(s) have no inbound link from any "
+            f"published page, so a reader cannot reach them: "
+            f"{', '.join(sorted(orphans)[:6])}"
+            f"{' ...' if len(orphans) > 6 else ''}. Either link them or, if "
+            f"they are unlisted on purpose, say so on the page with "
+            f'<meta name="robots" content="noindex"> and this check will '
+            f"respect it.")
 
 
 def check_large_files(violations):
@@ -1576,6 +1666,7 @@ def main():
     check_conflict_markers(violations)
     check_heat_pages_match_reference(violations)
     check_gate_currency(violations, args.base)
+    check_orphan_pages(violations, advisories)
     check_large_files(violations)
     check_reserved_not_rendered(violations)
 
