@@ -1398,6 +1398,32 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         # and rewritten wholesale each dekad, and JSON full of changed
         # floats deltas badly, so a second series is repo growth for
         # charts nothing renders yet.
+        # THE SPINE GOES IN THE INSTRUMENTS DICT TOO, duplicating the
+        # region's own top-level value. It is not redundant, it is the
+        # fix for a defect that has now misled two desks.
+        #
+        # Cumulative vegetation is the region's TOP-LEVEL value, rank and
+        # statement, while the other five sit in `instruments`. Nothing
+        # in that shape says so. Socials read each region's top-level
+        # rank and reported that no French region was at a record, which
+        # was a cumulative-vegetation fact stated as a general one. Then,
+        # looking for the same instrument in `instruments`, they found no
+        # `zfparc` key and reported that a real measured zero was an
+        # unmeasured one, on a card already live.
+        #
+        # Both errors are the same missing thing, and `instruments` is
+        # where anybody sensible looks for an instrument. A consumer that
+        # iterates this dict now sees all six with one shape and never
+        # has to know the spine lives elsewhere. The top-level fields
+        # stay for existing consumers.
+        for entry in regions:
+            entry.setdefault("instruments", {})["zfparc"] = {
+                "value": entry["value"],
+                "rank": entry["rank"],
+                "of": entry["of"],
+                "statement": entry["statement"],
+            }
+
         for slug, label, unit, worse_is in INSTRUMENTS:
             if slug == "zfparc":
                 continue
