@@ -151,7 +151,12 @@ def _ghcn():
     same inventory as the data rather than from a second source that could
     disagree with it.
     """
-    ids = {"Larnaca": "CY000176090", "Tallinn": "EN000026038"}
+    ids = {"Larnaca": "CY000176090", "Tallinn": "EN000026038",
+           # Added 2026-08-17 with the eastern and southern expansion. Same
+           # rule as the other two: the mark comes from the inventory the
+           # data comes from, never from a typed pair.
+           "Vilnius": "LH000026730", "Zagreb": "HR000142360",
+           "Budapest": "HUM00012843", "Rome": "IT000016239"}
     raw = subprocess.run(
         ["curl", "-sS", "--max-time", "180",
          "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"],
@@ -357,15 +362,28 @@ def resolve():
 def main() -> int:
     import json
     got = resolve()
+    # ITERATE THE CITY LIST, NOT THE OLD HAND-TYPED DICT. This walked
+    # emit_city_nights.COORDS, which is the legacy table of typed pairs, so a
+    # city added after that table was frozen was invisible here and then blew
+    # up in the emitter with a KeyError. The authority for which cities exist
+    # is CITIES; COORDS is only a fallback for the ones still in it.
     from emit_city_nights import COORDS
+    from build_city_series import CITIES
     rows = {}
-    for city, (hl, hn) in COORDS.items():
+    for city in CITIES:
+        hl, hn = COORDS.get(city, (None, None))
         if city in got:
             lat, lon, src = got[city]
             rows[city] = {"lat": round(lat, 4), "lon": round(lon, 4),
                           "coord_source": src}
-        else:
+        elif hl is not None:
             rows[city] = {"lat": hl, "lon": hn, "coord_source": "hand_typed"}
+        else:
+            # No resolver and no fallback means we do not know where this
+            # station is. Say so loudly rather than emitting a null that
+            # renders as a dot in the Atlantic.
+            print(f"  {city}: NO COORDINATE from any resolver and no "
+                  f"hand-typed fallback.", file=sys.stderr)
     path = ROOT / "heat" / "data" / "station_coords.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(rows, indent=1, sort_keys=True) + "\n")

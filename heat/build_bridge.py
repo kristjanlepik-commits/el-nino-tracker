@@ -127,32 +127,43 @@ def ghcn(gid):
 def detect_hours(raw, fallback=("06", "18")):
     """Which hours does THIS station bulletin its extremes at? Measured.
 
-    FOURTH TIME TODAY, and the first three were cheaper. Tallinn's SYNOP hours
-    got generalised into a rule that rejected Athens, Rome and London for
-    weeks. Belfast's 21Z maximum. Rothamsted's 09h/24h window, which silently
-    dropped 89 of 115 years out of the Heathrow neighbour test and had me
-    reporting that the archive did not reach back far enough.
+    FIFTH TIME, and this one I caused while fixing the fourth. Rome bulletins
+    at 17Z/05Z and the configured 06Z/18Z returned nine stray maxima, so I
+    made the hours measured. Counting reports per hour then broke Larnaca,
+    which bulletins BOTH extremes at BOTH 06Z and 18Z: the counter picked 06Z
+    for the maximum as well, the 06Z maximum is the overnight one, and
+    Larnaca's rank fell from 10th to 51st on night-time maxima. The refresh
+    gate caught it, which is the only reason it is not live.
 
-    This one was the most expensive because it failed QUIETLY. Rome bulletins
-    its maximum at 17Z and its minimum at 05Z. Asking for 06 and 18 returned
-    nine stray maxima and no minima at all, so every bridged year came out
-    partial, and a partial year looks exactly like a station that reports
-    intermittently. Rome was refused a baseline on that basis.
+    SO COUNTING REPORTS IS THE WRONG TEST. Frequency says which hour talks
+    most, not which hour carries the day's peak. The physical question is
+    which hour reports the HIGHEST maxima and which the LOWEST minima, and
+    that is answerable from the values themselves:
 
-    So the hours are read off the data. Whichever hour carries the most
-    maxima is the maximum hour, same for minima, and they need not be the
-    same hour or even the same count.
+        maximum hour   the one whose mean reported maximum is greatest
+        minimum hour   the one whose mean reported minimum is lowest
+
+    Rome resolves to 17Z/05Z, Larnaca back to 18Z/06Z, and neither needs a
+    rule about what synoptic hours mean. Hours carrying under a third of the
+    best hour's reports are ignored, so a handful of stray bulletins at an
+    odd hour cannot win on one unusual day.
     """
     import collections as _c
-    hx, hn = _c.Counter(), _c.Counter()
+    hx, hn = _c.defaultdict(list), _c.defaultdict(list)
     for _d, h, tx, tn in synop.parse_ogimet(raw):
         if tx is not None:
-            hx[h] += 1
+            hx[h].append(tx)
         if tn is not None:
-            hn[h] += 1
+            hn[h].append(tn)
     if not hx or not hn:
         return fallback
-    return hn.most_common(1)[0][0], hx.most_common(1)[0][0]
+    xbar = max(len(v) for v in hx.values())
+    nbar = max(len(v) for v in hn.values())
+    hxs = {h: v for h, v in hx.items() if len(v) >= xbar / 3}
+    hns = {h: v for h, v in hn.items() if len(v) >= nbar / 3}
+    best_x = max(hxs, key=lambda h: sum(hxs[h]) / len(hxs[h]))
+    best_n = min(hns, key=lambda h: sum(hns[h]) / len(hns[h]))
+    return best_n, best_x
 
 
 def synop_year(block, year, hmin, hmax):

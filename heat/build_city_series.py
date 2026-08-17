@@ -123,6 +123,9 @@ STATION_CLASS = {
     "Belfast": "airport",       # Aldergrove
     "Aberdeen": "airport",      # Dyce
     "Larnaca": "airport",
+    "Rome": "airport",            # Ciampino
+    "Budapest": "airport",        # Pestszentlorinc
+
     "Barcelona": "airport",
     "Bilbao": "airport",
     "Malaga": "airport",
@@ -142,6 +145,8 @@ STATION_CLASS = {
     "Zurich": "urban",          # Fluntern, not Kloten airport
     "Stuttgart": "urban",       # Schnarrenberg
     "Basel": "suburban",        # Binningen observatory
+    "Zagreb": "urban",          # Gric, the old city observatory
+    "Vilnius": "urban",         # city station
     "Leipzig": "suburban",      # Holzhausen
 }
 STATION_CLASS_UNVERIFIED = (
@@ -425,6 +430,30 @@ CITIES = {
     # file. The Cyprus Department of Meteorology is the equivalent ask.
     "Larnaca":   dict(country="CY", station="Larnaca Airport", cut=(8, 10),
                       file="larnaca.json"),
+    # EASTERN AND SOUTHERN EUROPE, added 2026-08-13. Each is GHCN history
+    # bridged to the present with the station's own WMO bulletins, the same
+    # construction as Larnaca and validated the same way.
+    #
+    # THESE WERE ADDED WHILE UNREMARKABLE, ON PURPOSE. Rome sits well below
+    # Paris and is not in the August event; Vilnius and Zagreb are not either.
+    # Adding a city because it is hot is the selection effect D-141 killed, and
+    # the option to add a region uncontaminated expires the moment a forecast
+    # verifies. A quiet city beside a loud one is what makes the loud one
+    # credible.
+    #
+    # One station in Rome is not Italy, one in Zagreb is not the Balkans. That
+    # limit lives in record_scope and the station disclosure, not in prose.
+    "Rome":      dict(country="IT", station="Roma/Ciampino", cut=(8, 13),
+                      file="rome.json"),
+    "Vilnius":   dict(country="LT", station="Vilnius", cut=(8, 13),
+                      file="vilnius.json"),
+    "Zagreb":    dict(country="HR", station="Zagreb-Gric", cut=(8, 13),
+                      file="zagreb.json"),
+    # Budapest can never hold 1971-2000: GHCN begins 1973. If it qualifies at
+    # all it is on 1991-2020, where it sits two years short and therefore
+    # depends on the measured shortfall test rather than on being wanted.
+    "Budapest":  dict(country="HU", station="Budapest/Pestszentlorinc",
+                      cut=(8, 10), file="budapest.json"),
     # ALGIERS CARRIES A 29 OF 30 BASELINE, on Kristjan's instruction of
     # 2026-08-13 after the gap was shown to be unclosable. 1999 is absent from
     # GHCN at 88 minima and 85 maxima, OGIMET's bulletins do not reach it, and
@@ -652,10 +681,16 @@ def build(city, meta):
     # published rule, reproduced exactly for Madrid (36.4) and Seville (41.2).
     pctl = pick_baseline(tx, tn)
     if pctl is None:
-        raise SystemExit(
-            f"{city}: no complete WMO standard normal in the record. "
-            f"Tried {WMO_NORMALS}. A city with no complete baseline gets no "
-            f"thresholds rather than a truncated one.")
+        # SKIP THIS CITY, DO NOT ABORT THE BUILD. A city with no complete
+        # baseline gets no thresholds, which is right. Killing the whole run
+        # is not: adding Rome, which does not qualify, silently stopped all
+        # 42 cities from rebuilding on 17 August. The payload kept its old
+        # dates, and the refresh gate then compared it against itself and
+        # printed PUBLISH. A false green is worse than the failure it hides,
+        # because the failure was loud and the green was not.
+        print(f"  {city}: SKIPPED, no complete WMO standard normal. "
+              f"Tried {WMO_NORMALS}.", file=sys.stderr)
+        return None
     ja = [v for y in range(pctl[0], pctl[1] + 1)
           for (m, _), v in tx.get(y, {}).items() if m in (7, 8)]
     th = {str(p): round(float(np.percentile(ja, p)), 1) for p in (90, 95, 99)}
@@ -762,6 +797,14 @@ def build(city, meta):
                    "CZ": "CHMI",
                    "FI": "FMI",
                    "CH": "MeteoSwiss",
+                   # GHCN history bridged to the present with the station's
+                   # own WMO bulletins, the Larnaca construction. Named as
+                   # both, because a reader deserves to know the recent
+                   # season and the history came by different routes.
+                   "LT": "NOAA GHCN-Daily and WMO bulletins",
+                   "HR": "NOAA GHCN-Daily and WMO bulletins",
+                   "HU": "NOAA GHCN-Daily and WMO bulletins",
+                   "IT": "NOAA GHCN-Daily and WMO bulletins",
                    # History MIDAS Open, 2026 season the same
                    # station's SYNOP bulletins. One thermometer,
                    # two transports; see build_london.py.
@@ -873,14 +916,22 @@ def main() -> int:
         },
         "cities": {},
     }
+    skipped = []
     for city, meta in CITIES.items():
-        out["cities"][city] = build(city, meta)
-        c = out["cities"][city]
+        c = build(city, meta)
+        if c is None:
+            skipped.append(city)
+            continue
+        out["cities"][city] = c
         n = sum(1 for y in c["years"].values() if y["usable_to_cut"])
         print(f"  {city:12s} {c['source'][:14]:14s} {c['record_from']}-"
               f"{c['record_to']}  {n:3d} usable  P95 {c['thresholds_c']['95']:5.1f}C"
               + ("" if c["day_counts_comparable"]
                  else f"   multiple WITHHELD ({c['day_counts_baseline_years']}/30)"))
+    if skipped:
+        print(f"\n  SKIPPED, no complete baseline: {skipped}. These are in "
+              f"CITIES and are NOT in the payload, so the set is "
+              f"{len(out['cities'])} rather than {len(CITIES)}.")
     OUT.write_text(json.dumps(out, indent=1) + "\n")
     print(f"\nwrote {OUT}  ({OUT.stat().st_size/1024:.0f} KB)")
     return 0

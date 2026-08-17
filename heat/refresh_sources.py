@@ -74,8 +74,29 @@ def refresh_meteofrance():
             if not url:
                 out[f"{city}_{part}"] = "NO RESOURCE"
                 continue
-            _curl(url, SRC / f"mf_{city}_{part}.csv.gz")
-        out[city] = "ok"
+            # DOWNLOAD, VERIFY, THEN RENAME. curl -o writes straight over
+            # the good file, so a truncated transfer leaves a corrupt archive
+            # that only fails later, inside the build, as an EOFError from
+            # gzip with no clue which file caused it. That is what happened
+            # to mf_Paris_hist on 17 August: 540 KB of a larger file, and it
+            # stopped all 42 cities from rebuilding.
+            #
+            # gzip -t is the shape check. A .gz that does not test clean is
+            # not a smaller archive, it is not an archive.
+            dst = SRC / f"mf_{city}_{part}.csv.gz"
+            tmp = dst.with_suffix(".gz.partial")
+            _curl(url, tmp)
+            ok = tmp.exists() and subprocess.run(
+                ["gzip", "-t", str(tmp)], capture_output=True).returncode == 0
+            if ok:
+                tmp.replace(dst)
+            else:
+                tmp.unlink(missing_ok=True)
+                out[f"{city}_{part}"] = "TRUNCATED, kept previous"
+                continue
+        out[city] = out.get(f"{city}_hist", "ok") if any(
+            k.startswith(city) and "TRUNC" in str(v)
+            for k, v in out.items()) else "ok"
     return out
 
 

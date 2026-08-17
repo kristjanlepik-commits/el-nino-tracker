@@ -156,6 +156,49 @@ LICENCE = {
            "commercial_use": False,
            "attribution": "Source: Cyprus Department of Meteorology",
            "lag_days": 1},
+    # SAME CONSTRUCTION AS CYPRUS, and the same unresolved half. GHCN history
+    # is US federal open data; the recent seasons come from each station's own
+    # WMO bulletins and their re-use terms are NOT confirmed with the national
+    # service. Requests go to LHMT, DHMZ and OMSZ. Marked commercial_use False
+    # until each answers, exactly as Larnaca is.
+    "LT": {
+        "licence": "History from NOAA GHCN-Daily, US federal open data. "
+                   "Recent seasons from the station's own WMO synoptic "
+                   "bulletins, licence UNRESOLVED and not yet confirmed with "
+                   "the Lithuanian Hydrometeorological Service.",
+        "commercial_use": False,
+        "attribution": "Source: Lithuanian Hydrometeorological Service",
+        "lag_days": 1,
+    },
+    "HR": {
+        "licence": "History from NOAA GHCN-Daily, US federal open data. "
+                   "Recent seasons from the station's own WMO synoptic "
+                   "bulletins, licence UNRESOLVED and not yet confirmed with "
+                   "the Croatian Meteorological and Hydrological Service.",
+        "commercial_use": False,
+        "attribution": "Source: Croatian Meteorological and Hydrological "
+                       "Service (DHMZ)",
+        "lag_days": 1,
+    },
+    "HU": {
+        "licence": "History from NOAA GHCN-Daily, US federal open data. "
+                   "Recent seasons from the station's own WMO synoptic "
+                   "bulletins, licence UNRESOLVED and not yet confirmed with "
+                   "the Hungarian Meteorological Service.",
+        "commercial_use": False,
+        "attribution": "Source: Hungarian Meteorological Service (OMSZ)",
+        "lag_days": 1,
+    },
+    "IT": {
+        "licence": "History from NOAA GHCN-Daily, US federal open data. "
+                   "Recent seasons from the station's own WMO synoptic "
+                   "bulletins, licence UNRESOLVED and not yet confirmed with "
+                   "the Italian Air Force meteorological service.",
+        "commercial_use": False,
+        "attribution": "Source: Servizio Meteorologico dell'Aeronautica "
+                       "Militare",
+        "lag_days": 1,
+    },
     "EE": {"licence": "Keskkonnaagentuur, the Estonian Environment Agency, "
                       "supplied on request. Station Tallinn-Harku only; "
                       "the three other Tallinn stations in the same "
