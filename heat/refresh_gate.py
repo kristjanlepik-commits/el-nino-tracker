@@ -93,14 +93,31 @@ def classify(prev, cur):
                     f"builder before you check the weather.")
             else:
                 report.append(f"{c}: day rank {pr} -> {nr}")
-        # A WITHDRAWN RECORD IS ALWAYS EDITORIAL. Losing rank 1 means a page
-        # has claimed something it no longer claims, which needs a correction
-        # rather than a silent flip, even when the arithmetic is perfect.
-        if pr == 1 and nr not in (1, None):
+        # A WITHDRAWN RECORD IS ALWAYS EDITORIAL, but THE RANK NUMBER DOES
+        # NOT TELL YOU WHETHER ONE WAS WITHDRAWN. The first version of this
+        # test fired on rank leaving 1, and design caught it before it did
+        # damage: Malaga went 1 to 2 with nothing above it, tied with 2008,
+        # because ties_count_against puts BOTH years of a two-way tie at 2.
+        # It still holds the record, jointly. I had told design and socials
+        # it was withdrawn, and a correction notice withdrawing a record the
+        # city still holds is worse than the defect the guard exists to
+        # catch, because a correction is itself a claim.
+        #
+        # So test the CLAIM. Under this convention
+        #     rank = 1 + (years strictly above) + (years equal)
+        # so years strictly above is rank - 1 - len(tied_with), and the claim
+        # "most on record" survives while that is zero, tie or no tie.
+        def _above(rec):
+            rk = (rec.get("days") or {}).get("rank") or {}
+            if rk.get("value") is None:
+                return None
+            return rk["value"] - 1 - len(rk.get("tied_with") or [])
+        pa, na = _above(p), _above(n)
+        if pa == 0 and na not in (0, None):
             block.append(
-                f"{c}: RECORD WITHDRAWN, rank 1 -> {nr}. The live page "
-                f"claims a record it no longer holds; this wants a "
-                f"correction rather than a quiet change.")
+                f"{c}: RECORD WITHDRAWN. {na} year(s) now stand above 2026 "
+                f"where none did. The live page claims a record it no longer "
+                f"holds; this wants a correction rather than a quiet change.")
         pb, nb = p.get("legend_band"), n.get("legend_band")
         if pb != nb:
             report.append(f"{c}: legend band {pb} -> {nb}")
