@@ -755,6 +755,8 @@ h1 b{{font-weight:500;color:var(--ink)}}
  text-transform:uppercase;background:var(--paper-sunk);color:var(--ink-faint);
  padding:5px 7px;white-space:nowrap}}
 .rend{{border-top:3px solid var(--ink)}}
+/* The one link to /subscribe/. Nowrap so the arrow never orphans. */
+.ebl{{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);white-space:nowrap}}
 .more{{display:flex;justify-content:space-between;gap:20px;padding-top:12px;
  font-family:"{data}",monospace;font-size:11px;line-height:1.7;
  color:var(--ink-faint)}}
@@ -965,7 +967,14 @@ note &rarr;</span></a></div></div>
 <div><div class="k">One email a week</div>
 <p class="p">{promise}</p></div>
 <div>{form}<p class="fine">Confirmation email required. No spam, and the
-archive stays free and public whether you subscribe or not.</p></div></div>
+archive stays free and public whether you subscribe or not.
+<!-- THE ONLY LINK TO /subscribe/ ON THIS PAGE. The front page builds its
+     own copy of the band rather than calling templates/subscribe_band.py,
+     so the link added there does not reach here, and this is the surface
+     it matters most on. Absolute, like the band's, because this markup is
+     also rendered into the dated archive at a different depth. -->
+<a class="ebl" href="{base}/subscribe/">What you get, and how often
+&rarr;</a></p></div></div>
 
 <div class="chn"><div class="k">Channels &nbsp;&middot;&nbsp; each reads one
 domain against its own baselines</div>
@@ -1031,7 +1040,8 @@ averaged</span></div>
                 % _mb["sst_date"]) if _mb.get("sst_date") else "",
         script=_mb["script"],
         form=email_capture_form(label="Subscribe"),
-        promise=h(EMAIL_CAPTURE_PROMISE), ecss=EMAIL_FORM_CSS)
+        promise=h(EMAIL_CAPTURE_PROMISE), ecss=EMAIL_FORM_CSS,
+        base=PAGES_BASE_URL)
 
 
 

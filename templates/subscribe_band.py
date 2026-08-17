@@ -34,20 +34,41 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 import tokens as T                                          # noqa: E402
 from run_brief import (email_capture_form, h,               # noqa: E402
-                       EMAIL_CAPTURE_PROMISE, EMAIL_FORM_CSS)
+                       EMAIL_CAPTURE_PROMISE, EMAIL_FORM_CSS,
+                       PAGES_BASE_URL)
 
 
 def band(fine=None, label="Subscribe"):
     """The unit. `fine` is the small print, which differs by surface only
-    in what it promises about THAT surface staying free."""
+    in what it promises about THAT surface staying free.
+
+    THE FINE PRINT CARRIES THE ONLY LINK TO /subscribe/. Platform's orphan
+    check found that page indexable and unreachable: nothing on the site
+    linked it, because every surface posts straight to the Kit form. Three
+    fixes were possible and Kristjan chose this one.
+
+    Why here rather than the nav: the masthead already takes 163px before
+    content on a phone and wraps to two rows, so a seventh item would spend
+    the exact screen-space product is trying to recover. This costs no
+    vertical space and sits where a reader is already deciding whether to
+    give us an address. The footer was the third option and would have
+    satisfied the checker while being clicked by nobody.
+
+    ABSOLUTE, NOT RELATIVE. The band renders at three depths: the site root,
+    a channel directory, and a city page beside it. One relative href cannot
+    be right at all three, and the failure is silent because a wrong link
+    still resolves to a 404 page that looks like a page.
+    """
     fine = fine or ("Confirmation email required. No spam, and every figure "
                     "here stays free and public whether you subscribe or not.")
     return (
         '<div class="ebd">'
         '<div><div class="ebk">One email a week</div>'
         '<p class="ebp">%s</p></div>'
-        '<div>%s<p class="ebf">%s</p></div></div>'
-        % (h(EMAIL_CAPTURE_PROMISE), email_capture_form(label=label), h(fine)))
+        '<div>%s<p class="ebf">%s <a class="ebl" href="%s/subscribe/">'
+        'What you get, and how often &rarr;</a></p></div></div>'
+        % (h(EMAIL_CAPTURE_PROMISE), email_capture_form(label=label), h(fine),
+           PAGES_BASE_URL))
 
 
 def css():
@@ -64,6 +85,8 @@ def css():
   max-width:34ch; text-wrap:pretty; }
 .ebf { margin:9px 0 0; font-family:"%s",monospace; font-size:10.5px;
   line-height:1.7; color:var(--ink-faint); max-width:52ch; }
+.ebl { color:var(--ink); text-decoration:none;
+  border-bottom:1px solid var(--rule); white-space:nowrap; }
 /* THE PHONE IS THE CASE THAT MATTERS. Business's constraint: the traffic
    that converted worst arrived on a city page from a cold social link, very
    likely on a phone. Two columns become one, and the field goes full width
