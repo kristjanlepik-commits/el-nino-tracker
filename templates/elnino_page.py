@@ -43,6 +43,7 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        site_masthead, chart_wind, chart_prob_history, chart_heat,
                        _finding_line, _issued_with_age)
 
+from templates.page_head import head_meta  # noqa: E402
 from templates.subscribe_band import (band as _band,  # noqa: E402
                                       css as _bandcss)
 _SUB_BAND = _band()
@@ -92,6 +93,18 @@ def _is_retired(key, bucket):
         return bool(bucket["retired"])
     from probs import RETIRED_RUNGS
     return key in RETIRED_RUNGS
+
+
+
+def _plain(html_str):
+    """Tags out, entities in, for a meta description.
+
+    The finding is generated with <strong> in it and a description is plain
+    text, so a raw pass would publish the markup into a search snippet.
+    """
+    import re as _re
+    from html import unescape as _un
+    return " ".join(_un(_re.sub(r"<[^>]+>", " ", html_str or "")).split())
 
 
 def _clamp(v):
@@ -301,6 +314,11 @@ def render(fetched, meta, brief_date, root_prefix="../",
                      h(brief_date.isoformat()) + '/">as published</a>')
     headline = meta.get("headline_buckets") or {}
     di = brief_date.isoformat()
+    # Computed here rather than inline: an f-string expression cannot carry
+    # a backslash on 3.9, and the finding needs its markup stripped before
+    # it can be a meta description.
+    _og_title = "El Ni\u00f1o 2026-27 \u00b7 " + SITE_NAME
+    _og_desc = _plain(_finding_line(headline, phys))
 
     # The curve when the series is there, the bars only until it is. The
     # series landed in the 08-10 snapshot (science, 35034e5), so the curve
@@ -352,9 +370,11 @@ def render(fetched, meta, brief_date, root_prefix="../",
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
+<!-- Canonical, description and share cards from templates/page_head.py.
+     The description is the page's own generated finding with its markup
+     stripped, so a crawler reads the sentence the reader reads and it
+     regenerates with the data rather than being written once. -->
+{head_meta(title=_og_title, description=_og_desc, path="/elnino/")}
 <title>El Ni&ntilde;o 2026-27 &middot; {h(SITE_NAME)}</title>
 <style>{_BAND_CSS}
 {T.font_faces_css(root_prefix + "fonts/")}

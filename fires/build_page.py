@@ -31,6 +31,8 @@ from templates.subscribe_band import (band as SUB_BAND,  # noqa: E402
 # the drawing is design's. Kept in its own module so this file gains one
 # call rather than three hundred lines of geometry.
 from templates import eu_area_chart as EU_AREA  # noqa: E402
+from templates.page_head import head_meta  # noqa: E402
+from run_brief import SITE_NAME  # noqa: E402
 # run_brief.py lives at the repo root and holds the single copy of the
 # analytics tag. Import it rather than pasting a duplicate, so there is
 # one source of truth to disable or rotate.
@@ -358,9 +360,15 @@ def build(events_doc, font_prefix="../fonts/", baseline=None):
      than one that declares nothing, because the platform reserves the
      space and renders it empty. Fires declared nothing, so it degraded
      to a bare text card. All three lines land together or none do. -->
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
+<!-- Canonical, description and share cards from templates/page_head.py, one
+     source for every surface. This page had an og:image and a twitter card
+     and none of the other three, which is the per-template pattern D-181
+     found sitewide. The description is the page's own headline, so a
+     crawler and a reader get the same claim.
+     The comment above still holds and the helper honours it: the card and
+     the image land together or not at all. -->
+{head_meta(title="Fires | " + SITE_NAME, description=headline,
+           path="/fires/")}
 <title>Fires | The Long Swell</title>
 <style>
 {T.font_faces_css(font_prefix)}

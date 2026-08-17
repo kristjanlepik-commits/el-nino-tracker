@@ -24,9 +24,25 @@
      than one that declares nothing, because the platform reserves the
      space and renders it empty. Fires declared nothing, so it degraded
      to a bare text card. All three lines land together or none do. -->
+<!-- Canonical, description and share cards from templates/page_head.py, one
+     source for every surface. This page had an og:image and a twitter card
+     and none of the other three, which is the per-template pattern D-181
+     found sitewide. The description is the page's own headline, so a
+     crawler and a reader get the same claim.
+     The comment above still holds and the helper honours it: the card and
+     the image land together or not at all. -->
+<link rel="canonical" href="https://thelongswell.com/fires/">
+<meta name="description" content="For this week of the year, Cuba burned at 4.9 times its own record">
+<meta property="og:title" content="Fires | The Long Swell">
+<meta property="og:description" content="For this week of the year, Cuba burned at 4.9 times its own record">
+<meta property="og:url" content="https://thelongswell.com/fires/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="The Long Swell">
 <meta property="og:image" content="https://thelongswell.com/card.png">
-<meta name="twitter:image" content="https://thelongswell.com/card.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fires | The Long Swell">
+<meta name="twitter:description" content="For this week of the year, Cuba burned at 4.9 times its own record">
+<meta name="twitter:image" content="https://thelongswell.com/card.png">
 <title>Fires | The Long Swell</title>
 <style>
 @font-face {

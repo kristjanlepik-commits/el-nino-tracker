@@ -58,6 +58,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 import tokens as T                                          # noqa: E402
+from templates.page_head import head_meta  # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
@@ -69,6 +70,21 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
 # must tolerate a missing key and render NOTHING rather than a word.
 TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked"}
 TAG_SLUG = {"enso": "loaded", "non_enso": "notlink"}
+
+
+
+def _slug(name: str) -> str:
+    """The directory name the builder writes for this region.
+
+    IMPORTING IT WOULD BE A CYCLE: fires/build_country_pages.py imports this
+    module, so this module cannot import it back. The rule is duplicated
+    deliberately rather than by accident, and the risk is stated: if the two
+    ever disagree the canonical points at a page that does not exist, which
+    is invisible in the rendered output and looks correct in a link check
+    because the URL still resolves to the site's 404.
+    """
+    import re as _re
+    return _re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
 
 def _chip(tag) -> str:
@@ -399,10 +415,15 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
      wait for the citable chart, and fires is the worst case for them
      because its figures change daily, so any card here needs its window
      stamped on the face rather than only regenerated. -->
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Canonical, description and share cards from templates/page_head.py.
+     Fires had none of the three on any of its 53 pages, and came out of
+     noindex tonight under D-183, so without this it became indexable with
+     nothing good to index. The description is the standfirst the page
+     already shows, so a crawler and a reader read the same sentence. -->
+{head_meta(title=f"{piece['region']} fires | {SITE_NAME}",
+           description=piece["standfirst"],
+           path=f"/fires/{_slug(piece['region'])}/")}
 <!-- INDEXABLE SINCE D-183, 2026-08-17. The unlisted period ENDED here, it
      did not fail to exist: fires/SPEC.md line 11 records that unlisted was
      chosen with Kristjan on 2026-07-25, and the spec defined it by two
