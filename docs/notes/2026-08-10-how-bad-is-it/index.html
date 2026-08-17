@@ -366,13 +366,13 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
       if (input) { input.readOnly = true; }
       if (msg) {
         msg.className = 'ec-msg ec-msg-ok';
-        msg.textContent = 'Now check your email to confirm your subscription.';
+        msg.textContent = 'Check your email to confirm. Then one a week.';
       }
     }).catch(function () {
       if (btn) { btn.disabled = false; btn.textContent = was; }
       if (msg) {
         msg.className = 'ec-msg ec-msg-err';
-        msg.textContent = 'That did not send. Please try again.';
+        msg.textContent = 'That did not send. Try again.';
       }
     });
   }, false);
