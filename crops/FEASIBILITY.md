@@ -2488,3 +2488,57 @@ sat beside the twenty region ranks that are the reason anyone opens that
 data at all. `driver` and `authorship` constrain the claim; the ranks
 are the claim. A field that constrains a claim and sits at the same
 visual weight as the claim will lose, every time.
+
+### 13o. A window can manufacture the sequence it appears to reveal
+
+Added 2026-08-18, from socials, and it is sharper than the warning I
+gave them.
+
+I told them a time series makes a causal reading almost irresistible,
+and that the more legible the ordering the harder that sentence is to
+avoid. True, and it understates the problem. **A legible ordering can be
+an artefact of the window, in which case the causal sentence is not
+merely tempting, it is describing something that is not there.**
+
+**The worked case.** Their four-dekad UK card was headlined "the four
+instruments peak weeks apart" and opened "temperature stands at a record
+on 1 July". Against the committed twelve dekads:
+
+| | 05-21 | 06-01 | 06-11 | 06-21 | 07-01 | 07-11 | 07-21 | 08-01 |
+|---|---|---|---|---|---|---|---|---|
+| Temperature | **4/4** | 0/4 | 0/4 | **4/4** | 2/4 | 1/4 | 0/4 | 0/4 |
+| Veg, current | 0/4 | 0/4 | 0/4 | 0/4 | 1/4 | 1/4 | **3/4** | **3/4** |
+
+Three separate failures, all from the same cause:
+
+- **The peak was outside the window.** Temperature was at all four
+  regions on 21 May and again on 21 June. Inside their four dekads it
+  only declines, so the tail of a fall was presented as a starting peak.
+- **The magnitude was wrong.** "Weeks apart" is two months, 21 May to
+  21 July, and it was understated only because the spread was measured
+  inside a chosen window.
+- **There is no single peak at all.** Temperature spikes twice with 0 of
+  4 between. Nothing exists for a sequence to be anchored to.
+
+**The third one is the strongest and it is not a caveat.** It removes
+the object the story hangs on, rather than declining to explain it.
+`driver: not identified` says we cannot attribute the propagation; the
+two spikes say there is no propagation shape to attribute.
+
+**This file's own window is a choice too**, and saying so is the only
+honest position. Twelve dekads ending at the published one. It opens on
+a quiet column for the UK, which is luck rather than design. So
+`regions_at_record_history.json` now carries a `_window` block naming
+the window as chosen, telling a consumer to check the first column
+before inferring any order, and stating that the file is not evidence of
+sequence or cause.
+
+**Trap 21.** *Before reading an order off a series, check whether the
+order survives the window's edges.* An instrument already elevated in
+the first column may have peaked earlier, and every "X moved before Y"
+taken from that series is then unsupported.
+
+**And the same lesson from the calm side:** cumulative vegetation is 0
+of 4 across all twelve dekads. A row that never moves is as informative
+as one that does, and it disappears entirely from a window chosen to
+show movement.

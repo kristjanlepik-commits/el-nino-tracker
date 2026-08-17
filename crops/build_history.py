@@ -78,6 +78,44 @@ def main() -> None:
                          "clock so the two cannot drift apart.",
         "_authorship": "tls_built",
         "_evidence_basis": "measured",
+        # THE WINDOW IS A CHOICE AND IT CAN MANUFACTURE A SEQUENCE.
+        #
+        # Socials built a four-dekad UK card whose headline was "the four
+        # instruments peak weeks apart", opening "temperature stands at a
+        # record on 1 July". Against the full twelve, temperature was at
+        # all four regions on 21 May and again on 21 June. Inside their
+        # four dekads it only declines, so the tail of a fall was
+        # presented as a starting peak, and the spread was "weeks" rather
+        # than the two months it is.
+        #
+        # Worse for any causal reading: temperature has TWO spikes with
+        # 0 of 4 between them. There is no single peak for anything to be
+        # sequenced against. That removes the thing a propagation story
+        # hangs on, which is stronger than `driver: not identified`
+        # declining to explain it.
+        #
+        # THIS FILE'S OWN WINDOW IS ALSO A CHOICE. Twelve dekads ending
+        # at the published one. It happens to open on a quiet column for
+        # the UK, which is luck rather than design. A pattern that is
+        # already running in the first column may have started earlier,
+        # and nothing here can tell you that it did not.
+        "_window": {
+            "dekads": DEKADS_BACK,
+            "ends_at": cur_dekad,
+            "is_a_choice": "this window was picked, not derived. A "
+                           "shorter one changes which peak looks like "
+                           "the first, and a sequence visible inside a "
+                           "window may not exist outside it.",
+            "before_inferring_order": "check the FIRST column. If an "
+                                      "instrument is already elevated "
+                                      "there, its peak may precede this "
+                                      "file and any 'X moved before Y' "
+                                      "read from these columns is "
+                                      "unsupported.",
+            "not": "evidence of sequence or of cause. `driver` in "
+                   "stress_current.json is unidentified for most places, "
+                   "including the UK and each of its four regions.",
+        },
         "dekads": {},
         "places": {},
     }

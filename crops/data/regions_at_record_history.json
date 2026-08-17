@@ -5,6 +5,13 @@
  "_head_matches": "the dekad in stress_current.json, by construction. Anchored on the published dekad rather than on the clock so the two cannot drift apart.",
  "_authorship": "tls_built",
  "_evidence_basis": "measured",
+ "_window": {
+  "dekads": 12,
+  "ends_at": "2026-08-01",
+  "is_a_choice": "this window was picked, not derived. A shorter one changes which peak looks like the first, and a sequence visible inside a window may not exist outside it.",
+  "before_inferring_order": "check the FIRST column. If an instrument is already elevated there, its peak may precede this file and any 'X moved before Y' read from these columns is unsupported.",
+  "not": "evidence of sequence or of cause. `driver` in stress_current.json is unidentified for most places, including the UK and each of its four regions."
+ },
  "dekads": {
   "2026-04-11": 11,
   "2026-04-21": 12,
