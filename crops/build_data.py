@@ -1439,11 +1439,28 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                     # behind the vegetation indicators, so it has full
                     # history here and no value for the dekad reported.
                     # "Too few years" would have been false.
+                    # SAME FIX AS THE COUNTRY ROW, and it did not reach
+                    # here first time. "yet" implies the next dekad
+                    # brings it; soil moisture is three dekads behind
+                    # and has not moved since 6 August. A per-region
+                    # absence that understates the gap is the same
+                    # defect as a per-country one, multiplied by 2,122.
+                    own_o = _newest_ordinal(dd)
+                    behind_r = (latest.year * 36 + doy - own_o
+                                if own_o is not None else None)
                     inst[slug] = {
                         "available": False,
                         "absent": "no_current_value",
-                        "absent_because": f"{label} has not reported for "
-                                          f"this dekad yet.",
+                        "absent_because": (
+                            f"{label} has not reported for this dekad. "
+                            f"Its newest observation is {behind_r} dekad"
+                            f"{'s' if behind_r > 1 else ''} behind the "
+                            f"crop-outcome instrument."
+                            if behind_r and behind_r > 0 else
+                            f"{label} has not reported for this dekad "
+                            f"yet."),
+                        "dekads_behind_spine": behind_r,
+                        "expected_lag_dekads": LAGS_BY_DESIGN.get(slug, 0),
                     }
                     continue
                 if len(h) < 20:
@@ -1529,6 +1546,52 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                 entry["driver"] = "not identified"
 
         regions.sort(key=lambda r: r["rank"])
+
+        # HOW MUCH OF THE COUNTRY IS AT ONCE, PER INSTRUMENT.
+        #
+        # Asked for by socials, and the reason they asked is the reason
+        # it ships. They spent an hour inside this file, read each
+        # region's top-level `rank`, found none at 1, and told Kristjan
+        # no French region was at a record. The number was right and the
+        # claim was wrong by a wide margin: the region's top-level rank
+        # IS cumulative vegetation, where France is 0 of 22, while
+        # current vegetation is 19 of 22 and water satisfaction 18 of 22.
+        # Nothing in the shape said which instrument the top-level rank
+        # measured. Trap 18 again, and this time it fooled a chat with
+        # the file open, so a reader has no chance.
+        #
+        # Derivable, and emitted anyway. Deriving it requires knowing
+        # that the spine sits at the top level while the other five sit
+        # in a sub-dict, which is exactly the knowledge whose absence
+        # caused the error. A consumer that has to know our layout to
+        # count correctly will eventually count wrongly.
+        #
+        # The denominator is per instrument, not the region count: soil
+        # moisture is absent everywhere right now, and "0 of 22" would
+        # read as 22 regions checked and none at a record rather than
+        # none checked.
+        _labels = {s: l for s, l, _u, _w in INSTRUMENTS}
+        at_record = {}
+        if regions:
+            at_record["zfparc"] = {
+                "label": _labels.get("zfparc", "Vegetation, cumulative"),
+                "at_record": sum(1 for r in regions if r.get("rank") == 1),
+                "of": len(regions),
+            }
+            for _slug, _lab, _u, _w in INSTRUMENTS:
+                if _slug == "zfparc":
+                    continue
+                got = [v for v in
+                       ((r.get("instruments") or {}).get(_slug)
+                        for r in regions)
+                       if isinstance(v, dict) and v.get("rank") is not None]
+                if not got:
+                    continue
+                at_record[_slug] = {
+                    "label": _lab,
+                    "at_record": sum(1 for v in got if v["rank"] == 1),
+                    "of": len(got),
+                }
 
         # The empirical chance baseline, per place. Design needs this
         # as a drawn object rather than a sentence, and product's
@@ -1663,6 +1726,15 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                 "statement": _rank_statement(head["rank"], head["of"], latest.year),
             },
             "driver": driver,
+            # "N of 22 regions at their own record", per instrument, each
+            # row naming the instrument it counted. The headline
+            # `magnitude` above is cumulative vegetation, which is the
+            # crop-OUTCOME measure and also the SLOWEST, so a country can
+            # sit mid-table there while most of its regions are at a
+            # record on the drivers. France on this dekad: magnitude 12th
+            # of 26, and 19 of 22 regions at a record on current
+            # vegetation, 18 of 22 on water satisfaction.
+            "regions_at_record": at_record,
             # How exposed this country's figure is to a weighting we do
             # not have. Free: it reuses the region ranks already emitted.
             "aggregate": aggregate_weighting(
