@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- ALL THREE LINES LAND TOGETHER OR NONE DO. A page that declares
+     summary_large_image and supplies no image is worse than one that
+     declares nothing: the platform reserves the space and renders it
+     empty. That is why heat was worse off than fires despite looking
+     better configured, 36 pages declaring the card with nothing to show
+     against fires declaring nothing and degrading to a text card.
+     The house card is generic and beats an empty slot; per-page cards
+     wait for the citable chart, and fires is the worst case for them
+     because its figures change daily, so any card here needs its window
+     stamped on the face rather than only regenerated. -->
+<meta property="og:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ukraine fires | The Long Swell</title>
+<style>
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../fonts/plexmono-600.woff2") format("woff2");
+}
+:root {
+    --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px;
+}
+@media (prefers-color-scheme: dark) { :root {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+} }
+:root[data-theme="dark"] {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+}
+* { box-sizing: border-box; }
+:root { --shell-max: 980px; --shell-pad: 28px; }
+body { margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Spectral", Georgia, serif; font-size: 16.5px;
+  line-height: 1.55; }
+main { max-width: 980px; margin: 0 auto; padding: 26px 28px 80px; }
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    /* ONE INK. D-101 retired channel colour and moved identity to type,
+       on the grounds that colour spent on wayfinding is colour unavailable
+       to data. The tokens went; this nav kept the hues, so four of six
+       items were still coloured months later.
+
+       VD's catch is the one that settles it: Notes rendered in the same
+       blue as El Nino. Notes is not a measured variable and can never hold
+       a hue under the ruling, so either the blue meant El Nino, in which
+       case it was wrong, or it meant "you are here", in which case blue
+       meant two things in one row and a reader could not tell which.
+
+       Identity is now the tracked mono against the Spectral wordmark, and
+       the current page is marked by weight and a rule rather than a hue.
+       The per-channel classes stay in the markup: they are hooks, and
+       deleting them is a change to every generator rather than to this
+       stylesheet. */
+    color: var(--ink-soft);
+    transition: color .12s, border-color .12s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+  }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+  /* The current page, by weight and a rule. */
+  .prodnav a.on { color: var(--ink); font-weight: 600;
+    border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }
+.mono, .cell-lab, .ch-lab, .cell-sub, .hero, .rail, .tag, .ew-stat,
+.cx-s, .cx-b, .foot {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.eyebrow { font-size: 11px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-faint);
+  font-family: "IBM Plex Mono", ui-monospace, monospace; margin: 24px 0 10px; }
+h1 { font-size: 40px; font-weight: 500; line-height: 1.13;
+  letter-spacing: -0.018em; margin: 0 0 16px; max-width: 18ch;
+  text-wrap: balance; }
+.stand { color: var(--ink-soft); max-width: 52ch; margin: 0 0 34px; }
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.col { border-top: 3px solid var(--ink); padding: 14px 32px 0 0; }
+.col + .col { border-left: 1px solid var(--rule); padding: 14px 0 0 32px; }
+.cell-lab { font-size: 10.5px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-faint); margin: 0 0 12px; }
+.hero { font-size: 40px; font-weight: 600; letter-spacing: -0.02em;
+  color: var(--fire); margin: 0; line-height: 1;
+  font-variant-numeric: tabular-nums; }
+.hero .unit { font-size: 20px; font-weight: 500; }
+.verdict { color: var(--ink); }
+.cell-sub { font-size: 11.5px; color: var(--ink-soft); margin: 12px 0 0;
+  line-height: 1.62; }
+.ch-lab { font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-faint); margin: 26px 0 6px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+.ch { width: 100%; height: auto; display: block; }
+/* Every in-plot label is haloed, once, here. Bar heights move weekly, so
+   an annotation that clears the data today will not next week. */
+.ch text { paint-order: stroke; stroke: var(--paper); stroke-width: 2.5;
+  stroke-linejoin: round; }
+.cx-s { font-size: 9.5px; }
+.cx-b { font-size: 11.5px; }
+.ch-note { font-size: 12.5px; color: var(--ink-soft); margin: 8px 0 0;
+  max-width: 46ch; line-height: 1.5; }
+
+.tagrow { display: flex; justify-content: flex-end; margin: 26px 0 0; }
+/* All three states at one weight. Making pending quieter is the cheapest
+   way to imply a link the tag is explicitly declining to make. */
+.tag { font-size: 10.5px; letter-spacing: 0.04em; padding: 3px 8px;
+  white-space: nowrap; }
+.tag-loaded { background: var(--tag-loaded-bg); color: var(--tag-loaded-fg); }
+.tag-notlink { background: var(--tag-notlink-bg); color: var(--tag-notlink-fg); }
+.tag-pending { background: var(--tag-pending-bg); color: var(--tag-pending-fg); }
+
+.lower { display: grid; grid-template-columns: 1.55fr 1fr; gap: 44px;
+  margin-top: 44px; border-top: 2.4px solid var(--rule-45); padding-top: 26px; }
+.lower h2 { font-size: 19px; font-weight: 500; margin: 0 0 8px;
+  padding-bottom: 8px; border-bottom: 2px solid var(--ink); }
+.lower h2 + p { margin-top: 10px; }
+.lower p { color: var(--ink-soft); max-width: 56ch; }
+.lower section + section { margin-top: 28px; }
+.rail { font-size: 11.5px; line-height: 1.6; color: var(--ink-soft); }
+.rail h3 { font-size: 9.5px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-faint); font-weight: 400;
+  margin: 0 0 6px; }
+.rail div + div { margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--rule); }
+
+.ew { margin-top: 52px; border-top: 3px solid var(--ink); padding-top: 8px; }
+.ew-lab { font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ink-faint); margin: 6px 0 0;
+  font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.ew-row { display: grid; grid-template-columns: 4.6rem 1fr auto;
+  gap: 16px; align-items: baseline; padding: 13px 0;
+  border-bottom: 1px solid var(--rule); text-decoration: none;
+  color: inherit; }
+.ew-row:hover .ew-claim { text-decoration: underline; }
+.ew-stat { font-size: 21px; font-weight: 600; color: var(--fire);
+  font-variant-numeric: tabular-nums; }
+.ew-name { font-size: 17px; font-weight: 500; }
+.ew-claim { color: var(--ink-soft); font-size: 14.5px; }
+.foot { margin-top: 46px; padding-top: 14px;
+  border-top: 1px solid var(--ink); font-size: 11.5px;
+  color: var(--ink-faint); display: flex; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; }
+@media (max-width: 760px) {
+  .grid, .lower { grid-template-columns: 1fr; }
+  .col { padding: 14px 0 0; }
+  .col + .col { border-left: none; border-top: 3px solid var(--ink);
+    margin-top: 32px; padding-left: 0; }
+  h1 { font-size: 29px; max-width: none; }
+  .ew-row { grid-template-columns: 3.8rem 1fr; }
+  .ew-row .tag { grid-column: 2; justify-self: start; margin-top: 5px; }
+}
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script>
+</head>
+<body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../../elnino/">El Niño</a><a class="ch-fire on" href="../../fires/">Fires</a><a class="ch-crop" href="../../crops/">Crops</a><a class="ch-heat" href="../../heat/">Heat</a><a class="ch-notes" href="../../notes/">Notes</a><a class="util" href="../../about.html">About</a></nav></div></div></header>
+
+<main>
+  <p class="eyebrow">Ukraine &middot;
+     10 to 16 August</p>
+  <h1>Ukraine has burned 4.3 times its normal area for this point in the year</h1>
+  <p class="stand">Two questions, side by side. How bad was this week, measured against every week like it. How bad is the year, measured against every season on record. Different instruments, different units, and one of them is not finished.</p>
+
+  <div class="grid">
+      <div class="col">
+        <p class="cell-lab">This week &middot; 10 to 16 August</p>
+        <p class="hero" style="color:var(--fire)">
+          2.1&times;</p>
+        <p class="cell-sub">active-fire detections against the same-week
+          mean of 3,686, 2012 to 2025<br>
+          NASA FIRMS SNPP VIIRS, daily, 375 m<br>
+          <span class="verdict">Cleared the anomaly gate for this week. Standardised anomaly z = +1.6</span></p>
+        <p class="ch-lab">Against the same week, every year</p>
+        <svg viewBox="0 0 420 168" class="ch" role="img" aria-label="Detections in the same week, 14 years compared"><rect x="5.4" y="133.8" width="19.2" height="10.2" fill="var(--rule-45)"/><rect x="35.4" y="111.8" width="19.2" height="32.2" fill="var(--rule-45)"/><rect x="65.4" y="70.7" width="19.2" height="73.3" fill="var(--rule-45)"/><rect x="95.4" y="59.9" width="19.2" height="84.1" fill="var(--rule-45)"/><rect x="125.4" y="111.3" width="19.2" height="32.7" fill="var(--rule-45)"/><rect x="155.4" y="40.5" width="19.2" height="103.5" fill="var(--rule-45)"/><rect x="185.4" y="117.5" width="19.2" height="26.5" fill="var(--rule-45)"/><rect x="215.4" y="114.3" width="19.2" height="29.7" fill="var(--rule-45)"/><rect x="245.4" y="118.8" width="19.2" height="25.2" fill="var(--rule-45)"/><rect x="275.4" y="113.6" width="19.2" height="30.4" fill="var(--rule-45)"/><rect x="305.4" y="128.9" width="19.2" height="15.1" fill="var(--rule-45)"/><rect x="335.4" y="112.7" width="19.2" height="31.3" fill="var(--rule-45)"/><rect x="365.4" y="114.5" width="19.2" height="29.5" fill="var(--rule-45)"/><rect x="395.4" y="61.1" width="19.2" height="82.9" fill="var(--fire)"/><line x1="0" y1="103.7" x2="420" y2="103.7" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 4"/><text class="cx-s" x="2.0" y="97.7" text-anchor="start" fill="var(--ink-soft)">same-week mean 3,686</text><text class="cx-s" x="0.0" y="162.0" text-anchor="start" fill="var(--ink-soft)">2012</text><text class="cx-s" x="420.0" y="162.0" text-anchor="end" fill="var(--ink-soft)">2026</text><text class="cx-b" x="420.0" y="54.1" text-anchor="end" fill="var(--fire)" font-weight="600">7,587</text></svg>
+        <p class="ch-note">Each year&rsquo;s detections in the same window
+          of the year, same sensor throughout.</p>
+        <p class="ch-lab">The seven days</p>
+        <svg viewBox="0 0 420 150" class="ch" role="img" aria-label="Detections day by day this week"><rect x="15.0" y="69.3" width="30.0" height="56.7" fill="var(--fire)"/><text class="cx-s" x="30.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">10</text><rect x="75.0" y="87.5" width="30.0" height="38.5" fill="var(--fire)"/><text class="cx-s" x="90.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">11</text><rect x="135.0" y="79.1" width="30.0" height="46.9" fill="var(--fire)"/><text class="cx-s" x="150.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">12</text><rect x="195.0" y="72.1" width="30.0" height="53.9" fill="var(--fire)"/><text class="cx-s" x="210.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">13</text><rect x="255.0" y="82.1" width="30.0" height="43.9" fill="var(--fire)"/><text class="cx-s" x="270.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">14</text><rect x="315.0" y="39.8" width="30.0" height="86.2" fill="var(--fire)"/><text class="cx-s" x="330.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">15</text><rect x="375.0" y="58.3" width="30.0" height="67.7" fill="var(--fire)"/><text class="cx-s" x="390.0" y="144.0" text-anchor="middle" fill="var(--ink-soft)">16</text><line x1="0" y1="98.7" x2="420" y2="98.7" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 4"/><text class="cx-s" x="2.0" y="92.7" text-anchor="start" fill="var(--ink-soft)">one seventh of a normal week, 527</text></svg>
+        <p class="ch-note">7 of 7 days cleared one seventh of a normal week. The peak, 1,661 on 15 August, is 3 times that line.</p>
+      </div>
+      <div class="col">
+        <p class="cell-lab">This year &middot; since 1 January</p>
+        <p class="hero" style="color:var(--fire)">
+          317,367 <span class="unit">ha</span></p>
+        <p class="cell-sub">burnt area mapped, 4.3&times;
+          the average for this point in the year<br>
+          EFFIS mapped perimeters, weekly, week 32,
+          through 2026-08-12</p>
+        <p class="ch-lab">Cumulative, every season since 2006</p>
+        <svg viewBox="0 0 420 190" class="ch" role="img" aria-label="Cumulative burnt area by week, every season"><line x1="46" y1="164.0" x2="374" y2="164.0" stroke="var(--rule)" stroke-width="0.7"/><text class="cx-s" x="41.0" y="168.0" text-anchor="end" fill="var(--ink-soft)">0</text><line x1="46" y1="92.0" x2="374" y2="92.0" stroke="var(--rule)" stroke-width="0.7"/><text class="cx-s" x="41.0" y="96.0" text-anchor="end" fill="var(--ink-soft)">496k</text><text class="cx-s" x="46.0" y="184.0" text-anchor="middle" fill="var(--ink-soft)">Jan</text><text class="cx-s" x="213.2" y="184.0" text-anchor="middle" fill="var(--ink-soft)">Jul</text><text class="cx-s" x="348.3" y="184.0" text-anchor="middle" fill="var(--ink-soft)">Dec</text><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,164.0 116.7,164.0 123.2,164.0 129.6,164.0 136.0,164.0 142.5,164.0 148.9,164.0 155.3,164.0 161.8,164.0 168.2,164.0 174.6,164.0 181.1,164.0 187.5,164.0 193.9,164.0 200.4,164.0 206.8,164.0 213.2,164.0 219.6,164.0 226.1,164.0 232.5,164.0 238.9,164.0 245.4,164.0 251.8,164.0 258.2,164.0 264.7,164.0 271.1,164.0 277.5,164.0 284.0,164.0 290.4,164.0 296.8,164.0 303.3,164.0 309.7,164.0 316.1,164.0 322.5,164.0 329.0,164.0 335.4,164.0 341.8,164.0 348.3,164.0 354.7,164.0 361.1,164.0 367.6,164.0 374.0,164.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,164.0 110.3,163.9 116.7,163.3 123.2,159.7 129.6,147.8 136.0,143.1 142.5,134.4 148.9,134.4 155.3,134.1 161.8,134.1 168.2,134.1 174.6,134.1 181.1,134.1 187.5,134.1 193.9,134.0 200.4,134.0 206.8,134.0 213.2,132.8 219.6,132.7 226.1,132.7 232.5,132.7 238.9,132.7 245.4,132.7 251.8,132.7 258.2,132.7 264.7,132.7 271.1,132.7 277.5,132.7 284.0,132.7 290.4,130.7 296.8,126.9 303.3,126.9 309.7,126.9 316.1,126.9 322.5,126.9 329.0,126.9 335.4,126.9 341.8,126.9 348.3,126.9 354.7,126.9 361.1,126.9 367.6,126.9 374.0,126.9" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,164.0 91.0,164.0 97.5,164.0 103.9,163.8 110.3,163.8 116.7,163.6 123.2,162.3 129.6,162.3 136.0,162.3 142.5,162.3 148.9,162.3 155.3,162.2 161.8,162.2 168.2,162.2 174.6,162.2 181.1,162.2 187.5,162.2 193.9,162.2 200.4,162.2 206.8,162.2 213.2,162.2 219.6,162.2 226.1,162.2 232.5,162.2 238.9,162.2 245.4,162.2 251.8,162.2 258.2,162.2 264.7,162.2 271.1,162.2 277.5,162.2 284.0,162.2 290.4,162.2 296.8,162.0 303.3,162.0 309.7,160.8 316.1,160.3 322.5,160.0 329.0,160.0 335.4,160.0 341.8,160.0 348.3,160.0 354.7,160.0 361.1,160.0 367.6,160.0 374.0,160.0" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,163.5 65.3,163.5 71.7,163.5 78.2,163.3 84.6,163.0 91.0,162.1 97.5,161.6 103.9,160.4 110.3,155.5 116.7,145.5 123.2,142.7 129.6,142.3 136.0,142.0 142.5,142.0 148.9,140.2 155.3,138.4 161.8,135.8 168.2,135.5 174.6,135.2 181.1,135.1 187.5,134.5 193.9,134.1 200.4,133.7 206.8,132.7 213.2,131.1 219.6,130.7 226.1,130.4 232.5,130.2 238.9,129.5 245.4,129.0 251.8,128.7 258.2,127.9 264.7,127.4 271.1,127.3 277.5,127.2 284.0,127.2 290.4,126.8 296.8,126.8 303.3,126.4 309.7,126.4 316.1,126.2 322.5,126.2 329.0,126.2 335.4,126.2 341.8,126.2 348.3,126.2 354.7,126.1 361.1,126.1 367.6,126.1 374.0,126.1" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,163.8 65.3,163.8 71.7,163.8 78.2,163.7 84.6,163.7 91.0,163.3 97.5,163.1 103.9,162.9 110.3,162.8 116.7,162.6 123.2,162.6 129.6,162.5 136.0,162.5 142.5,162.4 148.9,162.4 155.3,162.3 161.8,162.1 168.2,161.7 174.6,161.7 181.1,161.7 187.5,161.0 193.9,160.9 200.4,160.8 206.8,160.7 213.2,159.1 219.6,158.6 226.1,158.4 232.5,158.3 238.9,157.9 245.4,157.7 251.8,156.8 258.2,155.1 264.7,150.4 271.1,148.0 277.5,146.3 284.0,142.7 290.4,136.1 296.8,134.4 303.3,133.9 309.7,133.6 316.1,133.3 322.5,133.1 329.0,132.9 335.4,132.9 341.8,132.9 348.3,132.9 354.7,132.9 361.1,132.9 367.6,132.9 374.0,132.9" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,164.0 65.3,164.0 71.7,164.0 78.2,164.0 84.6,163.5 91.0,163.1 97.5,160.2 103.9,157.6 110.3,156.1 116.7,154.6 123.2,151.3 129.6,147.9 136.0,145.7 142.5,145.4 148.9,145.2 155.3,143.4 161.8,142.1 168.2,141.6 174.6,137.5 181.1,135.9 187.5,134.6 193.9,134.1 200.4,133.5 206.8,131.7 213.2,123.0 219.6,114.1 226.1,107.9 232.5,104.0 238.9,97.8 245.4,93.9 251.8,88.3 258.2,80.8 264.7,69.7 271.1,59.5 277.5,49.5 284.0,42.0 290.4,36.9 296.8,32.5 303.3,32.0 309.7,32.0 316.1,31.2 322.5,31.1 329.0,31.0 335.4,31.0 341.8,30.7 348.3,30.7 354.7,30.7 361.1,30.7 367.6,30.7 374.0,30.7" fill="none" stroke="var(--rule)" stroke-width="1.1"/><polyline points="46.0,164.0 52.4,164.0 58.9,163.7 65.3,163.3 71.7,163.1 78.2,162.7 84.6,161.8 91.0,160.2 97.5,158.4 103.9,152.0 110.3,151.4 116.7,150.3 123.2,149.7 129.6,149.4 136.0,148.7 142.5,145.7 148.9,144.2 155.3,142.6 161.8,142.6 168.2,142.6 174.6,142.3 181.1,140.8 187.5,134.5 193.9,133.3 200.4,131.4 206.8,128.8 213.2,122.5 219.6,115.6 226.1,112.0 232.5,105.6 238.9,99.4 245.4,95.6 251.8,91.0 258.2,88.7 264.7,85.5 271.1,84.3 277.5,80.9 284.0,79.2 290.4,77.9 296.8,76.8 303.3,76.8 309.7,76.8 316.1,76.8 322.5,76.8 329.0,76.8 335.4,76.7 341.8,76.7 348.3,76.7 354.7,76.7 361.1,76.7 367.6,76.7 374.0,76.7" fill="none" stroke="var(--rule)" stroke-width="1.1"/><line x1="46" y1="30.7" x2="374" y2="30.7" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3 3"/><text class="cx-s" x="48.0" y="24.7" text-anchor="start" fill="var(--ink-soft)">previous record, 2024: 917,848 ha</text><polyline points="46.0,162.9 52.4,162.9 58.9,162.9 65.3,162.9 71.7,162.9 78.2,162.9 84.6,162.9 91.0,162.9 97.5,162.8 103.9,161.4 110.3,159.5 116.7,158.1 123.2,157.1 129.6,156.3 136.0,156.1 142.5,155.7 148.9,155.3 155.3,152.7 161.8,151.4 168.2,151.2 174.6,150.9 181.1,150.7 187.5,150.4 193.9,148.4 200.4,143.2 206.8,132.7 213.2,128.4 219.6,127.7 226.1,122.8 232.5,122.2 238.9,119.4 245.4,117.9" fill="none" stroke="var(--fire)" stroke-width="2.4"/><circle cx="245.4" cy="117.9" r="3.4" fill="var(--fire)"/><text class="cx-b" x="252.4" y="111.9" text-anchor="start" fill="var(--fire)" font-weight="600">2026</text></svg>
+        <p class="ch-note">Only this year carries hue; every grey line is one earlier season accumulating from January. The record season, 2024, reached 917,848 ha.</p>
+        <p class="ch-lab">Week by week, 2026 so far</p>
+        <svg viewBox="0 0 420 168" class="ch" role="img" aria-label="Burnt area week by week this year, to week 52"><rect x="1.5" y="133.0" width="5.0" height="9.0" fill="var(--fire)"/><rect x="9.6" y="142.0" width="5.0" height="0.8" fill="var(--fire)"/><rect x="17.7" y="142.0" width="5.0" height="0.8" fill="var(--fire)"/><rect x="25.8" y="142.0" width="5.0" height="0.8" fill="var(--fire)"/><rect x="33.8" y="142.0" width="5.0" height="0.8" fill="var(--fire)"/><rect x="41.9" y="142.0" width="5.0" height="0.8" fill="var(--fire)"/><rect x="50.0" y="142.0" width="5.0" height="0.8" fill="var(--fire)"/><rect x="58.1" y="141.9" width="5.0" height="0.8" fill="var(--fire)"/><rect x="66.1" y="141.3" width="5.0" height="0.8" fill="var(--fire)"/><rect x="74.2" y="130.5" width="5.0" height="11.5" fill="var(--fire)"/><rect x="82.3" y="126.5" width="5.0" height="15.5" fill="var(--fire)"/><rect x="90.4" y="130.4" width="5.0" height="11.6" fill="var(--fire)"/><rect x="98.5" y="134.2" width="5.0" height="7.8" fill="var(--fire)"/><rect x="106.5" y="135.1" width="5.0" height="6.9" fill="var(--fire)"/><rect x="114.6" y="140.2" width="5.0" height="1.8" fill="var(--fire)"/><rect x="122.7" y="139.0" width="5.0" height="3.0" fill="var(--fire)"/><rect x="130.8" y="138.3" width="5.0" height="3.7" fill="var(--fire)"/><rect x="138.8" y="121.4" width="5.0" height="20.6" fill="var(--fire)"/><rect x="146.9" y="131.2" width="5.0" height="10.8" fill="var(--fire)"/><rect x="155.0" y="140.0" width="5.0" height="2.0" fill="var(--fire)"/><rect x="163.1" y="139.7" width="5.0" height="2.3" fill="var(--fire)"/><rect x="171.2" y="140.6" width="5.0" height="1.4" fill="var(--fire)"/><rect x="179.2" y="138.9" width="5.0" height="3.1" fill="var(--fire)"/><rect x="187.3" y="125.7" width="5.0" height="16.3" fill="var(--fire)"/><rect x="195.4" y="99.6" width="5.0" height="42.4" fill="var(--fire)"/><rect x="203.5" y="55.8" width="5.0" height="86.2" fill="var(--fire)"/><rect x="211.5" y="106.5" width="5.0" height="35.5" fill="var(--fire)"/><rect x="219.6" y="136.3" width="5.0" height="5.7" fill="var(--fire)"/><rect x="227.7" y="102.2" width="5.0" height="39.8" fill="var(--fire)"/><rect x="235.8" y="136.7" width="5.0" height="5.3" fill="var(--fire)"/><rect x="243.8" y="119.1" width="5.0" height="22.9" fill="var(--fire)"/><rect x="251.9" y="129.7" width="5.0" height="12.3" fill="var(--fire)"/><text class="cx-s" x="0.0" y="162.0" text-anchor="start" fill="var(--ink-soft)">Jan</text><text class="cx-s" x="109.0" y="162.0" text-anchor="middle" fill="var(--ink-soft)">Apr</text><text class="cx-s" x="214.0" y="162.0" text-anchor="middle" fill="var(--ink-soft)">Jul</text><text class="cx-s" x="319.0" y="162.0" text-anchor="middle" fill="var(--ink-soft)">Oct</text><text class="cx-s" x="420.0" y="162.0" text-anchor="end" fill="var(--ink-soft)">Dec</text><text class="cx-b" x="200.0" y="39.8" text-anchor="end" fill="var(--fire)" font-weight="600">72,296 ha in week 26</text><text class="cx-s" x="200.0" y="51.8" text-anchor="end" fill="var(--ink-soft)">32 weeks in, 20 still to come</text><text class="cx-s" x="90.8" y="120.5" text-anchor="start" fill="var(--ink-soft)">weeks 1 to 12, 40,030 ha</text></svg>
+        <p class="ch-note">Week by week rather than cumulative, so a single heavy week is visible as one. The cell runs to week 52: 20 weeks of this season have not happened yet.</p>
+      </div></div>
+
+  
+
+  <div class="lower">
+    <div>
+      <section><h2>What this is</h2><p>Two measurements of the same fire season at two time scales. The multiple is a rate: how much fire activity satellites detected this week against what this week normally looks like. The hectare figure is a stock: how much land has been mapped as burnt since January. A country can have an unremarkable week and still be having a record year, and the reverse is also true.</p></section>
+      <section><h2>What this is not</h2>
+        <p>Not one number at two zoom levels. The two figures come from different instruments with different latencies, and they are not convertible into each other. Not an attribution: fire seasons are driven by heat, drought, wind and land use, and the tag on this page states what is and is not established for this event. Not a forecast of where the season ends.</p></section>
+    </div>
+    <div class="rail">
+      <div><h3>Baseline</h3>Weekly multiple: same-week mean, 2012 to 2025.<br>Cumulative: complete seasons, 2006 to 2025.</div>
+      <div><h3>Instruments</h3>NASA FIRMS SNPP VIIRS<br>thermal anomaly counts, daily, 375 m<br><br>EFFIS burnt area<br>mapped perimeters, weekly. Area lands in the week it is mapped, which need not be the week it burned.</div>
+      
+      <div><h3>Revision</h3>Mapped area for recent weeks rises as perimeters are completed, and a week&rsquo;s area may be mapped after the week it burned. Published figures are not edited in place; corrections run forward.</div>
+    </div>
+  </div>
+
+  <div class="ew">
+    <p class="ew-lab">The same week elsewhere</p>
+    <a class="ew-row" href="../cuba/"><span class="ew-stat">8.2x</span><span class="ew-name">Cuba</span><span class="ew-claim">4.9x its previous record week</span></a><a class="ew-row" href="../united-kingdom/"><span class="ew-stat">6.6x</span><span class="ew-name">United Kingdom</span><span class="ew-claim">3.1x its previous record week</span><span class="tag tag-notlink">not ENSO-linked</span></a><a class="ew-row" href="../croatia/"><span class="ew-stat">6.5x</span><span class="ew-name">Croatia</span><span class="ew-claim">Well clear of its 2017 record week</span></a>
+  </div>
+
+  <div class="foot">
+    <span>Kristjan Lepik (2026). The Long Swell, Fires.
+      <a href="https://thelongswell.com/">thelongswell.com</a></span>
+    <span>Ukraine &middot; week 32</span>
+  </div>
+</main>
+</body>
+</html>
