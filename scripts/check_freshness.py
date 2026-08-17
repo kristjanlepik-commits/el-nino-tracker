@@ -37,6 +37,8 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+from sources import _most_recent_monday  # noqa: E402
 
 
 def _from_window(doc: dict) -> date | None:
@@ -426,6 +428,46 @@ def check_run_age(problems: list, rows: list, now: datetime) -> None:
                 f"job ran, not whether the page is old. Owner: {job['owner']}.")
 
 
+def check_weekly_issue(problems: list, rows: list, today: date) -> None:
+    """Did this week's issue actually get published?
+
+    WEEKLY STOPPED BEING A BY-PRODUCT AND BECAME A PROMISE. Until
+    2026-08-17 the cron ran, an issue appeared, and nobody had told a
+    reader anything. The capture unit now says "One email a week" on forty
+    pages and Kristjan has committed to it, so a missed week is a broken
+    promise to subscribers rather than a quiet gap on a page.
+
+    Product's framing, and it is the one this file exists for: if the
+    weekly publish happens because a person remembers, it holds until the
+    week they do not. The cron is armed and is the backstop, but nothing
+    told anyone when the backstop itself failed. The fires job failed
+    three mornings running last week and was found by Kristjan asking.
+
+    NOT THE SAME QUESTION AS THE CRON'S EXIT CODE. run_brief returns 0 at
+    the freeze guard when the archive already exists, which is correct and
+    indistinguishable from a healthy run that published. This asks the
+    only thing a subscriber would notice: is there an issue for the
+    current week.
+
+    Tuesday, not Monday. GitHub's scheduler has drifted over three hours
+    on this repo, the cron sits at 13:00 UTC, and a Monday-evening check
+    would fire on ordinary lateness. By Tuesday a missing issue is a
+    missed week rather than a slow one.
+    """
+    monday = _most_recent_monday(today)
+    archive = ROOT / "docs" / "briefs" / monday.isoformat() / "index.html"
+    age = (today - monday).days
+    rows.append((f"docs/briefs/{monday}/", monday.isoformat(),
+                 "published" if archive.exists() else "MISSING", "PLATFORM"))
+    if not archive.exists() and age >= 1:
+        problems.append(
+            f"no issue published for the week of {monday} and it is now "
+            f"{today}. Weekly is a promise on the capture unit, so this is "
+            f"visible to every subscriber rather than only to us. Either the "
+            f"13:00 UTC Monday cron did not run or it ran and failed; check "
+            f"the weekly_brief workflow rather than assuming a quiet week.")
+
+
 def _expected_run_date(today: date, months) -> date:
     """The last date a seasonally-bound collector was expected to run.
 
@@ -498,6 +540,7 @@ def main() -> int:
 
     run_rows = []
     check_run_age(problems, run_rows, datetime.now(timezone.utc))
+    check_weekly_issue(problems, run_rows, today)
     rows.extend(run_rows)
 
     w = max(len(r[0]) for r in rows) if rows else 20
