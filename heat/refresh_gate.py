@@ -37,44 +37,91 @@ CURRENT = ROOT / "heat" / "data" / "city_nights.json"
 PREVIOUS = ROOT / "heat" / "data" / "published" / "city_nights.json"
 
 
-def compare(prev, cur):
-    """Return a list of triggered reasons. Empty means safe to publish."""
-    hits = []
+# HOW BIG A RANK MOVE IS STILL WEATHER. A city climbing a few places as the
+# season advances is ordinary. A city moving tens of places is a bug almost
+# every time, and on 17 August it was exactly that: Larnaca fell from 10th to
+# 51st because my own hour detection took its overnight maximum for the day's.
+IMPLAUSIBLE_RANK_MOVE = 8
+
+
+def classify(prev, cur):
+    """Split changes into what must block and what merely needs reporting.
+
+    WHY THIS IS NOT ONE LIST. The first version returned a single set of
+    "changes a reader would notice" and held on any of them. During an actual
+    heat event that fires on EVERY refresh, because ranks legitimately move
+    every day, so the only way through is a human ruling each time. A gate
+    that always fires teaches its operator to wave it through, and the day it
+    catches something real is the day it gets waved through too.
+
+    So the question is not "did anything change" but "is this the kind of
+    change data does on its own".
+
+        BLOCK      implausible movement, which is nearly always a bug, plus
+                   the two editorial cases no amount of correctness settles:
+                   a withdrawn record, and the set gaining or losing cities
+        REPORT     ordinary movement: a rank drifting a place or two, counts
+                   rising in a heatwave, a new record with a real margin
+
+    Under this rule the 17 August refresh hard-blocks Larnaca, waves through
+    Dresden and Berlin, and stops on Malaga's withdrawn record and the three
+    new cities. Smaller ask of the operator, stricter check on the data.
+    """
+    block, report = [], []
 
     pc, cc = prev.get("cities", {}), cur.get("cities", {})
     added = sorted(set(cc) - set(pc))
     removed = sorted(set(pc) - set(cc))
+    # THE SET IS ALWAYS AN EDITORIAL EVENT. Every count over the set inherits
+    # the choice of which cities are in it (D-141), so this never auto-passes.
     if added:
-        hits.append(f"cities added: {added}")
+        block.append(f"cities added: {added}. Every count over the set "
+                     f"inherits this choice, so it is never automatic.")
     if removed:
-        hits.append(f"cities REMOVED: {removed}")
+        block.append(f"cities REMOVED: {removed}")
 
     for c in sorted(set(pc) & set(cc)):
         p, n = pc[c], cc[c]
-        pr = p.get("days", {}).get("rank", {}).get("value")
-        nr = n.get("days", {}).get("rank", {}).get("value")
-        if pr != nr:
-            hits.append(f"{c}: day rank {pr} -> {nr}")
+        pr = (p.get("days") or {}).get("rank", {}).get("value")
+        nr = (n.get("days") or {}).get("rank", {}).get("value")
+        if pr != nr and pr is not None and nr is not None:
+            move = abs(nr - pr)
+            if move >= IMPLAUSIBLE_RANK_MOVE:
+                block.append(
+                    f"{c}: day rank {pr} -> {nr}, a move of {move} places. "
+                    f"Data does not do this in one refresh; check the "
+                    f"builder before you check the weather.")
+            else:
+                report.append(f"{c}: day rank {pr} -> {nr}")
+        # A WITHDRAWN RECORD IS ALWAYS EDITORIAL. Losing rank 1 means a page
+        # has claimed something it no longer claims, which needs a correction
+        # rather than a silent flip, even when the arithmetic is perfect.
+        if pr == 1 and nr not in (1, None):
+            block.append(
+                f"{c}: RECORD WITHDRAWN, rank 1 -> {nr}. The live page "
+                f"claims a record it no longer holds; this wants a "
+                f"correction rather than a quiet change.")
         pb, nb = p.get("legend_band"), n.get("legend_band")
         if pb != nb:
-            hits.append(f"{c}: legend band {pb} -> {nb}")
+            report.append(f"{c}: legend band {pb} -> {nb}")
 
-    pd = prev.get("day_headline", {})
-    nd = cur.get("day_headline", {})
-    if pd.get("records") != nd.get("records"):
-        hits.append(f"day record count {pd.get('records')} -> {nd.get('records')}")
-    if pd.get("may_say_worst_on_record") != nd.get("may_say_worst_on_record"):
-        hits.append("the 2003 comparison FLIPPED: may_say_worst_on_record "
-                    f"{pd.get('may_say_worst_on_record')} -> "
-                    f"{nd.get('may_say_worst_on_record')}")
+    for key, label in (("day_headline", "day"), ("headline", "night")):
+        pd, nd = prev.get(key, {}), cur.get(key, {})
+        if pd.get("records") != nd.get("records"):
+            report.append(f"{label} record count {pd.get('records')} -> "
+                          f"{nd.get('records')}")
+        if pd.get("may_say_worst_on_record") != nd.get("may_say_worst_on_record"):
+            block.append(
+                f"the 2003 {label} comparison FLIPPED: "
+                f"may_say_worst_on_record {pd.get('may_say_worst_on_record')}"
+                f" -> {nd.get('may_say_worst_on_record')}")
+    return block, report
 
-    ph = prev.get("headline", {})
-    nh = cur.get("headline", {})
-    if ph.get("records") != nh.get("records"):
-        hits.append(f"night record count {ph.get('records')} -> {nh.get('records')}")
-    if ph.get("may_say_worst_on_record") != nh.get("may_say_worst_on_record"):
-        hits.append("nights may_say_worst_on_record flipped")
-    return hits
+
+def compare(prev, cur):
+    """Kept for callers that want every change as one list."""
+    b, r = classify(prev, cur)
+    return b + r
 
 
 def main() -> int:
@@ -86,15 +133,18 @@ def main() -> int:
         return 1
     prev = json.loads(PREVIOUS.read_text())
     cur = json.loads(CURRENT.read_text())
-    hits = compare(prev, cur)
-    if not hits:
-        print("  PUBLISH: no rank moved, no band changed, no count changed, "
-              "the 2003 comparison holds.")
+    block, report = classify(prev, cur)
+    for r in report:
+        print(f"    changed: {r}")
+    if not block:
+        print(f"  PUBLISH: {len(report)} ordinary change(s), nothing "
+              f"implausible, no record withdrawn, set unchanged.")
         return 0
-    print(f"  HOLD: {len(hits)} change(s) a reader would notice. "
-          f"Product decides before this ships.", file=sys.stderr)
-    for h in hits:
-        print(f"    - {h}", file=sys.stderr)
+    print(f"  HOLD: {len(block)} change(s) that need a person. "
+          f"{len(report)} ordinary change(s) would have passed.",
+          file=sys.stderr)
+    for b in block:
+        print(f"    - {b}", file=sys.stderr)
     return 1
 
 
