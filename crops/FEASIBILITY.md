@@ -2444,3 +2444,47 @@ because the two defects are independent and only one is in that field.
 neither.** This is the limit of per-field licensing: a licence covers
 the trap it was built for and is silent on every other, which reads as
 endorsement.
+
+### 13n. Borrowed authority is most tempting on a caveat
+
+Added 2026-08-17, from socials, after the UK card went back twice.
+
+The second send-back was one phrase in a footer written to fix the
+first. The card said JRC's own reading for the UK is "driver not
+identified". It is not JRC's. `authorship` on that place is `tls_built`
+and the test is our own correlation threshold run over ASAP's data. JRC
+publishes the instruments; the co-variance test and the sentence are
+ours.
+
+**Their account of why is worth more than the fix.** They did not
+confuse whose test it was. They reached for the agency's name because it
+made the caveat land harder: an agency declining to name a cause carries
+more weight than we do declining to name one.
+
+> **A caveat that needs borrowed authority to be believed is not a
+> caveat. It is a hedge with someone else's logo on it.** (socials,
+> 2026-08-17)
+
+**Why this is worse than overclaiming a finding, which is the part to
+carry.** An overclaimed finding announces itself: somebody checks the
+number and it is wrong. A caveat wearing someone else's authority reads
+as scrupulous, so nobody checks it, and the thing a reader would check
+it against, the agency's own publications, does not contain it.
+
+**And it generalises past this card.** The same move is available every
+time we disclaim something. Attribute the limitation to the source and
+it sounds like rigour rather than like us. Expect to want it **precisely
+when the disclaimer is weakest**, which is exactly when it does most
+damage.
+
+**Trap 20.** *Check the attribution on your caveats as hard as on your
+findings.* Everything on this channel that guards against overclaiming
+looks at assertions. Nothing looked at disclaimers, and a disclaimer is
+a claim about what we know.
+
+**The placement half is ours, not theirs.** Two unread fields produced
+two send-backs, and both times the field that would have prevented it
+sat beside the twenty region ranks that are the reason anyone opens that
+data at all. `driver` and `authorship` constrain the claim; the ranks
+are the claim. A field that constrains a claim and sits at the same
+visual weight as the claim will lose, every time.
