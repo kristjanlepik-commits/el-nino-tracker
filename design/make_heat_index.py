@@ -92,6 +92,19 @@ BOX = {"ES": (36.0, 43.8, -9.3, 4.3), "FR": (41.3, 51.1, -5.2, 9.6),
        # edit here. The guard's whole value is that a new country stops
        # the build rather than skipping the check.
        "UK": (49.8, 60.9, -8.7, 1.9), "EE": (57.5, 59.7, 21.7, 28.2),
+       # Lithuania, added 2026-08-17 when heat's payload arrived carrying
+       # Vilnius and this guard stopped the build, which is exactly what it
+       # is for. The box is the country's own extent rather than a margin
+       # around the one station, so a second Lithuanian station passes
+       # without another edit and a mistyped coordinate still fails.
+       "LT": (53.9, 56.5, 20.9, 26.9),
+       # Croatia and Hungary arrived in the same payload as Vilnius. Three
+       # new countries at once is what the roster growing from 42 to 45
+       # looks like from here, and each of the three stopped the build in
+       # turn rather than all at once, because the check exits on the first
+       # miss. Worth knowing if this happens again: list the payload's
+       # country codes against BOX rather than rebuilding three times.
+       "HR": (42.4, 46.6, 13.5, 19.5), "HU": (45.7, 48.6, 16.1, 22.9),
        "CY": (34.5, 35.8, 32.2, 34.7)}
 # A country arriving in the payload with no box would otherwise skip the
 # check silently, which is the one failure this guard exists to prevent.
@@ -1295,7 +1308,16 @@ margin-top:50px}}
      wordmark, so the page printed "The Long Swell" twice inside 100px.
      Kristjan spotted it. What this bar is for is the page's own
      identity: the channel, and which station and cut it reports. -->
-<div class="mast"><span class="prod">Heat</span><span class="when">Week of 3 August 2026</span></div>
+<!-- THE DATELINE IS READ, NOT TYPED. It said "Week of 3 August 2026" as a
+     literal and was still saying it on the 17th, two weeks stale, on the
+     page that takes 53% of arrivals. Product attributed it to heat; it was
+     mine, hardcoded in this template.
+     It reports the latest cut rather than a publication week, which is
+     also the honest thing for this page: the masthead's job here is to say
+     which cut it reports, the data refreshes continuously, and "week of"
+     was describing an issue cadence heat does not have. Same figure the
+     legend and the sources register already use. -->
+<div class="mast"><span class="prod">Heat</span><span class="when">Measured to {CUT_LATEST[8:].lstrip("0")} {_MON[int(CUT_LATEST[5:7]) - 1]} {CUT_LATEST[:4]}</span></div>
 
 <!-- TEXT LEFT, MAP RIGHT. VD Main, after Helsinki pushed the frame north:
      the map is the only element whose height is set by its width, so it is
