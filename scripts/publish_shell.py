@@ -60,6 +60,39 @@ import sources as S           # noqa: E402
 import run_brief as R         # noqa: E402
 
 
+
+def _first_sentence(md_text, limit=240):
+    """The first real sentence of a markdown document.
+
+    For a meta description: skips headings, blockquotes and blank lines,
+    strips inline markup, and stops at the first full stop so the snippet
+    is a sentence rather than a truncated paragraph.
+    """
+    import re
+    # THE PARAGRAPH FIRST, THEN THE SENTENCE. Reading line by line cut the
+    # description at a markdown line WRAP rather than at a full stop, so it
+    # published "This document describes how the weekly El Nino probability
+    # brief is" and stopped. A hard-wrapped file has no relationship between
+    # its line ends and its sentence ends.
+    para = []
+    for line in (md_text or "").splitlines():
+        t = line.strip()
+        if not t or t.startswith(("#", ">", "-", "*", "|", "```", "<!--")):
+            if para:
+                break
+            continue
+        para.append(t)
+    if not para:
+        return ""
+    t = " ".join(para)
+    t = re.sub(r"[*_`\[\]]", "", t)
+    t = re.sub(r"\(https?://[^)]+\)", "", t)
+    t = " ".join(t.split())
+    cut = t.find(". ")
+    return (t[:cut + 1] if cut > 40 else t)[:limit].strip()
+
+
+
 def latest_issue() -> str:
     metas = sorted(glob.glob(str(ROOT / "docs" / "briefs" / "*" / "meta.json")))
     if not metas:
@@ -140,10 +173,15 @@ def main() -> None:
     pages["about.html"] = R.build_about_html()
     meth = ROOT / "methodology.md"
     if meth.exists():
+        # The description is the methodology's own opening line rather than
+        # a summary written for a crawler, so the two cannot diverge.
+        _meth_md = meth.read_text()
         pages["methodology.html"] = R.render_html(
-            meth.read_text(),
+            _meth_md,
             title=f"Methodology, {R.PRODUCT_NAME} · {R.SITE_NAME}",
-            root_prefix="", analytics=True)
+            root_prefix="", analytics=True,
+            canonical_path="/methodology.html",
+            description=_first_sentence(_meth_md))
     # build_archive_html, not the markdown table. The archive is now a
     # real page with the trend across issues, and main() builds it the
     # same way; calling render_html here would publish a different

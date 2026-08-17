@@ -583,9 +583,22 @@ def _favicon_links(root_prefix: str) -> str:
     )
 
 
+
+def _head_meta_for(title, description, path):
+    """Bridge to templates/page_head.py from inside run_brief.
+
+    Imported lazily because page_head imports run_brief for PAGES_BASE_URL
+    and SITE_NAME, so a module-level import here would close the circle.
+    """
+    from templates.page_head import head_meta
+    return head_meta(title=title, description=description, path=path) + "\n"
+
+
+
 def render_html(markdown_text: str, title: str = None,
                 root_prefix: str = None,
-                analytics: bool = False, nav_active: str = "elnino") -> str:
+                analytics: bool = False, nav_active: str = "elnino",
+                canonical_path: str = None, description: str = None) -> str:
     """Markdown page in the house reading style.
 
     analytics defaults to False because this same helper renders the
@@ -621,9 +634,18 @@ def render_html(markdown_text: str, title: str = None,
             # page. about.html was the site's last page declaring
             # summary_large_image with no image, so it reserved a large card
             # and rendered it blank, which is worse than declaring nothing.
-            + f'<meta property="og:image" content="{PAGES_BASE_URL}/card.png">\n'
-            + f'<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">\n'
-            + '<meta name="twitter:card" content="summary_large_image">\n'
+            # SHARED HEAD WHERE THE CALLER KNOWS ITS PATH. This helper
+            # renders three different public pages and the internal brief,
+            # and only the caller knows which URL it is writing to, so the
+            # canonical and description arrive as arguments rather than
+            # being guessed here. A caller that passes neither keeps the
+            # old three tags and nothing regresses; one that passes both
+            # gets the full set from one place.
+            + (_head_meta_for(page_title, description, canonical_path)
+               if canonical_path and description else
+               f'<meta property="og:image" content="{PAGES_BASE_URL}/card.png">\n'
+               f'<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">\n'
+               '<meta name="twitter:card" content="summary_large_image">\n')
             + _favicon_links(root_prefix)
             + (f"{ANALYTICS_SNIPPET}\n" if analytics else "")
         )
@@ -5551,11 +5573,12 @@ def build_about_html(root_prefix: str = "", methodology_href="methodology.html",
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{h(title)}</title>
-<meta property="og:title" content="{h(title)}">
-<meta property="og:description" content="{h(desc)}">
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
+<!-- Canonical, description and the share set from templates/page_head.py.
+     About had og:title and og:description and no canonical and no meta
+     description, which is the same per-template pattern one page at a
+     time: the properties that existed were the ones someone thought about
+     while writing this head. -->
+{_head_meta_for(title, desc, "/about.html")}
 <style>{T.font_faces_css(root_prefix + "fonts/")}</style>
 {_favicon_links(root_prefix)}<style>{PUBLIC_CSS}</style>
 {ANALYTICS_SNIPPET}
