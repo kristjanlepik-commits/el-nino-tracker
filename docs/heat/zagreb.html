@@ -1,0 +1,390 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zagreb &middot; Heat &middot; The Long Swell</title>
+<meta name="description" content="26 hot days so far, 5th of Zagreb's 146 summers.">
+<link rel="canonical" href="https://thelongswell.com/heat/zagreb.html">
+<!-- These pages are the promotion surface: Kristjan links a city and a
+     reader arrives caring about that city. Without share metadata a
+     promoted link renders as a bare URL with no title and no claim. The
+     description IS the headline, so what a reader sees before clicking is
+     the same sentence they see after. -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="The Long Swell">
+<meta property="og:title" content="Zagreb: 26 hot days so far this summer">
+<meta property="og:description" content="26 hot days so far, 5th of Zagreb's 146 summers.">
+<meta property="og:url" content="https://thelongswell.com/heat/zagreb.html">
+<!-- A page that declares summary_large_image and supplies no image is
+     WORSE than one that declares nothing: the platform reserves the
+     slot and renders it empty. Socials measured 136 channel pages
+     sharing with no image at all, heat declaring the large card and
+     showing a blank one. The house card is generic and beats an
+     empty slot; per-page cards wait for the citable chart, and will
+     have to carry their cut date so a stale one is visibly stale. -->
+<meta property="og:image" content="https://thelongswell.com/heat/cards/zagreb.png">
+<meta name="twitter:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zagreb: 26 hot days so far this summer">
+<meta name="twitter:description" content="26 hot days so far, 5th of Zagreb's 146 summers.">
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script>
+<style>/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    /* ONE INK. D-101 retired channel colour and moved identity to type,
+       on the grounds that colour spent on wayfinding is colour unavailable
+       to data. The tokens went; this nav kept the hues, so four of six
+       items were still coloured months later.
+
+       VD's catch is the one that settles it: Notes rendered in the same
+       blue as El Nino. Notes is not a measured variable and can never hold
+       a hue under the ruling, so either the blue meant El Nino, in which
+       case it was wrong, or it meant "you are here", in which case blue
+       meant two things in one row and a reader could not tell which.
+
+       Identity is now the tracked mono against the Spectral wordmark, and
+       the current page is marked by weight and a rule rather than a hue.
+       The per-channel classes stay in the markup: they are hooks, and
+       deleting them is a change to every generator rather than to this
+       stylesheet. */
+    color: var(--ink-soft);
+    transition: color .12s, border-color .12s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+  }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+  /* The current page, by weight and a rule. */
+  .prodnav a.on { color: var(--ink); font-weight: 600;
+    border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }
+:root{--paper:#F1F0EC;--sunk:#E7E6DF;--ink:#1A1A18;--soft:#3A3A36;
+--ink-faint:#6E6E67;--rule:#CFCEC7;--accent:#8E240A}
+@media(prefers-color-scheme:dark){:root{--paper:#1A1A18;--sunk:#252521;
+--ink:#EDECE6;--soft:#B4B3AB;--ink-faint:#86857D;--rule:#3A3A36;--accent:#F0876A}}
+/* The shared masthead expects these and a standalone page must set them.
+   Fixed on the index and NOT propagated here, which is exactly VD's
+   argument for a shared template before twenty more pages are built.
+   Without them the product nav renders in Spectral instead of tracked
+   mono, which is the mechanism section 7 uses INSTEAD of hue, every nav
+   item collapses to one inherited colour, and the masthead runs 120px
+   wider than the content on each side. */
+:root{--mono:'IBM Plex Mono',ui-monospace,monospace;--serif:Spectral,Georgia,serif;
+--nino:#173F9E;--fire:#B32E10;--crop:#2E5C16;--shell-max:940px;--shell-pad:24px;
+--hist:#8E8E88}
+@media(prefers-color-scheme:dark){:root{--nino:#6E97E8;--fire:#E8714E;--crop:#7CB84E;
+--hist:#5A5A55}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--soft);
+font-family:Spectral,Georgia,serif;font-size:17px;line-height:1.55}
+main{max-width:940px;margin:0 auto;padding:0 24px 90px}
+.mast{display:flex;align-items:baseline;gap:13px;padding:20px 0 11px;
+border-bottom:3px solid var(--ink)}
+.house{font-size:21px;font-weight:500;color:var(--ink)}
+.prod{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;font-weight:600;
+letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+.when{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;
+letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+h1{font-family:Spectral,serif;font-weight:400;font-size:50px;line-height:1.05;
+letter-spacing:-.02em;color:var(--ink);margin:40px 0 16px;max-width:19ch;text-wrap:balance}
+.stand{font-size:17.5px;line-height:1.62;max-width:62ch;margin:0}
+/* A CORRECTION IS NOT A WARNING. It sits in ink on paper with a rule
+   above it, the same weight as the page's own prose, because the page is
+   explaining itself rather than apologising. D-043 in a different costume:
+   the styling must not make a sound correction read as an incident. */
+.corr{margin:22px 0 0;padding:15px 0 0;border-top:2px solid var(--ink)}
+.corr p{margin:0 0 9px;max-width:60ch;font-size:15.5px;line-height:1.62;
+ color:var(--ink-soft)}
+.corr p:last-child{margin-bottom:0}
+.corr .corr-k{font-family:var(--mono,ui-monospace,monospace);font-size:9.5px;
+ letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);
+ margin-bottom:9px}
+.rows{display:flex;flex-direction:column;gap:22px;margin:34px 0 0}
+.urow{display:grid;grid-template-columns:196px 1fr 54px;gap:20px;align-items:center}
+.uk{font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.55;
+color:var(--ink-faint);text-align:right}
+.ug{display:flex;flex-wrap:wrap;gap:4px}
+.u{width:19px;height:19px;background:var(--ink);display:block}
+.ua{background:var(--accent)}
+.un{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500;
+color:var(--ink);text-align:right}
+.provmark{ font-size:15px; line-height:1.55; color:var(--ink);
+  border-left:2.4px solid var(--ink); padding:2px 0 2px 15px; margin:18px 0 0;
+  max-width:62ch; }
+.provmark strong{ font-weight:500; }
+.seclab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.22em;
+text-transform:uppercase;color:var(--ink);border-bottom:3px solid var(--ink);
+padding-bottom:10px;margin:52px 0 14px}
+.cap{font-size:15.5px;line-height:1.6;max-width:72ch;margin:12px 0 0}
+/* 12 in viewBox units, not 9. The SVG scales to about 0.8 at full page
+   width, so 9 rendered at 7.2px against the 10.5px HTML label beside
+   it. Same family, same colour, and a third smaller, which is enough
+   to read as a different typeface. This lands at 9.7px effective. */
+.ax{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:var(--ink-faint)}
+.ay{fill:var(--ink-faint)}
+.vlab{font-family:'IBM Plex Mono',monospace;font-size:10.5px;fill:var(--ink);
+font-weight:500}
+.vlab.va{fill:var(--accent)}
+.grid{display:grid;grid-template-columns:136px minmax(0,1fr);gap:20px;align-items:end;
+margin-top:16px}
+.gk{font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.5;
+letter-spacing:.06em;text-transform:uppercase;color:var(--ink);padding-bottom:8px}
+.gk em{display:block;font-style:normal;color:var(--ink-faint);letter-spacing:.03em}
+.src{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.9;
+color:var(--soft);display:grid;grid-template-columns:1fr auto;column-gap:30px;
+margin-top:48px}
+.src span{border-top:1px solid var(--rule);padding-top:9px}
+.src span:nth-child(-n+2){border-top:2.4px solid #8E8E88}
+.more{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
+.back{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;
+text-transform:uppercase;color:var(--ink-faint);text-decoration:none;
+border-bottom:1px solid var(--rule)}
+/* THE CHART WAS 182 PIXELS WIDE ON A PHONE. A 136px label column against
+   a 386px screen left the record, which is the whole point of this page,
+   in a fifth of the width: a 914-unit viewBox squeezed to 182px renders
+   its axis numbers at 2.4px, and a century of summers becomes a smudge.
+   These 42 pages are where the social traffic lands and most of it lands
+   on a phone, so this was the instrument failing for most readers who
+   ever saw it. The label sits above the chart and the chart takes the
+   full width. Same on the source register, which held a 1fr against an
+   auto column and wrapped every line. */
+@media(max-width:640px){
+.grid{grid-template-columns:minmax(0,1fr);gap:6px;align-items:stretch}
+.gk{padding-bottom:0}
+/* THE UNIT SQUARES BUILT A TOWER. 196px of label and 54px of figure plus
+   two 20px gaps leave 48px of a 338px phone column for the squares, so a
+   19px square wrapped at TWO per row and this summer's 34 days ran
+   seventeen rows down the screen, past the fold, beside an empty left
+   half. The comparison is the point of the block and it cannot be seen
+   when the two quantities do not share a screen.
+   Label and figure take the top line, the squares wrap across the full
+   width beneath them: fourteen per row, so 34 is three rows against one
+   for a typical summer, and the ratio reads at a glance again. */
+.urow{grid-template-columns:minmax(0,1fr) auto;
+ grid-template-areas:"key val" "sq sq";gap:9px 14px;align-items:baseline}
+.uk{grid-area:key;text-align:left}
+.un{grid-area:val}
+.ug{grid-area:sq}
+/* Font size inside an SVG is in viewBox units, so it shrinks with the
+   chart: 12 units across 914 drawn at 338px is 4.4 real pixels. A larger
+   size at this width buys legibility, but only up to the point where the
+   labels start colliding with the bars they annotate, because their
+   positions are fixed in the same units. 18 is the largest that clears
+   every label on every one of the 42 pages, checked rather than judged;
+   it lands near 6.7px, which is small and readable rather than the 4.4px
+   smudge it replaces. The width fix above is the larger part of this. */
+.ax{font-size:18px}
+.vlab{font-size:17px}
+.src{grid-template-columns:minmax(0,1fr);row-gap:0}
+.src span{padding-top:7px}
+.src span:nth-child(even){border-top:0;padding-top:0;padding-bottom:7px;
+ text-align:left !important;color:var(--ink-faint)}
+}
+
+.ebd { margin:38px 0 0; border-top:3px solid var(--ink); padding-top:17px;
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px 44px; align-items:start; }
+.ebk { font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--ink); }
+.ebp { margin:9px 0 0; font-size:18px; line-height:1.45; color:var(--ink);
+  max-width:34ch; text-wrap:pretty; }
+.ebf { margin:9px 0 0; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  line-height:1.7; color:var(--ink-faint); max-width:52ch; }
+/* THE PHONE IS THE CASE THAT MATTERS. Business's constraint: the traffic
+   that converted worst arrived on a city page from a cold social link, very
+   likely on a phone. Two columns become one, and the field goes full width
+   rather than sharing a row with the button at 340px. */
+@media (max-width:640px) {
+  .ebd { grid-template-columns:1fr; gap:14px; margin-top:30px; }
+  .ebp { font-size:17px; }
+}
+  /* The form is ours now, so the note above is history: there is no
+     iframe and no fixed button width, and the input can be told to give
+     up its space last rather than first. The failure it describes is
+     structurally unavailable here. */
+  .ec-form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ec-lab {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .ec-in {
+    flex: 1 1 200px; min-width: 0;
+    font-family: var(--sans); font-size: 16px;   /* 16px: iOS zooms below it */
+    color: var(--ink); background: var(--paper);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 11px 12px; -webkit-appearance: none;
+  }
+  .ec-in::placeholder { color: var(--ink-faint); }
+  .ec-in:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .ec-sub {
+    flex: 0 0 auto;
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--paper); background: var(--ink);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 12px 20px; cursor: pointer;
+  }
+  .ec-sub:hover { background: var(--ink-soft); border-color: var(--ink-soft); }
+  .ec-sub:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (max-width: 420px) {
+    /* Full width both, rather than a button squeezing the field. The
+       field is the control that has to be legible while typing. */
+    .ec-in, .ec-sub { flex: 1 1 100%; }
+  }
+
+</style><!-- payload 5ff922b004ce --></head><body><main>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../elnino/">El Niño</a><a class="ch-fire" href="../fires/">Fires</a><a class="ch-crop" href="../crops/">Crops</a><a class="ch-heat on" href="../heat/">Heat</a><a class="ch-notes" href="../notes/">Notes</a><a class="util" href="../about.html">About</a></nav></div></div></header>
+
+<!-- THE HOUSE NAME IS NOT REPEATED HERE. This bar predates the shared
+     masthead, which now sits directly above it and already carries the
+     wordmark, so the page printed "The Long Swell" twice inside 100px.
+     Kristjan spotted it. What this bar is for is the page's own
+     identity: the channel, and which station and cut it reports. -->
+<div class="mast"><span class="prod">Heat</span>
+<span class="when">Zagreb &middot; Zagreb-Gric &middot; to 14 August 2026</span></div>
+
+<h1>26 hot days so far, 5th of Zagreb's 146 summers.</h1>
+
+
+
+
+
+<div class="rows"><div class="urow"><span class="uk">By this date in a typical<br>summer of 1961-1990</span><span class="ug"><span class="u"></span><span class="u"></span></span><span class="un">1.8</span></div><div class="urow"><span class="uk">By this date<br>this summer</span><span class="ug"><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span><span class="u ua"></span></span><span class="un">26</span></div></div>
+
+
+<!-- THE THREE CHARTS STACK WITH NOTHING BETWEEN THEM. Kristjan's change,
+     and the reason is that they only become comparable when the eye can
+     run down them: same width, same year span, same left label column, no
+     paragraph resetting the reader between each one. The prose that used
+     to sit in the gaps now sits below all three, in chart order. -->
+<div class="seclab">Every summer on this thermometer</div>
+<div class="grid"><span class="gk">Hot days<em>above 32.3 &deg;C</em></span>
+<span><svg viewBox="0 -9 914 139" width="100%" style="height:auto"><line x1="0" y1="0.0" x2="880" y2="0.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="9.0" class="ax">30</text><line x1="0" y1="52.0" x2="880" y2="52.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="55.0" class="ax">15</text><line x1="0" y1="104.0" x2="880" y2="104.0" stroke="var(--rule)" stroke-width="1"/><text x="886" y="107.0" class="ax">0</text><rect x="0.0" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="6.0" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="12.1" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="18.1" y="86.7" width="4.8" height="17.3" fill="var(--hist)"/><rect x="24.1" y="90.1" width="4.8" height="13.9" fill="var(--hist)"/><rect x="30.1" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="36.2" y="76.3" width="4.8" height="27.7" fill="var(--hist)"/><rect x="78.4" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="84.4" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="96.4" y="90.1" width="4.8" height="13.9" fill="var(--hist)"/><rect x="108.5" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="114.5" y="86.7" width="4.8" height="17.3" fill="var(--hist)"/><rect x="120.5" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="126.6" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="132.6" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="138.6" y="79.7" width="4.8" height="24.3" fill="var(--hist)"/><rect x="144.7" y="72.8" width="4.8" height="31.2" fill="var(--hist)"/><rect x="150.7" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="156.7" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="162.7" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="168.8" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="174.8" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="180.8" y="86.7" width="4.8" height="17.3" fill="var(--hist)"/><rect x="211.0" y="86.7" width="4.8" height="17.3" fill="var(--hist)"/><rect x="217.0" y="76.3" width="4.8" height="27.7" fill="var(--hist)"/><rect x="223.0" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="235.1" y="90.1" width="4.8" height="13.9" fill="var(--hist)"/><rect x="241.1" y="41.6" width="4.8" height="62.4" fill="var(--hist)"/><rect x="247.1" y="76.3" width="4.8" height="27.7" fill="var(--hist)"/><rect x="253.2" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="259.2" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="277.3" y="58.9" width="4.8" height="45.1" fill="var(--hist)"/><rect x="283.3" y="45.1" width="4.8" height="58.9" fill="var(--hist)"/><rect x="289.3" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="295.3" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="301.4" y="55.5" width="4.8" height="48.5" fill="var(--hist)"/><rect x="313.4" y="86.7" width="4.8" height="17.3" fill="var(--hist)"/><rect x="325.5" y="83.2" width="4.8" height="20.8" fill="var(--hist)"/><rect x="331.5" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="343.6" y="83.2" width="4.8" height="20.8" fill="var(--hist)"/><rect x="349.6" y="79.7" width="4.8" height="24.3" fill="var(--hist)"/><rect x="361.6" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="373.7" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="379.7" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="385.8" y="72.8" width="4.8" height="31.2" fill="var(--hist)"/><rect x="391.8" y="38.1" width="4.8" height="65.9" fill="var(--hist)"/><rect x="397.8" y="76.3" width="4.8" height="27.7" fill="var(--hist)"/><rect x="409.9" y="90.1" width="4.8" height="13.9" fill="var(--hist)"/><rect x="415.9" y="65.9" width="4.8" height="38.1" fill="var(--hist)"/><rect x="421.9" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="427.9" y="41.6" width="4.8" height="62.4" fill="var(--hist)"/><rect x="434.0" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="452.1" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="458.1" y="72.8" width="4.8" height="31.2" fill="var(--hist)"/><rect x="464.1" y="79.7" width="4.8" height="24.3" fill="var(--hist)"/><rect x="482.2" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="488.2" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="494.2" y="83.2" width="4.8" height="20.8" fill="var(--hist)"/><rect x="506.3" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="518.4" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="524.4" y="90.1" width="4.8" height="13.9" fill="var(--hist)"/><rect x="542.5" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="554.5" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="560.5" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="572.6" y="97.1" width="4.8" height="6.9" fill="var(--hist)"/><rect x="602.7" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="608.8" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="614.8" y="83.2" width="4.8" height="20.8" fill="var(--hist)"/><rect x="620.8" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="626.8" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="632.9" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="638.9" y="90.1" width="4.8" height="13.9" fill="var(--hist)"/><rect x="644.9" y="69.3" width="4.8" height="34.7" fill="var(--hist)"/><rect x="657.0" y="86.7" width="4.8" height="17.3" fill="var(--hist)"/><rect x="663.0" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="669.0" y="79.7" width="4.8" height="24.3" fill="var(--hist)"/><rect x="675.1" y="90.1" width="4.8" height="13.9" fill="var(--hist)"/><rect x="681.1" y="62.4" width="4.8" height="41.6" fill="var(--hist)"/><rect x="687.1" y="100.5" width="4.8" height="3.5" fill="var(--hist)"/><rect x="693.2" y="93.6" width="4.8" height="10.4" fill="var(--hist)"/><rect x="705.2" y="76.3" width="4.8" height="27.7" fill="var(--hist)"/><rect x="711.2" y="90.1" width="4.8" height="13.9" fill="var(--hist)"/><rect x="717.3" y="62.4" width="4.8" height="41.6" fill="var(--hist)"/><rect x="723.3" y="79.7" width="4.8" height="24.3" fill="var(--hist)"/><rect x="729.3" y="79.7" width="4.8" height="24.3" fill="var(--hist)"/><rect x="735.3" y="13.9" width="4.8" height="90.1" fill="var(--hist)"/><rect x="741.4" y="83.2" width="4.8" height="20.8" fill="var(--hist)"/><rect x="747.4" y="86.7" width="4.8" height="17.3" fill="var(--hist)"/><rect x="753.4" y="55.5" width="4.8" height="48.5" fill="var(--hist)"/><rect x="759.5" y="45.1" width="4.8" height="58.9" fill="var(--hist)"/><rect x="765.5" y="69.3" width="4.8" height="34.7" fill="var(--hist)"/><rect x="771.5" y="69.3" width="4.8" height="34.7" fill="var(--hist)"/><rect x="777.5" y="62.4" width="4.8" height="41.6" fill="var(--hist)"/><rect x="783.6" y="69.3" width="4.8" height="34.7" fill="var(--hist)"/><rect x="789.6" y="6.9" width="4.8" height="97.1" fill="var(--hist)"/><rect x="795.6" y="34.7" width="4.8" height="69.3" fill="var(--hist)"/><rect x="801.6" y="83.2" width="4.8" height="20.8" fill="var(--hist)"/><rect x="807.7" y="20.8" width="4.8" height="83.2" fill="var(--hist)"/><rect x="813.7" y="79.7" width="4.8" height="24.3" fill="var(--hist)"/><rect x="819.7" y="10.4" width="4.8" height="93.6" fill="var(--hist)"/><rect x="825.8" y="58.9" width="4.8" height="45.1" fill="var(--hist)"/><rect x="831.8" y="24.3" width="4.8" height="79.7" fill="var(--hist)"/><rect x="837.8" y="62.4" width="4.8" height="41.6" fill="var(--hist)"/><rect x="843.8" y="0.0" width="4.8" height="104.0" fill="var(--hist)"/><rect x="849.9" y="17.3" width="4.8" height="86.7" fill="var(--hist)"/><rect x="855.9" y="69.3" width="4.8" height="34.7" fill="var(--hist)"/><rect x="861.9" y="34.7" width="4.8" height="69.3" fill="var(--hist)"/><rect x="867.9" y="41.6" width="4.8" height="62.4" fill="var(--hist)"/><rect x="874.0" y="13.9" width="4.8" height="90.1" fill="var(--accent)"/><line x1="876.4" y1="0" x2="876.4" y2="104.0" stroke="var(--accent)" stroke-width="1"/><text x="0.0" y="122" class="ax" text-anchor="start">1881</text><text x="572.6" y="122" class="ax" text-anchor="start">1976</text><text x="717.3" y="122" class="ax" text-anchor="start">2000</text><text x="874.0" y="122" class="ax" text-anchor="end">2026</text></svg></span></div>
+<div class="grid"><span class="gk">Hot nights<em>never below 20 &deg;C</em></span>
+<span><svg viewBox="0 -9 914 139" width="100%" style="height:auto"><line x1="0" y1="0.0" x2="880" y2="0.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="9.0" class="ax">39</text><line x1="0" y1="50.7" x2="880" y2="50.7" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="53.7" class="ax">20</text><line x1="0" y1="104.0" x2="880" y2="104.0" stroke="var(--rule)" stroke-width="1"/><text x="886" y="107.0" class="ax">0</text><rect x="0.0" y="90.7" width="4.8" height="13.3" fill="var(--hist)"/><rect x="6.0" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="12.1" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="18.1" y="90.7" width="4.8" height="13.3" fill="var(--hist)"/><rect x="24.1" y="90.7" width="4.8" height="13.3" fill="var(--hist)"/><rect x="30.1" y="90.7" width="4.8" height="13.3" fill="var(--hist)"/><rect x="36.2" y="74.7" width="4.8" height="29.3" fill="var(--hist)"/><rect x="48.2" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="54.2" y="96.0" width="4.8" height="8.0" fill="var(--hist)"/><rect x="60.3" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="78.4" y="96.0" width="4.8" height="8.0" fill="var(--hist)"/><rect x="84.4" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="90.4" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="96.4" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="108.5" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="114.5" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="120.5" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="132.6" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="138.6" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="144.7" y="85.3" width="4.8" height="18.7" fill="var(--hist)"/><rect x="150.7" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="156.7" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="162.7" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="168.8" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="180.8" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="204.9" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="211.0" y="90.7" width="4.8" height="13.3" fill="var(--hist)"/><rect x="217.0" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="223.0" y="96.0" width="4.8" height="8.0" fill="var(--hist)"/><rect x="235.1" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="241.1" y="48.0" width="4.8" height="56.0" fill="var(--hist)"/><rect x="247.1" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="253.2" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="259.2" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="265.2" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="277.3" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="283.3" y="82.7" width="4.8" height="21.3" fill="var(--hist)"/><rect x="289.3" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="295.3" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="301.4" y="82.7" width="4.8" height="21.3" fill="var(--hist)"/><rect x="307.4" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="313.4" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="319.5" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="325.5" y="96.0" width="4.8" height="8.0" fill="var(--hist)"/><rect x="331.5" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="337.5" y="85.3" width="4.8" height="18.7" fill="var(--hist)"/><rect x="343.6" y="58.7" width="4.8" height="45.3" fill="var(--hist)"/><rect x="349.6" y="82.7" width="4.8" height="21.3" fill="var(--hist)"/><rect x="361.6" y="85.3" width="4.8" height="18.7" fill="var(--hist)"/><rect x="367.7" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="373.7" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="379.7" y="96.0" width="4.8" height="8.0" fill="var(--hist)"/><rect x="385.8" y="69.3" width="4.8" height="34.7" fill="var(--hist)"/><rect x="391.8" y="58.7" width="4.8" height="45.3" fill="var(--hist)"/><rect x="397.8" y="64.0" width="4.8" height="40.0" fill="var(--hist)"/><rect x="403.8" y="85.3" width="4.8" height="18.7" fill="var(--hist)"/><rect x="409.9" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="415.9" y="69.3" width="4.8" height="34.7" fill="var(--hist)"/><rect x="421.9" y="85.3" width="4.8" height="18.7" fill="var(--hist)"/><rect x="427.9" y="56.0" width="4.8" height="48.0" fill="var(--hist)"/><rect x="434.0" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="446.0" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="452.1" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="458.1" y="64.0" width="4.8" height="40.0" fill="var(--hist)"/><rect x="464.1" y="85.3" width="4.8" height="18.7" fill="var(--hist)"/><rect x="470.1" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="476.2" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="482.2" y="90.7" width="4.8" height="13.3" fill="var(--hist)"/><rect x="488.2" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="494.2" y="69.3" width="4.8" height="34.7" fill="var(--hist)"/><rect x="500.3" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="506.3" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="512.3" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="518.4" y="85.3" width="4.8" height="18.7" fill="var(--hist)"/><rect x="524.4" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="530.4" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="536.4" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="542.5" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="548.5" y="85.3" width="4.8" height="18.7" fill="var(--hist)"/><rect x="554.5" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="560.5" y="96.0" width="4.8" height="8.0" fill="var(--hist)"/><rect x="566.6" y="98.7" width="4.8" height="5.3" fill="var(--hist)"/><rect x="572.6" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="578.6" y="96.0" width="4.8" height="8.0" fill="var(--hist)"/><rect x="584.7" y="101.3" width="4.8" height="2.7" fill="var(--hist)"/><rect x="590.7" y="82.7" width="4.8" height="21.3" fill="var(--hist)"/><rect x="596.7" y="90.7" width="4.8" height="13.3" fill="var(--hist)"/><rect x="602.7" y="82.7" width="4.8" height="21.3" fill="var(--hist)"/><rect x="608.8" y="85.3" width="4.8" height="18.7" fill="var(--hist)"/><rect x="614.8" y="77.3" width="4.8" height="26.7" fill="var(--hist)"/><rect x="620.8" y="96.0" width="4.8" height="8.0" fill="var(--hist)"/><rect x="626.8" y="80.0" width="4.8" height="24.0" fill="var(--hist)"/><rect x="632.9" y="77.3" width="4.8" height="26.7" fill="var(--hist)"/><rect x="638.9" y="80.0" width="4.8" height="24.0" fill="var(--hist)"/><rect x="644.9" y="80.0" width="4.8" height="24.0" fill="var(--hist)"/><rect x="651.0" y="93.3" width="4.8" height="10.7" fill="var(--hist)"/><rect x="657.0" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="663.0" y="61.3" width="4.8" height="42.7" fill="var(--hist)"/><rect x="669.0" y="72.0" width="4.8" height="32.0" fill="var(--hist)"/><rect x="675.1" y="66.7" width="4.8" height="37.3" fill="var(--hist)"/><rect x="681.1" y="37.3" width="4.8" height="66.7" fill="var(--hist)"/><rect x="687.1" y="80.0" width="4.8" height="24.0" fill="var(--hist)"/><rect x="693.2" y="90.7" width="4.8" height="13.3" fill="var(--hist)"/><rect x="699.2" y="96.0" width="4.8" height="8.0" fill="var(--hist)"/><rect x="705.2" y="45.3" width="4.8" height="58.7" fill="var(--hist)"/><rect x="711.2" y="66.7" width="4.8" height="37.3" fill="var(--hist)"/><rect x="717.3" y="72.0" width="4.8" height="32.0" fill="var(--hist)"/><rect x="723.3" y="61.3" width="4.8" height="42.7" fill="var(--hist)"/><rect x="729.3" y="61.3" width="4.8" height="42.7" fill="var(--hist)"/><rect x="735.3" y="18.7" width="4.8" height="85.3" fill="var(--hist)"/><rect x="741.4" y="88.0" width="4.8" height="16.0" fill="var(--hist)"/><rect x="747.4" y="66.7" width="4.8" height="37.3" fill="var(--hist)"/><rect x="753.4" y="21.3" width="4.8" height="82.7" fill="var(--hist)"/><rect x="759.5" y="64.0" width="4.8" height="40.0" fill="var(--hist)"/><rect x="765.5" y="50.7" width="4.8" height="53.3" fill="var(--hist)"/><rect x="771.5" y="66.7" width="4.8" height="37.3" fill="var(--hist)"/><rect x="777.5" y="50.7" width="4.8" height="53.3" fill="var(--hist)"/><rect x="783.6" y="72.0" width="4.8" height="32.0" fill="var(--hist)"/><rect x="789.6" y="24.0" width="4.8" height="80.0" fill="var(--hist)"/><rect x="795.6" y="21.3" width="4.8" height="82.7" fill="var(--hist)"/><rect x="801.6" y="64.0" width="4.8" height="40.0" fill="var(--hist)"/><rect x="807.7" y="26.7" width="4.8" height="77.3" fill="var(--hist)"/><rect x="813.7" y="42.7" width="4.8" height="61.3" fill="var(--hist)"/><rect x="819.7" y="29.3" width="4.8" height="74.7" fill="var(--hist)"/><rect x="825.8" y="18.7" width="4.8" height="85.3" fill="var(--hist)"/><rect x="831.8" y="18.7" width="4.8" height="85.3" fill="var(--hist)"/><rect x="837.8" y="72.0" width="4.8" height="32.0" fill="var(--hist)"/><rect x="843.8" y="0.0" width="4.8" height="104.0" fill="var(--hist)"/><rect x="849.9" y="26.7" width="4.8" height="77.3" fill="var(--hist)"/><rect x="855.9" y="69.3" width="4.8" height="34.7" fill="var(--hist)"/><rect x="861.9" y="8.0" width="4.8" height="96.0" fill="var(--hist)"/><rect x="867.9" y="42.7" width="4.8" height="61.3" fill="var(--hist)"/><rect x="874.0" y="61.3" width="4.8" height="42.7" fill="var(--accent)"/><line x1="876.4" y1="0" x2="876.4" y2="104.0" stroke="var(--accent)" stroke-width="1"/><text x="0.0" y="122" class="ax" text-anchor="start">1881</text><text x="572.6" y="122" class="ax" text-anchor="start">1976</text><text x="717.3" y="122" class="ax" text-anchor="start">2000</text><text x="874.0" y="122" class="ax" text-anchor="end">2026</text></svg></span></div>
+<div class="grid"><span class="gk">Hottest day<em>30 to 40 &deg;C</em></span>
+<span><svg viewBox="0 -4 914 126" width="100%" style="height:auto" role="img"><line x1="0" y1="20.0" x2="880" y2="20.0" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/><text x="886" y="29.0" class="ax">40</text><line x1="0" y1="104.0" x2="880" y2="104.0" stroke="var(--rule)" stroke-width="1"/><text x="886" y="107.0" class="ax">30</text><polyline points="0.0,79.1 6.1,72.9 12.1,76.0 18.2,69.8 24.3,82.2 30.3,74.4 36.4,76.0 42.5,91.6 48.6,91.6 54.6,93.9 60.7,86.9 66.8,89.2 72.8,100.1 78.9,76.0 85.0,77.6 91.0,87.7 97.1,69.8 103.2,93.9 109.2,77.6 115.3,76.0 121.4,79.1 127.4,83.8 133.5,76.8 139.6,70.6 145.7,65.1 151.7,85.3 157.8,71.3 163.9,80.7 169.9,69.0 176.0,86.1 182.1,65.9 188.1,91.6 194.2,95.4 200.3,100.1 206.3,92.3 212.4,62.8 218.5,62.0 224.6,69.8 230.6,94.7 236.7,69.8 242.8,51.1 248.8,65.1 254.9,71.3 261.0,76.0 267.0,90.0 273.1,100.1 279.2,64.3 285.2,55.8 291.3,73.7 297.4,63.6 303.4,55.8 309.5,89.2 315.6,74.4 321.7,89.2 327.7,49.6 333.8,76.8 339.9,91.6 345.9,77.6 352.0,44.9 358.1,96.2 364.1,79.9 370.2,88.4 376.3,81.4 382.3,86.1 388.4,58.1 394.5,52.7 400.6,57.3 406.6,93.9 412.7,74.4 418.8,23.9 424.8,85.3 430.9,54.2 437.0,85.3 443.0,92.3 449.1,90.8 455.2,83.8 461.2,49.6 467.3,67.4 473.4,90.0 479.4,98.6 485.5,73.7 491.6,79.1 497.7,66.7 503.7,91.6 509.8,79.9 515.9,98.6 521.9,79.1 528.0,48.0 534.1,93.1 540.1,88.4 546.2,72.9 552.3,90.0 558.3,81.4 564.4,79.1 570.5,97.8 576.6,79.1 582.6,92.3 588.7,99.3 594.8,87.7 600.8,93.1 606.9,81.4 613.0,78.3 619.0,55.0 625.1,72.1 631.2,76.0 637.2,85.3 643.3,72.1 649.4,64.3 655.4,88.4 661.5,77.6 667.6,71.3 673.7,72.1 679.7,62.8 685.8,79.1 691.9,86.1 697.9,79.1 704.0,90.8 710.1,72.9 716.1,70.6 722.2,58.9 728.3,67.4 734.3,64.3 740.4,51.9 746.5,67.4 752.6,75.2 758.6,63.6 764.7,40.2 770.8,76.8 776.8,65.1 782.9,60.4 789.0,44.9 795.0,51.1 801.1,35.6 807.2,69.8 813.2,46.4 819.3,67.4 825.4,44.9 831.4,69.0 837.5,58.1 843.6,74.4 849.7,49.6 855.7,33.2 861.8,58.9 867.9,58.9 873.9,51.1 880.0,44.9" fill="none" stroke="var(--soft)" stroke-width="1.2"/><circle cx="418.8" cy="23.9" r="3.4" fill="var(--ink)"/><line x1="418.8" y1="23.9" x2="418.8" y2="104.0" stroke="var(--ink)" stroke-width="1" opacity="0.45"/><circle cx="880.0" cy="44.9" r="3.6" fill="var(--accent)"/><text x="874.0" y="48.9" class="vlab va" text-anchor="end">37.6&#8202;&deg;C</text><text x="412.8" y="16.9" class="vlab" text-anchor="end">40.3&#8202;&deg;C</text></svg></span></div>
+
+<!-- AFTER THE SERIES, BEFORE THE APPARATUS. It was at 68% of the page,
+     which was the best of the five surfaces and still below the method
+     prose, the night gate and the peak caption. The reader has now seen
+     their own city's whole record; everything under this point explains
+     how it was measured. This is the moment, and it is the last one. -->
+<div class="ebd"><div><div class="ebk">One email a week</div><p class="ebp">We find climate signals in the data, and send you the ones that matter.</p></div><div><!-- Email capture by Kit. Double opt-in. -->
+<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+<form class="ec-form" action="https://app.kit.com/forms/9782858/subscriptions" method="post" data-sv-form="9782858" data-uid="11697d7626" data-format="inline" data-version="5"><label class="ec-lab" for="ec-email">Email address</label><input id="ec-email" class="ec-in" type="email" name="email_address" required autocomplete="email" placeholder="you@example.com"><button class="ec-sub" type="submit">Subscribe</button></form><p class="ebf">Confirmation email required. No spam, and every figure here stays free and public whether you subscribe or not.</p></div></div>
+
+<p class="cap">Hot here means 32.3&nbsp;&deg;C or above, a level about one summer day in twenty used to reach at this station between 1971 and 2000. The bar has not moved; the number of days clearing it has. Every year is counted to 14 August, so a part-finished summer is never set against complete ones. <strong>That threshold is Zagreb's own.</strong> It is not a national standard and it is not comparable with another city's: every figure on this page is measured against this station and nothing else.</p>
+
+<p class="cap">16 nights so far that never dropped below 20&nbsp;&deg;C, against 5.8 in a typical 1961-1990 summer by this date. That is 25th of its 146 summers.</p>
+
+<p class="cap">Zagreb's hottest day this year, 37.6&nbsp;&deg;C, is <strong>8th on this record</strong>. The previous best is 40.3&nbsp;&deg;C in 1950, the dot on the drop line. A typical summer here peaks at 33.6&nbsp;&deg;C. Its hot-day count is 5th of 146: a count and a peak are different claims, and neither borrows the other's rank.</p>
+
+<!-- The methodology link sits with the sources, not in the nav. The
+     shared masthead takes a methodology_href and does not render it,
+     so passing one there is silent and does nothing; this is the
+     place a reader checking a number is already looking. -->
+<div class="src">
+<span><a href="methodology.html">How these figures are built</a></span>
+<span style="text-align:right">Heat methodology</span>
+<span>NOAA GHCN-Daily and WMO bulletins, Zagreb-Gric, daily minimum and maximum</span>
+
+<span style="text-align:right">to 2026-08-14</span>
+<!-- Kristjan's ruling, 2026-08-07: show the state per city rather than
+     verify quietly or hedge across the set. Three different facts and the
+     reader gets whichever is true of their city. Generated by heat from
+     the station history, never typed here, so a city moving from unchecked
+     to checked-and-clean improves the page with no copy change. -->
+<span>Station history not yet checked.</span>
+<span style="text-align:right">station history</span>
+<!-- DERIVED, not typed. This row is the formal DEFINITION of the threshold
+     and it carried the literal string "1971 to 2000" while the prose above
+     it had already been corrected to the per-station window. Murcia's page
+     therefore stated two different reference periods for the same number,
+     two paragraphs apart, and the false one was the definition. -->
+<span>Hot days, this station's own 95th percentile of July-August maxima, 1971 to 2000</span>
+<span style="text-align:right">32.3 &deg;C</span>
+<!-- Same defect editor found in the prose, in the line that DEFINES the
+     metric. 'At or above 20' drops the minimum and describes a night that
+     reached 20, which nearly every summer night does. -->
+<span>Hot nights, ETCCDI index TR, daily minimum never below 20.0 &deg;C</span>
+<span style="text-align:right">not chosen by us</span>
+<!-- VD Heat, reader's view: every figure is to 2 or 3 August and a reader
+     arriving later cannot tell whether the summer ended, whether the page is
+     stale, or when it changes. A returning reader sees the same 30 and
+     assumes nothing happened. -->
+<span>Updated weekly, each Monday</span>
+<span style="text-align:right">counted to 2026-08-14</span>
+</div>
+<!-- THE WAY OUT. VD Heat: the city page is the promotion surface, so most
+     readers arrive here first and this is the whole site to them. A Berliner
+     sent the Paris link had a masthead link to the channel and nothing that
+     said twenty-three other cities exist. The index has the map, and the map
+     is the invitation. -->
+<p class="stand" style="margin-top:34px;padding-top:22px;border-top:1px solid var(--rule)">
+45 cities are measured this way, each against its own record.
+<a class="more" href="index.html">See them on the map</a></p>
+</main></body></html>
