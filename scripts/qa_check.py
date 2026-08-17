@@ -346,12 +346,27 @@ KNOWN_STALE_SCHEDULE_CLAIMS = {
 }
 
 
-def _cron_times(workflow: str) -> set[str]:
-    """HH:MM slots declared by a workflow's cron lines."""
-    path = ROOT / ".github" / "workflows" / workflow
-    if not path.exists():
+def _cron_times(workflow=None):
+    """HH:MM slots declared by cron lines, across every workflow by default.
+
+    IT READ ONE FILE AND CALLED THAT "THE SCHEDULE". The check below asks
+    whether prose states a run time the workflows do not have, and its
+    slot list came from fires.yml alone. So every accurate reference to
+    any OTHER workflow's schedule was a violation: it fired on
+    "13:00 UTC" for the weekly brief, which is declared in
+    weekly_brief.yml as "0 13 * * 1" and is entirely correct.
+
+    Six workflows have crons now. The guard was written when one did, and
+    it aged into a check whose failures were mostly its own.
+    """
+    if workflow:
+        paths = [ROOT / ".github" / "workflows" / workflow]
+    else:
+        paths = sorted((ROOT / ".github" / "workflows").glob("*.yml"))
+    text = "\n".join(p.read_text(encoding="utf-8", errors="ignore")
+                     for p in paths if p.exists())
+    if not text:
         return set()
-    text = path.read_text(encoding="utf-8", errors="ignore")
     out = set()
     for m in re.finditer(r'cron:\s*["\'](\S+)\s+(\S+)\s', text):
         minute, hour = m.group(1), m.group(2)
@@ -362,7 +377,7 @@ def _cron_times(workflow: str) -> set[str]:
 
 def check_schedule_claims(violations):
     """Does any file state a run time the workflow does not have?"""
-    valid = _cron_times("fires.yml")
+    valid = _cron_times()          # every workflow, not one
     if not valid:
         return
     for rel in SCHEDULE_CLAIM_FILES:
