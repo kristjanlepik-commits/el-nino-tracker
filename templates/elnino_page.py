@@ -406,7 +406,12 @@ figure img{{width:100%;height:auto;display:block}}
 <main>
 <div class="eyebrow">El Ni&ntilde;o 2026-27 &middot; week of {h(di)} &middot;
 {_as_published}</div>
-<h1>How big does this one get?</h1>
+<!-- "this El Nino" rather than "this one". Kristjan's diagnosis, editor's
+     ruling: the title travels alone on a shared link, where "this one" has
+     no antecedent. The fix is naming the subject rather than changing the
+     voice, because a survey-register question promises a single answer we
+     deliberately do not give. -->
+<h1>How big does this El Ni&ntilde;o get?</h1>
 {_finding_line(headline, phys)}
 
 <div class="sec"><h2>01 &middot; Observed</h2>{observed}</div>

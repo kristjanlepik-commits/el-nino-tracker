@@ -3503,9 +3503,17 @@ def _finding_line(headline, phys):
     # comparison names that year instead. An authored version of this
     # paragraph would be true today and would be heat's stale-claim defect
     # with a better view.
+    # THE LEDE IS THE RECORD OCEAN AND THE FORCING THAT DID NOT PRODUCE IT.
+    # The analog comparison it replaces is not lost: it moves into the
+    # paragraph below, where editor wants it, because it is what makes
+    # "record" concrete for a reader who does not know what 2.96 means.
     lede = _ocean_lede(phys)
     if lede:
-        bits.insert(0, lede)
+        first, analog_sentence = lede
+        wind = _wind_sentence(phys)
+        bits.insert(0, f"<strong>{first} {wind}</strong>" if wind
+                    else f"<strong>{first}</strong>")
+        bits.insert(1, analog_sentence)
     return ('<p class="finding">' + " ".join(bits) + '</p>') if bits else ""
 
 
@@ -3544,16 +3552,56 @@ def _ocean_lede(phys):
         if best_v is None or peaks[km] > best_v:
             best, best_m, best_v = y, km, peaks[km]
     if best is None or best_v >= now_v:
-        return first
+        return first, ""
 
     nm, bm = int(now_m[-2:]), int(best_m[-2:])
     gap = bm - nm
     word = {1: "a month", 2: "two months", 3: "three months",
             4: "four months", 5: "five months"}.get(gap)
     when = (f", {word} later in its own season" if word and gap > 0 else "")
-    second = (f"{_MONTHS[nm - 1]}'s reading is already above what {best} "
-              f"reached at its {_MONTHS[bm - 1]} peak{when}.")
-    return f"<strong>{first} {second}</strong>"
+    analog_sentence = (f"{_MONTHS[nm - 1]}'s reading is already above what "
+                       f"{best} reached at its {_MONTHS[bm - 1]} peak{when}.")
+    return first, analog_sentence
+
+
+def _wind_sentence(phys):
+    """The forcing, against the strongest analog at the SAME observation.
+
+    Editor's second sentence and the better one: the version it replaces
+    paired the record ocean with WHEN it got there, and this pairs it with
+    what did not push it. Two measurements and no causal claim. Westerly
+    bursts are the recognised driver of an onset, so saying so describes
+    the instrument rather than attributing this event's size to it, and the
+    tension between the two numbers is the reader's to notice.
+
+    MATCHED ON THE CURRENT YEAR'S LAST OBSERVATION, NEVER ON TODAY. Science's
+    rule, now in methodology, and this sentence is why it exists. ERA5 lags
+    about six days, so 2026's series ends on 08-11; matching 1997 on 08-17
+    handed it six extra days of a quantity that only ever rises and produced
+    73% instead of 77%. The error runs one way every time, making the
+    present look weaker than it is.
+
+    The analog is chosen rather than named: whichever comparison year stands
+    highest at that same date. It is 1997 today and the sentence will say so
+    only while that holds.
+    """
+    cur = phys.get("cwwa_series") or []
+    analogs = phys.get("cwwa_analogs") or {}
+    if not cur or not analogs:
+        return ""
+    last_date, last_val = cur[-1]
+    md = str(last_date)[5:]
+    best_y, best_v = None, None
+    for y, ser in analogs.items():
+        at = {str(d)[5:]: v for d, v in ser}
+        v = at.get(md)
+        if v and (best_v is None or v > best_v):
+            best_y, best_v = y, v
+    if not best_v or not last_val:
+        return ""
+    pct = int(round(100.0 * last_val / best_v))
+    return (f"The westerly winds that drive it are running at {pct}% of "
+            f"{best_y}&apos;s.")
 
 
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
