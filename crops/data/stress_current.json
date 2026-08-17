@@ -4,33 +4,64 @@
   "zfparc": {
    "name": "Vegetation, cumulative",
    "unit": "z-score",
-   "worse_is": "low"
+   "worse_is": "low",
+   "summarises": "the season so far, from sowing",
+   "window_dekads": 30,
+   "display_order": 5
   },
   "zfpar": {
    "name": "Vegetation, current",
    "unit": "z-score",
-   "worse_is": "low"
+   "worse_is": "low",
+   "summarises": "this dekad",
+   "window_dekads": 1,
+   "display_order": 1
   },
   "wsi": {
    "name": "Water satisfaction",
    "unit": "percent",
-   "worse_is": "low"
+   "worse_is": "low",
+   "summarises": "the season so far, as a water balance",
+   "window_dekads": 30,
+   "display_order": 6
   },
   "spi3": {
    "name": "Rainfall, 3-month",
    "unit": "SPI",
-   "worse_is": "low"
+   "worse_is": "low",
+   "summarises": "the past 3 months",
+   "window_dekads": 9,
+   "display_order": 4
   },
   "sm": {
    "name": "Soil moisture",
    "unit": "m3/m3",
-   "worse_is": "low"
+   "worse_is": "low",
+   "summarises": "this dekad",
+   "window_dekads": 1,
+   "display_order": 2
   },
   "temp": {
    "name": "Temperature",
    "unit": "anomaly C",
-   "worse_is": "high"
+   "worse_is": "high",
+   "summarises": "this dekad",
+   "window_dekads": 1,
+   "display_order": 3
   }
+ },
+ "instrument_order": {
+  "by": "window_dekads ascending, then legend order",
+  "means": "shortest observation window first. An instrument that summarises one dekad moves sooner than one that integrates a season, so a fixed order shows which instruments CAN move first. That is a fact about the instruments and not about any event.",
+  "not": "sorted by what moved. Never order these rows by observed movement: the ordering would then be a claim about sequence, and with `driver` unidentified in most places we cannot support one.",
+  "order": [
+   "zfpar",
+   "sm",
+   "temp",
+   "spi3",
+   "zfparc",
+   "wsi"
+  ]
  },
  "absence_reasons": {
   "no_current_value": "the instrument has history here but no value for the dekad being reported, usually because it publishes behind the others",

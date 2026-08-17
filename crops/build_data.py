@@ -51,6 +51,33 @@ INSTRUMENTS = [
     ("temp", "Temperature", "anomaly C", -1),
 ]
 
+# slug -> (what the number summarises, that window in dekads, display order)
+#
+# The observation window of each published index, which is a documented
+# property checkable against JRC's definitions rather than a judgement of
+# ours. It exists so a page can order these rows WITHOUT ordering them by
+# what moved: a row order that tracks observed movement makes the page
+# the author of a sequence, and with `driver` unidentified in most places
+# we cannot support one.
+#
+# display_order is window ascending, ties broken by the order above,
+# which is arbitrary and is recorded as arbitrary rather than dressed up.
+# Note this is NOT the order this file emits instruments in: that one is
+# spine-first, so the slowest instrument sits first and the two fastest
+# sit second and last. Freezing the emitted order and calling it response
+# time would have been a tidy false explanation.
+#
+# A shorter window moves sooner. That is the whole content of the
+# ordering and it is true in a calm week as well as a moving one.
+SUMMARISES = {
+    "zfpar": ("this dekad", 1, 1),
+    "sm": ("this dekad", 1, 2),
+    "temp": ("this dekad", 1, 3),
+    "spi3": ("the past 3 months", 9, 4),
+    "zfparc": ("the season so far, from sowing", 30, 5),
+    "wsi": ("the season so far, as a water balance", 30, 6),
+}
+
 # Countries where vegetation and the water instruments agree, so the
 # stress can be described as water-driven. Elsewhere the honest claim
 # stops at "below its own record" with no driver named. This is a CLAIM
@@ -1841,8 +1868,49 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         "_generated_from": "crops/.cache (no fetch performed)",
         "instrument_legend": {
             slug: {"name": label, "unit": unit,
-                   "worse_is": "low" if worse_is > 0 else "high"}
+                   "worse_is": "low" if worse_is > 0 else "high",
+                   "summarises": SUMMARISES[slug][0],
+                   "window_dekads": SUMMARISES[slug][1],
+                   "display_order": SUMMARISES[slug][2]}
             for slug, label, unit, worse_is in INSTRUMENTS
+        },
+        # THE ORDER IS DATA, NOT A RENDERER'S CHOICE, and that is the
+        # point rather than a convenience.
+        #
+        # Product's fix for the causal-reading trap is right: if a page
+        # sorts rows by when they moved, the page authors the sequence
+        # and a reader is correct to read authorship as assertion. So the
+        # order must be fixed, identical on every country, and a property
+        # of the instruments rather than of the event.
+        #
+        # But it cannot be the order this file happened to emit. That one
+        # is spine-first: zfparc, which summarises the whole season and
+        # is the SLOWEST, sits first, and temp and zfpar, which summarise
+        # a single dekad and are the fastest, sit last and second. Fixing
+        # that in place would freeze a jumble and then explain it as
+        # response time.
+        #
+        # So the ordering rule is stated and the sort key is emitted:
+        # ascending by how much time the number summarises, shortest
+        # first. That is a documented property of each index, checkable
+        # against JRC's definitions, and it is true in a calm week as
+        # well as a moving one. Ties are broken by the legend's own
+        # order, which is arbitrary and fixed, and said to be arbitrary
+        # rather than dressed as meaning.
+        "instrument_order": {
+            "by": "window_dekads ascending, then legend order",
+            "means": "shortest observation window first. An instrument "
+                     "that summarises one dekad moves sooner than one "
+                     "that integrates a season, so a fixed order shows "
+                     "which instruments CAN move first. That is a fact "
+                     "about the instruments and not about any event.",
+            "not": "sorted by what moved. Never order these rows by "
+                   "observed movement: the ordering would then be a "
+                   "claim about sequence, and with `driver` unidentified "
+                   "in most places we cannot support one.",
+            "order": [s for s, _w, _d, _o in sorted(
+                ((s,) + SUMMARISES[s] for s, _l, _u, _x in INSTRUMENTS),
+                key=lambda r: r[3])],
         },
         "absence_reasons": {
             "no_current_value": "the instrument has history here but no "
