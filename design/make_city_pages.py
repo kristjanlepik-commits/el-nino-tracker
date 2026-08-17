@@ -313,6 +313,77 @@ _EUROPE = re.compile(
     rf"(?:cities|capitals|countries|stations|towns)\b", re.I)
 
 
+
+_PROV = None
+
+
+def _season_provenance(name):
+    """The days after the official workbook, named on the page that uses them.
+
+    HEAT ASKED FOR THIS AND IT WAS OWED. London's season runs seven days
+    past the Met Office workbook, on the station's own WMO bulletins, and
+    the page counted those days without saying where they came from. A
+    reader auditing the 16 August figure against the official series would
+    have found nine days they could check and seven they could not, with
+    nothing on the page to explain the difference.
+
+    IT RENDERS ONLY WHEN THE FIELD SAYS THE TWO AGREE. `agree` is heat's
+    own test on the overlap; if the bulletins ever diverge from the
+    workbook the extension is not applied, and a sentence describing an
+    extension that was withheld would be worse than silence.
+
+    Nothing here is typed: the dates, the overlap length and the worst
+    disagreement all come from heat/data/london_provenance.json, so the
+    sentence cannot outlive the arrangement it describes.
+    """
+    global _PROV
+    if _PROV is None:
+        f = R / "heat/data/london_provenance.json"
+        try:
+            _PROV = json.loads(f.read_text())
+        except (OSError, ValueError):
+            _PROV = {}
+    sp = (_PROV.get("season_provenance") or {}) if \
+        _PROV.get("station", "").lower().startswith(name.lower()[:4]) or \
+        name == "London" else {}
+    if not sp or not sp.get("agree") or not sp.get("synop_days"):
+        return ""
+    n = len(sp["synop_days"])
+    off = sp.get("official_to", "")
+    try:
+        y, m, d = (int(x) for x in off.split("-"))
+        off_txt = f"{d} {_MON_FULL[m - 1]}"
+    except ValueError:
+        off_txt = off
+    return (f'<span style="grid-column:1/-1"><strong>The last {n} days are '
+            f'from the station\'s own bulletins.</strong> The official '
+            f'Met Office series runs to {off_txt}; the days after it come '
+            f'from Heathrow\'s WMO bulletins, the same thermometer. Where '
+            f'the two overlap, {sp.get("overlap_days")} days, they agree to '
+            f'within {sp.get("overlap_worst_c")}&nbsp;&deg;C.</span>')
+
+
+_MON_FULL = ["January", "February", "March", "April", "May", "June", "July",
+             "August", "September", "October", "November", "December"]
+
+
+
+def _station_site(v):
+    """The site class, and its caveat where the payload carries one."""
+    cls = v.get("station_class")
+    if not cls:
+        return ""
+    from html import escape as _esc
+    # The limit already opens by naming the site type ("This station is at
+    # an airport"), so prefixing the class as well printed it twice. Where
+    # heat emits a limit it IS the sentence; where it does not, the class
+    # word stands alone against the "site class" label beside it.
+    lim = (v.get("station_class_limit") or "").strip()
+    if lim:
+        return _esc(lim.rstrip(".")) + "."
+    return _esc(cls.capitalize())
+
+
 def _provisional_block(v):
     from html import escape as _esc
     """A season whose licence is unresolved says so, on the page.
@@ -1233,6 +1304,7 @@ for name, v in sorted(C.items()):
 <span style="text-align:right">Heat methodology</span>
 <span>{S[name]['source']}, {S[name]['station']}, daily minimum and maximum</span>
 {_provisional_block(v)}
+{_season_provenance(name)}
 <span style="text-align:right">to {v['counted_to']}</span>
 <!-- Kristjan's ruling, 2026-08-07: show the state per city rather than
      verify quietly or hedge across the set. Three different facts and the
@@ -1241,6 +1313,22 @@ for name, v in sorted(C.items()):
      to checked-and-clean improves the page with no copy change. -->
 <span>{v['station_disclosure']}</span>
 <span style="text-align:right">station history</span>
+<!-- WHAT KIND OF SITE THIS IS, which is a different question from whether
+     the station moved, and the one readers actually raise. Heat asked for
+     it and I agree: urban heat island is the first challenge any city
+     record gets, and the page had the answer in the payload and did not
+     show it. Prague is the case that settles it, carrying `suburban`
+     against months of assuming otherwise.
+
+     THE LIMIT RIDES WITH THE CLASS WHERE HEAT EMITS ONE. Twenty-five of
+     the 45 stations are at airports and carry a sentence saying part of
+     their long-term warming may be local to the site; the other twenty
+     carry no limit and get none invented for them. An 'unverified' class
+     means not yet established rather than unremarkable, which is heat's
+     own wording and the reason this renders the field rather than
+     translating it. -->
+<span>{_station_site(v)}</span>
+<span style="text-align:right">site class</span>
 <!-- DERIVED, not typed. This row is the formal DEFINITION of the threshold
      and it carried the literal string "1971 to 2000" while the prose above
      it had already been corrected to the per-station window. Murcia's page
