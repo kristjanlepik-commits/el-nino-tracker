@@ -114,6 +114,37 @@ def _analogs_same_week(text: str, issued_iso: str) -> dict:
     return out
 
 
+def _sst_by_year(text: str) -> dict:
+    """{year: [(day_of_year, absolute Nino 3.4 SST), ...]} for the whole file.
+
+    The record runs from September 1981, so this is every year of the
+    weekly series. Used for the "every year on one axis" SST chart, where
+    the point is that the current year sits above the entire record: an
+    absolute-temperature statement that needs no anomaly, no baseline and
+    no attribution claim to land.
+
+    Absolute SST rather than anomaly is deliberate. An anomaly requires
+    naming a climatology (the same figure reads +2.75 against 1982-2010
+    and +2.63 against 1991-2020), and a chart that shows the whole record
+    does not need one: the reader compares this year to the other years
+    directly.
+    """
+    out: dict = {}
+    for line in text.splitlines():
+        if not _DATE_RE.match(line):
+            continue
+        try:
+            d = datetime.fromisoformat(_parse_date(line))
+        except ValueError:
+            continue
+        nums = _FLOAT_RE.findall(line)
+        if len(nums) < 8:
+            continue
+        out.setdefault(str(d.year), []).append(
+            [d.timetuple().tm_yday, float(nums[4])])
+    return out
+
+
 def fetch() -> FetchResult:
     try:
         r_trad = http_get(URL_TRADITIONAL)
@@ -165,6 +196,7 @@ def fetch() -> FetchResult:
                 "weekly_relative": weekly_relative,
                 "roni_to_oni_offset": offset,
                 "analogs_same_week": _analogs_same_week(r_trad.text, issued),
+                "sst_by_year": _sst_by_year(r_trad.text),
             },
         )
     except Exception as e:
