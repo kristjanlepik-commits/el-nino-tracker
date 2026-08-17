@@ -237,6 +237,14 @@ def main():
     ap.add_argument("--flood-baseline", default=None)
     ap.add_argument("--flood-current", default=None)
     ap.add_argument("--out", required=True)
+    # The three states of editorial standards 5. Required rather than
+    # defaulted: the state is a scientific determination about whether a
+    # teleconnection exists, so it belongs to this channel, but it cannot
+    # be guessed per region by a constant. The WORDING stays the
+    # editor's; this field only says which of the three is true.
+    ap.add_argument("--attribution", required=True,
+                    choices=["enso_linked", "not_enso_linked",
+                             "attribution_pending"])
     args = ap.parse_args()
 
     w0, w1 = args.window.split(":")
@@ -253,8 +261,24 @@ def main():
         "label": args.label,
         "window": {"start": start.isoformat(), "end": end.isoformat()},
         "as_of": as_of.isoformat(),
-        "authorship": "agency",
-        "attribution": "attribution_pending",
+        # WAS "agency", AND THAT WAS A PROVENANCE MISSTATEMENT.
+        # No agency published "69.4 mm over the eastern Pyrenees, rank 1
+        # of 27". NASA published the grids; the area mean, the window
+        # harmonisation and the rank are ours. econ carries authorship
+        # "agency" because econ never authors a figure (D-021); floods
+        # authors one on every page, so it is tls_built with an evidence
+        # basis of measured under D-033. The instrument field already
+        # credits NASA, which is the part that genuinely is theirs.
+        "authorship": "tls_built",
+        "evidence_basis": "measured",
+        # NOT DEFAULTED, ON PURPOSE. This was hardcoded to
+        # attribution_pending, which editorial standards 5 explicitly
+        # forbids as a shrug: "pending" promises a resolution and creates
+        # a maintenance obligation to revisit, so a tag that will never
+        # resolve is a small lie that compounds across a channel. A
+        # default cannot know whether a teleconnection exists, so it must
+        # not guess. The caller states it or the emit fails.
+        "attribution": args.attribution,
         "series": [],
         "notes": [],
     }
