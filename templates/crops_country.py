@@ -40,7 +40,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-import tokens as T                                            # noqa: E402
+import tokens as T
+from templates.page_head import head_meta  # noqa: E402                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
@@ -728,10 +729,16 @@ def render(country: dict, root_prefix: str = "../../") -> str:
      showing a blank one. The house card is generic and beats an
      empty slot; per-page cards wait for the citable chart, and will
      have to carry their cut date so a stale one is visibly stale. -->
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Canonical, description and share cards come from templates/page_head.py,
+     which every surface will read. Crops had none of the three on any of its
+     124 pages: each template writes its own head, so a property exists
+     wherever it was last thought about, and heat had them only because it was
+     built most recently. The description is the standfirst this page already
+     tells a reader, so a crawler and a reader get the same sentence and it
+     cannot go stale separately. -->
+{head_meta(title=f"{name} | Crops | {SITE_NAME}", description=stand,
+           path=f"/crops/{slugify(country.get('_page_place') or name)}/")}
 <!-- INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived
      by copy from the fires template in da318b1, one day before crops
      launched, and no ledger entry ever decided it either way. It was
