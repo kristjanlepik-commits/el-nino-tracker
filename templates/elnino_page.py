@@ -35,6 +35,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+sys.path.insert(0, str(ROOT / 'design'))
+import copydeck                                              # noqa: E402,F401
 import tokens as T                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
@@ -189,6 +191,70 @@ def _retired_phrase(headline):
             f"history stays in the archive.")
 
 
+
+def _rung_note(fetched, headline, briefs_root):
+    """Editor's +4.0 note, from copy/elnino.md, with its figures assembled.
+
+    THE PROSE IS EDITOR'S AND THE FIGURES ARE NOT TYPED IN IT. Three of the
+    four numbers come from the payload; the fourth, +3.5 as it stood in
+    July, is read from that issue's frozen meta.json rather than
+    remembered.
+
+    THE NOTE IS WITHHELD IF ITS OWN CLAIM STOPS HOLDING. Its argument is
+    that the models split on POSSIBILITY rather than on likelihood: some
+    put a majority of members above +4.0 and others put none there at all.
+    That is a fact about today's ensemble and it will stop being one. So
+    the shape is checked before the words are placed, and if the split
+    closes the note does not render and the build says so. A paragraph
+    arguing from a gap that has filled in is worse than no paragraph.
+    """
+    import json as _json
+    models = ((fetched.get("nmme") or {}).get("models") or {})
+    fracs = sorted((m.get("frac_above") or {}).get("4.0")
+                   for m in models.values()
+                   if (m.get("frac_above") or {}).get("4.0") is not None)
+    if len(fracs) < 3:
+        print("  +4.0 note WITHHELD: fewer than three models report >4.0")
+        return "", ""
+    zero = [f for f in fracs if f == 0.0]
+    occupied = [f for f in fracs if f > 0.0]
+    p40 = _clamp((headline.get("record_>4.0") or {}).get("mid"))
+    if not zero or not occupied or p40 is None:
+        print("  +4.0 note WITHHELD: the ensemble no longer splits on "
+              "possibility, or +4.0 has no publishable figure")
+        return "", ""
+    nearest = min(occupied)
+    if not (0 < p40 < nearest):
+        print(f"  +4.0 note WITHHELD: {p40}% no longer falls in the gap "
+              f"between 0 and {nearest:g}; the sentence would be false")
+        return "", ""
+
+    p35_now = _clamp((headline.get("record_>3.5") or {}).get("mid"))
+    p35_then, then_issue = None, None
+    for meta in sorted(Path(briefs_root).glob("*/meta.json")):
+        try:
+            m = _json.loads(meta.read_text())
+        except Exception:
+            continue
+        v = ((m.get("headline_buckets") or {}).get("record_>3.5") or {}).get("mid")
+        if v is not None:
+            p35_then, then_issue = v, meta.parent.name
+            break
+    if p35_now is None or p35_then is None or p35_then >= p35_now:
+        print("  +4.0 note WITHHELD: +3.5 has not climbed since its first "
+              "published issue, so the reason given for adding the rung "
+              "no longer reads")
+        return "", ""
+
+    import copydeck
+    c = copydeck.render(
+        "elnino",
+        {"p40": p40, "nearest": f"{nearest:g}",
+         "p35_then": p35_then, "p35_now": p35_now},
+        wanted=["rung_note_label", "rung_note"])
+    return c["rung_note_label"], c["rung_note"]
+
+
 def _provenance(fetched, brief_date, headline=None):
     """One register. VD's 03: the caveats are not the problem, they are the
     product's honesty. The problem was three registers in the reading path,
@@ -269,6 +335,12 @@ def render(fetched, meta, brief_date, root_prefix="../",
             'is what makes the rest legible.</p>' + wind)
 
     outlook = _rung_rows(headline)
+    # EDITOR'S NOTE ON THE NEW RUNG, directly under the ladder it explains.
+    # It renders only while its own argument holds; see _rung_note.
+    _nlab, _nbody = _rung_note(fetched, headline, ROOT / "docs/briefs")
+    if _nbody:
+        outlook += (f'<div class="rnote"><div class="rnk">{h(_nlab)}</div>'
+                    f'{_nbody}</div>')
     if hist:
         outlook += ('<p class="lede" style="margin-top:26px">And where those '
                     'numbers have come from since April, which one week cannot '
@@ -335,6 +407,13 @@ h1{{font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;
  fill:var(--ink-faint);font-variant-numeric:tabular-nums}}
 .chnow{{font-family:"{T.FONT_DATA}",monospace;font-size:12px;font-weight:600;
  fill:var(--ink);font-variant-numeric:tabular-nums}}
+.rnote{{margin:26px 0 0;padding:15px 0 0;border-top:2px solid var(--ink)}}
+.rnk{{font-family:"{T.FONT_DATA}",monospace;font-size:9.5px;letter-spacing:.2em;
+ text-transform:uppercase;color:var(--ink-faint);margin-bottom:9px}}
+.rnote p{{margin:0 0 10px;font-size:16px;line-height:1.55;max-width:60ch;
+ color:var(--ink-soft)}}
+.rnote p:last-child{{margin-bottom:0}}
+.rnote strong{{color:var(--ink);font-weight:600}}
 .ledger{{display:grid;grid-template-columns:200px minmax(0,1fr);gap:0 22px;
  font-family:"{T.FONT_DATA}",monospace;font-size:11.5px;line-height:1.75}}
 .ledger>div{{padding:11px 0;border-top:1px solid var(--rule)}}
