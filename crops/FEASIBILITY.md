@@ -2400,3 +2400,47 @@ claim.
 constant".** It is: *if this field went missing, which branch would the
 consumer take, and what would that branch say to a reader?* If the
 answer is a sentence rather than a blank, the field is a contract.
+
+### 13m. The UK entity exists, and "it is not in the data" is not a constraint
+
+Added 2026-08-16, when product inspected the payload for "United
+Kingdom", did not find it, and concluded crops has no UK entity
+structurally. The conclusion they drew from that was the right
+constraint. The evidence was false, and the false evidence is the
+dangerous half.
+
+**What is actually there.** `U.K. of Great Britain and Northern
+Ireland`, with a complete country-level record: magnitude rank 13 of 26,
+rate rank 1 of 26, four regions (England, Wales, Northern Ireland,
+Scotland), and an `aggregate` block. The GAUL name is why a search for
+"United Kingdom" misses it, which **this file already warned about**. A
+join on the name silently drops the UK. That has now cost us twice, and
+the second time it produced a false structural claim rather than a
+missing row.
+
+**Why the difference matters.** "The rollup is unavailable" makes a
+constraint look self-enforcing. A template reading this payload will
+find a UK country figure carrying a rate rank of 1, and nothing in the
+data prevents it being rendered. **The constraint has to be enforced in
+the template. It cannot lean on absence.**
+
+**The general form, and it is worth more than the UK case.** *Absence of
+a string is not absence of an entity, and "the data will not let us" is
+the weakest kind of guarantee.* It fails silently the moment a name
+changes, a source is added, or somebody searches for the wrong spelling.
+A rule that has to hold should be written where it is executed.
+
+**And two qualifiers on one number are not interchangeable.** The UK
+country rate now carries `control_holds: false` and a `licensed_claim`
+that refuses the record fall, because its start level was 3rd highest of
+26. That is honest and it covers trap 17 only. It says nothing about the
+aggregation problem, which lives in `aggregate.one_region_carries: 0.25`:
+four regions each carrying a quarter of the figure regardless of
+cropland, with England holding nearly all of it.
+
+So a consumer can render `licensed_claim` faithfully and still mislead,
+because the two defects are independent and only one is in that field.
+**If a UK-level number ever appears it needs both qualifiers or
+neither.** This is the limit of per-field licensing: a licence covers
+the trap it was built for and is silent on every other, which reads as
+endorsement.
