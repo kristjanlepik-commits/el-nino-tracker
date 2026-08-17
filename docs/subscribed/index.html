@@ -239,6 +239,15 @@ h1 { font-size:30px; font-weight:500; line-height:1.2; margin:26px 0 12px;
        field is the control that has to be legible while typing. */
     .ec-in, .ec-sub { flex: 1 1 100%; }
   }
+  /* The reader's answer. Empty until the submit resolves, and it takes a
+     whole row so it never squeezes the field. Kristjan found the form on
+     2026-08-17 doing exactly what this element exists to prevent:
+     subscribing him successfully and telling him nothing. */
+  .ec-msg { flex: 1 1 100%; margin: 8px 0 0; font-family: var(--sans);
+            font-size: 14px; line-height: 1.45; }
+  .ec-msg:empty { display: none; }
+  .ec-msg-ok { color: var(--ink); }
+  .ec-msg-err { color: var(--ink); }
 
 .seclab { font-family:"IBM Plex Mono",monospace; font-size:11px;
   letter-spacing:0.22em; text-transform:uppercase;

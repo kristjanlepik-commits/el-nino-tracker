@@ -787,6 +787,15 @@
        field is the control that has to be legible while typing. */
     .ec-in, .ec-sub { flex: 1 1 100%; }
   }
+  /* The reader's answer. Empty until the submit resolves, and it takes a
+     whole row so it never squeezes the field. Kristjan found the form on
+     2026-08-17 doing exactly what this element exists to prevent:
+     subscribing him successfully and telling him nothing. */
+  .ec-msg { flex: 1 1 100%; margin: 8px 0 0; font-family: var(--sans);
+            font-size: 14px; line-height: 1.45; }
+  .ec-msg:empty { display: none; }
+  .ec-msg-ok { color: var(--ink); }
+  .ec-msg-err { color: var(--ink); }
 
   @media (max-width: 700px) {
     /* Stack rather than share the row, and drop the 40px column gap,

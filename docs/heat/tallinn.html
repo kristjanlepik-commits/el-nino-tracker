@@ -294,6 +294,15 @@ border-bottom:1px solid var(--rule)}
        field is the control that has to be legible while typing. */
     .ec-in, .ec-sub { flex: 1 1 100%; }
   }
+  /* The reader's answer. Empty until the submit resolves, and it takes a
+     whole row so it never squeezes the field. Kristjan found the form on
+     2026-08-17 doing exactly what this element exists to prevent:
+     subscribing him successfully and telling him nothing. */
+  .ec-msg { flex: 1 1 100%; margin: 8px 0 0; font-family: var(--sans);
+            font-size: 14px; line-height: 1.45; }
+  .ec-msg:empty { display: none; }
+  .ec-msg-ok { color: var(--ink); }
+  .ec-msg-err { color: var(--ink); }
 
 </style><!-- payload 5ff922b004ce --></head><body><main>
 <header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../elnino/">El Niño</a><a class="ch-fire" href="../fires/">Fires</a><a class="ch-crop" href="../crops/">Crops</a><a class="ch-heat on" href="../heat/">Heat</a><a class="ch-notes" href="../notes/">Notes</a><a class="util" href="../about.html">About</a></nav></div></div></header>
@@ -334,8 +343,43 @@ border-bottom:1px solid var(--rule)}
      their own city's whole record; everything under this point explains
      how it was measured. This is the moment, and it is the last one. -->
 <div class="ebd"><div><div class="ebk">One email a week</div><p class="ebp">We find climate signals in the data, and send you the ones that matter.</p></div><div><!-- Email capture by Kit. Double opt-in. -->
-<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
-<form class="ec-form" action="https://app.kit.com/forms/9782858/subscriptions" method="post" data-sv-form="9782858" data-uid="11697d7626" data-format="inline" data-version="5"><label class="ec-lab" for="ec-email">Email address</label><input id="ec-email" class="ec-in" type="email" name="email_address" required autocomplete="email" placeholder="you@example.com"><button class="ec-sub" type="submit">Subscribe</button></form><p class="ebf">Confirmation email required. No spam, and every figure here stays free and public whether you subscribe or not.</p></div></div>
+<form class="ec-form" action="https://app.kit.com/forms/9782858/subscriptions" method="post" data-sv-form="9782858" data-uid="11697d7626" data-format="inline" data-version="5"><label class="ec-lab" for="ec-email">Email address</label><input id="ec-email" class="ec-in" type="email" name="email_address" required autocomplete="email" placeholder="you@example.com"><button class="ec-sub" type="submit">Subscribe</button><p class="ec-msg" role="status" aria-live="polite"></p></form>
+<script>
+(function () {
+  if (window.__ecBound || !window.fetch) { return; }
+  window.__ecBound = 1;
+  document.addEventListener('submit', function (e) {
+    var f = e.target;
+    if (!f || !f.classList || !f.classList.contains('ec-form')) { return; }
+    e.preventDefault();
+    var btn = f.querySelector('.ec-sub');
+    var msg = f.querySelector('.ec-msg');
+    var input = f.querySelector('.ec-in');
+    var was = btn ? btn.textContent : '';
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending'; }
+    if (msg) { msg.className = 'ec-msg'; msg.textContent = ''; }
+    fetch(f.action, {
+      method: 'POST',
+      body: new FormData(f),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (r) {
+      if (!r.ok) { throw new Error(r.status); }
+      if (btn) { btn.textContent = 'Subscribed'; }
+      if (input) { input.readOnly = true; }
+      if (msg) {
+        msg.className = 'ec-msg ec-msg-ok';
+        msg.textContent = 'Now check your email to confirm your subscription.';
+      }
+    }).catch(function () {
+      if (btn) { btn.disabled = false; btn.textContent = was; }
+      if (msg) {
+        msg.className = 'ec-msg ec-msg-err';
+        msg.textContent = 'That did not send. Please try again.';
+      }
+    });
+  }, false);
+})();
+</script><p class="ebf">Confirmation email required. No spam, and every figure here stays free and public whether you subscribe or not.</p></div></div>
 
 <p class="cap">Hot here means 28.1&nbsp;&deg;C or above, a level about one summer day in twenty used to reach at this station between 1991 and 2020. The percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates. The bar has not moved; the number of days clearing it has. Every year is counted to 31 July, so a part-finished summer is never set against complete ones. <strong>That threshold is Tallinn's own.</strong> It is not a national standard and it is not comparable with another city's: every figure on this page is measured against this station and nothing else.</p>
 
