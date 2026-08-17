@@ -3416,6 +3416,9 @@ def chart_prob_history(briefs_dir):
 
 
 
+_FINDING_SAYS_SETTLED = False
+
+
 def _finding_line(headline, phys):
     """The plain-language finding, generated from the payload, before any
     instrument is named. Product's ruling, and it applies to every channel
@@ -3439,16 +3442,28 @@ def _finding_line(headline, phys):
         # waiting, because the sentence I am generating is the most quotable
         # line on the page and 100% is the one number it must never print.
         return None if v is None else max(1, min(99, int(v)))
+    # RETIRED RUNGS ARE NOT AVAILABLE TO THE FINDING EITHER. The lede rested
+    # on "a peak above +2.0 is settled" for a week after +2.0 left the
+    # ladder on 08-10, so the most quotable line on the page was describing
+    # a rung the page no longer published.
     settled = [(lab, mid(k)) for k, lab in
                (("super_>2.0", "+2.0"), ("9715_>2.5", "+2.5"),
                 ("record_>3.0", "+3.0"), ("record_>3.5", "+3.5"))
-               if mid(k) is not None]
+               if mid(k) is not None
+               and not _is_retired(k, headline.get(k) or {})]
     if not settled:
         return ""
     top_open = next(((lab, v) for lab, v in reversed(settled) if v < 90), None)
     high_settled = next(((lab, v) for lab, v in settled if v >= 90), None)
     bits = []
-    if high_settled:
+    # THE SETTLED SENTENCE DOES NOT SURVIVE THE REWRITE. Editor removed it
+    # because it closed the page's own question in five words before the
+    # reader reached anything worth repeating, and that fault is in the
+    # SHAPE rather than in the rung: with +2.0 retired it simply became "a
+    # peak above +2.5 is settled", the same sentence one rung up. It is
+    # kept behind this flag rather than deleted because the finding is
+    # science's generator and the removal is editor's call on one page.
+    if high_settled and _FINDING_SAYS_SETTLED:
         # NO NUMBER ON A SATURATED RUNG. Science sent this back and they are
         # right: 99 is the BOUND, not an estimate. Printing it as a
         # percentage presents a display artifact as a measurement, which is
@@ -3469,11 +3484,76 @@ def _finding_line(headline, phys):
                     f"<strong>{top_open[1]}% for a peak beyond "
                     f"{top_open[0]}&nbsp;&deg;C</strong>, a level no event in "
                     f"the instrumental record has reached.")
-    hc = phys.get("heat_content_0_300m_estimate")
-    if hc is not None:
-        bits.append(f"Subsurface heat is at {hc:+.2f}&nbsp;&deg;C, the highest "
-                    f"in the 47-year record.")
+    # NOT THE OLD SUBSURFACE SENTENCE. It said "the highest in the 47-year
+    # record", which is now the FIRST thing the paragraph says, in better
+    # words. Keeping both put one fact in the same paragraph twice.
+    # THE OCEAN LEADS. Editor's rewrite, Kristjan approved, science's
+    # diagnosis: the title asked a question and the first sentence closed it
+    # in five words, before the reader reached anything they would repeat to
+    # anyone. "A peak above +2.0 is settled" is the least interesting true
+    # thing on the page and it was standing in the doorway. The record ocean
+    # was arriving fourth and it is the only fact here a reader can picture.
+    #
+    # GENERATED, NOT PASTED, which is the whole of D-124 and the reason this
+    # took longer than typing editor's two sentences. Every figure in them,
+    # the 47 years, the 1997 October peak, the three-month gap, is computed
+    # from heat_content_series and each clause is GUARDED by the condition
+    # that makes it true. If 2026 stops leading the series the sentence
+    # stops claiming it leads; if some other year holds the analog peak the
+    # comparison names that year instead. An authored version of this
+    # paragraph would be true today and would be heat's stale-claim defect
+    # with a better view.
+    lede = _ocean_lede(phys)
+    if lede:
+        bits.insert(0, lede)
     return ('<p class="finding">' + " ".join(bits) + '</p>') if bits else ""
+
+
+_MONTHS = ["January", "February", "March", "April", "May", "June", "July",
+           "August", "September", "October", "November", "December"]
+
+
+def _ocean_lede(phys):
+    """The two sentences that now open /elnino/, computed from the series.
+
+    Both clauses are conditional on what they assert. The first renders
+    only while this month IS the maximum of the whole series; the second
+    only while it is above the analog's own peak, and it names whichever
+    analog year that peak belongs to rather than assuming 1997.
+    """
+    series = phys.get("heat_content_series") or {}
+    now_m = phys.get("heat_content_data_month")
+    now_v = phys.get("heat_content_0_300m_estimate")
+    if not series or not now_m or now_v is None:
+        return ""
+    months = len(series)
+    years = months // 12
+    if max(series.values()) > now_v:            # no longer the record
+        return ""
+    first = (f"The Pacific has not been this warm beneath the surface in the "
+             f"{years} years we have measured it.")
+
+    # The analog comparison, from the analogs the payload names.
+    analogs = [y for y in (phys.get("heat_content_analogs_same_month") or {})]
+    best, best_m, best_v = None, None, None
+    for y in analogs:
+        peaks = {k: v for k, v in series.items() if k.startswith(str(y))}
+        if not peaks:
+            continue
+        km = max(peaks, key=peaks.get)
+        if best_v is None or peaks[km] > best_v:
+            best, best_m, best_v = y, km, peaks[km]
+    if best is None or best_v >= now_v:
+        return first
+
+    nm, bm = int(now_m[-2:]), int(best_m[-2:])
+    gap = bm - nm
+    word = {1: "a month", 2: "two months", 3: "three months",
+            4: "four months", 5: "five months"}.get(gap)
+    when = (f", {word} later in its own season" if word and gap > 0 else "")
+    second = (f"{_MONTHS[nm - 1]}'s reading is already above what {best} "
+              f"reached at its {_MONTHS[bm - 1]} peak{when}.")
+    return f"<strong>{first} {second}</strong>"
 
 
 def build_public_html(fetched: dict, freshness: dict, headline: dict,

@@ -569,6 +569,48 @@ days, 2015's 104 days, even though each contained 3-5 distinct
 sub-bursts. v1.7 splits these correctly by peak. The methodology
 change log entry under "Versioning and change log" documents the
 swap and resulting count changes.</p>
+<h3>Comparing against analog years: match on the last observation</h3>
+<p>Every analog comparison we publish (CWWA, burst counts, subsurface
+heat, the ONI trajectories) is anchored to <strong>the current year's most
+recent observation</strong>, never to today's calendar date.</p>
+<p>The two differ because our instruments lag. ERA5 runs roughly six days
+behind, so on 17 August 2026 the newest wind data available is 11
+August. Reading an analog year at 17 August and comparing it against
+2026 at 11 August gives the analog six extra days it has lived and the
+current year has not.</p>
+<p>For a cumulative quantity this is not a rounding issue, because the
+integral only ever rises. Measured on the 2026-08-17 issue:</p>
+<table>
+<thead>
+<tr>
+<th>match date</th>
+<th>1997 CWWA</th>
+<th>2026 as % of 1997</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11 Aug, the last 2026 observation</td>
+<td>704.6</td>
+<td><strong>77%</strong></td>
+</tr>
+<tr>
+<td>17 Aug, today's calendar date</td>
+<td>746.3</td>
+<td>73%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The error always runs the same way</strong>: it makes the current year look
+weaker relative to its analogs than it is, because the analog is
+credited with days nobody can yet see. Four points of understatement on
+a headline comparison is enough to change which sentence a reader takes
+away.</p>
+<p>This is the same shape as a right-censored wind burst reading as a
+finished one (<code>fetchers/era5_burst.py</code>, <code>ongoing</code>): a quantity whose
+apparent value is partly an artefact of where the data stops. The
+general rule is that <strong>the observation window, not the calendar, defines
+"the same point in the season"</strong>.</p>
 <h2>What is explicitly out of scope</h2>
 <ul>
 <li><strong>No custom statistical or ML model.</strong> As above, sample size argues
