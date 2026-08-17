@@ -41,6 +41,7 @@ EVENTS = os.path.join(REPO, "data", "events.json")
 DETAIL = os.path.join(REPO, "fires", "data", "current_week.json")
 AREA = os.path.join(REPO, "fires", "data", "burnt_area.json")
 AREA_HIST = os.path.join(REPO, "fires", "data", "area_history")
+CITED = os.path.join(REPO, "fires", "data", "cited_figures.json")
 OUTDIR = os.path.join(REPO, "docs", "fires")
 
 ORD = {1: "highest", 2: "second-heaviest", 3: "third-heaviest",
@@ -75,7 +76,8 @@ def pretty_day(iso: str) -> str:
         return iso
 
 
-def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
+def build_piece(ev, det, area_cur, area_years, window, elsewhere, year,
+                iso=None):
     name = ev["region"]
     hist = {int(k): v for k, v in det["hist"].items()}
     now, mean = det["count"], det["mean"]
@@ -300,6 +302,37 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
                      'between ENSO and fire weather in this region. The '
                      'swell raised this; the wave did not.'),
     }.get(tag, "")
+    # A CITED FIGURE FROM A NAMED AUTHORITY, WHERE ONE EXISTS.
+    #
+    # Not an estimate of ours. T10 is cite-never-author, and citing
+    # somebody else's published number is a different act from producing
+    # one. This channel tried to produce a Belgian hectares estimate and
+    # binned it: the country's own fit came out with a NEGATIVE slope on 16
+    # paired weeks, and borrowing a Mediterranean fit would have been worse
+    # than the stale number it replaced while looking more authoritative.
+    #
+    # THE QUANTITY FIELD IS THE POINT. The Liege figure is "superficie
+    # concernee", area AFFECTED, which is normally the perimeter. EFFIS maps
+    # area BURNT, which is smaller. They are different measurements, so a
+    # later EFFIS figure below the cited one is not a correction and must
+    # never be rendered as one. Emitting `quantity` and `quantity_note`
+    # rather than a bare number is what stops that comparison being made by
+    # a renderer or a reader.
+    #
+    # Why it is here at all: the page currently shows 299 ha as of 12 August
+    # beside news of a 3,000 ha fire. A number that is correct and
+    # unexplained is worse than no number, because the panel invites exactly
+    # the comparison it cannot survive. Showing both, each with its own date
+    # and quantity, makes the lag legible instead of looking like an error.
+    piece["cited"] = None
+    if os.path.exists(CITED):
+        try:
+            with open(CITED) as handle:
+                piece["cited"] = (json.load(handle).get("figures", {})
+                              .get(iso) if iso else None)
+        except (OSError, ValueError):
+            piece["cited"] = None
+
     return piece
 
 
@@ -362,7 +395,7 @@ def main() -> None:
             if len(elsewhere) == 3:
                 break
         piece = build_piece(ev, det, area_cur, area_years, window,
-                            elsewhere, year)
+                            elsewhere, year, iso)
         out = os.path.join(OUTDIR, slugify(ev["region"]))
         os.makedirs(out, exist_ok=True)
         with open(os.path.join(out, "index.html"), "w") as fh:
