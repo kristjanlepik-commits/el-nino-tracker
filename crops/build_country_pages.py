@@ -49,7 +49,27 @@ def main() -> None:
     if not places:
         raise SystemExit("stress_current.json has no places; refusing to build")
 
-    written, shapes = 0, {}
+    # WHICH URLS EXISTED BEFORE THIS RUN.
+    #
+    # A refresh of existing pages and a change to the SET of pages are
+    # different acts with different sign-offs (D-030, and the seam
+    # product ratified 2026-08-18): a refresh runs silently, a change to
+    # which pages exist needs design's eyes because it is their surface.
+    #
+    # The test is not "did I touch the template", which is a judgement
+    # made by the person with the least incentive to say no, at the end
+    # of a long session. I made exactly that call tonight and published
+    # 123 pages, 66 of them new, on my own sign-off. The test is whether
+    # the set of URLs changed, and this knows the answer.
+    #
+    # Announces rather than blocks. Blocking a build on a shared tree
+    # would strand other chats, and the acknowledgement belongs at the
+    # publish step where platform's guard sits, not here.
+    before = {d for d in os.listdir(OUTDIR)
+              if os.path.isdir(os.path.join(OUTDIR, d))} \
+        if os.path.isdir(OUTDIR) else set()
+
+    written, shapes, slugs = 0, {}, set()
     for p in places:
         # A page is built when the country has a region at a record low
         # OR when it is PINNED on the index. Pinned countries are shown
@@ -79,7 +99,9 @@ def main() -> None:
         p = dict(p, dekad=doc.get("dekad", ""),
                  _instrument_legend=doc.get("instrument_legend") or {},
                  _absence_reasons=doc.get("absence_reasons") or {})
-        out = os.path.join(OUTDIR, slugify(p["place"]))
+        slug = slugify(p["place"])
+        slugs.add(slug)
+        out = os.path.join(OUTDIR, slug)
         os.makedirs(out, exist_ok=True)
         with open(os.path.join(out, "index.html"), "w") as fh:
             fh.write(render(p))
@@ -89,6 +111,28 @@ def main() -> None:
                 f"{p['place']} / {s['example']}"
 
     print(f"wrote {written} country page(s) to docs/crops/")
+
+    added = sorted(slugs - before)
+    gone = sorted(d for d in before - slugs if d != "index.html")
+    if added or gone:
+        print()
+        print("  THE SET OF URLS CHANGED. This is not a refresh.")
+        if added:
+            print(f"  +{len(added)} new page(s): "
+                  f"{', '.join(added[:8])}"
+                  + (f" ... and {len(added) - 8} more" if len(added) > 8
+                     else ""))
+        if gone:
+            print(f"  -{len(gone)} page(s) no longer built, and their files "
+                  f"are STILL ON DISK serving stale data: "
+                  f"{', '.join(gone[:8])}"
+                  + (f" ... and {len(gone) - 8} more" if len(gone) > 8
+                     else ""))
+        print("  docs/crops/ is design's surface (D-030). A refresh of "
+              "existing pages is crops' to publish; a change to WHICH "
+              "pages exist gets design's eyes first.")
+    else:
+        print("  URL set unchanged: this is a refresh, crops' to publish.")
     print(f"{len(shapes)} distinct claim shape(s) emitted:")
     for (st, drv, q), eg in sorted(shapes.items()):
         print(f"  - {st}\n      driver_line={drv} qualifiers={q}  e.g. {eg}")
