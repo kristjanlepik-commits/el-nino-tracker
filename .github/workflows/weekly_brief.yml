@@ -83,9 +83,35 @@ jobs:
       # NOAA is unreachable the brief still ships with last week's field,
       # and check_freshness reports the age. A stale image is a worse page;
       # no brief is a worse week.
+      # SKIPPED WHEN THIS WEEK'S ARCHIVE ALREADY EXISTS, because then
+      # run_brief exits at the freeze guard without rendering, and
+      # refreshing the asset would advance the IMAGE while its CAPTION
+      # stayed on last week's numbers. build_public_html reads
+      # docs/pacific-sst.json at render time and bakes the figures in; the
+      # PNG is a separate file the page only points at. That is the exact
+      # qualifier-separated-from-its-figure defect design caught last
+      # week, arriving by a different route.
+      #
+      # It only bites when a manual publish beats the cron, which is what
+      # happened on 2026-08-17: the issue went live at 08:52 and the cron
+      # fires at 13:00 into a frozen archive. Guarded rather than left to
+      # whoever notices, and guarded HERE rather than by disabling the
+      # schedule, because a disabled cron has to be remembered back on and
+      # that is the failure this project keeps finding.
       - name: Refresh the Pacific SST field
         continue-on-error: true
-        run: python design/make_pacific_sst.py
+        run: |
+          d=$(date -u +'%Y-%m-%d')
+          # The issue date is the most recent Monday, which is today when
+          # this runs on its own cron.
+          if [ -d "docs/briefs/$d" ]; then
+            echo "docs/briefs/$d is already published, so run_brief will"
+            echo "exit at the freeze guard and render nothing. Skipping the"
+            echo "SST refresh: advancing the image without its caption is"
+            echo "worse than leaving both on last week."
+            exit 0
+          fi
+          python design/make_pacific_sst.py
 
       - name: Run brief
         env:
