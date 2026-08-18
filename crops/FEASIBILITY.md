@@ -2688,3 +2688,64 @@ is meant to reproduce before trusting what it says about a new one.
 computed changes published numbers on 123 pages and is a methodology
 change, not a bug fix. It needs product's ranking and design's sign-off
 under D-030, and probably a `METHODOLOGY_VERSION` bump.
+
+### 13r. Why France's two vegetation indices disagree: it banked a record spring and is spending it
+
+Added 2026-08-18. 13p answered whether the divergence is statistically
+unusual (it is not) and did not answer WHY. Kristjan asked again, for
+the mechanism. Here it is, and our standing explanation was true but
+misleading.
+
+**We have been saying cumulative "integrates from sowing and is
+structurally the last to move".** That describes a lag, and a lag
+implies cumulative has not noticed yet. **It has noticed. It has already
+given up almost everything it had.**
+
+France 2026, cumulative FPAR z-score through the season:
+
+| dekad | cumulative | rank | current | rank |
+|---|---|---|---|---|
+| 11 Mar | **+1.04** | 24 of 26 | +1.18 | 24 |
+| 21 Apr | +1.01 | 25 | +0.73 | 25 |
+| 21 May | +0.81 | 25 | +0.00 | 12 |
+| 21 Jun | +0.57 | 25 | -0.90 | **1** |
+| 11 Jul | +0.37 | 23 | -1.26 | 1 |
+| 21 Jul | +0.20 | 19 | -1.45 | 1 |
+| **1 Aug** | **+0.02** | **12** | **-1.65** | **1** |
+
+**France had a near-record-good spring.** Cumulative rank 24 to 25 of 26
+from March to June: only one or two years in the record were better.
+
+| | |
+|---|---|
+| cumulative peak this season | **+1.089**, late March |
+| cumulative now | **+0.017** |
+| **share of the advantage spent** | **98%** |
+| fall from its own seasonal peak | **1.072** |
+| that fall ranked against every year 2001-2025 | **1 of 25, the largest in the record** |
+
+Next largest are 2016 at 1.01 and 2023 at 0.62.
+
+**So the two indices are not in conflict. They are the same event
+measured from two different starting points.** Current vegetation has no
+memory and shows the collapse directly. Cumulative carries the spring
+surplus and reads average while spending it.
+
+**"12 of 26" is not a middling season. It is a rank in free fall**, and
+the trajectory is the finding rather than the level: 25, 23, 19, 12 over
+four dekads, accelerating. The published 4-dekad rate says the same
+thing independently: rank 1 of 26, control holds, from the second
+highest starting level on record.
+
+**What this changes about how we talk.** "Structurally the last to move"
+invites a reader to discount the cumulative reading as stale. The
+accurate version is that **it is not behind, it is cushioned**, and the
+cushion is nearly gone. A page that says "cumulative is slow" is
+describing the instrument; a page that says "France banked an
+exceptional spring and has spent 98% of it, faster than any year on
+record" is describing France.
+
+**Still not a forecast.** Where the cumulative index goes next is not
+ours to say, and 13p is the relevant frequency: in 1,350 analogue
+episodes cumulative converged 80% of the time and reached a record 7%.
+Describing a trajectory is not extrapolating one.
