@@ -2811,3 +2811,83 @@ payload told them to.
 
 **Not fixed here.** The gate is `crops_index.py`, design's file, and
 which places are featured is a product ranking question. Sent to both.
+
+### 13t. Taking cumulative out of the ranking: checked, and it is two defects not one
+
+Added 2026-08-19. Kristjan: *"Our goal is to show where something is
+abnormal and we have failed at this, the cumulative is the totally wrong
+instrument for showing that."* Product ruled cumulative out of the
+ranking composite and asked me to check their measurement against the
+real `severity_block` rather than take it.
+
+**Checked. Direction right, magnitudes wrong, and one row reverses the
+diagnosis.**
+
+| | product's estimate | real `severity_block` |
+|---|---|---|
+| Spain | 31 to 10 | **31 to 1** |
+| Romania | 41 to 21 | **42 to 1** |
+| Kenya | 27 to 9 | **31 to 1** |
+| Germany | 38 to 23 | 42 to 39 |
+| **France** | 15 to 6 | **1 to 1, no move** |
+| **Slovakia** | 14 to 5 | **1 to 1, no move** |
+
+**France does not move, because France was already position 1.** So the
+country that started this was never buried by the composite. It was
+buried by the GATE (13s). Those are two separate defects with two
+separate fixes, and conflating them would have "fixed" France by
+changing something that was not affecting France.
+
+Spain, Romania and Kenya are the real cases: buried at 31, 42 and 31,
+and all three go to 1 without cumulative.
+
+**But the ordering key saturates, and dropping cumulative makes it
+worse.**
+
+| | at severity rank 1 | at rank 1 or 2 |
+|---|---|---|
+| with cumulative | 17 of 123 (14%) | 30 |
+| without | 18 of 123 (15%) | 34 |
+
+So about one country in seven ties at the top, and ties break on
+whatever order the payload happens to be in. That is why the featured
+list reads alphabetically.
+
+**And the guidance that produced this is mine.** The severity block
+emits `not_comparable_across_places`: *"This value places the country
+against itself... The rank is the comparable figure."* Design sorts on
+the rank, correctly, following that instruction. **My instruction did
+not mention that the rank has 26 levels and 14% of the channel sits on
+level 1.** Telling somebody which of two fields to order by, when
+neither orders well, is worse than saying neither does.
+
+**A candidate that IS cross-place comparable.** Share of
+region-instrument readings at their own record, over the four FAST
+instruments only (current vegetation, water satisfaction, 3-month
+rainfall, temperature), from `regions_at_record`:
+
+| | | share |
+|---|---|---|
+| Hungary | 20 of 28 | **71%** |
+| Slovakia | 22 of 32 | 69% |
+| Austria | 21 of 36 | 58% |
+| Eritrea | 11 of 20 | 55% |
+| France | 46 of 88 | 52% |
+| UK | 7 of 16 | 44% |
+| Kenya | 13 of 32 | 41% |
+
+A proportion is comparable between places in a way a within-place
+percentile is not. It discriminates: 20 distinct values in the top 20,
+and one country alone at the maximum.
+
+**Two weaknesses, stated rather than discovered later.** It is BINARY,
+at a record or not, so it cannot separate bad from horrible, which is
+the exact problem `severity_block` was built to solve. And it weights
+every region equally, which is the aggregate defect of tls-internal#16,
+now fixable since we hold `km2_crop`.
+
+**The two candidates disagree sharply and that is the finding.** Spain is
+position 1 on four-instrument severity and position 24 on share-at-
+record. Romania is 1 and 42. **Choosing the replacement is a bigger
+decision than removing cumulative was**, and it should not be made by
+whichever was computed first.
