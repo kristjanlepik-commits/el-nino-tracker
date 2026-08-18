@@ -159,6 +159,9 @@ GENERATORS = [
     "design/make_city_pages.py",
     "design/data/europe_coast.json",
     "scripts/build_sitemap.py",
+    # Read by redirect_dropped_fire_pages() (D-197) for the masthead and
+    # discoverability tags on a redirect stub.
+    "templates/page_head.py",
 ]
 
 
@@ -171,6 +174,85 @@ def snapshot_data_inputs() -> dict[str, bytes | None]:
     """Bytes of every data file a publish must not touch, before it runs."""
     return {rel: ((ROOT / rel).read_bytes() if (ROOT / rel).exists() else None)
             for rel in DATA_MUST_NOT_MOVE}
+
+
+def redirect_dropped_fire_pages(before_mtimes: dict[str, int]) -> list[str]:
+    """D-197: a fire country page whose country left the qualifying set
+    becomes a redirect stub to /fires/, never a 404 and never stale content
+    sitting under its own URL forever.
+
+    THE SCOPE THAT MUST NOT BE GOT WRONG. Only docs/fires/<slug>/index.html
+    directories are ever touched. The seven dated pages
+    (docs/fires/<x>-2026-07-26.html, the two spotlights) live as flat files
+    directly under docs/fires/, never in a subdirectory, so the glob below
+    structurally cannot reach them. They are immutable archives under
+    invariant 5 and D-031 and orphaned on purpose: an archive is reachable
+    by its URL, not by being linked from a current index. Redirecting one
+    would destroy a published archive at its published URL, which is
+    exactly what invariant 5 exists to prevent.
+
+    HOW "DROPPED" IS DECIDED, and why it is not read from
+    fires/build_country_pages.py. That file's qualifying-country logic is
+    the Fire chat's and D-197 says explicitly that nothing about the
+    generator changes; reimplementing its gate here would be a second copy
+    of one fact; the classic way this repo's guards have drifted. Instead
+    this is empirical: fires/build_country_pages.py rewrites the index.html
+    of every country still in the set, and touches nothing else (its own
+    docstring: "this builder owns what it writes, not what it finds"). So a
+    directory that existed before that step ran and whose index.html has
+    the SAME mtime after it ran is exactly the set the generator chose not
+    to touch, with no need to know why. A country that returns to the set
+    gets a fresh mtime the next time the step runs and stops being a
+    redirect automatically, which is the property QA asked for.
+
+    Idempotent by construction: a page that is already a redirect stub also
+    goes untouched by the fires step, so it is "dropped" again next run and
+    the same stub is rewritten. Harmless, and simpler than tracking which
+    pages are already stubs.
+    """
+    sys.path.insert(0, str(ROOT))
+    from run_brief import site_masthead, SITE_MASTHEAD_CSS  # noqa: E402
+    from templates.page_head import head_meta                # noqa: E402
+
+    dropped = []
+    for rel, before in before_mtimes.items():
+        p = ROOT / rel
+        if not p.exists() or p.stat().st_mtime_ns != before:
+            continue                      # gone, or freshly rewritten: not dropped
+        dropped.append(rel)
+
+    for rel in dropped:
+        p = ROOT / rel
+        slug = p.parent.name
+        html = (
+            "<!doctype html><html lang=\"en\"><head>\n"
+            "<meta charset=\"utf-8\">\n"
+            "<meta name=\"viewport\" content=\"width=device-width, "
+            "initial-scale=1\">\n"
+            f"<title>No longer updated · Fires · The Long Swell</title>\n"
+            "<meta http-equiv=\"refresh\" content=\"0; url=../\">\n"
+            + head_meta(
+                title="No longer updated",
+                description=(
+                    "This country's fire page is no longer updated. "
+                    "See the current Fires channel for what is active now."),
+                path=f"/fires/{slug}/",
+                robots="noindex",
+            ) + "\n"
+            f"<style>{SITE_MASTHEAD_CSS}</style>\n"
+            "</head><body>\n"
+            + site_masthead("../", active="fire") + "\n"
+            "<main style=\"max-width:40em;margin:4em auto;padding:0 1.5em;"
+            "font:1.05em/1.5 -apple-system,sans-serif\">\n"
+            "<h1>No longer updated</h1>\n"
+            "<p>This country dropped out of the current fire-detection set, "
+            "so this page stopped being refreshed. "
+            "<a href=\"../\">See the current Fires channel</a>.</p>\n"
+            "</main>\n</body></html>\n"
+        )
+        p.write_text(html, encoding="utf-8")
+
+    return dropped
 
 
 def snapshot_targets() -> dict[str, bytes | None]:
@@ -613,6 +695,15 @@ def main() -> None:
         for line in (gate.stdout + gate.stderr).strip().splitlines():
             print(f"    {line.strip()}")
 
+    # D-197. Snapshotted before the fires country pages step runs, not
+    # once at the top with everything else: this is the "before" half of
+    # an mtime diff bracketing that one step specifically, and reading it
+    # any earlier or later would compare against the wrong moment.
+    fire_pages_before = {
+        str(p.relative_to(ROOT)): p.stat().st_mtime_ns
+        for p in (ROOT / "docs" / "fires").glob("*/index.html")
+    }
+
     for name, cmd in steps:
         # fires/*.py import tokens and run_brief from the repo root.
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True,
@@ -631,6 +722,12 @@ def main() -> None:
                   f"{r.stdout}\n{r.stderr}".strip())
             raise SystemExit(1)
         print(f"  ran {name}")
+        if name == "fires country pages":
+            dropped = redirect_dropped_fire_pages(fire_pages_before)
+            if dropped:
+                print(f"    {len(dropped)} dropped fire country page(s) "
+                      f"redirected to /fires/ (D-197): "
+                      + ", ".join(Path(d).parent.name for d in dropped))
 
     problems = verify(data_before)
     if problems:
