@@ -483,6 +483,45 @@ us.** Gauge data, which this channel holds in no form. Detail, access
 paths and the two blockers that stop a superlative are in
 `floods/RIVER_LOW_WATER.md`; the routing decision is D-159.
 
+## 10e. The instrument does not drift, tested (added 2026-08-18)
+
+A load-bearing assumption nobody had checked. Every baseline here compares
+a current period against 23 years of the same instrument, which is only
+valid if the instrument reads the same in 2025 as in 2003. If observability
+were degrading, a 23-year baseline would partly measure the sensor aging
+and recent years would look wetter or drier for no meteorological reason.
+It matters more now, not less, because Terra goes off around January 2027.
+
+Tested on the 460 region-years from the screen:
+
+    pooled across all 460      +0.007 observability per decade, r = +0.016
+    median across 20 regions   -0.004 per decade
+    mean of per-region slopes  +0.007, sd 0.070, t = +0.45 against zero
+
+    by era, pooled     2003-2009  mean 0.769
+                       2010-2016  mean 0.749
+                       2017-2025  mean 0.755
+
+**The convincing part is not the size of the trend, it is its shape.**
+Individual regions do move, up to 0.13 per decade. But 7 move up and 13
+move down, and the standard deviation across regions is ten times the
+mean. **Instrument degradation is common-mode: it would push every region
+the same way.** Ebro at +0.081 and Ganges at -0.133 cannot both be the
+sensor, so what this scatter measures is regional cloud climatology, which
+is exactly what it should measure.
+
+Restricted to the five regions that pass the gate, the ones we would
+actually spend a baseline on, the mean slope is -0.0009 per decade.
+
+Flood counts were checked the same way: median rank correlation with year
+across regions is -0.019, and 1 of 20 regions exceeds |0.4|.
+
+**So a 23-year baseline measures weather rather than instrument aging**,
+and the archive is safe to use end to end rather than only in its recent
+years. Recorded because the opposite result would have invalidated every
+flood-extent ranking this channel plans to publish, and it cost one query
+against data already on disk.
+
 ## 11. If floods opens
 
 Phase 2, in dependency order:
