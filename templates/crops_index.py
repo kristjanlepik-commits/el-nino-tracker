@@ -257,8 +257,23 @@ def _pinned_row(p) -> str:
     # PINNED_PLACES mirrors crops/build_country_pages.py. It should be
     # imported from there once CRO exposes it as a named predicate; asked.
     page_place = p.get("_page_place", p["place"])
-    has_page = (any(r.get("rank") == 1 for r in (p.get("regions") or []))
-                or page_place in _PINNED_PLACES)
+    # EVERY PUBLISHED PLACE HAS A PAGE since CRO's 4819642, which replaced
+    # "build a page for countries with a region at a record low" with "build
+    # one for every published place", so that being newsworthy this week
+    # stopped deciding whether a page exists.
+    #
+    # This predicate had not followed. It still asked the OLD question, and
+    # the moment the featured gate widened, seven newly-featured countries
+    # rendered as plain text next to six that were links: Madagascar,
+    # Malawi, Slovakia, Guatemala, Indonesia, Liberia and South Sudan all
+    # have pages and none of them was linked.
+    #
+    # It is the third time this exact drift has bitten this file, and the
+    # comment below has been warning about it the whole time: a predicate
+    # that HAPPENS to agree with the builder is not the same as the
+    # builder's own rule, and it fails silently at the moment the two
+    # diverge rather than at the moment it is written.
+    has_page = bool(p.get("publishable", True))
     title = (f'<a class="cglink" href="{h(_slug(page_place))}/">{h(name)}</a>'
              if has_page else h(name))
     return (f'<p class="cghead">{title}</p>'
@@ -334,7 +349,54 @@ def _agg_note(p) -> str:
     return f' <span class="pinagg">{h(first[0].upper() + first[1:])}.</span>' 
 
 
-def _pinned_block(places) -> str:
+
+# Filled by _pinned_block, read by _every_place, so the tail can never
+# list a country the featured block already showed.
+_FEATURED = set()
+
+
+def _qualifies_for_featuring(p) -> str:
+    """Why this country is featured, or "" if it is not.
+
+    PRODUCT'S RULING, D-19x: the gate is a UNION rather than a replacement,
+    and the principle is that no single instrument's LEVEL decides what a
+    reader meets first.
+
+    The old gate was "has a region at a record low on cumulative FPAR", the
+    slowest instrument we publish. Featuring on it is defensible and CRO is
+    right that it is the crop-outcome measure; it is wrong only as the SOLE
+    gate. France reads 12 of 26 on cumulative because it banked a
+    near-record spring, rank 24 to 25 from March to June, and has since
+    spent 98% of that advantage: the largest fall from its own seasonal peak
+    in the 26-year record. The instrument was not saying France is fine. It
+    was saying an exceptional start has been erased and the country is
+    passing through normal on the way down, which is exactly the case the
+    rate axis exists to catch, hidden on the same page as the rate axis.
+
+    THE PINS WERE DOING THE GATE'S JOB. France, Austria and Hungary sat near
+    the top only because they are hand-pinned, while Madagascar, on the same
+    profile and unpinned, sat in a list of 103 names. A pin list that
+    compensates for a gate is a gate that does not work: it makes the
+    symptom vanish and leaves the cause, which is why this survived for
+    weeks. Same shape as the crop_units defect that survived because it was
+    only ever verified on France.
+
+    The reason is returned rather than a boolean so the page can say why a
+    country is here, and so a country featured for a reason that stops
+    holding leaves rather than lingering.
+    """
+    sev = (p.get("severity") or {})
+    rate = (p.get("rate") or {})
+    if sev.get("available") and sev.get("rank") == 1:
+        return "worst reading of its own %s years" % (sev.get("of") or "26")
+    if (rate.get("available") and rate.get("rank") == 1
+            and rate.get("control_holds")):
+        return "steepest fall of its own %s years" % (rate.get("of") or "26")
+    return ""
+
+
+def _pinned_block(places, in_groups=()) -> str:
+    _FEATURED.clear()
     by = {p["place"]: p for p in places}
     rows, absent = [], []
     for country, region in PINNED_REGIONS:
@@ -353,10 +415,37 @@ def _pinned_block(places) -> str:
             rows.append(_pinned_row(dict(rec, place=region,
                                          crop_units=None,
                                          _page_place=country)))
+            # A PINNED REGION LINKS ITS COUNTRY'S PAGE, so the country is
+            # already on this page and the tail must not list it again.
+            # England is pinned and the U.K. was appearing twice: once as
+            # England's link and once by its own name further down.
+            _FEATURED.add(country.lower())
         else:
             absent.append(region)
-    rows += [_pinned_row(by[c]) for c in PINNED
-             if c in by and by[c].get("publishable")]
+    # THE SET IS COMPUTED, and PINNED is now editorial rather than
+    # load-bearing. Product's acceptance test is that deleting the whole pin
+    # list must not remove France, Austria or Hungary from this block, and
+    # it does not: all three qualify on severity rank 1.
+    # A COUNTRY THE GROUPS ALREADY SHOW IS NOT ADDED HERE. The groups carry
+    # its record-low regions, which is the richer view; this block is the
+    # ADDITION for countries the group gate misses. Without this the widened
+    # gate duplicated 37 countries across the two blocks, because "severity
+    # rank 1" and "has a region at a record low" overlap heavily.
+    _in_groups = {str(c).lower() for c in (in_groups or ())}
+    qualified = [p_["place"] for p_ in places
+                 if p_.get("publishable") and _qualifies_for_featuring(p_)
+                 and p_["place"].lower() not in _in_groups]
+    shown = list(PINNED) + [c for c in qualified if c not in PINNED]
+    rendered = [c for c in shown if c in by and by[c].get("publishable")]
+    # WHAT WAS RENDERED, RECORDED, so the tail excludes exactly this set
+    # rather than a list that happens to agree with it today. The first
+    # version of the tail excluded the literal PINNED and duplicated every
+    # newly-featured country, which is the same drift the page-existence
+    # comment above warns about: test what the builder did, not a predicate
+    # that resembles it.
+    _FEATURED.update(c.lower() for c in rendered)
+    _FEATURED.update((by[c].get("_page_place") or c).lower() for c in rendered)
+    rows += [_pinned_row(by[c]) for c in rendered]
     absent += [c for c in PINNED if c not in by or not by[c].get("publishable")]
     if not rows:
         return ""
@@ -415,7 +504,7 @@ def _every_place(places, already) -> str:
     # was the featured GROUPS only, so the pinned block was invisible to it.
     # Found while checking CRO's report about the featured gate, which is a
     # different defect in the same neighbourhood.
-    seen = {c.lower() for c in already} | {c.lower() for c in PINNED}
+    seen = {c.lower() for c in already} | set(_FEATURED)
     rows = [p_ for p_ in places
             if (p_.get("_page_place") or p_["place"]).lower() not in seen]
     if not rows:
@@ -1374,7 +1463,7 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     _headline_plain = " ".join(
         _un(_re.sub(r"<[^>]+>", " ", headline or "")).split())
     grouped_html = f"""
-      {_pinned_block(places)}
+      {_pinned_block(places, ordered[:top_n])}
       <p class="seclab">Where the record lows are</p>
       <p class="secsub">Grouped by country, because a single region at a
         record low is common and several in one country is not. Countries
