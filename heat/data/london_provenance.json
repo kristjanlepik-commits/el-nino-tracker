@@ -16,7 +16,9 @@
    "2026-08-13",
    "2026-08-14",
    "2026-08-15",
-   "2026-08-16"
+   "2026-08-16",
+   "2026-08-17",
+   "2026-08-18"
   ],
   "overlap_days": 9,
   "overlap_worst_c": 0.1,
@@ -31,9 +33,9 @@
   "subject_to_qc_revision": "Met Office state values may change under quality control for up to twelve months from capture.",
   "hours": "06Z minimum, 18Z maximum",
   "validated": "against MIDAS 2024 and 2025, 100% of days within 0.5 C, worst 0.1 on maxima",
-  "days_with_both": 228,
+  "days_with_both": 230,
   "first": "2026-01-01",
-  "last": "2026-08-16"
+  "last": "2026-08-18"
  },
  "same_thermometer": true,
  "why_not_a_splice": "one instrument, two transports, same 12-hour climatological day. Not the cross-instrument join that produced the Murcia error."

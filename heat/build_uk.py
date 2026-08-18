@@ -109,6 +109,31 @@ def _get(url, tok):
     return body
 
 
+FROZEN_HISTORY = ROOT / "heat" / "data" / "histories"
+
+
+def _frozen(city):
+    """The station's MIDAS history, committed rather than refetched.
+
+    MIDAS Open ends in 2025 and will not change; the 2026 season comes from
+    the Met Office workbook. So the only reason these cities refetched ~300
+    annual files every week is that the only copy lived in a gitignored
+    cache, and that cost two chats a day in five: the CEDA token lives 72
+    hours and expired twice, and each time these three could not rebuild.
+
+    Four committed files at 620 KB remove the credential from the weekly
+    path. CEDA is now needed to ADD a city or repair a history, which is
+    genuinely episodic, and these cities become buildable on a machine that
+    is not this laptop for the first time.
+    """
+    import gzip
+    f = FROZEN_HISTORY / f"{city.lower()}_midas.json.gz"
+    if not f.exists():
+        return None
+    with gzip.open(f, "rt") as fh:
+        return {d: (mn, mx) for d, mn, mx in json.load(fh)}
+
+
 def midas_years(county, sdir, tok):
     """Every annual file for one station, fetched in parallel.
 
@@ -183,10 +208,21 @@ def official(sheet):
 
 
 def main() -> int:
-    tok = _token()
+    # The token is only needed for a city with no committed history, so it is
+    # fetched lazily rather than demanded up front. Three cities that all
+    # have one must not be blocked by a credential none of them will use.
+    tok = None
+    if any(_frozen(c) is None for c in STATIONS):
+        tok = _token()
     prov = {}
     for city, (county, sdir, sheet, fname) in STATIONS.items():
-        hist, nfiles = midas_years(county, sdir, tok)
+        hist = _frozen(city)
+        if hist is not None:
+            nfiles = "committed"
+            print(f"  {city}: {len(hist)} days from the committed history, "
+                  f"no CEDA call")
+        else:
+            hist, nfiles = midas_years(county, sdir, tok)
         cur = official(sheet)
         # REFUSE TO WRITE A TRUNCATED FILE. On 2026-08-13 this wrote before it
         # checked, MIDAS returned nothing for Nottingham, and the city's file

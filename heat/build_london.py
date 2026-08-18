@@ -56,12 +56,46 @@ WMO = "03772"
 OGIMET = "https://www.ogimet.com/cgi-bin/getsynop"
 
 
+FROZEN_HISTORY = ROOT / "heat" / "data" / "histories"
+
+
+def _frozen(city):
+    """The station's MIDAS history, committed rather than refetched.
+
+    WHY THIS IS TRACKED AND THE REST OF THE CACHE IS NOT. MIDAS Open ends in
+    2025 and will not change. The current season comes from the Met Office
+    workbook and from bulletins, both of which move. So the history is a
+    frozen artifact and the only reason we were refetching it weekly is that
+    the only copy lived in a gitignored cache.
+
+    That cost two chats a working day in five days. The CEDA token lives 72
+    hours, it expired twice, and each time these cities could not rebuild at
+    all. Committing four files at 620 KB removes the credential from the
+    weekly path entirely: CEDA is now needed only to ADD a city or repair a
+    history, which is genuinely episodic.
+
+    It also makes these cities buildable on a machine that is not this
+    laptop, which they have never been.
+    """
+    import gzip
+    f = FROZEN_HISTORY / f"{city.lower()}_midas.json.gz"
+    if not f.exists():
+        return None
+    with gzip.open(f, "rt") as fh:
+        return {d: (mn, mx) for d, mn, mx in json.load(fh)}
+
+
 def from_midas():
     """09h minimum and 21h maximum, the climatological day, per calendar date.
 
     Derived rather than assumed: against GHCN over 11,000 shared days the
     same-calendar-day reading scores 66% and the shifted alternative 2%.
     """
+    frozen = _frozen("London")
+    if frozen is not None:
+        print(f"  history: {len(frozen)} days from the committed artifact, "
+              f"no CEDA call")
+        return frozen
     out = {}
     for path in sorted(MIDAS.glob("*.csv")):
         txt = path.read_text(encoding="latin-1")
