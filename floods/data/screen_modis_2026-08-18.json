@@ -1,0 +1,427 @@
+{
+ "screen": "MODIS archive, own flood season, 23 years x 1 day",
+ "generated": "2026-08-18",
+ "note": "Rebuilt from floods/.screen_cache after two defects: silent curl-failure swallowing cached as real zeros (87 region-years), and hemisphere-inverted seasons for the two southern regions.",
+ "candidates": [
+  {
+   "region_id": "murray_darling",
+   "label": "Murray-Darling",
+   "season": "winter",
+   "box": [
+    142.0,
+    148.0,
+    -36.0,
+    -30.0
+   ],
+   "tiles": 1,
+   "baseline_gb": 2.3,
+   "years": 23,
+   "modis_observability": 0.97,
+   "obs_min": 0.574,
+   "obs_iqr": 0.054,
+   "observability_dependence": 0.17,
+   "blind_year_flood_percentile": 38.6,
+   "est_weekly_flood_px": 5397,
+   "passes": true
+  },
+  {
+   "region_id": "peru_ecuador_coast",
+   "label": "Coastal Peru",
+   "season": "Mar",
+   "box": [
+    -82.0,
+    -75.0,
+    -12.0,
+    2.0
+   ],
+   "tiles": 6,
+   "baseline_gb": 13.9,
+   "years": 23,
+   "modis_observability": 0.602,
+   "obs_min": 0.391,
+   "obs_iqr": 0.201,
+   "observability_dependence": 0.2,
+   "blind_year_flood_percentile": 30.7,
+   "est_weekly_flood_px": 5418,
+   "passes": true
+  },
+  {
+   "region_id": "texas_gulf",
+   "label": "Texas Gulf coast",
+   "season": "summer",
+   "box": [
+    -97.0,
+    -94.0,
+    28.0,
+    31.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.973,
+   "obs_min": 0.414,
+   "obs_iqr": 0.09,
+   "observability_dependence": 0.27,
+   "blind_year_flood_percentile": 42.0,
+   "est_weekly_flood_px": 1211,
+   "passes": true
+  },
+  {
+   "region_id": "somalia_shabelle_juba",
+   "label": "Juba and Shabelle",
+   "season": "Deyr",
+   "box": [
+    42.0,
+    46.5,
+    1.0,
+    6.5
+   ],
+   "tiles": 1,
+   "baseline_gb": 2.3,
+   "years": 23,
+   "modis_observability": 0.948,
+   "obs_min": 0.762,
+   "obs_iqr": 0.13,
+   "observability_dependence": 0.28,
+   "blind_year_flood_percentile": 40.9,
+   "est_weekly_flood_px": 2807,
+   "passes": true
+  },
+  {
+   "region_id": "niger_inner_delta",
+   "label": "Niger inner delta",
+   "season": "autumn",
+   "box": [
+    -6.0,
+    -2.0,
+    13.5,
+    16.5
+   ],
+   "tiles": 1,
+   "baseline_gb": 2.3,
+   "years": 23,
+   "modis_observability": 1.0,
+   "obs_min": 0.601,
+   "obs_iqr": 0.017,
+   "observability_dependence": 0.46,
+   "blind_year_flood_percentile": 23.3,
+   "est_weekly_flood_px": 30730,
+   "passes": true
+  },
+  {
+   "region_id": "severn_thames",
+   "label": "Severn and Thames",
+   "season": "winter",
+   "box": [
+    -4.0,
+    0.5,
+    51.0,
+    53.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.667,
+   "obs_min": 0.084,
+   "obs_iqr": 0.382,
+   "observability_dependence": 0.56,
+   "blind_year_flood_percentile": 25.0,
+   "est_weekly_flood_px": 1316,
+   "passes": false
+  },
+  {
+   "region_id": "parana_lower",
+   "label": "Lower Parana",
+   "season": "summer",
+   "box": [
+    -60.0,
+    -57.0,
+    -34.0,
+    -27.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 1.0,
+   "obs_min": 0.411,
+   "obs_iqr": 0.015,
+   "observability_dependence": 0.56,
+   "blind_year_flood_percentile": 27.3,
+   "est_weekly_flood_px": 9296,
+   "passes": false
+  },
+  {
+   "region_id": "rhine_meuse",
+   "label": "Rhine and Meuse",
+   "season": "winter",
+   "box": [
+    4.5,
+    8.0,
+    49.5,
+    52.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.608,
+   "obs_min": 0.02,
+   "obs_iqr": 0.425,
+   "observability_dependence": 0.62,
+   "blind_year_flood_percentile": 18.8,
+   "est_weekly_flood_px": 140,
+   "passes": false
+  },
+  {
+   "region_id": "upper_midwest",
+   "label": "Upper Midwest",
+   "season": "spring",
+   "box": [
+    -96.0,
+    -90.0,
+    38.0,
+    43.0
+   ],
+   "tiles": 4,
+   "baseline_gb": 9.3,
+   "years": 23,
+   "modis_observability": 0.994,
+   "obs_min": 0.24,
+   "obs_iqr": 0.12,
+   "observability_dependence": 0.63,
+   "blind_year_flood_percentile": 13.1,
+   "est_weekly_flood_px": 14063,
+   "passes": false
+  },
+  {
+   "region_id": "central_valley",
+   "label": "Central Valley, CA",
+   "season": "winter",
+   "box": [
+    -122.0,
+    -119.0,
+    36.0,
+    40.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.945,
+   "obs_min": 0.103,
+   "obs_iqr": 0.204,
+   "observability_dependence": 0.68,
+   "blind_year_flood_percentile": 11.4,
+   "est_weekly_flood_px": 69069,
+   "passes": false
+  },
+  {
+   "region_id": "vistula_oder",
+   "label": "Vistula and Oder",
+   "season": "summer",
+   "box": [
+    15.0,
+    21.5,
+    50.0,
+    53.0
+   ],
+   "tiles": 4,
+   "baseline_gb": 9.3,
+   "years": 23,
+   "modis_observability": 0.948,
+   "obs_min": 0.128,
+   "obs_iqr": 0.314,
+   "observability_dependence": 0.69,
+   "blind_year_flood_percentile": 16.5,
+   "est_weekly_flood_px": 294,
+   "passes": false
+  },
+  {
+   "region_id": "danube_middle",
+   "label": "Middle Danube",
+   "season": "spring",
+   "box": [
+    17.0,
+    21.5,
+    44.5,
+    48.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.928,
+   "obs_min": 0.142,
+   "obs_iqr": 0.367,
+   "observability_dependence": 0.75,
+   "blind_year_flood_percentile": 21.6,
+   "est_weekly_flood_px": 2163,
+   "passes": false
+  },
+  {
+   "region_id": "zambezi_lower",
+   "label": "Lower Zambezi",
+   "season": "Jan-Mar",
+   "box": [
+    33.0,
+    36.5,
+    -18.5,
+    -15.5
+   ],
+   "tiles": 1,
+   "baseline_gb": 2.3,
+   "years": 23,
+   "modis_observability": 0.95,
+   "obs_min": 0.129,
+   "obs_iqr": 0.198,
+   "observability_dependence": 0.75,
+   "blind_year_flood_percentile": 6.8,
+   "est_weekly_flood_px": 917,
+   "passes": false
+  },
+  {
+   "region_id": "carolinas",
+   "label": "Carolinas",
+   "season": "autumn",
+   "box": [
+    -81.0,
+    -77.0,
+    33.0,
+    36.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 1.0,
+   "obs_min": 0.58,
+   "obs_iqr": 0.05,
+   "observability_dependence": 0.76,
+   "blind_year_flood_percentile": 17.0,
+   "est_weekly_flood_px": 3899,
+   "passes": false
+  },
+  {
+   "region_id": "ebro_iberian",
+   "label": "Ebro basin, Spain",
+   "season": "autumn",
+   "box": [
+    -2.0,
+    1.0,
+    41.0,
+    43.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.965,
+   "obs_min": 0.404,
+   "obs_iqr": 0.065,
+   "observability_dependence": 0.77,
+   "blind_year_flood_percentile": 23.9,
+   "est_weekly_flood_px": 371,
+   "passes": false
+  },
+  {
+   "region_id": "lower_mississippi",
+   "label": "Lower Mississippi",
+   "season": "spring",
+   "box": [
+    -92.0,
+    -88.0,
+    30.0,
+    35.0
+   ],
+   "tiles": 4,
+   "baseline_gb": 9.3,
+   "years": 23,
+   "modis_observability": 0.999,
+   "obs_min": 0.186,
+   "obs_iqr": 0.095,
+   "observability_dependence": 0.8,
+   "blind_year_flood_percentile": 21.6,
+   "est_weekly_flood_px": 18004,
+   "passes": false
+  },
+  {
+   "region_id": "manila_luzon_west",
+   "label": "Manila (known fail)",
+   "season": "monsoon",
+   "box": [
+    119.5,
+    121.5,
+    13.5,
+    16.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.18,
+   "obs_min": 0.0,
+   "obs_iqr": 0.304,
+   "observability_dependence": 0.82,
+   "blind_year_flood_percentile": 15.9,
+   "est_weekly_flood_px": 56,
+   "passes": false
+  },
+  {
+   "region_id": "po_basin",
+   "label": "Po basin, Italy",
+   "season": "autumn",
+   "box": [
+    8.0,
+    12.5,
+    44.5,
+    46.0
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.899,
+   "obs_min": 0.154,
+   "obs_iqr": 0.479,
+   "observability_dependence": 0.83,
+   "blind_year_flood_percentile": 13.6,
+   "est_weekly_flood_px": 1134,
+   "passes": false
+  },
+  {
+   "region_id": "ganges_brahmaputra",
+   "label": "Ganges delta",
+   "season": "monsoon",
+   "box": [
+    86.0,
+    92.0,
+    21.0,
+    26.5
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.335,
+   "obs_min": 0.024,
+   "obs_iqr": 0.329,
+   "observability_dependence": 0.83,
+   "blind_year_flood_percentile": 19.3,
+   "est_weekly_flood_px": 55692,
+   "passes": false
+  },
+  {
+   "region_id": "mekong_lower",
+   "label": "Lower Mekong",
+   "season": "monsoon",
+   "box": [
+    104.0,
+    107.0,
+    10.0,
+    13.5
+   ],
+   "tiles": 2,
+   "baseline_gb": 4.6,
+   "years": 23,
+   "modis_observability": 0.35,
+   "obs_min": 0.009,
+   "obs_iqr": 0.429,
+   "observability_dependence": 0.86,
+   "blind_year_flood_percentile": 10.8,
+   "est_weekly_flood_px": 2394,
+   "passes": false
+  }
+ ]
+}

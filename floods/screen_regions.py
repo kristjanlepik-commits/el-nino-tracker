@@ -124,7 +124,10 @@ SEASON_WINDOW = {
 }
 
 
-def sample_modis(lo0, lo1, la0, la1, season, tok, ndays=1):
+CACHE = os.path.join(os.path.dirname(__file__), ".screen_cache")
+
+
+def sample_modis(rid, lo0, lo1, la0, la1, season, tok, ndays=1):
     """One day in EVERY year, returning PER-YEAR values.
 
     Returns (per_year_observability, per_year_flood_counts). The caller
@@ -135,6 +138,18 @@ def sample_modis(lo0, lo1, la0, la1, season, tok, ndays=1):
     import subprocess, tempfile, urllib.request
     from pyhdf.SD import SD, SDC
     mon, day = SEASON_WINDOW.get(season, (8, 5))
+    # HEMISPHERE. "summer" and "winter" are not dates. Lower Parana is
+    # labelled summer and sits at 34S to 27S, so the table sent it to
+    # 15 July, which is austral WINTER and its dry season; Murray-Darling
+    # is labelled winter and was screened in January for the same reason.
+    # Both were being screened in the season opposite the one that floods
+    # them, which makes their observability and their flood counts answers
+    # to a question nobody asked.
+    #
+    # Only the four ambiguous names flip. Deyr, Mar, Jan-Mar and monsoon
+    # are already absolute and must not be touched.
+    if la1 < 0 and season in ("summer", "winter", "spring", "autumn"):
+        mon = (mon + 5) % 12 + 1
     tiles = {}
     for h in range(int((lo0 + 180) // 10), int((lo1 + 180) // 10) + 1):
         for v in range(int((90 - la1) // 10), int((90 - la0) // 10) + 1):
@@ -145,9 +160,30 @@ def sample_modis(lo0, lo1, la0, la1, season, tok, ndays=1):
             c1 = min(4800, int(np.ceil((min(lo1, tl0 + 10) - tl0) / (10 / 4800))))
             if r1 > r0 and c1 > c0:
                 tiles[f"h{h:02d}v{v:02d}"] = (r0, r1, c0, c1)
+    # RESUMABLE PER REGION-YEAR. Added before the first unattended run,
+    # because the screen had no resume at all: each tile went to a
+    # tempfile, was read, and was deleted, so a death at 90% re-downloaded
+    # all 13 GB. CLAUDE.md asks for this to be CHECKED rather than assumed,
+    # and it was not true.
+    #
+    # The cached unit is the region-year, which is the natural one: it is
+    # what the median and the rank correlation consume, it is small, and a
+    # year is the largest chunk that can fail without invalidating others.
+    os.makedirs(CACHE, exist_ok=True)
     per_year_obs, per_year_flood = {}, {}
     for yr in SAMPLE_YEARS:
+        ck = os.path.join(CACHE, f"{rid}_{yr}.json")
+        if os.path.exists(ck):
+            try:
+                c = json.load(open(ck))
+                if c.get("px"):
+                    per_year_obs[yr] = c["obs"]
+                    per_year_flood[yr] = c["flood"]
+                continue
+            except Exception:
+                pass          # a corrupt cache entry is refetched, not fatal
         F = O = P = 0
+        expected_tiles = failed_tiles = 0
         for k in range(ndays):
             doy = (dt.date(yr, mon, day) + dt.timedelta(days=k)).timetuple().tm_yday
             try:
@@ -161,11 +197,23 @@ def sample_modis(lo0, lo1, la0, la1, season, tok, ndays=1):
             for t, sl in tiles.items():
                 if t not in L:
                     continue
+                expected_tiles += 1
                 fd, tmp = tempfile.mkstemp(suffix=".hdf")
                 os.close(fd)
+                # --retry ADDED 2026-08-18. Without it a transient failure
+                # was swallowed: rc != 0 fell through the `if` below, P
+                # stayed 0, and the year was recorded as having no data.
+                # Three parallel groups against LAADS made that common, and
+                # three whole regions plus 14 of danube's 23 years were
+                # recorded as empty when the identical fetch succeeds by
+                # hand. A silent skip is indistinguishable from an answer.
                 rc = subprocess.call(["curl", "-sS", "-L", "--fail", "-m", "600",
+                                      "--retry", "4", "--retry-delay", "3",
+                                      "--retry-all-errors",
                                       "-H", f"Authorization: Bearer {tok}",
                                       "-o", tmp, f"{ARCHIVE}/{yr}/{doy:03d}/{L[t]}"])
+                if rc != 0 or os.path.getsize(tmp) <= 1000:
+                    failed_tiles += 1
                 try:
                     if rc == 0 and os.path.getsize(tmp) > 1000:
                         hdf = SD(tmp, SDC.READ)
@@ -184,7 +232,70 @@ def sample_modis(lo0, lo1, la0, la1, season, tok, ndays=1):
         if P:
             per_year_obs[yr] = O / P
             per_year_flood[yr] = F
+        # NEVER CACHE A FAILED FETCH AS AN ANSWER. The first version wrote
+        # {"px": 0} whenever a download failed, and the resume path then
+        # skipped that year forever, so the cache made a transient network
+        # error permanent and invisible. A year is cached only when every
+        # tile it expected was actually read.
+        if failed_tiles or (expected_tiles and not P):
+            print(f"    {rid} {yr}: {failed_tiles}/{expected_tiles} tiles failed, "
+                  f"NOT cached, will retry on resume", flush=True)
+            continue
+        tmpck = ck + ".tmp"
+        with open(tmpck, "w") as fh:
+            json.dump({"obs": (O / P) if P else None, "flood": F, "px": P,
+                       "tiles": expected_tiles}, fh)
+        os.replace(tmpck, ck)     # atomic: a killed job never leaves half a file
     return per_year_obs, per_year_flood
+
+
+def avgrank(x):
+    """Average ranks, so exact ties do not get arbitrary order-based ranks."""
+    x = np.asarray(x, float)
+    o = np.argsort(x)
+    r = np.empty(len(x), float)
+    i = 0
+    while i < len(x):
+        j = i
+        while j + 1 < len(x) and x[o[j + 1]] == x[o[i]]:
+            j += 1
+        r[o[i:j + 1]] = (i + j) / 2.0 + 1
+        i = j + 1
+    return r
+
+
+def spearman(a, b):
+    if len(a) < 3:
+        return None
+    return float(np.corrcoef(avgrank(a), avgrank(b))[0, 1])
+
+
+def blind_year_percentile(obs, flood):
+    """Where do the LEAST observable years sit in the flood ranking?
+
+    The discriminator the Parana work produced. Observability dependence
+    conflates two different things: an instrument blinded by the cloud
+    that causes the flood, and a genuine physical correlation (a large
+    basin's flood wave arrives after the rain, under clearing skies).
+    This asks the question the gate actually cares about: when the sensor
+    could not see, did it MISS events?
+
+    50% means no effect. Manila scores 9.2% with three of its four
+    blindest years reading exactly zero. Somalia scores 54.5%.
+
+    Reported, NOT gated on. It has not earned a threshold: Manila fails
+    and Somalia passes under both this and the dependence statistic, so
+    the two cases where the answer is independently known do not
+    discriminate between them.
+    """
+    if len(obs) < 8:
+        return None
+    obs = np.asarray(obs, float)
+    fr = avgrank(np.asarray(flood, float))
+    n = len(obs)
+    k = max(3, n // 5)
+    worst = np.argsort(obs)[:k]
+    return float(np.mean([100 * (fr[i] - 1) / (n - 1) for i in worst]))
 
 
 def load_capture(d):
@@ -246,27 +357,60 @@ def main():
               f"{'obs dep':>9s}{'est wk px':>11s}  gate", flush=True)
         rows = []
         for rid, (lo0, lo1, la0, la1, label, season) in cands.items():
-            F, O, P = sample_modis(lo0, lo1, la0, la1, season, tok)
-            if P == 0:
-                print(f"{label:26s}   no data"); continue
-            obs = O / P
-            dens = F / O * 1e6 if O else 0.0
+            # WAS `F, O, P = sample_modis(...)`, unpacking three values
+            # from a two-tuple. The v3 correction reshaped this function to
+            # return PER-YEAR dicts and never updated its only caller, so
+            # the corrected screen crashed on its first region. It was
+            # never run after being fixed, which is how a repair leaves a
+            # file more broken than it found it.
+            obs_by_year, flood_by_year = sample_modis(
+                rid, lo0, lo1, la0, la1, season, tok)
+            if not obs_by_year:
+                print(f"{label:26s}   no data", flush=True)
+                continue
+            yrs = sorted(obs_by_year)
+            ov = [obs_by_year[y] for y in yrs]
+            fv = [flood_by_year[y] for y in yrs]
+            obs = float(np.median(ov))          # MEDIAN of per-year values,
+                                                # which is what the gate uses.
+                                                # Pooling weights clear years.
+            dep = spearman(ov, fv)
+            blind = blind_year_percentile(ov, fv)
+            wk = float(np.median(fv)) * 7.0 / 1.0 if fv else 0.0
             nt = tiles_for(lo0, lo1, la0, la1)
             gb = round(nt * 7 * 23 * 14.4 / 1000, 1)
             read = ("promising" if obs >= 0.60 else
                     "marginal" if obs >= 0.40 else "likely fails")
+            # The SCREEN cannot decide the gate; it estimates the leading
+            # indicator. predicted_qualify is a prediction, named as one.
+            predicted = bool(obs >= 0.60 and wk >= 300)
             rows.append(dict(region_id=rid, label=label, season=season,
                              box=[lo0, lo1, la0, la1], tiles=nt, baseline_gb=gb,
+                             years_sampled=len(yrs),
                              modis_observability=round(obs, 3),
-                             flood_per_million_observed=round(dens, 1), read=read))
-            print(f"{label:26s}{season:>9s}{nt:6d}{gb:6.1f}{obs:7.3f}{dens:12.1f}  {read}", flush=True)
+                             obs_min=round(float(np.min(ov)), 3),
+                             obs_iqr=round(float(np.percentile(ov, 75)
+                                                 - np.percentile(ov, 25)), 3),
+                             observability_dependence=(round(dep, 2)
+                                                       if dep is not None else None),
+                             blind_year_flood_percentile=(round(blind, 1)
+                                                          if blind is not None else None),
+                             est_weekly_flood_px=int(wk),
+                             predicted_qualify=predicted, read=read))
+            print(f"{label:26s}{season:>9s}{nt:6d}{gb:6.1f}{obs:7.3f}"
+                  f"{(dep if dep is not None else float('nan')):9.2f}"
+                  f"{int(wk):11d}  {read}", flush=True)
         rows.sort(key=lambda r: (not r["predicted_qualify"], -r["modis_observability"]))
         if args.out:
             json.dump({"screen": "MODIS archive, region's own flood season",
                        "sample_years": list(SAMPLE_YEARS),
                        "note": "Screens observability LEVEL, the leading indicator. "
-                               "The dependence criterion needs the full baseline. "
-                               "Manila is included as a known-fail control.",
+                               "obs_iqr is reported because the dependence "
+                               "statistic is only meaningful where observability "
+                               "VARIES; at iqr under 0.1 a rank correlation is "
+                               "largely ranking rounding. "
+                               "blind_year_flood_percentile is reported and NOT "
+                               "gated on. Manila is the known-fail control.",
                        "candidates": rows}, open(args.out, "w"), indent=1)
             print(f"\nwrote {args.out}")
         return 0
