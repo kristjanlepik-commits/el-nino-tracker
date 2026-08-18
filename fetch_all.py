@@ -364,6 +364,11 @@ def fetch_all() -> dict:
             # record and with the threshold fractions. See the basis
             # map note in fetchers/nmme.py.
             "ensemble_mean_peak_oni": np_.get("ensemble_mean_peak_oni"),
+            # basis: which quantity. weighting: how the five models
+            # were combined. Both were undeclared and both are
+            # needed to know what a figure means.
+            "basis": np_.get("basis"),
+            "weighting": np_.get("weighting"),
             "ensemble_frac_above": np_.get("ensemble_frac_above", {}),
             "thresholds_degC": np_.get("thresholds_degC", []),
             "peak_window": np_.get("peak_window"),

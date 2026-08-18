@@ -518,6 +518,31 @@ def fetch() -> FetchResult:
                     "pooled_trajectory": "monthly_percentiles",
                     "cfsv2_trajectory": "monthly_percentiles",
                 },
+                # WEIGHTING is orthogonal to basis and was equally
+                # undeclared. "Ensemble mean" has two defensible readings
+                # and we have silently used one:
+                #
+                #   pooled over all 92 members     3.846  (ONI basis)
+                #   mean of the five model means   3.832  <- what we emit
+                #
+                # Member pooling would weight CFSv2's 32 members at 3.2x
+                # NCAR's 10. We use EQUAL MODEL WEIGHT throughout, which is
+                # the same convention _pooled_trajectory already applies to
+                # the band, so the suite speaks with five equal voices
+                # rather than being led by whoever runs the most members.
+                #
+                # 0.014 apart today, which is exactly why nobody noticed.
+                # They diverge when the models disagree, and the models
+                # disagree hardest at the top: at +4.0 they run 100, 59,
+                # 55, 0, 0. An undeclared choice between two defensible
+                # definitions is how a figure becomes wrong later without
+                # anyone editing it. Raised by business, 2026-08-17.
+                "weighting": {
+                    "ensemble_mean_peak": "equal_model_weight",
+                    "ensemble_mean_peak_oni": "equal_model_weight",
+                    "ensemble_frac_above": "equal_model_weight",
+                    "pooled_trajectory": "equal_model_weight",
+                },
                 "ensemble_frac_above": avg_frac,
                 "thresholds_degC": THRESHOLDS,
                 "peak_window": "Nov 2026 - Feb 2027 (NDJ-DJF)",
