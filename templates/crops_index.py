@@ -409,7 +409,13 @@ def _every_place(places, already) -> str:
     "we looked and it is ordinary" is a result.
     """
     from templates.crops_country import slugify as _slug
-    seen = {c.lower() for c in already}
+    # PINNED COUNTRIES ARE ALREADY ON THIS PAGE, and this list was linking
+    # them a second time: France, Spain, Austria and Hungary each appeared
+    # once in "Countries readers ask about" and again in the tail. `already`
+    # was the featured GROUPS only, so the pinned block was invisible to it.
+    # Found while checking CRO's report about the featured gate, which is a
+    # different defect in the same neighbourhood.
+    seen = {c.lower() for c in already} | {c.lower() for c in PINNED}
     rows = [p_ for p_ in places
             if (p_.get("_page_place") or p_["place"]).lower() not in seen]
     if not rows:
