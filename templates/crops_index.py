@@ -995,6 +995,16 @@ def _rate_block(doc) -> str:
                                    len(held), of, names))
 
 
+# INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived by copy
+# from the fires template in da318b1, one day before crops launched, and no
+# ledger entry ever decided it. It was a contradiction rather than a
+# posture: the front page is indexable, carries /crops/ in the nav and links
+# eleven crops country pages by absolute URL, so the tag removed discovery
+# without removing exposure.
+#
+# In Python rather than in an HTML comment for the reason recorded in
+# templates/country_page.py: as markup it ships the word into every page and
+# a grep for the tag then finds the explanation instead.
 def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     places = doc["places"]
     # The REGION's driver, not the country's. This took p.get("driver")
@@ -1392,14 +1402,7 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
      The description is the page's own headline, stripped of markup. -->
 {head_meta(title="Crops | " + SITE_NAME, description=_headline_plain,
            path="/crops/")}
-<!-- INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived
-     by copy from the fires template in da318b1, one day before crops
-     launched, and no ledger entry ever decided it either way. It was
-     not a posture on this channel, it was a contradiction: the front
-     page is indexable, carries /crops/ in the main nav and links
-     eleven crops country pages by absolute URL, so the tag removed
-     discovery without removing exposure. Fires stays unlisted and
-     that is coherent, because fires is not promoted that way. -->
+
 <title>Crops | {h(SITE_NAME)}</title>
 <style>
 {T.font_faces_css(root_prefix + "fonts/")}

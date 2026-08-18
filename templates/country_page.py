@@ -345,6 +345,18 @@ def _weekly_area(weeks: dict, cur_year: int, hue: str) -> str:
             + "".join(out) + "</svg>")
 
 
+# INDEXABLE SINCE D-183, 2026-08-17. The unlisted period ENDED here, it did
+# not fail to exist: fires/SPEC.md line 11 records that unlisted was chosen
+# with Kristjan on 2026-07-25, and defined by two testable conditions, no
+# front-page link and no promotion. Both had lapsed. Not the same event as
+# D-172, where crops inherited a tag nobody decided.
+#
+# THIS LIVES IN PYTHON RATHER THAN IN AN HTML COMMENT, and that is the
+# lesson rather than tidiness. As markup it shipped into 45 rendered pages
+# carrying the word "noindex", so `grep -l noindex docs/fires/` reported 29
+# tagged pages that hold no robots tag at all. Fire hand-stripped 17 pages
+# and wrote to me about a leak, on a defect that did not exist. An
+# explanation of a tag must not be indistinguishable from the tag.
 def render(piece: dict, root_prefix: str = "../../") -> str:
     """One country page from a validated piece dict."""
     det, area = piece["detections"], piece.get("area")
@@ -416,32 +428,11 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
      because its figures change daily, so any card here needs its window
      stamped on the face rather than only regenerated. -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Canonical, description and share cards from templates/page_head.py.
-     Fires had none of the three on any of its 53 pages, and came out of
-     noindex tonight under D-183, so without this it became indexable with
-     nothing good to index. The description is the standfirst the page
-     already shows, so a crawler and a reader read the same sentence. -->
+<!-- Canonical, description and share cards from templates/page_head.py. -->
 {head_meta(title=f"{piece['region']} fires | {SITE_NAME}",
            description=piece["standfirst"],
            path=f"/fires/{_slug(piece['region'])}/")}
-<!-- INDEXABLE SINCE D-183, 2026-08-17. The unlisted period ENDED here, it
-     did not fail to exist: fires/SPEC.md line 11 records that unlisted was
-     chosen with Kristjan on 2026-07-25, and the spec defined it by two
-     testable conditions, no front-page link and no promotion. Both had
-     already lapsed. The front page links fires in the masthead and links
-     Cuba, the United Kingdom and Croatia by absolute URL, and socials
-     promoted fire content all week at Kristjan's request, so the tag was
-     the last surviving piece of a decision superseded everywhere else.
 
-     NOT THE SAME EVENT AS D-172, and Fire asked for the distinction. Crops
-     inherited its tag by copy and nobody decided it; fires chose its own
-     and the choice ran out. A future audit finding the spec should read
-     these as opposites rather than as one lapse.
-
-     THE OTHER HALF IS fires/build_page.py LINE 340, which is Fire's. This
-     tag lives in two files and the split is INVISIBLE in rendered output,
-     so neither half is done until both are, and whoever verifies counts
-     pages rather than checking one. -->
 <title>{h(piece["region"])} fires | {h(SITE_NAME)}</title>
 <style>
 {T.font_faces_css(root_prefix + "fonts/")}
