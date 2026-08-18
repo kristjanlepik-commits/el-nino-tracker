@@ -166,6 +166,35 @@ def detect_hours(raw, fallback=("06", "18")):
     return best_n, best_x
 
 
+def _is_synop(raw, block):
+    """Is this actually bulletins for THIS block, or something else that is
+    merely large?
+
+    SIZE IS NOT SHAPE, and this file used `> 1000 bytes` as its test, so any
+    error page or login page above a kilobyte would have passed AND BEEN
+    CACHED as though it were data, freezing the failure permanently.
+
+    Product's refinement of the content rule, which is sharper than the rule:
+    content-checking only helps if you check THE OBJECT YOU NEED. They
+    content-checked a CEDA directory listing, confirmed it was a genuine
+    listing, and concluded the data behind it was readable. It was not. A
+    listing is not a file, and a large body is not a bulletin.
+
+    The object needed here is OGIMET's CSV of SYNOP reports for one block, so
+    that is what is checked: lines beginning with this block number, carrying
+    an AAXX group. Nothing else can satisfy it by being big.
+    """
+    if not raw or len(raw) < 200:
+        return False
+    hits = 0
+    for line in raw.splitlines():
+        if line.startswith(f"{block},") and "AAXX" in line:
+            hits += 1
+            if hits >= 20:
+                return True
+    return False
+
+
 def synop_year(block, year, hmin, hmax):
     """One May-to-August pull, CACHED TO DISK.
 
@@ -181,7 +210,7 @@ def synop_year(block, year, hmin, hmax):
     cache = SRC / "synop_cache"
     cache.mkdir(parents=True, exist_ok=True)
     f = cache / f"{block}_{year}.txt"
-    if f.exists() and f.stat().st_size > 1000:
+    if f.exists() and _is_synop(f.read_text(errors="replace"), block):
         raw = f.read_text(errors="replace")
     else:
         raw = ""
@@ -190,7 +219,7 @@ def synop_year(block, year, hmin, hmax):
                 ["curl", "-sS", "--max-time", "200",
                  f"{OGIMET}?block={block}&begin={year}05010000&end={year}08312359"],
                 capture_output=True).stdout.decode("utf-8", "replace")
-            if len(raw) > 1000:
+            if _is_synop(raw, block):
                 f.write_text(raw)
                 break
             time.sleep(8)
