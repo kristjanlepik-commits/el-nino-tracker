@@ -83,16 +83,47 @@ and not having it is why the UK's four regions each carry 25% regardless
 of cropland (tls-internal#16).
 
 So the crop mask unlocks both, and it is the thing to find out about
-before anything else. ASAP's `download.php` answers HTTP 200 but is
-JavaScript-driven and exposes no links to automated discovery; guessed
-paths 404. **Next step is a human looking at that page**, not more
-probing.
+before anything else.
+
+**RESOLVED 2026-08-18, same day, and it was never a human task.** I
+wrote that `download.php` "needs a human looking at that page" because
+curl saw no links. It is JavaScript-driven, so a browser sees all 186 of
+them. **I was also one directory off**: the files live under `/files/`
+and I had guessed `/data/`.
+
+Everything is freely downloadable, no key, verified by HTTP HEAD:
+
+| file | size | what it buys |
+|---|---|---|
+| `files/asap_mask_crop_v04.tif` | 106 MB | **the crop mask.** Area-weighted country aggregates (tls-internal#16), and aggregating any gridded second source over the same cropland |
+| `files/gaul1_asap_v05.zip` | 131 MB | **our own region geometry.** Socials had to draw England from Eurostat NUTS-1 and caveat that the shapes and the data came from different places |
+| `files/crop_calendar_gaul1.zip` | 26 KB | per-crop season windows, 3,068 rows |
+| `files/asap_mask_rangeland_v04.tif` | 375 MB | rangeland mask, not ours |
+| `files/phenos*_v04.tif` | ~130 MB each | phenology rasters |
+
+**THE CALENDAR IS NOT THE UNBLOCK IT LOOKS LIKE, and I nearly reported
+it as one.** It is genuinely per-CROP, which is the distinction 6d said
+was missing: `crop_name` is a column, with "Wheat (Spring)", "Rice
+(Boro)", "Maize (Meher)" and 90 others. But it covers **74 countries and
+995 GAUL1 units, all of them food-security countries**. Mexico, Ukraine,
+Argentina, Canada and Australia, the five 6d lists as blocked, are all
+ABSENT. So is France, and so is the UK.
+
+I first reported the UK as present with 39 rows. That was my own regex:
+`str.contains("U.K.")` treats `.` as any character, so it matched
+**Burkina Faso**. Trap 18 again, in my own verification, an hour after
+writing it up.
+
+So the calendar helps the food-security half of the channel and does
+nothing for the European story currently carrying it.
 
 ## 5. Recommendation
 
-1. **Find out whether the ASAP crop mask is downloadable.** It gates the
-   gridded option AND fixes the unweighted-aggregate defect. Cheapest
-   item with the largest fan-out. Needs a person on a web page.
+1. ~~Find out whether the ASAP crop mask is downloadable.~~ **DONE, it
+   is, 106 MB at `files/asap_mask_crop_v04.tif`.** The work it gates is
+   now the item: area-weighted aggregates (tls-internal#16) and gridded
+   aggregation for any second source. Pulling it plus the GAUL1 geometry
+   is 237 MB and needs nobody's permission but the disk.
 2. **If it is: ERA5-Land for the stalled instrument, ESA CCI as the
    check.** Both via credentials we already hold.
 3. **USDA Crop Progress remains the right answer to the OUTCOME lag**,
