@@ -40,6 +40,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 import tokens as T                                            # noqa: E402
+from templates.page_head import head_meta                     # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead, email_capture_form,
@@ -188,17 +189,21 @@ def _subscribe(root_prefix="../../"):
 
 
 def render_note(title, published_on, body_html, sources_html,
-                root_prefix="../../") -> str:
+                root_prefix="../../", slug="", lead="") -> str:
     """One Note. `published_on` is frozen by the caller, never minted here."""
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
 <title>{h(title)} | {h(SITE_NAME)}</title>
+<!-- Canonical, description and the share set from templates/page_head.py.
+     A Note is the most shared thing on the site and the one page Kristjan
+     writes by hand (D-093), so a link to it rendering as a bare URL with
+     no claim is the worst place on the site for this gap. The description
+     is the Note's own lead. -->
+{head_meta(title=f"{title} | {SITE_NAME}", description=lead,
+           path=f"/notes/{slug}/")}
 <style>{_css(root_prefix)}</style>
 {ANALYTICS_SNIPPET}
 </head>
@@ -234,6 +239,21 @@ def render_index(notes, root_prefix="../") -> str:
     nav still resolving to the first piece forever. An index of one row
     needs no pagination and no design language of its own.
     """
+    # The index describes ITSELF from what it lists rather than carrying a
+    # standing sentence: with one Note it names that Note, with several it
+    # says how many. A fixed description would be wrong the week a second
+    # piece lands, which is the failure the index itself exists to prevent
+    # in the nav.
+    _index_desc = (
+        # No second full stop after a title that ends in one. The only
+        # Note today is "How bad is it?" and the naive join read "How bad
+        # is it?." in the search snippet.
+        ("Notes from The Long Swell. " + notes[0]["title"].rstrip(".")
+         + ("" if notes[0]["title"].rstrip().endswith(("?", "!")) else "."))
+        if len(notes) == 1 else
+        ("%d notes from The Long Swell, written by hand: %s."
+         % (len(notes), ", ".join(n["title"] for n in notes[:3])))
+    ) if notes else "Notes from The Long Swell."
     rows = "".join(
         f'<li><a href="{h(n["slug"])}/">{h(n["title"])}</a>'
         f'<span class="when">{h(long_date(n["published_on"]))}</span>'
@@ -247,10 +267,9 @@ def render_index(notes, root_prefix="../") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
 <title>Notes | {h(SITE_NAME)}</title>
+{head_meta(title="Notes | " + SITE_NAME, description=_index_desc,
+           path="/notes/")}
 <style>{_css(root_prefix)}</style>
 {ANALYTICS_SNIPPET}
 </head>

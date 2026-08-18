@@ -49,7 +49,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-import tokens as T                                            # noqa: E402
+import tokens as T
+from templates.page_head import head_meta  # noqa: E402                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, EMAIL_CAPTURE_PROMISE,   # noqa: E402
                        EMAIL_FORM_CSS, email_capture_form,
                        SITE_MASTHEAD_CSS,
@@ -161,11 +162,13 @@ def render_subscribe(issues=None, form_embed="", root_prefix="") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
 <title>Subscribe | {h(SITE_NAME)}</title>
-<meta name="description" content="{h(PROMISE_H)}">
+<!-- Canonical and the share set from templates/page_head.py. This page had
+     a description already and no canonical, which is the per-template
+     pattern in its mildest form: whoever wrote this head thought about the
+     snippet and not about duplicate URLs. -->
+{head_meta(title="Subscribe | " + SITE_NAME, description=PROMISE_H,
+           path="/subscribe/")}
 <style>{_css(root_prefix)}</style>
 {ANALYTICS_SNIPPET}
 </head>
@@ -222,11 +225,17 @@ def render_subscribed(latest_href="briefs/", latest_label="the most recent issue
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="robots" content="noindex">
 <title>You are subscribed | {h(SITE_NAME)}</title>
+<!-- KEEPS ITS noindex, and now says so through the shared helper rather
+     than as a loose tag. A confirmation page is reached by following a
+     link from an email; it is not a page anyone should arrive at from a
+     search, and it would be a thin result if they did. This is what the
+     robots argument is FOR: a surface that should genuinely not be found
+     declares it in one place. -->
+{head_meta(title="You are subscribed | " + SITE_NAME,
+           description="Confirmation that your subscription to "
+                       + SITE_NAME + " is active.",
+           path="/subscribed/", robots="noindex")}
 <style>{_css(root_prefix)}</style>
 {ANALYTICS_SNIPPET}
 </head>

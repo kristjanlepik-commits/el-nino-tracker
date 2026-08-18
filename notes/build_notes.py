@@ -126,7 +126,12 @@ def main(mint=None):
 
         d.mkdir(parents=True, exist_ok=True)
         (d / "index.html").write_text(
-            render_note(title, published_on, blocks(body), blocks(src)))
+            # slug and lead reach the template so the head can carry a
+            # canonical and a description: only the builder knows the
+            # directory it is writing, and the lead is the sentence the
+            # index already shows for this piece.
+            render_note(title, published_on, blocks(body), blocks(src),
+                        slug=slug, lead=lead_of(body, authored)))
         notes.append({"slug": slug, "title": title,
                       "published_on": published_on, "lead": lead_of(body, authored)})
         print(f"  {slug}: {published_on}{' (minted)' if not frozen else ''}")
