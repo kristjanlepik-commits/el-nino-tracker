@@ -445,12 +445,30 @@ def _ensemble_average(model_results: list[dict]) -> tuple[float, dict[str, float
 
 
 def _ensemble_average_oni(model_results: list[dict]) -> float:
-    """Cross-model mean of the ONI-basis peak.
+    """Cross-model mean of the ONI-basis peak: EQUAL MODEL WEIGHT.
 
-    The pooled headline was reported as ~3.96 monthly, which is ~3.81 on
-    this basis. Anywhere a model peak is set beside the +2.59 ONI record,
-    THIS is the comparable figure; the monthly one overstates by ~0.15
-    because a three-month mean cuts peaks.
+    On the 2026080800 init, so the three figures can be told apart:
+
+        3.83   equal model weight, ONI basis   <- what this returns
+        3.85   pooled over all 92 members, ONI basis
+        3.96   equal model weight, MONTHLY basis (the published headline)
+
+    Anywhere a model peak is set beside the +2.59 ONI record, 3.83 is the
+    comparable figure. The monthly one overstates by 0.13 because a
+    three-month mean cuts peaks.
+
+    THIS DOCSTRING WAS ITSELF WRONG TWICE, in the commit that added it,
+    and business caught both by running the code path rather than reading
+    it. It said "~3.81", which is a figure taken from a chat message
+    rather than from the function beneath it. And it called 3.96 "the
+    pooled headline" when 3.96 is equal-model-weight and pooled is 3.85,
+    inverting the exact distinction the commit existed to establish.
+
+    Left recorded rather than quietly corrected, because the sentence is
+    INSTRUCTIONAL: anyone following it would have published 3.81. A
+    qualifier written to fix a mislabelling defect is not exempt from
+    being one, and the failure mode is the same either way, quoting a
+    number you read instead of one you computed.
     """
     peaks = [m["ensemble_mean_peak_oni"] for m in model_results
              if m and m.get("ensemble_mean_peak_oni") is not None]
