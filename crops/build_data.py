@@ -292,6 +292,29 @@ def severity_block(oriented: dict, cur_year: int) -> dict:
                       f"the season, {BASE_FIRST}-{cur_year}, across "
                       f"{len(oriented)} instruments read together"
                       + (f", level with {_year_list(tied)}" if tied else "")),
+        # IS_NOT, at product's request after four
+        # consumer-reaches-for-the-wrong-field defects in two days, one
+        # of them mine reaching for my own. A field that says what it is
+        # NOT, and points at the fields answering the questions it does
+        # not answer, is a structural fix where renaming is not
+        # available.
+        #
+        # This one exists because my own guidance here was incomplete
+        # and design followed it correctly. `not_comparable_across_places`
+        # says the value cannot order countries and that "the rank is the
+        # comparable figure". True, and it omits that the rank has 26
+        # levels and about one country in seven sits on level 1, so
+        # ordering by it produces a large tied block broken by payload
+        # order. Telling somebody which of two fields to order by, when
+        # neither orders well, is worse than saying neither does.
+        "is_not": "a cross-place ordering. The value places a country "
+                  "against ITSELF, and the rank saturates: roughly one "
+                  "country in seven sits at rank 1, so sorting on it "
+                  "yields a large tied block broken by payload order. "
+                  "For how much of a country is abnormal, use "
+                  "`regions_at_record`, which is a proportion and "
+                  "therefore comparable between places. For how fast, "
+                  "use `rate`.",
         "method": (f"Each of {len(oriented)} instruments placed within "
                    f"its own {of - 1} prior years at this dekad, then "
                    f"averaged with equal weights. No instrument is "
