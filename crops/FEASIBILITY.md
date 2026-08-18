@@ -2749,3 +2749,65 @@ record" is describing France.
 ours to say, and 13p is the relevant frequency: in 1,350 analogue
 episodes cumulative converged 80% of the time and reached a record 7%.
 Describing a trajectory is not extrapolating one.
+
+### 13s. The featured section is gated on the slowest instrument, so France is relegated
+
+Added 2026-08-19. Kristjan: *"we are ranking countries on cumulative
+right? All the crops in France seem in trouble, but since the cumulative
+is good due to spring, it shows France is fine. This is fundamentally
+broken, it seems to me."*
+
+**His conclusion is right. His premise needs one correction, and the
+correction makes it worse rather than better.**
+
+**We do NOT sort on cumulative.** `crops_index.py` sorts on
+`severity.rank`, the five-instrument composite, and France's severity
+rank is **1 of 26**. Its own country page leads correctly: *"France is
+1st most stressed of 26 observations for this point in the season, and
+1st steepest fall of 26."* So nothing says France is fine.
+
+**But the FEATURED SECTION is gated on regions at a record low on the
+CUMULATIVE instrument**, and France has **0 of 22** there. So France
+falls out of the featured block into the tail, under the heading
+*"Everywhere else we measure: 103 more places."*
+
+That is the gate, not the sort, and it uses the slowest instrument we
+publish to decide what a reader sees first.
+
+**France is near the top of that page only because we hand-pinned it.**
+Remove the pin and a country at severity rank 1, rate rank 1 with the
+control holding, and 19 of 22 regions at a record on current vegetation,
+is in an overflow list.
+
+**And it has already caught a country we did not pin.** Countries with
+severity rank 1 AND rate rank 1 (control holding) AND zero regions at a
+cumulative record:
+
+| | severity | rate | cumulative lows | current at record | pinned |
+|---|---|---|---|---|---|
+| Austria | 1 | 1 | 0 | 3 of 9 | yes |
+| France | 1 | 1 | 0 | **19 of 22** | yes |
+| Hungary | 1 | 1 | 0 | 3 of 7 | yes |
+| **Madagascar** | 1 | 1 | 0 | 2 of 22 | **NO** |
+
+So the pin has been silently doing the work the gate should do, for
+three countries, and Madagascar shows what happens without it.
+
+**Why the gate is defensible and still wrong.** Cumulative FPAR is the
+crop-outcome instrument, so "which countries have a region at a record
+low on the harvest measure" is a reasonable thing to feature. It is
+wrong as the ONLY gate because 13r shows what that instrument does: it
+carries an early-season surplus and reads calm while spending it.
+France's cumulative is 12 of 26 **and falling faster than any year in the
+record**, having given up 98% of a near-record spring. Gating on its
+LEVEL alone hides exactly the case the rate measure was built to catch.
+
+**A related hazard in my own payload, and it is mine to own.** The field
+literally named `magnitude` is cumulative-only and reads 12 of 26 for
+France, while `severity.rank` reads 1. `magnitude` is the obvious field
+for a renderer to reach for, and it is the calmest number about France.
+Design happened to use severity for the standfirst. Nothing in the
+payload told them to.
+
+**Not fixed here.** The gate is `crops_index.py`, design's file, and
+which places are featured is a product ranking question. Sent to both.
