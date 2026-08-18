@@ -1446,6 +1446,14 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         for entry in regions:
             entry.setdefault("instruments", {})["zfparc"] = {
                 "value": entry["value"],
+                # baseline_mean too, or zfparc is the ONE instrument of
+                # five whose baseline is not where the other four keep
+                # theirs, and a consumer has to know the layout for
+                # exactly one row. Socials hit this shading the France
+                # map and reported it rather than working around it.
+                # Same omission, same false justification as the region
+                # baselines themselves: "recoverable from elsewhere".
+                "baseline_mean": entry["baseline_mean"],
                 "rank": entry["rank"],
                 "of": entry["of"],
                 "statement": entry["statement"],
