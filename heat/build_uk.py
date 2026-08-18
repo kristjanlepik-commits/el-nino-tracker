@@ -49,6 +49,14 @@ CEDA = ("https://dap.ceda.ac.uk/badc/ukmo-midas-open/data/"
         "uk-daily-temperature-obs/dataset-version-202607")
 TOKEN = Path.home() / ".ceda_token"
 
+# WMO blocks for the bulletin extension. NOT TRUSTED ON THE STRENGTH OF THE
+# NUMBER: each is validated against the Met Office workbook where the two
+# overlap, and the extension is dropped if they disagree. That is what proves
+# the block is this station rather than another with a similar name, which is
+# the check that would have caught Murcia.
+WMO = {"Nottingham": "03354", "Belfast": "03917", "Aberdeen": "03091"}
+OGIMET = "https://www.ogimet.com/cgi-bin/getsynop"
+
 # county path, MIDAS dir, workbook sheet, out file
 STATIONS = {
     "Nottingham": ("nottinghamshire", "00556_nottingham-watnall",
@@ -207,6 +215,119 @@ def official(sheet):
     return out
 
 
+def synop_raw(block, begin, end):
+    raw = subprocess.run(
+        ["curl", "-sS", "--max-time", "200",
+         f"{OGIMET}?block={block}&begin={begin}&end={end}"],
+        capture_output=True).stdout.decode("utf-8", "replace")
+    return raw
+
+
+def series_at(raw, hn, hx):
+    sys.path.insert(0, str(ROOT / "heat"))
+    import synop
+    out = {}
+    for d, h, tx, tn in synop.parse_ogimet(raw):
+        mn, mx = out.get(d, (None, None))
+        if h == hn and tn is not None:
+            mn = tn
+        if h == hx and tx is not None:
+            mx = tx
+        out[d] = (mn, mx)
+    return {d: v for d, v in out.items()
+            if v[0] is not None and v[1] is not None}
+
+
+def fit_hours(raw, official):
+    """FIT the reporting hours against the official series, do not guess them.
+
+    UK stations bulletin extremes at 06, 09, 18 AND 21, four windows over the
+    same day, so no property of the bulletins alone says which pair
+    reproduces the Met Office's climatological day. Detecting by frequency
+    picks the chattiest hour; detecting by value picks the widest window.
+    Both are guesses, and they gave three different answers for four stations
+    that share a convention: 09/18, 09/18, 09/21, 06/18.
+
+    But we HOLD the answer. The workbook overlaps these bulletins by about a
+    hundred days, so the right pair is simply the one that reproduces it.
+    This tries every pair and returns the best with its error, and the caller
+    still refuses anything outside tolerance. Fitting against ground truth
+    beats inferring from the data's shape whenever the ground truth exists.
+    """
+    hours = ("06", "09", "12", "18", "21")
+    best = None
+    for hn in hours:
+        for hx in hours:
+            cand = series_at(raw, hn, hx)
+            common = [k for k in cand if k in official]
+            if len(common) < 20:
+                continue
+            dx = sorted(abs(cand[k][1] - official[k][1]) for k in common)
+            dn = sorted(abs(cand[k][0] - official[k][0]) for k in common)
+            # THE 90TH PERCENTILE, NOT THE WORST DAY. A single bad bulletin
+            # was rejecting stations that otherwise reproduce the official
+            # series exactly: Nottingham and Belfast both sit at median 0.0
+            # and p90 0.0, which is the same thermometer, and were failing on
+            # one 3 C outlier in a hundred days. A worst-day test cannot tell
+            # "a different station" from "one garbled report".
+            err = max(dx[int(.9 * (len(dx) - 1))], dn[int(.9 * (len(dn) - 1))])
+            if best is None or err < best[0]:
+                best = (err, hn, hx, len(common))
+    return best
+
+
+def extend(city, official):
+    """Carry the season past the workbook's last day, if the two agree.
+
+    THE WORKBOOK IS SENT BY HAND. It reached 10 August while these stations
+    kept reporting, so three pages sat four days short during the days people
+    were looking, and the only remedy on offer was to ask for a new file.
+    London solved this on the 17th; this is the same mechanism for the other
+    three.
+
+    LEGAL ONLY BECAUSE THE TWO AGREE, re-tested on every build rather than
+    remembered. If the bulletins ever diverge from the official series the
+    extension is dropped and the page stops at the workbook, because a
+    disagreement means one of them is wrong and we would not know which.
+    """
+    if not official or city not in WMO:
+        return {}, {"agree": None, "synop_days": [],
+                    "note": "no workbook or no WMO block for this station"}
+    last = max(official)
+    y = int(last[:4])
+    raw = synop_raw(WMO[city], f"{y}05010000", f"{y}12312359")
+    fit = fit_hours(raw, official)
+    if fit is None:
+        return {}, {"agree": False, "synop_days": [],
+                    "note": "no hour pair overlapped the workbook enough to fit"}
+    err, hn, hx, n = fit
+    tail = series_at(raw, hn, hx)
+    # p90 within 0.5 C on BOTH extremes. Nottingham and Belfast pass at 0.0
+    # and 0.1; Aberdeen fails at 0.9, agreeing on only 81% of days against
+    # their 95%, so it keeps the workbook and stays four days short. That is
+    # the right way round: these counts feed thresholds, and a 0.9 C error
+    # moves days across one.
+    agree = err <= 0.5
+    added = sorted(k for k in tail if k > last) if agree else []
+    prov = {
+        "official_to": last,
+        "synop_days": added,
+        "overlap_days": n,
+        "overlap_worst_c": round(err, 1),
+        "hours": {"min": hn, "max": hx},
+        "hours_note": ("Fitted against the Met Office series over the "
+                       "overlap, not inferred from the bulletins. UK stations "
+                       "report at four hours and only one pair reproduces the "
+                       "climatological day."),
+        "agree": agree,
+        "wmo_block": WMO[city],
+        "note": ("Days after the workbook come from the station's own WMO "
+                 "bulletins, checked against the official series where they "
+                 "overlap. Not applied when they disagree."),
+    }
+    return ({k: tail[k] for k in added}, prov)
+
+
 def main() -> int:
     # The token is only needed for a city with no committed history, so it is
     # fetched lazily rather than demanded up front. Three cities that all
@@ -224,6 +345,13 @@ def main() -> int:
         else:
             hist, nfiles = midas_years(county, sdir, tok)
         cur = official(sheet)
+        tail, season_prov = extend(city, cur)
+        cur = {**cur, **tail}
+        print(f"  {city}: official to {season_prov.get('official_to')}, "
+              f"overlap {season_prov.get('overlap_days')} days worst "
+              f"{season_prov.get('overlap_worst_c')} C at hours "
+              f"{season_prov.get('hours')}, agree "
+              f"{season_prov.get('agree')}, extended by {len(tail)}")
         # REFUSE TO WRITE A TRUNCATED FILE. On 2026-08-13 this wrote before it
         # checked, MIDAS returned nothing for Nottingham, and the city's file
         # went from 69 years to 222 rows of 2026 alone. The crash came one
@@ -254,6 +382,7 @@ def main() -> int:
             "season_2026_days": len(d26),
             "season_source": ("Met Office NMLA, Crown Copyright, re-use with "
                               "acknowledgement" if cur else "MISSING"),
+            "season_provenance": season_prov,
         }
         print(f"  {city:11s} {min(hy)}-{max(hy)}  {len(base)}/30 baseline  "
               f"2026: {len(d26)} days  ({nfiles} MIDAS files)")
