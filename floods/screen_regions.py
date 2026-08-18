@@ -212,10 +212,25 @@ def sample_modis(rid, lo0, lo1, la0, la1, season, tok, ndays=1):
                                       "--retry-all-errors",
                                       "-H", f"Authorization: Bearer {tok}",
                                       "-o", tmp, f"{ARCHIVE}/{yr}/{doy:03d}/{L[t]}"])
-                if rc != 0 or os.path.getsize(tmp) <= 1000:
+                # SIZE IS NOT CONTENT. An 8 KB CEDA-style login page or an
+                # HTML error passes a size check and then dies inside pyhdf
+                # as HDF4Error, which names the symptom rather than the
+                # cause. Three chats spent 2026-08-18 on exactly this class:
+                # failures served as HTTP 200 with a plausible body.
+                # HDF4 files start with the magic bytes 0e 03 13 01.
+                ok = rc == 0 and os.path.getsize(tmp) > 1000
+                if ok:
+                    with open(tmp, "rb") as fh:
+                        if fh.read(4) != b"\x0e\x03\x13\x01":
+                            print(f"    {rid} {yr} {t}: downloaded {os.path.getsize(tmp)} "
+                                  f"bytes that are NOT HDF4. Almost certainly an auth or "
+                                  f"error page served as 200, not a corrupt tile.",
+                                  flush=True)
+                            ok = False
+                if not ok:
                     failed_tiles += 1
                 try:
-                    if rc == 0 and os.path.getsize(tmp) > 1000:
+                    if ok:
                         hdf = SD(tmp, SDC.READ)
                         r0, r1, c0, c1 = sl
                         st, ct = (r0, c0), (r1 - r0, c1 - c0)
