@@ -42,6 +42,7 @@ sys.path.insert(0, str(ROOT))
 
 import tokens as T
 from templates.page_head import head_meta  # noqa: E402                                            # noqa: E402
+from templates.crops_region_map import block as region_maps, CSS as MAP_CSS
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
@@ -920,6 +921,7 @@ def render(country: dict, root_prefix: str = "../../") -> str:
      that is coherent, because fires is not promoted that way. -->
 <title>{h(name)} | Crops | {h(SITE_NAME)}</title>
 <style>
+{MAP_CSS}
 {T.font_faces_css(root_prefix + "fonts/")}
 :root {{ {T.css_variables()} }}
 @media (prefers-color-scheme: dark) {{ :root {{ {T.css_variables(dark=True)} }} }}
@@ -1087,6 +1089,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
     &middot; dekad {h(country.get('dekad', ''))}</p>
   <h1>{h(name)}</h1>
   <p class="stand">{h(stand)}</p>
+  {region_maps(country)}
   {_region_counts_block(country)}
   {_sequence_block(country)}
 
