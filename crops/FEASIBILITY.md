@@ -2621,3 +2621,70 @@ ordering invites a cause.
 is a known configuration with over a thousand precedents, and the
 informative part is not that it exists but that it usually resolves
 partially rather than fully.
+
+### 13q. The unweighted-aggregate defect is now fixable, and measured
+
+Added 2026-08-18. tls-internal#16 has been open since launch: every
+country figure is an unweighted mean over its regions, so the UK's four
+each carry 25% of the national number whatever their cropland. It could
+not be fixed because we had no cropped area per unit, and
+`FEASIBILITY.md` recorded that the ASAP export does not return one and
+`gaul_level=0` refuses with HTTP 400.
+
+**ASAP publishes it, and has all along.** `gaul1_asap_v05.zip` contains
+a shapefile whose attribute table carries `km2_crop`, "crop area
+according to ASAP crop mask", per GAUL1 unit. **The 106 MB crop-mask
+raster is not needed**: the zonal statistics were done by the people who
+built the mask.
+
+No geospatial dependency either. The repo has no rasterio, GDAL,
+geopandas, shapely or fiona, and adding them is platform's call. A dBase
+III table is fixed-width and needs about 30 lines to read, so
+`crops/asap_reference.py` reads it and never opens the geometry.
+
+**The size of the defect, first measured:**
+
+| UK region | cropland | our weight | over/under |
+|---|---|---|---|
+| England | **85.6%** | 25% | under 3.4x |
+| Scotland | 12.1% | 25% | over 2.1x |
+| Wales | 1.7% | 25% | over 15x |
+| Northern Ireland | **0.6%** | 25% | **over 42x** |
+
+**What it does to published numbers.** Every unweighted figure below
+reproduces the published one exactly, which is what makes the comparison
+trustworthy:
+
+| | published | area-weighted |
+|---|---|---|
+| France, cumulative | 12 of 26 | **15 of 26** |
+| UK, cumulative | 13 of 26 | **11 of 26** |
+| France, current | 1 of 26 | 1 of 26 |
+| UK, current | 1 of 26 | 1 of 26 |
+
+**Two findings, and the second is the reassuring one.**
+
+**Every rank-1 claim we have published survives area weighting.** England
+and France at records on current vegetation are unaffected. Nothing on
+the live pages or the cards is invalidated.
+
+**And the bias runs both ways.** France becomes LESS severe (12 to 15),
+the UK MORE severe (13 to 11). So the unweighted mean is noisy rather
+than systematically alarming, which is the same shape as the uniform
+baseline that failed in a new direction rather than the expected one. A
+defect that only ever flattered us would be easier to find.
+
+**The join is on `name1_shr`, not `name1`, and this caught me first
+try.** The indicator CSVs use ASAP's short names: "Champagne",
+"Languedoc R.", "Nord Pas Cala", "Provence". Joining France on the full
+name silently drops 4 of 22 regions and changes the country figure
+without erroring. Same shape as the `U.K. of Great Britain and Northern
+Ireland` join this file already warned about. **I only noticed because
+my unweighted figure came out 10 where the payload publishes 12**, which
+is the entire argument for validating a new method against the number it
+is meant to reproduce before trusting what it says about a new one.
+
+**NOT SHIPPED INTO THE PAYLOAD.** Changing how a country figure is
+computed changes published numbers on 123 pages and is a methodology
+change, not a bug fix. It needs product's ranking and design's sign-off
+under D-030, and probably a `METHODOLOGY_VERSION` bump.
