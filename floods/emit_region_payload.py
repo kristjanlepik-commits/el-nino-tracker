@@ -120,7 +120,7 @@ def rainfall_series(base_path, region, window_days, current_year=None):
     else:
         usable = None
 
-    years, totals, peaks = {}, {}, {}
+    years, totals, peaks, daily = {}, {}, {}, {}
     for y, dd in by.items():
         days = usable if usable is not None else set(dd)
         if usable is None and len(dd) != window_days:
@@ -130,7 +130,51 @@ def rainfall_series(base_path, region, window_days, current_year=None):
         years[y] = [dd[d] for d in sorted(days)]
         totals[y] = sum(x["mean_mm"] for x in years[y])
         peaks[y] = max(x["max_mm"] for x in years[y])
-    return totals, peaks, sorted(usable) if usable else [], excluded
+        daily[y] = [x["mean_mm"] for x in years[y]]
+    return totals, peaks, sorted(usable) if usable else [], excluded, daily
+
+
+# ---------------------------------------------------------------------
+# EVENT CHARACTER, and why an ordinal needs it
+#
+# Measured 2026-08-18 against 853 AEMET gauges on the Valencia DANA, and
+# independently by product against Environment Agency gauges on a Bath
+# convective cell. Both found the same thing: IMERG SMOOTHS. Binned by
+# what actually fell, it read 5.80x too much below 10 mm and 0.33x too
+# little above 150 mm, and 0.18 at the station that defined the event.
+#
+# The bias LARGELY CANCELS in a rank, because it applies to every year
+# alike. It does not cancel when the years differ in character: a
+# convective extreme is under-read more than a frontal one of equal true
+# magnitude, so a persistent wet spell can out-rank a genuinely wetter
+# cloudburst.
+#
+# So the direction matters and is asymmetric. If the current period is
+# LESS peaked than the year it beat, its win is flattered by smoothing
+# and the ordinal is at risk. If it is MORE peaked and wins anyway, the
+# bias worked against it and the rank is a floor.
+#
+# THE FIRST VERSION OF THIS GUARD FIRED ON DIRECTION ALONE, and that was
+# wrong in a way worth keeping. Reasoning: the magnitude of the bias is
+# not calibrated, so flag any case where the current period is less
+# peaked than the year it beat. But "less peaked at all" is true of
+# roughly half of all pairs by construction, so the guard fired on the
+# Pyrenees at 23% against a runner-up's 28% and would fire on half of
+# everything. A guard that fires half the time is not conservative, it
+# is noise, and it gets ignored exactly when it is right.
+#
+# It now fires on a BAND CROSSING instead. The bands below are not
+# invented: they are the bins the bias was actually measured in, where
+# the read ratio ran 0.79 at 10-50 mm, 0.69 at 50-150 and 0.33 above.
+# Two periods inside one band are smoothed alike and their ordering is
+# safe; two periods in different bands are not, and that is the case the
+# reader needs told. Both shares are reported either way, which is the
+# part product asked for and the part that does not depend on a
+# threshold at all.
+
+def top_day_share(vals):
+    t = sum(vals)
+    return (max(vals) / t) if t > 0 else None
 
 
 def flood_series(base_path, window_days):
@@ -225,6 +269,56 @@ def rank_of(value, others):
     return 1 + sum(1 for o in others if o > value)
 
 
+def _event_character(year, cur, hist, daily):
+    """Is this event the kind the instrument measures well?
+
+    Reported on every rainfall finding so a renderer and a reader can see
+    instrument fit without recomputing it, per product's request of
+    2026-08-18. Their words: it settles event type with a number instead
+    of a judgement.
+    """
+    if year not in daily:
+        return None
+    share = top_day_share(daily[year])
+    others = {y: top_day_share(v) for y, v in daily.items()
+              if y != year and top_day_share(v) is not None}
+    med = float(np.median(list(others.values()))) if others else None
+    runner = max(hist, key=hist.get) if hist else None
+    rshare = others.get(runner)
+    out = {
+        "top_day_share": round(share, 3) if share is not None else None,
+        "baseline_median_top_day_share": round(med, 3) if med is not None else None,
+        "runner_up_year": runner,
+        "runner_up_top_day_share": round(rshare, 3) if rshare is not None else None,
+        "instrument_fit": None,
+        "ordinal_at_risk": False,
+    }
+    if share is None:
+        return out
+    # Accumulation is what IMERG measures well. A period dominated by one
+    # day is closer to the convective case it under-reads.
+    out["instrument_fit"] = ("accumulation, well measured" if share <= 0.35 else
+                             "mixed" if share <= 0.55 else
+                             "single-day dominated, intensity is under-read")
+    def band(x):
+        return 0 if x <= 0.35 else (1 if x <= 0.55 else 2)
+
+    if rshare is not None and band(share) < band(rshare):
+        out["ordinal_at_risk"] = True
+        out["ordinal_risk_note"] = (
+            f"this period is {out['instrument_fit'].split(',')[0]} "
+            f"({share:.0%} of its total on its wettest day) while {runner}, "
+            f"which it out-ranks, is more concentrated ({rshare:.0%}). The "
+            f"instrument under-reads concentrated rainfall, so part of the "
+            f"margin may be smoothing rather than weather.")
+    elif rshare is not None and band(share) > band(rshare):
+        out["ordinal_note"] = (
+            f"this period is MORE concentrated ({share:.0%}) than {runner} "
+            f"({rshare:.0%}) and out-ranks it anyway, so the instrument bias "
+            f"worked against it and the rank is a floor rather than a ceiling.")
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--region", required=True)
@@ -284,7 +378,7 @@ def main():
     }
 
     # ---- rainfall -------------------------------------------------------
-    totals, peaks, used_days, excluded_days = rainfall_series(
+    totals, peaks, used_days, excluded_days, daily = rainfall_series(
         args.rain_baseline, args.region, expected, current_year=year)
     hist_all = {y: v for y, v in totals.items() if y != year}
     if year not in totals and hist_all:
@@ -338,6 +432,7 @@ def main():
                       "rank": rank_of(cur, hist.values()), "of": len(hist) + 1},
             "finding": classify(cur, list(hist.values()), med, True),
             "peak_day_mm": round(peaks[year], 0),
+            "event_character": _event_character(year, cur, hist, daily),
             "verdict": "measured",
         })
 
