@@ -2560,3 +2560,64 @@ file says so rather than hiding it.
 of 4 across all twelve dekads. A row that never moves is as informative
 as one that does, and it disappears entirely from a window chosen to
 show movement.
+
+### 13p. Is the cumulative-versus-current divergence abnormal? Measured: no, and what follows it is the useful part
+
+Added 2026-08-18. Kristjan asked, via socials, whether France's split is
+"weird": cumulative vegetation 12th of 26 with 0 of 22 regions at a
+record, while current vegetation is 1st of 26 with 19 of 22 at a record.
+
+Our standing explanation is that cumulative integrates from sowing and
+is structurally the last to move. **That explains a lag. It does not say
+whether a lag of this SIZE is ordinary**, which is the actual question,
+and nobody had looked.
+
+**The gap is uncommon but not rare.** Across 143,619 country-year-dekad
+pairs, 2001-2025, a cumulative-minus-current rank gap of 11 or more
+occurs in **4.7%**. Roughly a one-in-twenty configuration, not a
+one-off.
+
+**What happens next, from 1,350 analogue episodes** (current rank 1 or
+2 while cumulative sits 10th or worse, with at least three later dekads
+in the same season):
+
+| | |
+|---|---|
+| cumulative moved TOWARD the record | **80%** |
+| cumulative recovered instead | 16% |
+| unchanged | 5% |
+| median move over 6 dekads | **5 rank places toward the record** |
+| **ever reached rank 1 afterwards** | **7%** |
+
+**The last row is the one that matters and it cuts against the
+alarming reading.** Cumulative usually drifts toward the current signal,
+and it usually does not arrive. Four in five converge; one in fourteen
+completes.
+
+By where in the season the divergence appears:
+
+| | n | converged | reached rank 1 |
+|---|---|---|---|
+| doy 1-12, early | 294 | 75% | 12% |
+| **doy 13-24, mid** (France today) | **587** | **82%** | **4%** |
+| doy 25-36, late | 469 | 80% | 6% |
+
+France sits at doy 22, in the band with the **highest** convergence rate
+and the **lowest** completion rate.
+
+**THIS IS A FREQUENCY, NOT A FORECAST, and the distinction is the whole
+posture.** We are an aggregator: we cite, we do not predict. "In 1,350
+analogous historical episodes, cumulative moved toward the record 80% of
+the time and reached it 7% of the time" is a measured statement about
+the record. "France's cumulative index will therefore fall short of a
+record" is a forecast, it is not ours to make, and nothing above
+licenses it.
+
+The same trap as the causal reading of a time series, one step along: a
+clean historical frequency invites a prediction exactly as a clean
+ordering invites a cause.
+
+**So the answer to the question asked:** the divergence is not weird, it
+is a known configuration with over a thousand precedents, and the
+informative part is not that it exists but that it usually resolves
+partially rather than fully.
