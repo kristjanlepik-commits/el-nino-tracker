@@ -2538,6 +2538,24 @@ order survives the window's edges.* An instrument already elevated in
 the first column may have peaked earlier, and every "X moved before Y"
 taken from that series is then unsupported.
 
+**UPDATED 2026-08-18, and the update is the better evidence.** The file
+now covers the whole calendar year to the published dekad rather than
+twelve dekads, because twelve was still a pick. Widening it a second
+time changed the story a second time:
+
+| window | what UK temperature appears to do |
+|---|---|
+| 4 dekads | one peak, on 1 July |
+| 12 dekads | two spikes, 21 May and 21 June, and the July "peak" is a decline |
+| the full year | **three** episodes: 2 of 4 regions in February, then the two spikes |
+
+So each widening did not refine the picture, it replaced it. That is the
+argument for deriving the window rather than choosing a bigger one: 22
+dekads is not a better choice than 12, it is the absence of a choice,
+being every dekad there is this year. **The remaining edge is the year
+boundary**, which cuts a southern-hemisphere season mid-story, and the
+file says so rather than hiding it.
+
 **And the same lesson from the calm side:** cumulative vegetation is 0
 of 4 across all twelve dekads. A row that never moves is as informative
 as one that does, and it disappears entirely from a window chosen to

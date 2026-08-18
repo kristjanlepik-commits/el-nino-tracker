@@ -16,8 +16,8 @@ pages and the weekly Note instead of living in a scratch script.
 
 WHAT IT IS NOT. Not a second copy of the payload. Only the per-instrument
 "N of M regions at their own record" counts, which is 3 KB gzipped per
-dekad, so twelve dekads is about 25 KB in its own file and touches the
-stress_current budget not at all.
+dekad, so a full year to date is well under 100 KB in its own file and
+touches the stress_current budget not at all.
 
 Socials' validation harness should survive as the CHECK on this rather
 than as the source: it recomputes a published dekad and asserts equality
@@ -41,7 +41,12 @@ from crops.build_data import (  # noqa: E402
 )
 
 OUT = os.path.join(HERE, "data", "regions_at_record_history.json")
-DEKADS_BACK = 12
+# 36 is one full year of dekads, and doys do not wrap, so this always
+# reaches doy 1 whatever the anchor. The window is therefore the WHOLE
+# CALENDAR YEAR TO DATE rather than a number somebody picked, which is
+# the point: trap 21 is that a chosen window can manufacture the
+# sequence it appears to reveal, and the fix is to stop choosing.
+DEKADS_BACK = 36
 
 
 def main() -> None:
@@ -78,11 +83,11 @@ def main() -> None:
                          "clock so the two cannot drift apart.",
         "_authorship": "tls_built",
         "_evidence_basis": "measured",
-        # THE WINDOW IS A CHOICE AND IT CAN MANUFACTURE A SEQUENCE.
+        # A WINDOW CAN MANUFACTURE THE SEQUENCE IT APPEARS TO REVEAL.
         #
-        # Socials built a four-dekad UK card whose headline was "the four
+        # Socials built a four-dekad UK card headlined "the four
         # instruments peak weeks apart", opening "temperature stands at a
-        # record on 1 July". Against the full twelve, temperature was at
+        # record on 1 July". Against a longer series temperature was at
         # all four regions on 21 May and again on 21 June. Inside their
         # four dekads it only declines, so the tail of a fall was
         # presented as a starting peak, and the spread was "weeks" rather
@@ -90,22 +95,29 @@ def main() -> None:
         #
         # Worse for any causal reading: temperature has TWO spikes with
         # 0 of 4 between them. There is no single peak for anything to be
-        # sequenced against. That removes the thing a propagation story
-        # hangs on, which is stronger than `driver: not identified`
-        # declining to explain it.
+        # sequenced against, which removes the thing a propagation story
+        # hangs on rather than declining to explain it.
         #
-        # THIS FILE'S OWN WINDOW IS ALSO A CHOICE. Twelve dekads ending
-        # at the published one. It happens to open on a quiet column for
-        # the UK, which is luck rather than design. A pattern that is
-        # already running in the first column may have started earlier,
-        # and nothing here can tell you that it did not.
+        # SO THIS FILE STOPPED CHOOSING. It was twelve dekads, which was
+        # a pick, and it opened on a quiet column for the UK by luck. It
+        # is now every dekad of the calendar year to the published one,
+        # so no within-year peak can fall outside it. The remaining edge
+        # is the year boundary, which is stated rather than hidden.
         "_window": {
             "dekads": DEKADS_BACK,
             "ends_at": cur_dekad,
-            "is_a_choice": "this window was picked, not derived. A "
-                           "shorter one changes which peak looks like "
-                           "the first, and a sequence visible inside a "
-                           "window may not exist outside it.",
+            "is_derived_not_picked": "every dekad of this calendar year "
+                                     "up to the published one. Not a "
+                                     "window somebody chose, so a "
+                                     "within-year peak cannot fall "
+                                     "outside it. It was 12 dekads and "
+                                     "that WAS a choice.",
+            "still_bounded_at_the_left": "the year boundary. A season "
+                                         "that began in the previous "
+                                         "calendar year is cut, so for "
+                                         "southern-hemisphere crops the "
+                                         "first column can still be "
+                                         "mid-story. Check it.",
             "before_inferring_order": "check the FIRST column. If an "
                                       "instrument is already elevated "
                                       "there, its peak may precede this "
