@@ -70,10 +70,43 @@ def _token():
     return TOKEN.read_text().strip()
 
 
+def _unauthenticated(body):
+    """Is this body an auth failure wearing a content type?
+
+    THE STATUS CODE IS A PROPERTY OF YOUR CURL FLAGS, NOT OF THE SERVER, and
+    that is the part that took two chats to see. Fetching an expired-token
+    CEDA .csv gives:
+
+        without -L    HTTP 302, 15 bytes, "Unauthenticated"
+        with    -L    HTTP 200, 8015 bytes, <title>Login
+
+    Same request, same server, same expired token. Floods measured the second
+    and I had documented the first, and each of us had a rule the other's
+    measurement broke: "look for a 302" and "look for a short body" both pass
+    a full-sized login page returned as 200.
+
+    So neither status nor size can answer this. Only content can. Floods also
+    found the trap underneath it: diffing an authenticated fetch against an
+    unauthenticated one showed a difference, which reads as proof the token
+    works. Both were login pages differing at a CSRF nonce. A diff between two
+    failures looks exactly like a difference between success and failure.
+    """
+    head = body[:4000].lower()
+    return ("unauthenticated" in head
+            or "<title>login" in head
+            or "<html" in head)
+
+
 def _get(url, tok):
-    return subprocess.run(
+    body = subprocess.run(
         ["curl", "-sS", "--max-time", "90", "-H", f"Authorization: Bearer {tok}",
          url], capture_output=True).stdout.decode("latin-1", "replace")
+    if _unauthenticated(body):
+        raise SystemExit(
+            f"  CEDA returned an auth failure, not data, for {url}. The token "
+            f"at ~/.ceda_token is expired or wrong. Nothing fetched and "
+            f"nothing written; renew it and re-run.")
+    return body
 
 
 def midas_years(county, sdir, tok):

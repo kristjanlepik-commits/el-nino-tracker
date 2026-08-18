@@ -37,6 +37,7 @@ number we already published, which is the more useful outcome of the two.
 """
 from __future__ import annotations
 
+import collections
 import concurrent.futures
 import csv
 import io
@@ -55,20 +56,74 @@ STATIONS = {
     "Heathrow":   ("greater-london", "00708_heathrow"),
     "Rothamsted": ("hertfordshire", "00471_rothamsted"),
     "Wisley":     ("surrey", "00719_wisley"),
-    "Kew":        ("greater-london", "00721_kew"),
+    "StJamess":   ("greater-london", "00697_london-st-jamess-park"),
+    # 00723 Kew Gardens, 1948-2025, NOT 00721 Kew which stops in 1980.
+    "Kew":        ("greater-london", "00723_kew-gardens"),
     "Northolt":   ("greater-london", "00709_northolt"),
 }
 MIN_DAYS = 80          # June-August days needed for a year to count
 
 
+def _unauthenticated(body):
+    """Is this body an auth failure wearing a content type?
+
+    THE STATUS CODE IS A PROPERTY OF YOUR CURL FLAGS, NOT OF THE SERVER, and
+    that is the part that took two chats to see. Fetching an expired-token
+    CEDA .csv gives:
+
+        without -L    HTTP 302, 15 bytes, "Unauthenticated"
+        with    -L    HTTP 200, 8015 bytes, <title>Login
+
+    Same request, same server, same expired token. Floods measured the second
+    and I had documented the first, and each of us had a rule the other's
+    measurement broke: "look for a 302" and "look for a short body" both pass
+    a full-sized login page returned as 200.
+
+    So neither status nor size can answer this. Only content can. Floods also
+    found the trap underneath it: diffing an authenticated fetch against an
+    unauthenticated one showed a difference, which reads as proof the token
+    works. Both were login pages differing at a CSRF nonce. A diff between two
+    failures looks exactly like a difference between success and failure.
+    """
+    head = body[:4000].lower()
+    return ("unauthenticated" in head
+            or "<title>login" in head
+            or "<html" in head)
+
+
 def _get(url, tok):
-    return subprocess.run(
+    body = subprocess.run(
         ["curl", "-sS", "--max-time", "90", "-H", f"Authorization: Bearer {tok}",
          url], capture_output=True).stdout.decode("latin-1", "replace")
+    if _unauthenticated(body):
+        raise SystemExit(
+            f"  CEDA returned an auth failure, not data, for {url}. The token "
+            f"at ~/.ceda_token is expired or wrong. Nothing fetched and "
+            f"nothing written; renew it and re-run.")
+    return body
 
 
 def summer_means(county, sdir, tok):
-    """Mean June-August daily maximum per year, from the 21h reading."""
+    """Mean June-August daily maximum per year, using THIS station's own
+    reporting convention.
+
+    THE FIRST VERSION HARDCODED HEATHROW'S. It filtered on the 21h reading
+    with ob_hour_count 12, which is Heathrow's convention, and applied it to
+    every neighbour. Rothamsted reports a 24-HOUR maximum at 09h, so 89 of
+    its 115 years were silently discarded and I reported that the archive did
+    not reach back far enough to answer the question. It does.
+
+    Third time in one day I took one station's convention for a universal
+    one, after Tallinn's SYNOP hours and Belfast's 21Z maximum. So this
+    detects the convention rather than assuming it: whichever (hour,
+    ob_hour_count) pair carries the most maxima at this station is the one
+    used.
+
+    A 24-hour maximum ending at 09h and a 12-hour maximum ending at 21h both
+    capture the day's peak; they attribute it to different calendar dates. On
+    a three-month MEAN a one-day attribution shift is immaterial, which is
+    why means are the right comparison here and daily pairing would not be.
+    """
     listing = _get(f"{CEDA}/{county}/{sdir}/qc-version-1/", tok)
     files = re.findall(r'href="([^"]*_qcv-1_\d{4}\.csv)"', listing)
     if not files:
@@ -79,24 +134,30 @@ def summer_means(county, sdir, tok):
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
         texts = list(ex.map(one, files))
 
-    per = {}
+    rows = []
     for txt in texts:
         if "\ndata\n" not in txt:
             continue
         for r in csv.DictReader(io.StringIO(txt.split("\ndata\n", 1)[1])):
             t = (r.get("ob_end_time") or "").strip()
-            if len(t) < 13 or (r.get("ob_hour_count") or "").strip() != "12":
-                continue
-            if t[11:13] != "21":
-                continue
-            if t[5:7] not in ("06", "07", "08"):
-                continue
             v = (r.get("max_air_temp") or "").strip()
+            if len(t) < 13 or not v:
+                continue
             try:
-                per.setdefault(int(t[:4]), []).append(float(v))
+                rows.append((t, float(v), t[11:13],
+                             (r.get("ob_hour_count") or "").strip()))
             except ValueError:
                 continue
-    return {y: statistics.mean(vs) for y, vs in per.items() if len(vs) >= MIN_DAYS}
+    if not rows:
+        return {}, None
+    conv = collections.Counter((h, c) for _t, _v, h, c in rows).most_common(1)[0][0]
+    per = {}
+    for t, val, h, c in rows:
+        if (h, c) != conv or t[5:7] not in ("06", "07", "08"):
+            continue
+        per.setdefault(int(t[:4]), []).append(val)
+    return ({y: statistics.mean(vs) for y, vs in per.items()
+             if len(vs) >= MIN_DAYS}, conv)
 
 
 def slope(pairs):
@@ -119,10 +180,11 @@ def main() -> int:
     tok = TOKEN.read_text().strip()
     series = {}
     for name, (county, sdir) in STATIONS.items():
-        series[name] = summer_means(county, sdir, tok)
+        series[name], conv = summer_means(county, sdir, tok)
         yrs = sorted(series[name])
         print(f"  {name:11s} {len(yrs):3d} summers, "
-              f"{yrs[0] if yrs else '-'}-{yrs[-1] if yrs else '-'}")
+              f"{yrs[0] if yrs else '-'}-{yrs[-1] if yrs else '-'}"
+              f"   convention {conv[0]}h/{conv[1]}h window" if conv else "")
 
     h = series["Heathrow"]
     print("\n  Heathrow minus neighbour, June-August mean maximum")
