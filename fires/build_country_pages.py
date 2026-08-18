@@ -369,6 +369,44 @@ def main() -> None:
             fh.write(render(piece))
         written += 1
     print(f"wrote {written} country page(s) to docs/fires/")
+    # REFUSE RATHER THAN NO-OP, and refuse BEFORE stamping.
+    #
+    # QA's finding: this exited 0 whatever happened, so a build that
+    # produced nothing was indistinguishable downstream from a week where
+    # no country qualified. That nearly cost the whole channel. Platform's
+    # dropped-page redirect identified dropped countries by an unchanged
+    # index.html mtime, so one exit-0-with-no-output would have classified
+    # every fires country page as dropped and redirected the lot in a
+    # single publish, silently. The redirect is withdrawn (D-197 reversed
+    # by D-198), but the hole it exposed is real and outlives it.
+    #
+    # THE FLOOR IS THE PINNED SET, NOT AN ARBITRARY FRACTION. build_events
+    # guarantees GBR, USA, CAN, FRA and ESP appear every week whatever the
+    # gate does, because readers come to check their own country. So a
+    # missing pinned country is proof that something upstream failed, and
+    # it cannot be a quiet week. A percentage drop would have to be tuned
+    # against a set that legitimately ran 22 to 28 in the last seven days;
+    # this needs no tuning and cannot false-positive on a calm week.
+    #
+    # It also protects the stamp, which is the half QA cared about most.
+    # The stamp asserts "checked for the week of X" on pages nothing else
+    # updates. If the builder ever no-ops, that date stops advancing while
+    # the page keeps claiming it, and a reader in September reads an August
+    # date as the latest check. A build that dies must not leave a freshness
+    # claim standing, which is the lesson heat wrote up on 2026-08-17 after
+    # an aborted build left a gate printing PUBLISH.
+    from fires.build_events import PINNED
+    pinned_names = {dets[i]["name"] for i in PINNED if i in dets}
+    missing = sorted(pinned_names - {e["region"] for e in events})
+    if not written or missing:
+        raise SystemExit(
+            f"REFUSING to finish: wrote {written} country page(s)"
+            + (f" and these pinned countries are absent from events.json: "
+               f"{', '.join(missing)}" if missing else "")
+            + ". The pinned set is guaranteed by the gate, so this is an "
+              "upstream failure rather than a quiet week. Nothing has been "
+              "stamped, so no page will claim a freshness it does not have.")
+
     print(stamp_unregenerated({slugify(e["region"]) for e in events},
                               pretty_window(window)))
 
