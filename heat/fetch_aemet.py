@@ -98,12 +98,40 @@ def window(a, b, station=MADRID_RETIRO):
         if "no hay datos" in desc.lower():
             raise NoDataForPeriod(desc)
         return []
-    time.sleep(1.2)                     # be polite to a free public API
-    try:
-        return json.loads(_get(meta["datos"]))
-    except Exception as exc:                    # never fail silently
-        print(f"  {a}..{b}: data fetch/parse failed: {exc}", file=sys.stderr)
-        return []
+    # AEMET IS TWO-STEP AND THE SECOND FILE IS GENERATED ASYNCHRONOUSLY, so a
+    # fetch that arrives too early gets something that is not yet the array,
+    # with a perfectly healthy status. A fixed sleep works most of the time
+    # and then does not, once, in the middle of something that matters.
+    #
+    # WORSE, THE OLD CODE RETURNED [] ON ANY PARSE FAILURE. An empty list is
+    # exactly what "this station has no data for this period" returns, so a
+    # file that was merely not ready yet became a station that observed
+    # nothing, and flowed into the series as measured absence. Floods hit the
+    # same shape three ways today and named it: ABSENCE PRODUCED BY A FAILURE,
+    # PRESENTED AS ABSENCE MEASURED. Their CEDA login pages, my MIDAS HTML fed
+    # to a parser, and this. None are network errors; all arrive as HTTP 200.
+    #
+    # So retry on CONTENT rather than on status or on a timer, and when it
+    # still will not parse, RAISE. A caller that cannot get data must not be
+    # handed a value that reads as an answer.
+    body = None
+    for attempt, wait in enumerate((1.2, 3, 8), 1):
+        time.sleep(wait)
+        body = _get(meta["datos"])
+        stripped = (body or "").lstrip()
+        if stripped.startswith("["):
+            try:
+                return json.loads(body)
+            except ValueError:
+                pass                    # truncated array, try again
+        if attempt < 3:
+            print(f"  {a}..{b}: data file not ready yet "
+                  f"(attempt {attempt}), retrying", file=sys.stderr)
+    raise RuntimeError(
+        f"{a}..{b}: AEMET data file never became a JSON array after 3 "
+        f"attempts. Refusing to return an empty list, which is what a "
+        f"station with genuinely no data returns and would be recorded as "
+        f"measured absence. First 120 chars: {(body or '')[:120]!r}")
 
 
 def _months(start: dt.date, end: dt.date, step: int = 3):
