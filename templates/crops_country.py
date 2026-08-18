@@ -581,7 +581,30 @@ def render(country: dict, root_prefix: str = "../../") -> str:
                      key=lambda r: r.get("value", 0))
     lows = [r for r in regions if r.get("rank") == 1]
     name = country["place"]
-    units = country.get("crop_units")
+    # THE DENOMINATOR IS WHAT WE MEASURED, NOT WHAT THE COUNTRY HAS.
+    #
+    # `crop_units` is ASAP's count of crop-growing units in a country.
+    # `regions` is how many of them we actually hold a reading for. They
+    # differ in 28 of 123 places: Liberia is 5 against 1, Gabon 9 against 5,
+    # Tunisia 23 against 16.
+    #
+    # Every sentence below counts regions WE MEASURED, so every one of them
+    # takes this denominator. Using crop_units made the negative case read
+    # "None of its 5 crop regions is at a record low" on a country where one
+    # region was measured, and that region WAS at its own record on
+    # temperature. An absence of evidence rendered as evidence of absence,
+    # in the reassuring direction, on the page a reader visits to check one
+    # country. Issue #27, found by QA.
+    #
+    # It survived the earlier instrument fix because that fix was verified on
+    # France, and France is one of the 95 where the two numbers agree. The
+    # check was run against the one example that cannot fail.
+    #
+    # The payload settles which is right rather than product deciding:
+    # aggregate.regions_averaged equals len(regions) in all 123 places and
+    # crop_units in only 95, so the unweighted mean the third sentence
+    # describes is taken across measured regions too.
+    units = len(regions)
     cb = country.get("chance_baseline") or {}
 
     # The count sentence carries its own baseline or it does not appear.
@@ -657,7 +680,10 @@ def render(country: dict, root_prefix: str = "../../") -> str:
                   f"average whatever their area, so the national number is "
                   f"not {_lead_name} slightly diluted.")
     elif lows:
-        stand = (f"{len(lows)} of {units} crop regions in {name} are at "
+        stand = (f"Its single crop region is at its worst on record for "
+                 f"this point in the season."
+                 if units == 1 else
+                 f"{len(lows)} of {units} crop regions in {name} are at "
                  f"their worst on record for this point in the season.")
         if cb.get("recent_max") is not None:
             stand += (f" Its highest in any previous year was "
@@ -701,7 +727,15 @@ def render(country: dict, root_prefix: str = "../../") -> str:
         # fifth of six, so the sentence would have gone false the moment the
         # rows were reordered, silently and on 86 pages. The row it means is
         # marked in the block instead, so the two cannot drift.
-        stand = (f"{head} None of its {units} crop regions is at a record "
+        # SINGULAR IS NOT A ROUNDING OF PLURAL. Liberia has one measured
+        # region, so the plural form rendered "None of its 1 crop regions
+        # is", which reads as broken rather than as precise. It appeared
+        # only once the denominator became the measured count, because
+        # crop_units never went below two.
+        subject = ("Its single crop region is not"
+                   if units == 1 else
+                   f"None of its {units} crop regions is")
+        stand = (f"{head} {subject} at a record "
                  f"low on the measure that tracks the harvest, marked below, "
                  f"which is also the slowest of them to move.")
 
