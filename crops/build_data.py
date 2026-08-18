@@ -1792,6 +1792,33 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
             "dekad": str(latest.date()),
             "magnitude": {
                 "kind": "rank",
+                # WHAT THIS MEASURES, NAMED INSIDE IT.
+                #
+                # `magnitude` is ONE instrument's level, cumulative
+                # vegetation, and nothing in the name said so. It is
+                # also the most inviting field on the place record, so
+                # it is the one a renderer reaches for first.
+                #
+                # For France it reads 12 of 26 while severity.rank reads
+                # 1 of 26. That is the calmest number about the country
+                # sitting under the most attractive name, on the country
+                # whose cumulative index is 12th only because it banked
+                # a near-record spring and has spent 98% of it (13r).
+                # Design used severity for the standfirst by judgement,
+                # and judgement is not a mechanism.
+                #
+                # Not renamed yet: `magnitude` is read by shipped
+                # templates and breaking them at midnight to improve a
+                # name is the wrong trade. Named in place now, renamed
+                # with design.
+                "instrument": "zfparc",
+                "instrument_label": "Vegetation, cumulative",
+                "is_not": "the composite. This is the crop-outcome "
+                          "instrument's LEVEL alone, and it is the "
+                          "slowest of the six. For how stressed a place "
+                          "is across all reporting instruments use "
+                          "`severity.rank`; for how fast it is "
+                          "deteriorating use `rate`.",
                 "value": head["rank"],
                 "of": head["of"],
                 "direction": "low",
