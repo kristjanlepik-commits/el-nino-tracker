@@ -184,11 +184,36 @@ def _bootstrap_p_above(season_probs: dict, threshold_roni: float,
 
 # ---- Public API ---------------------------------------------------------
 
+def _resolve_offset(offset: float | None) -> float:
+    """Return the offset, complaining loudly if we are falling back.
+
+    sources.RONI_TO_ONI_OFFSET is a SEED, not a current value. It is 0.3;
+    the live offset (tropical-mean SST anomaly, from oisst_weekly) has run
+    0.8-0.9 through this season. That is not a rounding difference: the
+    offset shifts every threshold, so at +3.5 ONI the fallback asks for
+    3.2 RONI where the truth is 2.6 RONI, which is far out in a tail the
+    CPC table does not even reach.
+
+    Every production caller passes an offset today. This exists because a
+    future one will not, and a silent 0.6 substitution produces a
+    plausible-looking ladder that is wrong at exactly the rungs we now
+    publish. Product raised it on 2026-08-17 after reading a mislabelled
+    basis field the same night; both are the same shape, a value that
+    looks authoritative and describes something else.
+    """
+    if offset is not None:
+        return offset
+    print("WARNING: no live RONI-to-ONI offset supplied; falling back to "
+          f"sources.RONI_TO_ONI_OFFSET = {S.RONI_TO_ONI_OFFSET}. That seed "
+          "is stale (live has run 0.8-0.9 this season) and shifts EVERY "
+          "threshold. Pass the offset from oisst_weekly.")
+    return S.RONI_TO_ONI_OFFSET
+
+
 def cpc_headline_buckets(strength_table: dict, season: str = "NDJ 2026-27",
                          offset: float | None = None) -> dict:
     """Headline buckets from the parametric fit. Offset defaults to S.RONI_TO_ONI_OFFSET."""
-    if offset is None:
-        offset = S.RONI_TO_ONI_OFFSET
+    offset = _resolve_offset(offset)
     probs = strength_table[season]
     loc, scale, shape = fit_skew_normal(probs)
     return {
@@ -225,8 +250,7 @@ def cpc_headline_buckets(strength_table: dict, season: str = "NDJ 2026-27",
 def cpc_headline_with_uncertainty(strength_table: dict, season: str = "NDJ 2026-27",
                                   offset: float | None = None) -> dict:
     """As above plus a bootstrap CI on the +2.5 °C bucket."""
-    if offset is None:
-        offset = S.RONI_TO_ONI_OFFSET
+    offset = _resolve_offset(offset)
     probs = strength_table[season]
     base = cpc_headline_buckets(strength_table, season, offset)
 
@@ -484,8 +508,7 @@ def smoothed_headline_buckets(
     with mid, anchor, seas5, consensus, n_models, weight, mode, and
     deflection per bucket so the brief can show the math.
     """
-    if offset is None:
-        offset = S.RONI_TO_ONI_OFFSET
+    offset = _resolve_offset(offset)
     anchor = cpc_headline_buckets(strength_table, season, offset)
     thresholds = {
         "moderate_>1.0": 1.0,
