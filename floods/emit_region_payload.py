@@ -80,8 +80,29 @@ def spearman(a, b):
 
 
 def load_jsonl(p):
+    """RAISES on a missing file. It used to return [].
+
+    Found 2026-08-18 after heat hit the identical shape in their AEMET
+    fetcher: on any failure it returned [], and [] is exactly what a
+    station with genuinely no data returns, so a file that was merely not
+    ready became a station that observed nothing.
+
+    Here it was worse, because it was the SECOND HALF OF A BUG I HAD
+    ALREADY FIXED. Earlier the same day this file learned to emit a
+    flood_extent series with verdict not_assessed rather than omitting it
+    when no baseline was passed. The rainfall path had the same hole and I
+    did not look: a mistyped --rain-baseline produced a payload carrying
+    only flood_extent, with no rainfall series, no error and exit 0.
+
+    A path that was PASSED and does not exist is a caller error, never an
+    observation. Absence of data and absence of a file are different
+    claims and must not share a return value."""
     if not os.path.exists(p):
-        return []
+        raise SystemExit(
+            f"floods: no such file: {p}\n"
+            f"  This is a missing FILE, not an empty measurement. Returning "
+            f"an empty list here would emit a payload silently short of a "
+            f"whole instrument.")
     return [json.loads(l) for l in open(p) if l.strip()]
 
 
@@ -396,6 +417,24 @@ def main():
             "values_present": 0,
             "baseline_years": len(hist_all),
             "verdict": "awaiting_data",
+        })
+    if not totals:
+        # The file existed and parsed but yielded no comparable year. Still
+        # emitted, marked, for the same reason not_assessed exists: a
+        # missing series is invisible, and invisible reads as fine.
+        payload["series"].append({
+            "id": "rainfall",
+            "instrument": "GPM IMERG Late Run v07",
+            "measures": "rainfall, NOT flooding",
+            "units": "mm, area mean over the region",
+            "expected_slots": expected,
+            "due_slots": 0,
+            "values_present": 0,
+            "baseline_years": 0,
+            "verdict": "no_baseline",
+            "no_baseline_reason": [
+                "the rainfall baseline file holds no year with a complete "
+                "window, so there is nothing to compare this period against"],
         })
     if year in totals:
         hist = hist_all
