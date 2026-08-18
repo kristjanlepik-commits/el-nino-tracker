@@ -1325,6 +1325,9 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                 "value": round(float(cur), 3),
                 "unit": unit,
                 "baseline_mean": round(float(hist.mean()), 3),
+                # Same reason as the region rows; null where degenerate.
+                "baseline_sd": (round(float(hist.std()), 3)
+                                if float(hist.std()) > 1e-6 else None),
                 "baseline_span": f"{BASE_FIRST}-{BASE_LAST}, same dekad",
                 "rank": rank_of(cur, hist, worse_is),
                 "of": len(hist) + 1,
@@ -1589,6 +1592,24 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                 _rk = rank_of(v, h, worse_is)
                 inst[slug] = {
                     "value": round(v, 3),
+                    # baseline_sd so an instrument in NATURAL UNITS can be put
+                    # on the same scale as one already standardised. Socials'
+                    # France card draws vegetation (a z-score) beside water
+                    # satisfaction (percentage points), and there is no
+                    # principled exchange rate between "1.5 standard deviations"
+                    # and "25 percentage points". They had to pick an endpoint,
+                    # and the pick made the water panel darker than the
+                    # vegetation panel on a country with 19 of 22 regions at a
+                    # vegetation record and 18 of 22 at a water record. Every
+                    # number correct, the picture saying the opposite.
+                    #
+                    # NULL WHERE DEGENERATE, never zero. 9 of 2,097 water
+                    # histories have no variance at all, regions where the
+                    # crop's water need is always met, and a consumer dividing
+                    # by that gets an infinite z. A missing field stops them;
+                    # a zero does not.
+                    "baseline_sd": (round(float(h.std()), 3)
+                                    if float(h.std()) > 1e-6 else None),
                     "baseline_mean": round(float(h.mean()), 3),
                     "rank": _rk, "of": len(h) + 1,
                     # Bound here for the same reason the country rows
