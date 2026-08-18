@@ -52,6 +52,140 @@ from templates.crops_severity import (severity_block,          # noqa: E402
 
 
 
+
+# The dekad history, loaded once. CRO commits it at 123 places x 12 dekads,
+# 18 KB gzipped, head dekad asserted equal to stress_current across all 615
+# place-instrument rows.
+_HIST = None
+
+
+def _history():
+    global _HIST
+    if _HIST is None:
+        import json as _json
+        f = ROOT / "crops/data/regions_at_record_history.json"
+        try:
+            _HIST = _json.loads(f.read_text())
+        except (OSError, ValueError):
+            _HIST = {}
+    return _HIST
+
+
+_MON3 = {"01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May",
+         "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct",
+         "11": "Nov", "12": "Dec"}
+
+
+def _sequence_block(p):
+    """What moved, and when. One row per instrument, one square per dekad.
+
+    D-180 gives the country page sub-instrument depth; this is the time
+    dimension of it. The organising fact is WHEN rather than how bad, which
+    is what lets the page orient a reader without the cross-channel score
+    the brief forbids.
+
+    D-182 IS WHAT MAKES IT PUBLISHABLE RATHER THAN SUGGESTIVE.
+
+    ROW ORDER IS FIXED AND READ FROM THE PAYLOAD, never sorted by observed
+    movement. CRO emits instrument_order.order, ascending by how much time
+    each instrument summarises, shortest first, and each row states its own
+    window. A page that sorted rows to match its own data would be the
+    AUTHOR of the sequence, and a reader is right to read authorship as
+    assertion. On a country where vegetation moves first, this same layout
+    shows a jumble, which is what teaches a reader the order is ours rather
+    than the world's.
+
+    THE WINDOW CAVEAT RENDERS PER ROW AND ONLY WHERE IT APPLIES. CRO's rule
+    is to check the FIRST column before inferring any order: an instrument
+    already elevated when the window opens may have peaked before this file
+    begins. As a page footnote that is a caveat; on the row it describes it
+    is a fact about that line.
+
+    ABSENT IS NOT ZERO. A dekad an instrument did not report is hatched; one
+    it reported as none is flat. Soil moisture stops mid-window nearly
+    everywhere because ASAP has not published since 1 July, and rendering
+    that as "none at a record" would turn a gap into a reassurance.
+    """
+    hist = _history()
+    place_key = p.get("_page_place") or p["place"]
+    by_dekad = (hist.get("places") or {}).get(place_key)
+    if not by_dekad:
+        return ""
+    deks = list(hist.get("dekads") or {})
+    leg = p.get("_instrument_legend") or {}
+    order = [k for k in (p.get("_instrument_order") or []) if k in leg]
+    if len(deks) < 3 or not order:
+        return ""
+
+    def mon(dk):
+        return _MON3.get(dk[5:7], dk[5:7])
+
+    body = ""
+    for k in order:
+        cells = ""
+        first = (by_dekad.get(deks[0]) or {}).get(k)
+        for dk in deks:
+            v = (by_dekad.get(dk) or {}).get(k)
+            if not v or v.get("at_record") is None or not v.get("of"):
+                cells += ('<span class="sqc none" role="img"'
+                          ' aria-label="not reported"></span>')
+                continue
+            n, of = v["at_record"], v["of"]
+            lvl = 0 if not n else (1 if n / of <= .34 else
+                                   (2 if n / of <= .74 else 3))
+            cells += ('<span class="sqc l%d" role="img" aria-label="%d of %d '
+                      'regions at their own record"><i>%s</i></span>'
+                      % (lvl, n, of, n or ""))
+        warn = ('<span class="sqpre">already elevated when this window opens,'
+                ' so nothing here shows when it began</span>'
+                if first and first.get("at_record") else "")
+        body += ('<div class="sqrow"><span class="sqlab">%s<em>%s</em>%s</span>'
+                 '<span class="sqcells">%s</span></div>'
+                 % (h(leg[k].get("name", k)), h(leg[k].get("summarises", "")),
+                    warn, cells))
+
+    scale = "".join(
+        "<span>%s</span>" % (mon(dk) if i == 0 or mon(dk) != mon(deks[i - 1])
+                             else "")
+        for i, dk in enumerate(deks))
+
+    # THE NON-ATTRIBUTION AT GRID WEIGHT, never as a footnote. A time grid
+    # beside our own statement that we cannot attribute it makes the
+    # non-attribution part of the finding rather than a disclaimer under it.
+    # Product's ruling, and it is what stops the grid reading as a cascade.
+    drv = p.get("driver")
+    drvblock = ""
+    if drv:
+        said = (("Nothing we can show. The driver is <strong>%s</strong> here"
+                 % h(str(drv))) if str(drv).startswith("not")
+                else ("The driver is <strong>%s</strong>" % h(str(drv))))
+        drvblock = ('<div class="sqdrv"><b>What connects these rows</b><p>'
+                    '%s. This section says what moved and when. It never says '
+                    'because.</p></div>' % said)
+
+    return (
+        '<p class="eyebrow" style="margin-top:34px">What moved, and when</p>'
+        '<p class="sqsub">Each square is one dekad. The number is how many of '
+        'this country&rsquo;s crop regions stood at their own worst on record '
+        'for that point in the season. Rows are ordered by how much time each '
+        'instrument summarises, shortest first, because a shorter window can '
+        'move sooner. That order is fixed and is the same on every country '
+        'page.</p>'
+        '<div class="sqgrid%s">%s<div class="sqscale">%s</div></div>'
+        '<div class="sqkey">'
+        '<span><i class="sqsw l0"></i>none at a record</span>'
+        '<span><i class="sqsw l1"></i>one</span>'
+        '<span><i class="sqsw l2"></i>some</span>'
+        '<span><i class="sqsw l3"></i>most or all</span>'
+        '<span><i class="sqsw none"></i>not reported</span></div>'
+        '%s'
+        '<p class="note">These %d dekads were picked rather than derived. A '
+        'shorter window changes which peak looks like the first, and a '
+        'sequence visible inside a window may not exist outside it.</p>'
+        % (" dense" if len(deks) > 14 else "",
+           body, scale, drvblock, len(deks)))
+
+
 def _region_counts_block(p):
     """How many regions are at their own record, per instrument.
 
@@ -577,6 +711,9 @@ def _ord(n: int) -> str:
 
 
 def render(country: dict, root_prefix: str = "../../") -> str:
+    # Column count from the data. A hardcoded 12 would squash or drop
+    # columns the week CRO extends the history, silently.
+    _NCOLS = max(3, len(list((_history().get("dekads") or {}))) or 12)
     regions = sorted((country.get("regions") or []),
                      key=lambda r: r.get("value", 0))
     lows = [r for r in regions if r.get("rank") == 1]
@@ -799,6 +936,66 @@ main {{ max-width:800px; margin:0 auto; padding:24px 24px 80px; }}
   text-transform:uppercase; color:var(--ink-faint); margin:22px 0 10px; }}
 h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   letter-spacing:-0.015em; }}
+.sqsub {{ font-size:14.5px; line-height:1.5; color:var(--ink-soft);
+  margin:6px 0 14px; max-width:62ch; }}
+.sqgrid {{ margin:0; }}
+.sqrow {{ display:grid; grid-template-columns:10.5rem minmax(0,1fr);
+  gap:10px; align-items:center; padding:5px 0;
+  border-bottom:1px solid var(--rule); }}
+.sqlab {{ font-family:"{T.FONT_DATA}",monospace; font-size:11px;
+  line-height:1.25; color:var(--ink); }}
+.sqlab em {{ display:block; font-style:normal; font-size:9.5px;
+  color:var(--ink-faint); margin-top:2px; }}
+.sqpre {{ display:block; font-size:9.5px; color:var(--ink); margin-top:3px;
+  border-left:2px solid var(--ink); padding-left:5px; }}
+.sqcells, .sqscale {{ display:grid;
+  grid-template-columns:repeat({_NCOLS},1fr); gap:2px; }}
+.sqc {{ height:22px; display:flex; align-items:center; justify-content:center;
+  background:#E4E2DA; }}
+.sqc i {{ font-family:"{T.FONT_DATA}",monospace; font-size:9.5px;
+  font-style:normal; color:#fff; }}
+.sqc.l0 {{ background:#E4E2DA; }}
+.sqc.l1 {{ background:#B9CBA8; }} .sqc.l1 i {{ color:var(--ink); }}
+.sqc.l2 {{ background:#6E9455; }}
+.sqc.l3 {{ background:var(--crop); }}
+.sqc.none, .sqsw.none {{ background:repeating-linear-gradient(45deg,
+  #EDEBE4,#EDEBE4 3px,#E0DED6 3px,#E0DED6 6px); }}
+.sqscale {{ margin-top:5px; }}
+.sqscale span {{ font-family:"{T.FONT_DATA}",monospace; font-size:9px;
+  color:var(--ink-faint); }}
+.sqkey {{ display:flex; flex-wrap:wrap; gap:6px 14px; margin:12px 0 0;
+  font-family:"{T.FONT_DATA}",monospace; font-size:10px;
+  color:var(--ink-faint); align-items:center; }}
+.sqsw {{ width:13px; height:13px; display:inline-block; vertical-align:-2px;
+  margin-right:5px; }}
+.sqsw.l0 {{ background:#E4E2DA; }} .sqsw.l1 {{ background:#B9CBA8; }}
+.sqsw.l2 {{ background:#6E9455; }} .sqsw.l3 {{ background:var(--crop); }}
+.sqdrv {{ margin:14px 0 0; border:1px solid var(--ink); padding:11px 12px; }}
+.sqdrv b {{ font-family:"{T.FONT_DATA}",monospace; font-size:9.5px;
+  letter-spacing:.16em; text-transform:uppercase; display:block;
+  color:var(--ink-faint); margin-bottom:5px; }}
+.sqdrv p {{ margin:0; font-size:15px; line-height:1.5; }}
+/* THE ROW STACKS ON A PHONE and the month scale is the version always
+   shown. A grid whose whole claim is WHEN, with the when hidden under
+   640px, is the defect this page exists to avoid. */
+@media (max-width:640px) {{
+  .sqrow {{ grid-template-columns:minmax(0,1fr); gap:3px; }}
+  .sqlab {{ display:flex; flex-wrap:wrap; align-items:baseline; gap:0 8px; }}
+  .sqlab em {{ display:inline; margin:0; }}
+  .sqpre {{ flex:1 1 100%; margin-top:2px; }}
+  .sqc {{ height:26px; }}
+}}
+/* THE DIGIT COMES OFF WHEN THE CELLS GET THIN. France carries 22 dekads,
+   which is 13px a cell on a 390px phone, and a 9.5px number in a 13px box
+   overflows into its neighbours: the row read "13161919" with no way to
+   tell which cell owned which digit. Colour still carries the level, the
+   aria-label still carries the exact count for a screen reader, and the
+   per-instrument block above this one states today's numbers precisely.
+   Dense is decided from the COLUMN COUNT rather than guessed, so a
+   twelve-dekad country keeps its numbers at the same width. */
+@media (max-width:640px) {{
+  .sqgrid.dense .sqc i {{ display:none; }}
+}}
 .icounts {{ margin:10px 0 0; display:grid;
   grid-template-columns:minmax(0,1fr) 2.4rem 3rem; gap:1px 10px;
   font-family:"{T.FONT_DATA}",monospace; font-size:11.5px;
@@ -891,6 +1088,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   <h1>{h(name)}</h1>
   <p class="stand">{h(stand)}</p>
   {_region_counts_block(country)}
+  {_sequence_block(country)}
 
   <p class="eyebrow" style="margin-top:34px">How bad is it, against this
     country&rsquo;s own record</p>

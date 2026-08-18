@@ -98,6 +98,8 @@ def main() -> None:
         # a bare key.
         p = dict(p, dekad=doc.get("dekad", ""),
                  _instrument_legend=doc.get("instrument_legend") or {},
+                 # D-182: the row order is DATA, not a renderer's choice.
+                 _instrument_order=(doc.get("instrument_order") or {}).get("order") or [],
                  _absence_reasons=doc.get("absence_reasons") or {})
         slug = slugify(p["place"])
         slugs.add(slug)
