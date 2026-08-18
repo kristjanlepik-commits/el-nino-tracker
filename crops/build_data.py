@@ -1534,14 +1534,31 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                 # Region layers are emitted for 2,122 regions x 5
                 # instruments, so every constant or derivable field here
                 # costs about 0.2 MB against a 5 MB guard. `available`
-                # is implied by the presence of a value, and
-                # baseline_mean is recoverable from the country block.
-                # Rank and `of` stay because a rank without its
-                # denominator is the defect this channel exists to
-                # avoid.
+                # is implied by the presence of a value. Rank and `of`
+                # stay because a rank without its denominator is the
+                # defect this channel exists to avoid.
+                #
+                # BASELINE_MEAN IS BACK, and the reason it was dropped
+                # was wrong. This said it was "recoverable from the
+                # country block". It is not: a region's baseline is its
+                # own 26-year mean at this dekad, and the country
+                # baseline is a mean ACROSS regions. You cannot recover
+                # one from the other, and 22 French regions have 22
+                # different baselines.
+                #
+                # What it costs to omit, found by socials: their region
+                # maps had to shade by RANK, because rank was the only
+                # magnitude-ish field present. So Languedoc-Roussillon,
+                # which beat its own record by 0.02, painted identically
+                # to Limousin, which beat its by 1.31. A 65-fold
+                # difference in margin rendered the same colour. That is
+                # the rank-without-magnitude defect built into a colour
+                # ramp, where there is no wording for a reader to argue
+                # with.
                 _rk = rank_of(v, h, worse_is)
                 inst[slug] = {
                     "value": round(v, 3),
+                    "baseline_mean": round(float(h.mean()), 3),
                     "rank": _rk, "of": len(h) + 1,
                     # Bound here for the same reason the country rows
                     # bind it: a rank separated from its basis gets
