@@ -43,6 +43,31 @@ EVENTS = os.path.join(REPO, "data", "events.json")
 WEEK = os.path.join(REPO, "fires", "data", "current_week.json")
 OUT = os.path.join(REPO, "docs", "fires", "index.html")
 
+# NOINDEX: REMOVED 2026-08-18 UNDER D-183, and this note is deliberately
+# a Python comment rather than the HTML one it replaces.
+#
+# The first version of this explanation shipped as an HTML comment in the
+# rendered head, so `grep -l noindex docs/fires/` matched 29 pages that
+# held no tag at all. Design had done the same thing on their side. I then
+# hand-stripped 17 pages, diagnosed a leak, worked out a stamping mechanism
+# that would have made it permanent, and wrote it up. All of it was sound
+# reasoning about a defect that did not exist, and the cause was an
+# explanation a grep cannot tell apart from the thing it explains.
+#
+# THE RULE: an explanation of a tag must not be indistinguishable from the
+# tag. Same family as a guard matching one literal string while the page
+# had moved to different wording.
+#
+# The substance, kept because a future audit will find the spec: the
+# unlisted period ENDED, it did not fail to exist. fires/SPEC.md line 11
+# records it as chosen and confirmed with Kristjan on 2026-07-25. Crops was
+# an accident (D-172); this was a decision whose conditions lapsed, and the
+# two are filed separately on purpose. The spec defined "unlisted" by two
+# conditions, no link from the parent front page and no promotion, and both
+# were false by 17 August: the front page linked fires in the masthead and
+# linked Cuba, the UK and Croatia by absolute URL, and socials had posted
+# fire content all week.
+
 TAG_TEXT = {
     "enso": "ENSO-loaded window",
     "non_enso": "not ENSO-linked",
@@ -339,18 +364,6 @@ def build(events_doc, font_prefix="../fonts/", baseline=None):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- NOINDEX REMOVED 2026-08-18, D-183. The unlisted period ENDED; it did
-     not fail to exist. fires/SPEC.md line 11 records it as chosen and
-     confirmed with Kristjan on 2026-07-25, so anyone finding that spec
-     later should find this too rather than conclude the tag was an
-     accident. Crops was an accident (D-172); this was not, and the two
-     are filed separately on purpose.
-     What ended it: the spec defined "unlisted" by two conditions, no link
-     from the parent front page and no promotion. By 17 August the front
-     page linked fires in the masthead AND linked Cuba, the UK and Croatia
-     by absolute URL, and socials had posted fire content all week. The
-     conditions lapsed before the tag did. -->
-
 <!-- Socials measured 136 channel pages sharing with NO image at all on
      2026-08-10; fires was 42 of them. The house card is generic and
      beats an empty slot.
