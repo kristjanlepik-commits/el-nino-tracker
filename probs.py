@@ -354,11 +354,18 @@ def _per_model_p_above(seas5_per_lead: list | None, nmme: dict | None,
         # and went on saying so after the fetcher moved to an ONI 3-month
         # mean on 2026-08-15, which is the same caption-describing-the-
         # wrong-figure defect this field exists to prevent.
-        basis = {"oni_3mo_mean": "peak ONI (3-month mean), Nov 2026 - Feb 2027",
+        # `basis` is a PER-FIELD map as of 2026-08-17; older payloads carry
+        # a single string. Read the entry for frac_above, which is the field
+        # this percentage comes from, rather than whatever the node happens
+        # to say about itself.
+        raw_basis = m.get("basis")
+        if isinstance(raw_basis, dict):
+            raw_basis = raw_basis.get("frac_above")
+        names = {"oni_3mo_mean": "peak ONI (3-month mean), Nov 2026 - Feb 2027",
                  "monthly_peak": "peak monthly value, Nov 2026 - Feb 2027"}
         out[name] = {"pct": round(float(pct), 1),
                      "n_members": m.get("n_members"),
-                     "basis": basis.get(m.get("basis"), m.get("basis") or "unknown")}
+                     "basis": names.get(raw_basis, raw_basis or "unknown")}
     if seas5_per_lead:
         head = seas5_per_lead[-1]
         n_above = (head.get("members_above") or {}).get(f"{threshold_oni:.1f}")

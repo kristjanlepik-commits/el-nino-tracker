@@ -360,6 +360,10 @@ def fetch_all() -> dict:
             "cfsv2_trajectory": np_.get("cfsv2_trajectory"),
             "pooled_trajectory": np_.get("pooled_trajectory"),
             "ensemble_mean_peak": np_.get("ensemble_mean_peak"),
+            # ONI-basis mean peak, the one comparable with the ONI
+            # record and with the threshold fractions. See the basis
+            # map note in fetchers/nmme.py.
+            "ensemble_mean_peak_oni": np_.get("ensemble_mean_peak_oni"),
             "ensemble_frac_above": np_.get("ensemble_frac_above", {}),
             "thresholds_degC": np_.get("thresholds_degC", []),
             "peak_window": np_.get("peak_window"),

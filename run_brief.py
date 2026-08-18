@@ -4856,7 +4856,7 @@ def build_nmme_panel_markdown(nmme: dict) -> list[str]:
     md.append("")
 
     # Header row
-    header = "| Model | Members | Peak (mean) | " + " | ".join(
+    header = "| Model | Members | Peak ONI (mean) | " + " | ".join(
         f">+{t}" for t in thr_keys) + " |"
     sep = "|---|---|---|" + "---|" * len(thr_keys)
     md.append(header)
@@ -4865,8 +4865,15 @@ def build_nmme_panel_markdown(nmme: dict) -> list[str]:
         label = _NMME_MODEL_LABELS.get(name, name)
         fa = m.get("frac_above", {})
         cells = " | ".join(f"{fa.get(k, 0):.0f}%" for k in thr_keys)
+        # ONI-basis peak, so the peak column and the threshold columns
+        # beside it are the SAME quantity. It printed the MONTHLY peak
+        # until 2026-08-17, which put "4.24 °C" next to ">+4.0: 59%" in
+        # one row and left the reader to reconcile a mean above the
+        # threshold with a 59% chance of clearing it. They were two
+        # different measurements sharing a row.
+        peak = m.get("ensemble_mean_peak_oni", m.get("ensemble_mean_peak"))
         md.append(f"| {label} | {m.get('n_members', '?')} | "
-                  f"{m.get('ensemble_mean_peak', float('nan')):.2f}°C | {cells} |")
+                  f"{peak if peak is not None else float('nan'):.2f}°C | {cells} |")
     # Consensus row (equal model weight)
     cons_fa = nmme.get("ensemble_frac_above", {})
     cons_cells = " | ".join(f"{cons_fa.get(k, 0):.0f}%" for k in thr_keys)

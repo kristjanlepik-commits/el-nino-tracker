@@ -335,11 +335,44 @@ def _download_and_extract_peaks(model: str, init: str) -> dict:
     """
     raw = _raw_peaks(model, init)
     oni = _oni_peaks_from_members(raw.get("members_by_month") or {})
+
+    # PER-FIELD basis, not per-model. A single `basis` string sat at model
+    # level from 2026-08-15 and appeared to describe the whole node while
+    # only describing frac_above. `ensemble_mean_peak` is a MONTHLY peak
+    # and sat right beside it labelled oni_3mo_mean.
+    #
+    # That is not a cosmetic mislabel. Product read the field, concluded
+    # the pooled 3.96 headline was already ONI-comparable, told another
+    # desk the question was settled and told aftereffects to stop looking.
+    # It is 3.96 monthly against about 3.81 on the ONI basis, so any
+    # comparison against the 2.59 record overstated by ~0.15. Found by
+    # aftereffects, 2026-08-17.
+    #
+    # A map because this node accumulates fields, and the next one to be
+    # misread will not announce itself. D-051 applied to emitted data
+    # rather than to copy: the qualifier travels with the datum, and a
+    # qualifier that describes its NEIGHBOUR is worse than none, because
+    # it is trusted.
     if oni:
-        return {**raw, "oni_peaks_per_member": oni,
-                "frac_above": _frac_above(oni), "basis": "oni_3mo_mean"}
+        return {**raw,
+                "oni_peaks_per_member": oni,
+                "ensemble_mean_peak_oni": round(float(np.nanmean(oni)), 2),
+                "frac_above": _frac_above(oni),
+                "basis": {
+                    "frac_above": "oni_3mo_mean",
+                    "oni_peaks_per_member": "oni_3mo_mean",
+                    "ensemble_mean_peak_oni": "oni_3mo_mean",
+                    "ensemble_mean_peak": "monthly_peak",
+                    "peaks_per_member": "monthly_peak",
+                    "trajectory": "monthly_percentiles",
+                    "members_by_month": "monthly_per_member",
+                }}
     return {**raw, "frac_above": _frac_above(raw["peaks_per_member"]),
-            "basis": "monthly_peak"}
+            "basis": {
+                "frac_above": "monthly_peak",
+                "ensemble_mean_peak": "monthly_peak",
+                "peaks_per_member": "monthly_peak",
+            }}
 
 
 def _weighted_percentile(values, weights, pct: float) -> float:
@@ -411,6 +444,19 @@ def _ensemble_average(model_results: list[dict]) -> tuple[float, dict[str, float
     return avg_peak, avg_frac
 
 
+def _ensemble_average_oni(model_results: list[dict]) -> float:
+    """Cross-model mean of the ONI-basis peak.
+
+    The pooled headline was reported as ~3.96 monthly, which is ~3.81 on
+    this basis. Anywhere a model peak is set beside the +2.59 ONI record,
+    THIS is the comparable figure; the monthly one overstates by ~0.15
+    because a three-month mean cuts peaks.
+    """
+    peaks = [m["ensemble_mean_peak_oni"] for m in model_results
+             if m and m.get("ensemble_mean_peak_oni") is not None]
+    return round(float(np.mean(peaks)), 2) if peaks else None
+
+
 def fetch() -> FetchResult:
     try:
         # Use ENSMEAN as the reference for the latest init, since it is
@@ -460,6 +506,18 @@ def fetch() -> FetchResult:
                 "cfsv2_trajectory": cfsv2_trajectory,
                 "pooled_trajectory": pooled_traj,
                 "ensemble_mean_peak": avg_peak,
+                "ensemble_mean_peak_oni": _ensemble_average_oni(model_results),
+                # Which basis each top-level field is on. Same reason as the
+                # per-model map: a node that grows fields outgrows a single
+                # label, and the one that gets misread is never the one you
+                # labelled.
+                "basis": {
+                    "ensemble_mean_peak": "monthly_peak",
+                    "ensemble_mean_peak_oni": "oni_3mo_mean",
+                    "ensemble_frac_above": "oni_3mo_mean",
+                    "pooled_trajectory": "monthly_percentiles",
+                    "cfsv2_trajectory": "monthly_percentiles",
+                },
                 "ensemble_frac_above": avg_frac,
                 "thresholds_degC": THRESHOLDS,
                 "peak_window": "Nov 2026 - Feb 2027 (NDJ-DJF)",
