@@ -104,9 +104,46 @@ def _lvl(n, of):
     if not n:
         return 0
     f = n / of
-    if n == 1 and f <= .34:
+    if n == 1 and f < 1 / 3:
         return 1
-    return 2 if f <= .34 else (3 if f <= .74 else 4)
+    return 2 if f < 1 / 3 else (3 if f <= 0.75 else 4)
+
+
+def _when(dk):
+    return "%s %s" % (dk[8:10].lstrip("0") or dk[8:10], _MON3.get(dk[5:7], ""))
+
+
+# A cell whose instrument reported fewer than this share of the regions it
+# covers at its fullest is not making a statement about extent.
+COVERAGE_MIN = 0.75
+
+
+def _thin(v):
+    """True when this dekad's coverage is too sparse to read as extent.
+
+    CRO's send-back, and it is the same defect I had just found, one layer
+    along. `of` is per instrument PER DEKAD, not per country: the
+    crop-growing class stops reporting a region once its cycle closes, so
+    out of season a country can report one region out of eighteen. Under a
+    pure fraction rule that one region at a record paints MOST OR ALL, the
+    darkest shade on the grid. It is a statement about COVERAGE wearing
+    the clothes of a statement about EXTENT.
+
+    23 of the 33 one-region cells were this rather than genuine.
+
+    AND IT BITES HARDER NOW THAT THE DIGITS ARE GONE, which is CRO's
+    sharpest point: the count in the box was the thing that let a reader
+    overrule a wrong shade, so a wrong dark cell now has nothing arguing
+    with it. Removing the digits is still right; it just means the shade
+    has to be right on its own.
+
+    IT CUTS BOTH WAYS AND THAT IS WHY THIS IS NOT ONLY ABOUT DARK CELLS.
+    952 sparse cells currently read "none at a record", which is the same
+    overstatement pointing the other way: two regions of eighteen reported
+    and neither at a record is not a country with nothing wrong.
+    """
+    of, om = v.get("of"), v.get("of_max")
+    return bool(of and om and of / om < COVERAGE_MIN)
 
 
 def _cell_says(n, of, dk):
@@ -116,7 +153,7 @@ def _cell_says(n, of, dk):
     five-band shade is a range, and this is where the number itself still
     lives.
     """
-    when = "%s %s" % (dk[8:10].lstrip("0") or dk[8:10], _MON3.get(dk[5:7], ""))
+    when = _when(dk)
     if not n:
         return "%s: none of %d regions at their own record" % (when, of)
     if n == 1:
@@ -179,6 +216,13 @@ def _sequence_block(p):
                           ' aria-label="not reported"></span>')
                 continue
             n, of = v["at_record"], v["of"]
+            if _thin(v):
+                says = ("%s: only %d of this instrument's %d regions "
+                        "reported, too few to say how much of the country "
+                        "was affected" % (_when(dk), of, v["of_max"]))
+                cells += ('<span class="sqc thin" role="img" title="%s" '
+                          'aria-label="%s"></span>' % (h(says), h(says)))
+                continue
             says = _cell_says(n, of, dk)
             cells += ('<span class="sqc l%d" role="img" title="%s" '
                       'aria-label="%s"></span>'
@@ -212,7 +256,7 @@ def _sequence_block(p):
 
     return (
         '<p class="eyebrow" style="margin-top:34px">What moved, and when</p>'
-        '<p class="sqsub">Each square is one dekad, and its shade is how many '
+        '<p class="sqsub">Each square is one dekad, and its shade shows how many '
         'of this country&rsquo;s crop regions stood at their own worst on '
         'record for that point in the season. Rows are ordered by how much '
         'time each '
@@ -223,9 +267,10 @@ def _sequence_block(p):
         '<div class="sqkey">'
         '<span><i class="sqsw l0"></i>none at a record</span>'
         '<span><i class="sqsw l1"></i>one region</span>'
-        '<span><i class="sqsw l2"></i>up to a third</span>'
-        '<span><i class="sqsw l3"></i>up to three quarters</span>'
+        '<span><i class="sqsw l2"></i>fewer than a third</span>'
+        '<span><i class="sqsw l3"></i>a third to three quarters</span>'
         '<span><i class="sqsw l4"></i>most or all</span>'
+        '<span><i class="sqsw thin"></i>too few regions reporting to say</span>'
         '<span><i class="sqsw none"></i>not reported</span></div>'
         '%s'
         '<p class="note">These %d dekads were picked rather than derived. A '
@@ -1006,6 +1051,8 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
 .sqc.l2 {{ background:#A8C193; }}
 .sqc.l3 {{ background:#6E9455; }}
 .sqc.l4 {{ background:#40602B; }}
+.sqc.thin, .sqsw.thin {{ background:repeating-linear-gradient(-45deg,
+  #E4E2DA,#E4E2DA 2px,#C4CDB6 2px,#C4CDB6 4px); }}
 .sqc.none, .sqsw.none {{ background:repeating-linear-gradient(45deg,
   #EDEBE4,#EDEBE4 3px,#E0DED6 3px,#E0DED6 6px); }}
 .sqscale {{ margin-top:5px; }}
