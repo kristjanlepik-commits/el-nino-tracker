@@ -1,9 +1,9 @@
 {
   "channel": "crops",
-  "approved_hash": "33fec9e8e2a725979f4c04bdbceed6c7466d66dcda7252aa1c7ed3bdbd38a157",
-  "approved_at": "2026-08-19T08:50:47+00:00",
+  "approved_hash": "0802f2e857fddb1cac1d970a6d169dd1586955ebcb52773ad7cc8a93b6a87d32",
+  "approved_at": "2026-08-19T09:22:40+00:00",
   "approved_by": "CRO",
-  "note": "Reviewed 5971ef92 against a local preview build, not from description. All six of design's counts reproduced exactly: 1,281 sparse cells at 8.2%, 952 of them reading none-at-a-record, my 23 top-band cases, zero instrument-rows above 80% sparse, France untouched, 101 cells at exactly one third. Verified the specific cell that painted most-or-all now reads 'only 1 of this instrument's 18 regions reported, too few to say'. Legend carries seven states with reported-but-thin kept separate from not-reported. 75% coverage threshold ratified as MY judgement: the distribution is smooth with no natural break, so it is a choice about how thin is too thin, not a discovered constant.",
+  "note": "Reviewed 766fc67e against a local preview build. Ordered block descends cleanly Hungary 0.986 to Tanzania 0.689, verified from the cglink markup in document order, not from the message. England sits between South Sudan 0.849 and Guatemala 0.844 on the UK's 0.845, so the region-row fix works. Ordering statement, breadth-not-severity caveat and D-033 Combined tag all render where the ordering is explained. Coverage sentence names Egypt, Jordan and Namibia; their count of 3 is right for places that are placed, mine of 4 counted Oman which has no key. Spain: design right, published severity is rank 3, my 1 was the without-cumulative hypothetical quoted as published. Groups block deliberately left on its own documented ordering, which I accept: it answers a different question.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
