@@ -58,7 +58,8 @@ def strip_to_text(html: str) -> str:
     html = re.sub(r"<style[^>]*>.*?</style>", " ", html, flags=re.S)
     html = re.sub(r"<script[^>]*>.*?</script>", " ", html, flags=re.S)
     text = re.sub(r"<[^>]+>", " ", html)
-    text = text.replace("&middot;", "·").replace("&times;", "×")
+    text = (text.replace("&middot;", "·").replace("&times;", "×")
+                .replace("&deg;", "°").replace("&nbsp;", " ").replace("&#8202;", ""))
     return re.sub(r"\s+", " ", text)
 
 
@@ -83,11 +84,77 @@ def claims_crops_country(html: str) -> dict | None:
     return {"dekad": dekad.group(1), "rank": rank.group(1), "of": rank.group(2)}
 
 
+def claims_heat_city(html: str) -> dict | None:
+    """QA's shape. City from the <title>, station and as-of date from the
+    header. The STATION is a claim in its own right: a city silently
+    re-sourced to a different thermometer has changed what it asserts
+    even when the number barely moves. Station names carry slashes,
+    commas and dots (Basel/Binningen, PALMA, PUERTO, Praha-Libus), so the
+    class excludes only the separator.
+
+    Baseline is OPTIONAL on purpose: 9 of 45 city pages have no 1961-1990
+    baseline and use a rank variant instead ("4th of Prague's 56
+    summers"). Requiring it skipped exactly those nine on the first
+    draft, which is backwards, since the plainest pages are usually the
+    oldest and the most cited. City must come from the title rather than
+    the header, because the masthead itself contains the word "Heat" and
+    anchoring on it captured "Notes About Heat Aberdeen"."""
+    t = strip_to_text(html)
+    tm = re.search(r"<title>.*?</title>", html, re.S | re.I)
+    title = strip_to_text(tm.group(0)) if tm else ""
+    city = re.match(r"\s*([^·]+?)\s*·\s*Heat\b", title)
+    hdr = re.search(r"·\s*(?P<station>[^·]{2,40}?)\s*·\s*"
+                    r"to\s+(?P<upto>\d{1,2} \w+ \d{4})", t)
+    now = re.search(r"By this date this summer\s+(?P<v>[\d.]+)", t)
+    if not (city and hdr and now):
+        return None
+    out = {"city": city.group(1).strip(), "station": hdr.group("station").strip(),
+           "to": hdr.group("upto"), "this_summer": now.group("v")}
+    base = re.search(r"typical summer of 1961-1990\s+(?P<v>[\d.]+)", t)
+    if base:
+        out["baseline"] = base.group("v")
+    return out
+
+
+def claims_brief(html: str) -> dict | None:
+    """QA's shape. A frozen archive: live must equal committed FOREVER
+    rather than after a deploy, so any difference is a silent edit or the
+    CDN serving something else, not drift. Cheapest real check on archive
+    immutability at the live surface; qa_check.py only enforces it
+    against the repo.
+
+    Phrasing drifted across the archive. "Methodology v1.5" is
+    capitalised on older issues where new ones read lowercase, and the
+    bottom line reads "chance of at least a moderate El Nino" in April
+    against "chance of a very strong / super El Nino" now. Both matched
+    deliberately rather than narrowing to today's wording, because the
+    pages that most need an immutability check are the oldest ones.
+
+    Bottom line is OPTIONAL: 7 of 17 archived briefs carry no "Bottom
+    line" sentence at all. Requiring it skipped exactly those."""
+    t = strip_to_text(html)
+    wk = re.search(r"Week of (\d{4}-\d{2}-\d{2})", t)
+    ver = re.search(r"methodology\s+(v[\d.]+)", t, re.I)
+    if not (wk and ver):
+        return None
+    out = {"week": wk.group(1), "methodology": ver.group(1).lower()}
+    line = re.search(r"Bottom line:\s*(?P<pct>\d+)%\s*chance of\s+"
+                     r"(?P<what>[^.,]{5,70}?)\s+this winter", t)
+    if line:
+        out["bottom_line_pct"] = line.group("pct")
+        out["bottom_line"] = line.group("what").strip()
+    return out
+
+
 # Each entry: (docs/ glob, extractor). Extend per page shape as needed;
 # the spec estimates ~20 lines per shape, which is what these two are.
 CHANNELS = {
     "fires": ("docs/fires/*/index.html", claims_fires_country),
     "crops": ("docs/crops/*/index.html", claims_crops_country),
+    # Flat files, not directories; url_for already handles that (no
+    # index.html suffix to strip) without change.
+    "heat": ("docs/heat/*.html", claims_heat_city),
+    "briefs": ("docs/briefs/*/index.html", claims_brief),
 }
 
 
