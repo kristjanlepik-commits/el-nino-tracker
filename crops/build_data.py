@@ -92,6 +92,17 @@ def load(slug: str, cid: str):
     d = pd.read_csv(f, usecols=["region_id", "region_name", "date", "value"])
     if d.empty:
         return None
+    # STRIP THE REGION NAME AT THE DOOR. ASAP's CSVs pad 34 of them,
+    # "Ryazanskaya " and "Carlos Ibanez " among them, and this passed
+    # the pad straight into the published payload, where it was both a
+    # dirty display string and a join key that silently missed. Design
+    # hit it joining cropland areas for tls-internal#16: 34 regions in
+    # Russia and Chile got no area at all, which is exactly the input
+    # that turns a weighted mean back into something else.
+    #
+    # Fixed here rather than at each join, because every consumer would
+    # otherwise have to know to strip, and one of them will not.
+    d["region_name"] = d.region_name.str.strip()
     d["dt"] = pd.to_datetime(d.date, format="%Y%m%d")
     d["year"] = d.dt.dt.year
     d["doy"] = (d.dt.dt.month - 1) * 3 + ((d.dt.dt.day - 1) // 10) + 1
