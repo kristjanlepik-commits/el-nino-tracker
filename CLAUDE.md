@@ -623,11 +623,33 @@ overnight on one machine, none of them aware of the others.
 
   `git add path/one path/two` costs nothing and cannot do it.
 
-- **`git reset --hard` and `git clean` are for a scratch clone, not this
-  tree.** Same reason. Platform used a hard reset to build a test fixture
-  on 2026-08-09 and could not afterwards prove that nothing of anyone
-  else's had been in flight. Untracked files survive a hard reset; staged
-  and modified tracked files do not.
+- **Any destructive git operation on a tracked file can destroy another
+  chat's uncommitted work. This is a property, not a list.** `git reset
+  --hard`, `git clean`, and `git checkout --`/`git restore` on a file
+  someone else has modified all do it the same way: they overwrite
+  working-tree content that exists nowhere else. Naming three commands
+  invited a fourth. Platform used a hard reset to build a test fixture on
+  2026-08-09 and could not afterwards prove that nothing of anyone else's
+  had been in flight; untracked files survive a hard reset, staged and
+  modified tracked files do not. On 2026-08-19, testing that D-200's
+  sign-off gate blocks on drift, platform ran `git checkout --` on a file
+  already known to carry design's uncommitted work, to clean up its own
+  test tamper. No git object existed for what was lost, because it had
+  never been staged, so there was no recovery path (D-206). Both
+  incidents were the same property from opposite ends: one operator
+  wiping a file at the tree's root, the other wiping a single file that
+  happened to be dirty. Before running any of these, `git status` the
+  target and stash (`-u` for untracked) anything found there first, on
+  the file specifically if not the whole tree.
+
+- **Testing that a destructive path fires correctly requires dirtying a
+  file on purpose. Do that in a scratch clone or worktree, never in this
+  tree.** The D-206 incident above was exactly this: proving a gate
+  blocks on drift means deliberately modifying a tracked file, and nine
+  chats hold uncommitted work in this one at any given moment, so the
+  file being tested for drift is never provably safe to dirty. A scratch
+  clone costs one `git clone` and cannot cost anyone else's work no
+  matter what the test does to it.
 
 - Run `.venv/bin/python scripts/qa_check.py` before any push that
   publishes to `docs/`. It enforces invariants 4, 5, and 6 plus link
