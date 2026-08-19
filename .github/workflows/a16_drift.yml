@@ -36,9 +36,13 @@ jobs:
   scheduled:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
-    # Two channels, ~25-45s each measured locally, plus the TTL re-poll's
-    # 5s per page that needs one. Generous headroom over a cold runner.
-    timeout-minutes: 10
+    # ~80s for a clean sweep of both channels, plus AT MOST ONE
+    # RECHECK_WAIT (615s) if any page comes back as a candidate mismatch,
+    # shared across every candidate rather than paid per page: the
+    # scenario this check exists for is a whole channel's deploy not
+    # landing, which makes every page in that channel a candidate at the
+    # same moment. ~13 minutes worst case; 20 for cold-runner margin.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -58,7 +62,10 @@ jobs:
   after_publish:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # This job's own 660s wait, plus the scheduled job's worst case on
+    # top of it (the script's internal wait is a second, independent
+    # instance of the same TTL rule, not replaced by waiting here).
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
