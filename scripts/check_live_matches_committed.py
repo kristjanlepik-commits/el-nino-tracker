@@ -175,6 +175,32 @@ def fetch(url: str) -> tuple[int, dict, str]:
         return 0, {}, str(exc)
 
 
+def fetch_retrying(url: str, attempts: int = 3, delay: float = 2.0) -> tuple[int, dict, str]:
+    """QA: one run reported crops/belarus as broken on a single transient
+    503; five direct fetches seconds later all returned 200, and a
+    same-code re-run passed clean. Most likely our own fetch rate, 233
+    pages in under two minutes. A16 is scheduled, and a failed scheduled
+    workflow is the one thing in this repo that mails Kristjan by
+    default (row 1 of the escalation map): the first check whose failure
+    reaches a person unattended would have paged him about a 503 that
+    was never a defect. A check that cries wolf gets muted, and muting
+    it also mutes the real drift it exists to catch.
+
+    Deliberately a SEPARATE, short retry from RECHECK_WAIT's TTL wait: a
+    transient 503 is not a propagation-lag question and does not deserve
+    a ten-minute pause to resolve. A few seconds is what it needs, and
+    treating it like a candidate mismatch would have meant every
+    channel-wide blip also cost the shared 615s wait for no reason.
+    """
+    status, headers, body = fetch(url)
+    for _ in range(attempts - 1):
+        if status == 200:
+            return status, headers, body
+        time.sleep(delay)
+        status, headers, body = fetch(url)
+    return status, headers, body
+
+
 def committed_html(rel_path: str) -> str | None:
     r = subprocess.run(["git", "show", f"HEAD:{rel_path}"], cwd=ROOT,
                        capture_output=True, text=True)
@@ -187,19 +213,23 @@ def url_for(rel_path: str) -> str:
 
 
 def first_pass(rel_path: str, extractor) -> tuple[str | None, dict | None]:
-    """One fetch. Returns (immediate_problem, candidate). At most one of
-    the two is set. A fetch failure (404, 500, timeout) is immediate: it
-    is not a propagation-lag question and gets no TTL wait. A claims
-    mismatch becomes a candidate for recheck_candidate, not an immediate
-    verdict.
+    """One fetch (with the short transient-error retry, not the TTL one).
+    Returns (fetch_failure, candidate). At most one of the two is set.
+    A fetch failure persisting past the retry is immediate: it is not a
+    propagation-lag question and gets no TTL wait. A claims mismatch
+    becomes a candidate for recheck_candidate, not an immediate verdict.
+    The two are kept in visibly different shapes on purpose (see main's
+    reporting): "could not reach the page" and "reached it and it says
+    the wrong thing" want a different five-second reaction from whoever
+    reads the mail.
 
-    No sleep here regardless of outcome: waiting per-page is what made
-    the original version unusable for the failure it exists to catch,
-    because the scenario A16 is FOR is a whole channel's deploy not
-    landing, which makes every page in that channel a candidate at once.
-    A serial per-page wait would have turned that exact scenario into a
-    multi-hour run; see main(), which waits once, shared across every
-    candidate this pass produces.
+    No TTL sleep here regardless of outcome: waiting per-page is what
+    made the original version unusable for the failure it exists to
+    catch, because the scenario A16 is FOR is a whole channel's deploy
+    not landing, which makes every page in that channel a candidate at
+    once. A serial per-page wait would have turned that exact scenario
+    into a multi-hour run; see main(), which waits once, shared across
+    every candidate this pass produces.
     """
     committed = committed_html(rel_path)
     if committed is None:
@@ -209,9 +239,9 @@ def first_pass(rel_path: str, extractor) -> tuple[str | None, dict | None]:
         return None, None  # page shape doesn't match (e.g. a dropped stub)
 
     url = url_for(rel_path)
-    status, headers, body = fetch(url)
+    status, headers, body = fetch_retrying(url)
     if status != 200:
-        return f"{url}: fetch failed (HTTP {status or 'error'}: {body[:80]})", None
+        return f"{url}: could not reach the page (HTTP {status or 'error'}: {body[:80]})", None
     live_claims = extractor(body)
     if live_claims == committed_claims:
         return None, None
@@ -235,9 +265,9 @@ def recheck_candidate(c: dict, extractor) -> str | None:
     than trusting the header is what makes "outlives the TTL" mean what
     it says.
     """
-    status2, headers2, body2 = fetch(c["url"])
+    status2, headers2, body2 = fetch_retrying(c["url"])
     if status2 != 200:
-        return f"{c['url']}: fetch failed on recheck (HTTP {status2 or 'error'}: {body2[:80]})"
+        return f"{c['url']}: could not reach the page on recheck (HTTP {status2 or 'error'}: {body2[:80]})"
     live_claims2 = extractor(body2)
     if live_claims2 == c["committed"]:
         return None  # was propagation lag, not drift
@@ -283,9 +313,23 @@ def main() -> int:
 
     print(f"  A16: {checked} page(s) checked across {len(channels)} channel(s)")
     if problems:
-        print(f"  {len(problems)} mismatch(es):")
-        for p in problems:
-            print(f"    {p}")
+        # Separated at print time rather than carried as two lists from
+        # the start, because "could not reach" and "LIVE DOES NOT MATCH
+        # COMMITTED" already differ in the string, and the reader who
+        # matters is someone deciding in about five seconds whether the
+        # site is broken. QA: printing them under one "mismatch(es)"
+        # heading was a category error, unreachable and wrong-content
+        # are different problems wanting different reactions.
+        unreachable = [p for p in problems if "could not reach the page" in p]
+        mismatched = [p for p in problems if p not in unreachable]
+        if unreachable:
+            print(f"  {len(unreachable)} page(s) could not be reached:")
+            for p in unreachable:
+                print(f"    {p}")
+        if mismatched:
+            print(f"  {len(mismatched)} page(s) where live does not match committed:")
+            for p in mismatched:
+                print(f"    {p}")
         return 1
     print("  live matches committed on every page checked.")
     return 0
