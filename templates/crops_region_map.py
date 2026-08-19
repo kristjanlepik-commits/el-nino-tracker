@@ -47,9 +47,24 @@ SHAPES = os.path.join(os.path.dirname(HERE), "crops", "geom", "shapes")
 # to move and reads calmest exactly when a fast deterioration is under way.
 OMIT = "zfparc"
 
-# Units differ, so the scales differ, and nothing is comparable between
-# panels. Each is the value at which colour saturates.
-SATURATE = {"zfpar": -2.5, "wsi": -40.0, "spi3": -2.5, "temp": 2.5}
+# EVERY PANEL SATURATES AT 2.5 STANDARD DEVIATIONS BELOW THAT REGION'S OWN
+# NORMAL, so one colour means one thing everywhere on the page.
+#
+# zfpar and spi3 are already reported in standard-deviation units, so 2.5
+# is read straight off the value. Water satisfaction is reported in
+# percentage points and has to be divided by that region's own
+# baseline_sd first.
+#
+# THE FIRST VERSION SATURATED WATER AT A FLAT 40 POINTS, and CRO caught
+# what that actually did. It is not merely incommensurable with the other
+# panels, which the legend used to disclaim. It is incoherent WITHIN the
+# water panel: 40 points is a different number of standard deviations in
+# every region, spanning 2.9 to 6.0 across France alone, so the same fill
+# meant a 2.1x different anomaly depending which region a reader looked
+# at. 19 of France's 22 regions shifted by more than 15 points of fill
+# once corrected, and the median went from 75% to 100%.
+SATURATE_SD = 2.5
+IN_SD_ALREADY = ("zfpar", "spi3", "temp")
 
 
 def shapes_for(p):
@@ -120,18 +135,25 @@ def _defs(regions, shapes, pt, prefix):
     return "".join(out)
 
 
-def _shade(v, base, sat):
-    """0 at this region's own normal, 1 at a shortfall of `sat` from it.
+def _shade(key, ins):
+    """0 at this region's own normal, 1 at SATURATE_SD below it.
 
-    SAT IS A DELTA, NOT A LEVEL. Written the other way first, dividing by
-    (sat - base), which quietly rescaled every region by its own baseline
-    and made the water panel read a quarter as severe as it is: France is
-    28 points below its normal on a 40-point ramp, 0.7, and it rendered
-    at 0.25. It looked like a plausible map, which is the problem.
+    Returns None when the region cannot be placed on that scale, and the
+    caller greys it. NEVER 0, which would paint "we cannot say" the same
+    colour as "exactly normal": 9 of 2,097 water histories have no usable
+    spread, regions whose crop water need is always met, and dividing by
+    that is how a degenerate history becomes a confident pale square.
     """
-    if v is None or base is None or not sat:
+    v, base = ins.get("value"), ins.get("baseline_mean")
+    if v is None or base is None:
         return None
-    return max(0.0, min(1.0, (v - base) / sat))
+    d = base - v                      # positive means worse than normal
+    if key not in IN_SD_ALREADY:
+        sd = ins.get("baseline_sd")
+        if not sd:
+            return None
+        d = d / sd
+    return max(0.0, min(1.0, d / SATURATE_SD))
 
 
 def _fill(t):
@@ -147,14 +169,12 @@ def _fill(t):
 
 def _panel(p, key, regions, shapes, pt, prefix, w, h, label):
     """One instrument. Colour is distance from normal, outline is a record."""
-    sat = SATURATE.get(key)
     at_record = 0
     body = []
     for i, name in enumerate(regions):
         ri = _region(p, name)
         ins = (ri or {}).get("instruments", {}).get(key) or {}
-        v, base = ins.get("value"), ins.get("baseline_mean")
-        t = _shade(v, base, sat)
+        t = _shade(key, ins)
         rec = ins.get("rank") == 1
         at_record += 1 if rec else 0
         title = "%s. %s" % (name, ins.get("statement") or "not measured")
@@ -275,6 +295,41 @@ def _lead(p, key, units):
                 "does today." % (poss, units))
     return ("%s of %s %d crop regions have never looked worse than they do "
             "today." % (_word(n).capitalize(), poss, units))
+
+
+def _unscaled_note(p, keys):
+    """Name the regions left unshaded, so grey is never ambiguous.
+
+    A region with no usable spread cannot be placed on a
+    standard-deviation scale, so it is drawn unshaded. Unshaded is also
+    what a region with no reading looks like, and absent is not zero: if
+    the page does not say which is which, a reader resolves the ambiguity
+    in whichever direction they already lean.
+    """
+    out = []
+    for k in keys:
+        if k in IN_SD_ALREADY:
+            continue
+        n = [r["region"].strip() for r in p.get("regions", [])
+             if (r.get("instruments", {}).get(k) or {}).get("value") is not None
+             and not (r.get("instruments", {}).get(k) or {}).get("baseline_sd")]
+        if n:
+            out.append("%s is unshaded on %s: its crop water need has been "
+                       "met in every year of the baseline, so there is no "
+                       "spread to measure this year against."
+                       % (_and(n), NAME_OF[k].lower())
+                       if len(n) == 1 else
+                       "%s are unshaded on %s: their crop water need has "
+                       "been met in every year of the baseline, so there is "
+                       "no spread to measure this year against."
+                       % (_and(n), NAME_OF[k].lower()))
+    return (" " + " ".join(out)) if out else ""
+
+
+def _and(names):
+    if len(names) == 1:
+        return names[0]
+    return ", ".join(names[:-1]) + " and " + names[-1]
 
 
 def _omitted_note(p, keys):
@@ -434,10 +489,14 @@ def block(p, w=300, h=300):
         '%s years. Different facts: a region can be dark without an outline, '
         'meaning far from normal but it has been worse, or outlined without '
         'being darkest, a record but a narrow one.</div>'
-        '<div><b>Do not compare panels</b><br>Water satisfaction is measured '
-        'in percentage points and the others in standard deviations. Colour '
-        'is comparable within a panel, never between.</div>'
+        '<div><b>One scale, three instruments</b><br>Every panel saturates '
+        'at 2.5 standard deviations below that region\'s own normal, so a '
+        'colour means the same distance-from-normal on all three. It does '
+        'not mean the same consequence: these measure different things and '
+        'move at different speeds. The figures under each heading stay in '
+        'the instrument\'s own units.%s</div>'
         '</div>%s</section>'
         % (defs, _esc(lead), _esc(sub), "".join(panels),
            _country_instrument(p, keys[0]).get("of") or "26",
+           _unscaled_note(p, keys),
            '<p class="cmnote">%s</p>' % note if note else ""))
