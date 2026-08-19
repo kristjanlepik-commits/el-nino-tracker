@@ -77,6 +77,53 @@ _MON3 = {"01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May",
          "11": "Nov", "12": "Dec"}
 
 
+def _lvl(n, of):
+    """Five bands, because the digits have gone and the bands are now the
+    only reading.
+
+    THE FOUR-BAND VERSION MISLABELLED ITSELF AND THE DIGITS HID IT. Its
+    swatch said "one" for everything up to a third of a country's regions,
+    which is 1 to 7 of France's 22, and across all 123 countries 51% of
+    the cells in that band were not one region. Nobody could see it while
+    a "4" sat in the box overruling the key. Mobile has hidden the digits
+    since the grid shipped, so phones have been reading the wrong legend
+    all along.
+
+    One region therefore gets a band to itself, and the rest are named by
+    the fraction the cut actually makes rather than by a word that
+    undersells it.
+
+    THE "ONE REGION" BAND IS ALSO BOUNDED BY THE FRACTION, which matters
+    for the small countries. Liberia has a single crop region: unbounded,
+    "one region" would paint 1 of 1 in the palest shade on the ramp, so a
+    country with EVERY region at its own record would read as the mildest
+    thing on the page. 33 cells across 15 countries sat that way, mostly
+    1 of 1 and 1 of 2. Below a third it is one region and it is a small
+    share, and both readings agree; above that the fraction wins.
+    """
+    if not n:
+        return 0
+    f = n / of
+    if n == 1 and f <= .34:
+        return 1
+    return 2 if f <= .34 else (3 if f <= .74 else 4)
+
+
+def _cell_says(n, of, dk):
+    """Exact count for hover and for screen readers.
+
+    The digit is gone from the face of the cell, not from the page. A
+    five-band shade is a range, and this is where the number itself still
+    lives.
+    """
+    when = "%s %s" % (dk[8:10].lstrip("0") or dk[8:10], _MON3.get(dk[5:7], ""))
+    if not n:
+        return "%s: none of %d regions at their own record" % (when, of)
+    if n == 1:
+        return "%s: 1 of %d regions at its own record" % (when, of)
+    return "%s: %d of %d regions at their own record" % (when, n, of)
+
+
 def _sequence_block(p):
     """What moved, and when. One row per instrument, one square per dekad.
 
@@ -132,11 +179,10 @@ def _sequence_block(p):
                           ' aria-label="not reported"></span>')
                 continue
             n, of = v["at_record"], v["of"]
-            lvl = 0 if not n else (1 if n / of <= .34 else
-                                   (2 if n / of <= .74 else 3))
-            cells += ('<span class="sqc l%d" role="img" aria-label="%d of %d '
-                      'regions at their own record"><i>%s</i></span>'
-                      % (lvl, n, of, n or ""))
+            says = _cell_says(n, of, dk)
+            cells += ('<span class="sqc l%d" role="img" title="%s" '
+                      'aria-label="%s"></span>'
+                      % (_lvl(n, of), h(says), h(says)))
         warn = ('<span class="sqpre">already elevated when this window opens,'
                 ' so nothing here shows when it began</span>'
                 if first and first.get("at_record") else "")
@@ -166,18 +212,20 @@ def _sequence_block(p):
 
     return (
         '<p class="eyebrow" style="margin-top:34px">What moved, and when</p>'
-        '<p class="sqsub">Each square is one dekad. The number is how many of '
-        'this country&rsquo;s crop regions stood at their own worst on record '
-        'for that point in the season. Rows are ordered by how much time each '
+        '<p class="sqsub">Each square is one dekad, and its shade is how many '
+        'of this country&rsquo;s crop regions stood at their own worst on '
+        'record for that point in the season. Rows are ordered by how much '
+        'time each '
         'instrument summarises, shortest first, because a shorter window can '
         'move sooner. That order is fixed and is the same on every country '
         'page.</p>'
         '<div class="sqgrid%s">%s<div class="sqscale">%s</div></div>'
         '<div class="sqkey">'
         '<span><i class="sqsw l0"></i>none at a record</span>'
-        '<span><i class="sqsw l1"></i>one</span>'
-        '<span><i class="sqsw l2"></i>some</span>'
-        '<span><i class="sqsw l3"></i>most or all</span>'
+        '<span><i class="sqsw l1"></i>one region</span>'
+        '<span><i class="sqsw l2"></i>up to a third</span>'
+        '<span><i class="sqsw l3"></i>up to three quarters</span>'
+        '<span><i class="sqsw l4"></i>most or all</span>'
         '<span><i class="sqsw none"></i>not reported</span></div>'
         '%s'
         '<p class="note">These %d dekads were picked rather than derived. A '
@@ -952,14 +1000,12 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   border-left:2px solid var(--ink); padding-left:5px; }}
 .sqcells, .sqscale {{ display:grid;
   grid-template-columns:repeat({_NCOLS},1fr); gap:2px; }}
-.sqc {{ height:22px; display:flex; align-items:center; justify-content:center;
-  background:#E4E2DA; }}
-.sqc i {{ font-family:"{T.FONT_DATA}",monospace; font-size:9.5px;
-  font-style:normal; color:#fff; }}
+.sqc {{ height:22px; display:block; background:#E4E2DA; }}
 .sqc.l0 {{ background:#E4E2DA; }}
-.sqc.l1 {{ background:#B9CBA8; }} .sqc.l1 i {{ color:var(--ink); }}
-.sqc.l2 {{ background:#6E9455; }}
-.sqc.l3 {{ background:var(--crop); }}
+.sqc.l1 {{ background:#CFDCC2; }}
+.sqc.l2 {{ background:#A8C193; }}
+.sqc.l3 {{ background:#6E9455; }}
+.sqc.l4 {{ background:#40602B; }}
 .sqc.none, .sqsw.none {{ background:repeating-linear-gradient(45deg,
   #EDEBE4,#EDEBE4 3px,#E0DED6 3px,#E0DED6 6px); }}
 .sqscale {{ margin-top:5px; }}
@@ -970,8 +1016,9 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   color:var(--ink-faint); align-items:center; }}
 .sqsw {{ width:13px; height:13px; display:inline-block; vertical-align:-2px;
   margin-right:5px; }}
-.sqsw.l0 {{ background:#E4E2DA; }} .sqsw.l1 {{ background:#B9CBA8; }}
-.sqsw.l2 {{ background:#6E9455; }} .sqsw.l3 {{ background:var(--crop); }}
+.sqsw.l0 {{ background:#E4E2DA; }} .sqsw.l1 {{ background:#CFDCC2; }}
+.sqsw.l2 {{ background:#A8C193; }} .sqsw.l3 {{ background:#6E9455; }}
+.sqsw.l4 {{ background:#40602B; }}
 .sqdrv {{ margin:14px 0 0; border:1px solid var(--ink); padding:11px 12px; }}
 .sqdrv b {{ font-family:"{T.FONT_DATA}",monospace; font-size:9.5px;
   letter-spacing:.16em; text-transform:uppercase; display:block;
@@ -987,17 +1034,16 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   .sqpre {{ flex:1 1 100%; margin-top:2px; }}
   .sqc {{ height:26px; }}
 }}
-/* THE DIGIT COMES OFF WHEN THE CELLS GET THIN. France carries 22 dekads,
-   which is 13px a cell on a 390px phone, and a 9.5px number in a 13px box
-   overflows into its neighbours: the row read "13161919" with no way to
-   tell which cell owned which digit. Colour still carries the level, the
-   aria-label still carries the exact count for a screen reader, and the
-   per-instrument block above this one states today's numbers precisely.
-   Dense is decided from the COLUMN COUNT rather than guessed, so a
-   twelve-dekad country keeps its numbers at the same width. */
-@media (max-width:640px) {{
-  .sqgrid.dense .sqc i {{ display:none; }}
-}}
+/* THE DIGITS HAVE GONE FROM EVERY WIDTH, so the mobile-only rule that
+   used to hide them is gone with them. It was a real fix for a real
+   problem: 22 dekads on a 390px phone is 13px a cell, and a 9.5px number
+   in a 13px box overflowed into its neighbours so a row read "13161919"
+   with no way to tell which cell owned which digit.
+
+   What it also did, unnoticed, was leave phones reading a legend whose
+   top band said "one" and meant up to seven. Removing the digits
+   everywhere makes the desktop and the phone read the same grid, which
+   is the only version where fixing the key fixes it for everyone. */
 .icounts {{ margin:10px 0 0; display:grid;
   grid-template-columns:minmax(0,1fr) 2.4rem 3rem; gap:1px 10px;
   font-family:"{T.FONT_DATA}",monospace; font-size:11.5px;
