@@ -959,6 +959,25 @@
      "of": 15
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.8733,
+    "readings": 60,
+    "readings_possible": 60,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.3667,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 15,
@@ -2906,6 +2925,25 @@
      "at_record": 0,
      "of": 17
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4235,
+    "readings": 68,
+    "readings_possible": 68,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0735,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -5082,6 +5120,25 @@
      "of": 11
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6918,
+    "readings": 44,
+    "readings_possible": 44,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0909,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 11,
@@ -6611,6 +6668,25 @@
      "at_record": 14,
      "of": 22
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.8555,
+    "readings": 88,
+    "readings_possible": 88,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2273,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -9294,6 +9370,25 @@
      "of": 13
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5377,
+    "readings": 52,
+    "readings_possible": 52,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1154,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 13,
@@ -11037,6 +11132,25 @@
      "of": 9
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.8122,
+    "readings": 36,
+    "readings_possible": 36,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2222,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 9,
@@ -12336,6 +12450,25 @@
      "at_record": 7,
      "of": 10
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.844,
+    "readings": 40,
+    "readings_possible": 40,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.375,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -13761,6 +13894,25 @@
      "at_record": 8,
      "of": 14
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.575,
+    "readings": 56,
+    "readings_possible": 56,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1429,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -15618,6 +15770,25 @@
      "at_record": 14,
      "of": 17
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7459,
+    "readings": 68,
+    "readings_possible": 68,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2353,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -17799,6 +17970,25 @@
      "at_record": 21,
      "of": 28
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7546,
+    "readings": 112,
+    "readings_possible": 112,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1964,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -21171,6 +21361,25 @@
      "of": 16
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.8369,
+    "readings": 64,
+    "readings_possible": 64,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.3281,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 16,
@@ -23228,6 +23437,25 @@
      "of": 5
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.786,
+    "readings": 20,
+    "readings_possible": 20,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 5,
@@ -24113,6 +24341,25 @@
      "of": 5
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.918,
+    "readings": 20,
+    "readings_possible": 20,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.55,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 5,
@@ -24993,6 +25240,25 @@
      "at_record": 3,
      "of": 7
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7043,
+    "readings": 28,
+    "readings_possible": 28,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1071,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -26084,6 +26350,25 @@
      "at_record": 10,
      "of": 24
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6817,
+    "readings": 96,
+    "readings_possible": 96,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1667,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -29008,6 +29293,25 @@
      "of": 7
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.8571,
+    "readings": 28,
+    "readings_possible": 28,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.25,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 7,
@@ -30100,6 +30404,25 @@
      "at_record": 2,
      "of": 12
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.9108,
+    "readings": 48,
+    "readings_possible": 48,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.25,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -31739,6 +32062,25 @@
      "at_record": 17,
      "of": 22
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7618,
+    "readings": 88,
+    "readings_possible": 88,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.3068,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -34459,6 +34801,25 @@
      "of": 17
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.8571,
+    "readings": 68,
+    "readings_possible": 68,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2353,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 17,
@@ -36635,6 +36996,25 @@
      "at_record": 4,
      "of": 17
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6876,
+    "readings": 68,
+    "readings_possible": 68,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0882,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -38813,6 +39193,25 @@
      "of": 1
     }
    },
+   "ranking_key": {
+    "available": false,
+    "value": 0.53,
+    "readings": 4,
+    "readings_possible": 4,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.25,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 1,
@@ -39262,6 +39661,25 @@
      "at_record": 23,
      "of": 28
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7596,
+    "readings": 112,
+    "readings_possible": 112,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.3036,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -42626,6 +43044,25 @@
      "of": 17
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.8553,
+    "readings": 68,
+    "readings_possible": 68,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2647,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 17,
@@ -44803,6 +45240,25 @@
      "of": 8
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7338,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0938,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 8,
@@ -46008,6 +46464,25 @@
      "at_record": 1,
      "of": 24
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7483,
+    "readings": 96,
+    "readings_possible": 96,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0729,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -48941,6 +49416,25 @@
      "at_record": 6,
      "of": 34
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6885,
+    "readings": 136,
+    "readings_possible": 136,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0662,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -52941,6 +53435,25 @@
      "of": 11
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.56,
+    "readings": 44,
+    "readings_possible": 44,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 11,
@@ -54476,6 +54989,25 @@
      "of": 10
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.514,
+    "readings": 40,
+    "readings_possible": 40,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 10,
@@ -55904,6 +56436,25 @@
      "of": 9
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.9356,
+    "readings": 36,
+    "readings_possible": 36,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.5833,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 9,
@@ -57223,6 +57774,25 @@
      "of": 3
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.74,
+    "readings": 12,
+    "readings_possible": 12,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.3333,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 3,
@@ -57883,6 +58453,25 @@
      "at_record": 2,
      "of": 16
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6438,
+    "readings": 64,
+    "readings_possible": 64,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0781,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -59959,6 +60548,25 @@
      "of": 5
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.812,
+    "readings": 20,
+    "readings_possible": 20,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 5,
@@ -60833,6 +61441,25 @@
      "at_record": 7,
      "of": 7
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.9857,
+    "readings": 28,
+    "readings_possible": 28,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.7143,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -61934,6 +62561,25 @@
      "at_record": 3,
      "of": 9
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.54,
+    "readings": 36,
+    "readings_possible": 36,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0833,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -63245,6 +63891,25 @@
      "at_record": 0,
      "of": 9
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4844,
+    "readings": 36,
+    "readings_possible": 36,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0278,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -64562,6 +65227,25 @@
      "at_record": 11,
      "of": 12
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.9,
+    "readings": 48,
+    "readings_possible": 48,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.5208,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -66203,6 +66887,25 @@
      "at_record": 0,
      "of": 16
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6412,
+    "readings": 64,
+    "readings_possible": 64,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0312,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -68275,6 +68978,25 @@
      "of": 8
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6525,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 8,
@@ -69471,6 +70193,25 @@
      "of": 5
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.57,
+    "readings": 20,
+    "readings_possible": 20,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 5,
@@ -70352,6 +71093,25 @@
      "of": 4
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7925,
+    "readings": 16,
+    "readings_possible": 16,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.125,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 4,
@@ -71130,6 +71890,25 @@
      "at_record": 12,
      "of": 24
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5975,
+    "readings": 96,
+    "readings_possible": 96,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1562,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -74058,6 +74837,25 @@
      "of": 8
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.945,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.3438,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 8,
@@ -75268,6 +76066,25 @@
      "at_record": 1,
      "of": 13
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7323,
+    "readings": 52,
+    "readings_possible": 52,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1154,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -77017,6 +77834,25 @@
      "at_record": 0,
      "of": 25
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5514,
+    "readings": 88,
+    "readings_possible": 100,
+    "coverage": 0.88,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0455,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -80010,6 +80846,25 @@
      "at_record": 7,
      "of": 25
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6876,
+    "readings": 100,
+    "readings_possible": 100,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.11,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -83057,6 +83912,25 @@
      "at_record": 21,
      "of": 33
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7179,
+    "readings": 132,
+    "readings_possible": 132,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.303,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -86967,6 +87841,25 @@
      "of": 14
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7329,
+    "readings": 56,
+    "readings_possible": 56,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0714,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 14,
@@ -88779,6 +89672,25 @@
      "of": 2
     }
    },
+   "ranking_key": {
+    "available": false,
+    "value": 0.6629,
+    "readings": 7,
+    "readings_possible": 8,
+    "coverage": 0.875,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2857,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 2,
@@ -89326,6 +90238,25 @@
      "at_record": 6,
      "of": 8
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7913,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2812,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -90533,6 +91464,25 @@
      "at_record": 15,
      "of": 16
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6756,
+    "readings": 64,
+    "readings_possible": 64,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2344,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -92604,6 +93554,25 @@
      "of": 8
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.9625,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.6875,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 8,
@@ -93816,6 +94785,25 @@
      "at_record": 1,
      "of": 22
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.9555,
+    "readings": 88,
+    "readings_possible": 88,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.5227,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -96536,6 +97524,25 @@
      "of": 11
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5773,
+    "readings": 44,
+    "readings_possible": 44,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0682,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 11,
@@ -98068,6 +99075,25 @@
      "at_record": 16,
      "of": 23
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7139,
+    "readings": 92,
+    "readings_possible": 92,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1957,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -100898,6 +101924,25 @@
      "of": 4
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.845,
+    "readings": 16,
+    "readings_possible": 16,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.4375,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 4,
@@ -101672,6 +102717,25 @@
      "at_record": 1,
      "of": 8
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6613,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1562,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -102881,6 +103945,25 @@
      "at_record": 0,
      "of": 10
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.42,
+    "readings": 40,
+    "readings_possible": 40,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -104304,6 +105387,25 @@
      "at_record": 3,
      "of": 64
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6105,
+    "readings": 256,
+    "readings_possible": 256,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0625,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -111562,6 +112664,25 @@
      "of": 7
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6429,
+    "readings": 28,
+    "readings_possible": 28,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2857,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 7,
@@ -112660,6 +113781,25 @@
      "at_record": 9,
      "of": 10
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.849,
+    "readings": 40,
+    "readings_possible": 40,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.325,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -114085,6 +115225,25 @@
      "at_record": 0,
      "of": 19
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6632,
+    "readings": 76,
+    "readings_possible": 76,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0263,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -116479,6 +117638,25 @@
      "of": 6
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4967,
+    "readings": 24,
+    "readings_possible": 24,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0417,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 6,
@@ -117469,6 +118647,25 @@
      "at_record": 1,
      "of": 28
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5239,
+    "readings": 112,
+    "readings_possible": 112,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0714,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -120835,6 +122032,25 @@
      "of": 19
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6595,
+    "readings": 76,
+    "readings_possible": 76,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0526,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 19,
@@ -123228,6 +124444,25 @@
      "of": 10
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.83,
+    "readings": 40,
+    "readings_possible": 40,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.025,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 10,
@@ -124642,6 +125877,25 @@
      "at_record": 0,
      "of": 10
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.393,
+    "readings": 40,
+    "readings_possible": 40,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -126069,6 +127323,25 @@
      "at_record": 2,
      "of": 14
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5807,
+    "readings": 56,
+    "readings_possible": 56,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0536,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -127923,6 +129196,25 @@
      "at_record": 1,
      "of": 16
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6856,
+    "readings": 64,
+    "readings_possible": 64,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0156,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -129976,6 +131268,25 @@
      "of": 12
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6433,
+    "readings": 48,
+    "readings_possible": 48,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.125,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 12,
@@ -131599,6 +132910,25 @@
      "at_record": 0,
      "of": 16
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.8294,
+    "readings": 64,
+    "readings_possible": 64,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1719,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -133672,6 +135002,25 @@
      "at_record": 7,
      "of": 50
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.589,
+    "readings": 200,
+    "readings_possible": 200,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.05,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -139416,6 +140765,25 @@
      "of": 18
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.445,
+    "readings": 72,
+    "readings_possible": 72,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0417,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 18,
@@ -141701,6 +143069,25 @@
      "of": 17
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.46,
+    "readings": 68,
+    "readings_possible": 68,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 17,
@@ -143880,6 +145267,25 @@
      "of": 14
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4171,
+    "readings": 56,
+    "readings_possible": 56,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0536,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 14,
@@ -145735,6 +147141,25 @@
      "of": 8
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.595,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0312,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 8,
@@ -146941,6 +148366,25 @@
      "at_record": 0,
      "of": 9
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.3867,
+    "readings": 36,
+    "readings_possible": 36,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -148261,6 +149705,25 @@
      "of": 6
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6617,
+    "readings": 24,
+    "readings_possible": 24,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0417,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 6,
@@ -149255,6 +150718,25 @@
      "at_record": 0,
      "of": 35
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.476,
+    "readings": 140,
+    "readings_possible": 140,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -153377,6 +154859,25 @@
      "of": 8
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.87,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.4062,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 8,
@@ -154582,6 +156083,25 @@
      "at_record": 1,
      "of": 15
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5007,
+    "readings": 60,
+    "readings_possible": 60,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0167,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -156528,6 +158048,25 @@
      "of": 9
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5543,
+    "readings": 35,
+    "readings_possible": 36,
+    "coverage": 0.972,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0286,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 9,
@@ -157839,6 +159378,25 @@
      "at_record": 7,
      "of": 19
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7711,
+    "readings": 76,
+    "readings_possible": 76,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1053,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -160237,6 +161795,25 @@
      "of": 15
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.512,
+    "readings": 60,
+    "readings_possible": 60,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0333,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 15,
@@ -162201,6 +163778,25 @@
      "at_record": 5,
      "of": 76
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5329,
+    "readings": 304,
+    "readings_possible": 304,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0197,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -170751,6 +172347,25 @@
      "of": 18
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4911,
+    "readings": 72,
+    "readings_possible": 72,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0972,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 18,
@@ -173037,6 +174652,25 @@
      "at_record": 7,
      "of": 32
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5688,
+    "readings": 128,
+    "readings_possible": 128,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0938,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -176837,6 +178471,25 @@
      "of": 17
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.8271,
+    "readings": 68,
+    "readings_possible": 68,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.25,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 17,
@@ -179013,6 +180666,25 @@
      "at_record": 24,
      "of": 24
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6358,
+    "readings": 96,
+    "readings_possible": 96,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.2917,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -181935,6 +183607,25 @@
      "of": 21
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5848,
+    "readings": 84,
+    "readings_possible": 84,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 21,
@@ -184550,6 +186241,25 @@
      "of": 19
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4732,
+    "readings": 76,
+    "readings_possible": 76,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 19,
@@ -186946,6 +188656,25 @@
      "at_record": 6,
      "of": 41
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.7971,
+    "readings": 164,
+    "readings_possible": 164,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.122,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -191726,6 +193455,25 @@
      "of": 13
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4354,
+    "readings": 52,
+    "readings_possible": 52,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0192,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 13,
@@ -193468,6 +195216,25 @@
      "at_record": 1,
      "of": 79
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.3859,
+    "readings": 316,
+    "readings_possible": 316,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0158,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -202346,6 +204113,25 @@
      "of": 31
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4997,
+    "readings": 124,
+    "readings_possible": 124,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0242,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 31,
@@ -206037,6 +207823,25 @@
      "of": 11
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4282,
+    "readings": 44,
+    "readings_possible": 44,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0909,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 11,
@@ -207565,6 +209370,25 @@
      "at_record": 0,
      "of": 22
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4154,
+    "readings": 88,
+    "readings_possible": 88,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0114,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -210289,6 +212113,25 @@
      "of": 7
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4843,
+    "readings": 28,
+    "readings_possible": 28,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 7,
@@ -211390,6 +213233,25 @@
      "of": 5
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.352,
+    "readings": 20,
+    "readings_possible": 20,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 5,
@@ -212276,6 +214138,25 @@
      "at_record": 9,
      "of": 47
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4264,
+    "readings": 188,
+    "readings_possible": 188,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1117,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -217698,6 +219579,25 @@
      "of": 17
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4135,
+    "readings": 68,
+    "readings_possible": 68,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 17,
@@ -219876,6 +221776,25 @@
      "at_record": 8,
      "of": 39
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5764,
+    "readings": 156,
+    "readings_possible": 156,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0641,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -224432,6 +226351,25 @@
      "of": 12
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6075,
+    "readings": 48,
+    "readings_possible": 48,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0625,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 12,
@@ -226069,6 +228007,25 @@
      "of": 9
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5789,
+    "readings": 36,
+    "readings_possible": 36,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0556,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 9,
@@ -227378,6 +229335,25 @@
      "of": 8
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.345,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 8,
@@ -228587,6 +230563,25 @@
      "of": 8
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4337,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0312,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 8,
@@ -229791,6 +231786,25 @@
      "at_record": 0,
      "of": 34
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.3932,
+    "readings": 136,
+    "readings_possible": 136,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0074,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -233792,6 +235806,25 @@
      "of": 5
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.374,
+    "readings": 20,
+    "readings_possible": 20,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 5,
@@ -234676,6 +236709,25 @@
      "at_record": 10,
      "of": 14
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.6786,
+    "readings": 56,
+    "readings_possible": 56,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1786,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -236531,6 +238583,25 @@
      "at_record": 5,
      "of": 82
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.3651,
+    "readings": 328,
+    "readings_possible": 328,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0152,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -245741,6 +247812,25 @@
      "of": 7
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.1729,
+    "readings": 28,
+    "readings_possible": 28,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 7,
@@ -246842,6 +248932,25 @@
      "of": 6
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.335,
+    "readings": 24,
+    "readings_possible": 24,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 6,
@@ -247833,6 +249942,25 @@
      "of": 4
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4175,
+    "readings": 16,
+    "readings_possible": 16,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 4,
@@ -248611,6 +250739,25 @@
      "at_record": 0,
      "of": 14
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5407,
+    "readings": 56,
+    "readings_possible": 56,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0179,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -250464,6 +252611,25 @@
      "at_record": 3,
      "of": 14
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.3393,
+    "readings": 56,
+    "readings_possible": 56,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0536,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -252327,6 +254493,25 @@
      "of": 13
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5638,
+    "readings": 52,
+    "readings_possible": 52,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 13,
@@ -254068,6 +256253,25 @@
      "at_record": 3,
      "of": 31
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4245,
+    "readings": 124,
+    "readings_possible": 124,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0484,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -257758,6 +259962,25 @@
      "of": 7
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.2286,
+    "readings": 28,
+    "readings_possible": 28,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 7,
@@ -258854,6 +261077,25 @@
      "at_record": 0,
      "of": 10
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.33,
+    "readings": 40,
+    "readings_possible": 40,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -260279,6 +262521,25 @@
      "at_record": 0,
      "of": 12
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.3775,
+    "readings": 48,
+    "readings_possible": 48,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -261925,6 +264186,25 @@
      "of": 12
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.3078,
+    "readings": 46,
+    "readings_possible": 48,
+    "coverage": 0.958,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0217,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 12,
@@ -263558,6 +265838,25 @@
      "of": 9
     }
    },
+   "ranking_key": {
+    "available": true,
+    "value": 0.3011,
+    "readings": 36,
+    "readings_possible": 36,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
+   },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
     "regions_averaged": 9,
@@ -264870,6 +267169,25 @@
      "at_record": 15,
      "of": 27
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.5485,
+    "readings": 108,
+    "readings_possible": 108,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.1481,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",
@@ -268131,6 +270449,25 @@
      "at_record": 0,
      "of": 8
     }
+   },
+   "ranking_key": {
+    "available": true,
+    "value": 0.4188,
+    "readings": 32,
+    "readings_possible": 32,
+    "coverage": 1.0,
+    "instruments": [
+     "Vegetation, current",
+     "Water satisfaction",
+     "Rainfall, 3-month",
+     "Temperature"
+    ],
+    "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
+    "share_at_record": 0.0625,
+    "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
+    "is_not": "an intensity reading and not area-weighted. It says how much of a country is far into its own extremes, giving every region equal weight regardless of cropland (tls-internal#16). For how far into its extremes the country is as a whole, use `severity`; for how fast, use `rate`.",
+    "evidence_basis": "combined",
+    "authorship": "tls_built"
    },
    "aggregate": {
     "method": "unweighted mean across regions, NOT area-weighted",

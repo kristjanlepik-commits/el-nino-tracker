@@ -1726,6 +1726,79 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                     "of": len(got),
                 }
 
+        # THE ORDERING KEY. Kristjan, 2026-08-19: "Our goal is to show
+        # where something is abnormal and we have failed at this, the
+        # cumulative is the totally wrong instrument for showing that."
+        # Product ruled extent orders the list and intensity is the
+        # reading, and said they would prefer a CONTINUOUS extent to a
+        # share-at-record if it could be built. It can.
+        #
+        # Mean position of every region-instrument reading within its
+        # own 2001-2025 history, 1.0 being the worst on record, over the
+        # FAST instruments only. Cumulative vegetation is excluded by
+        # the ruling: it integrates from sowing, so it cannot answer
+        # "abnormal now" and 13r shows what that does. It is still
+        # published, prominently, as the outcome measure.
+        #
+        # WHY CONTINUOUS RATHER THAN SHARE-AT-RECORD. Binary extent
+        # cannot separate "just crossed" from "smashed it", which is the
+        # problem severity_block was built for. Measured both: Haiti has
+        # 2% of readings at a record and ranks 84th on the binary share,
+        # and 18th here, because almost every region sits just below its
+        # own record. Mauritania has NOTHING at a record and ranks 52nd.
+        # The binary version calls both of those quiet.
+        #
+        # DERIVED FROM THE PUBLISHED RANKS, not recomputed from the
+        # cache, so the key cannot drift from the numbers on the page.
+        # position = (of - rank) / (of - 1).
+        #
+        # COVERAGE IS EMITTED, after the grid taught us what a collapsed
+        # denominator does. `of` is per instrument per dekad, so a mean
+        # over two readings and a mean over eighty are not the same
+        # claim. Today 4 of 123 countries are below full coverage and
+        # none below 75%, but that is a fact about this dekad.
+        _FAST = [s_ for s_, _l, _u, _w in INSTRUMENTS if s_ not in ("zfparc", "sm")]
+        _pos, _at = [], 0
+        for _r in regions:
+            for _slug in _FAST:
+                _v = (_r.get("instruments") or {}).get(_slug)
+                if not isinstance(_v, dict):
+                    continue
+                _rk, _of = _v.get("rank"), _v.get("of")
+                if _rk is None or not _of or _of < 2:
+                    continue
+                _p = (_of - _rk) / (_of - 1)
+                _pos.append(_p)
+                if _rk == 1:
+                    _at += 1
+        _possible = len(regions) * len(_FAST)
+        ranking_key = {
+            "available": bool(len(_pos) >= 8),
+            "value": round(float(np.mean(_pos)), 4) if _pos else None,
+            "readings": len(_pos),
+            "readings_possible": _possible,
+            "coverage": (round(len(_pos) / _possible, 3)
+                         if _possible else None),
+            "instruments": [_labels[s_] for s_ in _FAST],
+            "excludes": "Vegetation, cumulative, by product's ruling: it "
+                        "integrates from sowing so it cannot say what is "
+                        "abnormal NOW. Still published as the outcome "
+                        "measure.",
+            "share_at_record": (round(_at / len(_pos), 4) if _pos else None),
+            "method": "mean position of each region-instrument reading "
+                      "within its own 2001-2025 history at this dekad, "
+                      "1.0 = worst on record. Derived from the published "
+                      "ranks so it cannot drift from them.",
+            "is_not": "an intensity reading and not area-weighted. It "
+                      "says how much of a country is far into its own "
+                      "extremes, giving every region equal weight "
+                      "regardless of cropland (tls-internal#16). For how "
+                      "far into its extremes the country is as a whole, "
+                      "use `severity`; for how fast, use `rate`.",
+            "evidence_basis": "combined",
+            "authorship": "tls_built",
+        }
+
         # The empirical chance baseline, per place. Design needs this
         # as a drawn object rather than a sentence, and product's
         # adopted preference is to quote the TRAJECTORY where the series
@@ -1895,6 +1968,9 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
             # of 26, and 19 of 22 regions at a record on current
             # vegetation, 18 of 22 on water satisfaction.
             "regions_at_record": at_record,
+            # What the channel index orders on, per Kristjan and
+            # product's ruling of 2026-08-19.
+            "ranking_key": ranking_key,
             # How exposed this country's figure is to a weighting we do
             # not have. Free: it reuses the region ranks already emitted.
             "aggregate": aggregate_weighting(
