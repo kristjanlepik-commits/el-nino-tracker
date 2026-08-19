@@ -1,0 +1,73 @@
+name: a16-live-matches-committed
+
+# A16 (research/page_contract.md), the one S1 row in Contract A with no
+# check until tonight: does the LIVE page say what the COMMITTED page
+# says. scripts/check_live_matches_committed.py does the work; this file
+# only decides when it runs.
+#
+# SCHEDULED, not push-triggered, and that is the finding this workflow
+# exists to act on rather than repeat. Product's rule, 2026-08-19: ask
+# what the check's SUBJECT is a function of. A16's subject is DRIFT, a
+# failed deploy, a stuck cache, a CDN serving an old object, an origin
+# that stopped answering, and none of those follow a push of ours. A
+# push-only A16 would have been blind to every real instance of this we
+# hit this week. Same defect family as check_freshness.py before it
+# gained a clock on 2026-08-04 (qa.yml): wrong trigger for a time-subject
+# check, not a wrong check.
+#
+# Runs twice a day rather than once. A16 also covers the post-publish
+# half QA has been doing by hand, "assume nothing is live until you have
+# seen it live" (CLAUDE.md), so it needs to catch a fresh publish within
+# the day it ships as well as catch drift on a day nothing was pushed at
+# all. 09:00 and 21:00 UTC land a few hours after the two data jobs
+# (fires 03:10/05:30, crops 05:41) have had time to both fetch and
+# publish, so a real mismatch is not confused with fetch-to-publish lag.
+on:
+  schedule:
+    - cron: "0 9,21 * * *"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # The scheduled job. Build this one if only one gets built (QA's
+  # ranking): it is the half with no push to attach itself to, so a
+  # stuck cache or a dead origin has no other way to surface.
+  scheduled:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    # Two channels, ~25-45s each measured locally, plus the TTL re-poll's
+    # 5s per page that needs one. Generous headroom over a cold runner.
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: A16, does live match committed
+        run: python3 scripts/check_live_matches_committed.py
+
+  # The post-publish half: CLAUDE.md's "assume nothing is live until you
+  # have seen it live", automated, the thing QA has been doing by hand
+  # every push this week. Waits past cache-control's 600s TTL before
+  # checking, so a legitimate propagation window is not read as failure;
+  # check_live_matches_committed.py's own re-poll is a second, independent
+  # instance of the same rule, not a substitute for waiting here.
+  after_publish:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Wait past the CDN's cache TTL
+        run: sleep 660   # 600s max-age plus 60s margin
+
+      - name: A16, does live match committed
+        run: python3 scripts/check_live_matches_committed.py
