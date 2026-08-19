@@ -875,12 +875,27 @@ def main() -> int:
         # Same seam defect as the nights gate living at headline level, only
         # inverted: there a renderer could not reach a constraint, here a
         # check could not reach a property. One definition, emitted once.
-        entry["legend_band"] = ("record" if dr == 1 else
-                                "near" if dr <= 5 else "outside")
+        # BAND ON THE CLAIM, NOT THE RANK NUMBER. Under ties-count-against,
+        # BOTH years of a two-way tie at the top sit at rank 2, so a city
+        # that holds the record jointly was being banded "near" and its page
+        # understated a record it actually holds. Dresden hit this on 19
+        # August, tied with 2018 at 16 days with nothing above it, banded
+        # near. Malaga hit the identical thing in the refresh gate the day
+        # before and design caught that one.
+        #
+        # Same fix in both places: years strictly above is
+        # rank - 1 - len(tied_with), and a city is at its record while that
+        # is zero, tie or no tie.
+        _above = dr - 1 - len(entry["days"]["rank"].get("tied_with") or [])
+        entry["legend_band"] = ("record" if _above == 0 else
+                                "near" if _above < 5 else "outside")
         entry["legend_band_note"] = (
-            "record = at its own highest on days; near = 2nd to 5th; "
-            "outside = 6th or lower. READ THIS, do not re-derive it: a second "
-            "definition living in a template is a second thing to drift.")
+            "record = nothing in its own record stands above this year, "
+            "which INCLUDES a tie for the highest; near = 1 to 4 years "
+            "above; outside = 5 or more above. READ THIS, do not re-derive "
+            "it: a second definition living in a template is a second thing "
+            "to drift, and deriving it from the rank number rather than from "
+            "the claim is exactly how a joint record got banded as near.")
 
         # WARMEST-DAY SERIES, product 2026-08-07, and it is a page-structure
         # fix rather than a tidy-up. The Paris page LEADS on days and its
