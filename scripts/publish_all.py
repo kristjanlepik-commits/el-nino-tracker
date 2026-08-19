@@ -162,6 +162,91 @@ GENERATORS = [
 ]
 
 
+# D-200. On 2026-08-19 a scheduled publish rebuilt from source and swept
+# 121 unreviewed crops pages live: design had reverted docs/ to hold them
+# for CRO's sign-off, but D-030's gate protects the BUILT ARTIFACT, and a
+# cron job that rebuilds from source makes committing the code the act of
+# publishing. Holding back docs/ held back nothing. "A conversation cannot
+# gate a cron job", so the gate has to live where the cron job can read it.
+#
+# Per channel: every file whose bytes decide what that channel's pages say,
+# template AND payload together, exactly as D-200 specifies. That
+# deliberately includes the data files, not just the code: CRO/Fire signed
+# off on what a template renders FROM a payload, not on the template in the
+# abstract, and a template that was fine against last week's numbers is not
+# thereby approved for this week's. The consequence, stated because it is
+# real and nobody has ruled on it yet: crops_refresh.yml's automatic daily
+# dekad advance will now leave crops BLOCKED until re-approved every time
+# the payload changes, not just when the template does. That may be too
+# strict for a routine data refresh; it is what was specified, and it is
+# CRO/product's call to loosen, not platform's to soften unilaterally.
+SIGNOFF_INPUTS = {
+    "crops": [
+        "templates/crops_index.py", "templates/crops_page.py",
+        "templates/crops_country.py", "templates/crops_region.py",
+        "templates/crops_region_map.py",
+        "crops/build_page.py", "crops/build_country_pages.py",
+        "crops/data/stress_current.json",
+    ],
+    "fires": [
+        "templates/country_page.py",
+        "fires/build_page.py", "fires/build_country_pages.py",
+        "data/events.json", "fires/data/current_week.json",
+        "fires/data/burnt_area.json",
+    ],
+}
+
+SIGNOFF_DIR = ROOT / "signoff"
+
+
+def channel_signoff_hash(channel: str) -> str:
+    """sha256 over every SIGNOFF_INPUTS file for `channel`, path and bytes
+    both, so a rename is a change and not just content drift.
+
+    A listed file that does not exist is not skipped. That would let a
+    channel go "approved" while one of its own inputs was deleted or never
+    committed, which is a quieter version of the exact defect this gate
+    exists to close.
+    """
+    import hashlib
+    h = hashlib.sha256()
+    for rel in sorted(SIGNOFF_INPUTS[channel]):
+        p = ROOT / rel
+        if not p.exists():
+            raise SystemExit(
+                f"REFUSING: signoff input {rel} for channel {channel!r} "
+                f"does not exist. A hash computed without it would not "
+                f"mean what it claims to.")
+        h.update(rel.encode())
+        h.update(p.read_bytes())
+    return h.hexdigest()
+
+
+def check_channel_signoff(channel: str) -> tuple[bool, str]:
+    """(ok, reason). ok is False whenever the current inputs do not match
+    the last approved hash, INCLUDING when no approval has ever been
+    recorded: no marker is not "assume fine", it is the same as a stale
+    one. Refusing is the fail-safe direction (D-200 point 2): the pages
+    already live stay live rather than being replaced by anything
+    unreviewed, approved or not.
+    """
+    marker = SIGNOFF_DIR / f"{channel}.json"
+    current = channel_signoff_hash(channel)
+    if not marker.exists():
+        return False, (f"no sign-off has ever been recorded for {channel} "
+                       f"(no {marker.relative_to(ROOT)})")
+    try:
+        approved = json.loads(marker.read_text())["approved_hash"]
+    except (OSError, ValueError, KeyError) as exc:
+        return False, f"{marker.relative_to(ROOT)} is unreadable ({exc})"
+    if approved != current:
+        return False, (f"{channel}'s template or payload changed since "
+                       f"{marker.relative_to(ROOT)} was written; run "
+                       f"scripts/approve_channel.py {channel} after "
+                       f"the owning chat reviews a preview build")
+    return True, ""
+
+
 DATA_MUST_NOT_MOVE = ("data/events.json", "fires/data/current_week.json",
                        "crops/data/stress_current.json",
                        "docs/pacific-sst.json", "docs/pacific-sst.png")
@@ -612,6 +697,24 @@ def main() -> None:
               "publishes normally.")
         for line in (gate.stdout + gate.stderr).strip().splitlines():
             print(f"    {line.strip()}")
+
+    # D-200. Same shape as the heat gate above: skip that channel's steps
+    # rather than fail the publish, so an unapproved crops or fires change
+    # cannot take the ENSO shell or the OTHER channel down with it. LOUD on
+    # purpose (D-200 point 3): a channel that silently stops updating looks
+    # identical to one with nothing new to say, which is the exact failure
+    # this gate exists to prevent one level up.
+    blocked = []
+    for channel in SIGNOFF_INPUTS:
+        ok, reason = check_channel_signoff(channel)
+        if not ok:
+            blocked.append((channel, reason))
+            steps = [s for s in steps if not s[0].startswith(channel)]
+    if blocked:
+        print(f"  {len(blocked)} CHANNEL(S) BLOCKED ON SIGN-OFF (D-200), "
+              f"pages NOT rebuilt, last approved pages stay live:")
+        for channel, reason in blocked:
+            print(f"    {channel}: {reason}")
 
     for name, cmd in steps:
         # fires/*.py import tokens and run_brief from the repo root.

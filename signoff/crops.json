@@ -1,0 +1,17 @@
+{
+  "channel": "crops",
+  "approved_hash": "69e326223c65727429201e84750c1f679f64d3d737c58e37381669563fdff506",
+  "approved_at": "2026-08-19T07:55:24+00:00",
+  "approved_by": "platform (bootstrap)",
+  "note": "Seeded at D-200 rollout so the gate activates from this point forward rather than retroactively blocking already-live pages. This is NOT a content review; CRO has not re-reviewed this snapshot under this mechanism.",
+  "inputs": [
+    "crops/build_country_pages.py",
+    "crops/build_page.py",
+    "crops/data/stress_current.json",
+    "templates/crops_country.py",
+    "templates/crops_index.py",
+    "templates/crops_page.py",
+    "templates/crops_region.py",
+    "templates/crops_region_map.py"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "channel": "fires",
+  "approved_hash": "5c7a1955ccb63cc67f33432729cca91769a31fba9350fc1327d882fedac01186",
+  "approved_at": "2026-08-19T07:55:24+00:00",
+  "approved_by": "platform (bootstrap)",
+  "note": "Same bootstrap as crops: seeds current live state so the gate activates going forward, not a content review.",
+  "inputs": [
+    "data/events.json",
+    "fires/build_country_pages.py",
+    "fires/build_page.py",
+    "fires/data/burnt_area.json",
+    "fires/data/current_week.json",
+    "templates/country_page.py"
+  ]
+}
