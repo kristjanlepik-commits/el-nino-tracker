@@ -34,6 +34,14 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
+# Imported both ways on purpose: this file runs as a script, when
+# crops/ is on the path, and is imported as crops.build_data by
+# build_history.py and by test harnesses, when the repo root is.
+try:
+    from crops.asap_reference import crop_areas
+except ModuleNotFoundError:  # pragma: no cover
+    from asap_reference import crop_areas
+
 HERE = Path(__file__).resolve().parent
 CACHE = HERE / ".cache" / "asap_indicator"
 PSD = HERE / ".cache" / "psd"
@@ -107,6 +115,46 @@ def load(slug: str, cid: str):
     d["year"] = d.dt.dt.year
     d["doy"] = (d.dt.dt.month - 1) * 3 + ((d.dt.dt.day - 1) // 10) + 1
     return d
+
+
+def area_weighted(d, weights: dict, by: list):
+    """Mean over regions weighted by ASAP's own cropland area.
+
+    tls-internal#16, open since launch. Every country figure was an
+    UNWEIGHTED mean over its regions, so England carried a quarter of
+    the UK number while holding 85.6% of its cropland, and Northern
+    Ireland carried the same quarter on 0.6%. Over-weighted 42-fold.
+
+    THE WEIGHTS APPLY TO EVERY YEAR, not just the current one. A 2026
+    value weighted by cropland and ranked against an unweighted history
+    would compare two different quantities, and ranks would move for
+    reasons that have nothing to do with weather.
+
+    FALLS BACK TO UNWEIGHTED when the reference data is absent, so a
+    checkout without crops/.cache/asap_reference/ builds exactly as it
+    did before rather than failing. The payload records which happened;
+    a silent fallback would be the worse half of this.
+
+    ZERO-AREA REGIONS GET ZERO WEIGHT, which excludes them, and that is
+    disclosed rather than silent. 71 regions carry km2_crop of exactly
+    0 while ASAP still publishes crop indicators for them: Suriname has
+    6 of 7, Gabon 4 of 5. A region with no cropland in ASAP's own mask
+    should not vote on a crop average, but a country losing most of its
+    regions to that is a different figure from the one it was, and a
+    reader is entitled to know.
+    """
+    if not weights:
+        return d.groupby(by).value.mean(), None
+    w = d.region_name.map(weights).fillna(0.0)
+    if float(w.sum()) <= 0:
+        return d.groupby(by).value.mean(), None
+    tmp = d.assign(_w=w, _wv=d.value * w)
+    g = tmp.groupby(by)
+    num, den = g._wv.sum(), g._w.sum()
+    out = (num / den).where(den > 0)
+    used = sorted({r for r in d.region_name.unique()
+                   if (weights.get(r) or 0) > 0})
+    return out, used
 
 
 def _rank_statement(rank: int, of: int, last: int,
@@ -1015,7 +1063,7 @@ def check_expected_lags(catalogue: dict) -> list:
 
 
 def aggregate_weighting(regions: list, published_rank: int,
-                        of: int) -> dict:
+                        of: int, weights: dict = None) -> dict:
     """State how the country figure is built. Do NOT claim to measure
     how wrong it is, because that cannot be measured from what we hold.
 
@@ -1047,10 +1095,35 @@ def aggregate_weighting(regions: list, published_rank: int,
     HTTP 400. Tracked as tls-internal#16.
     """
     n = len([r for r in regions if isinstance(r.get("rank"), int)])
+    _w = {r["region"]: weights[r["region"]]
+          for r in regions
+          if weights and (weights.get(r.get("region")) or 0) > 0} if weights else {}
     return {
-        "method": "unweighted mean across regions, NOT area-weighted",
+        # WAS "unweighted mean across regions, NOT area-weighted", and
+        # that sentence became false the moment weighting shipped. A
+        # field describing the method has to change when the method
+        # does; this is the defect class the channel keeps finding
+        # elsewhere.
+        "method": ("mean across regions weighted by ASAP's own cropland "
+                   "area, km2_crop" if _w else
+                   "unweighted mean across regions: the cropland "
+                   "reference data was not present at build time"),
+        "area_weighted": bool(_w),
         "regions_averaged": n,
-        "one_region_carries": round(1 / n, 3) if n else None,
+        # The REAL share the largest region carries, not 1/n. For the UK
+        # that is England at 0.856 where the unweighted answer said
+        # 0.25, understating it more than threefold.
+        "one_region_carries": (round(max(_w.values()) / sum(_w.values()), 3)
+                               if _w and sum(_w.values()) > 0
+                               else (round(1 / n, 3) if n else None)),
+        # Regions ASAP publishes crop indicators for whose crop-mask
+        # area is exactly zero, so weighting gives them no vote.
+        # Disclosed rather than silent: Suriname loses 6 of 7 this way,
+        # Gabon 4 of 5, and that is a different figure from the one it
+        # was.
+        "regions_zero_area": sum(
+            1 for r in regions
+            if (weights or {}).get(r.get("region"), 0) <= 0) if weights else 0,
         "published_rank": published_rank,
         "of": of,
         "caveat": (f"each of the {n} regions counts equally, so one "
@@ -1186,6 +1259,9 @@ def rate_count_baseline(panels: list, doy: int, cur_year: int) -> dict:
 
 
 def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
+    # Loaded once. crop_areas() reads a 131 MB zip's attribute table, so
+    # doing it per country would read it 168 times.
+    _AREAS = crop_areas()
     over = check_expected_lags(catalogue)
     if over:
         worst = max(r["dekads_behind"] for r in over)
@@ -1226,6 +1302,10 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
     rate_panels = []
 
     for cid, name in catalogue.items():
+        # ASAP's own cropland area per region, for tls-internal#16.
+        # Empty dict when the reference data is absent, and
+        # area_weighted then falls back to the unweighted mean.
+        _area_w = _AREAS.get(str(cid), {})
         base = load("zfparc", cid)
         # Three different things used to share one reason, and one of
         # them is OUR failure reported as a fact about ASAP. A missing
@@ -1271,7 +1351,8 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                     "qualifiers": [],
                 })
                 continue
-            same = d[d.doy == doy].groupby("year").value.mean()
+            same, _used = area_weighted(
+                d[d.doy == doy], _area_w, ["year"])
             hist = same[(same.index >= BASE_FIRST) & (same.index <= BASE_LAST)]
             cur = same.get(latest.year, np.nan)
             # Absences are stated here too. This used to `continue`,
@@ -1394,8 +1475,8 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         # Year x dekad panels for the rate. Country level is the mean
         # across regions, matching how the country instruments above are
         # built, so the level and the rate describe the same aggregate.
-        country_panel = (base.groupby(["year", "doy"]).value.mean()
-                         .unstack())
+        country_panel = area_weighted(
+            base, _area_w, ["year", "doy"])[0].unstack()
         region_panels = {
             reg: g.groupby(["year", "doy"]).value.mean().unstack()
             for reg, g in base.groupby("region_name")
@@ -1758,8 +1839,15 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         # claim. Today 4 of 123 countries are below full coverage and
         # none below 75%, but that is a fact about this dekad.
         _FAST = [s_ for s_, _l, _u, _w in INSTRUMENTS if s_ not in ("zfparc", "sm")]
-        _pos, _at = [], 0
+        # AREA-WEIGHTED, same as every other country figure, because
+        # "how much of a country" means how much of its cropland and not
+        # how many of its administrative units. England is 85.6% of UK
+        # cropland and was one vote of four.
+        _pos, _wts, _at, _atw = [], [], 0, 0.0
         for _r in regions:
+            _rw = float((_area_w or {}).get(_r.get("region"), 0.0) or 0.0)
+            if _area_w and _rw <= 0:
+                continue          # no cropland in ASAP's own mask
             for _slug in _FAST:
                 _v = (_r.get("instruments") or {}).get(_slug)
                 if not isinstance(_v, dict):
@@ -1769,12 +1857,17 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                     continue
                 _p = (_of - _rk) / (_of - 1)
                 _pos.append(_p)
+                _wts.append(_rw if _area_w else 1.0)
                 if _rk == 1:
                     _at += 1
+                    _atw += (_rw if _area_w else 1.0)
         _possible = len(regions) * len(_FAST)
+        _wsum = float(np.sum(_wts)) if _wts else 0.0
         ranking_key = {
             "available": bool(len(_pos) >= 8),
-            "value": round(float(np.mean(_pos)), 4) if _pos else None,
+            "value": (round(float(np.average(_pos, weights=_wts)), 4)
+                      if _pos and _wsum > 0 else None),
+            "area_weighted": bool(_area_w),
             "readings": len(_pos),
             "readings_possible": _possible,
             "coverage": (round(len(_pos) / _possible, 3)
@@ -1784,17 +1877,18 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                         "integrates from sowing so it cannot say what is "
                         "abnormal NOW. Still published as the outcome "
                         "measure.",
-            "share_at_record": (round(_at / len(_pos), 4) if _pos else None),
+            "share_at_record": (round(_atw / _wsum, 4)
+                                if _pos and _wsum > 0 else None),
             "method": "mean position of each region-instrument reading "
                       "within its own 2001-2025 history at this dekad, "
                       "1.0 = worst on record. Derived from the published "
                       "ranks so it cannot drift from them.",
-            "is_not": "an intensity reading and not area-weighted. It "
-                      "says how much of a country is far into its own "
-                      "extremes, giving every region equal weight "
-                      "regardless of cropland (tls-internal#16). For how "
-                      "far into its extremes the country is as a whole, "
-                      "use `severity`; for how fast, use `rate`.",
+            "is_not": "an intensity reading. It says how much of a "
+                      "country's CROPLAND is far into its own extremes, "
+                      "weighted by ASAP's crop mask, so a region with no "
+                      "cropland has no vote. For how far into its "
+                      "extremes the country is as a whole use "
+                      "`severity`; for how fast, use `rate`.",
             "evidence_basis": "combined",
             "authorship": "tls_built",
         }
@@ -1974,7 +2068,7 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
             # How exposed this country's figure is to a weighting we do
             # not have. Free: it reuses the region ranks already emitted.
             "aggregate": aggregate_weighting(
-                regions, head["rank"], head["of"]),
+                regions, head["rank"], head["of"], _area_w),
             # The counted measure answers "how many regions", the rank
             # answers "how unusual", and neither answers "how deep".
             # This does. Country level only: the per-instrument region
@@ -2049,6 +2143,27 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
     }
     return {
         "_generated_from": "crops/.cache (no fetch performed)",
+        # A VERSION, so a week-over-week diff can tell a method change
+        # from weather. Invariant 3 in CLAUDE.md requires this of the
+        # ENSO brief and the reason applies here: on 2026-08-19 country
+        # figures stopped being unweighted means over regions and became
+        # weighted by ASAP's cropland area, and only 7 of 119 places
+        # kept their position in the ordering. Nothing about the world
+        # changed that day.
+        "methodology_version": "2.0",
+        "methodology_changed": {
+            "2.0": "Country figures are area-weighted by ASAP's km2_crop "
+                   "(tls-internal#16). Previously an unweighted mean over "
+                   "regions, so England carried a quarter of the UK "
+                   "figure while holding 85.6% of its cropland. Affects "
+                   "every country value, and therefore severity, "
+                   "magnitude, rate and ranking_key. Ranks are computed "
+                   "on weighted values for EVERY year, so the comparison "
+                   "stays like for like. Regions with zero crop-mask "
+                   "area get no vote and the count is disclosed per "
+                   "place in `aggregate.regions_zero_area`.",
+            "1.0": "Unweighted mean over regions, launch to 2026-08-19.",
+        },
         "instrument_legend": {
             slug: {"name": label, "unit": unit,
                    "worse_is": "low" if worse_is > 0 else "high",
