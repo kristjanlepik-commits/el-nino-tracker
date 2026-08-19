@@ -1169,41 +1169,68 @@ def _rate_block(doc) -> str:
     # safe: the payload has to declare that the superlative survives, and
     # absent that declaration nothing renders. Same shape as reading
     # `publish` rather than choosing a variant myself.
-    if not base.get("superlative_survives_controls"):
-        print("  rate block WITHHELD: the published variant does not declare "
-              "superlative_survives_controls. CRO 13i: 29 raw, 20 start-level, "
-              "16 detrended, 12 both, and 2 of 25 prior years at or above at "
-              "12. A record-count claim needs the fully controlled figure.")
+    licensed = base.get("superlative_survives_controls")
+    this_year = base.get("this_year")
+    at_or_above = base.get("prior_years_at_or_above")
+    of_years = base.get("prior_years_counted")
+
+    if prior_max is None or prior_mean is None or this_year is None:
+        print("  rate block WITHHELD: the published variant has no baseline. "
+              "Needs prior_max and prior_mean; a bare count is the error the "
+              "chance baseline exists to prevent.")
         return ""
 
-    if prior_max is None or prior_mean is None:
-        print("  rate block WITHHELD: %d countries qualify, and the count has "
-              "no baseline in the payload. Needs rate_count_baseline with "
-              "prior_max and prior_mean; a bare count is the error the "
-              "chance baseline exists to prevent." % len(held))
-        return ""
+    # THE COUNT COMES FROM THE PUBLISHED VARIANT, NOT FROM MY OWN SET, and
+    # this is why the block carries no names any more.
+    #
+    # `held` is rank 1 with control_holds, which is 14 countries and matches
+    # the `holding_the_control` variant. The published variant is
+    # `both_controls` and counts 7. Naming examples out of `held` beside a
+    # count of 7 would attach a 14-country set to a 7-country number, and
+    # nothing in the payload says which 7 they are: control_holds is the
+    # start-level control only, and the time detrending is CRO's method
+    # rather than something this file can redo.
+    #
+    # So the examples go. They existed to stop a named country reading as a
+    # finding when rank 1 of 26 is what chance produces several times over a
+    # set this size; with no names there is no multiplicity claim to guard.
+    # Asked CRO for a per-place flag for the fully controlled set. Until it
+    # exists, a count with its own distribution is publishable and a name
+    # attached to the wrong denominator is not.
+    if licensed:
+        lede = ('<strong>%d countries are falling faster than in any year on '
+                'record</strong>, against a prior maximum of %s and a typical '
+                '%s.' % (this_year, prior_max, prior_mean))
+    else:
+        # NOT A RECORD, and the payload says so in its own words. CRO 13i:
+        # 29 raw, 20 controlling for start level, 16 detrended, 12 with
+        # both. "Falling faster than in any year on record" was a
+        # superlative one control short and was live for about an hour.
+        lede = ('<strong>%d countries are at or near the top of the record '
+                'for how fast they are falling</strong>, against a prior '
+                'maximum of %s and a typical %s. It is not a record: %s of '
+                'the %s prior years match or beat it once the fall is '
+                'controlled both for the level it started from and for the '
+                'trend across years.'
+                % (this_year, prior_max, prior_mean, at_or_above, of_years))
 
-    held.sort(key=lambda t: -t[1])
-    egs = held[:3]
-    names = ", ".join("%s (%.2f clear of its next year)" % (n, g)
-                      for n, g, _ in egs)
-    of = egs[0][2] if egs else 26
     return (
         '<div class="ratewrap">'
         '<p class="ceyebrow">Falling fastest</p>'
-        '<p class="clede"><strong>%d countries are falling faster than in any '
-        'year on record</strong>, against a prior maximum of %s and a typical '
-        '%s. That is a count of countries, tested as a set: it asks whether '
-        '%d is an unusual number to be at a record, not whether any one of '
-        'them is.</p>'
-        '<p class="cnote">Rank 1 of %s on the four-dekad fall, and still rank '
-        '1 once the level it fell from is controlled for. An individual '
-        'country at rank 1 is what chance produces about four times over a '
-        'set this size, so these are named as members rather than as '
-        'findings: %s. The figure beside each is how far clear of its own '
-        'next-worst year it sits, which is what separates them, and it is '
-        'not a rank.</p></div>' % (len(held), prior_max, prior_mean,
-                                   len(held), of, names))
+        '<p class="clede">%s That is a count of countries, tested as a set: '
+        'it asks whether %d is an unusual number to be falling this fast at '
+        'once, not whether any one of them is unusual.</p>'
+        '<p class="cnote">A country enters this count on the four-dekad fall '
+        'in the harvest measure, after controlling for the level it fell '
+        'from and for the across-year trend. Both controls matter: a steep '
+        'fall from a high start is arithmetic rather than news, and the '
+        'series itself drifts, so a bare rank is partly that drift. Without '
+        'them the same dekad counts %s countries rather than %d. No country '
+        'is named here, because an individual at rank 1 is what chance '
+        'produces several times over a set this size.</p></div>'
+        % (lede, this_year,
+           (doc.get("rate_count_baseline") or {}).get("raw", {}).get("this_year", "more"),
+           this_year))
 
 
 # INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived by copy
