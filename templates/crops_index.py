@@ -355,6 +355,52 @@ def _agg_note(p) -> str:
 _FEATURED = set()
 
 
+def _order_key(p):
+    """Where a country sorts on this page. Worst first.
+
+    CRO's `ranking_key`, Kristjan's call and product's ruling, built in
+    f2cc9938. It is the mean position of every region-instrument reading
+    within its own 2001-2025 history at this dekad, 1.0 being the worst on
+    record, over the four FAST instruments. Cumulative vegetation is
+    excluded because it integrates from sowing and cannot say what is
+    abnormal now; it stays on the country page as the outcome measure.
+
+    IT REPLACES SORTING BY SEVERITY RANK, which was not really an ordering
+    at all. Seventeen countries tie at rank 1, so the tie was broken by
+    payload order and the featured block came out alphabetical. This key
+    has nineteen distinct values in its top twenty and one country at the
+    maximum.
+
+    CONTINUOUS RATHER THAN SHARE-AT-RECORD, and CRO tested both. A binary
+    count cannot separate "just crossed" from "smashed it": Haiti has 2% of
+    readings at a record and nearly every region sitting just under its own,
+    which the binary key ranks 84th and this ranks 18th. Costa Rica is the
+    mirror, a few extreme regions and the rest ordinary, 19th on binary and
+    66th here.
+
+    A place with no key sorts LAST rather than being dropped. Liberia has
+    one crop region and Oman two, below the eight-reading floor, and they
+    are still countries we publish.
+    """
+    rk = p.get("ranking_key") or {}
+    if not rk.get("available") or rk.get("value") is None:
+        return (1, 0.0)
+    return (0, -float(rk["value"]))
+
+
+def _thin_key(p):
+    """True when the ordering key rests on partial coverage.
+
+    The same defect the sequence grid just fixed, one level up, and CRO
+    flagged it as the thing that would bite: `of` is per instrument per
+    dekad, so a mean over 35 readings and a mean over 88 are not the same
+    claim. Today three countries sit below full coverage and none below
+    75%, which is a fact about THIS dekad rather than a property of them.
+    """
+    rk = p.get("ranking_key") or {}
+    return bool(rk.get("available") and (rk.get("coverage") or 1) < 1.0)
+
+
 def _qualifies_for_featuring(p) -> str:
     """Why this country is featured, or "" if it is not.
 
@@ -395,9 +441,70 @@ def _qualifies_for_featuring(p) -> str:
     return ""
 
 
+def _order_note(places) -> str:
+    """What the page is ordered by, and what that ordering is not.
+
+    Product's condition on the ruling: intensity stays prominent, because
+    a country with a severe CONCENTRATED event must not vanish from view
+    when the ordering measures BREADTH. Spain is the case CRO named; in
+    this payload it reads severity rank 3 and 21st on the key rather than
+    the rank 1 and 24th they quoted, which is a smaller gap but the same
+    shape, and the discrepancy is flagged to them rather than smoothed
+    over. The distinction is not hypothetical and the page has to make it
+    rather than leave a reader to infer it.
+
+    D-033 attribution: Combined. Nobody publishes this average, it is ours,
+    and the page says so where the ordering is explained rather than in a
+    footer nobody reaches.
+    """
+    return (
+        '<p class="secsub">Ordered by how much of each country is far into '
+        'its own 26-year range right now, averaged over the four fast '
+        'instruments. <strong>That is breadth, not severity.</strong> A '
+        'country with one region in an extreme state and the rest ordinary '
+        'sits lower here than one where everything is somewhat bad, so the '
+        'per-country figures below are the ones that say how bad. The '
+        'harvest measure is deliberately left out of the ordering: it '
+        'integrates from sowing, so it cannot say what is abnormal now. '
+        'This average is ours rather than an agency&rsquo;s.</p>'
+        + _thin_key_note(places))
+
+
+def _thin_key_note(places) -> str:
+    """Name the countries whose ordering rests on partial coverage.
+
+    Generated, so it empties itself when coverage is full rather than
+    becoming a sentence nobody re-checks. `of` is per instrument per
+    dekad, so a mean over 88 readings and a mean over 35 are not the same
+    claim, and a reader comparing two rows deserves to know which is
+    which. Today none of them is below three quarters; the note would
+    still be the place to say so if one were.
+    """
+    thin = sorted(p_["place"] for p_ in (places or []) if _thin_key(p_))
+    if not thin:
+        return ""
+    worst = min((p_.get("ranking_key") or {}).get("coverage", 1)
+                for p_ in places if _thin_key(p_))
+    names = (thin[0] if len(thin) == 1 else
+             ", ".join(thin[:-1]) + " and " + thin[-1])
+    return ('<p class="secsub">%s %s placed on partial coverage this dekad: '
+            'some regions were not reported, so %s ordering rests on fewer '
+            'readings than the rest. The thinnest is %.0f%% of what that '
+            'country reports when fullest.</p>'
+            % (names, "is" if len(thin) == 1 else "are",
+               "its" if len(thin) == 1 else "their", 100 * worst))
+
+
 def _pinned_block(places, in_groups=()) -> str:
     _FEATURED.clear()
     by = {p["place"]: p for p in places}
+    # (sort key, html). REGION ROWS SORT WITH THE COUNTRY ROWS, on their
+    # country's key, because the block above now STATES its ordering and
+    # the pinned region was rendering first regardless. England reads 0.845
+    # through the UK and was appearing above Hungary at 0.986, so the first
+    # row on the page contradicted the sentence introducing it. That is the
+    # same defect as a legend whose label the data denies, which is what
+    # this whole day has been about.
     rows, absent = [], []
     for country, region in PINNED_REGIONS:
         p = by.get(country)
@@ -412,9 +519,10 @@ def _pinned_block(places, in_groups=()) -> str:
             # rec["place"] asked whether "England" had a page, which
             # nothing builds, and England alone stayed unlinked while
             # the other six worked.
-            rows.append(_pinned_row(dict(rec, place=region,
-                                         crop_units=None,
-                                         _page_place=country)))
+            rows.append((_order_key(p),
+                         _pinned_row(dict(rec, place=region,
+                                          crop_units=None,
+                                          _page_place=country))))
             # A PINNED REGION LINKS ITS COUNTRY'S PAGE, so the country is
             # already on this page and the tail must not list it again.
             # England is pinned and the U.K. was appearing twice: once as
@@ -437,6 +545,11 @@ def _pinned_block(places, in_groups=()) -> str:
                  and p_["place"].lower() not in _in_groups]
     shown = list(PINNED) + [c for c in qualified if c not in PINNED]
     rendered = [c for c in shown if c in by and by[c].get("publishable")]
+    # ORDERED BY THE KEY, not by the pin list. This block used to render
+    # PINNED first in the order a human typed it, then everything else in
+    # payload order, which is what made it read alphabetically. Membership
+    # is still the union gate; only the order comes from the key.
+    rendered.sort(key=lambda c: _order_key(by[c]))
     # WHAT WAS RENDERED, RECORDED, so the tail excludes exactly this set
     # rather than a list that happens to agree with it today. The first
     # version of the tail excluded the literal PINNED and duplicated every
@@ -445,7 +558,9 @@ def _pinned_block(places, in_groups=()) -> str:
     # that resembles it.
     _FEATURED.update(c.lower() for c in rendered)
     _FEATURED.update((by[c].get("_page_place") or c).lower() for c in rendered)
-    rows += [_pinned_row(by[c]) for c in rendered]
+    rows += [(_order_key(by[c]), _pinned_row(by[c])) for c in rendered]
+    rows.sort(key=lambda t: t[0])
+    rows = [html for _, html in rows]
     absent += [c for c in PINNED if c not in by or not by[c].get("publishable")]
     if not rows:
         return ""
@@ -467,6 +582,7 @@ def _pinned_block(places, in_groups=()) -> str:
             f'<p class="secsub"><strong>The top number tracks the harvest, '
             f'and a harvest takes a season to go wrong.</strong> The others '
             f'are current conditions, which is why they moved first.</p>'
+            f'{_order_note(places)}'
             f'{"".join(rows)}{note}')
 
 
@@ -509,7 +625,7 @@ def _every_place(places, already) -> str:
             if (p_.get("_page_place") or p_["place"]).lower() not in seen]
     if not rows:
         return ""
-    rows.sort(key=lambda p_: ((p_.get("severity") or {}).get("rank") or 999))
+    rows.sort(key=_order_key)
     links = " &middot; ".join(
         f'<a class="tlink" href="{h(_slug(p_.get("_page_place") or p_["place"]))}/">'
         f'{h(PINNED_LABEL.get(p_["place"], p_["place"]))}</a>' for p_ in rows)
@@ -522,9 +638,9 @@ def _every_place(places, already) -> str:
     # ordered.
     return (f'<p class="seclab">Everywhere else we measure</p>'
             f'<p class="secsub">{len(rows)} more places, in the same order '
-            f'as above: worst first by how this dekad ranks against that '
-            f'place\'s own 26 years. Every place we publish has a page, '
-            f'whether or not anything is happening in it.</p>'
+            f'as above: worst first by how much of each place is far into '
+            f'its own 26-year range this dekad. Every place we publish has '
+            f'a page, whether or not anything is happening in it.</p>'
             f'<p class="tail">{links}</p>')
 
 
