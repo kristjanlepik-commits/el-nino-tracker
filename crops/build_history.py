@@ -182,6 +182,30 @@ def main() -> None:
                                  "at_record": at, "of": of}
             if row:
                 per_dekad[label_for(doy)] = row
+        # COVERAGE, so a renderer can tell "most of the country" from
+        # "most of what reported".
+        #
+        # `of` is per instrument PER DEKAD, not a property of the
+        # country, because the crop-growing class stops reporting a
+        # region once its cycle closes. So Oman reads 1 of 1 in late
+        # season where it normally covers 7, and Mongolia 1 of 1 in
+        # January against a usual 18.
+        #
+        # A fraction computed on a collapsed denominator is a statement
+        # about coverage wearing the clothes of a statement about
+        # extent, and design's five-band grid would paint those cells
+        # the DARKEST shade. 23 of the 33 cells that would have entered
+        # the top band on n=1 are this, not small countries.
+        #
+        # `of_max` is that instrument's fullest coverage for this place
+        # across the window, so `of / of_max` says how much of the
+        # country was even being measured.
+        for slug in {k for row in per_dekad.values() for k in row}:
+            of_max = max(r[slug]["of"] for r in per_dekad.values()
+                         if slug in r)
+            for r in per_dekad.values():
+                if slug in r:
+                    r[slug]["of_max"] = of_max
         if per_dekad:
             out["places"][name] = per_dekad
 
