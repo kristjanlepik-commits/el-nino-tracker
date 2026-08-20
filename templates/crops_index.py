@@ -380,10 +380,18 @@ def _agg_note(p) -> str:
     if a.get("area_weighted") and "counts equally" in caveat:
         return ""
     import re as _re
-    m = _re.search(r"one carries (\d+)% of this figure", caveat)
+    m = _re.search(r"carries (\d+)% of this figure", caveat)
     share = a.get("one_region_carries")
-    if m and share is not None and abs(int(m.group(1)) / 100.0 - share) > 0.005:
-        return ""
+    # HALF A POINT PLUS FLOAT SLOP. The caveat states a whole
+    # percentage, so a share of 0.1750 legitimately prints as 18% and
+    # sits exactly half a point away. Written as "> 0.005" this
+    # suppressed nine correct caveats, because 0.18 - 0.175 evaluates
+    # to 0.005000000000000004 and every one of the nine was an exact
+    # tie. A guard against two surfaces disagreeing by a rounding
+    # rule, failing by a rounding rule.
+    if m and share is not None:
+        if abs(int(m.group(1)) / 100.0 - share) > 0.005 + 1e-9:
+            return ""
     return f' <span class="pinagg">{h(first[0].upper() + first[1:])}.</span>' 
 
 

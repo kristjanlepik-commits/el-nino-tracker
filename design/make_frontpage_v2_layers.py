@@ -91,6 +91,15 @@ CROPS_XY = {
     "Ecuador": (-1.0, -78.0), "Colombia": (4.0, -73.0), "Suriname": (4.0, -56.0),
     "Honduras": (15.0, -87.0), "Nicaragua": (13.0, -85.0),
     "United States of America": (39.0, -98.0),
+    # ADDED 2026-08-19, QA #29. These four had a region at a record low
+    # and no coordinates, so the map dropped them AND the count dropped
+    # them with it. All four are Global South, which is the one
+    # direction T11 says our instruments must not drift in. Placed at
+    # country centroids; the nearest existing mark is 10 units away
+    # (Cambodia to Viet Nam) against a 6-unit marker, and existing
+    # pairs sit as close as 2.2 (Rwanda / Burundi), so none crowds.
+    "Cambodia": (12.5, 105.0), "Eritrea": (15.4, 38.8),
+    "Somalia": (5.5, 46.5), "Zambia": (-13.5, 27.8),
 }
 
 
@@ -386,15 +395,41 @@ def legend(d):
     anom = sum(1 for e in d["events"] if e.get("anomalous"))
     watched = sum(1 for c in d["fires_week"]["countries"].values()
                   if c.get("lat") is not None)
-    crops_n = sum(1 for p_ in d["crops"]["places"]
-                  if any(r.get("rank") == 1 for r in (p_.get("regions") or []))
-                  and CROPS_XY.get(p_["place"]))
+    # THE SENTENCE COUNTS COUNTRIES; THE MAP DRAWS WHAT IT CAN PLACE.
+    #
+    # QA #29: this counted countries that had a region at a record low
+    # AND a map coordinate, then called the result "countries with a
+    # region at a record low". It stated a fact about countries while
+    # computing a fact about marks, and under-stated: 32 against 36.
+    # The four it dropped were Cambodia, Eritrea, Somalia and Zambia,
+    # every one Global South, which is the single direction T11 says
+    # our instruments must not drift in.
+    #
+    # Coordinates for those four are now in CROPS_XY, so today the two
+    # numbers agree. THAT FIX ALONE WOULD NOT HOLD: crops publishes 123
+    # places and CROPS_XY has 40, so the next country to reach a record
+    # low without coordinates vanishes the same way. So the count is
+    # the true one and the legend says when the map cannot draw them
+    # all, which stays honest with nobody remembering to check.
+    crops_lit = [p_["place"] for p_ in d["crops"]["places"]
+                 if any(r.get("rank") == 1
+                        for r in (p_.get("regions") or []))]
+    crops_undrawn = [c for c in crops_lit if not CROPS_XY.get(c)]
+    crops_n = len(crops_lit)
+    if crops_undrawn:
+        # Named, not just counted. A number says something is missing;
+        # a name says which coordinate to add.
+        print("  NOTE: %d crops country(s) at a record low have no "
+              "CROPS_XY entry and are not drawn: %s. The legend says "
+              "so; add coordinates to draw them."
+              % (len(crops_undrawn), ", ".join(sorted(crops_undrawn))))
     items = [
         ("fires", "Fires", "%d of %d past their own record week"
          % (anom, watched), '<circle cx="7" cy="7" r="4.2" fill="%s" '
          'stroke="%s"/>' % (HUE["fires"], HUE["fires"])),
-        ("crops", "Crops", "%d countries with a region at a record low"
-         % crops_n, '<rect x="2.6" y="2.6" width="8.8" height="8.8" '
+        ("crops", "Crops", "%d countries with a region at a record low%s"
+         % (crops_n, "" if not crops_undrawn else
+            ", %d of them drawn" % (crops_n - len(crops_undrawn))), '<rect x="2.6" y="2.6" width="8.8" height="8.8" '
          'fill="%s" stroke="%s"/>' % (HUE["crops"], HUE["crops"])),
         ("heat", "Heat", "%d cities, one aggregate mark"
          % len(d["heat"]["cities"]), '<circle cx="7" cy="7" r="5" fill="none" '
