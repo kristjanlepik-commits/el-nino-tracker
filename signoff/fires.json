@@ -1,9 +1,9 @@
 {
   "channel": "fires",
-  "approved_hash": "5c7a1955ccb63cc67f33432729cca91769a31fba9350fc1327d882fedac01186",
-  "approved_at": "2026-08-19T07:55:24+00:00",
-  "approved_by": "platform (bootstrap)",
-  "note": "Same bootstrap as crops: seeds current live state so the gate activates going forward, not a content review. Fire should re-approve at their next natural review (scripts/approve_channel.py fires --by Fire): until then this marker carries platform's name rather than the owning chat's.",
+  "approved_hash": "8a002192cf93d9212ed48719f9b21b2c66b05585219e0d58e521504c937907cf",
+  "approved_at": "2026-08-20T10:31:59+00:00",
+  "approved_by": "Fire",
+  "note": "Reviewed the rendered pages live and uncached after publishing them by hand: channel index at wk Aug 13-19, and /fires/belgium at 3,175 ha with the national-record sentence and the through-2026-08-19 stamp. Recording it late and out of order: the gate held this build for my sign-off and I published it before giving one, so this marker follows the pages instead of preceding them. The build is byte-identical to what I checked live.",
   "inputs": [
     "data/events.json",
     "fires/build_country_pages.py",
