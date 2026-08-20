@@ -258,6 +258,48 @@ from the fire country page, ratified only after a second case, because
 an interface with one implementation is a guess. Until then it is a
 working shape, not a contract.
 
+## The D-200 sign-off gate: what owning a gated channel now costs you
+
+D-030's sign-off clause used to live in conversation. Since D-200
+(2026-08-19) it lives in the repo, and the machine that publishes
+enforces it whether or not anyone remembers a conversation happened.
+Fire found the consequence by routing around it, twenty-four hours
+after the gate first fired for real: **if you own a gated channel, you
+now have a standing action, and nothing announces it to you when it is
+due.**
+
+**The mechanism.** `signoff/<channel>.json` records a hash over that
+channel's template and payload files (`SIGNOFF_INPUTS` in
+`scripts/publish_all.py`). Any commit that changes one of those files,
+yours or a scheduled data job's, invalidates the hash. The next publish
+compares the current hash against the marker and, on a mismatch, skips
+that channel's build entirely: the last approved pages stay live,
+loudly, and nothing rebuilds until someone from the owning chat runs
+
+    .venv/bin/python scripts/approve_channel.py <channel> --by "<your chat>"
+
+**after actually looking at a preview build**, not before. Running it
+unreviewed is how the marker becomes an approval in name only, which is
+the exact failure D-200 exists to prevent one level up.
+
+**This can mean a daily action, not an occasional one, and that is a
+real cost worth knowing before it costs you a stale page.** Fire's
+inputs include `fires/data/current_week.json`, `data/events.json` and
+`fires/data/burnt_area.json`, all three touched by the daily data job;
+measured 2026-08-19, 30+ commits each since 1 August. A channel that
+refreshes daily and is gated on its payload is, as specced, gated once
+a day. Crops is different only by cadence, not by kind: ASAP publishes
+roughly every ten days, so the same mechanism blocks roughly every ten
+days there. **Whether daily re-approval is the intended cost for a
+daily channel, or too strict, is product's call and was open as of
+2026-08-19; check `research/decisions.md` for whether it has since
+settled before assuming either answer.**
+
+**If your channel goes stale and you don't know why**, this is the
+first thing to check: run `publish_all.py --check` and read whether it
+printed a `CHANNEL(S) BLOCKED ON SIGN-OFF` line naming you. It will not
+find you; you have to look.
+
 ## Telling another chat something (read this, it is new)
 
 Chats can now message each other directly. Kristjan is no longer the
