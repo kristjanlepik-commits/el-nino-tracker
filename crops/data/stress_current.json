@@ -1,5 +1,7 @@
 {
  "_generated_from": "crops/.cache (no fetch performed)",
+ "max_data_age_days": 30,
+ "max_data_age_measured_from": "the dekad label. 21 days of reader relevance past the window close, plus the 9 days from label to close.",
  "methodology_version": "2.0",
  "methodology_changed": {
   "2.0": "Country figures are area-weighted by ASAP's km2_crop (tls-internal#16). Previously an unweighted mean over regions, so England carried a quarter of the UK figure while holding 85.6% of its cropland. Affects every country value, and therefore severity, magnitude, rate and ranking_key. Ranks are computed on weighted values for EVERY year, so the comparison stays like for like. Regions with zero crop-mask area get no vote and the count is disclosed per place in `aggregate.regions_zero_area`.",

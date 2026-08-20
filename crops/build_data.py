@@ -2150,6 +2150,30 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         # weighted by ASAP's cropland area, and only 7 of 119 places
         # kept their position in the ordering. Nothing about the world
         # changed that day.
+        # D-092: the age bound platform will not guess. Flagged as
+        # undeclared, so crops pages were shipping unchecked for age.
+        #
+        # THIRTY, AND THE CONVERSION IS THE WHOLE POINT. FRESHNESS.md
+        # sets the reader-relevance bound at 21 days from the END of the
+        # newest observation window. Platform measures age from
+        # `dekad`, which is the window's LABEL, not its close. A 1st-of-
+        # month dekad covers the 1st to the 10th, so the close is the
+        # label plus nine, and 21 days past that is the label plus 30.
+        #
+        # Three clocks on this channel have already been quoted as one
+        # number by somebody: the label, the window close, and actual
+        # publication. That cost a false staleness alarm and a
+        # correction that propagated to two other chats. So the bound is
+        # written here with its arithmetic rather than as a bare 30.
+        #
+        # It fires on a missed ASAP cycle and on a source running late,
+        # which is correct: being level with a slow publisher is not a
+        # defence.
+        "max_data_age_days": 30,
+        "max_data_age_measured_from": "the dekad label. 21 days of "
+                                      "reader relevance past the window "
+                                      "close, plus the 9 days from label "
+                                      "to close.",
         "methodology_version": "2.0",
         "methodology_changed": {
             "2.0": "Country figures are area-weighted by ASAP's km2_crop "
