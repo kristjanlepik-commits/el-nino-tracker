@@ -1098,6 +1098,14 @@ def aggregate_weighting(regions: list, published_rank: int,
     _w = {r["region"]: weights[r["region"]]
           for r in regions
           if weights and (weights.get(r.get("region")) or 0) > 0} if weights else {}
+    # WHICH region carries the share, not just how much. Design asked:
+    # one_region_carries was a bare number, so a page printing "England
+    # holds 86%" would take the entity from a chat message and the
+    # number from a field. Now both come from the field.
+    _largest_name = (max(_w, key=_w.get) if _w else None)
+    _nzero = (sum(1 for r in regions
+                  if (weights or {}).get(r.get("region"), 0) <= 0)
+              if weights else 0)
     return {
         # WAS "unweighted mean across regions, NOT area-weighted", and
         # that sentence became false the moment weighting shipped. A
@@ -1109,6 +1117,7 @@ def aggregate_weighting(regions: list, published_rank: int,
                    "unweighted mean across regions: the cropland "
                    "reference data was not present at build time"),
         "area_weighted": bool(_w),
+        "largest_region": _largest_name,
         "regions_averaged": n,
         # The REAL share the largest region carries, not 1/n. For the UK
         # that is England at 0.856 where the unweighted answer said
@@ -1126,13 +1135,48 @@ def aggregate_weighting(regions: list, published_rank: int,
             if (weights or {}).get(r.get("region"), 0) <= 0) if weights else 0,
         "published_rank": published_rank,
         "of": of,
-        "caveat": (f"each of the {n} regions counts equally, so one "
-                   f"carries {round(100 / n)}% of this figure whatever "
-                   f"its cropland area. Where one region holds most of "
-                   f"the crop the country figure understates it. No "
-                   f"sensitivity score is emitted because it cannot be "
-                   f"computed without crop area per region."
-                   if n else "single region, no weighting choice"),
+        # THE READER-FACING FORM OF `method`, AND IT WENT STALE THE
+        # SAME WAY. When weighting shipped I rewrote `method` and walked
+        # straight past this, which is the reader-facing sentence design
+        # actually prints, and it disagreed with the computed
+        # one_region_carries on 122 of 123 places: Suriname's caveat
+        # said 14% where the field said 100%.
+        #
+        # Design caught it, having had the identical thing done to them
+        # by me an hour earlier on the UK page. A field or a sentence
+        # that DESCRIBES the method has to change when the method
+        # changes, and this is now the third instance in two days.
+        #
+        # Computed from the same values it describes, so it cannot
+        # disagree with them again.
+        "caveat": (
+            # The sentence changes shape at the top end, because
+            # "mostly its largest region" understates a figure that IS
+            # that region, and "the smallest regions barely move it" is
+            # false when they have no vote at all. Design flagged
+            # exactly this for Liberia, Gabon and Suriname.
+            ((f"this country figure IS {_largest_name}"
+              + (f", the only region with any cropland in ASAP's mask. "
+                 f"The other {_nzero} region"
+                 f"{'s' if _nzero != 1 else ''} "
+                 f"do{'' if _nzero != 1 else 'es'} not enter it."
+                 if _nzero else
+                 ", which is the country's only crop region. There is "
+                 "no weighting choice to make.")
+              if _w and len(_w) == 1 else
+              f"weighted by cropland area, so {_largest_name} carries "
+              f"{round(100 * max(_w.values()) / sum(_w.values()))}% of this "
+              f"figure and the smallest regions barely move it"
+              + (f". {_nzero} of the {n} regions have no cropland in "
+                 f"ASAP's mask and get no vote" if _nzero else "")
+              + ". The national number is mostly its largest crop region "
+                "by construction.")
+             if _w and sum(_w.values()) > 0 else
+             f"each of the {n} regions counts equally, so one carries "
+             f"{round(100 / n)}% of this figure whatever its cropland "
+             f"area: the cropland reference data was absent at build "
+             f"time, so this figure is NOT area-weighted")
+            if n else "single region, no weighting choice"),
     }
 
 

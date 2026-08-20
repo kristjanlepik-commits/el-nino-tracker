@@ -987,12 +987,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Gadaref",
     "regions_averaged": 15,
     "one_region_carries": 0.19,
     "regions_zero_area": 0,
     "published_rank": 1,
     "of": 26,
-    "caveat": "each of the 15 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Gadaref carries 19% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -2959,12 +2960,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Huila",
     "regions_averaged": 17,
     "one_region_carries": 0.503,
     "regions_zero_area": 0,
     "published_rank": 1,
     "of": 26,
-    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Huila carries 50% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -5159,12 +5161,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Olancho",
     "regions_averaged": 17,
     "one_region_carries": 0.317,
     "regions_zero_area": 2,
     "published_rank": 1,
     "of": 26,
-    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Olancho carries 32% of this figure and the smallest regions barely move it. 2 of the 17 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -7358,12 +7361,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Kedah",
     "regions_averaged": 14,
     "one_region_carries": 0.387,
     "regions_zero_area": 1,
     "published_rank": 1,
     "of": 26,
-    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Kedah carries 39% of this figure and the smallest regions barely move it. 1 of the 14 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -9237,12 +9241,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Valle Del Cauca",
     "regions_averaged": 28,
     "one_region_carries": 0.246,
     "regions_zero_area": 3,
     "published_rank": 1,
     "of": 26,
-    "caveat": "each of the 28 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Valle Del Cauca carries 25% of this figure and the smallest regions barely move it. 3 of the 28 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -12624,12 +12629,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Araucania",
     "regions_averaged": 13,
     "one_region_carries": 0.281,
     "regions_zero_area": 1,
     "published_rank": 2,
     "of": 26,
-    "caveat": "each of the 13 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Araucania carries 28% of this figure and the smallest regions barely move it. 1 of the 13 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -14389,12 +14395,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Coastal",
     "regions_averaged": 5,
     "one_region_carries": 0.4,
     "regions_zero_area": 0,
     "published_rank": 2,
     "of": 26,
-    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Coastal carries 40% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -15296,12 +15303,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Gash Barka",
     "regions_averaged": 5,
     "one_region_carries": 0.433,
     "regions_zero_area": 0,
     "published_rank": 2,
     "of": 26,
-    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Gash Barka carries 43% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -16199,12 +16207,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Central Luzon",
     "regions_averaged": 17,
     "one_region_carries": 0.175,
     "regions_zero_area": 0,
     "published_rank": 2,
     "of": 26,
-    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Central Luzon carries 18% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -18398,12 +18407,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Pool",
     "regions_averaged": 7,
     "one_region_carries": 0.975,
     "regions_zero_area": 2,
     "published_rank": 2,
     "of": 26,
-    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Pool carries 98% of this figure and the smallest regions barely move it. 2 of the 7 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -19511,12 +19521,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Nyagatare",
     "regions_averaged": 28,
     "one_region_carries": 0.094,
     "regions_zero_area": 0,
     "published_rank": 2,
     "of": 26,
-    "caveat": "each of the 28 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Nyagatare carries 9% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -22904,12 +22915,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Chari-Baguirmi",
     "regions_averaged": 22,
     "one_region_carries": 0.125,
     "regions_zero_area": 3,
     "published_rank": 2,
     "of": 26,
-    "caveat": "each of the 22 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Chari-Baguirmi carries 12% of this figure and the smallest regions barely move it. 3 of the 22 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -25610,12 +25622,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Segou",
     "regions_averaged": 9,
     "one_region_carries": 0.247,
     "regions_zero_area": 0,
     "published_rank": 3,
     "of": 26,
-    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Segou carries 25% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -26932,12 +26945,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Chinandega",
     "regions_averaged": 17,
     "one_region_carries": 0.44,
     "regions_zero_area": 2,
     "published_rank": 3,
     "of": 26,
-    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Chinandega carries 44% of this figure and the smallest regions barely move it. 2 of the 17 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -29131,12 +29145,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Niederosterreich",
     "regions_averaged": 9,
     "one_region_carries": 0.489,
     "regions_zero_area": 0,
     "published_rank": 3,
     "of": 26,
-    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Niederosterreich carries 49% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -30470,12 +30485,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Vakinankaratra",
     "regions_averaged": 22,
     "one_region_carries": 0.156,
     "regions_zero_area": 0,
     "published_rank": 4,
     "of": 26,
-    "caveat": "each of the 22 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Vakinankaratra carries 16% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -33211,12 +33227,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Southern Area",
     "regions_averaged": 10,
     "one_region_carries": 0.828,
     "regions_zero_area": 0,
     "published_rank": 4,
     "of": 26,
-    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Southern Area carries 83% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -34658,12 +34675,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Ituri",
     "regions_averaged": 24,
     "one_region_carries": 0.317,
     "regions_zero_area": 5,
     "published_rank": 4,
     "of": 26,
-    "caveat": "each of the 24 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Ituri carries 32% of this figure and the smallest regions barely move it. 5 of the 24 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -37603,12 +37621,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Nimba",
     "regions_averaged": 1,
     "one_region_carries": 1.0,
     "regions_zero_area": 0,
     "published_rank": 4,
     "of": 26,
-    "caveat": "each of the 1 regions counts equally, so one carries 100% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "this country figure IS Nimba, which is the country's only crop region. There is no weighting choice to make."
    },
    "severity": {
     "available": true,
@@ -38075,12 +38094,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Al Fatah",
     "regions_averaged": 11,
     "one_region_carries": 0.611,
     "regions_zero_area": 1,
     "published_rank": 4,
     "of": 26,
-    "caveat": "each of the 11 regions counts equally, so one carries 9% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Al Fatah carries 61% of this figure and the smallest regions barely move it. 1 of the 11 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -39627,12 +39647,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Alibori",
     "regions_averaged": 11,
     "one_region_carries": 0.408,
     "regions_zero_area": 0,
     "published_rank": 4,
     "of": 26,
-    "caveat": "each of the 11 regions counts equally, so one carries 9% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Alibori carries 41% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -41180,12 +41201,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Ruyigi",
     "regions_averaged": 17,
     "one_region_carries": 0.11,
     "regions_zero_area": 0,
     "published_rank": 5,
     "of": 26,
-    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Ruyigi carries 11% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -43383,12 +43405,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Northern",
     "regions_averaged": 10,
     "one_region_carries": 0.571,
     "regions_zero_area": 0,
     "published_rank": 6,
     "of": 26,
-    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Northern carries 57% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -44833,12 +44856,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Mahaica Berbice",
     "regions_averaged": 8,
     "one_region_carries": 0.435,
     "regions_zero_area": 3,
     "published_rank": 6,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Mahaica Berbice carries 43% of this figure and the smallest regions barely move it. 3 of the 8 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -46061,12 +46085,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Savanes",
     "regions_averaged": 5,
     "one_region_carries": 0.426,
     "regions_zero_area": 0,
     "published_rank": 6,
     "of": 26,
-    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Savanes carries 43% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -46964,12 +46989,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Nord",
     "regions_averaged": 9,
     "one_region_carries": 0.497,
     "regions_zero_area": 1,
     "published_rank": 6,
     "of": 26,
-    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Nord carries 50% of this figure and the smallest regions barely move it. 1 of the 9 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -48295,12 +48321,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Jawf",
     "regions_averaged": 12,
     "one_region_carries": 0.375,
     "regions_zero_area": 0,
     "published_rank": 6,
     "of": 26,
-    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Jawf carries 37% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -49941,12 +49968,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Wielkopolskie",
     "regions_averaged": 16,
     "one_region_carries": 0.118,
     "regions_zero_area": 0,
     "published_rank": 6,
     "of": 26,
-    "caveat": "each of the 16 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Wielkopolskie carries 12% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -52036,12 +52064,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Mid Northen",
     "regions_averaged": 12,
     "one_region_carries": 0.256,
     "regions_zero_area": 0,
     "published_rank": 6,
     "of": 26,
-    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Mid Northen carries 26% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -53697,12 +53726,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Savannakhet",
     "regions_averaged": 16,
     "one_region_carries": 0.338,
     "regions_zero_area": 0,
     "published_rank": 7,
     "of": 26,
-    "caveat": "each of the 16 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Savannakhet carries 34% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -55790,12 +55820,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Portuguesa",
     "regions_averaged": 23,
     "one_region_carries": 0.786,
     "regions_zero_area": 6,
     "published_rank": 7,
     "of": 26,
-    "caveat": "each of the 23 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Portuguesa carries 79% of this figure and the smallest regions barely move it. 6 of the 23 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -58639,12 +58670,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Oromia",
     "regions_averaged": 12,
     "one_region_carries": 0.457,
     "regions_zero_area": 0,
     "published_rank": 7,
     "of": 26,
-    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Oromia carries 46% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -60300,12 +60332,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Kankan",
     "regions_averaged": 8,
     "one_region_carries": 0.618,
     "regions_zero_area": 1,
     "published_rank": 7,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Kankan carries 62% of this figure and the smallest regions barely move it. 1 of the 8 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -61531,12 +61564,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Tabora",
     "regions_averaged": 34,
     "one_region_carries": 0.137,
     "regions_zero_area": 0,
     "published_rank": 8,
     "of": 26,
-    "caveat": "each of the 34 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Tabora carries 14% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -65556,12 +65590,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "D\u00e9l-Alf\u00f6ld",
     "regions_averaged": 7,
     "one_region_carries": 0.228,
     "regions_zero_area": 0,
     "published_rank": 8,
     "of": 26,
-    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so D\u00e9l-Alf\u00f6ld carries 23% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -66679,12 +66714,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Niger",
     "regions_averaged": 35,
     "one_region_carries": 0.108,
     "regions_zero_area": 3,
     "published_rank": 8,
     "of": 26,
-    "caveat": "each of the 35 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Niger carries 11% of this figure and the smallest regions barely move it. 3 of the 35 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -70822,12 +70858,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Cocl\u00e9",
     "regions_averaged": 8,
     "one_region_carries": 0.288,
     "regions_zero_area": 0,
     "published_rank": 8,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Cocl\u00e9 carries 29% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -72049,12 +72086,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Battambang",
     "regions_averaged": 24,
     "one_region_carries": 0.101,
     "regions_zero_area": 0,
     "published_rank": 9,
     "of": 26,
-    "caveat": "each of the 24 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Battambang carries 10% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -75004,12 +75042,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Kien Giang",
     "regions_averaged": 64,
     "one_region_carries": 0.071,
     "regions_zero_area": 0,
     "published_rank": 9,
     "of": 26,
-    "caveat": "each of the 64 regions counts equally, so one carries 2% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Kien Giang carries 7% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -82281,12 +82320,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Nitra",
     "regions_averaged": 8,
     "one_region_carries": 0.269,
     "regions_zero_area": 0,
     "published_rank": 9,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Nitra carries 27% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -83512,12 +83552,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Guanacaste",
     "regions_averaged": 7,
     "one_region_carries": 0.447,
     "regions_zero_area": 0,
     "published_rank": 9,
     "of": 26,
-    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Guanacaste carries 45% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -84633,12 +84674,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Jihomoravsky",
     "regions_averaged": 8,
     "one_region_carries": 0.249,
     "regions_zero_area": 0,
     "published_rank": 9,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Jihomoravsky carries 25% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -85864,12 +85906,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Vakaga",
     "regions_averaged": 15,
     "one_region_carries": 0.496,
     "regions_zero_area": 3,
     "published_rank": 10,
     "of": 26,
-    "caveat": "each of the 15 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Vakaga carries 50% of this figure and the smallest regions barely move it. 3 of the 15 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -87831,12 +87874,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Behera",
     "regions_averaged": 25,
     "one_region_carries": 0.158,
     "regions_zero_area": 2,
     "published_rank": 10,
     "of": 26,
-    "caveat": "each of the 25 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Behera carries 16% of this figure and the smallest regions barely move it. 2 of the 25 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -90844,12 +90888,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Kaffrine",
     "regions_averaged": 14,
     "one_region_carries": 0.192,
     "regions_zero_area": 0,
     "published_rank": 10,
     "of": 26,
-    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Kaffrine carries 19% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -92678,12 +92723,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Upper Nile",
     "regions_averaged": 10,
     "one_region_carries": 0.461,
     "regions_zero_area": 0,
     "published_rank": 10,
     "of": 26,
-    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Upper Nile carries 46% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -94125,12 +94171,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Haut-Ogooue",
     "regions_averaged": 5,
     "one_region_carries": 1.0,
     "regions_zero_area": 4,
     "published_rank": 11,
     "of": 26,
-    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "this country figure IS Haut-Ogooue, the only region with any cropland in ASAP's mask. The other 4 regions do not enter it."
    },
    "severity": {
     "available": true,
@@ -95024,12 +95071,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Southern",
     "regions_averaged": 9,
     "one_region_carries": 0.293,
     "regions_zero_area": 0,
     "published_rank": 11,
     "of": 26,
-    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Southern carries 29% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -96363,12 +96411,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "England",
     "regions_averaged": 4,
     "one_region_carries": 0.856,
     "regions_zero_area": 0,
     "published_rank": 11,
     "of": 26,
-    "caveat": "each of the 4 regions counts equally, so one carries 25% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so England carries 86% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -97160,12 +97209,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Morobe",
     "regions_averaged": 16,
     "one_region_carries": 0.667,
     "regions_zero_area": 8,
     "published_rank": 11,
     "of": 26,
-    "caveat": "each of the 16 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Morobe carries 67% of this figure and the smallest regions barely move it. 8 of the 16 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -99239,12 +99289,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Est",
     "regions_averaged": 13,
     "one_region_carries": 0.169,
     "regions_zero_area": 0,
     "published_rank": 11,
     "of": 26,
-    "caveat": "each of the 13 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Est carries 17% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -101010,12 +101061,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Trarza",
     "regions_averaged": 8,
     "one_region_carries": 0.259,
     "regions_zero_area": 0,
     "published_rank": 12,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Trarza carries 26% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -102228,12 +102280,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Central Region",
     "regions_averaged": 4,
     "one_region_carries": 0.465,
     "regions_zero_area": 0,
     "published_rank": 12,
     "of": 26,
-    "caveat": "each of the 4 regions counts equally, so one carries 25% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Central Region carries 46% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -103027,12 +103080,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Jawa Timur",
     "regions_averaged": 33,
     "one_region_carries": 0.208,
     "regions_zero_area": 0,
     "published_rank": 12,
     "of": 26,
-    "caveat": "each of the 33 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Jawa Timur carries 21% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -106963,12 +107017,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Nampula",
     "regions_averaged": 11,
     "one_region_carries": 0.321,
     "regions_zero_area": 0,
     "published_rank": 13,
     "of": 26,
-    "caveat": "each of the 11 regions counts equally, so one carries 9% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Nampula carries 32% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -108518,12 +108573,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Savanes",
     "regions_averaged": 14,
     "one_region_carries": 0.471,
     "regions_zero_area": 0,
     "published_rank": 13,
     "of": 26,
-    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Savanes carries 47% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -110394,12 +110450,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Nickerie",
     "regions_averaged": 7,
     "one_region_carries": 1.0,
     "regions_zero_area": 6,
     "published_rank": 13,
     "of": 26,
-    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "this country figure IS Nickerie, the only region with any cropland in ASAP's mask. The other 6 regions do not enter it."
    },
    "severity": {
     "available": true,
@@ -111511,12 +111568,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Bayern",
     "regions_averaged": 16,
     "one_region_carries": 0.175,
     "regions_zero_area": 0,
     "published_rank": 13,
     "of": 26,
-    "caveat": "each of the 16 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Bayern carries 17% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -113606,12 +113664,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Hassakeh",
     "regions_averaged": 13,
     "one_region_carries": 0.289,
     "regions_zero_area": 0,
     "published_rank": 13,
     "of": 26,
-    "caveat": "each of the 13 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Hassakeh carries 29% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -115371,12 +115430,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Centre",
     "regions_averaged": 22,
     "one_region_carries": 0.132,
     "regions_zero_area": 0,
     "published_rank": 15,
     "of": 26,
-    "caveat": "each of the 22 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Centre carries 13% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -118112,12 +118172,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Puno",
     "regions_averaged": 24,
     "one_region_carries": 0.168,
     "regions_zero_area": 0,
     "published_rank": 15,
     "of": 26,
-    "caveat": "each of the 24 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Puno carries 17% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -121059,12 +121120,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Soriano",
     "regions_averaged": 19,
     "one_region_carries": 0.171,
     "regions_zero_area": 0,
     "published_rank": 16,
     "of": 26,
-    "caveat": "each of the 19 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Soriano carries 17% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -123476,12 +123538,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Santa Cruz",
     "regions_averaged": 9,
     "one_region_carries": 0.867,
     "regions_zero_area": 0,
     "published_rank": 16,
     "of": 26,
-    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Santa Cruz carries 87% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -124807,12 +124870,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Dnipropetrovs'ka",
     "regions_averaged": 25,
     "one_region_carries": 0.068,
     "regions_zero_area": 0,
     "published_rank": 16,
     "of": 26,
-    "caveat": "each of the 25 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Dnipropetrovs'ka carries 7% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -127876,12 +127940,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Shabelle Hoose",
     "regions_averaged": 16,
     "one_region_carries": 0.344,
     "regions_zero_area": 1,
     "published_rank": 16,
     "of": 26,
-    "caveat": "each of the 16 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Shabelle Hoose carries 34% of this figure and the smallest regions barely move it. 1 of the 16 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -129970,12 +130035,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Buenos Aires",
     "regions_averaged": 22,
     "one_region_carries": 0.327,
     "regions_zero_area": 0,
     "published_rank": 16,
     "of": 26,
-    "caveat": "each of the 22 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Buenos Aires carries 33% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -132715,12 +132781,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Saskatchewan",
     "regions_averaged": 10,
     "one_region_carries": 0.422,
     "regions_zero_area": 0,
     "published_rank": 17,
     "of": 26,
-    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Saskatchewan carries 42% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -134160,12 +134227,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Ninewa",
     "regions_averaged": 18,
     "one_region_carries": 0.191,
     "regions_zero_area": 0,
     "published_rank": 17,
     "of": 26,
-    "caveat": "each of the 18 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Ninewa carries 19% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -136469,12 +136537,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Vaestra G.L.",
     "regions_averaged": 21,
     "one_region_carries": 0.178,
     "regions_zero_area": 0,
     "published_rank": 17,
     "of": 26,
-    "caveat": "each of the 21 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Vaestra G.L. carries 18% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -139102,12 +139171,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Irbid",
     "regions_averaged": 9,
     "one_region_carries": 0.468,
     "regions_zero_area": 0,
     "published_rank": 18,
     "of": 26,
-    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Irbid carries 47% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -140434,12 +140504,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Uttar Pradesh",
     "regions_averaged": 31,
     "one_region_carries": 0.141,
     "regions_zero_area": 0,
     "published_rank": 18,
     "of": 26,
-    "caveat": "each of the 31 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Uttar Pradesh carries 14% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -144145,12 +144216,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Siauliu",
     "regions_averaged": 10,
     "one_region_carries": 0.206,
     "regions_zero_area": 0,
     "published_rank": 18,
     "of": 26,
-    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Siauliu carries 21% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -145592,12 +145664,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Le Kef",
     "regions_averaged": 16,
     "one_region_carries": 0.187,
     "regions_zero_area": 0,
     "published_rank": 18,
     "of": 26,
-    "caveat": "each of the 16 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Le Kef carries 19% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -147666,12 +147739,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Punjab",
     "regions_averaged": 6,
     "one_region_carries": 0.652,
     "regions_zero_area": 0,
     "published_rank": 18,
     "of": 26,
-    "caveat": "each of the 6 regions counts equally, so one carries 17% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Punjab carries 65% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -148677,12 +148751,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Castilla y Le\u00f3n",
     "regions_averaged": 17,
     "one_region_carries": 0.304,
     "regions_zero_area": 0,
     "published_rank": 19,
     "of": 26,
-    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Castilla y Le\u00f3n carries 30% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -150876,12 +150951,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Khorasan",
     "regions_averaged": 28,
     "one_region_carries": 0.122,
     "regions_zero_area": 0,
     "published_rank": 19,
     "of": 26,
-    "caveat": "each of the 28 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Khorasan carries 12% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -154264,12 +154340,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Al Hudaydah",
     "regions_averaged": 19,
     "one_region_carries": 0.61,
     "regions_zero_area": 0,
     "published_rank": 19,
     "of": 26,
-    "caveat": "each of the 19 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Al Hudaydah carries 61% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -156681,12 +156758,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Nakhon R.",
     "regions_averaged": 76,
     "one_region_carries": 0.076,
     "regions_zero_area": 0,
     "published_rank": 19,
     "of": 26,
-    "caveat": "each of the 76 regions counts equally, so one carries 1% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Nakhon R. carries 8% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -165252,12 +165330,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Minsk",
     "regions_averaged": 6,
     "one_region_carries": 0.235,
     "regions_zero_area": 0,
     "published_rank": 20,
     "of": 26,
-    "caveat": "each of the 6 regions counts equally, so one carries 17% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Minsk carries 24% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -166267,12 +166346,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Iowa",
     "regions_averaged": 50,
     "one_region_carries": 0.083,
     "regions_zero_area": 0,
     "published_rank": 20,
     "of": 26,
-    "caveat": "each of the 50 regions counts equally, so one carries 2% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Iowa carries 8% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -172032,12 +172112,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Artibonite",
     "regions_averaged": 10,
     "one_region_carries": 0.473,
     "regions_zero_area": 0,
     "published_rank": 20,
     "of": 26,
-    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Artibonite carries 47% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -173469,12 +173550,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Northern",
     "regions_averaged": 3,
     "one_region_carries": 0.984,
     "regions_zero_area": 0,
     "published_rank": 20,
     "of": 26,
-    "caveat": "each of the 3 regions counts equally, so one carries 33% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Northern carries 98% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -174152,12 +174234,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Hedmark",
     "regions_averaged": 19,
     "one_region_carries": 0.168,
     "regions_zero_area": 0,
     "published_rank": 20,
     "of": 26,
-    "caveat": "each of the 19 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Hedmark carries 17% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -176571,12 +176654,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Maradi",
     "regions_averaged": 8,
     "one_region_carries": 0.305,
     "regions_zero_area": 0,
     "published_rank": 21,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Maradi carries 31% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -177798,12 +177882,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Al Batnah",
     "regions_averaged": 2,
     "one_region_carries": 0.953,
     "regions_zero_area": 0,
     "published_rank": 21,
     "of": 26,
-    "caveat": "each of the 2 regions counts equally, so one carries 50% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Al Batnah carries 95% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -178368,12 +178453,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Eastern",
     "regions_averaged": 9,
     "one_region_carries": 0.286,
     "regions_zero_area": 0,
     "published_rank": 21,
     "of": 26,
-    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Eastern carries 29% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -179707,12 +179793,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Kustanayskaya",
     "regions_averaged": 15,
     "one_region_carries": 0.24,
     "regions_zero_area": 0,
     "published_rank": 21,
     "of": 26,
-    "caveat": "each of the 15 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Kustanayskaya carries 24% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -181692,12 +181779,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Emilia-romagna",
     "regions_averaged": 19,
     "one_region_carries": 0.117,
     "regions_zero_area": 0,
     "published_rank": 22,
     "of": 26,
-    "caveat": "each of the 19 regions counts equally, so one carries 5% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Emilia-romagna carries 12% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -184111,12 +184199,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Selenge",
     "regions_averaged": 18,
     "one_region_carries": 0.423,
     "regions_zero_area": 1,
     "published_rank": 23,
     "of": 26,
-    "caveat": "each of the 18 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Selenge carries 42% of this figure and the smallest regions barely move it. 1 of the 18 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -186420,12 +186509,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Zacatecas",
     "regions_averaged": 32,
     "one_region_carries": 0.11,
     "regions_zero_area": 0,
     "published_rank": 23,
     "of": 26,
-    "caveat": "each of the 32 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Zacatecas carries 11% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -190239,12 +190329,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Hwanghae-namdo",
     "regions_averaged": 11,
     "one_region_carries": 0.208,
     "regions_zero_area": 0,
     "published_rank": 23,
     "of": 26,
-    "caveat": "each of the 11 regions counts equally, so one carries 9% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Hwanghae-namdo carries 21% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -191792,12 +191883,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Alto Parana",
     "regions_averaged": 17,
     "one_region_carries": 0.232,
     "regions_zero_area": 0,
     "published_rank": 23,
     "of": 26,
-    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Alto Parana carries 23% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -193993,12 +194085,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Canterbury",
     "regions_averaged": 14,
     "one_region_carries": 0.586,
     "regions_zero_area": 0,
     "published_rank": 23,
     "of": 26,
-    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Canterbury carries 59% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -195870,12 +195963,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Timis",
     "regions_averaged": 41,
     "one_region_carries": 0.063,
     "regions_zero_area": 0,
     "published_rank": 23,
     "of": 26,
-    "caveat": "each of the 41 regions counts equally, so one carries 2% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Timis carries 6% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -200671,12 +200765,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Sagaing",
     "regions_averaged": 17,
     "one_region_carries": 0.171,
     "regions_zero_area": 0,
     "published_rank": 24,
     "of": 26,
-    "caveat": "each of the 17 regions counts equally, so one carries 6% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Sagaing carries 17% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -202872,12 +202967,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Kakheti",
     "regions_averaged": 12,
     "one_region_carries": 0.547,
     "regions_zero_area": 0,
     "published_rank": 24,
     "of": 26,
-    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Kakheti carries 55% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -204540,12 +204636,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Tiaret",
     "regions_averaged": 39,
     "one_region_carries": 0.13,
     "regions_zero_area": 1,
     "published_rank": 24,
     "of": 26,
-    "caveat": "each of the 39 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Tiaret carries 13% of this figure and the smallest regions barely move it. 1 of the 39 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -209121,12 +209218,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Chollanam-do",
     "regions_averaged": 14,
     "one_region_carries": 0.179,
     "regions_zero_area": 2,
     "published_rank": 24,
     "of": 26,
-    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Chollanam-do carries 18% of this figure and the smallest regions barely move it. 2 of the 14 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -210996,12 +211094,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Rostovskaya",
     "regions_averaged": 82,
     "one_region_carries": 0.072,
     "regions_zero_area": 0,
     "published_rank": 24,
     "of": 26,
-    "caveat": "each of the 82 regions counts equally, so one carries 1% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Rostovskaya carries 7% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -220225,12 +220324,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Eastern",
     "regions_averaged": 8,
     "one_region_carries": 0.577,
     "regions_zero_area": 1,
     "published_rank": 24,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Eastern carries 58% of this figure and the smallest regions barely move it. 1 of the 8 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -221453,12 +221553,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Bafata",
     "regions_averaged": 7,
     "one_region_carries": 0.341,
     "regions_zero_area": 0,
     "published_rank": 24,
     "of": 26,
-    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Bafata carries 34% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -222574,12 +222675,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Hokkaidoo",
     "regions_averaged": 47,
     "one_region_carries": 0.314,
     "regions_zero_area": 1,
     "published_rank": 24,
     "of": 26,
-    "caveat": "each of the 47 regions counts equally, so one carries 2% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Hokkaidoo carries 31% of this figure and the smallest regions barely move it. 1 of the 47 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -228015,12 +228117,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Chuy",
     "regions_averaged": 8,
     "one_region_carries": 0.338,
     "regions_zero_area": 0,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Chuy carries 34% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -229242,12 +229345,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Konya",
     "regions_averaged": 79,
     "one_region_carries": 0.101,
     "regions_zero_area": 1,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 79 regions counts equally, so one carries 1% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Konya carries 10% of this figure and the smallest regions barely move it. 1 of the 79 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -238141,12 +238245,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Kentriki M.",
     "regions_averaged": 13,
     "one_region_carries": 0.284,
     "regions_zero_area": 0,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 13 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Kentriki M. carries 28% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -239905,12 +240010,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Heilongjiang S.",
     "regions_averaged": 31,
     "one_region_carries": 0.148,
     "regions_zero_area": 0,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 31 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Heilongjiang S. carries 15% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -243616,12 +243722,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Hirat",
     "regions_averaged": 34,
     "one_region_carries": 0.123,
     "regions_zero_area": 0,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 34 regions counts equally, so one carries 3% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Hirat carries 12% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -247640,12 +247747,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Chaouia",
     "regions_averaged": 12,
     "one_region_carries": 0.194,
     "regions_zero_area": 0,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Chaouia carries 19% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -249299,12 +249407,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Ahal",
     "regions_averaged": 5,
     "one_region_carries": 0.335,
     "regions_zero_area": 0,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Ahal carries 33% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -250202,12 +250311,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Omusati",
     "regions_averaged": 12,
     "one_region_carries": 0.222,
     "regions_zero_area": 0,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 12 regions counts equally, so one carries 8% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Omusati carries 22% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -251855,12 +251965,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Central",
     "regions_averaged": 5,
     "one_region_carries": 0.292,
     "regions_zero_area": 0,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 5 regions counts equally, so one carries 20% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Central carries 29% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -252762,12 +252873,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Mato Grosso",
     "regions_averaged": 27,
     "one_region_carries": 0.193,
     "regions_zero_area": 0,
     "published_rank": 25,
     "of": 26,
-    "caveat": "each of the 27 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Mato Grosso carries 19% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -256045,12 +256157,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Dhaka",
     "regions_averaged": 7,
     "one_region_carries": 0.242,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Dhaka carries 24% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -257168,12 +257281,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Western Finland",
     "regions_averaged": 6,
     "one_region_carries": 0.533,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 6 regions counts equally, so one carries 17% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Western Finland carries 53% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -258181,12 +258295,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Khatlon",
     "regions_averaged": 4,
     "one_region_carries": 0.491,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 4 regions counts equally, so one carries 25% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Khatlon carries 49% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -258982,12 +259097,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Villa Clara",
     "regions_averaged": 14,
     "one_region_carries": 0.105,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Villa Clara carries 10% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -260857,12 +260973,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Kashkadarya",
     "regions_averaged": 14,
     "one_region_carries": 0.18,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 14 regions counts equally, so one carries 7% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Kashkadarya carries 18% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -262745,12 +262862,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Central",
     "regions_averaged": 7,
     "one_region_carries": 0.629,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 7 regions counts equally, so one carries 14% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Central carries 63% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -263864,12 +263982,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Guayas",
     "regions_averaged": 24,
     "one_region_carries": 0.55,
     "regions_zero_area": 6,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 24 regions counts equally, so one carries 4% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Guayas carries 55% of this figure and the smallest regions barely move it. 6 of the 24 regions have no cropland in ASAP's mask and get no vote. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -266805,12 +266924,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Aran",
     "regions_averaged": 10,
     "one_region_carries": 0.406,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 10 regions counts equally, so one carries 10% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Aran carries 41% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -268252,12 +268372,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Free State",
     "regions_averaged": 9,
     "one_region_carries": 0.368,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 9 regions counts equally, so one carries 11% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Free State carries 37% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -269587,12 +269708,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "W Australia",
     "regions_averaged": 8,
     "one_region_carries": 0.384,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so W Australia carries 38% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
@@ -270816,12 +270938,13 @@
    "aggregate": {
     "method": "mean across regions weighted by ASAP's own cropland area, km2_crop",
     "area_weighted": true,
+    "largest_region": "Masvingo",
     "regions_averaged": 8,
     "one_region_carries": 0.169,
     "regions_zero_area": 0,
     "published_rank": 26,
     "of": 26,
-    "caveat": "each of the 8 regions counts equally, so one carries 12% of this figure whatever its cropland area. Where one region holds most of the crop the country figure understates it. No sensitivity score is emitted because it cannot be computed without crop area per region."
+    "caveat": "weighted by cropland area, so Masvingo carries 17% of this figure and the smallest regions barely move it. The national number is mostly its largest crop region by construction."
    },
    "severity": {
     "available": true,
