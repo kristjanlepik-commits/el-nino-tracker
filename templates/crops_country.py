@@ -833,8 +833,10 @@ def render(country: dict, root_prefix: str = "../../") -> str:
     #
     # The payload settles which is right rather than product deciding:
     # aggregate.regions_averaged equals len(regions) in all 123 places and
-    # crop_units in only 95, so the unweighted mean the third sentence
-    # describes is taken across measured regions too.
+    # crop_units in only 95, so the mean the third sentence describes is
+    # taken across measured regions too. (That mean was unweighted when this
+    # was written; methodology 2.0 weights it by cropland area. The
+    # regions_averaged point is unchanged, which is why the note stands.)
     units = len(regions)
     cb = country.get("chance_baseline") or {}
 
@@ -904,12 +906,54 @@ def render(country: dict, root_prefix: str = "../../") -> str:
         # figure" is what the payload key gives you, not what a reader
         # calls it.
         short = "UK" if name.startswith("U.K.") else name
-        stand += (f"This page leads with {_lead_name} because the "
-                  f"{short} figure is an unweighted mean across its {units} "
-                  f"crop regions, and {_lead_name} holds almost all the "
-                  f"cropland. {_and(others)} each count equally in that "
-                  f"average whatever their area, so the national number is "
-                  f"not {_lead_name} slightly diluted.")
+        # METHODOLOGY 2.0 REWROTE THIS PARAGRAPH BY REMOVING THE DEFECT IT
+        # DESCRIBED. It used to say the UK figure was an UNWEIGHTED mean and
+        # that Wales, Scotland and Northern Ireland each counted equally
+        # whatever their area. Every clause went false the moment CRO shipped
+        # area weighting, while the figures beside it were already the new
+        # weighted ones, so the page carried correct numbers under an
+        # explanation contradicting them. Worse than either alone.
+        #
+        # Leading with the region is now a DESCRIPTION rather than a
+        # workaround: before, it compensated for a bad average; now the
+        # average really is mostly that region.
+        #
+        # THE SHARE IS ATTRIBUTED TO "ITS LARGEST CROP REGION", NOT TO
+        # ENGLAND, and that is deliberate. `one_region_carries` is a bare
+        # number: the payload nowhere says WHICH region it belongs to. It is
+        # England today, and CRO's message says so in prose, but a page that
+        # printed "England holds 86%" would be sourcing the entity from a
+        # chat message and the number from a field. That is the defect this
+        # whole week has been, so the sentence claims only what the payload
+        # ties together. Asked CRO to name the region in the field.
+        agg = country.get("aggregate") or {}
+        share = agg.get("one_region_carries")
+        # THREE WAYS, NOT TWO. Written as a simple if/else, a payload that
+        # was area-weighted but carried no share fell to the else and
+        # printed "unweighted mean" over weighted figures: the exact defect
+        # being fixed, reachable through the fallback meant to prevent it.
+        # The method decides the wording; the share only decides whether a
+        # number appears in it.
+        if agg.get("area_weighted") and not share:
+            stand += (f"This page leads with {_lead_name}. The {short} figure "
+                      f"is weighted by ASAP's cropland area rather than "
+                      f"averaged evenly across its {units} crop regions, so "
+                      f"the regions holding most of the crop dominate it.")
+        elif agg.get("area_weighted") and share:
+            stand += (f"This page leads with {_lead_name}. The {short} figure "
+                      f"is weighted by ASAP's cropland area rather than "
+                      f"averaged evenly across its {units} crop regions, and "
+                      f"its largest crop region carries {share * 100:.0f}% of "
+                      f"that figure. The national number is mostly one region "
+                      f"by construction, rather than {len(others)} regions "
+                      f"diluting each other.")
+        else:
+            stand += (f"This page leads with {_lead_name} because the "
+                      f"{short} figure is an unweighted mean across its "
+                      f"{units} crop regions, and {_lead_name} holds almost "
+                      f"all the cropland. {_and(others)} each count equally "
+                      f"in that average whatever their area, so the national "
+                      f"number is not {_lead_name} slightly diluted.")
     elif lows:
         stand = (f"Its single crop region is at its worst on record for "
                  f"this point in the season."

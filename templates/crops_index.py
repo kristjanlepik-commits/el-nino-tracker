@@ -177,6 +177,13 @@ def _ord(n: int) -> str:
 # that are a small minority of the crop. The quantity being ranked is the
 # wrong quantity, which no adjusted rank repairs.
 #
+# HISTORICAL AS OF 2026-08-19. This worked example is what tls-internal#16
+# was, and methodology 2.0 fixed it: country figures are now weighted by
+# ASAP's km2_crop, so the UK figure is mostly England by construction and
+# the UK moved from 16th to 9th on the ordering key. Kept rather than
+# rewritten, because the numbers above are the argument that won and a
+# future chat reading only the fix cannot tell what it cost.
+#
 # England is also the thing a reader means by the British harvest, and it
 # holds the control at rank 1. The sound number and the surviving number
 # are the same number.
@@ -346,6 +353,37 @@ def _agg_note(p) -> str:
     first = (a.get("caveat") or "").split(". ")[0].strip().rstrip(".")
     if not first:
         return ""
+
+    # THE CAVEAT MUST AGREE WITH THE FIELD BESIDE IT OR IT DOES NOT PRINT.
+    #
+    # Reading CRO's computed string rather than doing my own arithmetic was
+    # right and is why this guard is needed: a stale string propagates
+    # verbatim. Methodology 2.0 made the country figures area-weighted and
+    # updated `aggregate.method`, but `caveat` still says "each of the N
+    # regions counts equally, so one carries X% whatever its cropland area"
+    # on all 123 places, and the stated X disagrees with the computed
+    # `one_region_carries` on 122 of them. Suriname's caveat says 14% where
+    # the field says 100%; its country figure IS one region.
+    #
+    # So the page checks the sentence against the number it describes and
+    # prints nothing when they disagree. A missing caveat is a smaller
+    # failure than a caveat asserting the method we stopped using, and this
+    # is a guard rather than a ticket because it cannot be forgotten.
+    # GUARD THE CLAIM, NOT THE ARITHMETIC. The first version of this
+    # compared the stated percentage against the computed one and let
+    # Liberia through, because Liberia has a single crop region so "one
+    # carries 100%" is true under either method. The NUMBER agreed by
+    # coincidence while the SENTENCE still described equal counting, which
+    # is the method we stopped using. A country where the two methods
+    # happen to agree is not a country where the old description is true.
+    caveat = a.get("caveat") or ""
+    if a.get("area_weighted") and "counts equally" in caveat:
+        return ""
+    import re as _re
+    m = _re.search(r"one carries (\d+)% of this figure", caveat)
+    share = a.get("one_region_carries")
+    if m and share is not None and abs(int(m.group(1)) / 100.0 - share) > 0.005:
+        return ""
     return f' <span class="pinagg">{h(first[0].upper() + first[1:])}.</span>' 
 
 
@@ -458,9 +496,11 @@ def _order_note(places) -> str:
     footer nobody reaches.
     """
     return (
-        '<p class="secsub">Ordered by how much of each country is far into '
-        'its own 26-year range right now, averaged over the four fast '
-        'instruments. <strong>That is breadth, not severity.</strong> A '
+        '<p class="secsub">Ordered by how much of each country&rsquo;s '
+        '<em>cropland</em> is far into its own 26-year range right now, '
+        'across the four fast instruments, weighted by ASAP&rsquo;s crop '
+        'mask so a region with no cropland has no vote. '
+        '<strong>That is breadth, not severity.</strong> A '
         'country with one region in an extreme state and the rest ordinary '
         'sits lower here than one where everything is somewhat bad, so the '
         'per-country figures below are the ones that say how bad. The '
@@ -1516,9 +1556,11 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     # And the count needs its basis. Turkiye is 2 OF 79. "2 crop regions at
     # their worst" is true and tells a reader nothing about whether that is
     # 2 of 4 or 2 of 79. CRO's country-aggregate warning does NOT apply to a
-    # count of regions, which is honest in a way an unweighted mean is not;
-    # what applies is that a number without its basis is the binding this
-    # whole channel rests on.
+    # count of regions, which is honest in a way the unweighted mean of the
+    # time was not; what applies is that a number without its basis is the
+    # binding this whole channel rests on. (2.0 weights that mean now. The
+    # point stands: a COUNT of regions is still a different kind of figure
+    # from an average over them, weighted or not.)
     _n1 = {p["place"]: sum(1 for r in (p.get("regions") or [])
                            if r.get("rank") == 1) for p in places}
     _of = {p["place"]: len(p.get("regions") or []) for p in places}
