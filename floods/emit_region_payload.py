@@ -468,7 +468,21 @@ def main():
             "baseline_years": len(hist),
             "value": round(cur, 1),
             "basis": {"median": round(med, 1), "x_median": round(cur / med, 2),
-                      "rank": rank_of(cur, hist.values()), "of": len(hist) + 1},
+                      "rank": rank_of(cur, hist.values()), "of": len(hist) + 1,
+                      # THE 27 VALUES THE RANK IS COMPUTED FROM. Design
+                      # asked for this and was right to block on it: a rank
+                      # of 27 cannot be checked by a reader who only has the
+                      # value, the median and the ordinal. D-029 asks for a
+                      # CITABLE chart, and citable means someone who did not
+                      # measure it can verify it. Two bars against a median
+                      # would render, satisfy the template, and hide the
+                      # distribution the rank comes from.
+                      #
+                      # The current year is included and labelled, so the
+                      # chart can show it in place rather than alongside.
+                      "series": {str(y): round(v, 1)
+                                 for y, v in sorted(totals.items())},
+                      "current_year": year},
             "finding": classify(cur, list(hist.values()), med, True),
             "peak_day_mm": round(peaks[year], 0),
             "event_character": _event_character(year, cur, hist, daily),
@@ -507,9 +521,17 @@ def main():
                 "no flood-extent baseline has been built for this region, so "
                 "the instrument's ability to see it is unknown and untested"
             ],
+            # SENTENCE-SHAPED, at design's prompt. It was lowercase and
+            # unterminated, which is right for a machine field and wrong
+            # for one that is rendered as prose: concatenated at an edge it
+            # read "...flooding. we have not measured flooding here; this
+            # page reports rainfall only Flood extent is not assessed".
+            # Design was fixing it at the boundary rather than rewriting my
+            # words, which was the correct instinct and the wrong place for
+            # the fix. If a field is displayed as prose it should be prose.
             "not_assessed_summary": (
-                "we have not measured flooding here; this page reports "
-                "rainfall only"
+                "We have not measured flooding here. This page reports "
+                "rainfall only."
             ),
         })
     if fl:

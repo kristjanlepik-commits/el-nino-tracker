@@ -67,6 +67,15 @@ REGIONS = {
     # Drawn in the screen candidate list BEFORE this event, so its
     # selection is independent of the outcome. The honest control.
     "ebro_basin": {"lon": (-2.0, 1.0), "lat": (41.0, 43.0)},
+    # European boxes carried over UNCHANGED from screen_modis_2026-08-18,
+    # where they were drawn for the flood-extent screen and all six failed
+    # it (D-193). For RAINFALL they are viable, and reusing the coordinates
+    # matters more than it looks: they were fixed before this event, so
+    # nothing about their geometry was chosen knowing where the rain fell.
+    # That is the selection bias the Pyrenees box has and these do not.
+    "rhine_meuse": {"lon": (4.5, 8.0), "lat": (49.5, 52.0)},
+    "vistula_oder": {"lon": (15.0, 21.5), "lat": (50.0, 53.0)},
+    "po_basin": {"lon": (8.0, 12.5), "lat": (44.5, 46.0)},
 }
 
 
