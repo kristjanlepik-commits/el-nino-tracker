@@ -1,0 +1,403 @@
+{
+ "_readme": "Lima winter nights. NOT a city page and not built on the percentile instrument: Lima clears 0 of 30 years on both WMO standard normals in GHCN, so no threshold can be calibrated here. This is a count against a record, which needs no baseline. Do not render it inside the city-page template.",
+ "city": "Lima",
+ "country": "PE",
+ "station": "Jorge Chavez International",
+ "station_class": "airport",
+ "wmo": "84628",
+ "ghcn": "PEM00084628",
+ "lat": -12.022,
+ "lon": -77.114,
+ "coord_source": "GHCN",
+ "why_not_a_city_page": {
+  "baseline_1971_2000_years": 0,
+  "baseline_1991_2020_years": 0,
+  "consequence": "No percentile thresholds. The European pages count days above a station's own 90th, 95th and 99th percentile of 1971-2000 or 1991-2020; neither window is complete here, so those numbers do not exist for Lima and must not be invented or approximated from a shorter window."
+ },
+ "sources": {
+  "record": "NOAA GHCN-Daily",
+  "current_winter": "WMO synoptic bulletins from the same station",
+  "validated": {
+   "why": "The record and the current year come from DIFFERENT transports, and this chart's whole claim is 2026 set against prior years. If the current year were measured differently from the record the comparison would not hold, so the two were compared on every year both hold.",
+   "2023": {
+    "shared_days": 67,
+    "worst_difference_c": 0.0
+   },
+   "2024": {
+    "shared_days": 82,
+    "worst_difference_c": 0.0,
+    "exact_matches": 82
+   },
+   "verdict": "same measurement, comparison holds",
+   "if_it_had_failed": "The chart would have been GHCN-only with the current year ABSENT rather than approximated. An honest gap beats a comparison that does not hold."
+  },
+  "construction": "A night's minimum is the lowest value across all of that date's reports. That is the construction the validation above was run on; any other choice is unvalidated."
+ },
+ "current_winter": {
+  "year": 2026,
+  "from": "2026-06-01",
+  "to": "2026-08-20",
+  "nights_measured": 79,
+  "nights_at_or_above_20": 75,
+  "by_month": {
+   "06": {
+    "measured": 29,
+    "at_or_above_20": 29
+   },
+   "07": {
+    "measured": 30,
+    "at_or_above_20": 30
+   },
+   "08": {
+    "measured": 20,
+    "at_or_above_20": 16
+   }
+  },
+  "warmest_night_c": 21.7,
+  "warmest_night_date": "2026-08-14",
+  "oni_at_august": null,
+  "oni_latest_published": {
+   "year": 2026,
+   "season": "MJJ",
+   "oni": 1.39
+  },
+  "oni_note": "Every historical August here is labelled by the mean ONI across JAS and ASO. Those seasons are not published for 2026 yet, so this year carries the latest season CPC has released and is NOT directly comparable to the labels on the other rows. It must not be rendered as though it were."
+ },
+ "august_record": [
+  {
+   "year": 1965,
+   "warmest_night_c": 17.2,
+   "nights_measured": 23,
+   "nights_at_or_above_20": 0,
+   "enso": "el_nino",
+   "enso_strength": "moderate",
+   "oni_at_august": 1.41
+  },
+  {
+   "year": 1966,
+   "warmest_night_c": 15.0,
+   "nights_measured": 29,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": 0.02
+  },
+  {
+   "year": 1973,
+   "warmest_night_c": 15.0,
+   "nights_measured": 23,
+   "nights_at_or_above_20": 0,
+   "enso": "la_nina",
+   "enso_strength": null,
+   "oni_at_august": -1.19
+  },
+  {
+   "year": 1975,
+   "warmest_night_c": 15.0,
+   "nights_measured": 27,
+   "nights_at_or_above_20": 0,
+   "enso": "la_nina",
+   "enso_strength": null,
+   "oni_at_august": -1.21
+  },
+  {
+   "year": 1976,
+   "warmest_night_c": 18.0,
+   "nights_measured": 28,
+   "nights_at_or_above_20": 0,
+   "enso": "el_nino",
+   "enso_strength": "weak",
+   "oni_at_august": 0.5
+  },
+  {
+   "year": 1977,
+   "warmest_night_c": 16.0,
+   "nights_measured": 27,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": 0.4
+  },
+  {
+   "year": 1978,
+   "warmest_night_c": 15.0,
+   "nights_measured": 29,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.41
+  },
+  {
+   "year": 1979,
+   "warmest_night_c": 17.0,
+   "nights_measured": 28,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": 0.28
+  },
+  {
+   "year": 1980,
+   "warmest_night_c": 16.0,
+   "nights_measured": 31,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.12
+  },
+  {
+   "year": 1981,
+   "warmest_night_c": 16.0,
+   "nights_measured": 30,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.15
+  },
+  {
+   "year": 1982,
+   "warmest_night_c": 16.0,
+   "nights_measured": 21,
+   "nights_at_or_above_20": 0,
+   "enso": "el_nino",
+   "enso_strength": "moderate",
+   "oni_at_august": 1.22
+  },
+  {
+   "year": 1983,
+   "warmest_night_c": 18.7,
+   "nights_measured": 22,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.24
+  },
+  {
+   "year": 1984,
+   "warmest_night_c": 16.7,
+   "nights_measured": 26,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.27
+  },
+  {
+   "year": 1986,
+   "warmest_night_c": 16.5,
+   "nights_measured": 20,
+   "nights_at_or_above_20": 0,
+   "enso": "el_nino",
+   "enso_strength": "weak",
+   "oni_at_august": 0.55
+  },
+  {
+   "year": 1987,
+   "warmest_night_c": 17.0,
+   "nights_measured": 23,
+   "nights_at_or_above_20": 0,
+   "enso": "el_nino",
+   "enso_strength": "moderate",
+   "oni_at_august": 1.48
+  },
+  {
+   "year": 1988,
+   "warmest_night_c": 14.3,
+   "nights_measured": 27,
+   "nights_at_or_above_20": 0,
+   "enso": "la_nina",
+   "enso_strength": null,
+   "oni_at_august": -1.21
+  },
+  {
+   "year": 1989,
+   "warmest_night_c": 16.0,
+   "nights_measured": 26,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.34
+  },
+  {
+   "year": 1990,
+   "warmest_night_c": 15.2,
+   "nights_measured": 23,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": 0.32
+  },
+  {
+   "year": 1991,
+   "warmest_night_c": 15.9,
+   "nights_measured": 26,
+   "nights_at_or_above_20": 0,
+   "enso": "el_nino",
+   "enso_strength": "weak",
+   "oni_at_august": 0.7
+  },
+  {
+   "year": 1992,
+   "warmest_night_c": 15.6,
+   "nights_measured": 22,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.03
+  },
+  {
+   "year": 1993,
+   "warmest_night_c": 16.8,
+   "nights_measured": 24,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": 0.21
+  },
+  {
+   "year": 1994,
+   "warmest_night_c": 15.6,
+   "nights_measured": 23,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": 0.39
+  },
+  {
+   "year": 1995,
+   "warmest_night_c": 15.6,
+   "nights_measured": 24,
+   "nights_at_or_above_20": 0,
+   "enso": "la_nina",
+   "enso_strength": null,
+   "oni_at_august": -0.68
+  },
+  {
+   "year": 1996,
+   "warmest_night_c": 15.0,
+   "nights_measured": 24,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.29
+  },
+  {
+   "year": 1997,
+   "warmest_night_c": 21.0,
+   "nights_measured": 24,
+   "nights_at_or_above_20": 13,
+   "enso": "el_nino",
+   "enso_strength": "strong",
+   "oni_at_august": 1.92
+  },
+  {
+   "year": 1999,
+   "warmest_night_c": 16.5,
+   "nights_measured": 23,
+   "nights_at_or_above_20": 0,
+   "enso": "la_nina",
+   "enso_strength": null,
+   "oni_at_august": -0.97
+  },
+  {
+   "year": 2000,
+   "warmest_night_c": 16.0,
+   "nights_measured": 20,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.41
+  },
+  {
+   "year": 2001,
+   "warmest_night_c": 14.9,
+   "nights_measured": 22,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.14
+  },
+  {
+   "year": 2005,
+   "warmest_night_c": 16.0,
+   "nights_measured": 21,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.12
+  },
+  {
+   "year": 2008,
+   "warmest_night_c": 17.0,
+   "nights_measured": 20,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": -0.23
+  },
+  {
+   "year": 2012,
+   "warmest_night_c": 16.4,
+   "nights_measured": 23,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": 0.38
+  },
+  {
+   "year": 2015,
+   "warmest_night_c": 17.6,
+   "nights_measured": 23,
+   "nights_at_or_above_20": 0,
+   "enso": "el_nino",
+   "enso_strength": "strong",
+   "oni_at_august": 1.88
+  },
+  {
+   "year": 2019,
+   "warmest_night_c": 15.7,
+   "nights_measured": 21,
+   "nights_at_or_above_20": 0,
+   "enso": "neutral",
+   "enso_strength": null,
+   "oni_at_august": 0.26
+  },
+  {
+   "year": 2021,
+   "warmest_night_c": 16.0,
+   "nights_measured": 26,
+   "nights_at_or_above_20": 0,
+   "enso": "la_nina",
+   "enso_strength": null,
+   "oni_at_august": -0.55
+  },
+  {
+   "year": 2022,
+   "warmest_night_c": 14.8,
+   "nights_measured": 20,
+   "nights_at_or_above_20": 0,
+   "enso": "la_nina",
+   "enso_strength": null,
+   "oni_at_august": -0.82
+  },
+  {
+   "year": 2023,
+   "warmest_night_c": 20.3,
+   "nights_measured": 22,
+   "nights_at_or_above_20": 4,
+   "enso": "el_nino",
+   "enso_strength": "moderate",
+   "oni_at_august": 1.38
+  }
+ ],
+ "what_may_be_said": [
+  "75 of the last 79 winter nights at or above 20 C, 2026-06-01 to 2026-08-20",
+  "the warmest August night in a record of 36 measured Augusts, above 36 of them"
+ ],
+ "may_not_say": [
+  "hottest on record, unqualified: the record here is measured Augusts in GHCN, not Lima's full observational history",
+  "any percentile or anomaly against a 30-year normal: no complete normal exists for this station",
+  "that this is one record night: it is a season, and saying otherwise repeats the framing our own count contradicts"
+ ],
+ "enso_note": "Each August is labelled by the ocean AT THAT AUGUST: the mean CPC ONI across the JAS and ASO seasons, thresholded at CPC's own plus or minus 0.5. NOT by the calendar year's overall classification, which files the 1982-83 El Nino under 1982 and labels 1983 la_nina because La Nina arrived later that year. August 1983 sat in that event's decay, so the calendar label would have put a La Nina year among the warmest August nights on a chart arguing the warmest August nights are El Nino nights. The label would have contradicted the chart.",
+ "enso_2026_note": "2026 is 'undecided, series_incomplete' in our own year-status file, so this page states the ocean's measured value at August and does NOT assert an event classification for the year. The claim that 'this El Nino is in its own league' is not ours."
+}
