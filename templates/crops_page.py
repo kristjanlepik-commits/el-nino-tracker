@@ -46,6 +46,7 @@ import tokens as T                                          # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
+from templates.page_head import head_meta                    # noqa: E402
 
 TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked",
             "pending": "attribution pending"}
@@ -139,6 +140,16 @@ def _suppressed(rows) -> str:
             f'ran.</p>{out}')
 
 
+# INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived by copy
+# from the fires template in da318b1, one day before crops launched, and no
+# ledger entry ever decided it. It was a contradiction rather than a
+# posture: the front page is indexable, carries /crops/ in the nav and links
+# eleven crops country pages by absolute URL, so the tag removed discovery
+# without removing exposure.
+#
+# In Python rather than in an HTML comment for the reason recorded in
+# templates/country_page.py: as markup it ships the word into every page and
+# a grep for the tag then finds the explanation instead.
 def render(doc: dict, root_prefix: str = "../../") -> str:
     tag = doc.get("attribution", "pending")
     slug = TAG_SLUG.get(tag, "pending")
@@ -147,20 +158,20 @@ def render(doc: dict, root_prefix: str = "../../") -> str:
     hue = "var(--crop)" if remarkable else "var(--ink)"
     instruments = doc.get("instruments") or []
     withval = [i for i in instruments if i.get("value") is not None]
+    # Prototype payload shape (PAYLOAD_PROPOSAL.md); no builder has ever
+    # called this template, so the slug and path below are provisional
+    # and cost nothing to be wrong yet.
+    pair_slug = "-".join(
+        (doc.get("pair", "") or "pair").lower().split())
+    page_path = f"/crops/pairs/{pair_slug}/"
 
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived
-     by copy from the fires template in da318b1, one day before crops
-     launched, and no ledger entry ever decided it either way. It was
-     not a posture on this channel, it was a contradiction: the front
-     page is indexable, carries /crops/ in the main nav and links
-     eleven crops country pages by absolute URL, so the tag removed
-     discovery without removing exposure. Fires stays unlisted and
-     that is coherent, because fires is not promoted that way. -->
+{head_meta(title=f'{doc.get("pair", "")} | {SITE_NAME}',
+           description=doc.get("claim", ""), path=page_path)}
 <title>{h(doc.get("pair", ""))} | {h(SITE_NAME)}</title>
 <style>
 {T.font_faces_css(root_prefix + "fonts/")}

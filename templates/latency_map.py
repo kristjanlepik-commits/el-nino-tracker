@@ -51,6 +51,7 @@ import tokens as T                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
+from templates.page_head import head_meta                      # noqa: E402
 
 BASIS_MARK = {"published_schedule": "firm",
               "observed_practice": "inferred",
@@ -148,6 +149,10 @@ def latency_rows(entries, max_days=460) -> str:
             f'territory, in days after the event">' + "".join(out) + '</svg>')
 
 
+# NOINDEX, unchanged by this pass. This template has never rendered a
+# published page; the tag costs nothing today and stays until the econ
+# chat is ready to ship it, per D-175's rule against deciding indexing
+# on someone else's behalf.
 def render(doc: dict, root_prefix: str = "../../") -> str:
     entries = doc.get("entries") or []
     hole = next((e for e in entries if e.get("editorial_note")), None)
@@ -172,7 +177,11 @@ def render(doc: dict, root_prefix: str = "../../") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
+{head_meta(title=f"When will anyone know what it cost | {SITE_NAME}",
+           description=doc.get("question", "") or
+           "The latency map: when a damage figure will exist, and who "
+           "will publish it, by hazard and territory.",
+           path="/econ/latency/", robots="noindex")}
 <title>When will anyone know what it cost | {h(SITE_NAME)}</title>
 <style>
 {T.font_faces_css(root_prefix + "fonts/")}

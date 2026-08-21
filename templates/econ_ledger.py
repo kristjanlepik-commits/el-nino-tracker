@@ -41,6 +41,7 @@ import tokens as T                                          # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,  # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
+from templates.page_head import head_meta                    # noqa: E402
 
 TAG_TEXT = {"enso_loaded": "ENSO-loaded window",
             "not_enso_linked": "not ENSO-linked",
@@ -170,6 +171,10 @@ def _uncounted(rows, absence) -> str:
     return "".join(out) + tail
 
 
+# NOINDEX, unchanged by this pass. This template has never rendered a
+# published page; the tag costs nothing today and stays until econ is
+# ready to ship it, per D-175's rule against deciding indexing on
+# someone else's behalf.
 def render(doc: dict, root_prefix: str = "../../") -> str:
     tag = doc.get("attribution_tag", "pending")
     slug = TAG_SLUG.get(tag, "pending")
@@ -187,12 +192,21 @@ def render(doc: dict, root_prefix: str = "../../") -> str:
                      f'<p class="secsub">{h(blurb)}</p>'
                      + "".join(_row(r) for r in rows))
 
+    # Prototype template; no builder has ever called it, so the slug and
+    # path below are provisional and cost nothing to be wrong yet.
+    country_slug = "-".join(
+        (geo.get("country", "") or "ledger").lower().split())
+    page_path = f"/econ/{country_slug}/"
+
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
+{head_meta(title=f'{doc.get("label", "")} | {SITE_NAME}',
+           description=per.get("status_note", "") or
+           doc.get("label", "Damage ledger"),
+           path=page_path, robots="noindex")}
 <title>{h(doc.get("label", ""))} | {h(SITE_NAME)}</title>
 <style>
 {T.font_faces_css(root_prefix + "fonts/")}

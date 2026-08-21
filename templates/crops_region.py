@@ -47,6 +47,7 @@ import tokens as T                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
+from templates.page_head import head_meta                      # noqa: E402
 
 TAG_TEXT = {"enso": "ENSO-loaded window", "non_enso": "not ENSO-linked",
             "pending": "attribution pending"}
@@ -126,6 +127,22 @@ def _peer_strip(regions, focus) -> str:
 
 
 def render(country: dict, region_name: str, root_prefix: str = "../../") -> str:
+    """One crop region as a standalone page.
+
+    INDEXABLE SINCE D-172, 2026-08-17. The noindex that used to sit here
+    arrived by copy from the fires template in da318b1, one day before
+    crops launched, and no ledger entry ever decided it either way. It
+    was not a posture on this channel, it was a contradiction: the front
+    page is indexable, carries /crops/ in the main nav and links eleven
+    crops country pages by absolute URL, so the tag removed discovery
+    without removing exposure. Fires stays unlisted and that is
+    coherent, because fires is not promoted that way.
+    """
+    # Deferred: crops_country.py imports this module at module load
+    # time, so importing slugify from crops_country at module level
+    # here would be circular. By the time render() actually runs,
+    # both modules have finished loading.
+    from templates.crops_country import slugify
     regions = country["regions"]
     reg = next(r for r in regions if r["region"] == region_name)
     at_record = [r for r in regions if r.get("rank") == 1]
@@ -146,19 +163,21 @@ def render(country: dict, region_name: str, root_prefix: str = "../../") -> str:
       <p class="qual"><span class="qk">{h(q.get('kind',''))}</span>
       {h(q.get('text',''))}</p>""" for q in (country.get("qualifiers") or []))
 
+    desc = (f"{region_name} is at its "
+            f"{'driest' if driver_known else 'lowest'} for this point in "
+            f"the season in twenty-six years, rank {reg['rank']} of "
+            f"{reg['of']}.")
+    page_path = (f"/crops/"
+                 f"{slugify(country.get('_page_place') or country['place'])}/"
+                 f"{slugify(region_name)}/")
+
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived
-     by copy from the fires template in da318b1, one day before crops
-     launched, and no ledger entry ever decided it either way. It was
-     not a posture on this channel, it was a contradiction: the front
-     page is indexable, carries /crops/ in the main nav and links
-     eleven crops country pages by absolute URL, so the tag removed
-     discovery without removing exposure. Fires stays unlisted and
-     that is coherent, because fires is not promoted that way. -->
+{head_meta(title=f"{region_name}, {country['place']} | {SITE_NAME}",
+           description=desc, path=page_path)}
 <title>{h(region_name)}, {h(country['place'])} | {h(SITE_NAME)}</title>
 <style>
 {T.font_faces_css(root_prefix + "fonts/")}

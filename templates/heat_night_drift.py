@@ -56,6 +56,7 @@ import tokens as T                                            # noqa: E402
 from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,   # noqa: E402
                        AUTHOR_NAME, PAGES_BASE_URL, SITE_NAME, h,
                        site_masthead)
+from templates.page_head import head_meta                      # noqa: E402
 
 
 # The three ratified attribution strings, D-033. There is no fourth.
@@ -218,6 +219,10 @@ def _rows(regions) -> str:
 
 
 
+# NOINDEX, unchanged by this pass. This template has never rendered a
+# published page; the tag costs nothing today and stays until Heat is
+# ready to ship it, per D-175's rule against deciding indexing on
+# someone else's behalf.
 def render(doc: dict, root_prefix: str = "../") -> str:
     regions = list(doc["regions"].values())
     # Sorted by DRIFT, matching what the headline names and what the
@@ -233,12 +238,16 @@ def render(doc: dict, root_prefix: str = "../") -> str:
     lead = max(regions, key=lambda r: r["july_night_drift_c"]["value"])
     lead_name = lead["display_name"]
     lead_drift = lead["july_night_drift_c"]["value"]
+    desc = (f"July nights over {lead_name} are {lead_drift:.2f}°C "
+            f"warmer than they were, measured against 1961-1990 across "
+            f"{len(regions)} regions.")
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
+{head_meta(title=f"Summer nights | {SITE_NAME}", description=desc,
+           path="/heat/night-drift/", robots="noindex")}
 <title>Summer nights | {h(SITE_NAME)}</title>
 <style>
 {T.font_faces_css(root_prefix + "fonts/")}

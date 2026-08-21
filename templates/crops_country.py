@@ -804,6 +804,16 @@ def _ord(n: int) -> str:
     return f"{n}{ {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th') }"
 
 
+# INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived by copy
+# from the fires template in da318b1, one day before crops launched, and no
+# ledger entry ever decided it. It was a contradiction rather than a
+# posture: the front page is indexable, carries /crops/ in the nav and links
+# eleven crops country pages by absolute URL, so the tag removed discovery
+# without removing exposure.
+#
+# In Python rather than in an HTML comment for the reason recorded in
+# templates/country_page.py: as markup it ships the word into every page and
+# a grep for the tag then finds the explanation instead.
 def render(country: dict, root_prefix: str = "../../") -> str:
     # Column count from the data. A hardcoded 12 would squash or drop
     # columns the week CRO extends the history, silently.
@@ -1048,14 +1058,6 @@ def render(country: dict, root_prefix: str = "../../") -> str:
      cannot go stale separately. -->
 {head_meta(title=f"{name} | Crops | {SITE_NAME}", description=stand,
            path=f"/crops/{slugify(country.get('_page_place') or name)}/")}
-<!-- INDEXABLE SINCE D-172, 2026-08-17. The tag that was here arrived
-     by copy from the fires template in da318b1, one day before crops
-     launched, and no ledger entry ever decided it either way. It was
-     not a posture on this channel, it was a contradiction: the front
-     page is indexable, carries /crops/ in the main nav and links
-     eleven crops country pages by absolute URL, so the tag removed
-     discovery without removing exposure. Fires stays unlisted and
-     that is coherent, because fires is not promoted that way. -->
 <title>{h(name)} | Crops | {h(SITE_NAME)}</title>
 <style>
 {MAP_CSS}
