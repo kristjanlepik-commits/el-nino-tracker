@@ -1,0 +1,799 @@
+{
+ "role": "TASKING ONLY. Not evidence, never cited, never enters a payload. It decides where to point an instrument.",
+ "second_mode_required": "the standing screened basins keep running regardless. If this feed becomes the only thing that starts a measurement, the channel is a GDACS mirror with a longer latency and can never find what nobody else noticed.",
+ "box_caveat": "a GDACS point is a centroid, not a catchment. Box geometry moves the measured signal by up to 4x, so a circle around a point reads systematically weaker than a catchment-drawn box. Treat any tasked measurement as a floor and redraw on the catchment before publishing.",
+ "generated": "2026-08-21",
+ "window_days": 14,
+ "source_url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=FL&fromdate=2026-08-07&todate=2026-08-21&alertlevel=Green;Orange;Red",
+ "n_events": 39,
+ "n_tasks": 35,
+ "n_skipped": 4,
+ "tasks": [
+  {
+   "eventid": 1104081,
+   "country": "China",
+   "alertlevel": "Orange",
+   "from": "2026-07-31",
+   "to": "2026-08-19",
+   "span_days": 20,
+   "point": [
+    102.5,
+    30.5
+   ],
+   "box": [
+    101.72,
+    103.28,
+    29.83,
+    31.17
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1103888,
+   "country": "United States",
+   "alertlevel": "Green",
+   "from": "2026-05-19",
+   "to": "2026-08-18",
+   "span_days": 92,
+   "point": [
+    -82.2078,
+    39.714
+   ],
+   "box": [
+    -83.08,
+    -81.33,
+    39.04,
+    40.39
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1103972,
+   "country": "India",
+   "alertlevel": "Green",
+   "from": "2026-06-23",
+   "to": "2026-08-19",
+   "span_days": 58,
+   "point": [
+    77.7008,
+    30.623
+   ],
+   "box": [
+    76.92,
+    78.48,
+    29.95,
+    31.3
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104011,
+   "country": "Myanmar",
+   "alertlevel": "Green",
+   "from": "2026-07-04",
+   "to": "2026-08-19",
+   "span_days": 47,
+   "point": [
+    94.883,
+    21.9286
+   ],
+   "box": [
+    94.16,
+    95.61,
+    21.25,
+    22.6
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104029,
+   "country": "Vietnam",
+   "alertlevel": "Green",
+   "from": "2026-07-15",
+   "to": "2026-08-19",
+   "span_days": 36,
+   "point": [
+    106.7002,
+    10.7657
+   ],
+   "box": [
+    106.01,
+    107.39,
+    10.09,
+    11.44
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104067,
+   "country": "Thailand",
+   "alertlevel": "Green",
+   "from": "2026-07-30",
+   "to": "2026-08-21",
+   "span_days": 23,
+   "point": [
+    100.6248,
+    18.7545
+   ],
+   "box": [
+    99.91,
+    101.34,
+    18.08,
+    19.43
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104053,
+   "country": "Italy",
+   "alertlevel": "Green",
+   "from": "2026-07-26",
+   "to": "2026-08-15",
+   "span_days": 21,
+   "point": [
+    11.5165,
+    46.278
+   ],
+   "box": [
+    10.54,
+    12.49,
+    45.6,
+    46.95
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104071,
+   "country": "Peru",
+   "alertlevel": "Green",
+   "from": "2026-08-02",
+   "to": "2026-08-20",
+   "span_days": 19,
+   "point": [
+    -76.9491,
+    -12.2169
+   ],
+   "box": [
+    -77.64,
+    -76.26,
+    -12.89,
+    -11.54
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104059,
+   "country": "Austria",
+   "alertlevel": "Green",
+   "from": "2026-07-28",
+   "to": "2026-08-09",
+   "span_days": 13,
+   "point": [
+    12.5287,
+    47.2882
+   ],
+   "box": [
+    11.54,
+    13.52,
+    46.61,
+    47.96
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104080,
+   "country": "Spain",
+   "alertlevel": "Green",
+   "from": "2026-08-06",
+   "to": "2026-08-17",
+   "span_days": 12,
+   "point": [
+    -6.5246,
+    42.4571
+   ],
+   "box": [
+    -7.44,
+    -5.61,
+    41.78,
+    43.13
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104061,
+   "country": "Mexico",
+   "alertlevel": "Green",
+   "from": "2026-07-29",
+   "to": "2026-08-09",
+   "span_days": 12,
+   "point": [
+    -99.2533,
+    19.3214
+   ],
+   "box": [
+    -99.97,
+    -98.54,
+    18.65,
+    20.0
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104064,
+   "country": "Poland",
+   "alertlevel": "Green",
+   "from": "2026-07-31",
+   "to": "2026-08-08",
+   "span_days": 9,
+   "point": [
+    20.951,
+    49.7739
+   ],
+   "box": [
+    19.91,
+    21.99,
+    49.1,
+    50.45
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104083,
+   "country": "Morocco",
+   "alertlevel": "Green",
+   "from": "2026-08-08",
+   "to": "2026-08-15",
+   "span_days": 8,
+   "point": [
+    -3.4516,
+    34.1413
+   ],
+   "box": [
+    -4.27,
+    -2.64,
+    33.47,
+    34.82
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104066,
+   "country": "Germany",
+   "alertlevel": "Green",
+   "from": "2026-07-31",
+   "to": "2026-08-07",
+   "span_days": 8,
+   "point": [
+    11.1225,
+    48.0287
+   ],
+   "box": [
+    10.12,
+    12.13,
+    47.35,
+    48.7
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104084,
+   "country": "France",
+   "alertlevel": "Green",
+   "from": "2026-08-08",
+   "to": "2026-08-14",
+   "span_days": 7,
+   "point": [
+    6.7754,
+    46.0547
+   ],
+   "box": [
+    5.8,
+    7.75,
+    45.38,
+    46.73
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104094,
+   "country": "Sudan",
+   "alertlevel": "Green",
+   "from": "2026-08-11",
+   "to": "2026-08-16",
+   "span_days": 6,
+   "point": [
+    26.0,
+    16.0
+   ],
+   "box": [
+    25.3,
+    26.7,
+    15.33,
+    16.67
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104097,
+   "country": "Colombia",
+   "alertlevel": "Green",
+   "from": "2026-08-14",
+   "to": "2026-08-18",
+   "span_days": 5,
+   "point": [
+    -74.8682,
+    7.4925
+   ],
+   "box": [
+    -75.55,
+    -74.19,
+    6.82,
+    8.17
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104104,
+   "country": "Indonesia",
+   "alertlevel": "Green",
+   "from": "2026-08-15",
+   "to": "2026-08-18",
+   "span_days": 4,
+   "point": [
+    120.816,
+    0.5569
+   ],
+   "box": [
+    120.14,
+    121.49,
+    -0.12,
+    1.23
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104102,
+   "country": "Poland",
+   "alertlevel": "Green",
+   "from": "2026-08-17",
+   "to": "2026-08-19",
+   "span_days": 3,
+   "point": [
+    19.1335,
+    51.593
+   ],
+   "box": [
+    18.05,
+    20.22,
+    50.92,
+    52.27
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104107,
+   "country": "Philippines",
+   "alertlevel": "Green",
+   "from": "2026-08-17",
+   "to": "2026-08-19",
+   "span_days": 3,
+   "point": [
+    120.288,
+    14.8422
+   ],
+   "box": [
+    119.59,
+    120.98,
+    14.17,
+    15.52
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104100,
+   "country": "Guatemala",
+   "alertlevel": "Green",
+   "from": "2026-08-15",
+   "to": "2026-08-17",
+   "span_days": 3,
+   "point": [
+    -89.6686,
+    15.3232
+   ],
+   "box": [
+    -90.37,
+    -88.97,
+    14.65,
+    16.0
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104101,
+   "country": "Costa Rica",
+   "alertlevel": "Green",
+   "from": "2026-08-15",
+   "to": "2026-08-17",
+   "span_days": 3,
+   "point": [
+    -84.4318,
+    10.3224
+   ],
+   "box": [
+    -85.12,
+    -83.75,
+    9.65,
+    11.0
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104095,
+   "country": "South Korea",
+   "alertlevel": "Green",
+   "from": "2026-08-15",
+   "to": "2026-08-17",
+   "span_days": 3,
+   "point": [
+    126.3876,
+    34.7921
+   ],
+   "box": [
+    125.57,
+    127.21,
+    34.12,
+    35.47
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104096,
+   "country": "Venezuela",
+   "alertlevel": "Green",
+   "from": "2026-08-15",
+   "to": "2026-08-17",
+   "span_days": 3,
+   "point": [
+    -66.9462,
+    10.467
+   ],
+   "box": [
+    -67.63,
+    -66.26,
+    9.79,
+    11.14
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104110,
+   "country": "South Sudan",
+   "alertlevel": "Green",
+   "from": "2026-08-15",
+   "to": "2026-08-17",
+   "span_days": 3,
+   "point": [
+    33.0,
+    9.0
+   ],
+   "box": [
+    32.32,
+    33.68,
+    8.33,
+    9.67
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104108,
+   "country": "Cambodia",
+   "alertlevel": "Green",
+   "from": "2026-08-14",
+   "to": "2026-08-16",
+   "span_days": 3,
+   "point": [
+    106.0609,
+    12.3665
+   ],
+   "box": [
+    105.37,
+    106.75,
+    11.69,
+    13.04
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104093,
+   "country": "Algeria",
+   "alertlevel": "Green",
+   "from": "2026-08-14",
+   "to": "2026-08-16",
+   "span_days": 3,
+   "point": [
+    8.1212,
+    35.4036
+   ],
+   "box": [
+    7.29,
+    8.95,
+    34.73,
+    36.08
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104098,
+   "country": "Tunisia",
+   "alertlevel": "Green",
+   "from": "2026-08-14",
+   "to": "2026-08-16",
+   "span_days": 3,
+   "point": [
+    9.6493,
+    35.2196
+   ],
+   "box": [
+    8.82,
+    10.47,
+    34.55,
+    35.89
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104105,
+   "country": "Nigeria",
+   "alertlevel": "Green",
+   "from": "2026-08-13",
+   "to": "2026-08-15",
+   "span_days": 3,
+   "point": [
+    6.8177,
+    6.0951
+   ],
+   "box": [
+    6.14,
+    7.5,
+    5.42,
+    6.77
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104090,
+   "country": "Japan",
+   "alertlevel": "Green",
+   "from": "2026-08-13",
+   "to": "2026-08-15",
+   "span_days": 3,
+   "point": [
+    140.1312,
+    35.5814
+   ],
+   "box": [
+    139.3,
+    140.96,
+    34.91,
+    36.26
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104091,
+   "country": "Nepal",
+   "alertlevel": "Green",
+   "from": "2026-08-12",
+   "to": "2026-08-14",
+   "span_days": 3,
+   "point": [
+    82.7103,
+    28.4993
+   ],
+   "box": [
+    81.94,
+    83.48,
+    27.83,
+    29.17
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104088,
+   "country": "Romania",
+   "alertlevel": "Green",
+   "from": "2026-08-12",
+   "to": "2026-08-14",
+   "span_days": 3,
+   "point": [
+    25.2004,
+    45.4079
+   ],
+   "box": [
+    24.24,
+    26.16,
+    44.73,
+    46.08
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104086,
+   "country": "Chad",
+   "alertlevel": "Green",
+   "from": "2026-08-11",
+   "to": "2026-08-13",
+   "span_days": 3,
+   "point": [
+    22.1977,
+    13.4665
+   ],
+   "box": [
+    21.5,
+    22.89,
+    12.79,
+    14.14
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104085,
+   "country": "Australia",
+   "alertlevel": "Green",
+   "from": "2026-08-09",
+   "to": "2026-08-11",
+   "span_days": 3,
+   "point": [
+    138.692,
+    -34.6235
+   ],
+   "box": [
+    137.87,
+    139.51,
+    -35.3,
+    -33.95
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  },
+  {
+   "eventid": 1104079,
+   "country": "Portugal",
+   "alertlevel": "Green",
+   "from": "2026-08-05",
+   "to": "2026-08-07",
+   "span_days": 3,
+   "point": [
+    -27.1563,
+    38.7392
+   ],
+   "box": [
+    -28.02,
+    -26.29,
+    38.07,
+    39.41
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false
+  }
+ ],
+ "skipped": [
+  {
+   "eventid": 1104106,
+   "country": "Brazil",
+   "alertlevel": "Green",
+   "from": "2026-08-18",
+   "to": "2026-08-19",
+   "span_days": 2,
+   "point": [
+    -35.7315,
+    -8.4721
+   ],
+   "box": [
+    -36.41,
+    -35.05,
+    -9.15,
+    -7.8
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false,
+   "skipped_because": "event spans 2 day(s); a 14-day accumulation window cannot resolve it, and D-195 measured this instrument under-reading concentrated rainfall by 3 to 5 times"
+  },
+  {
+   "eventid": 1104099,
+   "country": "Mexico",
+   "alertlevel": "Green",
+   "from": "2026-08-17",
+   "to": "2026-08-18",
+   "span_days": 2,
+   "point": [
+    -107.3934,
+    24.7979
+   ],
+   "box": [
+    -108.14,
+    -106.65,
+    24.12,
+    25.47
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false,
+   "skipped_because": "event spans 2 day(s); a 14-day accumulation window cannot resolve it, and D-195 measured this instrument under-reading concentrated rainfall by 3 to 5 times"
+  },
+  {
+   "eventid": 1104092,
+   "country": "Andorra",
+   "alertlevel": "Green",
+   "from": "2026-08-15",
+   "to": "2026-08-16",
+   "span_days": 2,
+   "point": [
+    1.7335,
+    42.5447
+   ],
+   "box": [
+    0.82,
+    2.65,
+    41.87,
+    43.22
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false,
+   "skipped_because": "event spans 2 day(s); a 14-day accumulation window cannot resolve it, and D-195 measured this instrument under-reading concentrated rainfall by 3 to 5 times"
+  },
+  {
+   "eventid": 1104103,
+   "country": "Georgia",
+   "alertlevel": "Green",
+   "from": "2026-08-14",
+   "to": "2026-08-15",
+   "span_days": 2,
+   "point": [
+    44.8207,
+    41.7471
+   ],
+   "box": [
+    43.92,
+    45.72,
+    41.07,
+    42.42
+   ],
+   "box_radius_km": 75.0,
+   "box_is_a_catchment": false,
+   "skipped_because": "event spans 2 day(s); a 14-day accumulation window cannot resolve it, and D-195 measured this instrument under-reading concentrated rainfall by 3 to 5 times"
+  }
+ ]
+}
