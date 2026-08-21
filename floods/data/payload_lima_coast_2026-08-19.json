@@ -1,0 +1,120 @@
+{
+ "region_id": "lima_coast",
+ "label": "Lima coast",
+ "window": {
+  "start": "2026-08-06",
+  "end": "2026-08-19"
+ },
+ "generated": "2026-08-21",
+ "event_corroboration": {
+  "occurred": null,
+  "state": "unknown",
+  "source": "none consulted; the GDACS alert is TASKING and may not be cited as evidence",
+  "detail": "No Peruvian river gauge or independent source has been checked. The GDACS alert is why this box was measured and cannot also be the proof that something happened.",
+  "note": "This channel's own instruments measure rainfall and flood extent. Neither establishes that a flood occurred, so this field carries evidence from outside them and is not derived from anything above."
+ },
+ "measured_to": "2026-08-19",
+ "instrument_coverage": {
+  "data_through": "2026-08-19",
+  "days_behind_run_date": 2,
+  "window_truncated": false,
+  "window_closed": true,
+  "note": "the rainfall instrument holds data to 2026-08-19, past the window end of 2026-08-19, so this window is complete"
+ },
+ "authorship": "tls_built",
+ "evidence_basis": "measured",
+ "attribution": "attribution_pending",
+ "series": [
+  {
+   "id": "rainfall",
+   "instrument": "GPM IMERG Late Run v07",
+   "measures": "rainfall, NOT flooding",
+   "units": "mm, area mean over the region",
+   "expected_slots": 14,
+   "due_slots": 14,
+   "values_present": 13,
+   "window_days_nominal": 14,
+   "window_days_compared": 13,
+   "days_excluded": [
+    "08-10"
+   ],
+   "days_excluded_reason": "absent from the source for the current period, so excluded from every year to keep the comparison like for like; excluding them from the current year alone would understate it and bias its rank low",
+   "baseline_years": 26,
+   "value": 0.7,
+   "basis": {
+    "median": 1.5,
+    "x_median": 0.48,
+    "rank": 22,
+    "of": 27,
+    "series": {
+     "2000": 4.7,
+     "2001": 1.1,
+     "2002": 1.1,
+     "2003": 1.0,
+     "2004": 0.6,
+     "2005": 1.4,
+     "2006": 1.3,
+     "2007": 2.6,
+     "2008": 9.5,
+     "2009": 3.3,
+     "2010": 3.9,
+     "2011": 0.8,
+     "2012": 6.0,
+     "2013": 1.3,
+     "2014": 4.5,
+     "2015": 2.8,
+     "2016": 0.5,
+     "2017": 1.0,
+     "2018": 0.3,
+     "2019": 2.0,
+     "2020": 0.3,
+     "2021": 5.4,
+     "2022": 3.3,
+     "2023": 1.7,
+     "2024": 0.7,
+     "2025": 4.8,
+     "2026": 0.7
+    },
+    "current_year": 2026
+   },
+   "finding": {
+    "rank": 22,
+    "of": 27,
+    "tied_with_n": 0,
+    "ordinal_safe": false,
+    "claim": "low",
+    "guards": [
+     "the baseline median is 1.54, below the provisional floor of 5.0. A ratio against a near-zero baseline amplifies noise rather than measuring an anomaly, so no ordinal is permitted here however large the multiple looks"
+    ],
+    "baseline_below_floor": true
+   },
+   "peak_day_mm": 4.0,
+   "event_character": {
+    "top_day_share": 0.416,
+    "baseline_median_top_day_share": 0.302,
+    "runner_up_year": 2008,
+    "runner_up_top_day_share": 0.302,
+    "instrument_fit": "mixed",
+    "ordinal_at_risk": false,
+    "ordinal_note": "this period is MORE concentrated (42%) than 2008 (30%) and out-ranks it anyway, so the instrument bias worked against it and the rank is a floor rather than a ceiling."
+   },
+   "verdict": "measured"
+  },
+  {
+   "id": "flood_extent",
+   "instrument": "NASA MODIS MCDWD 3-Day composite",
+   "measures": "standing water outside the reference water mask",
+   "units": "250m pixels",
+   "expected_slots": 14,
+   "due_slots": 0,
+   "values_present": 0,
+   "baseline_years": 0,
+   "verdict": "not_assessed",
+   "not_assessed_reason": [
+    "no flood-extent baseline has been built for this region, so the instrument's ability to see it is unknown and untested"
+   ],
+   "not_assessed_summary": "We have not measured flooding here. This page reports rainfall only."
+  }
+ ],
+ "notes": []
+}

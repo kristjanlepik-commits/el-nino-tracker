@@ -215,6 +215,7 @@ def main():
     tok = token()
     total_bytes = 0
 
+    failures = []
     with open(out_path, "a") as fh:
         for day in days:
             iso = day.isoformat()
@@ -222,8 +223,11 @@ def main():
                 got = fetch_day(iso, box, tok, short=args.product)
             except Exception as exc:
                 log(f"{iso}  FAILED {repr(exc)[:120]}")
+                failures.append(iso)
                 continue
             if got is None:
+                # A missing granule is an ANSWER (the product has no file
+                # for that day); a failed fetch is not. Different lists.
                 log(f"{iso}  no granule")
                 continue
             arr, nbytes = got
@@ -248,6 +252,22 @@ def main():
                 f">20mm {rec['frac_over_20mm']:.3f}")
 
     np.savez_compressed(grid_path, **grids)
+    # "done." USED TO PRINT REGARDLESS OF HOW MUCH FAILED, and on the
+    # Lima run 242 of 378 fetches died on DNS errors while the network was
+    # down. It logged every one, printed "done.", and exited 0, so the
+    # caller and the waiter both read a 64%-lost run as a completed one.
+    #
+    # Same fault this channel spent 2026-08-18 chasing in four other
+    # places: a component reporting faithfully on each step and never
+    # asking whether the whole thing happened. A per-item log that scrolls
+    # past is not a report.
+    if failures:
+        log(f"INCOMPLETE. {len(failures)} day(s) FAILED and are missing: "
+            f"{failures[0]} .. {failures[-1]}")
+        log(f"  {len(grids)} grids saved to {grid_path} "
+            f"({total_bytes/1e6:.1f} MB). This run is RESUMABLE: re-run the "
+            f"same command and it will skip what it already has.")
+        sys.exit(2)
     log(f"done. {len(grids)} grids saved to {grid_path} ({total_bytes/1e6:.1f} MB fetched)")
 
 
