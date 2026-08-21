@@ -200,6 +200,25 @@ def _series_bars(chart: dict, hue: str) -> str:
             + "".join(parts) + '</svg>')
 
 
+def fr_stale(piece):
+    """A closed event says so, directly under the claim.
+
+    ABOVE THE STANDFIRST RATHER THAN IN IT. A reader who takes only the
+    headline is exactly the reader who would otherwise carry away a
+    three-week-old event as today's news, and they never reach a note
+    further down. This is the same reasoning as putting a qualifier in the
+    claim rather than one line below it.
+
+    Rendered as a bordered line rather than a coloured banner: the finding
+    is not in doubt and nothing about it is a warning. It is out of date,
+    which is a fact about the page and not about the rain.
+    """
+    text = piece.get("staleness")
+    if not text:
+        return ""
+    return '  <p class="fr-stale">%s</p>\n' % h(text)
+
+
 def render(piece: dict, root_prefix: str = "../../") -> str:
     """One fast-reaction piece as a standalone page.
 
@@ -253,6 +272,9 @@ body {{
 }}
 main {{ max-width: 820px; margin: 0 auto; padding: 28px 24px 80px; }}
 {SITE_MASTHEAD_CSS}
+.fr-stale {{ border-left:3px solid var(--ink-faint); padding:8px 0 8px 13px;
+  margin:0 0 16px; font-size:14px; line-height:1.5; color:var(--ink-2);
+  max-width:62ch; }}
 .fr-eyebrow {{
   font-family: "{T.FONT_DATA}", ui-monospace, monospace;
   font-size: 11px; letter-spacing: {T.TRACK_LABEL}em;
@@ -326,9 +348,9 @@ h1 {{
 {site_masthead(root_prefix, active=ch)}
 <main>
   <p class="fr-eyebrow">{h(piece.get("region", ""))} &middot;
-     {h(piece.get("window", ""))}{" &middot; measured " + h(piece["measured"]) if piece.get("measured") else ""}</p>
+     {h(piece.get("window", ""))}{" &middot; " + h(piece["measured"]) if piece.get("measured") else ""}</p>
   <h1>{h(piece.get("claim", ""))}</h1>
-  <p class="fr-stand">{h(piece.get("standfirst", ""))}</p>
+{fr_stale(piece)}  <p class="fr-stand">{h(piece.get("standfirst", ""))}</p>
 
   <div class="fr-cell">
     <div class="fr-hero">{h((piece.get("value") or {}).get("display", ""))}</div>
