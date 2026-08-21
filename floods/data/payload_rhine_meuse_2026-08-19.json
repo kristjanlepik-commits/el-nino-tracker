@@ -1,0 +1,112 @@
+{
+ "region_id": "rhine_meuse",
+ "label": "Rhine and Meuse",
+ "window": {
+  "start": "2026-08-06",
+  "end": "2026-08-19"
+ },
+ "generated": "2026-08-21",
+ "measured_to": "2026-08-19",
+ "instrument_coverage": {
+  "data_through": "2026-08-19",
+  "days_behind_run_date": 2,
+  "window_truncated": false,
+  "window_closed": true,
+  "note": "the rainfall instrument holds data to 2026-08-19, past the window end of 2026-08-19, so this window is complete"
+ },
+ "authorship": "tls_built",
+ "evidence_basis": "measured",
+ "attribution": "not_enso_linked",
+ "series": [
+  {
+   "id": "rainfall",
+   "instrument": "GPM IMERG Late Run v07",
+   "measures": "rainfall, NOT flooding",
+   "units": "mm, area mean over the region",
+   "expected_slots": 14,
+   "due_slots": 14,
+   "values_present": 13,
+   "window_days_nominal": 14,
+   "window_days_compared": 13,
+   "days_excluded": [
+    "08-10"
+   ],
+   "days_excluded_reason": "absent from the source for the current period, so excluded from every year to keep the comparison like for like; excluding them from the current year alone would understate it and bias its rank low",
+   "baseline_years": 26,
+   "value": 34.0,
+   "basis": {
+    "median": 38.1,
+    "x_median": 0.89,
+    "rank": 16,
+    "of": 27,
+    "series": {
+     "2000": 28.2,
+     "2001": 31.0,
+     "2002": 26.8,
+     "2003": 23.4,
+     "2004": 83.3,
+     "2005": 42.6,
+     "2006": 57.3,
+     "2007": 63.6,
+     "2008": 34.3,
+     "2009": 14.7,
+     "2010": 70.0,
+     "2011": 60.1,
+     "2012": 15.9,
+     "2013": 28.1,
+     "2014": 58.2,
+     "2015": 89.1,
+     "2016": 19.5,
+     "2017": 56.2,
+     "2018": 54.5,
+     "2019": 80.8,
+     "2020": 41.1,
+     "2021": 15.7,
+     "2022": 11.0,
+     "2023": 36.7,
+     "2024": 39.5,
+     "2025": 4.2,
+     "2026": 34.0
+    },
+    "current_year": 2026
+   },
+   "finding": {
+    "rank": 15,
+    "of": 27,
+    "tied_with_n": 1,
+    "ordinal_safe": false,
+    "claim": "normal",
+    "guards": [
+     "1 other period(s) within 2% of this value; the ordinal is not separable"
+    ]
+   },
+   "peak_day_mm": 29.0,
+   "event_character": {
+    "top_day_share": 0.466,
+    "baseline_median_top_day_share": 0.304,
+    "runner_up_year": 2015,
+    "runner_up_top_day_share": 0.228,
+    "instrument_fit": "mixed",
+    "ordinal_at_risk": false,
+    "ordinal_note": "this period is MORE concentrated (47%) than 2015 (23%) and out-ranks it anyway, so the instrument bias worked against it and the rank is a floor rather than a ceiling."
+   },
+   "verdict": "measured"
+  },
+  {
+   "id": "flood_extent",
+   "instrument": "NASA MODIS MCDWD 3-Day composite",
+   "measures": "standing water outside the reference water mask",
+   "units": "250m pixels",
+   "expected_slots": 14,
+   "due_slots": 0,
+   "values_present": 0,
+   "baseline_years": 0,
+   "verdict": "not_assessed",
+   "not_assessed_reason": [
+    "no flood-extent baseline has been built for this region, so the instrument's ability to see it is unknown and untested"
+   ],
+   "not_assessed_summary": "We have not measured flooding here. This page reports rainfall only."
+  }
+ ],
+ "notes": []
+}
