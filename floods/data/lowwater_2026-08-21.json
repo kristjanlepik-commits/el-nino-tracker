@@ -1,0 +1,212 @@
+{
+ "reference_time": "2026-08-21T11:32:00",
+ "instrument": "WSV Pegelonline, German federal waterway gauges",
+ "measures": "water level against each gauge's own mean low water",
+ "authorship": "tls_built",
+ "evidence_basis": "measured",
+ "generated": "2026-08-21",
+ "method": "WSV classifies each gauge against ITS OWN mean low and mean high water, in that gauge's own datum. We count their classifications rather than computing our own, so no datum is crossed and no reference period is assumed.",
+ "cannot_claim": "any superlative. Pegelonline serves at most 30 days of history (P1Y and P5Y both fail), so duration within the current spell is available and 'lowest since' is not. That would need GRDC or the BfG archive, and the gauge datum question in floods/RIVER_LOW_WATER.md would have to be settled first.",
+ "rivers": [
+  {
+   "river": "Rhein",
+   "gauges_fresh": 36,
+   "gauges_classified": 26,
+   "gauges_unclassified": 10,
+   "low": 24,
+   "normal": 2,
+   "high": 0,
+   "share_low_of_classified": 0.923,
+   "verdict": "measured",
+   "lowest_gauges": [
+    {
+     "station": "EMMERICH",
+     "cm": -2.0
+    },
+    {
+     "station": "WORMS",
+     "cm": 15.0
+    },
+    {
+     "station": "D\u00dcSSELDORF",
+     "cm": 21.0
+    },
+    {
+     "station": "OBERWINTER",
+     "cm": 24.0
+    },
+    {
+     "station": "REES",
+     "cm": 39.0
+    }
+   ]
+  },
+  {
+   "river": "Elbe",
+   "gauges_fresh": 67,
+   "gauges_classified": 40,
+   "gauges_unclassified": 27,
+   "low": 35,
+   "normal": 5,
+   "high": 0,
+   "share_low_of_classified": 0.875,
+   "verdict": "measured",
+   "lowest_gauges": [
+    {
+     "station": "D\u00d6MITZ",
+     "cm": -10.0
+    },
+    {
+     "station": "ROG\u00c4TZ",
+     "cm": -6.0
+    },
+    {
+     "station": "PRETZSCH-MAUKEN",
+     "cm": 32.0
+    },
+    {
+     "station": "ELSTER",
+     "cm": 32.0
+    },
+    {
+     "station": "GORLEBEN",
+     "cm": 39.0
+    }
+   ]
+  },
+  {
+   "river": "Weser",
+   "gauges_fresh": 32,
+   "gauges_classified": 18,
+   "gauges_unclassified": 14,
+   "low": 13,
+   "normal": 5,
+   "high": 0,
+   "share_low_of_classified": 0.722,
+   "verdict": "measured",
+   "lowest_gauges": [
+    {
+     "station": "INTSCHEDE",
+     "cm": 11.0
+    },
+    {
+     "station": "KARLSHAFEN",
+     "cm": 65.0
+    },
+    {
+     "station": "HAMELN WEHRBERGEN",
+     "cm": 66.0
+    },
+    {
+     "station": "H\u00d6XTER",
+     "cm": 80.0
+    },
+    {
+     "station": "VLOTHO",
+     "cm": 93.0
+    }
+   ]
+  },
+  {
+   "river": "Donau",
+   "gauges_fresh": 25,
+   "gauges_classified": 13,
+   "gauges_unclassified": 12,
+   "low": 5,
+   "normal": 8,
+   "high": 0,
+   "share_low_of_classified": 0.385,
+   "verdict": "measured",
+   "lowest_gauges": [
+    {
+     "station": "KACHLET SCHLEUSE UP",
+     "cm": 71.0
+    },
+    {
+     "station": "DEGGENDORF",
+     "cm": 149.0
+    },
+    {
+     "station": "HOFKIRCHEN",
+     "cm": 165.0
+    },
+    {
+     "station": "PFELLING",
+     "cm": 227.0
+    },
+    {
+     "station": "VILSHOFEN",
+     "cm": 289.0
+    }
+   ]
+  },
+  {
+   "river": "Mosel",
+   "gauges_fresh": 28,
+   "gauges_classified": 5,
+   "gauges_unclassified": 23,
+   "low": 0,
+   "normal": 5,
+   "high": 0,
+   "share_low_of_classified": 0.0,
+   "verdict": "measured",
+   "lowest_gauges": []
+  },
+  {
+   "river": "Main",
+   "gauges_fresh": 13,
+   "gauges_classified": 11,
+   "gauges_unclassified": 2,
+   "low": 2,
+   "normal": 9,
+   "high": 0,
+   "share_low_of_classified": 0.182,
+   "verdict": "measured",
+   "lowest_gauges": [
+    {
+     "station": "FAULBACH",
+     "cm": 91.0
+    },
+    {
+     "station": "KROTZENBURG",
+     "cm": 98.0
+    }
+   ]
+  },
+  {
+   "river": "Neckar",
+   "gauges_fresh": 43,
+   "gauges_classified": 5,
+   "gauges_unclassified": 38,
+   "low": 1,
+   "normal": 4,
+   "high": 0,
+   "share_low_of_classified": 0.2,
+   "verdict": "measured",
+   "lowest_gauges": [
+    {
+     "station": "HEIDELBERG UP",
+     "cm": 199.0
+    }
+   ]
+  },
+  {
+   "river": "Saar",
+   "gauges_fresh": 21,
+   "gauges_classified": 3,
+   "gauges_unclassified": 18,
+   "low": 0,
+   "normal": 3,
+   "high": 0,
+   "share_low_of_classified": 0.0,
+   "verdict": "too_few_gauges",
+   "lowest_gauges": []
+  }
+ ],
+ "coverage": {
+  "stations_seen": 738,
+  "stations_fresh": 737,
+  "stations_stale_excluded": 1,
+  "freshness_hours": 6
+ }
+}
