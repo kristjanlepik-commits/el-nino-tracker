@@ -365,6 +365,29 @@ def main():
                     help="YYYY-MM-DD, the run date. Emitted as `generated`.")
     # What the instrument actually holds, which is NOT the same as today.
     # IMERG Late runs 1-2 days behind, so on 21 August it reached 19th.
+    # DID A FLOOD ACTUALLY HAPPEN? Design found that no payload this
+    # channel has ever emitted carried an answer, including the ones about
+    # real events. Every series measures rainfall or flood EXTENT, and
+    # flood extent has been not_assessed or cannot_say every time. So the
+    # only thing asserting a flood was the channel's name and the /floods/
+    # in the URL, and that assertion had never been examined.
+    #
+    # It went unnoticed through four payloads because on those events the
+    # assertion happened to be true. The Rhine was the first case where it
+    # was false: rank 16 of 27 rainfall, and a river sitting at 76 cm
+    # against a mean flood level of 725.
+    #
+    # Required, and with no default, for the same reason --attribution is:
+    # a constant cannot know, so it must not guess. "unknown" is a valid
+    # and publishable answer; silence is not.
+    ap.add_argument("--flood-occurred", required=True,
+                    choices=["true", "false", "unknown"],
+                    help="did a flood actually occur, per evidence OUTSIDE "
+                         "this channel's two instruments")
+    ap.add_argument("--flood-evidence-source", required=True,
+                    help="who says so, e.g. 'WSV Pegelonline, Cologne gauge'")
+    ap.add_argument("--flood-evidence-detail", required=True,
+                    help="the reading or citation, in one sentence")
     ap.add_argument("--data-through", default=None,
                     help="YYYY-MM-DD, last day the instrument has. "
                          "Defaults to as-of minus the instrument latency.")
@@ -405,6 +428,17 @@ def main():
         "label": args.label,
         "window": {"start": start.isoformat(), "end": end.isoformat()},
         "generated": as_of.isoformat(),
+        "event_corroboration": {
+            "occurred": (None if args.flood_occurred == "unknown"
+                         else args.flood_occurred == "true"),
+            "state": args.flood_occurred,
+            "source": args.flood_evidence_source,
+            "detail": args.flood_evidence_detail,
+            "note": ("This channel's own instruments measure rainfall and "
+                     "flood extent. Neither establishes that a flood "
+                     "occurred, so this field carries evidence from outside "
+                     "them and is not derived from anything above."),
+        },
         "measured_to": measured_to.isoformat(),
         # ABSENCE OF DATA AT THE RECENT EDGE, MADE MACHINE-READABLE.
         # Design's ask, and their reasoning is the one this file is built
