@@ -231,13 +231,35 @@ def flood_series(base_path, window_days):
 # ordinal is a claim about separation, and separation is a property of
 # the data.
 
+# A RAINFALL FLOOR, the missing twin of COUNT_FLOOR.
+#
+# Flood extent has had a floor since day one: below 300 pixels the two
+# MODIS products stop agreeing and a ranking is noise. Rainfall had none,
+# and the Lima tasking exposed why it needs one. Coastal Peru in August is
+# the dry season, so a fortnight baseline there sits near zero, and
+# x_median is a ratio whose denominator is approaching nothing. At a
+# 0.05 mm median, 1 mm of rain reads 20x and clears the 1.5x superlative
+# gate without meaning anything at all.
+#
+# THIS NUMBER IS A JUDGEMENT, NOT A DERIVATION, and saying so is the
+# point. D-195 measured IMERG OVER-reading by 5.80x below 10 mm, so the
+# sub-10 mm regime is where the instrument is least trustworthy, but that
+# was a gauge DAILY total and this is a fortnight AREA MEAN, which is a
+# different quantity. Mapping one onto the other would be the unearned
+# number this file exists to avoid.
+#
+# So: 5 mm, provisional, stated as provisional in the payload, and it
+# suppresses the ORDINAL rather than the reading. A dry region that gets
+# rain is still reported; it just may not carry a superlative.
+RAINFALL_FLOOR_MM = 5.0
+
 MIN_RECORD = 20        # below this, no ordinal. Rank 2 of 8 is not "on record".
 TIE_MARGIN = 0.02      # values within 2% of the median apart are not separable
 EXTREME_RANK = 3       # top three may carry an ordinal
 EXTREME_RATIO = 1.5    # ...but only if the value is actually far from normal
 
 
-def classify(value, others, median, complete):
+def classify(value, others, median, complete, floor=None):
     """Decide what class of claim the data permits. Never phrasing."""
     n = len(others) + 1
     margin = TIE_MARGIN * median if median else 0.0
@@ -257,6 +279,16 @@ def classify(value, others, median, complete):
         out["ordinal_safe"] = False
         out["guards"].append(f"{len(tied)} other period(s) within {TIE_MARGIN:.0%} "
                              f"of this value; the ordinal is not separable")
+
+    if floor is not None and median is not None and median < floor:
+        # The reading stands; only the SUPERLATIVE is withheld.
+        out["ordinal_safe"] = False
+        out["guards"].append(
+            f"the baseline median is {median:.2f}, below the provisional "
+            f"floor of {floor:.1f}. A ratio against a near-zero baseline "
+            f"amplifies noise rather than measuring an anomaly, so no "
+            f"ordinal is permitted here however large the multiple looks")
+        out["baseline_below_floor"] = True
 
     ratio = value / median if median else None
 
@@ -570,7 +602,8 @@ def main():
                       "series": {str(y): round(v, 1)
                                  for y, v in sorted(totals.items())},
                       "current_year": year},
-            "finding": classify(cur, list(hist.values()), med, True),
+            "finding": classify(cur, list(hist.values()), med, True,
+                                floor=RAINFALL_FLOOR_MM),
             "peak_day_mm": round(peaks[year], 0),
             "event_character": _event_character(year, cur, hist, daily),
             "verdict": "measured",

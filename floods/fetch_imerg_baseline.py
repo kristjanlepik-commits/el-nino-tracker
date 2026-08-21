@@ -76,6 +76,15 @@ REGIONS = {
     "rhine_meuse": {"lon": (4.5, 8.0), "lat": (49.5, 52.0)},
     "vistula_oder": {"lon": (15.0, 21.5), "lat": (50.0, 53.0)},
     "po_basin": {"lon": (8.0, 12.5), "lat": (44.5, 46.0)},
+    # GDACS flood alert 2026-08-02..20, tasked rather than pre-screened.
+    # Box is the 75 km default around the alert centroid, NOT a catchment,
+    # so any reading here is a floor per the point-to-box caveat.
+    #
+    # NOTE THE SEASON. Coastal Peru's flood season is March; this is
+    # austral winter and the coastal dry season. An alert here now is
+    # either a genuine anomaly or not rainfall-driven at all, and the
+    # baseline will say which.
+    "lima_coast": {"lon": (-77.6, -76.3), "lat": (-12.9, -11.5)},
 }
 
 
