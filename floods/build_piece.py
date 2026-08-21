@@ -104,14 +104,116 @@ def _staleness(window, today):
             % (end_age, start_age, _window_words(window)))
 
 
-def _instrument_rows(payload, rain, basis, extent):
+# D-195: IMERG under-reads CONCENTRATED rainfall by three to five times.
+# So a two-week accumulation reading ordinary is evidence about
+# accumulation and evidence about nothing else, and on an event whose rain
+# arrived in a few hours this instrument is largely blind.
+_FIT_BLIND = ("mixed", "intense", "convective")
+
+
+def _intensity_row(rain):
+    """Rainfall intensity, and whether this instrument could have seen it.
+
+    THE THIRD ROW EXISTS BECAUSE OF WHAT A NORMAL READING WOULD OTHERWISE
+    IMPLY. FLO's warning, and it is the right one: normal accumulation is
+    not no flooding. A page reporting an ordinary fortnight with no further
+    rows says, to any reader who is not a hydrologist, that nothing
+    happened. That is absence-as-zero on the public surface, which is the
+    one place we have not made this mistake yet.
+
+    Same shape as the flood-extent row Kristjan ruled on: an instrument
+    that could not answer the question is drawn, not omitted.
+    """
+    ec = rain.get("event_character") or {}
+    fit = ec.get("instrument_fit") or ""
+    share = ec.get("top_day_share")
+    med = ec.get("baseline_median_top_day_share")
+    if not fit:
+        return None
+    blind = any(w in fit for w in _FIT_BLIND)
+    detail = "GPM IMERG, 30-minute accumulation"
+    if share is not None and med is not None:
+        detail = ("one day carried %.0f%% of the fortnight, against a "
+                  "%.0f%% median" % (100 * share, 100 * med))
+    return {
+        "name": "Rainfall intensity",
+        "detail": detail,
+        "value": "not measured" if blind else "no concentration",
+        "rank": "",
+        "state": "not_assessed" if blind else "measured",
+        "caveat": (
+            "This instrument measures accumulation over time and under-reads "
+            "concentrated rainfall by three to five times. Rain that falls in "
+            "a few hours can flood without moving a fortnight's total, so an "
+            "ordinary total here is not evidence that nothing happened. Rain "
+            "gauges answer that question; this does not."
+            if blind else ""),
+    }
+
+
+def _rank_words(basis, find):
+    """The rank, or a refusal to state one.
+
+    ordinal_safe false means another year sits within 2% and the ordering
+    is noise. Printing "16th of 27" there would publish a precision the
+    measurement does not have, which is the same fault as a legend whose
+    label the data denies.
+    """
+    if find.get("ordinal_safe"):
+        return "%s of %s" % (basis["rank"], basis["of"])
+    return "about %s of %s" % (basis["rank"], basis["of"])
+
+
+def _claim(payload, rain, basis, find, window):
+    """The headline, and it changes shape with the finding.
+
+    A NORMAL READING NEEDS ITS OWN SENTENCE, not the extreme one with
+    different numbers. The template hardcoded "the most in N years", which
+    is false on every one of the three live European regions: they read
+    16th, 12th and 13th of 27, and the Rhine is BELOW its median.
+
+    AND IT MUST NOT READ AS "NOTHING HAPPENED". FLO's warning and it is
+    the whole difficulty: an ordinary two-week total is a fact about
+    two-week totals. The claim says what was ordinary rather than
+    pronouncing on the place, and the instrument rows carry what this
+    measurement cannot see.
+    """
+    if find.get("claim") == "normal":
+        return ("Rain over the %s in %s was ordinary for the time of year: "
+                "%.1f mm, %s the median for the same fortnight."
+                % (payload["label"], window, rain["value"],
+                   "below" if basis["x_median"] < 1 else "just above"))
+    return ("%.0f mm of rain fell on the %s in %s, the most in %s years of "
+            "the same fortnight."
+            % (rain["value"], payload["label"], window, basis["of"]))
+
+
+def _standfirst(payload, rain, basis, find, window, first_year):
+    if find.get("claim") == "normal":
+        return (
+            "%s recorded %.1f mm over %s, against a median of %.1f mm for the "
+            "same fortnight since %s, which ranks it %s. This measures "
+            "two-week RAINFALL ACCUMULATION, not flooding, and an ordinary "
+            "total is not evidence that nothing happened."
+            % (payload["label"], rain["value"], window, basis["median"],
+               first_year, _rank_words(basis, find)))
+    return (
+        "%s recorded %.1f mm over %s, against a median of %.1f mm for the "
+        "same fortnight since %s. That is %.2f times the median and the "
+        "highest of the %s years compared. This measures RAINFALL, not "
+        "flooding."
+        % (payload["label"], rain["value"], window, basis["median"],
+           first_year, basis["x_median"], basis["of"]))
+
+
+def _instrument_rows(payload, rain, basis, extent, find):
     """Every instrument the piece could have used, assessed or not."""
     cov = payload.get("instrument_coverage") or {}
     rows = [{
         "name": "Rainfall",
         "detail": rain["instrument"],
         "value": "%.1f mm" % rain["value"],
-        "rank": "%s of %s" % (basis["rank"], basis["of"]),
+        "rank": _rank_words(basis, find),
         "state": "measured",
     }]
     # THE INSTRUMENT'S OWN REACH IS PART OF THE ROW. FLO emits
@@ -128,6 +230,9 @@ def _instrument_rows(payload, rain, basis, extent):
             % (_pretty(cov.get("data_through", "?")),
                cov.get("days_behind_run_date", "?"),
                "" if cov.get("days_behind_run_date") == 1 else "s"))
+    intensity = _intensity_row(rain)
+    if intensity:
+        rows.append(intensity)
     if extent:
         rows.append({
             "name": "Flood extent",
@@ -228,18 +333,9 @@ def piece_from(payload: dict, today: str) -> dict:
         # NO .lower() ON THE LABEL. It read "the eastern pyrenees and
         # upper segre": a place name is not a common noun, and the
         # cheap way to make a sentence flow destroyed two of them.
-        "claim": ("%.0f mm of rain fell on the %s in %s, the most in %s "
-                  "years of the same fortnight."
-                  % (rain["value"], payload["label"], window,
-                     basis["of"])),
-        "standfirst": (
-            "%s recorded %.1f mm over %s, against a median of %.1f mm for the "
-            "same fortnight since %s. That is %.2f times the median and the "
-            "highest of the %s years compared. This measures RAINFALL, not "
-            "flooding."
-            % (payload["label"], rain["value"], window, basis["median"],
-               min(years), basis["x_median"],
-               basis["of"])),
+        "claim": _claim(payload, rain, basis, find, window),
+        "standfirst": _standfirst(payload, rain, basis, find, window,
+                                  min(years)),
         "value": {
             "display": "%.2f×" % basis["x_median"],
             "caption": "the median for this fortnight, %.1f mm"
@@ -271,7 +367,7 @@ def piece_from(payload: dict, today: str) -> dict:
         # fold they have already formed a view. Absent-read-as-zero is this
         # project's recurring defect and a row is the version a skimmer
         # cannot miss.
-        "instruments": _instrument_rows(payload, rain, basis, extent),
+        "instruments": _instrument_rows(payload, rain, basis, extent, find),
         "attribution": tag,
         "notes": {
             "what_this_is": (
