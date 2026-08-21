@@ -49,6 +49,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+from templates.page_head import head_meta
 sys.path.insert(0, str(ROOT))
 
 import tokens as T                                    # noqa: E402
@@ -199,7 +201,21 @@ def _series_bars(chart: dict, hue: str) -> str:
 
 
 def render(piece: dict, root_prefix: str = "../../") -> str:
-    """One fast-reaction piece as a standalone page."""
+    """One fast-reaction piece as a standalone page.
+
+    INDEXABLE SINCE 2026-08-21, on product's ruling. This template
+    carried noindex from the day it was written and it cost nothing,
+    because nothing ever rendered through it. Its first real use is a
+    dated European flood finding, and a template optimised for a
+    one-day turnaround whose output cannot be found in search is a
+    contradiction. The tag is gone rather than overridden per call,
+    so no caller has to remember.
+
+    `path` is required for the canonical URL and only the builder
+    knows it. A piece without one canonicalises to "/", which is
+    wrong in a way nothing visible would show, so build_piece asserts
+    it rather than defaulting.
+    """
     ch = piece.get("channel", "fire")
     hue = {"fire": "var(--fire)", "elnino": "var(--nino)",
            "flood": "var(--flood)", "crop": "var(--crop)"}.get(ch, "var(--fire)")
@@ -213,8 +229,10 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>{h(piece.get("region", ""))} | {h(SITE_NAME)}</title>
+{head_meta(title=f'{piece.get("region", "")} | {SITE_NAME}',
+           description=piece.get("standfirst", "") or piece.get("claim", ""),
+           path=piece.get("path", "/"),
+           og_image=piece.get("og_image"))}
 <style>
 {T.font_faces_css(root_prefix + "fonts/")}
 :root {{
@@ -308,7 +326,7 @@ h1 {{
 {site_masthead(root_prefix, active=ch)}
 <main>
   <p class="fr-eyebrow">{h(piece.get("region", ""))} &middot;
-     {h(piece.get("window", ""))}</p>
+     {h(piece.get("window", ""))}{" &middot; measured " + h(piece["measured"]) if piece.get("measured") else ""}</p>
   <h1>{h(piece.get("claim", ""))}</h1>
   <p class="fr-stand">{h(piece.get("standfirst", ""))}</p>
 
