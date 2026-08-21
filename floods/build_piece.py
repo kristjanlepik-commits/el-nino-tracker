@@ -47,19 +47,25 @@ MONTHS = ("January", "February", "March", "April", "May", "June", "July",
 
 
 def _sentence(text):
-    """Capitalise and terminate a fragment from the payload.
+    """Quote a payload string that is displayed as prose.
 
-    FLO writes not_assessed_summary lowercase and unterminated,
-    which is right for a field and wrong in prose: concatenated it
-    read "flooding. we have not measured flooding here; this page
-    reports rainfall only Flood extent is not assessed". Their
-    string is quoted rather than rewritten; only its edges move.
+    This used to capitalise and terminate the fragment, because
+    not_assessed_summary was written lowercase and unterminated. FLO has
+    made the field sentence-shaped and asked me to drop the handling, and
+    they are right: editing at the boundary was the correct instinct in
+    the wrong place, since a field displayed as prose should BE prose.
+
+    So nothing is rewritten. A regression is reported rather than patched,
+    because silently fixing someone else's field is how two surfaces drift
+    while both look fine.
     """
     t = (text or "").strip()
     if not t:
         return ""
-    t = t[0].upper() + t[1:]
-    return t + ("" if t.endswith((".", "!", "?")) else ".") + " "
+    if not (t[0].isupper() and t.endswith((".", "!", "?"))):
+        print("  NOTE: not_assessed_summary is not sentence-shaped (%r). "
+              "Rendering it verbatim; FLO owns the wording." % t[:60])
+    return t + " "
 
 
 def _pretty(iso):
@@ -75,7 +81,30 @@ def _window_words(w):
     return "%s to %s" % (_pretty(a), _pretty(b))
 
 
-def piece_from(payload: dict) -> dict:
+def _days_between(a, b):
+    from datetime import date
+    ya, ma, da = (int(x) for x in a.split("-"))
+    yb, mb, db = (int(x) for x in b.split("-"))
+    return (date(yb, mb, db) - date(ya, ma, da)).days
+
+
+def _staleness(window, today):
+    """How old the event is, in the page's own words, or "" if current.
+
+    Silent below a week: a piece published within days of its window is
+    what the format is for and does not need to apologise for itself.
+    """
+    end_age = _days_between(window["end"], today)
+    if end_age < 7:
+        return ""
+    start_age = _days_between(window["start"], today)
+    return ("This event has closed. The rain fell between %d and %d days "
+            "ago, over %s, and this page has not been updated since. It is "
+            "a record of what happened, not a report of what is happening."
+            % (end_age, start_age, _window_words(window)))
+
+
+def piece_from(payload: dict, today: str) -> dict:
     rain = next((s for s in payload["series"] if s["id"] == "rainfall"), None)
     if rain is None:
         raise SystemExit("no rainfall series in payload")
@@ -132,8 +161,34 @@ def piece_from(payload: dict) -> dict:
         # can see when it was made without hunting for the source
         # line. It is a measurement rather than a forecast, so it
         # needs the date but not the genre treatment the card needs.
-        "measured": _pretty(payload["as_of"]),
-        "path": "/floods/%s-%s/" % (payload["region_id"], payload["as_of"]),
+        # PUBLISHED, NOT MEASURED, and the difference is not pedantry.
+        # `as_of` moved when the payload was re-emitted with no new
+        # measurement in it, so it dates the FILE rather than the reading,
+        # and "measured 21 August" was false about rain that stopped on the
+        # 14th. The window already carries when it was measured. What a
+        # reader additionally needs, per D-190 and D-191, is when we said
+        # it, and that is unambiguous. Asked FLO to define as_of.
+        "measured": "published " + _pretty(today),
+        # A CLOSED EVENT SAYS IT IS CLOSED. FLO's call and it is right: this
+        # window ended on 14 August and the page would be read on the 21st,
+        # so a piece framed as current would be wrong about its own subject.
+        # Fast reaction is a FORMAT, not a claim about recency, and nothing
+        # else on the page would have told a reader which it was.
+        #
+        # The age is computed from the payload and today, never typed. FLO
+        # said "three weeks", which is the age of the window's START; its
+        # END is a week old. Both are true and they are different sentences,
+        # so the page states the span rather than picking a number.
+        "staleness": _staleness(payload["window"], today),
+        # THE URL IS THE EVENT, SO IT COMES FROM THE WINDOW, NOT as_of.
+        # Built from as_of first, which moved from 18 to 21 August when
+        # FLO re-emitted the payload to ADD A FIELD, changing no
+        # measurement. That would have given the same event a new URL on
+        # every re-emission, orphaning whatever had been shared. A piece
+        # is identified by the event it describes; the window closing is
+        # the one date about it that cannot move.
+        "path": "/floods/%s-%s/" % (payload["region_id"],
+                                    payload["window"]["end"]),
         # NO .lower() ON THE LABEL. It read "the eastern pyrenees and
         # upper segre": a place name is not a common noun, and the
         # cheap way to make a sentence flow destroyed two of them.
@@ -166,7 +221,7 @@ def piece_from(payload: dict) -> dict:
         "source": {
             "name": rain["instrument"],
             "detail": rain["measures"],
-            "as_of": _pretty(payload["as_of"]),
+            "as_of": _pretty(payload["as_of"]),  # source line: FLO's own stamp
         },
         "attribution": tag,
         "notes": {
@@ -193,12 +248,20 @@ def piece_from(payload: dict) -> dict:
     }
 
 
+def _today():
+    """Today, from the environment. Passed in rather than read inside
+    piece_from so a test can pin it, and so the staleness sentence is never
+    computed from a clock a caller cannot see."""
+    from datetime import date
+    return date.today().isoformat()
+
+
 def main():
     src = Path(sys.argv[1]) if len(sys.argv) > 1 else None
     if src is None or not src.exists():
         raise SystemExit("usage: build_piece.py <floods/data/payload_*.json>")
     payload = json.loads(src.read_text())
-    piece = piece_from(payload)
+    piece = piece_from(payload, today=_today())
     out = ROOT / "docs" / piece["path"].strip("/") / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render(piece, root_prefix="../../"))
