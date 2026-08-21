@@ -52,7 +52,12 @@ import numpy as np
 COUNT_FLOOR = 300          # below this the two MODIS products stop agreeing
 OBS_DEPENDENCE_MAX = 0.50  # Spearman(observability, measure) above this means
                            # the series is ranking clear skies, not floods
-LATENCY_DAYS = {"flood_extent": 3, "rainfall": 1}
+# MEASURED, not documented. On 2026-08-21 the most recent day IMERG Late
+# actually held was 08-19, which is 2 days rather than the 1 this said.
+# It matters because the default data_through is computed from it, so an
+# optimistic latency silently claims coverage of a day that does not
+# exist, which is the recent-edge version of absence-as-zero.
+LATENCY_DAYS = {"flood_extent": 3, "rainfall": 2}
 
 
 # NULL CONTROL, per D-128. The observability-dependence test was run
@@ -345,7 +350,24 @@ def main():
     ap.add_argument("--region", required=True)
     ap.add_argument("--label", required=True, help="human name for the region")
     ap.add_argument("--window", required=True, help="MM-DD:MM-DD")
-    ap.add_argument("--as-of", required=True, help="YYYY-MM-DD")
+    # WAS AMBIGUOUS AND DESIGN CAUGHT IT. as_of moved from 18 to 21 August
+    # on a re-emission that ADDED A FIELD and changed no measurement, so it
+    # was dating the FILE while being read as dating the READING. Their
+    # page eyebrow said "measured 21 August" about rain that stopped on the
+    # 14th, and their URL was keyed on it, so a routine rebuild would have
+    # silently moved the address of an already-shared page.
+    #
+    # Split into two fields that cannot be confused:
+    #   generated    when this file was written. Moves on every re-emit.
+    #   measured_to  the last day of data in the reading. Moves only when
+    #                a measurement changes. Safe to key a URL on.
+    ap.add_argument("--as-of", required=True,
+                    help="YYYY-MM-DD, the run date. Emitted as `generated`.")
+    # What the instrument actually holds, which is NOT the same as today.
+    # IMERG Late runs 1-2 days behind, so on 21 August it reached 19th.
+    ap.add_argument("--data-through", default=None,
+                    help="YYYY-MM-DD, last day the instrument has. "
+                         "Defaults to as-of minus the instrument latency.")
     ap.add_argument("--rain-baseline", required=True)
     # Optional since 2026-08-16. Omitting it yields verdict not_assessed
     # on the flood series, never cannot_say, and never silence.
@@ -370,12 +392,43 @@ def main():
     start = dt.date(year, m0, d0)
     end = dt.date(year, m1, d1)
     expected = (end - start).days + 1
+    # What the instrument actually holds, which is not the same as today.
+    data_through = (dt.date.fromisoformat(args.data_through)
+                    if args.data_through
+                    else as_of - dt.timedelta(days=LATENCY_DAYS["rainfall"]))
+    # The last day of data IN THIS READING. Immutable for a given window
+    # and dataset, so it is the field a URL may safely be keyed on.
+    measured_to = min(end, data_through)
 
     payload = {
         "region_id": args.region,
         "label": args.label,
         "window": {"start": start.isoformat(), "end": end.isoformat()},
-        "as_of": as_of.isoformat(),
+        "generated": as_of.isoformat(),
+        "measured_to": measured_to.isoformat(),
+        # ABSENCE OF DATA AT THE RECENT EDGE, MADE MACHINE-READABLE.
+        # Design's ask, and their reasoning is the one this file is built
+        # on: "a page that does not know its own instrument stops two days
+        # short will imply the event stopped there too. That is the same
+        # absence-as-zero shape as flood extent."
+        #
+        # So a truncated window is a first-class fact, not a caveat in a
+        # message. window_closed distinguishes an event whose window has
+        # genuinely ended from one still running past what we can see.
+        "instrument_coverage": {
+            "data_through": data_through.isoformat(),
+            "days_behind_run_date": (as_of - data_through).days,
+            "window_truncated": bool(data_through < end),
+            "window_closed": bool(data_through >= end),
+            "note": (
+                f"the rainfall instrument holds data to {data_through}; this "
+                f"window ends {end}, so the last "
+                f"{(end - data_through).days} day(s) of it are not yet "
+                f"visible and every total here is a floor"
+                if data_through < end else
+                f"the rainfall instrument holds data to {data_through}, past "
+                f"the window end of {end}, so this window is complete"),
+        },
         # WAS "agency", AND THAT WAS A PROVENANCE MISSTATEMENT.
         # No agency published "69.4 mm over the eastern Pyrenees, rank 1
         # of 27". NASA published the grids; the area mean, the window

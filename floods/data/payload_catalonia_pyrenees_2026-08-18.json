@@ -5,7 +5,15 @@
   "start": "2026-08-01",
   "end": "2026-08-14"
  },
- "as_of": "2026-08-21",
+ "generated": "2026-08-21",
+ "measured_to": "2026-08-14",
+ "instrument_coverage": {
+  "data_through": "2026-08-19",
+  "days_behind_run_date": 2,
+  "window_truncated": false,
+  "window_closed": true,
+  "note": "the rainfall instrument holds data to 2026-08-19, past the window end of 2026-08-14, so this window is complete"
+ },
  "authorship": "tls_built",
  "evidence_basis": "measured",
  "attribution": "not_enso_linked",
