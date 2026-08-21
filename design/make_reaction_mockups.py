@@ -36,6 +36,19 @@ RAIN = next(s for s in PAY["series"] if s["id"] == "rainfall")
 EXT = next(s for s in PAY["series"] if s["id"] == "flood_extent")
 B = RAIN["basis"]
 
+# THE PAYLOAD'S OWN SENTENCE, NOT MY PARAPHRASE OF IT. This box read
+# "not assessed, no baseline exists for this region", which product
+# caught: "no baseline exists" invites a reader to think we CHOSE not to
+# look. The payload's second clause is the load-bearing half and says we
+# do not know, which is the true and more uncomfortable statement and the
+# one that stops absence reading as reassurance.
+#
+# The built row was already quoting the payload in full; only this mockup
+# was short, so the two disagreed about what the row says. Reading the
+# emitted string rather than restating it is the same rule that stopped
+# the crops caveat drifting by a rounding rule.
+EXT_REASON = (EXT.get("not_assessed_reason") or [""])[0]
+
 # LIMA IS OURS NOW. heat/data/lima_nights.json, emitted in 553fa955, so
 # these are read from the file rather than typed from a message. When this
 # mockup was first built the figures were external and it said so; heat has
@@ -176,8 +189,9 @@ def flood_piece():
               '<table><tr><td>Rainfall</td><td class="n">69.4 mm</td>'
               '<td class="n">1st of 27</td></tr>'
               '<tr><td style="color:#6b6a66">Flood extent</td>'
-              '<td colspan="2" style="color:#6b6a66">not assessed &middot; '
-              'no baseline exists for this region</td></tr></table>'
+              '<td colspan="2" style="color:#6b6a66">not assessed</td></tr>'
+              '<tr><td colspan="3" style="color:#6b6a66;font-size:12.5px;'
+              'padding-top:0">' + EXT_REASON + '</td></tr></table>'
               '<p class="note" style="margin-top:8px">The gap is drawn at the '
               'same weight as the measurement, so absence cannot read as zero.</p>')
         + opt("B", "prose only, under “what this is not”",
