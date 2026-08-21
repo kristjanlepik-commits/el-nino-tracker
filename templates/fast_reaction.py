@@ -232,6 +232,20 @@ def fr_instruments(piece):
             'was not</caption>%s</table>\n' % "".join(out))
 
 
+def fr_corroboration(piece):
+    """Whether the event happened, when we have not established it.
+
+    Same treatment as the staleness line and for the same reason: a reader
+    who takes only the headline is the one who most needs it, and this
+    qualifies what the page's own URL asserts rather than what its
+    measurement says.
+    """
+    text = piece.get("corroboration")
+    if not text:
+        return ""
+    return '  <p class="fr-stale fr-unk">%s</p>\n' % h(text)
+
+
 def fr_stale(piece):
     """A closed event says so, directly under the claim.
 
@@ -325,6 +339,7 @@ main {{ max-width: 820px; margin: 0 auto; padding: 28px 24px 80px; }}
 .fr-stale {{ border-left:3px solid var(--ink-faint); padding:8px 0 8px 13px;
   margin:0 0 16px; font-size:14px; line-height:1.5; color:var(--ink-2);
   max-width:62ch; }}
+.fr-unk {{ border-left-color:var(--ink); }}
 .fr-eyebrow {{
   font-family: "{T.FONT_DATA}", ui-monospace, monospace;
   font-size: 11px; letter-spacing: {T.TRACK_LABEL}em;
@@ -400,7 +415,7 @@ h1 {{
   <p class="fr-eyebrow">{h(piece.get("region", ""))} &middot;
      {h(piece.get("window", ""))}{" &middot; " + h(piece["measured"]) if piece.get("measured") else ""}</p>
   <h1>{h(piece.get("claim", ""))}</h1>
-{fr_stale(piece)}  <p class="fr-stand">{h(piece.get("standfirst", ""))}</p>
+{fr_stale(piece)}{fr_corroboration(piece)}  <p class="fr-stand">{h(piece.get("standfirst", ""))}</p>
 
 {fr_instruments(piece)}
   <div class="fr-cell">

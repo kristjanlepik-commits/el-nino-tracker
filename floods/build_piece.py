@@ -88,6 +88,20 @@ def _days_between(a, b):
     return (date(yb, mb, db) - date(ya, ma, da)).days
 
 
+def _corroboration_line(corr):
+    """What we know about whether the event happened, from outside.
+
+    Silent when confirmed: a page about a flood that did flood needs no
+    sentence saying so, and one there would read as doubt.
+    """
+    if corr.get("state") != "unknown":
+        return ""
+    return ("Whether this rainfall caused flooding has not been "
+            "established. %s Our own instruments measure rainfall and flood "
+            "extent, and neither can answer it."
+            % corr.get("detail", "").strip())
+
+
 def _staleness(window, today):
     """How old the event is, in the page's own words, or "" if current.
 
@@ -281,8 +295,13 @@ def piece_from(payload: dict, today: str) -> dict:
     # So this refuses rather than warns. A warning is forgettable and the
     # failure it prevents is the channel's name asserting something the
     # channel has never measured.
-    corr = payload.get("event_corroboration")
-    if not corr or corr.get("occurred") is None:
+    # READ `state`, NOT `occurred`. FLO encodes unknown as occurred null
+    # with state "unknown", so testing `occurred is None` refused the
+    # Pyrenees, which is exactly the case that is supposed to build. A
+    # tri-state read through a boolean field is two of the three states.
+    corr = payload.get("event_corroboration") or {}
+    state = corr.get("state")
+    if state not in ("true", "false", "unknown"):
         raise SystemExit(
             "REFUSING TO BUILD: %s carries no event_corroboration.\n"
             "  Nothing in this payload says a flood occurred. It measures\n"
@@ -294,7 +313,7 @@ def piece_from(payload: dict, today: str) -> dict:
             "  Cologne gauge at 76 cm against a 725 cm mean flood level."
             % (payload["region_id"],
                (extent or {}).get("verdict", "absent")))
-    if corr.get("occurred") is False:
+    if state == "false":
         raise SystemExit(
             "REFUSING TO BUILD: %s did not flood.\n  %s"
             % (payload["region_id"], corr.get("detail", "")))
@@ -365,6 +384,14 @@ def piece_from(payload: dict, today: str) -> dict:
         # END is a week old. Both are true and they are different sentences,
         # so the page states the span rather than picking a number.
         "staleness": _staleness(payload["window"], today),
+        # SAID ON THE PAGE, NOT JUST CHECKED AT BUILD TIME. `unknown`
+        # builds by design, so a page that passed the guard silently
+        # would carry the same false assertion the guard exists to
+        # stop, with an extra field behind it making everyone feel
+        # better. It sits beside the staleness line, above the
+        # standfirst, because it qualifies the URL rather than the
+        # measurement.
+        "corroboration": _corroboration_line(corr),
         # THE URL IS THE EVENT, SO IT COMES FROM THE WINDOW, NOT as_of.
         # Built from as_of first, which moved from 18 to 21 August when
         # FLO re-emitted the payload to ADD A FIELD, changing no
