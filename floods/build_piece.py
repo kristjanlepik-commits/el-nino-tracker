@@ -247,11 +247,57 @@ def _instrument_rows(payload, rain, basis, extent, find):
 
 def piece_from(payload: dict, today: str) -> dict:
     rain = next((s for s in payload["series"] if s["id"] == "rainfall"), None)
+    extent = next((s for s in payload["series"]
+                   if s["id"] == "flood_extent"), None)
     if rain is None:
         raise SystemExit("no rainfall series in payload")
 
     basis = rain["basis"]
     find = rain.get("finding") or {}
+
+    # A PAGE ON THE FLOODS CHANNEL IS ABOUT A FLOOD, AND NOTHING IN THE
+    # PAYLOAD SAYS ONE HAPPENED.
+    #
+    # The Rhine is what surfaced it. Ordinary accumulation, rendered
+    # honestly, three instrument rows, every caveat in place, and FLO then
+    # read the Cologne gauge: 76 cm, BELOW mean low water, about a tenth of
+    # mean flood level. The river did not flood. It rose from a record low
+    # to a still-abnormally-low level. A Floods page about it would have
+    # been wrong about its subject in a way no caveat rescues.
+    #
+    # THE RHINE WAS NOT A NEAR MISS, IT WAS THE GENERAL CASE. Checked every
+    # payload afterwards: not one carries any field asserting that a flood
+    # occurred. Every one measures RAINFALL and every one reports
+    # flood_extent as not_assessed or cannot_say. That includes the
+    # Pyrenees piece, which has been ready to publish all day and which I
+    # have been describing as a clean validated European finding. It is a
+    # clean validated RAINFALL finding. Whether anything flooded there is
+    # something we have never established.
+    #
+    # The Rhine only got caught because FLO happened to hold a German
+    # gauge. They hold no Italian or Polish one, so Po and Vistula cannot
+    # be checked the same way and must not be assumed similar.
+    #
+    # So this refuses rather than warns. A warning is forgettable and the
+    # failure it prevents is the channel's name asserting something the
+    # channel has never measured.
+    corr = payload.get("event_corroboration")
+    if not corr or corr.get("occurred") is None:
+        raise SystemExit(
+            "REFUSING TO BUILD: %s carries no event_corroboration.\n"
+            "  Nothing in this payload says a flood occurred. It measures\n"
+            "  rainfall; flood_extent is %r. A page on a channel called\n"
+            "  Floods asserts a flood by existing, and no caveat inside it\n"
+            "  undoes the assertion its own URL makes.\n"
+            "  Needs event_corroboration {occurred: true|false|unknown,\n"
+            "  source, detail}. The Rhine reads occurred: false on the\n"
+            "  Cologne gauge at 76 cm against a 725 cm mean flood level."
+            % (payload["region_id"],
+               (extent or {}).get("verdict", "absent")))
+    if corr.get("occurred") is False:
+        raise SystemExit(
+            "REFUSING TO BUILD: %s did not flood.\n  %s"
+            % (payload["region_id"], corr.get("detail", "")))
 
     # THE CHART IS THE FORMAT, so a missing series is a refusal rather than
     # a smaller chart. D-029 specifies ONE CITABLE CHART, and the citable
@@ -278,8 +324,6 @@ def piece_from(payload: dict, today: str) -> dict:
                basis["rank"], basis["of"]))
 
     cur = str(max(int(y) for y in years))
-    extent = next((s for s in payload["series"]
-                   if s["id"] == "flood_extent"), None)
 
     # ATTRIBUTION MAPS, IT DOES NOT PASS THROUGH. FLO writes
     # "not_enso_linked"; the template's vocabulary is enso | non_enso |
