@@ -104,6 +104,42 @@ def _staleness(window, today):
             % (end_age, start_age, _window_words(window)))
 
 
+def _instrument_rows(payload, rain, basis, extent):
+    """Every instrument the piece could have used, assessed or not."""
+    cov = payload.get("instrument_coverage") or {}
+    rows = [{
+        "name": "Rainfall",
+        "detail": rain["instrument"],
+        "value": "%.1f mm" % rain["value"],
+        "rank": "%s of %s" % (basis["rank"], basis["of"]),
+        "state": "measured",
+    }]
+    # THE INSTRUMENT'S OWN REACH IS PART OF THE ROW. FLO emits
+    # data_through and window_truncated; a window that closed before the
+    # data ran out is complete, and one that did not is a page whose
+    # event may still be going. Rendering the flag rather than the note,
+    # because a page that does not know its instrument stopped short
+    # implies the event stopped there too.
+    if cov.get("window_truncated"):
+        rows[0]["caveat"] = (
+            "The instrument holds data only to %s, %s day%s short of this "
+            "window. The event may have continued past what is measured "
+            "here."
+            % (_pretty(cov.get("data_through", "?")),
+               cov.get("days_behind_run_date", "?"),
+               "" if cov.get("days_behind_run_date") == 1 else "s"))
+    if extent:
+        rows.append({
+            "name": "Flood extent",
+            "detail": extent.get("instrument", ""),
+            "value": "not assessed",
+            "rank": "",
+            "state": "not_assessed",
+            "caveat": (extent.get("not_assessed_reason") or [""])[0],
+        })
+    return rows
+
+
 def piece_from(payload: dict, today: str) -> dict:
     rain = next((s for s in payload["series"] if s["id"] == "rainfall"), None)
     if rain is None:
@@ -221,8 +257,21 @@ def piece_from(payload: dict, today: str) -> dict:
         "source": {
             "name": rain["instrument"],
             "detail": rain["measures"],
-            "as_of": _pretty(payload["as_of"]),  # source line: FLO's own stamp
+            # FLO SPLIT as_of INTO TWO FIELDS after I reported it was dating
+        # the file while the page read it as dating the reading. The source
+        # line now carries the one a citation needs: how far the
+        # measurement reaches. `generated` is when the file was written and
+        # belongs nowhere on the page.
+        "as_of": _pretty(payload["measured_to"]),
         },
+        # DECISION 2A, Kristjan's call. Flood extent is a ROW in the
+        # instrument table at the same weight as the measurement, not a
+        # sentence under "what this is not". A reader who skims sees that a
+        # second instrument exists and was not assessed; in prose below the
+        # fold they have already formed a view. Absent-read-as-zero is this
+        # project's recurring defect and a row is the version a skimmer
+        # cannot miss.
+        "instruments": _instrument_rows(payload, rain, basis, extent),
         "attribution": tag,
         "notes": {
             "what_this_is": (

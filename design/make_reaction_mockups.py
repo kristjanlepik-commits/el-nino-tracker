@@ -36,10 +36,30 @@ RAIN = next(s for s in PAY["series"] if s["id"] == "rainfall")
 EXT = next(s for s in PAY["series"] if s["id"] == "flood_extent")
 B = RAIN["basis"]
 
-# Lima: EXTERNAL. Station bulletins and GHCN, via heat. Not in this repo.
-LIMA_TOP = [("1997", 21.0, True), ("2023", 20.3, True), ("1983", 18.7, True),
-            ("1976", 18.0, True), ("2015", 17.6, True)]
-LIMA_NOW = ("2026", 21.7)
+# LIMA IS OURS NOW. heat/data/lima_nights.json, emitted in 553fa955, so
+# these are read from the file rather than typed from a message. When this
+# mockup was first built the figures were external and it said so; heat has
+# since built the artifact.
+_LIMA = json.loads((ROOT / "heat/data/lima_nights.json").read_text())
+_REC = sorted(_LIMA["august_record"], key=lambda r: -(r["warmest_night_c"] or 0))
+
+# THE FIRST VERSION OF THIS CHART ASSERTED SOMETHING FALSE. Product wrote,
+# and I drew, "that list of years IS the El Nino list, in order". Heat
+# checked it against our own ONI and it is not: August 1983 was NEUTRAL,
+# ONI -0.24, sitting in the decay of the 1982-83 event. A calendar-year
+# label files that El Nino under 1982 and calls 1983 la_nina, which would
+# have put a La Nina year among the five warmest on a chart arguing warm
+# August nights are El Nino nights.
+#
+# So each August is labelled by the ocean AT THAT AUGUST, and the true
+# claim is FOUR of the five, not five. Weaker, and it survives contact
+# with our own year-status file, which the stronger one did not.
+LIMA_TOP = [(str(r["year"]), r["warmest_night_c"], r["enso"] == "el_nino")
+            for r in _REC[:5]]
+_CW = _LIMA["current_winter"]
+LIMA_NOW = (str(_CW["year"]), _CW["warmest_night_c"])
+LIMA_N, LIMA_OF = _CW["nights_at_or_above_20"], _CW["nights_measured"]
+LIMA_MONTHS = _CW["by_month"]
 
 CSS = """
 :root{--paper:#f1efec;--ink:#1a1a1a;--ink2:#3a3a38;--ink3:#6b6a66;
@@ -234,22 +254,66 @@ def flood_piece():
            RAIN["instrument"]))
 
 
+def _full_record_option():
+    """The whole GHCN record, now that heat has emitted it.
+
+    OFFERED, NOT SUBSTITUTED. Kristjan has already ruled on the chart, and
+    this is a new capability rather than a re-run of a settled question:
+    when the six-bar version was drawn, the full record did not exist in
+    the repo and the mockup said heat would have to build it. They have.
+
+    It is the more honest picture and it makes the marking argument better
+    rather than worse: on six bars a reader sees four marks and takes our
+    word for the pattern; on the whole record they can see every El Nino
+    August and judge it. It also shows the years the top-five view hides,
+    including the El Nino Augusts that were NOT warm.
+    """
+    rows = sorted(_REC, key=lambda r: r["year"])
+    top = max(r["warmest_night_c"] for r in rows + [
+        {"warmest_night_c": LIMA_NOW[1]}])
+    w, gap, h, pad = 15, 4, 130, 18
+    out, x = [], 0
+    for r in rows + [{"year": int(LIMA_NOW[0]), "warmest_night_c": LIMA_NOW[1],
+                      "enso": "current"}]:
+        v = r["warmest_night_c"]
+        bh = h * (v / top)
+        cur = r.get("enso") == "current"
+        fill = ("#b4531f" if cur else
+                "#7d9aa3" if r.get("enso") == "el_nino" else "#cfcabf")
+        out.append('<rect x="%d" y="%.1f" width="%d" height="%.1f" fill="%s">'
+                   '<title>%s: %.1f C, %s</title></rect>'
+                   % (x, pad + h - bh, w, bh, fill, r["year"], v,
+                      r.get("enso", "")))
+        if cur or r["year"] in (1997, 1983):
+            out.append('<text x="%d" y="%d" text-anchor="middle" font-size="9" '
+                       'font-family="ui-monospace,Menlo,monospace" '
+                       'fill="#6b6a66">%s</text>'
+                       % (x + w // 2, pad + h + 12, r["year"]))
+        x += w + gap
+    n_nino = sum(1 for r in rows if r.get("enso") == "el_nino")
+    return (
+        '<div class="opt"><p class="mono">Option &middot; the whole record, '
+        'now that it exists</p>'
+        '<svg viewBox="0 0 %d %d" width="100%%" style="max-width:%dpx;height:auto">'
+        '%s</svg>'
+        '<p class="note" style="margin-top:8px">All %d measured Augusts in '
+        'GHCN, El Nino Augusts marked, 2026 at the right. It makes the '
+        'marking argument better rather than worse: on six bars a reader '
+        'takes our word for the pattern, and here they can see it, including '
+        'the %d El Nino Augusts that were not warm.</p>'
+        '<p class="lean">Offered, not substituted. You have ruled on the '
+        'chart; this only became possible when heat emitted the record.</p>'
+        '</div>' % (x, pad + h + 18, x, "".join(out), len(rows), n_nino))
+
+
 def lima_piece():
     chart = bars(LIMA_TOP, LIMA_NOW, "#b4531f", "El Nino")
     return (
         '<div class="piece">'
         '<p class="mono">Mockup 2 &middot; heat &middot; Lima</p>'
-        '<div class="prov"><b>These numbers are not ours</b>'
-        'Every figure in this piece comes from the station&rsquo;s own '
-        'bulletins and GHCN, via heat. Nothing in this repo contains station '
-        '84628, Jorge Chavez or Lima: our 45 heat cities are all European, and '
-        'Lima is 0 of 30 on both WMO baselines, so our percentile instrument '
-        '<b style="display:inline">cannot be built there</b>. This is a '
-        'proposal for a piece, not a piece. Product stated these to Kristjan '
-        'once today as a finding in the repo and he caught it; a mockup '
-        'without its provenance on its face gets believed within a week.</div>'
+        '<div class="prov"><b>Corrected since you last saw this</b>This piece originally said the five warmest August nights ARE the El Nino list, in order. That was false and heat caught it against our own ONI: August 1983 was NEUTRAL, ONI &minus;0.24, sitting in the decay of the 1982-83 event. The true claim is FOUR of the five. Weaker, and it survives contact with our own year-status file, which the stronger one did not. The figures are also ours now: heat emitted heat/data/lima_nights.json and this reads from it rather than from a message.</div>'
         '<p class="mono" style="color:#1a1a1a">Lima &middot; winter 2026 '
-        '&middot; station bulletins, unverified by us</p>'
+        '&middot; GHCN record, current winter from station bulletins</p>'
         '<p class="claim">Lima has had 75 of its last 77 winter nights at or '
         'above 20&nbsp;&deg;C.</p>'
         '<p class="stand">June 29 of 29, July 30 of 30, August 16 of 18. The '
@@ -258,16 +322,17 @@ def lima_piece():
         '<hr class="r">'
         '<p class="mono">The chart, and it is the whole piece</p>'
         '<p class="note" style="margin-bottom:10px">The five warmest August '
-        'nights in Lima&rsquo;s GHCN record, and 2026. <b>That list of years '
-        'IS the El Nino list, in order.</b> No European page of ours can show '
-        'this, and it is the tracker&rsquo;s own thesis made visible on a '
-        'surface for the first time.</p>'
+        'nights in Lima&rsquo;s GHCN record, and 2026. <b>Four of the five '
+        'fell in an El Nino August</b>, marked below; 1983 did not, and is '
+        'not marked. Each August is labelled by the ocean AT THAT AUGUST, '
+        'not by its calendar year. No European page of ours can show this.</p>'
         + chart +
-        '<p class="note" style="margin-top:12px">Six points, not a series. '
-        'These are the top five plus this year, which is what we hold; the '
-        'full annual record would be the honest version and heat would have to '
-        'build it. Drawn as six bars rather than as a run of years so the '
-        'chart cannot be read as a complete history.</p>'
+        '<p class="note" style="margin-top:12px">Six points, not a series: '
+        'the top five and this year. Drawn as six discrete bars so it cannot '
+        'be read as a complete history. <b>Heat has since emitted the full '
+        'record</b>, so the option below is now possible and was not when '
+        'this was first drawn.</p>'
+        + _full_record_option() +
         '<hr class="r">'
         '<h3 class="mono" style="color:#1a1a1a;font-size:12px">Decision 4 '
         '&middot; count versus peak, and it is our distinction</h3>'
@@ -288,26 +353,17 @@ def lima_piece():
         'the chart underneath it does the shareable work anyway.</p>'
         '<hr class="r">'
         '<h3 class="mono" style="color:#1a1a1a;font-size:12px">Decision 5 '
-        '&middot; how loudly does the page say the years are El Nino years?</h3>'
-        '<p class="note">The pattern is the point and it is also the strongest '
-        'causal-sounding thing we would have published. The attribution tag '
-        'says what we can support; the chart says more than the tag does.</p>'
-        '<div class="grid2">'
-        + opt("A", "mark the years, say nothing further",
-              '<span class="tag">1997 &middot; 2023 &middot; 1983 &middot; 1976 '
-              '&middot; 2015 marked El Nino</span>'
-              '<p class="note" style="margin-top:8px">The reader draws the '
-              'conclusion. We have not made a claim we cannot defend.</p>')
-        + opt("B", "name it in the standfirst",
-              '<p class="note">Every one of the five warmest August nights in '
-              'Lima&rsquo;s record fell in an El Nino year.</p>'
-              '<p class="note" style="margin-top:8px">True as stated, and it '
-              'is an association rather than a mechanism. Five points.</p>')
-        + '</div>'
-        '<p class="lean">Unsure, and this is the one I would most like your '
-        'call on. B is more useful and closer to the thesis; A is the posture '
-        'we have held everywhere else, which is that the reader connects and '
-        'we do not.</p>'
+        '&middot; SETTLED: mark the years, claim nothing further</h3>'
+        '<p class="note">Kristjan\'s call. The chart marks which Augusts were '
+        'El Nino and the prose does not argue from it. The reader connects; '
+        'we do not. That posture is the reason the correction above cost us '
+        'a word and not a page: nothing in the copy had been built on five '
+        'of five, because the copy never made the claim.</p>'
+        '<p class="lean">Worth noting what nearly happened. The stronger '
+        'claim was the one everybody wanted, including me, and it was wrong '
+        'in the one direction that would have embarrassed the thesis it was '
+        'meant to support: a La Nina year among the five warmest, on a chart '
+        'arguing warm nights are El Nino nights.</p>'
         '</div>')
 
 

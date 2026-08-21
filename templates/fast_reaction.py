@@ -200,6 +200,38 @@ def _series_bars(chart: dict, hue: str) -> str:
             + "".join(parts) + '</svg>')
 
 
+def fr_instruments(piece):
+    """Every instrument, assessed or not, at one weight. Decision 2A.
+
+    THE NOT-ASSESSED ROW IS DRAWN, NOT OMITTED. It carries the same type
+    and the same column as the measurement, and only its value differs.
+    Greyed but present is the point: a row that says "not assessed" cannot
+    be read as a zero, and a row that is missing entirely will be.
+
+    D-193 is the reason there is anything to say. Flood extent failed the
+    screen on 0 of 6 European regions not because Europe cannot be seen,
+    but because week-to-week visibility varies enough that a ranking would
+    rank the weather over the sensor. That is a limit we measured.
+    """
+    rows = piece.get("instruments") or []
+    if not rows:
+        return ""
+    out = []
+    for r in rows:
+        na = r.get("state") == "not_assessed"
+        out.append(
+            '<tr class="%s"><th scope="row">%s<span>%s</span></th>'
+            '<td class="fr-iv">%s</td><td class="fr-ir">%s</td></tr>'
+            % ("fr-na" if na else "", h(r.get("name", "")),
+               h(r.get("detail", "")), h(r.get("value", "")),
+               h(r.get("rank", ""))))
+        if r.get("caveat"):
+            out.append('<tr class="fr-icav"><td colspan="3">%s</td></tr>'
+                       % h(r["caveat"]))
+    return ('  <table class="fr-inst"><caption>What was measured, and what '
+            'was not</caption>%s</table>\n' % "".join(out))
+
+
 def fr_stale(piece):
     """A closed event says so, directly under the claim.
 
@@ -272,6 +304,24 @@ body {{
 }}
 main {{ max-width: 820px; margin: 0 auto; padding: 28px 24px 80px; }}
 {SITE_MASTHEAD_CSS}
+.fr-inst {{ width:100%; border-collapse:collapse; margin:0 0 22px;
+  font-size:14px; }}
+.fr-inst caption {{ text-align:left; font-family:"{T.FONT_DATA}",monospace;
+  font-size:10px; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--ink-faint); padding-bottom:7px; }}
+.fr-inst tr {{ border-top:1px solid var(--rule); }}
+.fr-inst th {{ text-align:left; font-weight:400; padding:9px 12px 9px 0;
+  vertical-align:baseline; }}
+.fr-inst th span {{ display:block; font-family:"{T.FONT_DATA}",monospace;
+  font-size:10.5px; color:var(--ink-faint); margin-top:2px; }}
+.fr-iv {{ font-family:"{T.FONT_DATA}",monospace; text-align:right;
+  padding:9px 14px 9px 0; white-space:nowrap; }}
+.fr-ir {{ font-family:"{T.FONT_DATA}",monospace; text-align:right;
+  color:var(--ink-2); padding:9px 0; white-space:nowrap; }}
+.fr-inst tr.fr-na th, .fr-inst tr.fr-na .fr-iv {{ color:var(--ink-faint); }}
+.fr-icav td {{ padding:0 0 10px; font-size:12.5px; line-height:1.5;
+  color:var(--ink-faint); border:0; }}
+.fr-icav {{ border-top:0 !important; }}
 .fr-stale {{ border-left:3px solid var(--ink-faint); padding:8px 0 8px 13px;
   margin:0 0 16px; font-size:14px; line-height:1.5; color:var(--ink-2);
   max-width:62ch; }}
@@ -352,6 +402,7 @@ h1 {{
   <h1>{h(piece.get("claim", ""))}</h1>
 {fr_stale(piece)}  <p class="fr-stand">{h(piece.get("standfirst", ""))}</p>
 
+{fr_instruments(piece)}
   <div class="fr-cell">
     <div class="fr-hero">{h((piece.get("value") or {}).get("display", ""))}</div>
     <p class="fr-cap">{h((piece.get("value") or {}).get("caption", ""))}</p>
