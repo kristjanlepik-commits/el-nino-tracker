@@ -58,6 +58,20 @@ WEEK_PUB = ROOT / "fires" / "data" / "published" / "current_week.json"
 # template half of the same fix.
 EU_CUR = ROOT / "fires" / "data" / "eu_area.json"
 EU_PUB = ROOT / "fires" / "data" / "published" / "eu_area.json"
+# Per-country season history, added 2026-08-22 after Fire traced every
+# file fires/build_page.py and fires/build_country_pages.py actually
+# read (not just what appears in the builder's own source, which is how
+# eu_area.json was missed too) and found this directory referenced
+# nowhere in either gate. It is not incidental: it is where the
+# "It has already passed <year>, the previous record season" /
+# "The record season, <year>, reached N ha" sentence on every country
+# page comes from (fires/build_country_pages.py:231-239), a DIFFERENT
+# record claim from burnt_area.json's area_ha-vs-max_ha one above. Fire
+# demonstrated the gap directly: quadrupling a historical year's series
+# in a scratch clone flipped a country's page from "passed the record"
+# to "the record still stands" and the old gate reported PUBLISH.
+AREA_HIST_DIR = ROOT / "fires" / "data" / "area_history"
+AREA_HIST_PUB_DIR = ROOT / "fires" / "data" / "published" / "area_history"
 
 
 def _is_area_record(country: dict) -> bool | None:
@@ -192,11 +206,66 @@ def classify(prev: dict, cur: dict) -> tuple[list[str], list[str]]:
         if pa != ca:
             report.append(f"EU envelope: area_ha {pa} -> {ca}")
 
+    # fires/data/area_history/<ISO>.json: the season-record claim on
+    # every country page, computed exactly as
+    # fires/build_country_pages.py:231-239 does, "this year" being the
+    # newest year key present rather than date.today().year, so this
+    # stays deterministic and testable rather than depending on the
+    # clock. Only whether the claim's TRUTH VALUE changes is a block; the
+    # margin by which a season leads or trails is ordinary.
+    hist_pairs = cur.get("area_history") or {}
+    hist_prev = prev.get("area_history") or {}
+    for iso in sorted(set(hist_prev) & set(hist_pairs)):
+        pb = _beat_record(hist_prev[iso])
+        cb = _beat_record(hist_pairs[iso])
+        if pb != cb and pb is not None and cb is not None:
+            block.append(
+                f"{iso}: season-record claim {pb} -> {cb}. This is the "
+                f"'has already passed <year>' / 'the record still stands' "
+                f"sentence on the country page, computed from "
+                f"fires/data/area_history/{iso}.json, a different file "
+                f"from burnt_area.json's own record check above.")
+
     return block, report
+
+
+def _beat_record(years: dict) -> bool | None:
+    """True if the newest year's cumulative max beats every prior year's,
+    mirroring fires/build_country_pages.py's beat_record computation.
+    None when there's nothing to compare (a country with only one year
+    of history, or malformed data)."""
+    if not years or len(years) < 2:
+        return None
+    try:
+        year = max(int(y) for y in years)
+    except (TypeError, ValueError):
+        return None
+    prior = [y for y in years if int(y) != year]
+    if not prior:
+        return None
+    rec_v = max(max(years[y].values()) for y in prior)
+    cur_v = max(years[str(year)].values())
+    return cur_v > rec_v
 
 
 def _load(path: Path):
     return json.loads(path.read_text()) if path.exists() else {}
+
+
+def _load_area_history(directory: Path) -> dict:
+    """{ISO: {year: {week: value}}} for every area_history file present.
+    Missing directory (no baseline yet) yields an empty dict, same
+    "nothing to compare, not this run's problem" shape as _load."""
+    out = {}
+    if not directory.exists():
+        return out
+    for p in sorted(directory.glob("*.json")):
+        try:
+            raw = json.loads(p.read_text())["years"]
+        except (OSError, ValueError, KeyError):
+            continue
+        out[p.stem] = raw
+    return out
 
 
 def main() -> int:
@@ -205,9 +274,11 @@ def main() -> int:
               "against.", file=sys.stderr)
         return 1
     prev = {"events": _load(EVENTS_PUB), "burnt_area": _load(AREA_PUB),
-            "current_week": _load(WEEK_PUB), "eu_area": _load(EU_PUB)}
+            "current_week": _load(WEEK_PUB), "eu_area": _load(EU_PUB),
+            "area_history": _load_area_history(AREA_HIST_PUB_DIR)}
     cur = {"events": _load(EVENTS_CUR), "burnt_area": _load(AREA_CUR),
-           "current_week": _load(WEEK_CUR), "eu_area": _load(EU_CUR)}
+           "current_week": _load(WEEK_CUR), "eu_area": _load(EU_CUR),
+           "area_history": _load_area_history(AREA_HIST_DIR)}
     block, report = classify(prev, cur)
     for r in report:
         print(f"    changed: {r}")

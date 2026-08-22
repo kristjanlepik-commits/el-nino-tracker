@@ -860,6 +860,18 @@ def main() -> None:
             if cur.exists() and (not pub.exists() or pub.read_bytes() != cur.read_bytes()):
                 pub.parent.mkdir(parents=True, exist_ok=True)
                 pub.write_bytes(cur.read_bytes())
+        # area_history is a directory of per-country files, added
+        # 2026-08-22 after Fire found it entirely uncovered (it is where
+        # the season-record sentence on every country page comes from,
+        # not burnt_area.json). Promoted the same way, file by file.
+        hist_dir = ROOT / "fires" / "data" / "area_history"
+        hist_pub_dir = ROOT / "fires" / "data" / "published" / "area_history"
+        if hist_dir.exists():
+            hist_pub_dir.mkdir(parents=True, exist_ok=True)
+            for p in hist_dir.glob("*.json"):
+                pub = hist_pub_dir / p.name
+                if not pub.exists() or pub.read_bytes() != p.read_bytes():
+                    pub.write_bytes(p.read_bytes())
         print("  promoted fires/data/published/* to the payload just "
               "published; the gate now compares against what is "
               "actually live.")
