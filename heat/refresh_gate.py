@@ -67,7 +67,7 @@ def classify(prev, cur):
     Dresden and Berlin, and stops on Malaga's withdrawn record and the three
     new cities. Smaller ask of the operator, stricter check on the data.
     """
-    block, report = [], []
+    block, report, withdrawn = [], [], []
 
     pc, cc = prev.get("cities", {}), cur.get("cities", {})
     added = sorted(set(cc) - set(pc))
@@ -114,10 +114,48 @@ def classify(prev, cur):
             return rk["value"] - 1 - len(rk.get("tied_with") or [])
         pa, na = _above(p), _above(n)
         if pa == 0 and na not in (0, None):
-            block.append(
-                f"{c}: RECORD WITHDRAWN. {na} year(s) now stand above 2026 "
-                f"where none did. The live page claims a record it no longer "
-                f"holds; this wants a correction rather than a quiet change.")
+            # WHY IT WAS WITHDRAWN DECIDES WHETHER IT IS A CORRECTION, and
+            # the guard could not see the difference. Design raised it and
+            # editor's rule is the test: only a MISTAKE is a correction. The
+            # bar rising was an error we made; the cut advancing was not, and
+            # a correction block explaining a refresh is a correction block
+            # explaining that we published on time.
+            #
+            # Measured, not assumed. Alicante and Palma both looked like
+            # withdrawals on 22 August and design read Palma as a method
+            # change on the strength of pctl_baseline_is_default being false.
+            # It is false because Palma has no complete 1971-2000 at all,
+            # which is a standing property rather than something that
+            # changed. Both thresholds were IDENTICAL across the two builds,
+            # 33.8 and 33.6, and both cities had been TIED for their record
+            # and had the tie broken as the calendar moved. Same case.
+            pt = ((p.get("days") or {}).get("thresholds_c") or {}).get("95")
+            nt = ((n.get("days") or {}).get("thresholds_c") or {}).get("95")
+            moved_cut = p.get("counted_to") != n.get("counted_to")
+            if pt != nt:
+                why, needs = "method_changed", True
+            elif moved_cut:
+                why, needs = "cut_advanced", False
+            else:
+                why, needs = "data_revised", True
+            entry = {
+                "city": c, "reason": why, "needs_correction": needs,
+                "threshold_95": {"was": pt, "now": nt},
+                "cut": {"was": p.get("counted_to"), "now": n.get("counted_to")},
+                "years_above": {"was": pa, "now": na},
+            }
+            withdrawn.append(entry)
+            if needs:
+                block.append(
+                    f"{c}: RECORD WITHDRAWN, reason {why}. The threshold "
+                    f"moved from {pt} to {nt}, so the bar changed under a "
+                    f"claim we published. This wants a correction.")
+            else:
+                report.append(
+                    f"{c}: record withdrawn, reason cut_advanced. The bar is "
+                    f"unchanged at {nt} C and the cut moved {p.get('counted_to')} "
+                    f"to {n.get('counted_to')}; a rival year gained faster. "
+                    f"We were current, not wrong, so no correction block.")
         pb, nb = p.get("legend_band"), n.get("legend_band")
         if pb != nb:
             report.append(f"{c}: legend band {pb} -> {nb}")
@@ -132,12 +170,12 @@ def classify(prev, cur):
                 f"the 2003 {label} comparison FLIPPED: "
                 f"may_say_worst_on_record {pd.get('may_say_worst_on_record')}"
                 f" -> {nd.get('may_say_worst_on_record')}")
-    return block, report
+    return block, report, withdrawn
 
 
 def compare(prev, cur):
     """Kept for callers that want every change as one list."""
-    b, r = classify(prev, cur)
+    b, r, _ = classify(prev, cur)
     return b + r
 
 
@@ -150,7 +188,15 @@ def main() -> int:
         return 1
     prev = json.loads(PREVIOUS.read_text())
     cur = json.loads(CURRENT.read_text())
-    block, report = classify(prev, cur)
+    block, report, withdrawn = classify(prev, cur)
+    if withdrawn:
+        # A FIELD, NOT A PRINT. Design needs the reason to decide whether
+        # editor writes a correction, and a reason that lives only in this
+        # script's stdout is a reason the build cannot act on.
+        (ROOT / "heat" / "data" / "record_withdrawals.json").write_text(
+            json.dumps({"withdrawals": withdrawn}, indent=1) + "\n")
+        print(f"  wrote heat/data/record_withdrawals.json "
+              f"({len(withdrawn)} withdrawal(s))")
     for r in report:
         print(f"    changed: {r}")
     if not block:
