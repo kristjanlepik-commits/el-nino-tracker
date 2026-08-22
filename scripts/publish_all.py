@@ -215,15 +215,68 @@ SIGNOFF_INPUTS = {
         # set from what the builders actually open (not maintaining it
         # by reading them) is the real fix and is not done here.
         "templates/eu_area_chart.py",
+        # Fire's derived-dependency audit (fires/derive_inputs.py,
+        # wraps open() AND walks sys.modules, since imports bypass
+        # open() and a trace of just the latter misses every template):
+        # 48 real inputs, 19 already protected, 9 not. Four resolved as
+        # real, presentation-carrying dependencies, byte-hash correct:
+        "tokens.py", "templates/page_head.py", "templates/subscribe_band.py",
+        # run_brief.py is the fourth, and NOT hashed whole: 46 commits
+        # since 1 August, nearly all of them methodology/headline work
+        # with no bearing on fires. Only the three symbols fires
+        # actually imports (fires/build_page.py:24,35) are hashed, via
+        # the "path::SYMBOL" form _symbol_source() reads. Whole-file
+        # hashing here would recreate D-212's own over-blocking problem
+        # one level up, in a shared code file instead of a data pull.
+        "run_brief.py::PAGES_BASE_URL", "run_brief.py::SITE_NAME",
+        "run_brief.py::ANALYTICS_SNIPPET",
+        # analog.py, probs.py, snapshot.py, sources.py appear in the
+        # trace only because run_brief.py imports them; fires/build_page.py
+        # never touches them. Fire's own finding: a module imported by a
+        # dependency is not itself a render input, and the tool cannot
+        # yet tell the difference. Left out rather than added on the
+        # trace's word alone.
     ],
 }
 
 SIGNOFF_DIR = ROOT / "signoff"
 
 
+def _symbol_source(path: Path, name: str) -> str:
+    """Source text of the top-level assignment to `name` in `path`, via
+    ast rather than a regex, so a multi-line value (ANALYTICS_SNIPPET is
+    a parenthesised multi-line string) is captured whole.
+
+    WHY THIS EXISTS. run_brief.py had 46 commits since 1 August, most of
+    them nothing to do with fires: it is the weekly-brief file, edited
+    for methodology and headline reasons that have no bearing on the
+    three constants (PAGES_BASE_URL, SITE_NAME, ANALYTICS_SNIPPET) fires
+    actually imports. Hashing the whole file would gate fires on that
+    unrelated churn, the same over-blocking D-212 fixed for fires' own
+    payload, one level up in a shared file instead of a data pull. So a
+    "path::SYMBOL" entry in SIGNOFF_INPUTS hashes only that assignment's
+    source, and a plain path still hashes the whole file, unchanged.
+    """
+    import ast
+    tree = ast.parse(path.read_text(), filename=str(path))
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign) and any(
+                isinstance(t, ast.Name) and t.id == name for t in node.targets):
+            seg = ast.get_source_segment(path.read_text(), node)
+            if seg is not None:
+                return seg
+    raise SystemExit(
+        f"REFUSING: {name!r} not found as a top-level assignment in "
+        f"{path}. A symbol-scoped signoff input that cannot find its "
+        f"symbol is not narrower than a whole-file hash, it is silent.")
+
+
 def channel_signoff_hash(channel: str) -> str:
     """sha256 over every SIGNOFF_INPUTS file for `channel`, path and bytes
     both, so a rename is a change and not just content drift.
+
+    An entry may be "path::SYMBOL" to hash only that top-level assignment
+    rather than the whole file; see _symbol_source.
 
     A listed file that does not exist is not skipped. That would let a
     channel go "approved" while one of its own inputs was deleted or never
@@ -233,14 +286,18 @@ def channel_signoff_hash(channel: str) -> str:
     import hashlib
     h = hashlib.sha256()
     for rel in sorted(SIGNOFF_INPUTS[channel]):
-        p = ROOT / rel
+        path_part, _, symbol = rel.partition("::")
+        p = ROOT / path_part
         if not p.exists():
             raise SystemExit(
-                f"REFUSING: signoff input {rel} for channel {channel!r} "
-                f"does not exist. A hash computed without it would not "
-                f"mean what it claims to.")
+                f"REFUSING: signoff input {path_part} for channel "
+                f"{channel!r} does not exist. A hash computed without it "
+                f"would not mean what it claims to.")
         h.update(rel.encode())
-        h.update(p.read_bytes())
+        if symbol:
+            h.update(_symbol_source(p, symbol).encode())
+        else:
+            h.update(p.read_bytes())
     return h.hexdigest()
 
 

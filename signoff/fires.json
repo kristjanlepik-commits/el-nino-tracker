@@ -1,13 +1,19 @@
 {
   "channel": "fires",
-  "approved_hash": "ae0f436c3b9e41281584f416777f2e4d4ae7066ef274420ee472bba67c4d7fe6",
-  "approved_at": "2026-08-22T07:56:00+00:00",
-  "approved_by": "platform (D-212 EU coverage fix)",
-  "note": "Hash set changed shape again: templates/eu_area_chart.py added after Fire found it had no sign-off coverage at all (missing entirely, not just miscounted). fires/build_page.py and templates/country_page.py are unchanged and Fire's 2026-08-20 review of those two stands. eu_area_chart.py itself has NOT been separately code-reviewed by Fire; this stamp reflects that Fire verified the LIVE RENDERED OUTPUT of this exact template this morning when they rebuilt the stale EU chart, not a reading of the template's logic. Its payload (fires/data/eu_area.json) is now covered by fires/refresh_gate.py's classify-and-hold, not this hash.",
+  "approved_hash": "c88b8c9903c155321ad06593490423180299c3aa00cc173f7768a22f2ddbaa8f",
+  "approved_at": "2026-08-22T08:47:27+00:00",
+  "approved_by": "platform (Fire's derivation, symbol-scoped run_brief.py)",
+  "note": "Fire's fires/derive_inputs.py audit found 4 real unprotected presentation dependencies: tokens.py, templates/page_head.py, templates/subscribe_band.py (whole-file hash, low churn, added directly) and run_brief.py (46 commits/month, hashed by symbol only via the new path::SYMBOL form: PAGES_BASE_URL, SITE_NAME, ANALYTICS_SNIPPET, the three fires/build_page.py actually imports). Verified in a scratch clone both directions: an unrelated run_brief.py edit does not move this hash, a real edit to one of the three symbols does. Four other trace hits (analog.py, probs.py, snapshot.py, sources.py) are transitive via run_brief.py's own imports, not real fires dependencies per Fire's own analysis, and are deliberately not added. Not a content review of the four new files' logic; a coverage fix following Fire's audit.",
   "inputs": [
     "fires/build_country_pages.py",
     "fires/build_page.py",
+    "run_brief.py::ANALYTICS_SNIPPET",
+    "run_brief.py::PAGES_BASE_URL",
+    "run_brief.py::SITE_NAME",
     "templates/country_page.py",
-    "templates/eu_area_chart.py"
+    "templates/eu_area_chart.py",
+    "templates/page_head.py",
+    "templates/subscribe_band.py",
+    "tokens.py"
   ]
 }
