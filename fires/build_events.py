@@ -483,15 +483,28 @@ def main():
     # correct answer rather than a degraded one: a ratio computed
     # without the mask would not be a worse ratio, it would be a
     # different claim.
-    crop_mask, crop_base = None, {}
+    crop_mask, crop_base, crop_unavailable, crop_ver = None, {}, None, {}
     try:
-        from fires.cropland import CropMask
+        from fires.cropland import CropMask, vintage as crop_vintage
         crop_mask = CropMask()
+        crop_ver = crop_vintage()
         crop_base = json.load(open(os.path.join(
             REPO, "fires", "data", "cropland_baseline.json")))["countries"]
     except Exception as exc:
-        print(f"  cropland context unavailable, block withheld: {exc}",
-              file=sys.stderr)
+        # LOUD, BY NAME, ONCE. A missing mask drops this block from 80+
+        # countries while every check stays green, which is the same
+        # shape as the sign-off gate holding fires quietly for two days:
+        # safe, and indistinguishable from healthy. A capability that
+        # can vanish without announcing itself is one nobody notices
+        # has gone, and this one produces numbers on 80+ country pages.
+        crop_unavailable = str(exc)
+        print("  " + "!" * 60, file=sys.stderr)
+        print(f"  CROPLAND CONTEXT UNAVAILABLE. Every country's cropland "
+              f"block will read withheld=mask_unavailable this run.\n"
+              f"  Reason: {exc}\n"
+              f"  Fetch the ASAP crop mask into fires/.cache/ to restore "
+              f"it. See fires/cropland.py.", file=sys.stderr)
+        print("  " + "!" * 60, file=sys.stderr)
 
     rows, detail = [], {}
     for iso in isos:
@@ -534,7 +547,25 @@ def main():
         # is not "agricultural": it says these detections sit on
         # cropland more often than random land in the same country
         # does. What is burning stays an inference the reader makes.
-        cropland = None
+        # WHY it is absent, never a bare null. These are four different
+        # facts and a null renders them identically: the mask is gone,
+        # the mask does not cover this country, the country did not burn
+        # this week, or the sampling broke. Papua New Guinea carries
+        # 8,352 detections and no coverage; reading that as the same
+        # thing as Lithuania's zero-detection week would be wrong in
+        # both directions.
+        if crop_mask is None:
+            cropland = {"withheld": "mask_unavailable",
+                        "detail": crop_unavailable}
+        elif not len(df):
+            cropland = {"withheld": "no_detections"}
+        elif not (crop_base.get(iso) or {}).get("covered"):
+            cropland = {"withheld": "no_mask_coverage",
+                        "_note": ("The mask has no data for this country. "
+                                  "That is NOT a finding of no cropland, "
+                                  "and must not be rendered as one.")}
+        else:
+            cropland = {"withheld": "sampling_failed"}
         if crop_mask is not None and len(df):
             base = crop_base.get(iso) or {}
             if base.get("covered"):
@@ -550,7 +581,20 @@ def main():
                             "detections_on_crop_pct": round(det_pct, 2),
                             "country_land_crop_pct": round(land_pct, 2),
                             "ratio": round(ratio, 3),
-                            # A VERDICT NEEDS A SAMPLE. Greece's week in
+                            # A VERDICT NEEDS A SAMPLE. 50 is arbitrary
+                            # and bounded: it is a threshold on SAMPLE
+                            # SIZE, not a partition of the thing being
+                            # measured, so the worst it can do is
+                            # withhold a label that would have been
+                            # right. The latitude line it replaces could
+                            # invert a direction. Not the same kind of
+                            # arbitrary.
+                            #
+                            # "insufficient_sample" is a verdict of "we
+                            # cannot say", which is not silence: the
+                            # numbers ship, only the label is withheld.
+                            #
+                            # Greece's week in
                             # the first run was 20 detections, its
                             # quietest of 15, and those 20 read
                             # "enriched" at 1.63 on nothing but noise.
@@ -562,8 +606,19 @@ def main():
                                 "enriched" if ratio > 1.3 else
                                 "depleted" if ratio < 0.77 else "neutral"),
                             "n_detections_sampled": int(len(v)),
-                            "source": ("ASAP crop mask v04, 500 m percent "
-                                       "cropland"),
+                            # WHICH MASK THIS NUMBER CAME FROM. The
+                            # filename is the only versioning JRC gives,
+                            # so a ratio from v04 is a claim ABOUT v04.
+                            # If they ship v05 that is a different claim
+                            # rather than a refreshed one, and carrying
+                            # an old figure forward would be wrong. The
+                            # vintage rides ON the number rather than at
+                            # document level, per D-051, because the
+                            # number gets quoted alone.
+                            "source": ("ASAP crop mask %s, 500 m percent "
+                                       "cropland, JRC" %
+                                       (crop_ver.get("version") or "v04")),
+                            "mask_vintage": crop_ver,
                             "_note": (
                                 "Ratio of mean percent-cropland under this "
                                 "week's detections to that under uniform "

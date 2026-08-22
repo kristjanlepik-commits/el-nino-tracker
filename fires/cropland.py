@@ -63,27 +63,66 @@ import numpy as np
 # file happens to be on this laptop. Before CI can depend on it, someone
 # has to establish where it actually comes from. Asked of CRO, who
 # downloaded it.
-SOURCE_URL = None
-SOURCE_NOTE = ("ASAP crop mask v04, 500 m percent cropland. Obtained via "
-               "the crops channel; canonical download not yet established.")
+# RESOLVED 2026-08-22 by CRO, who owns the fetcher (cbc52dcc). We import
+# it rather than keeping a second copy: "a fetcher worth having is worth
+# having once", their words and their call, since it is their file.
+#
+# The URL I guessed above was wrong in a way worth keeping. The JRC
+# download page is JavaScript-driven, so curl sees no links and any
+# inferred endpoint returns HTML with HTTP 200. The real files sit under
+# /files/, which took a browser to see. Same failure family as the LAADS
+# trap and the CEDA directory listing already recorded in this repo:
+# HTTP 200 is not evidence you got what you asked for.
+MASK_FILE = "asap_mask_crop_v04.tif"
+SOURCE_NOTE = ("ASAP crop mask v04, 500 m percent cropland, JRC. Fetched "
+               "by crops.asap_reference.ensure().")
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Ours first. CRO's copy is a fallback because it is gitignored and not
-# ours to depend on: a pipeline that silently needs another channel's
-# cache is one `rm` away from a field that vanishes without explanation.
-CANDIDATES = (
-    os.path.join(REPO, "fires", ".cache", "asap_mask_crop_v04.tif"),
-    os.path.join(REPO, "crops", ".cache", "asap_reference",
-                 "asap_mask_crop_v04.tif"),
-)
 TILE = 1.0  # degrees; detections are grouped into tiles so each PIL crop
             # covers a cluster rather than the country's whole bounding box
 
 
-def find_mask() -> str | None:
-    for p in CANDIDATES:
-        if os.path.exists(p):
-            return p
-    return None
+def find_mask(download: bool = False) -> str | None:
+    """Local path to the crop mask, or None if it is not cached.
+
+    download=False BY DEFAULT, on purpose. A 106 MB fetch is a deliberate
+    act, not a side effect of building a page; that is CRO's own rule for
+    reference data and it is the right one. build_events passes False and
+    withholds the block when the mask is absent. A setup step or a human
+    passes True.
+    """
+    import sys
+    sys.path.insert(0, REPO)
+    try:
+        from crops.asap_reference import ensure, CACHE
+    except Exception:
+        return None
+    if download:
+        try:
+            return ensure(MASK_FILE)
+        except Exception:
+            return None
+    p = os.path.join(CACHE, MASK_FILE)
+    return p if os.path.exists(p) and os.path.getsize(p) > 0 else None
+
+
+def vintage() -> dict:
+    """What a published number was computed against.
+
+    The filename is the only versioning JRC gives. A ratio from v04 is a
+    claim ABOUT v04, so if they ship v05 that is a different claim rather
+    than a refreshed one, and every published figure needs recomputing
+    rather than carrying forward. Recording it beats implying "latest".
+    """
+    out = {"mask": MASK_FILE}
+    try:
+        import sys
+        sys.path.insert(0, REPO)
+        from crops.asap_reference import VINTAGE, RETRIEVED
+        out["version"] = VINTAGE.get("crop_mask")
+        out["retrieved"] = RETRIEVED
+    except Exception:
+        pass
+    return out
 
 
 class CropMask:
@@ -95,11 +134,11 @@ class CropMask:
         self.path = path or find_mask()
         if not self.path:
             raise FileNotFoundError(
-                "ASAP crop mask not found in fires/.cache/ or "
-                "crops/.cache/. " + SOURCE_NOTE + " There is no fetcher "
-                "for it yet, so a clean checkout cannot produce this "
-                "block; the cropland field is withheld rather than "
-                "guessed.")
+                "ASAP crop mask not cached. " + SOURCE_NOTE + " Fetch it "
+                "deliberately: python -c \"from crops.asap_reference "
+                "import ensure; ensure('" + MASK_FILE + "')\" (106 MB). "
+                "The block is withheld rather than guessed when it "
+                "is absent.")
         self.im = Image.open(self.path)
         tags = self.im.tag_v2
         scale, tie = tags.get(33550), tags.get(33922)

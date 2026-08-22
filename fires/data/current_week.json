@@ -74,7 +74,7 @@
    "cropland": {
     "detections_on_crop_pct": 1.01,
     "country_land_crop_pct": 1.66,
-    "ratio": 0.608,
+    "ratio": 0.607,
     "reading": "depleted",
     "n_detections_sampled": 73051,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -218,7 +218,7 @@
    "cropland": {
     "detections_on_crop_pct": 1.18,
     "country_land_crop_pct": 5.1,
-    "ratio": 0.231,
+    "ratio": 0.232,
     "reading": "depleted",
     "n_detections_sampled": 11382,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -458,7 +458,7 @@
    "cropland": {
     "detections_on_crop_pct": 0.89,
     "country_land_crop_pct": 1.59,
-    "ratio": 0.56,
+    "ratio": 0.559,
     "reading": "depleted",
     "n_detections_sampled": 2568,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -506,7 +506,7 @@
    "cropland": {
     "detections_on_crop_pct": 2.37,
     "country_land_crop_pct": 6.9,
-    "ratio": 0.343,
+    "ratio": 0.344,
     "reading": "depleted",
     "n_detections_sampled": 37966,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -554,7 +554,7 @@
    "cropland": {
     "detections_on_crop_pct": 0.55,
     "country_land_crop_pct": 0.69,
-    "ratio": 0.797,
+    "ratio": 0.795,
     "reading": "neutral",
     "n_detections_sampled": 1526,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -602,7 +602,7 @@
    "cropland": {
     "detections_on_crop_pct": 0.33,
     "country_land_crop_pct": 3.1,
-    "ratio": 0.106,
+    "ratio": 0.107,
     "reading": "depleted",
     "n_detections_sampled": 20421,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -650,7 +650,7 @@
    "cropland": {
     "detections_on_crop_pct": 4.74,
     "country_land_crop_pct": 0.92,
-    "ratio": 5.152,
+    "ratio": 5.153,
     "reading": "enriched",
     "n_detections_sampled": 166,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -791,7 +791,10 @@
    "lat": -2.84,
    "lon": 14.66,
    "basis": "weighted",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
+   }
   },
   "COL": {
    "iso": "COL",
@@ -831,7 +834,10 @@
    "lat": 7.11,
    "lon": -73.79,
    "basis": "weighted",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
+   }
   },
   "CUB": {
    "iso": "CUB",
@@ -1114,7 +1120,7 @@
    "cropland": {
     "detections_on_crop_pct": 3.74,
     "country_land_crop_pct": 2.33,
-    "ratio": 1.605,
+    "ratio": 1.606,
     "reading": "enriched",
     "n_detections_sampled": 1737,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -1162,7 +1168,7 @@
    "cropland": {
     "detections_on_crop_pct": 5.65,
     "country_land_crop_pct": 0.45,
-    "ratio": 12.556,
+    "ratio": 12.551,
     "reading": "enriched",
     "n_detections_sampled": 142,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -1978,7 +1984,7 @@
    "cropland": {
     "detections_on_crop_pct": 0.76,
     "country_land_crop_pct": 6.56,
-    "ratio": 0.116,
+    "ratio": 0.115,
     "reading": "depleted",
     "n_detections_sampled": 512,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -2263,7 +2269,10 @@
    "lat": 28.83,
    "lon": 18.4,
    "basis": "weighted",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
+   }
   },
   "LKA": {
    "iso": "LKA",
@@ -2306,7 +2315,7 @@
    "cropland": {
     "detections_on_crop_pct": 30.84,
     "country_land_crop_pct": 12.57,
-    "ratio": 2.453,
+    "ratio": 2.454,
     "reading": "enriched",
     "n_detections_sampled": 385,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -2351,7 +2360,9 @@
    "lat": null,
    "lon": null,
    "basis": "none",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_detections"
+   }
   },
   "LUX": {
    "iso": "LUX",
@@ -2538,7 +2549,7 @@
    "cropland": {
     "detections_on_crop_pct": 0.92,
     "country_land_crop_pct": 2.25,
-    "ratio": 0.409,
+    "ratio": 0.41,
     "reading": "depleted",
     "n_detections_sampled": 4592,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -2586,7 +2597,7 @@
    "cropland": {
     "detections_on_crop_pct": 6.83,
     "country_land_crop_pct": 5.94,
-    "ratio": 1.15,
+    "ratio": 1.149,
     "reading": "neutral",
     "n_detections_sampled": 1961,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -2634,7 +2645,7 @@
    "cropland": {
     "detections_on_crop_pct": 2.9,
     "country_land_crop_pct": 11.05,
-    "ratio": 0.262,
+    "ratio": 0.263,
     "reading": "depleted",
     "n_detections_sampled": 262,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -2679,7 +2690,9 @@
    "lat": null,
    "lon": null,
    "basis": "none",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_detections"
+   }
   },
   "MMR": {
    "iso": "MMR",
@@ -2767,7 +2780,10 @@
    "lat": 42.53,
    "lon": 18.9,
    "basis": "weighted",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
+   }
   },
   "MOZ": {
    "iso": "MOZ",
@@ -2903,7 +2919,10 @@
    "lat": 1.8,
    "lon": 111.88,
    "basis": "largest_cluster",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
+   }
   },
   "NAM": {
    "iso": "NAM",
@@ -2946,7 +2965,7 @@
    "cropland": {
     "detections_on_crop_pct": 0.49,
     "country_land_crop_pct": 0.73,
-    "ratio": 0.671,
+    "ratio": 0.665,
     "reading": "depleted",
     "n_detections_sampled": 1524,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -3087,7 +3106,9 @@
    "lat": null,
    "lon": null,
    "basis": "none",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_detections"
+   }
   },
   "NZL": {
    "iso": "NZL",
@@ -3130,7 +3151,7 @@
    "cropland": {
     "detections_on_crop_pct": 3.65,
     "country_land_crop_pct": 1.27,
-    "ratio": 2.874,
+    "ratio": 2.873,
     "reading": "insufficient_sample",
     "n_detections_sampled": 37,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -3178,7 +3199,7 @@
    "cropland": {
     "detections_on_crop_pct": 1.56,
     "country_land_crop_pct": 0.44,
-    "ratio": 3.545,
+    "ratio": 3.538,
     "reading": "enriched",
     "n_detections_sampled": 1347,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -3271,7 +3292,10 @@
    "lat": -6.82,
    "lon": 145.18,
    "basis": "weighted",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
+   }
   },
   "POL": {
    "iso": "POL",
@@ -3314,7 +3338,7 @@
    "cropland": {
     "detections_on_crop_pct": 17.31,
     "country_land_crop_pct": 42.79,
-    "ratio": 0.405,
+    "ratio": 0.404,
     "reading": "depleted",
     "n_detections_sampled": 199,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -3458,7 +3482,7 @@
    "cropland": {
     "detections_on_crop_pct": 49.89,
     "country_land_crop_pct": 35.65,
-    "ratio": 1.399,
+    "ratio": 1.4,
     "reading": "enriched",
     "n_detections_sampled": 395,
     "source": "ASAP crop mask v04, 500 m percent cropland",
@@ -3551,7 +3575,10 @@
    "lat": 24.95,
    "lon": 45.92,
    "basis": "weighted",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
+   }
   },
   "SRB": {
    "iso": "SRB",
@@ -4167,7 +4194,9 @@
    "lat": null,
    "lon": null,
    "basis": "none",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_detections"
+   }
   },
   "USA": {
    "iso": "USA",
@@ -4255,7 +4284,10 @@
    "lat": 9.42,
    "lon": -65.98,
    "basis": "weighted",
-   "cropland": null
+   "cropland": {
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
+   }
   },
   "VNM": {
    "iso": "VNM",
@@ -4394,7 +4426,7 @@
    "cropland": {
     "detections_on_crop_pct": 3.04,
     "country_land_crop_pct": 5.2,
-    "ratio": 0.585,
+    "ratio": 0.584,
     "reading": "depleted",
     "n_detections_sampled": 51209,
     "source": "ASAP crop mask v04, 500 m percent cropland",
