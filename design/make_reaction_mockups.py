@@ -414,11 +414,13 @@ def main():
         '<p class="mono">Design &middot; mockups for reaction, not for publishing</p>'
         '<h1>Two fast-reaction pieces, and the decisions inside them</h1>'
         '<p class="intro">Built on real numbers so the shapes are honest. '
-        'Where a choice is open this shows both options and says which way I '
-        'lean, rather than picking quietly. <b>Piece 1 is entirely our own '
-        'validated data. Piece 2 is not ours at all</b> and carries that on '
-        'its face. Neither chart invents a data point: where we do not hold a '
-        'series, the space says so.</p>'
+        'Where a choice was open this showed both options and said which way I '
+        'leaned; Kristjan has since chosen Option A on all five. <b>Both '
+        'pieces now run on our own data.</b> Piece 2 was station-bulletin '
+        'figures when this was drawn and is not any more: heat emitted '
+        'lima_nights.json and reconciled GHCN against the bulletins on 149 '
+        'shared days, every one identical. Neither chart invents a data '
+        'point: where we do not hold a series, the space says so.</p>'
         '%s%s</div>' % (CSS, flood_piece(), lima_piece()))
     print("wrote %s" % out.relative_to(ROOT))
 
