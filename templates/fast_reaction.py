@@ -80,9 +80,19 @@ notes         {what_this_is, what_this_is_not}
 """
 
 
-def _fmt(v: float, diverging: bool) -> str:
+def _fmt(v: float, diverging: bool, dp=None) -> str:
+    """The value as the chart should print it.
+
+    dp COMES FROM THE CHART because the right precision is a property of
+    the quantity, not of the renderer. Whole numbers are right for
+    millimetres of rain and days of heat; they turned Lima's 21.7 C into
+    22, on the bar the piece is about. A tenth of a degree is the
+    difference between this August and 1997.
+    """
     if diverging:
-        return f"{v:+.1f}"
+        return f"{v:+.{1 if dp is None else dp}f}"
+    if dp is not None:
+        return f"{v:,.{dp}f}"
     return f"{v:,.0f}"
 
 
@@ -129,21 +139,41 @@ def _series_bars(chart: dict, hue: str) -> str:
         y_val, y_zero = Y(p["y"]), zero_y
         top, height = min(y_val, y_zero), abs(y_val - y_zero)
         current = str(p["x"]) == str(chart.get("current_x"))
-        fill = hue if current else "var(--rule-45)"
+        # A POINT MAY CARRY A MARK, and the mark colours the bar rather
+        # than floating a label over the plot.
+        #
+        # Lima is why. Its chart exists to show that four of the five
+        # warmest August nights fell in an El Nino August, and rendered
+        # through the generic path that fact arrived as free-floating
+        # "El Nino" text which collided with itself over adjacent bars,
+        # above bars that were all the same grey. The categorical fact was
+        # the whole piece and the chart drew it worst.
+        marked = bool(p.get("mark"))
+        fill = hue if current else ("var(--ink-soft)" if marked
+                                    else "var(--rule-45)")
         parts.append(
             f'<rect x="{cx - bw / 2:.1f}" y="{top:.1f}" width="{bw:.1f}" '
             f'height="{max(height, 1.2):.1f}" fill="{fill}"/>')
-        if current or i == 0 or i == n - 1:
+        # EVERY BAR LABELLED WHEN THE SERIES IS SHORT. First-and-last is
+        # right for 27 yearly bars and wrong for six chosen ones: on Lima
+        # it left four of six unidentifiable, on a chart whose argument is
+        # WHICH years they are.
+        if n <= 8 or current or i == 0 or i == n - 1:
             parts.append(
                 f'<text class="fr-xl" x="{cx:.1f}" y="{H - PAD_B + 15:.1f}" '
                 f'text-anchor="middle">{h(str(p["x"]))}</text>')
+        if marked and chart.get("mark_label"):
+            parts.append(
+                f'<text class="fr-xl" x="{cx:.1f}" y="{H - PAD_B + 27:.1f}" '
+                f'text-anchor="middle" fill="{hue}">'
+                f'{h(chart["mark_label"])}</text>')
         if current:
             above = y_val <= y_zero
             ty = (top - 7) if above else (top + height + 15)
             parts.append(
                 f'<text class="fr-val" x="{cx:.1f}" y="{ty:.1f}" '
                 f'text-anchor="middle" fill="{hue}">'
-                f'{h(_fmt(p["y"], diverging))}</text>')
+                f'{h(_fmt(p["y"], diverging, chart.get("decimals")))}</text>')
 
     if diverging:
         parts.insert(0, f'<line x1="{PAD_L}" y1="{zero_y:.1f}" '
