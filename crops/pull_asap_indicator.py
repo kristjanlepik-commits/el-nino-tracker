@@ -102,6 +102,32 @@ INDICATORS = {
 BATCH = ["wsi_crop_growing", "spi3_crop_growing", "zfpar_crop_growing",
          "sm_crop_growing", "temp_crop_growing"]
 
+# THE RANGELAND CLASS, which we have never pulled for any country.
+#
+# Every indicator above is class_id 1, "Crop during growing cycle".
+# ASAP publishes class_id 2, "Rangeland during growing cycle", over its
+# own rangeland mask, and for some countries that is the more
+# representative instrument: Switzerland has 9,251 km2 of rangeland
+# against 5,772 of cropland, and its own reference table flags
+# an_range=1, so JRC analyses it.
+#
+# Prompted by a reader on LinkedIn asking why Switzerland was missing
+# and pointing at Alpine pasture drought. Two separate reasons: ASAP
+# treats Switzerland as ONE crop unit, below our three-unit minimum, and
+# the story he was describing is pasture rather than crop, which we do
+# not pull at all.
+#
+# class_id 3 returns a header and no rows, so 1 and 2 are the two that
+# exist.
+RANGELAND_CLASS = {"class_id": "2",
+                   "class_name": "Rangeland during growing cycle"}
+
+
+def as_rangeland(spec: dict) -> dict:
+    """Same indicator, rangeland mask instead of crop mask."""
+    return {**spec, **RANGELAND_CLASS}
+
+
 PAUSE_SECONDS = 3
 TIMEOUT_SECONDS = 420
 # Long enough that a 502 or a slow generation has passed, short enough
