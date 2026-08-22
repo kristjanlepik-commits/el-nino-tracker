@@ -42,11 +42,77 @@ Does NOT fetch. Reads crops/.cache/asap_reference/, which is gitignored.
 """
 import os
 import struct
+import subprocess
 import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ZIP = os.path.join(HERE, ".cache", "asap_reference", "gaul1_asap_v05.zip")
+CACHE = os.path.join(HERE, ".cache", "asap_reference")
+ZIP = os.path.join(CACHE, "gaul1_asap_v05.zip")
 MEMBER = "gaul1_asap.dbf"
+
+# WHERE THESE CAME FROM. Recorded because they were not, and fires built
+# a published cropland gate on the raster below without being able to
+# reproduce it: crops/.cache is gitignored, so the file existed on one
+# laptop and nowhere else, and nothing in this module said where to get
+# another. Same shape as the London MIDAS baseline that turned out to
+# live in a release rather than the repo.
+#
+# The download page is JavaScript-driven, so curl sees no links and a
+# guess at the endpoint returns HTML with HTTP 200. That is how fires
+# got HTML back rather than a TIFF. The real files sit under /files/.
+BASE = "https://agricultural-production-hotspots.ec.europa.eu/files"
+SOURCES = {
+    # what we weight with: cropland area per GAUL1 unit, already zonal
+    "gaul1_asap_v05.zip": f"{BASE}/gaul1_asap_v05.zip",
+    # the raster itself, which fires uses per detection
+    "asap_mask_crop_v04.tif": f"{BASE}/asap_mask_crop_v04.tif",
+    "asap_mask_rangeland_v04.tif": f"{BASE}/asap_mask_rangeland_v04.tif",
+    "crop_calendar_gaul1.zip": f"{BASE}/crop_calendar_gaul1.zip",
+}
+
+# VINTAGE IS IN THE FILENAME AND THAT IS THE ONLY VERSIONING JRC GIVES.
+# The mask is v04 and the boundaries v05; the files carry no internal
+# date and the endpoint returns no useful Last-Modified we should rely
+# on. So a published ratio computed against v04 is a claim about v04,
+# and if JRC ships v05 of the mask that is a DIFFERENT claim rather than
+# a refreshed one. Pin by filename, and if the name changes, treat every
+# number computed from it as needing recomputation rather than carrying
+# forward.
+VINTAGE = {"crop_mask": "v04", "boundaries": "v05"}
+RETRIEVED = "2026-08-18"
+
+
+def ensure(name: str, quiet: bool = False) -> str:
+    """Return a local path for one reference file, downloading if absent.
+
+    So the capability is a pipeline one rather than a laptop one. Does
+    nothing when the file is already cached, and never runs inside a
+    publish: reference data is fetched deliberately, like the indicator
+    pull, not as a side effect of building a page.
+    """
+    if name not in SOURCES:
+        raise KeyError(f"{name} is not an ASAP reference file; "
+                       f"known: {sorted(SOURCES)}")
+    dest = os.path.join(CACHE, name)
+    if os.path.exists(dest) and os.path.getsize(dest) > 0:
+        return dest
+    os.makedirs(CACHE, exist_ok=True)
+    tmp = dest + ".partial"
+    # .partial then rename, so a failed or truncated download never
+    # replaces a good file. Same rule as the indicator puller.
+    code = subprocess.run(
+        ["curl", "-sSL", "--max-time", "1800", "-o", tmp,
+         "-w", "%{http_code}", SOURCES[name]],
+        capture_output=True, text=True).stdout.strip()
+    if code != "200" or not os.path.exists(tmp) or os.path.getsize(tmp) == 0:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+        raise RuntimeError(f"{name}: HTTP {code}, refusing to cache")
+    os.replace(tmp, dest)
+    if not quiet:
+        print(f"fetched {name} ({os.path.getsize(dest)/1048576:.1f} MB) "
+              f"from {SOURCES[name]}")
+    return dest
 
 
 def _read_dbf(buf: bytes):
