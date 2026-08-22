@@ -448,6 +448,31 @@ def _join_years(ys):
     return ys[0] if len(ys) == 1 else ", ".join(ys[:-1]) + " and " + ys[-1]
 
 
+def _withdrawal_needs_correction(name):
+    """True when heat classifies this withdrawal as our error.
+
+    Fails CLOSED. If the reason cannot be established the guard behaves as
+    it did before and demands the correction, because the failure it
+    prevents is a record vanishing from a live page in silence.
+    """
+    try:
+        from heat.refresh_gate import classify
+        prev = json.loads((R / "heat/data/published/city_nights.json")
+                          .read_text())
+        cur = json.loads((R / "heat/data/city_nights.json").read_text())
+        blocking, _, _ = classify(prev, cur)
+        for item in blocking:
+            if isinstance(item, str) and item.startswith(name + ":"):
+                return True
+            if isinstance(item, dict) and item.get("city") == name:
+                return bool(item.get("needs_correction", True))
+        return False
+    except Exception as exc:
+        print("  NOTE: could not classify %s's withdrawal (%s); requiring a "
+              "correction block, which is the safe direction." % (name, exc))
+        return True
+
+
 def _correction_block(name):
     """Editor's explanation of a claim this page used to make.
 
@@ -521,7 +546,20 @@ def check_no_silent_claim_reversal(name, head):
     was_record = _claims_record(prev.group(1))
     now_record = _claims_record(head)
     if was_record and not now_record:
-        if not CORRECTIONS.get(slug(name)):
+        # ONLY A MISTAKE IS A CORRECTION, so ask heat WHY the record went.
+        #
+        # This guard fired on the withdrawal alone and could not see the
+        # cause, so it demanded an editor correction for Alicante and Palma
+        # when the bar had not moved: the cut advanced and a rival year
+        # gained faster. Writing a correction there publishes "we made an
+        # error" about a day we did not, which is the exact failure named
+        # at the top of copy/heat_corrections.md.
+        #
+        # heat/refresh_gate.classify derives the reason from the two
+        # payloads rather than taking it on trust: method_changed and
+        # data_revised block, cut_advanced publishes. The judgement lives
+        # in their file, once, for the same reason legend_band does.
+        if _withdrawal_needs_correction(name) and not CORRECTIONS.get(slug(name)):
             raise SystemExit(
                 f"{name}: this page claims a record today and would stop "
                 f"claiming one.\n"
