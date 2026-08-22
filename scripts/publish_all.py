@@ -201,6 +201,20 @@ SIGNOFF_INPUTS = {
     "fires": [
         "templates/country_page.py",
         "fires/build_page.py", "fires/build_country_pages.py",
+        # Fire found these missing entirely, 2026-08-22: the EU area
+        # envelope on /fires (median 839k, 2025 record 1035k, could
+        # exceed vs on course to exceed) had NO sign-off coverage. The
+        # template opens its own data file at call time
+        # (templates/eu_area_chart.py:268), so the path string never
+        # appears in fires/build_page.py and reading the builder to
+        # assemble this list, the obvious way to do it, misses both.
+        # Fire's own read: "the omission is not carelessness, it is the
+        # method." A hand-maintained list built by reading the builder
+        # cannot see one level of indirection down. Fire suspects a
+        # third file is missing somewhere this same way; deriving the
+        # set from what the builders actually open (not maintaining it
+        # by reading them) is the real fix and is not done here.
+        "templates/eu_area_chart.py",
     ],
 }
 
@@ -838,7 +852,8 @@ def main() -> None:
     # promote) and a passing run never lets the comparison drift further
     # from what a reader actually sees.
     if not fires_held:
-        for name in ("events.json", "burnt_area.json", "current_week.json"):
+        for name in ("events.json", "burnt_area.json", "current_week.json",
+                    "eu_area.json"):
             cur = (ROOT / "data" / name if name == "events.json"
                    else ROOT / "fires" / "data" / name)
             pub = ROOT / "fires" / "data" / "published" / name

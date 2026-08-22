@@ -50,6 +50,14 @@ AREA_CUR = ROOT / "fires" / "data" / "burnt_area.json"
 AREA_PUB = ROOT / "fires" / "data" / "published" / "burnt_area.json"
 WEEK_CUR = ROOT / "fires" / "data" / "current_week.json"
 WEEK_PUB = ROOT / "fires" / "data" / "published" / "current_week.json"
+# The EU area envelope, added 2026-08-22 after Fire found it had NO
+# sign-off coverage at all: templates/eu_area_chart.py opens this file
+# itself at call time, so its path never appears in fires/build_page.py
+# and was invisible to anyone assembling this list by reading the
+# builder. See scripts/publish_all.py's SIGNOFF_INPUTS comment for the
+# template half of the same fix.
+EU_CUR = ROOT / "fires" / "data" / "eu_area.json"
+EU_PUB = ROOT / "fires" / "data" / "published" / "eu_area.json"
 
 
 def _is_area_record(country: dict) -> bool | None:
@@ -140,6 +148,50 @@ def classify(prev: dict, cur: dict) -> tuple[list[str], list[str]]:
         elif pr != cr and pr is not None and cr is not None:
             report.append(f"{c.get('name', iso)}: weekly rank {pr} -> {cr}")
 
+    # fires/data/eu_area.json: the EU season envelope's projection. This
+    # is the densest claim surface on the page, per Fire's own read: the
+    # headline sentence pivots on whether the median outcome breaks the
+    # record ("could exceed" vs "on course to exceed"), which is exactly
+    # what median_below_record encodes. record_inside_envelope is the
+    # companion claim: whether the record sits inside the projected
+    # range at all. Both are booleans computed by the analog method, not
+    # magnitudes, so they belong in block rather than report.
+    #
+    # analogs_exceeding_record crossing ZERO is also a claim: "no analog
+    # exceeds the record" flipping to "at least one does" changes whether
+    # "could exceed the record" is true at all, independent of the median.
+    # Movement between nonzero counts (5 of 20 to 6 of 20) is the
+    # magnitude changing under an unchanged claim and is ordinary.
+    # The claim fields live under "projection", not at the top level of
+    # eu_area.json (area_ha and as_of_week are top-level; the analog
+    # method's output is nested). Read from there, not from the file's
+    # root, which is the bug this comment exists to prevent recurring.
+    pe2 = (prev.get("eu_area") or {}).get("projection") or {}
+    ce2 = (cur.get("eu_area") or {}).get("projection") or {}
+    if pe2 and ce2:
+        pm, cm = pe2.get("median_below_record"), ce2.get("median_below_record")
+        if pm != cm:
+            block.append(f"EU envelope: median_below_record {pm} -> {cm}. "
+                        f"This is the pivot between 'could exceed the "
+                        f"record' and 'on course to exceed it', the "
+                        f"headline sentence on the page.")
+        pi, ci = pe2.get("record_inside_envelope"), ce2.get("record_inside_envelope")
+        if pi != ci:
+            block.append(f"EU envelope: record_inside_envelope {pi} -> {ci}")
+        pex, cex = pe2.get("analogs_exceeding_record"), ce2.get("analogs_exceeding_record")
+        if pex is not None and cex is not None and (pex == 0) != (cex == 0):
+            block.append(f"EU envelope: analogs_exceeding_record {pex} -> "
+                        f"{cex}, crossing zero: whether any analog beats "
+                        f"the record at all has changed.")
+        elif pex != cex:
+            report.append(f"EU envelope: analogs_exceeding_record {pex} -> {cex}")
+        # area_ha (the observed total, not a projection field) lives at
+        # the file's top level, so it is read from the un-nested dicts.
+        pa, ca = (prev.get("eu_area") or {}).get("area_ha"), \
+                 (cur.get("eu_area") or {}).get("area_ha")
+        if pa != ca:
+            report.append(f"EU envelope: area_ha {pa} -> {ca}")
+
     return block, report
 
 
@@ -153,9 +205,9 @@ def main() -> int:
               "against.", file=sys.stderr)
         return 1
     prev = {"events": _load(EVENTS_PUB), "burnt_area": _load(AREA_PUB),
-            "current_week": _load(WEEK_PUB)}
+            "current_week": _load(WEEK_PUB), "eu_area": _load(EU_PUB)}
     cur = {"events": _load(EVENTS_CUR), "burnt_area": _load(AREA_CUR),
-           "current_week": _load(WEEK_CUR)}
+           "current_week": _load(WEEK_CUR), "eu_area": _load(EU_CUR)}
     block, report = classify(prev, cur)
     for r in report:
         print(f"    changed: {r}")
