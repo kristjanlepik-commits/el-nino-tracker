@@ -70,7 +70,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -11.39,
    "lon": 18.0,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 1.01,
+    "country_land_crop_pct": 1.66,
+    "ratio": 0.608,
+    "reading": "depleted",
+    "n_detections_sampled": 73051,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ALB": {
    "iso": "ALB",
@@ -109,7 +118,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 41.82,
    "lon": 19.95,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 7.07,
+    "ratio": 0.0,
+    "reading": "depleted",
+    "n_detections_sampled": 658,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ARG": {
    "iso": "ARG",
@@ -148,7 +166,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -29.88,
    "lon": -61.91,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 8.43,
+    "country_land_crop_pct": 13.73,
+    "ratio": 0.614,
+    "reading": "depleted",
+    "n_detections_sampled": 1764,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "AUS": {
    "iso": "AUS",
@@ -187,7 +214,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -18.4,
    "lon": 136.62,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 1.18,
+    "country_land_crop_pct": 5.1,
+    "ratio": 0.231,
+    "reading": "depleted",
+    "n_detections_sampled": 11382,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "AUT": {
    "iso": "AUT",
@@ -226,7 +262,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 48.0,
    "lon": 14.99,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 19.05,
+    "country_land_crop_pct": 15.0,
+    "ratio": 1.27,
+    "reading": "neutral",
+    "n_detections_sampled": 58,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "BEL": {
    "iso": "BEL",
@@ -265,7 +310,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 50.62,
    "lon": 5.73,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.38,
+    "country_land_crop_pct": 22.0,
+    "ratio": 0.017,
+    "reading": "depleted",
+    "n_detections_sampled": 400,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "BGR": {
    "iso": "BGR",
@@ -304,7 +358,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 43.14,
    "lon": 24.24,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 39.84,
+    "country_land_crop_pct": 34.53,
+    "ratio": 1.154,
+    "reading": "neutral",
+    "n_detections_sampled": 168,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "BIH": {
    "iso": "BIH",
@@ -343,7 +406,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 43.85,
    "lon": 17.27,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.16,
+    "country_land_crop_pct": 3.23,
+    "ratio": 0.05,
+    "reading": "depleted",
+    "n_detections_sampled": 825,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "BOL": {
    "iso": "BOL",
@@ -382,7 +454,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -15.86,
    "lon": -62.52,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.89,
+    "country_land_crop_pct": 1.59,
+    "ratio": 0.56,
+    "reading": "depleted",
+    "n_detections_sampled": 2568,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "BRA": {
    "iso": "BRA",
@@ -421,7 +502,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -10.41,
    "lon": -52.82,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 2.37,
+    "country_land_crop_pct": 6.9,
+    "ratio": 0.343,
+    "reading": "depleted",
+    "n_detections_sampled": 37966,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "BWA": {
    "iso": "BWA",
@@ -460,7 +550,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -22.05,
    "lon": 24.11,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.55,
+    "country_land_crop_pct": 0.69,
+    "ratio": 0.797,
+    "reading": "neutral",
+    "n_detections_sampled": 1526,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "CAN": {
    "iso": "CAN",
@@ -499,7 +598,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 58.78,
    "lon": -119.33,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.33,
+    "country_land_crop_pct": 3.1,
+    "ratio": 0.106,
+    "reading": "depleted",
+    "n_detections_sampled": 20421,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "CHL": {
    "iso": "CHL",
@@ -538,7 +646,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -34.25,
    "lon": -71.54,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 4.74,
+    "country_land_crop_pct": 0.92,
+    "ratio": 5.152,
+    "reading": "enriched",
+    "n_detections_sampled": 166,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "CHN": {
    "iso": "CHN",
@@ -577,7 +694,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 37.43,
    "lon": 110.39,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 9.25,
+    "country_land_crop_pct": 12.76,
+    "ratio": 0.725,
+    "reading": "depleted",
+    "n_detections_sampled": 4482,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "COD": {
    "iso": "COD",
@@ -616,7 +742,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -7.06,
    "lon": 23.46,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.55,
+    "country_land_crop_pct": 0.67,
+    "ratio": 0.821,
+    "reading": "neutral",
+    "n_detections_sampled": 86359,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "COG": {
    "iso": "COG",
@@ -655,7 +790,8 @@
    "hist_excluded_for_comparability": [],
    "lat": -2.84,
    "lon": 14.66,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": null
   },
   "COL": {
    "iso": "COL",
@@ -694,7 +830,8 @@
    "hist_excluded_for_comparability": [],
    "lat": 7.11,
    "lon": -73.79,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": null
   },
   "CUB": {
    "iso": "CUB",
@@ -733,7 +870,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 21.56,
    "lon": -78.33,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 30.08,
+    "country_land_crop_pct": 11.53,
+    "ratio": 2.609,
+    "reading": "enriched",
+    "n_detections_sampled": 1234,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "CYP": {
    "iso": "CYP",
@@ -772,7 +918,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 34.72,
    "lon": 33.32,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 2.0,
+    "country_land_crop_pct": 13.24,
+    "ratio": 0.151,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 3,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "CZE": {
    "iso": "CZE",
@@ -811,7 +966,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 49.68,
    "lon": 17.71,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 2.19,
+    "country_land_crop_pct": 34.88,
+    "ratio": 0.063,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 21,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "DEU": {
    "iso": "DEU",
@@ -850,7 +1014,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 51.37,
    "lon": 8.85,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 16.22,
+    "country_land_crop_pct": 36.18,
+    "ratio": 0.448,
+    "reading": "depleted",
+    "n_detections_sampled": 616,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "DNK": {
    "iso": "DNK",
@@ -889,7 +1062,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 56.46,
    "lon": 10.59,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 36.71,
+    "country_land_crop_pct": 50.86,
+    "ratio": 0.722,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 38,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "DZA": {
    "iso": "DZA",
@@ -928,7 +1110,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 32.04,
    "lon": 6.25,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 3.74,
+    "country_land_crop_pct": 2.33,
+    "ratio": 1.605,
+    "reading": "enriched",
+    "n_detections_sampled": 1737,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ECU": {
    "iso": "ECU",
@@ -967,7 +1158,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -1.1,
    "lon": -78.8,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 5.65,
+    "country_land_crop_pct": 0.45,
+    "ratio": 12.556,
+    "reading": "enriched",
+    "n_detections_sampled": 142,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ESP": {
    "iso": "ESP",
@@ -1006,7 +1206,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 40.77,
    "lon": -4.4,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 6.0,
+    "country_land_crop_pct": 24.36,
+    "ratio": 0.246,
+    "reading": "depleted",
+    "n_detections_sampled": 500,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "EST": {
    "iso": "EST",
@@ -1045,7 +1254,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 59.28,
    "lon": 27.88,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 15.95,
+    "ratio": 0.0,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 1,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "FIN": {
    "iso": "FIN",
@@ -1084,7 +1302,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 63.89,
    "lon": 25.09,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 4.55,
+    "ratio": 0.0,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 15,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "FRA": {
    "iso": "FRA",
@@ -1123,7 +1350,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 45.98,
    "lon": 2.47,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 7.27,
+    "country_land_crop_pct": 27.57,
+    "ratio": 0.264,
+    "reading": "depleted",
+    "n_detections_sampled": 298,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "GBR": {
    "iso": "GBR",
@@ -1162,7 +1398,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 52.35,
    "lon": -2.69,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 3.97,
+    "country_land_crop_pct": 24.2,
+    "ratio": 0.164,
+    "reading": "depleted",
+    "n_detections_sampled": 160,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "GEO": {
    "iso": "GEO",
@@ -1201,7 +1446,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 41.61,
    "lon": 45.31,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 66.18,
+    "country_land_crop_pct": 5.0,
+    "ratio": 13.236,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 44,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "GRC": {
    "iso": "GRC",
@@ -1240,7 +1494,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 40.63,
    "lon": 23.1,
-   "basis": "largest_cluster"
+   "basis": "largest_cluster",
+   "cropland": {
+    "detections_on_crop_pct": 25.05,
+    "country_land_crop_pct": 15.78,
+    "ratio": 1.587,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 20,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "HRV": {
    "iso": "HRV",
@@ -1279,7 +1542,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 43.71,
    "lon": 16.85,
-   "basis": "largest_cluster"
+   "basis": "largest_cluster",
+   "cropland": {
+    "detections_on_crop_pct": 1.33,
+    "country_land_crop_pct": 12.6,
+    "ratio": 0.106,
+    "reading": "depleted",
+    "n_detections_sampled": 541,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "HUN": {
    "iso": "HUN",
@@ -1318,7 +1590,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 47.34,
    "lon": 19.51,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 39.27,
+    "country_land_crop_pct": 49.77,
+    "ratio": 0.789,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 37,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "IDN": {
    "iso": "IDN",
@@ -1357,7 +1638,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -2.0,
    "lon": 112.22,
-   "basis": "largest_cluster"
+   "basis": "largest_cluster",
+   "cropland": {
+    "detections_on_crop_pct": 1.84,
+    "country_land_crop_pct": 3.63,
+    "ratio": 0.507,
+    "reading": "depleted",
+    "n_detections_sampled": 34317,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "IND": {
    "iso": "IND",
@@ -1396,7 +1686,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 17.34,
    "lon": 80.98,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 25.58,
+    "country_land_crop_pct": 43.43,
+    "ratio": 0.589,
+    "reading": "depleted",
+    "n_detections_sampled": 572,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "IRL": {
    "iso": "IRL",
@@ -1435,7 +1734,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 52.45,
    "lon": -7.55,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 29.0,
+    "country_land_crop_pct": 5.04,
+    "ratio": 5.754,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 8,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "IRN": {
    "iso": "IRN",
@@ -1474,7 +1782,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 31.16,
    "lon": 50.47,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 4.29,
+    "country_land_crop_pct": 8.44,
+    "ratio": 0.508,
+    "reading": "depleted",
+    "n_detections_sampled": 2958,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "IRQ": {
    "iso": "IRQ",
@@ -1513,7 +1830,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 33.17,
    "lon": 45.55,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 12.79,
+    "country_land_crop_pct": 10.11,
+    "ratio": 1.265,
+    "reading": "neutral",
+    "n_detections_sampled": 2742,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ISR": {
    "iso": "ISR",
@@ -1552,7 +1878,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 32.76,
    "lon": 35.49,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 31.0,
+    "country_land_crop_pct": 16.24,
+    "ratio": 1.909,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 36,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ITA": {
    "iso": "ITA",
@@ -1591,7 +1926,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 40.99,
    "lon": 13.86,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 16.86,
+    "country_land_crop_pct": 25.57,
+    "ratio": 0.659,
+    "reading": "depleted",
+    "n_detections_sampled": 1119,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "JPN": {
    "iso": "JPN",
@@ -1630,7 +1974,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 35.31,
    "lon": 136.36,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.76,
+    "country_land_crop_pct": 6.56,
+    "ratio": 0.116,
+    "reading": "depleted",
+    "n_detections_sampled": 512,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "KAZ": {
    "iso": "KAZ",
@@ -1669,7 +2022,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 48.9,
    "lon": 75.0,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 1.31,
+    "country_land_crop_pct": 9.62,
+    "ratio": 0.136,
+    "reading": "depleted",
+    "n_detections_sampled": 4226,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "KHM": {
    "iso": "KHM",
@@ -1708,7 +2070,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 11.84,
    "lon": 104.83,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 48.27,
+    "country_land_crop_pct": 31.1,
+    "ratio": 1.552,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 15,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "KOR": {
    "iso": "KOR",
@@ -1747,7 +2118,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 35.8,
    "lon": 128.53,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.02,
+    "country_land_crop_pct": 9.21,
+    "ratio": 0.002,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 44,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "LAO": {
    "iso": "LAO",
@@ -1786,7 +2166,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 18.08,
    "lon": 102.46,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 21.67,
+    "country_land_crop_pct": 5.92,
+    "ratio": 3.66,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 3,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "LBN": {
    "iso": "LBN",
@@ -1825,7 +2214,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 33.83,
    "lon": 35.89,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 5.96,
+    "country_land_crop_pct": 9.1,
+    "ratio": 0.655,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 27,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "LBY": {
    "iso": "LBY",
@@ -1864,7 +2262,8 @@
    "hist_excluded_for_comparability": [],
    "lat": 28.83,
    "lon": 18.4,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": null
   },
   "LKA": {
    "iso": "LKA",
@@ -1903,7 +2302,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 7.56,
    "lon": 81.07,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 30.84,
+    "country_land_crop_pct": 12.57,
+    "ratio": 2.453,
+    "reading": "enriched",
+    "n_detections_sampled": 385,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "LTU": {
    "iso": "LTU",
@@ -1942,7 +2350,8 @@
    "hist_excluded_for_comparability": [],
    "lat": null,
    "lon": null,
-   "basis": "none"
+   "basis": "none",
+   "cropland": null
   },
   "LUX": {
    "iso": "LUX",
@@ -1981,7 +2390,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 49.49,
    "lon": 5.97,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.7,
+    "country_land_crop_pct": 16.95,
+    "ratio": 0.041,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 10,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "LVA": {
    "iso": "LVA",
@@ -2020,7 +2438,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 56.31,
    "lon": 22.92,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 20.64,
+    "ratio": 0.0,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 2,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "MAR": {
    "iso": "MAR",
@@ -2059,7 +2486,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 32.92,
    "lon": -7.5,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 39.9,
+    "country_land_crop_pct": 10.72,
+    "ratio": 3.722,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 39,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "MDG": {
    "iso": "MDG",
@@ -2098,7 +2534,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -18.97,
    "lon": 45.83,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.92,
+    "country_land_crop_pct": 2.25,
+    "ratio": 0.409,
+    "reading": "depleted",
+    "n_detections_sampled": 4592,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "MEX": {
    "iso": "MEX",
@@ -2137,7 +2582,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 17.65,
    "lon": -92.94,
-   "basis": "largest_cluster"
+   "basis": "largest_cluster",
+   "cropland": {
+    "detections_on_crop_pct": 6.83,
+    "country_land_crop_pct": 5.94,
+    "ratio": 1.15,
+    "reading": "neutral",
+    "n_detections_sampled": 1961,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "MKD": {
    "iso": "MKD",
@@ -2176,7 +2630,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 41.45,
    "lon": 21.52,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 2.9,
+    "country_land_crop_pct": 11.05,
+    "ratio": 0.262,
+    "reading": "depleted",
+    "n_detections_sampled": 262,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "MLT": {
    "iso": "MLT",
@@ -2215,7 +2678,8 @@
    "hist_excluded_for_comparability": [],
    "lat": null,
    "lon": null,
-   "basis": "none"
+   "basis": "none",
+   "cropland": null
   },
   "MMR": {
    "iso": "MMR",
@@ -2254,7 +2718,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 21.93,
    "lon": 96.6,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 49.29,
+    "country_land_crop_pct": 16.88,
+    "ratio": 2.92,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 7,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "MNE": {
    "iso": "MNE",
@@ -2293,7 +2766,8 @@
    "hist_excluded_for_comparability": [],
    "lat": 42.53,
    "lon": 18.9,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": null
   },
   "MOZ": {
    "iso": "MOZ",
@@ -2332,7 +2806,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -15.4,
    "lon": 36.5,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 10.06,
+    "country_land_crop_pct": 8.48,
+    "ratio": 1.186,
+    "reading": "neutral",
+    "n_detections_sampled": 28998,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "MWI": {
    "iso": "MWI",
@@ -2371,7 +2854,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -13.42,
    "lon": 34.25,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 16.74,
+    "country_land_crop_pct": 27.4,
+    "ratio": 0.611,
+    "reading": "depleted",
+    "n_detections_sampled": 1256,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "MYS": {
    "iso": "MYS",
@@ -2410,7 +2902,8 @@
    "hist_excluded_for_comparability": [],
    "lat": 1.8,
    "lon": 111.88,
-   "basis": "largest_cluster"
+   "basis": "largest_cluster",
+   "cropland": null
   },
   "NAM": {
    "iso": "NAM",
@@ -2449,7 +2942,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -18.82,
    "lon": 20.47,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.49,
+    "country_land_crop_pct": 0.73,
+    "ratio": 0.671,
+    "reading": "depleted",
+    "n_detections_sampled": 1524,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "NLD": {
    "iso": "NLD",
@@ -2488,7 +2990,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 52.33,
    "lon": 4.7,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 15.47,
+    "ratio": 0.0,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 36,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "NOR": {
    "iso": "NOR",
@@ -2527,7 +3038,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 59.65,
    "lon": 7.05,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 1.23,
+    "ratio": 0.0,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 20,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "NPL": {
    "iso": "NPL",
@@ -2566,7 +3086,8 @@
    "hist_excluded_for_comparability": [],
    "lat": null,
    "lon": null,
-   "basis": "none"
+   "basis": "none",
+   "cropland": null
   },
   "NZL": {
    "iso": "NZL",
@@ -2605,7 +3126,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -36.69,
    "lon": 174.58,
-   "basis": "largest_cluster"
+   "basis": "largest_cluster",
+   "cropland": {
+    "detections_on_crop_pct": 3.65,
+    "country_land_crop_pct": 1.27,
+    "ratio": 2.874,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 37,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "PER": {
    "iso": "PER",
@@ -2644,7 +3174,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -9.45,
    "lon": -75.25,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 1.56,
+    "country_land_crop_pct": 0.44,
+    "ratio": 3.545,
+    "reading": "enriched",
+    "n_detections_sampled": 1347,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "PHL": {
    "iso": "PHL",
@@ -2683,7 +3222,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 8.61,
    "lon": 125.19,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 6.2,
+    "country_land_crop_pct": 10.84,
+    "ratio": 0.572,
+    "reading": "depleted",
+    "n_detections_sampled": 177,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "PNG": {
    "iso": "PNG",
@@ -2722,7 +3270,8 @@
    "hist_excluded_for_comparability": [],
    "lat": -6.82,
    "lon": 145.18,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": null
   },
   "POL": {
    "iso": "POL",
@@ -2761,7 +3310,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 51.62,
    "lon": 18.87,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 17.31,
+    "country_land_crop_pct": 42.79,
+    "ratio": 0.405,
+    "reading": "depleted",
+    "n_detections_sampled": 199,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "PRT": {
    "iso": "PRT",
@@ -2800,7 +3358,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 41.26,
    "lon": -7.83,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 0.69,
+    "country_land_crop_pct": 10.05,
+    "ratio": 0.069,
+    "reading": "depleted",
+    "n_detections_sampled": 677,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "PRY": {
    "iso": "PRY",
@@ -2839,7 +3406,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -23.19,
    "lon": -57.61,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 3.73,
+    "country_land_crop_pct": 8.13,
+    "ratio": 0.459,
+    "reading": "depleted",
+    "n_detections_sampled": 1898,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ROU": {
    "iso": "ROU",
@@ -2878,7 +3454,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 44.97,
    "lon": 23.89,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 49.89,
+    "country_land_crop_pct": 35.65,
+    "ratio": 1.399,
+    "reading": "enriched",
+    "n_detections_sampled": 395,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "RUS": {
    "iso": "RUS",
@@ -2917,7 +3502,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 64.53,
    "lon": 86.36,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 1.96,
+    "country_land_crop_pct": 3.89,
+    "ratio": 0.504,
+    "reading": "depleted",
+    "n_detections_sampled": 111795,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "SAU": {
    "iso": "SAU",
@@ -2956,7 +3550,8 @@
    "hist_excluded_for_comparability": [],
    "lat": 24.95,
    "lon": 45.92,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": null
   },
   "SRB": {
    "iso": "SRB",
@@ -2995,7 +3590,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 44.6,
    "lon": 21.12,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 3.94,
+    "country_land_crop_pct": 27.67,
+    "ratio": 0.142,
+    "reading": "depleted",
+    "n_detections_sampled": 924,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "SVK": {
    "iso": "SVK",
@@ -3034,7 +3638,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 48.64,
    "lon": 20.5,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 3.44,
+    "country_land_crop_pct": 30.5,
+    "ratio": 0.113,
+    "reading": "depleted",
+    "n_detections_sampled": 55,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "SVN": {
    "iso": "SVN",
@@ -3073,7 +3686,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 46.62,
    "lon": 15.84,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 73.0,
+    "country_land_crop_pct": 6.22,
+    "ratio": 11.736,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 1,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "SWE": {
    "iso": "SWE",
@@ -3112,7 +3734,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 59.52,
    "lon": 15.46,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 2.73,
+    "country_land_crop_pct": 5.5,
+    "ratio": 0.496,
+    "reading": "depleted",
+    "n_detections_sampled": 74,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "SYR": {
    "iso": "SYR",
@@ -3151,7 +3782,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 36.4,
    "lon": 39.96,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 78.28,
+    "country_land_crop_pct": 20.13,
+    "ratio": 3.889,
+    "reading": "enriched",
+    "n_detections_sampled": 399,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "THA": {
    "iso": "THA",
@@ -3190,7 +3830,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 14.66,
    "lon": 100.18,
-   "basis": "largest_cluster"
+   "basis": "largest_cluster",
+   "cropland": {
+    "detections_on_crop_pct": 56.86,
+    "country_land_crop_pct": 33.24,
+    "ratio": 1.711,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 28,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "TKM": {
    "iso": "TKM",
@@ -3229,7 +3878,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 38.54,
    "lon": 61.07,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 36.21,
+    "country_land_crop_pct": 4.86,
+    "ratio": 7.451,
+    "reading": "enriched",
+    "n_detections_sampled": 737,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "TUN": {
    "iso": "TUN",
@@ -3268,7 +3926,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 35.99,
    "lon": 9.6,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 28.29,
+    "country_land_crop_pct": 9.16,
+    "ratio": 3.088,
+    "reading": "enriched",
+    "n_detections_sampled": 87,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "TUR": {
    "iso": "TUR",
@@ -3307,7 +3974,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 38.93,
    "lon": 33.92,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 42.5,
+    "country_land_crop_pct": 23.47,
+    "ratio": 1.811,
+    "reading": "enriched",
+    "n_detections_sampled": 940,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "TZA": {
    "iso": "TZA",
@@ -3346,7 +4022,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -6.85,
    "lon": 33.36,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 6.05,
+    "country_land_crop_pct": 15.72,
+    "ratio": 0.385,
+    "reading": "depleted",
+    "n_detections_sampled": 12692,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "UGA": {
    "iso": "UGA",
@@ -3385,7 +4070,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 1.21,
    "lon": 32.56,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 5.7,
+    "country_land_crop_pct": 19.97,
+    "ratio": 0.285,
+    "reading": "depleted",
+    "n_detections_sampled": 1043,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "UKR": {
    "iso": "UKR",
@@ -3424,7 +4118,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 48.03,
    "lon": 35.39,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 60.26,
+    "country_land_crop_pct": 50.84,
+    "ratio": 1.185,
+    "reading": "neutral",
+    "n_detections_sampled": 8343,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "URY": {
    "iso": "URY",
@@ -3463,7 +4166,8 @@
    "hist_excluded_for_comparability": [],
    "lat": null,
    "lon": null,
-   "basis": "none"
+   "basis": "none",
+   "cropland": null
   },
   "USA": {
    "iso": "USA",
@@ -3502,7 +4206,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 40.84,
    "lon": -106.88,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 8.53,
+    "country_land_crop_pct": 14.65,
+    "ratio": 0.582,
+    "reading": "depleted",
+    "n_detections_sampled": 10801,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "VEN": {
    "iso": "VEN",
@@ -3541,7 +4254,8 @@
    "hist_excluded_for_comparability": [],
    "lat": 9.42,
    "lon": -65.98,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": null
   },
   "VNM": {
    "iso": "VNM",
@@ -3580,7 +4294,16 @@
    "hist_excluded_for_comparability": [],
    "lat": 16.87,
    "lon": 107.18,
-   "basis": "largest_cluster"
+   "basis": "largest_cluster",
+   "cropland": {
+    "detections_on_crop_pct": 15.49,
+    "country_land_crop_pct": 13.33,
+    "ratio": 1.162,
+    "reading": "neutral",
+    "n_detections_sampled": 173,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ZAF": {
    "iso": "ZAF",
@@ -3619,7 +4342,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -27.87,
    "lon": 29.04,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 3.21,
+    "country_land_crop_pct": 6.18,
+    "ratio": 0.519,
+    "reading": "depleted",
+    "n_detections_sampled": 6756,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ZMB": {
    "iso": "ZMB",
@@ -3658,7 +4390,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -12.59,
    "lon": 27.86,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 3.04,
+    "country_land_crop_pct": 5.2,
+    "ratio": 0.585,
+    "reading": "depleted",
+    "n_detections_sampled": 51209,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   },
   "ZWE": {
    "iso": "ZWE",
@@ -3697,7 +4438,16 @@
    "hist_excluded_for_comparability": [],
    "lat": -18.14,
    "lon": 30.0,
-   "basis": "weighted"
+   "basis": "weighted",
+   "cropland": {
+    "detections_on_crop_pct": 11.8,
+    "country_land_crop_pct": 10.77,
+    "ratio": 1.096,
+    "reading": "neutral",
+    "n_detections_sampled": 3778,
+    "source": "ASAP crop mask v04, 500 m percent cropland",
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+   }
   }
  }
 }

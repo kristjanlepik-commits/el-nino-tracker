@@ -473,6 +473,26 @@ def main():
 
     isos = list(hist_doc["countries"])
     rings = load_rings(isos)
+    # Cropland context, loaded ONCE. A country can post a record
+    # detection week that is mostly farmers clearing fields, and FIRMS
+    # cannot tell that from a forest fire (tls-internal#31).
+    #
+    # FAILS SOFT BY DESIGN. Invariant 1 says this pipeline always
+    # produces output, so a missing 111 MB raster withholds one optional
+    # block rather than stopping a Monday. Withholding is also the
+    # correct answer rather than a degraded one: a ratio computed
+    # without the mask would not be a worse ratio, it would be a
+    # different claim.
+    crop_mask, crop_base = None, {}
+    try:
+        from fires.cropland import CropMask
+        crop_mask = CropMask()
+        crop_base = json.load(open(os.path.join(
+            REPO, "fires", "data", "cropland_baseline.json")))["countries"]
+    except Exception as exc:
+        print(f"  cropland context unavailable, block withheld: {exc}",
+              file=sys.stderr)
+
     rows, detail = [], {}
     for iso in isos:
         h = hist_doc["countries"][iso]
@@ -502,6 +522,60 @@ def main():
         for k in range(window_days):
             day = (start + timedelta(days=k)).isoformat()
             daily[day] = int(seen.get(day, 0))
+        # Cropland context for this country's detections.
+        #
+        # THE RATIO IS THE STATISTIC, not the share. "4% of detections
+        # are on cropland" is meaningless without knowing what share of
+        # the country IS cropland, so every reading carries its own
+        # denominator and both numbers are emitted rather than a verdict
+        # alone.
+        #
+        # The label describes the RATIO, never the cause. "enriched"
+        # is not "agricultural": it says these detections sit on
+        # cropland more often than random land in the same country
+        # does. What is burning stays an inference the reader makes.
+        cropland = None
+        if crop_mask is not None and len(df):
+            base = crop_base.get(iso) or {}
+            if base.get("covered"):
+                try:
+                    v = crop_mask.sample(df["longitude"].to_numpy(),
+                                         df["latitude"].to_numpy())
+                    v = v[~np.isnan(v)]
+                    land_pct = float(base["mean_crop_pct"])
+                    if len(v) and land_pct > 0:
+                        det_pct = float(v.mean())
+                        ratio = det_pct / land_pct
+                        cropland = {
+                            "detections_on_crop_pct": round(det_pct, 2),
+                            "country_land_crop_pct": round(land_pct, 2),
+                            "ratio": round(ratio, 3),
+                            # A VERDICT NEEDS A SAMPLE. Greece's week in
+                            # the first run was 20 detections, its
+                            # quietest of 15, and those 20 read
+                            # "enriched" at 1.63 on nothing but noise.
+                            # The numbers stay; only the label is
+                            # withheld, because the label is the part
+                            # that gets quoted on its own.
+                            "reading": (
+                                "insufficient_sample" if len(v) < 50 else
+                                "enriched" if ratio > 1.3 else
+                                "depleted" if ratio < 0.77 else "neutral"),
+                            "n_detections_sampled": int(len(v)),
+                            "source": ("ASAP crop mask v04, 500 m percent "
+                                       "cropland"),
+                            "_note": (
+                                "Ratio of mean percent-cropland under this "
+                                "week's detections to that under uniform "
+                                "random points in the same country. Above "
+                                "1.3 reads enriched, below 0.77 depleted, "
+                                "and under 50 detections no label is given. "
+                                "Describes WHERE detections fall, not what "
+                                "is burning."),
+                        }
+                except Exception:
+                    cropland = None
+
         detail[iso] = {"iso": iso, "name": h["name"], "count": count,
                        "mean": h["mean"], "hist": h["hist"],
                        "daily": daily,
@@ -561,6 +635,7 @@ def main():
                        "hist_due": len(YEARS_EXPECTED) - len(years_defective),
                        "hist_excluded_for_comparability": years_defective,
                        "lat": lat, "lon": lon, "basis": basis}
+        detail[iso]["cropland"] = cropland
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
         vals = list(h["hist"].values())

@@ -1,0 +1,555 @@
+{
+ "_readme": "Share of each country's LAND that is cropland, from ASAP crop mask v04, sampled at uniform random points inside the country polygon. This is the denominator for the detections-on-cropland ratio; without it the numerator means nothing. 'covered': false means the mask has no data there, which is NOT the same as no cropland, and the ratio is withheld for that country.",
+ "countries": {
+  "AGO": {
+   "covered": true,
+   "mean_crop_pct": 1.66,
+   "n": 6000,
+   "share_over_50": 0.85
+  },
+  "ALB": {
+   "covered": true,
+   "mean_crop_pct": 7.07,
+   "n": 6000,
+   "share_over_50": 7.05
+  },
+  "ARG": {
+   "covered": true,
+   "mean_crop_pct": 13.73,
+   "n": 6000,
+   "share_over_50": 13.9
+  },
+  "AUS": {
+   "covered": true,
+   "mean_crop_pct": 5.1,
+   "n": 6000,
+   "share_over_50": 5.22
+  },
+  "AUT": {
+   "covered": true,
+   "mean_crop_pct": 15.0,
+   "n": 6000,
+   "share_over_50": 15.23
+  },
+  "BEL": {
+   "covered": true,
+   "mean_crop_pct": 22.0,
+   "n": 6000,
+   "share_over_50": 21.63
+  },
+  "BGR": {
+   "covered": true,
+   "mean_crop_pct": 34.53,
+   "n": 6000,
+   "share_over_50": 34.57
+  },
+  "BIH": {
+   "covered": true,
+   "mean_crop_pct": 3.23,
+   "n": 6000,
+   "share_over_50": 3.23
+  },
+  "BOL": {
+   "covered": true,
+   "mean_crop_pct": 1.59,
+   "n": 6000,
+   "share_over_50": 1.47
+  },
+  "BRA": {
+   "covered": true,
+   "mean_crop_pct": 6.9,
+   "n": 6000,
+   "share_over_50": 6.63
+  },
+  "BWA": {
+   "covered": true,
+   "mean_crop_pct": 0.69,
+   "n": 6000,
+   "share_over_50": 0.23
+  },
+  "CAN": {
+   "covered": true,
+   "mean_crop_pct": 3.1,
+   "n": 5409,
+   "share_over_50": 3.11
+  },
+  "CHL": {
+   "covered": true,
+   "mean_crop_pct": 0.92,
+   "n": 6000,
+   "share_over_50": 0.63
+  },
+  "CHN": {
+   "covered": true,
+   "mean_crop_pct": 12.76,
+   "n": 6000,
+   "share_over_50": 12.43
+  },
+  "COD": {
+   "covered": true,
+   "mean_crop_pct": 0.67,
+   "n": 6000,
+   "share_over_50": 0.38
+  },
+  "COG": {
+   "covered": false,
+   "n": 6000
+  },
+  "COL": {
+   "covered": false,
+   "n": 6000
+  },
+  "CUB": {
+   "covered": true,
+   "mean_crop_pct": 11.53,
+   "n": 6000,
+   "share_over_50": 9.92
+  },
+  "CYP": {
+   "covered": true,
+   "mean_crop_pct": 13.24,
+   "n": 6000,
+   "share_over_50": 13.17
+  },
+  "CZE": {
+   "covered": true,
+   "mean_crop_pct": 34.88,
+   "n": 6000,
+   "share_over_50": 35.07
+  },
+  "DEU": {
+   "covered": true,
+   "mean_crop_pct": 36.18,
+   "n": 6000,
+   "share_over_50": 36.23
+  },
+  "DNK": {
+   "covered": true,
+   "mean_crop_pct": 50.86,
+   "n": 6000,
+   "share_over_50": 51.52
+  },
+  "DZA": {
+   "covered": true,
+   "mean_crop_pct": 2.33,
+   "n": 6000,
+   "share_over_50": 2.22
+  },
+  "ECU": {
+   "covered": true,
+   "mean_crop_pct": 0.45,
+   "n": 6000,
+   "share_over_50": 0.13
+  },
+  "ESP": {
+   "covered": true,
+   "mean_crop_pct": 24.36,
+   "n": 6000,
+   "share_over_50": 24.22
+  },
+  "EST": {
+   "covered": true,
+   "mean_crop_pct": 15.95,
+   "n": 6000,
+   "share_over_50": 15.5
+  },
+  "FIN": {
+   "covered": true,
+   "mean_crop_pct": 4.55,
+   "n": 6000,
+   "share_over_50": 4.33
+  },
+  "FRA": {
+   "covered": true,
+   "mean_crop_pct": 27.57,
+   "n": 6000,
+   "share_over_50": 28.05
+  },
+  "GBR": {
+   "covered": true,
+   "mean_crop_pct": 24.2,
+   "n": 6000,
+   "share_over_50": 24.2
+  },
+  "GEO": {
+   "covered": true,
+   "mean_crop_pct": 5.0,
+   "n": 6000,
+   "share_over_50": 4.27
+  },
+  "GRC": {
+   "covered": true,
+   "mean_crop_pct": 15.78,
+   "n": 6000,
+   "share_over_50": 15.68
+  },
+  "HRV": {
+   "covered": true,
+   "mean_crop_pct": 12.6,
+   "n": 6000,
+   "share_over_50": 12.65
+  },
+  "HUN": {
+   "covered": true,
+   "mean_crop_pct": 49.77,
+   "n": 6000,
+   "share_over_50": 50.43
+  },
+  "IDN": {
+   "covered": true,
+   "mean_crop_pct": 3.63,
+   "n": 6000,
+   "share_over_50": 3.43
+  },
+  "IND": {
+   "covered": true,
+   "mean_crop_pct": 43.43,
+   "n": 6000,
+   "share_over_50": 44.67
+  },
+  "IRL": {
+   "covered": true,
+   "mean_crop_pct": 5.04,
+   "n": 6000,
+   "share_over_50": 4.5
+  },
+  "IRN": {
+   "covered": true,
+   "mean_crop_pct": 8.44,
+   "n": 6000,
+   "share_over_50": 8.12
+  },
+  "IRQ": {
+   "covered": true,
+   "mean_crop_pct": 10.11,
+   "n": 6000,
+   "share_over_50": 9.58
+  },
+  "ISR": {
+   "covered": true,
+   "mean_crop_pct": 16.24,
+   "n": 6000,
+   "share_over_50": 16.13
+  },
+  "ITA": {
+   "covered": true,
+   "mean_crop_pct": 25.57,
+   "n": 6000,
+   "share_over_50": 25.68
+  },
+  "JPN": {
+   "covered": true,
+   "mean_crop_pct": 6.56,
+   "n": 6000,
+   "share_over_50": 5.15
+  },
+  "KAZ": {
+   "covered": true,
+   "mean_crop_pct": 9.62,
+   "n": 6000,
+   "share_over_50": 9.87
+  },
+  "KHM": {
+   "covered": true,
+   "mean_crop_pct": 31.1,
+   "n": 6000,
+   "share_over_50": 30.55
+  },
+  "KOR": {
+   "covered": true,
+   "mean_crop_pct": 9.21,
+   "n": 6000,
+   "share_over_50": 6.62
+  },
+  "LAO": {
+   "covered": true,
+   "mean_crop_pct": 5.92,
+   "n": 6000,
+   "share_over_50": 4.95
+  },
+  "LBN": {
+   "covered": true,
+   "mean_crop_pct": 9.1,
+   "n": 6000,
+   "share_over_50": 7.67
+  },
+  "LBY": {
+   "covered": false,
+   "n": 6000
+  },
+  "LKA": {
+   "covered": true,
+   "mean_crop_pct": 12.57,
+   "n": 6000,
+   "share_over_50": 10.62
+  },
+  "LTU": {
+   "covered": true,
+   "mean_crop_pct": 34.52,
+   "n": 6000,
+   "share_over_50": 34.45
+  },
+  "LUX": {
+   "covered": true,
+   "mean_crop_pct": 16.95,
+   "n": 6000,
+   "share_over_50": 15.85
+  },
+  "LVA": {
+   "covered": true,
+   "mean_crop_pct": 20.64,
+   "n": 6000,
+   "share_over_50": 20.22
+  },
+  "MAR": {
+   "covered": true,
+   "mean_crop_pct": 10.72,
+   "n": 6000,
+   "share_over_50": 10.45
+  },
+  "MDG": {
+   "covered": true,
+   "mean_crop_pct": 2.25,
+   "n": 6000,
+   "share_over_50": 1.28
+  },
+  "MEX": {
+   "covered": true,
+   "mean_crop_pct": 5.94,
+   "n": 6000,
+   "share_over_50": 5.35
+  },
+  "MKD": {
+   "covered": true,
+   "mean_crop_pct": 11.05,
+   "n": 6000,
+   "share_over_50": 11.0
+  },
+  "MLT": {
+   "covered": true,
+   "mean_crop_pct": 1.16,
+   "n": 6000,
+   "share_over_50": 0.82
+  },
+  "MMR": {
+   "covered": true,
+   "mean_crop_pct": 16.88,
+   "n": 6000,
+   "share_over_50": 16.4
+  },
+  "MNE": {
+   "covered": false,
+   "n": 6000
+  },
+  "MOZ": {
+   "covered": true,
+   "mean_crop_pct": 8.48,
+   "n": 6000,
+   "share_over_50": 6.0
+  },
+  "MWI": {
+   "covered": true,
+   "mean_crop_pct": 27.4,
+   "n": 6000,
+   "share_over_50": 26.27
+  },
+  "MYS": {
+   "covered": false,
+   "n": 6000
+  },
+  "NAM": {
+   "covered": true,
+   "mean_crop_pct": 0.73,
+   "n": 6000,
+   "share_over_50": 0.25
+  },
+  "NLD": {
+   "covered": true,
+   "mean_crop_pct": 15.47,
+   "n": 6000,
+   "share_over_50": 15.35
+  },
+  "NOR": {
+   "covered": true,
+   "mean_crop_pct": 1.23,
+   "n": 4104,
+   "share_over_50": 1.19
+  },
+  "NPL": {
+   "covered": true,
+   "mean_crop_pct": 11.46,
+   "n": 6000,
+   "share_over_50": 10.4
+  },
+  "NZL": {
+   "covered": true,
+   "mean_crop_pct": 1.27,
+   "n": 6000,
+   "share_over_50": 0.83
+  },
+  "PER": {
+   "covered": true,
+   "mean_crop_pct": 0.44,
+   "n": 6000,
+   "share_over_50": 0.28
+  },
+  "PHL": {
+   "covered": true,
+   "mean_crop_pct": 10.84,
+   "n": 6000,
+   "share_over_50": 10.2
+  },
+  "PNG": {
+   "covered": false,
+   "n": 6000
+  },
+  "POL": {
+   "covered": true,
+   "mean_crop_pct": 42.79,
+   "n": 6000,
+   "share_over_50": 43.17
+  },
+  "PRT": {
+   "covered": true,
+   "mean_crop_pct": 10.05,
+   "n": 6000,
+   "share_over_50": 9.52
+  },
+  "PRY": {
+   "covered": true,
+   "mean_crop_pct": 8.13,
+   "n": 6000,
+   "share_over_50": 7.83
+  },
+  "ROU": {
+   "covered": true,
+   "mean_crop_pct": 35.65,
+   "n": 6000,
+   "share_over_50": 36.1
+  },
+  "RUS": {
+   "covered": true,
+   "mean_crop_pct": 3.89,
+   "n": 5832,
+   "share_over_50": 3.86
+  },
+  "SAU": {
+   "covered": false,
+   "n": 6000
+  },
+  "SRB": {
+   "covered": true,
+   "mean_crop_pct": 27.67,
+   "n": 6000,
+   "share_over_50": 27.83
+  },
+  "SVK": {
+   "covered": true,
+   "mean_crop_pct": 30.5,
+   "n": 6000,
+   "share_over_50": 30.88
+  },
+  "SVN": {
+   "covered": true,
+   "mean_crop_pct": 6.22,
+   "n": 6000,
+   "share_over_50": 6.03
+  },
+  "SWE": {
+   "covered": true,
+   "mean_crop_pct": 5.5,
+   "n": 6000,
+   "share_over_50": 5.48
+  },
+  "SYR": {
+   "covered": true,
+   "mean_crop_pct": 20.13,
+   "n": 6000,
+   "share_over_50": 20.7
+  },
+  "THA": {
+   "covered": true,
+   "mean_crop_pct": 33.24,
+   "n": 6000,
+   "share_over_50": 34.4
+  },
+  "TKM": {
+   "covered": true,
+   "mean_crop_pct": 4.86,
+   "n": 6000,
+   "share_over_50": 5.02
+  },
+  "TUN": {
+   "covered": true,
+   "mean_crop_pct": 9.16,
+   "n": 6000,
+   "share_over_50": 8.92
+  },
+  "TUR": {
+   "covered": true,
+   "mean_crop_pct": 23.47,
+   "n": 6000,
+   "share_over_50": 23.53
+  },
+  "TZA": {
+   "covered": true,
+   "mean_crop_pct": 15.72,
+   "n": 6000,
+   "share_over_50": 14.42
+  },
+  "UGA": {
+   "covered": true,
+   "mean_crop_pct": 19.97,
+   "n": 6000,
+   "share_over_50": 18.65
+  },
+  "UKR": {
+   "covered": true,
+   "mean_crop_pct": 50.84,
+   "n": 6000,
+   "share_over_50": 52.73
+  },
+  "URY": {
+   "covered": true,
+   "mean_crop_pct": 12.17,
+   "n": 6000,
+   "share_over_50": 10.98
+  },
+  "USA": {
+   "covered": true,
+   "mean_crop_pct": 14.65,
+   "n": 6000,
+   "share_over_50": 14.35
+  },
+  "VEN": {
+   "covered": false,
+   "n": 6000
+  },
+  "VNM": {
+   "covered": true,
+   "mean_crop_pct": 13.33,
+   "n": 6000,
+   "share_over_50": 12.02
+  },
+  "ZAF": {
+   "covered": true,
+   "mean_crop_pct": 6.18,
+   "n": 6000,
+   "share_over_50": 5.68
+  },
+  "ZMB": {
+   "covered": true,
+   "mean_crop_pct": 5.2,
+   "n": 6000,
+   "share_over_50": 3.65
+  },
+  "ZWE": {
+   "covered": true,
+   "mean_crop_pct": 10.77,
+   "n": 6000,
+   "share_over_50": 6.12
+  }
+ },
+ "n_points": 6000,
+ "source": "ASAP crop mask v04, 500 m percent cropland. Obtained via the crops channel; canonical download not yet established."
+}
