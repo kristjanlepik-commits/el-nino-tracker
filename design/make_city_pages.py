@@ -45,6 +45,7 @@ b6190 is a WHOLE-YEAR mean and is deliberately unused: pairing it with a
 part-season count understates the change and misdescribes the basis.
 """
 import json, math, re, statistics as st
+from html import escape as _esc
 from pathlib import Path
 
 R = Path(__file__).resolve().parent.parent
@@ -448,6 +449,35 @@ def _join_years(ys):
     return ys[0] if len(ys) == 1 else ", ".join(ys[:-1]) + " and " + ys[-1]
 
 
+def _joined_caveat(v):
+    """Selection exposure, BEFORE the claim it qualifies (D-141).
+
+    Budapest went live saying "the most hot days Budapest has recorded" on
+    its FIRST appearance, at 45 times its 1961-1990 rate, the highest
+    multiple in the set, with nothing saying it joined three days earlier.
+    The defence is real, the city was picked because central and eastern
+    Europe was three of forty-two and before anyone looked at its 2026
+    figures, but a reader cannot see a defence that is not on the page. A
+    count over a set inherits the choice of which cities are in it.
+
+    ABOVE THE HEADLINE, NOT BELOW IT. The reader's question is "did you add
+    this city because it was hot", and an answer arriving after the claim
+    has already lost. Same reasoning as the flood page's corroboration line
+    and the crops lead qualifier.
+
+    RENDERED ONLY WHERE heat SETS caveat_required. Four cities qualify:
+    Nottingham, Belfast, Zagreb, Budapest. Vilnius at 16th of 129 and
+    Larnaca at nine days in the set do not, and that discrimination is the
+    point: a caveat on every city trains a reader to skip it, which would
+    cost exactly the four where it matters.
+    """
+    j = v.get("joined") or {}
+    if not j.get("caveat_required"):
+        return ""
+    return ('<p class="joincav">%s</p>\n'
+            % _esc(j.get("caveat", "").strip()))
+
+
 def _withdrawal_needs_correction(name):
     """True when heat classifies this withdrawal as our error.
 
@@ -794,6 +824,13 @@ border-bottom:1px solid var(--rule)}
 .src span:nth-child(even){border-top:0;padding-top:0;padding-bottom:7px;
  text-align:left !important;color:var(--ink-faint)}
 }
+"""
+CSS += """
+/* Selection exposure, above the claim. Bordered rather than tinted: it is
+   a fact about how the set was chosen, not a warning about the number. */
+.joincav { border-left:3px solid var(--ink); padding:9px 0 9px 13px;
+  margin:0 0 14px; font-size:14px; line-height:1.5; color:var(--ink-2);
+  max-width:62ch; }
 """
 CSS += _bandcss()
 
@@ -1298,7 +1335,7 @@ for name, v in sorted(C.items()):
 <div class="mast"><span class="prod">Heat</span>
 <span class="when">{name} &middot; {S[name]['station']} &middot; to {cut_txt} 2026</span></div>
 
-<h1>{head}</h1>
+{_joined_caveat(v)}<h1>{head}</h1>
 {_provisional_mark(v)}
 {_correction_block(name)}
 {peak_lead}

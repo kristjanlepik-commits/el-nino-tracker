@@ -244,6 +244,12 @@ border-bottom:1px solid var(--rule)}
  text-align:left !important;color:var(--ink-faint)}
 }
 
+/* Selection exposure, above the claim. Bordered rather than tinted: it is
+   a fact about how the set was chosen, not a warning about the number. */
+.joincav { border-left:3px solid var(--ink); padding:9px 0 9px 13px;
+  margin:0 0 14px; font-size:14px; line-height:1.5; color:var(--ink-2);
+  max-width:62ch; }
+
 .ebd { margin:38px 0 0; border-top:3px solid var(--ink); padding-top:17px;
   display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:18px 44px; align-items:start; }
