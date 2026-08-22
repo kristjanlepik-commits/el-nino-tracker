@@ -150,6 +150,7 @@ for n, v in C.items():
     rows.append({"z": (now - zmean) / zsd if zsd else 0.0,
                  "zmean": zmean,
                  "name": n, "lat": la, "lon": lo, "rank": r["value"],
+                 "band": v.get("legend_band"),
                  "of": r["of_years"], "pct": r["percentile"],
                  "now": now, "base": base,
                  "prev_best": prev_best,
@@ -335,9 +336,31 @@ FILL = {"record": "var(--f3)", "near": "var(--f2)", "quiet": "var(--f0)"}
 
 
 def state(d):
-    if d["rank"] == 1:
-        return "record"
-    return "near" if d["rank"] <= NEAR_RANK else "quiet"
+    """The band, READ from the payload and never derived from the rank.
+
+    THIS WAS UNDERSTATING LIVE PAGES. It returned "record" only on rank 1,
+    and heat's ranks count ties against: a city sharing the highest value
+    with a previous year sits at rank 2, so a city that HOLDS its record
+    jointly was drawn and described as merely near it. Malaga and Dresden
+    are both in that position right now.
+
+    heat emits `legend_band` per city and `legend_band_note` says to read
+    it, with the reason: a second definition living in a template is a
+    second thing to drift. The correct test is years STRICTLY above,
+    rank - 1 - len(tied_with), and a city is at its record while that is
+    zero, tie or no tie. That test lives in their emitter, once.
+
+    Their vocabulary is record / near / outside; this page's third band is
+    called "quiet" and is a visual label rather than a claim, so the
+    mapping is explicit rather than assumed equal.
+    """
+    band = d.get("band")
+    if band is None:
+        raise SystemExit(
+            "city %r has no legend_band. It is required: deriving the band "
+            "from the rank is what understated Malaga and Dresden."
+            % d.get("name"))
+    return {"record": "record", "near": "near", "outside": "quiet"}[band]
 
 
 # Sizing. Area, not radius, carries the margin, so radius goes as its
