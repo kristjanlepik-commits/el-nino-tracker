@@ -1,15 +1,12 @@
 {
   "channel": "fires",
-  "approved_hash": "d7c7e8c88b5f90182b8923ce210f08ad9434e0659613a4917499761d9bfbc21c",
-  "approved_at": "2026-08-22T07:22:00+00:00",
-  "approved_by": "Fire",
-  "note": "Reviewed the preview build before approving, in the right order this time. Diff: Belgium 3,175 to 3,208 ha on a GWIS within-week revision, record sentence and the through-2026-08-19 stamp intact; detection windows advance to 15-21 August with the usual small shifts in multiple and z; 25 unregenerated pages restamped with the current check week; new previous-record chart annotations, Belgium's reads 2011 at 2,180 ha which is correct. No record claim appeared, inverted or was withdrawn.",
+  "approved_hash": "79095b29918166b442f5e401cd066481cab119f599eb6188fd1bf4f339b47d4b",
+  "approved_at": "2026-08-22T07:36:50+00:00",
+  "approved_by": "platform (D-212 migration)",
+  "note": "Not a new content review. D-212 moved fires' payload off this hash onto fires/refresh_gate.py; this marker now covers only the three template files (templates/country_page.py, fires/build_page.py, fires/build_country_pages.py), which Fire already reviewed and approved on 2026-08-20 under the old, wider input set. Re-stamped because the hash changed shape, not because the reviewed content did. Fire owns approving any future TEMPLATE change; payload is fires/refresh_gate.py's concern now, not this file's.",
   "inputs": [
-    "data/events.json",
     "fires/build_country_pages.py",
     "fires/build_page.py",
-    "fires/data/burnt_area.json",
-    "fires/data/current_week.json",
     "templates/country_page.py"
   ]
 }

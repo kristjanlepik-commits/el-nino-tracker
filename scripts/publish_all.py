@@ -170,16 +170,26 @@ GENERATORS = [
 # gate a cron job", so the gate has to live where the cron job can read it.
 #
 # Per channel: every file whose bytes decide what that channel's pages say,
-# template AND payload together, exactly as D-200 specifies. That
-# deliberately includes the data files, not just the code: CRO/Fire signed
-# off on what a template renders FROM a payload, not on the template in the
-# abstract, and a template that was fine against last week's numbers is not
-# thereby approved for this week's. The consequence, stated because it is
-# real and nobody has ruled on it yet: crops_refresh.yml's automatic daily
-# dekad advance will now leave crops BLOCKED until re-approved every time
-# the payload changes, not just when the template does. That may be too
-# strict for a routine data refresh; it is what was specified, and it is
-# CRO/product's call to loosen, not platform's to soften unilaterally.
+# template AND payload together, exactly as D-200 specified, INCLUDING the
+# data files for crops. Crops publishes roughly every 10 days (ASAP's
+# cadence) and publication_log.json, the daily probe's own record, sits
+# outside this hash, so the gate fires once per publication cycle there.
+# That reading held for crops. It did not hold for fires (D-212): 30+
+# commits a month on each of the three fires payload files meant a byte
+# hash gated fires roughly daily, and on 21 August it held a genuinely
+# correct revision (Belgium's burnt area, 3,175 to 3,208 ha) for two days
+# while the site kept serving the superseded figure with every automated
+# check green. The gate produced the exact harm it exists to prevent.
+#
+# So fires' payload moved to fires/refresh_gate.py, a classify-and-hold
+# gate like heat's: it holds on a claim changing (a record appearing or
+# withdrawn, a country entering or leaving the qualifying set, a weekly
+# rank crossing into or out of 1st) and passes a revised magnitude inside
+# an unchanged claim. This dict now covers TEMPLATE ONLY for fires;
+# "template change: always hold" is a separate, simpler rule than payload
+# classification and still belongs on D-200's hash. Crops is unchanged:
+# D-208 confirmed its cadence math is fine and generalising fires' fix to
+# crops was considered and rejected for exactly that reason.
 SIGNOFF_INPUTS = {
     "crops": [
         "templates/crops_index.py", "templates/crops_page.py",
@@ -191,8 +201,6 @@ SIGNOFF_INPUTS = {
     "fires": [
         "templates/country_page.py",
         "fires/build_page.py", "fires/build_country_pages.py",
-        "data/events.json", "fires/data/current_week.json",
-        "fires/data/burnt_area.json",
     ],
 }
 
@@ -716,6 +724,26 @@ def main() -> None:
         for channel, reason in blocked:
             print(f"    {channel}: {reason}")
 
+    # D-212. fires' PAYLOAD gate, separate from the D-200 template hash
+    # above: classify-and-hold rather than byte-hash, because the byte
+    # hash held a genuinely correct revision for two days (Belgium's
+    # burnt area, 3,175 to 3,208 ha) while the site kept serving the
+    # superseded figure with every automated check green. Same skip
+    # shape as the heat and D-200 gates: hold this channel, keep every
+    # other channel and the ENSO shell publishing normally.
+    fires_held = False
+    if "fires" not in dict(blocked):  # already blocked on template; don't
+        gate = subprocess.run([PY, "fires/refresh_gate.py"], cwd=ROOT,
+                              capture_output=True, text=True)
+        fires_held = gate.returncode != 0
+        if fires_held:
+            steps = [s for s in steps if not s[0].startswith("fires")]
+            print("  FIRES PAYLOAD HELD (D-212), its pages are NOT "
+                  "rebuilt this run. The last approved fires pages stay "
+                  "live and every other channel publishes normally.")
+            for line in (gate.stdout + gate.stderr).strip().splitlines():
+                print(f"    {line.strip()}")
+
     for name, cmd in steps:
         # fires/*.py import tokens and run_brief from the repo root.
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True,
@@ -803,6 +831,23 @@ def main() -> None:
             print("  promoted heat/data/published/city_nights.json to the "
                   "payload just published; the gate now compares against "
                   "what is actually live.")
+
+    # D-212, same reasoning as heat above: advance fires' reference only
+    # when the gate passed and only on a real publish, so a HELD run
+    # leaves the reference where it was (nothing shipped, so nothing to
+    # promote) and a passing run never lets the comparison drift further
+    # from what a reader actually sees.
+    if not fires_held:
+        for name in ("events.json", "burnt_area.json", "current_week.json"):
+            cur = (ROOT / "data" / name if name == "events.json"
+                   else ROOT / "fires" / "data" / name)
+            pub = ROOT / "fires" / "data" / "published" / name
+            if cur.exists() and (not pub.exists() or pub.read_bytes() != cur.read_bytes()):
+                pub.parent.mkdir(parents=True, exist_ok=True)
+                pub.write_bytes(cur.read_bytes())
+        print("  promoted fires/data/published/* to the payload just "
+              "published; the gate now compares against what is "
+              "actually live.")
 
     print(f"\npublished, all checks passed. {len(changed)} page(s) changed:")
     for c in changed:

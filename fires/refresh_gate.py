@@ -1,0 +1,176 @@
+"""Decide whether a fires payload refresh may publish itself or needs a human.
+
+D-212. Supersedes the D-200 byte-hash for fires' PAYLOAD only; the template
+files (fires/build_page.py, fires/build_country_pages.py,
+templates/country_page.py) stay on D-200's hash in signoff/fires.json,
+trimmed to just those three, because "template change: always hold" is a
+different rule from this one and needs no classification.
+
+WHY THE BYTE HASH HAD TO GO FOR PAYLOAD. D-200 held fires on any byte
+difference in fires/data/current_week.json, data/events.json and
+fires/data/burnt_area.json, all three touched by the daily data job (30+
+commits each since 1 August). Measured cost: approved 20 August at 3,175 ha
+for Belgium; GWIS revised to 3,208 on the 21st, the hash moved, the channel
+blocked, and the site kept serving 3,175 for two days with every automated
+check green, corrected only when Fire published by hand. THE GATE PRODUCED
+THE EXACT HARM IT EXISTS TO PREVENT: the correct number was in our data on
+the 21st and the gate kept the wrong one live.
+
+Same shape as heat/refresh_gate.py, same reason: a byte is not a claim. A
+revised magnitude inside an unchanged claim (3,175 to 3,208, still above
+Belgium's own record) should pass. A record appearing, a record withdrawn,
+a country entering or leaving the qualifying set, or a country's weekly
+rank crossing into or out of 1st should not.
+
+WHY IT COMPARES PAYLOADS RATHER THAN RECOMPUTING. Same as heat: the
+previously PUBLISHED payload is the only external reference for what a
+reader last saw. Deriving "what changed" from the new data alone would be
+comparing the artifact under test to itself.
+
+THE TIMESTAMP FIX IS STRUCTURAL, NOT A SPECIAL CASE. Fire found the second
+data-job run of most days rewrites burnt_area.json's top-level "fetched"
+field and nothing else (2 changed lines against 400+ on a real-revision
+run), which alone tripped the old byte hash. This gate never reads
+"fetched" at all: it only ever looks at named claim fields inside
+`countries`/`events`, so a field nobody asked about cannot block anything,
+structurally, rather than by being remembered and excluded.
+
+EXIT CODE IS THE PRODUCT. 0 means publish, 1 means a human looks.
+"""
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+EVENTS_CUR = ROOT / "data" / "events.json"
+EVENTS_PUB = ROOT / "fires" / "data" / "published" / "events.json"
+AREA_CUR = ROOT / "fires" / "data" / "burnt_area.json"
+AREA_PUB = ROOT / "fires" / "data" / "published" / "burnt_area.json"
+WEEK_CUR = ROOT / "fires" / "data" / "current_week.json"
+WEEK_PUB = ROOT / "fires" / "data" / "published" / "current_week.json"
+
+
+def _is_area_record(country: dict) -> bool | None:
+    """Does the committed area_ha claim a record against max_ha. None when
+    the fields aren't there (desert-fire countries read 0 ha everywhere,
+    per fires/build_country_pages.py's own handling of that case)."""
+    area, mx = country.get("area_ha"), country.get("max_ha")
+    if area is None or mx is None:
+        return None
+    return area > mx
+
+
+def _week_rank(entry: dict) -> int | None:
+    """1 = this week is the highest on record for this country, matching
+    the ordinal the template renders (ORD in fires/build_country_pages.py:
+    1 highest, 2 second-heaviest, ...). Only the boundary at rank 1 is a
+    claim this gate cares about; 2nd-to-3rd is ordinary movement, same as
+    heat's day-rank drifting a place or two."""
+    hist = entry.get("hist") or {}
+    count = entry.get("count")
+    if count is None or not hist:
+        return None
+    return 1 + sum(1 for v in hist.values() if v is not None and v > count)
+
+
+def classify(prev: dict, cur: dict) -> tuple[list[str], list[str]]:
+    """(block, report). See module docstring for the four triggers:
+    qualifying-set change, an area record appearing/withdrawn, a weekly
+    rank crossing into/out of 1st, and the "record" tag on an existing
+    event appearing/withdrawn. Everything else is ordinary."""
+    block, report = [], []
+
+    # data/events.json: the qualifying set. ALWAYS editorial, same
+    # reasoning as heat's added/removed cities (D-141): every claim about
+    # "which countries are showing anomalous fire activity" inherits the
+    # choice of which countries are in that set.
+    pe = {e["region"]: e for e in (prev.get("events") or {}).get("events", [])}
+    ce = {e["region"]: e for e in (cur.get("events") or {}).get("events", [])}
+    added = sorted(set(ce) - set(pe))
+    removed = sorted(set(pe) - set(ce))
+    if added:
+        block.append(f"events: region(s) entered the qualifying set: {added}")
+    if removed:
+        block.append(f"events: region(s) LEFT the qualifying set: {removed}")
+
+    for region in sorted(set(pe) & set(ce)):
+        p, c = pe[region], ce[region]
+        p_rec = "record" in (p.get("qualifies_on") or [])
+        c_rec = "record" in (c.get("qualifies_on") or [])
+        if p_rec != c_rec:
+            block.append(f"{region}: 'record' qualification {p_rec} -> {c_rec}")
+        elif p.get("stat") != c.get("stat") or p.get("title") != c.get("title"):
+            report.append(f"{region}: stat/title {p.get('stat')!r} -> {c.get('stat')!r}")
+
+    # fires/data/burnt_area.json: the national-record area claim. This is
+    # exactly the Belgium case: area_ha revising from 3,175 to 3,208 while
+    # both readings sit above max_ha (2,180) is a magnitude change inside
+    # an unchanged claim, and must pass. Crossing max_ha, either
+    # direction, is the record appearing or being withdrawn.
+    pc, cc = (prev.get("burnt_area") or {}).get("countries", {}), \
+             (cur.get("burnt_area") or {}).get("countries", {})
+    for iso in sorted(set(pc) & set(cc)):
+        p, c = pc[iso], cc[iso]
+        pr, cr = _is_area_record(p), _is_area_record(c)
+        if pr != cr and pr is not None and cr is not None:
+            block.append(
+                f"{c.get('name', iso)}: area record status {pr} -> {cr} "
+                f"({p.get('area_ha')} -> {c.get('area_ha')} ha against "
+                f"max {c.get('max_ha')}). A revised magnitude on the same "
+                f"side of the record line would have passed.")
+        elif p.get("area_ha") != c.get("area_ha"):
+            report.append(f"{c.get('name', iso)}: area_ha {p.get('area_ha')} "
+                          f"-> {c.get('area_ha')}")
+
+    # fires/data/current_week.json: the weekly ordinal claim a country
+    # page opens on ("fourth-heaviest fire week..."). Only the rank-1
+    # boundary is a claim; anything else is data doing what data does.
+    pw = (prev.get("current_week") or {}).get("countries") or \
+         (prev.get("current_week") or {})
+    cw = (cur.get("current_week") or {}).get("countries") or \
+         (cur.get("current_week") or {})
+    for iso in sorted(set(pw) & set(cw)):
+        p, c = pw[iso], cw[iso]
+        pr, cr = _week_rank(p), _week_rank(c)
+        if pr != cr and (pr == 1 or cr == 1):
+            block.append(f"{c.get('name', iso)}: weekly rank {pr} -> {cr}, "
+                        f"crossing the 1st-place boundary")
+        elif pr != cr and pr is not None and cr is not None:
+            report.append(f"{c.get('name', iso)}: weekly rank {pr} -> {cr}")
+
+    return block, report
+
+
+def _load(path: Path):
+    return json.loads(path.read_text()) if path.exists() else {}
+
+
+def main() -> int:
+    if not EVENTS_PUB.exists() or not AREA_PUB.exists():
+        print("  HOLD: no previously published fires payload to compare "
+              "against.", file=sys.stderr)
+        return 1
+    prev = {"events": _load(EVENTS_PUB), "burnt_area": _load(AREA_PUB),
+            "current_week": _load(WEEK_PUB)}
+    cur = {"events": _load(EVENTS_CUR), "burnt_area": _load(AREA_CUR),
+           "current_week": _load(WEEK_CUR)}
+    block, report = classify(prev, cur)
+    for r in report:
+        print(f"    changed: {r}")
+    if not block:
+        print(f"  PUBLISH: {len(report)} ordinary change(s), no record "
+              f"appeared or was withdrawn, qualifying set unchanged, no "
+              f"weekly rank crossed into or out of 1st.")
+        return 0
+    print(f"  HOLD: {len(block)} change(s) that need a person. "
+          f"{len(report)} ordinary change(s) would have passed.",
+          file=sys.stderr)
+    for b in block:
+        print(f"    - {b}", file=sys.stderr)
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
