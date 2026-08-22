@@ -284,6 +284,41 @@ MIN_BASELINE_YEARS = 27          # of 30; below this a multiple is not comparabl
 # its neighbour is reachable and a decade of gaps is not.
 MAX_SHORTFALL_YEARS = 2
 
+# WHEN EACH CITY JOINED THE SET, AND WHY. A field because a caveat that lives
+# in a message is a caveat the page cannot carry.
+#
+# Budapest went live on 22 August claiming "the most hot days Budapest has
+# recorded", its first appearance, at 45 times the 1961-1990 rate, the highest
+# multiple in the set, with NOTHING on the page saying it had joined three
+# days earlier. I had put that caveat to product, to socials and to design in
+# prose and never emitted it, so there was nothing for design to render. That
+# is D-141's exact exposure: a set assembled with knowledge of the current
+# year, where a new city arriving at a record reads as chosen for its number.
+#
+# The rule these three were chosen under is the defence, and it only works if
+# the reader can see it: they were selected because the region was uncovered,
+# BEFORE anyone looked at their 2026 figures.
+JOINED = {
+    "Larnaca":  ("2026-08-12", "Cyprus was the only Mediterranean island in "
+                               "range with a long record and no coverage."),
+    "Tallinn":  ("2026-08-11", "Baltic coverage, chosen for the gap."),
+    "Nottingham": ("2026-08-11", "A second English city outside London."),
+    "Belfast":  ("2026-08-11", "Northern Ireland, uncovered."),
+    "Aberdeen": ("2026-08-11", "Scotland, uncovered."),
+    "Budapest": ("2026-08-19", "Central and eastern Europe was three cities "
+                               "of forty-two. Selected for the gap, before "
+                               "its 2026 figures were looked at."),
+    "Vilnius":  ("2026-08-19", "As Budapest: the Baltic and eastern gap."),
+    "Zagreb":   ("2026-08-19", "The Balkans were zero cities. Selected for "
+                               "the gap, before its 2026 figures were "
+                               "looked at."),
+}
+# A city entering at or near its own record within this many days of joining
+# carries the caveat on the page. Thirty days, because the reader's question
+# is "did you add this city because it was hot", and that question is live for
+# as long as the addition is recent enough to have been motivated by it.
+JOINED_CAVEAT_DAYS = 30
+
 MONTH_LEN = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 CITIES = {

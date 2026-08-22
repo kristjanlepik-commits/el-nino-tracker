@@ -514,6 +514,9 @@ def main() -> int:
                           _d_sub, _pre_d_sub["worst_year_on_record"],
                           days_worst)
 
+    # The newest cut anywhere in the set, which is the closest thing we have
+    # to "now" without reading a clock the payload cannot show a reader.
+    _newest_cut = max(v["counted_to"] for v in S["cities"].values())
     cities = {}
     for c, v in S["cities"].items():
         yrs = v["years"]
@@ -887,6 +890,41 @@ def main() -> int:
         # rank - 1 - len(tied_with), and a city is at its record while that
         # is zero, tie or no tie.
         _above = dr - 1 - len(entry["days"]["rank"].get("tied_with") or [])
+        # THE SELECTION CAVEAT, AS A FIELD. Emitted for every city so a
+        # template can rely on it, and flagged for rendering only where the
+        # reader's question is live: a city that joined recently AND is at or
+        # near its own record. Budapest went live at its first appearance
+        # claiming a record with none of this on the page.
+        from build_city_series import JOINED, JOINED_CAVEAT_DAYS
+        import datetime as _dt
+        _j = JOINED.get(c)
+        if _j:
+            # AGAINST THE SET'S NEWEST CUT, not this city's own. Budapest's
+            # data lags nine days behind the set, so measuring from its own
+            # counted_to made it join in the future: days_in_set of -9.
+            _days = (_dt.date.fromisoformat(_newest_cut)
+                     - _dt.date.fromisoformat(_j[0])).days
+        else:
+            _days = None
+        entry["joined"] = {
+            "date": _j[0] if _j else None,
+            "why": _j[1] if _j else None,
+            "days_in_set": _days,
+            "is_recent": bool(_j and _days is not None
+                              and _days <= JOINED_CAVEAT_DAYS),
+            "caveat_required": bool(
+                _j and _days is not None and _days <= JOINED_CAVEAT_DAYS
+                and _above <= 4),
+            "caveat": (f"Added to the set on {_j[0]}. {_j[1]}"
+                       if _j else None),
+            "why_this_matters": (
+                "A count over a set inherits the choice of which cities are "
+                "in it (D-141). A city entering at or near its own record "
+                "reads as chosen for that number unless the page says "
+                "otherwise first, so where caveat_required is true the "
+                "caveat belongs ON the page, not in the methodology."),
+        }
+
         entry["legend_band"] = ("record" if _above == 0 else
                                 "near" if _above < 5 else "outside")
         entry["legend_band_note"] = (
