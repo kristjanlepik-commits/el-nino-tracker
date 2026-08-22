@@ -15,9 +15,9 @@
  "evidence_basis": "Compiled",
  "basis_note": "EFFIS's published burnt-area product, aggregated and projected here. The detection charts beside this are Measured. D-033.",
  "instrument": "EFFIS mapped burnt-area perimeters, weekly",
- "as_of_week": 32,
+ "as_of_week": 33,
  "as_of_year": 2026,
- "area_ha": 576027,
+ "area_ha": 622819,
  "series": {
   "2006": {
    "1": 0,
@@ -1114,169 +1114,170 @@
    "12": 60288,
    "13": 66778,
    "14": 78898,
-   "15": 80441,
-   "16": 81242,
-   "17": 84022,
-   "18": 87018,
-   "19": 87018,
-   "20": 87147,
-   "21": 89797,
-   "22": 94742,
-   "23": 103021,
-   "24": 107296,
-   "25": 111754,
-   "26": 127070,
-   "27": 165567,
-   "28": 198086,
-   "29": 384136,
-   "30": 464765,
-   "31": 506692,
-   "32": 576027
+   "15": 80443,
+   "16": 81244,
+   "17": 84024,
+   "18": 87020,
+   "19": 87020,
+   "20": 87149,
+   "21": 89799,
+   "22": 94744,
+   "23": 103023,
+   "24": 107298,
+   "25": 111759,
+   "26": 127075,
+   "27": 165583,
+   "28": 198153,
+   "29": 384209,
+   "30": 464847,
+   "31": 507303,
+   "32": 584194,
+   "33": 622819
   }
  },
  "projection": {
   "method": "analog",
   "method_note": "Every complete prior season's multiplier from this same week to its own year end, applied to where this season stands. No fitting and no parameters. The same method analog.py uses for the ONI, on a different quantity.",
   "n_seasons": 20,
-  "from_week": 32,
-  "from_area_ha": 576027,
-  "analog_min_ha": 685950,
-  "analog_median_ha": 879980,
-  "analog_max_ha": 1143473,
-  "analog_max_uncapped_ha": 1538421,
+  "from_week": 33,
+  "from_area_ha": 622819,
+  "analog_min_ha": 665121,
+  "analog_median_ha": 839478,
+  "analog_max_ha": 1130766,
+  "analog_max_uncapped_ha": 1431002,
   "analog_max_capped": true,
-  "cap_basis": "Capped at the largest absolute addition after this week in the record, 567,446 ha. The uncapped multiplicative maximum was 1,538,421 ha, which would need 962,394 ha of new burning, 1.70x more than any season has added from here in 21 years. The extreme multiplier comes from a season standing far below this one, so applying it to this base extrapolates outside the record.",
-  "analog_min_multiple": 1.191,
-  "analog_median_multiple": 1.528,
-  "analog_max_multiple": 2.671,
+  "cap_basis": "Capped at the largest absolute addition after this week in the record, 507,947 ha. The uncapped multiplicative maximum was 1,431,002 ha, which would need 808,183 ha of new burning, 1.59x more than any season has added from here in 21 years. The extreme multiplier comes from a season standing far below this one, so applying it to this base extrapolates outside the record.",
+  "analog_min_multiple": 1.068,
+  "analog_median_multiple": 1.348,
+  "analog_max_multiple": 2.298,
   "record_year": "2025",
   "record_ha": 1034552,
   "record_inside_envelope": true,
   "analogs_exceeding_record": 5,
   "analogs_total": 20,
-  "exceedances_beyond_observed_addition": 5,
+  "exceedances_beyond_observed_addition": 4,
   "median_below_record": true,
   "headline_rule": "The central outcome does NOT break the record. State it as a count: 5 of the 20 prior seasons would have finished above the record from here, and the median lands below it. 'Could exceed the record' is true and 'on course to exceed it' is false. Lead with the median, never the maximum, and never restate the count as a percentile or a probability.",
   "analogs": [
    {
     "year": "2006",
-    "at_this_week": 169963,
+    "at_this_week": 174936,
     "season_end": 207205,
-    "multiplier": 1.219
+    "multiplier": 1.184
    },
    {
     "year": "2007",
-    "at_this_week": 284688,
+    "at_this_week": 287929,
     "season_end": 588128,
-    "multiplier": 2.066
+    "multiplier": 2.043
    },
    {
     "year": "2008",
-    "at_this_week": 47275,
+    "at_this_week": 58322,
     "season_end": 79041,
-    "multiplier": 1.672
+    "multiplier": 1.355
    },
    {
     "year": "2009",
-    "at_this_week": 154699,
+    "at_this_week": 170742,
     "season_end": 273739,
-    "multiplier": 1.769
+    "multiplier": 1.603
    },
    {
     "year": "2010",
-    "at_this_week": 117139,
+    "at_this_week": 144850,
     "season_end": 194169,
-    "multiplier": 1.658
+    "multiplier": 1.34
    },
    {
     "year": "2011",
-    "at_this_week": 97406,
+    "at_this_week": 111223,
     "season_end": 249847,
-    "multiplier": 2.565
+    "multiplier": 2.246
    },
    {
     "year": "2012",
-    "at_this_week": 317034,
+    "at_this_week": 342971,
     "season_end": 485648,
-    "multiplier": 1.532
+    "multiplier": 1.416
    },
    {
     "year": "2013",
-    "at_this_week": 91868,
+    "at_this_week": 106787,
     "season_end": 245356,
-    "multiplier": 2.671
+    "multiplier": 2.298
    },
    {
     "year": "2014",
-    "at_this_week": 66000,
+    "at_this_week": 68348,
     "season_end": 83576,
-    "multiplier": 1.266
+    "multiplier": 1.223
    },
    {
     "year": "2015",
-    "at_this_week": 129448,
+    "at_this_week": 129784,
     "season_end": 160320,
-    "multiplier": 1.238
+    "multiplier": 1.235
    },
    {
     "year": "2016",
-    "at_this_week": 221303,
+    "at_this_week": 228677,
     "season_end": 325143,
-    "multiplier": 1.469
+    "multiplier": 1.422
    },
    {
     "year": "2017",
-    "at_this_week": 421078,
+    "at_this_week": 480577,
     "season_end": 988524,
-    "multiplier": 2.348
+    "multiplier": 2.057
    },
    {
     "year": "2018",
-    "at_this_week": 92821,
+    "at_this_week": 94031,
     "season_end": 116824,
-    "multiplier": 1.259
+    "multiplier": 1.242
    },
    {
     "year": "2019",
-    "at_this_week": 238723,
+    "at_this_week": 253338,
     "season_end": 295794,
-    "multiplier": 1.239
+    "multiplier": 1.168
    },
    {
     "year": "2020",
-    "at_this_week": 223018,
+    "at_this_week": 231236,
     "season_end": 339767,
-    "multiplier": 1.523
+    "multiplier": 1.469
    },
    {
     "year": "2021",
-    "at_this_week": 368455,
+    "at_this_week": 438525,
     "season_end": 468310,
-    "multiplier": 1.271
+    "multiplier": 1.068
    },
    {
     "year": "2022",
-    "at_this_week": 659622,
+    "at_this_week": 726527,
     "season_end": 785497,
-    "multiplier": 1.191
+    "multiplier": 1.081
    },
    {
     "year": "2023",
-    "at_this_week": 260735,
+    "at_this_week": 374679,
     "season_end": 467729,
-    "multiplier": 1.794
+    "multiplier": 1.248
    },
    {
     "year": "2024",
-    "at_this_week": 188643,
+    "at_this_week": 212729,
     "season_end": 383317,
-    "multiplier": 2.032
+    "multiplier": 1.802
    },
    {
     "year": "2025",
-    "at_this_week": 713870,
+    "at_this_week": 964680,
     "season_end": 1034552,
-    "multiplier": 1.449
+    "multiplier": 1.072
    }
   ],
   "caveat": "An envelope of what prior seasons did, not a probability distribution and not a forecast. Twenty seasons is twenty samples and the fire regime is not stationary. The median is what a typical season did from here, never what is expected.",
