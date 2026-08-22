@@ -1,0 +1,5357 @@
+{
+ "_readme": "SURVEY, NOT A BUILD. Every figure describes the archive, not a claim about a city. Nothing here is page-ready and none of it was produced by the instrument that produces published counts.",
+ "candidates": 116,
+ "hot_season_note": "The decisive column. Our instrument assumes a northern summer in four places: WINDOW_START, the percentile baseline, the coverage window, and the bridge's fetch range. A southern station's hot season is Dec-Feb, so the instrument cannot be pointed at it unchanged.",
+ "stations": [
+  {
+   "station": "AR000087078",
+   "name": "LAS LOMITAS",
+   "lat": -24.7,
+   "lon": -60.583,
+   "hemisphere": "south",
+   "record": {
+    "from": 1957,
+    "to": 2003,
+    "usable_years": 45
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 12,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 35.7,
+     "2": 33.6,
+     "3": 32.5,
+     "4": 29.2,
+     "5": 25.6,
+     "6": 24.2,
+     "7": 24.2,
+     "8": 27.5,
+     "9": 29.8,
+     "10": 32.5,
+     "11": 33.0,
+     "12": 34.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000087129",
+   "name": "SANTIAGO DEL ESTERO",
+   "lat": -27.767,
+   "lon": -64.3,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 48
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 34.4,
+     "2": 32.8,
+     "3": 30.9,
+     "4": 27.0,
+     "5": 23.6,
+     "6": 20.7,
+     "7": 21.2,
+     "8": 25.2,
+     "9": 27.7,
+     "10": 30.6,
+     "11": 32.6,
+     "12": 34.3
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000087374",
+   "name": "PARANA AERO",
+   "lat": -31.783,
+   "lon": -60.483,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 45
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.4,
+     "2": 30.0,
+     "3": 28.5,
+     "4": 24.0,
+     "5": 20.5,
+     "6": 17.6,
+     "7": 17.1,
+     "8": 19.9,
+     "9": 22.0,
+     "10": 25.0,
+     "11": 27.8,
+     "12": 30.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000087418",
+   "name": "MENDOZA AERO",
+   "lat": -32.833,
+   "lon": -68.783,
+   "hemisphere": "south",
+   "record": {
+    "from": 1962,
+    "to": 2003,
+    "usable_years": 42
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.1,
+     "2": 31.4,
+     "3": 28.6,
+     "4": 23.4,
+     "5": 19.1,
+     "6": 16.2,
+     "7": 15.8,
+     "8": 19.0,
+     "9": 22.1,
+     "10": 26.2,
+     "11": 29.6,
+     "12": 32.4
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000087534",
+   "name": "LABOULAYE AERO",
+   "lat": -34.133,
+   "lon": -63.367,
+   "hemisphere": "south",
+   "record": {
+    "from": 1950,
+    "to": 2003,
+    "usable_years": 54
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 30.7,
+     "2": 29.5,
+     "3": 27.8,
+     "4": 23.6,
+     "5": 19.9,
+     "6": 16.5,
+     "7": 15.9,
+     "8": 19.1,
+     "9": 21.6,
+     "10": 24.0,
+     "11": 27.6,
+     "12": 30.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000087692",
+   "name": "MAR DEL PLATA AERO",
+   "lat": -37.933,
+   "lon": -57.583,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 43
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 26.9,
+     "2": 25.9,
+     "3": 24.4,
+     "4": 20.8,
+     "5": 17.3,
+     "6": 14.0,
+     "7": 13.0,
+     "8": 15.1,
+     "9": 16.3,
+     "10": 19.2,
+     "11": 22.2,
+     "12": 25.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000087715",
+   "name": "NEUQUEN AERO",
+   "lat": -38.95,
+   "lon": -68.133,
+   "hemisphere": "south",
+   "record": {
+    "from": 1958,
+    "to": 2003,
+    "usable_years": 44
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 32.6,
+     "2": 31.0,
+     "3": 27.8,
+     "4": 22.1,
+     "5": 16.9,
+     "6": 13.5,
+     "7": 13.5,
+     "8": 16.5,
+     "9": 19.6,
+     "10": 23.5,
+     "11": 27.3,
+     "12": 30.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000087828",
+   "name": "TRELEW AERO",
+   "lat": -43.2,
+   "lon": -65.266,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 47
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 29.7,
+     "2": 28.5,
+     "3": 25.9,
+     "4": 21.3,
+     "5": 16.5,
+     "6": 12.9,
+     "7": 12.7,
+     "8": 15.5,
+     "9": 17.8,
+     "10": 21.7,
+     "11": 25.1,
+     "12": 28.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000087860",
+   "name": "COMODORO RIVADAVIA",
+   "lat": -45.783,
+   "lon": -67.5,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 48
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 26.8,
+     "2": 25.5,
+     "3": 23.1,
+     "4": 19.3,
+     "5": 15.0,
+     "6": 11.5,
+     "7": 11.3,
+     "8": 13.6,
+     "9": 15.9,
+     "10": 19.4,
+     "11": 22.7,
+     "12": 25.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000870470",
+   "name": "SALTA AERO",
+   "lat": -24.85,
+   "lon": -65.483,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 44
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     11,
+     12,
+     1
+    ],
+    "monthly_mean_max_c": {
+     "1": 28.0,
+     "2": 26.8,
+     "3": 25.5,
+     "4": 23.3,
+     "5": 20.8,
+     "6": 20.4,
+     "7": 20.1,
+     "8": 22.9,
+     "9": 25.1,
+     "10": 27.3,
+     "11": 27.8,
+     "12": 28.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000875850",
+   "name": "BUENOS AIRES OBSERV",
+   "lat": -34.583,
+   "lon": -58.483,
+   "hemisphere": "south",
+   "record": {
+    "from": 1909,
+    "to": 2003,
+    "usable_years": 94
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 13,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 30.1,
+     "2": 28.9,
+     "3": 27.3,
+     "4": 23.2,
+     "5": 19.7,
+     "6": 16.5,
+     "7": 15.6,
+     "8": 18.4,
+     "9": 19.9,
+     "10": 22.8,
+     "11": 26.0,
+     "12": 29.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "CS000081003",
+   "name": "PUERTO LIMON",
+   "lat": 9.967,
+   "lon": -83.017,
+   "hemisphere": "north",
+   "record": {
+    "from": 1970,
+    "to": 2006,
+    "usable_years": 37
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 16,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2006,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     8,
+     9,
+     10
+    ],
+    "monthly_mean_max_c": {
+     "1": 28.8,
+     "2": 29.0,
+     "3": 29.4,
+     "4": 30.0,
+     "5": 30.2,
+     "6": 30.3,
+     "7": 29.7,
+     "8": 30.0,
+     "9": 30.6,
+     "10": 30.6,
+     "11": 29.6,
+     "12": 29.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "MXM00076683",
+   "name": "TLAXCALA DE XICONTECATL (DGE)",
+   "lat": 19.3167,
+   "lon": -98.2333,
+   "hemisphere": "north",
+   "record": {
+    "from": 1963,
+    "to": 2019,
+    "usable_years": 45
+   },
+   "baseline": {
+    "1971_2000": 30,
+    "1991_2020": 19,
+    "complete": true
+   },
+   "present": {
+    "recent_years_of_10": 1,
+    "last_usable_year": 2019,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     3,
+     4,
+     5
+    ],
+    "monthly_mean_max_c": {
+     "1": 22.6,
+     "2": 24.7,
+     "3": 26.6,
+     "4": 27.9,
+     "5": 27.9,
+     "6": 26.0,
+     "7": 25.0,
+     "8": 25.3,
+     "9": 24.4,
+     "10": 24.8,
+     "11": 24.2,
+     "12": 22.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "bridge_job"
+  },
+  {
+   "station": "AR000087155",
+   "name": "RESISTENCIA AERO",
+   "lat": -27.45,
+   "lon": -59.05,
+   "hemisphere": "south",
+   "record": {
+    "from": 1965,
+    "to": 2002,
+    "usable_years": 37
+   },
+   "baseline": {
+    "1971_2000": 29,
+    "1991_2020": 12,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2002,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.9,
+     "2": 32.5,
+     "3": 31.1,
+     "4": 27.7,
+     "5": 24.2,
+     "6": 22.1,
+     "7": 21.9,
+     "8": 24.6,
+     "9": 26.6,
+     "10": 28.6,
+     "11": 30.4,
+     "12": 32.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000087217",
+   "name": "LA RIOJA AERO.",
+   "lat": -29.383,
+   "lon": -66.817,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 40
+   },
+   "baseline": {
+    "1971_2000": 29,
+    "1991_2020": 11,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     11,
+     12,
+     1
+    ],
+    "monthly_mean_max_c": {
+     "1": 35.5,
+     "2": 33.6,
+     "3": 31.4,
+     "4": 27.3,
+     "5": 23.2,
+     "6": 19.9,
+     "7": 19.8,
+     "8": 23.6,
+     "9": 27.3,
+     "10": 31.2,
+     "11": 34.0,
+     "12": 35.8
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000087623",
+   "name": "SANTA ROSA AERO",
+   "lat": -36.567,
+   "lon": -64.266,
+   "hemisphere": "south",
+   "record": {
+    "from": 1953,
+    "to": 2003,
+    "usable_years": 47
+   },
+   "baseline": {
+    "1971_2000": 29,
+    "1991_2020": 13,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.7,
+     "2": 30.2,
+     "3": 27.9,
+     "4": 23.0,
+     "5": 18.7,
+     "6": 15.4,
+     "7": 14.9,
+     "8": 17.9,
+     "9": 20.7,
+     "10": 23.5,
+     "11": 27.4,
+     "12": 30.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000087925",
+   "name": "RIO GALLEGOS AERO",
+   "lat": -51.617,
+   "lon": -69.283,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 43
+   },
+   "baseline": {
+    "1971_2000": 29,
+    "1991_2020": 12,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.4,
+     "2": 19.8,
+     "3": 17.6,
+     "4": 13.9,
+     "5": 9.1,
+     "6": 5.3,
+     "7": 5.3,
+     "8": 7.8,
+     "9": 11.5,
+     "10": 15.3,
+     "11": 17.6,
+     "12": 19.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000877500",
+   "name": "BAHIA BLANCA AERO",
+   "lat": -38.733,
+   "lon": -62.167,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 47
+   },
+   "baseline": {
+    "1971_2000": 29,
+    "1991_2020": 13,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.8,
+     "2": 30.1,
+     "3": 27.6,
+     "4": 22.3,
+     "5": 18.2,
+     "6": 14.8,
+     "7": 14.3,
+     "8": 17.0,
+     "9": 19.4,
+     "10": 22.7,
+     "11": 26.5,
+     "12": 30.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000087007",
+   "name": "LA QUIACA OBSERVATO",
+   "lat": -22.1,
+   "lon": -65.6,
+   "hemisphere": "south",
+   "record": {
+    "from": 1957,
+    "to": 2016,
+    "usable_years": 43
+   },
+   "baseline": {
+    "1971_2000": 28,
+    "1991_2020": 9,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2016,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     10,
+     11,
+     12
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.9,
+     "2": 20.9,
+     "3": 20.9,
+     "4": 20.6,
+     "5": 18.2,
+     "6": 16.6,
+     "7": 16.4,
+     "8": 18.2,
+     "9": 20.1,
+     "10": 21.9,
+     "11": 22.5,
+     "12": 22.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000875440",
+   "name": "PEHUAJO AERO",
+   "lat": -35.867,
+   "lon": -61.9,
+   "hemisphere": "south",
+   "record": {
+    "from": 1959,
+    "to": 2003,
+    "usable_years": 43
+   },
+   "baseline": {
+    "1971_2000": 28,
+    "1991_2020": 13,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 29.3,
+     "2": 28.0,
+     "3": 26.5,
+     "4": 21.5,
+     "5": 18.1,
+     "6": 14.3,
+     "7": 13.6,
+     "8": 16.9,
+     "9": 18.7,
+     "10": 21.7,
+     "11": 24.7,
+     "12": 27.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CUW00011706",
+   "name": "GUANTANAMO BAY NAS",
+   "lat": 19.9,
+   "lon": -75.15,
+   "hemisphere": "north",
+   "record": {
+    "from": 1946,
+    "to": 2025,
+    "usable_years": 72
+   },
+   "baseline": {
+    "1971_2000": 28,
+    "1991_2020": 22,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 9,
+    "last_usable_year": 2025,
+    "has_2026": true,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 29.8,
+     "2": 29.9,
+     "3": 30.1,
+     "4": 30.7,
+     "5": 31.4,
+     "6": 32.3,
+     "7": 33.2,
+     "8": 33.2,
+     "9": 32.7,
+     "10": 31.9,
+     "11": 31.3,
+     "12": 30.5
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "present_only"
+  },
+  {
+   "station": "AR000087257",
+   "name": "CERES AERO",
+   "lat": -29.883,
+   "lon": -61.95,
+   "hemisphere": "south",
+   "record": {
+    "from": 1957,
+    "to": 2003,
+    "usable_years": 43
+   },
+   "baseline": {
+    "1971_2000": 27,
+    "1991_2020": 11,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 32.6,
+     "2": 31.3,
+     "3": 29.6,
+     "4": 25.5,
+     "5": 22.2,
+     "6": 19.6,
+     "7": 19.2,
+     "8": 22.4,
+     "9": 24.7,
+     "10": 27.5,
+     "11": 29.6,
+     "12": 31.4
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000087344",
+   "name": "CORDOBA AERO",
+   "lat": -31.317,
+   "lon": -64.217,
+   "hemisphere": "south",
+   "record": {
+    "from": 1956,
+    "to": 2003,
+    "usable_years": 41
+   },
+   "baseline": {
+    "1971_2000": 27,
+    "1991_2020": 13,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 30.2,
+     "2": 28.7,
+     "3": 27.5,
+     "4": 24.4,
+     "5": 21.0,
+     "6": 18.7,
+     "7": 18.1,
+     "8": 21.0,
+     "9": 23.2,
+     "10": 25.9,
+     "11": 28.2,
+     "12": 29.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000087803",
+   "name": "ESQUEL AERO",
+   "lat": -42.933,
+   "lon": -71.15,
+   "hemisphere": "south",
+   "record": {
+    "from": 1961,
+    "to": 2003,
+    "usable_years": 40
+   },
+   "baseline": {
+    "1971_2000": 27,
+    "1991_2020": 13,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2003,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 22.3,
+     "2": 22.6,
+     "3": 19.6,
+     "4": 14.9,
+     "5": 10.9,
+     "6": 7.4,
+     "7": 6.6,
+     "8": 9.0,
+     "9": 12.0,
+     "10": 15.1,
+     "11": 17.9,
+     "12": 20.3
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076402",
+   "name": "CIUDAD CONSTITUCION",
+   "lat": 24.95,
+   "lon": -111.7,
+   "hemisphere": "north",
+   "record": {
+    "from": 1957,
+    "to": 1997,
+    "usable_years": 38
+   },
+   "baseline": {
+    "1971_2000": 27,
+    "1991_2020": 7,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1997,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 27.3,
+     "2": 28.8,
+     "3": 30.4,
+     "4": 31.8,
+     "5": 32.7,
+     "6": 35.0,
+     "7": 38.2,
+     "8": 38.2,
+     "9": 37.0,
+     "10": 34.8,
+     "11": 31.3,
+     "12": 27.4
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076491",
+   "name": "CIUDAD VICTORIA",
+   "lat": 23.733,
+   "lon": -99.133,
+   "hemisphere": "north",
+   "record": {
+    "from": 1942,
+    "to": 1998,
+    "usable_years": 52
+   },
+   "baseline": {
+    "1971_2000": 27,
+    "1991_2020": 7,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1998,
+    "has_2026": true,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 24.3,
+     "2": 27.5,
+     "3": 30.9,
+     "4": 33.5,
+     "5": 35.6,
+     "6": 36.9,
+     "7": 36.9,
+     "8": 37.2,
+     "9": 34.0,
+     "10": 31.3,
+     "11": 27.2,
+     "12": 24.6
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076113",
+   "name": "ALTAR (OBS)",
+   "lat": 30.7167,
+   "lon": -111.8333,
+   "hemisphere": "north",
+   "record": {
+    "from": 1961,
+    "to": 2013,
+    "usable_years": 43
+   },
+   "baseline": {
+    "1971_2000": 26,
+    "1991_2020": 15,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2013,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 22.2,
+     "2": 24.0,
+     "3": 27.5,
+     "4": 31.4,
+     "5": 36.3,
+     "6": 40.9,
+     "7": 40.7,
+     "8": 39.8,
+     "9": 38.0,
+     "10": 33.2,
+     "11": 26.9,
+     "12": 21.4
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "UY000086565",
+   "name": "ROCHA",
+   "lat": -34.483,
+   "lon": -54.3,
+   "hemisphere": "south",
+   "record": {
+    "from": 1970,
+    "to": 2017,
+    "usable_years": 31
+   },
+   "baseline": {
+    "1971_2000": 26,
+    "1991_2020": 14,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 1,
+    "last_usable_year": 2017,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 28.5,
+     "2": 27.7,
+     "3": 26.3,
+     "4": 23.1,
+     "5": 19.6,
+     "6": 16.8,
+     "7": 15.7,
+     "8": 17.7,
+     "9": 18.6,
+     "10": 21.4,
+     "11": 24.1,
+     "12": 27.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076122",
+   "name": "NUEVA CASAS GRANDES",
+   "lat": 30.367,
+   "lon": -107.95,
+   "hemisphere": "north",
+   "record": {
+    "from": 1943,
+    "to": 1998,
+    "usable_years": 52
+   },
+   "baseline": {
+    "1971_2000": 25,
+    "1991_2020": 6,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1998,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 17.2,
+     "2": 19.9,
+     "3": 23.6,
+     "4": 27.7,
+     "5": 32.0,
+     "6": 36.1,
+     "7": 34.3,
+     "8": 33.0,
+     "9": 31.2,
+     "10": 28.0,
+     "11": 22.1,
+     "12": 17.0
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076390",
+   "name": "SALTILLO",
+   "lat": 25.367,
+   "lon": -101.017,
+   "hemisphere": "north",
+   "record": {
+    "from": 1950,
+    "to": 2025,
+    "usable_years": 46
+   },
+   "baseline": {
+    "1971_2000": 25,
+    "1991_2020": 6,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 1,
+    "last_usable_year": 2025,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     5,
+     6,
+     7
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.6,
+     "2": 23.0,
+     "3": 25.2,
+     "4": 28.0,
+     "5": 30.4,
+     "6": 30.4,
+     "7": 29.8,
+     "8": 29.0,
+     "9": 26.8,
+     "10": 25.8,
+     "11": 23.4,
+     "12": 21.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "UY000086430",
+   "name": "PAYSANDU",
+   "lat": -32.333,
+   "lon": -58.033,
+   "hemisphere": "south",
+   "record": {
+    "from": 1935,
+    "to": 1995,
+    "usable_years": 61
+   },
+   "baseline": {
+    "1971_2000": 25,
+    "1991_2020": 5,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1995,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.8,
+     "2": 30.0,
+     "3": 29.2,
+     "4": 24.6,
+     "5": 20.4,
+     "6": 17.2,
+     "7": 16.8,
+     "8": 20.0,
+     "9": 21.0,
+     "10": 24.1,
+     "11": 26.9,
+     "12": 30.4
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "UY000086490",
+   "name": "MERCEDES",
+   "lat": -33.25,
+   "lon": -58.067,
+   "hemisphere": "south",
+   "record": {
+    "from": 1931,
+    "to": 1995,
+    "usable_years": 65
+   },
+   "baseline": {
+    "1971_2000": 25,
+    "1991_2020": 5,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1995,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.6,
+     "2": 30.2,
+     "3": 28.6,
+     "4": 24.6,
+     "5": 20.8,
+     "6": 17.6,
+     "7": 16.8,
+     "8": 19.3,
+     "9": 21.3,
+     "10": 24.0,
+     "11": 27.4,
+     "12": 30.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076698",
+   "name": "FELIPE CARRILLO PUERTO (OBS)",
+   "lat": 19.5667,
+   "lon": -88.05,
+   "hemisphere": "north",
+   "record": {
+    "from": 1953,
+    "to": 2015,
+    "usable_years": 52
+   },
+   "baseline": {
+    "1971_2000": 24,
+    "1991_2020": 18,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2015,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 29.5,
+     "2": 30.8,
+     "3": 32.2,
+     "4": 34.0,
+     "5": 34.6,
+     "6": 33.8,
+     "7": 34.1,
+     "8": 34.6,
+     "9": 34.2,
+     "10": 32.6,
+     "11": 30.9,
+     "12": 29.8
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076305",
+   "name": "LORETO",
+   "lat": 26.017,
+   "lon": -111.333,
+   "hemisphere": "north",
+   "record": {
+    "from": 1941,
+    "to": 1997,
+    "usable_years": 53
+   },
+   "baseline": {
+    "1971_2000": 23,
+    "1991_2020": 7,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1997,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 24.6,
+     "2": 25.6,
+     "3": 27.9,
+     "4": 30.4,
+     "5": 33.0,
+     "6": 35.9,
+     "7": 36.9,
+     "8": 37.0,
+     "9": 35.9,
+     "10": 33.7,
+     "11": 29.2,
+     "12": 24.9
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076675",
+   "name": "TOLUCA (OBS)",
+   "lat": 19.2833,
+   "lon": -99.7,
+   "hemisphere": "north",
+   "record": {
+    "from": 1968,
+    "to": 2019,
+    "usable_years": 37
+   },
+   "baseline": {
+    "1971_2000": 23,
+    "1991_2020": 19,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 1,
+    "last_usable_year": 2019,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     3,
+     4,
+     5
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.1,
+     "2": 22.1,
+     "3": 23.7,
+     "4": 24.8,
+     "5": 24.4,
+     "6": 22.6,
+     "7": 21.4,
+     "8": 21.6,
+     "9": 21.5,
+     "10": 21.6,
+     "11": 21.2,
+     "12": 20.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CO000080222",
+   "name": "BOGOTA/ELDORADO",
+   "lat": 4.701,
+   "lon": -74.15,
+   "hemisphere": "north",
+   "record": {
+    "from": 1979,
+    "to": 1999,
+    "usable_years": 21
+   },
+   "baseline": {
+    "1971_2000": 21,
+    "1991_2020": 9,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1999,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.5,
+     "2": 20.7,
+     "3": 20.3,
+     "4": 20.0,
+     "5": 19.8,
+     "6": 19.4,
+     "7": 18.9,
+     "8": 19.1,
+     "9": 19.6,
+     "10": 19.8,
+     "11": 19.8,
+     "12": 20.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076118",
+   "name": "NACOZARI (SMN)",
+   "lat": 30.3667,
+   "lon": -109.6833,
+   "hemisphere": "north",
+   "record": {
+    "from": 1943,
+    "to": 2009,
+    "usable_years": 45
+   },
+   "baseline": {
+    "1971_2000": 21,
+    "1991_2020": 14,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2009,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 18.9,
+     "2": 20.5,
+     "3": 24.0,
+     "4": 27.9,
+     "5": 33.1,
+     "6": 37.0,
+     "7": 34.6,
+     "8": 33.9,
+     "9": 33.2,
+     "10": 29.5,
+     "11": 24.1,
+     "12": 18.9
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000087065",
+   "name": "RIVADAVIA",
+   "lat": -24.167,
+   "lon": -62.9,
+   "hemisphere": "south",
+   "record": {
+    "from": 1957,
+    "to": 1990,
+    "usable_years": 34
+   },
+   "baseline": {
+    "1971_2000": 20,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1990,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     11,
+     12,
+     1
+    ],
+    "monthly_mean_max_c": {
+     "1": 34.6,
+     "2": 32.3,
+     "3": 32.1,
+     "4": 27.9,
+     "5": 25.6,
+     "6": 22.9,
+     "7": 22.8,
+     "8": 26.9,
+     "9": 29.6,
+     "10": 32.6,
+     "11": 33.9,
+     "12": 35.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076662",
+   "name": "ZAMORA",
+   "lat": 20.0,
+   "lon": -102.28,
+   "hemisphere": "north",
+   "record": {
+    "from": 1952,
+    "to": 2019,
+    "usable_years": 38
+   },
+   "baseline": {
+    "1971_2000": 19,
+    "1991_2020": 12,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 2,
+    "last_usable_year": 2019,
+    "has_2026": true,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     4,
+     5,
+     6
+    ],
+    "monthly_mean_max_c": {
+     "1": 27.1,
+     "2": 28.9,
+     "3": 31.2,
+     "4": 32.9,
+     "5": 34.1,
+     "6": 32.2,
+     "7": 29.3,
+     "8": 29.3,
+     "9": 29.2,
+     "10": 29.5,
+     "11": 28.9,
+     "12": 27.8
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CO000080259",
+   "name": "CALI/ALFONSO BONILL",
+   "lat": 3.55,
+   "lon": -76.383,
+   "hemisphere": "north",
+   "record": {
+    "from": 1976,
+    "to": 1998,
+    "usable_years": 15
+   },
+   "baseline": {
+    "1971_2000": 15,
+    "1991_2020": 6,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1998,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 30.6,
+     "2": 30.9,
+     "3": 30.6,
+     "4": 30.2,
+     "5": 30.0,
+     "6": 30.2,
+     "7": 30.8,
+     "8": 31.5,
+     "9": 31.0,
+     "10": 29.9,
+     "11": 29.5,
+     "12": 30.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076556",
+   "name": "TEPIC (OBS)",
+   "lat": 21.4833,
+   "lon": -104.8833,
+   "hemisphere": "north",
+   "record": {
+    "from": 1968,
+    "to": 1982,
+    "usable_years": 14
+   },
+   "baseline": {
+    "1971_2000": 11,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1982,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     4,
+     5,
+     6
+    ],
+    "monthly_mean_max_c": {
+     "1": 27.3,
+     "2": 28.0,
+     "3": 29.6,
+     "4": 31.8,
+     "5": 32.4,
+     "6": 31.9,
+     "7": 30.8,
+     "8": 30.7,
+     "9": 30.4,
+     "10": 30.3,
+     "11": 29.7,
+     "12": 27.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "DRM00078486",
+   "name": "SANTO DOMINGO",
+   "lat": 18.433,
+   "lon": -69.883,
+   "hemisphere": "north",
+   "record": {
+    "from": 1949,
+    "to": 2019,
+    "usable_years": 20
+   },
+   "baseline": {
+    "1971_2000": 10,
+    "1991_2020": 8,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 2,
+    "last_usable_year": 2019,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 30.4,
+     "2": 30.4,
+     "3": 30.8,
+     "4": 31.3,
+     "5": 31.6,
+     "6": 32.2,
+     "7": 32.7,
+     "8": 32.8,
+     "9": 32.8,
+     "10": 32.5,
+     "11": 31.7,
+     "12": 31.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076220",
+   "name": "TEMOSACHIC",
+   "lat": 28.95,
+   "lon": -107.817,
+   "hemisphere": "north",
+   "record": {
+    "from": 1987,
+    "to": 1998,
+    "usable_years": 10
+   },
+   "baseline": {
+    "1971_2000": 10,
+    "1991_2020": 6,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1998,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     5,
+     6,
+     7
+    ],
+    "monthly_mean_max_c": {
+     "1": 17.3,
+     "2": 19.1,
+     "3": 21.7,
+     "4": 25.2,
+     "5": 28.8,
+     "6": 32.2,
+     "7": 29.8,
+     "8": 28.6,
+     "9": 27.7,
+     "10": 25.5,
+     "11": 21.2,
+     "12": 17.4
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076342",
+   "name": "MONCLOVA",
+   "lat": 26.883,
+   "lon": -101.433,
+   "hemisphere": "north",
+   "record": {
+    "from": 1952,
+    "to": 1980,
+    "usable_years": 28
+   },
+   "baseline": {
+    "1971_2000": 9,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1980,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 23.6,
+     "2": 27.4,
+     "3": 30.8,
+     "4": 34.6,
+     "5": 37.2,
+     "6": 38.2,
+     "7": 37.9,
+     "8": 37.9,
+     "9": 34.9,
+     "10": 32.4,
+     "11": 28.1,
+     "12": 23.5
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076726",
+   "name": "CUERNAVACA",
+   "lat": 18.883,
+   "lon": -99.233,
+   "hemisphere": "north",
+   "record": {
+    "from": 1956,
+    "to": 1980,
+    "usable_years": 21
+   },
+   "baseline": {
+    "1971_2000": 9,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1980,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     3,
+     4,
+     5
+    ],
+    "monthly_mean_max_c": {
+     "1": 27.4,
+     "2": 29.7,
+     "3": 32.0,
+     "4": 33.5,
+     "5": 32.7,
+     "6": 29.5,
+     "7": 28.8,
+     "8": 28.3,
+     "9": 27.9,
+     "10": 27.9,
+     "11": 27.8,
+     "12": 27.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076243",
+   "name": "PIEDRAS NEGRAS (OBS)",
+   "lat": 28.7,
+   "lon": -100.5167,
+   "hemisphere": "north",
+   "record": {
+    "from": 1955,
+    "to": 2008,
+    "usable_years": 21
+   },
+   "baseline": {
+    "1971_2000": 7,
+    "1991_2020": 15,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2008,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.8,
+     "2": 23.9,
+     "3": 27.8,
+     "4": 32.2,
+     "5": 35.6,
+     "6": 38.2,
+     "7": 39.2,
+     "8": 39.5,
+     "9": 36.2,
+     "10": 31.3,
+     "11": 25.3,
+     "12": 20.8
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076833",
+   "name": "SALINA CRUZ",
+   "lat": 16.1667,
+   "lon": -95.2,
+   "hemisphere": "north",
+   "record": {
+    "from": 1969,
+    "to": 1977,
+    "usable_years": 9
+   },
+   "baseline": {
+    "1971_2000": 7,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1977,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     4,
+     5,
+     6
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.9,
+     "2": 32.6,
+     "3": 33.9,
+     "4": 34.9,
+     "5": 36.0,
+     "6": 34.8,
+     "7": 34.7,
+     "8": 35.1,
+     "9": 34.1,
+     "10": 33.6,
+     "11": 32.8,
+     "12": 32.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076405",
+   "name": "LA PAZ (CITY)",
+   "lat": 24.167,
+   "lon": -110.3,
+   "hemisphere": "north",
+   "record": {
+    "from": 1953,
+    "to": 1999,
+    "usable_years": 9
+   },
+   "baseline": {
+    "1971_2000": 5,
+    "1991_2020": 5,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1999,
+    "has_2026": true,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 25.7,
+     "2": 27.2,
+     "3": 29.8,
+     "4": 32.7,
+     "5": 35.5,
+     "6": 37.7,
+     "7": 38.5,
+     "8": 38.1,
+     "9": 36.5,
+     "10": 34.7,
+     "11": 30.4,
+     "12": 26.0
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076840",
+   "name": "TEMOSACHI (OBS)",
+   "lat": 28.95,
+   "lon": -107.8167,
+   "hemisphere": "north",
+   "record": {
+    "from": 1961,
+    "to": 2025,
+    "usable_years": 14
+   },
+   "baseline": {
+    "1971_2000": 4,
+    "1991_2020": 3,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 4,
+    "last_usable_year": 2025,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     5,
+     6,
+     7
+    ],
+    "monthly_mean_max_c": {
+     "1": 22.2,
+     "2": 23.9,
+     "3": 26.1,
+     "4": 28.5,
+     "5": 31.6,
+     "6": 32.7,
+     "7": 31.5,
+     "8": 30.8,
+     "9": 30.2,
+     "10": 28.1,
+     "11": 25.6,
+     "12": 22.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PEM00084501",
+   "name": "CAPITAN CARLOS MARTINEZ DE PI",
+   "lat": -8.081,
+   "lon": -79.109,
+   "hemisphere": "south",
+   "record": {
+    "from": 1963,
+    "to": 1997,
+    "usable_years": 5
+   },
+   "baseline": {
+    "1971_2000": 4,
+    "1991_2020": 2,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1997,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 25.7,
+     "2": 26.6,
+     "3": 26.7,
+     "4": 24.6,
+     "5": 23.3,
+     "6": 22.3,
+     "7": 21.7,
+     "8": 21.0,
+     "9": 21.0,
+     "10": 21.4,
+     "11": 22.5,
+     "12": 23.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PE000084752",
+   "name": "AREQUIPA",
+   "lat": -16.332,
+   "lon": -71.567,
+   "hemisphere": "south",
+   "record": {
+    "from": 1979,
+    "to": 1980,
+    "usable_years": 2
+   },
+   "baseline": {
+    "1971_2000": 2,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1980,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     8,
+     9,
+     10
+    ],
+    "monthly_mean_max_c": {
+     "1": 21.6,
+     "2": 21.3,
+     "3": 21.6,
+     "4": 22.3,
+     "5": 22.5,
+     "6": 22.1,
+     "7": 22.0,
+     "8": 22.4,
+     "9": 22.7,
+     "10": 22.7,
+     "11": 22.3,
+     "12": 22.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076499",
+   "name": "SOTO LA MARINA (OBS)",
+   "lat": 23.7667,
+   "lon": -98.2,
+   "hemisphere": "north",
+   "record": {
+    "from": 1951,
+    "to": 2009,
+    "usable_years": 6
+   },
+   "baseline": {
+    "1971_2000": 1,
+    "1991_2020": 5,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 2009,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 26.0,
+     "2": 28.4,
+     "3": 31.1,
+     "4": 33.9,
+     "5": 36.0,
+     "6": 36.9,
+     "7": 36.8,
+     "8": 37.7,
+     "9": 35.1,
+     "10": 32.8,
+     "11": 29.4,
+     "12": 26.4
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "AR000000011",
+   "name": "MONTE CASEROS AERO",
+   "lat": -30.267,
+   "lon": -57.65,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.5,
+     "2": 32.6,
+     "3": 30.7,
+     "4": 26.9,
+     "5": 22.5,
+     "6": 20.3,
+     "7": 19.7,
+     "8": 22.8,
+     "9": 24.5,
+     "10": 26.9,
+     "11": 29.6,
+     "12": 32.5
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087016",
+   "name": "ORAN",
+   "lat": -23.153,
+   "lon": -64.329,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     11,
+     12,
+     1
+    ],
+    "monthly_mean_max_c": {
+     "1": 34.4,
+     "2": 33.0,
+     "3": 30.5,
+     "4": 27.8,
+     "5": 24.7,
+     "6": 22.5,
+     "7": 23.0,
+     "8": 28.1,
+     "9": 31.7,
+     "10": 33.6,
+     "11": 33.9,
+     "12": 34.8
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087178",
+   "name": "POSADAS",
+   "lat": -27.386,
+   "lon": -55.971,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 34.2,
+     "2": 33.6,
+     "3": 32.3,
+     "4": 29.5,
+     "5": 25.4,
+     "6": 23.2,
+     "7": 23.3,
+     "8": 25.7,
+     "9": 27.4,
+     "10": 29.8,
+     "11": 31.9,
+     "12": 33.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087436",
+   "name": "SAN LUIS",
+   "lat": -33.273,
+   "lon": -66.356,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 32.8,
+     "2": 31.4,
+     "3": 28.7,
+     "4": 24.6,
+     "5": 20.8,
+     "6": 18.2,
+     "7": 17.9,
+     "8": 20.9,
+     "9": 23.6,
+     "10": 27.0,
+     "11": 29.9,
+     "12": 32.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087480",
+   "name": "ROSARIO",
+   "lat": -32.904,
+   "lon": -60.785,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 32.1,
+     "2": 30.6,
+     "3": 28.7,
+     "4": 25.1,
+     "5": 21.2,
+     "6": 18.0,
+     "7": 17.3,
+     "8": 19.9,
+     "9": 22.7,
+     "10": 25.3,
+     "11": 28.6,
+     "12": 30.8
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087497",
+   "name": "GUALEGUAYCHU",
+   "lat": -33.01,
+   "lon": -58.613,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 32.5,
+     "2": 31.0,
+     "3": 29.2,
+     "4": 25.3,
+     "5": 21.3,
+     "6": 18.2,
+     "7": 17.6,
+     "8": 20.3,
+     "9": 22.1,
+     "10": 25.1,
+     "11": 28.4,
+     "12": 31.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087506",
+   "name": "MALARGUE",
+   "lat": -35.494,
+   "lon": -69.574,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 30.2,
+     "2": 28.7,
+     "3": 26.4,
+     "4": 21.1,
+     "5": 16.6,
+     "6": 13.6,
+     "7": 13.1,
+     "8": 15.9,
+     "9": 18.1,
+     "10": 21.8,
+     "11": 25.6,
+     "12": 28.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087548",
+   "name": "JUNIN",
+   "lat": -34.546,
+   "lon": -60.931,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.2,
+     "2": 29.6,
+     "3": 28.1,
+     "4": 24.3,
+     "5": 20.2,
+     "6": 17.0,
+     "7": 16.1,
+     "8": 18.9,
+     "9": 21.3,
+     "10": 23.7,
+     "11": 27.6,
+     "12": 30.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087576",
+   "name": "MINISTRO PISTARINI",
+   "lat": -34.822,
+   "lon": -58.536,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.6,
+     "2": 30.2,
+     "3": 27.7,
+     "4": 23.9,
+     "5": 19.8,
+     "6": 16.9,
+     "7": 15.9,
+     "8": 18.4,
+     "9": 20.5,
+     "10": 23.5,
+     "11": 26.8,
+     "12": 30.3
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087596",
+   "name": "PUNTA INDIO B.A.",
+   "lat": -35.367,
+   "lon": -57.283,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": null,
+    "monthly_mean_max_c": null,
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087765",
+   "name": "SAN CARLOS DE BARILOCHE",
+   "lat": -41.151,
+   "lon": -71.158,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 24.3,
+     "2": 24.4,
+     "3": 21.4,
+     "4": 16.1,
+     "5": 11.5,
+     "6": 8.1,
+     "7": 7.6,
+     "8": 9.2,
+     "9": 12.6,
+     "10": 15.8,
+     "11": 18.9,
+     "12": 21.8
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087774",
+   "name": "MAQUINCHAO",
+   "lat": -41.25,
+   "lon": -68.733,
+   "hemisphere": "south",
+   "record": {
+    "from": 2025,
+    "to": 2025,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 1,
+    "last_usable_year": 2025,
+    "has_2026": true,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 27.8,
+     "2": 27.1,
+     "3": 23.3,
+     "4": 17.5,
+     "5": 12.2,
+     "6": 8.0,
+     "7": 6.9,
+     "8": 10.9,
+     "9": 14.2,
+     "10": 17.6,
+     "11": 21.7,
+     "12": 26.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087784",
+   "name": "SAN ANTONIO OESTE AERO",
+   "lat": -40.783,
+   "lon": -65.1,
+   "hemisphere": "south",
+   "record": {
+    "from": 2025,
+    "to": 2025,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 1,
+    "last_usable_year": 2025,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.7,
+     "2": 30.1,
+     "3": 27.7,
+     "4": 22.6,
+     "5": 17.8,
+     "6": 14.8,
+     "7": 14.2,
+     "8": 16.8,
+     "9": 19.2,
+     "10": 23.1,
+     "11": 27.2,
+     "12": 30.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087896",
+   "name": "PUERTO DESEADO",
+   "lat": -47.735,
+   "lon": -65.904,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 24.7,
+     "2": 22.2,
+     "3": 22.2,
+     "4": 17.3,
+     "5": 13.2,
+     "6": 8.6,
+     "7": 7.4,
+     "8": 10.9,
+     "9": 14.9,
+     "10": 17.8,
+     "11": 21.3,
+     "12": 22.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "ARM00087938",
+   "name": "USHUAIA MALVINAS ARGENTINAS",
+   "lat": -54.843,
+   "lon": -68.296,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 14.6,
+     "2": 14.6,
+     "3": 13.2,
+     "4": 10.5,
+     "5": 7.6,
+     "6": 4.9,
+     "7": 5.2,
+     "8": 6.4,
+     "9": 8.8,
+     "10": 11.4,
+     "11": 12.9,
+     "12": 13.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "BLM00085196",
+   "name": "CONCEPCION",
+   "lat": -16.25,
+   "lon": -62.1,
+   "hemisphere": "south",
+   "record": {
+    "from": 2023,
+    "to": 2023,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 1,
+    "last_usable_year": 2023,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     9,
+     10,
+     11
+    ],
+    "monthly_mean_max_c": {
+     "1": 30.1,
+     "2": 29.7,
+     "3": 29.8,
+     "4": 29.5,
+     "5": 27.5,
+     "6": 27.3,
+     "7": 28.3,
+     "8": 30.3,
+     "9": 31.7,
+     "10": 31.7,
+     "11": 30.8,
+     "12": 30.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "BLM00085242",
+   "name": "JUAN MENDOZA",
+   "lat": -17.963,
+   "lon": -67.076,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     10,
+     11,
+     12
+    ],
+    "monthly_mean_max_c": {
+     "1": 19.3,
+     "2": 19.2,
+     "3": 19.6,
+     "4": 19.5,
+     "5": 17.7,
+     "6": 16.3,
+     "7": 16.5,
+     "8": 17.9,
+     "9": 19.2,
+     "10": 20.8,
+     "11": 21.5,
+     "12": 20.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "BLM00085245",
+   "name": "EL TROMPILLO",
+   "lat": -17.812,
+   "lon": -63.171,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     11,
+     12,
+     1
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.4,
+     "2": 30.7,
+     "3": 30.7,
+     "4": 29.4,
+     "5": 26.5,
+     "6": 25.2,
+     "7": 25.8,
+     "8": 28.3,
+     "9": 30.5,
+     "10": 31.4,
+     "11": 31.4,
+     "12": 31.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "BLM00085247",
+   "name": "SAN JOSE",
+   "lat": -17.833,
+   "lon": -60.75,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     9,
+     10,
+     11
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.4,
+     "2": 32.6,
+     "3": 32.6,
+     "4": 32.1,
+     "5": 29.3,
+     "6": 28.7,
+     "7": 29.9,
+     "8": 32.5,
+     "9": 34.0,
+     "10": 34.8,
+     "11": 33.9,
+     "12": 33.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "BLM00085268",
+   "name": "ROBORE (CIV/MIL)",
+   "lat": -18.317,
+   "lon": -59.75,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     10,
+     11,
+     12
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.5,
+     "2": 32.9,
+     "3": 32.7,
+     "4": 31.7,
+     "5": 28.8,
+     "6": 27.9,
+     "7": 29.3,
+     "8": 31.8,
+     "9": 33.8,
+     "10": 34.6,
+     "11": 33.8,
+     "12": 33.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "BLM00085289",
+   "name": "TTE DE AV SALVADOR OGAYA G",
+   "lat": -18.975,
+   "lon": -57.821,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     10,
+     11,
+     12
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.5,
+     "2": 33.0,
+     "3": 32.8,
+     "4": 31.8,
+     "5": 28.7,
+     "6": 27.5,
+     "7": 27.7,
+     "8": 30.1,
+     "9": 32.2,
+     "10": 33.7,
+     "11": 33.5,
+     "12": 33.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "BR002554002",
+   "name": "IGUAZU AERO",
+   "lat": -25.733,
+   "lon": -54.467,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 32.9,
+     "2": 32.6,
+     "3": 31.6,
+     "4": 28.9,
+     "5": 24.8,
+     "6": 23.5,
+     "7": 23.7,
+     "8": 26.7,
+     "9": 28.4,
+     "10": 30.3,
+     "11": 31.7,
+     "12": 32.5
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085406",
+   "name": "ARICA",
+   "lat": -18.35,
+   "lon": -70.333,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 25.8,
+     "2": 26.4,
+     "3": 25.7,
+     "4": 23.7,
+     "5": 21.6,
+     "6": 19.5,
+     "7": 18.4,
+     "8": 18.3,
+     "9": 19.0,
+     "10": 20.4,
+     "11": 22.2,
+     "12": 24.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085442",
+   "name": "ANTOFAGASTA",
+   "lat": -23.433,
+   "lon": -70.45,
+   "hemisphere": "south",
+   "record": {
+    "from": 1958,
+    "to": 1958,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1958,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 23.7,
+     "2": 23.8,
+     "3": 22.8,
+     "4": 20.8,
+     "5": 19.0,
+     "6": 17.6,
+     "7": 16.8,
+     "8": 17.0,
+     "9": 17.5,
+     "10": 18.6,
+     "11": 20.1,
+     "12": 21.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085469",
+   "name": "ISLA DE PASCUA",
+   "lat": -27.167,
+   "lon": -109.433,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 27.0,
+     "2": 27.6,
+     "3": 27.2,
+     "4": 25.7,
+     "5": 23.6,
+     "6": 22.1,
+     "7": 21.6,
+     "8": 21.4,
+     "9": 21.9,
+     "10": 22.6,
+     "11": 24.1,
+     "12": 25.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085488",
+   "name": "LA SERENA",
+   "lat": -29.917,
+   "lon": -71.2,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 21.7,
+     "2": 21.8,
+     "3": 20.6,
+     "4": 19.0,
+     "5": 17.5,
+     "6": 16.5,
+     "7": 15.9,
+     "8": 16.3,
+     "9": 16.9,
+     "10": 17.8,
+     "11": 18.8,
+     "12": 20.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085543",
+   "name": "QUINTERO",
+   "lat": -32.783,
+   "lon": -71.517,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": null,
+    "monthly_mean_max_c": null,
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085585",
+   "name": "JUAN FERNANDEZ",
+   "lat": -33.633,
+   "lon": -75.817,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 21.7,
+     "2": 21.7,
+     "3": 21.6,
+     "4": 19.6,
+     "5": 18.3,
+     "6": 16.6,
+     "7": 15.3,
+     "8": 15.1,
+     "9": 15.3,
+     "10": 16.2,
+     "11": 18.0,
+     "12": 20.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085629",
+   "name": "CURICO",
+   "lat": -34.967,
+   "lon": -71.233,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.3,
+     "2": 30.7,
+     "3": 28.1,
+     "4": 22.6,
+     "5": 17.6,
+     "6": 14.0,
+     "7": 13.3,
+     "8": 16.1,
+     "9": 19.0,
+     "10": 22.6,
+     "11": 26.8,
+     "12": 29.5
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085743",
+   "name": "TEMUCO",
+   "lat": -38.75,
+   "lon": -72.633,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 25.7,
+     "2": 26.1,
+     "3": 24.0,
+     "4": 19.3,
+     "5": 15.4,
+     "6": 12.9,
+     "7": 12.3,
+     "8": 13.9,
+     "9": 16.2,
+     "10": 18.5,
+     "11": 20.5,
+     "12": 23.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085799",
+   "name": "PUERTO MONTT",
+   "lat": -41.433,
+   "lon": -73.1,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.9,
+     "2": 20.9,
+     "3": 19.0,
+     "4": 16.0,
+     "5": 13.6,
+     "6": 11.1,
+     "7": 10.8,
+     "8": 11.8,
+     "9": 13.5,
+     "10": 15.2,
+     "11": 17.1,
+     "12": 19.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CI000085934",
+   "name": "PUNTA ARENAS",
+   "lat": -53.0,
+   "lon": -70.967,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 16.0,
+     "2": 15.8,
+     "3": 14.0,
+     "4": 11.1,
+     "5": 7.8,
+     "6": 5.2,
+     "7": 5.0,
+     "8": 6.6,
+     "9": 8.9,
+     "10": 11.8,
+     "11": 13.7,
+     "12": 15.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CIM00085672",
+   "name": "GENERAL BERNARDO O HIGGINS",
+   "lat": -36.582,
+   "lon": -72.031,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": null,
+    "monthly_mean_max_c": null,
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "CIM00085864",
+   "name": "TENIENTE VIDAL",
+   "lat": -45.594,
+   "lon": -72.106,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.5,
+     "2": 21.1,
+     "3": 18.2,
+     "4": 14.9,
+     "5": 10.9,
+     "6": 7.2,
+     "7": 6.9,
+     "8": 9.3,
+     "9": 11.8,
+     "10": 14.9,
+     "11": 16.8,
+     "12": 18.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080009",
+   "name": "SIMON BOLIVAR",
+   "lat": 11.12,
+   "lon": -74.231,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     2,
+     3,
+     4
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.4,
+     "2": 34.1,
+     "3": 34.2,
+     "4": 34.1,
+     "5": 33.7,
+     "6": 33.9,
+     "7": 34.2,
+     "8": 33.5,
+     "9": 33.3,
+     "10": 32.9,
+     "11": 32.7,
+     "12": 32.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080022",
+   "name": "RAFAEL NUNEZ",
+   "lat": 10.442,
+   "lon": -75.513,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.2,
+     "2": 31.3,
+     "3": 31.3,
+     "4": 31.8,
+     "5": 32.2,
+     "6": 32.6,
+     "7": 32.5,
+     "8": 32.6,
+     "9": 32.4,
+     "10": 32.0,
+     "11": 31.7,
+     "12": 31.6
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080091",
+   "name": "YARIGUIES",
+   "lat": 7.024,
+   "lon": -73.807,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": null,
+    "monthly_mean_max_c": null,
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080097",
+   "name": "CAMILO DAZA",
+   "lat": 7.928,
+   "lon": -72.512,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 31.0,
+     "2": 31.7,
+     "3": 32.0,
+     "4": 32.5,
+     "5": 33.6,
+     "6": 33.9,
+     "7": 34.0,
+     "8": 34.8,
+     "9": 35.1,
+     "10": 33.5,
+     "11": 31.8,
+     "12": 31.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080099",
+   "name": "SANTIAGO PEREZ",
+   "lat": 7.069,
+   "lon": -70.737,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     2,
+     3,
+     4
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.8,
+     "2": 35.3,
+     "3": 35.5,
+     "4": 34.2,
+     "5": 32.6,
+     "6": 31.1,
+     "7": 31.1,
+     "8": 31.7,
+     "9": 32.7,
+     "10": 32.6,
+     "11": 32.2,
+     "12": 32.8
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080144",
+   "name": "EL CARANO",
+   "lat": 5.691,
+   "lon": -76.641,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": null,
+    "monthly_mean_max_c": null,
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080210",
+   "name": "MATECANA",
+   "lat": 4.813,
+   "lon": -75.74,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 27.9,
+     "2": 28.2,
+     "3": 27.7,
+     "4": 27.0,
+     "5": 26.8,
+     "6": 26.7,
+     "7": 27.5,
+     "8": 28.0,
+     "9": 27.6,
+     "10": 26.9,
+     "11": 26.6,
+     "12": 26.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080211",
+   "name": "EL EDEN",
+   "lat": 4.453,
+   "lon": -75.766,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 29.2,
+     "2": 29.3,
+     "3": 29.0,
+     "4": 28.6,
+     "5": 28.5,
+     "6": 28.9,
+     "7": 29.2,
+     "8": 30.1,
+     "9": 29.9,
+     "10": 28.3,
+     "11": 28.0,
+     "12": 28.3
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080234",
+   "name": "VANGUARDIA",
+   "lat": 4.168,
+   "lon": -73.614,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": null,
+    "monthly_mean_max_c": null,
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "COM00080315",
+   "name": "BENITO SALAS",
+   "lat": 2.95,
+   "lon": -75.294,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.5,
+     "2": 34.2,
+     "3": 33.6,
+     "4": 33.3,
+     "5": 33.4,
+     "6": 33.9,
+     "7": 34.4,
+     "8": 35.3,
+     "9": 35.6,
+     "10": 34.2,
+     "11": 32.1,
+     "12": 32.4
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076061",
+   "name": "PUERTO PENASCO  SON.",
+   "lat": 31.3,
+   "lon": -113.55,
+   "hemisphere": "north",
+   "record": {
+    "from": 2024,
+    "to": 2024,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 1,
+    "last_usable_year": 2024,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.7,
+     "2": 21.5,
+     "3": 24.9,
+     "4": 28.1,
+     "5": 30.0,
+     "6": 33.0,
+     "7": 35.7,
+     "8": 37.3,
+     "9": 35.7,
+     "10": 31.8,
+     "11": 25.6,
+     "12": 21.5
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076160",
+   "name": "GENERAL IGNACIO P GARCIA INTL",
+   "lat": 29.096,
+   "lon": -111.048,
+   "hemisphere": "north",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     6,
+     7,
+     8
+    ],
+    "monthly_mean_max_c": {
+     "1": 26.7,
+     "2": 27.7,
+     "3": 32.0,
+     "4": 35.4,
+     "5": 38.6,
+     "6": 42.4,
+     "7": 41.7,
+     "8": 40.7,
+     "9": 39.4,
+     "10": 36.5,
+     "11": 31.3,
+     "12": 26.3
+    },
+    "matches_our_window": true,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076382",
+   "name": "TORREON INTL",
+   "lat": 25.568,
+   "lon": -103.411,
+   "hemisphere": "north",
+   "record": {
+    "from": 1949,
+    "to": 1956,
+    "usable_years": 3
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1956,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     5,
+     6,
+     7
+    ],
+    "monthly_mean_max_c": {
+     "1": 25.1,
+     "2": 29.0,
+     "3": 32.1,
+     "4": 36.0,
+     "5": 38.2,
+     "6": 37.9,
+     "7": 36.8,
+     "8": 36.3,
+     "9": 34.2,
+     "10": 32.7,
+     "11": 29.0,
+     "12": 25.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076612",
+   "name": "GUADALAJARA",
+   "lat": 20.72,
+   "lon": -103.38,
+   "hemisphere": "north",
+   "record": {
+    "from": 1957,
+    "to": 1970,
+    "usable_years": 13
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1970,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     4,
+     5,
+     6
+    ],
+    "monthly_mean_max_c": {
+     "1": 25.5,
+     "2": 27.8,
+     "3": 30.2,
+     "4": 32.5,
+     "5": 33.6,
+     "6": 31.6,
+     "7": 28.8,
+     "8": 28.7,
+     "9": 28.2,
+     "10": 28.1,
+     "11": 26.8,
+     "12": 25.9
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076775",
+   "name": "OAXACA  OAX.",
+   "lat": 17.05,
+   "lon": -96.717,
+   "hemisphere": "north",
+   "record": {
+    "from": 1951,
+    "to": 1951,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1951,
+    "has_2026": true,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     3,
+     4,
+     5
+    ],
+    "monthly_mean_max_c": {
+     "1": 28.8,
+     "2": 30.8,
+     "3": 32.5,
+     "4": 33.9,
+     "5": 32.9,
+     "6": 30.3,
+     "7": 29.6,
+     "8": 29.9,
+     "9": 29.1,
+     "10": 29.2,
+     "11": 28.8,
+     "12": 28.8
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "MXM00076855",
+   "name": "PUERTO ANGEL  OAX.",
+   "lat": 15.683,
+   "lon": -96.483,
+   "hemisphere": "north",
+   "record": {
+    "from": 2014,
+    "to": 2019,
+    "usable_years": 5
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 5,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 2,
+    "last_usable_year": 2019,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     7,
+     8,
+     9
+    ],
+    "monthly_mean_max_c": {
+     "1": 32.3,
+     "2": 32.4,
+     "3": 32.6,
+     "4": 33.0,
+     "5": 33.5,
+     "6": 32.9,
+     "7": 33.4,
+     "8": 33.7,
+     "9": 33.1,
+     "10": 33.4,
+     "11": 33.5,
+     "12": 32.7
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PE000084455",
+   "name": "TARAPOTO",
+   "lat": -6.5,
+   "lon": -76.367,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     9,
+     10,
+     11
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.9,
+     "2": 33.7,
+     "3": 33.3,
+     "4": 33.4,
+     "5": 33.3,
+     "6": 33.2,
+     "7": 33.1,
+     "8": 34.0,
+     "9": 34.3,
+     "10": 34.3,
+     "11": 34.4,
+     "12": 34.0
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PEM00084401",
+   "name": "CAPITAN FAP GUILLERMO CONCHA",
+   "lat": -5.206,
+   "lon": -80.616,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.8,
+     "2": 34.6,
+     "3": 34.5,
+     "4": 33.2,
+     "5": 31.2,
+     "6": 29.1,
+     "7": 28.2,
+     "8": 28.4,
+     "9": 29.1,
+     "10": 29.8,
+     "11": 30.6,
+     "12": 32.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PEM00084452",
+   "name": "CAPT JOSE A  QUINONES GONZALE",
+   "lat": -6.787,
+   "lon": -79.828,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 30.4,
+     "2": 31.8,
+     "3": 31.7,
+     "4": 30.0,
+     "5": 27.8,
+     "6": 25.8,
+     "7": 25.0,
+     "8": 24.6,
+     "9": 24.9,
+     "10": 25.5,
+     "11": 26.3,
+     "12": 28.3
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PEM00084515",
+   "name": "CAP FAP DAVID ABENZUR RENGIFO",
+   "lat": -8.378,
+   "lon": -74.574,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     8,
+     9,
+     10
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.1,
+     "2": 32.8,
+     "3": 32.7,
+     "4": 32.9,
+     "5": 32.8,
+     "6": 32.5,
+     "7": 32.8,
+     "8": 34.0,
+     "9": 34.6,
+     "10": 34.3,
+     "11": 33.7,
+     "12": 33.4
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PEM00084628",
+   "name": "JORGE CHAVEZ INTL",
+   "lat": -12.022,
+   "lon": -77.114,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 26.7,
+     "2": 28.0,
+     "3": 27.7,
+     "4": 25.6,
+     "5": 22.9,
+     "6": 20.6,
+     "7": 20.0,
+     "8": 19.4,
+     "9": 19.8,
+     "10": 20.9,
+     "11": 22.4,
+     "12": 24.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PEM00084686",
+   "name": "TENIENTE ALEJANDRO VELASCO AS",
+   "lat": -13.536,
+   "lon": -71.939,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     9,
+     10,
+     11
+    ],
+    "monthly_mean_max_c": {
+     "1": 20.6,
+     "2": 20.4,
+     "3": 20.5,
+     "4": 21.1,
+     "5": 21.3,
+     "6": 20.8,
+     "7": 20.6,
+     "8": 21.5,
+     "9": 21.8,
+     "10": 22.2,
+     "11": 22.5,
+     "12": 21.4
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PEM00084691",
+   "name": "PISCO INTL",
+   "lat": -13.745,
+   "lon": -76.22,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 28.3,
+     "2": 29.5,
+     "3": 29.0,
+     "4": 27.0,
+     "5": 24.3,
+     "6": 22.4,
+     "7": 21.6,
+     "8": 21.5,
+     "9": 22.0,
+     "10": 23.0,
+     "11": 24.3,
+     "12": 26.3
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PEM00084735",
+   "name": "JULIACA",
+   "lat": -15.467,
+   "lon": -70.158,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     10,
+     11,
+     12
+    ],
+    "monthly_mean_max_c": {
+     "1": 18.7,
+     "2": 18.7,
+     "3": 18.6,
+     "4": 18.8,
+     "5": 18.7,
+     "6": 18.2,
+     "7": 17.9,
+     "8": 18.5,
+     "9": 19.1,
+     "10": 19.8,
+     "11": 20.4,
+     "12": 19.8
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "PEM00084782",
+   "name": "CORONEL CARLOS CIRIANI SANTA",
+   "lat": -18.053,
+   "lon": -70.276,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     1,
+     2,
+     3
+    ],
+    "monthly_mean_max_c": {
+     "1": 28.4,
+     "2": 29.1,
+     "3": 28.3,
+     "4": 26.0,
+     "5": 23.4,
+     "6": 20.9,
+     "7": 20.0,
+     "8": 20.4,
+     "9": 21.6,
+     "10": 23.2,
+     "11": 24.9,
+     "12": 26.6
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "UY000002206",
+   "name": "DURAZNO",
+   "lat": -33.35,
+   "lon": -56.5,
+   "hemisphere": "south",
+   "record": {
+    "from": 1958,
+    "to": 1958,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1958,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 32.1,
+     "2": 30.4,
+     "3": 28.9,
+     "4": 24.9,
+     "5": 21.0,
+     "6": 17.3,
+     "7": 17.0,
+     "8": 19.8,
+     "9": 20.7,
+     "10": 24.1,
+     "11": 27.4,
+     "12": 30.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "UY000086360",
+   "name": "SALTO",
+   "lat": -31.433,
+   "lon": -57.967,
+   "hemisphere": "south",
+   "record": {
+    "from": 1958,
+    "to": 1958,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1958,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 33.7,
+     "2": 32.0,
+     "3": 30.1,
+     "4": 26.2,
+     "5": 21.9,
+     "6": 19.6,
+     "7": 19.0,
+     "8": 22.0,
+     "9": 23.2,
+     "10": 26.5,
+     "11": 29.5,
+     "12": 32.2
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "UYM00086500",
+   "name": "TREINTA Y TRES",
+   "lat": -33.217,
+   "lon": -54.383,
+   "hemisphere": "south",
+   "record": {
+    "from": null,
+    "to": null,
+    "usable_years": 0
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": null,
+    "has_2026": false,
+    "archive_only": false
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 30.9,
+     "2": 29.8,
+     "3": 28.5,
+     "4": 24.3,
+     "5": 20.6,
+     "6": 18.0,
+     "7": 17.0,
+     "8": 19.6,
+     "9": 20.4,
+     "10": 23.6,
+     "11": 26.4,
+     "12": 29.4
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "UYM00086560",
+   "name": "LAGUNA DE LOS PATOS INTL",
+   "lat": -34.456,
+   "lon": -57.771,
+   "hemisphere": "south",
+   "record": {
+    "from": 1958,
+    "to": 1958,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1958,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 28.8,
+     "2": 28.1,
+     "3": 26.5,
+     "4": 22.1,
+     "5": 19.1,
+     "6": 15.6,
+     "7": 14.8,
+     "8": 17.6,
+     "9": 19.0,
+     "10": 21.9,
+     "11": 24.8,
+     "12": 28.1
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  },
+  {
+   "station": "UYM00086580",
+   "name": "CARRASCO INTL",
+   "lat": -34.838,
+   "lon": -56.031,
+   "hemisphere": "south",
+   "record": {
+    "from": 1958,
+    "to": 1958,
+    "usable_years": 1
+   },
+   "baseline": {
+    "1971_2000": 0,
+    "1991_2020": 0,
+    "complete": false
+   },
+   "present": {
+    "recent_years_of_10": 0,
+    "last_usable_year": 1958,
+    "has_2026": false,
+    "archive_only": true
+   },
+   "hot_season": {
+    "months": [
+     12,
+     1,
+     2
+    ],
+    "monthly_mean_max_c": {
+     "1": 28.8,
+     "2": 27.8,
+     "3": 26.0,
+     "4": 23.1,
+     "5": 19.5,
+     "6": 16.4,
+     "7": 15.4,
+     "8": 17.6,
+     "9": 18.8,
+     "10": 21.5,
+     "11": 24.5,
+     "12": 27.5
+    },
+    "matches_our_window": false,
+    "note": "Three warmest CONSECUTIVE months, measured over 1991-2020. Our instrument calibrates on July-August and counts from 1 May, so a station whose hot season is not northern summer cannot use it unchanged."
+   },
+   "verdict": "out"
+  }
+ ]
+}
