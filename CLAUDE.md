@@ -282,23 +282,48 @@ loudly, and nothing rebuilds until someone from the owning chat runs
 unreviewed is how the marker becomes an approval in name only, which is
 the exact failure D-200 exists to prevent one level up.
 
-**This can mean a daily action, not an occasional one, and that is a
-real cost worth knowing before it costs you a stale page.** Fire's
-inputs include `fires/data/current_week.json`, `data/events.json` and
-`fires/data/burnt_area.json`, all three touched by the daily data job;
-measured 2026-08-19, 30+ commits each since 1 August. A channel that
-refreshes daily and is gated on its payload is, as specced, gated once
-a day. Crops is different only by cadence, not by kind: ASAP publishes
-roughly every ten days, so the same mechanism blocks roughly every ten
-days there. **Whether daily re-approval is the intended cost for a
-daily channel, or too strict, is product's call and was open as of
-2026-08-19; check `research/decisions.md` for whether it has since
-settled before assuming either answer.**
+**This can mean a daily action, not an occasional one, and whether that
+is the right cost depends on the channel.** Crops publishes roughly
+every ten days (ASAP's cadence), and the byte hash above is the whole
+mechanism there: D-208 confirmed the cadence math holds, since
+`publication_log.json`, the daily probe's own record, sits outside the
+hash and only a real dekad advance moves it.
+
+**Fires is different, and the byte hash cost it two days of a wrong
+public number (D-212).** Approved 2026-08-20 at Belgium's 3,175 ha;
+GWIS revised to 3,208 the next day, the hash moved on that alone, the
+channel blocked, and the site kept serving 3,175 with every automated
+check green until Fire published by hand. A revised magnitude inside an
+unchanged claim is not what sign-off exists to catch, and a byte hash
+cannot tell it apart from a claim actually changing.
+
+So **fires' payload no longer uses the byte hash at all.** Only its
+three template files do (`templates/country_page.py`,
+`fires/build_page.py`, `fires/build_country_pages.py`); those still
+gate on `approve_channel.py` exactly as above. The payload
+(`data/events.json`, `fires/data/current_week.json`,
+`fires/data/burnt_area.json`) is gated by `fires/refresh_gate.py`
+instead, a classify-and-hold check in the same shape as
+`heat/refresh_gate.py`: it holds only when a CLAIM moves, a record
+appearing or being withdrawn, a country entering or leaving the
+qualifying set, a weekly rank crossing into or out of first, and passes
+a revised magnitude on the same side of that line. No approval command
+to run for a routine data day; it holds itself to genuinely editorial
+changes and needs a person only then.
+
+**If you own a channel and are wondering which shape yours should be:**
+byte hash suits a channel where any payload change is worth a look
+(crops, roughly weekly-scale cadence). Classify-and-hold suits a
+channel that publishes daily and where most days move nothing a reader
+would call a claim (fires). Building a classify-and-hold gate is real
+work, not a config flag; ask product before assuming it is warranted
+for a new channel, the same way D-212 was product's ruling to make, not
+platform's to build unprompted.
 
 **If your channel goes stale and you don't know why**, this is the
 first thing to check: run `publish_all.py --check` and read whether it
-printed a `CHANNEL(S) BLOCKED ON SIGN-OFF` line naming you. It will not
-find you; you have to look.
+printed a `CHANNEL(S) BLOCKED ON SIGN-OFF` or `FIRES PAYLOAD HELD` line
+naming you. It will not find you; you have to look.
 
 ## Telling another chat something (read this, it is new)
 
