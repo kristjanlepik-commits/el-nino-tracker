@@ -268,6 +268,20 @@ def flood_piece():
            RAIN["instrument"]))
 
 
+def _mo(k):
+    """One month as measured, from the payload.
+
+    EVERY NUMBER IN THIS PIECE IS READ, NOT RETYPED, and that is not
+    pedantry here: the first version said "75 of its last 77" and "August
+    16 of 18", both taken from a chat message. Heat's file says 75 of 79
+    and 16 of 20. Two wrong numbers in a headline and a standfirst,
+    inherited by copying rather than reading, on the same day I told two
+    other chats to read the emitted string rather than restate it.
+    """
+    m = LIMA_MONTHS[k]
+    return "%d of %d" % (m["at_or_above_20"], m["measured"])
+
+
 def _full_record_option():
     """The whole GHCN record, now that heat has emitted it.
 
@@ -328,11 +342,13 @@ def lima_piece():
         '<div class="prov"><b>Corrected since you last saw this</b>This piece originally said the five warmest August nights ARE the El Nino list, in order. That was false and heat caught it against our own ONI: August 1983 was NEUTRAL, ONI &minus;0.24, sitting in the decay of the 1982-83 event. The true claim is FOUR of the five. Weaker, and it survives contact with our own year-status file, which the stronger one did not. The figures are also ours now: heat emitted heat/data/lima_nights.json and this reads from it rather than from a message.</div>'
         '<p class="mono" style="color:#1a1a1a">Lima &middot; winter 2026 '
         '&middot; GHCN record, current winter from station bulletins</p>'
-        '<p class="claim">Lima has had 75 of its last 77 winter nights at or '
-        'above 20&nbsp;&deg;C.</p>'
-        '<p class="stand">June 29 of 29, July 30 of 30, August 16 of 18. The '
-        'warmest, 21.7&nbsp;&deg;C on 14 August, is above anything in the '
-        'station&rsquo;s August record.</p>'
+        + ('<p class="claim">Lima has had %d of its last %d winter nights at '
+           'or above 20&nbsp;&deg;C.</p>'
+           '<p class="stand">June %s, July %s, August %s. The warmest, '
+           '%.1f&nbsp;&deg;C on 14 August, is the warmest August night in a '
+           'record of %d measured Augusts.</p>'
+           % (LIMA_N, LIMA_OF, _mo("06"), _mo("07"), _mo("08"),
+              LIMA_NOW[1], len(_REC))) +
         '<hr class="r">'
         '<p class="mono">The chart, and it is the whole piece</p>'
         '<p class="note" style="margin-bottom:10px">The five warmest August '
@@ -341,6 +357,13 @@ def lima_piece():
         'not marked. Each August is labelled by the ocean AT THAT AUGUST, '
         'not by its calendar year. No European page of ours can show this.</p>'
         + chart +
+        '<p class="note" style="margin-top:12px"><b>2026 is not marked El '
+        'Nino, and that is deliberate.</b> Every other August is labelled by '
+        'the ocean AT THAT AUGUST, the mean CPC ONI across JAS and ASO. Those '
+        'seasons do not exist yet for 2026: CPC has published to MJJ. '
+        'Colouring 2026 as an El Nino August would assert something we cannot '
+        'support, and &ldquo;this El Nino is in its own league&rdquo; is the '
+        'viral post&rsquo;s claim rather than ours.</p>'
         '<p class="note" style="margin-top:12px">Six points, not a series: '
         'the top five and this year. Drawn as six discrete bars so it cannot '
         'be read as a complete history. <b>Heat has since emitted the full '
