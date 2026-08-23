@@ -724,12 +724,27 @@ overnight on one machine, none of them aware of the others.
 - **`caffeinate -i -m` blocks idle and disk sleep only. It does NOT
   survive the lid closing.** Written down because it was asserted the
   other way once and cost a night of fetching. Lid open, on power.
+- **Never kill a wake lock by name.** `pkill -x caffeinate` ends every
+  chat's lock on this machine, not only yours, and it is easy to run
+  while tidying up your own: FLO killed their own lock this way twice
+  in one day while replacing an undersized one, and later found their
+  own Somalia lock dead with three other jobs still fetching. Same
+  failure as the pid-scoped lock above, reached by a different route,
+  and harder to notice because the job that loses its lock is not the
+  one that ran the command. To replace a lock: start the new one FIRST,
+  note its pid, then kill only that pid.
 - **Announce a multi-hour job where another chat can see it.** Append
   a line to `.running-jobs` at the repo root (gitignored, so it never
   reaches a commit, and visible to every chat because the working tree
   is shared): what is running, which chat, and the expected finish.
   Remove the line when it ends. Read the file before starting your own,
   because three chats each believed they were alone on the machine.
+  **Append, never rewrite the file wholesale.** It is append-only by
+  convention, not by construction, and a chat that reads-then-writes
+  the whole file drops every line it did not itself add. FLO's own
+  Somalia entry vanished within the hour this way, and FLO was also the
+  chat that had rewritten the file, hours earlier, for an unrelated
+  entry.
 - Assume every long pull is resumable and check that it is before
   starting it unattended. A job that cannot resume turns a sleep into
   lost hours rather than lost minutes.
