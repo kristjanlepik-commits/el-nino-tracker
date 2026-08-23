@@ -156,8 +156,20 @@ def _record_strip(chart: dict, hue: str) -> str:
     lo -= span * 0.06
     hi += span * 0.06
 
-    W, H = 880, 224
-    axY, x0, x1 = H - 58, 8, W - 10
+    # HEIGHT COMES FROM THE DEEPEST STACK, not from a constant. Fixed at
+    # 190 the taller strokes pushed the reading's own value label off the
+    # top of the viewBox: the label vanished on the one mark the chart
+    # exists to show, which is the same defect as the clipped 2026 bar in
+    # the version this replaces. Measured, so it cannot recur when a
+    # record gets denser.
+    _bins = {}
+    for _p in obs:
+        _k = round((float(_p["y"]) - lo) / (hi - lo) * 862 / 5)
+        _bins[_k] = _bins.get(_k, 0) + 1
+    _peak = max(_bins.values()) if _bins else 1
+    W = 880
+    H = max(190, 52 + 4 + _peak * 13 + 18 + 46)
+    axY, x0, x1 = H - 52, 8, W - 10
     def X(v):
         return x0 + (float(v) - lo) / (hi - lo) * (x1 - x0)
 
@@ -167,19 +179,19 @@ def _record_strip(chart: dict, hue: str) -> str:
         key = round(X(p["y"]) / 5)
         bx = key * 5
         bins[key] = bins.get(key, 0) + 1
-        top = axY - 6 - (bins[key] - 1) * 8
+        top = axY - 4 - (bins[key] - 1) * 13
         parts.append('<line x1="%d" x2="%d" y1="%.1f" y2="%.1f" '
-                     'stroke="var(--ink-soft)" stroke-width="2"/>'
-                     % (bx, bx, top, top - 6.4))
+                     'stroke="var(--ink-soft)" stroke-width="2.4"/>'
+                     % (bx, bx, top, top - 11))
         if str(p["x"]) in marked:
             # Foot serif, not a colour.
             parts.append('<line x1="%.1f" x2="%.1f" y1="%.1f" y2="%.1f" '
-                         'stroke="var(--ink-soft)" stroke-width="1.7"/>'
-                         % (bx - 2.8, bx + 2.8, top + 0.6, top + 0.6))
+                         'stroke="var(--ink-soft)" stroke-width="2"/>'
+                         % (bx - 3.4, bx + 3.4, top + 1.0, top + 1.0))
 
     peak = max(bins.values()) if bins else 1
     cx = X(cur["y"])
-    top = min(axY - 6 - peak * 8 - 16, axY - 78)
+    top = min(axY - 4 - peak * 13 - 18, axY - 74)
     anchor = "end" if cx > W * 0.72 else ("start" if cx < W * 0.28 else "middle")
     parts.append('<line x1="%.1f" x2="%.1f" y1="%.1f" y2="%.1f" '
                  'stroke="var(--ink)" stroke-width="3"/>' % (cx, cx, axY - 2, top))
@@ -217,6 +229,26 @@ def _record_strip(chart: dict, hue: str) -> str:
         parts.append('<text x="%d" y="%d" text-anchor="end" class="rs-key">'
                      'FOOT SERIF = %s</text>'
                      % (x1, H - 6, h(chart["mark_label"].upper())))
+
+    # SAY WHAT A STROKE IS, INSIDE THE CHART.
+    #
+    # Kristjan, on the first build: "it is hard for the reader to understand
+    # that those other lines are previous years". He is right, and VD's
+    # mockup hides the problem rather than solving it: their page carries a
+    # sentence of body copy saying each stroke is one August, so the drawing
+    # never has to say it. A chart that only works with a paragraph beside
+    # it is not a chart, and this one gets shared as an image.
+    #
+    # Placed above the strokes rather than in a corner, because it has to be
+    # read BEFORE the marks are, not after.
+    xs = sorted(str(p["x"]) for p in obs)
+    span = ""
+    if len(xs) > 1 and xs[0].isdigit() and xs[-1].isdigit():
+        span = ", %s to %s" % (xs[0], xs[-1])
+    parts.insert(0, '<text x="%d" y="%d" class="rs-key">'
+                    'EACH STROKE = ONE %s%s</text>'
+                 % (x0, 14, h((chart.get("noun") or "observation").upper()),
+                    h(span)))
 
     return ('<svg class="rs" viewBox="0 0 %d %d" width="100%%" role="img" '
             'aria-label="%s">%s</svg>'
