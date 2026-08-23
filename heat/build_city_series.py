@@ -317,6 +317,16 @@ MAX_SHORTFALL_YEARS = 2
 # The rule these three were chosen under is the defence, and it only works if
 # the reader can see it: they were selected because the region was uncovered,
 # BEFORE anyone looked at their 2026 figures.
+# DATES VERIFIED AGAINST GIT, NOT TYPED FROM MEMORY. Three of these were
+# wrong when first written: Budapest, Vilnius and Zagreb read 2026-08-19 and
+# git's first appearance of each in CITIES is 2026-08-17. The wrong date was
+# live on three pages inside an hour of the field being created.
+#
+# Aftereffects' point, the same day: a confident FIELD can stand in for a
+# confident sentence. Emitting the caveat as a field rather than saying it in
+# a message fixed one failure and left the other one open, because nothing
+# checks that a hand-typed date is true. Recover it with:
+#   git log --format=%ad --date=short -S'"<City>":' -- heat/build_city_series.py
 JOINED = {
     "Larnaca":  ("2026-08-12", "Cyprus was the only Mediterranean island in "
                                "range with a long record and no coverage."),
@@ -324,11 +334,11 @@ JOINED = {
     "Nottingham": ("2026-08-11", "A second English city outside London."),
     "Belfast":  ("2026-08-11", "Northern Ireland, uncovered."),
     "Aberdeen": ("2026-08-11", "Scotland, uncovered."),
-    "Budapest": ("2026-08-19", "Central and eastern Europe was three cities "
+    "Budapest": ("2026-08-17", "Central and eastern Europe was three cities "
                                "of forty-two. Selected for the gap, before "
                                "its 2026 figures were looked at."),
-    "Vilnius":  ("2026-08-19", "As Budapest: the Baltic and eastern gap."),
-    "Zagreb":   ("2026-08-19", "The Balkans were zero cities. Selected for "
+    "Vilnius":  ("2026-08-17", "As Budapest: the Baltic and eastern gap."),
+    "Zagreb":   ("2026-08-17", "The Balkans were zero cities. Selected for "
                                "the gap, before its 2026 figures were "
                                "looked at."),
 }
