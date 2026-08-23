@@ -165,6 +165,38 @@ If you notice a decision that was acted on but never logged, say so,
 including when it is one of Kristjan's asides. Silent gaps are the
 failure mode; a false alarm costs nothing.
 
+## Every message splits Process from KL (D-220)
+
+Every message you write, to Kristjan or to another chat, carries two
+parts:
+
+    Process:  what you would normally write. Any length.
+    KL:       only what Kristjan must read. Usually nothing.
+
+**KL is empty by default.** That is the normal output, not a failure. If
+every message carries a KL paragraph, we have added a header to the same
+problem.
+
+Write KL for one of three reasons only:
+
+1. A decision is needed from him, with options.
+2. Something he believes is now false.
+3. Something material shipped or broke that changes what he would do.
+
+"Worth knowing", "for visibility" and "FYI" are not reasons; they are
+the absence of one. **KL fits on a phone screen without scrolling**,
+because that is where he reads it.
+
+**Decision asks take a fixed shape:**
+
+    The question, one line.
+    Options, named.
+    What you would do, and why, one line.
+
+The recommendation is required. Options alone still make him do the
+weighing, which is the work this is meant to save; he overrides in one
+word.
+
 ## Blocked on Kristjan? File it, do not send it (D-149)
 
 If you are blocked on something **only Kristjan can do**, add it to
