@@ -62,6 +62,29 @@ def latest_cumulative(scope, iso):
     return rows[-1] if rows else None
 
 
+
+def _cycle(countries: dict) -> dict:
+    """Next EFFIS weekly close, derived from the newest as_of we hold."""
+    seen = sorted({c.get("as_of") for c in countries.values()
+                   if c.get("as_of")})
+    if not seen:
+        return {"known": False,
+                "why": "no as_of in any country; cadence not derivable"}
+    from datetime import date, timedelta
+    last = date.fromisoformat(seen[-1])
+    nxt = last + timedelta(days=7)
+    return {
+        "known": True,
+        "close_weekday": last.strftime("%A"),
+        "last_close": last.isoformat(),
+        "next_close": nxt.isoformat(),
+        "expected_available": (nxt + timedelta(days=1)).isoformat(),
+        "_note": ("EFFIS publishes weekly. A fire igniting just after a "
+                  "close waits most of a week for mapped hectares; one "
+                  "igniting early in the week has them almost at once. "
+                  "Derived from the newest as_of held, not hardcoded."),
+    }
+
 def main():
     hist = json.load(open(HISTORY))["countries"]
     out, stale, missing = {}, [], []
@@ -106,7 +129,28 @@ def main():
             "different things and are never converted into each other.",
         ],
         "fetched": datetime.utcnow().isoformat(timespec="seconds") + "Z",
-        "year": YEAR, "countries": out,
+        "year": YEAR,
+        # WHEN THE NEXT HECTARE FIGURE CAN EXIST. Aftereffects asked for
+        # this one field so their look-ahead can turn "0 to 6 days" into
+        # a date without asking.
+        #
+        # EFFIS publishes on a seven-day beat, closing Wednesday and
+        # appearing the next morning. Measured from our own history
+        # rather than read off a spec: as_of ran 2026-07-29, 08-05,
+        # 08-12, 08-19, every one a Wednesday, with lag_days sawtoothing
+        # 1 to 7 in between.
+        #
+        # DERIVED from the newest as_of we actually hold, never
+        # hardcoded, so if EFFIS changes its cadence this follows rather
+        # than lying confidently. That is the difference between a
+        # schedule and an assumption.
+        #
+        # Why it matters: a fire igniting the day after a close is six
+        # days from any mapped hectares whatever anyone does. Belgium
+        # was exactly that shape, and the gap read as a failure of
+        # effort rather than a property of the calendar.
+        "effis_cycle": _cycle(out),
+        "countries": out,
     }
     with open(OUT, "w") as f:
         json.dump(doc, f, indent=1)
