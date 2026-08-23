@@ -17,6 +17,13 @@ WHY A SEPARATE SCRIPT, not a flag on publish_all.py. D-200's own design:
 the hash." Folding that into the publish path would make approval and
 publishing the same act again, which is the mistake this whole mechanism
 exists to undo.
+
+--by and --note are REQUIRED. Fire's fires/accept_payload.py made this
+the rule and named the reason: this script's own first marker read
+"platform (bootstrap)" for four days on a channel platform does not own,
+because both flags defaulted to empty. An approval with no name and no
+reason is one nobody can question later, which is the whole point of
+recording it.
 """
 from __future__ import annotations
 
@@ -34,9 +41,16 @@ from publish_all import SIGNOFF_INPUTS, SIGNOFF_DIR, channel_signoff_hash  # noq
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("channel", choices=sorted(SIGNOFF_INPUTS))
-    ap.add_argument("--by", default="", help="who is approving, for the record")
-    ap.add_argument("--note", default="", help="optional context for the entry")
+    ap.add_argument("--by", default="", help="REQUIRED: who is approving, for the record")
+    ap.add_argument("--note", default="", help="REQUIRED: why these changes are correct")
     args = ap.parse_args()
+
+    if not args.by or not args.note:
+        print("  REFUSING: --by and --note are both required. An approval "
+              "with no name and no reason is one nobody can question "
+              "later, which is the whole point of recording it.",
+              file=sys.stderr)
+        return 2
 
     current = channel_signoff_hash(args.channel)
     marker = SIGNOFF_DIR / f"{args.channel}.json"
@@ -45,7 +59,7 @@ def main() -> int:
         "channel": args.channel,
         "approved_hash": current,
         "approved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "approved_by": args.by or "(unspecified)",
+        "approved_by": args.by,
         "note": args.note,
         "inputs": sorted(SIGNOFF_INPUTS[args.channel]),
     }, indent=2) + "\n", encoding="utf-8")

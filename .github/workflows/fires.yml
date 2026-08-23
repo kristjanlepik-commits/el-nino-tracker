@@ -404,6 +404,41 @@ jobs:
       - name: Publish
         run: python scripts/publish_all.py
 
+      # Fire's ask, 2026-08-23: on 2026-08-23 fires/refresh_gate.py held on
+      # seven real editorial changes, exactly as D-212 intends, and printed
+      # them into a CI log that reports success. Nothing checked the
+      # outcome. A correct hold and a healthy run were indistinguishable,
+      # and the site served a week-old page while every check stayed
+      # green. CLAUDE.md already said of the D-200 gate "it will not find
+      # you; you have to look", which is a description of a defect.
+      #
+      # fires/notify_hold.py keeps ONE issue on tls-internal in sync with
+      # the gate, idempotently: opens it when held, updates it if the
+      # reasons change, closes it when the gate clears. if: always() so a
+      # hold still gets announced even if something later in the job
+      # fails; the announcement matters most exactly when something else
+      # has gone wrong.
+      #
+      # TLS_INTERNAL_TOKEN is not yet set (filed in
+      # research/awaiting_kristjan.md): a PAT scoped to issues:write on
+      # kristjanlepik-commits/tls-internal, a DIFFERENT repo from this
+      # one, so the default GITHUB_TOKEN cannot reach it. Warns and skips
+      # rather than failing the job until it exists, because a missing
+      # announcement channel should not turn an otherwise-successful
+      # publish red.
+      - name: Announce a fires publish hold, if the gate is holding
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.TLS_INTERNAL_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::TLS_INTERNAL_TOKEN is not set, so a correct \
+          hold from refresh_gate.py cannot be announced and will look \
+          exactly like a healthy run. See research/awaiting_kristjan.md."
+            exit 0
+          fi
+          PYTHONPATH="$PWD" python fires/notify_hold.py
+
       # LAST, deliberately, and it must be able to fail the run.
       #
       # The Fire chat's ask, after a publish reported complete success on

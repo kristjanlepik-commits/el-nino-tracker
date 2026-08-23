@@ -155,6 +155,18 @@ def classify(prev: dict, cur: dict) -> tuple[list[str], list[str]]:
          (cur.get("current_week") or {})
     for iso in sorted(set(pw) & set(cw)):
         p, c = pw[iso], cw[iso]
+        # Fire, 2026-08-23: Saudi Arabia and Libya both read as gas
+        # flaring, not a fire season (73.1% and 38.0% same-cell
+        # recurrence against genuine fire weeks scoring near zero), and
+        # build_events now excludes them from the qualifying set on that
+        # basis. But this loop still saw Saudi Arabia cross into 1st
+        # place and held the whole channel on a rank movement for a page
+        # that publishes no claim, since an excluded country renders
+        # nothing. A country's own current persistence verdict decides
+        # whether its rank means anything; "was persistent last time and
+        # excluded" is not a signal, the current flag is.
+        if (c.get("persistence") or {}).get("verdict") == "persistent_source":
+            continue
         pr, cr = _week_rank(p), _week_rank(c)
         if pr != cr and (pr == 1 or cr == 1):
             block.append(f"{c.get('name', iso)}: weekly rank {pr} -> {cr}, "
