@@ -44,9 +44,13 @@ def piece():
     # swapped in under a ruling.
     # `mark` colours the bar; the chart carries the word once in
     # mark_label rather than repeating it over every marked bar.
+    # THE WHOLE RECORD, not the top five. The tally strip draws the record's
+    # own shape, so feeding it six points drew six strokes and threw away
+    # the thing the form exists to show. The six-bar chart was a constraint
+    # of the old form; heat emits all 36 Augusts and the strip wants them.
     series = [{"x": str(r["year"]), "y": r["warmest_night_c"],
                "mark": r["enso"] == "el_nino"}
-              for r in sorted(top5, key=lambda r: r["warmest_night_c"])]
+              for r in REC if r.get("warmest_night_c") is not None]
     series.append({"x": cur_year, "y": CW["warmest_night_c"]})
 
     n_nino = sum(1 for r in top5 if r["enso"] == "el_nino")
@@ -86,12 +90,14 @@ def piece():
                        % (_pretty(CW["from"]), _pretty(CW["to"])),
         },
         "chart": {
-            "label": "The five warmest August nights on record, and %s"
-                     % cur_year,
+            "label": "Every August in the record, on its own axis",
             "series": series,
             "current_x": cur_year,
             "baseline": None,
-            "unit": "C",
+            "unit": " \u00b0C",
+            "noun": "August",
+            "noun_plural": "Augusts",
+            "current_kicker": cur_year + ", ATTRIBUTION PENDING",
             "diverging": False,
             "decimals": 1,
             "mark_label": "El Nino",

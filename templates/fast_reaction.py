@@ -96,139 +96,131 @@ def _fmt(v: float, diverging: bool, dp=None) -> str:
     return f"{v:,.0f}"
 
 
-def _series_bars(chart: dict, hue: str) -> str:
-    """The named fallback chart: one series, its baseline drawn.
+def _record_strip(chart: dict, hue: str) -> str:
+    """The record on its own axis, as a tally. VD's replacement for the bars.
 
-    The baseline is DRAWN, not stated, so a reader can verify the
-    headline multiple by eye rather than taking it on trust. That is the
-    visual chat's rule and it is the difference between a chart and an
-    illustration of a number.
+    THE BAR CHART WAS GENERIC BECAUSE IT ANSWERED THE WRONG QUESTION. It
+    drew a series of YEARS, spending its whole width on year identity that
+    no sentence on either page uses, and left rank to be inferred from bar
+    heights. Every page carrying it asks where ONE READING FALLS IN A
+    RECORD. VD's argument, and it is right: grey bars with one in an accent
+    is generic partly because it is everywhere and mostly because it fits
+    badly.
 
-    Diverging series hang from a zero line that sits inside the plot;
-    magnitude series sit on a zero line at the floor. Same code path,
-    because the only real difference is where zero goes.
+    So the axis is the quantity, every observation is a stroke on it,
+    stacked where values collide, and the record's own shape appears: a
+    dense body, a thinning tail, a gap, then this year. Rank is countable
+    rather than asserted, and the sentence underneath is DERIVED from the
+    marks rather than typed beside them.
+
+    THE CURRENT READING CARRIES NO HUE. It is ink at full weight, taller
+    than the record, and labelled. Position already carries departure, so
+    an accent on top of it is the one colour on these pages that is
+    provably unearned. That is also what removes terracotta from every
+    interior chart in a single move, which is the largest single thing
+    putting us in the family the reader recognised, and it leaves
+    fire #B32E10 a channel hue only without any palette change.
+
+    NO AXIS FURNITURE. No baseline rule, no tick row, no year labels.
+    Three labelled positions at most: the low end of the record, the
+    baseline, and the reading. Mono ticks along a hairline axis are half of
+    what makes the old form legible as a default and none of them are read.
+
+    A SECOND VARIABLE TRAVELS AS FORM, NOT HUE: a marked observation gets a
+    foot serif. Same decision the channel system made about identity, and
+    it keeps the drawing readable in greyscale and for a colourblind reader
+    before hue does any work.
+
+    THE CALM CASE IS DRAWN AT IDENTICAL WEIGHT (D-043). A bar chart has to
+    fake this, because the calm bar is short and short reads as absence.
+    Here the mark simply sits inside the body of the record instead of
+    beyond it, at the same ink, because the drawing is the RECORD and not
+    the reading.
     """
-    series = chart["series"]
+    series = chart.get("series") or []
     if not series:
         return ""
-    diverging = bool(chart.get("diverging"))
+    cur_x = str(chart.get("current_x"))
+    obs = [p for p in series if str(p["x"]) != cur_x]
+    cur = next((p for p in series if str(p["x"]) == cur_x), None)
+    if cur is None or not obs:
+        return ""
+    dp = chart.get("decimals")
     base = chart.get("baseline") or {}
-    baseline_v = base.get("value")
+    bval = base.get("value")
 
-    W, H = 760, 260
-    PAD_L, PAD_R, PAD_T, PAD_B = 8, 8, 26, 30
-    ys = [p["y"] for p in series]
-    lo = min(ys + ([baseline_v] if baseline_v is not None else []) + [0.0])
-    hi = max(ys + ([baseline_v] if baseline_v is not None else []) + [0.0])
-    if hi == lo:
-        hi = lo + 1.0
-    pad = (hi - lo) * 0.12
-    lo, hi = lo - (pad if diverging else 0.0), hi + pad
+    vals = sorted(float(p["y"]) for p in obs)
+    lo = min(vals + [float(cur["y"])] + ([bval] if bval is not None else []))
+    hi = max(vals + [float(cur["y"])])
+    span = (hi - lo) or 1.0
+    lo -= span * 0.06
+    hi += span * 0.06
 
-    def Y(v):
-        return H - PAD_B - (v - lo) / (hi - lo) * (H - PAD_T - PAD_B)
+    W, H = 880, 224
+    axY, x0, x1 = H - 58, 8, W - 10
+    def X(v):
+        return x0 + (float(v) - lo) / (hi - lo) * (x1 - x0)
 
-    n = len(series)
-    slot = (W - PAD_L - PAD_R) / n
-    bw = min(slot * 0.62, 34.0)
-    zero_y = Y(0.0)
+    marked = {str(p["x"]) for p in obs if p.get("mark")}
+    bins, parts = {}, []
+    for p in sorted(obs, key=lambda q: float(q["y"])):
+        key = round(X(p["y"]) / 5)
+        bx = key * 5
+        bins[key] = bins.get(key, 0) + 1
+        top = axY - 6 - (bins[key] - 1) * 8
+        parts.append('<line x1="%d" x2="%d" y1="%.1f" y2="%.1f" '
+                     'stroke="var(--ink-soft)" stroke-width="2"/>'
+                     % (bx, bx, top, top - 6.4))
+        if str(p["x"]) in marked:
+            # Foot serif, not a colour.
+            parts.append('<line x1="%.1f" x2="%.1f" y1="%.1f" y2="%.1f" '
+                         'stroke="var(--ink-soft)" stroke-width="1.7"/>'
+                         % (bx - 2.8, bx + 2.8, top + 0.6, top + 0.6))
 
-    parts = []
-    for i, p in enumerate(series):
-        cx = PAD_L + slot * (i + 0.5)
-        y_val, y_zero = Y(p["y"]), zero_y
-        top, height = min(y_val, y_zero), abs(y_val - y_zero)
-        current = str(p["x"]) == str(chart.get("current_x"))
-        # A POINT MAY CARRY A MARK, and the mark colours the bar rather
-        # than floating a label over the plot.
-        #
-        # Lima is why. Its chart exists to show that four of the five
-        # warmest August nights fell in an El Nino August, and rendered
-        # through the generic path that fact arrived as free-floating
-        # "El Nino" text which collided with itself over adjacent bars,
-        # above bars that were all the same grey. The categorical fact was
-        # the whole piece and the chart drew it worst.
-        marked = bool(p.get("mark"))
-        fill = hue if current else ("var(--ink-soft)" if marked
-                                    else "var(--rule-45)")
-        parts.append(
-            f'<rect x="{cx - bw / 2:.1f}" y="{top:.1f}" width="{bw:.1f}" '
-            f'height="{max(height, 1.2):.1f}" fill="{fill}"/>')
-        # EVERY BAR LABELLED WHEN THE SERIES IS SHORT. First-and-last is
-        # right for 27 yearly bars and wrong for six chosen ones: on Lima
-        # it left four of six unidentifiable, on a chart whose argument is
-        # WHICH years they are.
-        if n <= 8 or current or i == 0 or i == n - 1:
-            parts.append(
-                f'<text class="fr-xl" x="{cx:.1f}" y="{H - PAD_B + 15:.1f}" '
-                f'text-anchor="middle">{h(str(p["x"]))}</text>')
-        if marked and chart.get("mark_label"):
-            parts.append(
-                f'<text class="fr-xl" x="{cx:.1f}" y="{H - PAD_B + 27:.1f}" '
-                f'text-anchor="middle" fill="{hue}">'
-                f'{h(chart["mark_label"])}</text>')
-        if current:
-            above = y_val <= y_zero
-            ty = (top - 7) if above else (top + height + 15)
-            parts.append(
-                f'<text class="fr-val" x="{cx:.1f}" y="{ty:.1f}" '
-                f'text-anchor="middle" fill="{hue}">'
-                f'{h(_fmt(p["y"], diverging, chart.get("decimals")))}</text>')
+    peak = max(bins.values()) if bins else 1
+    cx = X(cur["y"])
+    top = min(axY - 6 - peak * 8 - 16, axY - 78)
+    anchor = "end" if cx > W * 0.72 else ("start" if cx < W * 0.28 else "middle")
+    parts.append('<line x1="%.1f" x2="%.1f" y1="%.1f" y2="%.1f" '
+                 'stroke="var(--ink)" stroke-width="3"/>' % (cx, cx, axY - 2, top))
+    parts.append('<text x="%.1f" y="%.1f" text-anchor="%s" class="rs-cur">%s</text>'
+                 % (cx, top - 20, anchor,
+                    h(_fmt(float(cur["y"]), False, dp) + (chart.get("unit") or ""))))
+    parts.append('<text x="%.1f" y="%.1f" text-anchor="%s" class="rs-kick">%s</text>'
+                 % (cx, top - 7, anchor, h(str(chart.get("current_kicker") or cur["x"]))))
 
-    if diverging:
-        parts.insert(0, f'<line x1="{PAD_L}" y1="{zero_y:.1f}" '
-                        f'x2="{W - PAD_R}" y2="{zero_y:.1f}" '
-                        f'stroke="var(--ink)" stroke-width="1"/>')
-    if baseline_v is not None:
-        by = Y(baseline_v)
-        parts.append(
-            f'<line x1="{PAD_L}" y1="{by:.1f}" x2="{W - PAD_R}" '
-            f'y2="{by:.1f}" stroke="var(--ink-soft)" stroke-width="1" '
-            f'stroke-dasharray="4 4"/>')
-        # Halo on every in-plot label (D-023, extended by D-026). Bar
-        # heights move every week, so any annotation eventually lands on
-        # data; haloing only the ones that overlap today is a bug with a
-        # delay on it.
-        #
-        # The halo is the floor, not the whole answer: the rule is move
-        # the label as well, where empty plot space exists. So the
-        # baseline label goes to whichever end has more clearance above
-        # the line, measured rather than assumed. On the ONI series the
-        # left end is a tall 1997 bar and the right end is not, and a
-        # haloed label sitting on a bar is still a label sitting on a bar.
-        label = base.get("label", "")
-        # How many bars the label actually covers, rounded up and never
-        # fewer than two. Rounding down checked only the first bar and
-        # missed the one the label was landing on, which is how a
-        # collision survives a collision check.
-        span = max(2, math.ceil(len(label) * 6.6 / slot))
-        left_clear = min((Y(p["y"]) for p in series[:span]), default=by)
-        right_clear = min((Y(p["y"]) for p in series[-span:]), default=by)
-        if right_clear > left_clear:
-            lx, anchor = W - PAD_R - 2, "end"
-        else:
-            lx, anchor = PAD_L + 2, "start"
-        parts.append(
-            f'<text class="fr-base" x="{lx:.1f}" y="{by - 6:.1f}" '
-            f'text-anchor="{anchor}">{h(label)}</text>')
-
-    for ann in chart.get("annotations") or []:
-        idx = next((i for i, p in enumerate(series)
-                    if str(p["x"]) == str(ann["x"])), None)
-        if idx is None:
+    labels = [(vals[0], _fmt(vals[0], False, dp) + (chart.get("unit") or ""), "start")]
+    if bval is not None:
+        labels.append((bval, base.get("label", ""), "middle"))
+    for lab in (chart.get("named") or []):
+        labels.append((lab["v"], lab["label"], lab.get("anchor", "middle")))
+    for v, text, anc in labels:
+        if not text:
             continue
-        cx = PAD_L + slot * (idx + 0.5)
-        anchor = "end" if idx > n / 2 else "start"
-        dx = -bw / 2 - 8 if anchor == "end" else bw / 2 + 8
-        parts.append(
-            f'<text class="fr-ann" x="{cx + dx:.1f}" '
-            f'y="{Y(series[idx]["y"]) + 4:.1f}" text-anchor="{anchor}">'
-            f'{h(ann["text"])}</text>')
+        parts.append('<text x="%.1f" y="%.1f" text-anchor="%s" class="rs-lab">%s</text>'
+                     % (X(v), axY + 24, anc, h(text)))
 
-    return (f'<svg class="fr-chart" viewBox="0 0 {W} {H}" role="img" '
-            f'aria-label="{h(chart.get("label", "chart"))}">'
-            + "".join(parts) + '</svg>')
+    # THE SENTENCE IS DERIVED FROM THE MARKS, never passed in, so it cannot
+    # disagree with the drawing above it.
+    above = sum(1 for v in vals if v > float(cur["y"]))
+    one = chart.get("noun") or "observation"
+    many = chart.get("noun_plural") or (one + "s")
+    if above == 0:
+        said = "No %s in the record reaches it." % one
+    elif above == 1:
+        said = "One %s in the record of %d sits above it." % (one, len(vals))
+    else:
+        said = "%d of %d %s in the record sit above it." % (above, len(vals), many)
+    parts.append('<text x="%d" y="%d" class="rs-said">%s</text>'
+                 % (x0, H - 6, h(said)))
+    if marked and chart.get("mark_label"):
+        parts.append('<text x="%d" y="%d" text-anchor="end" class="rs-key">'
+                     'FOOT SERIF = %s</text>'
+                     % (x1, H - 6, h(chart["mark_label"].upper())))
 
+    return ('<svg class="rs" viewBox="0 0 %d %d" width="100%%" role="img" '
+            'aria-label="%s">%s</svg>'
+            % (W, H, h(chart.get("label", "")), "".join(parts)))
 
 def fr_instruments(piece):
     """Every instrument, assessed or not, at one weight. Decision 2A.
@@ -366,6 +358,18 @@ main {{ max-width: 820px; margin: 0 auto; padding: 28px 24px 80px; }}
 .fr-icav td {{ padding:0 0 10px; font-size:12.5px; line-height:1.5;
   color:var(--ink-faint); border:0; }}
 .fr-icav {{ border-top:0 !important; }}
+.rs {{ display:block; width:100%; height:auto; }}
+.rs-cur {{ font-family:"{T.FONT_DATA}",monospace; font-size:23px;
+  font-weight:500; fill:var(--ink); }}
+.rs-kick {{ font-family:"{T.FONT_DATA}",monospace; font-size:9.5px;
+  letter-spacing:1.9px; fill:var(--ink-2); }}
+.rs-lab {{ font-family:"{T.FONT_DATA}",monospace; font-size:10.5px;
+  letter-spacing:0.6px; fill:var(--ink-2); }}
+/* The derived sentence is SERIF, deliberately. It is prose the reader
+   reads, not a figure, and mono-everything is on the rule-out list. */
+.rs-said {{ font-family:var(--serif); font-size:17px; fill:var(--ink); }}
+.rs-key {{ font-family:"{T.FONT_DATA}",monospace; font-size:10px;
+  letter-spacing:1.6px; fill:var(--ink-2); }}
 .fr-stale {{ border-left:3px solid var(--ink-faint); padding:8px 0 8px 13px;
   margin:0 0 16px; font-size:14px; line-height:1.5; color:var(--ink-2);
   max-width:62ch; }}
@@ -454,7 +458,7 @@ h1 {{
   </div>
 
   <p class="fr-lab">{h(chart.get("label", ""))}</p>
-  {_series_bars(chart, hue)}
+  {_record_strip(chart, hue)}
 
   <span class="fr-tag">{h(TAG_TEXT.get(tag, TAG_TEXT["pending"]))}</span>
 
