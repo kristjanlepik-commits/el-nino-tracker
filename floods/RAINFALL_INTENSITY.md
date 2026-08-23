@@ -121,6 +121,24 @@ many examples there are**, which matters because the examples are fewer
 than they look: both Peru box findings are IMERG box geometry, one
 failure mode seen from opposite ends.
 
+**HOW THIN THE TOP BIN IS, and it is thinner than the headline sounds.**
+Aftereffects asked where "five" comes from. The answer is one station.
+
+    over 150 mm bin      n = 3
+      TURIS              gauge 710.8   IMERG 128.1   ratio 0.18
+      UTIEL              gauge 215.2   IMERG  94.4   ratio 0.44
+      CHELVA             gauge 174.6   IMERG 135.7   ratio 0.78
+
+**Those three disagree by a factor of four, so "three to five times" is
+not a range, it is one station at 5.5x, one at 2.3x, and one barely
+under-read at all.** The bin mean of 0.33 is dominated by TURIS, which is
+the same station that defined the event.
+
+That does not overturn the SHAPE, which rests on the monotonic trend
+across four bins with n=29, 4, 9 and 3, and on product's independent Bath
+measurement. It does mean any sentence quoting a specific multiple is
+resting on n=1 at the top end and should say so or say less.
+
 **And the rule this creates for anyone quoting the intensity result: say
 the shape, never a multiplier.** "Under-reads by three to five times" is
 defensible ONLY when scoped to concentrated rainfall, and it is one word
