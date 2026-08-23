@@ -83,3 +83,47 @@ resolved in time and still wrong in magnitude.
 So the global satellite route is the wrong instrument for mid-latitude
 convection, and the answer is gauges: MIDAS for the UK and AEMET for Spain,
 both of which we hold credentials for. AEMET was used for this test.
+
+
+## The averaging property, stated here because it had no home
+
+Aftereffects asked which wording of this was mine and found it existed in
+two non-identical forms across the repo, both attributed to me, and in no
+floods-owned file. That is the failure this house is built to prevent,
+arriving as a sentence rather than a decision: it lived only in chat
+messages, so every chat that quoted it quoted a slightly different thing.
+
+**The canonical form, and it is theirs rather than mine because their
+version is better:**
+
+> Averaging pulls both tails toward the middle. It inflates the quiet
+> tail and flattens the loud one. We only ever publish the loud one.
+
+Mine was "averaging always pulls toward the middle", which is what I
+wrote in a message on 2026-08-21 and is the version that should be
+retired. It is worse in a specific way: it describes one tail, so the
+light-rain over-read looks like a counterexample to it. In their version
+the over-read is the proof.
+
+**What it explains.** Three instrument families in this channel err in
+the same direction:
+
+    IMERG smooths          over-reads light rain 5.80x, under-reads
+                           concentrated rain to 0.33x
+    MODIS flood extent     goes blind exactly when cloud is thickest, so
+                           the worst events read quietest
+    An oversized box       dilutes a real local event toward its
+                           regional average
+
+All three are forms of averaging, and the mechanism is why they agree,
+not the count. **The inference rests on the mechanism rather than on how
+many examples there are**, which matters because the examples are fewer
+than they look: both Peru box findings are IMERG box geometry, one
+failure mode seen from opposite ends.
+
+**And the rule this creates for anyone quoting the intensity result: say
+the shape, never a multiplier.** "Under-reads by three to five times" is
+defensible ONLY when scoped to concentrated rainfall, and it is one word
+away from a correction factor that cannot exist. The safe form is the one
+at the top of this file: it runs 5.80x over to 0.33x under across the
+same field on the same day, so no single number corrects it.

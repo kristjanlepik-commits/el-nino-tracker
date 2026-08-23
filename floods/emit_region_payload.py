@@ -111,6 +111,41 @@ def load_jsonl(p):
     return [json.loads(l) for l in open(p) if l.strip()]
 
 
+def load_many(paths):
+    """Concatenate several baseline files, REFUSING on overlap.
+
+    Baselines are now fetched as separate date ranges so a dropped
+    connection costs one range rather than the whole build. That makes
+    multi-file input the normal case, and it introduces a failure this
+    file has to catch rather than average away: if two files cover the
+    same region-day, concatenating them DOUBLE-COUNTS it, and a doubled
+    day inflates that year's total against every other year.
+
+    Not hypothetical. Somalia's Phase 1 baseline covers 11-10..11-16 and
+    the OND pre-build's second range covers 10-22..11-11, so passing both
+    duplicates 11-10 and 11-11 in all 23 years.
+
+    Refusing is right rather than de-duplicating silently, because two
+    records for one day may disagree, and picking one without being asked
+    is a measurement decision disguised as a convenience."""
+    if isinstance(paths, str):
+        paths = [paths]
+    seen, recs = {}, []
+    for p in paths:
+        for r in load_jsonl(p):
+            key = r["date"]
+            if key in seen and seen[key] != p:
+                raise SystemExit(
+                    f"floods: {key} appears in BOTH\n"
+                    f"    {seen[key]}\n    {p}\n"
+                    f"  Overlapping baseline windows would double-count that "
+                    f"day and inflate its year against every other year. Pass "
+                    f"non-overlapping ranges.")
+            seen[key] = p
+            recs.append(r)
+    return recs
+
+
 def rainfall_series(base_path, region, window_days, current_year=None):
     """Totals per year, on a window harmonised across every year.
 
@@ -131,7 +166,7 @@ def rainfall_series(base_path, region, window_days, current_year=None):
     harmonised window is a smaller claim than the nominal one and the
     page has to be able to say so.
     """
-    recs = load_jsonl(base_path)
+    recs = load_many(base_path)
     by = collections.defaultdict(dict)
     for r in recs:
         by[r["year"]][r["date"][5:]] = r
@@ -204,7 +239,7 @@ def top_day_share(vals):
 
 
 def flood_series(base_path, window_days):
-    recs = load_jsonl(base_path)
+    recs = load_many(base_path)
     by = collections.defaultdict(list)
     for r in recs:
         by[r["year"]].append(r)
@@ -423,10 +458,12 @@ def main():
     ap.add_argument("--data-through", default=None,
                     help="YYYY-MM-DD, last day the instrument has. "
                          "Defaults to as-of minus the instrument latency.")
-    ap.add_argument("--rain-baseline", required=True)
+    # MULTIPLE PATHS. Ranges are fetched separately so a dropped
+    # connection costs one range, not the build. Overlaps are refused.
+    ap.add_argument("--rain-baseline", required=True, nargs="+")
     # Optional since 2026-08-16. Omitting it yields verdict not_assessed
     # on the flood series, never cannot_say, and never silence.
-    ap.add_argument("--flood-baseline", default=None)
+    ap.add_argument("--flood-baseline", default=None, nargs="+")
     ap.add_argument("--flood-current", default=None)
     ap.add_argument("--out", required=True)
     # The three states of editorial standards 5. Required rather than
