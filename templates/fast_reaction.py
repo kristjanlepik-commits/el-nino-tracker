@@ -233,6 +233,15 @@ def _record_strip(chart: dict, hue: str) -> str:
     if chart.get("header"):
         parts.append('<text x="%d" y="20" class="rs-key">%s</text>'
                      % (left, h(chart["header"])))
+    # WORDS ARE ALLOWED, the drawing just must not DEPEND on them (Kristjan).
+    # So the fill legend comes back: a reader can see there are two kinds of
+    # dot and cannot guess which is which, and nothing else on the page says.
+    # Removing this costs the reader the second variable and none of the
+    # first, which is the right side of the rule to be on.
+    if chart.get("mark_label") and any(p_.get("mark") for p_ in rows):
+        parts.append('<text x="%d" y="%d" text-anchor="end" class="rs-key">'
+                     'FILLED = %s</text>'
+                     % (right, H - 8, h(chart["mark_label"].upper())))
 
     return ('<svg class="rs" viewBox="0 0 %d %d" width="100%%" role="img" '
             'aria-label="%s">%s</svg>'
