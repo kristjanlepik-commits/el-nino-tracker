@@ -428,6 +428,33 @@ Two habits worth copying, both learned the hard way:
   every automated check and were all found by Kristjan opening the
   page. For anything visual, a human look is load-bearing.
 
+### VD is the exception: it cannot read this repo (D-125)
+
+**Visual design is a Claude Design chat, not a session on the bus above.**
+It does not appear in `list_sessions`, and it **cannot read the
+repository**. A file path is useless to it. So is a GitHub URL, including
+a raw one to a public repo.
+
+So a brief for VD is **pasted in full**, or written into the shared project
+with DesignSync `write_files`. Include the measurements inline, because VD
+cannot go and check them. Live `thelongswell.com` URLs DO work, so point at
+published pages rather than at source.
+
+Feedback comes back in the shared Claude Design doc rather than a repo
+file, and that is deliberate: D-125 rejected moving it into the repo for
+exactly this reason.
+
+**This is written here because it is the thing a compacted context loses
+first.** On 2026-08-23 design sent VD a kickoff whose first line was "READ
+FIRST: design/briefs/visual_reset_2026-08.md", and when VD replied that it
+was not fetchable, answered with a raw githubusercontent URL rather than
+recognising a constraint that had been ratified thirteen days earlier. Two
+rounds, on a week where the whole point was speed.
+
+Ownership is unchanged and worth restating beside this, since the two get
+confused: **VD sets the visual bar and sends proposals; design owns the
+front end and merges** (D-030). VD does not touch `templates/`.
+
 ## Bugs
 
 Private tracker: **GitHub Issues on `kristjanlepik-commits/tls-internal`**
