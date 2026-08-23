@@ -267,7 +267,18 @@
    ],
    "wmo_block": null,
    "date_shift": null,
-   "identity": "UNPROVEN"
+   "identity": "UNPROVEN",
+   "buenos_aires_finding": {
+    "verdict": "not buildable on either station",
+    "checked_blocks": {
+     "87585": "the Observatory's own block. 2 AAXX groups in a month of 2003: it does not transmit usefully.",
+     "87582": "Aeroparque, 127 groups. A DIFFERENT STATION, refused at p90 3.20 with 1 exact day in 357.",
+     "87576, 87570, 87580, 87590, 87571": "no bulletins at all."
+    },
+    "why_it_fails": "The two halves are on different stations. The Observatory has the baseline, 30 of 30 DJF years on 1971-2000 over a 94-year record, and cannot reach the present. Aeroparque reaches the present and has NO usable baseline: zero DJF years clear the bar even on the seasonal test, its GHCN record being too sparse despite spanning 1973 to 2025.",
+    "and_they_cannot_be_joined": "Aeroparque is 5 km away and measurably a different thermometer, which is what the p90 3.20 says. Splicing them would be the composition error our station-identity check exists to refuse.",
+    "what_would_work": "A national-service request to SMN Argentina for the Observatory's recent years, the same ask as Cyprus DoM and ONM Algeria. Not a bridge job."
+   }
   },
   {
    "station": "CS000081003",
