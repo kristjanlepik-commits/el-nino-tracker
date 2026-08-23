@@ -249,6 +249,9 @@ def rebuild_rows(detail, end):
             "multiple": round(multiple, 1), "rank": f"{rank} of {len(hist) + 1}",
             "rank_n": rank, "n_compared": len(hist) + 1,
             "z": round((count - mean) / sd if sd else 0.0, 2),
+            "persistent_source": ((r.get("persistence") or {}).get("verdict")
+                                  == "persistent_source"),
+            "persistence": r.get("persistence"),
             "lat": r["lat"], "lon": r["lon"], "centroid_basis": r["basis"],
             "attribution": attribution_for(iso, end.month),
             "title": make_title(rank, multiple, count,
@@ -691,6 +694,37 @@ def main():
                        "hist_excluded_for_comparability": years_defective,
                        "lat": lat, "lon": lon, "basis": basis}
         detail[iso]["cropland"] = cropland
+
+        # PERSISTENT-SOURCE TEST. Needs the raw detections, so it is
+        # computed here rather than in qualifies(), which only sees the
+        # summarised row.
+        #
+        # The n floor is the same lesson as the cropland label: Greece's
+        # week scored 29% recurrence on 24 detections, where a handful
+        # of repeat cells dominates and means nothing. Below the floor
+        # the country is judged normally rather than excluded on noise.
+        persistent = None
+        if len(df) >= 50 and "daynight" in df.columns:
+            try:
+                cell = (np.round(df["latitude"], 2).astype(str) + "," +
+                        np.round(df["longitude"], 2).astype(str))
+                days_seen = df.groupby(cell)["acq_date"].nunique()
+                recur = float(cell.isin(
+                    days_seen[days_seen >= 5].index).mean()) * 100
+                night = float((df["daynight"].astype(str).str.upper()
+                               == "N").mean()) * 100
+                frp_med = float(df["frp"].astype(float).median())
+                persistent = {
+                    "recur_pct": round(recur, 1),
+                    "night_pct": round(night, 1),
+                    "frp_median": round(frp_med, 2),
+                    "verdict": ("persistent_source"
+                                if (recur > 15 and night > 60
+                                    and frp_med < 6) else "fire_like"),
+                }
+            except Exception:
+                persistent = None
+        detail[iso]["persistence"] = persistent
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
         vals = list(h["hist"].values())
@@ -708,6 +742,15 @@ def main():
             "multiple": round(multiple, 1),
             "rank": f"{rank} of {len(h['hist']) + 1}",
             "rank_n": rank, "n_compared": len(h["hist"]) + 1,
+            # Carried ON the row because qualifies() sees nothing else.
+            # A flag left only on `detail` would be computed, emitted
+            # and silently ignored. Both this path and rebuild_rows must
+            # set it: the comment above records these two disagreeing
+            # once already, and rebuild_rows runs only on a degraded
+            # week, so a gap here hides until the worst week.
+            "persistent_source": ((persistent or {}).get("verdict")
+                                  == "persistent_source"),
+            "persistence": persistent,
             "z": round(z, 2), "lat": lat, "lon": lon,
             "centroid_basis": basis,
             "attribution": attribution_for(iso, end.month),
@@ -750,7 +793,34 @@ def main():
         return out
 
     def qualifies(r):
-        """Noise floor, then any one significance signal."""
+        """Noise floor, then any one significance signal.
+
+        A PERSISTENT SOURCE IS NOT A FIRE SEASON. Saudi Arabia entered
+        the qualifying set on 2026-08-23 at rank 1 of 15, on 697
+        detections against a previous maximum of 687: a 1.5% "record"
+        on a country whose fourteen Augusts all sit between 450 and 687.
+        That flatness is the tell. Its detections run 85% at night, FRP
+        median 2.8 MW, and 38% of them fall in cells seen on five or
+        more of the seven days. A wildfire does not recur in the same
+        0.01 degree cell for five consecutive days at 2.8 MW; gas
+        flaring does, and Saudi Arabia and Algeria both have large
+        fields.
+
+        Measured rather than asserted, and the separation is not a tuned
+        threshold. Genuine fire weeks score ZERO on recurrence:
+
+            SAU  38.0% recur  85.5% night  FRP 2.8    persistent
+            DZA  57.8%        78.9%        FRP 2.3    persistent
+            BIH   0.0%        40.6%        FRP 5.5    fire
+            SRB   0.0%        50.0%        FRP 5.9    fire
+            MKD   0.0%   PRT  0.0%   ESP 5.1%         fire
+
+        This NARROWS claims, so it ships without editorial sign-off per
+        the rule stated above for attribution. It removes a country from
+        the qualifying set; it never adds one.
+        """
+        if r.get("persistent_source"):
+            return False
         return bool(signals(r))
 
     # A DAY THE ARCHIVE HAS NOT FINISHED IS NOT A QUIET DAY.

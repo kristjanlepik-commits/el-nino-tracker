@@ -1,0 +1,16 @@
+[
+ {
+  "accepted_at": "2026-08-23T10:01:23+00:00",
+  "accepted_by": "Fire",
+  "note": "Reviewed all six. Libya leaves because the new persistent-source test excludes it: 73.1% of its detections recur in cells seen on 5+ of 7 days, 81% at night, FRP median 2.62, which is gas flaring rather than a fire season, and it would otherwise have published as a record week at rank 1. Philippines (x1.64) and Uganda (x1.73) fell below the gate honestly. Bosnia's record moves to Macedonia on real numbers: Bosnia 800 at rank 3 after last week's 825 at rank 1, Macedonia 316 at x2.82 rank 1. Saudi Arabia's rank crossing is moot, it is now excluded as a persistent source and publishes no claim.",
+  "held_on": [
+   "events: region(s) LEFT the qualifying set: ['Libya', 'Philippines', 'Uganda']",
+   "Bosnia and Herzegovina: 'record' qualification True -> False",
+   "Macedonia: 'record' qualification False -> True",
+   "Bosnia and Herzegovina: weekly rank 1 -> 3, crossing the 1st-place boundary",
+   "Macedonia: weekly rank 2 -> 1, crossing the 1st-place boundary",
+   "Saudi Arabia: weekly rank 3 -> 1, crossing the 1st-place boundary"
+  ],
+  "files_promoted": 28
+ }
+]

@@ -2,12 +2,12 @@
   "degraded": null,
   "counts": {
     "tracked": 94,
-    "anomalous": 13,
+    "anomalous": 11,
     "record": 9,
-    "record_among_anomalous": 9,
+    "record_among_anomalous": 7,
     "at_least_2x": 11,
     "at_least_3x": 7,
-    "drawn": 13,
+    "drawn": 11,
     "_definitions": {
       "tracked": "countries with a same-week baseline this window. The population every other count is taken from unless it says otherwise.",
       "anomalous": "cleared the marker gate: z >= 2 OR multiple >= 2 OR rank 1, after a 150-detection noise floor. A GATE, not a significance test.",
@@ -424,62 +424,6 @@
       "z": 0.79,
       "source": "NASA FIRMS SNPP, wk Aug 16-22",
       "href": "fires/albania/"
-    },
-    {
-      "date": "2026-08-22",
-      "region": "Libya",
-      "title": "Well clear of its 2025 record week",
-      "stat": "1.7x",
-      "stat_label": "same-week mean, 14 yrs",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "z",
-        "record"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "record"
-        ],
-        "z": 2.29,
-        "multiple": 1.7,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 2.29,
-      "source": "NASA FIRMS SNPP, wk Aug 16-22",
-      "href": "fires/libya/"
-    },
-    {
-      "date": "2026-08-22",
-      "region": "Saudi Arabia",
-      "title": "Just past its 2020 record week",
-      "stat": "1.2x",
-      "stat_label": "same-week mean, 14 yrs",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "record"
-      ],
-      "strength": {
-        "verdict": "record_only",
-        "signals": [
-          "record"
-        ],
-        "z": 1.79,
-        "multiple": 1.2,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 1.79,
-      "source": "NASA FIRMS SNPP, wk Aug 16-22",
-      "href": "fires/saudi-arabia/"
     },
     {
       "date": "2026-08-22",
