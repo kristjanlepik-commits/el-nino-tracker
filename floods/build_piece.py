@@ -118,7 +118,19 @@ def _staleness(window, today):
             % (end_age, start_age, _window_words(window)))
 
 
-# D-195: IMERG under-reads CONCENTRATED rainfall by three to five times.
+# D-195: IMERG severely under-reads CONCENTRATED rainfall.
+#
+# NOT "THREE TO FIVE TIMES", which is what this said until FLO reversed
+# their own same-day advice. That phrasing reads as a calibrated interval
+# and it is not one: the over-150mm bin is n=3, and the three stations
+# disagree by a factor of four. Turis 0.18, Utiel 0.44, Chelva 0.78. The
+# bin mean is dominated by Turis, which is also the station that defined
+# the event. So "five" is n=1 and "three" is the bottom of n=3.
+#
+# The SHAPE is not in doubt: monotonic across four bins at n=29, 4, 9 and
+# 3, plus product's independent Bath measurement against Environment
+# Agency gauges. Only the specific multiple was thin, so the text names
+# the worst gauge and the case rather than implying a range.
 # So a two-week accumulation reading ordinary is evidence about
 # accumulation and evidence about nothing else, and on an event whose rain
 # arrived in a few hours this instrument is largely blind.
@@ -156,9 +168,10 @@ def _intensity_row(rain):
         "rank": "",
         "state": "not_assessed" if blind else "measured",
         "caveat": (
-            "This instrument measures accumulation over time and under-reads "
-            "concentrated rainfall by three to five times. Rain that falls in "
-            "a few hours can flood without moving a fortnight's total, so an "
+            "This instrument measures accumulation over time and severely "
+            "under-reads concentrated rainfall, by more than five times at "
+            "the worst-hit gauge in the Valencia case. Rain that falls in a "
+            "few hours can flood without moving a fortnight's total, so an "
             "ordinary total here is not evidence that nothing happened. Rain "
             "gauges answer that question; this does not."
             if blind else ""),
