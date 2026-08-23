@@ -176,6 +176,25 @@ PCTL_BASELINE = (1971, 2000)
 #     at 30/30. Otherwise the city gets no thresholds.
 #
 # So the safe direction is structural rather than a fact about Tallinn.
+# SCOPE THE SEASON WORK AS "DERIVE PER STATION", NOT "HANDLE THE SOUTHERN
+# HEMISPHERE". Aftereffects' note, 2026-08-22, and it is worth more than the
+# question that prompted it: scoped as a hemisphere switch this needs doing
+# twice.
+#
+# The survey found THIRTEEN distinct hot seasons across 116 LatAm stations,
+# not two. Puerto Limon is August to October and Tlaxcala is March to May,
+# and neither is either hemisphere's summer. A north/south flag handles
+# Argentina and breaks on Costa Rica.
+#
+# And the northern cases are not uniform either. Northern high-latitude
+# stations sit awkwardly under a July-August calibration and a 1 May count
+# for reasons that have nothing to do with hemisphere, so a station in
+# Siberia would need the same treatment as one in Mendoza.
+#
+# The four places the assumption is hardcoded: WINDOW_START below,
+# PCTL_BASELINE's July-August filter, the coverage window in build(), and
+# the bridge's fetch range. All four are per-station questions.
+
 WMO_NORMALS = [(1971, 2000), (1991, 2020)]
 
 
