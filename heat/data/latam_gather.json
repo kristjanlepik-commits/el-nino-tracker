@@ -1,0 +1,341 @@
+{
+ "_readme": "Identity of each LatAm station's WMO block, PROVEN against its own GHCN archive rather than parsed from its id. A station without a proven block is not gathered, because a wrong block returns another station's valid data.",
+ "agree_p90_c": 0.5,
+ "stations": [
+  {
+   "station": "AR000087078",
+   "name": "LAS LOMITAS",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "87078",
+     "shared_days": 305,
+     "date_shift": -1,
+     "p90_c": 1.2,
+     "result": "different station"
+    },
+    {
+     "block": "00087",
+     "result": "no bulletins"
+    }
+   ],
+   "wmo_block": null,
+   "date_shift": null,
+   "identity": "UNPROVEN"
+  },
+  {
+   "station": "AR000087129",
+   "name": "SANTIAGO DEL ESTERO",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "87129",
+     "shared_days": 345,
+     "date_shift": -1,
+     "p90_c": 0.5,
+     "result": "MATCH"
+    }
+   ],
+   "wmo_block": "87129",
+   "date_shift": -1,
+   "identity": "proven"
+  },
+  {
+   "station": "AR000087374",
+   "name": "PARANA AERO",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "87374",
+     "shared_days": 361,
+     "date_shift": -1,
+     "p90_c": 0.5,
+     "result": "MATCH"
+    }
+   ],
+   "wmo_block": "87374",
+   "date_shift": -1,
+   "identity": "proven"
+  },
+  {
+   "station": "AR000087418",
+   "name": "MENDOZA AERO",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "87418",
+     "shared_days": 360,
+     "date_shift": -1,
+     "p90_c": 0.6,
+     "result": "different station"
+    },
+    {
+     "block": "00087",
+     "result": "no bulletins"
+    }
+   ],
+   "wmo_block": null,
+   "date_shift": null,
+   "identity": "UNPROVEN"
+  },
+  {
+   "station": "AR000087534",
+   "name": "LABOULAYE AERO",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "87534",
+     "shared_days": 354,
+     "date_shift": -1,
+     "p90_c": 0.0,
+     "result": "MATCH"
+    }
+   ],
+   "wmo_block": "87534",
+   "date_shift": -1,
+   "identity": "proven"
+  },
+  {
+   "station": "AR000087692",
+   "name": "MAR DEL PLATA AERO",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "87692",
+     "shared_days": 357,
+     "date_shift": -1,
+     "p90_c": 0.0,
+     "result": "MATCH"
+    }
+   ],
+   "wmo_block": "87692",
+   "date_shift": -1,
+   "identity": "proven"
+  },
+  {
+   "station": "AR000087715",
+   "name": "NEUQUEN AERO",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "87715",
+     "shared_days": 357,
+     "date_shift": -1,
+     "p90_c": 0.0,
+     "result": "MATCH"
+    }
+   ],
+   "wmo_block": "87715",
+   "date_shift": -1,
+   "identity": "proven"
+  },
+  {
+   "station": "AR000087828",
+   "name": "TRELEW AERO",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "87828",
+     "shared_days": 351,
+     "date_shift": -1,
+     "p90_c": 0.0,
+     "result": "MATCH"
+    }
+   ],
+   "wmo_block": "87828",
+   "date_shift": -1,
+   "identity": "proven"
+  },
+  {
+   "station": "AR000087860",
+   "name": "COMODORO RIVADAVIA",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "87860",
+     "shared_days": 364,
+     "date_shift": -1,
+     "p90_c": 0.6,
+     "result": "different station"
+    },
+    {
+     "block": "00087",
+     "result": "no bulletins"
+    }
+   ],
+   "wmo_block": null,
+   "date_shift": null,
+   "identity": "UNPROVEN"
+  },
+  {
+   "station": "AR000870470",
+   "name": "SALTA AERO",
+   "hot_season": [
+    11,
+    12,
+    1
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "70470",
+     "result": "no bulletins"
+    },
+    {
+     "block": "00870",
+     "result": "no bulletins"
+    },
+    {
+     "block": "87047",
+     "shared_days": 364,
+     "date_shift": -1,
+     "p90_c": 0.0,
+     "result": "MATCH"
+    }
+   ],
+   "wmo_block": "87047",
+   "date_shift": -1,
+   "identity": "proven"
+  },
+  {
+   "station": "AR000875850",
+   "name": "BUENOS AIRES OBSERV",
+   "hot_season": [
+    12,
+    1,
+    2
+   ],
+   "probe_year": 2003,
+   "candidates_tried": [
+    {
+     "block": "75850",
+     "result": "no bulletins"
+    },
+    {
+     "block": "00875",
+     "result": "no bulletins"
+    },
+    {
+     "block": "87585",
+     "result": "no bulletins"
+    }
+   ],
+   "wmo_block": null,
+   "date_shift": null,
+   "identity": "UNPROVEN"
+  },
+  {
+   "station": "CS000081003",
+   "name": "PUERTO LIMON",
+   "hot_season": [
+    8,
+    9,
+    10
+   ],
+   "probe_year": 2006,
+   "candidates_tried": [
+    {
+     "block": "81003",
+     "result": "no bulletins"
+    },
+    {
+     "block": "00081",
+     "result": "no bulletins"
+    }
+   ],
+   "wmo_block": null,
+   "date_shift": null,
+   "identity": "UNPROVEN"
+  },
+  {
+   "station": "MXM00076683",
+   "name": "TLAXCALA DE XICONTECATL (DGE)",
+   "hot_season": [
+    3,
+    4,
+    5
+   ],
+   "probe_year": 2019,
+   "candidates_tried": [
+    {
+     "block": "76683",
+     "shared_days": 306,
+     "date_shift": 1,
+     "p90_c": 0.0,
+     "result": "MATCH"
+    }
+   ],
+   "wmo_block": "76683",
+   "date_shift": 1,
+   "identity": "proven"
+  },
+  {
+   "station": "CUW00011706",
+   "name": "GUANTANAMO BAY NAS",
+   "hot_season": [
+    7,
+    8,
+    9
+   ],
+   "probe_year": 2025,
+   "candidates_tried": [
+    {
+     "block": "11706",
+     "result": "no bulletins"
+    },
+    {
+     "block": "00011",
+     "result": "no bulletins"
+    }
+   ],
+   "wmo_block": null,
+   "date_shift": null,
+   "identity": "UNPROVEN"
+  }
+ ]
+}

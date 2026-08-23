@@ -117,7 +117,25 @@ def daily(raw):
 
 
 def identify(ghcn_id, g, probe_year):
-    """Which candidate block reproduces the archive? Measured."""
+    """Which candidate block reproduces the archive, and at what date offset?
+
+    THE DATE A BULLETIN CARRIES IS NOT ALWAYS THE DATE ITS MEASUREMENT
+    BELONGS TO, and that is what refused all fourteen stations on the first
+    run at p90 5.5 to 7.8 C. A uniform six-degree gap across ten stations is
+    not ten wrong stations; it is one wrong method.
+
+    Mendoza bulletins its maximum at 00Z, which is 21:00 the previous evening
+    in Argentina, so the report stamped the 15th carries the 14th's local
+    maximum. Compared same-date it looks like a different station. Shifted
+    one day it is the same thermometer:
+
+        shift  0    median 2.60   p90 5.60   6 of 360 exact
+        shift -1    median 0.00   p90 0.70   319 of 360 exact
+
+    So the offset is FITTED rather than reasoned from a time zone, the same
+    way the hours are. Trying the three plausible shifts costs nothing and
+    cannot be wrong about a station whose longitude I have not checked.
+    """
     tried = []
     for block in candidates(ghcn_id):
         raw = fetch_year(block, probe_year)
@@ -131,13 +149,33 @@ def identify(ghcn_id, g, probe_year):
             tried.append({"block": block, "result": f"only {len(common)} "
                           f"shared days, cannot decide"})
             continue
-        dx = sorted(abs(s[d][1] - g[d]["TMAX"]) for d in common)
-        p90 = dx[int(0.9 * (len(dx) - 1))]
-        tried.append({"block": block, "shared_days": len(common),
+        import datetime as _dt
+        best = None
+        for shift in (0, -1, 1):
+            pairs = []
+            for d in s:
+                if s[d][1] is None:
+                    continue
+                k = (_dt.date.fromisoformat(d)
+                     + _dt.timedelta(days=shift)).isoformat()
+                if k in g and "TMAX" in g[k]:
+                    pairs.append(abs(s[d][1] - g[k]["TMAX"]))
+            if len(pairs) < 30:
+                continue
+            pairs.sort()
+            p90 = pairs[int(0.9 * (len(pairs) - 1))]
+            if best is None or p90 < best[0]:
+                best = (p90, shift, len(pairs))
+        if best is None:
+            tried.append({"block": block, "result": "too few shared days"})
+            continue
+        p90, shift, n = best
+        tried.append({"block": block, "shared_days": n, "date_shift": shift,
                       "p90_c": round(p90, 2),
-                      "result": "MATCH" if p90 <= AGREE_P90_C else "different station"})
+                      "result": "MATCH" if p90 <= AGREE_P90_C
+                      else "different station"})
         if p90 <= AGREE_P90_C:
-            return block, tried
+            return {"block": block, "date_shift": shift}, tried
         time.sleep(2)
     return None, tried
 
@@ -154,14 +192,15 @@ def main() -> int:
         sid = r["station"]
         g = ghcn_days(sid)
         probe = r["record"]["to"]
-        block, tried = identify(sid, g, probe)
+        found, tried = identify(sid, g, probe)
         entry = {"station": sid, "name": r["name"],
                  "hot_season": r["hot_season"]["months"],
                  "probe_year": probe, "candidates_tried": tried,
-                 "wmo_block": block,
-                 "identity": "proven" if block else "UNPROVEN"}
+                 "wmo_block": (found or {}).get("block"),
+                 "date_shift": (found or {}).get("date_shift"),
+                 "identity": "proven" if found else "UNPROVEN"}
         results.append(entry)
-        mark = block or "none"
+        mark = (found or {}).get("block") or "none"
         print(f"  {r['name'][:26]:26s} probe {probe}  block {mark:>6s}  "
               + "  ".join(f"{t['block']}:{t.get('p90_c', t['result'])}"
                           for t in tried))
