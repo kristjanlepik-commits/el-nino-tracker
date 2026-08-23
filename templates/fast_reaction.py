@@ -97,158 +97,142 @@ def _fmt(v: float, diverging: bool, dp=None) -> str:
 
 
 def _record_strip(chart: dict, hue: str) -> str:
-    """The record on its own axis, as a tally. VD's replacement for the bars.
+    """The record as a cadence of years, the reading as a rule across it.
 
-    THE BAR CHART WAS GENERIC BECAUSE IT ANSWERED THE WRONG QUESTION. It
-    drew a series of YEARS, spending its whole width on year identity that
-    no sentence on either page uses, and left rank to be inferred from bar
-    heights. Every page carrying it asks where ONE READING FALLS IN A
-    RECORD. VD's argument, and it is right: grey bars with one in an accent
-    is generic partly because it is everywhere and mostly because it fits
-    badly.
+    VD's second form, after Kristjan ruled that A CHART MUST WORK WITHOUT
+    ANY WORDS. Their first, a tally on a value axis, was withdrawn: it
+    needed a legend to say a stroke was a year and a second to say what a
+    foot serif meant, and covering those left thirty-six marks a reader
+    could not interpret at all.
 
-    So the axis is the quantity, every observation is a stroke on it,
-    stacked where values collide, and the record's own shape appears: a
-    dense body, a thinning tail, a gap, then this year. Rank is countable
-    rather than asserted, and the sentence underneath is DERIVED from the
-    marks rather than typed beside them.
+    WHAT MAKES THIS ONE WORDLESS. One slot per year, so the horizontal is
+    time and a reader already knows what time on an axis looks like. One
+    mark per observation. The current reading is a RULE ACROSS THE WHOLE
+    RECORD plus a filled square at its own year, so it differs from the
+    record in KIND rather than in degree, and the gap between the rule and
+    the nearest dot is the finding, drawn rather than asserted.
 
-    THE CURRENT READING CARRIES NO HUE. It is ink at full weight, taller
-    than the record, and labelled. Position already carries departure, so
-    an accent on top of it is the one colour on these pages that is
-    provably unearned. That is also what removes terracotta from every
-    interior chart in a single move, which is the largest single thing
-    putting us in the family the reader recognised, and it leaves
-    fire #B32E10 a channel hue only without any palette change.
+    Strip every text element and it still answers all four: which mark is
+    now (the only square, the only filled thing on a line), whether the
+    others are the same kind of thing (identical dots on the same field),
+    whether now is unusual (how many dots sit above the rule), and roughly
+    how unusual (how far above them it runs).
 
-    NO AXIS FURNITURE. No baseline rule, no tick row, no year labels.
-    Three labelled positions at most: the low end of the record, the
-    baseline, and the reading. Mono ticks along a hairline axis are half of
-    what makes the old form legible as a default and none of them are read.
+    THE CALM CASE IS THE ONE THAT MATTERS, and it is why this beats bars.
+    A short bar reads as absence. Here a calm reading puts the rule inside
+    the record with dots on both sides of it, at identical ink and width,
+    so nothing recedes: the drawing is the RECORD and the reading is a
+    line across it (D-043).
 
-    A SECOND VARIABLE TRAVELS AS FORM, NOT HUE: a marked observation gets a
-    foot serif. Same decision the channel system made about identity, and
-    it keeps the drawing readable in greyscale and for a colourblind reader
-    before hue does any work.
+    A SECOND VARIABLE FILLS THE DOT, and it must not be invented. Heat
+    publishes an ENSO label per August so its dots fill or stay hollow.
+    Floods and fires publish attribution per event rather than per year, so
+    every dot stays hollow, and that difference is honest rather than an
+    inconsistency to iron out.
 
-    THE CALM CASE IS DRAWN AT IDENTICAL WEIGHT (D-043). A bar chart has to
-    fake this, because the calm bar is short and short reads as absence.
-    Here the mark simply sits inside the body of the record instead of
-    beyond it, at the same ink, because the drawing is the RECORD and not
-    the reading.
+    NO BASELINE RULE. The median is real and useful on the floods page, and
+    a second line in the same frame halves the strength of the one that
+    matters. It stays in the prose.
     """
     series = chart.get("series") or []
     if not series:
         return ""
     cur_x = str(chart.get("current_x"))
-    obs = [p for p in series if str(p["x"]) != cur_x]
+    rows = [p for p in series if str(p["x"]) != cur_x]
     cur = next((p for p in series if str(p["x"]) == cur_x), None)
-    if cur is None or not obs:
+    if cur is None or not rows:
         return ""
+    try:
+        years = {str(p["x"]): int(str(p["x"])) for p in series}
+    except ValueError:
+        return ""
+
     dp = chart.get("decimals")
-    base = chart.get("baseline") or {}
-    bval = base.get("value")
+    y0 = min(years.values())
+    y1 = int(cur_x)
+    # THE DOMAIN COMES FROM THE CALLER, BECAUSE ZERO IS NOT ALWAYS A FLOOR.
+    #
+    # Derived with 0.0 forced in, Lima's 14 to 22 degrees collapsed into the
+    # top fifth of the frame and most of its 36 dots overlapped into about
+    # eleven visible marks. Zero millimetres of rain is a real floor and
+    # means something; zero degrees is not a floor for a warmest-night
+    # series and asserting it flattens the record the chart exists to draw.
+    vals = [float(p["y"]) for p in rows] + [float(cur["y"])]
+    lo = chart.get("lo")
+    hi = chart.get("hi")
+    if lo is None:
+        lo = min(vals) - (max(vals) - min(vals)) * 0.12
+    if hi is None:
+        hi = max(vals) + (max(vals) - min(vals)) * 0.12
+    if hi == lo:
+        hi = lo + 1.0
 
-    vals = sorted(float(p["y"]) for p in obs)
-    lo = min(vals + [float(cur["y"])] + ([bval] if bval is not None else []))
-    hi = max(vals + [float(cur["y"])])
-    span = (hi - lo) or 1.0
-    lo -= span * 0.06
-    hi += span * 0.06
+    W, H = 900, 250
+    left, right, top, bot = 14, W - 14, 34, H - 46
+    slots = max(1, y1 - y0 + 1)
+    slotw = (right - left) / slots
+    def X(y):
+        return left + (y - y0 + 0.5) * slotw
+    def Y(v):
+        return bot - (float(v) - lo) / (hi - lo) * (bot - top)
+    # Radius from the cadence, floored and capped: a fifteen-slot record and
+    # a hundred-slot one both have to read, and a sparse record with tiny
+    # dots looks like an error rather than a record.
+    r = max(3.2, min(5.4, slotw * 0.22))
 
-    # HEIGHT COMES FROM THE DEEPEST STACK, not from a constant. Fixed at
-    # 190 the taller strokes pushed the reading's own value label off the
-    # top of the viewBox: the label vanished on the one mark the chart
-    # exists to show, which is the same defect as the clipped 2026 bar in
-    # the version this replaces. Measured, so it cannot recur when a
-    # record gets denser.
-    _bins = {}
-    for _p in obs:
-        _k = round((float(_p["y"]) - lo) / (hi - lo) * 862 / 5)
-        _bins[_k] = _bins.get(_k, 0) + 1
-    _peak = max(_bins.values()) if _bins else 1
-    W = 880
-    H = max(190, 52 + 4 + _peak * 13 + 18 + 46)
-    axY, x0, x1 = H - 52, 8, W - 10
-    def X(v):
-        return x0 + (float(v) - lo) / (hi - lo) * (x1 - x0)
+    rule = Y(cur["y"])
+    parts = ['<line x1="%.1f" x2="%.1f" y1="%.1f" y2="%.1f" stroke="var(--ink)" '
+             'stroke-width="1.4"/>' % (left - 6, right + 6, rule, rule)]
+    for p_ in rows:
+        filled = bool(p_.get("mark"))
+        parts.append(
+            '<circle cx="%.1f" cy="%.1f" r="%.1f" fill="%s" stroke="%s" '
+            'stroke-width="%s"/>'
+            % (X(years[str(p_["x"])]), Y(p_["y"]), r,
+               "var(--ink-soft)" if filled else "var(--paper)",
+               "none" if filled else "var(--ink-soft)", 0 if filled else 1.3))
+    sx, sq = X(y1), r * 3.2
+    parts.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" '
+                 'fill="var(--ink)"/>' % (sx - sq / 2, rule - sq / 2, sq, sq))
 
-    marked = {str(p["x"]) for p in obs if p.get("mark")}
-    bins, parts = {}, []
-    for p in sorted(obs, key=lambda q: float(q["y"])):
-        key = round(X(p["y"]) / 5)
-        bx = key * 5
-        bins[key] = bins.get(key, 0) + 1
-        top = axY - 4 - (bins[key] - 1) * 13
-        parts.append('<line x1="%d" x2="%d" y1="%.1f" y2="%.1f" '
-                     'stroke="var(--ink-soft)" stroke-width="2.4"/>'
-                     % (bx, bx, top, top - 11))
-        if str(p["x"]) in marked:
-            # Foot serif, not a colour.
-            parts.append('<line x1="%.1f" x2="%.1f" y1="%.1f" y2="%.1f" '
-                         'stroke="var(--ink-soft)" stroke-width="2"/>'
-                         % (bx - 3.4, bx + 3.4, top + 1.0, top + 1.0))
+    # Every offset derives from the type sizes, so the label stack cannot
+    # clip the frame or collide with itself wherever the rule lands.
+    FS, KS, GAP = 22, 9.5, 11
+    asc, sep = FS * 1.05, KS + 12
+    flip = rule < asc + GAP + sep + 4
+    lx = sx - sq / 2 - 10
+    vy = rule + GAP + asc if flip else rule - GAP - sep
+    ky = vy + sep if flip else rule - GAP
+    parts.append('<text x="%.1f" y="%.1f" text-anchor="end" class="rs-cur">%s</text>'
+                 % (lx, vy, h(_fmt(float(cur["y"]), False, dp)
+                              + (chart.get("unit") or ""))))
+    parts.append('<text x="%.1f" y="%.1f" text-anchor="end" class="rs-kick">%s</text>'
+                 % (lx, ky, h(str(chart.get("current_kicker") or cur["x"]))))
 
-    peak = max(bins.values()) if bins else 1
-    cx = X(cur["y"])
-    top = min(axY - 4 - peak * 13 - 18, axY - 74)
-    anchor = "end" if cx > W * 0.72 else ("start" if cx < W * 0.28 else "middle")
-    parts.append('<line x1="%.1f" x2="%.1f" y1="%.1f" y2="%.1f" '
-                 'stroke="var(--ink)" stroke-width="3"/>' % (cx, cx, axY - 2, top))
-    parts.append('<text x="%.1f" y="%.1f" text-anchor="%s" class="rs-cur">%s</text>'
-                 % (cx, top - 20, anchor,
-                    h(_fmt(float(cur["y"]), False, dp) + (chart.get("unit") or ""))))
-    parts.append('<text x="%.1f" y="%.1f" text-anchor="%s" class="rs-kick">%s</text>'
-                 % (cx, top - 7, anchor, h(str(chart.get("current_kicker") or cur["x"]))))
-
-    labels = [(vals[0], _fmt(vals[0], False, dp) + (chart.get("unit") or ""), "start")]
-    if bval is not None:
-        labels.append((bval, base.get("label", ""), "middle"))
-    for lab in (chart.get("named") or []):
-        labels.append((lab["v"], lab["label"], lab.get("anchor", "middle")))
-    for v, text, anc in labels:
-        if not text:
+    # Derived, never typed: the first year of the record and its two highest.
+    # Any that would land under the reading's own label is dropped.
+    by_val = sorted(rows, key=lambda q: -float(q["y"]))
+    for d in [rows[0], by_val[0], by_val[1] if len(by_val) > 1 else None]:
+        if not d:
+            continue
+        ax = X(years[str(d["x"])])
+        if ax > sx - 100:
             continue
         parts.append('<text x="%.1f" y="%.1f" text-anchor="%s" class="rs-lab">%s</text>'
-                     % (X(v), axY + 24, anc, h(text)))
+                     % (ax, Y(d["y"]) + r + 14,
+                        "start" if ax < 40 else "middle", h(str(d["x"]))))
 
-    # THE SENTENCE IS DERIVED FROM THE MARKS, never passed in, so it cannot
-    # disagree with the drawing above it.
-    above = sum(1 for v in vals if v > float(cur["y"]))
+    above = sum(1 for p_ in rows if float(p_["y"]) > float(cur["y"]))
     one = chart.get("noun") or "observation"
     many = chart.get("noun_plural") or (one + "s")
-    if above == 0:
-        said = "No %s in the record reaches it." % one
-    elif above == 1:
-        said = "One %s in the record of %d sits above it." % (one, len(vals))
-    else:
-        said = "%d of %d %s in the record sit above it." % (above, len(vals), many)
-    parts.append('<text x="%d" y="%d" class="rs-said">%s</text>'
-                 % (x0, H - 6, h(said)))
-    if marked and chart.get("mark_label"):
-        parts.append('<text x="%d" y="%d" text-anchor="end" class="rs-key">'
-                     'FOOT SERIF = %s</text>'
-                     % (x1, H - 6, h(chart["mark_label"].upper())))
-
-    # SAY WHAT A STROKE IS, INSIDE THE CHART.
-    #
-    # Kristjan, on the first build: "it is hard for the reader to understand
-    # that those other lines are previous years". He is right, and VD's
-    # mockup hides the problem rather than solving it: their page carries a
-    # sentence of body copy saying each stroke is one August, so the drawing
-    # never has to say it. A chart that only works with a paragraph beside
-    # it is not a chart, and this one gets shared as an image.
-    #
-    # Placed above the strokes rather than in a corner, because it has to be
-    # read BEFORE the marks are, not after.
-    xs = sorted(str(p["x"]) for p in obs)
-    span = ""
-    if len(xs) > 1 and xs[0].isdigit() and xs[-1].isdigit():
-        span = ", %s to %s" % (xs[0], xs[-1])
-    parts.insert(0, '<text x="%d" y="%d" class="rs-key">'
-                    'EACH STROKE = ONE %s%s</text>'
-                 % (x0, 14, h((chart.get("noun") or "observation").upper()),
-                    h(span)))
+    said = ("No %s in this record reaches it." % one if above == 0 else
+            "One %s in this record of %d sits above it." % (one, len(rows))
+            if above == 1 else
+            "%d of %d %s in this record sit above it." % (above, len(rows), many))
+    parts.append('<text x="%d" y="%d" class="rs-said">%s</text>' % (left, H - 8, h(said)))
+    if chart.get("header"):
+        parts.append('<text x="%d" y="20" class="rs-key">%s</text>'
+                     % (left, h(chart["header"])))
 
     return ('<svg class="rs" viewBox="0 0 %d %d" width="100%%" role="img" '
             'aria-label="%s">%s</svg>'
@@ -385,7 +369,7 @@ main {{ max-width: 820px; margin: 0 auto; padding: 28px 24px 80px; }}
 .fr-iv {{ font-family:"{T.FONT_DATA}",monospace; text-align:right;
   padding:9px 14px 9px 0; white-space:nowrap; }}
 .fr-ir {{ font-family:"{T.FONT_DATA}",monospace; text-align:right;
-  color:var(--ink-2); padding:9px 0; white-space:nowrap; }}
+  color:var(--ink-soft); padding:9px 0; white-space:nowrap; }}
 .fr-inst tr.fr-na th, .fr-inst tr.fr-na .fr-iv {{ color:var(--ink-faint); }}
 .fr-icav td {{ padding:0 0 10px; font-size:12.5px; line-height:1.5;
   color:var(--ink-faint); border:0; }}
@@ -394,16 +378,16 @@ main {{ max-width: 820px; margin: 0 auto; padding: 28px 24px 80px; }}
 .rs-cur {{ font-family:"{T.FONT_DATA}",monospace; font-size:23px;
   font-weight:500; fill:var(--ink); }}
 .rs-kick {{ font-family:"{T.FONT_DATA}",monospace; font-size:9.5px;
-  letter-spacing:1.9px; fill:var(--ink-2); }}
+  letter-spacing:1.9px; fill:var(--ink-soft); }}
 .rs-lab {{ font-family:"{T.FONT_DATA}",monospace; font-size:10.5px;
-  letter-spacing:0.6px; fill:var(--ink-2); }}
+  letter-spacing:0.6px; fill:var(--ink-soft); }}
 /* The derived sentence is SERIF, deliberately. It is prose the reader
    reads, not a figure, and mono-everything is on the rule-out list. */
 .rs-said {{ font-family:var(--serif); font-size:17px; fill:var(--ink); }}
 .rs-key {{ font-family:"{T.FONT_DATA}",monospace; font-size:10px;
-  letter-spacing:1.6px; fill:var(--ink-2); }}
+  letter-spacing:1.6px; fill:var(--ink-soft); }}
 .fr-stale {{ border-left:3px solid var(--ink-faint); padding:8px 0 8px 13px;
-  margin:0 0 16px; font-size:14px; line-height:1.5; color:var(--ink-2);
+  margin:0 0 16px; font-size:14px; line-height:1.5; color:var(--ink-soft);
   max-width:62ch; }}
 .fr-unk {{ border-left-color:var(--ink); }}
 .fr-eyebrow {{

@@ -432,6 +432,8 @@ def piece_from(payload: dict, today: str) -> dict:
             "baseline": {"value": basis["median"], "label": "median"},
             "unit": " mm",
             "decimals": 1,
+            "header": "RAINFALL, %s \u00b7 MM \u00b7 ONE SLOT PER YEAR" % window.upper(),
+            "lo": 0,
             "noun": "fortnight",
             "noun_plural": "fortnights",
             "current_kicker": cur,

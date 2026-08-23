@@ -95,6 +95,7 @@ def piece():
             "current_x": cur_year,
             "baseline": None,
             "unit": " \u00b0C",
+            "header": "WARMEST AUGUST NIGHT \u00b7 \u00b0C \u00b7 ONE SLOT PER YEAR",
             "noun": "August",
             "noun_plural": "Augusts",
             "current_kicker": cur_year + ", ATTRIBUTION PENDING",
