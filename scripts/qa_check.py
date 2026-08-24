@@ -297,6 +297,34 @@ KNOWN_SNAPSHOT_GAPS = {
     # express. Entry added by the ENSO tracker chat on 2026-08-17 with
     # Kristjan's go-ahead to publish, since scripts/ is yours.
     ("2026-08-17.json", "cpc_strength.table"),
+    # IRI's plume is a ROLLING NINE-SEASON WINDOW, same shape as CPC's
+    # strength table above. The 2026-08-19 issuance dropped JAS 2026 off
+    # the front and added AMJ 2027 at the back; nine seasons before and
+    # after. Verified as rotation, not loss.
+    #
+    # PLATFORM: this is the SECOND rolling-window false positive in two
+    # weeks and the second dated line added for one. Every CPC and IRI
+    # issuance rotates a window, so this recurs roughly monthly per
+    # source and the allowlist grows without anyone learning anything.
+    # The check that would hold is "lost leaves AND gained none", or a
+    # leaf-count floor. A rolling window is a legitimate shape the guard
+    # cannot currently express, and suppressing each instance is the one
+    # cure guaranteed not to fix it.
+    ("2026-08-24.json", "iri.three_cat"),
+    # NOT a loss: `basis` went from a string to a per-field map in
+    # 15f130d, so the leaf nmme.models.<MODEL>.basis no longer exists and
+    # is now basis.frac_above, basis.ensemble_mean_peak and so on.
+    # ensemble_mean_peak_oni was added in the same commit. The node has
+    # MORE data than last week, and the guard reads a leaf becoming a
+    # subtree as a disappearance.
+    #
+    # That change was itself the fix for a D-051 violation: a single
+    # model-level `basis` described frac_above while sitting beside a
+    # monthly ensemble_mean_peak, and product read it and told three
+    # chats the comparability question was settled. Entry added by the
+    # ENSO tracker chat, whose change it is, on 2026-08-24 with
+    # Kristjan's go-ahead to publish; scripts/ is platform's.
+    ("2026-08-24.json", "nmme.models"),
 }
 
 
