@@ -53,13 +53,33 @@ def gate() -> tuple[bool, str]:
     return r.returncode != 0, (r.stdout or "") + (r.stderr or "")
 
 
+class NotAuthorised(RuntimeError):
+    """The token cannot reach the issue tracker."""
+
+
 def find_issue() -> dict | None:
+    """The tracked issue, or None if there is genuinely none.
+
+    RAISES rather than returning None when the query itself fails, and
+    that distinction is the whole point. The first version swallowed a
+    failed call, so a broken token produced output byte-identical to a
+    working one on any run where the gate was clear: "clear; nothing
+    held" either way. I verified the token with exactly that run and
+    nearly reported it as proof.
+
+    Worse, on a real hold the same silence would have let it try to
+    create an issue and fail, which is the announcement mechanism
+    failing precisely when it is needed. Absence and inability are
+    different answers, and this file exists because they were being
+    rendered identically one level up.
+    """
     r = subprocess.run(
         ["gh", "issue", "list", "-R", REPO, "--state", "open",
          "--search", TITLE, "--json", "number,body", "--limit", "20"],
         capture_output=True, text=True)
     if r.returncode != 0:
-        return None
+        raise NotAuthorised(
+            f"cannot read issues on {REPO}: {(r.stderr or '').strip()[:200]}")
     for item in json.loads(r.stdout or "[]"):
         if MARKER in (item.get("body") or ""):
             return item
@@ -91,7 +111,17 @@ def main() -> int:
     args = ap.parse_args()
 
     held, output = gate()
-    issue = find_issue()
+    try:
+        issue = find_issue()
+    except NotAuthorised as exc:
+        # LOUD, and non-zero. A notifier that cannot reach the tracker is
+        # not a quiet no-op; it is the same silent-hold failure it was
+        # built to end, one layer further out.
+        print(f"  CANNOT ANNOUNCE: {exc}", file=sys.stderr)
+        print("  The gate is " + ("HOLDING" if held else "clear") +
+              " and this could not be recorded. Check TLS_INTERNAL_TOKEN.",
+              file=sys.stderr)
+        return 3
 
     if held:
         body = body_for(output)
@@ -122,7 +152,7 @@ def main() -> int:
                        check=True)
         print(f"  clear; closed issue #{issue['number']}")
     else:
-        print("  clear; nothing held")
+        print("  clear; nothing held (tracker reachable)")
     return 0
 
 
