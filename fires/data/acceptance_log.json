@@ -12,5 +12,16 @@
    "Saudi Arabia: weekly rank 3 -> 1, crossing the 1st-place boundary"
   ],
   "files_promoted": 28
+ },
+ {
+  "accepted_at": "2026-08-24T07:54:19+00:00",
+  "accepted_by": "Fire",
+  "note": "Reviewed all three. Albania leaves honestly at 1.69x rank 4 and Belgium at 0.70x rank 14, both simply below the gate. Ukraine's record is genuine: 9,318 against a previous best of 8,834 from 2017, so 1.05x, just past. Checked the two ways it could be false and neither holds. Cropland ratio computed locally with the mask CI does not have: 1.167, neutral, 59.3% of detections on cropland where 50.8% of Ukraine IS cropland, so nothing like Romania at 1.40 or Cuba at 2.67. And the war does not distort the baseline: the 2022-2025 same-week mean is 3,296 against a pre-war 3,865, a ratio of 0.85, and the previous record it beat was set in 2017 before the invasion. Individual fires may still be shelling-related and our instrument cannot resolve that, which is a caveat for copy rather than a reason to hold.",
+  "held_on": [
+   "events: region(s) LEFT the qualifying set: ['Albania', 'Belgium']",
+   "Ukraine: 'record' qualification False -> True",
+   "Ukraine: weekly rank 2 -> 1, crossing the 1st-place boundary"
+  ],
+  "files_promoted": 23
  }
 ]
