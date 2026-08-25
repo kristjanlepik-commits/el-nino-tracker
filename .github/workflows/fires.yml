@@ -404,43 +404,6 @@ jobs:
       - name: Publish
         run: python scripts/publish_all.py
 
-      # Fire's ask, 2026-08-23: on 2026-08-23 fires/refresh_gate.py held on
-      # seven real editorial changes, exactly as D-212 intends, and printed
-      # them into a CI log that reports success. Nothing checked the
-      # outcome. A correct hold and a healthy run were indistinguishable,
-      # and the site served a week-old page while every check stayed
-      # green. CLAUDE.md already said of the D-200 gate "it will not find
-      # you; you have to look", which is a description of a defect.
-      #
-      # fires/notify_hold.py keeps ONE issue on tls-internal in sync with
-      # the gate, idempotently: opens it when held, updates it if the
-      # reasons change, closes it when the gate clears. if: always() so a
-      # hold still gets announced even if something later in the job
-      # fails; the announcement matters most exactly when something else
-      # has gone wrong.
-      #
-      # TLS_INTERNAL_TOKEN is not yet set (filed in
-      # research/awaiting_kristjan.md): a PAT scoped to issues:write on
-      # kristjanlepik-commits/tls-internal, a DIFFERENT repo from this
-      # one, so the default GITHUB_TOKEN cannot reach it. Warns and skips
-      # rather than failing the job until it exists, because a missing
-      # announcement channel should not turn an otherwise-successful
-      # publish red.
-      - name: Announce a fires publish hold, if the gate is holding
-        if: always()
-        env:
-          GH_TOKEN: ${{ secrets.TLS_INTERNAL_TOKEN }}
-        run: |
-          if [ -z "$GH_TOKEN" ]; then
-            echo "::warning::TLS_INTERNAL_TOKEN is not set, so a correct \
-          hold from refresh_gate.py cannot be announced and will look \
-          exactly like a healthy run. See research/awaiting_kristjan.md."
-            exit 0
-          fi
-          PYTHONPATH="$PWD" python fires/notify_hold.py
-
-      # LAST, deliberately, and it must be able to fail the run.
-      #
       # The Fire chat's ask, after a publish reported complete success on
       # 2026-08-05 while the window did not move: the site served
       # 07-29..08-04 for a second day with 08-05 available. Same shape
@@ -457,10 +420,17 @@ jobs:
       # After the publish, not before. A stale window is no reason to
       # withhold burnt area, which moves on its own clock. Publish, then
       # go red.
+      #
+      # if: always(), added 2026-08-25: on both runs that actually needed
+      # this check it was SKIPPED, because an earlier step had already
+      # failed and a check that only runs on the happy path cannot catch
+      # the unhappy one (Fire's finding).
       - name: Assert the baseline window advanced
+        if: always()
         run: python3 scripts/check_window_advanced.py
 
       - name: Commit the published pages
+        if: always()
         run: |
           git add docs/
           if ! git diff --cached --quiet; then
@@ -471,3 +441,33 @@ jobs:
           # Unconditional: the data commit from the earlier step still
           # needs pushing even when the pages did not move.
           bash scripts/push_retry.sh main
+
+      # LAST OF ALL, deliberately, and it is allowed to fail the run here
+      # in a way it was not allowed to anywhere earlier: nothing runs
+      # after it, so a hold blocking at this point costs nothing that
+      # would otherwise have shipped.
+      #
+      # 2026-08-23 to 2026-08-25: refresh_gate.py held correctly on seven
+      # real editorial changes and printed them into a CI log that
+      # reports success, because nothing checked the outcome. Fire's
+      # first fix (fires/notify_hold.py, opening an issue on
+      # tls-internal) needed a cross-repo token, TLS_INTERNAL_TOKEN,
+      # which Kristjan created and which does not work ("Could not
+      # resolve to a Repository", the shape a fine-grained token returns
+      # for a repo it cannot see). Fire's own read, and the reason this
+      # moved rather than being debugged: "I asked a human to create and
+      # maintain a secret so that a machine could send a message to
+      # itself." Filing an issue needs a credential; failing the run does
+      # not, and GitHub emails on a failed scheduled run by default (row
+      # 1 of QA's escalation map), which is the whole requirement.
+      #
+      # Calls refresh_gate.py directly rather than notify_hold.py: the
+      # gate already needs no token, already prints its hold reasons to
+      # stdout, and its exit code already is "fail on hold, pass on
+      # clear", so this is correct today without depending on Fire's
+      # planned edit to notify_hold.py (stripping the issue-filing back
+      # to the same behaviour) landing first. Retarget this step at
+      # notify_hold.py once that edit is in, if the richer formatting is
+      # worth it; the two are equivalent for what this step needs.
+      - name: Fail the run if the fires payload gate is holding
+        run: PYTHONPATH="$PWD" python fires/refresh_gate.py
