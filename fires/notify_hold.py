@@ -117,11 +117,24 @@ def main() -> int:
         # LOUD, and non-zero. A notifier that cannot reach the tracker is
         # not a quiet no-op; it is the same silent-hold failure it was
         # built to end, one layer further out.
+        # VISIBLE, BUT NEVER BLOCKING. The first version of this exited
+        # non-zero, and on 2026-08-24 that failed the workflow step and
+        # skipped the two steps after it, one of which COMMITS THE
+        # PUBLISHED PAGES. So a broken announcement stopped publishing:
+        # a side channel taking down the thing it exists to report on,
+        # which is a worse failure than the silence it was fixing.
+        #
+        # ::error:: puts a red annotation on the run without failing it,
+        # so it is visible in the place a person already looks and
+        # cannot block a publish. Making it blocking again is safe only
+        # once the step runs LAST, which is platform's file to change.
+        print(f"::error::fires notify_hold could not reach the issue "
+              f"tracker, so a publish hold cannot be announced. {exc}")
         print(f"  CANNOT ANNOUNCE: {exc}", file=sys.stderr)
         print("  The gate is " + ("HOLDING" if held else "clear") +
               " and this could not be recorded. Check TLS_INTERNAL_TOKEN.",
               file=sys.stderr)
-        return 3
+        return 0
 
     if held:
         body = body_for(output)
