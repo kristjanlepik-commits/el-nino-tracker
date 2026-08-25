@@ -538,7 +538,12 @@ def main():
         # and 0.0 does not hide it: rank is well defined either way, so
         # first-ever detections still rank 1 and still qualify on that.
         multiple = count / mean if mean else 0.0
-        rank = 1 + sum(1 for v in h["hist"].values() if v > count)
+        # ZERO DETECTIONS IS NOT A RECORD WEEK. With an all-zero history
+        # nothing is strictly greater than zero, so Nepal ranked 1 of 15
+        # on no fires at all and tripped the gate's first-place check.
+        # A country that did not burn is last, not first.
+        rank = (len(h["hist"]) + 1 if count == 0
+                else 1 + sum(1 for v in h["hist"].values() if v > count))
         lat, lon, basis = centroid(df, rings[iso])
         # EVERY day of the window, zeros written explicitly.
         #

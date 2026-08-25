@@ -23,5 +23,18 @@
    "Ukraine: weekly rank 2 -> 1, crossing the 1st-place boundary"
   ],
   "files_promoted": 23
+ },
+ {
+  "accepted_at": "2026-08-25T09:51:05+00:00",
+  "accepted_by": "Fire",
+  "note": "Reviewed all five. Philippines is the only real one: 235 detections against a mean of 83, 2.8x, and 1.5x its previous best of 157, persistence fire_like. Ireland at 12 detections, Lebanon at 32 and Nepal at 0 are all far below the 150 noise floor and cannot qualify; they trip the gate only because it checks rank crossings without regard to the floor, which I am raising with platform. Nepal ranked 1 of 15 on ZERO detections because nothing is strictly greater than zero in an all-zero history; that is my bug from yesterday's zero-baseline fix and it now ranks last, which is what a country that did not burn deserves.",
+  "held_on": [
+   "events: region(s) entered the qualifying set: ['Philippines']",
+   "Ireland: weekly rank 3 -> 1, crossing the 1st-place boundary",
+   "Lebanon: weekly rank 5 -> 1, crossing the 1st-place boundary",
+   "Nepal: weekly rank 2 -> 1, crossing the 1st-place boundary",
+   "Philippines: weekly rank 3 -> 1, crossing the 1st-place boundary"
+  ],
+  "files_promoted": 38
  }
 ]
