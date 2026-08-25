@@ -877,7 +877,20 @@ def main() -> None:
         # with the source that claims to produce it. That happened on
         # 2026-07-28 and was invisible until someone ran --check by hand.
         # On main, "would change" means docs is stale, so it is a failure.
-        if args.assert_clean and changed:
+        #
+        # docs/sitemap.xml is EXEMPT, structurally rather than by luck.
+        # build_sitemap.py's lastmod comes from `git log`, and it runs
+        # inside the same publish that then commits it, so any page
+        # touched in THAT SAME commit is dated to whatever commit
+        # preceded it, because the commit containing the sitemap does
+        # not exist yet at generation time. The next checkout, after the
+        # commit lands, regenerates that page's lastmod one day later,
+        # forever, on every single publish. Not a staleness defect, a
+        # guaranteed one-commit lag in a metadata field nobody reads for
+        # correctness. Found 2026-08-25 after it failed three consecutive
+        # fires publishes and every following QA run.
+        blocking = [c for c in changed if c != "docs/sitemap.xml"]
+        if args.assert_clean and blocking:
             print("\nFAIL: docs/ is stale relative to its own generator. "
                   "These pages are committed in a state run_brief.py no "
                   "longer produces; run scripts/publish_all.py and commit.")
