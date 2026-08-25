@@ -516,7 +516,28 @@ def main():
                           window_days)
         count = int(len(df))
         mean = h["mean"]
-        multiple = count / mean
+        # A COUNTRY THAT HAS NEVER BURNED IN THIS WEEK HAS NO MULTIPLE.
+        #
+        # Nepal's fourteen same-weeks are all exactly zero, so mean is
+        # 0.0 and this divided by zero, killing the whole run on
+        # 2026-08-25 and taking every other country with it. It only
+        # bites when the trailing window reaches a stretch a country
+        # never burns in, which is why it survived until late August.
+        #
+        # 0/0 is 0.0: no fires against a baseline of no fires is not an
+        # anomaly. Any count against a zero baseline is undefined rather
+        # than infinite, and a country cannot qualify on a multiple that
+        # does not exist, so it is left to qualify on rank instead,
+        # which is well defined either way.
+        # Matches rebuild_rows at line 242, which already guarded this.
+        # The degraded path was safe and the live path was not, which is
+        # the same two-paths-disagree shape the comment beside the rows
+        # dict already warns about, and it is the second time.
+        #
+        # A country that has never burned in this week has no multiple,
+        # and 0.0 does not hide it: rank is well defined either way, so
+        # first-ever detections still rank 1 and still qualify on that.
+        multiple = count / mean if mean else 0.0
         rank = 1 + sum(1 for v in h["hist"].values() if v > count)
         lat, lon, basis = centroid(df, rings[iso])
         # EVERY day of the window, zeros written explicitly.
