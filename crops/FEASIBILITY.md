@@ -2891,3 +2891,61 @@ position 1 on four-instrument severity and position 24 on share-at-
 record. Romania is 1 and 42. **Choosing the replacement is a bigger
 decision than removing cumulative was**, and it should not be made by
 whichever was computed first.
+
+### 13u. Eight countries at once: the coincidence needs its own baseline
+
+Added 2026-08-26, answering product before a LatAm region page is built.
+
+Eight contiguous countries each sit in their own four worst years on
+their own 26-year record at dekad 2026-08-01: Guatemala 1 of 26,
+Colombia, El Salvador, Haiti and Honduras 2, Costa Rica and Nicaragua 3,
+Panama 4. All verified against the payload.
+
+**Product's reading is right and incomplete.** They argued that eight
+own-record statements side by side is not a cross-place comparison,
+since nobody is claiming Guatemala is worse than Honduras. Correct, and
+`severity`'s own qualifier says the rank is the comparable figure.
+
+**But putting eight together makes a JOINT claim** that this is a
+regional signal, and a joint claim needs the same empirical baseline as
+every other count on this channel. Uniform would say 4 of 26 is 15% per
+country, so 1.2 of 8 by chance. Uniform has failed here before, so it
+was measured.
+
+**Countries of the eight in their own worst four, by year:**
+
+| | |
+|---|---|
+| 2001-2013 | 0 every year, except 2012 at 1 |
+| 2014 | 5 |
+| **2015** | **8** |
+| 2019 | 4 |
+| 2023 | 3 |
+| **2026** | **8** |
+
+Prior mean 1.0 of 8. **The configuration has occurred exactly once
+before, in 2015**, with 2014 as its onset year. That is the last major
+El Nino, which is the channel's own thesis arriving from the data rather
+than being assumed.
+
+**And the deeper thresholds say 2026 is as BROAD as 2015 but not as
+DEEP**, which is the part that stops this being overclaimed:
+
+| threshold | 2015 | 2026 |
+|---|---|---|
+| in own worst 4 | 8 | 8 |
+| in own worst 2 | **7** | 4 |
+| at own record | **5** | 1 |
+
+So "as widespread as 2015" is supported and "as bad as 2015" is not.
+
+**The framing trap product flagged, sharpened.** They warned that
+"Central America's worst crop year on record" would be false because it
+is eight separate own-record statements. True, and the data goes
+further: **2026 has ONE country at its own record where 2015 had five.**
+The aggregate superlative is not merely unsupported, it is contradicted.
+
+**And the eight are not Central America.** Colombia is South American and
+Haiti is Caribbean; only six of the eight are Central American. A region
+label applied to a set assembled by the data is a claim about
+geography that the data did not make.
