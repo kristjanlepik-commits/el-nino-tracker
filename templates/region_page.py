@@ -239,8 +239,12 @@ country in the Central America corridor above is outside it, so the
 countries with the worst crop stress on this page are exactly the ones the
 fire instrument cannot see. That is a limit of our coverage and not a
 finding about Central America.</p>
-<p class="rgnote"><b>Crops reaches 21 of 24.</b> Belize, the Dominican
-Republic and Jamaica are not in the ASAP roster at all.</p>
+<p class="rgnote"><b>Crops places 20 of 24.</b> Belize, the Dominican Republic and
+Jamaica are in ASAP's roster but report fewer than three crop units each,
+and our sub-national method needs three, so they cannot be ranked here at
+all. Suriname is measured and has a rank, but only four of a possible 28
+regional readings carry cropland, which is too thin to place on this
+scale.</p>
 <p class="rgnote">One flood finding exists for this region, the Lima coast
 over 6 to 19 August, and it reads 0.48&times; its median rainfall: drier
 than usual rather than wetter. It is not in this table because floods

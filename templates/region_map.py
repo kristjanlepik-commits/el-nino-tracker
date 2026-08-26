@@ -188,7 +188,28 @@ def readings():
         row = {}
         p = cby.get(n)
         rk = (p or {}).get("ranking_key") or {}
-        if rk.get("available") and rk.get("value") is not None:
+        if p is None:
+            # BELIZE, THE DOMINICAN REPUBLIC AND JAMAICA ARE IN THE ASAP
+            # ROSTER. They are excluded by OUR minimum: the sub-national
+            # method needs three crop units and ASAP gives each of them
+            # fewer. That is closer to permanent than to unbuilt, since it
+            # changes only if JRC re-cuts its crop mask, so it takes the
+            # cross-ruled ground rather than the ruled one. CRO's ruling.
+            row["crops"] = {"state": "na",
+                            "read": "ASAP reports too few crop units here "
+                                    "to rank sub-nationally"}
+        elif not rk.get("available"):
+            # A THIRD STATE, AND CRO FOUND IT BECAUSE I ASKED WHY 21 AND 20
+            # DISAGREED. Suriname is published with a severity rank and has
+            # no usable key: four readings of a possible 28, because six of
+            # its seven regions have no cropland in the mask. Measured, and
+            # too thin to place on this ramp.
+            row["crops"] = {"state": "thin",
+                            "read": "measured, but too thin to place: %s of "
+                                    "%s readings"
+                                    % (rk.get("readings"),
+                                       rk.get("readings_possible"))}
+        elif rk.get("value") is not None:
             # 0.5 is the median position, 1.0 the worst on its own record,
             # so the signed departure is symmetric about the middle.
             row["crops"] = {"state": "value", "v": rk["value"],
@@ -201,9 +222,25 @@ def readings():
         e = fby.get(ISO[n])
         if e and e.get("mean"):
             m = e["count"] / e["mean"]
+            # THE CROPLAND READING IS ALREADY PER COUNTRY and fire is right
+            # that a page showing Cuba at 11.08x without it is worse than
+            # the index for the same country. Reading it here rather than
+            # asking them to re-emit anything.
+            cl = e.get("cropland") or {}
+            lu = ""
+            if cl.get("reading") == "enriched":
+                lu = (", %.2f× more often on farmland than chance"
+                      % cl.get("ratio", 0))
+            elif cl.get("reading") == "depleted":
+                lu = (", %.2f× less often on farmland than chance"
+                      % cl.get("ratio", 0))
+            # n_compared is not emitted; the history itself carries it, and
+            # it is not 14 everywhere: some countries lost 2022 windows.
+            yrs = len(e.get("hist") or {})
             row["fires"] = {"state": "value", "v": m,
                             "step": _step(math.log(m, 2)),
-                            "read": "%.2f× its own normal week" % m}
+                            "read": "%.2f× its own normal week, %d years%s"
+                                    % (m, yrs, lu)}
         else:
             row["fires"] = {"state": "pend"}
 
@@ -242,6 +279,13 @@ svg.rmap{display:block;width:100%;height:auto}
 .rmcap{padding-top:9px;border-top:1px solid var(--rule);font-size:12px;
   line-height:1.6;color:var(--ink-faint);min-height:3.2em}
 .rmcap b{color:var(--ink);font-weight:600}
+/* A country you can open is a country you can see is openable. Cursor and
+   a hover outline, no hue change: hue is the value and must not double as
+   an interaction state. */
+a.rmlink use{cursor:pointer}
+a.rmlink:hover use,a.rmlink:focus-visible use{stroke:var(--ink);
+  stroke-width:1.6}
+a.rmlink:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .rmramp{display:flex;height:13px;margin-top:4px}
 .rmramp div{flex:1}
 .rmkeyfoot{display:flex;justify-content:space-between;
@@ -274,6 +318,33 @@ def _defs(shapes, to_path):
     for i, (_, n) in enumerate(LATAM):
         out.append('<path id="rc%d" d="%s"/>' % (i, to_path(shapes[n])))
     return "".join(out)
+
+
+def _slug(n):
+    return n.lower().replace(" ", "-").replace("'", "")
+
+
+def _href(channel, name, root_prefix):
+    """Where clicking this country goes, or None.
+
+    THE MAP IS THE NAVIGATION, so a country we can answer for has to be
+    reachable from it. Kristjan's structure, and without this the map is
+    decoration with a tooltip.
+
+    The destination is that channel's own country page, because the
+    cross-channel country page does not exist yet: /fires/france/ and
+    /crops/france/ are separate pages from separate templates. When the
+    merged page is built this becomes one target instead of four.
+
+    A COUNTRY WITHOUT A PAGE IS NOT A LINK. Fires publishes a page only
+    where a country qualified, so five of its twelve measured countries
+    have one. A dead link on a map whose subject is coverage would be the
+    same lie as an empty cell.
+    """
+    d = ROOT / "docs" / channel / _slug(name)
+    if not (d / "index.html").exists():
+        return None
+    return "%s%s/%s/" % (root_prefix, channel, _slug(name))
 
 
 def _fill(cell):
@@ -313,9 +384,15 @@ def block(root_prefix="../"):
                      if cell["state"] == "value" else
                      "%s: not measured. This is a gap in our coverage, not a "
                      "quiet week." % cn)
-            shp.append('<use href="#rc%d" fill="%s" stroke="var(--rule-45)" '
-                       'stroke-width="0.7"><title>%s</title></use>'
-                       % (i, _fill(cell), _esc(title)))
+            use = ('<use href="#rc%d" fill="%s" stroke="var(--rule-45)" '
+                   'stroke-width="0.7"><title>%s</title></use>'
+                   % (i, _fill(cell), _esc(title)))
+            href = (_href(key, cn, root_prefix)
+                    if cell["state"] == "value" else None)
+            if href:
+                use = ('<a href="%s" class="rmlink"><g>%s</g></a>'
+                       % (_esc(href), use))
+            shp.append(use)
         cells.append(
             '<div class="rmcell"><div class="rmttl"><span class="nm">%s</span>'
             '<span class="ct">%d of %d measured</span></div>'
