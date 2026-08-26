@@ -216,6 +216,35 @@ def _lu_row(e):
             'chance</span>' % (ratio, word))
 
 
+def _persist_row(e):
+    """Whether this week's heat behaves like fire or like a fixed source.
+
+    THE SECOND OF THE TWO WAYS A BIG NUMBER CAN BE FALSE, and until now the
+    page rendered only the first. Cuba carried its cropland reading and
+    nothing saying it was not a flare artifact, while Saudi Arabia and
+    Libya had been removed from the qualifying set on exactly this test
+    without the page ever saying so.
+
+    Rendered on EVERY row for the same reason the cropland line is: a check
+    that appears only when it fails is a selection effect. 20 of 21 read
+    fire_like, which is what makes the one that does not mean something.
+
+    THE LIMIT TRAVELS WITH IT. A flare returning to the same pixel night
+    after night at low power is an inference from REPETITION, not a
+    measurement of what is there, and fire got the mirror of this wrong on
+    Serbia this week. Said once under the headline, not on every row.
+    """
+    ps = e.get("persistence") or {}
+    v = ps.get("verdict")
+    if not v:
+        return ""
+    if v == "fire_like":
+        return ('<span class="rowlu">behaves like fire: %.1f%% of detections '
+                'recur in the same cell</span>' % ps.get("recur_pct", 0))
+    return ('<span class="rowlu rowlu-na">behaves like a fixed source: '
+            '%.1f%% recur in the same cell</span>' % ps.get("recur_pct", 0))
+
+
 def _row(e):
     """One country row. Context is not an anomaly and must not look like
     one, and a thin multiple must not look sturdy."""
@@ -254,7 +283,7 @@ def _row(e):
         <span class="stat">{e['stat']}</span>
         <span class="rowmain">
           <span class="region">{e['region']}</span>
-          <span class="claim">{e['title']}</span>{note}{_lu_row(e)}
+          <span class="claim">{e['title']}</span>{note}{_lu_row(e)}{_persist_row(e)}
         </span>
         {_tag(e)}
       </a>"""
