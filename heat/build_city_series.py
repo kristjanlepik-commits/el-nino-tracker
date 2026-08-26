@@ -47,7 +47,42 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "heat" / ".cache" / "src"
 OUT = ROOT / "heat" / "data" / "city_series.json"
 
-WINDOW_START = (5, 1)
+# THE SEASON IS DERIVED PER STATION, NOT ASSUMED. Four constants used to
+# encode a northern summer: this one, the July-August percentile filter, the
+# May-August coverage window, and the bridge's fetch range. Buenos Aires'
+# July mean maximum is 15.6 C, their COLDEST month, so pointing the
+# instrument south unchanged would have derived a hot-day threshold from
+# their two coldest months and published confident, entirely wrong numbers.
+#
+# NOT A HEMISPHERE SWITCH. The LatAm survey found THIRTEEN distinct hot
+# seasons across 116 stations: Puerto Limon is August to October and Tlaxcala
+# is March to May, neither of which is either hemisphere's summer. A
+# north/south flag handles Argentina and breaks on Costa Rica.
+#
+# THE RULE: the threshold months are the two warmest CONSECUTIVE months of
+# the station's own 1991-2020 record, and counting starts WINDOW_LEAD_MONTHS
+# before the first of them.
+#
+# ZERO DRIFT IS BY CONSTRUCTION, NOT BY LUCK. All 46 cities in CITIES derive
+# (7, 8) as their warmest consecutive pair, and two months before July is
+# 1 May, so every existing city reproduces its current definition exactly.
+# That was measured before this was written rather than hoped for afterwards.
+#
+# Consecutive, because a season is a run rather than a set: the two warmest
+# months taken independently can be December and February, which is not a
+# season, and a southern summer wraps the year boundary.
+WINDOW_LEAD_MONTHS = 2
+
+# Below this amplitude, hottest monthly mean minus coldest, a station has no
+# hot season and this instrument does not apply to it. Sixteen of the 116
+# LatAm stations sit under it, Tarapoto at 1.3 C, where the warmest pair is
+# noise. Such a station gets no thresholds rather than a threshold derived
+# from a distinction that does not exist. Four degrees because every city we
+# publish is above twelve, so the bar refuses the tropics without coming near
+# anything we currently carry.
+MIN_SEASON_AMPLITUDE_C = 4.0
+
+WINDOW_START = (5, 1)          # fallback only; derived per city in build()
 WINDOW_BAR = 0.90
 FULL_YEAR_DAYS = 330
 TIE_COUNTS_AGAINST = True
@@ -198,11 +233,56 @@ PCTL_BASELINE = (1971, 2000)
 WMO_NORMALS = [(1971, 2000), (1991, 2020)]
 
 
-def _ja_days(series, lo, hi, years=None):
-    """Pooled July-August daily values across a window."""
+def derive_season(tx, lo=1991, hi=2020):
+    """The two warmest consecutive months of this station's own record.
+
+    Returns (months, amplitude) or (None, amplitude) where the station has no
+    season worth calibrating against. Measured over 1991-2020, the WMO
+    current standard normal, and requiring all twelve months present so a
+    station with a seasonal gap cannot win by absence.
+    """
+    mon = {}
+    for y, dd in tx.items():
+        if not (lo <= y <= hi):
+            continue
+        for (m, _d), v in dd.items():
+            if v is not None:
+                mon.setdefault(m, []).append(v)
+    means = {m: sum(v) / len(v) for m, v in mon.items() if len(v) >= 60}
+    if len(means) < 12:
+        return None, None
+    amp = max(means.values()) - min(means.values())
+    if amp < MIN_SEASON_AMPLITUDE_C:
+        return None, round(amp, 1)
+    best = run = None
+    for start in range(1, 13):
+        ms = [((start - 1 + k) % 12) + 1 for k in range(2)]
+        val = sum(means[m] for m in ms) / 2
+        if best is None or val > best:
+            best, run = val, ms
+    return tuple(run), round(amp, 1)
+
+
+def season_window(months):
+    """Counting starts WINDOW_LEAD_MONTHS before the season, and the coverage
+    window is the season plus that lead.
+
+    For (7, 8) this returns (5, 1) and months 5, 6, 7, 8, which is exactly
+    what the four constants used to hardcode.
+    """
+    first = months[0]
+    start_m = ((first - 1 - WINDOW_LEAD_MONTHS) % 12) + 1
+    cover = []
+    for k in range(WINDOW_LEAD_MONTHS + len(months)):
+        cover.append(((start_m - 1 + k) % 12) + 1)
+    return (start_m, 1), tuple(cover)
+
+
+def _ja_days(series, lo, hi, years=None, months=(7, 8)):
+    """Pooled in-season daily values across a window."""
     return [v for y in range(lo, hi + 1) if years is None or y in years
             for (m, _d), v in series.get(y, {}).items()
-            if m in (7, 8) and v is not None]
+            if m in months and v is not None]
 
 
 def _shortfall_is_immaterial(series, lo, hi, missing, present):
@@ -245,7 +325,7 @@ def _shortfall_is_immaterial(series, lo, hi, missing, present):
     return same, out
 
 
-def pick_baseline(tx, tn):
+def pick_baseline(tx, tn, cover=(5, 6, 7, 8)):
     """The first standard normal that qualifies, in the fixed order above.
 
     Returns (lo, hi, missing_years). Complete means 30 of 30 years carrying
@@ -270,7 +350,7 @@ def pick_baseline(tx, tn):
     per = {}
     for y, dd in tx.items():
         n = sum(1 for (m, _d), v in dd.items()
-                if m in (5, 6, 7, 8) and v is not None)
+                if m in cover and v is not None)
         per[y] = n
     for lo, hi in WMO_NORMALS:
         yrs = range(lo, hi + 1)
@@ -655,9 +735,28 @@ CITIES = {
 }
 
 
-def window_days(cut):
+def in_window(md, start, cut):
+    """Is this (month, day) inside the counting window?
+
+    A NORTHERN WINDOW IS AN INTERVAL; A SOUTHERN ONE IS NOT. May to August
+    is a single ordered range and `start <= md <= cut` decides it. November
+    to February WRAPS the year boundary, and that comparison is false for
+    every day in it, so a southern city would silently count zero days and
+    report a station that observed nothing.
+
+    That is exactly the failure shape this channel spent the week on, so it
+    is handled rather than assumed away: when the window wraps, a day
+    qualifies if it is at or after the start OR at or before the cut.
+    """
+    if start <= cut:
+        return start <= md <= cut
+    return md >= start or md <= cut
+
+
+def window_days(cut, start=None):
+    start = start or WINDOW_START
     return sum(1 for m in range(1, 13) for d in range(1, MONTH_LEN[m - 1] + 1)
-               if WINDOW_START <= (m, d) <= cut)
+               if in_window((m, d), start, cut))
 
 
 def load_aemet(city, fname=None):
@@ -739,11 +838,24 @@ def build(city, meta):
              if v is not None}
     cut = meta["cut"] if meta.get("cut_is_override") else (
         max(_cur) if _cur else meta["cut"])
-    W = window_days(cut)
+    # THE SEASON, DERIVED FROM THIS STATION'S OWN RECORD. All 46 cities in
+    # CITIES derive (7, 8), which is what the constants used to hardcode, so
+    # this changes no existing number. A station with no season worth
+    # calibrating against, amplitude under MIN_SEASON_AMPLITUDE_C, gets none
+    # and is skipped, the same treatment as one with no complete baseline.
+    season, amplitude = derive_season(tx)
+    if season is None:
+        print(f"  {city}: SKIPPED, no hot season worth calibrating "
+              f"(amplitude {amplitude} C, floor {MIN_SEASON_AMPLITUDE_C}). "
+              f"A threshold here would describe a distinction that does not "
+              f"exist in the record.", file=sys.stderr)
+        return None
+    win_start, season_cover = season_window(season)
+    W = window_days(cut, win_start)
 
-    # Thresholds are each city's own July-August maxima percentiles. AEMET's
+    # Thresholds are each city's own in-season maxima percentiles. AEMET's
     # published rule, reproduced exactly for Madrid (36.4) and Seville (41.2).
-    pctl = pick_baseline(tx, tn)
+    pctl = pick_baseline(tx, tn, season_cover)
     if pctl is None:
         # SKIP THIS CITY, DO NOT ABORT THE BUILD. A city with no complete
         # baseline gets no thresholds, which is right. Killing the whole run
@@ -756,7 +868,7 @@ def build(city, meta):
               f"Tried {WMO_NORMALS}.", file=sys.stderr)
         return None
     ja = [v for y in range(pctl[0], pctl[1] + 1)
-          for (m, _), v in tx.get(y, {}).items() if m in (7, 8)]
+          for (m, _), v in tx.get(y, {}).items() if m in season]
     th = {str(p): round(float(np.percentile(ja, p)), 1) for p in (90, 95, 99)}
 
     # NIGHT thresholds, the same construction applied to minima. The 20 C
@@ -771,12 +883,12 @@ def build(city, meta):
     # percentile is abstract but travels. Mediterranean cities carry both,
     # northern cities can only carry the second.
     jn = [v for y in range(pctl[0], pctl[1] + 1)
-          for (m, _), v in tn.get(y, {}).items() if m in (7, 8)]
+          for (m, _), v in tn.get(y, {}).items() if m in season]
     nth = {str(p): round(float(np.percentile(jn, p)), 1) for p in (90, 95, 99)}
 
     years = {}
     for y in sorted(set(tn) | set(tx)):
-        win = sum(1 for k in tn.get(y, {}) if WINDOW_START <= k <= cut)
+        win = sum(1 for k in tn.get(y, {}) if in_window(k, win_start, cut))
         rec = {
             "window_days": win,
             "full_days": len(tn.get(y, {})),
@@ -895,6 +1007,23 @@ def build(city, meta):
              else None),
         # EMITTED, so no page or post can state a threshold without the
         # period that built it. Same rule as record_scope.
+        # THE SEASON AS A FIELD. Derived above and recorded here, because a
+        # season that lives only in a local is a season no page can disclose
+        # and no guard can check. Every European city reads (7, 8); an
+        # Argentine one reads (12, 1), and a reader deserves to see which.
+        "season": {
+            "months": list(season),
+            "amplitude_c": amplitude,
+            "window_start": list(win_start),
+            "coverage_months": list(season_cover),
+            "derived": True,
+            "note": ("The two warmest CONSECUTIVE months of this station's "
+                     "own 1991-2020 record, not an assumed summer. Counting "
+                     "starts two months before the first of them. Every city "
+                     "currently published derives July-August, which is what "
+                     "the instrument previously hardcoded, so this changed "
+                     "no number when it landed."),
+        },
         "pctl_baseline": list(pctl[:2]),
         # D-051: the shortfall is a property of the datum. Empty for every
         # city with a complete normal, which is all but one.
