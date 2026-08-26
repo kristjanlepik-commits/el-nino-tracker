@@ -435,6 +435,16 @@ h1 {
   display: block; color: var(--ink-soft); font-size: 13px;
   font-style: italic; margin-top: 2px;
 }
+.lu { margin:14px 0 0; max-width:74ch; font-size:15px; line-height:1.6;
+  color:var(--ink-soft); }
+.lu b { color:var(--ink); font-weight:600; }
+/* The limit is set apart but not shrunk: it is the sentence that stops the
+   conclusion being read as a measurement, so it must not look like fine
+   print. */
+.lu-lim { display:block; margin-top:7px; padding-left:12px;
+  border-left:2px solid var(--rule); color:var(--ink-faint);
+  font-size:14px; }
+.lu-na { color:var(--ink-faint); }
 .row.ctx .stat { color: var(--ink-soft); }
 .row:hover .claim { text-decoration: underline; }
 .row:focus-visible { outline: 2px solid var(--fire); outline-offset: 3px; }
@@ -489,6 +499,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
   </div>
 
   <h1>For this week of the year, Cuba burned at 5.4 times its own record</h1>
+  <p class="lu"><b>Where the detections fell.</b> 30.5% of this week&rsquo;s detections fell on cropland, against the 11.5% of this country that IS cropland. That is 2.64 times more often than chance. Fires this concentrated on farmland are usually deliberate and seasonal rather than wildfire. <span class="lu-lim">The instrument sees a thermal anomaly, a time and a radiative power. It does not see what is alight, so this is an inference from where the heat sits against a land-cover map, not a measurement of what burned.</span></p>
   
   <p class="standfirst">Every figure below compares a country only with
   itself, against the same calendar week in each of 14 earlier years, 2012 to 2025. That
