@@ -252,6 +252,21 @@ def rebuild_rows(detail, end):
             "persistent_source": ((r.get("persistence") or {}).get("verdict")
                                   == "persistent_source"),
             "persistence": r.get("persistence"),
+            "land_use": ((lambda c: {"cropland_ratio": c["ratio"],
+                                     "reading": c["reading"],
+                                     "detections_on_crop_pct":
+                                         c["detections_on_crop_pct"],
+                                     "country_land_crop_pct":
+                                         c["country_land_crop_pct"],
+                                     "means": ("Share of this week's detections falling on cropland, against "
+                     "the share of the country that IS cropland. Above 1.3 "
+                     "the fires sit on farmland more often than chance; below "
+                     "0.77 less often. It says WHERE detections fall, not what "
+                     "is burning: the instrument sees a thermal anomaly, not a "
+                     "substrate.")}
+                          if c and c.get("ratio") is not None
+                          else {"withheld": (c or {}).get(
+                              "withheld", "not_computed")})(r.get("cropland"))),
             "lat": r["lat"], "lon": r["lon"], "centroid_basis": r["basis"],
             "attribution": attribution_for(iso, end.month),
             "title": make_title(rank, multiple, count,
@@ -777,6 +792,28 @@ def main():
             "persistent_source": ((persistent or {}).get("verdict")
                                   == "persistent_source"),
             "persistence": persistent,
+            # LAND USE ON THE EVENT, not just in the country payload.
+            # Design asked for this rather than have the renderer drop
+            # an event on a judgement that lives in analysis and not in
+            # the data. A page that says "this is almost certainly
+            # agricultural burning and here is how we know" is stronger
+            # than one that quietly drops its loudest number, and the
+            # renderer must never be the thing deciding which.
+            "land_use": ({"cropland_ratio": cropland["ratio"],
+                          "reading": cropland["reading"],
+                          "detections_on_crop_pct":
+                              cropland["detections_on_crop_pct"],
+                          "country_land_crop_pct":
+                              cropland["country_land_crop_pct"],
+                          "means": ("Share of this week's detections falling on cropland, against "
+                     "the share of the country that IS cropland. Above 1.3 "
+                     "the fires sit on farmland more often than chance; below "
+                     "0.77 less often. It says WHERE detections fall, not what "
+                     "is burning: the instrument sees a thermal anomaly, not a "
+                     "substrate.")}
+                         if cropland and cropland.get("ratio") is not None
+                         else {"withheld": (cropland or {}).get(
+                             "withheld", "not_computed")}),
             "z": round(z, 2), "lat": lat, "lon": lon,
             "centroid_basis": basis,
             "attribution": attribution_for(iso, end.month),
@@ -1265,6 +1302,17 @@ def main():
             "volume_context": r["volume_context"],
             "multiple_unstable": r["multiple_unstable"],
             "z": r["z"],
+            # LAND USE ON THE EVENT. events.json is an ALLOWLIST, not a
+            # passthrough, so adding a field to the row dict is not
+            # enough and mine silently did nothing: land_use was on 20
+            # rows and 0 events. persistence has the same gap and is
+            # left out deliberately for now, since nothing renders it.
+            #
+            # Design asked for this rather than have the renderer drop
+            # an event on a land-use judgement that lives in analysis
+            # and not in the data. The renderer must not decide what
+            # qualifies.
+            "land_use": r.get("land_use"),
             "source": source,
             "href": r["href"],
         } for r in eligible],
