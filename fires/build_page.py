@@ -101,6 +101,78 @@ def _tag(e):
     return f'<span class="tag tag-{a}">{TAG_TEXT[a]}</span>'
 
 
+# Cropland enrichment. Fire's thresholds, read from the payload's own
+# `reading` field rather than recomputed, so the renderer never decides
+# what counts.
+def _land_use(e):
+    """Where this week's detections fell, and what that cannot tell us.
+
+    WHY THIS EXISTS. Cuba was the loudest claim on the site, selected by z
+    from the corroborated set. Fire's cropland check found its detections
+    fall 2.64 times more often on farmland than Cuban land does, stable
+    across two independent weeks. Product ruled the headline came off.
+
+    IT IS RENDERED RATHER THAN REMOVED, which was fire's call and the
+    better one. Cuba really did record 1,176 detections against a mean of
+    106. The finding does not make the number false; it changes what the
+    number is EVIDENCE OF, and that is a fact to show rather than a reason
+    to hide the biggest thing on the page.
+
+    THE LIMIT IS THE LOAD-BEARING PART. VIIRS returns a thermal anomaly, a
+    time and a radiative power. It does not see what is alight, so
+    "agricultural burning" is an inference from where the heat sits against
+    a land-cover mask, not a measurement of substrate. Fire got this exact
+    distinction wrong on Serbia in the other direction this week, which is
+    why the page carries the limit rather than only the conclusion.
+
+    WITHHELD IS NOT ZERO, AND THERE ARE TWO OF THEM. The crop mask lives in
+    the crops channel's gitignored cache, so CI cannot see it and the field
+    reads mask_unavailable on every scheduled build: that means WE could
+    not look. Papua New Guinea reads no_mask_coverage, which means the mask
+    has no data there at all. Different facts, not merged into one grey.
+    """
+    lu = e.get("land_use") or {}
+    reading = lu.get("reading")
+    if not reading:
+        return ""
+    if reading in ("mask_unavailable", "no_mask_coverage", "withheld"):
+        why = ("The crop mask was not available to this build"
+               if reading == "mask_unavailable" else
+               "The crop mask holds no data for this country")
+        return ('<p class="lu lu-na"><b>Where the detections fell: not '
+                'assessed.</b> %s, so nothing here says whether these fires '
+                'sit on farmland.</p>' % why)
+
+    ratio, on, land = (lu.get("cropland_ratio"),
+                       lu.get("detections_on_crop_pct"),
+                       lu.get("country_land_crop_pct"))
+    if ratio is None or on is None or land is None:
+        return ""
+    if reading == "enriched":
+        lede = ("%.1f%% of this week&rsquo;s detections fell on cropland, "
+                "against the %.1f%% of this country that IS cropland. That "
+                "is %.2f times more often than chance." % (on, land, ratio))
+        rest = ("Fires this concentrated on farmland are usually deliberate "
+                "and seasonal rather than wildfire.")
+    elif reading == "depleted":
+        lede = ("%.1f%% of this week&rsquo;s detections fell on cropland "
+                "against the %.1f%% of this country that IS cropland, so "
+                "they sit on farmland LESS often than chance."
+                % (on, land))
+        rest = "Whatever is burning here, it is mostly not farmland."
+    else:
+        lede = ("%.1f%% of this week&rsquo;s detections fell on cropland, "
+                "against the %.1f%% of this country that IS cropland: about "
+                "what chance would give." % (on, land))
+        rest = "Nothing here points at farmland either way."
+    return ('<p class="lu"><b>Where the detections fell.</b> %s %s '
+            '<span class="lu-lim">The instrument sees a thermal anomaly, a '
+            'time and a radiative power. It does not see what is alight, so '
+            'this is an inference from where the heat sits against a '
+            'land-cover map, not a measurement of what burned.</span></p>'
+            % (lede, rest))
+
+
 def _row(e):
     """One country row. Context is not an anomaly and must not look like
     one, and a thin multiple must not look sturdy."""
@@ -465,6 +537,16 @@ h1 {{
   display: block; color: var(--ink-soft); font-size: 13px;
   font-style: italic; margin-top: 2px;
 }}
+.lu {{ margin:14px 0 0; max-width:74ch; font-size:15px; line-height:1.6;
+  color:var(--ink-soft); }}
+.lu b {{ color:var(--ink); font-weight:600; }}
+/* The limit is set apart but not shrunk: it is the sentence that stops the
+   conclusion being read as a measurement, so it must not look like fine
+   print. */
+.lu-lim {{ display:block; margin-top:7px; padding-left:12px;
+  border-left:2px solid var(--rule); color:var(--ink-faint);
+  font-size:14px; }}
+.lu-na {{ color:var(--ink-faint); }}
 .row.ctx .stat {{ color: var(--ink-soft); }}
 .row:hover .claim {{ text-decoration: underline; }}
 .row:focus-visible {{ outline: 2px solid var(--fire); outline-offset: 3px; }}
@@ -513,6 +595,7 @@ h1 {{
   </div>
 
   <h1>{headline}</h1>
+  {_land_use(lead) if lead else ""}
   {deg_note}
   <p class="standfirst">Every figure below compares a country only with
   itself, {_baseline_phrase(baseline or {})}. That
