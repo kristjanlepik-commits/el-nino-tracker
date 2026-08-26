@@ -132,16 +132,21 @@ def _land_use(e):
     has no data there at all. Different facts, not merged into one grey.
     """
     lu = e.get("land_use") or {}
-    reading = lu.get("reading")
+    reading = lu.get("reading") or lu.get("withheld")
     if not reading:
         return ""
     if reading in ("mask_unavailable", "no_mask_coverage", "withheld"):
-        why = ("The crop mask was not available to this build"
-               if reading == "mask_unavailable" else
-               "The crop mask holds no data for this country")
+        # ONE SENTENCE FOR BOTH WITHHOLDINGS, on fire's request and their
+        # reasoning: mask_unavailable means our crop mask was missing from
+        # the machine that built the payload; no_mask_coverage means the
+        # mask holds no data for that country at all. The distinction
+        # matters to us and not to a reader, who needs only "we cannot
+        # say". I had rendered two different sentences, which put our CI
+        # plumbing on a public page.
         return ('<p class="lu lu-na"><b>Where the detections fell: not '
-                'assessed.</b> %s, so nothing here says whether these fires '
-                'sit on farmland.</p>' % why)
+                'assessed.</b> The cropland comparison could not be made '
+                'for this country, so nothing here says whether these fires '
+                'sit on farmland.</p>')
 
     ratio, on, land = (lu.get("cropland_ratio"),
                        lu.get("detections_on_crop_pct"),
@@ -171,6 +176,44 @@ def _land_use(e):
             'this is an inference from where the heat sits against a '
             'land-cover map, not a measurement of what burned.</span></p>'
             % (lede, rest))
+
+
+def _lu_row(e):
+    """This country's cropland reading, on its own row.
+
+    IT MUST APPEAR ON EVERY ROW OR IT IS A SELECTION EFFECT. Fire's catch
+    and they are right: rendered only under the headline, the qualification
+    showed up exactly when a country looked agricultural. Cuba read
+    enriched at 2.64 and got a paragraph; Indonesia at 0.56 and Uganda at
+    0.31 are just as informative and argue the OTHER way, that those fires
+    sit on LESS farmland than chance, and both were invisible. A row that
+    appears only when the number is awkward is the selection effect we keep
+    catching in other people's work.
+
+    Compact, because the explanation belongs once and the reading belongs
+    everywhere. The paragraph under the headline carries the method and the
+    limit; these carry each country's own number.
+    """
+    lu = e.get("land_use") or {}
+    # THE WITHHELD KEY IS NOT `reading`. Fire emits {"withheld": "..."} with
+    # no reading at all, so an earlier `if not reading: return ""` made
+    # Papua New Guinea render NOTHING: the one country the mask genuinely
+    # cannot see was the one country that said nothing, which is
+    # absence-as-zero on the exact field built to prevent it.
+    reading = lu.get("reading") or lu.get("withheld")
+    if not reading:
+        return ""
+    if reading in ("mask_unavailable", "no_mask_coverage", "withheld"):
+        return '<span class="rowlu rowlu-na">cropland: not assessed</span>'
+    ratio = lu.get("cropland_ratio")
+    if ratio is None:
+        return ""
+    if reading == "neutral":
+        return ('<span class="rowlu">on farmland about as often as '
+                'chance</span>')
+    word = "more" if reading == "enriched" else "less"
+    return ('<span class="rowlu">on farmland %.2f&times; %s often than '
+            'chance</span>' % (ratio, word))
 
 
 def _row(e):
@@ -211,7 +254,7 @@ def _row(e):
         <span class="stat">{e['stat']}</span>
         <span class="rowmain">
           <span class="region">{e['region']}</span>
-          <span class="claim">{e['title']}</span>{note}
+          <span class="claim">{e['title']}</span>{note}{_lu_row(e)}
         </span>
         {_tag(e)}
       </a>"""
@@ -547,6 +590,10 @@ h1 {{
   border-left:2px solid var(--rule); color:var(--ink-faint);
   font-size:14px; }}
 .lu-na {{ color:var(--ink-faint); }}
+.rowlu {{ display:block; font-family:"{T.FONT_DATA}", ui-monospace, monospace;
+  font-size:11.5px; letter-spacing:0.02em; color:var(--ink-faint);
+  margin-top:3px; }}
+.rowlu-na {{ font-style:italic; }}
 .row.ctx .stat {{ color: var(--ink-soft); }}
 .row:hover .claim {{ text-decoration: underline; }}
 .row:focus-visible {{ outline: 2px solid var(--fire); outline-offset: 3px; }}
