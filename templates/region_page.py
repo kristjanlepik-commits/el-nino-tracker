@@ -126,7 +126,11 @@ CSS = """
   border-bottom:1px solid var(--ink)}
 .rgnote{font-size:14.5px;line-height:1.55;color:var(--ink-soft);
   max-width:66ch;margin:12px 0 0}
-table.rg{width:100%;border-collapse:collapse;margin:14px 0 0;font-size:15px}
+/* Wide content scrolls inside its own container; the page body
+   must never scroll sideways. At 536px the four columns pushed
+   the whole document to 691px. */
+.rgscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.rg{width:100%;min-width:520px;border-collapse:collapse;margin:14px 0 0;font-size:15px}
 table.rg th{text-align:left;font-family:"__D__",ui-monospace,monospace;
   font-size:10px;letter-spacing:.1em;text-transform:uppercase;
   font-weight:600;color:var(--ink-faint);padding:0 10px 8px 0;
@@ -214,14 +218,17 @@ def render(root_prefix="../"):
            ", ".join(worst[:-1]) + " and " + worst[-1],
            ", ".join(quiet[:-1]) + " and " + quiet[-1]))
 
+    from templates.region_map import block as map_block, CSS as MAP_CSS
     body = """
-<p class="rgsec">Every country we measure, and every one we do not</p>
-<table class="rg">
+<p class="rgsec">Four instruments, one region, one week</p>
+__MAPS__
+<p class="rgsec" style="margin-top:40px">Every country we measure, and every one we do not</p>
+<div class="rgscroll"><table class="rg">
 <tr><th>Country</th><th class="n">Crops, against its own 26 years</th>
 <th class="n">Fires, against its own normal week</th>
 <th class="n">Heat</th></tr>
 %s
-</table>
+</table></div>
 <div class="rgkey"><span>CROPS: rank 1 is the worst year on that country's
 own record</span><span>FIRES: 1.0&times; is its own normal week</span></div>
 <p class="rgnote"><b>Heat is not measured anywhere in Latin America.</b>
@@ -239,8 +246,10 @@ over 6 to 19 August, and it reads 0.48&times; its median rainfall: drier
 than usual rather than wetter. It is not in this table because floods
 publishes by catchment rather than by country.</p>
 """ % "\n".join(rows)
+    body = body.replace("__MAPS__", map_block(root_prefix))
 
-    css = (CSS.replace("__D__", T.FONT_DATA) + sub_css()
+    css = (CSS.replace("__D__", T.FONT_DATA)
+           + MAP_CSS.replace("__D__", T.FONT_DATA) + sub_css()
            + SITE_MASTHEAD_CSS)
     return """<!doctype html>
 <html lang="en">
