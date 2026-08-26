@@ -1909,8 +1909,14 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         _wsum = float(np.sum(_wts)) if _wts else 0.0
         ranking_key = {
             "available": bool(len(_pos) >= 8),
+            # NULL WHEN NOT AVAILABLE, not merely flagged. Suriname
+            # emitted value 0.77 beside available: false, computed from
+            # 4 readings of a possible 28 because 6 of its 7 regions
+            # have no cropland. A number sitting next to the flag that
+            # says not to use it is the exact trap `is_not` exists for,
+            # and I built it into the field carrying `is_not`.
             "value": (round(float(np.average(_pos, weights=_wts)), 4)
-                      if _pos and _wsum > 0 else None),
+                      if _pos and _wsum > 0 and len(_pos) >= 8 else None),
             "area_weighted": bool(_area_w),
             "readings": len(_pos),
             "readings_possible": _possible,
@@ -1927,12 +1933,25 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                       "within its own 2001-2025 history at this dekad, "
                       "1.0 = worst on record. Derived from the published "
                       "ranks so it cannot drift from them.",
-            "is_not": "an intensity reading. It says how much of a "
-                      "country's CROPLAND is far into its own extremes, "
-                      "weighted by ASAP's crop mask, so a region with no "
-                      "cropland has no vote. For how far into its "
-                      "extremes the country is as a whole use "
-                      "`severity`; for how fast, use `rate`.",
+            # CORRECTED 2026-08-26. This said "NOT an intensity
+            # reading", which was true of the binary share-at-record
+            # this replaced and false of a mean of positions. Design
+            # asked whether it was safe to paint a choropleth with,
+            # since a choropleth reads as intensity by default, and the
+            # answer is yes: the field IS an intensity. My label had not
+            # changed when the quantity did, which is the same defect I
+            # have sent back to two other chats this week.
+            "is_not": "a COUNT, and not the same aggregation as "
+                      "`severity`. It IS an intensity: the "
+                      "cropland-weighted mean of how far each region "
+                      "sits into its own history, so a choropleth of it "
+                      "reads correctly. It differs from `severity` in "
+                      "aggregation order, averaging region-level "
+                      "positions and weighting them by cropland where "
+                      "severity averages instrument positions of the "
+                      "country-level values. For a count of regions at "
+                      "their record use `share_at_record`; for how fast "
+                      "conditions are moving, use `rate`.",
             "evidence_basis": "combined",
             "authorship": "tls_built",
         }

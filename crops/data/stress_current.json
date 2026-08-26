@@ -980,7 +980,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.3938,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -2953,7 +2953,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1576,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -5154,7 +5154,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1952,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -7354,7 +7354,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0805,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -9234,7 +9234,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1932,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -12622,7 +12622,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1326,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -14388,7 +14388,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1899,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -15296,7 +15296,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.5111,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -16200,7 +16200,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0911,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -18400,7 +18400,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2482,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -19514,7 +19514,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2193,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -22908,7 +22908,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.185,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -25615,7 +25615,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2468,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -26938,7 +26938,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.239,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -29138,7 +29138,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.825,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -30478,7 +30478,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.3043,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -33220,7 +33220,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.4844,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -34668,7 +34668,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2238,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -37600,7 +37600,7 @@
    },
    "ranking_key": {
     "available": false,
-    "value": 0.53,
+    "value": null,
     "area_weighted": true,
     "readings": 4,
     "readings_possible": 4,
@@ -37614,7 +37614,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.25,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -38087,7 +38087,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.032,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -39640,7 +39640,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -41194,7 +41194,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2335,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -43398,7 +43398,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -44849,7 +44849,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -46078,7 +46078,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -46982,7 +46982,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0001,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -48314,7 +48314,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0369,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -49961,7 +49961,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0625,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -52057,7 +52057,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.243,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -53719,7 +53719,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0214,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -55813,7 +55813,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2471,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -58663,7 +58663,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.6431,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -60325,7 +60325,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0371,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -61557,7 +61557,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0419,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -65583,7 +65583,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.6556,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -66707,7 +66707,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -70851,7 +70851,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.3998,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -72079,7 +72079,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0838,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -75035,7 +75035,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1133,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -82313,7 +82313,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.7489,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -83545,7 +83545,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.4632,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -84667,7 +84667,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.4115,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -85899,7 +85899,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1239,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -87867,7 +87867,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0142,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -90881,7 +90881,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0322,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -92716,7 +92716,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.3129,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -94150,7 +94150,7 @@
    },
    "ranking_key": {
     "available": false,
-    "value": 0.86,
+    "value": null,
     "area_weighted": true,
     "readings": 4,
     "readings_possible": 20,
@@ -94164,7 +94164,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.25,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -95064,7 +95064,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.022,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -96404,7 +96404,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.6563,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -97202,7 +97202,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.4891,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -99282,7 +99282,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0735,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -101054,7 +101054,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -102273,7 +102273,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.05,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -103073,7 +103073,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1772,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -107010,7 +107010,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1717,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -108566,7 +108566,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2437,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -110429,7 +110429,7 @@
    },
    "ranking_key": {
     "available": false,
-    "value": 0.77,
+    "value": null,
     "area_weighted": true,
     "readings": 4,
     "readings_possible": 28,
@@ -110443,7 +110443,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.25,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -111561,7 +111561,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1779,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -113657,7 +113657,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.008,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -115423,7 +115423,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.5717,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -118165,7 +118165,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2004,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -121113,7 +121113,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.032,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -123531,7 +123531,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0117,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -124863,7 +124863,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.041,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -127933,7 +127933,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2499,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -130028,7 +130028,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -132774,7 +132774,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -134220,7 +134220,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0519,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -136530,7 +136530,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -139164,7 +139164,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0287,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -140497,7 +140497,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0116,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -144209,7 +144209,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -145657,7 +145657,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0148,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -147732,7 +147732,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0088,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -148744,7 +148744,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1795,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -150944,7 +150944,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0502,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -154333,7 +154333,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0092,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -156751,7 +156751,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0007,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -165323,7 +165323,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0423,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -166339,7 +166339,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0204,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -172105,7 +172105,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0005,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -173543,7 +173543,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2521,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -174227,7 +174227,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -176647,7 +176647,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0043,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -177861,7 +177861,7 @@
    },
    "ranking_key": {
     "available": false,
-    "value": 0.6781,
+    "value": null,
     "area_weighted": true,
     "readings": 7,
     "readings_possible": 8,
@@ -177875,7 +177875,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.3282,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -178446,7 +178446,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -179786,7 +179786,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0223,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -181772,7 +181772,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.117,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -184192,7 +184192,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0291,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -186502,7 +186502,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0341,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -190322,7 +190322,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.085,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -191876,7 +191876,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -194078,7 +194078,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.015,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -195956,7 +195956,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1262,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -200758,7 +200758,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -202960,7 +202960,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -204629,7 +204629,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0474,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -209211,7 +209211,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2098,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -211087,7 +211087,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0219,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -220317,7 +220317,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.3647,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -221546,7 +221546,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -222668,7 +222668,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0502,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -228110,7 +228110,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0304,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -229338,7 +229338,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0187,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -238238,7 +238238,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -240003,7 +240003,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0406,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -243715,7 +243715,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -247740,7 +247740,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0462,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -249400,7 +249400,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -250304,7 +250304,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.015,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -251958,7 +251958,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -252866,7 +252866,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.1214,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -256150,7 +256150,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -257274,7 +257274,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -258288,7 +258288,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -259090,7 +259090,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0172,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -260966,7 +260966,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0363,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -262855,7 +262855,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -263975,7 +263975,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.2502,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -266917,7 +266917,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -268365,7 +268365,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -269701,7 +269701,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.0,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
@@ -270931,7 +270931,7 @@
     "excludes": "Vegetation, cumulative, by product's ruling: it integrates from sowing so it cannot say what is abnormal NOW. Still published as the outcome measure.",
     "share_at_record": 0.038,
     "method": "mean position of each region-instrument reading within its own 2001-2025 history at this dekad, 1.0 = worst on record. Derived from the published ranks so it cannot drift from them.",
-    "is_not": "an intensity reading. It says how much of a country's CROPLAND is far into its own extremes, weighted by ASAP's crop mask, so a region with no cropland has no vote. For how far into its extremes the country is as a whole use `severity`; for how fast, use `rate`.",
+    "is_not": "a COUNT, and not the same aggregation as `severity`. It IS an intensity: the cropland-weighted mean of how far each region sits into its own history, so a choropleth of it reads correctly. It differs from `severity` in aggregation order, averaging region-level positions and weighting them by cropland where severity averages instrument positions of the country-level values. For a count of regions at their record use `share_at_record`; for how fast conditions are moving, use `rate`.",
     "evidence_basis": "combined",
     "authorship": "tls_built"
    },
