@@ -60,22 +60,48 @@ def expected_date(iso):
 
 
 def fetch(city, live):
+    """Return (markup, error). An UNREADABLE page is not a WRONG page.
+
+    The first version returned "" for both, so a fetch that failed and a page
+    whose date was missing produced the same output, and the caller reported
+    "page says to None" for a page it had never read. Design hit it on Berlin,
+    reported stale against a page that matched its payload, and product hit
+    the same shape an hour later reading a 404 as a missing caveat.
+
+    That is the exact failure this channel spent the week naming: absence
+    produced by a failure, presented as absence measured. It is uncomfortable
+    that it was in the tool written to stop it, and it is the reason a guard
+    gets checked like anything else.
+    """
     if live:
-        r = subprocess.run(["curl", "-sS", "--max-time", "40",
-                            f"{LIVE}/{city}.html"], capture_output=True)
-        return r.stdout.decode("utf-8", "replace")
+        r = subprocess.run(
+            ["curl", "-sS", "--max-time", "40", "-w", "\n%{http_code}",
+             f"{LIVE}/{city}.html"], capture_output=True)
+        body = r.stdout.decode("utf-8", "replace")
+        if r.returncode != 0:
+            return "", f"fetch failed: curl exit {r.returncode}"
+        body, _, code = body.rpartition("\n")
+        if code.strip() != "200":
+            return "", f"HTTP {code.strip()}, page not read"
+        if len(body) < 500:
+            return "", f"only {len(body)} bytes returned, not a page"
+        return body, None
     p = DOCS / f"{city}.html"
-    return p.read_text(errors="replace") if p.exists() else ""
+    if not p.exists():
+        return "", "no file in docs/"
+    return p.read_text(errors="replace"), None
 
 
 def check(live=False):
     payload = json.loads(PAYLOAD.read_text())["cities"]
-    bad = []
+    bad, unread = [], []
     for name, v in sorted(payload.items()):
         slug = name.lower().replace(" ", "-")
-        markup = fetch(slug, live)
-        if not markup:
-            bad.append(f"{name}: NO PAGE at {slug}.html")
+        markup, err = fetch(slug, live)
+        if err:
+            # UNREADABLE, not wrong. Reported separately so a network fault
+            # is never counted as a page defect.
+            unread.append(f"{name}: {err}")
             continue
         text = as_text(markup)
         want = expected_date(v["counted_to"])
@@ -91,17 +117,26 @@ def check(live=False):
                 f"not carry it. This city joined {j.get('days_in_set')} days "
                 f"ago and sits at or near its own record, so the page makes "
                 f"a record claim a reader cannot check the selection of.")
-    return bad, len(payload)
+    return bad, unread, len(payload)
 
 
 def main() -> int:
     live = "--live" in sys.argv
-    bad, n = check(live)
+    bad, unread, n = check(live)
     where = "LIVE" if live else "docs/"
-    if not bad:
+    if unread:
+        print(f"  {where}: {len(unread)} page(s) COULD NOT BE READ. This is "
+              f"not a verdict on them.", file=sys.stderr)
+        for u in unread:
+            print(f"    ? {u}", file=sys.stderr)
+    if not bad and not unread:
         print(f"  {where}: all {n} pages match the payload on cut date and "
               f"selection caveat.")
         return 0
+    if not bad:
+        print(f"  {where}: {n - len(unread)} of {n} checked and matching; "
+              f"{len(unread)} unread. NOT a pass.", file=sys.stderr)
+        return 1
     print(f"  {where}: {len(bad)} of {n} pages disagree with the payload.",
           file=sys.stderr)
     for b in bad:

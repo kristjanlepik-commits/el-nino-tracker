@@ -361,6 +361,29 @@ def main():
                 f"[{written}/{len(jobs)}  {bytes_total/1e9:.2f} GB  {rate:.1f} MB/s]"
             )
 
+    # "done." USED TO PRINT REGARDLESS OF WHAT WAS MISSING. On the Somalia
+    # OND pre-build, three concurrent jobs rate-limited the archive listing
+    # and 2017-2025 failed wholesale in all three ranges; each job then
+    # printed "done." and exited 0 with 63% of the record. The IMERG
+    # fetcher had the identical defect and was fixed hours earlier; this
+    # one was not, which is the same half-a-bug shape as the rainfall path
+    # of emit_region_payload.
+    #
+    # Verified rather than assumed: the listings it failed on return
+    # HTTP 200 with 287 files when requested after the jobs stopped. The
+    # data exists; the run was throttled.
+    # len(jobs), not days x years: on a resume, jobs already excludes what
+    # is on disk, so this compares against what THIS run set out to do.
+    expected = len(jobs)
+    if written < expected:
+        missing = expected - written
+        log(f"INCOMPLETE. {written} of {expected} records written, "
+            f"{missing} missing.")
+        log(f"  Re-run the SAME command to resume; it skips what it holds. "
+            f"If whole recent years are absent, the archive listing was "
+            f"throttled: run fewer concurrent jobs rather than assuming the "
+            f"data is gone.")
+        sys.exit(2)
     log(f"done. {written} records to {out_path}")
 
 
