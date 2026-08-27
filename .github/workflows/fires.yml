@@ -65,8 +65,22 @@ on:
     # redundant run costs a couple of minutes rather than seventeen. The
     # shared `publish` concurrency group queues it if the first is still
     # going, so the two cannot race.
+    #
+    # A THIRD SLOT, added 2026-08-27, after Fire measured the pipeline
+    # publishing itself on its own only twice in twelve days and GitHub
+    # dropped BOTH scheduled slots on 08-27 with the workflow itself
+    # active and unchanged and every other workflow firing normally that
+    # day: documented best-effort scheduling behaving as documented, not
+    # our config. Two slots share one failure mode, GitHub's own queue,
+    # and 08-27 showed it can take both at once. 08:00 UTC costs the same
+    # couple of minutes as the 05:30 backstop on a normal day and is the
+    # difference between a silent miss and a late one on the day it is
+    # not. Not a substitute for docs/fires/index.html's own RUN_AGE check
+    # in scripts/check_freshness.py, which catches a page that stayed
+    # stale for reasons that have nothing to do with the schedule.
     - cron: "10 3 * * *"
     - cron: "30 5 * * *"
+    - cron: "0 8 * * *"
   workflow_dispatch:
 
 permissions:
