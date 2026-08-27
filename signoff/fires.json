@@ -1,9 +1,9 @@
 {
   "channel": "fires",
-  "approved_hash": "c88b8c9903c155321ad06593490423180299c3aa00cc173f7768a22f2ddbaa8f",
-  "approved_at": "2026-08-22T08:47:27+00:00",
-  "approved_by": "platform (Fire's derivation, symbol-scoped run_brief.py)",
-  "note": "Fire's fires/derive_inputs.py audit found 4 real unprotected presentation dependencies: tokens.py, templates/page_head.py, templates/subscribe_band.py (whole-file hash, low churn, added directly) and run_brief.py (46 commits/month, hashed by symbol only via the new path::SYMBOL form: PAGES_BASE_URL, SITE_NAME, ANALYTICS_SNIPPET, the three fires/build_page.py actually imports). Verified in a scratch clone both directions: an unrelated run_brief.py edit does not move this hash, a real edit to one of the three symbols does. Four other trace hits (analog.py, probs.py, snapshot.py, sources.py) are transitive via run_brief.py's own imports, not real fires dependencies per Fire's own analysis, and are deliberately not added. Not a content review of the four new files' logic; a coverage fix following Fire's audit.",
+  "approved_hash": "7b05f3d05cf9ec15230fafe00d8ac229e40e20604a16227e16252bd4cb0e828a",
+  "approved_at": "2026-08-27T09:50:14+00:00",
+  "approved_by": "Fire",
+  "note": "Reviewed the preview build. Channel index reads wk Aug 20-26; Indonesia carries 1,884,278 ha through 2026-08-26 and PNG the week-34 figures. The template change being approved is today's land_use and persistence work: land_use now reaches events.json via its allowlist, persistence withholds as a verdict rather than a missing key so a quiet country renders 'not assessed' instead of silence, and a zero-detection week ranks last rather than first.",
   "inputs": [
     "fires/build_country_pages.py",
     "fires/build_page.py",
