@@ -98,6 +98,18 @@ jobs:
       # whoever notices, and guarded HERE rather than by disabling the
       # schedule, because a disabled cron has to be remembered back on and
       # that is the failure this project keeps finding.
+      #
+      # SCIENCE'S FINDING, 2026-08-27: the guard is correct and still has
+      # an undeclared cost, because "manual publish beats the cron" has
+      # been the norm for two weeks rather than the rare exception this
+      # comment assumes. Hand-publishes on 08-17 and 08-24 both fired this
+      # skip, so the asset only stayed fresh because someone ran it by
+      # hand afterward, on top of publishing by hand. If hand-publishing
+      # stays routine, this step is routinely a no-op and the freshness
+      # budget is quietly riding on that manual follow-through rather than
+      # on this guard's own logic. Worth checking whether the SST refresh
+      # actually happened whenever a Monday is published early, not
+      # assuming this step covered it.
       - name: Refresh the Pacific SST field
         continue-on-error: true
         run: |
