@@ -428,6 +428,25 @@ def _last_commit_utc(rel: str):
         return None
 
 
+def _last_commit_author(rel: str) -> str:
+    """Who actually landed the last commit, for the alert text only.
+
+    Fire's third ask, cheaply: 'a view of who published, not whether a
+    run went green.' Every scheduled commit in these workflows is
+    authored as the bot identity (el-nino-tracker-bot); anything else in
+    this field is a chat publishing by hand, which is precisely the
+    signal that a channel has been keeping itself alive manually while
+    every other check reports healthy. Kept out of the row tuple that
+    every other check in this file shares, so it costs one line in the
+    alert rather than a reshape of five functions and their shared print
+    loop.
+    """
+    out = subprocess.run(
+        ["git", "log", "-1", "--format=%an", "--", rel],
+        cwd=ROOT, capture_output=True, text=True)
+    return out.stdout.strip() if out.returncode == 0 and out.stdout.strip() else "unknown"
+
+
 def check_run_age(problems: list, rows: list, now: datetime) -> None:
     for job in RUN_AGE:
         last = _last_commit_utc(job["path"])
@@ -438,12 +457,15 @@ def check_run_age(problems: list, rows: list, now: datetime) -> None:
         rows.append((job["path"], f"{last:%Y-%m-%d %H:%MZ}",
                      f"{hours:.0f}h", job["owner"]))
         if hours > job["max_hours"]:
+            who = _last_commit_author(job["path"])
             problems.append(
                 f"{job['path']} was last committed {hours:.0f}h ago, budget "
-                f"{job['max_hours']}h. This is {job['what']}. The DATA may "
-                f"still be inside its own freshness budget, which is why "
-                f"nothing else reports this: the question here is whether the "
-                f"job ran, not whether the page is old. Owner: {job['owner']}.")
+                f"{job['max_hours']}h, by '{who}' (a bot identity is the "
+                f"scheduled job, anything else is a hand publish carrying "
+                f"the channel). This is {job['what']}. The DATA may still "
+                f"be inside its own freshness budget, which is why nothing "
+                f"else reports this: the question here is whether the job "
+                f"ran, not whether the page is old. Owner: {job['owner']}.")
 
 
 def check_weekly_issue(problems: list, rows: list, today: date) -> None:
