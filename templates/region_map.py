@@ -351,6 +351,10 @@ def _fill(cell):
     st = cell["state"]
     if st == "value":
         return RAMP[cell["step"]]
+    # `thin` shares ground 2 with `pend`: both are transient inabilities to
+    # place a country, and the hover text says which. A fourth texture for
+    # one country would cost more legibility than it buys, which is VD's
+    # own argument for three grounds.
     return "url(#rmna)" if st == "na" else "url(#rmpend)"
 
 
@@ -380,10 +384,19 @@ def block(root_prefix="../"):
             cell = data[cn][key]
             if cell["state"] == "value":
                 n_val += 1
-            title = ("%s: %s" % (cn, cell["read"])
-                     if cell["state"] == "value" else
-                     "%s: not measured. This is a gap in our coverage, not a "
-                     "quiet week." % cn)
+            # EVERY STATE HAS ITS OWN SENTENCE. This branched on
+            # value-or-not and told a reader Suriname was "not measured"
+            # when Suriname is measured and merely too thin to place, and
+            # told them Belize was a coverage gap when Belize is
+            # permanently outside our method. Both readings were already
+            # computed; the tooltip was throwing them away.
+            if cell["state"] == "value":
+                title = "%s: %s" % (cn, cell["read"])
+            elif cell.get("read"):
+                title = "%s: %s." % (cn, cell["read"])
+            else:
+                title = ("%s: not measured here yet. This is a gap in our "
+                         "coverage, not a quiet week." % cn)
             use = ('<use href="#rc%d" fill="%s" stroke="var(--rule-45)" '
                    'stroke-width="0.7"><title>%s</title></use>'
                    % (i, _fill(cell), _esc(title)))
@@ -416,7 +429,9 @@ def block(root_prefix="../"):
         '<span>its own normal</span><span>far above</span></div>'
         '<div class="rmlegend">'
         '<span><i class="rmsw" style="background:url(#rmpend)"></i>'
-        'ruled: we do not measure here yet</span>'
+        'ruled: we cannot place this country yet</span>'
+        '<span><i class="rmsw" style="background:url(#rmna)"></i>'
+        'cross-ruled: this instrument cannot answer here at all</span>'
         '<span>Grey outlines are context. Outside these twenty-four this '
         'map makes no claim either way.</span></div>'
         % (_defs(shapes, to_path), ctx_d, "".join(cells), ramp))
