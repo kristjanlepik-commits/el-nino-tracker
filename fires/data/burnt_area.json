@@ -8,7 +8,7 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-08-27T08:38:43Z",
+ "fetched": "2026-08-27T14:14:15Z",
  "year": 2026,
  "effis_cycle": {
   "known": true,
@@ -305,6 +305,19 @@
    "vs_max": 0.19,
    "fires": 2
   },
+  "DOM": {
+   "name": "Dominican Republic",
+   "source": "GWIS",
+   "week": 34,
+   "as_of": "2026-08-26",
+   "lag_days": 1,
+   "area_ha": 26728,
+   "avg_ha": 51484.2,
+   "max_ha": 93906,
+   "multiple": 0.52,
+   "vs_max": 0.28,
+   "fires": 87
+  },
   "DZA": {
    "name": "Algeria",
    "source": "EFFIS",
@@ -435,6 +448,19 @@
    "vs_max": 0.2,
    "fires": 53
   },
+  "HTI": {
+   "name": "Haiti",
+   "source": "GWIS",
+   "week": 34,
+   "as_of": "2026-08-26",
+   "lag_days": 1,
+   "area_ha": 6490,
+   "avg_ha": 12714.6,
+   "max_ha": 21678,
+   "multiple": 0.51,
+   "vs_max": 0.3,
+   "fires": 38
+  },
   "HUN": {
    "name": "Hungary",
    "source": "EFFIS",
@@ -538,6 +564,19 @@
    "multiple": 1.89,
    "vs_max": 0.63,
    "fires": 484
+  },
+  "JAM": {
+   "name": "Jamaica",
+   "source": "GWIS",
+   "week": 34,
+   "as_of": "2026-08-26",
+   "lag_days": 1,
+   "area_ha": 3103,
+   "avg_ha": 7151.6,
+   "max_ha": 16028,
+   "multiple": 0.43,
+   "vs_max": 0.19,
+   "fires": 13
   },
   "JPN": {
    "name": "Japan",
@@ -1240,45 +1279,6 @@
    "multiple": 0.58,
    "vs_max": 0.31,
    "fires": 1551
-  },
-  "DOM": {
-   "name": "Dominican Republic",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 1,
-   "area_ha": 26728,
-   "avg_ha": 51484.2,
-   "max_ha": 93906,
-   "multiple": 0.52,
-   "vs_max": 0.28,
-   "fires": 87
-  },
-  "HTI": {
-   "name": "Haiti",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 1,
-   "area_ha": 6490,
-   "avg_ha": 12714.6,
-   "max_ha": 21678,
-   "multiple": 0.51,
-   "vs_max": 0.3,
-   "fires": 38
-  },
-  "JAM": {
-   "name": "Jamaica",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 1,
-   "area_ha": 3103,
-   "avg_ha": 7151.6,
-   "max_ha": 16028,
-   "multiple": 0.43,
-   "vs_max": 0.19,
-   "fires": 13
   }
  }
 }
