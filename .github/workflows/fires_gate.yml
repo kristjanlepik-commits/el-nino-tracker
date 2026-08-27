@@ -1,0 +1,58 @@
+name: "fires gate: publish held, needs review"
+
+# D-212's fires payload gate, checked as its OWN workflow rather than as a
+# step inside fires.yml. Business's escalation, 2026-08-27: a HOLD and a
+# CRASH were indistinguishable in CI, because refresh_gate.py ran as the
+# last step of "Fires data pull and publish" and failing that step turned
+# a correct, expected hold into the exact same red as a genuine
+# ZeroDivisionError or network failure three days running. Kristjan
+# cannot tell the two apart without opening a log, so he reported seven
+# days of failure where the record held four, and the record was not
+# wrong to read that way, because the signal did not distinguish.
+#
+# A hold means a human needs to look at real editorial changes and is
+# not itself a defect. A crash means the pipeline broke. Those need
+# different red lights. Splitting into a differently NAMED workflow is
+# the cheapest thing that actually works: "Fires data pull and publish"
+# can report success whenever the pull, build and commit succeeded,
+# which is the pipeline's own health, and this workflow's name is what
+# shows up in the run list and the failure email when a human is the
+# thing that's needed rather than a fix.
+#
+# PATH-FILTERED PUSH, not a schedule. The gate's inputs only change on a
+# push (fires.yml's own daily commits are pushes), so there is nothing
+# to catch on a quiet day that a schedule would add; re-checking after
+# every push that could plausibly move the payload is both cheaper and
+# more precise than polling. Paths match fires/refresh_gate.py's own
+# EVENTS_CUR/AREA_CUR/WEEK_CUR/EU_CUR/AREA_HIST_DIR exactly, so this
+# list and that file cannot silently drift apart without both needing
+# to change for the same reason.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/events.json"
+      - "fires/data/burnt_area.json"
+      - "fires/data/current_week.json"
+      - "fires/data/eu_area.json"
+      - "fires/data/area_history/**"
+  workflow_dispatch:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Exit 0 (PUBLISH) is this job's success. Exit 1 (HOLD) fails it,
+      # and that failure is now the ONLY thing this workflow's name can
+      # mean, unlike the old shared step where it meant either "a human
+      # is needed" or "something is broken" with no way to tell from the
+      # run list alone.
+      - name: Check the fires payload gate
+        run: PYTHONPATH="$PWD" python fires/refresh_gate.py

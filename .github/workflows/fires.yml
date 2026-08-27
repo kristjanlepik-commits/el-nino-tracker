@@ -456,32 +456,30 @@ jobs:
           # needs pushing even when the pages did not move.
           bash scripts/push_retry.sh main
 
-      # LAST OF ALL, deliberately, and it is allowed to fail the run here
-      # in a way it was not allowed to anywhere earlier: nothing runs
-      # after it, so a hold blocking at this point costs nothing that
-      # would otherwise have shipped.
+      # THE GATE CHECK USED TO LIVE HERE AND DOES NOT ANY MORE.
       #
-      # 2026-08-23 to 2026-08-25: refresh_gate.py held correctly on seven
-      # real editorial changes and printed them into a CI log that
-      # reports success, because nothing checked the outcome. Fire's
-      # first fix (fires/notify_hold.py, opening an issue on
-      # tls-internal) needed a cross-repo token, TLS_INTERNAL_TOKEN,
-      # which Kristjan created and which does not work ("Could not
-      # resolve to a Repository", the shape a fine-grained token returns
-      # for a repo it cannot see). Fire's own read, and the reason this
-      # moved rather than being debugged: "I asked a human to create and
-      # maintain a secret so that a machine could send a message to
-      # itself." Filing an issue needs a credential; failing the run does
-      # not, and GitHub emails on a failed scheduled run by default (row
-      # 1 of QA's escalation map), which is the whole requirement.
+      # 2026-08-23 to 2026-08-27, three fixes in five days, each real and
+      # each not quite it. First: nothing checked refresh_gate.py's
+      # outcome at all, so a hold looked exactly like a healthy run.
+      # Second: fires/notify_hold.py needed a cross-repo token that
+      # turned out not to work. Third, landed here 2026-08-25: call
+      # refresh_gate.py directly and let it fail THIS job as the last
+      # step, since nothing ran after it and a hold blocking at that
+      # point cost nothing that would otherwise have shipped.
       #
-      # Calls refresh_gate.py directly rather than notify_hold.py: the
-      # gate already needs no token, already prints its hold reasons to
-      # stdout, and its exit code already is "fail on hold, pass on
-      # clear", so this is correct today without depending on Fire's
-      # planned edit to notify_hold.py (stripping the issue-filing back
-      # to the same behaviour) landing first. Retarget this step at
-      # notify_hold.py once that edit is in, if the richer formatting is
-      # worth it; the two are equivalent for what this step needs.
-      - name: Fail the run if the fires payload gate is holding
-        run: PYTHONPATH="$PWD" python fires/refresh_gate.py
+      # That third fix was still wrong, and Business's escalation on
+      # 2026-08-27 is why: a HOLD and a CRASH both fail this same job
+      # with the same red conclusion under the same workflow name, and
+      # Kristjan cannot tell a correct hold from a genuine
+      # ZeroDivisionError without opening a log. He reported seven days
+      # of failure where the record held four reds and three were
+      # crashes, and he was not wrong to read it that way, because nothing
+      # here distinguished them.
+      #
+      # The gate check now lives in its own workflow,
+      # .github/workflows/fires_gate.yml, triggered on push to the exact
+      # payload paths refresh_gate.py reads. THIS workflow's name means
+      # "did the pull, build and commit succeed", full stop, whether or
+      # not the payload happens to be held; the gate workflow's name
+      # means "a human needs to look", and the two can no longer share a
+      # red light.
