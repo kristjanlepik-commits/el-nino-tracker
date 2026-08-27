@@ -393,6 +393,24 @@ def check_truncation(problems: list) -> None:
 RUN_AGE = [
     {"path": "fires/data/current_week.json", "max_hours": 30, "owner": "FIRE",
      "what": "the daily fires detections job (03:10 UTC, 05:30 backstop)"},
+    # THE PUBLISHED PAGE, not the data behind it, and the two can diverge
+    # for reasons the entry above cannot see. Fire measured docs/fires/index.html
+    # updated on its own, without a person, twice in twelve days: the D-200
+    # byte hash held it for two days with the pull succeeding throughout;
+    # a ZeroDivisionError killed build_events.py before any commit, on a
+    # day the fetch otherwise worked; a correct refresh_gate hold kept the
+    # data current and the page frozen; and GitHub silently dropped both
+    # scheduled slots on 08-27, so nothing ran at all. Four different
+    # causes, one symptom every time: this file's own commit date stops
+    # advancing. Checking THAT, directly, is the one thing that catches
+    # all four without needing to know which of them happened. Cannot
+    # live in fires.yml, the workflow whose non-running was itself one of
+    # the four causes; qa.yml's independent 06:30 UTC schedule is exactly
+    # the kind of cross-channel trigger this needs.
+    {"path": "docs/fires/index.html", "max_hours": 30, "owner": "FIRE",
+     "what": "the published fires page a reader actually sees, as opposed "
+             "to the data behind it; can be stale for a day or more with "
+             "the pull, the gate and every other check reporting healthy"},
     {"path": "heat/data/collected/Tallinn.jsonl", "max_hours": 30,
      "owner": "HEAT", "what": "the Tallinn forward collector"},
 ]
