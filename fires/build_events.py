@@ -744,7 +744,16 @@ def main():
         # week scored 29% recurrence on 24 detections, where a handful
         # of repeat cells dominates and means nothing. Below the floor
         # the country is judged normally rather than excluded on noise.
-        persistent = None
+        # WITHHELD IS A VALUE, NEVER A MISSING KEY. Design's catch from
+        # land_use today: I withheld as {"withheld": ...} with no
+        # verdict, both their render functions fell through "if not
+        # reading", and Papua New Guinea, the one country the mask
+        # genuinely cannot see, was the one country that said nothing.
+        # An absent field renders as silence; a verdict renders as
+        # "not assessed".
+        persistent = {"verdict": "not_assessed",
+                      "why": ("fewer than 50 detections this week, too few "
+                              "for a recurrence rate to mean anything")}
         if len(df) >= 50 and "daynight" in df.columns:
             try:
                 cell = (np.round(df["latitude"], 2).astype(str) + "," +
@@ -759,12 +768,26 @@ def main():
                     "recur_pct": round(recur, 1),
                     "night_pct": round(night, 1),
                     "frp_median": round(frp_med, 2),
+                    "n_detections": int(len(df)),
                     "verdict": ("persistent_source"
                                 if (recur > 15 and night > 60
                                     and frp_med < 6) else "fire_like"),
+                    # THE NUMBER, NOT ONLY THE VERDICT. "fire_like"
+                    # tells a reader nothing they can check; the
+                    # recurrence rate beside it does. Design's point,
+                    # and the same reason the cropland ratio sits next
+                    # to the word rather than behind it.
+                    "means": ("How often this week's detections recur in the same 500 m cell "
+                              "across the seven days, with the night share and "
+                              "median radiative power beside it. A fire burns an "
+                              "area and moves or goes out; a flare or industrial "
+                              "source returns to the same pixel night after night "
+                              "at low power. An inference from REPETITION, not a "
+                              "measurement of what is there."),
                 }
             except Exception:
-                persistent = None
+                persistent = {"verdict": "not_assessed",
+                              "why": "the recurrence test failed to run"}
         detail[iso]["persistence"] = persistent
         prev_year = max(h["hist"], key=lambda y: h["hist"][y])
         prev_best = h["hist"][prev_year]
@@ -1313,6 +1336,13 @@ def main():
             # and not in the data. The renderer must not decide what
             # qualifies.
             "land_use": r.get("land_use"),
+            # Two ways a big number can be false, and we were rendering
+            # only the confirmed one. Cuba carried "on farmland 2.64x
+            # more often than chance" and nothing saying it is not a
+            # flare artifact, while Saudi Arabia and Libya left the
+            # qualifying set on exactly this test without the page ever
+            # saying so.
+            "persistence": r.get("persistence"),
             "source": source,
             "href": r["href"],
         } for r in eligible],
