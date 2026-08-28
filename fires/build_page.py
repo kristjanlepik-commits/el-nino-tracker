@@ -101,6 +101,10 @@ def _tag(e):
     return f'<span class="tag tag-{a}">{TAG_TEXT[a]}</span>'
 
 
+# Detections actually ON cropland below which the ratio is not stated.
+# Fire's finding: the ratio is only as good as its numerator.
+CROP_FLOOR = 50
+
 # Cropland enrichment. Fire's thresholds, read from the payload's own
 # `reading` field rather than recomputed, so the renderer never decides
 # what counts.
@@ -153,6 +157,29 @@ def _land_use(e):
                        lu.get("country_land_crop_pct"))
     if ratio is None or on is None or land is None:
         return ""
+
+    # THE RATIO IS ONLY AS GOOD AS THE DETECTIONS ACTUALLY ON FARMLAND,
+    # which is count times the share, not the count. Fire's own finding
+    # after I sent them Peru, and it is a defect in a field already live on
+    # these pages.
+    #
+    # Peru read 5.04x, the highest enrichment in Latin America, on about
+    # TWENTY detections actually on cropland. Ecuador read 7.64x on about
+    # seven. Cuba's 2.64x rests on 359. Same statistic, entirely different
+    # weight. Fire's 50-detection floor did not catch it because it counts
+    # every detection rather than the ones the ratio is computed from.
+    #
+    # They checked the obvious explanation first and it was wrong: the
+    # correlation between cropland share and ratio is only -0.196, with
+    # Georgia at 16.68 on a 5% share contradicting it. So this is not small
+    # denominators inflating a ratio, it is a small numerator carrying one.
+    n = lu.get("n_detections_sampled") or e.get("count") or 0
+    on_crop = n * on / 100.0
+    if on_crop < CROP_FLOOR:
+        return ('<p class="lu lu-na"><b>Where the detections fell: too few '
+                'to say.</b> About %d of this week&rsquo;s detections fell on '
+                'cropland, which is too small a number to compare against '
+                'chance.</p>' % round(on_crop))
     if reading == "enriched":
         lede = ("%.1f%% of this week&rsquo;s detections fell on cropland, "
                 "against the %.1f%% of this country that IS cropland. That "
