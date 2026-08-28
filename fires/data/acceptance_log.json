@@ -59,5 +59,20 @@
    "Philippines: weekly rank 1 -> 2, crossing the 1st-place boundary"
   ],
   "files_promoted": 100
+ },
+ {
+  "accepted_at": "2026-08-28T07:46:37+00:00",
+  "accepted_by": "Fire",
+  "note": "Seven changes, reviewed, and Algeria is the only one needing thought. Its season-record claim is REAL and I would publish it: 252,260 ha against 2012's 200,980, on the burnt-area instrument, and mapped burn scars cannot be produced by gas flaring, so the confound that removed Algeria from the qualifying set on 25 August does not touch this claim. Its detection entry at 1.93x rank 2 is the softer half: Algeria's persistence signature has genuinely moved, recurrence 57.8 to 20.2 percent, night 78.9 to 55.2, FRP 2.31 to 4.87, which is real fire diluting a flare background rather than the background changing. It now reads fire_like on the same test that excluded it, so the gate is consistent, but a fifth of its detections still recur in the same cell across five or more days and copy should lean on the hectares rather than the count. Macedonia and Serbia lose their record qualification honestly, 2.17x rank 3 and 3.58x rank 3, having come off their record weeks. Nepal moves 1 to 2 on zero detections and is far below the 150 noise floor. Cropland reads mask_unavailable throughout because CI built this payload and CI has no crop mask.",
+  "held_on": [
+   "events: region(s) entered the qualifying set: ['Algeria']",
+   "Macedonia: 'record' qualification True -> False",
+   "Republic of Serbia: 'record' qualification True -> False",
+   "Macedonia: weekly rank 1 -> 3, crossing the 1st-place boundary",
+   "Nepal: weekly rank 1 -> 2, crossing the 1st-place boundary",
+   "Republic of Serbia: weekly rank 1 -> 3, crossing the 1st-place boundary",
+   "DZA: season-record claim False -> True. This is the 'has already passed <year>' / 'the record still stands' sentence on the country page, computed from fires/data/area_history/DZA.json, a different file from burnt_area.json's own record check above."
+  ],
+  "files_promoted": 48
  }
 ]
