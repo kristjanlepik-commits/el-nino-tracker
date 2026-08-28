@@ -19,15 +19,34 @@ name: "fires gate: publish held, needs review"
 # shows up in the run list and the failure email when a human is the
 # thing that's needed rather than a fix.
 #
-# PATH-FILTERED PUSH, not a schedule. The gate's inputs only change on a
-# push (fires.yml's own daily commits are pushes), so there is nothing
-# to catch on a quiet day that a schedule would add; re-checking after
-# every push that could plausibly move the payload is both cheaper and
-# more precise than polling. Paths match fires/refresh_gate.py's own
-# EVENTS_CUR/AREA_CUR/WEEK_CUR/EU_CUR/AREA_HIST_DIR exactly, so this
-# list and that file cannot silently drift apart without both needing
-# to change for the same reason.
+# PATH-FILTERED PUSH was the original trigger and it never actually
+# fired for fires.yml's own commits, discovered 2026-08-28: fires.yml
+# pushes with the default GITHUB_TOKEN, and GitHub does not let a
+# GITHUB_TOKEN-authored push trigger OTHER workflows, by design, to stop
+# runaway trigger chains. Every real fires.yml run that ever moved the
+# payload was invisible to this workflow's push trigger, silently, from
+# the day this file was written. It looked correct in every test because
+# every test was a manual workflow_dispatch or a human push, neither of
+# which hits that restriction, and the one thing that could never be
+# tested locally was the exact path this exists to cover.
+#
+# workflow_run fixes it: it fires on another workflow's COMPLETION, not
+# on the push event that workflow made, so the GITHUB_TOKEN restriction
+# does not apply. types: [completed] regardless of fires.yml's own
+# conclusion, deliberately: the gate should be re-checked against
+# whatever is currently committed whether fires.yml succeeded or not,
+# and gating this on fires.yml's success would recreate exactly the
+# hold-vs-crash conflation this workflow was split out to remove.
+#
+# push kept alongside it for a genuine human push to these paths (a
+# hand-edit, a manual data fix) that workflow_run cannot see. Paths match
+# fires/refresh_gate.py's own EVENTS_CUR/AREA_CUR/WEEK_CUR/EU_CUR/
+# AREA_HIST_DIR exactly, so this list and that file cannot silently
+# drift apart without both needing to change for the same reason.
 on:
+  workflow_run:
+    workflows: ["Fires data pull and publish"]
+    types: [completed]
   push:
     branches: [main]
     paths:
@@ -43,7 +62,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      # workflow_run's default checkout is the branch tip, not the
+      # triggering run's own commit, which is fine right up until a
+      # second push lands in the gap between fires.yml finishing and
+      # this job starting. Pin explicitly so this checks the exact state
+      # fires.yml just produced rather than whatever main happens to be
+      # by the time this job runs. head_sha is absent for the push and
+      # workflow_dispatch triggers, so this falls back to the default
+      # (correct) behaviour for both of those.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - uses: actions/setup-python@v5
         with:
