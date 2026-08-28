@@ -98,13 +98,21 @@ def claimed_end_date(html: str, today: date) -> date | None:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--max-age-days", type=int, default=4,
+    ap.add_argument("--max-age-days", type=int, default=2,
                     help="how many days behind today the window may "
-                         "trail before this shouts (default 4: generous "
-                         "enough that a normal multi-day payload hold, "
-                         "like the one open on 2026-08-28, does not "
-                         "trip it, tight enough to catch a scheduler "
-                         "outage within a day or two of it starting)")
+                         "trail before this shouts. Fire's arithmetic, "
+                         "2026-08-28, corrected the original default of "
+                         "4: the trailing window always ends YESTERDAY "
+                         "on a healthy page, so age 1 is the normal "
+                         "reading every day, not age 0. Age 2 means one "
+                         "publish was missed; age 3 means two. D-236 is "
+                         "zero failure days, so the alarm has to fire on "
+                         "the FIRST miss it can safely distinguish from "
+                         "noise, which is the second consecutive one, "
+                         "age 2, not somewhere past D-237's 24-hour hold "
+                         "allowance. The original 4 gave real problems "
+                         "days of silence past that target trying not to "
+                         "cry wolf on a hold that D-237 already covers.")
     ap.add_argument("--as-of", help="pretend today is this date (testing)")
     args = ap.parse_args()
     today = date.fromisoformat(args.as_of) if args.as_of else date.today()
@@ -125,7 +133,13 @@ def main() -> int:
         return 1
 
     age = (today - end).days
-    if age > args.max_age_days:
+    # >= , not >. Fire's arithmetic is stated as "a budget of 2 fires on
+    # the second consecutive miss, age 2": the budget IS the age that
+    # trips it, not the age one below the trip point. A plain `>` here
+    # would have silently moved the real threshold to 3 while the
+    # --help text and every comment still said 2, the exact shape of bug
+    # this whole file exists to catch elsewhere.
+    if age >= args.max_age_days:
         print(f"  STALE: live fires page's window ends {end.isoformat()}, "
               f"{age} day(s) behind today ({today.isoformat()}), budget "
               f"{args.max_age_days}. Checked live, not from the repo: "
