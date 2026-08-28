@@ -109,7 +109,11 @@
       "multiple_unstable": false,
       "z": 12.06,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 2.543,
+        "reading": "enriched",
+        "detections_on_crop_pct": 29.32,
+        "country_land_crop_pct": 11.53,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 2.1,
@@ -151,7 +155,11 @@
       "multiple_unstable": false,
       "z": 6.85,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.3,
+        "reading": "depleted",
+        "detections_on_crop_pct": 1.17,
+        "country_land_crop_pct": 3.89,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 14.5,
@@ -193,7 +201,7 @@
       "multiple_unstable": false,
       "z": 9.05,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "withheld": "no_mask_coverage"
       },
       "persistence": {
         "recur_pct": 0.6,
@@ -235,7 +243,11 @@
       "multiple_unstable": false,
       "z": 3.67,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.576,
+        "reading": "depleted",
+        "detections_on_crop_pct": 2.09,
+        "country_land_crop_pct": 3.63,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 16.7,
@@ -275,7 +287,11 @@
       "multiple_unstable": false,
       "z": 2.88,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.287,
+        "reading": "depleted",
+        "detections_on_crop_pct": 5.73,
+        "country_land_crop_pct": 19.97,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,
@@ -313,7 +329,11 @@
       "multiple_unstable": true,
       "z": 1.99,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.104,
+        "reading": "depleted",
+        "detections_on_crop_pct": 2.88,
+        "country_land_crop_pct": 27.67,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,
@@ -351,7 +371,11 @@
       "multiple_unstable": true,
       "z": 1.25,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.017,
+        "reading": "depleted",
+        "detections_on_crop_pct": 0.21,
+        "country_land_crop_pct": 12.6,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,
@@ -393,7 +417,11 @@
       "multiple_unstable": false,
       "z": 4.19,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 1.104,
+        "reading": "neutral",
+        "detections_on_crop_pct": 56.11,
+        "country_land_crop_pct": 50.84,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 1.6,
@@ -435,7 +463,11 @@
       "multiple_unstable": true,
       "z": 2.68,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 1.43,
+        "reading": "enriched",
+        "detections_on_crop_pct": 10.74,
+        "country_land_crop_pct": 7.51,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,
@@ -473,7 +505,11 @@
       "multiple_unstable": true,
       "z": 1.29,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 1.07,
+        "reading": "neutral",
+        "detections_on_crop_pct": 11.82,
+        "country_land_crop_pct": 11.05,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,
@@ -511,7 +547,11 @@
       "multiple_unstable": true,
       "z": 1.17,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.267,
+        "reading": "depleted",
+        "detections_on_crop_pct": 2.89,
+        "country_land_crop_pct": 10.84,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,
@@ -549,7 +589,11 @@
       "multiple_unstable": false,
       "z": 2.61,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 1.422,
+        "reading": "enriched",
+        "detections_on_crop_pct": 3.31,
+        "country_land_crop_pct": 2.33,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 20.2,
@@ -583,7 +627,11 @@
       "multiple_unstable": false,
       "z": 0.31,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.079,
+        "reading": "depleted",
+        "detections_on_crop_pct": 0.25,
+        "country_land_crop_pct": 3.1,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 18.7,
@@ -617,7 +665,11 @@
       "multiple_unstable": false,
       "z": 1.01,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.638,
+        "reading": "depleted",
+        "detections_on_crop_pct": 0.43,
+        "country_land_crop_pct": 0.67,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.6,
@@ -651,7 +703,11 @@
       "multiple_unstable": false,
       "z": 0.6,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 1.111,
+        "reading": "neutral",
+        "detections_on_crop_pct": 9.42,
+        "country_land_crop_pct": 8.48,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.1,
@@ -685,7 +741,11 @@
       "multiple_unstable": true,
       "z": 0.34,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.716,
+        "reading": "depleted",
+        "detections_on_crop_pct": 17.34,
+        "country_land_crop_pct": 24.2,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 20.4,
@@ -719,7 +779,11 @@
       "multiple_unstable": false,
       "z": 0.43,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.607,
+        "reading": "depleted",
+        "detections_on_crop_pct": 1.01,
+        "country_land_crop_pct": 1.66,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,
@@ -753,7 +817,11 @@
       "multiple_unstable": false,
       "z": -0.39,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.589,
+        "reading": "depleted",
+        "detections_on_crop_pct": 3.06,
+        "country_land_crop_pct": 5.2,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.1,
@@ -787,7 +855,11 @@
       "multiple_unstable": false,
       "z": -0.21,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.341,
+        "reading": "depleted",
+        "detections_on_crop_pct": 4.99,
+        "country_land_crop_pct": 14.65,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 21.3,
@@ -821,7 +893,11 @@
       "multiple_unstable": true,
       "z": -0.5,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.559,
+        "reading": "depleted",
+        "detections_on_crop_pct": 15.42,
+        "country_land_crop_pct": 27.57,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 29.0,
@@ -855,7 +931,11 @@
       "multiple_unstable": true,
       "z": -0.68,
       "land_use": {
-        "withheld": "mask_unavailable"
+        "cropland_ratio": 0.276,
+        "reading": "depleted",
+        "detections_on_crop_pct": 6.71,
+        "country_land_crop_pct": 24.36,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,

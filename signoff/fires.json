@@ -1,9 +1,9 @@
 {
   "channel": "fires",
-  "approved_hash": "7b05f3d05cf9ec15230fafe00d8ac229e40e20604a16227e16252bd4cb0e828a",
-  "approved_at": "2026-08-27T09:50:14+00:00",
+  "approved_hash": "24959eeb46b33ed255739889fa72f87b4af1edd8668a1c1c9d8e9813fc0a2f39",
+  "approved_at": "2026-08-28T08:19:50+00:00",
   "approved_by": "Fire",
-  "note": "Reviewed the preview build. Channel index reads wk Aug 20-26; Indonesia carries 1,884,278 ha through 2026-08-26 and PNG the week-34 figures. The template change being approved is today's land_use and persistence work: land_use now reaches events.json via its allowlist, persistence withholds as a verdict rather than a missing key so a quiet country renders 'not assessed' instead of silence, and a zero-detection week ranks last rather than first.",
+  "note": "Reviewed the preview. The hash moved because platform ADDED files to SIGNOFF_INPUTS (tokens.py, page_head.py, subscribe_band.py and three run_brief symbols), not because any file changed; every listed input matches HEAD. Content reviewed: wk Aug 21-27, and the cropland readings are restored, 'not assessed' down from 22 rows to 1. That regression came from CI building the payload without the crop mask; platform has now cached it so it stops depending on which machine builds. Cuba reads 2.54 enriched, its third consecutive week (2.67, 2.64, 2.54). Algeria reads 1.42 enriched on about 148 detections, which is essentially Romania's documented post-harvest level, so its season record should be described on mapped area rather than on the detection count.",
   "inputs": [
     "fires/build_country_pages.py",
     "fires/build_page.py",

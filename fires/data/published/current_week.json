@@ -72,8 +72,18 @@
    "lon": 18.01,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 1.01,
+    "country_land_crop_pct": 1.66,
+    "ratio": 0.607,
+    "reading": "depleted",
+    "n_detections_sampled": 70894,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -123,8 +133,18 @@
    "lon": 19.97,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 1.98,
+    "country_land_crop_pct": 7.07,
+    "ratio": 0.28,
+    "reading": "depleted",
+    "n_detections_sampled": 211,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -174,8 +194,18 @@
    "lon": -60.94,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 5.9,
+    "country_land_crop_pct": 13.73,
+    "ratio": 0.43,
+    "reading": "depleted",
+    "n_detections_sampled": 4357,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 1.3,
@@ -225,8 +255,18 @@
    "lon": 138.09,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.98,
+    "country_land_crop_pct": 5.1,
+    "ratio": 0.193,
+    "reading": "depleted",
+    "n_detections_sampled": 10226,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 1.6,
@@ -276,8 +316,18 @@
    "lon": 14.4,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 1.82,
+    "country_land_crop_pct": 15.0,
+    "ratio": 0.121,
+    "reading": "depleted",
+    "n_detections_sampled": 77,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 51.9,
@@ -327,8 +377,18 @@
    "lon": 4.14,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.94,
+    "country_land_crop_pct": 22.0,
+    "ratio": 0.043,
+    "reading": "depleted",
+    "n_detections_sampled": 124,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 69.4,
@@ -378,8 +438,18 @@
    "lon": 24.58,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 22.79,
+    "country_land_crop_pct": 34.53,
+    "ratio": 0.66,
+    "reading": "depleted",
+    "n_detections_sampled": 133,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 9.8,
@@ -429,8 +499,18 @@
    "lon": 17.78,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.72,
+    "country_land_crop_pct": 3.23,
+    "ratio": 0.222,
+    "reading": "depleted",
+    "n_detections_sampled": 259,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 5.0,
@@ -480,8 +560,18 @@
    "lon": -62.78,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.56,
+    "country_land_crop_pct": 1.59,
+    "ratio": 0.354,
+    "reading": "depleted",
+    "n_detections_sampled": 3467,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 7.3,
@@ -531,8 +621,18 @@
    "lon": -52.63,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 1.3,
+    "country_land_crop_pct": 6.9,
+    "ratio": 0.188,
+    "reading": "depleted",
+    "n_detections_sampled": 40994,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 2.8,
@@ -582,8 +682,18 @@
    "lon": 23.73,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.27,
+    "country_land_crop_pct": 0.69,
+    "ratio": 0.396,
+    "reading": "depleted",
+    "n_detections_sampled": 4354,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -633,8 +743,18 @@
    "lon": -120.52,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.25,
+    "country_land_crop_pct": 3.1,
+    "ratio": 0.079,
+    "reading": "depleted",
+    "n_detections_sampled": 28560,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 18.7,
@@ -684,8 +804,18 @@
    "lon": -71.15,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 3.86,
+    "country_land_crop_pct": 0.92,
+    "ratio": 4.195,
+    "reading": "enriched",
+    "n_detections_sampled": 149,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 14.8,
@@ -735,8 +865,18 @@
    "lon": 109.6,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 10.69,
+    "country_land_crop_pct": 12.76,
+    "ratio": 0.838,
+    "reading": "neutral",
+    "n_detections_sampled": 3875,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 16.3,
@@ -786,8 +926,18 @@
    "lon": 23.15,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.43,
+    "country_land_crop_pct": 0.67,
+    "ratio": 0.638,
+    "reading": "depleted",
+    "n_detections_sampled": 104488,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.6,
@@ -837,8 +987,8 @@
    "lon": 14.87,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -888,8 +1038,8 @@
    "lon": -73.64,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
    },
    "persistence": {
     "recur_pct": 2.1,
@@ -939,8 +1089,18 @@
    "lon": -78.97,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 29.32,
+    "country_land_crop_pct": 11.53,
+    "ratio": 2.543,
+    "reading": "enriched",
+    "n_detections_sampled": 875,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 2.1,
@@ -990,8 +1150,18 @@
    "lon": 33.33,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 8.4,
+    "country_land_crop_pct": 13.24,
+    "ratio": 0.634,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 5,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -1037,8 +1207,18 @@
    "lon": 16.59,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 27.42,
+    "country_land_crop_pct": 34.88,
+    "ratio": 0.786,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 12,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -1084,8 +1264,18 @@
    "lon": 8.82,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 7.88,
+    "country_land_crop_pct": 36.18,
+    "ratio": 0.218,
+    "reading": "depleted",
+    "n_detections_sampled": 529,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 35.0,
@@ -1135,8 +1325,18 @@
    "lon": 9.73,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 33.86,
+    "country_land_crop_pct": 50.86,
+    "ratio": 0.666,
+    "reading": "depleted",
+    "n_detections_sampled": 63,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 46.0,
@@ -1186,8 +1386,18 @@
    "lon": -70.78,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 10.74,
+    "country_land_crop_pct": 7.51,
+    "ratio": 1.43,
+    "reading": "enriched",
+    "n_detections_sampled": 346,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -1237,8 +1447,18 @@
    "lon": 6.28,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 3.31,
+    "country_land_crop_pct": 2.33,
+    "ratio": 1.422,
+    "reading": "enriched",
+    "n_detections_sampled": 4480,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 20.2,
@@ -1288,8 +1508,18 @@
    "lon": -78.69,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 1.81,
+    "country_land_crop_pct": 0.45,
+    "ratio": 4.024,
+    "reading": "enriched",
+    "n_detections_sampled": 396,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -1339,8 +1569,18 @@
    "lon": -2.87,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 6.71,
+    "country_land_crop_pct": 24.36,
+    "ratio": 0.276,
+    "reading": "depleted",
+    "n_detections_sampled": 181,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -1390,8 +1630,18 @@
    "lon": 27.89,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 15.95,
+    "ratio": 0.0,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 2,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -1437,8 +1687,18 @@
    "lon": 24.83,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 3.75,
+    "country_land_crop_pct": 4.55,
+    "ratio": 0.823,
+    "reading": "neutral",
+    "n_detections_sampled": 59,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 28.8,
@@ -1488,8 +1748,18 @@
    "lon": 3.12,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 15.42,
+    "country_land_crop_pct": 27.57,
+    "ratio": 0.559,
+    "reading": "depleted",
+    "n_detections_sampled": 300,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 29.0,
@@ -1539,8 +1809,18 @@
    "lon": -2.2,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 17.34,
+    "country_land_crop_pct": 24.2,
+    "ratio": 0.716,
+    "reading": "depleted",
+    "n_detections_sampled": 211,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 20.4,
@@ -1590,8 +1870,18 @@
    "lon": 45.84,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 84.23,
+    "country_land_crop_pct": 5.0,
+    "ratio": 16.846,
+    "reading": "enriched",
+    "n_detections_sampled": 123,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -1641,8 +1931,18 @@
    "lon": 22.86,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 9.43,
+    "country_land_crop_pct": 15.78,
+    "ratio": 0.598,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 35,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -1688,8 +1988,18 @@
    "lon": 18.16,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.21,
+    "country_land_crop_pct": 12.6,
+    "ratio": 0.017,
+    "reading": "depleted",
+    "n_detections_sampled": 462,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -1739,8 +2049,18 @@
    "lon": -72.1,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 2.81,
+    "country_land_crop_pct": 3.54,
+    "ratio": 0.795,
+    "reading": "neutral",
+    "n_detections_sampled": 59,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -1790,8 +2110,18 @@
    "lon": 19.98,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 22.36,
+    "country_land_crop_pct": 49.77,
+    "ratio": 0.449,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 22,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -1837,8 +2167,18 @@
    "lon": 112.46,
    "basis": "largest_cluster",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 2.09,
+    "country_land_crop_pct": 3.63,
+    "ratio": 0.576,
+    "reading": "depleted",
+    "n_detections_sampled": 38285,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 16.7,
@@ -1888,8 +2228,18 @@
    "lon": 81.17,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 17.39,
+    "country_land_crop_pct": 43.43,
+    "ratio": 0.4,
+    "reading": "depleted",
+    "n_detections_sampled": 592,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 2.0,
@@ -1939,8 +2289,18 @@
    "lon": -7.3,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 19.8,
+    "country_land_crop_pct": 5.04,
+    "ratio": 3.929,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 15,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -1986,8 +2346,18 @@
    "lon": 50.85,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 5.35,
+    "country_land_crop_pct": 8.44,
+    "ratio": 0.634,
+    "reading": "depleted",
+    "n_detections_sampled": 2680,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 55.1,
@@ -2037,8 +2407,18 @@
    "lon": 45.52,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 13.4,
+    "country_land_crop_pct": 10.11,
+    "ratio": 1.325,
+    "reading": "enriched",
+    "n_detections_sampled": 2822,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 66.4,
@@ -2088,8 +2468,18 @@
    "lon": 35.37,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 25.22,
+    "country_land_crop_pct": 16.24,
+    "ratio": 1.553,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 41,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -2135,8 +2525,18 @@
    "lon": 16.26,
    "basis": "largest_cluster",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 23.38,
+    "country_land_crop_pct": 25.57,
+    "ratio": 0.914,
+    "reading": "neutral",
+    "n_detections_sampled": 907,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 12.5,
@@ -2186,8 +2586,18 @@
    "lon": -77.23,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 11.25,
+    "country_land_crop_pct": 2.17,
+    "ratio": 5.186,
+    "reading": "enriched",
+    "n_detections_sampled": 83,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -2237,8 +2647,18 @@
    "lon": 135.4,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.66,
+    "country_land_crop_pct": 6.56,
+    "ratio": 0.101,
+    "reading": "depleted",
+    "n_detections_sampled": 557,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 48.3,
@@ -2288,8 +2708,18 @@
    "lon": 62.84,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 6.59,
+    "country_land_crop_pct": 9.62,
+    "ratio": 0.685,
+    "reading": "depleted",
+    "n_detections_sampled": 1452,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 27.0,
@@ -2339,8 +2769,18 @@
    "lon": 105.22,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 30.44,
+    "country_land_crop_pct": 31.1,
+    "ratio": 0.979,
+    "reading": "neutral",
+    "n_detections_sampled": 80,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -2390,8 +2830,18 @@
    "lon": 128.43,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.58,
+    "country_land_crop_pct": 9.21,
+    "ratio": 0.063,
+    "reading": "depleted",
+    "n_detections_sampled": 103,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 6.8,
@@ -2441,8 +2891,18 @@
    "lon": 101.14,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 5.92,
+    "ratio": 0.0,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 1,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -2488,8 +2948,18 @@
    "lon": 35.61,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 17.88,
+    "country_land_crop_pct": 9.1,
+    "ratio": 1.965,
+    "reading": "enriched",
+    "n_detections_sampled": 51,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -2539,8 +3009,8 @@
    "lon": 18.77,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
    },
    "persistence": {
     "recur_pct": 73.3,
@@ -2590,8 +3060,18 @@
    "lon": 81.07,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 30.98,
+    "country_land_crop_pct": 12.57,
+    "ratio": 2.465,
+    "reading": "enriched",
+    "n_detections_sampled": 273,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -2641,8 +3121,7 @@
    "lon": null,
    "basis": "none",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_detections"
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -2688,8 +3167,18 @@
    "lon": 5.98,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 16.95,
+    "ratio": 0.0,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 11,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -2735,8 +3224,18 @@
    "lon": 22.92,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.0,
+    "country_land_crop_pct": 20.64,
+    "ratio": 0.0,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 4,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -2782,8 +3281,18 @@
    "lon": -6.86,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 36.23,
+    "country_land_crop_pct": 10.72,
+    "ratio": 3.38,
+    "reading": "enriched",
+    "n_detections_sampled": 65,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -2833,8 +3342,18 @@
    "lon": 46.41,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.78,
+    "country_land_crop_pct": 2.25,
+    "ratio": 0.348,
+    "reading": "depleted",
+    "n_detections_sampled": 13223,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.2,
@@ -2884,8 +3403,18 @@
    "lon": -92.93,
    "basis": "largest_cluster",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 5.76,
+    "country_land_crop_pct": 5.94,
+    "ratio": 0.969,
+    "reading": "neutral",
+    "n_detections_sampled": 1859,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 26.1,
@@ -2935,8 +3464,18 @@
    "lon": 21.49,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 11.82,
+    "country_land_crop_pct": 11.05,
+    "ratio": 1.07,
+    "reading": "neutral",
+    "n_detections_sampled": 278,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -2986,8 +3525,7 @@
    "lon": null,
    "basis": "none",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_detections"
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3033,8 +3571,18 @@
    "lon": 95.98,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 29.6,
+    "country_land_crop_pct": 16.88,
+    "ratio": 1.754,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 5,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3080,8 +3628,8 @@
    "lon": 18.97,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -3131,8 +3679,18 @@
    "lon": 36.18,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 9.42,
+    "country_land_crop_pct": 8.48,
+    "ratio": 1.111,
+    "reading": "neutral",
+    "n_detections_sampled": 50524,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.1,
@@ -3182,8 +3740,18 @@
    "lon": 34.4,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 14.66,
+    "country_land_crop_pct": 27.4,
+    "ratio": 0.535,
+    "reading": "depleted",
+    "n_detections_sampled": 1312,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -3233,8 +3801,8 @@
    "lon": 102.72,
    "basis": "largest_cluster",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
    },
    "persistence": {
     "recur_pct": 3.7,
@@ -3284,8 +3852,18 @@
    "lon": 19.73,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 0.27,
+    "country_land_crop_pct": 0.73,
+    "ratio": 0.364,
+    "reading": "depleted",
+    "n_detections_sampled": 5072,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -3335,8 +3913,18 @@
    "lon": 4.58,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 1.37,
+    "country_land_crop_pct": 15.47,
+    "ratio": 0.088,
+    "reading": "depleted",
+    "n_detections_sampled": 125,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 58.4,
@@ -3386,8 +3974,18 @@
    "lon": 7.76,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 2.76,
+    "country_land_crop_pct": 1.23,
+    "ratio": 2.241,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 37,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3433,8 +4031,7 @@
    "lon": null,
    "basis": "none",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_detections"
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3480,8 +4077,18 @@
    "lon": 174.58,
    "basis": "largest_cluster",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 3.47,
+    "country_land_crop_pct": 1.27,
+    "ratio": 2.734,
+    "reading": "enriched",
+    "n_detections_sampled": 55,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 16.4,
@@ -3531,8 +4138,18 @@
    "lon": -74.5,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 1.38,
+    "country_land_crop_pct": 0.44,
+    "ratio": 3.133,
+    "reading": "enriched",
+    "n_detections_sampled": 1779,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -3582,8 +4199,18 @@
    "lon": 124.08,
    "basis": "largest_cluster",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 2.89,
+    "country_land_crop_pct": 10.84,
+    "ratio": 0.267,
+    "reading": "depleted",
+    "n_detections_sampled": 182,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -3633,8 +4260,8 @@
    "lon": 144.43,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
    },
    "persistence": {
     "recur_pct": 0.6,
@@ -3684,8 +4311,18 @@
    "lon": 18.28,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 21.68,
+    "country_land_crop_pct": 42.79,
+    "ratio": 0.507,
+    "reading": "depleted",
+    "n_detections_sampled": 164,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 15.2,
@@ -3735,8 +4372,18 @@
    "lon": -8.3,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 3.18,
+    "country_land_crop_pct": 10.05,
+    "ratio": 0.316,
+    "reading": "depleted",
+    "n_detections_sampled": 51,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -3786,8 +4433,18 @@
    "lon": -57.97,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 2.57,
+    "country_land_crop_pct": 8.13,
+    "ratio": 0.316,
+    "reading": "depleted",
+    "n_detections_sampled": 2976,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 1.0,
@@ -3837,8 +4494,18 @@
    "lon": 23.84,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 44.51,
+    "country_land_crop_pct": 35.65,
+    "ratio": 1.249,
+    "reading": "neutral",
+    "n_detections_sampled": 325,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 5.2,
@@ -3888,8 +4555,18 @@
    "lon": 96.07,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 1.17,
+    "country_land_crop_pct": 3.89,
+    "ratio": 0.3,
+    "reading": "depleted",
+    "n_detections_sampled": 216391,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 14.5,
@@ -3939,8 +4616,8 @@
    "lon": 46.54,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
    },
    "persistence": {
     "recur_pct": 29.3,
@@ -3990,8 +4667,18 @@
    "lon": 21.16,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 2.88,
+    "country_land_crop_pct": 27.67,
+    "ratio": 0.104,
+    "reading": "depleted",
+    "n_detections_sampled": 580,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -4041,8 +4728,18 @@
    "lon": 20.92,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 7.49,
+    "country_land_crop_pct": 30.5,
+    "ratio": 0.246,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 49,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -4088,8 +4785,7 @@
    "lon": null,
    "basis": "none",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_detections"
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -4135,8 +4831,18 @@
    "lon": 16.95,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 6.74,
+    "country_land_crop_pct": 5.5,
+    "ratio": 1.225,
+    "reading": "neutral",
+    "n_detections_sampled": 72,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 40.3,
@@ -4186,8 +4892,18 @@
    "lon": 40.2,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 79.27,
+    "country_land_crop_pct": 20.13,
+    "ratio": 3.938,
+    "reading": "enriched",
+    "n_detections_sampled": 511,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 6.5,
@@ -4237,8 +4953,18 @@
    "lon": 100.25,
    "basis": "largest_cluster",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 57.81,
+    "country_land_crop_pct": 33.24,
+    "ratio": 1.739,
+    "reading": "enriched",
+    "n_detections_sampled": 70,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -4288,8 +5014,18 @@
    "lon": 60.88,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 32.78,
+    "country_land_crop_pct": 4.86,
+    "ratio": 6.744,
+    "reading": "enriched",
+    "n_detections_sampled": 931,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 28.8,
@@ -4339,8 +5075,18 @@
    "lon": 9.46,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 24.41,
+    "country_land_crop_pct": 9.16,
+    "ratio": 2.665,
+    "reading": "enriched",
+    "n_detections_sampled": 139,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 12.9,
@@ -4390,8 +5136,18 @@
    "lon": 34.29,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 49.57,
+    "country_land_crop_pct": 23.47,
+    "ratio": 2.112,
+    "reading": "enriched",
+    "n_detections_sampled": 1104,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 11.8,
@@ -4441,8 +5197,18 @@
    "lon": 33.48,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 6.08,
+    "country_land_crop_pct": 15.72,
+    "ratio": 0.387,
+    "reading": "depleted",
+    "n_detections_sampled": 15126,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.2,
@@ -4492,8 +5258,18 @@
    "lon": 33.08,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 5.73,
+    "country_land_crop_pct": 19.97,
+    "ratio": 0.287,
+    "reading": "depleted",
+    "n_detections_sampled": 1550,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -4543,8 +5319,18 @@
    "lon": 35.74,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 56.11,
+    "country_land_crop_pct": 50.84,
+    "ratio": 1.104,
+    "reading": "neutral",
+    "n_detections_sampled": 8893,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 1.6,
@@ -4594,8 +5380,18 @@
    "lon": -56.7,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 4.42,
+    "country_land_crop_pct": 12.17,
+    "ratio": 0.363,
+    "reading": "insufficient_sample",
+    "n_detections_sampled": 48,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -4641,8 +5437,18 @@
    "lon": -109.33,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 4.99,
+    "country_land_crop_pct": 14.65,
+    "ratio": 0.341,
+    "reading": "depleted",
+    "n_detections_sampled": 18798,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 21.3,
@@ -4692,8 +5498,8 @@
    "lon": -65.43,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "withheld": "no_mask_coverage",
+    "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
    },
    "persistence": {
     "recur_pct": 37.2,
@@ -4743,8 +5549,18 @@
    "lon": 107.69,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 26.73,
+    "country_land_crop_pct": 13.33,
+    "ratio": 2.005,
+    "reading": "enriched",
+    "n_detections_sampled": 262,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -4794,8 +5610,18 @@
    "lon": 28.91,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 2.98,
+    "country_land_crop_pct": 6.18,
+    "ratio": 0.483,
+    "reading": "depleted",
+    "n_detections_sampled": 8247,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 3.8,
@@ -4845,8 +5671,18 @@
    "lon": 27.52,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 3.06,
+    "country_land_crop_pct": 5.2,
+    "ratio": 0.589,
+    "reading": "depleted",
+    "n_detections_sampled": 50152,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 0.1,
@@ -4896,8 +5732,18 @@
    "lon": 30.17,
    "basis": "weighted",
    "cropland": {
-    "withheld": "mask_unavailable",
-    "detail": "ASAP crop mask not cached. ASAP crop mask v04, 500 m percent cropland, JRC. Fetched by crops.asap_reference.ensure(). Fetch it deliberately: python -c \"from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')\" (106 MB). The block is withheld rather than guessed when it is absent."
+    "detections_on_crop_pct": 11.33,
+    "country_land_crop_pct": 10.77,
+    "ratio": 1.052,
+    "reading": "neutral",
+    "n_detections_sampled": 7977,
+    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
+    "mask_vintage": {
+     "mask": "asap_mask_crop_v04.tif",
+     "version": "v04",
+     "retrieved": "2026-08-18"
+    },
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
     "recur_pct": 1.7,
