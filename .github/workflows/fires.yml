@@ -287,6 +287,50 @@ jobs:
         # purpose is not failing the run.
         run: PYTHONPATH="$PWD" python fires/wait_for_quota.py
 
+      # CACHE THE CROP MASK, so the land_use field stops flickering
+      # between "measured" and "not assessed" depending on who built the
+      # payload. Fire's finding, 2026-08-28: fires/cropland.py fetches the
+      # ASAP crop mask on demand via crops.asap_reference.ensure(), which
+      # is CRO's rule and the right one (reference data is fetched
+      # deliberately, never as a side effect of a publish). But CI has no
+      # persistent /home, so every scheduled run started from zero and
+      # withheld land_use on all 97 countries, while Fire's own hand-run
+      # local builds carried real ratios: the page's meaning depended on
+      # who happened to publish it, which is worse than either state on
+      # its own.
+      #
+      # A static cache key is correct here, not lazy: the JRC puts the
+      # vintage IN the filename (VINTAGE = v04 in
+      # crops/asap_reference.py) and gives no other versioning, so a
+      # cache keyed on that filename can never serve a stale mask under a
+      # live claim. If JRC ships v05 that is a different file, a
+      # different key, and by Fire and CRO's own agreement a claim that
+      # needs recomputation rather than carry-forward.
+      #
+      # BEFORE the detections pull, since build_events is what reads it.
+      # If the cache misses and the download fails, nothing breaks:
+      # cropland.py returns None exactly as it does today, build_events
+      # prints its loud banner and every country stamps mask_unavailable.
+      # This step can only improve on the status quo, never regress it.
+      - name: Restore the ASAP crop mask from cache
+        uses: actions/cache@v4
+        with:
+          path: crops/.cache/asap_reference/asap_mask_crop_v04.tif
+          key: asap-crop-mask-v04
+
+      # continue-on-error: a first-time 106 MB download can fail for
+      # reasons that have nothing to do with fires (JRC's endpoint,
+      # network), and this step existing to IMPROVE land_use coverage
+      # must never be able to cost the day's detections and burnt-area
+      # pull. A miss here just means cropland.py returns None again, the
+      # same as every run before this step existed.
+      - name: Ensure the crop mask is present
+        continue-on-error: true
+        timeout-minutes: 20
+        run: |
+          PYTHONPATH="$PWD" python -c \
+            "from crops.asap_reference import ensure; ensure('asap_mask_crop_v04.tif')"
+
       # continue-on-error, so a detections failure cannot take down the
       # burnt-area pull or the publish. Those refresh on a different clock
       # and holding them hostage to detections is what left the page
