@@ -63,6 +63,72 @@ def latest_cumulative(scope, iso):
 
 
 
+
+def _clean_avg(iso, week):
+    """Mean prior-year burnt area at this week, ignoring a LEADING run of
+    all-zero years.
+
+    WHY WE COMPUTE THIS RATHER THAN USE EFFIS'S OWN area_ha_avg. Their
+    average counts years before their coverage began as zero, so a country
+    whose record starts late is divided by a mean that includes years
+    nobody measured. Algeria reads 0 for 2006, 2007 and 2008 while Spain,
+    Greece and Italy all carry real figures for exactly those years, so
+    this is coverage starting late rather than an absence of fire. Three
+    withheld values read as measurements.
+
+    The cost, on the number we published: Algeria's multiple was 6.27x
+    and is 5.33x once the three empty years come out, an 18 percent
+    overstatement live on the page. 35 of 97 countries carry a leading
+    zero run, Slovakia and Ukraine 14 years each.
+
+    Found by socials while building a card, not by me, and it is the same
+    error this channel has spent a fortnight catching elsewhere: absence
+    rendered as a value.
+
+    INTERIOR ZEROS ARE KEPT. A zero after coverage begins is a real
+    measurement of a quiet year and belongs in the mean. Only the leading
+    run is dropped, and only where it ENDS: a country that is zero
+    throughout, as Luxembourg is for all 21 years, is more likely to be
+    genuinely below EFFIS's minimum mapping unit than uncovered, so it
+    gets no average and no multiple rather than a guess.
+
+    Verified against EFFIS's own figure on five countries with no leading
+    gap, Spain, Greece, Italy, Portugal and France: identical to the
+    decimal, so this reproduces their method and differs only where the
+    zeros are.
+    """
+    path = os.path.join(REPO, "fires", "data", "area_history", f"{iso}.json")
+    if not os.path.exists(path):
+        return None, {"basis": "no history file"}
+    try:
+        raw = json.load(open(path))
+        years = {k: v for k, v in (raw.get("years") or raw).items()
+                 if str(k).isdigit()}
+    except (OSError, ValueError):
+        return None, {"basis": "history unreadable"}
+
+    wk = str(week)
+    ordered = sorted(years)
+    lead = 0
+    for y in ordered:
+        vals = years[y].values()
+        if vals and max(vals) == 0:
+            lead += 1
+        else:
+            break
+    if lead == len(ordered):
+        return None, {"basis": "every year reads zero; withheld rather "
+                              "than averaged", "years_dropped": lead}
+
+    used = [years[y][wk] for y in ordered[lead:]
+            if int(y) < YEAR and wk in years[y]]
+    if not used:
+        return None, {"basis": "no prior year carries this week"}
+    return (sum(used) / len(used),
+            {"basis": "mean of prior years at this week, leading all-zero "
+                      "years dropped as uncovered rather than quiet",
+             "years_used": len(used), "years_dropped": lead})
+
 def _cycle(countries: dict) -> dict:
     """Next EFFIS weekly close, derived from the newest as_of we hold."""
     seen = sorted({c.get("as_of") for c in countries.values()
@@ -101,12 +167,16 @@ def main():
         lag = (date.today() - asof).days
         if lag > MAX_LAG_DAYS:
             stale.append(f"{iso} ({lag}d)")
-        avg = row.get("area_ha_avg") or 0
+        avg, avg_basis = _clean_avg(iso, row["week"])
+        if avg is None:
+            avg = row.get("area_ha_avg") or 0
+            avg_basis = {"basis": "EFFIS area_ha_avg, unadjusted"}
         out[iso] = {
             "name": c["name"], "source": scope.upper(),
             "week": row["week"], "as_of": asof.isoformat(), "lag_days": lag,
             "area_ha": row["area_ha"],
-            "avg_ha": round(avg, 1),
+            "avg_ha": round(avg, 1) if avg else None,
+            "avg_basis": avg_basis,
             "max_ha": row.get("area_ha_max"),
             "multiple": round(row["area_ha"] / avg, 2) if avg else None,
             "vs_max": (round(row["area_ha"] / row["area_ha_max"], 2)
