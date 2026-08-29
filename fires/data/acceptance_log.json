@@ -74,5 +74,21 @@
    "DZA: season-record claim False -> True. This is the 'has already passed <year>' / 'the record still stands' sentence on the country page, computed from fires/data/area_history/DZA.json, a different file from burnt_area.json's own record check above."
   ],
   "files_promoted": 48
+ },
+ {
+  "accepted_at": "2026-08-29T08:59:16+00:00",
+  "accepted_by": "Fire",
+  "note": "Eight changes. Uganda is the real one: 2,064 detections, 4.60x, rank 1 of 15, fire_like, and cropland DEPLETED at 0.27, so a clean fire record with no agricultural caveat. Algeria leaves the qualifying set because the persistence test flipped it back to persistent_source after one day reading fire_like; its 2.32x rank 1 detection week is therefore excluded, while its season record on MAPPED AREA is unaffected because burn scars cannot come from flaring. Tunisia enters at 2.01x rank 2 but reads 1.94 enriched on cropland, above Romania's documented post-harvest level, so copy should not call it a wildfire story. Serbia, Macedonia, Dominican Republic and Philippines all fall out honestly at 1.42x to 1.95x, rank 3. Ukraine loses its record at 2.48x rank 2. Denmark moves off 1st on 55 detections, far below the noise floor.",
+  "held_on": [
+   "events: region(s) entered the qualifying set: ['Tunisia']",
+   "events: region(s) LEFT the qualifying set: ['Algeria', 'Dominican Republic', 'Macedonia', 'Philippines', 'Republic of Serbia']",
+   "Uganda: 'record' qualification False -> True",
+   "Ukraine: 'record' qualification True -> False",
+   "Denmark: weekly rank 1 -> 3, crossing the 1st-place boundary",
+   "Dominican Republic: weekly rank 1 -> 3, crossing the 1st-place boundary",
+   "Uganda: weekly rank 2 -> 1, crossing the 1st-place boundary",
+   "Ukraine: weekly rank 1 -> 2, crossing the 1st-place boundary"
+  ],
+  "files_promoted": 43
  }
 ]
