@@ -97,17 +97,20 @@ concurrency:
 jobs:
   fires:
     runs-on: ubuntu-latest
-    # 90, not 60. Adding up the step budgets: setup 2, baseline 30,
-    # commit 1, quota wait 20, detections 2, burnt area 3, publish 3, plus
-    # commits, gives a worst case of about 63 minutes. A 60 minute job
-    # timeout therefore killed the run on a bad day, and did so at the
-    # END, discarding the publish after paying for every fetch.
+    # 120, not 90. Adding up the step budgets after raising the baseline
+    # refresh to 45 (2026-08-29, Fire's measurement against the 97-
+    # country roster): setup 2, baseline 45, commit 1, quota wait 20,
+    # detections 2, retry-detections worst case 25, burnt area 3, publish
+    # 3, gives a worst case of about 101 minutes. The previous 90 minute
+    # ceiling would have killed a genuine worst-case run at the END,
+    # discarding the publish after paying for every fetch, same failure
+    # shape the 60-to-90 raise below was originally written to fix.
     #
     # A job timeout is a backstop against a runaway, not a scheduling
     # tool. The real bounds are the per-step timeouts above, which is
     # where a hang now gets caught. This only needs to sit above the sum
     # of them with room to spare.
-    timeout-minutes: 90
+    timeout-minutes: 120
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -170,24 +173,30 @@ jobs:
       # tolerated on purpose: without a fresh baseline, build_events.py
       # refuses and the workflow already treats that as a warning, while
       # burnt area can still refresh and the publish can still run.
-      # 30 minutes, not 10. The first attempt at this used 10 and traded a
-      # hang for a truncation: the step reached country 22 of 45 and was
-      # cut, and because fetch_window_baseline.py writes
-      # country_history.json only after ALL 45 countries complete, a
-      # truncated run writes NOTHING. Detections then stayed frozen for a
-      # third day while the step looked bounded and well behaved.
+      # 45 minutes, not 30. The roster grew from 45 countries to 97
+      # (comment above was stale) and Fire measured the step now taking
+      # 20-26 minutes against that 30-minute ceiling, which is why it
+      # timed out on 27 August and has stayed marginal since. The first
+      # attempt at this used 10 and traded a hang for a truncation: the
+      # step reached country 22 of 45 and was cut, and because
+      # fetch_window_baseline.py writes country_history.json only after
+      # ALL countries complete, a truncated run writes NOTHING.
+      # Detections then stayed frozen for a third day while the step
+      # looked bounded and well behaved. Same failure shape at a higher
+      # roster count is exactly what a marginal timeout produces.
       #
       # A generous budget is safe here in a way it was not before, and the
       # reason matters: individual requests are now bounded by
       # fires/_http.py, so this timeout is no longer the only thing
       # standing between a stalled socket and an infinite job. It only has
-      # to exceed legitimate worst-case work, which is 45 countries plus
-      # whatever a few exhausted retries add. Observed range is 5 to 10
-      # minutes. The job timeout stays at 60, and burnt area plus publish
-      # need about 5, so 30 leaves real headroom on both sides.
+      # to exceed legitimate worst-case work, which is 97 countries plus
+      # whatever a few exhausted retries add. 45 leaves the same rough
+      # headroom over the observed 20-26 minutes that 30 gave over the
+      # old 5-10. Job-level timeout raised alongside it (below) so this
+      # room is real rather than borrowed from another step's budget.
       - name: Refresh the same-week baseline
         id: baseline
-        timeout-minutes: 30
+        timeout-minutes: 45
         continue-on-error: true
         run: PYTHONPATH="$PWD" python fires/fetch_window_baseline.py
 
