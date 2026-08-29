@@ -30,13 +30,38 @@ name: "fires gate: publish held, needs review"
 # which hits that restriction, and the one thing that could never be
 # tested locally was the exact path this exists to cover.
 #
-# workflow_run fixes it: it fires on another workflow's COMPLETION, not
-# on the push event that workflow made, so the GITHUB_TOKEN restriction
-# does not apply. types: [completed] regardless of fires.yml's own
-# conclusion, deliberately: the gate should be re-checked against
-# whatever is currently committed whether fires.yml succeeded or not,
-# and gating this on fires.yml's success would recreate exactly the
-# hold-vs-crash conflation this workflow was split out to remove.
+# workflow_run fixes the TRIGGER: it fires on another workflow's
+# COMPLETION, not on the push event that workflow made, so the
+# GITHUB_TOKEN restriction does not apply. types: [completed] regardless
+# of fires.yml's own conclusion, deliberately: the gate should be
+# re-checked against whatever is currently committed whether fires.yml
+# succeeded or not, and gating this on fires.yml's success would
+# recreate exactly the hold-vs-crash conflation this workflow was split
+# out to remove.
+#
+# WHAT IT DOES NOT FIX: github.event.workflow_run.head_sha is the commit
+# fires.yml STARTED against, not the commit it ENDED at. fires.yml
+# pushes up to three commits of its own during a single run (baseline,
+# data pull, published pages), so by the time it completes, head_sha
+# names a commit from before any of those landed. Checking that ref out
+# here re-ran refresh_gate.py against pre-run state and reported
+# PUBLISH while the real, post-run commit was genuinely HELD (D-212,
+# 2026-08-29: Tunisia entering the qualifying set, five countries
+# leaving it, Uganda and Ukraine flipping record qualification, four
+# countries crossing the weekly #1 boundary). The gate looked correct
+# in every earlier test because every earlier test was a manual
+# workflow_dispatch against a quiet repo, where the pre-run and post-run
+# commit happen to be the same thing. The one case that could never be
+# tested that way is exactly the one this workflow exists for: checking
+# state AFTER a real fires.yml run moved it.
+#
+# So: no ref override. actions/checkout@v4's default checks out
+# whatever the branch is at NOW, at job-start time, which is what "is
+# the currently committed payload held" actually has to mean. A commit
+# landing in the few seconds between fires.yml's last push and this
+# job's checkout is the one gap left, and it self-heals: the next
+# workflow_run (or the next scheduled fires.yml run) re-checks current
+# state again.
 #
 # push kept alongside it for a genuine human push to these paths (a
 # hand-edit, a manual data fix) that workflow_run cannot see. Paths match
@@ -62,17 +87,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      # workflow_run's default checkout is the branch tip, not the
-      # triggering run's own commit, which is fine right up until a
-      # second push lands in the gap between fires.yml finishing and
-      # this job starting. Pin explicitly so this checks the exact state
-      # fires.yml just produced rather than whatever main happens to be
-      # by the time this job runs. head_sha is absent for the push and
-      # workflow_dispatch triggers, so this falls back to the default
-      # (correct) behaviour for both of those.
+      # No ref: override, on purpose. See the comment block above this
+      # job for why github.event.workflow_run.head_sha is the WRONG
+      # commit here: it is fires.yml's start-of-run state, not its
+      # end-of-run state, and this gate exists to check the latter.
+      # Default checkout behaviour, the branch tip at job-start time, is
+      # what "check current committed state" actually means.
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - uses: actions/setup-python@v5
         with:
