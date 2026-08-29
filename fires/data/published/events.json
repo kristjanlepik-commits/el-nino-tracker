@@ -2,12 +2,12 @@
   "degraded": null,
   "counts": {
     "tracked": 97,
-    "anomalous": 8,
+    "anomalous": 9,
     "record": 12,
-    "record_among_anomalous": 5,
+    "record_among_anomalous": 6,
     "at_least_2x": 14,
     "at_least_3x": 6,
-    "drawn": 8,
+    "drawn": 9,
     "_definitions": {
       "tracked": "countries with a same-week baseline this window. The population every other count is taken from unless it says otherwise.",
       "anomalous": "cleared the marker gate: z >= 2 OR multiple >= 2 OR rank 1, after a 150-detection noise floor. A GATE, not a significance test.",
@@ -65,6 +65,13 @@
         "why": "z"
       },
       {
+        "iso": "DZA",
+        "region": "Algeria",
+        "z": 3.33,
+        "multiple": 2.3,
+        "why": "z"
+      },
+      {
         "iso": "UKR",
         "region": "Ukraine",
         "z": 3.03,
@@ -72,7 +79,7 @@
         "why": "z"
       }
     ],
-    "n": 6,
+    "n": 7,
     "gate_cap": 20,
     "gate_cap_binding": false
   },
@@ -127,6 +134,7 @@
         "night_pct": 19.0,
         "frp_median": 5.55,
         "n_detections": 831,
+        "peak_to_median_day": 1.43,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -173,6 +181,7 @@
         "night_pct": 60.0,
         "frp_median": 3.11,
         "n_detections": 210502,
+        "peak_to_median_day": 1.3,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -215,6 +224,7 @@
         "night_pct": 8.8,
         "frp_median": 5.61,
         "n_detections": 7103,
+        "peak_to_median_day": 2.39,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -261,6 +271,7 @@
         "night_pct": 44.8,
         "frp_median": 4.49,
         "n_detections": 42274,
+        "peak_to_median_day": 1.86,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -307,6 +318,7 @@
         "night_pct": 6.6,
         "frp_median": 5.74,
         "n_detections": 2064,
+        "peak_to_median_day": 3.15,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -349,6 +361,7 @@
         "night_pct": 48.4,
         "frp_median": 3.67,
         "n_detections": 386,
+        "peak_to_median_day": 1.39,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -393,11 +406,59 @@
         "night_pct": 33.4,
         "frp_median": 5.03,
         "n_detections": 7394,
+        "peak_to_median_day": 1.85,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
       "source": "NASA FIRMS SNPP, wk Aug 22-28",
       "href": "fires/ukraine/"
+    },
+    {
+      "date": "2026-08-28",
+      "region": "Algeria",
+      "title": "Just past its 2012 record week",
+      "stat": "2.3x",
+      "stat_label": "same-week mean, 14 yrs",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "multiple",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "multiple",
+          "record"
+        ],
+        "z": 3.33,
+        "multiple": 2.3,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 3.33,
+      "land_use": {
+        "cropland_ratio": 1.297,
+        "reading": "neutral",
+        "detections_on_crop_pct": 3.02,
+        "country_land_crop_pct": 2.33,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
+      },
+      "persistence": {
+        "recur_pct": 17.5,
+        "night_pct": 62.4,
+        "frp_median": 5.08,
+        "n_detections": 5374,
+        "peak_to_median_day": 5.75,
+        "verdict": "fire_like",
+        "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+      },
+      "source": "NASA FIRMS SNPP, wk Aug 22-28",
+      "href": "fires/algeria/"
     },
     {
       "date": "2026-08-28",
@@ -435,6 +496,7 @@
         "night_pct": 69.2,
         "frp_median": 5.09,
         "n_detections": 221,
+        "peak_to_median_day": 6.64,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -473,6 +535,7 @@
         "night_pct": 8.6,
         "frp_median": 6.15,
         "n_detections": 106372,
+        "peak_to_median_day": 1.54,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -511,6 +574,7 @@
         "night_pct": 69.0,
         "frp_median": 3.42,
         "n_detections": 24770,
+        "peak_to_median_day": 2.37,
         "verdict": "persistent_source",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -549,6 +613,7 @@
         "night_pct": 56.4,
         "frp_median": 2.33,
         "n_detections": 227,
+        "peak_to_median_day": 1.49,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -587,6 +652,7 @@
         "night_pct": 8.4,
         "frp_median": 7.01,
         "n_detections": 69986,
+        "peak_to_median_day": 1.24,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -625,6 +691,7 @@
         "night_pct": 7.1,
         "frp_median": 5.83,
         "n_detections": 46778,
+        "peak_to_median_day": 1.88,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -663,6 +730,7 @@
         "night_pct": 12.9,
         "frp_median": 5.9,
         "n_detections": 48158,
+        "peak_to_median_day": 1.42,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -701,6 +769,7 @@
         "night_pct": 65.3,
         "frp_median": 3.46,
         "n_detections": 18705,
+        "peak_to_median_day": 1.75,
         "verdict": "persistent_source",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -739,6 +808,7 @@
         "night_pct": 50.0,
         "frp_median": 2.69,
         "n_detections": 288,
+        "peak_to_median_day": 4.2,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
@@ -777,6 +847,7 @@
         "night_pct": 70.5,
         "frp_median": 1.72,
         "n_detections": 129,
+        "peak_to_median_day": 2.0,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },

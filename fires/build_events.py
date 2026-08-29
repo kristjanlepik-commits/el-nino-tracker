@@ -764,14 +764,43 @@ def main():
                 night = float((df["daynight"].astype(str).str.upper()
                                == "N").mean()) * 100
                 frp_med = float(df["frp"].astype(float).median())
+                # A FLARE BACKGROUND IS FLAT. A FIRE IS A CURVE.
+                #
+                # Algeria, 29 August: 5,374 detections, rank 1 of 15, a
+                # season record of 313,081 mapped hectares at 1.65x its
+                # previous best, and daily counts running 196, 200, 294,
+                # 383, 1021, 2204, 1076. This test excluded it, because
+                # its gas-flare background clears all three thresholds
+                # by a hair: recurrence 17.5 against 15, night 62.4
+                # against 60, FRP 5.08 against 6.
+                #
+                # So the test built to stop us publishing flares as fire
+                # was suppressing a real record instead, which is the
+                # worse failure on a channel whose purpose is finding
+                # them. It read the week's aggregate and never its
+                # SHAPE, and shape is the thing that separates them: an
+                # industrial source cannot go from 196 to 2,204 in five
+                # days.
+                #
+                # Measured, not assumed. Every genuine flare this week
+                # sits under 1.9 on peak-to-median: Iraq 1.31, Libya
+                # 1.26, Saudi Arabia 1.72, Iran 1.73, Turkmenistan 1.83.
+                # Algeria is 5.75. The threshold of 3 sits in that gap,
+                # and applying it rescues Algeria and NOTHING ELSE of
+                # the eighteen countries currently excluded.
+                vals = sorted(daily.values())
+                med_day = vals[len(vals) // 2] if vals else 0
+                shape = (max(vals) / med_day) if med_day else 0.0
                 persistent = {
                     "recur_pct": round(recur, 1),
                     "night_pct": round(night, 1),
                     "frp_median": round(frp_med, 2),
                     "n_detections": int(len(df)),
+                    "peak_to_median_day": round(shape, 2),
                     "verdict": ("persistent_source"
                                 if (recur > 15 and night > 60
-                                    and frp_med < 6) else "fire_like"),
+                                    and frp_med < 6 and shape <= 3)
+                                else "fire_like"),
                     # THE NUMBER, NOT ONLY THE VERDICT. "fire_like"
                     # tells a reader nothing they can check; the
                     # recurrence rate beside it does. Design's point,

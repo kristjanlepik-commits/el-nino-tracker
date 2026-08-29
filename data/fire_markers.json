@@ -227,6 +227,38 @@
       "href": "fires/ukraine/"
     },
     {
+      "region": "Algeria",
+      "lat": 35.2,
+      "lon": 6.3,
+      "multiple": 2.3,
+      "count": 5374,
+      "rank": "1 of 15",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "multiple",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "multiple",
+          "record"
+        ],
+        "z": 3.33,
+        "multiple": 2.3,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 3.33,
+      "centroid_basis": "weighted",
+      "href": "fires/algeria/"
+    },
+    {
       "region": "Tunisia",
       "lat": 36.52,
       "lon": 9.34,

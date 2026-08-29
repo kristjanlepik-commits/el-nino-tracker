@@ -90,5 +90,14 @@
    "Ukraine: weekly rank 1 -> 2, crossing the 1st-place boundary"
   ],
   "files_promoted": 43
+ },
+ {
+  "accepted_at": "2026-08-29T15:40:22+00:00",
+  "accepted_by": "Fire",
+  "note": "One change: Algeria enters, which is the whole point of the fix. It was being suppressed by my own persistent-source filter on three marginal thresholds (recurrence 17.5 vs 15, night 62.4 vs 60, FRP 5.08 vs 6) while a real fire burned underneath a gas-flare background. Its daily counts run 196, 200, 294, 383, 1021, 2204, 1076: an industrial source cannot do that. The filter now also requires a FLAT week, peak-to-median day at or below 3. Algeria is 5.75; every genuine flare this week is under 1.9. Applying it rescues Algeria and none of the other seventeen excluded countries. Its title reads 'Just past its 2012 record week' on detections, and separately it holds a season record on mapped area, 313,081 ha against a previous 189,326.",
+  "held_on": [
+   "events: region(s) entered the qualifying set: ['Algeria']"
+  ],
+  "files_promoted": 2
  }
 ]
