@@ -37,6 +37,36 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 
+_M = ("January", "February", "March", "April", "May", "June", "July",
+      "August", "September", "October", "November", "December")
+
+
+def _win_words(w):
+    ya, ma, da = (int(x) for x in w["start"].split("-"))
+    yb, mb, db = (int(x) for x in w["end"].split("-"))
+    if (ya, ma) == (yb, mb):
+        return "%d to %d %s %d" % (da, db, _M[ma - 1], yb)
+    return "%d %s to %d %s %d" % (da, _M[ma - 1], db, _M[mb - 1], yb)
+
+
+def _multisite_row(payload):
+    """An index row for a multi-site piece, which piece_from cannot read."""
+    places = payload.get("named_places") or []
+    n = len(places)
+    first = sum(1 for p in places if p.get("rank") == 1)
+    who = (("All %d places named in local reporting" % n)
+           if n and first == n else "%d of %d places" % (first, n))
+    return {
+        "channel": "flood",
+        "region": payload["label"],
+        "window": _win_words(payload["window"]),
+        "path": "/floods/%s/" % payload["piece_id"].replace("_", "-"),
+        "claim": "%s rank first of %s years against their own records."
+                 % (who, places[0]["of"] if places else "?"),
+        "instruments": [{"name": "Flood extent", "value": "not assessed"}],
+    }
+
+
 def _pieces(today):
     """Every floods piece that has a published page, newest window first.
 
@@ -54,8 +84,16 @@ def _pieces(today):
             payload = json.loads(src.read_text())
         except ValueError:
             continue
+        # TWO PAYLOAD SHAPES ON THIS CHANNEL NOW, AND THIS LISTED ONE.
+        # piece_from raises KeyError on a payload built around `finding`
+        # and `named_places`; the bare except below swallowed it, and the
+        # Alto Beni piece published live, correct, and on no index. That
+        # is the exact defect this file exists to end, recreated by the
+        # file itself, because a bare except cannot tell "not a piece"
+        # from "a piece I cannot parse".
         try:
-            piece = piece_from(payload, today)
+            piece = (_multisite_row(payload) if "finding" in payload
+                     else piece_from(payload, today))
         except SystemExit:
             continue          # refused to build; there is no page to list
         except Exception:
