@@ -47,7 +47,27 @@ CACHE = HERE / ".cache" / "asap_indicator"
 PSD = HERE / ".cache" / "psd"
 OUT = HERE / "data"
 
-MIN_UNITS = 3          # the meaning gate: fewer and the aggregate is noise
+# WAS 3 UNTIL 2026-08-30. Kristjan's call (D-245): single-unit countries
+# can be published.
+#
+# The old comment read "the meaning gate: fewer and the aggregate is
+# noise", and that reasoning was about the AGGREGATE. It does not hold
+# for the claim this channel actually makes. Every published claim is
+# one unit against its OWN 26 years at the same dekad-of-year, and that
+# comparison is exactly as sound for a country ASAP reports whole as for
+# one it splits into eighteen. Estonia against 26 Estonias is not a
+# weaker statement than Huambo against 26 Huambos.
+#
+# What a single unit cannot support is the CROSS-REGION reading: where
+# inside a country the stress sits, and how many of its regions are at a
+# record. Those sentences needed guarding; the country's presence on the
+# site did not. The per-place `caveat` field already says so: "this
+# country figure IS <region>, which is the country's only crop region.
+# There is no weighting choice to make."
+#
+# Admits 42 countries, 40 with one unit and 2 with two. 123 places
+# becomes 165.
+MIN_UNITS = 1
 BASE_FIRST, BASE_LAST = 2001, 2025
 
 INSTRUMENTS = [
