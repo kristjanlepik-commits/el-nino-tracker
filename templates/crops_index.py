@@ -1031,6 +1031,64 @@ def _two_ways(g) -> str:
         the correct one; they answer different questions.</p>"""
 
 
+_ISTHMUS_WORDS = ("no", "One", "Two", "Three", "Four", "Five", "Six",
+                  "Seven", "Eight", "Nine", "Ten")
+
+
+def _isthmus_block(doc) -> str:
+    """The editor's two sentences, with both counts assembled from the payload.
+
+    BOTH SENTENCES SHIP OR NEITHER DOES. The editor's condition and it is
+    structural rather than stylistic: the first sentence states membership
+    and a reader hears severity, and the second is the only thing stopping
+    that. Cutting it for length would leave the page making a claim the
+    editor deliberately precluded.
+
+    NEITHER COUNT IS TYPED. Costa Rica sits exactly on the hinge at rank 4
+    and moved there this dekad, so one rank of movement in one country
+    turns eight into seven. The sentence reads correctly at seven; "every
+    country" would go false silently, which is why the editor asked for it
+    assembled rather than written.
+
+    AND THE PAYLOAD'S OWN `statement` IS NOT RENDERED HERE, which is the
+    one place today I have not printed a channel's emitted string. It
+    reads "the first time all of them have been at once". That clause is
+    true, and Kristjan ruled for the comparison over the record because it
+    is empty only at the worst-four and worst-five cuts and carries 2015
+    everywhere else. The editor called it the record arriving through a
+    side door. So the numbers come from the payload and the words come
+    from the editor, and CRO has been told their statement carries a
+    clause no reader-facing surface may use.
+    """
+    ic = (doc.get("isthmus_comparison") or {})
+    if not ic.get("available"):
+        return ""
+    members = ic.get("members") or []
+    n = (ic.get("counts_now") or {}).get("worst_4")
+    worse = (ic.get("versus_2015") or {}).get("worse_in_2015") or []
+    if not members or not n or not worse:
+        return ""
+
+    total = len(members)
+    if n >= total:
+        lead = ("All %s countries on the Central American isthmus are in "
+                "their four worst crop years out of 26."
+                % _ISTHMUS_WORDS[total].lower())
+    else:
+        lead = ("%s of the %s countries on the Central American isthmus "
+                "%s in %s four worst crop years out of 26."
+                % (_ISTHMUS_WORDS[n], _ISTHMUS_WORDS[total].lower(),
+                   "is" if n == 1 else "are",
+                   "its" if n == 1 else "their"))
+    second = ("%s of them %s worse in 2015 than %s now."
+              % (_ISTHMUS_WORDS[len(worse)],
+                 "was" if len(worse) == 1 else "were",
+                 "it is" if len(worse) == 1 else "they are"))
+    return ('<p class="seclab">The Central American isthmus</p>'
+            '<p class="secsub" style="font-size:15px;max-width:60ch">'
+            '<strong>%s %s</strong></p>' % (h(lead), h(second)))
+
+
 def _global_block(g, n_places=None) -> str:
     """The global pair, in the footer, with BOTH treatments.
 
@@ -1908,6 +1966,8 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
        qualifier that applies to all 81 rows equally. Kristjan's rule,
        and it is the right cut: anything the same on every row, or not
        about this dekad, sits below the content. -->
+  {_isthmus_block(doc)}
+
   {_rate_block(doc)}
   {_two_ways(doc.get("global") or {})}
 
