@@ -1,0 +1,357 @@
+{
+ "_readme": [
+  "Every fire country page that exists, current or not.",
+  "Built so design can render an archive without parsing rendered",
+  "HTML for a date this builder already knows.",
+  "`current` false means the country did not clear the anomaly",
+  "gate this week. It was CHECKED; that is a result, not a gap.",
+  "`last_assessed` is the window the row's FIGURES come from,",
+  "which for a dropped country is not this week."
+ ],
+ "window": "08-23..08-29",
+ "countries": [
+  {
+   "slug": "albania",
+   "href": "fires/albania/",
+   "current": false,
+   "last_assessed": "2026-08-22",
+   "claims_current": false
+  },
+  {
+   "slug": "algeria",
+   "href": "fires/algeria/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "angola",
+   "href": "fires/angola/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "australia",
+   "href": "fires/australia/",
+   "current": false,
+   "last_assessed": "2026-08-03",
+   "claims_current": false
+  },
+  {
+   "slug": "austria",
+   "href": "fires/austria/",
+   "current": false,
+   "last_assessed": "2026-08-15",
+   "claims_current": false
+  },
+  {
+   "slug": "belgium",
+   "href": "fires/belgium/",
+   "current": false,
+   "last_assessed": "2026-08-22",
+   "claims_current": false
+  },
+  {
+   "slug": "bosnia-and-herzegovina",
+   "href": "fires/bosnia-and-herzegovina/",
+   "current": false,
+   "last_assessed": "2026-08-25",
+   "claims_current": false
+  },
+  {
+   "slug": "botswana",
+   "href": "fires/botswana/",
+   "current": false,
+   "last_assessed": "2026-08-10",
+   "claims_current": false
+  },
+  {
+   "slug": "canada",
+   "href": "fires/canada/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "colombia",
+   "href": "fires/colombia/",
+   "current": false,
+   "last_assessed": "2026-08-17",
+   "claims_current": false
+  },
+  {
+   "slug": "croatia",
+   "href": "fires/croatia/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "cuba",
+   "href": "fires/cuba/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "democratic-republic-of-the-congo",
+   "href": "fires/democratic-republic-of-the-congo/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "dominican-republic",
+   "href": "fires/dominican-republic/",
+   "current": false,
+   "last_assessed": "2026-08-27",
+   "claims_current": false
+  },
+  {
+   "slug": "ecuador",
+   "href": "fires/ecuador/",
+   "current": false,
+   "last_assessed": "2026-08-17",
+   "claims_current": false
+  },
+  {
+   "slug": "ethiopia",
+   "href": "fires/ethiopia/",
+   "current": false,
+   "last_assessed": "2026-07-26",
+   "claims_current": false
+  },
+  {
+   "slug": "france",
+   "href": "fires/france/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "georgia",
+   "href": "fires/georgia/",
+   "current": false,
+   "last_assessed": "2026-08-13",
+   "claims_current": false
+  },
+  {
+   "slug": "germany",
+   "href": "fires/germany/",
+   "current": false,
+   "last_assessed": "2026-08-20",
+   "claims_current": false
+  },
+  {
+   "slug": "greece",
+   "href": "fires/greece/",
+   "current": false,
+   "last_assessed": "2026-08-07",
+   "claims_current": false
+  },
+  {
+   "slug": "india",
+   "href": "fires/india/",
+   "current": false,
+   "last_assessed": "2026-08-16",
+   "claims_current": false
+  },
+  {
+   "slug": "indonesia",
+   "href": "fires/indonesia/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "libya",
+   "href": "fires/libya/",
+   "current": false,
+   "last_assessed": "2026-08-22",
+   "claims_current": false
+  },
+  {
+   "slug": "macedonia",
+   "href": "fires/macedonia/",
+   "current": false,
+   "last_assessed": "2026-08-27",
+   "claims_current": false
+  },
+  {
+   "slug": "malaysia",
+   "href": "fires/malaysia/",
+   "current": false,
+   "last_assessed": "2026-08-12",
+   "claims_current": false
+  },
+  {
+   "slug": "mexico",
+   "href": "fires/mexico/",
+   "current": false,
+   "last_assessed": "2026-08-16",
+   "claims_current": false
+  },
+  {
+   "slug": "morocco",
+   "href": "fires/morocco/",
+   "current": false,
+   "last_assessed": "2026-08-02",
+   "claims_current": false
+  },
+  {
+   "slug": "mozambique",
+   "href": "fires/mozambique/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "netherlands",
+   "href": "fires/netherlands/",
+   "current": false,
+   "last_assessed": "2026-08-14",
+   "claims_current": false
+  },
+  {
+   "slug": "papua-new-guinea",
+   "href": "fires/papua-new-guinea/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "philippines",
+   "href": "fires/philippines/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "poland",
+   "href": "fires/poland/",
+   "current": false,
+   "last_assessed": "2026-08-15",
+   "claims_current": false
+  },
+  {
+   "slug": "portugal",
+   "href": "fires/portugal/",
+   "current": false,
+   "last_assessed": "2026-08-05",
+   "claims_current": false
+  },
+  {
+   "slug": "republic-of-serbia",
+   "href": "fires/republic-of-serbia/",
+   "current": false,
+   "last_assessed": "2026-08-27",
+   "claims_current": false
+  },
+  {
+   "slug": "russia",
+   "href": "fires/russia/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "saudi-arabia",
+   "href": "fires/saudi-arabia/",
+   "current": false,
+   "last_assessed": "2026-08-22",
+   "claims_current": false
+  },
+  {
+   "slug": "south-africa",
+   "href": "fires/south-africa/",
+   "current": false,
+   "last_assessed": "2026-08-10",
+   "claims_current": false
+  },
+  {
+   "slug": "spain",
+   "href": "fires/spain/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "syria",
+   "href": "fires/syria/",
+   "current": false,
+   "last_assessed": "2026-08-05",
+   "claims_current": false
+  },
+  {
+   "slug": "tunisia",
+   "href": "fires/tunisia/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "turkmenistan",
+   "href": "fires/turkmenistan/",
+   "current": false,
+   "last_assessed": "2026-08-16",
+   "claims_current": false
+  },
+  {
+   "slug": "uganda",
+   "href": "fires/uganda/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "ukraine",
+   "href": "fires/ukraine/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "united-kingdom",
+   "href": "fires/united-kingdom/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "united-republic-of-tanzania",
+   "href": "fires/united-republic-of-tanzania/",
+   "current": false,
+   "last_assessed": "2026-08-16",
+   "claims_current": false
+  },
+  {
+   "slug": "united-states-of-america",
+   "href": "fires/united-states-of-america/",
+   "current": true,
+   "last_assessed": "2026-08-29",
+   "claims_current": true
+  },
+  {
+   "slug": "venezuela",
+   "href": "fires/venezuela/",
+   "current": false,
+   "last_assessed": "2026-08-17",
+   "claims_current": false
+  },
+  {
+   "slug": "zambia",
+   "href": "fires/zambia/",
+   "current": false,
+   "last_assessed": "2026-08-28",
+   "claims_current": false
+  },
+  {
+   "slug": "zimbabwe",
+   "href": "fires/zimbabwe/",
+   "current": false,
+   "last_assessed": "2026-08-10",
+   "claims_current": false
+  }
+ ]
+}

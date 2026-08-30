@@ -409,10 +409,92 @@ def main() -> None:
 
     print(stamp_unregenerated({slugify(e["region"]) for e in events},
                               pretty_window(window)))
+    print(emit_archive({slugify(e["region"]) for e in events}, window,
+                       window_end=max((e.get("date") for e in events
+                                       if e.get("date")), default=None)))
 
 
 STAMP_ID = "lastassessed"
 
+
+
+ARCHIVE_OUT = os.path.join(REPO, "fires", "data", "country_archive.json")
+
+
+def emit_archive(live_slugs, window, window_end=None) -> str:
+    """Every country page that exists, with whether it is current.
+
+    WHY THIS IS EMITTED RATHER THAN DERIVED. 31 of 49 fire country pages
+    are reachable only by knowing the URL, and four of them are stories
+    we published: Belgium's national record, Serbia's record week,
+    Bosnia and Macedonia. Nothing links them, every link on the site
+    resolves, and so nothing is broken enough to notice. Design hit the
+    same shape on floods an hour later, from the other end.
+
+    Design asked for this rather than parse 49 rendered pages for a date
+    that this builder already knows, which is the mistake we made once
+    on the region page: a consumer deriving a number from HTML that the
+    producer could simply have stated.
+
+    THE QUALIFIER TRAVELS WITH THE ROW, not only on the page. Design's
+    point and it is the same rule as a multiple carrying its count: a
+    list of 49 rows reads as 49 current assessments unless each row says
+    otherwise. So `current` is on every entry, and `last_assessed` is
+    the window a row's FIGURES come from, which for a dropped country is
+    not this week.
+    """
+    prev_seen = {}
+    if os.path.exists(ARCHIVE_OUT):
+        try:
+            for r in json.load(open(ARCHIVE_OUT)).get("countries", []):
+                if r.get("last_assessed"):
+                    prev_seen[r["slug"]] = r["last_assessed"]
+        except (OSError, ValueError):
+            pass
+    rows = []
+    if os.path.isdir(OUTDIR):
+        for slug in sorted(os.listdir(OUTDIR)):
+            page = os.path.join(OUTDIR, slug, "index.html")
+            if not os.path.isfile(page):
+                continue
+            current = slug in live_slugs
+            # CARRIED FORWARD, NOT PARSED BACK. My first version read the
+            # date out of the rendered page and got None for all 31
+            # archived rows, because the stamp records when a country was
+            # CHECKED and never when its figures date from. The page does
+            # not carry the fact, so deriving it from the page could only
+            # ever fail, and it failed silently into a field rather than
+            # loudly.
+            #
+            # Design asked for this emitted rather than derived from HTML
+            # for exactly this reason. So the window a country last
+            # qualified in is remembered here, and a country that drops
+            # out keeps the value it had.
+            # ONE FIELD, ONE FORMAT. The first version put the window
+            # "08-23..08-29" on current rows and an ISO date on seeded
+            # ones, so a consumer had to handle two shapes in one field.
+            # Design is rendering this; mixed formats are how a table
+            # ends up with two kinds of row that mean the same thing.
+            last = (window_end if current else prev_seen.get(slug))
+            rows.append({"slug": slug, "href": f"fires/{slug}/",
+                         "current": current,
+                         "last_assessed": last,
+                         "claims_current": current})
+    doc = {"_readme": [
+        "Every fire country page that exists, current or not.",
+        "Built so design can render an archive without parsing rendered",
+        "HTML for a date this builder already knows.",
+        "`current` false means the country did not clear the anomaly",
+        "gate this week. It was CHECKED; that is a result, not a gap.",
+        "`last_assessed` is the window the row's FIGURES come from,",
+        "which for a dropped country is not this week.",
+    ], "window": window, "countries": rows}
+    with open(ARCHIVE_OUT, "w") as fh:
+        json.dump(doc, fh, indent=1)
+        fh.write("\n")
+    live = sum(1 for r in rows if r["current"])
+    return (f"wrote country_archive.json: {len(rows)} page(s), {live} "
+            f"current, {len(rows) - live} archived")
 
 def stamp_unregenerated(live_slugs, window_label) -> str:
     """Date the pages that stopped qualifying, rather than leaving them.
