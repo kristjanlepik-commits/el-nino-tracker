@@ -494,8 +494,20 @@ def _qualifies_for_featuring(p) -> str:
     rate = (p.get("rate") or {})
     if sev.get("available") and sev.get("rank") == 1:
         return "worst reading of its own %s years" % (sev.get("of") or "26")
+    # RANK IS A POSITION, NOT A DIRECTION, and this line authored a verb
+    # from it. The list is ordered by fall steepness, so a place that ROSE
+    # still holds a rank in it; rank 1 only means "steepest fall" while at
+    # least one place actually fell. CRO hit the same confusion in their
+    # own producers this dekad, where a riser rendered as "25th steepest
+    # fall of 26", and told me the payload strings were fixed and my
+    # rendering needed no change. True of their strings; this one is mine.
+    #
+    # Latent rather than live when checked: all 16 places at rank 1 are
+    # genuine falls today. But 53 places rose this dekad, and the guard
+    # costs one clause.
     if (rate.get("available") and rate.get("rank") == 1
-            and rate.get("control_holds")):
+            and rate.get("control_holds")
+            and (rate.get("value") or 0) < 0):
         return "steepest fall of its own %s years" % (rate.get("of") or "26")
     return ""
 
