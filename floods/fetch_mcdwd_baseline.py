@@ -257,6 +257,14 @@ def fetch_tile_stats(year, doy, tile, sl, tok):
             os.unlink(tmp)
 
 
+def _pid_alive(pid):
+    try:
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--region", default="peru_ecuador_coast")
@@ -279,6 +287,30 @@ def main():
         f"mcdwd_baseline_{args.region}_{args.start}_{args.end}.jsonl",
     )
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
+
+    # ONE WRITER PER OUTPUT FILE. Two processes resumed the same range on
+    # 2026-08-30 and appended concurrently: the file ended at 492 records
+    # for a 483-record window, nine days duplicated. They happened to be
+    # byte-identical so nothing was corrupted, but a duplicated day
+    # inflates its year against every other year, which is the same
+    # double-count load_many refuses across files and nothing was
+    # refusing within one.
+    lock = out_path + ".lock"
+    if os.path.exists(lock):
+        try:
+            other = int(open(lock).read().strip())
+            alive = os.path.exists(f"/proc/{other}") or _pid_alive(other)
+        except Exception:
+            alive = False
+        if alive:
+            raise SystemExit(
+                f"floods: {out_path} is already being written by pid {other}.\n"
+                f"  Two writers append concurrently and duplicate days. Wait "
+                f"for it, or remove {lock} if that process is dead.")
+    with open(lock, "w") as fh:
+        fh.write(str(os.getpid()))
+    import atexit
+    atexit.register(lambda: os.path.exists(lock) and os.unlink(lock))
 
     done = set()
     if os.path.exists(out_path):
