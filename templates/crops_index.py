@@ -187,7 +187,20 @@ def _ord(n: int) -> str:
 # England is also the thing a reader means by the British harvest, and it
 # holds the control at rank 1. The sound number and the surviving number
 # are the same number.
-PINNED = ["France", "Spain", "Germany", "Italy", "Hungary", "Austria"]
+# POLAND IS PINNED AS A COUNTER-EXAMPLE, on Kristjan's instruction
+# 2026-08-30. Every other pinned country is deteriorating, so the index
+# had no case of a country holding or improving and a reader could not
+# tell a general collapse from a selected one.
+#
+# Poland is pinned for its DIRECTION, not its level: 14 of its 16
+# regions improved on the dekad that all 22 French and all 4 UK regions
+# fell, and it has no region at a record low. Its mean is -0.002, which
+# is its own normal almost exactly, so it is NOT a country doing well
+# and copy that says so overstates it. Lithuania is the one genuinely
+# above its normal (mean +0.294, 9 of 10 regions) and was passed over
+# because it was flat this dekad and makes the weaker contrast.
+PINNED = ["France", "Spain", "Germany", "Italy", "Hungary", "Austria",
+          "Poland"]
 PINNED_LABEL = {}
 # (place, region). Read from the region record, which carries its own rate,
 # control and series.

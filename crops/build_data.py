@@ -518,7 +518,8 @@ _RATE_QUALIFIERS = [
 ]
 
 
-def _licensed_fall_claim(rank: int, of: int, start_rank, holds) -> str:
+def _licensed_fall_claim(rank: int, of: int, start_rank, holds,
+                         rose: bool = False) -> str:
     """The short rate sentence that is safe to print, in every case.
 
     Built only from MEASURED quantities, the raw rank and the start
@@ -530,6 +531,28 @@ def _licensed_fall_claim(rank: int, of: int, start_rank, holds) -> str:
     rank. It is the same rank with the reason it does not stand, bound
     into the same sentence so the two cannot be separated by a layout.
     """
+    # A RISE IS NOT A SHALLOW FALL. `rank` is a position in a list
+    # ordered by fall steepness, so a place that ROSE sits near the
+    # bottom of it and renders "25th steepest fall of 26": a true rank
+    # carrying a false verb.
+    #
+    # This was invisible for as long as every pinned country was
+    # deteriorating, and appeared the moment Poland was pinned as a
+    # counter-example on 2026-08-30. Its row said Poland fell, which is
+    # the opposite of the reason it is on the page. 42 of 123 countries
+    # and 861 of 2,066 region rate claims were affected.
+    #
+    # The rank is kept, because it is measured and it is the same
+    # number. Only the verb changes, and the start level is still bound
+    # into the sentence: a rise from a low start is regression toward
+    # the mean exactly as a fall from a high one is.
+    if rose:
+        base = (f"rose over this window, ranking {_ordinal(rank)} of {of} "
+                f"by fall steepness")
+        if start_rank:
+            base += (f", from the {_ordinal(start_rank)} highest starting "
+                     f"level of those {of}")
+        return base
     base = f"{_ordinal(rank)} steepest fall of {of}"
     if not start_rank or holds:
         return base
@@ -591,9 +614,17 @@ def rate_block(pv: pd.DataFrame, doy: int, cur_year: int,
     rank = int((prior < cur).sum()) + 1
     of = len(ch)
     tied = sorted(int(y) for y in prior.index[prior == cur])
-    lead = ("steepest fall" if rank == 1
-            else f"{_ordinal(rank)} steepest fall")
-    lead = f"The {'joint ' if tied else ''}{lead}"
+    # Same defect as _licensed_fall_claim above, in the long-form
+    # sentence. Both are fixed together because a page that renders one
+    # of them beside the other would otherwise disagree with itself.
+    rose = cur > 0
+    if rose:
+        lead = (f"A {'joint ' if tied else ''}rise, ranking "
+                f"{_ordinal(rank)} of {of} by fall steepness")
+    else:
+        _l = ("steepest fall" if rank == 1
+              else f"{_ordinal(rank)} steepest fall")
+        lead = f"The {'joint ' if tied else ''}{_l}"
 
     # The level the fall STARTED from, emitted beside the fall itself.
     # A high June level predicts a steeper subsequent fall: median
@@ -680,7 +711,7 @@ def rate_block(pv: pd.DataFrame, doy: int, cur_year: int,
         # rank and start_rank, never from the fit.
         "control_holds": bool(control.get("holds")),
         "licensed_claim": _licensed_fall_claim(rank, of, start_rank,
-                                               control.get("holds")),
+                                               control.get("holds"), rose),
         "start_means": "the level this fall began from, ranked 1 = "
                        "highest on record. A steep fall from a high "
                        "start is partly regression toward the mean.",
