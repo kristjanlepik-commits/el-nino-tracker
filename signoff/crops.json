@@ -1,9 +1,9 @@
 {
   "channel": "crops",
   "approved_hash": "52e58c0bfbcc00650c7c7eaf2019b5c5fb75d9f19885dba53984e839a721d93b",
-  "approved_at": "2026-08-30T14:05:41+00:00",
+  "approved_at": "2026-08-30T14:10:06+00:00",
   "approved_by": "CRO",
-  "note": "Payload-only: country_record_baseline, the baseline for the figure the front page leads with. The corrected count (38, replacing a false 27) went live bare while product and I were discussing whether it was ordinary; it is, being 9th of 26 against a prior mean of 33 and a range of 17 to 72. Computed from each region's own published series so it cannot disagree with emitted ranks. is_not instructs renderers not to publish the count without prior_mean or rank_among_years beside it, and warns that even_spread is not an expectation to test against. Statement string self-checked against the fields it quotes after a first draft took min/max of a year-keyed dict. No template reads it yet.",
+  "note": "BATCHED, four copy-only changes from design and editor, none moving a number. (1) a3c18155 removes 'tracks the harvest' from the index and 165 country pages, the noun ruled out by the crop-calendar finding: index now reads 'The top number is the whole season added up, so one bad month barely shows', country pages 'the measure that adds up the whole season'. Verified 0 rendered pages still carry the old string. (2) c414d55b replaces the hand-typed 'roughly a quarter' with my emitted instrument_disagreement.statement; the rendered sentence now matches the field verbatim, 38 of 196, about one in five. (3) de31c3c8 front-page legend counts countries not marks. (4) 1e427dcb guards _qualifies_for_featuring on the sign of the rate value, so a rising place cannot be labelled a fall. Reviewed a built preview, not the diff: 165 pages, URL set unchanged so this is a refresh, headline numbers still match the payload (All 165 places, 69 crop regions worldwide). em-dash guard clean, qa_check clean. One transient: a first qa_check run reported dead anchors on docs/crops/india/index.html while the file was being written; re-checked directly, both anchors have matching ids and the file is byte-identical to committed.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
