@@ -192,8 +192,8 @@
   "previous_high": {
    "c": 42.0,
    "date": "2022-08-13",
-   "if_not_visible": "the day this record was set falls AFTER this city's cut, so the to-cut series cannot show it. Do not caption a to-cut chart with this value: the chart will contradict the caption. Cite it only against the full-record ranking.",
-   "visible_in_to_cut_series": false
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
   },
   "record_scope": {
    "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
@@ -209,8 +209,8 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
-   "current": 3,
+   "counted_to": "08-18",
+   "current": 2,
    "in_progress": true,
    "longest": 7,
    "longest_ended": "2026-07-09",
@@ -222,12 +222,12 @@
    "baseline_from_year": 1939,
    "basis": "median of 1939-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 62,
-   "median_to_cut": 26,
+   "counted_to": "08-18",
+   "current": 71,
+   "median_to_cut": 33,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Alicante: 62 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1939-2025 record: 26.",
+   "post_form": "Alicante: 71 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1939-2025 record: 33.",
    "span_is_not_a_count": "89 calendar years span the record and 87 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -329,7 +329,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-11",
+   "counted_to": "08-20",
    "current": 0,
    "in_progress": false,
    "longest": 3,
@@ -342,7 +342,7 @@
    "baseline_from_year": 1951,
    "basis": "median of 1951-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-11",
+   "counted_to": "08-20",
    "current": 3,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -451,11 +451,11 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
-   "current": 18,
+   "counted_to": "08-18",
+   "current": 26,
    "in_progress": true,
-   "longest": 18,
-   "longest_ended": "2026-08-09",
+   "longest": 26,
+   "longest_ended": "2026-08-18",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
    "threshold_c": 30.6
   },
@@ -464,16 +464,16 @@
    "baseline_from_year": 1924,
    "basis": "median of 1924-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 60,
-   "median_to_cut": 18,
+   "counted_to": "08-18",
+   "current": 68,
+   "median_to_cut": 24,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Barcelona: 60 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1924-2025 record: 18.",
-   "span_is_not_a_count": "103 calendar years span the record and 86 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
+   "post_form": "Barcelona: 68 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1924-2025 record: 24.",
+   "span_is_not_a_count": "103 calendar years span the record and 85 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
-   "years_observed": 86,
+   "years_observed": 85,
    "years_span": [
     1924,
     2026
@@ -573,9 +573,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
-   "current": 5,
-   "in_progress": true,
+   "counted_to": "08-21",
+   "current": 0,
+   "in_progress": false,
    "longest": 14,
    "longest_ended": "2026-06-30",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -586,8 +586,8 @@
    "baseline_from_year": 1866,
    "basis": "median of 1866-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
-   "current": 11,
+   "counted_to": "08-21",
+   "current": 12,
    "median_to_cut": 0,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
@@ -600,7 +600,7 @@
     1876,
     2026
    ],
-   "years_with_none": 112
+   "years_with_none": 109
   }
  },
  "Belfast": {
@@ -693,7 +693,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-10",
+   "counted_to": "08-21",
    "current": 0,
    "in_progress": false,
    "longest": 2,
@@ -706,7 +706,7 @@
    "baseline_from_year": 1931,
    "basis": "median of 1931-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-10",
+   "counted_to": "08-21",
    "current": 0,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -816,7 +816,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 0,
    "in_progress": false,
    "longest": 5,
@@ -829,7 +829,7 @@
    "baseline_from_year": 1948,
    "basis": "median of 1948-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 3,
    "median_to_cut": 1,
    "metric_reaches_city": false,
@@ -843,7 +843,7 @@
     1948,
     2026
    ],
-   "years_with_none": 36
+   "years_with_none": 30
   }
  },
  "Bilbao": {
@@ -936,7 +936,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
+   "counted_to": "08-18",
    "current": 0,
    "in_progress": false,
    "longest": 6,
@@ -949,8 +949,8 @@
    "baseline_from_year": 1947,
    "basis": "median of 1947-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 16,
+   "counted_to": "08-18",
+   "current": 22,
    "median_to_cut": 0,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
@@ -963,7 +963,7 @@
     1947,
     2026
    ],
-   "years_with_none": 47
+   "years_with_none": 41
   }
  },
  "Bordeaux": {
@@ -998,6 +998,11 @@
      "year": 2025
     },
     {
+     "c": 41.4,
+     "date": "2026-08-13",
+     "year": 2026
+    },
+    {
      "c": 41.2,
      "date": "2019-07-23",
      "year": 2019
@@ -1021,11 +1026,6 @@
      "c": 40.5,
      "date": "2022-06-18",
      "year": 2022
-    },
-    {
-     "c": 40.2,
-     "date": "2026-06-25",
-     "year": 2026
     }
    ]
   },
@@ -1060,9 +1060,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-11",
-   "current": 5,
-   "in_progress": true,
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
    "longest": 11,
    "longest_ended": "2026-06-27",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -1073,8 +1073,8 @@
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-11",
-   "current": 24,
+   "counted_to": "08-20",
+   "current": 30,
    "median_to_cut": 1,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
@@ -1087,7 +1087,127 @@
     1950,
     2026
    ],
-   "years_with_none": 26
+   "years_with_none": 22
+  }
+ },
+ "Budapest": {
+  "city": "Budapest",
+  "country": "HU",
+  "hottest_day": {
+   "c": 40.7,
+   "date": "2007-07-20",
+   "is_current_year": false
+  },
+  "hottest_days": {
+   "basis": "every individual day in the record, uncut and with no seasonal window. NOT comparable with warmest_day_c (full-year maxima) or warmest_day_to_cut_c (cut).",
+   "top": [
+    {
+     "c": 40.7,
+     "date": "2007-07-20",
+     "year": 2007
+    },
+    {
+     "c": 40.2,
+     "date": "2026-08-06",
+     "year": 2026
+    },
+    {
+     "c": 39.7,
+     "date": "2026-08-05",
+     "year": 2026
+    },
+    {
+     "c": 39.4,
+     "date": "2003-08-14",
+     "year": 2003
+    },
+    {
+     "c": 39.4,
+     "date": "2013-08-08",
+     "year": 2013
+    },
+    {
+     "c": 39.2,
+     "date": "2007-07-18",
+     "year": 2007
+    },
+    {
+     "c": 39.2,
+     "date": "2026-06-30",
+     "year": 2026
+    },
+    {
+     "c": 38.9,
+     "date": "2026-06-28",
+     "year": 2026
+    },
+    {
+     "c": 38.9,
+     "date": "2026-06-29",
+     "year": 2026
+    },
+    {
+     "c": 38.7,
+     "date": "2026-08-04",
+     "year": 2026
+    }
+   ]
+  },
+  "leading_run": {
+   "dates": [],
+   "is_a_count": "recompute every run. Never write the number into copy as a literal.",
+   "n": 0,
+   "next_rank_year": 2007,
+   "post_form": null
+  },
+  "previous_high": {
+   "c": 40.7,
+   "date": "2007-07-20",
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
+  },
+  "record_scope": {
+   "differs_because": null,
+   "from_year": 1973,
+   "is_all_time": false,
+   "may_not_say": [
+    "hottest ever",
+    "all-time record",
+    "hottest since records began"
+   ],
+   "record_starts": 1973,
+   "text": "our series, from 1973",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
+  },
+  "run_above_p95": {
+   "counted_to": "08-10",
+   "current": 0,
+   "in_progress": false,
+   "longest": 8,
+   "longest_ended": "2026-08-06",
+   "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
+   "threshold_c": 35.1
+  },
+  "station": "Budapest/Pestszentlorinc",
+  "tropical_nights": {
+   "baseline_from_year": 1973,
+   "basis": "median of 1973-2023, each year counted to the same date",
+   "comparable_across_cities": false,
+   "counted_to": "08-10",
+   "current": 24,
+   "median_to_cut": 5,
+   "metric_reaches_city": true,
+   "not_postable_reason": null,
+   "post_form": "Budapest: 24 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1973-2023 record: 5.",
+   "span_is_not_a_count": "54 calendar years span the record and 44 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
+   "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 44,
+   "years_span": [
+    1973,
+    2026
+   ],
+   "years_with_none": 1
   }
  },
  "Cologne": {
@@ -1180,9 +1300,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
-   "current": 1,
-   "in_progress": true,
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
    "longest": 5,
    "longest_ended": "2026-06-28",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -1193,7 +1313,7 @@
    "baseline_from_year": 1958,
    "basis": "median of 1958-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 3,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -1207,7 +1327,7 @@
     1957,
     2026
    ],
-   "years_with_none": 54
+   "years_with_none": 53
   }
  },
  "Dresden": {
@@ -1303,7 +1423,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 0,
    "in_progress": false,
    "longest": 5,
@@ -1316,7 +1436,7 @@
    "baseline_from_year": 1934,
    "basis": "median of 1934-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 4,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -1330,7 +1450,7 @@
     1934,
     2026
    ],
-   "years_with_none": 45
+   "years_with_none": 42
   }
  },
  "Frankfurt": {
@@ -1404,7 +1524,7 @@
    "is_a_count": "recompute every run. Never write the number into copy as a literal.",
    "n": 2,
    "next_rank_year": 2019,
-   "post_form": "Frankfurt's 2 hottest days since 1937 all fell in 2026."
+   "post_form": "Frankfurt's 2 hottest days since 1936 all fell in 2026."
   },
   "previous_high": {
    "c": 40.1,
@@ -1414,7 +1534,7 @@
   },
   "record_scope": {
    "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
-   "from_year": 1937,
+   "from_year": 1936,
    "is_all_time": false,
    "may_not_say": [
     "hottest ever",
@@ -1422,13 +1542,13 @@
     "hottest since records began"
    ],
    "record_starts": 1935,
-   "text": "our series, from 1937",
+   "text": "our series, from 1936",
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
-   "current": 1,
-   "in_progress": true,
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
    "longest": 11,
    "longest_ended": "2026-06-28",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -1436,24 +1556,24 @@
   },
   "station": "Frankfurt/Main",
   "tropical_nights": {
-   "baseline_from_year": 1937,
-   "basis": "median of 1937-2025, each year counted to the same date",
+   "baseline_from_year": 1936,
+   "basis": "median of 1936-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 17,
    "median_to_cut": 0,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
-   "span_is_not_a_count": "92 calendar years span the record and 85 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
+   "span_is_not_a_count": "92 calendar years span the record and 86 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
-   "years_observed": 85,
+   "years_observed": 86,
    "years_span": [
     1935,
     2026
    ],
-   "years_with_none": 55
+   "years_with_none": 53
   }
  },
  "Geneva": {
@@ -1546,9 +1666,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
-   "current": 5,
-   "in_progress": true,
+   "counted_to": "08-21",
+   "current": 0,
+   "in_progress": false,
    "longest": 12,
    "longest_ended": "2026-06-29",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -1559,7 +1679,7 @@
    "baseline_from_year": 1954,
    "basis": "median of 1954-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-21",
    "current": 3,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -1573,7 +1693,7 @@
     1954,
     2026
    ],
-   "years_with_none": 56
+   "years_with_none": 55
   }
  },
  "Hamburg": {
@@ -1666,7 +1786,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 0,
    "in_progress": false,
    "longest": 3,
@@ -1679,7 +1799,7 @@
    "baseline_from_year": 1936,
    "basis": "median of 1936-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 1,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -1786,7 +1906,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 0,
    "in_progress": false,
    "longest": 5,
@@ -1799,7 +1919,7 @@
    "baseline_from_year": 1936,
    "basis": "median of 1936-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 2,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -1813,7 +1933,7 @@
     1936,
     2026
    ],
-   "years_with_none": 78
+   "years_with_none": 76
   }
  },
  "Helsinki": {
@@ -1906,7 +2026,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
+   "counted_to": "08-21",
    "current": 0,
    "in_progress": false,
    "longest": 2,
@@ -1919,7 +2039,7 @@
    "baseline_from_year": 1971,
    "basis": "median of 1971-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-21",
    "current": 0,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -1933,7 +2053,7 @@
     1971,
     2026
    ],
-   "years_with_none": 41
+   "years_with_none": 40
   }
  },
  "Larnaca": {
@@ -2149,7 +2269,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 0,
    "in_progress": false,
    "longest": 5,
@@ -2162,7 +2282,7 @@
    "baseline_from_year": 1864,
    "basis": "median of 1864-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-20",
    "current": 3,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -2176,7 +2296,7 @@
     1863,
     2026
    ],
-   "years_with_none": 96
+   "years_with_none": 87
   }
  },
  "London": {
@@ -2211,6 +2331,11 @@
      "year": 2020
     },
     {
+     "c": 37.7,
+     "date": "2026-08-13",
+     "year": 2026
+    },
+    {
      "c": 37.1,
      "date": "2022-07-18",
      "year": 2022
@@ -2234,11 +2359,6 @@
      "c": 36.4,
      "date": "2026-06-26",
      "year": 2026
-    },
-    {
-     "c": 35.7,
-     "date": "2020-08-11",
-     "year": 2020
     }
    ]
   },
@@ -2269,9 +2389,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
-   "current": 1,
-   "in_progress": true,
+   "counted_to": "08-21",
+   "current": 0,
+   "in_progress": false,
    "longest": 8,
    "longest_ended": "2026-07-12",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -2282,8 +2402,8 @@
    "baseline_from_year": 1949,
    "basis": "median of 1949-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 5,
+   "counted_to": "08-21",
+   "current": 6,
    "median_to_cut": 0,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
@@ -2296,7 +2416,7 @@
     1949,
     2026
    ],
-   "years_with_none": 63
+   "years_with_none": 62
   }
  },
  "Lugano": {
@@ -2389,9 +2509,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
-   "current": 5,
-   "in_progress": true,
+   "counted_to": "08-21",
+   "current": 0,
+   "in_progress": false,
    "longest": 13,
    "longest_ended": "2026-06-30",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -2402,8 +2522,8 @@
    "baseline_from_year": 1865,
    "basis": "median of 1865-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
-   "current": 46,
+   "counted_to": "08-21",
+   "current": 50,
    "median_to_cut": 2,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
@@ -2416,7 +2536,7 @@
     1864,
     2026
    ],
-   "years_with_none": 48
+   "years_with_none": 41
   }
  },
  "Lyon": {
@@ -2492,8 +2612,8 @@
   "previous_high": {
    "c": 39.9,
    "date": "2003-08-13",
-   "if_not_visible": "the day this record was set falls AFTER this city's cut, so the to-cut series cannot show it. Do not caption a to-cut chart with this value: the chart will contradict the caption. Cite it only against the full-record ranking.",
-   "visible_in_to_cut_series": false
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
   },
   "record_scope": {
    "differs_because": null,
@@ -2509,7 +2629,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-11",
+   "counted_to": "08-20",
    "current": 0,
    "in_progress": false,
    "longest": 9,
@@ -2522,12 +2642,12 @@
    "baseline_from_year": 1975,
    "basis": "median of 1975-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-11",
-   "current": 37,
-   "median_to_cut": 5,
+   "counted_to": "08-20",
+   "current": 44,
+   "median_to_cut": 6,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Lyon: 37 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1975-2025 record: 5.",
+   "post_form": "Lyon: 44 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1975-2025 record: 6.",
    "span_is_not_a_count": "52 calendar years span the record and 51 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -2536,7 +2656,7 @@
     1975,
     2026
    ],
-   "years_with_none": 11
+   "years_with_none": 10
   }
  },
  "Madrid": {
@@ -2629,9 +2749,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
-   "current": 0,
-   "in_progress": false,
+   "counted_to": "08-18",
+   "current": 2,
+   "in_progress": true,
    "longest": 7,
    "longest_ended": "2026-07-09",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -2642,12 +2762,12 @@
    "baseline_from_year": 1920,
    "basis": "median of 1920-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 58,
-   "median_to_cut": 11,
+   "counted_to": "08-18",
+   "current": 66,
+   "median_to_cut": 13,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Madrid: 58 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1920-2025 record: 11.",
+   "post_form": "Madrid: 66 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1920-2025 record: 13.",
    "span_is_not_a_count": "107 calendar years span the record and 105 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -2656,7 +2776,7 @@
     1920,
     2026
    ],
-   "years_with_none": 2
+   "years_with_none": 1
   }
  },
  "Malaga": {
@@ -2749,7 +2869,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
+   "counted_to": "08-18",
    "current": 0,
    "in_progress": false,
    "longest": 4,
@@ -2762,16 +2882,16 @@
    "baseline_from_year": 1942,
    "basis": "median of 1942-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 63,
-   "median_to_cut": 31,
+   "counted_to": "08-18",
+   "current": 72,
+   "median_to_cut": 37,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Malaga: 63 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1942-2025 record: 31.",
-   "span_is_not_a_count": "85 calendar years span the record and 79 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
+   "post_form": "Malaga: 72 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1942-2025 record: 37.",
+   "span_is_not_a_count": "85 calendar years span the record and 78 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
-   "years_observed": 79,
+   "years_observed": 78,
    "years_span": [
     1942,
     2026
@@ -2871,11 +2991,11 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-11",
-   "current": 11,
-   "in_progress": true,
-   "longest": 13,
-   "longest_ended": "2026-07-01",
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
+   "longest": 15,
+   "longest_ended": "2026-08-15",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
    "threshold_c": 33.9
   },
@@ -2884,12 +3004,12 @@
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-11",
-   "current": 40,
-   "median_to_cut": 17,
+   "counted_to": "08-20",
+   "current": 49,
+   "median_to_cut": 21,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Marseille: 40 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 17.",
+   "post_form": "Marseille: 49 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 21.",
    "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -2898,7 +3018,7 @@
     1950,
     2026
    ],
-   "years_with_none": 1
+   "years_with_none": 0
   }
  },
  "Montpellier": {
@@ -2991,9 +3111,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-11",
-   "current": 1,
-   "in_progress": true,
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
    "longest": 8,
    "longest_ended": "2026-07-06",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -3004,12 +3124,12 @@
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-11",
-   "current": 49,
-   "median_to_cut": 10,
+   "counted_to": "08-20",
+   "current": 58,
+   "median_to_cut": 13,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Montpellier: 49 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 10.",
+   "post_form": "Montpellier: 58 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 13.",
    "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -3018,7 +3138,7 @@
     1950,
     2026
    ],
-   "years_with_none": 2
+   "years_with_none": 1
   }
  },
  "Munich": {
@@ -3113,9 +3233,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
-   "current": 4,
-   "in_progress": true,
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
    "longest": 12,
    "longest_ended": "2026-06-29",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -3126,8 +3246,8 @@
    "baseline_from_year": 1955,
    "basis": "median of 1955-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
-   "current": 7,
+   "counted_to": "08-20",
+   "current": 8,
    "median_to_cut": 0,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
@@ -3140,7 +3260,7 @@
     1954,
     2026
    ],
-   "years_with_none": 44
+   "years_with_none": 43
   }
  },
  "Murcia": {
@@ -3216,8 +3336,8 @@
   "previous_high": {
    "c": 46.2,
    "date": "2021-08-15",
-   "if_not_visible": "the day this record was set falls AFTER this city's cut, so the to-cut series cannot show it. Do not caption a to-cut chart with this value: the chart will contradict the caption. Cite it only against the full-record ranking.",
-   "visible_in_to_cut_series": false
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
   },
   "record_scope": {
    "differs_because": null,
@@ -3233,7 +3353,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
+   "counted_to": "08-18",
    "current": 0,
    "in_progress": false,
    "longest": 4,
@@ -3246,12 +3366,12 @@
    "baseline_from_year": 1984,
    "basis": "median of 1984-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 63,
-   "median_to_cut": 41,
+   "counted_to": "08-18",
+   "current": 72,
+   "median_to_cut": 50,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Murcia: 63 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1984-2025 record: 41.",
+   "post_form": "Murcia: 72 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1984-2025 record: 50.",
    "span_is_not_a_count": "43 calendar years span the record and 42 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -3353,11 +3473,11 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-11",
-   "current": 15,
-   "in_progress": true,
-   "longest": 15,
-   "longest_ended": "2026-08-11",
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
+   "longest": 23,
+   "longest_ended": "2026-08-19",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
    "threshold_c": 30.2
   },
@@ -3366,12 +3486,12 @@
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-11",
-   "current": 64,
-   "median_to_cut": 25,
+   "counted_to": "08-20",
+   "current": 73,
+   "median_to_cut": 30,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Nice: 64 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 25.",
+   "post_form": "Nice: 73 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 30.",
    "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -3398,6 +3518,11 @@
      "c": 39.8,
      "date": "2022-07-19",
      "year": 2022
+    },
+    {
+     "c": 36.9,
+     "date": "2026-08-13",
+     "year": 2026
     },
     {
      "c": 36.3,
@@ -3435,13 +3560,8 @@
      "year": 1975
     },
     {
-     "c": 33.3,
-     "date": "1990-08-02",
-     "year": 1990
-    },
-    {
-     "c": 33.3,
-     "date": "2026-07-09",
+     "c": 33.4,
+     "date": "2026-08-12",
      "year": 2026
     }
    ]
@@ -3473,7 +3593,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-10",
+   "counted_to": "08-21",
    "current": 0,
    "in_progress": false,
    "longest": 5,
@@ -3486,7 +3606,7 @@
    "baseline_from_year": 1957,
    "basis": "median of 1957-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-10",
+   "counted_to": "08-21",
    "current": 1,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -3576,8 +3696,8 @@
   "previous_high": {
    "c": 39.1,
    "date": "2022-08-13",
-   "if_not_visible": "the day this record was set falls AFTER this city's cut, so the to-cut series cannot show it. Do not caption a to-cut chart with this value: the chart will contradict the caption. Cite it only against the full-record ranking.",
-   "visible_in_to_cut_series": false
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
   },
   "record_scope": {
    "differs_because": null,
@@ -3593,11 +3713,11 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
-   "current": 1,
-   "in_progress": true,
-   "longest": 4,
-   "longest_ended": "2026-06-22",
+   "counted_to": "08-18",
+   "current": 0,
+   "in_progress": false,
+   "longest": 5,
+   "longest_ended": "2026-08-13",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
    "threshold_c": 33.6
   },
@@ -3606,12 +3726,12 @@
    "baseline_from_year": 1978,
    "basis": "median of 1978-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 65,
-   "median_to_cut": 49,
+   "counted_to": "08-18",
+   "current": 74,
+   "median_to_cut": 58,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Palma: 65 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1978-2025 record: 49.",
+   "post_form": "Palma: 74 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1978-2025 record: 58.",
    "span_is_not_a_count": "49 calendar years span the record and 48 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -3680,9 +3800,9 @@
      "year": 2020
     },
     {
-     "c": 39.2,
-     "date": "2003-08-10",
-     "year": 2003
+     "c": 39.4,
+     "date": "2026-08-14",
+     "year": 2026
     }
    ]
   },
@@ -3713,9 +3833,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-11",
-   "current": 3,
-   "in_progress": true,
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
    "longest": 11,
    "longest_ended": "2026-06-27",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -3726,8 +3846,8 @@
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-11",
-   "current": 18,
+   "counted_to": "08-20",
+   "current": 22,
    "median_to_cut": 1,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
@@ -3740,7 +3860,7 @@
     1950,
     2026
    ],
-   "years_with_none": 36
+   "years_with_none": 33
   }
  },
  "Prague": {
@@ -3953,7 +4073,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
+   "counted_to": "08-18",
    "current": 0,
    "in_progress": false,
    "longest": 7,
@@ -3966,12 +4086,12 @@
    "baseline_from_year": 1951,
    "basis": "median of 1951-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 54,
-   "median_to_cut": 21,
+   "counted_to": "08-18",
+   "current": 62,
+   "median_to_cut": 25,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Seville: 54 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1951-2025 record: 21.",
+   "post_form": "Seville: 62 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1951-2025 record: 25.",
    "span_is_not_a_count": "76 calendar years span the record and 75 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -4073,7 +4193,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
+   "counted_to": "08-21",
    "current": 0,
    "in_progress": false,
    "longest": 3,
@@ -4086,7 +4206,7 @@
    "baseline_from_year": 1951,
    "basis": "median of 1951-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-21",
    "current": 0,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -4196,9 +4316,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-11",
-   "current": 4,
-   "in_progress": true,
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
    "longest": 11,
    "longest_ended": "2026-06-28",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -4209,9 +4329,9 @@
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-11",
+   "counted_to": "08-20",
    "current": 13,
-   "median_to_cut": 0,
+   "median_to_cut": 1,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
@@ -4223,7 +4343,7 @@
     1950,
     2026
    ],
-   "years_with_none": 40
+   "years_with_none": 37
   }
  },
  "Stuttgart": {
@@ -4316,9 +4436,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
-   "current": 1,
-   "in_progress": true,
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
    "longest": 11,
    "longest_ended": "2026-06-28",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -4329,8 +4449,8 @@
    "baseline_from_year": 1958,
    "basis": "median of 1958-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
-   "current": 16,
+   "counted_to": "08-20",
+   "current": 17,
    "median_to_cut": 1,
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
@@ -4343,7 +4463,7 @@
     1958,
     2026
    ],
-   "years_with_none": 33
+   "years_with_none": 29
   }
  },
  "Tallinn": {
@@ -4556,9 +4676,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-11",
-   "current": 1,
-   "in_progress": true,
+   "counted_to": "08-20",
+   "current": 0,
+   "in_progress": false,
    "longest": 8,
    "longest_ended": "2026-06-27",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -4569,12 +4689,12 @@
    "baseline_from_year": 1950,
    "basis": "median of 1950-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-11",
-   "current": 33,
-   "median_to_cut": 2,
-   "metric_reaches_city": false,
-   "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
-   "post_form": null,
+   "counted_to": "08-20",
+   "current": 41,
+   "median_to_cut": 3,
+   "metric_reaches_city": true,
+   "not_postable_reason": null,
+   "post_form": "Toulouse: 41 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1950-2025 record: 3.",
    "span_is_not_a_count": "77 calendar years span the record and 76 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -4583,7 +4703,7 @@
     1950,
     2026
    ],
-   "years_with_none": 14
+   "years_with_none": 9
   }
  },
  "Valencia": {
@@ -4659,8 +4779,8 @@
   "previous_high": {
    "c": 44.5,
    "date": "2023-08-10",
-   "if_not_visible": "the day this record was set falls AFTER this city's cut, so the to-cut series cannot show it. Do not caption a to-cut chart with this value: the chart will contradict the caption. Cite it only against the full-record ranking.",
-   "visible_in_to_cut_series": false
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
   },
   "record_scope": {
    "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
@@ -4676,9 +4796,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
-   "current": 0,
-   "in_progress": false,
+   "counted_to": "08-18",
+   "current": 2,
+   "in_progress": true,
    "longest": 3,
    "longest_ended": "2026-07-08",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -4689,12 +4809,12 @@
    "baseline_from_year": 1938,
    "basis": "median of 1938-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 66,
-   "median_to_cut": 35,
+   "counted_to": "08-18",
+   "current": 75,
+   "median_to_cut": 43,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Valencia: 66 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1938-2025 record: 35.",
+   "post_form": "Valencia: 75 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1938-2025 record: 43.",
    "span_is_not_a_count": "90 calendar years span the record and 88 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -4802,7 +4922,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
+   "counted_to": "08-21",
    "current": 0,
    "in_progress": false,
    "longest": 8,
@@ -4815,7 +4935,7 @@
    "baseline_from_year": 1855,
    "basis": "median of 1855-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-21",
    "current": 23,
    "median_to_cut": 1,
    "metric_reaches_city": false,
@@ -4829,7 +4949,249 @@
     1855,
     2026
    ],
-   "years_with_none": 66
+   "years_with_none": 57
+  }
+ },
+ "Vilnius": {
+  "city": "Vilnius",
+  "country": "LT",
+  "hottest_day": {
+   "c": 45.2,
+   "date": "2026-08-02",
+   "is_current_year": true
+  },
+  "hottest_days": {
+   "basis": "every individual day in the record, uncut and with no seasonal window. NOT comparable with warmest_day_c (full-year maxima) or warmest_day_to_cut_c (cut).",
+   "top": [
+    {
+     "c": 45.2,
+     "date": "2026-08-02",
+     "year": 2026
+    },
+    {
+     "c": 35.4,
+     "date": "1959-07-13",
+     "year": 1959
+    },
+    {
+     "c": 34.9,
+     "date": "1994-07-31",
+     "year": 1994
+    },
+    {
+     "c": 34.9,
+     "date": "2015-08-08",
+     "year": 2015
+    },
+    {
+     "c": 34.7,
+     "date": "1994-07-30",
+     "year": 1994
+    },
+    {
+     "c": 34.7,
+     "date": "2014-08-03",
+     "year": 2014
+    },
+    {
+     "c": 34.5,
+     "date": "1963-07-26",
+     "year": 1963
+    },
+    {
+     "c": 34.5,
+     "date": "1992-08-29",
+     "year": 1992
+    },
+    {
+     "c": 34.5,
+     "date": "2014-08-04",
+     "year": 2014
+    },
+    {
+     "c": 34.4,
+     "date": "1992-08-10",
+     "year": 1992
+    }
+   ]
+  },
+  "leading_run": {
+   "dates": [
+    "2026-08-02"
+   ],
+   "is_a_count": "recompute every run. Never write the number into copy as a literal.",
+   "n": 1,
+   "next_rank_year": 1959,
+   "post_form": null
+  },
+  "previous_high": {
+   "c": 35.4,
+   "date": "1959-07-13",
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
+  },
+  "record_scope": {
+   "differs_because": "the record starts earlier than the ranked series: the early years fail the completeness bar and are not ranked over. Cite from_year, which is the window the rank was computed on.",
+   "from_year": 1891,
+   "is_all_time": false,
+   "may_not_say": [
+    "hottest ever",
+    "all-time record",
+    "hottest since records began"
+   ],
+   "record_starts": 1890,
+   "text": "our series, from 1891",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
+  },
+  "run_above_p95": {
+   "counted_to": "08-13",
+   "current": 0,
+   "in_progress": false,
+   "longest": 5,
+   "longest_ended": "2026-07-01",
+   "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
+   "threshold_c": 29.0
+  },
+  "station": "Vilnius",
+  "tropical_nights": {
+   "baseline_from_year": 1891,
+   "basis": "median of 1891-2025, each year counted to the same date",
+   "comparable_across_cities": false,
+   "counted_to": "08-13",
+   "current": 3,
+   "median_to_cut": 0,
+   "metric_reaches_city": false,
+   "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
+   "post_form": null,
+   "span_is_not_a_count": "127 calendar years span the record and 128 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
+   "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 128,
+   "years_span": [
+    1900,
+    2026
+   ],
+   "years_with_none": 101
+  }
+ },
+ "Zagreb": {
+  "city": "Zagreb",
+  "country": "HR",
+  "hottest_day": {
+   "c": 40.3,
+   "date": "1950-07-05",
+   "is_current_year": false
+  },
+  "hottest_days": {
+   "basis": "every individual day in the record, uncut and with no seasonal window. NOT comparable with warmest_day_c (full-year maxima) or warmest_day_to_cut_c (cut).",
+   "top": [
+    {
+     "c": 40.3,
+     "date": "1950-07-05",
+     "year": 1950
+    },
+    {
+     "c": 39.1,
+     "date": "2022-07-23",
+     "year": 2022
+    },
+    {
+     "c": 38.8,
+     "date": "2013-08-08",
+     "year": 2013
+    },
+    {
+     "c": 38.6,
+     "date": "1950-07-04",
+     "year": 1950
+    },
+    {
+     "c": 38.4,
+     "date": "2021-08-15",
+     "year": 2021
+    },
+    {
+     "c": 38.2,
+     "date": "2007-07-20",
+     "year": 2007
+    },
+    {
+     "c": 38.0,
+     "date": "1950-07-01",
+     "year": 1950
+    },
+    {
+     "c": 38.0,
+     "date": "2012-08-24",
+     "year": 2012
+    },
+    {
+     "c": 37.9,
+     "date": "1950-07-03",
+     "year": 1950
+    },
+    {
+     "c": 37.6,
+     "date": "1939-07-22",
+     "year": 1939
+    }
+   ]
+  },
+  "leading_run": {
+   "dates": [],
+   "is_a_count": "recompute every run. Never write the number into copy as a literal.",
+   "n": 0,
+   "next_rank_year": 1950,
+   "post_form": null
+  },
+  "previous_high": {
+   "c": 40.3,
+   "date": "1950-07-05",
+   "if_not_visible": null,
+   "visible_in_to_cut_series": true
+  },
+  "record_scope": {
+   "differs_because": null,
+   "from_year": 1881,
+   "is_all_time": false,
+   "may_not_say": [
+    "hottest ever",
+    "all-time record",
+    "hottest since records began"
+   ],
+   "record_starts": 1881,
+   "text": "our series, from 1881",
+   "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
+  },
+  "run_above_p95": {
+   "counted_to": "08-13",
+   "current": 0,
+   "in_progress": false,
+   "longest": 10,
+   "longest_ended": "2026-08-07",
+   "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
+   "threshold_c": 32.3
+  },
+  "station": "Zagreb-Gric",
+  "tropical_nights": {
+   "baseline_from_year": 1881,
+   "basis": "median of 1881-2025, each year counted to the same date",
+   "comparable_across_cities": false,
+   "counted_to": "08-13",
+   "current": 16,
+   "median_to_cut": 5,
+   "metric_reaches_city": true,
+   "not_postable_reason": null,
+   "post_form": "Zagreb: 16 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1881-2025 record: 5.",
+   "span_is_not_a_count": "146 calendar years span the record and 145 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
+   "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
+   "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
+   "years_observed": 145,
+   "years_span": [
+    1881,
+    2026
+   ],
+   "years_with_none": 13
   }
  },
  "Zaragoza": {
@@ -4922,7 +5284,7 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-09",
+   "counted_to": "08-18",
    "current": 0,
    "in_progress": false,
    "longest": 8,
@@ -4935,12 +5297,12 @@
    "baseline_from_year": 1951,
    "basis": "median of 1951-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-09",
-   "current": 51,
-   "median_to_cut": 8,
+   "counted_to": "08-18",
+   "current": 60,
+   "median_to_cut": 10,
    "metric_reaches_city": true,
    "not_postable_reason": null,
-   "post_form": "Zaragoza: 51 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1951-2025 record: 8.",
+   "post_form": "Zaragoza: 60 nights so far this year that never dropped below 20 C. By this date in a typical year across its 1951-2025 record: 10.",
    "span_is_not_a_count": "76 calendar years span the record and 75 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
@@ -4949,7 +5311,7 @@
     1951,
     2026
    ],
-   "years_with_none": 1
+   "years_with_none": 0
   }
  },
  "Zurich": {
@@ -5042,9 +5404,9 @@
    "why": "the station may have observed before our record starts, so a rank is against the record we hold and never against the city's full history."
   },
   "run_above_p95": {
-   "counted_to": "08-12",
-   "current": 5,
-   "in_progress": true,
+   "counted_to": "08-21",
+   "current": 0,
+   "in_progress": false,
    "longest": 12,
    "longest_ended": "2026-06-28",
    "means": "consecutive days at or above this city's own 95th percentile, measured. A run still under way reads short until the observations land.",
@@ -5055,7 +5417,7 @@
    "baseline_from_year": 1882,
    "basis": "median of 1882-2025, each year counted to the same date",
    "comparable_across_cities": false,
-   "counted_to": "08-12",
+   "counted_to": "08-21",
    "current": 9,
    "median_to_cut": 0,
    "metric_reaches_city": false,
@@ -5069,19 +5431,21 @@
     1881,
     2026
    ],
-   "years_with_none": 119
+   "years_with_none": 118
   }
  },
  "_meta": {
-  "cities": 42,
+  "cities": 45,
   "counted_to": [
    "2026-07-31",
-   "2026-08-09",
    "2026-08-10",
-   "2026-08-11",
-   "2026-08-12"
+   "2026-08-12",
+   "2026-08-14",
+   "2026-08-18",
+   "2026-08-20",
+   "2026-08-21"
   ],
-  "matches_published": false,
+  "matches_published": true,
   "matches_published_note": "False means the refresh gate has not passed these numbers and the live pages still show the previous ones. Do not publish from this file while False; every value in it is real, which is what makes that mistake invisible."
  }
 }

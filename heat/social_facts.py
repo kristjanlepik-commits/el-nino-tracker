@@ -391,8 +391,24 @@ def main() -> int:
     # added after the last run and `if f:` dropped it without a word. Socials
     # built a card footer reading "our 41 cities" off it. The count was wrong
     # in a published artifact and nothing in the pipeline could see it.
+    # THE PAYLOAD IS THE AUTHORITY ON WHICH CITIES EXIST, NOT CITIES.
+    # This iterated B.CITIES, which was right while every entry reached the
+    # payload. It stopped being right when build_city_series learned to SKIP
+    # a city with no complete baseline: Rome is in CITIES, correctly absent
+    # from the payload, and this then refused to write at all because a city
+    # it demanded facts for had none to give.
+    #
+    # So the guard was sound and its authority was wrong. Same shape as
+    # station_coords iterating the legacy COORDS dict, inverted: there CITIES
+    # was the right authority and a stale table was being used; here the
+    # payload is the right authority and CITIES is the stale one.
+    published = set(json.loads(
+        (ROOT / "heat" / "data" / "city_nights.json").read_text())["cities"])
+    skipped = [c for c in B.CITIES if c not in published]
+    if skipped:
+        print(f"  not in the payload, so not in social facts: {skipped}")
     out, missing = {}, []
-    for city, meta in B.CITIES.items():
+    for city, meta in ((c, m) for c, m in B.CITIES.items() if c in published):
         f = facts(city, meta)
         if f:
             out[city] = f
