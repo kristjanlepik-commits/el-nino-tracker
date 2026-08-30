@@ -71,6 +71,80 @@ _LABELS = {
 }
 
 
+# A channel that emits its methodology version machine-readably. Where it
+# does, the prose is CHECKED against it rather than trusted.
+VERSION_SOURCES = {
+    "crops": ("crops/data/stress_current.json", "methodology_version"),
+}
+
+_VERSION_HEADINGS = ("version history", "methodology change log",
+                     "change log", "version log")
+
+
+def _version_section(md):
+    """The version-history section's body, or None if there is none."""
+    lines = md.splitlines()
+    start = None
+    for i, ln in enumerate(lines):
+        if ln.startswith("#") and any(
+                h in ln.lower() for h in _VERSION_HEADINGS):
+            start = i + 1
+            break
+    if start is None:
+        return None
+    body = []
+    for ln in lines[start:]:
+        if ln.startswith("## "):
+            break
+        body.append(ln)
+    return "\n".join(body).strip()
+
+
+def _check_version(channel, md):
+    """Every methodology page carries a version history, and it is current.
+
+    Kristjan's requirement, 2026-08-30: every channel's methodology page
+    tracks its changes the way the El Nino page does, which keeps a dated
+    change log tied to METHODOLOGY_VERSION.
+
+    ENFORCED RATHER THAN REMEMBERED. A requirement that lives only in a
+    conversation is one a future channel launches without, and nothing
+    would fail: the page would simply render, complete-looking and
+    silent about what changed.
+
+    THE TEXT IS THE CHANNEL'S. This refuses and names them; it does not
+    draft a history, because a change log written by whoever rendered the
+    page is a record of what they could infer rather than what happened.
+    """
+    body = _version_section(md)
+    if not body:
+        raise SystemExit(
+            "REFUSING TO BUILD %s: its methodology has no version history.\n"
+            "Every methodology page tracks its own changes, as the El Nino "
+            "page does. Add a '## Version history' section to the channel's "
+            "markdown, newest first, each entry saying what changed and "
+            "what it affects.\n"
+            "The text is the channel's, not design's: ask %s to write it."
+            % (channel, channel))
+
+    spec = VERSION_SOURCES.get(channel)
+    if not spec:
+        return
+    path, key = spec
+    try:
+        want = str(json.loads((ROOT / path).read_text())[key])
+    except (OSError, KeyError, ValueError):
+        return
+    if want not in body:
+        raise SystemExit(
+            "REFUSING TO BUILD %s: the payload reports methodology version "
+            "%s and the version history does not mention it.\n"
+            "A page whose change log stops short of the version that "
+            "produced its numbers is worse than none: it dates the method "
+            "to the last time someone remembered to write it down."
+            % (channel, want))
+
+
 def _method(channel):
     """The channel's emitted thresholds, or None if it publishes none."""
     spec = METHOD_SOURCES.get(channel)
@@ -140,6 +214,7 @@ def render(channel, root_prefix="../"):
             % (src, channel))
 
     md = doc.read_text()
+    _check_version(channel, md)
     extra = _thresholds_md(channel)
     if extra:
         md = md.rstrip() + "\n" + extra + "\n"
