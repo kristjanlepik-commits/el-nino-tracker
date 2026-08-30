@@ -5,6 +5,12 @@
   "observation_month": "2026-07",
   "max_data_age_days": 75,
   "max_data_age_measured_from": "the end of observation_month. ERA5 monthly means publish about five weeks after a month closes, so a payload older than this means the monthly pull has stopped rather than that the world went quiet.",
+  "series_declaration": {
+    "means": "each region's series covers ITS OWN window months, not a fixed calendar season, because the season that matters differs by region. A cross-year window is labelled by the year it OPENS, so 2026-27 means Sep 2026 to Feb 2027.",
+    "percentile_basis": "leave-one-out: each season is ranked against every OTHER season in the series, so a season never inflates its own rank.",
+    "incomplete_seasons": "a season missing any of its months is omitted entirely rather than part-counted. The current season appears only once every one of its months has been observed.",
+    "s_amazon_note": "s_amazon has no window in this period, so its series uses Jul-Oct, its actual fire season."
+  },
   "baseline": {
     "basis": "1991-2025, same calendar month of each year",
     "first": 1991,
@@ -115,6 +121,255 @@
         60,
         63,
         57
+      ],
+      "season_months": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "season_is_cross_year": true,
+      "series": [
+        {
+          "season": "1992-93",
+          "soil": 0.3293,
+          "rain_mm": 597.5,
+          "soil_pctl": 94,
+          "rain_pctl": 73
+        },
+        {
+          "season": "1993-94",
+          "soil": 0.3171,
+          "rain_mm": 617.3,
+          "soil_pctl": 88,
+          "rain_pctl": 82
+        },
+        {
+          "season": "1994-95",
+          "soil": 0.3027,
+          "rain_mm": 513.1,
+          "soil_pctl": 76,
+          "rain_pctl": 42
+        },
+        {
+          "season": "1995-96",
+          "soil": 0.2623,
+          "rain_mm": 494.0,
+          "soil_pctl": 6,
+          "rain_pctl": 39
+        },
+        {
+          "season": "1996-97",
+          "soil": 0.2767,
+          "rain_mm": 604.7,
+          "soil_pctl": 24,
+          "rain_pctl": 76
+        },
+        {
+          "season": "1997-98",
+          "soil": 0.3252,
+          "rain_mm": 768.0,
+          "soil_pctl": 91,
+          "rain_pctl": 100
+        },
+        {
+          "season": "1998-99",
+          "soil": 0.2945,
+          "rain_mm": 489.3,
+          "soil_pctl": 55,
+          "rain_pctl": 36
+        },
+        {
+          "season": "1999-00",
+          "soil": 0.3009,
+          "rain_mm": 545.3,
+          "soil_pctl": 64,
+          "rain_pctl": 48
+        },
+        {
+          "season": "2000-01",
+          "soil": 0.3148,
+          "rain_mm": 630.5,
+          "soil_pctl": 82,
+          "rain_pctl": 88
+        },
+        {
+          "season": "2001-02",
+          "soil": 0.336,
+          "rain_mm": 642.6,
+          "soil_pctl": 100,
+          "rain_pctl": 91
+        },
+        {
+          "season": "2002-03",
+          "soil": 0.3327,
+          "rain_mm": 691.5,
+          "soil_pctl": 97,
+          "rain_pctl": 94
+        },
+        {
+          "season": "2003-04",
+          "soil": 0.2825,
+          "rain_mm": 475.5,
+          "soil_pctl": 45,
+          "rain_pctl": 30
+        },
+        {
+          "season": "2004-05",
+          "soil": 0.301,
+          "rain_mm": 554.6,
+          "soil_pctl": 67,
+          "rain_pctl": 55
+        },
+        {
+          "season": "2005-06",
+          "soil": 0.2817,
+          "rain_mm": 453.3,
+          "soil_pctl": 42,
+          "rain_pctl": 18
+        },
+        {
+          "season": "2006-07",
+          "soil": 0.2816,
+          "rain_mm": 590.6,
+          "soil_pctl": 39,
+          "rain_pctl": 64
+        },
+        {
+          "season": "2007-08",
+          "soil": 0.2924,
+          "rain_mm": 550.8,
+          "soil_pctl": 52,
+          "rain_pctl": 52
+        },
+        {
+          "season": "2008-09",
+          "soil": 0.2582,
+          "rain_mm": 368.2,
+          "soil_pctl": 0,
+          "rain_pctl": 3
+        },
+        {
+          "season": "2009-10",
+          "soil": 0.2815,
+          "rain_mm": 720.7,
+          "soil_pctl": 36,
+          "rain_pctl": 97
+        },
+        {
+          "season": "2010-11",
+          "soil": 0.2759,
+          "rain_mm": 457.9,
+          "soil_pctl": 18,
+          "rain_pctl": 21
+        },
+        {
+          "season": "2011-12",
+          "soil": 0.2699,
+          "rain_mm": 481.8,
+          "soil_pctl": 9,
+          "rain_pctl": 33
+        },
+        {
+          "season": "2012-13",
+          "soil": 0.3166,
+          "rain_mm": 624.9,
+          "soil_pctl": 85,
+          "rain_pctl": 85
+        },
+        {
+          "season": "2013-14",
+          "soil": 0.2739,
+          "rain_mm": 596.2,
+          "soil_pctl": 12,
+          "rain_pctl": 70
+        },
+        {
+          "season": "2014-15",
+          "soil": 0.3022,
+          "rain_mm": 610.8,
+          "soil_pctl": 70,
+          "rain_pctl": 79
+        },
+        {
+          "season": "2015-16",
+          "soil": 0.2923,
+          "rain_mm": 557.4,
+          "soil_pctl": 48,
+          "rain_pctl": 58
+        },
+        {
+          "season": "2016-17",
+          "soil": 0.3006,
+          "rain_mm": 558.9,
+          "soil_pctl": 58,
+          "rain_pctl": 61
+        },
+        {
+          "season": "2017-18",
+          "soil": 0.3025,
+          "rain_mm": 381.7,
+          "soil_pctl": 73,
+          "rain_pctl": 6
+        },
+        {
+          "season": "2018-19",
+          "soil": 0.3037,
+          "rain_mm": 595.6,
+          "soil_pctl": 79,
+          "rain_pctl": 67
+        },
+        {
+          "season": "2019-20",
+          "soil": 0.2779,
+          "rain_mm": 463.0,
+          "soil_pctl": 30,
+          "rain_pctl": 24
+        },
+        {
+          "season": "2020-21",
+          "soil": 0.2742,
+          "rain_mm": 402.3,
+          "soil_pctl": 15,
+          "rain_pctl": 9
+        },
+        {
+          "season": "2021-22",
+          "soil": 0.2789,
+          "rain_mm": 470.0,
+          "soil_pctl": 33,
+          "rain_pctl": 27
+        },
+        {
+          "season": "2022-23",
+          "soil": 0.2609,
+          "rain_mm": 303.1,
+          "soil_pctl": 3,
+          "rain_pctl": 0
+        },
+        {
+          "season": "2023-24",
+          "soil": 0.2765,
+          "rain_mm": 513.3,
+          "soil_pctl": 21,
+          "rain_pctl": 45
+        },
+        {
+          "season": "2024-25",
+          "soil": 0.2775,
+          "rain_mm": 403.0,
+          "soil_pctl": 27,
+          "rain_pctl": 12
+        },
+        {
+          "season": "2025-26",
+          "soil": 0.3009,
+          "rain_mm": 417.5,
+          "soil_pctl": 61,
+          "rain_pctl": 15
+        }
       ]
     },
     {
@@ -158,6 +413,255 @@
         54,
         40,
         71
+      ],
+      "season_months": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "season_is_cross_year": true,
+      "series": [
+        {
+          "season": "1992-93",
+          "soil": 0.3139,
+          "rain_mm": 725.9,
+          "soil_pctl": 61,
+          "rain_pctl": 30
+        },
+        {
+          "season": "1993-94",
+          "soil": 0.329,
+          "rain_mm": 1002.1,
+          "soil_pctl": 76,
+          "rain_pctl": 85
+        },
+        {
+          "season": "1994-95",
+          "soil": 0.3166,
+          "rain_mm": 903.3,
+          "soil_pctl": 70,
+          "rain_pctl": 76
+        },
+        {
+          "season": "1995-96",
+          "soil": 0.3048,
+          "rain_mm": 861.3,
+          "soil_pctl": 33,
+          "rain_pctl": 70
+        },
+        {
+          "season": "1996-97",
+          "soil": 0.3079,
+          "rain_mm": 840.8,
+          "soil_pctl": 45,
+          "rain_pctl": 61
+        },
+        {
+          "season": "1997-98",
+          "soil": 0.3499,
+          "rain_mm": 1455.1,
+          "soil_pctl": 100,
+          "rain_pctl": 100
+        },
+        {
+          "season": "1998-99",
+          "soil": 0.2961,
+          "rain_mm": 753.6,
+          "soil_pctl": 15,
+          "rain_pctl": 39
+        },
+        {
+          "season": "1999-00",
+          "soil": 0.2923,
+          "rain_mm": 700.5,
+          "soil_pctl": 6,
+          "rain_pctl": 18
+        },
+        {
+          "season": "2000-01",
+          "soil": 0.3305,
+          "rain_mm": 996.0,
+          "soil_pctl": 82,
+          "rain_pctl": 82
+        },
+        {
+          "season": "2001-02",
+          "soil": 0.3162,
+          "rain_mm": 849.5,
+          "soil_pctl": 67,
+          "rain_pctl": 67
+        },
+        {
+          "season": "2002-03",
+          "soil": 0.3452,
+          "rain_mm": 1173.7,
+          "soil_pctl": 94,
+          "rain_pctl": 97
+        },
+        {
+          "season": "2003-04",
+          "soil": 0.3001,
+          "rain_mm": 708.7,
+          "soil_pctl": 30,
+          "rain_pctl": 21
+        },
+        {
+          "season": "2004-05",
+          "soil": 0.2992,
+          "rain_mm": 621.4,
+          "soil_pctl": 24,
+          "rain_pctl": 9
+        },
+        {
+          "season": "2005-06",
+          "soil": 0.2999,
+          "rain_mm": 719.2,
+          "soil_pctl": 27,
+          "rain_pctl": 27
+        },
+        {
+          "season": "2006-07",
+          "soil": 0.3048,
+          "rain_mm": 788.9,
+          "soil_pctl": 36,
+          "rain_pctl": 55
+        },
+        {
+          "season": "2007-08",
+          "soil": 0.311,
+          "rain_mm": 786.6,
+          "soil_pctl": 52,
+          "rain_pctl": 52
+        },
+        {
+          "season": "2008-09",
+          "soil": 0.2974,
+          "rain_mm": 727.3,
+          "soil_pctl": 21,
+          "rain_pctl": 33
+        },
+        {
+          "season": "2009-10",
+          "soil": 0.3454,
+          "rain_mm": 1091.2,
+          "soil_pctl": 97,
+          "rain_pctl": 91
+        },
+        {
+          "season": "2010-11",
+          "soil": 0.2969,
+          "rain_mm": 776.0,
+          "soil_pctl": 18,
+          "rain_pctl": 45
+        },
+        {
+          "season": "2011-12",
+          "soil": 0.2954,
+          "rain_mm": 618.7,
+          "soil_pctl": 12,
+          "rain_pctl": 6
+        },
+        {
+          "season": "2012-13",
+          "soil": 0.3129,
+          "rain_mm": 836.4,
+          "soil_pctl": 58,
+          "rain_pctl": 58
+        },
+        {
+          "season": "2013-14",
+          "soil": 0.3094,
+          "rain_mm": 845.4,
+          "soil_pctl": 48,
+          "rain_pctl": 64
+        },
+        {
+          "season": "2014-15",
+          "soil": 0.3368,
+          "rain_mm": 954.3,
+          "soil_pctl": 88,
+          "rain_pctl": 79
+        },
+        {
+          "season": "2015-16",
+          "soil": 0.3372,
+          "rain_mm": 1060.6,
+          "soil_pctl": 91,
+          "rain_pctl": 88
+        },
+        {
+          "season": "2016-17",
+          "soil": 0.3182,
+          "rain_mm": 783.4,
+          "soil_pctl": 73,
+          "rain_pctl": 48
+        },
+        {
+          "season": "2017-18",
+          "soil": 0.3079,
+          "rain_mm": 714.4,
+          "soil_pctl": 42,
+          "rain_pctl": 24
+        },
+        {
+          "season": "2018-19",
+          "soil": 0.3291,
+          "rain_mm": 885.5,
+          "soil_pctl": 79,
+          "rain_pctl": 73
+        },
+        {
+          "season": "2019-20",
+          "soil": 0.3065,
+          "rain_mm": 699.4,
+          "soil_pctl": 39,
+          "rain_pctl": 15
+        },
+        {
+          "season": "2020-21",
+          "soil": 0.2931,
+          "rain_mm": 683.7,
+          "soil_pctl": 9,
+          "rain_pctl": 12
+        },
+        {
+          "season": "2021-22",
+          "soil": 0.291,
+          "rain_mm": 547.7,
+          "soil_pctl": 3,
+          "rain_pctl": 3
+        },
+        {
+          "season": "2022-23",
+          "soil": 0.2772,
+          "rain_mm": 493.3,
+          "soil_pctl": 0,
+          "rain_pctl": 0
+        },
+        {
+          "season": "2023-24",
+          "soil": 0.3352,
+          "rain_mm": 1156.0,
+          "soil_pctl": 85,
+          "rain_pctl": 94
+        },
+        {
+          "season": "2024-25",
+          "soil": 0.3115,
+          "rain_mm": 754.6,
+          "soil_pctl": 55,
+          "rain_pctl": 42
+        },
+        {
+          "season": "2025-26",
+          "soil": 0.3155,
+          "rain_mm": 751.7,
+          "soil_pctl": 64,
+          "rain_pctl": 36
+        }
       ]
     },
     {
@@ -204,6 +708,254 @@
         71,
         37,
         6
+      ],
+      "season_months": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "season_is_cross_year": true,
+      "series": [
+        {
+          "season": "1992-93",
+          "soil": 0.3736,
+          "rain_mm": 871.5,
+          "soil_pctl": 73,
+          "rain_pctl": 73
+        },
+        {
+          "season": "1993-94",
+          "soil": 0.3679,
+          "rain_mm": 674.6,
+          "soil_pctl": 67,
+          "rain_pctl": 30
+        },
+        {
+          "season": "1994-95",
+          "soil": 0.3567,
+          "rain_mm": 550.8,
+          "soil_pctl": 55,
+          "rain_pctl": 9
+        },
+        {
+          "season": "1995-96",
+          "soil": 0.381,
+          "rain_mm": 817.2,
+          "soil_pctl": 85,
+          "rain_pctl": 64
+        },
+        {
+          "season": "1996-97",
+          "soil": 0.3638,
+          "rain_mm": 725.9,
+          "soil_pctl": 61,
+          "rain_pctl": 45
+        },
+        {
+          "season": "1997-98",
+          "soil": 0.3172,
+          "rain_mm": 626.2,
+          "soil_pctl": 9,
+          "rain_pctl": 21
+        },
+        {
+          "season": "1998-99",
+          "soil": 0.3876,
+          "rain_mm": 1044.9,
+          "soil_pctl": 91,
+          "rain_pctl": 97
+        },
+        {
+          "season": "1999-00",
+          "soil": 0.3688,
+          "rain_mm": 899.5,
+          "soil_pctl": 70,
+          "rain_pctl": 79
+        },
+        {
+          "season": "2000-01",
+          "soil": 0.3439,
+          "rain_mm": 523.0,
+          "soil_pctl": 36,
+          "rain_pctl": 6
+        },
+        {
+          "season": "2001-02",
+          "soil": 0.3454,
+          "rain_mm": 824.5,
+          "soil_pctl": 42,
+          "rain_pctl": 67
+        },
+        {
+          "season": "2002-03",
+          "soil": 0.3138,
+          "rain_mm": 607.5,
+          "soil_pctl": 6,
+          "rain_pctl": 18
+        },
+        {
+          "season": "2003-04",
+          "soil": 0.3442,
+          "rain_mm": 738.2,
+          "soil_pctl": 39,
+          "rain_pctl": 52
+        },
+        {
+          "season": "2004-05",
+          "soil": 0.3528,
+          "rain_mm": 1027.4,
+          "soil_pctl": 52,
+          "rain_pctl": 91
+        },
+        {
+          "season": "2005-06",
+          "soil": 0.3656,
+          "rain_mm": 932.8,
+          "soil_pctl": 64,
+          "rain_pctl": 82
+        },
+        {
+          "season": "2006-07",
+          "soil": 0.34,
+          "rain_mm": 700.9,
+          "soil_pctl": 27,
+          "rain_pctl": 33
+        },
+        {
+          "season": "2007-08",
+          "soil": 0.3601,
+          "rain_mm": 737.6,
+          "soil_pctl": 58,
+          "rain_pctl": 48
+        },
+        {
+          "season": "2008-09",
+          "soil": 0.3897,
+          "rain_mm": 859.3,
+          "soil_pctl": 100,
+          "rain_pctl": 70
+        },
+        {
+          "season": "2009-10",
+          "soil": 0.3204,
+          "rain_mm": 796.1,
+          "soil_pctl": 12,
+          "rain_pctl": 58
+        },
+        {
+          "season": "2010-11",
+          "soil": 0.3886,
+          "rain_mm": 898.9,
+          "soil_pctl": 97,
+          "rain_pctl": 76
+        },
+        {
+          "season": "2011-12",
+          "soil": 0.3863,
+          "rain_mm": 1054.4,
+          "soil_pctl": 88,
+          "rain_pctl": 100
+        },
+        {
+          "season": "2012-13",
+          "soil": 0.3494,
+          "rain_mm": 799.3,
+          "soil_pctl": 45,
+          "rain_pctl": 61
+        },
+        {
+          "season": "2013-14",
+          "soil": 0.3426,
+          "rain_mm": 646.9,
+          "soil_pctl": 33,
+          "rain_pctl": 27
+        },
+        {
+          "season": "2014-15",
+          "soil": 0.342,
+          "rain_mm": 628.3,
+          "soil_pctl": 30,
+          "rain_pctl": 24
+        },
+        {
+          "season": "2015-16",
+          "soil": 0.2948,
+          "rain_mm": 586.1,
+          "soil_pctl": 0,
+          "rain_pctl": 12
+        },
+        {
+          "season": "2016-17",
+          "soil": 0.38,
+          "rain_mm": 1014.1,
+          "soil_pctl": 79,
+          "rain_pctl": 85
+        },
+        {
+          "season": "2017-18",
+          "soil": 0.334,
+          "rain_mm": 770.0,
+          "soil_pctl": 21,
+          "rain_pctl": 55
+        },
+        {
+          "season": "2018-19",
+          "soil": 0.3241,
+          "rain_mm": 434.5,
+          "soil_pctl": 15,
+          "rain_pctl": 3
+        },
+        {
+          "season": "2019-20",
+          "soil": 0.3528,
+          "rain_mm": 589.3,
+          "soil_pctl": 48,
+          "rain_pctl": 15
+        },
+        {
+          "season": "2020-21",
+          "soil": 0.3876,
+          "rain_mm": 1016.6,
+          "soil_pctl": 94,
+          "rain_pctl": 88
+        },
+        {
+          "season": "2021-22",
+          "soil": 0.3804,
+          "rain_mm": 1036.4,
+          "soil_pctl": 82,
+          "rain_pctl": 94
+        },
+        {
+          "season": "2022-23",
+          "soil": 0.3799,
+          "rain_mm": 710.7,
+          "soil_pctl": 76,
+          "rain_pctl": 39
+        },
+        {
+          "season": "2023-24",
+          "soil": 0.2956,
+          "rain_mm": 430.9,
+          "soil_pctl": 3,
+          "rain_pctl": 0
+        },
+        {
+          "season": "2024-25",
+          "soil": 0.3275,
+          "rain_mm": 714.0,
+          "soil_pctl": 18,
+          "rain_pctl": 42
+        },
+        {
+          "season": "2025-26",
+          "soil": 0.3379,
+          "rain_mm": 709.4,
+          "soil_pctl": 24,
+          "rain_pctl": 36
+        }
       ]
     },
     {
@@ -250,6 +1002,254 @@
         20,
         17,
         9
+      ],
+      "season_months": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "season_is_cross_year": true,
+      "series": [
+        {
+          "season": "1992-93",
+          "soil": 0.3853,
+          "rain_mm": 807.8,
+          "soil_pctl": 94,
+          "rain_pctl": 91
+        },
+        {
+          "season": "1993-94",
+          "soil": 0.3668,
+          "rain_mm": 755.5,
+          "soil_pctl": 45,
+          "rain_pctl": 88
+        },
+        {
+          "season": "1994-95",
+          "soil": 0.3671,
+          "rain_mm": 572.5,
+          "soil_pctl": 48,
+          "rain_pctl": 18
+        },
+        {
+          "season": "1995-96",
+          "soil": 0.3691,
+          "rain_mm": 632.8,
+          "soil_pctl": 58,
+          "rain_pctl": 39
+        },
+        {
+          "season": "1996-97",
+          "soil": 0.3863,
+          "rain_mm": 652.2,
+          "soil_pctl": 97,
+          "rain_pctl": 48
+        },
+        {
+          "season": "1997-98",
+          "soil": 0.3656,
+          "rain_mm": 683.5,
+          "soil_pctl": 39,
+          "rain_pctl": 67
+        },
+        {
+          "season": "1998-99",
+          "soil": 0.3921,
+          "rain_mm": 901.4,
+          "soil_pctl": 100,
+          "rain_pctl": 100
+        },
+        {
+          "season": "1999-00",
+          "soil": 0.3766,
+          "rain_mm": 658.6,
+          "soil_pctl": 76,
+          "rain_pctl": 55
+        },
+        {
+          "season": "2000-01",
+          "soil": 0.3727,
+          "rain_mm": 535.5,
+          "soil_pctl": 67,
+          "rain_pctl": 12
+        },
+        {
+          "season": "2001-02",
+          "soil": 0.3801,
+          "rain_mm": 750.0,
+          "soil_pctl": 82,
+          "rain_pctl": 85
+        },
+        {
+          "season": "2002-03",
+          "soil": 0.3575,
+          "rain_mm": 559.4,
+          "soil_pctl": 27,
+          "rain_pctl": 15
+        },
+        {
+          "season": "2003-04",
+          "soil": 0.3764,
+          "rain_mm": 644.0,
+          "soil_pctl": 73,
+          "rain_pctl": 45
+        },
+        {
+          "season": "2004-05",
+          "soil": 0.3686,
+          "rain_mm": 683.2,
+          "soil_pctl": 55,
+          "rain_pctl": 64
+        },
+        {
+          "season": "2005-06",
+          "soil": 0.3704,
+          "rain_mm": 740.9,
+          "soil_pctl": 61,
+          "rain_pctl": 79
+        },
+        {
+          "season": "2006-07",
+          "soil": 0.3601,
+          "rain_mm": 654.3,
+          "soil_pctl": 33,
+          "rain_pctl": 52
+        },
+        {
+          "season": "2007-08",
+          "soil": 0.3575,
+          "rain_mm": 617.8,
+          "soil_pctl": 24,
+          "rain_pctl": 33
+        },
+        {
+          "season": "2008-09",
+          "soil": 0.3757,
+          "rain_mm": 736.5,
+          "soil_pctl": 70,
+          "rain_pctl": 76
+        },
+        {
+          "season": "2009-10",
+          "soil": 0.3489,
+          "rain_mm": 709.8,
+          "soil_pctl": 9,
+          "rain_pctl": 73
+        },
+        {
+          "season": "2010-11",
+          "soil": 0.3786,
+          "rain_mm": 849.9,
+          "soil_pctl": 79,
+          "rain_pctl": 94
+        },
+        {
+          "season": "2011-12",
+          "soil": 0.3842,
+          "rain_mm": 895.1,
+          "soil_pctl": 91,
+          "rain_pctl": 97
+        },
+        {
+          "season": "2012-13",
+          "soil": 0.3526,
+          "rain_mm": 695.5,
+          "soil_pctl": 15,
+          "rain_pctl": 70
+        },
+        {
+          "season": "2013-14",
+          "soil": 0.3479,
+          "rain_mm": 605.1,
+          "soil_pctl": 6,
+          "rain_pctl": 30
+        },
+        {
+          "season": "2014-15",
+          "soil": 0.3553,
+          "rain_mm": 604.6,
+          "soil_pctl": 21,
+          "rain_pctl": 27
+        },
+        {
+          "season": "2015-16",
+          "soil": 0.3434,
+          "rain_mm": 600.8,
+          "soil_pctl": 0,
+          "rain_pctl": 24
+        },
+        {
+          "season": "2016-17",
+          "soil": 0.3825,
+          "rain_mm": 747.7,
+          "soil_pctl": 85,
+          "rain_pctl": 82
+        },
+        {
+          "season": "2017-18",
+          "soil": 0.3534,
+          "rain_mm": 641.4,
+          "soil_pctl": 18,
+          "rain_pctl": 42
+        },
+        {
+          "season": "2018-19",
+          "soil": 0.3577,
+          "rain_mm": 483.0,
+          "soil_pctl": 30,
+          "rain_pctl": 6
+        },
+        {
+          "season": "2019-20",
+          "soil": 0.3459,
+          "rain_mm": 435.3,
+          "soil_pctl": 3,
+          "rain_pctl": 0
+        },
+        {
+          "season": "2020-21",
+          "soil": 0.3657,
+          "rain_mm": 660.1,
+          "soil_pctl": 42,
+          "rain_pctl": 58
+        },
+        {
+          "season": "2021-22",
+          "soil": 0.3622,
+          "rain_mm": 598.9,
+          "soil_pctl": 36,
+          "rain_pctl": 21
+        },
+        {
+          "season": "2022-23",
+          "soil": 0.3684,
+          "rain_mm": 530.6,
+          "soil_pctl": 52,
+          "rain_pctl": 9
+        },
+        {
+          "season": "2023-24",
+          "soil": 0.351,
+          "rain_mm": 459.7,
+          "soil_pctl": 12,
+          "rain_pctl": 3
+        },
+        {
+          "season": "2024-25",
+          "soil": 0.3709,
+          "rain_mm": 664.3,
+          "soil_pctl": 64,
+          "rain_pctl": 61
+        },
+        {
+          "season": "2025-26",
+          "soil": 0.3826,
+          "rain_mm": 621.2,
+          "soil_pctl": 88,
+          "rain_pctl": 36
+        }
       ]
     },
     {
@@ -291,6 +1291,260 @@
         20,
         23,
         17
+      ],
+      "season_months": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "season_is_cross_year": false,
+      "series": [
+        {
+          "season": "1992",
+          "soil": 0.2605,
+          "rain_mm": 1390.5,
+          "soil_pctl": 65,
+          "rain_pctl": 97
+        },
+        {
+          "season": "1993",
+          "soil": 0.2618,
+          "rain_mm": 1183.0,
+          "soil_pctl": 71,
+          "rain_pctl": 76
+        },
+        {
+          "season": "1994",
+          "soil": 0.2621,
+          "rain_mm": 1065.3,
+          "soil_pctl": 76,
+          "rain_pctl": 56
+        },
+        {
+          "season": "1995",
+          "soil": 0.2515,
+          "rain_mm": 885.6,
+          "soil_pctl": 21,
+          "rain_pctl": 6
+        },
+        {
+          "season": "1996",
+          "soil": 0.2594,
+          "rain_mm": 947.5,
+          "soil_pctl": 62,
+          "rain_pctl": 21
+        },
+        {
+          "season": "1997",
+          "soil": 0.2571,
+          "rain_mm": 1055.5,
+          "soil_pctl": 47,
+          "rain_pctl": 50
+        },
+        {
+          "season": "1998",
+          "soil": 0.2777,
+          "rain_mm": 2070.4,
+          "soil_pctl": 100,
+          "rain_pctl": 100
+        },
+        {
+          "season": "1999",
+          "soil": 0.2667,
+          "rain_mm": 1149.6,
+          "soil_pctl": 94,
+          "rain_pctl": 65
+        },
+        {
+          "season": "2000",
+          "soil": 0.2631,
+          "rain_mm": 905.3,
+          "soil_pctl": 82,
+          "rain_pctl": 12
+        },
+        {
+          "season": "2001",
+          "soil": 0.2632,
+          "rain_mm": 1147.9,
+          "soil_pctl": 85,
+          "rain_pctl": 62
+        },
+        {
+          "season": "2002",
+          "soil": 0.261,
+          "rain_mm": 1207.1,
+          "soil_pctl": 68,
+          "rain_pctl": 82
+        },
+        {
+          "season": "2003",
+          "soil": 0.2591,
+          "rain_mm": 973.8,
+          "soil_pctl": 59,
+          "rain_pctl": 29
+        },
+        {
+          "season": "2004",
+          "soil": 0.2531,
+          "rain_mm": 848.6,
+          "soil_pctl": 35,
+          "rain_pctl": 0
+        },
+        {
+          "season": "2005",
+          "soil": 0.2487,
+          "rain_mm": 953.5,
+          "soil_pctl": 3,
+          "rain_pctl": 24
+        },
+        {
+          "season": "2006",
+          "soil": 0.2564,
+          "rain_mm": 966.1,
+          "soil_pctl": 44,
+          "rain_pctl": 26
+        },
+        {
+          "season": "2007",
+          "soil": 0.2525,
+          "rain_mm": 934.9,
+          "soil_pctl": 29,
+          "rain_pctl": 18
+        },
+        {
+          "season": "2008",
+          "soil": 0.2663,
+          "rain_mm": 1176.8,
+          "soil_pctl": 88,
+          "rain_pctl": 74
+        },
+        {
+          "season": "2009",
+          "soil": 0.2619,
+          "rain_mm": 981.5,
+          "soil_pctl": 74,
+          "rain_pctl": 35
+        },
+        {
+          "season": "2010",
+          "soil": 0.2484,
+          "rain_mm": 1206.8,
+          "soil_pctl": 0,
+          "rain_pctl": 79
+        },
+        {
+          "season": "2011",
+          "soil": 0.252,
+          "rain_mm": 889.0,
+          "soil_pctl": 26,
+          "rain_pctl": 9
+        },
+        {
+          "season": "2012",
+          "soil": 0.2664,
+          "rain_mm": 1323.3,
+          "soil_pctl": 91,
+          "rain_pctl": 91
+        },
+        {
+          "season": "2013",
+          "soil": 0.255,
+          "rain_mm": 1059.8,
+          "soil_pctl": 41,
+          "rain_pctl": 53
+        },
+        {
+          "season": "2014",
+          "soil": 0.2509,
+          "rain_mm": 975.4,
+          "soil_pctl": 12,
+          "rain_pctl": 32
+        },
+        {
+          "season": "2015",
+          "soil": 0.2505,
+          "rain_mm": 1038.5,
+          "soil_pctl": 9,
+          "rain_pctl": 47
+        },
+        {
+          "season": "2016",
+          "soil": 0.2516,
+          "rain_mm": 1156.9,
+          "soil_pctl": 24,
+          "rain_pctl": 68
+        },
+        {
+          "season": "2017",
+          "soil": 0.2715,
+          "rain_mm": 1384.6,
+          "soil_pctl": 97,
+          "rain_pctl": 94
+        },
+        {
+          "season": "2018",
+          "soil": 0.2511,
+          "rain_mm": 867.2,
+          "soil_pctl": 15,
+          "rain_pctl": 3
+        },
+        {
+          "season": "2019",
+          "soil": 0.2625,
+          "rain_mm": 1079.2,
+          "soil_pctl": 79,
+          "rain_pctl": 59
+        },
+        {
+          "season": "2020",
+          "soil": 0.2492,
+          "rain_mm": 924.5,
+          "soil_pctl": 6,
+          "rain_pctl": 15
+        },
+        {
+          "season": "2021",
+          "soil": 0.2579,
+          "rain_mm": 1174.5,
+          "soil_pctl": 50,
+          "rain_pctl": 71
+        },
+        {
+          "season": "2022",
+          "soil": 0.2513,
+          "rain_mm": 1027.2,
+          "soil_pctl": 18,
+          "rain_pctl": 44
+        },
+        {
+          "season": "2023",
+          "soil": 0.2588,
+          "rain_mm": 1282.8,
+          "soil_pctl": 53,
+          "rain_pctl": 85
+        },
+        {
+          "season": "2024",
+          "soil": 0.2531,
+          "rain_mm": 988.5,
+          "soil_pctl": 32,
+          "rain_pctl": 38
+        },
+        {
+          "season": "2025",
+          "soil": 0.2589,
+          "rain_mm": 1309.1,
+          "soil_pctl": 56,
+          "rain_pctl": 88
+        },
+        {
+          "season": "2026",
+          "soil": 0.254,
+          "rain_mm": 1021.1,
+          "soil_pctl": 38,
+          "rain_pctl": 41
+        }
       ]
     },
     {
@@ -334,6 +1588,259 @@
         83,
         83,
         60
+      ],
+      "season_months": [
+        3,
+        4,
+        5
+      ],
+      "season_is_cross_year": false,
+      "series": [
+        {
+          "season": "1992",
+          "soil": 0.2611,
+          "rain_mm": 167.8,
+          "soil_pctl": 88,
+          "rain_pctl": 12
+        },
+        {
+          "season": "1993",
+          "soil": 0.2182,
+          "rain_mm": 161.4,
+          "soil_pctl": 9,
+          "rain_pctl": 6
+        },
+        {
+          "season": "1994",
+          "soil": 0.2562,
+          "rain_mm": 352.6,
+          "soil_pctl": 71,
+          "rain_pctl": 76
+        },
+        {
+          "season": "1995",
+          "soil": 0.248,
+          "rain_mm": 418.7,
+          "soil_pctl": 59,
+          "rain_pctl": 88
+        },
+        {
+          "season": "1996",
+          "soil": 0.2408,
+          "rain_mm": 385.5,
+          "soil_pctl": 47,
+          "rain_pctl": 82
+        },
+        {
+          "season": "1997",
+          "soil": 0.2832,
+          "rain_mm": 443.9,
+          "soil_pctl": 100,
+          "rain_pctl": 94
+        },
+        {
+          "season": "1998",
+          "soil": 0.2093,
+          "rain_mm": 156.2,
+          "soil_pctl": 3,
+          "rain_pctl": 3
+        },
+        {
+          "season": "1999",
+          "soil": 0.238,
+          "rain_mm": 306.3,
+          "soil_pctl": 38,
+          "rain_pctl": 68
+        },
+        {
+          "season": "2000",
+          "soil": 0.2593,
+          "rain_mm": 277.1,
+          "soil_pctl": 85,
+          "rain_pctl": 50
+        },
+        {
+          "season": "2001",
+          "soil": 0.234,
+          "rain_mm": 249.4,
+          "soil_pctl": 35,
+          "rain_pctl": 32
+        },
+        {
+          "season": "2002",
+          "soil": 0.2464,
+          "rain_mm": 248.7,
+          "soil_pctl": 56,
+          "rain_pctl": 29
+        },
+        {
+          "season": "2003",
+          "soil": 0.2293,
+          "rain_mm": 278.0,
+          "soil_pctl": 21,
+          "rain_pctl": 53
+        },
+        {
+          "season": "2004",
+          "soil": 0.2716,
+          "rain_mm": 221.6,
+          "soil_pctl": 97,
+          "rain_pctl": 24
+        },
+        {
+          "season": "2005",
+          "soil": 0.2445,
+          "rain_mm": 281.1,
+          "soil_pctl": 53,
+          "rain_pctl": 56
+        },
+        {
+          "season": "2006",
+          "soil": 0.2507,
+          "rain_mm": 410.3,
+          "soil_pctl": 62,
+          "rain_pctl": 85
+        },
+        {
+          "season": "2007",
+          "soil": 0.257,
+          "rain_mm": 204.4,
+          "soil_pctl": 74,
+          "rain_pctl": 18
+        },
+        {
+          "season": "2008",
+          "soil": 0.2654,
+          "rain_mm": 429.0,
+          "soil_pctl": 94,
+          "rain_pctl": 91
+        },
+        {
+          "season": "2009",
+          "soil": 0.2636,
+          "rain_mm": 541.5,
+          "soil_pctl": 91,
+          "rain_pctl": 100
+        },
+        {
+          "season": "2010",
+          "soil": 0.2299,
+          "rain_mm": 298.5,
+          "soil_pctl": 26,
+          "rain_pctl": 59
+        },
+        {
+          "season": "2011",
+          "soil": 0.2591,
+          "rain_mm": 354.0,
+          "soil_pctl": 82,
+          "rain_pctl": 79
+        },
+        {
+          "season": "2012",
+          "soil": 0.2098,
+          "rain_mm": 122.2,
+          "soil_pctl": 6,
+          "rain_pctl": 0
+        },
+        {
+          "season": "2013",
+          "soil": 0.2086,
+          "rain_mm": 231.6,
+          "soil_pctl": 0,
+          "rain_pctl": 26
+        },
+        {
+          "season": "2014",
+          "soil": 0.2289,
+          "rain_mm": 256.2,
+          "soil_pctl": 18,
+          "rain_pctl": 38
+        },
+        {
+          "season": "2015",
+          "soil": 0.2185,
+          "rain_mm": 257.7,
+          "soil_pctl": 12,
+          "rain_pctl": 41
+        },
+        {
+          "season": "2016",
+          "soil": 0.2299,
+          "rain_mm": 165.7,
+          "soil_pctl": 24,
+          "rain_pctl": 9
+        },
+        {
+          "season": "2017",
+          "soil": 0.2321,
+          "rain_mm": 255.4,
+          "soil_pctl": 32,
+          "rain_pctl": 35
+        },
+        {
+          "season": "2018",
+          "soil": 0.2528,
+          "rain_mm": 261.4,
+          "soil_pctl": 65,
+          "rain_pctl": 44
+        },
+        {
+          "season": "2019",
+          "soil": 0.2427,
+          "rain_mm": 333.8,
+          "soil_pctl": 50,
+          "rain_pctl": 74
+        },
+        {
+          "season": "2020",
+          "soil": 0.2589,
+          "rain_mm": 465.9,
+          "soil_pctl": 79,
+          "rain_pctl": 97
+        },
+        {
+          "season": "2021",
+          "soil": 0.2313,
+          "rain_mm": 211.8,
+          "soil_pctl": 29,
+          "rain_pctl": 21
+        },
+        {
+          "season": "2022",
+          "soil": 0.2387,
+          "rain_mm": 299.7,
+          "soil_pctl": 41,
+          "rain_pctl": 62
+        },
+        {
+          "season": "2023",
+          "soil": 0.2399,
+          "rain_mm": 302.3,
+          "soil_pctl": 44,
+          "rain_pctl": 65
+        },
+        {
+          "season": "2024",
+          "soil": 0.2539,
+          "rain_mm": 311.9,
+          "soil_pctl": 68,
+          "rain_pctl": 71
+        },
+        {
+          "season": "2025",
+          "soil": 0.2253,
+          "rain_mm": 183.5,
+          "soil_pctl": 15,
+          "rain_pctl": 15
+        },
+        {
+          "season": "2026",
+          "soil": 0.2587,
+          "rain_mm": 261.9,
+          "soil_pctl": 76,
+          "rain_pctl": 47
+        }
       ]
     },
     {
@@ -359,6 +1866,253 @@
         34,
         34,
         60
+      ],
+      "season_months": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "season_is_cross_year": false,
+      "series": [
+        {
+          "season": "1992",
+          "soil": 0.3557,
+          "rain_mm": 381.1,
+          "soil_pctl": 100,
+          "rain_pctl": 97
+        },
+        {
+          "season": "1993",
+          "soil": 0.3441,
+          "rain_mm": 393.1,
+          "soil_pctl": 94,
+          "rain_pctl": 100
+        },
+        {
+          "season": "1994",
+          "soil": 0.3469,
+          "rain_mm": 328.6,
+          "soil_pctl": 97,
+          "rain_pctl": 70
+        },
+        {
+          "season": "1995",
+          "soil": 0.3349,
+          "rain_mm": 245.5,
+          "soil_pctl": 88,
+          "rain_pctl": 39
+        },
+        {
+          "season": "1996",
+          "soil": 0.3322,
+          "rain_mm": 366.0,
+          "soil_pctl": 82,
+          "rain_pctl": 91
+        },
+        {
+          "season": "1997",
+          "soil": 0.327,
+          "rain_mm": 240.1,
+          "soil_pctl": 67,
+          "rain_pctl": 30
+        },
+        {
+          "season": "1998",
+          "soil": 0.3164,
+          "rain_mm": 301.3,
+          "soil_pctl": 36,
+          "rain_pctl": 58
+        },
+        {
+          "season": "1999",
+          "soil": 0.3239,
+          "rain_mm": 291.6,
+          "soil_pctl": 61,
+          "rain_pctl": 48
+        },
+        {
+          "season": "2000",
+          "soil": 0.3294,
+          "rain_mm": 379.8,
+          "soil_pctl": 76,
+          "rain_pctl": 94
+        },
+        {
+          "season": "2001",
+          "soil": 0.3377,
+          "rain_mm": 340.4,
+          "soil_pctl": 91,
+          "rain_pctl": 82
+        },
+        {
+          "season": "2002",
+          "soil": 0.3287,
+          "rain_mm": 317.2,
+          "soil_pctl": 73,
+          "rain_pctl": 67
+        },
+        {
+          "season": "2003",
+          "soil": 0.3298,
+          "rain_mm": 353.2,
+          "soil_pctl": 79,
+          "rain_pctl": 88
+        },
+        {
+          "season": "2004",
+          "soil": 0.3328,
+          "rain_mm": 338.0,
+          "soil_pctl": 85,
+          "rain_pctl": 79
+        },
+        {
+          "season": "2005",
+          "soil": 0.3162,
+          "rain_mm": 241.8,
+          "soil_pctl": 33,
+          "rain_pctl": 33
+        },
+        {
+          "season": "2006",
+          "soil": 0.3164,
+          "rain_mm": 308.4,
+          "soil_pctl": 39,
+          "rain_pctl": 61
+        },
+        {
+          "season": "2007",
+          "soil": 0.3141,
+          "rain_mm": 265.9,
+          "soil_pctl": 21,
+          "rain_pctl": 42
+        },
+        {
+          "season": "2008",
+          "soil": 0.3102,
+          "rain_mm": 244.9,
+          "soil_pctl": 6,
+          "rain_pctl": 36
+        },
+        {
+          "season": "2009",
+          "soil": 0.3229,
+          "rain_mm": 295.9,
+          "soil_pctl": 58,
+          "rain_pctl": 55
+        },
+        {
+          "season": "2010",
+          "soil": 0.3102,
+          "rain_mm": 232.8,
+          "soil_pctl": 3,
+          "rain_pctl": 27
+        },
+        {
+          "season": "2011",
+          "soil": 0.3106,
+          "rain_mm": 337.1,
+          "soil_pctl": 9,
+          "rain_pctl": 76
+        },
+        {
+          "season": "2012",
+          "soil": 0.3192,
+          "rain_mm": 226.6,
+          "soil_pctl": 48,
+          "rain_pctl": 21
+        },
+        {
+          "season": "2013",
+          "soil": 0.3152,
+          "rain_mm": 331.3,
+          "soil_pctl": 27,
+          "rain_pctl": 73
+        },
+        {
+          "season": "2014",
+          "soil": 0.3176,
+          "rain_mm": 310.5,
+          "soil_pctl": 45,
+          "rain_pctl": 64
+        },
+        {
+          "season": "2015",
+          "soil": 0.3155,
+          "rain_mm": 202.0,
+          "soil_pctl": 30,
+          "rain_pctl": 9
+        },
+        {
+          "season": "2016",
+          "soil": 0.3109,
+          "rain_mm": 353.0,
+          "soil_pctl": 12,
+          "rain_pctl": 85
+        },
+        {
+          "season": "2017",
+          "soil": 0.3085,
+          "rain_mm": 232.4,
+          "soil_pctl": 0,
+          "rain_pctl": 24
+        },
+        {
+          "season": "2018",
+          "soil": 0.312,
+          "rain_mm": 295.6,
+          "soil_pctl": 18,
+          "rain_pctl": 52
+        },
+        {
+          "season": "2019",
+          "soil": 0.3246,
+          "rain_mm": 285.7,
+          "soil_pctl": 64,
+          "rain_pctl": 45
+        },
+        {
+          "season": "2020",
+          "soil": 0.3282,
+          "rain_mm": 162.2,
+          "soil_pctl": 70,
+          "rain_pctl": 6
+        },
+        {
+          "season": "2021",
+          "soil": 0.3147,
+          "rain_mm": 218.0,
+          "soil_pctl": 24,
+          "rain_pctl": 15
+        },
+        {
+          "season": "2022",
+          "soil": 0.3165,
+          "rain_mm": 211.9,
+          "soil_pctl": 42,
+          "rain_pctl": 12
+        },
+        {
+          "season": "2023",
+          "soil": 0.3222,
+          "rain_mm": 103.2,
+          "soil_pctl": 55,
+          "rain_pctl": 0
+        },
+        {
+          "season": "2024",
+          "soil": 0.3199,
+          "rain_mm": 126.8,
+          "soil_pctl": 52,
+          "rain_pctl": 3
+        },
+        {
+          "season": "2025",
+          "soil": 0.3112,
+          "rain_mm": 222.8,
+          "soil_pctl": 15,
+          "rain_pctl": 18
+        }
       ]
     },
     {
@@ -392,6 +2146,252 @@
         43,
         46,
         51
+      ],
+      "season_months": [
+        12,
+        1,
+        2
+      ],
+      "season_is_cross_year": true,
+      "series": [
+        {
+          "season": "1992-93",
+          "soil": 0.3114,
+          "rain_mm": 573.0,
+          "soil_pctl": 91,
+          "rain_pctl": 33
+        },
+        {
+          "season": "1993-94",
+          "soil": 0.3018,
+          "rain_mm": 626.3,
+          "soil_pctl": 76,
+          "rain_pctl": 61
+        },
+        {
+          "season": "1994-95",
+          "soil": 0.2972,
+          "rain_mm": 719.7,
+          "soil_pctl": 64,
+          "rain_pctl": 91
+        },
+        {
+          "season": "1995-96",
+          "soil": 0.2934,
+          "rain_mm": 576.9,
+          "soil_pctl": 42,
+          "rain_pctl": 36
+        },
+        {
+          "season": "1996-97",
+          "soil": 0.3164,
+          "rain_mm": 661.6,
+          "soil_pctl": 100,
+          "rain_pctl": 76
+        },
+        {
+          "season": "1997-98",
+          "soil": 0.2811,
+          "rain_mm": 521.7,
+          "soil_pctl": 18,
+          "rain_pctl": 9
+        },
+        {
+          "season": "1998-99",
+          "soil": 0.2943,
+          "rain_mm": 535.3,
+          "soil_pctl": 45,
+          "rain_pctl": 15
+        },
+        {
+          "season": "1999-00",
+          "soil": 0.2951,
+          "rain_mm": 567.8,
+          "soil_pctl": 52,
+          "rain_pctl": 27
+        },
+        {
+          "season": "2000-01",
+          "soil": 0.3062,
+          "rain_mm": 621.7,
+          "soil_pctl": 85,
+          "rain_pctl": 55
+        },
+        {
+          "season": "2001-02",
+          "soil": 0.2866,
+          "rain_mm": 518.2,
+          "soil_pctl": 24,
+          "rain_pctl": 3
+        },
+        {
+          "season": "2002-03",
+          "soil": 0.2791,
+          "rain_mm": 520.5,
+          "soil_pctl": 15,
+          "rain_pctl": 6
+        },
+        {
+          "season": "2003-04",
+          "soil": 0.2967,
+          "rain_mm": 638.4,
+          "soil_pctl": 58,
+          "rain_pctl": 70
+        },
+        {
+          "season": "2004-05",
+          "soil": 0.2918,
+          "rain_mm": 584.6,
+          "soil_pctl": 39,
+          "rain_pctl": 39
+        },
+        {
+          "season": "2005-06",
+          "soil": 0.3145,
+          "rain_mm": 692.4,
+          "soil_pctl": 97,
+          "rain_pctl": 88
+        },
+        {
+          "season": "2006-07",
+          "soil": 0.3004,
+          "rain_mm": 624.6,
+          "soil_pctl": 73,
+          "rain_pctl": 58
+        },
+        {
+          "season": "2007-08",
+          "soil": 0.3104,
+          "rain_mm": 720.0,
+          "soil_pctl": 88,
+          "rain_pctl": 94
+        },
+        {
+          "season": "2008-09",
+          "soil": 0.2944,
+          "rain_mm": 604.3,
+          "soil_pctl": 48,
+          "rain_pctl": 48
+        },
+        {
+          "season": "2009-10",
+          "soil": 0.2962,
+          "rain_mm": 686.0,
+          "soil_pctl": 55,
+          "rain_pctl": 85
+        },
+        {
+          "season": "2010-11",
+          "soil": 0.274,
+          "rain_mm": 669.6,
+          "soil_pctl": 12,
+          "rain_pctl": 82
+        },
+        {
+          "season": "2011-12",
+          "soil": 0.2969,
+          "rain_mm": 668.4,
+          "soil_pctl": 61,
+          "rain_pctl": 79
+        },
+        {
+          "season": "2012-13",
+          "soil": 0.3035,
+          "rain_mm": 640.6,
+          "soil_pctl": 79,
+          "rain_pctl": 73
+        },
+        {
+          "season": "2013-14",
+          "soil": 0.3049,
+          "rain_mm": 720.9,
+          "soil_pctl": 82,
+          "rain_pctl": 97
+        },
+        {
+          "season": "2014-15",
+          "soil": 0.2881,
+          "rain_mm": 601.0,
+          "soil_pctl": 30,
+          "rain_pctl": 45
+        },
+        {
+          "season": "2015-16",
+          "soil": 0.2676,
+          "rain_mm": 568.1,
+          "soil_pctl": 6,
+          "rain_pctl": 30
+        },
+        {
+          "season": "2016-17",
+          "soil": 0.2702,
+          "rain_mm": 521.7,
+          "soil_pctl": 9,
+          "rain_pctl": 12
+        },
+        {
+          "season": "2017-18",
+          "soil": 0.3,
+          "rain_mm": 724.3,
+          "soil_pctl": 70,
+          "rain_pctl": 100
+        },
+        {
+          "season": "2018-19",
+          "soil": 0.2987,
+          "rain_mm": 635.5,
+          "soil_pctl": 67,
+          "rain_pctl": 67
+        },
+        {
+          "season": "2019-20",
+          "soil": 0.2882,
+          "rain_mm": 629.3,
+          "soil_pctl": 33,
+          "rain_pctl": 64
+        },
+        {
+          "season": "2020-21",
+          "soil": 0.2829,
+          "rain_mm": 589.3,
+          "soil_pctl": 21,
+          "rain_pctl": 42
+        },
+        {
+          "season": "2021-22",
+          "soil": 0.3142,
+          "rain_mm": 615.9,
+          "soil_pctl": 94,
+          "rain_pctl": 52
+        },
+        {
+          "season": "2022-23",
+          "soil": 0.2667,
+          "rain_mm": 515.2,
+          "soil_pctl": 3,
+          "rain_pctl": 0
+        },
+        {
+          "season": "2023-24",
+          "soil": 0.2625,
+          "rain_mm": 553.6,
+          "soil_pctl": 0,
+          "rain_pctl": 24
+        },
+        {
+          "season": "2024-25",
+          "soil": 0.2866,
+          "rain_mm": 552.1,
+          "soil_pctl": 27,
+          "rain_pctl": 21
+        },
+        {
+          "season": "2025-26",
+          "soil": 0.2916,
+          "rain_mm": 536.9,
+          "soil_pctl": 36,
+          "rain_pctl": 18
+        }
       ]
     }
   ]

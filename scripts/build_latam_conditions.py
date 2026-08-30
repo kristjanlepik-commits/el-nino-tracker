@@ -165,6 +165,38 @@ def main():
                   for y in range(BASE_FIRST, BASE_LAST + 1)]
         t_clim = np.mean([T[y][obs_month] for y in range(BASE_FIRST, 2021)])
 
+        # Seasonal series: the region's OWN window months, by year, with a
+        # percentile against every other year of the same season. Heat asked
+        # for this: a page wants "where this season sits in the record", not
+        # "where it sits today". Cross-year windows are labelled by the year
+        # the season OPENS.
+        season_months = window or [7, 8, 9, 10]
+        opens_prev_year = season_months[0] > season_months[-1]
+        season = {}
+        for y in range(BASE_FIRST + 1, obs_year + 1):
+            sm_v, p_v, ok = [], [], True
+            for m in season_months:
+                yy = y if (not opens_prev_year or m >= season_months[0]) else y + 1
+                if m not in SM.get(yy, {}) or m not in P.get(yy, {}):
+                    ok = False
+                    break
+                sm_v.append(SM[yy][m])
+                p_v.append(P[yy][m] * 1000 * calendar.monthrange(yy, m)[1])
+            if ok:
+                season[y] = (float(np.mean(sm_v)), float(sum(p_v)))
+        season_series = []
+        for y in sorted(season):
+            others_sm = [v[0] for k, v in season.items() if k != y]
+            others_p = [v[1] for k, v in season.items() if k != y]
+            label = f"{y}-{str(y+1)[2:]}" if opens_prev_year else str(y)
+            season_series.append({
+                "season": label,
+                "soil": round(season[y][0], 4),
+                "rain_mm": round(season[y][1], 1),
+                "soil_pctl": pctl(others_sm, season[y][0]),
+                "rain_pctl": pctl(others_p, season[y][1]),
+            })
+
         trail = []
         for back in (2, 1, 0):
             m = obs_month - back
@@ -188,6 +220,9 @@ def main():
             "rain_pctl": pctl(p_hist, P[obs_year][obs_month] * 1000 * days),
             "temp_anomaly_c": round(float(T[obs_year][obs_month] - t_clim), 2),
             "soil_pctl_trail": trail,
+            "season_months": season_months,
+            "season_is_cross_year": opens_prev_year,
+            "series": season_series,
         })
 
     payload = {
@@ -201,6 +236,21 @@ def main():
             "five weeks after a month closes, so a payload older than this "
             "means the monthly pull has stopped rather than that the world "
             "went quiet."),
+        "series_declaration": {
+            "means": "each region's series covers ITS OWN window months, not a "
+                     "fixed calendar season, because the season that matters "
+                     "differs by region. A cross-year window is labelled by the "
+                     "year it OPENS, so 2026-27 means Sep 2026 to Feb 2027.",
+            "percentile_basis": "leave-one-out: each season is ranked against "
+                                "every OTHER season in the series, so a season "
+                                "never inflates its own rank.",
+            "incomplete_seasons": "a season missing any of its months is "
+                                  "omitted entirely rather than part-counted. "
+                                  "The current season appears only once every "
+                                  "one of its months has been observed.",
+            "s_amazon_note": "s_amazon has no window in this period, so its "
+                             "series uses Jul-Oct, its actual fire season.",
+        },
         "baseline": {
             "basis": f"{BASE_FIRST}-{BASE_LAST}, same calendar month of each year",
             "first": BASE_FIRST,
