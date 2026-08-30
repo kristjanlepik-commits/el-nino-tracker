@@ -50,28 +50,40 @@ PAYLOAD_VERSION = "0.1"
 BASE_FIRST, BASE_LAST = 1991, 2025
 
 # lat_s, lat_n, lon_w, lon_e
+# signal_months: when the DRIVER is active. window_months: when the
+# consequence can be OBSERVED. Aftereffects' distinction, and it matters:
+# Nordeste's drying signal runs from September but a failed rainy season
+# cannot be seen until March, and a reader told "Mar-May" will assume
+# nothing is happening there until then.
 REGIONS = [
-    ("sesa",      "SESA / Pampas",             -38.0, -26.0, -64.0, -49.0,
-     "wet", [10, 11, 12, 1, 2], [11, 12, 1],
-     "floods, and an agricultural upside for rainfed systems"),
+    ("pampas",    "Argentine Pampas",          -39.0, -31.0, -65.0, -57.0,
+     "wet", [9, 10, 11, 12, 1, 2], [11, 12, 1], [9, 10, 11, 12, 1, 2], True,
+     "an agricultural upside for water-limited rainfed systems"),
+    ("rio_grande", "Rio Grande do Sul",        -33.8, -27.0, -57.6, -49.7,
+     "wet", [9, 10, 11, 12, 1, 2], [11, 12, 1], [9, 10, 11, 12, 1, 2], True,
+     "floods. Precedent May 2024: about 181 deaths and USD 15bn, the worst "
+     "in 80 years"),
     ("n_amazon",  "N Amazon / Roraima",          0.0,   5.0, -64.0, -58.0,
-     "dry", [12, 1, 2, 3, 4], [1, 2, 3],
+     "dry", [12, 1, 2, 3, 4], [1, 2, 3], [7, 8, 9, 10, 11, 12, 1, 2, 3, 4], True,
      "fire"),
     ("venezuela", "Venezuela / Guianas",         2.0,  10.0, -75.0, -64.0,
-     "dry", [12, 1, 2, 3, 4], [1, 2, 3],
+     "dry", [12, 1, 2, 3, 4], [1, 2, 3], [7, 8, 9, 10, 11, 12, 1, 2, 3, 4], True,
      "fire"),
-    ("altiplano", "Altiplano",                 -22.0, -14.0, -70.0, -62.0,
-     "dry", [12, 1, 2], [],
-     "its wet season fails"),
     ("coastal_pe", "Coastal Ecuador / N Peru",   -6.0,   2.0, -81.5, -78.0,
-     "wet", [1, 2, 3, 4], [2, 3, 4],
-     "floods"),
+     "wet", [1, 2, 3, 4], [1, 2, 3], [11, 12, 1, 2, 3, 4], True,
+     "floods. 1997-98 about USD 2bn and 5.9% of GDP; 1982-83 about USD 2.4bn "
+     "and 8.1% of GDP"),
     ("nordeste",  "Nordeste",                  -15.0,  -4.0, -45.0, -35.0,
-     "dry", [3, 4, 5], [3, 4, 5],
+     "dry", [3, 4, 5], [3, 4, 5], [9, 10, 11, 12, 1, 2, 3, 4, 5], True,
      "drought in its only rainy season"),
     ("s_amazon",  "S Amazon arc",              -12.0,  -5.0, -70.0, -46.0,
-     "dry", [], [],
+     "dry", [], [], [], True,
      "fire, but its window is Jul-Oct 2027 and falls outside this period"),
+    ("altiplano", "Altiplano",                 -22.0, -14.0, -70.0, -62.0,
+     "dry", [12, 1, 2], [], [12, 1, 2], False,
+     "its wet season fails. MEASURED BUT NOT RENDERED: no impact precedent "
+     "exists in the damage ledger, and the teleconnection is described in "
+     "the literature as weak but significant. Research only."),
 ]
 
 
@@ -140,7 +152,8 @@ def main():
     obs_month = int(str(last)[5:7])
 
     regions = []
-    for key, name, s, n, w, e, sign, window, peak, hazard in REGIONS:
+    for (key, name, s, n, w, e, sign, window, peak, signal, render,
+         hazard) in REGIONS:
         box = (s, n, w, e)
         SM = series(V["swvl3"], box)
         P = series(V["tp"], box)
@@ -168,7 +181,9 @@ def main():
             "hazard": hazard,
             "window_months": window,
             "peak_months": peak,
+            "signal_months": signal,
             "window_in_period": bool(window),
+            "render": render,
             "soil_pctl": pctl(sm_hist, SM[obs_year][obs_month]),
             "rain_pctl": pctl(p_hist, P[obs_year][obs_month] * 1000 * days),
             "temp_anomaly_c": round(float(T[obs_year][obs_month] - t_clim), 2),
@@ -211,6 +226,17 @@ def main():
                 "name": "Temperature anomaly", "unit": "degrees C",
                 "worse_is": "high", "summarises": "against the 1991-2020 mean "
                                                   "for the same month"},
+            "signal_months": {
+                "name": "Driver active", "unit": "months",
+                "worse_is": "n/a",
+                "summarises": "when the teleconnection is forcing this region, "
+                              "which precedes the observable window"},
+            "render": {
+                "name": "Show on the page", "unit": "boolean",
+                "worse_is": "n/a",
+                "summarises": "false means measured and deliberately withheld "
+                              "from the reader surface. See the region's hazard "
+                              "field for why."},
             "soil_pctl_trail": {
                 "name": "Soil moisture, last three months",
                 "unit": "percentile, oldest first", "worse_is": "falling",
@@ -218,8 +244,16 @@ def main():
                               "and be collapsing: Roraima ran 69, 36, 6."},
         },
         "windows": {
-            "means": "the months in which this region's El Nino teleconnection "
-                     "reaches it. Seasonality, not a forecast of magnitude.",
+            "means": "window_months is when the consequence can be OBSERVED. "
+                     "signal_months is when the DRIVER is active, which starts "
+                     "earlier. Both are seasonality, not a forecast of magnitude.",
+            "why_two": "Aftereffects' distinction and it prevents a real "
+                       "misreading. Nordeste's drying signal runs from "
+                       "September, but a failed rainy season cannot be "
+                       "observed until March, and a reader shown only "
+                       "'Mar-May' will assume nothing is happening there "
+                       "until March. Its rainfall is already at the 6th "
+                       "percentile.",
             "source": "Cai et al. 2020, Nature Reviews Earth and Environment, "
                       "for the precipitation dipole and its seasonality; Chen "
                       "et al. 2017, Nature Climate Change, for the fire lag.",
@@ -244,6 +278,10 @@ def main():
                                     "conditions are still measured and shown.",
             "box_outside_domain": "the region sits outside the ERA5 box this "
                                   "payload requests and carries no values.",
+            "render_false": "the region is measured but withheld from the "
+                            "reader surface, because no impact precedent "
+                            "exists behind it. A row we could not defend if "
+                            "asked is worse than a row we do not show.",
         },
         "limits": [
             "Every value is a box average. It cannot see a state, a catchment "
@@ -253,6 +291,10 @@ def main():
             "Southern Annular Mode in 2015-16.",
             "Central Chile's teleconnection has measurably decayed since 2000 "
             "and is excluded from this payload for that reason.",
+            "SESA is deliberately split into Rio Grande do Sul and the "
+            "Argentine Pampas because the same wet signal is a catastrophe in "
+            "one and an upside in the other. Rendering SESA as a single "
+            "coloured region is wrong whichever colour it picks.",
         ],
         "regions": regions,
     }

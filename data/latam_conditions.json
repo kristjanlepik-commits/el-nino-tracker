@@ -32,6 +32,18 @@
       "worse_is": "high",
       "summarises": "against the 1991-2020 mean for the same month"
     },
+    "signal_months": {
+      "name": "Driver active",
+      "unit": "months",
+      "worse_is": "n/a",
+      "summarises": "when the teleconnection is forcing this region, which precedes the observable window"
+    },
+    "render": {
+      "name": "Show on the page",
+      "unit": "boolean",
+      "worse_is": "n/a",
+      "summarises": "false means measured and deliberately withheld from the reader surface. See the region's hazard field for why."
+    },
     "soil_pctl_trail": {
       "name": "Soil moisture, last three months",
       "unit": "percentile, oldest first",
@@ -40,7 +52,8 @@
     }
   },
   "windows": {
-    "means": "the months in which this region's El Nino teleconnection reaches it. Seasonality, not a forecast of magnitude.",
+    "means": "window_months is when the consequence can be OBSERVED. signal_months is when the DRIVER is active, which starts earlier. Both are seasonality, not a forecast of magnitude.",
+    "why_two": "Aftereffects' distinction and it prevents a real misreading. Nordeste's drying signal runs from September, but a failed rainy season cannot be observed until March, and a reader shown only 'Mar-May' will assume nothing is happening there until March. Its rainfall is already at the 6th percentile.",
     "source": "Cai et al. 2020, Nature Reviews Earth and Environment, for the precipitation dipole and its seasonality; Chen et al. 2017, Nature Climate Change, for the fire lag.",
     "note": "s_amazon carries an empty window on purpose. Its response arrives about 15 months after onset, so its principal window is Jul-Oct 2027 and falls outside this period. That absence is a finding, not missing data."
   },
@@ -51,26 +64,29 @@
   },
   "absence_reasons": {
     "window_not_in_period": "the region's exposure window falls outside the nine months this payload covers. Its conditions are still measured and shown.",
-    "box_outside_domain": "the region sits outside the ERA5 box this payload requests and carries no values."
+    "box_outside_domain": "the region sits outside the ERA5 box this payload requests and carries no values.",
+    "render_false": "the region is measured but withheld from the reader surface, because no impact precedent exists behind it. A row we could not defend if asked is worse than a row we do not show."
   },
   "limits": [
     "Every value is a box average. It cannot see a state, a catchment or a city, and a regional mean can sit at the 50th percentile with half of it in drought.",
     "The SESA wet signal was cancelled outright by a strong positive Southern Annular Mode in 2015-16.",
-    "Central Chile's teleconnection has measurably decayed since 2000 and is excluded from this payload for that reason."
+    "Central Chile's teleconnection has measurably decayed since 2000 and is excluded from this payload for that reason.",
+    "SESA is deliberately split into Rio Grande do Sul and the Argentine Pampas because the same wet signal is a catastrophe in one and an upside in the other. Rendering SESA as a single coloured region is wrong whichever colour it picks."
   ],
   "regions": [
     {
-      "key": "sesa",
-      "name": "SESA / Pampas",
+      "key": "pampas",
+      "name": "Argentine Pampas",
       "box": {
-        "lat_s": -38.0,
-        "lat_n": -26.0,
-        "lon_w": -64.0,
-        "lon_e": -49.0
+        "lat_s": -39.0,
+        "lat_n": -31.0,
+        "lon_w": -65.0,
+        "lon_e": -57.0
       },
       "sign": "wet",
-      "hazard": "floods, and an agricultural upside for rainfed systems",
+      "hazard": "an agricultural upside for water-limited rainfed systems",
       "window_months": [
+        9,
         10,
         11,
         12,
@@ -82,13 +98,65 @@
         12,
         1
       ],
+      "signal_months": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
       "window_in_period": true,
-      "soil_pctl": 71,
-      "rain_pctl": 71,
-      "temp_anomaly_c": 1.2,
+      "render": true,
+      "soil_pctl": 57,
+      "rain_pctl": 37,
+      "temp_anomaly_c": 1.05,
       "soil_pctl_trail": [
+        60,
         63,
-        63,
+        57
+      ]
+    },
+    {
+      "key": "rio_grande",
+      "name": "Rio Grande do Sul",
+      "box": {
+        "lat_s": -33.8,
+        "lat_n": -27.0,
+        "lon_w": -57.6,
+        "lon_e": -49.7
+      },
+      "sign": "wet",
+      "hazard": "floods. Precedent May 2024: about 181 deaths and USD 15bn, the worst in 80 years",
+      "window_months": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "peak_months": [
+        11,
+        12,
+        1
+      ],
+      "signal_months": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "window_in_period": true,
+      "render": true,
+      "soil_pctl": 71,
+      "rain_pctl": 89,
+      "temp_anomaly_c": 1.38,
+      "soil_pctl_trail": [
+        54,
+        40,
         71
       ]
     },
@@ -115,7 +183,20 @@
         2,
         3
       ],
+      "signal_months": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
       "window_in_period": true,
+      "render": true,
       "soil_pctl": 6,
       "rain_pctl": 0,
       "temp_anomaly_c": 1.62,
@@ -148,7 +229,20 @@
         2,
         3
       ],
+      "signal_months": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
       "window_in_period": true,
+      "render": true,
       "soil_pctl": 9,
       "rain_pctl": 0,
       "temp_anomaly_c": 1.59,
@@ -156,33 +250,6 @@
         20,
         17,
         9
-      ]
-    },
-    {
-      "key": "altiplano",
-      "name": "Altiplano",
-      "box": {
-        "lat_s": -22.0,
-        "lat_n": -14.0,
-        "lon_w": -70.0,
-        "lon_e": -62.0
-      },
-      "sign": "dry",
-      "hazard": "its wet season fails",
-      "window_months": [
-        12,
-        1,
-        2
-      ],
-      "peak_months": [],
-      "window_in_period": true,
-      "soil_pctl": 51,
-      "rain_pctl": 40,
-      "temp_anomaly_c": 1.71,
-      "soil_pctl_trail": [
-        43,
-        46,
-        51
       ]
     },
     {
@@ -195,7 +262,7 @@
         "lon_e": -78.0
       },
       "sign": "wet",
-      "hazard": "floods",
+      "hazard": "floods. 1997-98 about USD 2bn and 5.9% of GDP; 1982-83 about USD 2.4bn and 8.1% of GDP",
       "window_months": [
         1,
         2,
@@ -203,11 +270,20 @@
         4
       ],
       "peak_months": [
+        1,
+        2,
+        3
+      ],
+      "signal_months": [
+        11,
+        12,
+        1,
         2,
         3,
         4
       ],
       "window_in_period": true,
+      "render": true,
       "soil_pctl": 17,
       "rain_pctl": 77,
       "temp_anomaly_c": 2.45,
@@ -238,7 +314,19 @@
         4,
         5
       ],
+      "signal_months": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
       "window_in_period": true,
+      "render": true,
       "soil_pctl": 60,
       "rain_pctl": 6,
       "temp_anomaly_c": 0.56,
@@ -261,7 +349,9 @@
       "hazard": "fire, but its window is Jul-Oct 2027 and falls outside this period",
       "window_months": [],
       "peak_months": [],
+      "signal_months": [],
       "window_in_period": false,
+      "render": true,
       "soil_pctl": 60,
       "rain_pctl": 74,
       "temp_anomaly_c": 0.59,
@@ -269,6 +359,39 @@
         34,
         34,
         60
+      ]
+    },
+    {
+      "key": "altiplano",
+      "name": "Altiplano",
+      "box": {
+        "lat_s": -22.0,
+        "lat_n": -14.0,
+        "lon_w": -70.0,
+        "lon_e": -62.0
+      },
+      "sign": "dry",
+      "hazard": "its wet season fails. MEASURED BUT NOT RENDERED: no impact precedent exists in the damage ledger, and the teleconnection is described in the literature as weak but significant. Research only.",
+      "window_months": [
+        12,
+        1,
+        2
+      ],
+      "peak_months": [],
+      "signal_months": [
+        12,
+        1,
+        2
+      ],
+      "window_in_period": true,
+      "render": false,
+      "soil_pctl": 51,
+      "rain_pctl": 40,
+      "temp_anomaly_c": 1.71,
+      "soil_pctl_trail": [
+        43,
+        46,
+        51
       ]
     }
   ]
