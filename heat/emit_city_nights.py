@@ -969,7 +969,32 @@ def main() -> int:
             # nothing downstream breaks, and it does NOT mean 2026 for every
             # city: for a wrapping season it is the season that BEGAN in the
             # key year. season_label is what a page should print.
+            # THE KEY, SO NOTHING HAS TO ASSUME 2026. Design's renderer does
+            # dict(series).get(2026) to find the current season's peak, and
+            # for a southern city the years dict is keyed by SEASON, whose
+            # most recent key is 2025. Every series under this entry is keyed
+            # the same way, so one field answers all of them: ask the payload
+            # which season it is reporting rather than inferring it from the
+            # calendar or from max().
+            "reported_season_key": int(cur),
+            "reported_season_key_note": (
+                "The key into every per-year series on this city, including "
+                "series_to_same_date.values and warmest_day_to_cut_c. It is "
+                "NOT always the current calendar year: a wrapping season is "
+                "keyed by the year it began, and a city whose season has not "
+                "opened reports its last complete one."),
+            # DEPRECATED NAME, KEPT SO NOTHING BREAKS. It holds the reported
+            # season's counts, which for seven cities is 2025-26 rather than
+            # 2026. Design asked whether leaving the name was deliberate; it
+            # was not weighed, and they were right that fixing the semantics
+            # while leaving the name is the shape of fire's stamper today.
+            "days_current_season": yrs[cur]["days_to_cut"],
             "days_2026": yrs[cur]["days_to_cut"],
+            "days_2026_deprecated": (
+                "Use days_current_season. This name says 2026 and holds the "
+                "reported season, which for a wrapping season is the one that "
+                "BEGAN in reported_season_key. Kept only so existing "
+                "consumers do not break."),
             "season_label": _season_span(v, cur)[0],
             "season_status": _season_span(v, cur)[1],
             "season_label_note": (
