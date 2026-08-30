@@ -44,6 +44,28 @@ PREVIOUS = ROOT / "heat" / "data" / "published" / "city_nights.json"
 IMPLAUSIBLE_RANK_MOVE = 8
 
 
+# A GUARD MUST HAVE AUTHORITY OVER WHAT IT WITHHOLDS, and two of these do
+# not. Floods' finding, 2026-08-30, from their own rainfall floor suppressing
+# a RANK when it only had authority over a RATIO. Audited here the same day:
+#
+#   condition                 evidence covers   this blocks     verdict
+#   cities added/removed      the SET           whole payload   right
+#   2003 comparison flipped   the SET           whole payload   right
+#   implausible rank move     ONE city          whole payload   arguable
+#   record withdrawn          ONE city          whole payload   OVER-REACH
+#
+# An implausible move suggests a builder fault, which could have touched
+# anything, so holding everything is defensible. A withdrawn record is one
+# city's editorial event and there is no reading under which it makes the
+# other 44 pages wrong. Palma's withdrawal held 44 correct pages for days,
+# and I described that at the time as the gate working as designed. It was
+# partly the gate exceeding its evidence.
+#
+# NOT FIXED HERE, because the fix is not in this file. Holding one city while
+# publishing 44 needs the publisher to support a partial publish, which is
+# platform's per-channel scope work one level finer. Recorded so that when
+# that lands, this is a known consumer rather than a rediscovery.
+
 def classify(prev, cur):
     """Split changes into what must block and what merely needs reporting.
 
