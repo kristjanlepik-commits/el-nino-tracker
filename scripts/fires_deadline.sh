@@ -16,6 +16,19 @@
 # token on a third-party service; that is true of a hosted service and
 # false here.
 #
+# RECOVERED IN THE LOG DOES NOT MEAN THE DAY PASSED. D-241 withdrew the
+# 24-hour grace, so if the page is stale at 10:00 Estonia that day has
+# already failed by the ratified test, however fast the loop below then
+# fixes it. This script detects and recovers; it cannot prevent. Platform
+# made this point on review and it is here so nobody reads a RECOVERED
+# line as a clean day.
+#
+# 10:00 IS NOT A FREE PARAMETER. The last cron slot, 06:00 UTC, has a
+# worst-case completion of 09:27 Estonia. A check at 09:30 would fire
+# three minutes after a legitimate worst case and dispatch a duplicate
+# against a run using its designed margin. 10:00 is where the schedule's
+# margin was built to land, and D-241 names it as the acceptance test.
+#
 # THE LIMIT, STATED SO NOBODY MISTAKES THIS FOR FULL COVERAGE: it only
 # runs when the Mac is awake and online. A day spent travelling with the
 # lid shut has no safety net. It is a real gap, priced at zero.
