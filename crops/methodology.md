@@ -210,6 +210,36 @@ of regions at a record, and say so.
 
 ## Known limits
 
+**A reading is not restricted to standing crop, and for most of the
+channel there is no calendar that could restrict it.** ASAP publishes a
+crop calendar giving planting and harvest dekads per unit per crop, and
+it covers **74 countries. 91 of the 165 published here are not in it,
+including every European country we track**: France, Germany, Spain,
+Italy, Poland, Hungary, Austria, the United Kingdom, Estonia and Romania
+among them. The calendar's coverage follows ASAP's food-security mandate,
+so it is thorough exactly where the channel's European set is absent.
+
+For those 91, nothing in the data tells us when a season closes. France
+and the United Kingdom report every crop region at all 36 dekads of the
+year; Poland drops out only in deep winter. So a mid-August reading in
+northwest Europe covers whatever ASAP's crop mask holds, which at that
+date includes both harvested cereal ground and standing summer crops.
+
+**What this does and does not invalidate.** The comparison stays
+like-for-like: mid-August 2026 is compared against 25 prior mid-Augusts,
+which contained the same mix. "The lowest of 26 observations for this
+point in the season" therefore stands as written. What it does **not**
+support is reading a late-summer European vegetation record as a
+statement about the cereal harvest, which by then is in. Where the two
+readings diverge, the honest phrasing is about what is standing in the
+fields now, not about a crop already in the barn.
+
+**For the 74 countries that do have a calendar, check where the dekad
+falls in it.** Angola's maize, millet and sorghum harvest ends between
+dekads 15 and 19 and its planting resumes around dekad 24, so a reading
+at dekad 23 sits between cycles, and its cumulative measure describes the
+season that has just finished rather than one under way.
+
 **Soil moisture has not reported since 1 July 2026.** Every country
 therefore reads five instruments of six, and the composite says which
 were used. This is channel-wide and is not a country-specific failure.
