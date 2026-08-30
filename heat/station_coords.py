@@ -160,7 +160,9 @@ def _ghcn():
            # Argentina, from the same inventory the histories come from.
            "Santiago del Estero": "AR000087129", "Parana": "AR000087374",
            "Laboulaye": "AR000087534", "Mar del Plata": "AR000087692",
-           "Neuquen": "AR000087715", "Salta": "AR000870470"}
+           "Neuquen": "AR000087715", "Salta": "AR000870470",
+           "Trelew": "AR000087828", "Algiers": "AG000060390",
+           "Rome": "IT000016239"}
     raw = subprocess.run(
         ["curl", "-sS", "--max-time", "180",
          "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"],

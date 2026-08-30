@@ -43,6 +43,9 @@ CITIES = {
     "Mar del Plata": "AR000087692",
     "Neuquen": "AR000087715",
     "Salta": "AR000870470",
+    # Trelew is proven and sits at 29/30. Built so the shortfall test can be
+    # run against real data rather than estimated from the gather summary.
+    "Trelew": "AR000087828",
 }
 FIRST_BRIDGE_YEAR = 2003        # where these archives thin, not where they end
 

@@ -164,6 +164,18 @@ LICENCE = {
     # Argentina, same construction as Cyprus and the others: GHCN history
     # is US federal open data, the recent seasons are the station's own WMO
     # bulletins and their re-use terms are NOT confirmed with SMN.
+    # Algeria, same construction and the same unresolved half. A request to
+    # ONM Algeria for the missing 1999 is outstanding; that year is why this
+    # city publishes a range rather than a count.
+    "DZ": {
+        "licence": "History from NOAA GHCN-Daily, US federal open data. "
+                   "Recent seasons from the station's own WMO synoptic "
+                   "bulletins, licence UNRESOLVED and not yet confirmed with "
+                   "the Office National de la Meteorologie.",
+        "commercial_use": False,
+        "attribution": "Source: Office National de la Meteorologie (ONM)",
+        "lag_days": 1,
+    },
     "AR": {
         "licence": "History from NOAA GHCN-Daily, US federal open data. "
                    "Recent seasons from the station's own WMO synoptic "
@@ -597,6 +609,11 @@ def main() -> int:
             # chat that needed it. Third time this week I have emitted
             # something to one file and told someone it was in another.
             "season": v.get("season"),
+            # FOURTH TIME. Emitted to city_series and not to the file design
+            # reads. A disclosure that does not reach the consumer is not a
+            # disclosure, and this one is the whole basis on which Kristjan
+            # approved publishing a short baseline.
+            "pctl_baseline_shortfall": v.get("pctl_baseline_shortfall"),
             "pctl_baseline": v.get("pctl_baseline"),
             "pctl_baseline_is_default": v.get("pctl_baseline_is_default"),
             "pctl_baseline_note":

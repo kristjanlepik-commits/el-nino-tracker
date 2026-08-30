@@ -285,7 +285,8 @@ def _ja_days(series, lo, hi, years=None, months=(7, 8)):
             if m in months and v is not None]
 
 
-def _shortfall_is_immaterial(series, lo, hi, missing, present):
+def _shortfall_is_immaterial(series, lo, hi, missing, present,
+                             months=(7, 8)):
     """Can the missing years move a published threshold? Measured, not waived.
 
     THE TEST. Refill each missing year twice, once with the July-August days
@@ -306,10 +307,16 @@ def _shortfall_is_immaterial(series, lo, hi, missing, present):
     direction untested.
     """
     import numpy as _np
-    base = _ja_days(series, lo, hi, present)
+    # THE SEASON MUST BE PASSED IN. This defaulted to July-August, which is
+    # the northern summer and Trelew's WINTER. The shortfall test therefore
+    # refused a southern city on whether a missing year would move a
+    # percentile we never publish for it. The refusal looked identical to
+    # Algiers' legitimate one, which is why it took a disagreeing number to
+    # find: the test reported P95 20.6 for a station whose summer P95 is 36.
+    base = _ja_days(series, lo, hi, present, months)
     if not base or not missing:
         return True, {}
-    by_year = {y: _ja_days(series, y, y) for y in present}
+    by_year = {y: _ja_days(series, y, y, months=months) for y in present}
     by_year = {y: v for y, v in by_year.items() if v}
     if not by_year:
         return False, {}
@@ -325,7 +332,69 @@ def _shortfall_is_immaterial(series, lo, hi, missing, present):
     return same, out
 
 
-def pick_baseline(tx, tn, cover=(5, 6, 7, 8)):
+def shortfall_effect(tx, lo, hi, missing, present, season, counts_fn,
+                     pct=95):
+    """What does the gap do to the PUBLISHED count, not to the threshold?
+
+    THE OLD TEST ASKED THE WRONG QUESTION and Kristjan caught it. It refused a
+    city when the missing year could move the THRESHOLD, which is an
+    intermediate value no reader sees. The claim is the COUNT. Trelew's
+    threshold moves 0.2 C and its count is five days either way, at rank 22 of
+    55 either way, so nothing a reader would ever see changes and the city was
+    being refused for nothing.
+
+    That is precisely the error design caught in the withdrawn-record test,
+    where I checked the rank number instead of the claim. I fixed it there and
+    did not carry it here.
+
+    Refills each missing year from the coldest and the warmest year in the
+    window and returns the range the current season's count could take.
+    Returns None when there is nothing to assess.
+    """
+    # THE RANGE MUST COUNT WHAT THE PAGE COUNTS. My first version counted
+    # the threshold months only, while the payload counts the whole window to
+    # the cut, so the disclosure read "9 to 12 days" beside a published count
+    # of 13. A caveat that contradicts the number it qualifies is worse than
+    # no caveat: the reader cannot tell which is wrong.
+    #
+    # The threshold is still built from the season months, because that is
+    # what calibrates it. Only the COUNTING uses the page's own window.
+    def in_season(y):
+        return [v for (m, _), v in tx.get(y, {}).items() if m in season]
+
+    def counted(y):
+        return [v for k, v in tx.get(y, {}).items() if counts_fn(k, y)]
+
+    base = [y for y in range(lo, hi + 1) if len(in_season(y)) >= 40]
+    if not base or not missing:
+        return None
+    by = {y: in_season(y) for y in base}
+    cold = min(by, key=lambda y: sum(by[y]) / len(by[y]))
+    warm = max(by, key=lambda y: sum(by[y]) / len(by[y]))
+    counts, ranks, ths = [], [], []
+    for donor in (cold, warm):
+        pool = [v for y in base for v in by[y]] + by[donor] * len(missing)
+        t = float(np.percentile(pool, pct))
+        cnt = {y: sum(1 for v in counted(y) if v > t)
+               for y in range(lo, 2027) if len(counted(y)) >= 40}
+        if not cnt:
+            return None
+        last = max(cnt)
+        order = sorted(cnt, key=lambda y: -cnt[y])
+        counts.append(cnt[last]); ranks.append(order.index(last) + 1)
+        ths.append(round(t, 1))
+    return {
+        "missing_years": list(missing),
+        "threshold_range_c": sorted(set(ths)),
+        "count_range": sorted(set(counts)),
+        "rank_range": sorted(set(ranks)),
+        "count_moves": counts[0] != counts[1],
+        "rank_moves": ranks[0] != ranks[1],
+    }
+
+
+def pick_baseline(tx, tn, cover=(5, 6, 7, 8), season=(7, 8),
+                  counts_fn=None):
     """The first standard normal that qualifies, in the fixed order above.
 
     Returns (lo, hi, missing_years). Complete means 30 of 30 years carrying
@@ -356,22 +425,31 @@ def pick_baseline(tx, tn, cover=(5, 6, 7, 8)):
         yrs = range(lo, hi + 1)
         present = {y for y in yrs if per.get(y, 0) >= 100}
         if len(present) == hi - lo + 1:
-            return (lo, hi, ())
+            return (lo, hi, (), None)
     for lo, hi in WMO_NORMALS:
         yrs = range(lo, hi + 1)
         present = {y for y in yrs if per.get(y, 0) >= 100}
         missing = tuple(y for y in yrs if y not in present)
         if not missing or len(missing) > MAX_SHORTFALL_YEARS:
             continue
-        ok, detail = _shortfall_is_immaterial(tx, lo, hi, missing, present)
-        ok_n, _ = _shortfall_is_immaterial(tn, lo, hi, missing, present)
-        if ok and ok_n:
+        # THE CLAIM DECIDES, NOT THE THRESHOLD. Kristjan's ruling 2026-08-30.
+        eff = shortfall_effect(tx, lo, hi, missing, present, season,
+                               counts_fn)
+        if eff is None:
+            continue
+        if not eff["count_moves"] and not eff["rank_moves"]:
             print(f"    baseline {lo}-{hi} short {len(missing)} "
-                  f"({', '.join(map(str, missing))}), thresholds unmoved at "
-                  f"both extremes: {detail.get('cold')}")
-            return (lo, hi, missing)
-        print(f"    baseline {lo}-{hi} short {missing}: thresholds MOVE "
-              f"({detail.get('cold')} vs {detail.get('warm')}), refused")
+                  f"({', '.join(map(str, missing))}), but the published count "
+                  f"is {eff['count_range'][0]} and the rank "
+                  f"{eff['rank_range'][0]} at BOTH extremes: immaterial")
+            return (lo, hi, missing, None)
+        # The count moves, so the city is publishable only WITH the range
+        # stated as a field. Kristjan: launch them, say plainly what is
+        # missing. A point estimate here would be a number we cannot defend.
+        print(f"    baseline {lo}-{hi} short {missing}: count ranges "
+              f"{eff['count_range']}, rank {eff['rank_range']}. Publishable "
+              f"WITH the gap disclosed.")
+        return (lo, hi, missing, eff)
     return None
 
 
@@ -429,6 +507,9 @@ JOINED = {
     "Neuquen":   ("2026-08-30", "As Santiago del Estero, and the "
                   "northern-Patagonian end of the set."),
     "Salta":     ("2026-08-30", "As Santiago del Estero."),
+    "Algiers":  ("2026-08-30", "North Africa was zero cities."),
+    "Rome":     ("2026-08-30", "Italy was zero cities."),
+    "Trelew":   ("2026-08-30", "As the other Argentine stations."),
     "Zagreb":   ("2026-08-17", "The Balkans were zero cities. Selected for "
                                "the gap, before its 2026 figures were "
                                "looked at."),
@@ -642,15 +723,23 @@ CITIES = {
     "Salta":       dict(country="AR", station="Salta Aero", cut=(8, 30),
                         file="salta.json"),
 
-    # ALGIERS IS NOT HERE, AND THE MEASUREMENT IS WHY. It fails the test at
-    # both windows: refilling 1999 from the coldest year in the window versus
-    # the warmest moves the 95th percentile from 37.8 C to 38.0 C, and the
-    # 2026 count above it from TWELVE DAYS TO NINE. A third of the headline
-    # number is decided by a summer we do not have. That is not a footnote,
-    # it is the number being unresolved, so the entry stays commented out
-    # until 1999 is closed or the page is built on something other than a
-    # count above a baseline percentile.
-    "Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
+    # ALGIERS, ROME AND TRELEW carry a SHORT baseline and are published with
+    # the gap as a field. Kristjan's ruling 2026-08-30, reversing the
+    # complete-or-nothing half of D-151 while keeping its substance: a city
+    # may ship short, and must say what is missing and what it costs.
+    #
+    # Algiers is 29/30, missing 1999, and its count ranges 9 to 12 days.
+    # 1999 is unclosable: GHCN holds 88 minima and 85 maxima, OGIMET's
+    # bulletins do not reach it, and NCEI's ISD-Lite has the days only as
+    # sampled observations that understate the daily maximum by 0.63 C on a
+    # day carrying 23 observations, against a median of 9 in 1999. Filling it
+    # that way would bias the BASELINE cool and push this year's rank up,
+    # which is the one direction D-043 refuses.
+    "Algiers":   dict(country="DZ", station="Algiers Houari Boumediene",
+                      cut=(8, 10), file="algiers.json"),
+    "Trelew":    dict(country="AR", station="Trelew Aero", cut=(8, 30),
+                      file="trelew.json"),
+"Paris":       dict(country="FR", station="ORLY", cut=(8, 3)),
     "Marseille":   dict(country="FR", station="MARIGNANE", cut=(8, 3)),
     "Nice":        dict(country="FR", station="NICE", cut=(8, 3)),
     "Montpellier": dict(country="FR", station="MONTPELLIER-AEROPORT", cut=(8, 3)),
@@ -947,9 +1036,51 @@ def build(city, meta):
     season_started = eff is not None
     W = window_days(eff, win_start) if season_started else 0
 
+    # THE COUNTERS MUST USE THE WINDOW, NOT A RAW `k <= cut`. On a (month,
+    # day) tuple `k <= cut` means "before 29 August", which for a southern
+    # season silently drops October, November and December: Santiago showed a
+    # complete 123-day season with ZERO hot days because every one of them
+    # fell after the cut in tuple order. in_window knows the season wraps and
+    # `k <= cut` does not.
+    def _counts(k, y):
+        # EVERY YEAR IS COUNTED TO THE SAME POINT, which is what "to date"
+        # means. My previous version counted historical seasons to the season
+        # END and the current one to the CUT, which compared 2026-to-21-August
+        # against 1976-to-31-August and moved 27 claims across the northern
+        # set, withdrawing three records that had not changed.
+        #
+        # When the cut falls inside the window, it is the common point and
+        # every year uses it. When it falls outside, the current season has
+        # not begun: historical seasons are then whole, and the current one
+        # has nothing to count, which _counts returns False for by way of
+        # season_started.
+        if season_started:
+            return in_window(k, win_start, eff)
+        if y == CURRENT_YEAR:
+            return False
+        return in_window(k, win_start, season_end(season))
+
     # Thresholds are each city's own in-season maxima percentiles. AEMET's
     # published rule, reproduced exactly for Madrid (36.4) and Seville (41.2).
-    pctl = pick_baseline(tx, tn, season_cover)
+    # RE-KEY THE OBSERVATIONS BY SEASON before anything counts them. For a
+    # northern city this is the identity; for a southern one it moves January
+    # out of its calendar year and into the summer it belongs to.
+    def by_season(series):
+        out = {}
+        for cy, dd in series.items():
+            for (m, d), v in dd.items():
+                sy = to_season_year(cy, m, win_start, season)
+                out.setdefault(sy, {})[(m, d)] = v
+        return out
+    tn_s, tx_s = by_season(tn), by_season(tx)
+
+    # THE SHORTFALL TEST MUST SEE THE SAME SERIES THE PAGE DOES. It was
+    # reading calendar years while the payload read season years, so Trelew's
+    # disclosed range said 7 days at rank 19 while the page published 5 at
+    # rank 34. Northern cities agreed because for them the two keyings are
+    # identical; the wrapping season exposed it, as it has exposed everything
+    # else today.
+    pctl = pick_baseline(tx_s, tn_s, season_cover, season, _counts)
     if pctl is None:
         # SKIP THIS CITY, DO NOT ABORT THE BUILD. A city with no complete
         # baseline gets no thresholds, which is right. Killing the whole run
@@ -980,41 +1111,6 @@ def build(city, meta):
           for (m, _), v in tn.get(y, {}).items() if m in season]
     nth = {str(p): round(float(np.percentile(jn, p)), 1) for p in (90, 95, 99)}
 
-    # RE-KEY THE OBSERVATIONS BY SEASON before anything counts them. For a
-    # northern city this is the identity; for a southern one it moves January
-    # out of its calendar year and into the summer it belongs to.
-    def by_season(series):
-        out = {}
-        for cy, dd in series.items():
-            for (m, d), v in dd.items():
-                sy = to_season_year(cy, m, win_start, season)
-                out.setdefault(sy, {})[(m, d)] = v
-        return out
-    tn_s, tx_s = by_season(tn), by_season(tx)
-
-    # THE COUNTERS MUST USE THE WINDOW, NOT A RAW `k <= cut`. On a (month,
-    # day) tuple `k <= cut` means "before 29 August", which for a southern
-    # season silently drops October, November and December: Santiago showed a
-    # complete 123-day season with ZERO hot days because every one of them
-    # fell after the cut in tuple order. in_window knows the season wraps and
-    # `k <= cut` does not.
-    def _counts(k, y):
-        # EVERY YEAR IS COUNTED TO THE SAME POINT, which is what "to date"
-        # means. My previous version counted historical seasons to the season
-        # END and the current one to the CUT, which compared 2026-to-21-August
-        # against 1976-to-31-August and moved 27 claims across the northern
-        # set, withdrawing three records that had not changed.
-        #
-        # When the cut falls inside the window, it is the common point and
-        # every year uses it. When it falls outside, the current season has
-        # not begun: historical seasons are then whole, and the current one
-        # has nothing to count, which _counts returns False for by way of
-        # season_started.
-        if season_started:
-            return in_window(k, win_start, eff)
-        if y == CURRENT_YEAR:
-            return False
-        return in_window(k, win_start, season_end(season))
 
     years = {}
     for y in sorted(set(tn_s) | set(tx_s)):
@@ -1127,6 +1223,7 @@ def build(city, meta):
                    "FI": "FMI",
                    "CH": "MeteoSwiss",
                    "AR": "NOAA GHCN-Daily and WMO bulletins",
+                   "DZ": "NOAA GHCN-Daily and WMO bulletins",
                    # GHCN history bridged to the present with the station's
                    # own WMO bulletins, the Larnaca construction. Named as
                    # both, because a reader deserves to know the recent
@@ -1183,15 +1280,44 @@ def build(city, meta):
         # city with a complete normal, which is all but one.
         "pctl_baseline_missing_years": list(pctl[2]),
         "pctl_baseline_complete": not pctl[2],
+        # THE GAP AS A FIELD, WITH ITS CONSEQUENCE. Kristjan's ruling
+        # 2026-08-30: launch a city with a short baseline, and say plainly
+        # what is missing. A footnote beside a point estimate would imply the
+        # number is firm and the caveat cosmetic. Where the gap moves the
+        # count, the RANGE is the honest figure and the point estimate is not
+        # ours to give.
+        "pctl_baseline_shortfall": (None if not pctl[2] else {
+            "missing_years": list(pctl[2]),
+            "years_present": 30 - len(pctl[2]),
+            # ONLY EMIT THE RANGES THAT AGREE WITH THE PAGE. The rank range
+            # is computed on a slightly different denominator from the
+            # published rank, so where the gap is immaterial and nothing
+            # renders it, a stale rank range would sit in the payload waiting
+            # for a consumer to read it and contradict the page. Emitted only
+            # when the count actually moves, which is when it is used.
+            "count_range": (pctl[3] or {}).get("count_range"),
+            "rank_range": ((pctl[3] or {}).get("rank_range")
+                           if (pctl[3] or {}).get("count_moves") else None),
+            "threshold_range_c": (pctl[3] or {}).get("threshold_range_c"),
+            "count_is_a_range": bool((pctl[3] or {}).get("count_moves")),
+            "must_say": (
+                None if not (pctl[3] or {}).get("count_moves") else
+                f"{', '.join(str(y) for y in pctl[2])} is missing from this "
+                f"station's archive. Refilled from the coldest and the "
+                f"warmest year in the window, this season's count is "
+                f"{' to '.join(str(x) for x in (pctl[3] or {}).get('count_range', []))} "
+                f"days. The range is the figure; a single number here would "
+                f"be one we cannot defend."),
+            "note": (
+                "The baseline is short of the full WMO normal. Where "
+                "count_is_a_range is false the gap provably cannot move the "
+                "published count or rank, tested by refilling at both "
+                "extremes. Where it is true, must_say belongs ON the page."),
+        }),
         "pctl_baseline_shortfall_note": (
             "" if not pctl[2] else
-            f"This baseline is {30 - len(pctl[2])} of 30 years. "
-            f"{', '.join(str(y) for y in pctl[2])} is missing from the "
-            "archive. The thresholds were recomputed with that year refilled "
-            "from the coldest and from the warmest year in the window and "
-            "did not move at either extreme, so the gap cannot change the "
-            "counts on this page. It does mean the window is not the full "
-            "WMO normal."),
+            f"This baseline is {30 - len(pctl[2])} of 30 years; "
+            f"{', '.join(str(y) for y in pctl[2])} missing."),
         "pctl_baseline_is_default": tuple(pctl[:2]) == PCTL_BASELINE,
         "record_from": raw[0], "record_to": raw[-1],
         "thresholds_c": th,
