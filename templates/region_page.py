@@ -39,6 +39,34 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 
+_MON = ("January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December")
+
+
+def _dateline():
+    """Which windows this page is reporting, read from the payloads.
+
+    THESE TWO DATES WERE TYPED, and by the time anyone looked they were
+    both wrong: the page said "crops to dekad 1 August" against a payload
+    at 2026-08-11, and "fires week to 25 August" against a window ending
+    08-29. Nothing broke, no guard fired, and the page simply stated the
+    wrong fortnight in the one line a reader uses to decide whether it is
+    current. D-124 already covers this for the lede; the dateline is the
+    same rule and was missed because it looked like furniture.
+    """
+    crops = json.loads((ROOT / "crops/data/stress_current.json").read_text())
+    fires = json.loads((ROOT / "fires/data/current_week.json").read_text())
+
+    y, m, d = (int(x) for x in crops["dekad"].split("-"))
+    cro = "%d %s" % (d, _MON[m - 1])
+
+    # fires carries "MM-DD..MM-DD" for the window it actually compared.
+    end = fires["window"].split("..")[-1]
+    fm, fd = (int(x) for x in end.split("-"))
+    fir = "%d %s" % (fd, _MON[fm - 1])
+    return "crops to dekad %s &middot; fires week to %s" % (cro, fir)
+
+
 def _crops_rows(names):
     d = json.loads((ROOT / "crops/data/stress_current.json").read_text())
     by = {p["place"]: p for p in d["places"]}
@@ -271,7 +299,7 @@ publishes by catchment rather than by country.</p>
 %s
 <main class="rgwrap">
   <p class="rgsec" style="border:0;margin-top:6px">Latin America &middot;
-     crops to dekad 1 August &middot; fires week to 25 August</p>
+     %s</p>
   <h1 class="rglede">%s</h1>
   <p class="rgstand">%s</p>
   %s
@@ -283,4 +311,5 @@ publishes by catchment rather than by country.</p>
         head_meta(title="Latin America | The Long Swell",
                   description=lede, path="/latin-america/"),
         T.font_faces_css(root_prefix + "fonts/") + css,
-        site_masthead(root_prefix), lede, stand, body, sub_band())
+        site_masthead(root_prefix), _dateline(), lede, stand, body,
+        sub_band())
