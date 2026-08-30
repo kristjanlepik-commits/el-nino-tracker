@@ -2783,17 +2783,41 @@ def isthmus_comparison(places: list) -> dict:
             "level": same_then,
             "worse_now": worse_now,
         },
+        # THE PUBLISHABLE SENTENCE, AND NOTHING ELSE IN IT.
+        #
+        # This string used to end its first clause with "the first time
+        # all of them have been at once". That clause is TRUE and
+        # Kristjan ruled against publishing it (D-249): it is empty only
+        # at the worst-four and worst-five cuts and carries 2015 at every
+        # other threshold, so it is the record framing arriving through a
+        # side door after the comparison was chosen over it.
+        #
+        # Leaving it here punished exactly the behaviour this channel has
+        # spent the day asking for. Design renders emitted strings rather
+        # than restating them, argued for doing so twice to me, and then
+        # had to make this string their single exception. A `statement`
+        # that cannot be printed verbatim is not a statement; it is a
+        # draft with a trap in it.
+        #
+        # The fact is not lost: `prior_years_at_or_above["worst_4"]` is
+        # the empty list, and `is_not` says what that empty list may and
+        # may not be turned into.
         "statement": (
             f"{grad[4][cur]} of the {len(members)} countries of the isthmus "
-            f"are in their own worst four of 26 years, the first time all "
-            f"of them have been at once. {len(worse_then)} of the "
-            f"{len(members)} were worse in 2015 than they are now."),
+            f"are in their own worst four of 26 years. {len(worse_then)} of "
+            f"the {len(members)} were worse in 2015 than they are now."),
         "is_not": "evidence that this is the corridor's worst year. It is "
                   "not: 2015 is worse at the two deepest thresholds, and "
                   "worst-four is the smallest cut at which the run reaches "
                   "the whole isthmus, so the cut is not independent of the "
                   "data. Read `counts_now` beside `prior_years_at_or_above` "
-                  "rather than the headline count alone.",
+                  "rather than the headline count alone. AND DO NOT RENDER "
+                  "an empty `prior_years_at_or_above` as a first-ever or a "
+                  "record: it is empty at worst-four and worst-five and "
+                  "carries 2015 at every other cut, so the emptiness is a "
+                  "property of the threshold rather than of the year. "
+                  "Kristjan ruled against that framing (D-249); publish "
+                  "`statement`, which no longer contains it.",
     }
 
 def country_record_baseline(places: list) -> dict:

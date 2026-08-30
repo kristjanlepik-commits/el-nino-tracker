@@ -787,8 +787,8 @@
     "Colombia"
    ]
   },
-  "statement": "8 of the 8 countries of the isthmus are in their own worst four of 26 years, the first time all of them have been at once. 5 of the 8 were worse in 2015 than they are now.",
-  "is_not": "evidence that this is the corridor's worst year. It is not: 2015 is worse at the two deepest thresholds, and worst-four is the smallest cut at which the run reaches the whole isthmus, so the cut is not independent of the data. Read `counts_now` beside `prior_years_at_or_above` rather than the headline count alone."
+  "statement": "8 of the 8 countries of the isthmus are in their own worst four of 26 years. 5 of the 8 were worse in 2015 than they are now.",
+  "is_not": "evidence that this is the corridor's worst year. It is not: 2015 is worse at the two deepest thresholds, and worst-four is the smallest cut at which the run reaches the whole isthmus, so the cut is not independent of the data. Read `counts_now` beside `prior_years_at_or_above` rather than the headline count alone. AND DO NOT RENDER an empty `prior_years_at_or_above` as a first-ever or a record: it is empty at worst-four and worst-five and carries 2015 at every other cut, so the emptiness is a property of the threshold rather than of the year. Kristjan ruled against that framing (D-249); publish `statement`, which no longer contains it."
  },
  "country_record_baseline": {
   "available": true,
