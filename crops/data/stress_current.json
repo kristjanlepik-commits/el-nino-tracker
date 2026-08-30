@@ -732,6 +732,64 @@
   "statement": "38 of the 196 regions at a record low on current vegetation have water or rainfall sitting in its own best third at the same moment, about one in five",
   "is_not": "a share of all regions. It is a share of those ALREADY at a vegetation record. Of every region we measure, the figure is `share_of_all`, which is much smaller. A sentence that says 'across the regions on this site' and then quotes `share_of_record` overstates it by an order of magnitude, which is the error this field replaced."
  },
+ "isthmus_comparison": {
+  "available": true,
+  "_what": "the Central American isthmus, each country against its own 26 years of the composite",
+  "geography_is_declared": "the member list and its order are stated, not derived. Only membership of the worst-k band is computed.",
+  "members": [
+   "Belize",
+   "Guatemala",
+   "Honduras",
+   "El Salvador",
+   "Nicaragua",
+   "Costa Rica",
+   "Panama",
+   "Colombia"
+  ],
+  "year": 2026,
+  "counts_now": {
+   "worst_1": 2,
+   "worst_2": 6,
+   "worst_3": 7,
+   "worst_4": 8,
+   "worst_5": 8,
+   "worst_6": 8
+  },
+  "prior_years_at_or_above": {
+   "worst_1": [
+    2015
+   ],
+   "worst_2": [
+    2015
+   ],
+   "worst_3": [
+    2015
+   ],
+   "worst_4": [],
+   "worst_5": [],
+   "worst_6": [
+    2015
+   ]
+  },
+  "versus_2015": {
+   "worse_in_2015": [
+    "Belize",
+    "Honduras",
+    "El Salvador",
+    "Nicaragua",
+    "Costa Rica"
+   ],
+   "level": [
+    "Panama"
+   ],
+   "worse_now": [
+    "Guatemala",
+    "Colombia"
+   ]
+  },
+  "statement": "8 of the 8 countries of the isthmus are in their own worst four of 26 years, the first time all of them have been at once. 5 of the 8 were worse in 2015 than they are now.",
+  "is_not": "evidence that this is the corridor's worst year. It is not: 2015 is worse at the two deepest thresholds, and worst-four is the smallest cut at which the run reaches the whole isthmus, so the cut is not independent of the data. Read `counts_now` beside `prior_years_at_or_above` rather than the headline count alone."
+ },
  "places": [
   {
    "place": "Sudan",

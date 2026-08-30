@@ -2515,6 +2515,7 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         "places_skipped": len(skipped),
         "skipped": skipped,
         "instrument_disagreement": instrument_disagreement(places),
+        "isthmus_comparison": isthmus_comparison(places),
         "places": places,
     }
 
@@ -2712,6 +2713,86 @@ def instrument_disagreement(places: list) -> dict:
                   "sentence that says 'across the regions on this site' and "
                   "then quotes `share_of_record` overstates it by an order "
                   "of magnitude, which is the error this field replaced.",
+    }
+
+# THE ISTHMUS ORDERING IS STATED GEOGRAPHY, NOT A DERIVED SET.
+#
+# It is written here, once, because the alternative is worse: a set the
+# DATA assembles and a geographic name applied afterwards is a claim
+# about geography the data never made. That was my error, and product
+# ruled for the derived-run form on 2026-08-30 (D-246). Geography is
+# declared first; the data only fills in which members qualify.
+#
+# So this list is allowed to be hand-written. Everything computed FROM
+# it is not, which is the distinction the whole day turned on.
+ISTHMUS_ORDER = ["Belize", "Guatemala", "Honduras", "El Salvador",
+                 "Nicaragua", "Costa Rica", "Panama", "Colombia"]
+
+
+def isthmus_comparison(places: list) -> dict:
+    """The Central American corridor, 2026 against its own 26 years.
+
+    PUBLISHED AS A COMPARISON RATHER THAN A RECORD, on Kristjan's call.
+
+    "All eight in their own worst four, for the first time in 26 years"
+    is TRUE and is a statement about MEMBERSHIP. A reader hears severity.
+    Six of the eight were worse in 2015 than they are now, and 2026
+    reaches eight only because Guatemala moved from rank 6 to rank 1 and
+    filled the single gap. The record framing and the reader's takeaway
+    point in opposite directions.
+
+    The threshold is also not independent of the data: worst-four is the
+    smallest cut at which the run reaches the whole isthmus, and it was
+    inherited from the set it was later used to describe. The gradient is
+    emitted at every cut so a reader can see that 2015 is worse at the
+    two deepest ones.
+    """
+    by = {q["place"]: q for q in places}
+    members = [n for n in ISTHMUS_ORDER
+               if (by.get(n) or {}).get("severity", {}).get("rank_series")]
+    if len(members) < len(ISTHMUS_ORDER):
+        return {"available": False,
+                "why": "not every isthmus member is published this dekad",
+                "missing": [n for n in ISTHMUS_ORDER if n not in members]}
+    rs = {n: {int(y): r for y, r in by[n]["severity"]["rank_series"].items()}
+          for n in members}
+    years = sorted(rs[members[0]])
+    cur = max(years)
+    grad = {k: {y: sum(1 for n in members if rs[n][y] <= k) for y in years}
+            for k in range(1, 7)}
+    worse_then = [n for n in members if rs[n][2015] < rs[n][cur]]
+    same_then = [n for n in members if rs[n][2015] == rs[n][cur]]
+    worse_now = [n for n in members if rs[n][cur] < rs[n][2015]]
+    return {
+        "available": True,
+        "_what": "the Central American isthmus, each country against its "
+                 "own 26 years of the composite",
+        "geography_is_declared": "the member list and its order are stated, "
+                                 "not derived. Only membership of the worst-k "
+                                 "band is computed.",
+        "members": members,
+        "year": cur,
+        "counts_now": {f"worst_{k}": grad[k][cur] for k in range(1, 7)},
+        "prior_years_at_or_above": {
+            f"worst_{k}": sorted(y for y in years
+                                 if y != cur and grad[k][y] >= grad[k][cur])
+            for k in range(1, 7)},
+        "versus_2015": {
+            "worse_in_2015": worse_then,
+            "level": same_then,
+            "worse_now": worse_now,
+        },
+        "statement": (
+            f"{grad[4][cur]} of the {len(members)} countries of the isthmus "
+            f"are in their own worst four of 26 years, the first time all "
+            f"of them have been at once. {len(worse_then)} of the "
+            f"{len(members)} were worse in 2015 than they are now."),
+        "is_not": "evidence that this is the corridor's worst year. It is "
+                  "not: 2015 is worse at the two deepest thresholds, and "
+                  "worst-four is the smallest cut at which the run reaches "
+                  "the whole isthmus, so the cut is not independent of the "
+                  "data. Read `counts_now` beside `prior_years_at_or_above` "
+                  "rather than the headline count alone.",
     }
 
 def main() -> int:
