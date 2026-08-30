@@ -482,6 +482,18 @@ def build(events_doc, font_prefix="../fonts/", baseline=None):
                  'burning, and they are listed separately because '
                  'presenting them as anomalies would misrepresent '
                  'whether it is unusual.</p>')
+    # THE ARCHIVE, LINKED FROM THE ONE PAGE THAT IMPLIES IT EXISTS. 31 of
+    # 49 country pages were reachable only by knowing the URL, four of them
+    # stories we published. This index shows the week's finding and would
+    # bury it under 49 rows, so the archive is a separate, quieter surface
+    # and this is the link to it. Not a nav entry: adding one to CHANNELS
+    # puts 234 published pages into stale-nav failure and blocks every
+    # chat's publish out of this tree.
+    archive_block = (
+        '<p class="note" style="margin-top:26px"><a href="countries/">'
+        'Every country we have assessed</a>, including the ones not '
+        'currently qualifying. A country dropping out of a week\'s '
+        'findings is not the same as our never having looked at it.</p>')
     # THE EXCLUSION IS STATED WHERE A READER SEES IT, not only in the log.
     #
     # Product's condition and it is not negotiable. Every data defect this
@@ -726,6 +738,8 @@ h1 {{
   anywhere on this list, and none of them appear on it: the southern
   African savanna burns on that scale every dry season, so all three
   sit at or near their own normal. Volume is not news; departure is.</p>
+
+  {archive_block}
 
   <div class="foot">
     <p><b>What a detection is.</b> One satellite pixel, about 375 m

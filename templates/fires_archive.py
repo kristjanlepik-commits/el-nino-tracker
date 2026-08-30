@@ -73,22 +73,48 @@ def _load():
                 "row %r has no last_assessed. An undated row in an archive "
                 "reads as current, which is the thing this page exists to "
                 "prevent." % r["slug"])
-    rows.sort(key=lambda r: (not r.get("current"), r["name"]))
+    # Qualifying, then measured-but-quiet, then no longer measured. The
+    # third group last because it is a statement about our coverage rather
+    # than about those countries, and mixing it in alphabetically would
+    # make it read as a third flavour of finding.
+    rows.sort(key=lambda r: (not r.get("current"),
+                             r.get("tracked") is False, r["name"]))
     return doc, rows
 
 
 def _row_html(r, root_prefix):
+    """One country, in one of THREE states rather than two.
+
+    "Did not clear the gate" and "we no longer measure here" are different
+    facts, and only the first was being said anywhere. Fire found the live
+    version of this on Ethiopia's own page, which announced a check that
+    never happened because the stamper walked the directory listing instead
+    of the roster. The archive would have inherited the same false
+    implication one level up: an undifferentiated "not current" row reads
+    as still watched, just quiet.
+
+    So `tracked: false` gets its own state and its own sentence, and the
+    date is labelled as the last week it WAS measured rather than as a
+    position in a ranking it is no longer part of.
+    """
     cur = bool(r.get("current"))
+    untracked = r.get("tracked") is False
+    if untracked:
+        cls, state = " fauntracked", "no longer measured"
+        date = "last measured %s" % _pretty(r["last_assessed"])
+    elif cur:
+        cls, state = " facur", "qualifying this week"
+        date = "last qualified %s" % _pretty(r["last_assessed"])
+    else:
+        cls, state = "", "not current"
+        date = "last qualified %s" % _pretty(r["last_assessed"])
     return (
         '<li class="fa%s">'
         '<a class="faa" href="%s%s">%s</a>'
         '<span class="fastate">%s</span>'
-        '<span class="fadate">last qualified %s</span>'
+        '<span class="fadate">%s</span>'
         '</li>'
-        % (" facur" if cur else "",
-           root_prefix, r["href"], r["name"],
-           "qualifying this week" if cur else "not current",
-           _pretty(r["last_assessed"])))
+        % (cls, root_prefix, r["href"], r["name"], state, date))
 
 
 CSS = """
@@ -119,6 +145,10 @@ ul.falist{list-style:none;margin:0;padding:0}
 .fastate{font-family:"__D__",ui-monospace,monospace;font-size:10px;
   letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
 .facur .fastate{color:var(--fire);font-weight:600}
+/* Not greyed, for the same reason as everything else here: a country we
+   cannot see must not read as a country with nothing to report. */
+.fauntracked .fastate{color:var(--ink);font-weight:600;
+  border-bottom:1px solid var(--ink)}
 .fadate{font-family:"__D__",ui-monospace,monospace;font-size:11px;
   color:var(--ink-faint);white-space:nowrap;font-variant-numeric:tabular-nums}
 .fanote{font-size:14.5px;line-height:1.55;color:var(--ink-soft);
@@ -140,18 +170,26 @@ def render(root_prefix="../"):
     from templates.subscribe_band import band as sub_band, css as sub_css
 
     doc, rows = _load()
-    n, cur = len(rows), sum(1 for r in rows if r.get("current"))
+    n = len(rows)
+    cur = sum(1 for r in rows if r.get("current"))
+    gone = sum(1 for r in rows if r.get("tracked") is False)
+    quiet = n - cur - gone
 
     # DERIVED, NEVER TYPED (D-124). All three of these move every week.
     lede = "Every country this channel has assessed."
     stand = (
-        "%d countries have had a fire assessment published. %d of them "
-        "cleared the anomaly gate in the week just measured; the other %d "
-        "did not, and their pages carry the last week they did. Every one "
-        "is listed, because a country dropping out of a week's findings is "
-        "not the same as our never having looked at it."
-        % (n, cur, n - cur))
+        "%d countries have had a fire assessment published. %d cleared the "
+        "anomaly gate in the week just measured. %d did not, and their "
+        "pages carry the last week they did. %s Every one is listed, "
+        "because a country dropping out of a week's findings is not the "
+        "same as our never having looked at it."
+        % (n, cur, quiet,
+           ("%d %s no longer measured at all." % (gone, "is" if gone == 1
+                                                  else "are"))
+           if gone else ""))
 
+    gone_names = ", ".join(r["name"] for r in rows
+                           if r.get("tracked") is False)
     body = """
 <div class="falimit"><b>A date here is when a country last qualified, not
 when we last looked at it.</b><span>All 97 countries with a baseline are
@@ -167,7 +205,13 @@ ordinary by its own standards, not that it stopped being measured.</span>
 stay published and say so on their own face. Four of them carry pieces we
 published at the time, so removing or hiding them would break links that
 readers and search results still follow.</p>
-""" % (n, cur, "\n".join(_row_html(r, root_prefix) for r in rows))
+%s
+""" % (n, cur, "\n".join(_row_html(r, root_prefix) for r in rows),
+       ('<p class="fanote"><b>%s no longer has a baseline, so we cannot '
+        'measure it.</b> Its page carries the last week we could. That is '
+        'a limit of our coverage and not a finding about %s: a country we '
+        'have stopped being able to see is not a quiet one.</p>'
+        % (gone_names, gone_names)) if gone else "")
 
     css = (CSS.replace("__D__", T.FONT_DATA) + sub_css() + SITE_MASTHEAD_CSS)
     return """<!doctype html>
@@ -197,7 +241,7 @@ readers and search results still follow.</p>
 """.replace("{vars}", T.css_variables()) % (
         head_meta(title="Countries assessed | Fires | The Long Swell",
                   description=lede, path="/fires/countries/"),
-        ANALYTICS_SNIPPET, css, site_masthead(root_prefix), lede, stand,
+        ANALYTICS_SNIPPET, css, site_masthead(root_prefix, active="fire"), lede, stand,
         body, sub_band())
 
 
