@@ -196,13 +196,16 @@ def _rank_words(basis, find):
     measurement does not have, which is the same fault as a legend whose
     label the data denies.
     """
-    # A below-floor baseline permits NO ordinal, not a softened one.
-    # "about 1 of 27" still tells a reader we ranked it.
-    if find.get("baseline_below_floor"):
-        return "not ranked, baseline too small"
+    # SEPARATION, NOT DENOMINATOR. The floor no longer reaches this: a
+    # small median makes the multiple meaningless, not the ordering.
+    # "about 1 of 27" is not a hedge, it still tells a reader we ranked it.
     if find.get("ordinal_safe"):
         return "%s of %s" % (basis["rank"], basis["of"])
-    return "about %s of %s" % (basis["rank"], basis["of"])
+    n = find.get("tied_with_n") or 0
+    if n:
+        return ("not ranked, %d other year%s within the tie margin"
+                % (n, "" if n == 1 else "s"))
+    return "not ranked"
 
 
 _ORD_WORD = {1: "the most", 2: "the second most", 3: "the third most"}
@@ -217,20 +220,21 @@ def _nth(n):
 
 
 def _claim(payload, rain, basis, find, window):
-    """The headline, and it takes its shape from the RANK, not from a flag.
+    """The headline, from the RANK and from what each guard actually gates.
 
-    THIS FUNCTION USED TO ASSERT "the most in N years" FOR EVERYTHING THAT
-    WAS NOT FLAGGED normal. That was written when the only two live cases
-    were a record and an ordinary reading, and it was wrong for every other
-    state FLO emits. Measured against the payloads on disk it would have
-    published the superlative on a reading ranked 4th, on two ranked 2nd
-    and 3rd, and on two ranked 22nd and 24th of 27.
+    TWO GUARDS, TWO DIFFERENT CLAIMS, and the template had them fused
+    because the payload did. FLO separated them in a8e5bf18:
 
-    So the ordinal is now read from the data, and it is stated only when
-    FLO says the ordering can carry it. ordinal_safe false means the
-    ordering is not trustworthy, either because years sit within the tie
-    margin or because the baseline is too near zero to rank against, and
-    in both cases the honest page states no ordinal at all.
+        ordinal_safe   may we say "4th of 27"?   a question of SEPARATION
+        ratio_safe     may we say "3.6x"?        a question of DENOMINATOR
+
+    So a reading can be perfectly rankable and still have a meaningless
+    multiple. The Altiplano is exactly that: its median of 3.4 mm is under
+    the floor, but the distribution runs 1.4 to 17.0 and its 12.3 sits 0.9
+    clear of the next year. Publishable rank, unpublishable ratio.
+
+    An earlier version of this function keyed both on baseline_below_floor
+    and so threw away a good ordinal to protect against a bad ratio.
     """
     lab, val, med = payload["label"], rain["value"], basis["median"]
     state = find.get("claim")
@@ -246,16 +250,6 @@ def _claim(payload, rain, basis, find, window):
                 "year: %.1f mm, against a median of %.1f mm for the same "
                 "fortnight." % (lab, window, val, med))
 
-    # A NEAR-ZERO BASELINE MAKES THE MULTIPLE THE MISLEADING NUMBER, not
-    # just the ordinal. 16.8 times a median of 0.3 mm is 5.6 mm, and the
-    # two runners-up sit within 4% of it. Lead with what fell.
-    if find.get("baseline_below_floor"):
-        return ("%.1f mm of rain fell over %s in %s, against a typical "
-                "%.1f mm for the same fortnight. The usual total here is "
-                "small enough that comparing against it measures noise as "
-                "much as weather, so this is not ranked against past years."
-                % (val, lab, window, med))
-
     if find.get("ordinal_safe"):
         rank = basis["rank"]
         if rank in _ORD_WORD:
@@ -263,44 +257,63 @@ def _claim(payload, rain, basis, find, window):
                     "the same fortnight."
                     % (val, lab, window, _ORD_WORD[rank], basis["of"]))
         return ("%.1f mm of rain fell over %s in %s, the %s highest of %s "
-                "years measured for the same fortnight."
+                "years of the same fortnight."
                 % (val, lab, window, _nth(rank), basis["of"]))
 
-    return ("%.1f mm of rain fell over %s in %s, against a median of "
-            "%.1f mm for the same fortnight."
+    return ("%.1f mm of rain fell over %s in %s, against a typical %.1f mm "
+            "for the same fortnight. The closest years sit too near this "
+            "total to place it among them."
             % (val, lab, window, med))
 
 
 def _standfirst(payload, rain, basis, find, window, first_year):
+    """Built from the guards rather than branched on one flag.
+
+    WHERE ratio_safe IS FALSE THE MULTIPLE APPEARS NOWHERE, which is FLO's
+    instruction and stricter than the previous version, which withheld the
+    ordinal and then printed "That is 16.8 times the median" one clause
+    later. Suppressing the ranking while keeping the number the ranking was
+    unsafe because of is not a caveat, it is the same claim in another
+    unit.
+    """
     lab, val, med = payload["label"], rain["value"], basis["median"]
     state = find.get("claim")
-    head = ("%s recorded %.1f mm over %s, against a median of %.1f mm for "
-            "the same fortnight since %s."
-            % (lab, val, window, med, first_year))
+    ordinal, ratio = find.get("ordinal_safe"), find.get("ratio_safe")
+
+    out = ["%s recorded %.1f mm over %s, against a median of %.1f mm for "
+           "the same fortnight since %s."
+           % (lab, val, window, med, first_year)]
 
     if state in ("normal", "low"):
-        return (head + " That ranks it %s. This measures two-week RAINFALL "
-                "ACCUMULATION, not flooding, and an ordinary total is not "
-                "evidence that nothing happened."
-                % _rank_words(basis, find))
+        out.append("That ranks it %s." % _rank_words(basis, find))
+        out.append("This measures two-week RAINFALL ACCUMULATION, not "
+                   "flooding, and an ordinary total is not evidence that "
+                   "nothing happened.")
+        return " ".join(out)
 
-    if find.get("baseline_below_floor"):
-        return (head + " That is %.1f times the median, and the multiple "
-                "is the misleading figure: against a baseline this small it "
-                "amplifies noise rather than measuring how unusual the "
-                "fortnight was, so no ranking is stated. The chart shows "
-                "every year, which is the honest comparison. This measures "
-                "RAINFALL, not flooding." % basis["x_median"])
+    if ratio and ordinal:
+        out.append("That is %.2f times the median and the %s highest of the "
+                   "%s years compared."
+                   % (basis["x_median"], _nth(basis["rank"]), basis["of"]))
+    elif ratio:
+        out.append("That is %.2f times the median. The closest years sit "
+                   "too near this total to rank it among them."
+                   % basis["x_median"])
+    elif ordinal:
+        out.append("That is the %s highest of the %s years compared. No "
+                   "multiple is given: the usual total here is small enough "
+                   "that a ratio against it would measure noise rather than "
+                   "how unusual the fortnight was."
+                   % (_nth(basis["rank"]), basis["of"]))
+    else:
+        out.append("It is neither ranked nor expressed as a multiple: the "
+                   "closest years sit too near this total to separate, and "
+                   "the usual total is small enough that a ratio against it "
+                   "would measure noise. The chart shows every year, which "
+                   "is the honest comparison.")
 
-    if find.get("ordinal_safe"):
-        return (head + " That is %.2f times the median and the %s highest "
-                "of the %s years compared. This measures RAINFALL, not "
-                "flooding."
-                % (basis["x_median"], _nth(basis["rank"]), basis["of"]))
-
-    return (head + " That is %.2f times the median. The ordering of the "
-            "closest years is not reliable enough to rank it. This "
-            "measures RAINFALL, not flooding." % basis["x_median"])
+    out.append("This measures RAINFALL, not flooding.")
+    return " ".join(out)
 
 
 def _instrument_rows(payload, rain, basis, extent, find):
@@ -518,10 +531,10 @@ def piece_from(payload: dict, today: str) -> dict:
         # figure that leads is the one that was actually measured.
         "value": {
             "display": ("%.1f mm" % rain["value"]
-                        if find.get("baseline_below_floor")
+                        if not find.get("ratio_safe")
                         else "%.2f×" % basis["x_median"]),
             "caption": (("against a typical %.1f mm for this fortnight"
-                         if find.get("baseline_below_floor")
+                         if not find.get("ratio_safe")
                          else "the median for this fortnight, %.1f mm")
                         % basis["median"]),
         },
