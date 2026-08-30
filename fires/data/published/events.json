@@ -322,7 +322,8 @@
       "multiple_unstable": false,
       "z": 3.96,
       "land_use": {
-        "withheld": "no_mask_coverage"
+        "withheld": "no_mask_coverage",
+        "detections_on_crop": null
       },
       "persistence": {
         "recur_pct": 0.0,
@@ -451,11 +452,8 @@
       "multiple_unstable": true,
       "z": 2.54,
       "land_use": {
-        "cropland_ratio": 1.482,
-        "reading": "enriched",
-        "detections_on_crop_pct": 13.57,
-        "country_land_crop_pct": 9.16,
-        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
+        "withheld": "insufficient_sample",
+        "detections_on_crop": 40.2
       },
       "persistence": {
         "recur_pct": 6.1,

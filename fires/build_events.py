@@ -233,6 +233,42 @@ def subset_hist(iso, keep_md, cur_year):
     return out or None
 
 
+def land_use_block(c):
+    """The cropland reading as the renderer receives it.
+
+    ONE FUNCTION BECAUSE THERE ARE TWO CALL SITES, and they had already
+    drifted: the same dict was written out twice, inline, once in a
+    lambda, so a fix applied to one silently missed the other.
+
+    AN INSUFFICIENT SAMPLE LEAVES BY THE WITHHELD DOOR. Design's row
+    does `word = "more" if reading == "enriched" else "less"`, so any
+    reading it has no case for renders as DEPLETED. Emitting the ratio
+    beside reading="insufficient_sample" turned Tunisia's 1.48x
+    overclaim into a 1.48x claim in the OPPOSITE direction, and the
+    publish check passed it. A stated ratio and a withheld one are
+    different shapes, not the same shape with a different label.
+
+    The reason and the numerator ride along so the copy can be precise
+    without another payload change.
+    """
+    if (c and c.get("ratio") is not None
+            and c.get("reading") != "insufficient_sample"):
+        return {"cropland_ratio": c["ratio"],
+                "reading": c["reading"],
+                "detections_on_crop_pct": c["detections_on_crop_pct"],
+                "country_land_crop_pct": c["country_land_crop_pct"],
+                "means": ("Share of this week's detections falling on cropland, against "
+                     "the share of the country that IS cropland. Above 1.3 "
+                     "the fires sit on farmland more often than chance; below "
+                     "0.77 less often. It says WHERE detections fall, not what "
+                     "is burning: the instrument sees a thermal anomaly, not a "
+                     "substrate.")}
+    return {"withheld": ("insufficient_sample"
+                         if (c or {}).get("reading") == "insufficient_sample"
+                         else (c or {}).get("withheld", "not_computed")),
+            "detections_on_crop": (c or {}).get("detections_on_crop")}
+
+
 def rebuild_rows(detail, end):
     """Re-derive the ranked rows after the counts and baselines moved."""
     rows = []
@@ -252,21 +288,7 @@ def rebuild_rows(detail, end):
             "persistent_source": ((r.get("persistence") or {}).get("verdict")
                                   == "persistent_source"),
             "persistence": r.get("persistence"),
-            "land_use": ((lambda c: {"cropland_ratio": c["ratio"],
-                                     "reading": c["reading"],
-                                     "detections_on_crop_pct":
-                                         c["detections_on_crop_pct"],
-                                     "country_land_crop_pct":
-                                         c["country_land_crop_pct"],
-                                     "means": ("Share of this week's detections falling on cropland, against "
-                     "the share of the country that IS cropland. Above 1.3 "
-                     "the fires sit on farmland more often than chance; below "
-                     "0.77 less often. It says WHERE detections fall, not what "
-                     "is burning: the instrument sees a thermal anomaly, not a "
-                     "substrate.")}
-                          if c and c.get("ratio") is not None
-                          else {"withheld": (c or {}).get(
-                              "withheld", "not_computed")})(r.get("cropland"))),
+            "land_use": land_use_block(r.get("cropland")),
             "lat": r["lat"], "lon": r["lon"], "centroid_basis": r["basis"],
             "attribution": attribution_for(iso, end.month),
             "title": make_title(rank, multiple, count,
@@ -621,6 +643,7 @@ def main():
                     if len(v) and land_pct > 0:
                         det_pct = float(v.mean())
                         ratio = det_pct / land_pct
+                        on_crop = len(v) * det_pct / 100.0
                         cropland = {
                             "detections_on_crop_pct": round(det_pct, 2),
                             "country_land_crop_pct": round(land_pct, 2),
@@ -645,10 +668,33 @@ def main():
                             # The numbers stay; only the label is
                             # withheld, because the label is the part
                             # that gets quoted on its own.
+                            # THE FLOOR IS ASYMMETRIC, and it has to be.
+                            #
+                            # An ENRICHED claim says detections concentrate
+                            # ON cropland, so its evidence is the count
+                            # actually there. New Zealand read 2.01x
+                            # enriched on ONE detection on cropland, and
+                            # Ecuador 3.93x on seven. That is arithmetic,
+                            # not a finding.
+                            #
+                            # A DEPLETED claim says the opposite, and a
+                            # small on-crop count IS the evidence for it,
+                            # so flooring it would suppress the finding.
+                            # Belgium at one detection on cropland out of
+                            # many is exactly what depleted means. Its
+                            # floor is the total, which is already 50.
+                            #
+                            # Design floored this in the renderer and I
+                            # had not floored it in the payload, so every
+                            # other consumer read the unfloored claim.
+                            # A guard on one surface is not a guard.
                             "reading": (
-                                "insufficient_sample" if len(v) < 50 else
+                                "insufficient_sample"
+                                if len(v) < 50 or
+                                (ratio > 1.3 and on_crop < 50) else
                                 "enriched" if ratio > 1.3 else
                                 "depleted" if ratio < 0.77 else "neutral"),
+                            "detections_on_crop": round(on_crop, 1),
                             "n_detections_sampled": int(len(v)),
                             # WHICH MASK THIS NUMBER CAME FROM. The
                             # filename is the only versioning JRC gives,
@@ -851,21 +897,7 @@ def main():
             # agricultural burning and here is how we know" is stronger
             # than one that quietly drops its loudest number, and the
             # renderer must never be the thing deciding which.
-            "land_use": ({"cropland_ratio": cropland["ratio"],
-                          "reading": cropland["reading"],
-                          "detections_on_crop_pct":
-                              cropland["detections_on_crop_pct"],
-                          "country_land_crop_pct":
-                              cropland["country_land_crop_pct"],
-                          "means": ("Share of this week's detections falling on cropland, against "
-                     "the share of the country that IS cropland. Above 1.3 "
-                     "the fires sit on farmland more often than chance; below "
-                     "0.77 less often. It says WHERE detections fall, not what "
-                     "is burning: the instrument sees a thermal anomaly, not a "
-                     "substrate.")}
-                         if cropland and cropland.get("ratio") is not None
-                         else {"withheld": (cropland or {}).get(
-                             "withheld", "not_computed")}),
+            "land_use": land_use_block(cropland),
             "z": round(z, 2), "lat": lat, "lon": lon,
             "centroid_basis": basis,
             "attribution": attribution_for(iso, end.month),
