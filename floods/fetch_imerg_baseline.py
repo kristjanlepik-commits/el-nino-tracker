@@ -85,6 +85,18 @@ REGIONS = {
     # either a genuine anomaly or not rainfall-driven at all, and the
     # baseline will say which.
     "lima_coast": {"lon": (-77.6, -76.3), "lat": (-12.9, -11.5)},
+    # Andean boxes for the 29 August reports of floods and mudslides in
+    # Chile, Peru and Bolivia. Drawn from the REPORTED GEOGRAPHY (the
+    # southern Andes and Altiplano, and the Atacama across the border)
+    # before measuring, not around where the rain turned out to be. Both
+    # are baselined regardless of which read wetter in the first scan, so
+    # nothing here is selected on the outcome.
+    #
+    # Austral WINTER, so this is the dry season in both. A fortnight
+    # baseline may fall under RAINFALL_FLOOR_MM, in which case no ordinal
+    # is permitted however large the multiple looks.
+    "s_peru_altiplano": {"lon": (-72.0, -69.0), "lat": (-17.0, -14.0)},
+    "n_chile_atacama": {"lon": (-70.5, -68.5), "lat": (-24.0, -20.0)},
 }
 
 

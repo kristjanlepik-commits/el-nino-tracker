@@ -1,0 +1,117 @@
+{
+ "region_id": "s_peru_altiplano",
+ "label": "Southern Peru and the Altiplano",
+ "window": {
+  "start": "2026-08-15",
+  "end": "2026-08-28"
+ },
+ "generated": "2026-08-30",
+ "event_corroboration": {
+  "occurred": null,
+  "state": "unknown",
+  "source": "none consulted; press reports and a Community Note disagree and neither is a measurement",
+  "detail": "No Peruvian, Bolivian or Chilean river gauge or official hydrological source has been checked. This channel measured rainfall only.",
+  "note": "This channel's own instruments measure rainfall and flood extent. Neither establishes that a flood occurred, so this field carries evidence from outside them and is not derived from anything above."
+ },
+ "measured_to": "2026-08-28",
+ "instrument_coverage": {
+  "data_through": "2026-08-28",
+  "days_behind_run_date": 2,
+  "window_truncated": false,
+  "window_closed": true,
+  "note": "the rainfall instrument holds data to 2026-08-28, past the window end of 2026-08-28, so this window is complete"
+ },
+ "authorship": "tls_built",
+ "evidence_basis": "measured",
+ "attribution": "attribution_pending",
+ "series": [
+  {
+   "id": "rainfall",
+   "instrument": "GPM IMERG Late Run v07",
+   "measures": "rainfall, NOT flooding",
+   "units": "mm, area mean over the region",
+   "expected_slots": 14,
+   "due_slots": 14,
+   "values_present": 14,
+   "window_days_nominal": 14,
+   "window_days_compared": 14,
+   "days_excluded": [],
+   "days_excluded_reason": null,
+   "baseline_years": 26,
+   "value": 12.3,
+   "basis": {
+    "median": 3.4,
+    "x_median": 3.57,
+    "rank": 4,
+    "of": 27,
+    "series": {
+     "2000": 15.7,
+     "2001": 17.0,
+     "2002": 6.1,
+     "2003": 2.7,
+     "2004": 16.8,
+     "2005": 2.6,
+     "2006": 6.5,
+     "2007": 2.1,
+     "2008": 4.3,
+     "2009": 2.6,
+     "2010": 1.4,
+     "2011": 6.3,
+     "2012": 3.6,
+     "2013": 11.4,
+     "2014": 4.4,
+     "2015": 5.7,
+     "2016": 9.3,
+     "2017": 9.4,
+     "2018": 3.1,
+     "2019": 1.4,
+     "2020": 1.4,
+     "2021": 2.1,
+     "2022": 2.4,
+     "2023": 0.9,
+     "2024": 1.9,
+     "2025": 3.3,
+     "2026": 12.3
+    },
+    "current_year": 2026
+   },
+   "finding": {
+    "rank": 4,
+    "of": 27,
+    "tied_with_n": 0,
+    "ordinal_safe": false,
+    "claim": "notable",
+    "guards": [
+     "the baseline median is 3.44, below the provisional floor of 5.0. A ratio against a near-zero baseline amplifies noise rather than measuring an anomaly, so no ordinal is permitted here however large the multiple looks"
+    ],
+    "baseline_below_floor": true
+   },
+   "peak_day_mm": 77.0,
+   "event_character": {
+    "top_day_share": 0.324,
+    "baseline_median_top_day_share": 0.232,
+    "runner_up_year": 2001,
+    "runner_up_top_day_share": 0.232,
+    "instrument_fit": "accumulation, well measured",
+    "ordinal_at_risk": false
+   },
+   "verdict": "measured"
+  },
+  {
+   "id": "flood_extent",
+   "instrument": "NASA MODIS MCDWD 3-Day composite",
+   "measures": "standing water outside the reference water mask",
+   "units": "250m pixels",
+   "expected_slots": 14,
+   "due_slots": 0,
+   "values_present": 0,
+   "baseline_years": 0,
+   "verdict": "not_assessed",
+   "not_assessed_reason": [
+    "no flood-extent baseline has been built for this region, so the instrument's ability to see it is unknown and untested"
+   ],
+   "not_assessed_summary": "We have not measured flooding here. This page reports rainfall only."
+  }
+ ],
+ "notes": []
+}
