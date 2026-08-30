@@ -99,13 +99,13 @@ def _clean_avg(iso, week):
     """
     path = os.path.join(REPO, "fires", "data", "area_history", f"{iso}.json")
     if not os.path.exists(path):
-        return None, {"basis": "no history file"}
+        return None, {"basis": "no history file"}, {}
     try:
         raw = json.load(open(path))
         years = {k: v for k, v in (raw.get("years") or raw).items()
                  if str(k).isdigit()}
     except (OSError, ValueError):
-        return None, {"basis": "history unreadable"}
+        return None, {"basis": "history unreadable"}, {}
 
     wk = str(week)
     ordered = sorted(years)
@@ -118,16 +118,18 @@ def _clean_avg(iso, week):
             break
     if lead == len(ordered):
         return None, {"basis": "every year reads zero; withheld rather "
-                              "than averaged", "years_dropped": lead}
+                              "than averaged", "years_dropped": lead}, {}
 
-    used = [years[y][wk] for y in ordered[lead:]
-            if int(y) < YEAR and wk in years[y]]
+    per_year = {y: years[y][wk] for y in ordered[lead:]
+                if int(y) < YEAR and wk in years[y]}
+    used = list(per_year.values())
     if not used:
-        return None, {"basis": "no prior year carries this week"}
+        return None, {"basis": "no prior year carries this week"}, {}
     return (sum(used) / len(used),
             {"basis": "mean of prior years at this week, leading all-zero "
                       "years dropped as uncovered rather than quiet",
-             "years_used": len(used), "years_dropped": lead})
+             "years_used": len(used), "years_dropped": lead},
+            per_year)
 
 def _cycle(countries: dict) -> dict:
     """Next EFFIS weekly close, derived from the newest as_of we hold."""
@@ -167,7 +169,7 @@ def main():
         lag = (date.today() - asof).days
         if lag > MAX_LAG_DAYS:
             stale.append(f"{iso} ({lag}d)")
-        avg, avg_basis = _clean_avg(iso, row["week"])
+        avg, avg_basis, at_week = _clean_avg(iso, row["week"])
         if avg is None:
             avg = row.get("area_ha_avg") or 0
             avg_basis = {"basis": "EFFIS area_ha_avg, unadjusted"}
@@ -177,6 +179,30 @@ def main():
             "area_ha": row["area_ha"],
             "avg_ha": round(avg, 1) if avg else None,
             "avg_basis": avg_basis,
+            # THE FOURTEEN NUMBERS THE MEAN IS MADE OF, not just the
+            # mean. A mean answers "is this year high"; the series
+            # answers "which year does this one resemble", and design's
+            # region module needs to NAME 2015 rather than rank against
+            # an average. They already existed here and were discarded
+            # one line after being summed.
+            #
+            # THE INSTRUMENT IS NAMED INSIDE THE BLOCK, not only in the
+            # file header. This file's _readme already says hectares and
+            # detections measure different things and are never
+            # converted; aftereffects read it, then quoted a bare "0.40x"
+            # into a message where the header did not travel, and design
+            # correctly refused to render it. A warning at file level does
+            # not survive being quoted. One that sits beside the numbers
+            # does.
+            "at_this_week": {
+                "instrument": ("GWIS/EFFIS cumulative burnt area in "
+                               "hectares, year to date at this ISO week. "
+                               "NOT comparable with VIIRS detection "
+                               "counts, which measure a different thing "
+                               "over a different span; never form a "
+                               "ratio across the two."),
+                "week": row["week"],
+                "years": at_week},
             "max_ha": row.get("area_ha_max"),
             "multiple": round(row["area_ha"] / avg, 2) if avg else None,
             "vs_max": (round(row["area_ha"] / row["area_ha_max"], 2)

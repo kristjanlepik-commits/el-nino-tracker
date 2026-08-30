@@ -8,1760 +8,3726 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-08-30T11:09:40Z",
- "year": 2026,
- "effis_cycle": {
-  "known": true,
-  "close_weekday": "Wednesday",
-  "last_close": "2026-08-26",
-  "next_close": "2026-09-02",
-  "expected_available": "2026-09-03",
-  "_note": "EFFIS publishes weekly. A fire igniting just after a close waits most of a week for mapped hectares; one igniting early in the week has them almost at once. Derived from the newest as_of held, not hardcoded."
- },
  "countries": {
   "AGO": {
-   "name": "Angola",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 14172483,
-   "avg_ha": 26088852.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 27123574,
+     "2013": 29530376,
+     "2014": 26051502,
+     "2015": 31155635,
+     "2016": 30333256,
+     "2017": 26648990,
+     "2018": 20931449,
+     "2019": 31907078,
+     "2020": 24402149,
+     "2021": 20421683,
+     "2022": 24112617,
+     "2023": 28337031,
+     "2024": 27183182,
+     "2025": 17105411
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 26088852.4,
+   "fires": 42378,
+   "lag_days": 4,
    "max_ha": 31907078,
    "multiple": 0.54,
+   "name": "Angola",
+   "source": "GWIS",
    "vs_max": 0.44,
-   "fires": 42378
+   "week": 34
   },
   "ALB": {
-   "name": "Albania",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 10601,
-   "avg_ha": 22771.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2007": 121076,
+     "2008": 15651,
+     "2009": 6863,
+     "2010": 5735,
+     "2011": 42621,
+     "2012": 38895,
+     "2013": 876,
+     "2014": 431,
+     "2015": 1085,
+     "2016": 3349,
+     "2017": 37107,
+     "2018": 73,
+     "2019": 5583,
+     "2020": 12232,
+     "2021": 26882,
+     "2022": 15729,
+     "2023": 2330,
+     "2024": 38230,
+     "2025": 57911
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 19,
-    "years_dropped": 1
+    "years_dropped": 1,
+    "years_used": 19
    },
+   "avg_ha": 22771.5,
+   "fires": 43,
+   "lag_days": 4,
    "max_ha": 121076,
    "multiple": 0.47,
+   "name": "Albania",
+   "source": "EFFIS",
    "vs_max": 0.09,
-   "fires": 43
+   "week": 34
   },
   "ARG": {
-   "name": "Argentina",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 652350,
-   "avg_ha": 2147895.0,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 2275757,
+     "2013": 2016385,
+     "2014": 1245875,
+     "2015": 1598207,
+     "2016": 1709651,
+     "2017": 2322648,
+     "2018": 2064187,
+     "2019": 1341880,
+     "2020": 5589869,
+     "2021": 1819623,
+     "2022": 3593503,
+     "2023": 1597069,
+     "2024": 1321168,
+     "2025": 1574708
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 2147895.0,
+   "fires": 1998,
+   "lag_days": 4,
    "max_ha": 5589869,
    "multiple": 0.3,
+   "name": "Argentina",
+   "source": "GWIS",
    "vs_max": 0.12,
-   "fires": 1998
+   "week": 34
   },
   "AUS": {
-   "name": "Australia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 13572829,
-   "avg_ha": 16621338.7,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 24569134,
+     "2013": 14325527,
+     "2014": 17018755,
+     "2015": 18658920,
+     "2016": 12617204,
+     "2017": 16819730,
+     "2018": 21915366,
+     "2019": 16906391,
+     "2020": 11605064,
+     "2021": 12418676,
+     "2022": 17595294,
+     "2023": 17641493,
+     "2024": 13639431,
+     "2025": 16967757
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 16621338.7,
+   "fires": 22441,
+   "lag_days": 4,
    "max_ha": 24569134,
    "multiple": 0.82,
+   "name": "Australia",
+   "source": "GWIS",
    "vs_max": 0.55,
-   "fires": 22441
+   "week": 34
   },
   "AUT": {
-   "name": "Austria",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 444,
-   "avg_ha": 293.0,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2019": 38,
+     "2020": 168,
+     "2021": 0,
+     "2022": 1016,
+     "2023": 398,
+     "2024": 0,
+     "2025": 431
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 7,
-    "years_dropped": 13
+    "years_dropped": 13,
+    "years_used": 7
    },
+   "avg_ha": 293.0,
+   "fires": 5,
+   "lag_days": 4,
    "max_ha": 1016,
    "multiple": 1.52,
+   "name": "Austria",
+   "source": "EFFIS",
    "vs_max": 0.44,
-   "fires": 5
+   "week": 34
   },
   "BEL": {
-   "name": "Belgium",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 3054,
-   "avg_ha": 308.8,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2011": 2180,
+     "2012": 0,
+     "2013": 0,
+     "2014": 0,
+     "2015": 80,
+     "2016": 0,
+     "2017": 0,
+     "2018": 136,
+     "2019": 287,
+     "2020": 0,
+     "2021": 659,
+     "2022": 382,
+     "2023": 240,
+     "2024": 0,
+     "2025": 668
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 15,
-    "years_dropped": 5
+    "years_dropped": 5,
+    "years_used": 15
    },
+   "avg_ha": 308.8,
+   "fires": 7,
+   "lag_days": 4,
    "max_ha": 2180,
    "multiple": 9.89,
+   "name": "Belgium",
+   "source": "EFFIS",
    "vs_max": 1.4,
-   "fires": 7
+   "week": 34
   },
   "BGR": {
-   "name": "Bulgaria",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 5168,
-   "avg_ha": 10450.7,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 0,
+     "2007": 67598,
+     "2008": 2899,
+     "2009": 578,
+     "2010": 0,
+     "2011": 3596,
+     "2012": 7598,
+     "2013": 2287,
+     "2014": 0,
+     "2015": 3287,
+     "2016": 7081,
+     "2017": 4280,
+     "2018": 260,
+     "2019": 5429,
+     "2020": 6360,
+     "2021": 3206,
+     "2022": 12791,
+     "2023": 9157,
+     "2024": 43374,
+     "2025": 29233
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 10450.7,
+   "fires": 39,
+   "lag_days": 4,
    "max_ha": 67598,
    "multiple": 0.49,
+   "name": "Bulgaria",
+   "source": "EFFIS",
    "vs_max": 0.08,
-   "fires": 39
+   "week": 34
   },
   "BIH": {
-   "name": "Bosnia and Herzegovina",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 48672,
-   "avg_ha": 30753.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2007": 54503,
+     "2008": 2937,
+     "2009": 0,
+     "2010": 2512,
+     "2011": 16307,
+     "2012": 73380,
+     "2013": 3459,
+     "2014": 3203,
+     "2015": 7084,
+     "2016": 8069,
+     "2017": 78452,
+     "2018": 2386,
+     "2019": 27368,
+     "2020": 99396,
+     "2021": 58664,
+     "2022": 71662,
+     "2023": 2014,
+     "2024": 39972,
+     "2025": 32946
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 19,
-    "years_dropped": 1
+    "years_dropped": 1,
+    "years_used": 19
    },
+   "avg_ha": 30753.4,
+   "fires": 206,
+   "lag_days": 4,
    "max_ha": 99396,
    "multiple": 1.58,
+   "name": "Bosnia and Herzegovina",
+   "source": "EFFIS",
    "vs_max": 0.49,
-   "fires": 206
+   "week": 34
   },
   "BOL": {
-   "name": "Bolivia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 731144,
-   "avg_ha": 2536102.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1137803,
+     "2013": 987795,
+     "2014": 542706,
+     "2015": 807914,
+     "2016": 3956091,
+     "2017": 1684941,
+     "2018": 1673307,
+     "2019": 4057894,
+     "2020": 1927874,
+     "2021": 2855582,
+     "2022": 2573402,
+     "2023": 1741902,
+     "2024": 10531405,
+     "2025": 1026824
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 2536102.9,
+   "fires": 1985,
+   "lag_days": 4,
    "max_ha": 10531405,
    "multiple": 0.29,
+   "name": "Bolivia",
+   "source": "GWIS",
    "vs_max": 0.07,
-   "fires": 1985
+   "week": 34
   },
   "BRA": {
-   "name": "Brazil",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 4140039,
-   "avg_ha": 10472910.0,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 13461776,
+     "2013": 5699540,
+     "2014": 9836681,
+     "2015": 9366702,
+     "2016": 12420262,
+     "2017": 9537044,
+     "2018": 6272626,
+     "2019": 13470473,
+     "2020": 11844550,
+     "2021": 11984888,
+     "2022": 11992141,
+     "2023": 8050996,
+     "2024": 17552829,
+     "2025": 5130232
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 10472910.0,
+   "fires": 10023,
+   "lag_days": 4,
    "max_ha": 17552829,
    "multiple": 0.4,
+   "name": "Brazil",
+   "source": "GWIS",
    "vs_max": 0.24,
-   "fires": 10023
+   "week": 34
   },
   "BWA": {
-   "name": "Botswana",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 339924,
-   "avg_ha": 529069.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 426057,
+     "2013": 478289,
+     "2014": 95456,
+     "2015": 407213,
+     "2016": 208938,
+     "2017": 257467,
+     "2018": 291054,
+     "2019": 412876,
+     "2020": 99156,
+     "2021": 1149270,
+     "2022": 960889,
+     "2023": 2092701,
+     "2024": 326943,
+     "2025": 200664
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 529069.5,
+   "fires": 577,
+   "lag_days": 4,
    "max_ha": 2092701,
    "multiple": 0.64,
+   "name": "Botswana",
+   "source": "GWIS",
    "vs_max": 0.16,
-   "fires": 577
+   "week": 34
   },
   "CAN": {
-   "name": "Canada",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 2581733,
-   "avg_ha": 3647941.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1733895,
+     "2013": 3391615,
+     "2014": 3928110,
+     "2015": 3519297,
+     "2016": 1165405,
+     "2017": 3165926,
+     "2018": 2503144,
+     "2019": 1731415,
+     "2020": 333870,
+     "2021": 4015495,
+     "2022": 1211918,
+     "2023": 12936322,
+     "2024": 4752660,
+     "2025": 6682108
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 3647941.4,
+   "fires": 3236,
+   "lag_days": 4,
    "max_ha": 12936322,
    "multiple": 0.71,
+   "name": "Canada",
+   "source": "GWIS",
    "vs_max": 0.2,
-   "fires": 3236
+   "week": 34
   },
   "CHL": {
-   "name": "Chile",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 309022,
-   "avg_ha": 345755.0,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 247293,
+     "2013": 219848,
+     "2014": 302114,
+     "2015": 474337,
+     "2016": 237900,
+     "2017": 862320,
+     "2018": 251252,
+     "2019": 287372,
+     "2020": 301509,
+     "2021": 209746,
+     "2022": 307959,
+     "2023": 703730,
+     "2024": 192889,
+     "2025": 242301
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 345755.0,
+   "fires": 944,
+   "lag_days": 4,
    "max_ha": 862320,
    "multiple": 0.89,
+   "name": "Chile",
+   "source": "GWIS",
    "vs_max": 0.36,
-   "fires": 944
+   "week": 34
   },
   "CHN": {
-   "name": "China",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 2284136,
-   "avg_ha": 2110045.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 2128332,
+     "2013": 2321045,
+     "2014": 3318508,
+     "2015": 2408123,
+     "2016": 1870833,
+     "2017": 2215448,
+     "2018": 1003061,
+     "2019": 2192373,
+     "2020": 2479668,
+     "2021": 2144401,
+     "2022": 1733387,
+     "2023": 2199945,
+     "2024": 1984004,
+     "2025": 1541514
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 2110045.9,
+   "fires": 7560,
+   "lag_days": 4,
    "max_ha": 3318508,
    "multiple": 1.08,
+   "name": "China",
+   "source": "GWIS",
    "vs_max": 0.69,
-   "fires": 7560
+   "week": 34
   },
   "COD": {
-   "name": "Democratic Republic of the Congo",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 19546831,
-   "avg_ha": 37418835.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 33981434,
+     "2013": 40626188,
+     "2014": 36048348,
+     "2015": 40971935,
+     "2016": 44413533,
+     "2017": 38978103,
+     "2018": 36270566,
+     "2019": 39591915,
+     "2020": 41345945,
+     "2021": 36011841,
+     "2022": 39208796,
+     "2023": 36228001,
+     "2024": 33882995,
+     "2025": 26304096
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 37418835.4,
+   "fires": 58060,
+   "lag_days": 4,
    "max_ha": 44413533,
    "multiple": 0.52,
+   "name": "Democratic Republic of the Congo",
+   "source": "GWIS",
    "vs_max": 0.44,
-   "fires": 58060
+   "week": 34
   },
   "COG": {
-   "name": "Republic of the Congo",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 832762,
-   "avg_ha": 1413259.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1543238,
+     "2013": 1795803,
+     "2014": 1280084,
+     "2015": 1476259,
+     "2016": 1681542,
+     "2017": 1169740,
+     "2018": 1477111,
+     "2019": 1364509,
+     "2020": 1576451,
+     "2021": 1077186,
+     "2022": 1496415,
+     "2023": 1114921,
+     "2024": 1734857,
+     "2025": 997522
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 1413259.9,
+   "fires": 2948,
+   "lag_days": 4,
    "max_ha": 1795803,
    "multiple": 0.59,
+   "name": "Republic of the Congo",
+   "source": "GWIS",
    "vs_max": 0.46,
-   "fires": 2948
+   "week": 34
   },
   "COL": {
-   "name": "Colombia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 957535,
-   "avg_ha": 1801463.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1228186,
+     "2013": 1723426,
+     "2014": 2517118,
+     "2015": 1676148,
+     "2016": 2715360,
+     "2017": 1392736,
+     "2018": 960279,
+     "2019": 2242599,
+     "2020": 3220603,
+     "2021": 1271659,
+     "2022": 2557110,
+     "2023": 1400315,
+     "2024": 1322769,
+     "2025": 992176
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 1801463.1,
+   "fires": 2750,
+   "lag_days": 4,
    "max_ha": 3220603,
    "multiple": 0.53,
+   "name": "Colombia",
+   "source": "GWIS",
    "vs_max": 0.3,
-   "fires": 2750
+   "week": 34
   },
   "CUB": {
-   "name": "Cuba",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 218220,
-   "avg_ha": 423293.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 322523,
+     "2013": 407921,
+     "2014": 259004,
+     "2015": 524718,
+     "2016": 207044,
+     "2017": 511692,
+     "2018": 138213,
+     "2019": 267641,
+     "2020": 783852,
+     "2021": 499913,
+     "2022": 337496,
+     "2023": 744156,
+     "2024": 420801,
+     "2025": 501141
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 423293.9,
+   "fires": 751,
+   "lag_days": 4,
    "max_ha": 783852,
    "multiple": 0.52,
+   "name": "Cuba",
+   "source": "GWIS",
    "vs_max": 0.28,
-   "fires": 751
+   "week": 34
   },
   "CYP": {
-   "name": "Cyprus",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 326,
-   "avg_ha": 2237.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 291,
+     "2007": 2344,
+     "2008": 1947,
+     "2009": 0,
+     "2010": 849,
+     "2011": 939,
+     "2012": 2281,
+     "2013": 2787,
+     "2014": 436,
+     "2015": 50,
+     "2016": 2738,
+     "2017": 652,
+     "2018": 187,
+     "2019": 448,
+     "2020": 3043,
+     "2021": 5669,
+     "2022": 2344,
+     "2023": 1207,
+     "2024": 3233,
+     "2025": 13303
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 2237.4,
+   "fires": 2,
+   "lag_days": 4,
    "max_ha": 13303,
    "multiple": 0.15,
+   "name": "Cyprus",
+   "source": "EFFIS",
    "vs_max": 0.02,
-   "fires": 2
+   "week": 34
   },
   "CZE": {
-   "name": "Czech Republic",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 41,
-   "avg_ha": 175.7,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2017": 145,
+     "2018": 0,
+     "2019": 0,
+     "2020": 0,
+     "2021": 0,
+     "2022": 1436,
+     "2023": 0,
+     "2024": 0,
+     "2025": 0
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 9,
-    "years_dropped": 11
+    "years_dropped": 11,
+    "years_used": 9
    },
+   "avg_ha": 175.7,
+   "fires": 1,
+   "lag_days": 4,
    "max_ha": 1436,
    "multiple": 0.23,
+   "name": "Czech Republic",
+   "source": "EFFIS",
    "vs_max": 0.03,
-   "fires": 1
+   "week": 34
   },
   "DEU": {
-   "name": "Germany",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 3049,
-   "avg_ha": 1263.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2013": 133,
+     "2014": 0,
+     "2015": 105,
+     "2016": 237,
+     "2017": 57,
+     "2018": 2437,
+     "2019": 2006,
+     "2020": 194,
+     "2021": 121,
+     "2022": 4293,
+     "2023": 900,
+     "2024": 556,
+     "2025": 5386
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 13,
-    "years_dropped": 7
+    "years_dropped": 7,
+    "years_used": 13
    },
+   "avg_ha": 1263.5,
+   "fires": 28,
+   "lag_days": 4,
    "max_ha": 5386,
    "multiple": 2.41,
+   "name": "Germany",
+   "source": "EFFIS",
    "vs_max": 0.57,
-   "fires": 28
+   "week": 34
   },
   "DNK": {
-   "name": "Denmark",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 70,
-   "avg_ha": 170.2,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2017": 131,
+     "2018": 361,
+     "2019": 80,
+     "2020": 0,
+     "2021": 230,
+     "2022": 341,
+     "2023": 134,
+     "2024": 0,
+     "2025": 255
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 9,
-    "years_dropped": 11
+    "years_dropped": 11,
+    "years_used": 9
    },
+   "avg_ha": 170.2,
+   "fires": 2,
+   "lag_days": 4,
    "max_ha": 361,
    "multiple": 0.41,
+   "name": "Denmark",
+   "source": "EFFIS",
    "vs_max": 0.19,
-   "fires": 2
+   "week": 34
   },
   "DOM": {
-   "name": "Dominican Republic",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 26900,
-   "avg_ha": 51484.2,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 57290,
+     "2013": 93906,
+     "2014": 66450,
+     "2015": 92421,
+     "2016": 25969,
+     "2017": 19628,
+     "2018": 29535,
+     "2019": 49615,
+     "2020": 47140,
+     "2021": 43227,
+     "2022": 48970,
+     "2023": 87946,
+     "2024": 28854,
+     "2025": 29828
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 51484.2,
+   "fires": 88,
+   "lag_days": 4,
    "max_ha": 93906,
    "multiple": 0.52,
+   "name": "Dominican Republic",
+   "source": "GWIS",
    "vs_max": 0.29,
-   "fires": 88
+   "week": 34
   },
   "DZA": {
-   "name": "Algeria",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 313081,
-   "avg_ha": 58770.0,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2009": 140381,
+     "2010": 49912,
+     "2011": 25806,
+     "2012": 189326,
+     "2013": 16667,
+     "2014": 57180,
+     "2015": 35984,
+     "2016": 16563,
+     "2017": 86862,
+     "2018": 1426,
+     "2019": 47281,
+     "2020": 91197,
+     "2021": 131369,
+     "2022": 47116,
+     "2023": 45609,
+     "2024": 7680,
+     "2025": 8731
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 17,
-    "years_dropped": 3
+    "years_dropped": 3,
+    "years_used": 17
    },
+   "avg_ha": 58770.0,
+   "fires": 309,
+   "lag_days": 4,
    "max_ha": 189326,
    "multiple": 5.33,
+   "name": "Algeria",
+   "source": "EFFIS",
    "vs_max": 1.65,
-   "fires": 309
+   "week": 34
   },
   "ECU": {
-   "name": "Ecuador",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 31392,
-   "avg_ha": 36291.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 34527,
+     "2013": 17513,
+     "2014": 15514,
+     "2015": 45084,
+     "2016": 36372,
+     "2017": 20427,
+     "2018": 47519,
+     "2019": 32219,
+     "2020": 46638,
+     "2021": 21065,
+     "2022": 77456,
+     "2023": 36871,
+     "2024": 58932,
+     "2025": 17949
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 36291.9,
+   "fires": 146,
+   "lag_days": 4,
    "max_ha": 77456,
    "multiple": 0.86,
+   "name": "Ecuador",
+   "source": "GWIS",
    "vs_max": 0.41,
-   "fires": 146
+   "week": 34
   },
   "ESP": {
-   "name": "Spain",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 295405,
-   "avg_ha": 78761.6,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 110113,
+     "2007": 45430,
+     "2008": 7851,
+     "2009": 80253,
+     "2010": 9587,
+     "2011": 17879,
+     "2012": 157866,
+     "2013": 23122,
+     "2014": 20781,
+     "2015": 56992,
+     "2016": 31612,
+     "2017": 61274,
+     "2018": 9538,
+     "2019": 59103,
+     "2020": 25383,
+     "2021": 67814,
+     "2022": 288378,
+     "2023": 84417,
+     "2024": 38737,
+     "2025": 379101
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 78761.6,
+   "fires": 427,
+   "lag_days": 4,
    "max_ha": 379101,
    "multiple": 3.75,
+   "name": "Spain",
+   "source": "EFFIS",
    "vs_max": 0.78,
-   "fires": 427
+   "week": 34
   },
   "EST": {
-   "name": "Estonia",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 299,
-   "avg_ha": 69.8,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2018": 385,
+     "2019": 0,
+     "2020": 0,
+     "2021": 0,
+     "2022": 0,
+     "2023": 173,
+     "2024": 0,
+     "2025": 0
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 8,
-    "years_dropped": 12
+    "years_dropped": 12,
+    "years_used": 8
    },
+   "avg_ha": 69.8,
+   "fires": 2,
+   "lag_days": 4,
    "max_ha": 385,
    "multiple": 4.29,
+   "name": "Estonia",
+   "source": "EFFIS",
    "vs_max": 0.78,
-   "fires": 2
+   "week": 34
   },
   "FIN": {
-   "name": "Finland",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 66,
-   "avg_ha": 440.8,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2017": 210,
+     "2018": 303,
+     "2019": 0,
+     "2020": 0,
+     "2021": 2558,
+     "2022": 160,
+     "2023": 205,
+     "2024": 124,
+     "2025": 407
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 9,
-    "years_dropped": 11
+    "years_dropped": 11,
+    "years_used": 9
    },
+   "avg_ha": 440.8,
+   "fires": 2,
+   "lag_days": 4,
    "max_ha": 2558,
    "multiple": 0.15,
+   "name": "Finland",
+   "source": "EFFIS",
    "vs_max": 0.03,
-   "fires": 2
+   "week": 34
   },
   "FRA": {
-   "name": "France",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 96461,
-   "avg_ha": 13359.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 1669,
+     "2007": 2323,
+     "2008": 616,
+     "2009": 7733,
+     "2010": 1164,
+     "2011": 992,
+     "2012": 2386,
+     "2013": 784,
+     "2014": 3833,
+     "2015": 1981,
+     "2016": 8335,
+     "2017": 16752,
+     "2018": 2240,
+     "2019": 42194,
+     "2020": 13062,
+     "2021": 30187,
+     "2022": 61573,
+     "2023": 22020,
+     "2024": 11673,
+     "2025": 35671
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 13359.4,
+   "fires": 356,
+   "lag_days": 4,
    "max_ha": 61573,
    "multiple": 7.22,
+   "name": "France",
+   "source": "EFFIS",
    "vs_max": 1.57,
-   "fires": 356
+   "week": 34
   },
   "GBR": {
-   "name": "United Kingdom",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 24775,
-   "avg_ha": 11639.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2011": 17148,
+     "2012": 0,
+     "2013": 5445,
+     "2014": 85,
+     "2015": 2127,
+     "2016": 1197,
+     "2017": 5047,
+     "2018": 17639,
+     "2019": 28715,
+     "2020": 13754,
+     "2021": 6149,
+     "2022": 20362,
+     "2023": 8697,
+     "2024": 2262,
+     "2025": 45972
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 15,
-    "years_dropped": 5
+    "years_dropped": 5,
+    "years_used": 15
    },
+   "avg_ha": 11639.9,
+   "fires": 76,
+   "lag_days": 4,
    "max_ha": 45972,
    "multiple": 2.13,
+   "name": "United Kingdom",
+   "source": "EFFIS",
    "vs_max": 0.54,
-   "fires": 76
+   "week": 34
   },
   "GEO": {
-   "name": "Georgia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 13114,
-   "avg_ha": 26217.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 26143,
+     "2013": 16494,
+     "2014": 23754,
+     "2015": 41994,
+     "2016": 33736,
+     "2017": 40314,
+     "2018": 21190,
+     "2019": 25898,
+     "2020": 31706,
+     "2021": 25180,
+     "2022": 16316,
+     "2023": 10949,
+     "2024": 14872,
+     "2025": 38493
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 26217.1,
+   "fires": 49,
+   "lag_days": 4,
    "max_ha": 41994,
    "multiple": 0.5,
+   "name": "Georgia",
+   "source": "GWIS",
    "vs_max": 0.31,
-   "fires": 49
+   "week": 34
   },
   "GRC": {
-   "name": "Greece",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 31916,
-   "avg_ha": 46668.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 15913,
+     "2007": 268528,
+     "2008": 23447,
+     "2009": 42140,
+     "2010": 6051,
+     "2011": 32867,
+     "2012": 46728,
+     "2013": 13874,
+     "2014": 12856,
+     "2015": 7998,
+     "2016": 19798,
+     "2017": 15136,
+     "2018": 10334,
+     "2019": 7549,
+     "2020": 8441,
+     "2021": 128656,
+     "2022": 19861,
+     "2023": 173396,
+     "2024": 32676,
+     "2025": 47121
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 46668.5,
+   "fires": 42,
+   "lag_days": 4,
    "max_ha": 268528,
    "multiple": 0.68,
+   "name": "Greece",
+   "source": "EFFIS",
    "vs_max": 0.12,
-   "fires": 42
+   "week": 34
   },
   "HRV": {
-   "name": "Croatia",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 13349,
-   "avg_ha": 12592.3,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 2708,
+     "2007": 16127,
+     "2008": 1108,
+     "2009": 1702,
+     "2010": 330,
+     "2011": 12667,
+     "2012": 32234,
+     "2013": 651,
+     "2014": 304,
+     "2015": 7624,
+     "2016": 7561,
+     "2017": 67513,
+     "2018": 39,
+     "2019": 11872,
+     "2020": 27405,
+     "2021": 8660,
+     "2022": 32554,
+     "2023": 2521,
+     "2024": 15095,
+     "2025": 3171
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 12592.3,
+   "fires": 53,
+   "lag_days": 4,
    "max_ha": 67513,
    "multiple": 1.06,
+   "name": "Croatia",
+   "source": "EFFIS",
    "vs_max": 0.2,
-   "fires": 53
+   "week": 34
   },
   "HTI": {
-   "name": "Haiti",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 6490,
-   "avg_ha": 12714.6,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 14986,
+     "2013": 19447,
+     "2014": 9589,
+     "2015": 15459,
+     "2016": 6133,
+     "2017": 8390,
+     "2018": 8680,
+     "2019": 14527,
+     "2020": 20555,
+     "2021": 12700,
+     "2022": 9782,
+     "2023": 21678,
+     "2024": 7408,
+     "2025": 8671
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 12714.6,
+   "fires": 38,
+   "lag_days": 4,
    "max_ha": 21678,
    "multiple": 0.51,
+   "name": "Haiti",
+   "source": "GWIS",
    "vs_max": 0.3,
-   "fires": 38
+   "week": 34
   },
   "HUN": {
-   "name": "Hungary",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 1579,
-   "avg_ha": 682.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2007": 799,
+     "2008": 0,
+     "2009": 0,
+     "2010": 0,
+     "2011": 0,
+     "2012": 882,
+     "2013": 138,
+     "2014": 0,
+     "2015": 1610,
+     "2016": 0,
+     "2017": 410,
+     "2018": 0,
+     "2019": 528,
+     "2020": 124,
+     "2021": 275,
+     "2022": 7287,
+     "2023": 156,
+     "2024": 101,
+     "2025": 666
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 19,
-    "years_dropped": 1
+    "years_dropped": 1,
+    "years_used": 19
    },
+   "avg_ha": 682.9,
+   "fires": 18,
+   "lag_days": 4,
    "max_ha": 7287,
    "multiple": 2.31,
+   "name": "Hungary",
+   "source": "EFFIS",
    "vs_max": 0.22,
-   "fires": 18
+   "week": 34
   },
   "IDN": {
-   "name": "Indonesia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 2062237,
-   "avg_ha": 1242397.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 2256041,
+     "2013": 2247160,
+     "2014": 3147828,
+     "2015": 3189082,
+     "2016": 993646,
+     "2017": 416176,
+     "2018": 968645,
+     "2019": 1345483,
+     "2020": 412878,
+     "2021": 315426,
+     "2022": 442664,
+     "2023": 841699,
+     "2024": 381649,
+     "2025": 435182
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 1242397.1,
+   "fires": 9163,
+   "lag_days": 4,
    "max_ha": 3189082,
    "multiple": 1.66,
+   "name": "Indonesia",
+   "source": "GWIS",
    "vs_max": 0.65,
-   "fires": 9163
+   "week": 34
   },
   "IND": {
-   "name": "India",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 4034903,
-   "avg_ha": 5377998.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 6804260,
+     "2013": 4489511,
+     "2014": 5138569,
+     "2015": 4078079,
+     "2016": 6713191,
+     "2017": 5882952,
+     "2018": 5441030,
+     "2019": 5308236,
+     "2020": 3652839,
+     "2021": 9682870,
+     "2022": 6460231,
+     "2023": 4533014,
+     "2024": 3153872,
+     "2025": 3953325
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 5377998.5,
+   "fires": 13570,
+   "lag_days": 4,
    "max_ha": 9682870,
    "multiple": 0.75,
+   "name": "India",
+   "source": "GWIS",
    "vs_max": 0.42,
-   "fires": 13570
+   "week": 34
   },
   "IRL": {
-   "name": "Ireland",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 2953,
-   "avg_ha": 4229.2,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2011": 16724,
+     "2012": 0,
+     "2013": 8211,
+     "2014": 141,
+     "2015": 6807,
+     "2016": 1177,
+     "2017": 7219,
+     "2018": 2746,
+     "2019": 2820,
+     "2020": 3063,
+     "2021": 3154,
+     "2022": 2586,
+     "2023": 4302,
+     "2024": 133,
+     "2025": 4355
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 15,
-    "years_dropped": 5
+    "years_dropped": 5,
+    "years_used": 15
    },
+   "avg_ha": 4229.2,
+   "fires": 18,
+   "lag_days": 4,
    "max_ha": 16724,
    "multiple": 0.7,
+   "name": "Ireland",
+   "source": "EFFIS",
    "vs_max": 0.18,
-   "fires": 18
+   "week": 34
   },
   "IRN": {
-   "name": "Iran",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 0,
-   "avg_ha": 21.7,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2019": 40,
+     "2020": 0,
+     "2021": 112,
+     "2022": 0,
+     "2023": 0,
+     "2024": 0,
+     "2025": 0
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 7,
-    "years_dropped": 13
+    "years_dropped": 13,
+    "years_used": 7
    },
+   "avg_ha": 21.7,
+   "fires": 0,
+   "lag_days": 4,
    "max_ha": 112,
    "multiple": 0.0,
+   "name": "Iran",
+   "source": "EFFIS",
    "vs_max": 0.0,
-   "fires": 0
+   "week": 34
   },
   "IRQ": {
-   "name": "Iraq",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 0,
-   "avg_ha": 172.8,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2016": 1064,
+     "2017": 0,
+     "2018": 203,
+     "2019": 0,
+     "2020": 0,
+     "2021": 290,
+     "2022": 0,
+     "2023": 171,
+     "2024": 0,
+     "2025": 0
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 10,
-    "years_dropped": 10
+    "years_dropped": 10,
+    "years_used": 10
    },
+   "avg_ha": 172.8,
+   "fires": 0,
+   "lag_days": 4,
    "max_ha": 1064,
    "multiple": 0.0,
+   "name": "Iraq",
+   "source": "EFFIS",
    "vs_max": 0.0,
-   "fires": 0
+   "week": 34
   },
   "ISR": {
-   "name": "Israel",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 975,
-   "avg_ha": 2341.8,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2009": 5278,
+     "2010": 0,
+     "2011": 0,
+     "2012": 0,
+     "2013": 2852,
+     "2014": 486,
+     "2015": 3837,
+     "2016": 0,
+     "2017": 785,
+     "2018": 345,
+     "2019": 1810,
+     "2020": 1725,
+     "2021": 4652,
+     "2022": 41,
+     "2023": 454,
+     "2024": 14215,
+     "2025": 3331
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 17,
-    "years_dropped": 3
+    "years_dropped": 3,
+    "years_used": 17
    },
+   "avg_ha": 2341.8,
+   "fires": 7,
+   "lag_days": 4,
    "max_ha": 14215,
    "multiple": 0.42,
+   "name": "Israel",
+   "source": "EFFIS",
    "vs_max": 0.07,
-   "fires": 7
+   "week": 34
   },
   "ITA": {
-   "name": "Italy",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 93532,
-   "avg_ha": 48758.3,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 8696,
+     "2007": 135399,
+     "2008": 20797,
+     "2009": 51760,
+     "2010": 26600,
+     "2011": 27618,
+     "2012": 66553,
+     "2013": 15672,
+     "2014": 12098,
+     "2015": 7156,
+     "2016": 34049,
+     "2017": 122854,
+     "2018": 11340,
+     "2019": 31774,
+     "2020": 34767,
+     "2021": 146017,
+     "2022": 48883,
+     "2023": 63540,
+     "2024": 37079,
+     "2025": 72514
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 48758.3,
+   "fires": 490,
+   "lag_days": 4,
    "max_ha": 146017,
    "multiple": 1.92,
+   "name": "Italy",
+   "source": "EFFIS",
    "vs_max": 0.64,
-   "fires": 490
+   "week": 34
   },
   "JAM": {
-   "name": "Jamaica",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 3103,
-   "avg_ha": 7151.6,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 5078,
+     "2013": 9005,
+     "2014": 9680,
+     "2015": 16028,
+     "2016": 1614,
+     "2017": 8824,
+     "2018": 7468,
+     "2019": 7043,
+     "2020": 9060,
+     "2021": 3889,
+     "2022": 4346,
+     "2023": 9776,
+     "2024": 6036,
+     "2025": 2276
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 7151.6,
+   "fires": 13,
+   "lag_days": 4,
    "max_ha": 16028,
    "multiple": 0.43,
+   "name": "Jamaica",
+   "source": "GWIS",
    "vs_max": 0.19,
-   "fires": 13
+   "week": 34
   },
   "JPN": {
-   "name": "Japan",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 15150,
-   "avg_ha": 10678.2,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 4656,
+     "2013": 8194,
+     "2014": 16090,
+     "2015": 16072,
+     "2016": 6903,
+     "2017": 4368,
+     "2018": 16414,
+     "2019": 10973,
+     "2020": 16025,
+     "2021": 4557,
+     "2022": 17903,
+     "2023": 7222,
+     "2024": 5440,
+     "2025": 14678
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 10678.2,
+   "fires": 54,
+   "lag_days": 4,
    "max_ha": 17903,
    "multiple": 1.42,
+   "name": "Japan",
+   "source": "GWIS",
    "vs_max": 0.85,
-   "fires": 54
+   "week": 34
   },
   "KAZ": {
-   "name": "Kazakhstan",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 574017,
-   "avg_ha": 1868484.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 3553591,
+     "2013": 755637,
+     "2014": 2443063,
+     "2015": 2419318,
+     "2016": 1063869,
+     "2017": 4801100,
+     "2018": 1614143,
+     "2019": 3445333,
+     "2020": 2004307,
+     "2021": 1802859,
+     "2022": 933010,
+     "2023": 719593,
+     "2024": 169481,
+     "2025": 433479
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 1868484.5,
+   "fires": 1799,
+   "lag_days": 4,
    "max_ha": 4801100,
    "multiple": 0.31,
+   "name": "Kazakhstan",
+   "source": "GWIS",
    "vs_max": 0.12,
-   "fires": 1799
+   "week": 34
   },
   "KHM": {
-   "name": "Cambodia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 1526316,
-   "avg_ha": 2839208.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1936695,
+     "2013": 3999811,
+     "2014": 3444904,
+     "2015": 4152857,
+     "2016": 4534287,
+     "2017": 2540402,
+     "2018": 1256365,
+     "2019": 3056992,
+     "2020": 4018675,
+     "2021": 3261134,
+     "2022": 1865797,
+     "2023": 1829390,
+     "2024": 2294286,
+     "2025": 1557323
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 2839208.4,
+   "fires": 5226,
+   "lag_days": 4,
    "max_ha": 4534287,
    "multiple": 0.54,
+   "name": "Cambodia",
+   "source": "GWIS",
    "vs_max": 0.34,
-   "fires": 5226
+   "week": 34
   },
   "KOR": {
-   "name": "South Korea",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 2659,
-   "avg_ha": 11387.7,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1089,
+     "2013": 3773,
+     "2014": 7548,
+     "2015": 6897,
+     "2016": 3943,
+     "2017": 7569,
+     "2018": 2473,
+     "2019": 6606,
+     "2020": 7394,
+     "2021": 1464,
+     "2022": 35502,
+     "2023": 5361,
+     "2024": 48,
+     "2025": 69761
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 11387.7,
+   "fires": 12,
+   "lag_days": 4,
    "max_ha": 69761,
    "multiple": 0.23,
+   "name": "South Korea",
+   "source": "GWIS",
    "vs_max": 0.04,
-   "fires": 12
+   "week": 34
   },
   "LAO": {
-   "name": "Laos",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 2641321,
-   "avg_ha": 3669038.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 3484844,
+     "2013": 3616889,
+     "2014": 3956192,
+     "2015": 4177118,
+     "2016": 4003500,
+     "2017": 2709673,
+     "2018": 2399038,
+     "2019": 4384089,
+     "2020": 4642512,
+     "2021": 3131182,
+     "2022": 3108275,
+     "2023": 6600692,
+     "2024": 3199565,
+     "2025": 1952976
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 3669038.9,
+   "fires": 6491,
+   "lag_days": 4,
    "max_ha": 6600692,
    "multiple": 0.72,
+   "name": "Laos",
+   "source": "GWIS",
    "vs_max": 0.4,
-   "fires": 6491
+   "week": 34
   },
   "LBN": {
-   "name": "Lebanon",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 5230,
-   "avg_ha": 775.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2013": 182,
+     "2014": 0,
+     "2015": 141,
+     "2016": 0,
+     "2017": 0,
+     "2018": 45,
+     "2019": 352,
+     "2020": 304,
+     "2021": 1812,
+     "2022": 119,
+     "2023": 95,
+     "2024": 6449,
+     "2025": 588
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 13,
-    "years_dropped": 7
+    "years_dropped": 7,
+    "years_used": 13
    },
+   "avg_ha": 775.9,
+   "fires": 64,
+   "lag_days": 4,
    "max_ha": 6449,
    "multiple": 6.74,
+   "name": "Lebanon",
+   "source": "EFFIS",
    "vs_max": 0.81,
-   "fires": 64
+   "week": 34
   },
   "LBY": {
-   "name": "Libya",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 0,
-   "avg_ha": 801.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2013": 5924,
+     "2014": 0,
+     "2015": 0,
+     "2016": 0,
+     "2017": 31,
+     "2018": 272,
+     "2019": 549,
+     "2020": 2514,
+     "2021": 295,
+     "2022": 134,
+     "2023": 326,
+     "2024": 200,
+     "2025": 169
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 13,
-    "years_dropped": 7
+    "years_dropped": 7,
+    "years_used": 13
    },
+   "avg_ha": 801.1,
+   "fires": 0,
+   "lag_days": 4,
    "max_ha": 5924,
    "multiple": 0.0,
+   "name": "Libya",
+   "source": "EFFIS",
    "vs_max": 0.0,
-   "fires": 0
+   "week": 34
   },
   "LKA": {
-   "name": "Sri Lanka",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 10844,
-   "avg_ha": 29389.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 71481,
+     "2013": 35909,
+     "2014": 58873,
+     "2015": 21733,
+     "2016": 28478,
+     "2017": 22337,
+     "2018": 27989,
+     "2019": 37735,
+     "2020": 23484,
+     "2021": 9455,
+     "2022": 17932,
+     "2023": 36585,
+     "2024": 6875,
+     "2025": 12592
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 29389.9,
+   "fires": 60,
+   "lag_days": 4,
    "max_ha": 71481,
    "multiple": 0.37,
+   "name": "Sri Lanka",
+   "source": "GWIS",
    "vs_max": 0.15,
-   "fires": 60
+   "week": 34
   },
   "LTU": {
-   "name": "Lithuania",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 46,
-   "avg_ha": 83.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2019": 236,
+     "2020": 43,
+     "2021": 0,
+     "2022": 0,
+     "2023": 305,
+     "2024": 0,
+     "2025": 0
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 7,
-    "years_dropped": 13
+    "years_dropped": 13,
+    "years_used": 7
    },
+   "avg_ha": 83.4,
+   "fires": 1,
+   "lag_days": 4,
    "max_ha": 305,
    "multiple": 0.55,
+   "name": "Lithuania",
+   "source": "EFFIS",
    "vs_max": 0.15,
-   "fires": 1
+   "week": 34
   },
   "LUX": {
-   "name": "Luxembourg",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 0,
-   "avg_ha": null,
+   "as_of": "2026-08-26",
    "avg_basis": {
     "basis": "EFFIS area_ha_avg, unadjusted"
    },
+   "avg_ha": null,
+   "fires": 0,
+   "lag_days": 4,
    "max_ha": 0,
    "multiple": null,
+   "name": "Luxembourg",
+   "source": "EFFIS",
    "vs_max": null,
-   "fires": 0
+   "week": 34
   },
   "LVA": {
-   "name": "Latvia",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 318,
-   "avg_ha": 178.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2008": 65,
+     "2009": 0,
+     "2010": 0,
+     "2011": 0,
+     "2012": 0,
+     "2013": 0,
+     "2014": 0,
+     "2015": 0,
+     "2016": 0,
+     "2017": 35,
+     "2018": 2493,
+     "2019": 49,
+     "2020": 0,
+     "2021": 251,
+     "2022": 171,
+     "2023": 127,
+     "2024": 0,
+     "2025": 30
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 18,
-    "years_dropped": 2
+    "years_dropped": 2,
+    "years_used": 18
    },
+   "avg_ha": 178.9,
+   "fires": 2,
+   "lag_days": 4,
    "max_ha": 2493,
    "multiple": 1.78,
+   "name": "Latvia",
+   "source": "EFFIS",
    "vs_max": 0.13,
-   "fires": 2
+   "week": 34
   },
   "MAR": {
-   "name": "Morocco",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 5260,
-   "avg_ha": 4678.7,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2009": 1770,
+     "2010": 2254,
+     "2011": 3413,
+     "2012": 9631,
+     "2013": 2716,
+     "2014": 189,
+     "2015": 442,
+     "2016": 2707,
+     "2017": 3584,
+     "2018": 1104,
+     "2019": 3053,
+     "2020": 2222,
+     "2021": 4945,
+     "2022": 31333,
+     "2023": 7115,
+     "2024": 592,
+     "2025": 2468
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 17,
-    "years_dropped": 3
+    "years_dropped": 3,
+    "years_used": 17
    },
+   "avg_ha": 4678.7,
+   "fires": 29,
+   "lag_days": 4,
    "max_ha": 31333,
    "multiple": 1.12,
+   "name": "Morocco",
+   "source": "EFFIS",
    "vs_max": 0.17,
-   "fires": 29
+   "week": 34
   },
   "MDG": {
-   "name": "Madagascar",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 920194,
-   "avg_ha": 1638294.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1526775,
+     "2013": 2100505,
+     "2014": 1467747,
+     "2015": 1396488,
+     "2016": 2180948,
+     "2017": 1663595,
+     "2018": 2012438,
+     "2019": 1869599,
+     "2020": 2168843,
+     "2021": 1355857,
+     "2022": 1289840,
+     "2023": 1515763,
+     "2024": 1375491,
+     "2025": 1012228
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 1638294.1,
+   "fires": 4129,
+   "lag_days": 4,
    "max_ha": 2180948,
    "multiple": 0.56,
+   "name": "Madagascar",
+   "source": "GWIS",
    "vs_max": 0.42,
-   "fires": 4129
+   "week": 34
   },
   "MEX": {
-   "name": "Mexico",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 1304326,
-   "avg_ha": 4197314.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 4550807,
+     "2013": 5776766,
+     "2014": 1927606,
+     "2015": 2992468,
+     "2016": 4162171,
+     "2017": 5985877,
+     "2018": 3798300,
+     "2019": 6017734,
+     "2020": 4166519,
+     "2021": 4280380,
+     "2022": 4297619,
+     "2023": 4476301,
+     "2024": 3925679,
+     "2025": 2404182
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 4197314.9,
+   "fires": 4211,
+   "lag_days": 4,
    "max_ha": 6017734,
    "multiple": 0.31,
+   "name": "Mexico",
+   "source": "GWIS",
    "vs_max": 0.22,
-   "fires": 4211
+   "week": 34
   },
   "MKD": {
-   "name": "Macedonia",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 18179,
-   "avg_ha": 13313.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2007": 37474,
+     "2008": 11327,
+     "2009": 0,
+     "2010": 786,
+     "2011": 8834,
+     "2012": 16066,
+     "2013": 3767,
+     "2014": 0,
+     "2015": 244,
+     "2016": 988,
+     "2017": 19500,
+     "2018": 147,
+     "2019": 13415,
+     "2020": 1588,
+     "2021": 18793,
+     "2022": 2868,
+     "2023": 3842,
+     "2024": 83491,
+     "2025": 29826
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 19,
-    "years_dropped": 1
+    "years_dropped": 1,
+    "years_used": 19
    },
+   "avg_ha": 13313.5,
+   "fires": 50,
+   "lag_days": 4,
    "max_ha": 83491,
    "multiple": 1.37,
+   "name": "Macedonia",
+   "source": "EFFIS",
    "vs_max": 0.22,
-   "fires": 50
+   "week": 34
   },
   "MLT": {
-   "name": "Malta",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 0,
-   "avg_ha": 8.2,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2018": 32,
+     "2019": 0,
+     "2020": 34,
+     "2021": 0,
+     "2022": 0,
+     "2023": 0,
+     "2024": 0,
+     "2025": 0
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 8,
-    "years_dropped": 12
+    "years_dropped": 12,
+    "years_used": 8
    },
+   "avg_ha": 8.2,
+   "fires": 0,
+   "lag_days": 4,
    "max_ha": 34,
    "multiple": 0.0,
+   "name": "Malta",
+   "source": "EFFIS",
    "vs_max": 0.0,
-   "fires": 0
+   "week": 34
   },
   "MMR": {
-   "name": "Myanmar",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 4325702,
-   "avg_ha": 6471115.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 7941739,
+     "2013": 8087935,
+     "2014": 8191055,
+     "2015": 6874691,
+     "2016": 6220886,
+     "2017": 5364459,
+     "2018": 3675914,
+     "2019": 6871093,
+     "2020": 8096611,
+     "2021": 6951430,
+     "2022": 4374543,
+     "2023": 7925462,
+     "2024": 5302370,
+     "2025": 4717429
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 6471115.5,
+   "fires": 11674,
+   "lag_days": 4,
    "max_ha": 8191055,
    "multiple": 0.67,
+   "name": "Myanmar",
+   "source": "GWIS",
    "vs_max": 0.53,
-   "fires": 11674
+   "week": 34
   },
   "MNE": {
-   "name": "Montenegro",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 16716,
-   "avg_ha": 14533.2,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2007": 14351,
+     "2008": 4012,
+     "2009": 0,
+     "2010": 1125,
+     "2011": 8510,
+     "2012": 22844,
+     "2013": 1623,
+     "2014": 0,
+     "2015": 11367,
+     "2016": 1414,
+     "2017": 47139,
+     "2018": 1676,
+     "2019": 9164,
+     "2020": 36193,
+     "2021": 42102,
+     "2022": 24462,
+     "2023": 454,
+     "2024": 22545,
+     "2025": 27150
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 19,
-    "years_dropped": 1
+    "years_dropped": 1,
+    "years_used": 19
    },
+   "avg_ha": 14533.2,
+   "fires": 99,
+   "lag_days": 4,
    "max_ha": 47139,
    "multiple": 1.15,
+   "name": "Montenegro",
+   "source": "EFFIS",
    "vs_max": 0.35,
-   "fires": 99
+   "week": 34
   },
   "MOZ": {
-   "name": "Mozambique",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 3004977,
-   "avg_ha": 5188109.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 7836269,
+     "2013": 6683927,
+     "2014": 4646430,
+     "2015": 6647663,
+     "2016": 4871163,
+     "2017": 3663976,
+     "2018": 5832979,
+     "2019": 6225372,
+     "2020": 6533121,
+     "2021": 3553477,
+     "2022": 2231095,
+     "2023": 4641664,
+     "2024": 6214312,
+     "2025": 3052083
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 5188109.4,
+   "fires": 10966,
+   "lag_days": 4,
    "max_ha": 7836269,
    "multiple": 0.58,
+   "name": "Mozambique",
+   "source": "GWIS",
    "vs_max": 0.38,
-   "fires": 10966
+   "week": 34
   },
   "MWI": {
-   "name": "Malawi",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 98331,
-   "avg_ha": 247249.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 362488,
+     "2013": 364349,
+     "2014": 206606,
+     "2015": 305258,
+     "2016": 311470,
+     "2017": 218954,
+     "2018": 299143,
+     "2019": 316737,
+     "2020": 279639,
+     "2021": 211723,
+     "2022": 100458,
+     "2023": 163069,
+     "2024": 228228,
+     "2025": 93371
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 247249.5,
+   "fires": 487,
+   "lag_days": 4,
    "max_ha": 364349,
    "multiple": 0.4,
+   "name": "Malawi",
+   "source": "GWIS",
    "vs_max": 0.27,
-   "fires": 487
+   "week": 34
   },
   "MYS": {
-   "name": "Malaysia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 53841,
-   "avg_ha": 137690.3,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 210909,
+     "2013": 176787,
+     "2014": 411405,
+     "2015": 246518,
+     "2016": 297557,
+     "2017": 34295,
+     "2018": 99630,
+     "2019": 172464,
+     "2020": 60616,
+     "2021": 38315,
+     "2022": 17464,
+     "2023": 34860,
+     "2024": 93222,
+     "2025": 33622
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 137690.3,
+   "fires": 196,
+   "lag_days": 4,
    "max_ha": 411405,
    "multiple": 0.39,
+   "name": "Malaysia",
+   "source": "GWIS",
    "vs_max": 0.13,
-   "fires": 196
+   "week": 34
   },
   "NAM": {
-   "name": "Namibia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 371494,
-   "avg_ha": 586197.3,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 2040817,
+     "2013": 829762,
+     "2014": 448991,
+     "2015": 733903,
+     "2016": 460085,
+     "2017": 376163,
+     "2018": 209427,
+     "2019": 251860,
+     "2020": 331001,
+     "2021": 505958,
+     "2022": 566512,
+     "2023": 884740,
+     "2024": 392879,
+     "2025": 174664
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 586197.3,
+   "fires": 794,
+   "lag_days": 4,
    "max_ha": 2040817,
    "multiple": 0.63,
+   "name": "Namibia",
+   "source": "GWIS",
    "vs_max": 0.18,
-   "fires": 794
+   "week": 34
   },
   "NLD": {
-   "name": "Netherlands",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 635,
-   "avg_ha": 131.6,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2011": 148,
+     "2012": 0,
+     "2013": 0,
+     "2014": 396,
+     "2015": 0,
+     "2016": 0,
+     "2017": 0,
+     "2018": 183,
+     "2019": 0,
+     "2020": 822,
+     "2021": 0,
+     "2022": 224,
+     "2023": 31,
+     "2024": 0,
+     "2025": 170
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 15,
-    "years_dropped": 5
+    "years_dropped": 5,
+    "years_used": 15
    },
+   "avg_ha": 131.6,
+   "fires": 3,
+   "lag_days": 4,
    "max_ha": 822,
    "multiple": 4.83,
+   "name": "Netherlands",
+   "source": "EFFIS",
    "vs_max": 0.77,
-   "fires": 3
+   "week": 34
   },
   "NOR": {
-   "name": "Norway",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 1589,
-   "avg_ha": 1063.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2008": 2751,
+     "2009": 0,
+     "2010": 0,
+     "2011": 641,
+     "2012": 0,
+     "2013": 218,
+     "2014": 3336,
+     "2015": 142,
+     "2016": 0,
+     "2017": 260,
+     "2018": 273,
+     "2019": 4515,
+     "2020": 170,
+     "2021": 829,
+     "2022": 2143,
+     "2023": 941,
+     "2024": 511,
+     "2025": 2412
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 18,
-    "years_dropped": 2
+    "years_dropped": 2,
+    "years_used": 18
    },
+   "avg_ha": 1063.4,
+   "fires": 23,
+   "lag_days": 4,
    "max_ha": 4515,
    "multiple": 1.49,
+   "name": "Norway",
+   "source": "EFFIS",
    "vs_max": 0.35,
-   "fires": 23
+   "week": 34
   },
   "NPL": {
-   "name": "Nepal",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 156215,
-   "avg_ha": 575043.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 638301,
+     "2013": 455100,
+     "2014": 730634,
+     "2015": 128039,
+     "2016": 1416239,
+     "2017": 365823,
+     "2018": 409946,
+     "2019": 708780,
+     "2020": 118631,
+     "2021": 1368407,
+     "2022": 396661,
+     "2023": 629294,
+     "2024": 507468,
+     "2025": 177292
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 575043.9,
+   "fires": 766,
+   "lag_days": 4,
    "max_ha": 1416239,
    "multiple": 0.27,
+   "name": "Nepal",
+   "source": "GWIS",
    "vs_max": 0.11,
-   "fires": 766
+   "week": 34
   },
   "NZL": {
-   "name": "New Zealand",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 16227,
-   "avg_ha": 24614.3,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 30919,
+     "2013": 35224,
+     "2014": 32840,
+     "2015": 32919,
+     "2016": 26358,
+     "2017": 24387,
+     "2018": 13132,
+     "2019": 33092,
+     "2020": 26171,
+     "2021": 22481,
+     "2022": 24278,
+     "2023": 13186,
+     "2024": 12231,
+     "2025": 17382
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 24614.3,
+   "fires": 94,
+   "lag_days": 4,
    "max_ha": 35224,
    "multiple": 0.66,
+   "name": "New Zealand",
+   "source": "GWIS",
    "vs_max": 0.46,
-   "fires": 94
+   "week": 34
   },
   "PER": {
-   "name": "Peru",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 96923,
-   "avg_ha": 287553.6,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 360336,
+     "2013": 174844,
+     "2014": 266535,
+     "2015": 251033,
+     "2016": 465894,
+     "2017": 194196,
+     "2018": 142909,
+     "2019": 452521,
+     "2020": 453419,
+     "2021": 339565,
+     "2022": 321384,
+     "2023": 243702,
+     "2024": 282334,
+     "2025": 77079
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 287553.6,
+   "fires": 437,
+   "lag_days": 4,
    "max_ha": 465894,
    "multiple": 0.34,
+   "name": "Peru",
+   "source": "GWIS",
    "vs_max": 0.21,
-   "fires": 437
+   "week": 34
   },
   "PHL": {
-   "name": "Philippines",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 240435,
-   "avg_ha": 230720.2,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 115578,
+     "2013": 180073,
+     "2014": 266022,
+     "2015": 402233,
+     "2016": 461743,
+     "2017": 162931,
+     "2018": 155249,
+     "2019": 413125,
+     "2020": 327457,
+     "2021": 119841,
+     "2022": 109604,
+     "2023": 184828,
+     "2024": 273224,
+     "2025": 58175
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 230720.2,
+   "fires": 1548,
+   "lag_days": 4,
    "max_ha": 461743,
    "multiple": 1.04,
+   "name": "Philippines",
+   "source": "GWIS",
    "vs_max": 0.52,
-   "fires": 1548
+   "week": 34
   },
   "PNG": {
-   "name": "Papua New Guinea",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 541496,
-   "avg_ha": 209570.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 145843,
+     "2013": 187082,
+     "2014": 205446,
+     "2015": 621588,
+     "2016": 168478,
+     "2017": 253494,
+     "2018": 223538,
+     "2019": 149243,
+     "2020": 165557,
+     "2021": 122580,
+     "2022": 260936,
+     "2023": 187735,
+     "2024": 140936,
+     "2025": 101526
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 209570.1,
+   "fires": 1791,
+   "lag_days": 4,
    "max_ha": 621588,
    "multiple": 2.58,
+   "name": "Papua New Guinea",
+   "source": "GWIS",
    "vs_max": 0.87,
-   "fires": 1791
+   "week": 34
   },
   "POL": {
-   "name": "Poland",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 1458,
-   "avg_ha": 581.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2014": 54,
+     "2015": 560,
+     "2016": 0,
+     "2017": 0,
+     "2018": 73,
+     "2019": 60,
+     "2020": 5383,
+     "2021": 40,
+     "2022": 465,
+     "2023": 47,
+     "2024": 0,
+     "2025": 295
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 12,
-    "years_dropped": 8
+    "years_dropped": 8,
+    "years_used": 12
    },
+   "avg_ha": 581.4,
+   "fires": 3,
+   "lag_days": 4,
    "max_ha": 5383,
    "multiple": 2.51,
+   "name": "Poland",
+   "source": "EFFIS",
    "vs_max": 0.27,
-   "fires": 3
+   "week": 34
   },
   "PRT": {
-   "name": "Portugal",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 64885,
-   "avg_ha": 65935.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 52443,
+     "2007": 9655,
+     "2008": 2431,
+     "2009": 27277,
+     "2010": 110419,
+     "2011": 29199,
+     "2012": 64925,
+     "2013": 99856,
+     "2014": 8648,
+     "2015": 43913,
+     "2016": 126912,
+     "2017": 225946,
+     "2018": 30876,
+     "2019": 22214,
+     "2020": 34812,
+     "2021": 24149,
+     "2022": 101478,
+     "2023": 29565,
+     "2024": 12465,
+     "2025": 261524
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 65935.4,
+   "fires": 192,
+   "lag_days": 4,
    "max_ha": 261524,
    "multiple": 0.98,
+   "name": "Portugal",
+   "source": "EFFIS",
    "vs_max": 0.25,
-   "fires": 192
+   "week": 34
   },
   "PRY": {
-   "name": "Paraguay",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 504466,
-   "avg_ha": 1582117.7,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1193443,
+     "2013": 1948324,
+     "2014": 1086423,
+     "2015": 1060159,
+     "2016": 1390476,
+     "2017": 2032239,
+     "2018": 1086736,
+     "2019": 1377735,
+     "2020": 3015277,
+     "2021": 2242544,
+     "2022": 2013176,
+     "2023": 1181514,
+     "2024": 1733165,
+     "2025": 788437
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 1582117.7,
+   "fires": 1620,
+   "lag_days": 4,
    "max_ha": 3015277,
    "multiple": 0.32,
+   "name": "Paraguay",
+   "source": "GWIS",
    "vs_max": 0.17,
-   "fires": 1620
+   "week": 34
   },
   "ROU": {
-   "name": "Romania",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 18365,
-   "avg_ha": 34661.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2011": 333,
+     "2012": 2332,
+     "2013": 3101,
+     "2014": 2107,
+     "2015": 671,
+     "2016": 3695,
+     "2017": 22717,
+     "2018": 828,
+     "2019": 69641,
+     "2020": 77706,
+     "2021": 19095,
+     "2022": 148373,
+     "2023": 15314,
+     "2024": 26522,
+     "2025": 127482
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 15,
-    "years_dropped": 5
+    "years_dropped": 5,
+    "years_used": 15
    },
+   "avg_ha": 34661.1,
+   "fires": 144,
+   "lag_days": 4,
    "max_ha": 148373,
    "multiple": 0.53,
+   "name": "Romania",
+   "source": "EFFIS",
    "vs_max": 0.12,
-   "fires": 144
+   "week": 34
   },
   "RUS": {
-   "name": "Russia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 6609899,
-   "avg_ha": 12780233.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 23990507,
+     "2013": 9770522,
+     "2014": 17343592,
+     "2015": 11887668,
+     "2016": 12164912,
+     "2017": 9826325,
+     "2018": 12930834,
+     "2019": 14986638,
+     "2020": 13896617,
+     "2021": 15628961,
+     "2022": 9473357,
+     "2023": 9588924,
+     "2024": 11006714,
+     "2025": 6427696
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 12780233.4,
+   "fires": 10975,
+   "lag_days": 4,
    "max_ha": 23990507,
    "multiple": 0.52,
+   "name": "Russia",
+   "source": "GWIS",
    "vs_max": 0.28,
-   "fires": 10975
+   "week": 34
   },
   "SAU": {
-   "name": "Saudi Arabia",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 0,
-   "avg_ha": 6408.3,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 6231,
+     "2013": 7431,
+     "2014": 7584,
+     "2015": 7744,
+     "2016": 5059,
+     "2017": 5030,
+     "2018": 4343,
+     "2019": 3897,
+     "2020": 4644,
+     "2021": 6147,
+     "2022": 7145,
+     "2023": 5568,
+     "2024": 6488,
+     "2025": 12405
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 6
+    "years_dropped": 6,
+    "years_used": 14
    },
+   "avg_ha": 6408.3,
+   "fires": 0,
+   "lag_days": 4,
    "max_ha": 0,
    "multiple": 0.0,
+   "name": "Saudi Arabia",
+   "source": "EFFIS",
    "vs_max": null,
-   "fires": 0
+   "week": 34
   },
   "SRB": {
-   "name": "Republic of Serbia",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 25612,
-   "avg_ha": 6596.0,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2007": 18267,
+     "2008": 40,
+     "2009": 0,
+     "2010": 0,
+     "2011": 47,
+     "2012": 7157,
+     "2013": 1064,
+     "2014": 0,
+     "2015": 862,
+     "2016": 880,
+     "2017": 5301,
+     "2018": 314,
+     "2019": 9669,
+     "2020": 9014,
+     "2021": 6131,
+     "2022": 11375,
+     "2023": 1198,
+     "2024": 28789,
+     "2025": 25216
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 19,
-    "years_dropped": 1
+    "years_dropped": 1,
+    "years_used": 19
    },
+   "avg_ha": 6596.0,
+   "fires": 73,
+   "lag_days": 4,
    "max_ha": 28789,
    "multiple": 3.88,
+   "name": "Republic of Serbia",
+   "source": "EFFIS",
    "vs_max": 0.89,
-   "fires": 73
+   "week": 34
   },
   "SVK": {
-   "name": "Slovakia",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 1112,
-   "avg_ha": 146.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2020": 85,
+     "2021": 115,
+     "2022": 317,
+     "2023": 0,
+     "2024": 0,
+     "2025": 362
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 6,
-    "years_dropped": 14
+    "years_dropped": 14,
+    "years_used": 6
    },
+   "avg_ha": 146.5,
+   "fires": 5,
+   "lag_days": 4,
    "max_ha": 362,
    "multiple": 7.59,
+   "name": "Slovakia",
+   "source": "EFFIS",
    "vs_max": 3.07,
-   "fires": 5
+   "week": 34
   },
   "SVN": {
-   "name": "Slovenia",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 354,
-   "avg_ha": 318.6,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 557,
+     "2007": 0,
+     "2008": 0,
+     "2009": 0,
+     "2010": 0,
+     "2011": 0,
+     "2012": 262,
+     "2013": 0,
+     "2014": 0,
+     "2015": 0,
+     "2016": 321,
+     "2017": 188,
+     "2018": 0,
+     "2019": 80,
+     "2020": 168,
+     "2021": 76,
+     "2022": 4388,
+     "2023": 112,
+     "2024": 76,
+     "2025": 143
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 318.6,
+   "fires": 2,
+   "lag_days": 4,
    "max_ha": 4388,
    "multiple": 1.11,
+   "name": "Slovenia",
+   "source": "EFFIS",
    "vs_max": 0.08,
-   "fires": 2
+   "week": 34
   },
   "SWE": {
-   "name": "Sweden",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 185,
-   "avg_ha": 2360.7,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2008": 1668,
+     "2009": 716,
+     "2010": 0,
+     "2011": 143,
+     "2012": 0,
+     "2013": 50,
+     "2014": 13633,
+     "2015": 147,
+     "2016": 99,
+     "2017": 695,
+     "2018": 21320,
+     "2019": 485,
+     "2020": 769,
+     "2021": 946,
+     "2022": 266,
+     "2023": 188,
+     "2024": 288,
+     "2025": 1079
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 18,
-    "years_dropped": 2
+    "years_dropped": 2,
+    "years_used": 18
    },
+   "avg_ha": 2360.7,
+   "fires": 4,
+   "lag_days": 4,
    "max_ha": 21320,
    "multiple": 0.08,
+   "name": "Sweden",
+   "source": "EFFIS",
    "vs_max": 0.01,
-   "fires": 4
+   "week": 34
   },
   "SYR": {
-   "name": "Syria",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 512,
-   "avg_ha": 27211.7,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 6933,
+     "2013": 10047,
+     "2014": 1596,
+     "2015": 92992,
+     "2016": 1009,
+     "2017": 4337,
+     "2018": 1208,
+     "2019": 178455,
+     "2020": 14969,
+     "2021": 15902,
+     "2022": 326,
+     "2023": 11192,
+     "2024": 18056,
+     "2025": 23942
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 6
+    "years_dropped": 6,
+    "years_used": 14
    },
+   "avg_ha": 27211.7,
+   "fires": 8,
+   "lag_days": 4,
    "max_ha": 178455,
    "multiple": 0.02,
+   "name": "Syria",
+   "source": "EFFIS",
    "vs_max": 0.0,
-   "fires": 8
+   "week": 34
   },
   "THA": {
-   "name": "Thailand",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 2669995,
-   "avg_ha": 2318085.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 2365097,
+     "2013": 2577907,
+     "2014": 2694762,
+     "2015": 2500573,
+     "2016": 3642723,
+     "2017": 1803251,
+     "2018": 943862,
+     "2019": 3652475,
+     "2020": 3877655,
+     "2021": 1617140,
+     "2022": 447681,
+     "2023": 2855050,
+     "2024": 1943246,
+     "2025": 1531781
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 2318085.9,
+   "fires": 6894,
+   "lag_days": 4,
    "max_ha": 3877655,
    "multiple": 1.15,
+   "name": "Thailand",
+   "source": "GWIS",
    "vs_max": 0.69,
-   "fires": 6894
+   "week": 34
   },
   "TKM": {
-   "name": "Turkmenistan",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 22452,
-   "avg_ha": 64468.4,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 36227,
+     "2013": 68379,
+     "2014": 66139,
+     "2015": 69436,
+     "2016": 113948,
+     "2017": 60199,
+     "2018": 44040,
+     "2019": 160041,
+     "2020": 116208,
+     "2021": 71634,
+     "2022": 46233,
+     "2023": 21932,
+     "2024": 6542,
+     "2025": 21600
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 64468.4,
+   "fires": 97,
+   "lag_days": 4,
    "max_ha": 160041,
    "multiple": 0.35,
+   "name": "Turkmenistan",
+   "source": "GWIS",
    "vs_max": 0.14,
-   "fires": 97
+   "week": 34
   },
   "TUN": {
-   "name": "Tunisia",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 22666,
-   "avg_ha": 7184.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2009": 129,
+     "2010": 3551,
+     "2011": 3319,
+     "2012": 2763,
+     "2013": 13247,
+     "2014": 9626,
+     "2015": 5933,
+     "2016": 4344,
+     "2017": 18409,
+     "2018": 962,
+     "2019": 3059,
+     "2020": 10636,
+     "2021": 27620,
+     "2022": 8737,
+     "2023": 3992,
+     "2024": 830,
+     "2025": 4986
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 17,
-    "years_dropped": 3
+    "years_dropped": 3,
+    "years_used": 17
    },
+   "avg_ha": 7184.9,
+   "fires": 46,
+   "lag_days": 4,
    "max_ha": 27620,
    "multiple": 3.15,
+   "name": "Tunisia",
+   "source": "EFFIS",
    "vs_max": 0.82,
-   "fires": 46
+   "week": 34
   },
   "TUR": {
-   "name": "Turkey",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 35362,
-   "avg_ha": 41114.2,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2006": 7187,
+     "2007": 6663,
+     "2008": 27848,
+     "2009": 5798,
+     "2010": 1258,
+     "2011": 8760,
+     "2012": 3717,
+     "2013": 15912,
+     "2014": 6132,
+     "2015": 40839,
+     "2016": 92119,
+     "2017": 30959,
+     "2018": 30839,
+     "2019": 61962,
+     "2020": 56672,
+     "2021": 184796,
+     "2022": 8345,
+     "2023": 23804,
+     "2024": 87699,
+     "2025": 120974
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 20,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 20
    },
+   "avg_ha": 41114.2,
+   "fires": 124,
+   "lag_days": 4,
    "max_ha": 184796,
    "multiple": 0.86,
+   "name": "Turkey",
+   "source": "EFFIS",
    "vs_max": 0.19,
-   "fires": 124
+   "week": 34
   },
   "TZA": {
-   "name": "United Republic of Tanzania",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 1917886,
-   "avg_ha": 5198262.6,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 7668105,
+     "2013": 6935519,
+     "2014": 5417183,
+     "2015": 7368676,
+     "2016": 6815974,
+     "2017": 5009425,
+     "2018": 4106991,
+     "2019": 6405949,
+     "2020": 4860504,
+     "2021": 4188864,
+     "2022": 3828695,
+     "2023": 3646916,
+     "2024": 3615785,
+     "2025": 2907091
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 5198262.6,
+   "fires": 6373,
+   "lag_days": 4,
    "max_ha": 7668105,
    "multiple": 0.37,
+   "name": "United Republic of Tanzania",
+   "source": "GWIS",
    "vs_max": 0.25,
-   "fires": 6373
+   "week": 34
   },
   "UGA": {
-   "name": "Uganda",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 546395,
-   "avg_ha": 1292282.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1799099,
+     "2013": 1860482,
+     "2014": 1307082,
+     "2015": 2181193,
+     "2016": 1860718,
+     "2017": 1348643,
+     "2018": 868234,
+     "2019": 1201810,
+     "2020": 1197441,
+     "2021": 1230983,
+     "2022": 894946,
+     "2023": 1069322,
+     "2024": 547074,
+     "2025": 724923
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 1292282.1,
+   "fires": 2368,
+   "lag_days": 4,
    "max_ha": 2181193,
    "multiple": 0.42,
+   "name": "Uganda",
+   "source": "GWIS",
    "vs_max": 0.25,
-   "fires": 2368
+   "week": 34
   },
   "UKR": {
-   "name": "Ukraine",
-   "source": "EFFIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 365917,
-   "avg_ha": 271304.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2020": 215129,
+     "2021": 12539,
+     "2022": 248276,
+     "2023": 60958,
+     "2024": 572761,
+     "2025": 518164
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 6,
-    "years_dropped": 14
+    "years_dropped": 14,
+    "years_used": 6
    },
+   "avg_ha": 271304.5,
+   "fires": 2265,
+   "lag_days": 4,
    "max_ha": 572761,
    "multiple": 1.35,
+   "name": "Ukraine",
+   "source": "EFFIS",
    "vs_max": 0.64,
-   "fires": 2265
+   "week": 34
   },
   "URY": {
-   "name": "Uruguay",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 9692,
-   "avg_ha": 23504.5,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 35362,
+     "2013": 22070,
+     "2014": 10983,
+     "2015": 50941,
+     "2016": 14462,
+     "2017": 11371,
+     "2018": 20006,
+     "2019": 16395,
+     "2020": 59237,
+     "2021": 21647,
+     "2022": 21945,
+     "2023": 28145,
+     "2024": 5375,
+     "2025": 11124
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 23504.5,
+   "fires": 47,
+   "lag_days": 4,
    "max_ha": 59237,
    "multiple": 0.41,
+   "name": "Uruguay",
+   "source": "GWIS",
    "vs_max": 0.16,
-   "fires": 47
+   "week": 34
   },
   "USA": {
-   "name": "United States of America",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 3124105,
-   "avg_ha": 3990210.0,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 4243667,
+     "2013": 3381103,
+     "2014": 3365670,
+     "2015": 5192401,
+     "2016": 4081645,
+     "2017": 4781462,
+     "2018": 4510289,
+     "2019": 3590838,
+     "2020": 4425484,
+     "2021": 5195696,
+     "2022": 4917845,
+     "2023": 2672294,
+     "2024": 3176014,
+     "2025": 2328532
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 3990210.0,
+   "fires": 6515,
+   "lag_days": 4,
    "max_ha": 5195696,
    "multiple": 0.78,
+   "name": "United States of America",
+   "source": "GWIS",
    "vs_max": 0.6,
-   "fires": 6515
+   "week": 34
   },
   "VEN": {
-   "name": "Venezuela",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 3025772,
-   "avg_ha": 4027179.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1575149,
+     "2013": 4092064,
+     "2014": 4314801,
+     "2015": 3282918,
+     "2016": 4400527,
+     "2017": 2235624,
+     "2018": 3058773,
+     "2019": 5839518,
+     "2020": 7802216,
+     "2021": 2120827,
+     "2022": 4367830,
+     "2023": 3953910,
+     "2024": 6386691,
+     "2025": 2949670
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 4027179.9,
+   "fires": 7975,
+   "lag_days": 4,
    "max_ha": 7802216,
    "multiple": 0.75,
+   "name": "Venezuela",
+   "source": "GWIS",
    "vs_max": 0.39,
-   "fires": 7975
+   "week": 34
   },
   "VNM": {
-   "name": "Vietnam",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 288913,
-   "avg_ha": 753242.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1182493,
+     "2013": 988389,
+     "2014": 1462787,
+     "2015": 1259589,
+     "2016": 1241016,
+     "2017": 469412,
+     "2018": 403095,
+     "2019": 786706,
+     "2020": 850441,
+     "2021": 491838,
+     "2022": 290485,
+     "2023": 541188,
+     "2024": 344306,
+     "2025": 233644
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 753242.1,
+   "fires": 1643,
+   "lag_days": 4,
    "max_ha": 1462787,
    "multiple": 0.38,
+   "name": "Vietnam",
+   "source": "GWIS",
    "vs_max": 0.2,
-   "fires": 1643
+   "week": 34
   },
   "ZAF": {
-   "name": "South Africa",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 1152015,
-   "avg_ha": 1875282.1,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 2533776,
+     "2013": 2383535,
+     "2014": 2259137,
+     "2015": 1690592,
+     "2016": 1185038,
+     "2017": 1940293,
+     "2018": 1292357,
+     "2019": 2015443,
+     "2020": 1998442,
+     "2021": 2423672,
+     "2022": 1519255,
+     "2023": 2118209,
+     "2024": 1950695,
+     "2025": 943505
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 1875282.1,
+   "fires": 4595,
+   "lag_days": 4,
    "max_ha": 2533776,
    "multiple": 0.61,
+   "name": "South Africa",
+   "source": "GWIS",
    "vs_max": 0.45,
-   "fires": 4595
+   "week": 34
   },
   "ZMB": {
-   "name": "Zambia",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 6721278,
-   "avg_ha": 11917388.9,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 15364059,
+     "2013": 15436011,
+     "2014": 12028051,
+     "2015": 14562196,
+     "2016": 13575823,
+     "2017": 10170556,
+     "2018": 10706209,
+     "2019": 14009157,
+     "2020": 10416045,
+     "2021": 8901274,
+     "2022": 9513132,
+     "2023": 11674588,
+     "2024": 12478453,
+     "2025": 8007890
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 11917388.9,
+   "fires": 20792,
+   "lag_days": 4,
    "max_ha": 15436011,
    "multiple": 0.56,
+   "name": "Zambia",
+   "source": "GWIS",
    "vs_max": 0.44,
-   "fires": 20792
+   "week": 34
   },
   "ZWE": {
-   "name": "Zimbabwe",
-   "source": "GWIS",
-   "week": 34,
-   "as_of": "2026-08-26",
-   "lag_days": 4,
    "area_ha": 437221,
-   "avg_ha": 748194.3,
+   "as_of": "2026-08-26",
+   "at_this_week": {
+    "instrument": "GWIS/EFFIS cumulative burnt area in hectares, year to date at this ISO week. NOT comparable with VIIRS detection counts, which measure a different thing over a different span; never form a ratio across the two.",
+    "week": 34,
+    "years": {
+     "2012": 1417150,
+     "2013": 954140,
+     "2014": 677753,
+     "2015": 815927,
+     "2016": 568580,
+     "2017": 523100,
+     "2018": 797592,
+     "2019": 1031734,
+     "2020": 421217,
+     "2021": 649254,
+     "2022": 506138,
+     "2023": 1175809,
+     "2024": 646915,
+     "2025": 289411
+    }
+   },
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
-    "years_used": 14,
-    "years_dropped": 0
+    "years_dropped": 0,
+    "years_used": 14
    },
+   "avg_ha": 748194.3,
+   "fires": 1558,
+   "lag_days": 4,
    "max_ha": 1417150,
    "multiple": 0.58,
+   "name": "Zimbabwe",
+   "source": "GWIS",
    "vs_max": 0.31,
-   "fires": 1558
+   "week": 34
   }
- }
+ },
+ "effis_cycle": {
+  "_note": "EFFIS publishes weekly. A fire igniting just after a close waits most of a week for mapped hectares; one igniting early in the week has them almost at once. Derived from the newest as_of held, not hardcoded.",
+  "close_weekday": "Wednesday",
+  "expected_available": "2026-09-03",
+  "known": true,
+  "last_close": "2026-08-26",
+  "next_close": "2026-09-02"
+ },
+ "fetched": "2026-08-30T11:09:40Z",
+ "year": 2026
 }
