@@ -2530,20 +2530,55 @@ def main() -> int:
     print(f"stress_current.json: {stress['places_reported']} places, "
           f"{stress['places_skipped']} skipped, dekad {stress['dekad']}")
 
-    shares = build_shares()
-    if shares is None:
-        # Loud, and NOT fatal. The dekad payload above is already
-        # written and correct; the committed production_shares.json
-        # stays as it is rather than being replaced by nothing.
-        print("  NOTE: crops/.cache/psd is absent, so production_shares.json "
-              "was NOT rebuilt and the committed one is unchanged. That is "
-              "correct in CI, where the cache is gitignored: PSD is annual "
-              "and does not change dekad to dekad. Refresh it deliberately "
-              "rather than as a side effect of a dekad build.")
-    else:
-        (OUT / "production_shares.json").write_text(
-            json.dumps(shares, indent=1) + "\n", encoding="utf-8")
-        print(f"production_shares.json: {shares['rows']} country-commodity rows")
+    # NOTHING BELOW THIS LINE MAY FAIL THE PROCESS.
+    #
+    # stress_current.json is on disk above, complete and correct. The CI
+    # job commits crops/data/ in a SEPARATE, LATER step, so a non-zero
+    # exit here does not merely skip an enrichment: `set -e` fails the
+    # build step and Actions then skips the commit entirely, discarding a
+    # payload that was already written and already right.
+    #
+    # Not hypothetical. build_shares() raised on a missing gitignored
+    # cache and did exactly this on five consecutive runs, 25 to 30
+    # August 2026. The channel served a three-week-old dekad throughout
+    # and every automated check stayed green, because nothing compared
+    # what the source had published against what we held. That gap is
+    # now crops/check_pipeline.py; this is the other half.
+    #
+    # The workflow cannot fix this from its side. It sees one exit code
+    # and cannot know which half of the script produced it, so only this
+    # file can say which work is optional. The guarantee belongs here.
+    #
+    # A missing enrichment leaves the previous committed artifact in
+    # place: stale, but internally consistent, and PSD is annual so it
+    # does not move dekad to dekad anyway. A discarded payload stops the
+    # channel. Those two costs are not close.
+    try:
+        shares = build_shares()
+        if shares is None:
+            # Loud, and NOT fatal. The dekad payload above is already
+            # written and correct; the committed production_shares.json
+            # stays as it is rather than being replaced by nothing.
+            print("  NOTE: crops/.cache/psd is absent, so production_shares.json "
+                  "was NOT rebuilt and the committed one is unchanged. That is "
+                  "correct in CI, where the cache is gitignored: PSD is annual "
+                  "and does not change dekad to dekad. Refresh it deliberately "
+                  "rather than as a side effect of a dekad build.")
+        else:
+            (OUT / "production_shares.json").write_text(
+                json.dumps(shares, indent=1) + "\n", encoding="utf-8")
+            print(f"production_shares.json: {shares['rows']} country-commodity rows")
+    except Exception as exc:
+        # Kept DISTINCT from the shares-is-None branch above on purpose.
+        # "The cache was absent" and "the code raised" are two different
+        # claims about why the file did not change, and collapsing them
+        # would report a bug as a routine CI condition.
+        print(f"::warning::production_shares.json was NOT rebuilt: {exc!r}")
+        print("::warning::This is not fatal and the dekad is unaffected: "
+              "stress_current.json is written and correct, and remains "
+              "committable. The committed production_shares.json is "
+              "unchanged. Worth a look, because this path means a bug "
+              "rather than an absent cache.")
     return 0
 
 
