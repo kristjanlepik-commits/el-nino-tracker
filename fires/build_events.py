@@ -78,6 +78,12 @@ GEOJSON = os.path.join(REPO, "fires", "data", "countries.geo.json")
 #             distribution-free.
 # Any one of them is evidence. Requiring all three would select only
 # the countries where nothing subtle is happening.
+# Above this many countries failing, the run dies rather than
+# publishing a partial page. A handful is a bad day; a third of the
+# roster is a broken fetcher, and D-236's "the site must not fail to
+# update" does not mean "publish whatever survived".
+MAX_COUNTRY_FAILURES = 5
+
 NOISE_FLOOR = 150      # not a significance test: enough pixels that a
                        # handful of false positives cannot read as 20x
 Z_THRESHOLD = 2.0
@@ -264,7 +270,13 @@ def weekly_reading(row):
     mean = row.get("mean")
     mult = (count / mean) if (mean and count is not None) else None
     verdict = (row.get("persistence") or {}).get("verdict")
-    if verdict == "persistent_source":
+    # "We did not measure this" and "there is no baseline to divide by"
+    # are different facts and the row must not report the second for the
+    # first. An unmeasured country reached here reading `no_baseline`,
+    # which is true only by accident, since count and mean are both None.
+    if row.get("unmeasured"):
+        why = "unmeasured"
+    elif verdict == "persistent_source":
         why = "persistent_source"
     elif mean in (None, 0):
         why = "no_baseline"
@@ -604,367 +616,424 @@ def main():
         print("  " + "!" * 60, file=sys.stderr)
 
     rows, detail = [], {}
+    # D-236: ONE COUNTRY MUST NOT TAKE DOWN NINETY-SEVEN.
+    #
+    # Nepal's fourteen all-zero same-weeks raised ZeroDivisionError on
+    # count/mean and killed the whole build for two days. The site went
+    # stale on a country nobody was reading, and the failure was total
+    # rather than partial because there was nothing between one row and
+    # the run.
+    #
+    # A country that raises is recorded as `unmeasured` and the run
+    # continues. It is NOT silently dropped: it keeps its row in
+    # current_week.json carrying the reason, because a country that
+    # vanishes reads as a country with no fires, which is the
+    # absence-as-zero error this channel keeps catching elsewhere.
+    #
+    # THE THRESHOLD EXISTS SO THIS CANNOT BECOME A WAY TO SHIP A BROKEN
+    # RUN QUIETLY. Above MAX_COUNTRY_FAILURES the build still dies: a
+    # handful of countries failing is a bad day, a third of them failing
+    # is a broken fetcher and the page should not publish over it.
+    #
+    # SAFETY PROPERTY, since this cannot be verified end to end while
+    # another chat holds the FIRMS key: when `failed` is empty, every
+    # path below is byte-identical to the previous version. The filters
+    # added downstream are no-ops on a clean run.
+    failed = {}
     for iso in isos:
-        h = hist_doc["countries"][iso]
-        df = fetch_window(key, tuple(h["box"]), rings[iso], start,
-                          window_days)
-        count = int(len(df))
-        mean = h["mean"]
-        # A COUNTRY THAT HAS NEVER BURNED IN THIS WEEK HAS NO MULTIPLE.
-        #
-        # Nepal's fourteen same-weeks are all exactly zero, so mean is
-        # 0.0 and this divided by zero, killing the whole run on
-        # 2026-08-25 and taking every other country with it. It only
-        # bites when the trailing window reaches a stretch a country
-        # never burns in, which is why it survived until late August.
-        #
-        # 0/0 is 0.0: no fires against a baseline of no fires is not an
-        # anomaly. Any count against a zero baseline is undefined rather
-        # than infinite, and a country cannot qualify on a multiple that
-        # does not exist, so it is left to qualify on rank instead,
-        # which is well defined either way.
-        # Matches rebuild_rows at line 242, which already guarded this.
-        # The degraded path was safe and the live path was not, which is
-        # the same two-paths-disagree shape the comment beside the rows
-        # dict already warns about, and it is the second time.
-        #
-        # A country that has never burned in this week has no multiple,
-        # and 0.0 does not hide it: rank is well defined either way, so
-        # first-ever detections still rank 1 and still qualify on that.
-        multiple = count / mean if mean else 0.0
-        # ZERO DETECTIONS IS NOT A RECORD WEEK. With an all-zero history
-        # nothing is strictly greater than zero, so Nepal ranked 1 of 15
-        # on no fires at all and tripped the gate's first-place check.
-        # A country that did not burn is last, not first.
-        rank = (len(h["hist"]) + 1 if count == 0
-                else 1 + sum(1 for v in h["hist"].values() if v > count))
-        lat, lon, basis = centroid(df, rings[iso])
-        # EVERY day of the window, zeros written explicitly.
-        #
-        # groupby emits a row only for dates that HAVE detections, so a
-        # day on which a country did not burn was simply absent. The
-        # country page then charted six bars for a seven-day window and
-        # captioned it "5 of 6 days", and Kristjan spotted the missing
-        # 4 August on Greece.
-        #
-        # The miscount is the smaller half. A zero day is not a missing
-        # day, it is a country whose fires STOPPED, and omitting it hides
-        # exactly the die-down the page exists to show: Greece went to
-        # zero on 4 August and the chart ended on a modest bar on the
-        # 3rd instead. Same shape as the archive gap and the day cache,
-        # where absence and zero were rendered indistinguishable.
-        seen = (df.groupby("acq_date").size().to_dict() if len(df) else {})
-        daily = {}
-        for k in range(window_days):
-            day = (start + timedelta(days=k)).isoformat()
-            daily[day] = int(seen.get(day, 0))
-        # Cropland context for this country's detections.
-        #
-        # THE RATIO IS THE STATISTIC, not the share. "4% of detections
-        # are on cropland" is meaningless without knowing what share of
-        # the country IS cropland, so every reading carries its own
-        # denominator and both numbers are emitted rather than a verdict
-        # alone.
-        #
-        # The label describes the RATIO, never the cause. "enriched"
-        # is not "agricultural": it says these detections sit on
-        # cropland more often than random land in the same country
-        # does. What is burning stays an inference the reader makes.
-        # WHY it is absent, never a bare null. These are four different
-        # facts and a null renders them identically: the mask is gone,
-        # the mask does not cover this country, the country did not burn
-        # this week, or the sampling broke. Papua New Guinea carries
-        # 8,352 detections and no coverage; reading that as the same
-        # thing as Lithuania's zero-detection week would be wrong in
-        # both directions.
-        if crop_mask is None:
-            cropland = {"withheld": "mask_unavailable",
-                        "detail": crop_unavailable}
-        elif not len(df):
-            cropland = {"withheld": "no_detections"}
-        elif not (crop_base.get(iso) or {}).get("covered"):
-            cropland = {"withheld": "no_mask_coverage",
-                        "_note": ("The mask has no data for this country. "
-                                  "That is NOT a finding of no cropland, "
-                                  "and must not be rendered as one.")}
-        else:
-            cropland = {"withheld": "sampling_failed"}
-        if crop_mask is not None and len(df):
-            base = crop_base.get(iso) or {}
-            if base.get("covered"):
+        try:
+            h = hist_doc["countries"][iso]
+            df = fetch_window(key, tuple(h["box"]), rings[iso], start,
+                              window_days)
+            count = int(len(df))
+            mean = h["mean"]
+            # A COUNTRY THAT HAS NEVER BURNED IN THIS WEEK HAS NO MULTIPLE.
+            #
+            # Nepal's fourteen same-weeks are all exactly zero, so mean is
+            # 0.0 and this divided by zero, killing the whole run on
+            # 2026-08-25 and taking every other country with it. It only
+            # bites when the trailing window reaches a stretch a country
+            # never burns in, which is why it survived until late August.
+            #
+            # 0/0 is 0.0: no fires against a baseline of no fires is not an
+            # anomaly. Any count against a zero baseline is undefined rather
+            # than infinite, and a country cannot qualify on a multiple that
+            # does not exist, so it is left to qualify on rank instead,
+            # which is well defined either way.
+            # Matches rebuild_rows at line 242, which already guarded this.
+            # The degraded path was safe and the live path was not, which is
+            # the same two-paths-disagree shape the comment beside the rows
+            # dict already warns about, and it is the second time.
+            #
+            # A country that has never burned in this week has no multiple,
+            # and 0.0 does not hide it: rank is well defined either way, so
+            # first-ever detections still rank 1 and still qualify on that.
+            multiple = count / mean if mean else 0.0
+            # ZERO DETECTIONS IS NOT A RECORD WEEK. With an all-zero history
+            # nothing is strictly greater than zero, so Nepal ranked 1 of 15
+            # on no fires at all and tripped the gate's first-place check.
+            # A country that did not burn is last, not first.
+            rank = (len(h["hist"]) + 1 if count == 0
+                    else 1 + sum(1 for v in h["hist"].values() if v > count))
+            lat, lon, basis = centroid(df, rings[iso])
+            # EVERY day of the window, zeros written explicitly.
+            #
+            # groupby emits a row only for dates that HAVE detections, so a
+            # day on which a country did not burn was simply absent. The
+            # country page then charted six bars for a seven-day window and
+            # captioned it "5 of 6 days", and Kristjan spotted the missing
+            # 4 August on Greece.
+            #
+            # The miscount is the smaller half. A zero day is not a missing
+            # day, it is a country whose fires STOPPED, and omitting it hides
+            # exactly the die-down the page exists to show: Greece went to
+            # zero on 4 August and the chart ended on a modest bar on the
+            # 3rd instead. Same shape as the archive gap and the day cache,
+            # where absence and zero were rendered indistinguishable.
+            seen = (df.groupby("acq_date").size().to_dict() if len(df) else {})
+            daily = {}
+            for k in range(window_days):
+                day = (start + timedelta(days=k)).isoformat()
+                daily[day] = int(seen.get(day, 0))
+            # Cropland context for this country's detections.
+            #
+            # THE RATIO IS THE STATISTIC, not the share. "4% of detections
+            # are on cropland" is meaningless without knowing what share of
+            # the country IS cropland, so every reading carries its own
+            # denominator and both numbers are emitted rather than a verdict
+            # alone.
+            #
+            # The label describes the RATIO, never the cause. "enriched"
+            # is not "agricultural": it says these detections sit on
+            # cropland more often than random land in the same country
+            # does. What is burning stays an inference the reader makes.
+            # WHY it is absent, never a bare null. These are four different
+            # facts and a null renders them identically: the mask is gone,
+            # the mask does not cover this country, the country did not burn
+            # this week, or the sampling broke. Papua New Guinea carries
+            # 8,352 detections and no coverage; reading that as the same
+            # thing as Lithuania's zero-detection week would be wrong in
+            # both directions.
+            if crop_mask is None:
+                cropland = {"withheld": "mask_unavailable",
+                            "detail": crop_unavailable}
+            elif not len(df):
+                cropland = {"withheld": "no_detections"}
+            elif not (crop_base.get(iso) or {}).get("covered"):
+                cropland = {"withheld": "no_mask_coverage",
+                            "_note": ("The mask has no data for this country. "
+                                      "That is NOT a finding of no cropland, "
+                                      "and must not be rendered as one.")}
+            else:
+                cropland = {"withheld": "sampling_failed"}
+            if crop_mask is not None and len(df):
+                base = crop_base.get(iso) or {}
+                if base.get("covered"):
+                    try:
+                        v = crop_mask.sample(df["longitude"].to_numpy(),
+                                             df["latitude"].to_numpy())
+                        v = v[~np.isnan(v)]
+                        land_pct = float(base["mean_crop_pct"])
+                        if len(v) and land_pct > 0:
+                            det_pct = float(v.mean())
+                            ratio = det_pct / land_pct
+                            on_crop = len(v) * det_pct / 100.0
+                            cropland = {
+                                "detections_on_crop_pct": round(det_pct, 2),
+                                "country_land_crop_pct": round(land_pct, 2),
+                                "ratio": round(ratio, 3),
+                                # A VERDICT NEEDS A SAMPLE. 50 is arbitrary
+                                # and bounded: it is a threshold on SAMPLE
+                                # SIZE, not a partition of the thing being
+                                # measured, so the worst it can do is
+                                # withhold a label that would have been
+                                # right. The latitude line it replaces could
+                                # invert a direction. Not the same kind of
+                                # arbitrary.
+                                #
+                                # "insufficient_sample" is a verdict of "we
+                                # cannot say", which is not silence: the
+                                # numbers ship, only the label is withheld.
+                                #
+                                # Greece's week in
+                                # the first run was 20 detections, its
+                                # quietest of 15, and those 20 read
+                                # "enriched" at 1.63 on nothing but noise.
+                                # The numbers stay; only the label is
+                                # withheld, because the label is the part
+                                # that gets quoted on its own.
+                                # THE FLOOR IS ASYMMETRIC, and it has to be.
+                                #
+                                # An ENRICHED claim says detections concentrate
+                                # ON cropland, so its evidence is the count
+                                # actually there. New Zealand read 2.01x
+                                # enriched on ONE detection on cropland, and
+                                # Ecuador 3.93x on seven. That is arithmetic,
+                                # not a finding.
+                                #
+                                # A DEPLETED claim says the opposite, and a
+                                # small on-crop count IS the evidence for it,
+                                # so flooring it would suppress the finding.
+                                # Belgium at one detection on cropland out of
+                                # many is exactly what depleted means. Its
+                                # floor is the total, which is already 50.
+                                #
+                                # Design floored this in the renderer and I
+                                # had not floored it in the payload, so every
+                                # other consumer read the unfloored claim.
+                                # A guard on one surface is not a guard.
+                                "reading": (
+                                    "insufficient_sample"
+                                    if len(v) < 50 or
+                                    (ratio > 1.3 and on_crop < 50) else
+                                    "enriched" if ratio > 1.3 else
+                                    "depleted" if ratio < 0.77 else "neutral"),
+                                "detections_on_crop": round(on_crop, 1),
+                                "n_detections_sampled": int(len(v)),
+                                # WHICH MASK THIS NUMBER CAME FROM. The
+                                # filename is the only versioning JRC gives,
+                                # so a ratio from v04 is a claim ABOUT v04.
+                                # If they ship v05 that is a different claim
+                                # rather than a refreshed one, and carrying
+                                # an old figure forward would be wrong. The
+                                # vintage rides ON the number rather than at
+                                # document level, per D-051, because the
+                                # number gets quoted alone.
+                                "source": ("ASAP crop mask %s, 500 m percent "
+                                           "cropland, JRC" %
+                                           (crop_ver.get("version") or "v04")),
+                                "mask_vintage": crop_ver,
+                                "_note": (
+                                    "Ratio of mean percent-cropland under this "
+                                    "week's detections to that under uniform "
+                                    "random points in the same country. Above "
+                                    "1.3 reads enriched, below 0.77 depleted, "
+                                    "and under 50 detections no label is given. "
+                                    "Describes WHERE detections fall, not what "
+                                    "is burning."),
+                            }
+                    except Exception:
+                        cropland = None
+
+            detail[iso] = {"iso": iso, "name": h["name"], "count": count,
+                           "mean": h["mean"], "hist": h["hist"],
+                           "daily": daily,
+                           # EXPECTED slot counts, carried ON the series.
+                           #
+                           # A consumer cannot otherwise tell a GAP from an
+                           # END: five values in a seven-day week and five in
+                           # a five-day week are the same payload, and a
+                           # renderer resolves the ambiguity by stretching
+                           # five to fill the frame, which turns "a day is
+                           # missing" into "this is what the week looked
+                           # like".
+                           #
+                           # We already say this at document level in
+                           # `degraded`, which is not enough: D-051, a
+                           # qualifier is a property of the number and has to
+                           # survive the number being quoted alone. A chart
+                           # handed `daily` and nothing else must still know
+                           # a day is absent.
+                           #
+                           # hist_expected is 14 while the delivered dict is
+                           # often 13, because 2022 has no archive over most
+                           # windows. That difference is the point: 13 of 14
+                           # is a fact about the record, not a shorter record.
+                           #
+                           # DUE equals EXPECTED on both series, always, and
+                           # that is a property of the window rather than a
+                           # coincidence. The window is seven WHOLE days
+                           # ending yesterday, so no slot is ever "not yet":
+                           # a partial day is never published, which is the
+                           # rule the 03:00 guard exists to enforce. Every
+                           # absent slot here is a GAP and should be drawn as
+                           # one.
+                           #
+                           # Emitted anyway rather than omitted, so a
+                           # consumer reads the same three counts from every
+                           # channel and never special-cases fire. A field
+                           # that is absent for one channel is the kind of
+                           # thing a renderer resolves by guessing.
+                           "daily_expected": window_days,
+                           "daily_due": window_days,
+                           # DUE NO LONGER EQUALS EXPECTED ON THE YEAR SERIES,
+                           # and the comment above explaining why it always did
+                           # was written when the only missing year was 2022,
+                           # which is genuinely absent from the archive and so
+                           # is a real gap that should be drawn as one.
+                           #
+                           # Since 2026-08-11 a year can also be dropped ON
+                           # PURPOSE, so the current week can keep a day that
+                           # year was defective on. That is a comparability
+                           # exclusion, exactly like the day-side case, and the
+                           # rule there applies here: DUE falls, EXPECTED does
+                           # not. Product found the consequence of not doing
+                           # this: every country reported 14 due while holding
+                           # 12, so two deliberate exclusions read as two gaps.
+                           "hist_expected": len(YEARS_EXPECTED),
+                           "hist_due": len(YEARS_EXPECTED) - len(years_defective),
+                           "hist_excluded_for_comparability": years_defective,
+                           "lat": lat, "lon": lon, "basis": basis}
+            detail[iso]["cropland"] = cropland
+
+            # PERSISTENT-SOURCE TEST. Needs the raw detections, so it is
+            # computed here rather than in qualifies(), which only sees the
+            # summarised row.
+            #
+            # The n floor is the same lesson as the cropland label: Greece's
+            # week scored 29% recurrence on 24 detections, where a handful
+            # of repeat cells dominates and means nothing. Below the floor
+            # the country is judged normally rather than excluded on noise.
+            # WITHHELD IS A VALUE, NEVER A MISSING KEY. Design's catch from
+            # land_use today: I withheld as {"withheld": ...} with no
+            # verdict, both their render functions fell through "if not
+            # reading", and Papua New Guinea, the one country the mask
+            # genuinely cannot see, was the one country that said nothing.
+            # An absent field renders as silence; a verdict renders as
+            # "not assessed".
+            persistent = {"verdict": "not_assessed",
+                          "why": ("fewer than 50 detections this week, too few "
+                                  "for a recurrence rate to mean anything")}
+            if len(df) >= 50 and "daynight" in df.columns:
                 try:
-                    v = crop_mask.sample(df["longitude"].to_numpy(),
-                                         df["latitude"].to_numpy())
-                    v = v[~np.isnan(v)]
-                    land_pct = float(base["mean_crop_pct"])
-                    if len(v) and land_pct > 0:
-                        det_pct = float(v.mean())
-                        ratio = det_pct / land_pct
-                        on_crop = len(v) * det_pct / 100.0
-                        cropland = {
-                            "detections_on_crop_pct": round(det_pct, 2),
-                            "country_land_crop_pct": round(land_pct, 2),
-                            "ratio": round(ratio, 3),
-                            # A VERDICT NEEDS A SAMPLE. 50 is arbitrary
-                            # and bounded: it is a threshold on SAMPLE
-                            # SIZE, not a partition of the thing being
-                            # measured, so the worst it can do is
-                            # withhold a label that would have been
-                            # right. The latitude line it replaces could
-                            # invert a direction. Not the same kind of
-                            # arbitrary.
-                            #
-                            # "insufficient_sample" is a verdict of "we
-                            # cannot say", which is not silence: the
-                            # numbers ship, only the label is withheld.
-                            #
-                            # Greece's week in
-                            # the first run was 20 detections, its
-                            # quietest of 15, and those 20 read
-                            # "enriched" at 1.63 on nothing but noise.
-                            # The numbers stay; only the label is
-                            # withheld, because the label is the part
-                            # that gets quoted on its own.
-                            # THE FLOOR IS ASYMMETRIC, and it has to be.
-                            #
-                            # An ENRICHED claim says detections concentrate
-                            # ON cropland, so its evidence is the count
-                            # actually there. New Zealand read 2.01x
-                            # enriched on ONE detection on cropland, and
-                            # Ecuador 3.93x on seven. That is arithmetic,
-                            # not a finding.
-                            #
-                            # A DEPLETED claim says the opposite, and a
-                            # small on-crop count IS the evidence for it,
-                            # so flooring it would suppress the finding.
-                            # Belgium at one detection on cropland out of
-                            # many is exactly what depleted means. Its
-                            # floor is the total, which is already 50.
-                            #
-                            # Design floored this in the renderer and I
-                            # had not floored it in the payload, so every
-                            # other consumer read the unfloored claim.
-                            # A guard on one surface is not a guard.
-                            "reading": (
-                                "insufficient_sample"
-                                if len(v) < 50 or
-                                (ratio > 1.3 and on_crop < 50) else
-                                "enriched" if ratio > 1.3 else
-                                "depleted" if ratio < 0.77 else "neutral"),
-                            "detections_on_crop": round(on_crop, 1),
-                            "n_detections_sampled": int(len(v)),
-                            # WHICH MASK THIS NUMBER CAME FROM. The
-                            # filename is the only versioning JRC gives,
-                            # so a ratio from v04 is a claim ABOUT v04.
-                            # If they ship v05 that is a different claim
-                            # rather than a refreshed one, and carrying
-                            # an old figure forward would be wrong. The
-                            # vintage rides ON the number rather than at
-                            # document level, per D-051, because the
-                            # number gets quoted alone.
-                            "source": ("ASAP crop mask %s, 500 m percent "
-                                       "cropland, JRC" %
-                                       (crop_ver.get("version") or "v04")),
-                            "mask_vintage": crop_ver,
-                            "_note": (
-                                "Ratio of mean percent-cropland under this "
-                                "week's detections to that under uniform "
-                                "random points in the same country. Above "
-                                "1.3 reads enriched, below 0.77 depleted, "
-                                "and under 50 detections no label is given. "
-                                "Describes WHERE detections fall, not what "
-                                "is burning."),
-                        }
+                    cell = (np.round(df["latitude"], 2).astype(str) + "," +
+                            np.round(df["longitude"], 2).astype(str))
+                    days_seen = df.groupby(cell)["acq_date"].nunique()
+                    recur = float(cell.isin(
+                        days_seen[days_seen >= 5].index).mean()) * 100
+                    night = float((df["daynight"].astype(str).str.upper()
+                                   == "N").mean()) * 100
+                    frp_med = float(df["frp"].astype(float).median())
+                    # A FLARE BACKGROUND IS FLAT. A FIRE IS A CURVE.
+                    #
+                    # Algeria, 29 August: 5,374 detections, rank 1 of 15, a
+                    # season record of 313,081 mapped hectares at 1.65x its
+                    # previous best, and daily counts running 196, 200, 294,
+                    # 383, 1021, 2204, 1076. This test excluded it, because
+                    # its gas-flare background clears all three thresholds
+                    # by a hair: recurrence 17.5 against 15, night 62.4
+                    # against 60, FRP 5.08 against 6.
+                    #
+                    # So the test built to stop us publishing flares as fire
+                    # was suppressing a real record instead, which is the
+                    # worse failure on a channel whose purpose is finding
+                    # them. It read the week's aggregate and never its
+                    # SHAPE, and shape is the thing that separates them: an
+                    # industrial source cannot go from 196 to 2,204 in five
+                    # days.
+                    #
+                    # Measured, not assumed. Every genuine flare this week
+                    # sits under 1.9 on peak-to-median: Iraq 1.31, Libya
+                    # 1.26, Saudi Arabia 1.72, Iran 1.73, Turkmenistan 1.83.
+                    # Algeria is 5.75. The threshold of 3 sits in that gap,
+                    # and applying it rescues Algeria and NOTHING ELSE of
+                    # the eighteen countries currently excluded.
+                    vals = sorted(daily.values())
+                    med_day = vals[len(vals) // 2] if vals else 0
+                    shape = (max(vals) / med_day) if med_day else 0.0
+                    persistent = {
+                        "recur_pct": round(recur, 1),
+                        "night_pct": round(night, 1),
+                        "frp_median": round(frp_med, 2),
+                        "n_detections": int(len(df)),
+                        "peak_to_median_day": round(shape, 2),
+                        "verdict": ("persistent_source"
+                                    if (recur > 15 and night > 60
+                                        and frp_med < 6 and shape <= 3)
+                                    else "fire_like"),
+                        # THE NUMBER, NOT ONLY THE VERDICT. "fire_like"
+                        # tells a reader nothing they can check; the
+                        # recurrence rate beside it does. Design's point,
+                        # and the same reason the cropland ratio sits next
+                        # to the word rather than behind it.
+                        "means": ("How often this week's detections recur in the same 500 m cell "
+                                  "across the seven days, with the night share and "
+                                  "median radiative power beside it. A fire burns an "
+                                  "area and moves or goes out; a flare or industrial "
+                                  "source returns to the same pixel night after night "
+                                  "at low power. An inference from REPETITION, not a "
+                                  "measurement of what is there."),
+                    }
                 except Exception:
-                    cropland = None
+                    persistent = {"verdict": "not_assessed",
+                                  "why": "the recurrence test failed to run"}
+            detail[iso]["persistence"] = persistent
+            prev_year = max(h["hist"], key=lambda y: h["hist"][y])
+            prev_best = h["hist"][prev_year]
+            vals = list(h["hist"].values())
+            sd = (sum((v - h["mean"]) ** 2 for v in vals) / len(vals)) ** 0.5
+            z = (count - h["mean"]) / sd if sd else 0.0
+            rows.append({
+                "iso": iso, "region": h["name"], "count": count,
+                # "of 15" WAS HARDCODED HERE, and it is the same defect as the
+                # prose one degree deeper: a denominator asserted rather than
+                # counted. rebuild_rows next to it derives len(hist) + 1
+                # correctly, and rebuild_rows only runs on a DEGRADED week, so
+                # the two paths disagreed and the wrong one was the normal one.
+                # This week happened to be degraded, which is the only reason
+                # the shipped rows were right.
+                "multiple": round(multiple, 1),
+                "rank": f"{rank} of {len(h['hist']) + 1}",
+                "rank_n": rank, "n_compared": len(h["hist"]) + 1,
+                # Carried ON the row because qualifies() sees nothing else.
+                # A flag left only on `detail` would be computed, emitted
+                # and silently ignored. Both this path and rebuild_rows must
+                # set it: the comment above records these two disagreeing
+                # once already, and rebuild_rows runs only on a degraded
+                # week, so a gap here hides until the worst week.
+                "persistent_source": ((persistent or {}).get("verdict")
+                                      == "persistent_source"),
+                "persistence": persistent,
+                # LAND USE ON THE EVENT, not just in the country payload.
+                # Design asked for this rather than have the renderer drop
+                # an event on a judgement that lives in analysis and not in
+                # the data. A page that says "this is almost certainly
+                # agricultural burning and here is how we know" is stronger
+                # than one that quietly drops its loudest number, and the
+                # renderer must never be the thing deciding which.
+                "land_use": land_use_block(cropland),
+                "z": round(z, 2), "lat": lat, "lon": lon,
+                "centroid_basis": basis,
+                "attribution": attribution_for(iso, end.month),
+                "title": make_title(rank, multiple, count, prev_best, prev_year,
+                                    len(YEARS_EXPECTED) + 1,
+                                    len(YEARS_EXPECTED) + 1 - (len(h["hist"]) + 1)),
+                "href": f"fires/{slugify(h['name'])}/",
+            })
+            print(f"{iso}: {count:,} x{multiple:.1f} rank {rank} "
+                  f"({lat}, {lon}) {basis}", flush=True)
 
-        detail[iso] = {"iso": iso, "name": h["name"], "count": count,
-                       "mean": h["mean"], "hist": h["hist"],
-                       "daily": daily,
-                       # EXPECTED slot counts, carried ON the series.
-                       #
-                       # A consumer cannot otherwise tell a GAP from an
-                       # END: five values in a seven-day week and five in
-                       # a five-day week are the same payload, and a
-                       # renderer resolves the ambiguity by stretching
-                       # five to fill the frame, which turns "a day is
-                       # missing" into "this is what the week looked
-                       # like".
-                       #
-                       # We already say this at document level in
-                       # `degraded`, which is not enough: D-051, a
-                       # qualifier is a property of the number and has to
-                       # survive the number being quoted alone. A chart
-                       # handed `daily` and nothing else must still know
-                       # a day is absent.
-                       #
-                       # hist_expected is 14 while the delivered dict is
-                       # often 13, because 2022 has no archive over most
-                       # windows. That difference is the point: 13 of 14
-                       # is a fact about the record, not a shorter record.
-                       #
-                       # DUE equals EXPECTED on both series, always, and
-                       # that is a property of the window rather than a
-                       # coincidence. The window is seven WHOLE days
-                       # ending yesterday, so no slot is ever "not yet":
-                       # a partial day is never published, which is the
-                       # rule the 03:00 guard exists to enforce. Every
-                       # absent slot here is a GAP and should be drawn as
-                       # one.
-                       #
-                       # Emitted anyway rather than omitted, so a
-                       # consumer reads the same three counts from every
-                       # channel and never special-cases fire. A field
-                       # that is absent for one channel is the kind of
-                       # thing a renderer resolves by guessing.
-                       "daily_expected": window_days,
-                       "daily_due": window_days,
-                       # DUE NO LONGER EQUALS EXPECTED ON THE YEAR SERIES,
-                       # and the comment above explaining why it always did
-                       # was written when the only missing year was 2022,
-                       # which is genuinely absent from the archive and so
-                       # is a real gap that should be drawn as one.
-                       #
-                       # Since 2026-08-11 a year can also be dropped ON
-                       # PURPOSE, so the current week can keep a day that
-                       # year was defective on. That is a comparability
-                       # exclusion, exactly like the day-side case, and the
-                       # rule there applies here: DUE falls, EXPECTED does
-                       # not. Product found the consequence of not doing
-                       # this: every country reported 14 due while holding
-                       # 12, so two deliberate exclusions read as two gaps.
-                       "hist_expected": len(YEARS_EXPECTED),
-                       "hist_due": len(YEARS_EXPECTED) - len(years_defective),
-                       "hist_excluded_for_comparability": years_defective,
-                       "lat": lat, "lon": lon, "basis": basis}
-        detail[iso]["cropland"] = cropland
+        except Exception as exc:
+            failed[iso] = f"{type(exc).__name__}: {exc}"
+            print(f"  {iso}: UNMEASURED, {failed[iso]}", file=sys.stderr)
+            detail[iso] = {
+                "iso": iso,
+                "name": (hist_doc["countries"].get(iso) or {}).get("name",
+                                                                   iso),
+                "count": None, "mean": None,
+                "unmeasured": failed[iso],
+                "means": ("This country raised during the build and was "
+                          "not measured this run. It is NOT a quiet week "
+                          "and NOT a zero; nothing was computed for it."),
+            }
+            continue
 
-        # PERSISTENT-SOURCE TEST. Needs the raw detections, so it is
-        # computed here rather than in qualifies(), which only sees the
-        # summarised row.
-        #
-        # The n floor is the same lesson as the cropland label: Greece's
-        # week scored 29% recurrence on 24 detections, where a handful
-        # of repeat cells dominates and means nothing. Below the floor
-        # the country is judged normally rather than excluded on noise.
-        # WITHHELD IS A VALUE, NEVER A MISSING KEY. Design's catch from
-        # land_use today: I withheld as {"withheld": ...} with no
-        # verdict, both their render functions fell through "if not
-        # reading", and Papua New Guinea, the one country the mask
-        # genuinely cannot see, was the one country that said nothing.
-        # An absent field renders as silence; a verdict renders as
-        # "not assessed".
-        persistent = {"verdict": "not_assessed",
-                      "why": ("fewer than 50 detections this week, too few "
-                              "for a recurrence rate to mean anything")}
-        if len(df) >= 50 and "daynight" in df.columns:
-            try:
-                cell = (np.round(df["latitude"], 2).astype(str) + "," +
-                        np.round(df["longitude"], 2).astype(str))
-                days_seen = df.groupby(cell)["acq_date"].nunique()
-                recur = float(cell.isin(
-                    days_seen[days_seen >= 5].index).mean()) * 100
-                night = float((df["daynight"].astype(str).str.upper()
-                               == "N").mean()) * 100
-                frp_med = float(df["frp"].astype(float).median())
-                # A FLARE BACKGROUND IS FLAT. A FIRE IS A CURVE.
-                #
-                # Algeria, 29 August: 5,374 detections, rank 1 of 15, a
-                # season record of 313,081 mapped hectares at 1.65x its
-                # previous best, and daily counts running 196, 200, 294,
-                # 383, 1021, 2204, 1076. This test excluded it, because
-                # its gas-flare background clears all three thresholds
-                # by a hair: recurrence 17.5 against 15, night 62.4
-                # against 60, FRP 5.08 against 6.
-                #
-                # So the test built to stop us publishing flares as fire
-                # was suppressing a real record instead, which is the
-                # worse failure on a channel whose purpose is finding
-                # them. It read the week's aggregate and never its
-                # SHAPE, and shape is the thing that separates them: an
-                # industrial source cannot go from 196 to 2,204 in five
-                # days.
-                #
-                # Measured, not assumed. Every genuine flare this week
-                # sits under 1.9 on peak-to-median: Iraq 1.31, Libya
-                # 1.26, Saudi Arabia 1.72, Iran 1.73, Turkmenistan 1.83.
-                # Algeria is 5.75. The threshold of 3 sits in that gap,
-                # and applying it rescues Algeria and NOTHING ELSE of
-                # the eighteen countries currently excluded.
-                vals = sorted(daily.values())
-                med_day = vals[len(vals) // 2] if vals else 0
-                shape = (max(vals) / med_day) if med_day else 0.0
-                persistent = {
-                    "recur_pct": round(recur, 1),
-                    "night_pct": round(night, 1),
-                    "frp_median": round(frp_med, 2),
-                    "n_detections": int(len(df)),
-                    "peak_to_median_day": round(shape, 2),
-                    "verdict": ("persistent_source"
-                                if (recur > 15 and night > 60
-                                    and frp_med < 6 and shape <= 3)
-                                else "fire_like"),
-                    # THE NUMBER, NOT ONLY THE VERDICT. "fire_like"
-                    # tells a reader nothing they can check; the
-                    # recurrence rate beside it does. Design's point,
-                    # and the same reason the cropland ratio sits next
-                    # to the word rather than behind it.
-                    "means": ("How often this week's detections recur in the same 500 m cell "
-                              "across the seven days, with the night share and "
-                              "median radiative power beside it. A fire burns an "
-                              "area and moves or goes out; a flare or industrial "
-                              "source returns to the same pixel night after night "
-                              "at low power. An inference from REPETITION, not a "
-                              "measurement of what is there."),
-                }
-            except Exception:
-                persistent = {"verdict": "not_assessed",
-                              "why": "the recurrence test failed to run"}
-        detail[iso]["persistence"] = persistent
-        prev_year = max(h["hist"], key=lambda y: h["hist"][y])
-        prev_best = h["hist"][prev_year]
-        vals = list(h["hist"].values())
-        sd = (sum((v - h["mean"]) ** 2 for v in vals) / len(vals)) ** 0.5
-        z = (count - h["mean"]) / sd if sd else 0.0
-        rows.append({
-            "iso": iso, "region": h["name"], "count": count,
-            # "of 15" WAS HARDCODED HERE, and it is the same defect as the
-            # prose one degree deeper: a denominator asserted rather than
-            # counted. rebuild_rows next to it derives len(hist) + 1
-            # correctly, and rebuild_rows only runs on a DEGRADED week, so
-            # the two paths disagreed and the wrong one was the normal one.
-            # This week happened to be degraded, which is the only reason
-            # the shipped rows were right.
-            "multiple": round(multiple, 1),
-            "rank": f"{rank} of {len(h['hist']) + 1}",
-            "rank_n": rank, "n_compared": len(h["hist"]) + 1,
-            # Carried ON the row because qualifies() sees nothing else.
-            # A flag left only on `detail` would be computed, emitted
-            # and silently ignored. Both this path and rebuild_rows must
-            # set it: the comment above records these two disagreeing
-            # once already, and rebuild_rows runs only on a degraded
-            # week, so a gap here hides until the worst week.
-            "persistent_source": ((persistent or {}).get("verdict")
-                                  == "persistent_source"),
-            "persistence": persistent,
-            # LAND USE ON THE EVENT, not just in the country payload.
-            # Design asked for this rather than have the renderer drop
-            # an event on a judgement that lives in analysis and not in
-            # the data. A page that says "this is almost certainly
-            # agricultural burning and here is how we know" is stronger
-            # than one that quietly drops its loudest number, and the
-            # renderer must never be the thing deciding which.
-            "land_use": land_use_block(cropland),
-            "z": round(z, 2), "lat": lat, "lon": lon,
-            "centroid_basis": basis,
-            "attribution": attribution_for(iso, end.month),
-            "title": make_title(rank, multiple, count, prev_best, prev_year,
-                                len(YEARS_EXPECTED) + 1,
-                                len(YEARS_EXPECTED) + 1 - (len(h["hist"]) + 1)),
-            "href": f"fires/{slugify(h['name'])}/",
-        })
-        print(f"{iso}: {count:,} x{multiple:.1f} rank {rank} "
-              f"({lat}, {lon}) {basis}", flush=True)
+    if failed:
+        print(f"  {len(failed)} of {len(isos)} countries UNMEASURED this "
+              f"run: {', '.join(sorted(failed))}", file=sys.stderr)
+        if len(failed) > MAX_COUNTRY_FAILURES:
+            raise RuntimeError(
+                f"{len(failed)} of {len(isos)} countries failed, above the "
+                f"limit of {MAX_COUNTRY_FAILURES}. This is a broken build "
+                f"rather than a bad day, so it stops here instead of "
+                f"publishing a page missing a third of the roster. "
+                f"Failures: {failed}")
+
+    # Aggregates below describe the countries that were MEASURED. An
+    # unmeasured row has no hist, so leaving it in would report n_range
+    # starting at 0 and n_varies_by_country True on a roster where every
+    # measured country agrees. No-op when nothing failed.
+    measured = {k: v for k, v in detail.items() if not v.get("unmeasured")}
 
     def signals(r):
         """Which of the three significance signals this country clears.
@@ -1175,7 +1244,7 @@ def main():
         # All four states, so the page can add up. A reader was told
         # "5 of 6 days" and "seven whole UTC days" on one page, and the
         # seventh day was unaccounted for anywhere.
-        sample = next(iter(detail.values()), {})
+        sample = next(iter(measured.values()), {})
         expected = sample.get("daily_expected", window_days)
         comparability = sorted(defective_md)
         degraded = {"days_used": len(live_days),
@@ -1564,10 +1633,10 @@ def main():
         # standing in for the data it was derived from. Countries do not
         # all carry the same year count, so a single n would be a lie for
         # any that differ, and the lie would be invisible.
-        ns = sorted({len(r.get("hist", {})) for r in detail.values()})
-        all_years = sorted({y for r in detail.values()
+        ns = sorted({len(r.get("hist", {})) for r in measured.values()})
+        all_years = sorted({y for r in measured.values()
                             for y in r.get("hist", {})})
-        exp = sorted({r.get("hist_expected") for r in detail.values()
+        exp = sorted({r.get("hist_expected") for r in measured.values()
                       if r.get("hist_expected")})
         json.dump({"window": win_key, "degraded": degraded,
                    # FIRE's own freshness bound, per D-092: platform reports
