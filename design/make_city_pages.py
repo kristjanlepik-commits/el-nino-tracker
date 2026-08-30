@@ -1039,7 +1039,24 @@ for name, v in sorted(C.items()):
     else:
         station_note = ""
     reloc = ""
-    rank_txt = ("the most on record by this date" if dr["value"] == 1
+
+    # HOISTED, because the first thing that needed it sat eighty lines
+    # above where it used to be defined. A complete season changes the
+    # TENSE of everything on the page, not just the headline: "so far",
+    # "by this date" and "to the same date" are all false about a summer
+    # that ended in February. Heat caught the nights block; the same read
+    # found the qualifier in the rank, the peak captions, the unit rows
+    # and the social titles. One flag, every site, rather than a fix
+    # scoped to the paragraph somebody happened to be looking at.
+    done = (v.get("season_status") or
+            (v.get("days") or {}).get("season_status")) == "complete"
+    slab = (v.get("season_label") or
+            (v.get("days") or {}).get("season_label") or "")
+    _SF = "" if done else " so far"          # after a count
+    _BD = "" if done else " by this date"    # trailing period qualifier
+    _TS = "" if done else ", to the same date"
+
+    rank_txt = (("the most on record" + _BD) if dr["value"] == 1
                 else f'{ordn(dr["value"])} of {dr["of_years"]}')
     # NO RANK CAPTION. Editor's rule and it needed no judgement from me: a
     # caption never restates the number, the title or the source stamp,
@@ -1113,10 +1130,6 @@ for name, v in sorted(C.items()):
     # season_label is printed rather than the key, because a wrapping
     # season spans two calendar years and "2025" alone reads as wrong to
     # anyone who knows the hemisphere.
-    done = (v.get("season_status") or
-            (v.get("days") or {}).get("season_status")) == "complete"
-    slab = (v.get("season_label") or
-            (v.get("days") or {}).get("season_label") or "")
     if dr["value"] == 1 and done:
         head = (f"The most hot days {name} has recorded, "
                 f"in its {slab} summer.")
@@ -1141,7 +1154,7 @@ for name, v in sorted(C.items()):
     # the sentence branches rather than being templated.
     if prank == 1 and dr["value"] == 1:
         peak_cap = (f"The hottest day of {name}'s year, to the same date. "
-                    f"<strong>2026 is the hottest on this record too, by this "
+                    f"<strong>{cur_year} is the hottest on this record too, by this "
                     f"date</strong>, at "
                     f"{peak}&nbsp;&deg;C. Both the count and the peak are records "
                     f"here, which is not true everywhere: a count and a peak are "
@@ -1155,8 +1168,8 @@ for name, v in sorted(C.items()):
         # said the same thing, which is not the same as fixed. The promoted
         # line above carries the claim; this caption describes the chart and
         # adds the one fact not stated anywhere else, the previous best.
-        peak_cap = (f"The hottest day of {name}'s summer, to the same date, "
-                    f"with 2026 marked. The previous best was "
+        peak_cap = (f"The hottest day of {name}'s summer{_TS}, "
+                    f"with {cur_year} marked. The previous best was "
                     f"{pprev}&nbsp;&deg;C in {pprev_y}, the dot on the drop "
                     f"line below it, and a typical summer here peaks at "
                     f"{typical_peak:.1f}&nbsp;&deg;C.")
@@ -1168,9 +1181,9 @@ for name, v in sorted(C.items()):
         # Paris sentence published on six cities that contradicted it.
         # The disagreement now leads the page, so this caption states the
         # chart and points back rather than repeating it.
-        peak_cap = (f"The hottest day of {name}'s year, to the same date, with "
-                    f"2026 marked. <strong>It is the hottest this station has "
-                    f"recorded by this date</strong>, at {peak}&nbsp;&deg;C, "
+        peak_cap = (f"The hottest day of {name}'s year{_TS}, with "
+                    f"{cur_year} marked. <strong>It is the hottest this station has "
+                    f"recorded{_BD}</strong>, at {peak}&nbsp;&deg;C, "
                     f"while the count "
                     f"of hot days is {rank_txt}.")
     else:
@@ -1228,16 +1241,16 @@ for name, v in sorted(C.items()):
             # beside it. Pairing them would be the b6190 trap again.
             base_clause = (f'The 20&nbsp;&deg;C night is a Mediterranean measure '
                            f'and {name} is outside its range. None this year, and '
-                           f'{words_n(ntot)} in the whole of 1961-1990 by this '
-                           f'date. No multiple is quoted, because dividing by a '
+                           f'{words_n(ntot)} in the whole of 1961-1990{_BD}'
+                           f'. No multiple is quoted, because dividing by a '
                            f'base that thin is arithmetic rather than evidence')
         elif ntot == 0:
             base_clause = (f'{name} did not record a single one in the whole of '
-                           f'1961-1990 by this date, so there is no base to '
+                           f'1961-1990{_BD}, so there is no base to '
                            f'divide by')
         elif round(nbase, 1) == 0.0:
-            base_clause = (f'{name} recorded {ntot} in the whole of 1961-1990 by '
-                           f'this date, so a ratio against that base would be '
+            base_clause = (f'{name} recorded {ntot} in the whole of 1961-1990{_BD}'
+                           f', so a ratio against that base would be '
                            f'arithmetic rather than evidence')
         else:
             base_clause = (f'{name} averages about {nbase:.1f} a year, and '
@@ -1246,8 +1259,8 @@ for name, v in sorted(C.items()):
         night_block = (
             f'<p class="cap">'
             + ("" if v["nights_2026"] == 0 else
-               f'{v["nights_2026"]} night{"" if v["nights_2026"] == 1 else "s"} so '
-               f'far that never dropped below 20&nbsp;&deg;C. '
+               f'{v["nights_2026"]} night{"" if v["nights_2026"] == 1 else "s"}{_SF} '
+               f'that never dropped below 20&nbsp;&deg;C. '
                f'<strong>No multiple is quoted here.</strong> ')
             + f'{base_clause}. '
             f'{sum(1 for c in C.values() if c.get("nights_metric_gated"))} of the '
@@ -1262,7 +1275,7 @@ for name, v in sorted(C.items()):
             # wrong reading cost most. And the night rank now uses the day
             # rank's grammar, four lines above it on the same page.
             f'<p class="cap">{v["nights_2026"]} night'
-            f'{"" if v["nights_2026"] == 1 else "s"} so far that never dropped '
+            f'{"" if v["nights_2026"] == 1 else "s"}{_SF} that never dropped '
             f'below 20&nbsp;&deg;C'
             # THE WITHHELD BASELINE WAS BEING PUBLISHED HERE, on the same
             # screen as the note refusing it. VD Heat found it on Murcia:
@@ -1281,8 +1294,8 @@ for name, v in sorted(C.items()):
             # The window is short because the STATION started late. That is
             # not a property of days or of nights, so the flag governs every
             # 1961-1990 figure on the page.
-            + (f', against {nbase:.1f} in a typical 1961-1990 summer by this '
-               f'date' if mult_ok else '')
+            + (f', against {nbase:.1f} in a typical 1961-1990 summer{_BD}'
+               if mult_ok else '')
             + f'. That is {ordn(nrank["value"])} of its '
             f'{nrank["of_years"]} summers.</p>')
 
@@ -1293,12 +1306,15 @@ for name, v in sorted(C.items()):
     unit_rows = ""
     if cmp_val is not None:
         unit_rows = (
-            f'<div class="urow"><span class="uk">By this date in a typical<br>'
+            f'<div class="urow"><span class="uk">'
+            f'{"In a typical" if done else "By this date in a typical"}<br>'
             f'summer of {cmp_period}</span>'
             f'<span class="ug">{units(cmp_val)}</span>'
             f'<span class="un">{cmp_val:.1f}</span></div>')
     unit_rows += (
-        f'<div class="urow"><span class="uk">By this date<br>this summer</span>'
+        f'<div class="urow"><span class="uk">'
+        f'{"In its " + slab if done else "By this date"}<br>'
+        f'{"summer" if done else "this summer"}</span>'
         f'<span class="ug">{units(now, True)}</span><span class="un">{_count_text(v, now)}</span></div>')
 
     # Sits with the unit rows, which is what it qualifies, rather than under
@@ -1327,7 +1343,7 @@ for name, v in sorted(C.items()):
     peak_lead = ("" if not peak_promoted else
                  f'<p class="stand" style="margin-top:18px">Its hottest single '
                  f'day, {peak}&nbsp;&deg;C, is the hottest this station has '
-                 f'recorded by this date. A count and a peak are different '
+                 f'recorded{_BD}. A count and a peak are different '
                  f'claims and neither '
                  f'borrows the other\'s rank.</p>')
 
@@ -1415,7 +1431,7 @@ for name, v in sorted(C.items()):
      the same sentence they see after. -->
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="{SITE_NAME}">
-<meta property="og:title" content="{name}: {now} hot days so far this summer">
+<meta property="og:title" content="{name}: {now} hot days{_SF}{" in its " + slab + " summer" if done else " this summer"}">
 <meta property="og:description" content="{head}">
 <meta property="og:url" content="{PAGES_BASE_URL}/heat/{slug(name)}.html">
 <!-- A page that declares summary_large_image and supplies no image is
@@ -1428,7 +1444,7 @@ for name, v in sorted(C.items()):
 <meta property="og:image" content="{PAGES_BASE_URL}/heat/cards/{slug(name)}.png">
 <meta name="twitter:image" content="{PAGES_BASE_URL}/card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{name}: {now} hot days so far this summer">
+<meta name="twitter:title" content="{name}: {now} hot days{_SF}{" in its " + slab + " summer" if done else " this summer"}">
 <meta name="twitter:description" content="{head}">
 {ANALYTICS_SNIPPET}
 <style>{SITE_MASTHEAD_CSS}{CSS}</style><!-- payload {PAYLOAD_STAMP} --></head><body><main>
