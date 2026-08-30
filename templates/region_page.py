@@ -34,6 +34,7 @@ I could not see them because I looked in events.json, which is the
 qualifying list.
 """
 import json
+from html import escape as h
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -263,6 +264,62 @@ def _flood_note(root_prefix):
                "s" if n == 1 else "", links))
 
 
+def _fires_limit(names):
+    """What the fires column counts, and what it cannot tell apart.
+
+    CPO's first instinct was to drop the fires column until a per-country
+    qualifier exists at roster level, on the grounds that Cuba's
+    agricultural burning and Spain's wildfire in one unlabelled column say
+    nothing. They withdrew it, and the reason is worth keeping: LEAVING
+    THE COLUMN OUT IS ITSELF AN ABSENCE-AS-ZERO. A Latin America page with
+    no fires column tells a reader nothing is happening with fire here,
+    which is false, and it deletes the quiet-continent reading that is
+    half of why this page exists.
+
+    What makes a column dishonest is silence, not the lack of a per-row
+    field. So the limit is stated once, above the table, at the weight of
+    a finding.
+
+    FIRE'S OWN SENTENCE IS RENDERED RATHER THAN PARAPHRASED. Their
+    land_use payload carries a `means` string that already says the thing
+    exactly: the instrument sees a thermal anomaly, not a substrate. A
+    paraphrase of mine would be free to lose that.
+
+    The example is measured and read from the payload, never typed. I
+    proposed "Cuba's detections fall on cropland far more often than
+    chance, and Brazil's do not" to product, and the second half was
+    unsupportable: Brazil did not qualify, so it is not in events.json and
+    has no cropland reading at all.
+    """
+    try:
+        ev = json.loads((ROOT / "data/events.json").read_text())["events"]
+    except (OSError, KeyError, ValueError):
+        return ""
+    here = [e for e in ev
+            if e.get("region") in names and (e.get("land_use") or {}).get(
+                "reading")]
+    if not here:
+        return ""
+    means = (here[0].get("land_use") or {}).get("means") or ""
+    rich = [e for e in here
+            if (e.get("land_use") or {}).get("reading") == "enriched"]
+    if not rich:
+        return ""
+    ex = max(rich, key=lambda e: e["land_use"]["cropland_ratio"])
+    lu = ex["land_use"]
+    return (
+        '<p class="rgnote" style="border-top:2px solid var(--ink);'
+        'padding-top:14px;margin-top:22px"><b>This column counts thermal '
+        'detections against each country&rsquo;s own normal week. It does '
+        'not distinguish agricultural burning from wildfire.</b> In this '
+        'region that difference is large and measured: %s&rsquo;s '
+        'detections fall on cropland %.1f times more often than chance, '
+        '%.1f%% of them against %.1f%% of the country being cropland. %s</p>'
+        % (h(ex["region"]), lu["cropland_ratio"],
+           lu["detections_on_crop_pct"], lu["country_land_crop_pct"],
+           h(means)))
+
+
 def _coverage_notes(crops, fires, names, worst):
     """How far each instrument reaches, counted rather than remembered.
 
@@ -389,6 +446,7 @@ def render(root_prefix="../"):
     body = """
 <p class="rgsec">Four instruments, one region, one week</p>
 __MAPS__
+__FIRES_LIMIT__
 <p class="rgsec" style="margin-top:40px">Every country we measure, and every one we do not</p>
 <div class="rgscroll"><table class="rg">
 <tr><th>Country</th><th class="n">Crops, against its own 26 years</th>
@@ -404,6 +462,7 @@ __FLOOD_NOTE__
     body = body.replace("__COVERAGE_NOTES__", _coverage_notes(crops, fires,
                                                               names, worst))
     body = body.replace("__FLOOD_NOTE__", _flood_note(root_prefix))
+    body = body.replace("__FIRES_LIMIT__", _fires_limit(set(names)))
     body = body.replace("__MAPS__", map_block(root_prefix))
 
     css = (CSS.replace("__D__", T.FONT_DATA)
