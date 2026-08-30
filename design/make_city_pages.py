@@ -1088,7 +1088,26 @@ for name, v in sorted(C.items()):
     # and nothing exceeds it.
     ties = list(dr.get("tied_with") or [])
     ties_for_first = dr["value"] == 1 + len(ties) and ties
-    if dr["value"] == 1:
+    # A FINISHED SEASON IS NOT A PART-FINISHED ONE. Seven southern cities
+    # report a summer that ENDED in February, so "so far" and "by this
+    # date" are both false on their pages: heat sent them back for saying
+    # "6 hot days so far" and "to 29 August 2026" about a season that
+    # closed six months ago.
+    #
+    # season_label is printed rather than the key, because a wrapping
+    # season spans two calendar years and "2025" alone reads as wrong to
+    # anyone who knows the hemisphere.
+    done = (v.get("season_status") or
+            (v.get("days") or {}).get("season_status")) == "complete"
+    slab = (v.get("season_label") or
+            (v.get("days") or {}).get("season_label") or "")
+    if dr["value"] == 1 and done:
+        head = (f"The most hot days {name} has recorded, "
+                f"in its {slab} summer.")
+    elif done:
+        head = (f"{_count_text(v, now)} hot days in {name}'s {slab} "
+                f"summer, {ordn(dr['value'])} of {dr['of_years']}.")
+    elif dr["value"] == 1:
         head = f"The most hot days {name} has recorded by this date."
     elif ties_for_first:
         # "the most X has recorded" is a superlative with nothing under it.
@@ -1404,7 +1423,7 @@ for name, v in sorted(C.items()):
      Kristjan spotted it. What this bar is for is the page's own
      identity: the channel, and which station and cut it reports. -->
 <div class="mast"><span class="prod">Heat</span>
-<span class="when">{name} &middot; {S[name]['station']} &middot; to {cut_txt} 2026</span></div>
+<span class="when">{name} &middot; {S[name]['station']} &middot; {"the " + slab + " summer, complete" if done else "to " + cut_txt + " 2026"}</span></div>
 
 {_joined_caveat(v)}{_shortfall_caveat(v)}<h1>{head}</h1>
 {_provisional_mark(v)}
