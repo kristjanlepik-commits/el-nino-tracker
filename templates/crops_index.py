@@ -652,9 +652,10 @@ def _pinned_block(places, in_groups=()) -> str:
             # them. "12th of 26" beside "19 of 22 at their own record" reads
             # as self-contradiction unless the page has first said which
             # measure is the harvest and which are current conditions.
-            f'<p class="secsub"><strong>The top number tracks the harvest, '
-            f'and a harvest takes a season to go wrong.</strong> The others '
-            f'are current conditions, which is why they moved first.</p>'
+            f'<p class="secsub"><strong>The top number is the whole '
+            f'season added up, so one bad month barely shows.</strong> The '
+            f'others are conditions right now, which is why they moved '
+            f'first.</p>'
             f'{_order_note(places)}'
             f'{"".join(rows)}{note}')
 

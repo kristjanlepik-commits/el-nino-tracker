@@ -1060,8 +1060,8 @@ def render(country: dict, root_prefix: str = "../../") -> str:
                    if units == 1 else
                    f"None of its {units} crop regions is")
         stand = (f"{head} {subject} at a record "
-                 f"low on the measure that tracks the harvest, marked below, "
-                 f"which is also the slowest of them to move.")
+                 f"low on the measure that adds up the whole season, marked "
+                 f"below, which is also the slowest of them to move.")
 
     # EVERY REGION GETS A ROW. VD asked for this on the index and the same
     # argument holds one level down: sixteen of nineteen regions got a bar
