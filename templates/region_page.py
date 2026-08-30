@@ -101,9 +101,48 @@ def _fires_rows(iso_names):
         if not mean:
             out.append({"name": n, "state": "blind"})
             continue
+
+        # NOT FIRE AT ALL. Fire's persistence test flags gas flares and
+        # fixed industrial heat, and build_events drops such countries
+        # from the qualifying set entirely. Chile passes all four
+        # criteria. Rendering its ratio put an arithmetically perfect
+        # number on the page describing something the instrument is
+        # saying is not a fire, which is exactly the class the sign-off
+        # gate exists to catch and which no numeric check can see.
+        if (e.get("persistence") or {}).get("verdict") == "persistent_source":
+            out.append({"name": n, "state": "not_fire",
+                        "count": e["count"]})
+            continue
+
+        # BELOW THE FLOOR THIS PAGE ITSELF PUBLISHES. events.json's method
+        # block sets noise_floor_detections = 150 and defines it as "a
+        # country below this many detections cannot qualify at all,
+        # whatever its multiple". The page stated that rule and then
+        # showed four exceptions to it: Chile 82, Jamaica 70, Uruguay 56,
+        # Haiti 35. Printing the count beside the multiple was a real
+        # mitigation and it cannot resolve a contradiction with our own
+        # stated method.
+        #
+        # The idiom is crops': measured, but too thin to place.
+        if e["count"] < _NOISE_FLOOR:
+            out.append({"name": n, "state": "thin", "count": e["count"]})
+            continue
+
         out.append({"name": n, "state": "measured",
                     "mult": e["count"] / mean, "count": e["count"]})
     return out
+
+
+def _noise_floor():
+    """The floor fires publishes, read from fires' own method block."""
+    try:
+        m = json.loads((ROOT / "data/events.json").read_text())["method"]
+        return int(m["noise_floor_detections"])
+    except (OSError, KeyError, ValueError, TypeError):
+        return 150
+
+
+_NOISE_FLOOR = _noise_floor()
 
 
 # LatAm, in the order a reader scans a map: north to south, Caribbean
@@ -215,6 +254,14 @@ def _cell(row, kind):
         return '<td class="n na">not measured</td>'
     if st == "blind":
         return '<td class="n na">no reading</td>'
+    if st == "not_fire":
+        return ('<td class="n na">not fire<span class="sub">%s '
+                'detections, flagged a persistent heat source</span></td>'
+                % _thousands(row["count"]))
+    if st == "thin":
+        return ('<td class="n na">too few to place<span class="sub">%s '
+                'detections, floor is %d</span></td>'
+                % (_thousands(row["count"]), _NOISE_FLOOR))
     if kind == "crops":
         b = _band(row["rank"], row["of"])
         return ('<td class="n b%d">%s of %s</td>' % (b, row["rank"], row["of"]))
@@ -343,23 +390,41 @@ def _amazon_2015():
             '<span class="amv">%.1fM</span></div>'
             % (y, cls, w, at[y] / 1e6))
 
+    # TWO CLAIMS ON TWO SCALES, AND THE PAGE NAMED NEITHER. Fire caught
+    # it. "Slowest start on record" is TRUE as a share of each year's own
+    # eventual season (2015 is 1 of 14 at 22.8%) and FALSE in absolute
+    # hectares, where four years started lower and 2015 is 5th of 14.
+    # "2026 is slower still" can ONLY be absolute, because 2026's share
+    # of its own final is unknowable while the season is running. Each
+    # sentence was defensible; they could not both be true on one scale.
+    abs_low = sorted(complete, key=lambda y: at[y])
+    an_abs = abs_low.index(an) + 1
+
     return (
         '<p class="rgsec" style="margin-top:40px">Brazil against its own '
         'slowest year, at the same week</p>'
-        '<p class="rgnote" style="margin-top:12px"><b>%s was the slowest '
-        'start on record and finished %s of %d. %s is slower still.</b> '
-        'Cumulative burnt area by Copernicus week %d: %s has %.1f million '
-        'hectares against %s&rsquo;s %.1f million at the same point, '
-        '%.2f times it, and ranks %d of %d years. %s completed %.1f%% of '
-        'its year by this week, against %.1f%% for the next slowest.</p>'
+        '<p class="rgnote" style="margin-top:12px"><b>%s completed less of '
+        'its season by this week than any year on record, %.1f%% of its '
+        'eventual total, and still finished %s of %d. Measured in hectares '
+        'burned so far, %s is lower than %s was at the same point.</b> '
+        'Those are two different measures. On hectares alone %s ranks %s '
+        'of %d at this week rather than first; its claim to the slowest '
+        'start is about the SHARE of its own season completed, which '
+        'cannot be computed for %s until %s ends.</p>'
+        '<p class="rgnote">Cumulative burnt area by Copernicus week %d: '
+        '%s has %.1f million hectares against %s&rsquo;s %.1f million, '
+        '%.2f times it, and ranks %d of %d years including this one. The '
+        'next slowest share after %s is %.1f%%.</p>'
         '<div class="amwrap">%s</div>'
         '<p class="rgnote">Burnt area, not detections. The two measure '
         'different things and are never converted into each other, so no '
         'figure here is a fire count. Where %s finishes is not forecast '
         'from this: a slow start is what %s also had.</p>'
-        % (an, _nth_word(an_finish), len(complete), cur, wk, cur,
-           at[cur] / 1e6, an, at[an] / 1e6, ratio, rank, len(at),
-           an, share[an], share[slow[1]],
+        % (an, share[an], _nth_word(an_finish), len(complete),
+           cur, an,
+           an, _nth_word(an_abs), len(complete), cur, cur,
+           wk, cur, at[cur] / 1e6, an, at[an] / 1e6, ratio, rank, len(at),
+           an, share[slow[1]],
            "\n".join(bars), cur, an))
 
 
@@ -371,46 +436,63 @@ def _nth_word(n):
 def _fires_limit(names):
     """What the fires column counts, and what it cannot tell apart.
 
-    CPO's first instinct was to drop the fires column until a per-country
-    qualifier exists at roster level, on the grounds that Cuba's
-    agricultural burning and Spain's wildfire in one unlabelled column say
-    nothing. They withdrew it, and the reason is worth keeping: LEAVING
-    THE COLUMN OUT IS ITSELF AN ABSENCE-AS-ZERO. A Latin America page with
-    no fires column tells a reader nothing is happening with fire here,
-    which is false, and it deletes the quiet-continent reading that is
-    half of why this page exists.
+    Product's first instinct was to drop the column until a per-country
+    qualifier existed. They withdrew it: LEAVING IT OUT IS ITSELF AN
+    ABSENCE-AS-ZERO, and it deletes the quiet-continent reading that is
+    half of why this page exists. What makes a column dishonest is
+    silence, not the lack of a per-row field.
 
-    What makes a column dishonest is silence, not the lack of a per-row
-    field. So the limit is stated once, above the table, at the weight of
-    a finding.
+    BOTH SIDES OF THE CONTRAST ARE NAMED NOW. I first wrote "Cuba's
+    detections fall on cropland far more often than chance, and Brazil's
+    do not", cut the Brazil half as unsupportable, and was wrong to: I had
+    looked in events.json, which is the QUALIFYING list, and concluded
+    Brazil had no reading. Fire corrected it. current_week.json carries
+    cropland for 86 of the 97 countries in the roster, qualifying or not,
+    which is the same roster-versus-qualifying-list mistake I made once
+    already on this page and then made again one field over.
 
-    FIRE'S OWN SENTENCE IS RENDERED RATHER THAN PARAPHRASED. Their
-    land_use payload carries a `means` string that already says the thing
-    exactly: the instrument sees a thermal anomaly, not a substrate. A
-    paraphrase of mine would be free to lose that.
-
-    The example is measured and read from the payload, never typed. I
-    proposed "Cuba's detections fall on cropland far more often than
-    chance, and Brazil's do not" to product, and the second half was
-    unsupportable: Brazil did not qualify, so it is not in events.json and
-    has no cropland reading at all.
+    Both readings clear fire's own floor of 50 detections on cropland, so
+    neither rests on noise: Cuba on 208, Brazil on 528.
     """
     try:
+        cw = json.loads((ROOT / "fires/data/current_week.json").read_text())
         ev = json.loads((ROOT / "data/events.json").read_text())["events"]
     except (OSError, KeyError, ValueError):
         return ""
-    here = [e for e in ev
-            if e.get("region") in names and (e.get("land_use") or {}).get(
-                "reading")]
-    if not here:
+    floor = 50
+    try:
+        floor = int(json.loads((ROOT / "data/events.json").read_text())
+                    ["method"]["cropland_min_detections_on_crop"])
+    except (OSError, KeyError, ValueError, TypeError):
+        pass
+
+    here = []
+    for e in (cw.get("countries") or {}).values():
+        if e.get("name") not in names:
+            continue
+        cl = e.get("cropland") or {}
+        if not cl.get("reading") or cl.get("ratio") is None:
+            continue
+        if (cl.get("detections_on_crop") or 0) < floor:
+            continue
+        here.append((e["name"], cl))
+    if len(here) < 2:
         return ""
-    means = (here[0].get("land_use") or {}).get("means") or ""
-    rich = [e for e in here
-            if (e.get("land_use") or {}).get("reading") == "enriched"]
-    if not rich:
+
+    rich = [x for x in here if x[1]["reading"] == "enriched"]
+    poor = [x for x in here if x[1]["reading"] == "depleted"]
+    if not rich or not poor:
         return ""
-    ex = max(rich, key=lambda e: e["land_use"]["cropland_ratio"])
-    lu = ex["land_use"]
+    hi = max(rich, key=lambda x: x[1]["ratio"])
+    lo = min(poor, key=lambda x: x[1]["ratio"])
+
+    means = ""
+    for e in ev:
+        m = (e.get("land_use") or {}).get("means")
+        if m:
+            means = m
+            break
+
     return (
         '<p class="rgnote" style="border-top:2px solid var(--ink);'
         'padding-top:14px;margin-top:22px"><b>This column counts thermal '
@@ -418,9 +500,9 @@ def _fires_limit(names):
         'not distinguish agricultural burning from wildfire.</b> In this '
         'region that difference is large and measured: %s&rsquo;s '
         'detections fall on cropland %.1f times more often than chance, '
-        '%.1f%% of them against %.1f%% of the country being cropland. %s</p>'
-        % (h(ex["region"]), lu["cropland_ratio"],
-           lu["detections_on_crop_pct"], lu["country_land_crop_pct"],
+        'and %s&rsquo;s %.1f times LESS often. Same instrument, same week, '
+        'opposite phenomena. %s</p>'
+        % (h(hi[0]), hi[1]["ratio"], h(lo[0]), 1.0 / lo[1]["ratio"],
            h(means)))
 
 
@@ -548,13 +630,16 @@ def render(root_prefix="../"):
         "They run from %s to %s without a gap: %s. Each is "
         "measured only against its own record. At the same moment the "
         "southern half of the continent is having an unusually QUIET fire "
-        "week: %s all sit below half their normal for this week of the "
+        "week: %s %s below half their normal for this week of the "
         "year. Both are findings. Neither is visible on a channel page, "
         "which shows only what qualified, or on a country page, which "
         "shows one place."
         % (worst[0], worst[-1],
            ", ".join(worst[:-1]) + " and " + worst[-1],
-           ", ".join(quiet[:-1]) + " and " + quiet[-1]))
+           (", ".join(quiet[:-1]) + " and " + quiet[-1]) if len(quiet) > 1
+           else quiet[0],
+           "all sit" if len(quiet) > 2 else
+           ("both sit" if len(quiet) == 2 else "sits")))
 
     from templates.region_map import block as map_block, CSS as MAP_CSS
     body = """
