@@ -1,0 +1,41 @@
+{
+  "subject": "Lima coast, 13 to 18 August 2026: damage reported where almost no rain was measured",
+  "compiled": "2026-08-30",
+  "why_this_exists": "The international flood alert for this window was placed on the Peruvian coast. Our rainfall instrument reads that coast as drier than usual, which reads as the alert being wrong. Peru's own civil defence logged real flood damage there in the same days. Both are true and the pair is the finding, so it is recorded rather than resolved in favour of one.",
+  "rainfall_measured": {
+    "region": "lima_coast",
+    "window": "2026-08-17..2026-08-22",
+    "value_mm": 0.39,
+    "median_mm": 0.84,
+    "x_median": 0.47,
+    "rank": 21,
+    "of": 27,
+    "claim": "normal",
+    "ordinal_safe": false,
+    "ratio_safe": false,
+    "wettest_year_in_record": {"year": 2008, "mm": 4.43},
+    "per_district_window_mm": "below the 1.0 mm floor at every district that reported damage, sampled from the 0.1 degree IMERG grid over 15 to 22 August",
+    "instrument": "GPM IMERG Late Run v07, observed"
+  },
+  "damage_reported": {
+    "source": "INDECI/COEN Peru",
+    "districts": [
+      {"name": "Villa El Salvador", "occurred": "2026-08-13 and 2026-08-16",
+       "detail": "sewer collapse, then flooding from soil saturation; homes, a school, transport and basic services",
+       "cause_given": "lloviznas persistentes, persistent drizzle, accumulating"},
+      {"name": "Villa Maria del Triunfo", "occurred": "2026-08-16",
+       "detail": "homes, transport and education infrastructure across six sectors"},
+      {"name": "Chorrillos", "occurred": "2026-08-17", "detail": "businesses damaged"},
+      {"name": "San Juan de Miraflores", "occurred": "2026-08-17",
+       "detail": "flooding from soil saturation, homes at Pamplona Alta"},
+      {"name": "Pachacamac", "occurred": "2026-08-17",
+       "detail": "flooding from soil saturation, homes and transport at Villa Las Palmeras"}
+    ]
+  },
+  "reconciliation": {
+    "not_a_contradiction": "A regional mean over a six-day window and a street flooding in one district are different quantities. Both can be right.",
+    "the_actual_point": "Lima is hyper-arid and drains nothing. The wettest equivalent August window in 27 years of record there is 4.43 mm. So under a millimetre of accumulated drizzle is enough to put water in houses, and our instrument is correct that almost no rain fell.",
+    "what_must_not_be_said": "That heavy rain hit Lima. It did not. The cause COEN itself gives at the largest of these events is persistent drizzle.",
+    "instrument_caveat": "IMERG under-reads intense short-duration rain, so a genuinely heavy Lima hour could also be invisible here. That possibility is not excluded by this record; it is simply not what COEN describes."
+  }
+}
