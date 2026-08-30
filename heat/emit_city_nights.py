@@ -591,6 +591,12 @@ def main() -> int:
             "station_class": v.get("station_class"),
             "station_class_note": v.get("station_class_note"),
             "station_class_limit": v.get("station_class_limit"),
+            # THE SEASON MUST REACH THE CONSUMER. It was emitted to
+            # city_series.json and design reads city_nights.json, so the field
+            # the entire southern render turns on was invisible to the only
+            # chat that needed it. Third time this week I have emitted
+            # something to one file and told someone it was in another.
+            "season": v.get("season"),
             "pctl_baseline": v.get("pctl_baseline"),
             "pctl_baseline_is_default": v.get("pctl_baseline_is_default"),
             "pctl_baseline_note":

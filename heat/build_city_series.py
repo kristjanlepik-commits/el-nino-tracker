@@ -418,6 +418,17 @@ JOINED = {
                                "of forty-two. Selected for the gap, before "
                                "its 2026 figures were looked at."),
     "Vilnius":  ("2026-08-17", "As Budapest: the Baltic and eastern gap."),
+    # Argentina, added 2026-08-30 while their season is dormant.
+    "Santiago del Estero": ("2026-08-30", "The southern hemisphere was zero "
+                            "cities. Selected for the gap, months before the "
+                            "summer it will measure."),
+    "Parana":    ("2026-08-30", "As Santiago del Estero."),
+    "Laboulaye": ("2026-08-30", "As Santiago del Estero."),
+    "Mar del Plata": ("2026-08-30", "As Santiago del Estero, and the only "
+                      "coastal station in the Argentine set."),
+    "Neuquen":   ("2026-08-30", "As Santiago del Estero, and the "
+                  "northern-Patagonian end of the set."),
+    "Salta":     ("2026-08-30", "As Santiago del Estero."),
     "Zagreb":   ("2026-08-17", "The Balkans were zero cities. Selected for "
                                "the gap, before its 2026 figures were "
                                "looked at."),
@@ -1046,13 +1057,18 @@ def build(city, meta):
             rec["warmest_night_c"] = round(max(tn[y].values()), 1)
         if tx.get(y):
             rec["warmest_day_c"] = round(max(tx[y].values()), 1)
-            rec["warmest_day_to_cut_c"] = round(
-                max([v for k, v in tx_s.get(y, {}).items() if _counts(k, y)],
-                    default=-99), 1)
+            # NO SENTINEL. -99 stood for "this year has no in-season
+            # maxima", and sixteen years carried it: Frankfurt 1945, Leipzig
+            # 1863, Belfast 1930, Zurich 1890 and the rest, war years and
+            # record starts where minima exist and maxima do not. Any
+            # consumer taking a min or a mean over the series would get a
+            # temperature no thermometer produced. Design found four; there
+            # were sixteen. Absent is now null and says so.
+            _dv = [v for k, v in tx_s.get(y, {}).items() if _counts(k, y)]
+            rec["warmest_day_to_cut_c"] = round(max(_dv), 1) if _dv else None
         if tn.get(y):
-            rec["warmest_night_to_cut_c"] = round(
-                max([v for k, v in tn_s.get(y, {}).items() if _counts(k, y)],
-                    default=-99), 1)
+            _nv = [v for k, v in tn_s.get(y, {}).items() if _counts(k, y)]
+            rec["warmest_night_to_cut_c"] = round(max(_nv), 1) if _nv else None
         years[str(y)] = rec
 
     def rate(lo, hi, p):
