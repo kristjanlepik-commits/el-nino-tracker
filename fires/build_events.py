@@ -1298,10 +1298,16 @@ def main():
                 "all, whatever its multiple. Not a significance test: "
                 "enough pixels that a ratio is not built on a handful.",
             "cropland_min_detections_on_crop":
-                "the cropland ratio is withheld unless this many "
-                "detections actually fall on cropland. Peru read 5.04x "
-                "enriched on about twenty, which is arithmetic rather "
-                "than a finding.",
+                "applies to an ENRICHED reading only, and the "
+                "asymmetry is the point. Enriched says detections "
+                "concentrate ON cropland, so the count actually there "
+                "IS the evidence, and it is withheld below this many: "
+                "Peru read 5.04x on about twenty and New Zealand 2.01x "
+                "on one, which is arithmetic rather than a finding. "
+                "Depleted says the opposite, and a small on-crop count "
+                "is what EVIDENCES it, so the same floor would suppress "
+                "the finding; a depleted reading is floored on total "
+                "detections instead, which is also 50.",
             "persistence_peak_to_median_at_or_below":
                 "a country is only excluded as a persistent industrial "
                 "source if its week is also FLAT. A gas flare cannot go "

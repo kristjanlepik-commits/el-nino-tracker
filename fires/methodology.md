@@ -69,9 +69,18 @@ which *is* cropland. Cuba's detections sat on farmland 28% of the time in
 the week to 29 August, against 11.5% of Cuba being farmland, which is the
 2.4 times the page reports. The share alone would have told you nothing.
 
-The ratio is withheld unless enough detections actually fall on cropland.
-Peru read five times enriched on about twenty pixels, which is arithmetic
-rather than a finding, and the floor exists because of it.
+The ratio is withheld unless enough detections actually fall on cropland,
+and only when the reading says they concentrate there. Peru read five
+times enriched on about twenty pixels, and New Zealand twice on one, which
+is arithmetic rather than a finding. The floor is fifty.
+
+It applies in one direction only, because the evidence does. A reading
+that says fires sit on farmland MORE often than chance rests entirely on
+the detections that are there, so a handful cannot support it. A reading
+that says LESS often is evidenced by that same small count: Belgium's one
+detection on cropland, out of many, is what "less often" means. Flooring
+it would delete the finding rather than protect it. Those readings are
+held to fifty total detections instead.
 
 **Not assessed is not zero.** Two different withholdings exist and both
 render as "not assessed": the mask has no data for that country at all,
@@ -114,3 +123,13 @@ record.
 **1.0, 2026-08-30.** First publication. Written after a fortnight in
 which most of the limits above were found the hard way, several of them
 by other people reading our numbers rather than by us.
+
+**1.1, 2026-08-30.** The cropland floor was tested against every
+detection in a country rather than against the detections on cropland,
+so an enriched reading, whose whole evidence is the latter, was gated on
+a number unrelated to it. Six countries stated a reading they should have
+withheld; one, Tunisia at 1.48 times on forty, was on the public page.
+Corrected the same day, and the correction is the asymmetry described
+above. Found because our design chat asked to see the floor checked
+against the whole payload rather than against the three countries we had
+named as examples, which were the three most likely to pass.
