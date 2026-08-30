@@ -27,60 +27,88 @@ name: Fires data pull and publish
 # distinction that matters is "could not compare" versus "something
 # broke". Real errors still fail loudly.
 
-# TIMING, and the floor is a data-quality constraint rather than a
-# preference. Kristjan asked for the pages to be fresh early in the
-# morning (2026-07-28). 04:00 UTC is 07:00 in Tallinn and 06:00 in
-# central Europe, so the site is current before an EU reader opens it.
+# TIMING, REWORKED 2026-08-30 AFTER BUSINESS'S POST-MORTEM. The pull had
+# not been failing. `git log` on docs/fires/index.html showed the window
+# advancing by exactly one day every single day for a week straight,
+# with zero gaps: 08-23 through 08-29, seven publishes, seven days late
+# against Kristjan's 10:00 Estonia deadline, by margins from 43 minutes
+# to 3h11m. He looked each morning, found a stale page against the
+# clock he actually reads it by, and reported a failed pull. He was
+# right that it was broken and every chat, including this one, was
+# wrong about how: we kept chasing crashes and holds that were real but
+# were not what he was seeing.
 #
-# It cannot go earlier than 03:00 UTC: FIRMS near-real-time processing
-# only guarantees yesterday is closed by about then, and build_events.py
-# refuses to run before 03:00 on purpose, so that a retry cannot quietly
-# publish an unfinished day. 04:00 leaves an hour of margin against that
-# boundary, down from three at the old 06:00 slot. If undercounts ever
-# appear on early runs, that margin is the first thing to suspect and
-# 05:00 UTC is the fallback.
+# THE DEADLINE IS LOCAL, THE CRONS ARE UTC, AND THE OLD SLOTS WERE NEVER
+# CHOSEN AGAINST IT. Kristjan's 10:00 target is Estonia time: 07:00 UTC
+# in summer (EEST, UTC+3, in effect through late October) and 08:00 UTC
+# in winter (EET, UTC+2). The summer offset is the BINDING case, because
+# it is the smaller UTC gap to the same local deadline; every slot below
+# is sized against 07:00 UTC and therefore clears winter with more room,
+# not less, so nothing here needs revisiting at the DST switch itself.
 #
-# GitHub's scheduled runs are also routinely 5 to 20 minutes late, which
-# eats into the margin rather than the reader's morning.
+# THE OLD 08:00 UTC SLOT COULD NOT MEET IT AND WAS COUNTING AS COVERAGE
+# ANYWAY. 08:00 UTC plus the run's own worst observed duration (27
+# minutes, see below) already lands at 08:27 UTC, past the summer 07:00
+# deadline before GitHub's own drift is even added. It was added
+# 2026-08-27 as a backstop against a fully dropped morning and is still
+# right for that job; it was never going to be right as a delivery slot,
+# and treating it as one is exactly what made three separate chats
+# report "the pipeline worked today" on mornings Kristjan was reading a
+# stale page.
+#
+# RUNTIME: 8 to 27 minutes observed across the last 15 completed runs
+# (2026-08-30), including the runs after the 2026-08-29 baseline-step
+# timeout raise to 45 minutes. That 45-minute figure is a SAFETY
+# CEILING for a bad day, not the expected duration; the 27-minute figure
+# below is what the schedule is actually sized against, matching what
+# has actually happened in practice. A day that genuinely needs the
+# full 45-minute ceiling would blow through every slot's margin below
+# regardless of how the crons are arranged, and that is a real,
+# separate risk this schedule change does not remove.
+#
+# GITHUB'S OWN DRIFT is the dominant term, not our runtime: 5 to 20
+# minutes is the routinely documented case, and 2h25m (2026-07-30) and
+# 3h11m (2026-08-23) are both measured on this exact workflow. No amount
+# of tuning our own steps fixes a queue we do not control; multiple
+# slots, each independently capable of meeting the deadline, is the only
+# lever available on this side. The genuinely independent trigger origin
+# that would fix drift itself, rather than absorb it, is still an open
+# decision with Kristjan (Ask 2, unresolved as of 2026-08-29).
 on:
   schedule:
-    # TWO SLOTS, and the second is nearly free.
+    # THREE SLOTS, each sized to clear 07:00 UTC (the binding summer
+    # deadline) on ITS OWN, worst-case runtime included, so a single
+    # slot surviving is sufficient rather than needing the last one to
+    # land.
     #
-    # The binding constraint is not our runtime, it is GitHub's scheduling
-    # delay. On 2026-07-30 the 04:00 slot actually fired at 06:25, 2h25m
-    # late, and with a ~35 minute run that lands at 07:00 UTC, which is
-    # 10:00 in Tallinn and past the 09:00 target. No amount of tuning our
-    # own steps fixes a queue we do not control; more slots does.
+    # 03:10 UTC: unchanged, still the floor. build_events.py refuses
+    # before 03:00 UTC because FIRMS only guarantees the previous day is
+    # closed by then, and that refusal is correct: publishing an
+    # unfinished day reads as a die-down. 10 minutes of margin past the
+    # floor, worst-case completion 03:37 UTC, 3h23m of drift absorption
+    # before 07:00.
     #
-    # 03:10 is as early as this can go. build_events.py refuses before
-    # 03:00 UTC because FIRMS only guarantees the previous day is closed
-    # by then, and that refusal is correct: publishing an unfinished day
-    # reads as a die-down. 10 minutes of margin past the floor, and now
-    # nearly three hours of delay absorption before 06:00 UTC.
+    # 04:40 UTC: worst-case completion 05:07 UTC, 1h53m of drift
+    # absorption. Catches a fully dropped or badly delayed first slot
+    # while still landing nowhere near the deadline on a normal day.
     #
-    # The 05:30 slot is a backstop for a FAILED or very late first run,
-    # not a second full pull. fetch_window_baseline.py returns
-    # immediately when the baseline already covers the window, and
-    # build_events and publish are both no-ops when nothing changed, so a
-    # redundant run costs a couple of minutes rather than seventeen. The
-    # shared `publish` concurrency group queues it if the first is still
-    # going, so the two cannot race.
+    # 06:00 UTC: worst-case completion 06:27 UTC, 33 minutes of drift
+    # absorption. The last slot that can still meet 07:00 UTC at all;
+    # this is why 08:00 was removed rather than kept as a fourth slot.
+    # Genuinely the last chance, not a comfortable one: a slot this
+    # close to its own deadline is why a badly delayed 03:10 or 04:40
+    # run matters more than it used to, and why Ask 2 (a trigger origin
+    # outside GitHub's scheduler) is not a nice-to-have.
     #
-    # A THIRD SLOT, added 2026-08-27, after Fire measured the pipeline
-    # publishing itself on its own only twice in twelve days and GitHub
-    # dropped BOTH scheduled slots on 08-27 with the workflow itself
-    # active and unchanged and every other workflow firing normally that
-    # day: documented best-effort scheduling behaving as documented, not
-    # our config. Two slots share one failure mode, GitHub's own queue,
-    # and 08-27 showed it can take both at once. 08:00 UTC costs the same
-    # couple of minutes as the 05:30 backstop on a normal day and is the
-    # difference between a silent miss and a late one on the day it is
-    # not. Not a substitute for docs/fires/index.html's own RUN_AGE check
-    # in scripts/check_freshness.py, which catches a page that stayed
-    # stale for reasons that have nothing to do with the schedule.
+    # fetch_window_baseline.py returns immediately once the baseline
+    # already covers the window, and build_events/publish are both
+    # no-ops when nothing changed, so a redundant slot costs a couple of
+    # minutes, not a second full pull. The shared `publish` concurrency
+    # group queues a later slot behind an earlier one still running, so
+    # two slots can never race each other into a corrupted commit.
     - cron: "10 3 * * *"
-    - cron: "30 5 * * *"
-    - cron: "0 8 * * *"
+    - cron: "40 4 * * *"
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 permissions:
