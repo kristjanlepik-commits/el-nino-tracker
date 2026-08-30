@@ -153,6 +153,22 @@ CSS = """
   font-weight:600;letter-spacing:.09em;text-transform:uppercase;
   color:var(--ink-faint);margin:34px 0 0;padding-bottom:8px;
   border-bottom:1px solid var(--ink)}
+/* Every year in the record, drawn. The rank alone hides how far apart
+   the years are, and the whole point here is that 2026 sits below a year
+   we are calling the slowest on record. */
+.amwrap{margin:16px 0 0;max-width:620px}
+.amrow{display:grid;grid-template-columns:42px 1fr 56px;align-items:center;
+  gap:0 10px;padding:2px 0}
+.amy{font-family:"__D__",ui-monospace,monospace;font-size:11px;
+  color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.ambar{height:11px;border-radius:1px;background:var(--rule)}
+/* D-043: the two named years are marked by ink, not by brightness, so a
+   quiet year is as legible as a loud one. */
+.am-o{background:var(--rule)}
+.am-an{background:var(--ink-soft)}
+.am-cur{background:var(--fire)}
+.amv{font-family:"__D__",ui-monospace,monospace;font-size:11px;
+  color:var(--ink-soft);text-align:right;font-variant-numeric:tabular-nums}
 .rgnote{font-size:14.5px;line-height:1.55;color:var(--ink-soft);
   max-width:66ch;margin:12px 0 0}
 /* Wide content scrolls inside its own container; the page body
@@ -262,6 +278,94 @@ def _flood_note(root_prefix):
             % (_W[n] if n < len(_W) else n,
                "piece" if n == 1 else "pieces",
                "s" if n == 1 else "", links))
+
+
+AREA_HISTORY = ROOT / "fires" / "data" / "area_history"
+
+
+def _amazon_2015():
+    """Where 2026 sits against 2015 on Brazil's burnt area, one instrument.
+
+    THE WHOLE MODULE IS ONE INSTRUMENT ON PURPOSE. burnt_area.json says in
+    its own header that hectares and detections measure different things
+    and are never converted into each other, and aftereffects reached for
+    a bare 0.40x from one and a 0.52x from the other in the same paragraph
+    without naming either. Both were true. So this reads cumulative burnt
+    area, per year, at the same Copernicus week number, and nothing here
+    is a detection count.
+
+    THE WEEK IS COPERNICUS'S OWN WEEK NUMBER, not a calendar date, and
+    their file computes the cross-year comparison server-side. I asked
+    rather than inferred it, because Brazil's fire year has a steep
+    September and a week's misalignment moves the denominator more here
+    than anywhere else we map.
+
+    Every figure is derived. Nothing in this function is typed except the
+    country and the shape of the sentence.
+    """
+    try:
+        d = json.loads((AREA_HISTORY / "BRA.json").read_text())["years"]
+    except (OSError, KeyError, ValueError):
+        return ""
+    cur = max((y for y in d), key=int)
+    wk = max((int(w) for w in d[cur]), default=0)
+    if not wk:
+        return ""
+    at = {y: d[y].get(str(wk)) for y in d if d[y].get(str(wk)) is not None}
+    if cur not in at or len(at) < 5:
+        return ""
+
+    order = sorted(at, key=lambda y: -at[y])
+    rank = order.index(cur) + 1
+    complete = [y for y in d
+                if y != cur and max(int(w) for w in d[y]) >= 52]
+    share = {}
+    for y in complete:
+        tot = d[y][str(max(int(w) for w in d[y]))]
+        if tot:
+            share[y] = at[y] / tot * 100
+    slow = sorted(share, key=lambda y: share[y])
+    tot_rank = sorted(complete,
+                      key=lambda y: -d[y][str(max(int(w) for w in d[y]))])
+
+    an = slow[0]                       # the slowest start on record
+    an_finish = tot_rank.index(an) + 1
+    ratio = at[cur] / at[an] if at[an] else 0
+
+    bars = []
+    hi = max(at.values())
+    for y in sorted(at, key=int):
+        w = at[y] / hi * 100
+        cls = ("am-cur" if y == cur else "am-an" if y == an else "am-o")
+        bars.append(
+            '<div class="amrow"><span class="amy">%s</span>'
+            '<span class="ambar %s" style="width:%.1f%%"></span>'
+            '<span class="amv">%.1fM</span></div>'
+            % (y, cls, w, at[y] / 1e6))
+
+    return (
+        '<p class="rgsec" style="margin-top:40px">Brazil against its own '
+        'slowest year, at the same week</p>'
+        '<p class="rgnote" style="margin-top:12px"><b>%s was the slowest '
+        'start on record and finished %s of %d. %s is slower still.</b> '
+        'Cumulative burnt area by Copernicus week %d: %s has %.1f million '
+        'hectares against %s&rsquo;s %.1f million at the same point, '
+        '%.2f times it, and ranks %d of %d years. %s completed %.1f%% of '
+        'its year by this week, against %.1f%% for the next slowest.</p>'
+        '<div class="amwrap">%s</div>'
+        '<p class="rgnote">Burnt area, not detections. The two measure '
+        'different things and are never converted into each other, so no '
+        'figure here is a fire count. Where %s finishes is not forecast '
+        'from this: a slow start is what %s also had.</p>'
+        % (an, _nth_word(an_finish), len(complete), cur, wk, cur,
+           at[cur] / 1e6, an, at[an] / 1e6, ratio, rank, len(at),
+           an, share[an], share[slow[1]],
+           "\n".join(bars), cur, an))
+
+
+def _nth_word(n):
+    return {1: "first", 2: "second", 3: "third", 4: "fourth"}.get(
+        n, "%dth" % n)
 
 
 def _fires_limit(names):
@@ -455,6 +559,7 @@ def render(root_prefix="../"):
     body = """
 <p class="rgsec">Four instruments, one region, one week</p>
 __MAPS__
+__AMAZON__
 __FIRES_LIMIT__
 <p class="rgsec" style="margin-top:40px">Every country we measure, and every one we do not</p>
 <div class="rgscroll"><table class="rg">
@@ -472,6 +577,7 @@ __FLOOD_NOTE__
                                                               names, worst))
     body = body.replace("__FLOOD_NOTE__", _flood_note(root_prefix))
     body = body.replace("__FIRES_LIMIT__", _fires_limit(set(names)))
+    body = body.replace("__AMAZON__", _amazon_2015())
     body = body.replace("__MAPS__", map_block(root_prefix))
 
     css = (CSS.replace("__D__", T.FONT_DATA)
