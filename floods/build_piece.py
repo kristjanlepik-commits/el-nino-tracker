@@ -355,6 +355,29 @@ def _instrument_rows(payload, rain, basis, extent, find):
     return rows
 
 
+def _superseded_by(src_name):
+    """Has another payload declared this one superseded?
+
+    THE MARKER LIVES ON THE REPLACEMENT, NOT ON THE FILE IT REPLACES, so
+    nothing stopped the withdrawn payload being built. FLO superseded the
+    Andes payload on 2026-08-26 because its window was the RECESSION LIMB:
+    every figure in it described the flood draining away, 7.15x where the
+    truth was 37.5x, and a location 90 km from the event. Building it
+    would have published a withdrawn finding that looks entirely healthy.
+
+    So the check is a scan: if any payload in the directory names this one
+    in `supersedes`, this one is not buildable.
+    """
+    for f in sorted(ROOT.glob("floods/data/payload_*.json")):
+        try:
+            d = json.loads(f.read_text())
+        except (OSError, ValueError):
+            continue
+        if d.get("supersedes") == src_name:
+            return f.name, d.get("supersedes_reason") or ""
+    return None
+
+
 def piece_from(payload: dict, today: str) -> dict:
     rain = next((s for s in payload["series"] if s["id"] == "rainfall"), None)
     extent = next((s for s in payload["series"]
@@ -609,6 +632,15 @@ def main():
     if src is None or not src.exists():
         raise SystemExit("usage: build_piece.py <floods/data/payload_*.json>")
     payload = json.loads(src.read_text())
+
+    sup = _superseded_by(src.name)
+    if sup:
+        raise SystemExit(
+            "REFUSING TO BUILD: %s has been superseded by %s.\n%s\n"
+            "A withdrawn payload builds into a page that looks entirely "
+            "healthy, which is why this is a refusal rather than a "
+            "warning." % (src.name, sup[0], sup[1][:400]))
+
     piece = piece_from(payload, today=_today())
     out = ROOT / "docs" / piece["path"].strip("/") / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)

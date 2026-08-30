@@ -293,8 +293,7 @@ def _thousands(n):
 # Which published flood pieces sit inside this region. Matched on the
 # payload's own region_id rather than on the label, because a label is
 # prose and gets reworded.
-_LATAM_FLOOD_IDS = ("lima_coast", "s_peru_altiplano", "n_chile_atacama",
-                    "yungas_bolivia", "andes_amazon_peru")
+_LATAM_BBOX = (-30.0, 33.0, -118.0, -34.0)   # lat lo/hi, lon lo/hi
 
 
 def _flood_note(root_prefix):
@@ -310,8 +309,15 @@ def _flood_note(root_prefix):
     sys.path.insert(0, str(ROOT))
     from templates.floods_index import _pieces
     try:
-        pieces = [p for p in _pieces("2026-08-30")
-                  if any(i in p["path"] for i in _LATAM_FLOOD_IDS)]
+        la0, la1, lo0, lo1 = _LATAM_BBOX
+        pieces = []
+        for pc in _pieces("2026-08-30"):
+            loc = pc.get("location") or {}
+            lat, lon = loc.get("lat"), loc.get("lon")
+            if lat is None or lon is None:
+                continue
+            if la0 <= lat <= la1 and lo0 <= lon <= lo1:
+                pieces.append(pc)
     except Exception:
         pieces = []
     if not pieces:

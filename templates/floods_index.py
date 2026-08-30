@@ -64,6 +64,10 @@ def _pieces(today):
         if not page.exists():
             continue
         piece["_end"] = payload["window"]["end"]
+        # Carried so consumers can test WHERE a piece is without reading
+        # the payload again, and without a typed list of region ids
+        # deciding which region a basin belongs to.
+        piece["location"] = payload.get("location") or {}
         out.append(piece)
     out.sort(key=lambda p: p["_end"], reverse=True)
     return out
