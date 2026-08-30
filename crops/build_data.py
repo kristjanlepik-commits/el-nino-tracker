@@ -2437,11 +2437,32 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
     }
 
 
-def build_shares() -> dict:
+def build_shares():
+    """Country-commodity production shares from USDA PSD.
+
+    RETURNS None WHEN THE PSD CACHE IS ABSENT, and that is the whole
+    point of this docstring. It used to guard each file with .exists()
+    and then concat unconditionally, so with neither file present it
+    raised "No objects to concatenate".
+
+    crops/.cache/psd is gitignored, so in CI neither file is ever there.
+    The scheduled refresh therefore failed five days running, 25 to 29
+    August, each after pulling for about an hour and three quarters. It
+    had built stress_current.json correctly BEFORE reaching this
+    function, and then exited 1, so the whole dekad was discarded over
+    an artifact that does not change dekad to dekad: PSD is ANNUAL
+    production data.
+
+    The channel sat on 2026-08-01 for five days with 2026-08-11
+    published, one day short of its own staleness bound, because a
+    yearly reference table was missing from a machine that never had it.
+    """
     frames = []
     for f in ("psd_grains_pulses.csv", "psd_oilseeds.csv"):
         if (PSD / f).exists():
             frames.append(pd.read_csv(PSD / f, dtype={"Month": str}))
+    if not frames:
+        return None
     d = pd.concat(frames, ignore_index=True)
     d = d[d.Attribute_Description == "Production"]
 
@@ -2510,9 +2531,19 @@ def main() -> int:
           f"{stress['places_skipped']} skipped, dekad {stress['dekad']}")
 
     shares = build_shares()
-    (OUT / "production_shares.json").write_text(
-        json.dumps(shares, indent=1) + "\n", encoding="utf-8")
-    print(f"production_shares.json: {shares['rows']} country-commodity rows")
+    if shares is None:
+        # Loud, and NOT fatal. The dekad payload above is already
+        # written and correct; the committed production_shares.json
+        # stays as it is rather than being replaced by nothing.
+        print("  NOTE: crops/.cache/psd is absent, so production_shares.json "
+              "was NOT rebuilt and the committed one is unchanged. That is "
+              "correct in CI, where the cache is gitignored: PSD is annual "
+              "and does not change dekad to dekad. Refresh it deliberately "
+              "rather than as a side effect of a dekad build.")
+    else:
+        (OUT / "production_shares.json").write_text(
+            json.dumps(shares, indent=1) + "\n", encoding="utf-8")
+        print(f"production_shares.json: {shares['rows']} country-commodity rows")
     return 0
 
 
