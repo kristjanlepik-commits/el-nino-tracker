@@ -386,9 +386,14 @@ def severity_block(oriented: dict, cur_year: int) -> dict:
         # ordering by it produces a large tied block broken by payload
         # order. Telling somebody which of two fields to order by, when
         # neither orders well, is worse than saying neither does.
+        # SATURATION_RATE is filled by _fill_saturation_rate() once every
+        # place exists, because the figure is a property of the whole
+        # published set and is unknowable here. It was typed as "roughly
+        # one country in seven" and went stale the moment the channel grew
+        # from 123 places to 165.
         "is_not": "a cross-place ordering. The value places a country "
-                  "against ITSELF, and the rank saturates: roughly one "
-                  "country in seven sits at rank 1, so sorting on it "
+                  "against ITSELF, and the rank saturates: SATURATION_RATE "
+                  "sit at rank 1, so sorting on it "
                   "yields a large tied block broken by payload order. "
                   "For how much of a country is abnormal, use "
                   "`regions_at_record`, which is a proportion and "
@@ -2255,6 +2260,8 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                   "like-for-like and the discrepancy is invisible in the "
                   "current year.",
     }
+    _fill_saturation_rate(places)
+
     return {
         "_generated_from": "crops/.cache (no fetch performed)",
         # A VERSION, so a week-over-week diff can tell a method change
@@ -2561,6 +2568,50 @@ def build_shares():
         "shares": rows,
     }
 
+
+def _fill_saturation_rate(places: list) -> None:
+    """Substitute the real rank-1 share into every severity.is_not.
+
+    The share is a property of the PUBLISHED SET, so it cannot be known
+    while an individual place is being built, which is why it was typed
+    in the first place.
+
+    It read "roughly one country in seven" and went stale the moment
+    MIN_UNITS dropped to 1: 123 places became 165 and the true figure
+    moved to about one in nine. A hand-typed statistic inside a string
+    whose whole job is to describe a statistic is the defect this
+    channel keeps finding, and it is the reason `caveat` and the rate
+    claims are computed rather than written.
+
+    Refuses loudly on an unmatched anchor rather than skipping it. A
+    substitution that silently matches nothing leaves a stale number
+    reading as a fresh one, which is exactly the failure being fixed.
+    """
+    ranked = [q for q in places if (q.get("severity") or {}).get("rank")]
+    at1 = [q for q in ranked if q["severity"]["rank"] == 1]
+    if not ranked:
+        return
+    one_in = round(len(ranked) / len(at1)) if at1 else 0
+    WORDS = {2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+             7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
+             12: "twelve"}
+    phrase = (f"{len(at1)} of the {len(ranked)} published countries, "
+              f"about one in {WORDS.get(one_in, str(one_in))},")
+    missed = [q["place"] for q in places
+              if "is_not" in (q.get("severity") or {})
+              and "SATURATION_RATE" not in q["severity"]["is_not"]]
+    for q in places:
+        sev = q.get("severity") or {}
+        if "SATURATION_RATE" in sev.get("is_not", ""):
+            sev["is_not"] = sev["is_not"].replace("SATURATION_RATE", phrase)
+    if missed:
+        raise SystemExit(
+            f"_fill_saturation_rate: {len(missed)} severity block(s) carry "
+            f"no SATURATION_RATE anchor, first {missed[:3]}. The sentence "
+            "has been edited without the anchor, so its figure is now "
+            "hand-typed and will go stale. Refusing rather than emitting "
+            "a payload where some copies are computed and some are not.")
+    print(f"  severity saturation: {phrase.rstrip(',')}")
 
 def main() -> int:
     import argparse
