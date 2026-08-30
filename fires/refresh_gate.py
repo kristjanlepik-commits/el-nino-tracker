@@ -174,6 +174,37 @@ def classify(prev: dict, cur: dict) -> tuple[list[str], list[str]]:
         elif pr != cr and pr is not None and cr is not None:
             report.append(f"{c.get('name', iso)}: weekly rank {pr} -> {cr}")
 
+        # The cropland reading, which this gate did not watch at all
+        # until 2026-08-30. Six countries' readings moved that day when
+        # the enriched floor was corrected, and the gate reported "0
+        # ordinary change(s)": not that the change was ordinary, but
+        # that it was invisible. A reading is a printed claim ("on
+        # farmland 1.48x more often than chance"), so a country crossing
+        # between enriched, depleted, neutral and withheld is exactly
+        # what this gate exists to hold on.
+        #
+        # The CATEGORY is the claim; the ratio is its magnitude. 1.48 to
+        # 1.52 with both enriched is data doing what data does and
+        # passes, on the same principle that let Belgium's revised
+        # hectares through. Withheld counts as a category of its own,
+        # because "we are not stating this" and "we state 1.48x" are
+        # different claims, not the same claim at different strengths.
+        def _crop_claim(entry):
+            cr_ = entry.get("cropland") or {}
+            r_ = cr_.get("reading")
+            return r_ if r_ in ("enriched", "depleted", "neutral") \
+                else "withheld"
+        pc, cc = _crop_claim(p), _crop_claim(c)
+        if pc != cc:
+            block.append(f"{c.get('name', iso)}: cropland reading "
+                         f"{pc} -> {cc}")
+        else:
+            pr_, cr_ = ((p.get("cropland") or {}).get("ratio"),
+                        (c.get("cropland") or {}).get("ratio"))
+            if pr_ != cr_ and pc != "withheld":
+                report.append(f"{c.get('name', iso)}: cropland ratio "
+                              f"{pr_} -> {cr_}")
+
     # fires/data/eu_area.json: the EU season envelope's projection. This
     # is the densest claim surface on the page, per Fire's own read: the
     # headline sentence pivots on whether the median outcome breaks the
@@ -295,9 +326,16 @@ def main() -> int:
     for r in report:
         print(f"    changed: {r}")
     if not block:
+        # THIS SENTENCE IS A COVERAGE CLAIM, so it lists what was
+        # actually checked and is amended whenever that set grows. On
+        # 2026-08-30 it read as reassurance while the cropland reading
+        # went unwatched: a sentence that enumerates four checks implies
+        # there are four, and the reader has no way to see the fifth is
+        # missing.
         print(f"  PUBLISH: {len(report)} ordinary change(s), no record "
               f"appeared or was withdrawn, qualifying set unchanged, no "
-              f"weekly rank crossed into or out of 1st.")
+              f"weekly rank crossed into or out of 1st, no cropland "
+              f"reading changed category.")
         return 0
     print(f"  HOLD: {len(block)} change(s) that need a person. "
           f"{len(report)} ordinary change(s) would have passed.",
