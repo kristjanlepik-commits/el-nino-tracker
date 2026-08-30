@@ -42,6 +42,10 @@ DETAIL = os.path.join(REPO, "fires", "data", "current_week.json")
 AREA = os.path.join(REPO, "fires", "data", "burnt_area.json")
 AREA_HIST = os.path.join(REPO, "fires", "data", "area_history")
 OUTDIR = os.path.join(REPO, "docs", "fires")
+# The set of things that ARE countries, for the stamper. Same file the
+# channel takes its country geometry from, so "is this a country page"
+# and "is this a country" cannot answer differently.
+GEO = os.path.join(REPO, "fires", "data", "countries.geo.json")
 
 ORD = {1: "highest", 2: "second-heaviest", 3: "third-heaviest",
        4: "fourth-heaviest", 5: "fifth-heaviest"}
@@ -580,11 +584,35 @@ def stamp_unregenerated(live_slugs, window_label) -> str:
     if not os.path.isdir(OUTDIR):
         return "no docs/fires/ yet"
     tracked_slugs = tracked_slug_set()
+
+    # A DIRECTORY LISTING IS NOT A ROSTER, and this loop was treating it
+    # as one. OUTDIR is docs/fires/, so every subdirectory holding an
+    # index.html looked like a country page, and docs/fires/countries/
+    # is the ARCHIVE INDEX. It got stamped "This country is no longer in
+    # the tracked set, so it was NOT checked for the week of..." on a
+    # page that is not a country.
+    #
+    # Design found it. It is the same shape as the Ethiopia fix and I
+    # only half-applied that one: I stopped the archive LISTING itself
+    # as a country and left the STAMPER walking the filesystem, so the
+    # next run would have put the stamp straight back.
+    #
+    # The test is now membership of the set of real country names, from
+    # the same geo file the channel takes its countries from. Anything
+    # else is SKIPPED AND ANNOUNCED rather than silently passed over,
+    # because a genuine new country page that fails to match belongs in
+    # a log, not in a silence.
+    country_slugs = {slugify(f["properties"]["name"])
+                     for f in json.load(open(GEO))["features"]}
+    skipped = []
     stamped = []
     for slug in sorted(os.listdir(OUTDIR)):
         d = os.path.join(OUTDIR, slug)
         page = os.path.join(d, "index.html")
         if slug in live_slugs or not os.path.isfile(page):
+            continue
+        if slug not in country_slugs:
+            skipped.append(slug)
             continue
         html = open(page).read()
         # TWO DIFFERENT WEEKS, and the first wording conflated them. The
@@ -647,6 +675,10 @@ def stamp_unregenerated(live_slugs, window_label) -> str:
                 " font-size: 13.5px; max-width: 64ch; }\n</style>"), 1)
         open(page, "w").write(html)
         stamped.append(slug)
+    if skipped:
+        print(f"  stamper skipped {len(skipped)} page(s) under docs/fires/ "
+              f"that are not countries: {', '.join(skipped)}",
+              file=sys.stderr)
     return (f"stamped {len(stamped)} unregenerated page(s) as last assessed"
             if stamped else "no unregenerated pages to stamp")
 
