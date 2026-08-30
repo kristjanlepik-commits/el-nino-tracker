@@ -343,6 +343,61 @@ def fetch_day(iso, day):
     return int(hit.sum())
 
 
+
+FETCH_AHEAD = 5   # FIRMS caps one request at five days; use all of it.
+
+
+def fetch_block(iso, first, days):
+    """`days` consecutive days from `first`, as {iso-date: count}.
+
+    One request per sub-box instead of one per day per sub-box. Trimmed
+    so it never asks for a day after yesterday, because the archive has
+    not closed today and a partial day cached as complete would be worse
+    than no cache at all.
+    """
+    last_allowed = date.today() - timedelta(days=1)
+    span = min(days, (last_allowed - first).days + 1)
+    if span < 1:
+        return {}
+    BUCKET.take(span * len(BOX[iso]))
+    frames = []
+    for w, s, e, n in BOX[iso]:
+        url = (f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/"
+               f"{KEY}/VIIRS_SNPP_SP/{w},{s},{e},{n}/{span}/"
+               f"{first.isoformat()}")
+        for a in (1, 2, 3):
+            try:
+                frames.append(_http.read_csv(url))
+                break
+            except _http.OverLimit:
+                _quota.wait_for_quota(iso)
+                continue
+            except Exception:
+                if a == 3:
+                    raise RuntimeError(f"{iso} {first}+{span}d failed 3 tries")
+                time.sleep(6 * a)
+    df = pd.concat(frames, ignore_index=True) if len(frames) > 1 else frames[0]
+    if len(df) and "confidence" in df.columns:
+        df = df[~df["confidence"].astype(str).str.lower()
+                .isin(["l", "low"])]
+    if len(df):
+        # Same polygon test fetch_day uses: ray(), not a different one.
+        pts = np.column_stack([df["longitude"].values, df["latitude"].values])
+        hit = np.zeros(len(pts), bool)
+        for r in RINGS[iso]:
+            hit |= ray(r, pts[:, 0], pts[:, 1])
+        df = df[hit]
+    # ZEROS EXPLICITLY, for every day in the span. Presence of the key is
+    # the only evidence a day was fetched, so a quiet day must be written
+    # rather than left absent, or the next run refetches it forever.
+    counts = {(first + timedelta(days=k)).isoformat(): 0 for k in range(span)}
+    if len(df):
+        for day_str, n in df.groupby("acq_date").size().items():
+            key = str(day_str)[:10]
+            if key in counts:
+                counts[key] = int(n)
+    return counts
+
 def fill_missing(iso, missing):
     """Fetch each absent day and write it back, zeros included.
 
@@ -361,8 +416,30 @@ def fill_missing(iso, missing):
             # four years on. Spending quota to re-read a known hole would
             # return the same hole.
             continue
-        doc.setdefault(str(y), {})[d.isoformat()] = fetch_day(iso, d)
-        got += 1
+        # FETCH FIVE DAYS, NOT ONE, AND KEEP ALL FIVE.
+        #
+        # The window advances one day daily, so each country-year needs
+        # exactly one new date. Fetching it alone cost 98 boxes x 14
+        # years = 1,372 SEPARATE round trips every morning, about forty
+        # minutes of latency for 3.8 minutes of actual throttle. That is
+        # what timed out the 30-minute step on 27 August and the
+        # 45-minute one on 30 August, and a timeout wrote nothing.
+        #
+        # FIRMS bills by day and caps a request at five days, so the
+        # four days after the one we need are already paid for in quota
+        # and cost one round trip instead of four. Taking them turns a
+        # daily 40-minute job into one that fetches on one morning in
+        # five and no-ops on the other four.
+        #
+        # Bounded to days that already exist: never fetch past today, so
+        # this cannot invent a future date or read a day the archive has
+        # not closed.
+        if d.isoformat() in doc.get(str(y), {}):
+            continue
+        block = fetch_block(iso, d, FETCH_AHEAD)
+        for day_iso, count in block.items():
+            doc.setdefault(str(y), {})[day_iso] = count
+        got += len(block)
     save_cache(iso, doc)
     return got
 
