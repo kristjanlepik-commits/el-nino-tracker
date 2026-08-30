@@ -1,0 +1,275 @@
+{
+  "_generated_from": "ERA5 monthly means via CDS, cached; no live fetch at render time",
+  "_generator": "scripts/build_latam_conditions.py",
+  "payload_version": "0.1",
+  "observation_month": "2026-07",
+  "max_data_age_days": 75,
+  "max_data_age_measured_from": "the end of observation_month. ERA5 monthly means publish about five weeks after a month closes, so a payload older than this means the monthly pull has stopped rather than that the world went quiet.",
+  "baseline": {
+    "basis": "1991-2025, same calendar month of each year",
+    "first": 1991,
+    "last": 2025,
+    "n": 35,
+    "current_year_in_baseline": false,
+    "means": "every percentile in this file is computed against 35 PRIOR observations of the same calendar month, never including the year being reported. Matches the crops channel so a percentile means the same thing across the site. LOW is dry."
+  },
+  "instrument_legend": {
+    "soil_pctl": {
+      "name": "Soil moisture, 28-100 cm",
+      "unit": "percentile",
+      "worse_is": "low",
+      "summarises": "the water actually in the ground, which carries seasonal memory rather than this month's weather"
+    },
+    "rain_pctl": {
+      "name": "Rainfall",
+      "unit": "percentile",
+      "worse_is": "low",
+      "summarises": "the observation month alone"
+    },
+    "temp_anomaly_c": {
+      "name": "Temperature anomaly",
+      "unit": "degrees C",
+      "worse_is": "high",
+      "summarises": "against the 1991-2020 mean for the same month"
+    },
+    "soil_pctl_trail": {
+      "name": "Soil moisture, last three months",
+      "unit": "percentile, oldest first",
+      "worse_is": "falling",
+      "summarises": "direction of travel. A region can sit mid-range and be collapsing: Roraima ran 69, 36, 6."
+    }
+  },
+  "windows": {
+    "means": "the months in which this region's El Nino teleconnection reaches it. Seasonality, not a forecast of magnitude.",
+    "source": "Cai et al. 2020, Nature Reviews Earth and Environment, for the precipitation dipole and its seasonality; Chen et al. 2017, Nature Climate Change, for the fire lag.",
+    "note": "s_amazon carries an empty window on purpose. Its response arrives about 15 months after onset, so its principal window is Jul-Oct 2027 and falls outside this period. That absence is a finding, not missing data."
+  },
+  "skill_caveat": {
+    "headline": "This is not a fire forecast and must not be rendered as one.",
+    "detail": "Measured against 27 years of INPE Amazon fire counts, the best available predictor (NDJ ONI) explains 18% of the variance in dry-season fire. The other 82% is ignition, which is human: 2025 paired the third-driest wet-season recharge on record with the lowest fire year on record.",
+    "render_required": true
+  },
+  "absence_reasons": {
+    "window_not_in_period": "the region's exposure window falls outside the nine months this payload covers. Its conditions are still measured and shown.",
+    "box_outside_domain": "the region sits outside the ERA5 box this payload requests and carries no values."
+  },
+  "limits": [
+    "Every value is a box average. It cannot see a state, a catchment or a city, and a regional mean can sit at the 50th percentile with half of it in drought.",
+    "The SESA wet signal was cancelled outright by a strong positive Southern Annular Mode in 2015-16.",
+    "Central Chile's teleconnection has measurably decayed since 2000 and is excluded from this payload for that reason."
+  ],
+  "regions": [
+    {
+      "key": "sesa",
+      "name": "SESA / Pampas",
+      "box": {
+        "lat_s": -38.0,
+        "lat_n": -26.0,
+        "lon_w": -64.0,
+        "lon_e": -49.0
+      },
+      "sign": "wet",
+      "hazard": "floods, and an agricultural upside for rainfed systems",
+      "window_months": [
+        10,
+        11,
+        12,
+        1,
+        2
+      ],
+      "peak_months": [
+        11,
+        12,
+        1
+      ],
+      "window_in_period": true,
+      "soil_pctl": 71,
+      "rain_pctl": 71,
+      "temp_anomaly_c": 1.2,
+      "soil_pctl_trail": [
+        63,
+        63,
+        71
+      ]
+    },
+    {
+      "key": "n_amazon",
+      "name": "N Amazon / Roraima",
+      "box": {
+        "lat_s": 0.0,
+        "lat_n": 5.0,
+        "lon_w": -64.0,
+        "lon_e": -58.0
+      },
+      "sign": "dry",
+      "hazard": "fire",
+      "window_months": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "peak_months": [
+        1,
+        2,
+        3
+      ],
+      "window_in_period": true,
+      "soil_pctl": 6,
+      "rain_pctl": 0,
+      "temp_anomaly_c": 1.62,
+      "soil_pctl_trail": [
+        71,
+        37,
+        6
+      ]
+    },
+    {
+      "key": "venezuela",
+      "name": "Venezuela / Guianas",
+      "box": {
+        "lat_s": 2.0,
+        "lat_n": 10.0,
+        "lon_w": -75.0,
+        "lon_e": -64.0
+      },
+      "sign": "dry",
+      "hazard": "fire",
+      "window_months": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "peak_months": [
+        1,
+        2,
+        3
+      ],
+      "window_in_period": true,
+      "soil_pctl": 9,
+      "rain_pctl": 0,
+      "temp_anomaly_c": 1.59,
+      "soil_pctl_trail": [
+        20,
+        17,
+        9
+      ]
+    },
+    {
+      "key": "altiplano",
+      "name": "Altiplano",
+      "box": {
+        "lat_s": -22.0,
+        "lat_n": -14.0,
+        "lon_w": -70.0,
+        "lon_e": -62.0
+      },
+      "sign": "dry",
+      "hazard": "its wet season fails",
+      "window_months": [
+        12,
+        1,
+        2
+      ],
+      "peak_months": [],
+      "window_in_period": true,
+      "soil_pctl": 51,
+      "rain_pctl": 40,
+      "temp_anomaly_c": 1.71,
+      "soil_pctl_trail": [
+        43,
+        46,
+        51
+      ]
+    },
+    {
+      "key": "coastal_pe",
+      "name": "Coastal Ecuador / N Peru",
+      "box": {
+        "lat_s": -6.0,
+        "lat_n": 2.0,
+        "lon_w": -81.5,
+        "lon_e": -78.0
+      },
+      "sign": "wet",
+      "hazard": "floods",
+      "window_months": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "peak_months": [
+        2,
+        3,
+        4
+      ],
+      "window_in_period": true,
+      "soil_pctl": 17,
+      "rain_pctl": 77,
+      "temp_anomaly_c": 2.45,
+      "soil_pctl_trail": [
+        20,
+        23,
+        17
+      ]
+    },
+    {
+      "key": "nordeste",
+      "name": "Nordeste",
+      "box": {
+        "lat_s": -15.0,
+        "lat_n": -4.0,
+        "lon_w": -45.0,
+        "lon_e": -35.0
+      },
+      "sign": "dry",
+      "hazard": "drought in its only rainy season",
+      "window_months": [
+        3,
+        4,
+        5
+      ],
+      "peak_months": [
+        3,
+        4,
+        5
+      ],
+      "window_in_period": true,
+      "soil_pctl": 60,
+      "rain_pctl": 6,
+      "temp_anomaly_c": 0.56,
+      "soil_pctl_trail": [
+        83,
+        83,
+        60
+      ]
+    },
+    {
+      "key": "s_amazon",
+      "name": "S Amazon arc",
+      "box": {
+        "lat_s": -12.0,
+        "lat_n": -5.0,
+        "lon_w": -70.0,
+        "lon_e": -46.0
+      },
+      "sign": "dry",
+      "hazard": "fire, but its window is Jul-Oct 2027 and falls outside this period",
+      "window_months": [],
+      "peak_months": [],
+      "window_in_period": false,
+      "soil_pctl": 60,
+      "rain_pctl": 74,
+      "temp_anomaly_c": 0.59,
+      "soil_pctl_trail": [
+        34,
+        34,
+        60
+      ]
+    }
+  ]
+}
