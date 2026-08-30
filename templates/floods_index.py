@@ -192,6 +192,8 @@ instead of implying it.</span></div>
 %s
 </ul>
 <p class="fxnote">%s</p>
+<p class="fxnote"><a href="methodology.html">How these figures are
+built</a>, including what this channel cannot measure and why.</p>
 <p class="fxnote">An ordinary total is not evidence that nothing happened.
 The instrument accumulates over a fortnight and severely under-reads rain
 that falls in a few hours, which is the rain that floods. Each page

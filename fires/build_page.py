@@ -510,7 +510,11 @@ def build(events_doc, font_prefix="../fonts/", baseline=None):
     # puts 234 published pages into stale-nav failure and blocks every
     # chat's publish out of this tree.
     archive_block = (
-        '<p class="note" style="margin-top:26px"><a href="countries/">'
+        '<p class="note" style="margin-top:26px">'
+        '<a href="methodology.html">How these figures are built</a>, '
+        'including the thresholds this page applies and what the '
+        'instrument cannot see. '
+        '<a href="countries/">'
         'Every country we have assessed</a>, including the ones not '
         'currently qualifying. A country dropping out of a week\'s '
         'findings is not the same as our never having looked at it.</p>')

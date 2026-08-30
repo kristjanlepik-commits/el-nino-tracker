@@ -1991,6 +1991,9 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
        `method_short`. A renderer that truncates prose is deciding
        something it does not know. If the short form is ever missing,
        the full string wraps rather than being cut. -->
+  <p class="note"><a href="methodology.html">How these figures are
+    built</a>, including what this channel measures and what it does not.</p>
+
   <div class="foot">{h(AUTHOR_NAME)} (2026). {h(SITE_NAME)}, Crops.
     <a href="{h(PAGES_BASE_URL)}/">{h(PAGES_BASE_URL.split("//")[-1])}</a>
     &middot; {h(doc.get('method_short') or doc.get('method', ''))} &middot; baseline
