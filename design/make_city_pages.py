@@ -92,7 +92,15 @@ def series(yrs, key, sub=None):
     return out
 
 
-def bars(data, top, w=880, h=104, accent_last=True):
+def bars(data, top, w=880, h=104, accent_last=True, cur_year=2026):
+    """The bar chart. cur_year is the season this city REPORTS.
+
+    IT IS NOT ALWAYS THE CALENDAR YEAR. A wrapping southern season is keyed
+    by the year it began, so Santiago's current season is 2025, and a city
+    whose season has not opened reports its last complete one. Hardcoding
+    2026 accented the wrong bar for nine cities of 54 and labelled the axis
+    against a year those cities do not report.
+    """
     if not data:
         return ""
     bw = w / len(data)
@@ -100,7 +108,7 @@ def bars(data, top, w=880, h=104, accent_last=True):
     for i, (y, v) in enumerate(data):
         if not v:
             continue
-        cur = accent_last and y == 2026
+        cur = accent_last and y == cur_year
         out.append(f'<rect x="{i*bw:.1f}" y="{h-v/top*h:.1f}" width="{bw-1.2:.1f}" '
                    f'height="{v/top*h:.1f}" '
                    f'fill="{"var(--accent)" if cur else "var(--hist)"}"/>')
@@ -125,7 +133,7 @@ def bars(data, top, w=880, h=104, accent_last=True):
         # The gutter now fits the size the phone needs; on a desktop it
         # reads as three units more air under the axis.
         f'<text x="{i*bw:.1f}" y="{h+18}" class="ax" '
-        f'text-anchor="{"end" if y == 2026 else "start"}">{y}</text>'
+        f'text-anchor="{"end" if y == cur_year else "start"}">{y}</text>'
         for i, (y, _) in enumerate(data) if y in _want)
     # A Y AXIS, because the chart could not be read for magnitude. Kristjan:
     # it shows the shape of a record and not how many. Every bar was a
@@ -946,10 +954,20 @@ for name, v in sorted(C.items()):
         cmp_val, cmp_period = None, None
     nbase = st.mean([x for y, x in NI if 1961 <= y <= 1990]) if NI else 0
     gated = bool(v.get("nights_metric_gated"))
-    peak = dict(WD).get(2026)
-    prank = 1 + sum(1 for y, x in WD if x >= peak and y != 2026)
-    pprev = max(x for y, x in WD if y != 2026)
-    pprev_y = max(y for y, x in WD if x == pprev and y != 2026)
+    # THE RENDERER ASKS WHICH SEASON THIS CITY REPORTS RATHER THAN
+    # ASSUMING 2026. heat emits reported_season_key as the key into EVERY
+    # per-year series on a city, warmest_day_to_cut_c and
+    # series_to_same_date alike, so one field answers all of them.
+    #
+    # Before this, dict(WD).get(2026) returned None for all seven Argentine
+    # cities, whose summer is December to January, and the page failed
+    # outright on the next line. The assumption was arithmetic rather than
+    # prose, so it survived both the season derivation and the label fix.
+    cur_year = int((v.get("days") or {}).get("reported_season_key") or 2026)
+    peak = dict(WD).get(cur_year)
+    prank = 1 + sum(1 for y, x in WD if x >= peak and y != cur_year)
+    pprev = max(x for y, x in WD if y != cur_year)
+    pprev_y = max(y for y, x in WD if x == pprev and y != cur_year)
     # THE FIRST USABLE YEAR, not the first year the thermometer reported.
     # Nine cities have a partial first year excluded from the ranked series,
     # so record_from runs one to two years earlier than the window every
@@ -978,7 +996,7 @@ for name, v in sorted(C.items()):
     # The MEDIAN of the whole record, not a baseline period, so it is safe on
     # the four cities whose 1961-1990 window is withheld: it needs no window
     # at all and cannot reintroduce the trap that was live this morning.
-    typical_peak = st.median([x for y, x in WD if y != 2026])
+    typical_peak = st.median([x for y, x in WD if y != cur_year])
 
     # THE RELOCATION NOTE SITS WITH THE RANK, not in the footer, because the
     # rank is what it undermines: "of 79" spans more than one site. D-081, a
@@ -1404,9 +1422,9 @@ for name, v in sorted(C.items()):
      to sit in the gaps now sits below all three, in chart order. -->
 <div class="seclab">Every summer on this thermometer</div>
 <div class="grid"><span class="gk">Hot days<em>above {th} &deg;C</em></span>
-<span>{bars(D, top)}</span></div>
+<span>{bars(D, top, cur_year=cur_year)}</span></div>
 <div class="grid"><span class="gk">Hot nights<em>never below 20 &deg;C</em></span>
-<span>{bars(NI, max(x for _, x in NI) or 1)}</span></div>
+<span>{bars(NI, max(x for _, x in NI) or 1, cur_year=cur_year)}</span></div>
 <div class="grid"><span class="gk">Hottest day<em>{min(x for _, x in WD):.0f} to {max(x for _, x in WD):.0f} &deg;C</em></span>
 <span>{line(WD, mark_year=2026, ring_year=pprev_y, mark_val=peak, ring_val=pprev)}</span></div>
 
