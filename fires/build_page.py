@@ -232,6 +232,26 @@ def _lu_row(e):
         return ""
     if reading in ("mask_unavailable", "no_mask_coverage", "withheld"):
         return '<span class="rowlu rowlu-na">cropland: not assessed</span>'
+    # TOO FEW TO COMPARE IS A READING, NOT A BLANK. Fire floored the
+    # enriched claim on detections actually ON cropland, which is the count
+    # the claim is made of, and withheld six readings. With no case here
+    # they fell through `ratio is None` and rendered NOTHING, so Tunisia's
+    # cropland line went absent from the live index rather than qualified.
+    #
+    # That is the selection effect this row exists to prevent, failing in
+    # the quiet direction: the line disappeared on the one country where
+    # the number was awkward. Fire took the gap deliberately over a
+    # reversed line, which was right, and the numerator rides in the
+    # payload so the row can say how few.
+    if reading == "insufficient_sample":
+        n = lu.get("detections_on_crop")
+        if n is None:
+            return ('<span class="rowlu rowlu-na">too few detections on '
+                    'farmland to compare</span>')
+        k = round(n)
+        return ('<span class="rowlu rowlu-na">only %d detection%s on '
+                'farmland, too few to compare against chance</span>'
+                % (k, "" if k == 1 else "s"))
     ratio = lu.get("cropland_ratio")
     if ratio is None:
         return ""
