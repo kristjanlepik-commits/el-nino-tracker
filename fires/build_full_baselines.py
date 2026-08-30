@@ -324,8 +324,25 @@ def main():
             except Exception as exc:
                 log(f"{iso} {y}: FAILED {exc}")
         done += 1
-        tot = sum(sum(v.values()) for v in doc.values())
-        log(f"[{i}/{len(targets)}] {iso}: {len(doc)} years, {tot:,} "
+        # SKIP THE UNDERSCORE KEYS. `_complete` is a LIST of year
+        # strings sitting beside the year->day mappings, so iterating
+        # doc.values() hands a list to .values() and raises. It crashed
+        # after EVERY completed country, which made the script build
+        # exactly one country per invocation: aftereffects found it
+        # while running the LatAm backfill and worked around it with a
+        # shell loop rather than editing this file.
+        #
+        # The data was never at risk, because json.dump above runs
+        # before this line. The summary was the only casualty, which is
+        # why it survived: the failure was in the reporting after the
+        # work, so every country it "failed" on was already correct on
+        # disk.
+        #
+        # `len(doc)` had the same bug more quietly and would have
+        # reported a finished country as 15 years rather than 14.
+        years = {k: v for k, v in doc.items() if not k.startswith("_")}
+        tot = sum(sum(v.values()) for v in years.values())
+        log(f"[{i}/{len(targets)}] {iso}: {len(years)} years, {tot:,} "
             f"detections ({(time.time()-t0)/60:.0f} min elapsed, "
             f"{done} built this run)")
     if args.plan:
