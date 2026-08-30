@@ -97,44 +97,43 @@ def _fires_rows(iso_names):
         if not e:
             out.append({"name": n, "state": "no_roster"})
             continue
-        mean = e.get("mean")
-        if not mean:
+        # THE VERDICT COMES FROM FIRE, NOT FROM ARITHMETIC HERE. Their
+        # fix, and the diagnosis is theirs and better than mine: the
+        # payload used to ship a numerator and a denominator with the
+        # gates kept somewhere else, computed only for the ~18 countries
+        # that qualify as events. A regional table needs a figure for all
+        # 97, so dividing count by mean was the only move available, and
+        # that division is trivially correct and carries none of the
+        # gating.
+        #
+        # A guard inside the code path that skips a country cannot protect
+        # a consumer who never calls that path. 49 of 97 are not
+        # publishable, so the obvious arithmetic was wrong on roughly
+        # every other country.
+        #
+        # So this reads `reading` and never recomputes count/mean. Their
+        # `means` string says so outright: "Do not compute count/mean
+        # yourself; that is this field without its gates."
+        rd = e.get("reading") or {}
+        if not rd:
             out.append({"name": n, "state": "blind"})
             continue
-
-        # NOT FIRE AT ALL. Fire's persistence test flags gas flares and
-        # fixed industrial heat, and build_events drops such countries
-        # from the qualifying set entirely. Chile passes all four
-        # criteria. Rendering its ratio put an arithmetically perfect
-        # number on the page describing something the instrument is
-        # saying is not a fire, which is exactly the class the sign-off
-        # gate exists to catch and which no numeric check can see.
-        if (e.get("persistence") or {}).get("verdict") == "persistent_source":
-            out.append({"name": n, "state": "not_fire",
-                        "count": e["count"]})
+        if not rd.get("publishable"):
+            out.append({"name": n, "state": "withheld",
+                        "why": rd.get("withheld_because"),
+                        "count": rd.get("count") or e.get("count") or 0})
             continue
-
-        # BELOW THE FLOOR THIS PAGE ITSELF PUBLISHES. events.json's method
-        # block sets noise_floor_detections = 150 and defines it as "a
-        # country below this many detections cannot qualify at all,
-        # whatever its multiple". The page stated that rule and then
-        # showed four exceptions to it: Chile 82, Jamaica 70, Uruguay 56,
-        # Haiti 35. Printing the count beside the multiple was a real
-        # mitigation and it cannot resolve a contradiction with our own
-        # stated method.
-        #
-        # The idiom is crops': measured, but too thin to place.
-        if e["count"] < _NOISE_FLOOR:
-            out.append({"name": n, "state": "thin", "count": e["count"]})
-            continue
-
         out.append({"name": n, "state": "measured",
-                    "mult": e["count"] / mean, "count": e["count"]})
+                    "mult": rd["multiple"], "count": rd["count"]})
     return out
 
 
 def _noise_floor():
-    """The floor fires publishes, read from fires' own method block."""
+    """The floor fires publishes, read from fires' own method block.
+
+    Kept only for the copy: the DECISION is fire's `publishable` field
+    now, and this template no longer applies a threshold of its own.
+    """
     try:
         m = json.loads((ROOT / "data/events.json").read_text())["method"]
         return int(m["noise_floor_detections"])
@@ -254,14 +253,19 @@ def _cell(row, kind):
         return '<td class="n na">not measured</td>'
     if st == "blind":
         return '<td class="n na">no reading</td>'
-    if st == "not_fire":
-        return ('<td class="n na">not fire<span class="sub">%s '
-                'detections, flagged a persistent heat source</span></td>'
-                % _thousands(row["count"]))
-    if st == "thin":
-        return ('<td class="n na">too few to place<span class="sub">%s '
-                'detections, floor is %d</span></td>'
-                % (_thousands(row["count"]), _NOISE_FLOOR))
+    if st == "withheld":
+        why = row.get("why")
+        if why == "persistent_source":
+            return ('<td class="n na">measured, but this heat does not '
+                    'behave like fire<span class="sub">%s detections, '
+                    'flagged a persistent source</span></td>'
+                    % _thousands(row["count"]))
+        if why == "below_noise_floor":
+            return ('<td class="n na">measured, but too thin to place'
+                    '<span class="sub">%s detections, floor is %d</span>'
+                    '</td>' % (_thousands(row["count"]), _NOISE_FLOOR))
+        return ('<td class="n na">not published<span class="sub">%s</span>'
+                '</td>' % h(str(why or "withheld by the fire channel")))
     if kind == "crops":
         b = _band(row["rank"], row["of"])
         return ('<td class="n b%d">%s of %s</td>' % (b, row["rank"], row["of"]))
