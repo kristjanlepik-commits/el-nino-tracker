@@ -288,10 +288,100 @@
   "baseline_years": 47
  },
  "event_corroboration": {
-  "occurred": null,
-  "state": "unknown",
-  "source": "none consulted",
-  "detail": "No Bolivian river gauge or official source has been checked. Discharge here is modelled. Nothing in this piece establishes that people, houses or roads were affected.",
-  "note": "This channel's instruments measure rainfall and modelled discharge. Neither establishes that a flood affected anyone."
- }
+  "occurred": true,
+  "state": "true",
+  "source": "La Patria (Bolivia), reporting the municipality of La Asunta, Sud Yungas, La Paz department",
+  "detail": "La Asunta declared a municipal disaster on 2026-08-22 under Ley Municipal 17/2026, naming the Rio Boopi and citing damage to homes, crops and roads across eleven communities, with a municipal damage report dated 2026-08-20. A separate flood was reported at Quime on the Rio Kuyuma. Both rivers rank first of 48 years in our discharge data for 17-22 August.",
+  "url": "https://lapatria.bo/enfoque-nacional/denuncia/asunta-desastre-riadas-inundaciones/",
+  "distance_km_from_flagged_cell": 42,
+  "limits": "The declaration is at La Asunta on the Boopi; our flagged cell is a model cell on the same river system 42 km away. Same catchment, not the same point. We have not verified the town's coordinates against a gazetteer, and we have not counted anyone affected.",
+  "note": "This is the first payload on this channel where a flood is corroborated rather than unknown."
+ },
+ "named_places": [
+  {
+   "name": "La Asunta",
+   "lat": -16.14,
+   "lon": -67.19,
+   "discharge_m3s": 951.2,
+   "discharge_median": 59.9,
+   "x_median": 15.9,
+   "rank": 1,
+   "of": 48,
+   "rain_17_22_mm": 67.2,
+   "note": "Boopi; municipal disaster declared here 22 Aug"
+  },
+  {
+   "name": "Caranavi",
+   "lat": -15.84,
+   "lon": -67.57,
+   "discharge_m3s": 620.6,
+   "discharge_median": 149.4,
+   "x_median": 4.2,
+   "rank": 1,
+   "of": 48,
+   "rain_17_22_mm": 16.1,
+   "note": "downstream: big river rise on little local rain"
+  },
+  {
+   "name": "Chulumani",
+   "lat": -16.41,
+   "lon": -67.53,
+   "discharge_m3s": 225.1,
+   "discharge_median": 26.1,
+   "x_median": 8.6,
+   "rank": 1,
+   "of": 48,
+   "rain_17_22_mm": 109.8,
+   "note": "wettest cell in the region"
+  },
+  {
+   "name": "Coroico",
+   "lat": -16.19,
+   "lon": -67.73,
+   "discharge_m3s": 146.6,
+   "discharge_median": 31.1,
+   "x_median": 4.7,
+   "rank": 1,
+   "of": 48,
+   "rain_17_22_mm": 80.5,
+   "note": ""
+  },
+  {
+   "name": "Irupana",
+   "lat": -16.47,
+   "lon": -67.47,
+   "discharge_m3s": 125.8,
+   "discharge_median": 16.2,
+   "x_median": 7.8,
+   "rank": 1,
+   "of": 48,
+   "rain_17_22_mm": 109.8,
+   "note": "shares an IMERG cell with Chulumani"
+  },
+  {
+   "name": "Yanacachi",
+   "lat": -16.35,
+   "lon": -67.75,
+   "discharge_m3s": 71.5,
+   "discharge_median": 16.4,
+   "x_median": 4.4,
+   "rank": 1,
+   "of": 48,
+   "rain_17_22_mm": 64.7,
+   "note": ""
+  },
+  {
+   "name": "Quime",
+   "lat": -16.99,
+   "lon": -67.22,
+   "discharge_m3s": 29.5,
+   "discharge_median": 0.8,
+   "x_median": 38.5,
+   "rank": 1,
+   "of": 48,
+   "rain_17_22_mm": 50.9,
+   "note": "Kuyuma; separate flood reported here"
+  }
+ ],
+ "multi_site_note": "Seven places named independently in Bolivian reporting were checked against their own 47-year discharge records. All seven rank first. Rain fell across the Yungas on 16-18 August and every river peaked on the 19th. Caranavi is the informative exception: 16 mm of local rain and a river at 620 m3/s, because it is downstream and collecting from the catchments above it."
 }
