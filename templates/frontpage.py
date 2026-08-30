@@ -38,6 +38,12 @@ from run_brief import (email_capture_form, site_masthead,  # noqa: E402
                        ANALYTICS_SNIPPET, PAGES_BASE_URL, SITE_NAME,
                        SITE_MASTHEAD_CSS)
 
+# CRO's baseline, 2026-08-30: countries with a region at a record low,
+# 2001-2025, mean 33.0 rounded, median 32, range 17-72. Used to calibrate
+# the front-page count (see mb_state in build_public_html below) so a
+# true but ordinary number does not read as alarming on its own.
+CROPS_RECORD_LOW_MEAN = 33
+
 
 def load(issue):
     """Every payload the page reads. Nothing is fetched."""
@@ -1032,10 +1038,22 @@ averaged</span></div>
         # arriving as a SUM rather than a table. A sum is a table with one
         # row. Each channel's count beside its own name needs no extra
         # words to be honest.
+        # ", against an average of 33": editor's fix, 2026-08-30, after the
+        # coordinate-table bug (68bd88a3) took the true count from 27 to
+        # 38 and a bare 38 read as alarming for an ordinary year. CRO's
+        # number: 2001-2025 mean 33.0, median 32, range 17-72, 2026 ranks
+        # 9th of 26. Inline in the same strip item, not a note below it,
+        # deliberately: a calibrating figure below the thing it calibrates
+        # is the separation failure the editor has been sending design's
+        # work back for all week. CROPS_RECORD_LOW_MEAN is a static
+        # historical baseline, not read from live data, so it does not
+        # move with n_crops_rec; update it only if CRO recomputes the
+        # baseline itself.
         mb_state="%d drawn &middot; %d fire countries past their own record "
                  "week &middot; %d crop countries with a region at a record "
-                 "low" % (_mb["n_shown"], _mb["n_fires_rec"],
-                          _mb["n_crops_rec"]),
+                 "low, against an average of %d" % (
+                     _mb["n_shown"], _mb["n_fires_rec"], _mb["n_crops_rec"],
+                     CROPS_RECORD_LOW_MEAN),
         mb_sst=(" &middot; ocean field observed 7 days to %s"
                 % _mb["sst_date"]) if _mb.get("sst_date") else "",
         script=_mb["script"],
