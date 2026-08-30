@@ -289,7 +289,19 @@ def flood_series(base_path, window_days):
 RAINFALL_FLOOR_MM = 5.0
 
 MIN_RECORD = 20        # below this, no ordinal. Rank 2 of 8 is not "on record".
-TIE_MARGIN = 0.02      # values within 2% of the median apart are not separable
+# TIE_MARGIN IS A FRACTION OF THE VALUE, NOT OF THE MEDIAN.
+#
+# It was 2% of the median, which is the same near-zero denominator fault
+# the ratio had, and it was live rather than latent: on the Atacama the
+# median is 0.30 mm, so the margin became 0.006 mm and 2026 beating 2020
+# by 0.10 mm did not register as a tie, while being 1.8% of its own value.
+# On the Altiplano it did the opposite kind of harm by proxy, because the
+# FLOOR was suppressing the ordinal instead.
+#
+# Against the value: Atacama's margin becomes 0.112 and the tie fires;
+# the Altiplano's becomes 0.246 against a 0.90 gap and it does not. Which
+# is the right answer in both cases.
+TIE_MARGIN = 0.02      # values within 2% OF THE VALUE apart are not separable
 EXTREME_RANK = 3       # top three may carry an ordinal
 EXTREME_RATIO = 1.5    # ...but only if the value is actually far from normal
 
@@ -297,13 +309,27 @@ EXTREME_RATIO = 1.5    # ...but only if the value is actually far from normal
 def classify(value, others, median, complete, floor=None):
     """Decide what class of claim the data permits. Never phrasing."""
     n = len(others) + 1
-    margin = TIE_MARGIN * median if median else 0.0
+    margin = TIE_MARGIN * abs(value) if value else 0.0
     tied = [o for o in others if abs(o - value) <= margin]
     strictly_above = sum(1 for o in others if o > value + margin)
     rank = strictly_above + 1
 
+    # TWO SEPARATE PERMISSIONS, because they are two different claims and
+    # conflating them was the bug design caught.
+    #
+    #   ordinal_safe  may we say "4th of 27"?  Fails on a near neighbour
+    #                 or too short a record. A question about SEPARATION.
+    #   ratio_safe    may we say "3.6x the median"? Fails on a near-zero
+    #                 baseline. A question about the DENOMINATOR.
+    #
+    # The floor used to kill the ordinal, which suppressed a perfectly
+    # good rank on the Altiplano: median 3.40 is under the floor, but its
+    # distribution runs 1.4 to 17.0 and 12.30 sits 0.90 clear of its
+    # nearest neighbour. That rank is separable and publishable; only the
+    # multiple against a small median is not.
     out = {"rank": rank, "of": n, "tied_with_n": len(tied),
-           "ordinal_safe": True, "claim": None, "guards": []}
+           "ordinal_safe": True, "ratio_safe": True,
+           "claim": None, "guards": []}
 
     if n < MIN_RECORD:
         out["ordinal_safe"] = False
@@ -316,13 +342,14 @@ def classify(value, others, median, complete, floor=None):
                              f"of this value; the ordinal is not separable")
 
     if floor is not None and median is not None and median < floor:
-        # The reading stands; only the SUPERLATIVE is withheld.
-        out["ordinal_safe"] = False
+        # The reading and the RANK stand; only the MULTIPLE is withheld.
+        out["ratio_safe"] = False
         out["guards"].append(
             f"the baseline median is {median:.2f}, below the provisional "
-            f"floor of {floor:.1f}. A ratio against a near-zero baseline "
-            f"amplifies noise rather than measuring an anomaly, so no "
-            f"ordinal is permitted here however large the multiple looks")
+            f"floor of {floor:.1f}. A multiple against a near-zero baseline "
+            f"amplifies noise rather than measuring an anomaly, so the "
+            f"x-median figure must not be quoted here however large it "
+            f"looks. The rank is unaffected by this guard")
         out["baseline_below_floor"] = True
 
     ratio = value / median if median else None
@@ -337,7 +364,8 @@ def classify(value, others, median, complete, floor=None):
 
     if ratio is None:
         out["claim"] = "no_baseline"
-    elif rank <= EXTREME_RANK and ratio >= EXTREME_RATIO and out["ordinal_safe"]:
+    elif (rank <= EXTREME_RANK and ratio >= EXTREME_RATIO
+          and out["ordinal_safe"] and out["ratio_safe"]):
         out["claim"] = "extreme_ordinal"        # "second wettest in 27 years"
     elif rank <= EXTREME_RANK and ratio < EXTREME_RATIO:
         # Top of a flat distribution. The ordinal is true and oversells:

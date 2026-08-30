@@ -5,21 +5,21 @@
   "start": "2026-08-01",
   "end": "2026-08-14"
  },
- "generated": "2026-08-21",
+ "generated": "2026-08-30",
  "event_corroboration": {
   "occurred": null,
   "state": "unknown",
   "source": "none consulted",
-  "detail": "No river gauge or independent source has been checked for the upper Segre. This channel measured a record fortnight of rainfall and has not established what that water did on the ground.",
+  "detail": "No gauge checked for the upper Segre.",
   "note": "This channel's own instruments measure rainfall and flood extent. Neither establishes that a flood occurred, so this field carries evidence from outside them and is not derived from anything above."
  },
  "measured_to": "2026-08-14",
  "instrument_coverage": {
-  "data_through": "2026-08-19",
+  "data_through": "2026-08-28",
   "days_behind_run_date": 2,
   "window_truncated": false,
   "window_closed": true,
-  "note": "the rainfall instrument holds data to 2026-08-19, past the window end of 2026-08-14, so this window is complete"
+  "note": "the rainfall instrument holds data to 2026-08-28, past the window end of 2026-08-14, so this window is complete"
  },
  "authorship": "tls_built",
  "evidence_basis": "measured",
@@ -82,6 +82,7 @@
     "of": 27,
     "tied_with_n": 0,
     "ordinal_safe": true,
+    "ratio_safe": true,
     "claim": "extreme_ordinal",
     "guards": []
    },

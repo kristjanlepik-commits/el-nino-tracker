@@ -9,8 +9,8 @@
  "event_corroboration": {
   "occurred": null,
   "state": "unknown",
-  "source": "none consulted; press reports and a Community Note disagree and neither is a measurement",
-  "detail": "No Peruvian, Bolivian or Chilean river gauge or official hydrological source has been checked. This channel measured rainfall only.",
+  "source": "none consulted",
+  "detail": "No South American gauge checked. GloFAS discharge is the intended corroboration and is blocked on a licence acceptance.",
   "note": "This channel's own instruments measure rainfall and flood extent. Neither establishes that a flood occurred, so this field carries evidence from outside them and is not derived from anything above."
  },
  "measured_to": "2026-08-28",
@@ -78,11 +78,13 @@
    "finding": {
     "rank": 1,
     "of": 27,
-    "tied_with_n": 0,
+    "tied_with_n": 1,
     "ordinal_safe": false,
+    "ratio_safe": false,
     "claim": "notable",
     "guards": [
-     "the baseline median is 0.33, below the provisional floor of 5.0. A ratio against a near-zero baseline amplifies noise rather than measuring an anomaly, so no ordinal is permitted here however large the multiple looks"
+     "1 other period(s) within 2% of this value; the ordinal is not separable",
+     "the baseline median is 0.33, below the provisional floor of 5.0. A multiple against a near-zero baseline amplifies noise rather than measuring an anomaly, so the x-median figure must not be quoted here however large it looks. The rank is unaffected by this guard"
     ],
     "baseline_below_floor": true
    },
