@@ -643,9 +643,23 @@ def main():
 
     piece = piece_from(payload, today=_today())
     out = ROOT / "docs" / piece["path"].strip("/") / "index.html"
+
+    force = "--force" in sys.argv
+    if out.exists() and not force:
+        raise SystemExit(
+            "REFUSING TO REBUILD: %s already exists.\n"
+            "This page was published on a date and says so. Rebuilding "
+            "re-stamps it with today and re-words its headline in whatever "
+            "the template says now, which is invariant 5 and is why "
+            "run_brief exits early on the same condition.\n"
+            "Use --force only to fix a published page in a genuine "
+            "emergency, and expect the published date to move."
+            % out.relative_to(ROOT))
+
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render(piece, root_prefix="../../"))
-    print("wrote %s" % out.relative_to(ROOT))
+    print("wrote %s%s" % (out.relative_to(ROOT),
+                          "  (FORCED over a published page)" if force else ""))
 
 
 if __name__ == "__main__":
