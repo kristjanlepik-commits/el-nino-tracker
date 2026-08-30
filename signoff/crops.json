@@ -1,9 +1,9 @@
 {
   "channel": "crops",
-  "approved_hash": "a1b81c75b8868b8a60258976c71eab63553d4b892c4a382bb77b07cb3bd7b469",
-  "approved_at": "2026-08-30T13:55:30+00:00",
+  "approved_hash": "c41d4efd5f4016eb08c563fb01ae31f8a435686bee7e5d24167351aad0bee24c",
+  "approved_at": "2026-08-30T14:01:31+00:00",
   "approved_by": "CRO",
-  "note": "Payload-only: severity.rank_series, the rank of every year in each country's own composite series, on the same convention as severity.rank and verified equal to it for the current year across all 165 places. Added because product and two chats re-derived these ranks to answer a group question and reached different answers from the same payload. No template reads it yet; approving so the channel does not sit blocked on an invisible diff.",
+  "note": "Payload-only: isthmus_comparison, implementing Kristjan's ruling (D-249) that the corridor ships as a comparison rather than a record. Emits the full threshold gradient beside the headline count, prior_years_at_or_above at every cut, and versus_2015 by name, so the selection objection is answerable from the payload. is_not states outright that this is not evidence of the corridor's worst year. ISTHMUS_ORDER is hand-written on purpose and the comment says why: geography is declared, membership is computed. The field caught my own error on first run, five countries worse in 2015 where I had told product six. No template reads it yet; approving so the channel does not sit blocked on an invisible diff.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
