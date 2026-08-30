@@ -97,6 +97,14 @@ REGIONS = {
     # is permitted however large the multiple looks.
     "s_peru_altiplano": {"lon": (-72.0, -69.0), "lat": (-17.0, -14.0)},
     "n_chile_atacama": {"lon": (-70.5, -68.5), "lat": (-24.0, -20.0)},
+    # The two valleys the GloFAS per-cell sweep flagged, boxed at +-0.35 deg
+    # (about 40 km) around the flagged cell. These boxes ARE selected on the
+    # outcome, and the selection came from a DIFFERENT instrument: GloFAS
+    # discharge picked the location, IMERG is being asked whether it agrees.
+    # That is corroboration rather than circularity, and it is the reason
+    # the boxes we drew by hand are kept in the payload alongside them.
+    "yungas_bolivia": {"lon": (-67.85, -67.15), "lat": (-16.95, -16.25)},
+    "andes_amazon_peru": {"lon": (-70.45, -69.75), "lat": (-14.05, -13.35)},
 }
 
 
