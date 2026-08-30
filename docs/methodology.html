@@ -828,6 +828,45 @@ column.</p>
    API with <code>originating_centre=ncep, system=2</code>) is queued for V2,
    primarily for the breadth argument in #7 above rather than the
    horizon argument alone.</p>
+<ol>
+<li><strong>The index returns to neutral before the impacts do, and nothing
+   in this brief says so.</strong> Every number we publish describes the state
+   of the ocean now, or a forecast of it. Several of the impacts our
+   other channels track lag that state by many months, and the largest
+   lag is long enough to invert the reading entirely.</li>
+</ol>
+<p>The clearest case is Amazon fire. Fire in the southern Amazon is
+   governed by how much water the PRECEDING wet season put into the
+   ground, not by concurrent sea surface temperature, so the fire
+   response to an El Nino arrives roughly 15 months after onset, in the
+   following dry season (Chen et al. 2017, Nature Climate Change; the
+   pan-tropical cascade puts Northern Hemisphere South America at +90%
+   emissions at 9 months and Southern Hemisphere South America at +86%
+   at 15 months). Both 1997-98 and 2023-24 behaved this way: the
+   catastrophe landed in the year after the peak.</p>
+<p>For the 2026-27 event that means the principal southern-Amazon
+   window is roughly July to October 2027, and our own CPC strength
+   table already carries MAM 2027 at 0% probability of a very strong
+   event. <strong>A reader, or a downstream channel, taking the headline
+   ladder as a live risk gauge in mid-2027 will read near-zero at the
+   moment the impact peaks.</strong> The index will not be wrong; it will be
+   answering a different question from the one being asked of it.</p>
+<p>We do not currently fix this, and adding a lagged impact index is
+   not in scope for V1.5: it would be original modelling of exactly the
+   kind the build philosophy rules out on a sample of four events. What
+   we can do is refuse the inference. Any channel building on our
+   numbers should read this limitation first, and no reader-facing copy
+   should present a falling ladder as falling risk without saying which
+   risk.</p>
+<p>Verified against our own data on 2026-08-30, and the verification
+   also weakened the mechanism above: the proximate variable, southern
+   Amazon wet-season soil moisture (ERA5 layer 3, Dec to May), ranked
+   18th driest of 35 years for 2026, and 2025 had the 3rd driest
+   recharge on record alongside the lowest Amazon fire year on record.
+   The lag structure in the published literature is well evidenced.
+   Our attempt to confirm its proximate mechanism from soil moisture
+   alone is not, so the timing claim above should be cited to Chen and
+   not to us.</p>
 <h2>Snapshot and diff machinery</h2>
 <p>Each issue freezes the input state to a JSON snapshot. The next issue
 loads the prior snapshot and computes:</p>

@@ -326,6 +326,26 @@ def land_use_block(c):
                 "reading": c["reading"],
                 "detections_on_crop_pct": c["detections_on_crop_pct"],
                 "country_land_crop_pct": c["country_land_crop_pct"],
+                # THE DENOMINATOR THE RENDERER NEEDS, which this block
+                # did not carry. The country page computes the numerator
+                # as n * pct/100 to apply the floor, and fell back to
+                # e["count"], which events.json does not have. So n was
+                # 0, on_crop was 0, and the floor fired on every headline:
+                # Cuba's lede said "about 0 of this week's detections fell
+                # on cropland, too small a number to compare" directly
+                # above a row reading "on farmland 2.42x more often than
+                # chance", on 208 detections actually on cropland.
+                #
+                # Both halves were right about their own field and the
+                # page contradicted itself, which is the shape a review
+                # of values cannot see. Found by rendering the page and
+                # looking at it, after design said that class of defect
+                # needs a human look and was right within the hour.
+                #
+                # detections_on_crop ships too, so a consumer never has
+                # to reconstruct the numerator from a percentage.
+                "n_detections_sampled": c.get("n_detections_sampled"),
+                "detections_on_crop": c.get("detections_on_crop"),
                 "means": ("Share of this week's detections falling on cropland, against "
                      "the share of the country that IS cropland. Above 1.3 "
                      "the fires sit on farmland more often than chance; below "
