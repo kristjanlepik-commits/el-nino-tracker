@@ -59,3 +59,8 @@ design/review/heat/
 # 2026-08-09: a rebase refuses while they are dirty, so one chat's
 # preview directory could stop another chat's commit reaching origin.
 heat-preview/
+
+# Local deadline-check log, machine-specific
+.fires_deadline.log
+.fires_deadline.out
+.fires_deadline.err
