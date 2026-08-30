@@ -380,8 +380,12 @@ def check_truncation(problems: list) -> None:
 # artifact of a run that survives it. A job that ran and committed nothing
 # is indistinguishable here from one that never ran, which is why this
 # only covers jobs that commit on every successful run. Crops is
-# deliberately absent: it commits once per dekad by design, so a run-age
-# check on it would fire for nine days out of ten.
+# deliberately absent, but not just because it commits once per dekad:
+# it was tried and measured to fail (see EXTERNAL_CHECKS below), because
+# its payload also gets methodology commits between data refreshes, so
+# commit-date tracks edits rather than advancement and would have read
+# healthy through a real five-day outage. Crops is covered by
+# crops/check_pipeline.py via EXTERNAL_CHECKS instead.
 #
 # 30 HOURS, NOT FIRE'S PROPOSED 26. Their reasoning is right and their
 # number is too tight for this repo: GitHub's scheduler has drifted 2h25m
@@ -414,6 +418,43 @@ RUN_AGE = [
     {"path": "heat/data/collected/Tallinn.jsonl", "max_hours": 30,
      "owner": "HEAT", "what": "the Tallinn forward collector"},
 ]
+
+
+# EXTERNAL_CHECKS run a channel's own pipeline-health script rather than
+# reading a committed file directly. CROPS is the first entry and the
+# reason the mechanism exists: RUN_AGE's git-commit-date check does not
+# work for a channel whose payload gets methodology commits between data
+# refreshes (crops/data/stress_current.json was committed nine times in
+# two weeks while its dekad sat frozen), so a commit-date bound would
+# have read healthy through the entire 25-29 August outage. Crops
+# measured this, declined the reuse, and built crops/check_pipeline.py
+# instead: it compares what the source has published against what the
+# channel holds, using files already committed for other reasons, and
+# cannot be fooled by either a slow source or an active editor. Generic
+# by design, exit 0/1, repo convention, one line per problem: the next
+# channel with the same shape of gap (a payload that legitimately
+# changes for reasons other than a data refresh) gets this instead of
+# RUN_AGE without needing a new mechanism here.
+EXTERNAL_CHECKS = [
+    {"script": "crops/check_pipeline.py", "owner": "CROPS",
+     "what": "whether the crops pipeline is keeping up with its source, "
+             "independent of D-092's reader-relevance bound"},
+]
+
+
+def check_external(problems: list, rows: list) -> None:
+    for chk in EXTERNAL_CHECKS:
+        out = subprocess.run(
+            [sys.executable, chk["script"]], cwd=ROOT,
+            capture_output=True, text=True)
+        rows.append((chk["script"], "-",
+                     "ok" if out.returncode == 0 else "FAIL", chk["owner"]))
+        if out.returncode != 0:
+            detail = (out.stdout + out.stderr).strip().splitlines()
+            last = detail[-1] if detail else "(no output)"
+            problems.append(
+                f"{chk['script']} reports a problem (exit {out.returncode}). "
+                f"This is {chk['what']}. {last} Owner: {chk['owner']}.")
 
 
 def _last_commit_utc(rel: str):
@@ -581,6 +622,7 @@ def main() -> int:
     run_rows = []
     check_run_age(problems, run_rows, datetime.now(timezone.utc))
     check_weekly_issue(problems, run_rows, today)
+    check_external(problems, run_rows)
     rows.extend(run_rows)
 
     w = max(len(r[0]) for r in rows) if rows else 20
