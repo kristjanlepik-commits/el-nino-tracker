@@ -94,6 +94,13 @@
     "peak_to_median_day": 1.25,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.08,
+    "count": 65842,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ALB": {
@@ -157,6 +164,13 @@
     "peak_to_median_day": 2.05,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.26,
+    "count": 150,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ARG": {
@@ -220,6 +234,13 @@
     "peak_to_median_day": 3.26,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.39,
+    "count": 4257,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "AUS": {
@@ -283,6 +304,13 @@
     "peak_to_median_day": 1.92,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.6,
+    "count": 12316,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "AUT": {
@@ -346,6 +374,13 @@
     "peak_to_median_day": 2.25,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.1,
+    "count": 82,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "BEL": {
@@ -409,6 +444,13 @@
     "peak_to_median_day": 1.16,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.86,
+    "count": 121,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "BGR": {
@@ -472,6 +514,13 @@
     "peak_to_median_day": 4.62,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.54,
+    "count": 100,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "BIH": {
@@ -535,6 +584,13 @@
     "peak_to_median_day": 2.37,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.73,
+    "count": 219,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "BOL": {
@@ -598,6 +654,13 @@
     "peak_to_median_day": 1.44,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.28,
+    "count": 4368,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "BRA": {
@@ -661,6 +724,13 @@
     "peak_to_median_day": 1.19,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.52,
+    "count": 37812,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "BWA": {
@@ -724,6 +794,13 @@
     "peak_to_median_day": 2.19,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.98,
+    "count": 3520,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "CAN": {
@@ -787,6 +864,13 @@
     "peak_to_median_day": 3.04,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.07,
+    "count": 21916,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "CHL": {
@@ -850,6 +934,13 @@
     "peak_to_median_day": 2.18,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.52,
+    "count": 82,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "CHN": {
@@ -913,6 +1004,13 @@
     "peak_to_median_day": 1.84,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.56,
+    "count": 3888,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "COD": {
@@ -976,6 +1074,13 @@
     "peak_to_median_day": 1.71,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.33,
+    "count": 96796,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "COG": {
@@ -1028,6 +1133,13 @@
     "peak_to_median_day": 3.58,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.01,
+    "count": 3600,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "COL": {
@@ -1080,6 +1192,13 @@
     "peak_to_median_day": 1.36,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.0,
+    "count": 1086,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "CUB": {
@@ -1143,6 +1262,13 @@
     "peak_to_median_day": 1.43,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 10.88,
+    "count": 744,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "CYP": {
@@ -1201,6 +1327,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.57,
+    "count": 3,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "CZE": {
@@ -1259,6 +1392,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.36,
+    "count": 14,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "DEU": {
@@ -1322,6 +1462,13 @@
     "peak_to_median_day": 2.5,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.82,
+    "count": 503,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "DNK": {
@@ -1385,6 +1532,13 @@
     "peak_to_median_day": 4.5,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.8,
+    "count": 52,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "DOM": {
@@ -1448,6 +1602,13 @@
     "peak_to_median_day": 2.08,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.49,
+    "count": 197,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "DZA": {
@@ -1511,6 +1672,13 @@
     "peak_to_median_day": 5.75,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 2.27,
+    "count": 5511,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ECU": {
@@ -1574,6 +1742,13 @@
     "peak_to_median_day": 4.06,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.14,
+    "count": 375,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ESP": {
@@ -1637,6 +1812,13 @@
     "peak_to_median_day": 1.59,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.23,
+    "count": 122,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "EST": {
@@ -1695,6 +1877,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.28,
+    "count": 2,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "FIN": {
@@ -1758,6 +1947,13 @@
     "peak_to_median_day": 2.12,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 2.07,
+    "count": 62,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "FRA": {
@@ -1821,6 +2017,13 @@
     "peak_to_median_day": 2.96,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.64,
+    "count": 218,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "GBR": {
@@ -1884,6 +2087,13 @@
     "peak_to_median_day": 2.89,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.01,
+    "count": 193,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "GEO": {
@@ -1947,6 +2157,13 @@
     "peak_to_median_day": 4.31,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 2.25,
+    "count": 129,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "GRC": {
@@ -2005,6 +2222,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.11,
+    "count": 29,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "HRV": {
@@ -2068,6 +2292,13 @@
     "peak_to_median_day": 1.37,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 2.55,
+    "count": 318,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "HTI": {
@@ -2126,6 +2357,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 1.4,
+    "count": 35,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "HUN": {
@@ -2184,6 +2422,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.43,
+    "count": 17,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "IDN": {
@@ -2247,6 +2492,13 @@
     "peak_to_median_day": 1.97,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 5.43,
+    "count": 46816,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "IND": {
@@ -2310,6 +2562,13 @@
     "peak_to_median_day": 1.47,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.8,
+    "count": 421,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "IRL": {
@@ -2368,6 +2627,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.78,
+    "count": 6,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "IRN": {
@@ -2431,6 +2697,13 @@
     "peak_to_median_day": 1.57,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.86,
+    "count": 2944,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "IRQ": {
@@ -2494,6 +2767,13 @@
     "peak_to_median_day": 1.13,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.73,
+    "count": 2271,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ISR": {
@@ -2552,6 +2832,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.95,
+    "count": 27,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ITA": {
@@ -2615,6 +2902,13 @@
     "peak_to_median_day": 1.69,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.11,
+    "count": 1104,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "JAM": {
@@ -2678,6 +2972,13 @@
     "peak_to_median_day": 3.25,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 5.43,
+    "count": 70,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "JPN": {
@@ -2741,6 +3042,13 @@
     "peak_to_median_day": 3.53,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.77,
+    "count": 397,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "KAZ": {
@@ -2804,6 +3112,13 @@
     "peak_to_median_day": 1.88,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.49,
+    "count": 1506,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "KHM": {
@@ -2867,6 +3182,13 @@
     "peak_to_median_day": 5.17,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.58,
+    "count": 71,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "KOR": {
@@ -2930,6 +3252,13 @@
     "peak_to_median_day": 1.84,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.8,
+    "count": 102,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "LAO": {
@@ -2988,6 +3317,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.28,
+    "count": 1,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "LBN": {
@@ -3046,6 +3382,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 2.2,
+    "count": 45,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "LBY": {
@@ -3098,6 +3441,13 @@
     "peak_to_median_day": 1.52,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.38,
+    "count": 1207,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "LKA": {
@@ -3161,6 +3511,13 @@
     "peak_to_median_day": 3.19,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.58,
+    "count": 242,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "LTU": {
@@ -3219,6 +3576,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.22,
+    "count": 1,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "LUX": {
@@ -3277,6 +3641,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.68,
+    "count": 13,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "LVA": {
@@ -3335,6 +3706,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.43,
+    "count": 3,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MAR": {
@@ -3398,6 +3776,13 @@
     "peak_to_median_day": 1.22,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.91,
+    "count": 60,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MDG": {
@@ -3461,6 +3846,13 @@
     "peak_to_median_day": 1.24,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.43,
+    "count": 14580,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MEX": {
@@ -3524,6 +3916,13 @@
     "peak_to_median_day": 1.18,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.58,
+    "count": 1904,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MKD": {
@@ -3587,6 +3986,13 @@
     "peak_to_median_day": 2.2,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.38,
+    "count": 219,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MLT": {
@@ -3633,6 +4039,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.0,
+    "count": 0,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MMR": {
@@ -3691,6 +4104,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.29,
+    "count": 7,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MNE": {
@@ -3743,6 +4163,13 @@
     "peak_to_median_day": 2.44,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.83,
+    "count": 575,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MOZ": {
@@ -3806,6 +4233,13 @@
     "peak_to_median_day": 1.92,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.86,
+    "count": 37638,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MWI": {
@@ -3869,6 +4303,13 @@
     "peak_to_median_day": 1.74,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.51,
+    "count": 1129,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "MYS": {
@@ -3921,6 +4362,13 @@
     "peak_to_median_day": 1.95,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.94,
+    "count": 303,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "NAM": {
@@ -3984,6 +4432,13 @@
     "peak_to_median_day": 1.81,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.59,
+    "count": 5371,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "NLD": {
@@ -4047,6 +4502,13 @@
     "peak_to_median_day": 1.68,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.33,
+    "count": 122,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "NOR": {
@@ -4105,6 +4567,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 1.26,
+    "count": 37,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "NPL": {
@@ -4151,6 +4620,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.0,
+    "count": 0,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "NZL": {
@@ -4214,6 +4690,13 @@
     "peak_to_median_day": 2.71,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.65,
+    "count": 52,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "PER": {
@@ -4277,6 +4760,13 @@
     "peak_to_median_day": 3.73,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.73,
+    "count": 4003,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "PHL": {
@@ -4340,6 +4830,13 @@
     "peak_to_median_day": 4.04,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 2.78,
+    "count": 252,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "PNG": {
@@ -4392,6 +4889,13 @@
     "peak_to_median_day": 1.64,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 3.72,
+    "count": 4890,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "POL": {
@@ -4455,6 +4959,13 @@
     "peak_to_median_day": 1.29,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.87,
+    "count": 166,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "PRT": {
@@ -4513,6 +5024,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.07,
+    "count": 29,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "PRY": {
@@ -4576,6 +5094,13 @@
     "peak_to_median_day": 2.42,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.66,
+    "count": 3725,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ROU": {
@@ -4639,6 +5164,13 @@
     "peak_to_median_day": 1.48,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.74,
+    "count": 235,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "RUS": {
@@ -4702,6 +5234,13 @@
     "peak_to_median_day": 1.3,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 7.52,
+    "count": 202359,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "SAU": {
@@ -4754,6 +5293,13 @@
     "peak_to_median_day": 1.53,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.37,
+    "count": 765,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "SRB": {
@@ -4817,6 +5363,13 @@
     "peak_to_median_day": 2.32,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.15,
+    "count": 203,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "SVK": {
@@ -4880,6 +5433,13 @@
     "peak_to_median_day": 2.0,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.64,
+    "count": 53,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "SVN": {
@@ -4926,6 +5486,13 @@
    "persistence": {
     "verdict": "not_assessed",
     "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
+   },
+   "reading": {
+    "multiple": 0.0,
+    "count": 0,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "SWE": {
@@ -4989,6 +5556,13 @@
     "peak_to_median_day": 2.43,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.03,
+    "count": 57,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "SYR": {
@@ -5052,6 +5626,13 @@
     "peak_to_median_day": 2.85,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.07,
+    "count": 302,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "THA": {
@@ -5115,6 +5696,13 @@
     "peak_to_median_day": 3.5,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.76,
+    "count": 83,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "TKM": {
@@ -5178,6 +5766,13 @@
     "peak_to_median_day": 1.98,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.0,
+    "count": 819,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "TUN": {
@@ -5241,6 +5836,13 @@
     "peak_to_median_day": 2.74,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 2.56,
+    "count": 296,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "TUR": {
@@ -5304,6 +5906,13 @@
     "peak_to_median_day": 1.83,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.65,
+    "count": 1046,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "TZA": {
@@ -5367,6 +5976,13 @@
     "peak_to_median_day": 1.28,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.91,
+    "count": 17189,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "UGA": {
@@ -5430,6 +6046,13 @@
     "peak_to_median_day": 1.87,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 5.71,
+    "count": 2759,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "UKR": {
@@ -5493,6 +6116,13 @@
     "peak_to_median_day": 2.94,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 2.07,
+    "count": 6062,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "URY": {
@@ -5556,6 +6186,13 @@
     "peak_to_median_day": 5.5,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.42,
+    "count": 56,
+    "publishable": false,
+    "withheld_because": "below_noise_floor",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "USA": {
@@ -5619,6 +6256,13 @@
     "peak_to_median_day": 1.75,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.89,
+    "count": 18499,
+    "publishable": false,
+    "withheld_because": "persistent_source",
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "VEN": {
@@ -5671,6 +6315,13 @@
     "peak_to_median_day": 1.56,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.09,
+    "count": 1615,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "VNM": {
@@ -5734,6 +6385,13 @@
     "peak_to_median_day": 1.75,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.67,
+    "count": 229,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ZAF": {
@@ -5797,6 +6455,13 @@
     "peak_to_median_day": 1.7,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.81,
+    "count": 7394,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ZMB": {
@@ -5860,6 +6525,13 @@
     "peak_to_median_day": 1.51,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 0.79,
+    "count": 45427,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
   "ZWE": {
@@ -5923,6 +6595,13 @@
     "peak_to_median_day": 1.72,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+   },
+   "reading": {
+    "multiple": 1.15,
+    "count": 7041,
+    "publishable": true,
+    "withheld_because": null,
+    "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   }
  }

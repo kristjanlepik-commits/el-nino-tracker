@@ -233,6 +233,63 @@ def subset_hist(iso, keep_md, cur_year):
     return out or None
 
 
+def weekly_reading(row):
+    """This country's week-vs-normal multiple, WITH the verdict on whether
+    it may be published, in one object.
+
+    WHY THESE TRAVEL TOGETHER. current_week.json carried count and mean
+    and no multiple, because the multiple and its gates were computed
+    only for the ~18 countries that qualify as events. Any consumer
+    needing a figure for the other 79, which is exactly what a regional
+    table is, had to divide count by mean itself. That division is
+    trivial and correct and carries none of the gating.
+
+    So the LatAm page published "Chile 0.52x on 82" on 2026-08-30.
+    Arithmetically perfect. Chile is `persistent_source` on all four
+    criteria, meaning my own instrument reads that heat as a flare or
+    fixed industrial source rather than a fire season, and
+    build_events drops it from the qualifying set. Jamaica, Haiti and
+    Uruguay went out under the 150 noise floor on a page that rendered
+    the floor's own definition beside them.
+
+    Nobody was careless. The payload offered a numerator and a
+    denominator and no way to know that dividing them was disallowed.
+    A guard that lives only in the code that skips a country cannot
+    protect a consumer who never calls that code.
+
+    NOT a significance test and not a quality score. It answers one
+    question: may this country's multiple be shown as a fire reading.
+    """
+    count = row.get("count")
+    mean = row.get("mean")
+    mult = (count / mean) if (mean and count is not None) else None
+    verdict = (row.get("persistence") or {}).get("verdict")
+    if verdict == "persistent_source":
+        why = "persistent_source"
+    elif mean in (None, 0):
+        why = "no_baseline"
+    elif count is not None and count < NOISE_FLOOR:
+        why = "below_noise_floor"
+    else:
+        why = None
+    return {
+        "multiple": round(mult, 2) if mult is not None else None,
+        "count": count,
+        "publishable": why is None,
+        "withheld_because": why,
+        "means": ("This week's detections against this country's own mean "
+                  "for the same week in prior years. `publishable` is "
+                  "false when the multiple exists but must not be shown "
+                  "as a fire reading: `persistent_source` means the heat "
+                  "behaves like a flare or fixed industrial source rather "
+                  "than fire, `below_noise_floor` means fewer than "
+                  "%d detections, which cannot support a ratio, and "
+                  "`no_baseline` means there is no prior-year mean to "
+                  "divide by. Do not compute count/mean yourself; that "
+                  "is this field without its gates." % NOISE_FLOOR),
+    }
+
+
 def land_use_block(c):
     """The cropland reading as the renderer receives it.
 
@@ -1542,7 +1599,9 @@ def main():
                                 "so z has no upper bound. A large z is a "
                                 "measurement, not an artefact of n."),
                    },
-                   "source": source, "countries": detail}, f, indent=1)
+                   "source": source,
+                   "countries": {iso: dict(r, reading=weekly_reading(r))
+                                 for iso, r in detail.items()}}, f, indent=1)
     os.makedirs(os.path.join(REPO, "data"), exist_ok=True)
     with open(os.path.join(REPO, "data", "events.json"), "w") as f:
         json.dump(events, f, indent=2)
