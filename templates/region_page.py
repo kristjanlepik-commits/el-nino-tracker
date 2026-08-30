@@ -359,17 +359,26 @@ def _coverage_notes(crops, fires, names, worst):
                       "there.")
     out.append('<p class="rgnote">%s</p>' % fire_note)
 
-    missing = [n for n in names if crops[n]["state"] != "measured"]
-    if missing:
-        out.append('<p class="rgnote"><b>Crops places %d of %d.</b> %s %s no '
-                   'rank here.</p>'
-                   % (len(cm), tot, ", ".join(missing),
-                      "has" if len(missing) == 1 else "have"))
+    from templates.region_map import readings as _map_readings
+    mr = _map_readings()
+    thin = [n for n in names if (mr.get(n, {}).get("crops") or {}).get(
+        "state") == "thin"]
+    placed = len(cm) - len(thin)
+    if thin:
+        out.append(
+            '<p class="rgnote"><b>Crops measures all %d and places %d.</b> '
+            '%s %s a rank against %s own 26 years, but %s measured on too '
+            'few regional readings to sit on the map&rsquo;s scale. '
+            'Measured and placeable are different things, and the second '
+            'is a limit of the drawing rather than of the data.</p>'
+            % (len(cm), placed, ", ".join(thin),
+               "has" if len(thin) == 1 else "have",
+               "its" if len(thin) == 1 else "their",
+               "is" if len(thin) == 1 else "are"))
     else:
         out.append('<p class="rgnote"><b>Crops places all %d.</b> Every '
                    'country in this table has a rank against its own 26 '
-                   'years, which was not true before the crop roster grew '
-                   'from 123 places to 165.</p>' % tot)
+                   'years and sits on the map.</p>' % tot)
     return "\n".join(out)
 
 

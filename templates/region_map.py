@@ -397,7 +397,12 @@ def _flood_points():
             continue
         cands = d.get("findings") or [d]
         for c in cands:
-            lat, lon = c.get("lat"), c.get("lon")
+            # FLO emits `location` on single-region payloads and lat/lon on
+            # each finding of a multi-valley one. Both carry `kind`.
+            loc = c.get("location") or d.get("location") or {}
+            lat = c.get("lat", loc.get("lat"))
+            lon = c.get("lon", loc.get("lon"))
+            kind = c.get("kind") or loc.get("kind") or "flagged_cell"
             if lat is None or lon is None:
                 continue
             if not (-30 <= lat <= 33 and -118 <= lon <= -34):
@@ -407,7 +412,8 @@ def _flood_points():
             if not page:
                 continue
             out.append({"name": c.get("name") or d.get("label") or "",
-                        "lat": lat, "lon": lon, "piece": pid, "href": page})
+                        "lat": lat, "lon": lon, "kind": kind,
+                        "piece": pid, "href": page})
     return out
 
 
@@ -476,25 +482,44 @@ def block(root_prefix="../"):
         #
         # A basin is not a country, so the dot sits where the finding is
         # rather than shading a national unit we cannot honestly fill.
+        fpts = _flood_points() if key == "floods" else []
         if key == "floods":
-            for fp in _flood_points():
+            for fp in fpts:
                 x, y = to_xy(fp["lon"], fp["lat"])
+                box = fp["kind"] == "box_centroid"
+                if box:
+                    mark = ('<rect x="%.1f" y="%.1f" width="7" height="7" '
+                            'fill="none" stroke="var(--flood)" '
+                            'stroke-width="1.6" stroke-opacity="0.95">'
+                            % (x - 3.5, y - 3.5))
+                    what = ("the centre of the box we measured, not a "
+                            "place anything was observed")
+                else:
+                    mark = ('<circle cx="%.1f" cy="%.1f" r="4.2" '
+                            'fill="var(--flood)" fill-opacity="0.9" '
+                            'stroke="var(--paper)" stroke-width="1.2">'
+                            % (x, y))
+                    what = "a cell the data itself flagged"
                 shp.append(
-                    '<circle cx="%.1f" cy="%.1f" r="4.2" fill="var(--flood)" '
-                    'fill-opacity="0.9" stroke="var(--paper)" '
-                    'stroke-width="1.2"><title>%s</title></circle>'
-                    % (x, y, _esc("%s: a published flood piece measures "
-                                  "rainfall here. Floods publishes by "
-                                  "catchment, so this is a point rather "
-                                  "than a country." % fp["name"])))
+                    '%s<title>%s</title></%s>'
+                    % (mark,
+                       _esc("%s: %s. Floods publishes by catchment, and "
+                            "this channel measures rainfall rather than "
+                            "flooding." % (fp["name"], what)),
+                       "rect" if box else "circle"))
 
         cells.append(
             '<div class="rmcell"><div class="rmttl"><span class="nm">%s</span>'
-            '<span class="ct">%d of %d measured</span></div>'
+            '<span class="ct">%s</span></div>'
             '<div class="rmfr"><svg class="rmap" viewBox="0 0 %d %d" '
             'role="img" aria-label="%s">%s%s</svg></div>'
             '<p class="rmcap"><b>%s</b> %s</p></div>'
-            % (name, n_val, len(LATAM), W, H,
+            % (name,
+               ("%d published piece%s, by catchment"
+                % (len(fpts), "" if len(fpts) == 1 else "s"))
+               if key == "floods" and fpts
+               else "%d of %d placed" % (n_val, len(LATAM)),
+               W, H,
                _esc("%s across Latin America: each country either carries a "
                     "value on the diverging ramp, or is ruled where we do "
                     "not measure it." % name),
