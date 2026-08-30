@@ -481,6 +481,16 @@ def emit_archive(live_slugs, window, window_end=None) -> str:
             page = os.path.join(OUTDIR, slug, "index.html")
             if not os.path.isfile(page):
                 continue
+            # A DIRECTORY UNDER docs/fires/ IS NOT NECESSARILY A COUNTRY.
+            # Design's archive index lives at docs/fires/countries/, so
+            # this listed the archive as a country in the archive: name
+            # null, tracked false, no date. The same mistake as the
+            # stamper reading a directory listing as a roster, which is
+            # what put a false "checked this week" line on Ethiopia.
+            # A country is one we have a NAME for; anything else here is
+            # a page that happens to live nearby.
+            if slug not in names:
+                continue
             current = slug in live_slugs
             # CARRIED FORWARD, NOT PARSED BACK. My first version read the
             # date out of the rendered page and got None for all 31
