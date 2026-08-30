@@ -1083,20 +1083,40 @@ def check_heat_pages_match_reference(violations):
     #
     # Named rather than pattern-matched, so a real stray page still fails.
     NOT_CITIES = {"index", "methodology"}
-    on_disk = {p.stem for p in pages_dir.glob("*.html")
-               if p.stem not in NOT_CITIES}
+
+    # git ls-files, not pages_dir.glob(). Nine chats share this tree, and
+    # a generator can write a page and delete it again inside the window
+    # between a commit landing and this check running. glob() reads
+    # whatever happens to be on disk at that instant, which made a
+    # transient in-flight file indistinguishable from a real one, and hit
+    # three different chats on 2026-08-30 with three different wrong
+    # diagnoses (unreviewed publish, stale local build, test artifact)
+    # because none of them were the actual cause: a race, not a page.
+    # git ls-files reads the COMMITTED tree, which is what GitHub Pages
+    # actually serves (docs/ is pushed straight from the repo), so this
+    # now checks the same thing the check's own docstring says it exists
+    # to check: whether the published artifact matches the approved
+    # reference, not whether the working tree happens to hold extra files
+    # at the moment this runs.
+    out = subprocess.run(
+        ["git", "ls-files", "docs/heat"], cwd=ROOT,
+        capture_output=True, text=True)
+    tracked = {Path(p).stem for p in out.stdout.splitlines()
+               if p.endswith(".html")}
+    on_disk = tracked - NOT_CITIES
     approved_slugs = {slug(c) for c in approved}
 
     extra = sorted(on_disk - approved_slugs)
     missing = sorted(approved_slugs - on_disk)
     if extra:
         violations.append(
-            f"docs/heat has {len(extra)} page(s) for cities not in the "
-            f"approved payload: {', '.join(extra)}. These are live to readers "
-            f"and the refresh gate has never cleared them, so it will keep "
-            f"reporting HOLD about changes that already shipped. Either the "
-            f"pages should not be published yet, or the reference should be "
-            f"promoted and product told what went out unreviewed.")
+            f"docs/heat has {len(extra)} committed page(s) for cities not "
+            f"in the approved payload: {', '.join(extra)}. This checks the "
+            f"committed tree (git ls-files), which is what GitHub Pages "
+            f"actually serves, so a hit here means they are live to "
+            f"readers and the refresh gate has never cleared them. Either "
+            f"the pages should not be published yet, or the reference "
+            f"should be promoted and product told what went out unreviewed.")
     if missing:
         violations.append(
             f"the approved payload has {len(missing)} city(ies) with no page: "
