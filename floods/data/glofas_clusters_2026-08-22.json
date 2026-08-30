@@ -1,0 +1,212 @@
+{
+ "window": "2026-08-17..2026-08-22",
+ "method": "per-cell rank against 47 years, clusters of contiguous rank-1 river cells, evaluated AT THE PEAK CELL not the centroid",
+ "separability_test": "2026 must exceed the runner-up year by more than 5% of its own value",
+ "clusters": [
+  {
+   "cluster": 1,
+   "country": "Bolivia",
+   "cells": 119,
+   "lat": -16.43,
+   "lon": -66.77,
+   "peak_m3s": 424,
+   "x_median": 41.5,
+   "clear_of_runner_up_pct": 59,
+   "nearest": [
+    {
+     "name": "Caranavi",
+     "km": 108
+    },
+    {
+     "name": "La Paz",
+     "km": 147
+    }
+   ]
+  },
+  {
+   "cluster": 2,
+   "country": "Peru",
+   "cells": 88,
+   "lat": -10.93,
+   "lon": -76.27,
+   "peak_m3s": 37,
+   "x_median": 3.5,
+   "clear_of_runner_up_pct": 64,
+   "nearest": [
+    {
+     "name": "Cerro de Pasco",
+     "km": 28
+    },
+    {
+     "name": "Tarma",
+     "km": 83
+    }
+   ]
+  },
+  {
+   "cluster": 3,
+   "country": "Peru",
+   "cells": 48,
+   "lat": -13.68,
+   "lon": -70.12,
+   "peak_m3s": 63,
+   "x_median": 5.4,
+   "clear_of_runner_up_pct": 66,
+   "nearest": [
+    {
+     "name": "Puerto Maldonado",
+     "km": 157
+    },
+    {
+     "name": "Cusco",
+     "km": 201
+    }
+   ]
+  },
+  {
+   "cluster": 4,
+   "country": "Peru",
+   "cells": 37,
+   "lat": -9.83,
+   "lon": -74.52,
+   "peak_m3s": 24,
+   "x_median": 1.6,
+   "clear_of_runner_up_pct": 13,
+   "nearest": [
+    {
+     "name": "Oxapampa",
+     "km": 127
+    },
+    {
+     "name": "La Merced",
+     "km": 164
+    }
+   ]
+  },
+  {
+   "cluster": 5,
+   "country": "Peru",
+   "cells": 31,
+   "lat": -10.13,
+   "lon": -76.62,
+   "peak_m3s": 20,
+   "x_median": 1.7,
+   "clear_of_runner_up_pct": 34,
+   "nearest": [
+    {
+     "name": "Huanuco",
+     "km": 47
+    },
+    {
+     "name": "Cerro de Pasco",
+     "km": 73
+    }
+   ]
+  },
+  {
+   "cluster": 7,
+   "country": "Bolivia",
+   "cells": 24,
+   "lat": -15.78,
+   "lon": -67.62,
+   "peak_m3s": 352,
+   "x_median": 6.3,
+   "clear_of_runner_up_pct": 12,
+   "nearest": [
+    {
+     "name": "Caranavi",
+     "km": 9
+    },
+    {
+     "name": "La Paz",
+     "km": 98
+    }
+   ]
+  },
+  {
+   "cluster": 8,
+   "country": "Peru",
+   "cells": 22,
+   "lat": -10.48,
+   "lon": -74.37,
+   "peak_m3s": 17,
+   "x_median": 1.4,
+   "clear_of_runner_up_pct": 6,
+   "nearest": [
+    {
+     "name": "Oxapampa",
+     "km": 113
+    },
+    {
+     "name": "La Merced",
+     "km": 124
+    }
+   ]
+  },
+  {
+   "cluster": 9,
+   "country": "Peru",
+   "cells": 20,
+   "lat": -10.98,
+   "lon": -75.62,
+   "peak_m3s": 34,
+   "x_median": 3.1,
+   "clear_of_runner_up_pct": 52,
+   "nearest": [
+    {
+     "name": "La Merced",
+     "km": 32
+    },
+    {
+     "name": "Tarma",
+     "km": 50
+    }
+   ]
+  },
+  {
+   "cluster": 11,
+   "country": "Peru",
+   "cells": 15,
+   "lat": -10.13,
+   "lon": -76.22,
+   "peak_m3s": 42,
+   "x_median": 3.8,
+   "clear_of_runner_up_pct": 53,
+   "nearest": [
+    {
+     "name": "Huanuco",
+     "km": 22
+    },
+    {
+     "name": "Cerro de Pasco",
+     "km": 61
+    }
+   ]
+  },
+  {
+   "cluster": 12,
+   "country": "Peru",
+   "cells": 14,
+   "lat": -10.63,
+   "lon": -77.42,
+   "peak_m3s": 37,
+   "x_median": 3.2,
+   "clear_of_runner_up_pct": 34,
+   "nearest": [
+    {
+     "name": "Huaraz",
+     "km": 123
+    },
+    {
+     "name": "Cerro de Pasco",
+     "km": 127
+    }
+   ]
+  }
+ ],
+ "_note": "clusters 6 and 10 excluded: tied with the runner-up. #10 carries the largest absolute flow in the region at 4,236 m3/s and is NOT a record.",
+ "corroboration": {
+  "Bolivia": "disaster declared at La Asunta 2026-08-22, La Patria",
+  "Peru": "none found; all Peru flood reporting for 2026 is from January, the wet season"
+ }
+}
