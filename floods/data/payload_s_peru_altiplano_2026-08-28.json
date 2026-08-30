@@ -6,11 +6,23 @@
   "end": "2026-08-28"
  },
  "generated": "2026-08-30",
+ "location": {
+  "lat": -15.5,
+  "lon": -70.5,
+  "kind": "box_centroid",
+  "box": [
+   -72.0,
+   -69.0,
+   -17.0,
+   -14.0
+  ],
+  "note": "the centre of the box we measured, NOT a place anything was observed. On a catchment it may sit on high ground with no river beneath it."
+ },
  "event_corroboration": {
   "occurred": null,
   "state": "unknown",
   "source": "none consulted",
-  "detail": "No South American gauge checked. GloFAS discharge is the intended corroboration and is blocked on a licence acceptance.",
+  "detail": "No South American gauge or official source has been checked.",
   "note": "This channel's own instruments measure rainfall and flood extent. Neither establishes that a flood occurred, so this field carries evidence from outside them and is not derived from anything above."
  },
  "measured_to": "2026-08-28",

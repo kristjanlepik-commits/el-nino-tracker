@@ -390,6 +390,37 @@ def rank_of(value, others):
     return 1 + sum(1 for o in others if o > value)
 
 
+# Boxes are lon/lat pairs; the centroid is the honest default and is
+# labelled as such. Where a cell was identified by the data, that point is
+# used instead and marked.
+FLAGGED_CELLS = {
+    "yungas_bolivia": (-16.63, -67.52),
+    "andes_amazon_peru": (-13.68, -70.12),
+}
+
+
+def _location(region):
+    if region in FLAGGED_CELLS:
+        la, lo = FLAGGED_CELLS[region]
+        return {"lat": la, "lon": lo, "kind": "flagged_cell",
+                "note": "the model cell the per-cell sweep identified, not a "
+                        "box centre"}
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from fetch_imerg_baseline import REGIONS
+        b = REGIONS[region]
+    except Exception:
+        return None
+    lo0, lo1 = b["lon"]
+    la0, la1 = b["lat"]
+    return {"lat": round((la0 + la1) / 2, 3), "lon": round((lo0 + lo1) / 2, 3),
+            "kind": "box_centroid",
+            "box": [round(lo0, 3), round(lo1, 3), round(la0, 3), round(la1, 3)],
+            "note": "the centre of the box we measured, NOT a place anything "
+                    "was observed. On a catchment it may sit on high ground "
+                    "with no river beneath it."}
+
+
 def _event_character(year, cur, hist, daily):
     """Is this event the kind the instrument measures well?
 
@@ -525,6 +556,16 @@ def main():
         "label": args.label,
         "window": {"start": start.isoformat(), "end": end.isoformat()},
         "generated": as_of.isoformat(),
+        # A REPRESENTATIVE POINT, WITH ITS PROVENANCE. Design needs a dot per
+        # piece for the region map, and greyness there reads as "nothing
+        # here", which is false for a region that has published pages.
+        #
+        # `kind` is not decoration. A box centroid is where the middle of a
+        # rectangle is, NOT a place anything was measured, and on a catchment
+        # it can land on a ridge with no river under it. A flagged cell is a
+        # location the data itself picked. A page may draw either; it must
+        # not describe a centroid as where the flood was.
+        "location": _location(args.region),
         "event_corroboration": {
             "occurred": (None if args.flood_occurred == "unknown"
                          else args.flood_occurred == "true"),
