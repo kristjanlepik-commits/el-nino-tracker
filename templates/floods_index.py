@@ -192,13 +192,18 @@ instead of implying it.</span></div>
 %s
 </ul>
 <p class="fxnote">%s</p>
-<p class="fxnote"><a href="methodology.html">How these figures are
-built</a>, including what this channel cannot measure and why.</p>
+__METHOD_LINK__
 <p class="fxnote">An ordinary total is not evidence that nothing happened.
 The instrument accumulates over a fortnight and severely under-reads rain
 that falls in a few hours, which is the rain that floods. Each page
 carries its own reading of how concentrated its fortnight was.</p>
 """ % (_rows(pieces, root_prefix), extent_note)
+    meth = ROOT / "docs" / "floods" / "methodology.html"
+    body = body.replace(
+        "__METHOD_LINK__",
+        '<p class="fxnote"><a href="methodology.html">How these figures '
+        'are built</a>, including what this channel cannot measure and '
+        'why.</p>' if meth.exists() else "")
 
     css = (CSS.replace("__D__", T.FONT_DATA) + sub_css() + SITE_MASTHEAD_CSS)
     return """<!doctype html>

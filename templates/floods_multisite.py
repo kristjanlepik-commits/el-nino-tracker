@@ -139,7 +139,7 @@ def _hydrograph_svg(hyd, rain_by_day):
         '</svg>'
         '<p class="fmcap"><b>Columns are rainfall. The line is modelled '
         'discharge.</b> The river answers the day after the rain: %s on '
-        'the %s, a peak of %s m&sup3;/s on the %s, against a quiet level '
+        '%s, a peak of %s m&sup3;/s on %s, against a quiet level '
         'of %s.</p></div>'
         % (W, H, days[0], days[-1],
            "".join(bars), line,
