@@ -105,6 +105,15 @@ REGIONS = {
     # the boxes we drew by hand are kept in the payload alongside them.
     "yungas_bolivia": {"lon": (-67.85, -67.15), "lat": (-16.95, -16.25)},
     "andes_amazon_peru": {"lon": (-70.45, -69.75), "lat": (-14.05, -13.35)},
+    # THE ACTUAL FLOOD, found on the corrected window. Alto Beni / upper
+    # Yungas, Bolivia: 94 km from Caranavi, 144 km from La Paz. The
+    # per-cell sweep on 17-22 August put a contiguous cluster here at
+    # 32-42x median, rank 1 of 48. Discharge went from 6.2 to 1,025 m3/s
+    # between 17 and 19 August, a 165-fold rise in a day.
+    #
+    # Everything earlier in this channel about "the Andes flood" was
+    # measured on 21-26 August, which is the recession limb.
+    "alto_beni_bolivia": {"lon": (-67.17, -66.47), "lat": (-16.63, -15.93)},
 }
 
 
