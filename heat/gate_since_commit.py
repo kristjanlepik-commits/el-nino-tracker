@@ -25,12 +25,44 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CUR = ROOT / "heat" / "data" / "city_nights.json"
 
-WATCHED = [
-    ("days", "rank", "value"), ("days", "rank", "of_years"),
-    ("rank", "value"), ("rank", "of_years"),
-    ("legend_band",), ("counted_to",),
-    ("joined", "caveat_required"),
-]
+# EVERY NUMBER, MINUS AN EXPLICIT IGNORE LIST. This was an allowlist of
+# seven paths and it watched where a city PLACES without watching what it
+# DID.
+#
+# Design caught it on 2026-08-30. Removing a corrupt 91.0 C reading from
+# Salta lowered that station's own 95th percentile, so more days cleared it
+# and the count went 9 to 11. I reported "only Salta's ranks moved" because
+# that is what this gate told me, and the count is the number the headline
+# prints. They would have shipped a page saying 9 if they had trusted my
+# report over the payload. Earlier the same evening I said "no European city
+# moved", also true, also narrower than what I let it stand for.
+#
+# Both omissions ran the same direction, and an allowlist guarantees that
+# direction: a field nobody thought to add is silently identical to a field
+# that did not change. So the default is now inverted. Every scalar leaf is
+# compared and the list below says what to ignore, which fails loud instead
+# of quiet: a new field I forget about shows up as noise I then classify,
+# rather than as silence I mistake for stability.
+IGNORE_SUBSTRINGS = ("note", "_readme", "caveat_text", "reason", "basis",
+                     "label_note", "deprecated", "banned_words")
+
+
+def leaves(d, path=()):
+    """Every scalar leaf in the city entry, as (path tuple, value).
+
+    Lists are compared whole rather than walked, because a per-year series
+    changing length is itself the news and element-wise diffs would bury it.
+    """
+    if isinstance(d, dict):
+        for k, v in d.items():
+            yield from leaves(v, path + (k,))
+    else:
+        yield path, d
+
+
+def watched(path):
+    """Prose is excluded; numbers never are."""
+    return not any(sub in k for k in path for sub in IGNORE_SUBSTRINGS)
 
 
 def dig(d, path):
@@ -50,8 +82,10 @@ def main() -> int:
     oc, cc = old.get("cities", {}), cur.get("cities", {})
     hits = []
     for c in sorted(set(oc) & set(cc)):
-        for path in WATCHED:
-            a, b = dig(oc[c], path), dig(cc[c], path)
+        before = {p: v for p, v in leaves(oc[c]) if watched(p)}
+        after = {p: v for p, v in leaves(cc[c]) if watched(p)}
+        for path in sorted(set(before) | set(after)):
+            a, b = before.get(path, "<absent>"), after.get(path, "<absent>")
             if a != b:
                 hits.append(f"{c}: {'.'.join(path)} {a} -> {b}")
     added = sorted(set(cc) - set(oc))
