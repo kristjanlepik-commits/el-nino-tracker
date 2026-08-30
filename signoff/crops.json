@@ -1,9 +1,9 @@
 {
   "channel": "crops",
-  "approved_hash": "80244712f8ddfa171d0c5af907d645a89e94b22b59115e9dc762e23b053eab95",
-  "approved_at": "2026-08-30T13:46:59+00:00",
+  "approved_hash": "a1b81c75b8868b8a60258976c71eab63553d4b892c4a382bb77b07cb3bd7b469",
+  "approved_at": "2026-08-30T13:55:30+00:00",
   "approved_by": "CRO",
-  "note": "Payload-only: adds instrument_disagreement, the figure design asked for, carrying its own definition. Design and I computed the same quantity independently and got different answers (0.5%/14.5% against 1.8%/19.4%) because each of us guessed what 'record low' and 'best third' meant; the definition is the channel's to set, so it ships as a field rather than a number two chats re-derive. Emits both shares because the live sentence it replaces conflated them: 38 of 2,126 regions (1.8%) versus 38 of the 196 already at a vegetation record (19.4%). Verified against the built payload. No rendered page changes yet, since no template reads the field; approving so the channel does not sit blocked on an invisible diff.",
+  "note": "Payload-only: severity.rank_series, the rank of every year in each country's own composite series, on the same convention as severity.rank and verified equal to it for the current year across all 165 places. Added because product and two chats re-derived these ranks to answer a group question and reached different answers from the same payload. No template reads it yet; approving so the channel does not sit blocked on an invisible diff.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
