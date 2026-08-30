@@ -572,6 +572,18 @@ def main():
             "state": args.flood_occurred,
             "source": args.flood_evidence_source,
             "detail": args.flood_evidence_detail,
+            # RESERVED NAMESPACE. Fires had a page render a '_'-prefixed
+            # pipeline string as reader prose on 2026-08-30, and their
+            # diagnosis generalises: a field whose audience is the pipeline
+            # rendered into a slot whose audience is a reader, with nothing
+            # in the shape of the data telling them apart.
+            #
+            # Their sharper point, which is the one to act on: internal
+            # strings written as explanatory prose INVITE a renderer to
+            # print them. The underscore is a weaker signal than the prose
+            # style. So anything under '_' here reads like a note to a
+            # maintainer, not a paragraph for a reader, and qa_check
+            # already refuses to let a '_' key reach a page.
             "note": ("This channel's own instruments measure rainfall and "
                      "flood extent. Neither establishes that a flood "
                      "occurred, so this field carries evidence from outside "

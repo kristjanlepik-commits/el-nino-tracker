@@ -11,7 +11,6 @@
  "evidence_basis": "measured",
  "attribution": "attribution_pending",
  "supersedes": "payload_andes_2026-08-26.json",
- "supersedes_reason": "That payload used 21-26 August, which is the RECESSION LIMB. The discharge peak was 19 August. Its figures described the flood draining away, and its location was 90 km from the peak cluster.",
  "instruments": {
   "rainfall": {
    "string": "GPM IMERG Late Run v07",
@@ -44,7 +43,7 @@
     "km": 144
    }
   ],
-  "note": "the model cell the per-cell sweep identified"
+  "_kind_note": "flagged_cell = picked by the sweep, not a box centre"
  },
  "finding": {
   "region_id": "alto_beni_bolivia",
@@ -295,7 +294,7 @@
   "url": "https://lapatria.bo/enfoque-nacional/denuncia/asunta-desastre-riadas-inundaciones/",
   "distance_km_from_flagged_cell": 42,
   "limits": "The declaration is at La Asunta on the Boopi; our flagged cell is a model cell on the same river system 42 km away. Same catchment, not the same point. We have not verified the town's coordinates against a gazetteer, and we have not counted anyone affected.",
-  "note": "This is the first payload on this channel where a flood is corroborated rather than unknown."
+  "_provenance": "first corroborated payload on this channel; corroboration added 2026-08-30 after Kristjan asked for a news check"
  },
  "named_places": [
   {
@@ -383,5 +382,6 @@
    "note": "Kuyuma; separate flood reported here"
   }
  ],
- "multi_site_note": "Seven places named independently in Bolivian reporting were checked against their own 47-year discharge records. All seven rank first. Rain fell across the Yungas on 16-18 August and every river peaked on the 19th. Caranavi is the informative exception: 16 mm of local rain and a river at 620 m3/s, because it is downstream and collecting from the catchments above it."
+ "multi_site_note": "Seven places named independently in Bolivian reporting were checked against their own 47-year discharge records. All seven rank first. Rain fell across the Yungas on 16-18 August and every river peaked on the 19th. Caranavi is the informative exception: 16 mm of local rain and a river at 620 m3/s, because it is downstream and collecting from the catchments above it.",
+ "_supersedes_reason": "REPLACES payload_andes_2026-08-26.json. That file used 21-26 Aug = recession limb; peak was 19 Aug. Do not build it."
 }
