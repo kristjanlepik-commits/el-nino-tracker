@@ -1,9 +1,9 @@
 {
   "channel": "crops",
-  "approved_hash": "8c20071ea5aa2af0966568fb4dff54e4c7baf116139a7e9dfa0db55ea5f5a777",
-  "approved_at": "2026-08-30T11:55:48+00:00",
+  "approved_hash": "3ac124ded1ffa20aa8157c46da9bcb171297da5555e0bbb841ded6daa13ab3db",
+  "approved_at": "2026-08-30T12:38:59+00:00",
   "approved_by": "CRO",
-  "note": "Dekad 2026-08-11, the refresh CI could not deliver for five days, run by hand. Reviewed a built preview rather than the payload alone. Checked: all six instruments on the same dekad (check_instruments_agree passes, 1008 fetches, 0 failed); rendered date on country pages is 2026-08-11; URL set unchanged so this is a refresh, not a change to which pages exist; Angola headline verified against the payload at 5 of 18 regions at rank 1; the global claim of 68 regions at record verified as exactly 68. Chased the most prominent number on the page, Suriname Brokopondo at -4.00, on suspicion it was a clamp or sentinel: it is not. No clamp in build_data.py, source zfparc is unclipped and reaches -6.266, the tail below -3.9 holds 48 distinct values in 49 readings with no pile-up at -4.0, and all 26 years rest on one observation each so 2026 is comparable to its own baseline. It is a real measurement. Known and deliberate gap unchanged: the single-region caveat still does not render on country pages. Soil moisture remains lagged, worst 6 dekads, emitted absent per datum, tracked as tls-internal#23.",
+  "note": "Re-approval after two changes on dekad 2026-08-11: Poland pinned (Kristjan's call, design's file, design told), and a defect the pin exposed. The rate vocabulary described a rise as a fall, because rank is a position in a fall-ordered list and a rising place sits near its bottom. Poland rendered '25th steepest fall of 26' on a value of +0.260. 42 of 123 countries and 861 of 2066 region claims carried it, on live pages; now 0 of 2066, verified by rebuilding and counting rather than by inspecting one row. France's '1st steepest fall of 26' is unchanged, which is the control: the fix must not soften a genuine fall. Reviewed Poland's built row, which now reads 'rose over this window, ranking 25th of 26 by fall steepness'. Framing check: Poland is pinned for direction, not level. Its mean is -0.002, its own normal almost exactly, so it is not a country doing well and copy saying so would overstate. QA clean, em-dash guard clean, URL set unchanged.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
