@@ -1,0 +1,1484 @@
+{
+ "_derived": "Computed from the files themselves, so it cannot drift from them. Rerun after any backfill.",
+ "_regenerate": "PYTHONPATH=. python fires/history_coverage.py",
+ "_what": "Measured coverage of each file in this directory. The directory name says full_history; most files hold a seasonal window. Read median_days_per_year before making any claim about a country's SEASON, as opposed to its current week, which every file supports.",
+ "countries": {
+  "AGO": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 364,
+   "min_days_per_year": 343,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "ALB": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "ARG": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "AUS": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 345,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "AUT": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "BEL": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 290,
+   "min_days_per_year": 251,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "BGR": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "BIH": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "BOL": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 344,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "BRA": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 346,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "BWA": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 317,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "CAN": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 364,
+   "min_days_per_year": 344,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "CHL": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "CHN": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "COD": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 345,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "COG": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 358,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "COL": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "CUB": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "CYP": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "CZE": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "DEU": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "DNK": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "DOM": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 345,
+   "min_days_per_year": 300,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "DZA": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 350,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "ECU": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "ESP": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 341,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "EST": {
+   "first_date": "2012-01-25",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 128,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "FIN": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "FRA": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 352,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "GBR": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "GEO": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "GRC": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "HRV": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "HTI": {
+   "first_date": "2012-08-19",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 15,
+   "min_days_per_year": 15,
+   "months_present": [
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "HUN": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "IDN": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "IND": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "IRL": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "IRN": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "IRQ": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "ISR": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "ITA": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 355,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "JAM": {
+   "first_date": "2012-08-19",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 15,
+   "min_days_per_year": 15,
+   "months_present": [
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "JPN": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "KAZ": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 345,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "KHM": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "KOR": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "LAO": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "LBN": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "LBY": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 364,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "LKA": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "LTU": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "LUX": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "LVA": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "MAR": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "MDG": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 362,
+   "min_days_per_year": 338,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "MEX": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "MKD": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "MLT": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "MMR": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "MNE": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "MOZ": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 361,
+   "min_days_per_year": 343,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "MWI": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "MYS": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "NAM": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 333,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "NLD": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "NOR": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "NPL": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "NZL": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "PER": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "PHL": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "PNG": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "POL": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "PRT": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "PRY": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "ROU": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "RUS": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "SAU": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "SRB": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "SVK": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "SVN": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "SWE": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "SYR": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "THA": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "TKM": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "TUN": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "TUR": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "TZA": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 358,
+   "min_days_per_year": 326,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "UGA": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "UKR": {
+   "first_date": "2012-01-23",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 333,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "URY": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "USA": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 346,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "VEN": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 365,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "VNM": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 36,
+   "min_days_per_year": 36,
+   "months_present": [
+    "07",
+    "08",
+    "09"
+   ],
+   "years": 14
+  },
+  "ZAF": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 365,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "ZMB": {
+   "first_date": "2012-01-20",
+   "last_date": "2025-12-31",
+   "median_days_per_year": 345,
+   "min_days_per_year": 328,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  },
+  "ZWE": {
+   "first_date": "2012-07-28",
+   "last_date": "2025-09-02",
+   "median_days_per_year": 334,
+   "min_days_per_year": 36,
+   "months_present": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
+   ],
+   "years": 14
+  }
+ }
+}
