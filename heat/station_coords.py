@@ -156,7 +156,11 @@ def _ghcn():
            # rule as the other two: the mark comes from the inventory the
            # data comes from, never from a typed pair.
            "Vilnius": "LH000026730", "Zagreb": "HR000142360",
-           "Budapest": "HUM00012843", "Rome": "IT000016239"}
+           "Budapest": "HUM00012843", "Rome": "IT000016239",
+           # Argentina, from the same inventory the histories come from.
+           "Santiago del Estero": "AR000087129", "Parana": "AR000087374",
+           "Laboulaye": "AR000087534", "Mar del Plata": "AR000087692",
+           "Neuquen": "AR000087715", "Salta": "AR000870470"}
     raw = subprocess.run(
         ["curl", "-sS", "--max-time", "180",
          "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"],

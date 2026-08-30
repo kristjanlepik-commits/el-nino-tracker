@@ -608,6 +608,29 @@ CITIES = {
     # rank up, which is the one direction D-043 forbids.
     #
     # It qualifies on the measured test in pick_baseline, not on being Algiers.
+    # ARGENTINA. Six stations, identity PROVEN against each one's own GHCN
+    # archive rather than parsed from its id, and bridged with whole-year
+    # bulletins because these peak in December and January. Trelew is proven
+    # and held at 29/30; Buenos Aires is not buildable at all, its baseline
+    # and its present sitting on two different thermometers 5 km apart.
+    #
+    # Added while their season is DORMANT, months before the summer they
+    # would measure. That is D-141 answered by construction: nobody can say
+    # these were chosen for their numbers, because their numbers do not exist
+    # yet. The last complete southern summer was quiet at every one.
+    "Santiago del Estero": dict(country="AR", station="Santiago del Estero",
+                                cut=(8, 30), file="santiago_del_estero.json"),
+    "Parana":      dict(country="AR", station="Parana Aero", cut=(8, 30),
+                        file="parana.json"),
+    "Laboulaye":   dict(country="AR", station="Laboulaye Aero", cut=(8, 30),
+                        file="laboulaye.json"),
+    "Mar del Plata": dict(country="AR", station="Mar del Plata Aero",
+                          cut=(8, 30), file="mar_del_plata.json"),
+    "Neuquen":     dict(country="AR", station="Neuquen Aero", cut=(8, 30),
+                        file="neuquen.json"),
+    "Salta":       dict(country="AR", station="Salta Aero", cut=(8, 30),
+                        file="salta.json"),
+
     # ALGIERS IS NOT HERE, AND THE MEASUREMENT IS WHY. It fails the test at
     # both windows: refilling 1999 from the coldest year in the window versus
     # the warmest moves the 95th percentile from 37.8 C to 38.0 C, and the
@@ -735,6 +758,63 @@ CITIES = {
 }
 
 
+def wraps(months, start):
+    """Does this season cross the year boundary?"""
+    return not (start <= season_end(months))
+
+
+def to_season_year(cal_year, month, start, months):
+    """Which SEASON does a (year, month) belong to?
+
+    A CALENDAR YEAR IS NOT A SEASON WHEN THE SEASON WRAPS, and treating it as
+    one added two different summers together for every southern city. Calendar
+    2025 at Santiago del Estero held January 2025, the tail of the 2024-25
+    summer, AND October to December 2025, the head of the 2025-26 one. The
+    payload counted both as a single row, so its "69 ranked seasons" were 69
+    spliced pairs and its last complete season read 19 days when the real
+    figure was neither of the halves.
+
+    The season is labelled by the year it STARTS, so October 2025 to January
+    2026 is season 2025. Months at or after the window's opening month belong
+    to that calendar year's season; months before it belong to the previous
+    one.
+
+    For a non-wrapping season this returns the calendar year unchanged, which
+    is why no northern city moves by a single day.
+    """
+    if not wraps(months, start):
+        return cal_year
+    return cal_year if month >= start[0] else cal_year - 1
+
+
+def season_end(months):
+    """Last day of the final season month, as (month, day)."""
+    m = months[-1]
+    return (m, MONTH_LEN[m - 1])
+
+
+def effective_cut(cut, start, months):
+    """Clip the cut to the season, and say when the season has not begun.
+
+    THE WRAPPING WINDOW NEEDED A SECOND BOUND AND I ONLY GAVE IT ONE. For a
+    northern city the cut always sits inside or after the season, so
+    `start <= md <= cut` is the whole story. For a southern city on 30 August
+    the season is December to January and the window starts 1 October, so the
+    cut sits BEFORE the window opens. `md >= start or md <= cut` then admits
+    almost the entire year, midwinter included, and Santiago came out with a
+    241-day window on a four-month season.
+
+    So: if the cut falls outside the season window, the current season has
+    NOT STARTED and there is nothing to count. Returning None says that
+    rather than counting the previous summer under this year's label, which
+    is what the bug did and what a page would have printed as fact.
+    """
+    end = season_end(months)
+    if in_window(cut, start, end):
+        return cut
+    return None
+
+
 def in_window(md, start, cut):
     """Is this (month, day) inside the counting window?
 
@@ -851,7 +931,10 @@ def build(city, meta):
               f"exist in the record.", file=sys.stderr)
         return None
     win_start, season_cover = season_window(season)
-    W = window_days(cut, win_start)
+    # A season that has not begun is not a season with no days in it.
+    eff = effective_cut(cut, win_start, season)
+    season_started = eff is not None
+    W = window_days(eff, win_start) if season_started else 0
 
     # Thresholds are each city's own in-season maxima percentiles. AEMET's
     # published rule, reproduced exactly for Madrid (36.4) and Seville (41.2).
@@ -886,25 +969,77 @@ def build(city, meta):
           for (m, _), v in tn.get(y, {}).items() if m in season]
     nth = {str(p): round(float(np.percentile(jn, p)), 1) for p in (90, 95, 99)}
 
+    # RE-KEY THE OBSERVATIONS BY SEASON before anything counts them. For a
+    # northern city this is the identity; for a southern one it moves January
+    # out of its calendar year and into the summer it belongs to.
+    def by_season(series):
+        out = {}
+        for cy, dd in series.items():
+            for (m, d), v in dd.items():
+                sy = to_season_year(cy, m, win_start, season)
+                out.setdefault(sy, {})[(m, d)] = v
+        return out
+    tn_s, tx_s = by_season(tn), by_season(tx)
+
+    # THE COUNTERS MUST USE THE WINDOW, NOT A RAW `k <= cut`. On a (month,
+    # day) tuple `k <= cut` means "before 29 August", which for a southern
+    # season silently drops October, November and December: Santiago showed a
+    # complete 123-day season with ZERO hot days because every one of them
+    # fell after the cut in tuple order. in_window knows the season wraps and
+    # `k <= cut` does not.
+    def _counts(k, y):
+        # EVERY YEAR IS COUNTED TO THE SAME POINT, which is what "to date"
+        # means. My previous version counted historical seasons to the season
+        # END and the current one to the CUT, which compared 2026-to-21-August
+        # against 1976-to-31-August and moved 27 claims across the northern
+        # set, withdrawing three records that had not changed.
+        #
+        # When the cut falls inside the window, it is the common point and
+        # every year uses it. When it falls outside, the current season has
+        # not begun: historical seasons are then whole, and the current one
+        # has nothing to count, which _counts returns False for by way of
+        # season_started.
+        if season_started:
+            return in_window(k, win_start, eff)
+        if y == CURRENT_YEAR:
+            return False
+        return in_window(k, win_start, season_end(season))
+
     years = {}
-    for y in sorted(set(tn) | set(tx)):
-        win = sum(1 for k in tn.get(y, {}) if in_window(k, win_start, cut))
+    for y in sorted(set(tn_s) | set(tx_s)):
+        # THE CUT CLIPS THE CURRENT YEAR ONLY. Historical years are whole
+        # seasons and are measured against the whole window; only the year in
+        # progress is cut short. My first fix applied season_started to every
+        # year, so a southern city whose next season had not begun reported
+        # ZERO usable years across its entire record, which is a worse answer
+        # than the bug it replaced.
+        # Coverage is measured against the same window the counts use.
+        win = sum(1 for k in tn_s.get(y, {}) if _counts(k, y))
+        if season_started:
+            bar = W
+        else:
+            bar = 0 if y == CURRENT_YEAR else window_days(
+                season_end(season), win_start)
         rec = {
             "window_days": win,
-            "full_days": len(tn.get(y, {})),
-            "usable_to_cut": win >= W * WINDOW_BAR,
-            "usable_full_year": len(tn.get(y, {})) >= FULL_YEAR_DAYS,
-            "nights_to_cut": sum(1 for k, v in tn.get(y, {}).items()
-                                 if k <= cut and v >= TROPICAL_NIGHT_C),
-            "nights_full_year": sum(1 for v in tn.get(y, {}).values()
+            "full_days": len(tn_s.get(y, {})),
+            # A ZERO-DAY WINDOW IS NOT A COMPLETE ONE. With W = 0 the test
+            # `win >= W * WINDOW_BAR` reads 0 >= 0 and returns True, so a
+            # season that has not started came out "usable" with no days in
+            # it. Caught on Santiago before it reached a page.
+            "usable_to_cut": bar > 0 and win >= bar * WINDOW_BAR,
+            "usable_full_year": len(tn_s.get(y, {})) >= FULL_YEAR_DAYS,
+            "nights_to_cut": sum(1 for k, v in tn_s.get(y, {}).items()
+                                 if _counts(k, y) and v >= TROPICAL_NIGHT_C),
+            "nights_full_year": sum(1 for v in tn_s.get(y, {}).values()
                                     if v >= TROPICAL_NIGHT_C),
-            "days_to_cut": {p: sum(1 for k, v in tx.get(y, {}).items()
-                                   if k <= cut and v >= t)
+            "days_to_cut": {p: sum(1 for k, v in tx_s.get(y, {}).items()
+                                   if _counts(k, y) and v >= t)
                             for p, t in th.items()},
-            "warm_nights_to_cut": {p: sum(1 for k, v in tn.get(y, {}).items()
-                                          if k <= cut and v >= t)
+            "warm_nights_to_cut": {p: sum(1 for k, v in tn_s.get(y, {}).items()
+                                          if _counts(k, y) and v >= t)
                                    for p, t in nth.items()},
-            "days_full_year": {p: sum(1 for v in tx.get(y, {}).values() if v >= t)
+            "days_full_year": {p: sum(1 for v in tx_s.get(y, {}).values() if v >= t)
                                for p, t in th.items()},
         }
         if tn.get(y):
@@ -912,10 +1047,12 @@ def build(city, meta):
         if tx.get(y):
             rec["warmest_day_c"] = round(max(tx[y].values()), 1)
             rec["warmest_day_to_cut_c"] = round(
-                max([v for k, v in tx[y].items() if k <= cut], default=-99), 1)
+                max([v for k, v in tx_s.get(y, {}).items() if _counts(k, y)],
+                    default=-99), 1)
         if tn.get(y):
             rec["warmest_night_to_cut_c"] = round(
-                max([v for k, v in tn[y].items() if k <= cut], default=-99), 1)
+                max([v for k, v in tn_s.get(y, {}).items() if _counts(k, y)],
+                    default=-99), 1)
         years[str(y)] = rec
 
     def rate(lo, hi, p):
@@ -973,6 +1110,7 @@ def build(city, meta):
                    "CZ": "CHMI",
                    "FI": "FMI",
                    "CH": "MeteoSwiss",
+                   "AR": "NOAA GHCN-Daily and WMO bulletins",
                    # GHCN history bridged to the present with the station's
                    # own WMO bulletins, the Larnaca construction. Named as
                    # both, because a reader deserves to know the recent

@@ -161,6 +161,18 @@ LICENCE = {
     # WMO bulletins and their re-use terms are NOT confirmed with the national
     # service. Requests go to LHMT, DHMZ and OMSZ. Marked commercial_use False
     # until each answers, exactly as Larnaca is.
+    # Argentina, same construction as Cyprus and the others: GHCN history
+    # is US federal open data, the recent seasons are the station's own WMO
+    # bulletins and their re-use terms are NOT confirmed with SMN.
+    "AR": {
+        "licence": "History from NOAA GHCN-Daily, US federal open data. "
+                   "Recent seasons from the station's own WMO synoptic "
+                   "bulletins, licence UNRESOLVED and not yet confirmed with "
+                   "the Servicio Meteorologico Nacional.",
+        "commercial_use": False,
+        "attribution": "Source: Servicio Meteorologico Nacional (SMN)",
+        "lag_days": 1,
+    },
     "LT": {
         "licence": "History from NOAA GHCN-Daily, US federal open data. "
                    "Recent seasons from the station's own WMO synoptic "
@@ -521,12 +533,24 @@ def main() -> int:
     for c, v in S["cities"].items():
         yrs = v["years"]
         cur = str(max(int(y) for y in yrs))
+        # A SEASON THAT HAS NOT STARTED MUST NOT BE RANKED. Santiago del
+        # Estero came out "rank 70 of 70, zero days above its 95th
+        # percentile", which reads as its coolest summer on record. Its
+        # summer had not begun: the season is December to January and the
+        # cut is 29 August, so the year has no days to count and ranking
+        # zero against seventy real summers puts it last by construction.
+        #
+        # This is the shape the whole channel has been catching all week,
+        # arriving on a new surface: absence produced by the calendar,
+        # presented as a measurement. It would have been the first number on
+        # the first Argentine page.
+        season_open = yrs[cur]["usable_to_cut"] or yrs[cur]["window_days"] > 0
         good = {int(y): d for y, d in yrs.items()
                 if d["usable_to_cut"] and int(y) < int(cur)}
         todate = {y: d["nights_to_cut"] for y, d in good.items()}
         n26 = yrs[cur]["nights_to_cut"]
-        r = rank_of(n26, todate, ties)
-        of_years = len(todate) + 1
+        r = rank_of(n26, todate, ties) if season_open else None
+        of_years = (len(todate) + 1) if season_open else len(todate)
         present = sorted(int(y) for y in yrs if int(y) < int(cur))
         unusable = sorted(y for y in present if y not in good)
         expected = present[-1] - present[0] + 1
@@ -593,7 +617,15 @@ def main() -> int:
                 "Advancing the cut is a substantive change, not a refresh.",
             "rank": {
                 "value": r, "of_years": of_years,
-                "percentile": round((1 - (r - 1) / of_years) * 100, 1),
+                "percentile": (round((1 - (r - 1) / of_years) * 100, 1)
+                               if r is not None else None),
+                "season_open": season_open,
+                "season_not_started_note": (
+                    None if season_open else
+                    "This city's season has not begun. It is not ranked, and "
+                    "a count of zero here means no days have been observed "
+                    "yet rather than a cool season. The last complete season "
+                    "is the most recent figure this city has."),
                 "ties_count_against": ties,
                 "tied_with": sorted(y for y, n in todate.items() if n == n26),
                 "tie_note":
@@ -818,14 +850,26 @@ def main() -> int:
 
         dser = {y: d["days_to_cut"]["95"] for y, d in good.items()}
         d26 = yrs[cur]["days_to_cut"]["95"]
-        dr = rank_of(d26, dser, ties)
-        dof = len(dser) + 1
+        # SAME SUPPRESSION AS THE NIGHT RANK. The days rank is computed in a
+        # second place, and my first pass fixed only the first, so Santiago
+        # still printed "70 of 70" on the instrument the Argentine pages
+        # actually lead with. Two ranks in two blocks: fix one, ship the
+        # other.
+        dr = rank_of(d26, dser, ties) if season_open else None
+        dof = (len(dser) + 1) if season_open else len(dser)
         dbelow = [n for n in dser.values() if n < d26]
 
         days = {
             "rank": {
                 "value": dr, "of_years": dof,
-                "percentile": round((1 - (dr - 1) / dof) * 100, 1),
+                "percentile": (round((1 - (dr - 1) / dof) * 100, 1)
+                               if dr is not None else None),
+                "season_open": season_open,
+                "season_not_started_note": (
+                    None if season_open else
+                    "This city's season has not begun, so it is not ranked. "
+                    "A count of zero here means no days observed yet, not a "
+                    "cool season."),
                 "measured_on": "95",
                 "ties_count_against": ties,
                 "tied_with": sorted(y for y, n in dser.items() if n == d26),
@@ -835,6 +879,7 @@ def main() -> int:
                     "rank and the same reason: a strict greater-than promotes "
                     "ties and manufactures records.",
                 "margin_days": (d26 - max(dbelow)) if dr == 1 and dbelow else None,
+                "days_so_far": d26 if season_open else None,
             },
             "series_to_same_date": {
                 "cut_at": v["counted_to"][5:],
@@ -889,7 +934,12 @@ def main() -> int:
         # Same fix in both places: years strictly above is
         # rank - 1 - len(tied_with), and a city is at its record while that
         # is zero, tie or no tie.
-        _above = dr - 1 - len(entry["days"]["rank"].get("tied_with") or [])
+        # A CITY WITH NO SEASON YET GETS NO BAND and no _above. It is not at
+        # a record and not outside one; there is nothing to band. Emitting
+        # "outside" would colour six Argentine cities as having quiet summers
+        # when they have not had summers.
+        _above = (None if dr is None
+                  else dr - 1 - len(entry["days"]["rank"].get("tied_with") or []))
         # THE SELECTION CAVEAT, AS A FIELD. Emitted for every city so a
         # template can rely on it, and flagged for rendering only where the
         # reader's question is live: a city that joined recently AND is at or
@@ -914,7 +964,7 @@ def main() -> int:
                               and _days <= JOINED_CAVEAT_DAYS),
             "caveat_required": bool(
                 _j and _days is not None and _days <= JOINED_CAVEAT_DAYS
-                and _above <= 4),
+                and _above is not None and _above <= 4),
             "caveat": (f"Added to the set on {_j[0]}. {_j[1]}"
                        if _j else None),
             "why_this_matters": (
@@ -925,7 +975,8 @@ def main() -> int:
                 "caveat belongs ON the page, not in the methodology."),
         }
 
-        entry["legend_band"] = ("record" if _above == 0 else
+        entry["legend_band"] = (None if _above is None else
+                                "record" if _above == 0 else
                                 "near" if _above < 5 else "outside")
         entry["legend_band_note"] = (
             "record = nothing in its own record stands above this year, "
@@ -986,11 +1037,28 @@ def main() -> int:
         # Editorially the point is to NAME the quiet city rather than hide
         # it: a set where everything is extreme invites the question of how
         # the set was chosen, and one unremarkable member answers it first.
-        _pk = max(entry["rank"]["percentile"],
-                  entry["days"]["rank"]["percentile"])
-        _hot = _pk >= ELEVATED_PCT
-        entry["page_constraints"]["banned_words"] = ["ordinary"] if _hot else []
+        # A CITY WHOSE SEASON HAS NOT STARTED IS NOT "ordinary" AND NOT HOT.
+        # Both percentiles are null then, and max() over a null was the last
+        # place the not-started case leaked. The word ban exists to stop a
+        # page calling a record summer ordinary; with no season yet there is
+        # nothing to describe either way, so nothing is banned.
+        _ps = [x for x in (entry["rank"]["percentile"],
+                           entry["days"]["rank"]["percentile"])
+               if x is not None]
+        _pk = max(_ps) if _ps else None
+        _hot = _pk is not None and _pk >= ELEVATED_PCT
+        entry["page_constraints"]["banned_words"] = (
+            ["ordinary", "unremarkable", "quiet"] if _pk is None
+            else ["ordinary"] if _hot else [])
         entry["page_constraints"]["banned_words_reason"] = (
+            # NO SEASON, NO VERDICT. A city whose season has not begun is
+            # neither remarkable nor unremarkable, and the "may be described
+            # as unremarkable" branch would have licensed calling six
+            # Argentine cities' absent summers ordinary.
+            "This city's season has not begun, so nothing may be said about "
+            "how this year compares. Not 'ordinary', not 'unremarkable', and "
+            "not a rank. The last complete season is the most recent figure "
+            "it has." if _pk is None else
             f"This city is at the {_pk:g}th percentile of its own record, at "
             f"or above the {ELEVATED_PCT:g}th, so 'ordinary' is false of it. "
             "That is the error that turned a 91st-percentile Marseille into "
@@ -1088,15 +1156,28 @@ def main() -> int:
 
     ok_cities = sorted(c for c in cities
                        if S["cities"][c]["tropical_night_metric_works"])
+    # EVERY CONSUMER OF percentile HAD TO LEARN ABOUT THE NOT-STARTED CASE,
+    # and I patched three of them one at a time before noticing that was the
+    # wrong shape. A city whose season has not begun has no percentile, and
+    # each aggregate below wants it EXCLUDED rather than defaulted: it is not
+    # cool, not hot, not the lowest, and not in the top five.
+    def _pct(v, key="rank"):
+        return v[key]["rank"]["percentile"] if key != "rank" else v["rank"]["percentile"]
+
+    def _has(v):
+        return (v["rank"]["percentile"] is not None
+                and v["days"]["rank"]["percentile"] is not None)
+
+    _rankable = {c: v for c, v in cities.items() if _has(v)}
     _low = sorted(((v["days"]["rank"]["percentile"], c)
-                   for c, v in cities.items()))
+                   for c, v in _rankable.items()))
     low_pct, low_city = _low[0]
     ldays = [{"city": c, "day_percentile": p} for p, c in _low[:4]]
     nbase = record_rate(S, "nights")
     recs = sorted(c for c, v in cities.items() if v["rank"]["value"] == 1)
     recs_ok = [c for c in recs if c in ok_cities]
-    top5 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 95]
-    top10 = [c for c, v in cities.items() if v["rank"]["percentile"] >= 90]
+    top5 = [c for c, v in _rankable.items() if v["rank"]["percentile"] >= 95]
+    top10 = [c for c, v in _rankable.items() if v["rank"]["percentile"] >= 90]
     # A NIGHT-fragility list must not contain a city whose night metric is
     # gated. Amsterdam arrived with 3 tropical nights against a baseline of
     # 0.17 and landed in a list about one-night margins, which would have
@@ -1164,7 +1245,8 @@ def main() -> int:
                 "in_top_10pct": len(top10), "in_top_5pct": len(top5),
                 "of_cities": len(cities),
                 "not_elevated": [x["city"] for x in ldays
-                                 if x["day_percentile"] < ELEVATED_PCT],
+                                 if x["day_percentile"] is not None
+                                 and x["day_percentile"] < ELEVATED_PCT],
                 "framing_rule":
                     "NEVER phrase this as a universal. No 'none', 'not one', "
                     "'every' or 'all'. Two such claims have already gone false "
