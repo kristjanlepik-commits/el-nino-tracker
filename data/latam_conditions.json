@@ -61,6 +61,7 @@
     "means": "window_months is when the consequence can be OBSERVED. signal_months is when the DRIVER is active, which starts earlier. Both are seasonality, not a forecast of magnitude.",
     "why_two": "Aftereffects' distinction and it prevents a real misreading. Nordeste's drying signal runs from September, but a failed rainy season cannot be observed until March, and a reader shown only 'Mar-May' will assume nothing is happening there until March. Its rainfall is already at the 6th percentile.",
     "source": "Cai et al. 2020, Nature Reviews Earth and Environment, for the precipitation dipole and its seasonality; Chen et al. 2017, Nature Climate Change, for the fire lag.",
+    "peak_months_provenance": "peaks follow the cited seasonality only. coastal_pe briefly carried a Jan-Mar peak taken from a damage-ledger assertion that January was the costliest month; aftereffects withdrew it on finding their cost data is event-level with no monthly breakdown, so the peak reverted to Cai's FMA. January stays in the WINDOW as a shoulder month, which nothing contradicts.",
     "note": "s_amazon carries an empty window on purpose. Its response arrives about 15 months after onset, so its principal window is Jul-Oct 2027 and falls outside this period. That absence is a finding, not missing data."
   },
   "skill_caveat": {
@@ -1270,9 +1271,9 @@
         4
       ],
       "peak_months": [
-        1,
         2,
-        3
+        3,
+        4
       ],
       "signal_months": [
         11,

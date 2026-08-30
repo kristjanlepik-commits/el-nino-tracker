@@ -70,7 +70,7 @@ REGIONS = [
      "dry", [12, 1, 2, 3, 4], [1, 2, 3], [7, 8, 9, 10, 11, 12, 1, 2, 3, 4], True,
      "fire"),
     ("coastal_pe", "Coastal Ecuador / N Peru",   -6.0,   2.0, -81.5, -78.0,
-     "wet", [1, 2, 3, 4], [1, 2, 3], [11, 12, 1, 2, 3, 4], True,
+     "wet", [1, 2, 3, 4], [2, 3, 4], [11, 12, 1, 2, 3, 4], True,
      "floods. 1997-98 about USD 2bn and 5.9% of GDP; 1982-83 about USD 2.4bn "
      "and 8.1% of GDP"),
     ("nordeste",  "Nordeste",                  -15.0,  -4.0, -45.0, -35.0,
@@ -307,6 +307,13 @@ def main():
             "source": "Cai et al. 2020, Nature Reviews Earth and Environment, "
                       "for the precipitation dipole and its seasonality; Chen "
                       "et al. 2017, Nature Climate Change, for the fire lag.",
+            "peak_months_provenance": "peaks follow the cited seasonality only. "
+                      "coastal_pe briefly carried a Jan-Mar peak taken from a "
+                      "damage-ledger assertion that January was the costliest "
+                      "month; aftereffects withdrew it on finding their cost "
+                      "data is event-level with no monthly breakdown, so the "
+                      "peak reverted to Cai's FMA. January stays in the WINDOW "
+                      "as a shoulder month, which nothing contradicts.",
             "note": "s_amazon carries an empty window on purpose. Its response "
                     "arrives about 15 months after onset, so its principal "
                     "window is Jul-Oct 2027 and falls outside this period. "
