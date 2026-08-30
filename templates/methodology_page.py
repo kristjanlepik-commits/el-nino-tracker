@@ -174,12 +174,19 @@ def _thresholds_md(channel):
     m = _method(channel)
     if not m:
         return ""
-    rows = []
+    rows, unknown = [], []
     for k, v in sorted(m.items()):
-        if k.startswith("_"):
+        if k not in _LABELS:
+            if not k.startswith("_"):
+                unknown.append(k)
             continue
-        label = _LABELS.get(k, k.replace("_", " "))
-        rows.append("| %s | `%s` | %s |" % (label, k, v))
+        rows.append("| %s | `%s` | %s |" % (_LABELS[k], k, v))
+    if unknown:
+        print("  NOTE: %s emits %d threshold(s) with no label here, so they "
+              "are not on the page: %s.\n  Add a label in _LABELS rather "
+              "than letting a key name become reader copy."
+              % (channel, len(unknown), ", ".join(unknown)),
+              file=sys.stderr)
     if not rows:
         return ""
     out = [
@@ -225,15 +232,35 @@ def render(channel, root_prefix="../"):
         description=title)
 
 
+PREVIEW_DIR = Path("/private/tmp/claude-505/"
+                   "-Users-admin-Documents-Claude-Projects-El-Nino-Tracker/"
+                   "963b8065-d8cb-408a-9195-33d00aeda096/scratchpad")
+
+
 def main():
-    channel = sys.argv[1] if len(sys.argv) > 1 else None
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    channel = args[0] if args else None
     if channel not in CHANNEL_DOCS:
-        raise SystemExit("usage: methodology_page.py <%s>"
+        raise SystemExit("usage: methodology_page.py <%s> [--publish]"
                          % "|".join(sorted(CHANNEL_DOCS)))
+    html = render(channel)
+
+    if "--publish" not in sys.argv:
+        out = PREVIEW_DIR / ("preview_%s_methodology.html" % channel)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(html)
+        print("preview: %s\n"
+              "  Not in docs/. An uncommitted page under docs/ fails "
+              "qa_check for every chat in this tree while appearing in "
+              "nobody's diff.\n"
+              "  Use --publish once %s has signed the page off."
+              % (out, channel))
+        return
+
     out = ROOT / CHANNEL_DOCS[channel][1]
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render(channel))
-    print("wrote %s" % out.relative_to(ROOT))
+    out.write_text(html)
+    print("PUBLISHED %s" % out.relative_to(ROOT))
 
 
 if __name__ == "__main__":
