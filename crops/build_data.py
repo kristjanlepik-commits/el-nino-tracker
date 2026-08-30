@@ -262,6 +262,9 @@ def _year_list(years: list) -> str:
     return ", ".join(ys[:-1]) + " and " + ys[-1]
 
 
+WORSE_IS_HIGH = True  # the composite: a higher position mean is worse
+
+
 def severity_block(oriented: dict, cur_year: int) -> dict:
     """How far into its own extremes a country's instruments sit, read
     together. The counted measure, regions at their worst, is binary:
@@ -353,6 +356,26 @@ def severity_block(oriented: dict, cur_year: int) -> dict:
         "of": of,
         "worse_is": "high",
         "series": means,
+        # RANK PER YEAR, not only for the current one.
+        #
+        # Emitted because two chats and product independently re-derived
+        # these ranks to answer group questions ("how many of these eight
+        # countries were in their own worst four, per year") and got
+        # different answers, from the same payload, because each had to
+        # decide what a rank meant when re-deriving it.
+        #
+        # A consumer counting over an emitted rank cannot disagree with
+        # the rank this file publishes. A consumer computing its own can,
+        # and did. This is the same fix as `instrument_disagreement`:
+        # where a definition is the channel's to set, ship the definition
+        # applied rather than the inputs to re-apply it.
+        #
+        # 1 = worst, computed on the same convention and the same values
+        # as `rank` above, so the current year's entry here always equals
+        # `rank`.
+        "rank_series": {y: 1 + sum(1 for v2 in means.values()
+                                   if (v2 > v if WORSE_IS_HIGH else v2 < v))
+                        for y, v in means.items()},
         "series_span": series_span(means, BASE_FIRST, cur_year),
         "spread": spread,
         "tied_with": tied,
