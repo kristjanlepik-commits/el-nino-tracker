@@ -40,23 +40,24 @@ FLOOR = 5.5 * S
 COEF = 6.2 * S
 HEAT_R = 12.0 * S
 
-CROPS_XY = {
-    "Sudan": (15.0, 30.0), "Chad": (15.0, 19.0), "Niger": (17.0, 8.0),
-    "Mali": (17.0, -4.0), "Ethiopia": (9.0, 40.0), "Uganda": (1.0, 32.0),
-    "Rwanda": (-2.0, 30.0), "Burundi": (-3.0, 30.0), "Congo": (-1.0, 15.0),
-    "Democratic Republic of the Congo": (-3.0, 23.0), "Angola": (-12.0, 17.0),
-    "Namibia": (-22.0, 17.0), "United Republic of Tanzania": (-6.0, 35.0),
-    "Egypt": (27.0, 30.0), "Libya": (27.0, 17.0), "Yemen": (15.0, 48.0),
-    "Oman": (21.0, 57.0), "Iran (Islamic Republic of)": (32.0, 53.0),
-    "Pakistan": (30.0, 70.0), "China": (35.0, 105.0), "Thailand": (15.0, 101.0),
-    "Viet Nam": (16.0, 108.0), "Malaysia": (4.0, 102.0),
-    "Philippines": (13.0, 122.0), "Papua New Guinea": (-6.0, 147.0),
-    "Russian Federation": (60.0, 90.0), "Ukraine": (49.0, 32.0),
-    "Türkiye": (39.0, 35.0), "Peru": (-10.0, -76.0), "Chile": (-33.0, -71.0),
-    "Ecuador": (-1.0, -78.0), "Colombia": (4.0, -73.0), "Suriname": (4.0, -56.0),
-    "Honduras": (15.0, -87.0), "Nicaragua": (13.0, -85.0),
-    "United States of America": (39.0, -98.0),
-}
+# ONE COORDINATE TABLE FOR THE WHOLE HOUSE, and it is the one that is
+# maintained. This was a second hand-written table of 36 entries. The
+# crops payload grew to 165 places, the lookup below did `continue` on a
+# miss, and 129 places could not be drawn at all: the front page has been
+# announcing "27 crop countries with a region at a record low" against a
+# payload that says 38, silently dropping Argentina, Algeria, Madagascar,
+# Cambodia, Zambia, South Sudan, Burkina Faso, Cote d'Ivoire, Benin, Lao
+# PDR and Puerto Rico.
+#
+# CRO found it and named the property that matters: templates/crops_map.py
+# has the same defect available to it and REFUSES TO BUILD on a missing
+# centroid, which is why that one was caught within minutes this
+# afternoon. This one used `continue` and had been undercounting for as
+# long as the table was short. Same class, opposite behaviour, and the
+# silent one is the one that survived.
+CROPS_XY = {k: tuple(v) for k, v in json.loads(
+    (ROOT / "design" / "country_centroids.json").read_text()
+)["centroids"].items()}
 SLUG = {"United States of America": "united-states-of-america",
         "Republic of Serbia": "republic-of-serbia",
         "United Kingdom": "united-kingdom",
@@ -166,9 +167,18 @@ def marks(d):
                         href="fires/%s/" % slug(name)))
 
     for p in d["crops"]["places"]:
+        # FAIL LOUDLY, LIKE crops_map. A place we publish and cannot
+        # place on the map must stop the build, because the alternative is
+        # a smaller number on the front page and nothing anywhere saying
+        # so.
         g = CROPS_XY.get(p["place"])
         if not g:
-            continue
+            raise SystemExit(
+                "design/country_centroids.json has no entry for %r, which "
+                "is published in crops/data/stress_current.json. Add it "
+                "rather than letting the front page undercount: a place "
+                "without coordinates is dropped from the map AND from the "
+                "record-low count beneath it." % p["place"])
         n1 = [r for r in (p.get("regions") or []) if r.get("rank") == 1]
         if not n1:
             continue
