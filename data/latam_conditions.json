@@ -24,12 +24,16 @@
       "name": "Soil moisture, 28-100 cm",
       "unit": "percentile",
       "worse_is": "low",
-      "summarises": "the water actually in the ground, which carries seasonal memory rather than this month's weather"
+      "window": "observation_month ONLY, ranked against the same calendar month of 1991-2025",
+      "not_to_be_confused_with": "series[].soil_pctl, which covers the region's whole window season. Heat read the two as comparable for the same season and they are not: one is a month, one is a six-month season, and they can disagree without either being wrong.",
+      "summarises": "the water actually in the ground for the observation month, which carries seasonal memory rather than that month's weather"
     },
     "rain_pctl": {
       "name": "Rainfall",
       "unit": "percentile",
       "worse_is": "low",
+      "window": "observation_month ONLY, ranked against the same calendar month of 1991-2025",
+      "not_to_be_confused_with": "series[].rain_pctl, which totals the region's whole window season",
       "summarises": "the observation month alone"
     },
     "temp_anomaly_c": {
