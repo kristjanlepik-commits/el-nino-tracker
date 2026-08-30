@@ -215,11 +215,16 @@ def readings():
             # no usable key: four readings of a possible 28, because six of
             # its seven regions have no cropland in the mask. Measured, and
             # too thin to place on this ramp.
+            _got = rk.get("readings")
+            _poss = rk.get("readings_possible")
+            _whole = (_got is not None and _got == _poss)
             row["crops"] = {"state": "thin",
-                            "read": "measured, but too thin to place: %s of "
-                                    "%s readings"
-                                    % (rk.get("readings"),
-                                       rk.get("readings_possible"))}
+                            "read": ("measured in full and too small to "
+                                     "place: all %s of its %s readings"
+                                     if _whole else
+                                     "measured, but too thin to place: "
+                                     "%s of %s readings")
+                                    % (_got, _poss)}
         elif rk.get("value") is not None:
             # 0.5 is the median position, 1.0 the worst on its own record,
             # so the signed departure is symmetric about the middle.
