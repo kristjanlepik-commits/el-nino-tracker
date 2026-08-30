@@ -144,6 +144,88 @@ def pctl(hist, cur):
     return round(100.0 * sum(1 for h in hist if h < cur) / len(hist))
 
 
+def validate(payload):
+    """Refuse to write a payload whose numbers travel without their qualifiers.
+
+    Eight findings crossed three desks on 2026-08-30 and every one was the
+    same shape: a number quoted without the thing that qualifies it. A
+    mis-dated ratio without its observation date. A box average without the
+    extent of the field averaged. A ratio without its base. A rank labelled
+    "on record" without its window. A month asserted as though measured.
+
+    No check can tell whether a percentile is CORRECT. This checks only that
+    the payload says what its percentiles are percentiles OF, which is the
+    precondition for anyone catching the rest. It moves the failure from
+    invisible-until-someone-asks to visible at write time.
+
+    Raises rather than warns. A payload that cannot explain itself should
+    not reach a renderer.
+    """
+    faults = []
+
+    b = payload.get("baseline") or {}
+    if not b.get("means"):
+        faults.append("baseline.means missing: nothing says what a percentile "
+                      "is measured against")
+    if "current_year_in_baseline" not in b:
+        faults.append("baseline.current_year_in_baseline missing: a reader "
+                      "cannot tell whether a year inflates its own rank")
+
+    legend = payload.get("instrument_legend") or {}
+    numeric = set()
+    for r in payload.get("regions", []):
+        for k, v in r.items():
+            if isinstance(v, (int, float)) and not isinstance(v, bool):
+                numeric.add(k)
+            elif (isinstance(v, list) and v and
+                  all(isinstance(x, (int, float)) and not isinstance(x, bool)
+                      for x in v)):
+                numeric.add(k)   # list-of-numbers needs a legend entry too
+    # Month lists are documented in the `windows` block rather than the
+    # instrument legend, because they are calendar identifiers rather than
+    # measurements. Named explicitly so the exemption is visible instead of
+    # being a hole in the rule.
+    documented_in_windows = {"window_months", "peak_months", "signal_months",
+                             "season_months"}
+    if documented_in_windows & numeric and not (payload.get("windows") or {}).get("means"):
+        faults.append("windows.means missing: month lists are exempted from "
+                      "the instrument legend on the grounds that windows "
+                      "documents them, and it does not")
+    for k in sorted(numeric - set(legend) - documented_in_windows):
+        faults.append(f"instrument_legend has no entry for numeric field "
+                      f"'{k}': it would be rendered with nothing saying what "
+                      f"it measures or which direction is bad")
+
+    if any(r.get("series") for r in payload.get("regions", [])):
+        sd = payload.get("series_declaration") or {}
+        for need in ("means", "percentile_basis", "incomplete_seasons"):
+            if not sd.get(need):
+                faults.append(f"series present but series_declaration.{need} "
+                              f"missing")
+
+    w = payload.get("windows") or {}
+    if not w.get("source"):
+        faults.append("windows.source missing: the seasonality would read as "
+                      "ours rather than cited")
+    if not w.get("peak_months_provenance"):
+        faults.append("windows.peak_months_provenance missing: nothing "
+                      "distinguishes a month taken from a citation from a "
+                      "month that is a judgement")
+
+    sc = payload.get("skill_caveat") or {}
+    if not sc.get("render_required"):
+        faults.append("skill_caveat.render_required is not true: a renderer "
+                      "could drop the one field that stops this reading as a "
+                      "forecast")
+
+    if faults:
+        raise SystemExit(
+            "REFUSING TO WRITE: this payload's numbers would travel without "
+            "their qualifiers.\n\n  " + "\n  ".join(faults) +
+            "\n\nSee validate() for why this raises rather than warns.")
+    return len(numeric)
+
+
 def main():
     V = open_vars(fetch())
     tname = "valid_time"
@@ -356,10 +438,13 @@ def main():
         "regions": regions,
     }
 
+    n_checked = validate(payload)
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2) + "\n")
     print(f"wrote {OUT.relative_to(REPO)}  ({len(regions)} regions, "
           f"observation month {payload['observation_month']})")
+    print(f"  provenance check passed: {n_checked} numeric fields, all declared")
     for r in regions:
         w = "-" if not r["window_in_period"] else \
             f"{len(r['window_months'])}mo"
