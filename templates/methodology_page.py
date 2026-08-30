@@ -75,6 +75,7 @@ _LABELS = {
 # does, the prose is CHECKED against it rather than trusted.
 VERSION_SOURCES = {
     "crops": ("crops/data/stress_current.json", "methodology_version"),
+    "floods": ("floods/data/payload_*.json", "methodology_version"),
 }
 
 _VERSION_HEADINGS = ("version history", "methodology change log",
@@ -132,7 +133,18 @@ def _check_version(channel, md):
         return
     path, key = spec
     try:
-        want = str(json.loads((ROOT / path).read_text())[key])
+        if "*" in path:
+            cands = sorted((ROOT).glob(path), reverse=True)
+            want = None
+            for f in cands:
+                v = json.loads(f.read_text()).get(key)
+                if v is not None:
+                    want = str(v)
+                    break
+            if want is None:
+                return
+        else:
+            want = str(json.loads((ROOT / path).read_text())[key])
     except (OSError, KeyError, ValueError):
         return
     if want not in body:
