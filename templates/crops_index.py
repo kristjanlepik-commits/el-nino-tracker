@@ -1030,7 +1030,7 @@ def _two_ways(g) -> str:
         the correct one; they answer different questions.</p>"""
 
 
-def _global_block(g) -> str:
+def _global_block(g, n_places=None) -> str:
     """The global pair, in the footer, with BOTH treatments.
 
     Product's ruling (c), after this figure failed twice as a lead: once
@@ -1072,7 +1072,7 @@ def _global_block(g) -> str:
     return f"""
       <p class="seclab">This dekad against the whole record</p>
       <p class="secsub">Where each figure sits among the 26 years of this
-        same dekad, across all {len(g.get("buckets", {})) and "123"} places
+        same dekad, across all {n_places} places
         we measure. Detrended is the figure to read: these instruments
         drift, and the drift is upward, so the raw rank flatters every
         stress claim. Both are shown because they disagree and a reader
@@ -1597,12 +1597,25 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     _n1 = {p["place"]: sum(1 for r in (p.get("regions") or [])
                            if r.get("rank") == 1) for p in places}
     _of = {p["place"]: len(p.get("regions") or []) for p in places}
-    quiet_labels = {
-        p: ("one of its %d crop regions is at its worst on record for this "
-            "point in the season" % _of[p] if _n1[p] == 1
-            else "%d of its %d crop regions are at their worst on record for "
-                 "this point in the season" % (_n1[p], _of[p]))
-        for p in _has_page}
+    # SCREEN-READER TEXT, AND IT HAS TO SURVIVE A ONE-REGION COUNTRY.
+    # "Puerto Rico, one of its 1 crop regions is at its worst on record"
+    # is what the two-branch version said once the 42 single-unit
+    # countries published: not false, and not a sentence anyone would
+    # write. CRO shipped it knowingly and recorded it rather than making
+    # it a sign-off condition, which was the right call for a cosmetic
+    # string and the wrong one to leave standing.
+    def _quiet_label(p):
+        n, of = _n1[p], _of[p]
+        if of == 1:
+            return ("its only crop region is at its worst on record for "
+                    "this point in the season")
+        if n == 1:
+            return ("one of its %d crop regions is at its worst on record "
+                    "for this point in the season" % of)
+        return ("%d of its %d crop regions are at their worst on record "
+                "for this point in the season" % (n, of))
+
+    quiet_labels = {p: _quiet_label(p) for p in _has_page}
 
     world_map = map_block(
         [p["place"] for p in places],
@@ -1897,7 +1910,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
   {_rate_block(doc)}
   {_two_ways(doc.get("global") or {})}
 
-  {_global_block(doc.get("global") or {})}
+  {_global_block(doc.get("global") or {}, doc.get("places_reported") or len(doc.get("places") or []))}
 
   <p class="seclab">How we know 81 is an ordinary number</p>
   {baseline}

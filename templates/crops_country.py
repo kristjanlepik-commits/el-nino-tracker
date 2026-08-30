@@ -77,6 +77,55 @@ _MON3 = {"01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May",
          "11": "Nov", "12": "Dec"}
 
 
+def _peers_heading(name, regions):
+    """"Every region of Estonia" reads badly above one bar.
+
+    42 single-unit countries were published on 2026-08-30 and this whole
+    section was written for the many-region case. CRO checked the
+    weighting sentence, found it correct, and told me nothing in
+    templates/ needed changing; they then found this one themselves and
+    said the first message had been too confident. Neither sentence is
+    FALSE for a one-region country. Both are written for a country that
+    has more than one.
+    """
+    if len(regions) == 1:
+        return "The one crop region of %s" % h(name)
+    return "Every region of %s, worst to least" % h(name)
+
+
+def _peers_sub(regions):
+    one = len(regions) == 1
+    return (
+        "The bar is the full spread of that region&rsquo;s previous 25 "
+        "years at this point in the season. The dot is this year. A dot "
+        "at the left of a wide bar and a dot at the left of a narrow bar "
+        "are different findings, which is why the history is drawn "
+        "rather than described."
+        if one else
+        "Each bar is the full spread of that region&rsquo;s previous 25 "
+        "years at this point in the season. The dot is this year. A dot "
+        "at the left of a wide bar and a dot at the left of a narrow bar "
+        "are different findings, which is why the history is drawn "
+        "rather than described.")
+
+
+def _peers_note(regions):
+    # The many-region sentence exists to stop one deep region reading as
+    # a whole country. With one region there is no such distinction to
+    # draw, and the honest thing to say instead is that the country
+    # figure and the region figure are the same measurement.
+    if len(regions) == 1:
+        return ("A region in colour is at its worst on record. This "
+                "country has one crop region in ASAP&rsquo;s mask, so "
+                "the country figure above and this bar are the same "
+                "measurement seen twice, not a country summarised from "
+                "its parts.")
+    return ("Regions in colour are at their worst on record. The rest "
+            "are placed on the same scale so a single deep region inside "
+            "an otherwise ordinary country reads differently from a "
+            "country where the whole distribution has moved.")
+
+
 def _lvl(n, of):
     """Five bands, because the digits have gone and the bands are now the
     only reading.
@@ -1238,24 +1287,15 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   <p class="pat">{h(_pattern_sentence(country.get("instruments") or []))}</p>
   {_layers_block(country.get("instruments") or [])}
   <p class="note">Five instruments, each against its own 26 years for
-    this point in the season. They are shown together because they
-    disagree: across the regions on this site, roughly a quarter have
-    vegetation at a record low while water or rainfall sits in its best
-    third. This page reports where each one sits and does not say what
-    caused what.</p>
+    this point in the season. They are shown together because they can
+    disagree: a region can sit at a record low on vegetation while water
+    or rainfall sits in its best third. This page reports where each one
+    sits and does not say what caused what.</p>
 
-  <p class="eyebrow" style="margin-top:34px">Every region of {h(name)},
-    worst to least</p>
-  <p class="secsub">Each bar is the full spread of that region&rsquo;s
-    previous 25 years at this point in the season. The dot is this year.
-    A dot at the left of a wide bar and a dot at the left of a narrow
-    bar are different findings, which is why the history is drawn rather
-    than described.</p>
+  <p class="eyebrow" style="margin-top:34px">{_peers_heading(name, regions)}</p>
+  <p class="secsub">{_peers_sub(regions)}</p>
   <div class="peers">{_range_rows(regions)}</div>
-  <p class="note">Regions in colour are at their worst on record. The
-    rest are placed on the same scale so a single deep region inside an
-    otherwise ordinary country reads differently from a country where
-    the whole distribution has moved.</p>
+  <p class="note">{_peers_note(regions)}</p>
 
   {blocks}
 
