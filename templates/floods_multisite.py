@@ -79,78 +79,128 @@ def _rain(place):
 
 
 def _hydrograph_svg(hyd, rain_by_day):
-    """Rain, then river, one day later. The mechanism, drawn.
+    """Rain in its own band, the river below it, one day apart.
 
-    The whole causal claim is a lag: 62.8 mm across two days and a
-    hundredfold discharge spike on the third. Drawn, a reader sees it
-    before reading a word; described, they have to take it on trust.
+    THE FIRST VERSION WAS UNREADABLE AND KRISTJAN CAUGHT IT. One linear
+    axis from 6.2 to 1,025 put every value below 225 onto the baseline, so
+    the discharge line read as an axis rather than as data, the peak label
+    was clipped off the top edge, and two thirds of the box was empty. The
+    figure carried the page's whole causal claim and showed a flat line
+    and a dot.
+
+    THE SCALE STAYS LINEAR. A log axis would have made the shape legible
+    by making a 165-fold rise look like a gentle slope, and the size of
+    that rise is the finding. So the fix is layout rather than arithmetic:
+
+      - the river is an AREA, not a line, so its quiet level is a visible
+        floor rather than something indistinguishable from the axis
+      - rain gets its own band with its own baseline, above and separate,
+        because two series on one geometry invite reading them as one
+      - the quiet level is drawn and labelled, so "flat" is a value a
+        reader can name rather than an absence
+      - the peak label sits INSIDE the plot, offset from the marker, and
+        flips side near the right edge
     """
     days = hyd["days"]
     q = hyd["discharge_m3s"]
     if not days or not q:
         return ""
-    W, H = 860, 250
-    left, right, top, bot = 46, W - 14, 16, H - 34
+
+    W, H = 860, 300
+    left, right = 52, W - 16
+    r_top, r_bot = 18, 84          # rain band
+    d_top, d_bot = 104, H - 42     # river band
     n = len(days)
     qmax = max(q) or 1.0
-    rmax = max([v for v in rain_by_day.values() if v is not None] or [1]) or 1.0
+    rains = [rain_by_day.get(d[5:]) or 0.0 for d in days]
+    rmax = max(rains) or 1.0
 
     def X(i):
         return left + (right - left) * (i / max(1, n - 1))
 
     def Yq(v):
-        return bot - (bot - top) * (v / qmax)
+        return d_bot - (d_bot - d_top) * (v / qmax)
 
-    # Rain as columns from the top, so the two series cannot be read as
-    # one line: rain falls, the river answers.
+    # Rain hangs from the band's own baseline, so the two series share an
+    # x axis and nothing else.
     bars = []
-    for i, d in enumerate(days):
-        key = d[5:]
-        v = rain_by_day.get(key)
+    for i, v in enumerate(rains):
         if not v:
             continue
-        hgt = (bot - top) * 0.38 * (v / rmax)
-        bars.append(
-            '<rect x="%.1f" y="%.1f" width="7" height="%.1f" '
-            'fill="var(--flood)" fill-opacity="0.30"/>'
-            % (X(i) - 3.5, top, hgt))
+        hgt = (r_bot - r_top) * (v / rmax)
+        bars.append('<rect x="%.1f" y="%.1f" width="9" height="%.1f" '
+                    'fill="var(--flood)" fill-opacity="0.34"/>'
+                    % (X(i) - 4.5, r_bot - hgt, hgt))
+    if max(rains) > 0:
+        bars.append('<text x="%.1f" y="%.1f" font-size="10" '
+                    'fill="var(--ink-faint)" text-anchor="end">%.0f mm</text>'
+                    % (left - 8, r_top + 9, rmax))
+    bars.append('<line x1="%d" y1="%.1f" x2="%d" y2="%.1f" '
+                'stroke="var(--rule)" stroke-width="1"/>'
+                % (left, r_bot, right, r_bot))
 
-    line = " ".join("%.1f,%.1f" % (X(i), Yq(v)) for i, v in enumerate(q))
+    pts = " ".join("%.1f,%.1f" % (X(i), Yq(v)) for i, v in enumerate(q))
+    area = ("M%.1f,%.1f " % (X(0), d_bot)) + \
+           " ".join("L%.1f,%.1f" % (X(i), Yq(v)) for i, v in enumerate(q)) + \
+           " L%.1f,%.1f Z" % (X(n - 1), d_bot)
+
+    quiet = hyd.get("quiet_level")
+    qline = ""
+    if quiet:
+        qy = Yq(quiet)
+        qline = ('<line x1="%d" y1="%.1f" x2="%d" y2="%.1f" '
+                 'stroke="var(--ink-faint)" stroke-width="1" '
+                 'stroke-dasharray="3 3"/>'
+                 '<text x="%.1f" y="%.1f" font-size="10" '
+                 'fill="var(--ink-faint)" text-anchor="end">%s</text>'
+                 % (left, qy, right, qy, left - 8, qy + 3,
+                    "%.1f" % quiet))
+
     peak = hyd.get("peak_day")
     pi = days.index(peak) if peak in days else q.index(max(q))
+    px, py = X(pi), Yq(q[pi])
+    flip = px > (left + right) / 2
+    label = ('<text x="%.1f" y="%.1f" font-size="12" font-weight="600" '
+             'text-anchor="%s" fill="var(--ink)">%s m&#179;/s</text>'
+             % (px + (-9 if flip else 9), py + 4,
+                "end" if flip else "start",
+                "{:,.0f}".format(q[pi])))
+
     ticks = []
     for i, d in enumerate(days):
-        if i % 4 == 0 or i == pi:
+        if i % 3 == 0 or i == pi:
             ticks.append('<text x="%.1f" y="%d" text-anchor="middle" '
-                         'font-size="9.5" fill="var(--ink-faint)">%s</text>'
-                         % (X(i), H - 18, d[8:]))
+                         'font-size="10" fill="var(--ink-faint)">%s</text>'
+                         % (X(i), H - 20, d[8:]))
+    ticks.append('<text x="%.1f" y="%d" text-anchor="middle" font-size="10" '
+                 'fill="var(--ink-faint)">August</text>'
+                 % ((left + right) / 2, H - 5))
+
     return (
         '<div class="fmfig"><svg viewBox="0 0 %d %d" role="img" '
-        'aria-label="Daily rainfall as columns and modelled river '
-        'discharge as a line, %s to %s. Discharge peaks one day after the '
+        'aria-label="Daily rainfall in millimetres in an upper band, and '
+        'modelled river discharge below it, %s to %s. Discharge rises from '
+        'a quiet %s to %s cubic metres per second on %s, the day after the '
         'heaviest rain.">'
         '%s'
-        '<polyline points="%s" fill="none" stroke="var(--flood)" '
-        'stroke-width="2.2"/>'
-        '<circle cx="%.1f" cy="%.1f" r="4" fill="var(--flood)"/>'
-        '<text x="%.1f" y="%.1f" font-size="11" text-anchor="middle" '
-        'fill="var(--ink)">%s</text>'
+        '<path d="%s" fill="var(--flood)" fill-opacity="0.16"/>'
         '%s'
+        '<polyline points="%s" fill="none" stroke="var(--flood)" '
+        'stroke-width="2.4"/>'
+        '<circle cx="%.1f" cy="%.1f" r="4.2" fill="var(--flood)" '
+        'stroke="var(--paper)" stroke-width="1.4"/>'
+        '%s%s'
         '</svg>'
-        '<p class="fmcap"><b>Columns are rainfall. The line is modelled '
-        'discharge.</b> The river answers the day after the rain: %s on '
-        '%s, a peak of %s m&sup3;/s on %s, against a quiet level '
-        'of %s.</p></div>'
-        % (W, H, days[0], days[-1],
-           "".join(bars), line,
-           X(pi), Yq(q[pi]),
-           X(pi), Yq(q[pi]) - 10, "%.0f" % q[pi],
-           "".join(ticks),
-           "%.1f mm" % max(rain_by_day.values() or [0]),
-           _day("2026-" + max(rain_by_day, key=lambda k: rain_by_day[k] or 0))
-           if rain_by_day else "",
-           "{:,.0f}".format(hyd["peak_value"]), _day(peak),
-           "%.1f" % hyd.get("quiet_level", 0)))
+        '<p class="fmcap"><b>Rain above, river below, one day apart.</b> '
+        '%.1f mm fell on %s. The next day the river reached %s '
+        'm&#179;/s, against a quiet level of %s. Discharge is modelled, '
+        'not gauged.</p></div>'
+        % (W, H, days[0], days[-1], "%.1f" % (quiet or 0),
+           "{:,.0f}".format(q[pi]), _day(peak),
+           "".join(bars), area, qline, pts, px, py, label, "".join(ticks),
+           rmax, _day("2026-" + max(rain_by_day, key=lambda k:
+                                    rain_by_day[k] or 0)) if rain_by_day
+           else "", "{:,.0f}".format(q[pi]), "%.1f" % (quiet or 0)))
 
 
 def _places_rows(places):
@@ -260,7 +310,7 @@ def render(payload, root_prefix="../../"):
         r = _rain(d0)
         pull = (
             '<p class="fmpull"><b>%s is the one to look at.</b> %s mm of '
-            'rain fell there and its river ran at %s m&sup3;/s, %.1f times '
+            'rain fell there and its river ran at %s m&#179;/s, %.1f times '
             'its own median, because it sits downstream and collects from '
             'the catchments above it. The water did not fall on %s.</p>'
             % (h(d0["name"]), ("%.0f" % r) if r is not None else "Little",
@@ -382,10 +432,12 @@ def main():
         return
 
     out = ROOT / "docs" / "floods" / slug / "index.html"
-    if out.exists():
+    if out.exists() and "--force" not in sys.argv:
         raise SystemExit(
             "REFUSING TO REBUILD %s: it is published and says so on its "
-            "face. Invariant 5." % out.relative_to(ROOT))
+            "face. Invariant 5. Use --force only to correct a published "
+            "page, and expect the published date to move."
+            % out.relative_to(ROOT))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html)
     print("PUBLISHED %s" % out.relative_to(ROOT))
