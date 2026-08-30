@@ -1,9 +1,9 @@
 {
   "channel": "crops",
-  "approved_hash": "2b440645187e5f9de01e13bfb6b581545251f91acf9afd05eec77875d7a793db",
-  "approved_at": "2026-08-30T13:12:17+00:00",
+  "approved_hash": "4d17132fa6a5f4f97387f8bc2630bf46db0e31f475eb5293a3d6332fefaf02d5",
+  "approved_at": "2026-08-30T13:30:52+00:00",
   "approved_by": "CRO",
-  "note": "MIN_UNITS 3 to 1, publishing the 42 single-unit countries. Kristjan's decision (D-245), design signed off the +42 URL-set change with no conditions and landed the centroids in a7e0abc7. Reviewed a built preview: index builds at exit 0 where it refused at exit 1 this morning; 165 places; map carries 164 marks plus Angola's labelled link, so every place is on it; derived counts moved with the data (All 165 places, and 27 of the 165 about one in six, from 23 of 123 about one in five). Verified 165 publishable places against 165 centroid keys, zero missing and zero orphaned, exact-match on T\u00fcrkiye, C\u00f4te d'Ivoire and Kuril islands. Read the new single-unit pages: Estonia, Latvia, Switzerland, Ireland and Puerto Rico all render at the correct dekad, and my prediction that the weighting sentence would produce broken prose was wrong, it does not render below two regions. QA clean, em-dash clean, and the link check flags no crops page as unreachable, so all 42 are linked. ONE KNOWN DEFECT SHIPPED KNOWINGLY, in design's crops_map.py: the index map aria-label reads 'Puerto Rico, one of its 1 crop regions is at its worst on record'. Clumsy, not false, screen-reader text only, and it will recur for any single-unit country that reaches a record low. Reported to design rather than made a condition of this sign-off.",
+  "note": "Payload-only change: severity.is_not now computes the rank-1 saturation share instead of carrying a hand-typed one. It read 'roughly one country in seven' and was stale within an hour of the channel growing from 123 places to 165; it now reads '18 of the 165 published countries, about one in nine', filled by _fill_saturation_rate() after every place exists. Both paths tested in-process: the unmatched-anchor guard raises, the happy path substitutes, zero anchors left unsubstituted in the built payload. No rendered page changes, since no template reads is_not today; approving so the channel does not sit blocked on an invisible diff, which is how it went stale for five days in August. Reviewed the built index and country pages: unchanged from the 165-place build already signed off.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
