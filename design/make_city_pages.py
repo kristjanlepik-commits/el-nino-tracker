@@ -906,8 +906,24 @@ built, notes, pending = [], [], []
 # cadence is London's stale provisional notice with a longer fuse, because
 # nobody looks at a preview image after it ships.
 from design.make_city_cards import draw_all as _draw_cards  # noqa: E402
-_cards = _draw_cards()
-print("built %d share cards" % len(_cards))
+
+# THIS BUILDER WRITES TWO KINDS OF THING INTO docs/ AND I FIXED ONE.
+# The write point at the bottom is the obvious one and diverting it left
+# 54 card PNGs still landing in docs/heat/cards/, which is the whole
+# defect intact: an untracked or unexpectedly-modified file under docs/
+# fails qa_check tree-wide whether it is a page or an image.
+#
+# Same shape as fires' stamper bug on 2026-08-30, and I had read the note
+# about it an hour before writing this: the object you fix has to be
+# every object that writes, and the half left undone is the half nobody
+# was looking at.
+_preview = "--preview" in sys.argv
+if _preview:
+    _cards = {}
+    print("preview: skipped share cards (they write into docs/heat/cards/)")
+else:
+    _cards = _draw_cards()
+    print("built %d share cards" % len(_cards))
 for name, v in sorted(C.items()):
     yrs = S[name]["years"]
     D = series(yrs, "days_to_cut", "95")
@@ -1592,10 +1608,41 @@ for _n in built:
                 "did not reach its page." % _n)
 
 # The single write point. Reached only when every city has passed.
+#
+# --preview DIVERTS IT OUT OF THE TREE, and the reason is a cost three
+# chats paid on 2026-08-30 without being able to name it. Iterating on
+# these pages means running this builder repeatedly and looking at the
+# output, and every one of those runs writes nine to fifty untracked
+# files under docs/. qa_check scans docs/ and fails on them, tree-wide,
+# for every chat. So another chat's publish breaks because of a file
+# that is not theirs, does not appear in their diff, and has usually
+# been deleted by the time they look.
+#
+# Science diagnosed the symptom as a race between a generator and the
+# guard. The mechanism is right and the window is not sub-second: it is
+# however long the person is reading the output. It is not a race to
+# fix in qa_check, it is a builder that had no way to run without
+# publishing.
+#
+# THE FLAG IS OPT-IN, NOT OPT-OUT, and that is deliberate rather than
+# lazy: scripts/publish_all.py runs this file bare, so a preview default
+# here would make the real publish write previews and report success.
+# Flipping it needs platform to pass --publish there in the same commit.
+if _preview:
+    _dest = Path("/private/tmp/claude-505/"
+                 "-Users-admin-Documents-Claude-Projects-El-Nino-Tracker/"
+                 "963b8065-d8cb-408a-9195-33d00aeda096/scratchpad"
+                 "/preview_heat")
+    pending = [(_dest / p.name, h) for p, h in pending]
+
 for _path, _html in pending:
     _path.parent.mkdir(parents=True, exist_ok=True)
     _path.write_text(_html)
 
-print(f"built {len(built)} city pages")
+if _preview:
+    print(f"PREVIEW: {len(built)} city pages -> {pending[0][0].parent}")
+    print("  Nothing written to docs/. Re-run without --preview to publish.")
+else:
+    print(f"built {len(built)} city pages")
 for n in notes:
     print("  ", n)
