@@ -1302,7 +1302,8 @@ def build(city, meta):
             "count_is_a_range": bool((pctl[3] or {}).get("count_moves")),
             "must_say": (
                 None if not (pctl[3] or {}).get("count_moves") else
-                f"{', '.join(str(y) for y in pctl[2])} is missing from this "
+                f"{', '.join(str(y) for y in pctl[2])} "
+                f"{'is' if len(pctl[2]) == 1 else 'are'} missing from this "
                 f"station's archive. Refilled from the coldest and the "
                 f"warmest year in the window, this season's count is "
                 f"{' to '.join(str(x) for x in (pctl[3] or {}).get('count_range', []))} "

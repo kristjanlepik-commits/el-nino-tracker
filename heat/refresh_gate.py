@@ -91,6 +91,19 @@ def classify(prev, cur):
     """
     block, report, withdrawn = [], [], []
 
+    # THE GATE IS BLIND TO A CITY IT HAS NEVER PUBLISHED, and design found
+    # that before I did. It compares the payload against the PUBLISHED
+    # reference, so a city that is added but not yet live is reported once as
+    # "added" and can then move freely, commit after commit, with nothing
+    # reporting it. Neuquen's day rank went 5 to 6 and its legend band near to
+    # outside between two of my commits and this said two ordinary changes,
+    # neither of them Neuquen.
+    #
+    # That window is exactly where the nine new cities sit right now. The gate
+    # cannot close it on its own: comparing against the previous COMMIT is a
+    # different question from comparing against what readers see, and both are
+    # worth asking. Design compares commit to commit and caught it; this is
+    # recorded so the division of labour is deliberate rather than accidental.
     pc, cc = prev.get("cities", {}), cur.get("cities", {})
     added = sorted(set(cc) - set(pc))
     removed = sorted(set(pc) - set(cc))
