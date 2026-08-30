@@ -134,7 +134,17 @@ def _staleness(window, today):
 # So a two-week accumulation reading ordinary is evidence about
 # accumulation and evidence about nothing else, and on an event whose rain
 # arrived in a few hours this instrument is largely blind.
-_FIT_BLIND = ("mixed", "intense", "convective")
+# THE ONLY FIT THAT MEANS THE INSTRUMENT SAW IT. Matching a list of blind
+# words was matching a vocabulary I had guessed at rather than the field
+# FLO emits: they write "single-day dominated, intensity is under-read",
+# which contains none of "mixed", "intense" or "convective", so the Atacama
+# at 66% top-day share rendered as "no concentration". That is the inverse
+# of the most important sentence on that page.
+#
+# So the default is inverted. A fit string this template does not recognise
+# now reads as under-read rather than as clear, because on this channel an
+# unknown reading must never come out as reassurance.
+_FIT_WELL_MEASURED = "well measured"
 
 
 def _intensity_row(rain):
@@ -156,7 +166,7 @@ def _intensity_row(rain):
     med = ec.get("baseline_median_top_day_share")
     if not fit:
         return None
-    blind = any(w in fit for w in _FIT_BLIND)
+    blind = _FIT_WELL_MEASURED not in fit
     detail = "GPM IMERG, 30-minute accumulation"
     if share is not None and med is not None:
         detail = ("one day carried %.0f%% of the fortnight, against a "
@@ -164,7 +174,7 @@ def _intensity_row(rain):
     return {
         "name": "Rainfall intensity",
         "detail": detail,
-        "value": "not measured" if blind else "no concentration",
+        "value": "under-read" if blind else "no concentration",
         "rank": "",
         "state": "not_assessed" if blind else "measured",
         "caveat": (
@@ -186,51 +196,111 @@ def _rank_words(basis, find):
     measurement does not have, which is the same fault as a legend whose
     label the data denies.
     """
+    # A below-floor baseline permits NO ordinal, not a softened one.
+    # "about 1 of 27" still tells a reader we ranked it.
+    if find.get("baseline_below_floor"):
+        return "not ranked, baseline too small"
     if find.get("ordinal_safe"):
         return "%s of %s" % (basis["rank"], basis["of"])
     return "about %s of %s" % (basis["rank"], basis["of"])
 
 
+_ORD_WORD = {1: "the most", 2: "the second most", 3: "the third most"}
+
+
+def _nth(n):
+    if 10 <= n % 100 <= 20:
+        suf = "th"
+    else:
+        suf = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return "%d%s" % (n, suf)
+
+
 def _claim(payload, rain, basis, find, window):
-    """The headline, and it changes shape with the finding.
+    """The headline, and it takes its shape from the RANK, not from a flag.
 
-    A NORMAL READING NEEDS ITS OWN SENTENCE, not the extreme one with
-    different numbers. The template hardcoded "the most in N years", which
-    is false on every one of the three live European regions: they read
-    16th, 12th and 13th of 27, and the Rhine is BELOW its median.
+    THIS FUNCTION USED TO ASSERT "the most in N years" FOR EVERYTHING THAT
+    WAS NOT FLAGGED normal. That was written when the only two live cases
+    were a record and an ordinary reading, and it was wrong for every other
+    state FLO emits. Measured against the payloads on disk it would have
+    published the superlative on a reading ranked 4th, on two ranked 2nd
+    and 3rd, and on two ranked 22nd and 24th of 27.
 
-    AND IT MUST NOT READ AS "NOTHING HAPPENED". FLO's warning and it is
-    the whole difficulty: an ordinary two-week total is a fact about
-    two-week totals. The claim says what was ordinary rather than
-    pronouncing on the place, and the instrument rows carry what this
-    measurement cannot see.
+    So the ordinal is now read from the data, and it is stated only when
+    FLO says the ordering can carry it. ordinal_safe false means the
+    ordering is not trustworthy, either because years sit within the tie
+    margin or because the baseline is too near zero to rank against, and
+    in both cases the honest page states no ordinal at all.
     """
-    if find.get("claim") == "normal":
-        return ("Rain over the %s in %s was ordinary for the time of year: "
+    lab, val, med = payload["label"], rain["value"], basis["median"]
+    state = find.get("claim")
+
+    if state == "normal":
+        return ("Rain over %s in %s was ordinary for the time of year: "
                 "%.1f mm, %s the median for the same fortnight."
-                % (payload["label"], window, rain["value"],
+                % (lab, window, val,
                    "below" if basis["x_median"] < 1 else "just above"))
-    return ("%.0f mm of rain fell on the %s in %s, the most in %s years of "
-            "the same fortnight."
-            % (rain["value"], payload["label"], window, basis["of"]))
+
+    if state == "low":
+        return ("Rain over %s in %s was at the low end for the time of "
+                "year: %.1f mm, against a median of %.1f mm for the same "
+                "fortnight." % (lab, window, val, med))
+
+    # A NEAR-ZERO BASELINE MAKES THE MULTIPLE THE MISLEADING NUMBER, not
+    # just the ordinal. 16.8 times a median of 0.3 mm is 5.6 mm, and the
+    # two runners-up sit within 4% of it. Lead with what fell.
+    if find.get("baseline_below_floor"):
+        return ("%.1f mm of rain fell over %s in %s, against a typical "
+                "%.1f mm for the same fortnight. The usual total here is "
+                "small enough that comparing against it measures noise as "
+                "much as weather, so this is not ranked against past years."
+                % (val, lab, window, med))
+
+    if find.get("ordinal_safe"):
+        rank = basis["rank"]
+        if rank in _ORD_WORD:
+            return ("%.1f mm of rain fell over %s in %s, %s in %s years of "
+                    "the same fortnight."
+                    % (val, lab, window, _ORD_WORD[rank], basis["of"]))
+        return ("%.1f mm of rain fell over %s in %s, the %s highest of %s "
+                "years measured for the same fortnight."
+                % (val, lab, window, _nth(rank), basis["of"]))
+
+    return ("%.1f mm of rain fell over %s in %s, against a median of "
+            "%.1f mm for the same fortnight."
+            % (val, lab, window, med))
 
 
 def _standfirst(payload, rain, basis, find, window, first_year):
-    if find.get("claim") == "normal":
-        return (
-            "%s recorded %.1f mm over %s, against a median of %.1f mm for the "
-            "same fortnight since %s, which ranks it %s. This measures "
-            "two-week RAINFALL ACCUMULATION, not flooding, and an ordinary "
-            "total is not evidence that nothing happened."
-            % (payload["label"], rain["value"], window, basis["median"],
-               first_year, _rank_words(basis, find)))
-    return (
-        "%s recorded %.1f mm over %s, against a median of %.1f mm for the "
-        "same fortnight since %s. That is %.2f times the median and the "
-        "highest of the %s years compared. This measures RAINFALL, not "
-        "flooding."
-        % (payload["label"], rain["value"], window, basis["median"],
-           first_year, basis["x_median"], basis["of"]))
+    lab, val, med = payload["label"], rain["value"], basis["median"]
+    state = find.get("claim")
+    head = ("%s recorded %.1f mm over %s, against a median of %.1f mm for "
+            "the same fortnight since %s."
+            % (lab, val, window, med, first_year))
+
+    if state in ("normal", "low"):
+        return (head + " That ranks it %s. This measures two-week RAINFALL "
+                "ACCUMULATION, not flooding, and an ordinary total is not "
+                "evidence that nothing happened."
+                % _rank_words(basis, find))
+
+    if find.get("baseline_below_floor"):
+        return (head + " That is %.1f times the median, and the multiple "
+                "is the misleading figure: against a baseline this small it "
+                "amplifies noise rather than measuring how unusual the "
+                "fortnight was, so no ranking is stated. The chart shows "
+                "every year, which is the honest comparison. This measures "
+                "RAINFALL, not flooding." % basis["x_median"])
+
+    if find.get("ordinal_safe"):
+        return (head + " That is %.2f times the median and the %s highest "
+                "of the %s years compared. This measures RAINFALL, not "
+                "flooding."
+                % (basis["x_median"], _nth(basis["rank"]), basis["of"]))
+
+    return (head + " That is %.2f times the median. The ordering of the "
+            "closest years is not reliable enough to rank it. This "
+            "measures RAINFALL, not flooding." % basis["x_median"])
 
 
 def _instrument_rows(payload, rain, basis, extent, find):
@@ -278,6 +348,17 @@ def piece_from(payload: dict, today: str) -> dict:
                    if s["id"] == "flood_extent"), None)
     if rain is None:
         raise SystemExit("no rainfall series in payload")
+
+    # A PAYLOAD STILL WAITING FOR DATA HAS NO BASIS TO RENDER. Reaching
+    # straight into rain["basis"] turned that into a bare KeyError, which
+    # reads like a broken template rather than a payload that is honestly
+    # not ready. FLO emits verdict "awaiting_data" for exactly this.
+    if "basis" not in rain:
+        raise SystemExit(
+            "REFUSING TO BUILD: %s has no rainfall basis to render "
+            "(verdict %r). Nothing is wrong with the payload; it is not "
+            "finished. Build it when the rainfall series carries a basis."
+            % (payload.get("region_id", "?"), rain.get("verdict")))
 
     basis = rain["basis"]
     find = rain.get("finding") or {}
@@ -361,12 +442,23 @@ def piece_from(payload: dict, today: str) -> dict:
     # "not_enso_linked"; the template's vocabulary is enso | non_enso |
     # pending, and an unrecognised value would silently render as pending,
     # which claims we have not decided when FLO has.
-    tag = {"not_enso_linked": "non_enso", "enso_linked": "enso",
-           "pending": "pending"}.get(payload.get("attribution"))
+    # The payload side is the three strings D-033 fixes. The map keyed on
+    # "pending" instead of "attribution_pending" and so refused every
+    # payload carrying the commonest of the three, 6 of the 11 on disk.
+    # The error named the template's internal words rather than the ones a
+    # payload can legally hold, which sent the reader looking in the wrong
+    # file.
+    ATTRIBUTION = {"enso_linked": "enso",
+                   "not_enso_linked": "non_enso",
+                   "attribution_pending": "pending"}
+    tag = ATTRIBUTION.get(payload.get("attribution"))
     if tag is None:
-        raise SystemExit("unmapped attribution %r; the template takes "
-                         "enso | non_enso | pending"
-                         % payload.get("attribution"))
+        raise SystemExit("attribution %r is not one of the three strings "
+                         "fixed by D-033: %s. A gap in that set is a "
+                         "ratification question for Kristjan, not a value "
+                         "a channel or a template fills in."
+                         % (payload.get("attribution"),
+                            ", ".join(sorted(ATTRIBUTION))))
 
     window = _window_words(payload["window"])
     return {
@@ -420,10 +512,18 @@ def piece_from(payload: dict, today: str) -> dict:
         "claim": _claim(payload, rain, basis, find, window),
         "standfirst": _standfirst(payload, rain, basis, find, window,
                                   min(years)),
+        # THE BIG NUMBER IS THE MULTIPLE, EXCEPT WHERE THE MULTIPLE IS THE
+        # ARTEFACT. On a near-zero baseline "16.80x" is the single most
+        # misleading thing that could sit at the top of the page, so the
+        # figure that leads is the one that was actually measured.
         "value": {
-            "display": "%.2f×" % basis["x_median"],
-            "caption": "the median for this fortnight, %.1f mm"
-                       % basis["median"],
+            "display": ("%.1f mm" % rain["value"]
+                        if find.get("baseline_below_floor")
+                        else "%.2f×" % basis["x_median"]),
+            "caption": (("against a typical %.1f mm for this fortnight"
+                         if find.get("baseline_below_floor")
+                         else "the median for this fortnight, %.1f mm")
+                        % basis["median"]),
         },
         "chart": {
             "label": "Rainfall over %s, by year" % window,
