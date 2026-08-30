@@ -101,18 +101,70 @@ def fetch_year(block, year):
     return raw
 
 
-def daily(raw):
+# PHYSICALLY POSSIBLE LIMITS. The highest reliably recorded surface air
+# temperature on Earth is 56.7 C and the lowest is -89.2 C. A bridge that
+# accepts 91.0 C is not measuring weather.
+#
+# This was found by READING A PAGE, not by any check. Salta 2005 came out at
+# 91.0 C, Santiago del Estero 2014 at 64.7, Trelew 2015 at 58.4 and 2008 at
+# 52.1, and every one would have gone live. The identity validation passed
+# them because it compares at p90, which exists precisely to tolerate a
+# handful of outliers, so the check that proved these were the right stations
+# was structurally blind to their worst values.
+#
+# A guard against the impossible is not the same as a guard against the wrong,
+# and we had only the second.
+MAX_PLAUSIBLE_C = 57.0
+MIN_PLAUSIBLE_C = -90.0
+
+
+def plausible(v, ceiling=None):
+    if v is None:
+        return False
+    hi = MAX_PLAUSIBLE_C if ceiling is None else min(ceiling, MAX_PLAUSIBLE_C)
+    return MIN_PLAUSIBLE_C <= v <= hi
+
+
+def station_ceiling(g, margin=3.0):
+    """The highest value this station's own ARCHIVE has ever recorded, plus a
+    margin.
+
+    A GLOBAL LIMIT IS THE WRONG TEST and 52.1 C is why. It sits under the
+    57 C world-record ceiling and is absurd for Trelew, in Patagonia, whose
+    archive tops out near 43. The same station-relative principle that
+    calibrates every threshold in this instrument applies here: what is
+    impossible depends on where you are.
+
+    The margin allows a genuine new record to pass. Three degrees above a
+    station's whole archived history is generous for one, and nowhere near
+    the nine degrees Trelew's bad decode needed.
+    """
+    vals = [e["TMAX"] for e in g.values() if "TMAX" in e]
+    return (max(vals) + margin) if vals else MAX_PLAUSIBLE_C
+
+
+def daily(raw, ceiling=None):
     """Daily extremes, hours fitted by value rather than assumed."""
     from build_bridge import detect_hours
     hn, hx = detect_hours(raw)
     out = {}
+    dropped = 0
     for d, h, tx, tn in synop.parse_ogimet(raw):
         mn, mx = out.get(d, (None, None))
         if h == hn and tn is not None:
-            mn = tn
+            if plausible(tn, ceiling):
+                mn = tn
+            else:
+                dropped += 1
         if h == hx and tx is not None:
-            mx = tx
+            if plausible(tx, ceiling):
+                mx = tx
+            else:
+                dropped += 1
         out[d] = (mn, mx)
+    if dropped:
+        print(f"    dropped {dropped} physically impossible value(s)",
+              file=sys.stderr)
     return out
 
 

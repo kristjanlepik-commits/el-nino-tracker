@@ -282,6 +282,59 @@ PROSE_CONTRACT = {
 }
 
 
+# EVERY FIELD A PAGE IS TOLD TO READ, AT THE PATH IT IS TOLD TO READ IT.
+#
+# Not documentation. The build fails when one of these is missing, so the
+# failure lands on me at emit time rather than on design at render time, where
+# it is indistinguishable from a city that genuinely has no such value.
+#
+# The rule that earns a field a place on this list: I have named its path to
+# another chat. That is the exact moment the path stops being my private
+# business and becomes an interface, and it is the moment I have got wrong
+# five times.
+TOP_LEVEL_CONTRACT = (
+    "season", "season_label", "season_status", "reported_season_key",
+    "days_current_season", "counted_to",
+    "rank", "days", "joined", "pctl_baseline_shortfall",
+)
+# NOT ON THE LIST, DELIBERATELY: thresholds_c and threshold_basis. The guard
+# flagged them on all 54 cities the first time it ran and it was the guard
+# that was wrong. A percentile of daily maxima is a property of the DAYS
+# metric, not of the city, and design already reads days.thresholds_c in nine
+# places where it works. Nights has no entry there because its 20 C
+# definition is fixed rather than per-station.
+#
+# Kept as a comment because a bare absence from a list is indistinguishable
+# from an oversight, and the next person to run this guard will otherwise
+# "fix" it back.
+
+
+def check_top_level_contract(cities):
+    """Refuse to emit a payload whose promised fields are not where promised.
+
+    Checks presence, and separately that a value is not None, because the two
+    failures read identically from a page: `.get(k)` returns None either way,
+    and a renderer cannot tell "this city has no shortfall" from "I spelled
+    the path wrong". Only the first is a fact about a city.
+    """
+    missing = {}
+    for name, v in cities.items():
+        gone = [k for k in TOP_LEVEL_CONTRACT if k not in v]
+        if gone:
+            missing[name] = gone
+    if missing:
+        shown = list(missing.items())[:5]
+        raise SystemExit(
+            "REFUSING TO EMIT: fields promised at the top level of a city are "
+            "not there.\n" + "\n".join(f"    {n}: missing {', '.join(g)}"
+                                        for n, g in shown) +
+            (f"\n    ...and {len(missing)-5} more cities" if len(missing) > 5
+             else "") +
+            "\nA page reading the documented path gets None and silently "
+            "renders the fallback. Fix the path, or take the field off "
+            "TOP_LEVEL_CONTRACT and tell whoever was told to read it.")
+
+
 def check_prose_contract(payload):
     """Fail the emit if a field the copy is built from has changed shape."""
     bad = []
@@ -1023,6 +1076,23 @@ def main() -> int:
         if not v["day_counts_comparable"]:
             days["multiple_withheld_note"] = v["day_counts_note"]
         entry["days"] = days
+
+        # THE SEASON FIELDS BELONG TO THE CITY, NOT TO ITS DAYS. They were
+        # written inside the `days` dict, so they emitted at city.days.* while
+        # I told design to read city.*. Design read the documented path, found
+        # nothing, and fell back to the still-running copy, which is why seven
+        # southern pages said "6 hot days so far" and "to 29 August 2026"
+        # about summers that ended in February.
+        #
+        # Both halves were individually right. The payload knew the season was
+        # complete and the page asked whether it was complete. They just did
+        # not meet, and nothing in between was capable of noticing, which is
+        # the fifth time I have told another chat a field name that was true
+        # of my variable and false of my output. See TOP_LEVEL_CONTRACT below;
+        # this one is not getting a sixth fix without a guard.
+        for _k in ("season_label", "season_status", "reported_season_key",
+                   "days_current_season"):
+            entry[_k] = days[_k]
         # THE LEGEND BAND, emitted rather than derived by the renderer.
         #
         # Product ratified a refresh gate whose triggers include "any city
@@ -1298,6 +1368,10 @@ def main() -> int:
             and not v["nights_metric_gated"]]
     nomult = sorted(c for c, v in cities.items()
                     if not v["days"]["multiple_available"])
+
+    # Before anything is assembled, not after: a payload that fails this is
+    # not written at all.
+    check_top_level_contract(cities)
 
     payload = {
         "_readme":

@@ -56,13 +56,15 @@ def build(city, ghcn_id, meta):
         rows[d] = (e.get("TMIN"), e.get("TMAX"))
 
     block, shift = meta["wmo_block"], meta["date_shift"]
+    # The archive's own maximum bounds what its bulletins may claim.
+    ceiling = G.station_ceiling(G.ghcn_days(ghcn_id))
     last_ghcn = max(int(d[:4]) for d in rows)
     added = 0
     for year in range(FIRST_BRIDGE_YEAR, 2027):
         raw = G.fetch_year(block, year)
         if raw.count("AAXX") < 20:
             continue
-        for d, (mn, mx) in G.daily(raw).items():
+        for d, (mn, mx) in G.daily(raw, ceiling).items():
             # Attribute to the LOCAL day, using the offset proven per station.
             k = (dt.date.fromisoformat(d) + dt.timedelta(days=shift)).isoformat()
             omn, omx = rows.get(k, (None, None))
