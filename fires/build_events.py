@@ -1231,6 +1231,54 @@ def main():
         return (r["count"] / r["mean"]) if r.get("mean") else 0.0
 
     anomalous_rows = [r for r in rows if r.get("anomalous")]
+    # THE THRESHOLDS, EMITTED RATHER THAN DOCUMENTED SEPARATELY.
+    #
+    # Heat's rule, learned the expensive way on their channel: a number
+    # that appears in prose must be DERIVED from the payload, never
+    # typed. Three consumers retyped one of their figures and all three
+    # were wrong within days, and their sync script exists only for
+    # claims that are genuinely prose.
+    #
+    # So the methodology page reads these rather than restating them,
+    # and cannot drift from the code the way a hand-written page would.
+    # Every value here is the single source used by the gate above.
+    method = {
+        "noise_floor_detections": NOISE_FLOOR,
+        "strong_multiple": STRONG_MULTIPLE,
+        "record_rank": RECORD_RANK,
+        # NOT a single number, deliberately. Countries differ because
+        # the 2022 archive is missing over some windows, so the span is
+        # emitted PER COUNTRY as n_compared and a page must read it
+        # there. A single figure here would be wrong for whichever
+        # countries lost a year, which is the exact staleness this block
+        # exists to prevent.
+        "baseline_years": "per country; see n_compared on each row",
+        "cropland_min_detections_on_crop": 50,
+        "cropland_enriched_above": 1.3,
+        "cropland_depleted_below": 0.77,
+        "persistence_recur_pct_above": 15,
+        "persistence_night_pct_above": 60,
+        "persistence_frp_median_below": 6,
+        "persistence_peak_to_median_at_or_below": 3,
+        "_definitions": {
+            "noise_floor_detections":
+                "a country below this many detections cannot qualify at "
+                "all, whatever its multiple. Not a significance test: "
+                "enough pixels that a ratio is not built on a handful.",
+            "cropland_min_detections_on_crop":
+                "the cropland ratio is withheld unless this many "
+                "detections actually fall on cropland. Peru read 5.04x "
+                "enriched on about twenty, which is arithmetic rather "
+                "than a finding.",
+            "persistence_peak_to_median_at_or_below":
+                "a country is only excluded as a persistent industrial "
+                "source if its week is also FLAT. A gas flare cannot go "
+                "from 196 detections to 2,204 in five days; Algeria did, "
+                "and was being suppressed on the other three thresholds "
+                "while a record burned.",
+        },
+    }
+
     counts = {
         "tracked": len(with_baseline),
         "anomalous": len(anomalous_rows),
@@ -1325,6 +1373,7 @@ def main():
 
     events = {
         "degraded": degraded,
+        "method": method,
         "counts": counts,
         "drawn": drawn,
         "_readme": [
