@@ -366,6 +366,32 @@ def record_rate(S, key, pct="95", lo=1990, hi=2025):
     }
 
 
+def _season_span(v, cur):
+    """Does this city's season for year `cur` cross the year boundary, and has
+    it finished?
+
+    THE WINDOW DECIDES, NOT THE THRESHOLD MONTHS. Neuquen's threshold months
+    are January and February, which do not wrap, but its counting window opens
+    in November, so season 2025 runs from November 2025 to February 2026 and
+    must read "2025-26". Testing the threshold months alone labelled it "2025".
+
+    AND THE YEAR MATTERS, NOT JUST THE MONTH. Salta's season is November to
+    December and the cut is August 2026, so its 2025 season finished eight
+    months ago. Comparing month numbers alone said "in progress" about a
+    season that ended last November.
+    """
+    months = v["season"]["months"]
+    start_m = v["season"]["window_start"][0]
+    end_m = months[-1]
+    wraps = start_m > end_m
+    y = int(cur)
+    end_y = y + 1 if wraps else y
+    cut_y, cut_m = int(v["counted_to"][:4]), int(v["counted_to"][5:7])
+    done = (cut_y, cut_m) > (end_y, end_m)
+    label = f"{y}\u2013{str(end_y)[2:]}" if wraps else str(y)
+    return label, ("complete" if done else "in progress")
+
+
 def main() -> int:
     S = json.loads(SERIES.read_text())
     # Documented station relocations, read from each service's own metadata.
@@ -544,7 +570,31 @@ def main() -> int:
     cities = {}
     for c, v in S["cities"].items():
         yrs = v["years"]
-        cur = str(max(int(y) for y in yrs))
+        # THE HEADLINE SEASON IS THE MOST RECENT ONE THAT EXISTS, not the
+        # highest key in the dict. Design asked whether Salta should have a
+        # page at all, and the question exposed something worse than a
+        # rendering choice: the field was called days_2026 for every city and
+        # meant three different things.
+        #
+        #   London    2026 season, in progress      35 days
+        #   Santiago  2025-26 season, COMPLETE       6 days, keyed 2025
+        #   Salta     2026 season, NOT STARTED       0 days, and its real
+        #             last season was November 2025
+        #
+        # So a renderer printing "days in 2026" was right for London, wrong
+        # for Santiago and actively misleading for Salta, which did have a
+        # season and it was last November. The northern assumption was in a
+        # field NAME rather than in any arithmetic.
+        #
+        # Salta gets a page reporting its last COMPLETE season, exactly as
+        # Santiago does. A city with a real season behind it is not a city
+        # with nothing to say.
+        _keys = sorted((int(y) for y in yrs), reverse=True)
+        cur = str(_keys[0])
+        if not (yrs[cur]["usable_to_cut"] or yrs[cur]["window_days"] > 0):
+            _done = [y for y in _keys if yrs[str(y)]["usable_to_cut"]]
+            if _done:
+                cur = str(_done[0])
         # A SEASON THAT HAS NOT STARTED MUST NOT BE RANKED. Santiago del
         # Estero came out "rank 70 of 70, zero days above its 95th
         # percentile", which reads as its coolest summer on record. Its
@@ -915,7 +965,20 @@ def main() -> int:
             },
             "thresholds_c": v["thresholds_c"],
             "threshold_basis": v["threshold_basis"],
+            # THE LABEL, BECAUSE THE FIELD NAME LIES. days_2026 is kept so
+            # nothing downstream breaks, and it does NOT mean 2026 for every
+            # city: for a wrapping season it is the season that BEGAN in the
+            # key year. season_label is what a page should print.
             "days_2026": yrs[cur]["days_to_cut"],
+            "season_label": _season_span(v, cur)[0],
+            "season_status": _season_span(v, cur)[1],
+            "season_label_note": (
+                "PRINT season_label, never the bare key. A wrapping season "
+                "spans two calendar years and 2025 alone reads as wrong to "
+                "anyone who knows the hemisphere. season_status says whether "
+                "this is a season still running or one that has finished: a "
+                "southern page today reports a summer that ENDED in January, "
+                "where a European page reports one still going."),
             "counts_per_year": v["day_counts"],
             "counts_window": {"recent": "2011-2025", "early": "1961-1990"},
             # BOTH BASES, because the distinction escaped into prose once

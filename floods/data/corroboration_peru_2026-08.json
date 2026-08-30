@@ -1,0 +1,78 @@
+{
+  "subject": "Peru clusters flagged in glofas_clusters_2026-08-22.json",
+  "window_searched": "2026-08-15..2026-08-27",
+  "compiled": "2026-08-30",
+  "supersedes": {
+    "file": "floods/data/glofas_clusters_2026-08-22.json",
+    "field": "corroboration.Peru",
+    "was": "none found; all Peru flood reporting for 2026 is from January, the wet season",
+    "why_wrong": "That sentence recorded the outcome of a search, not the state of the world. The search had run against news reporting in English and Spanish and against the national forecaster's station portal. It had not run against INDECI/COEN, which is where Peru logs civil-protection emergencies, and which did publish in this window."
+  },
+  "sources": [
+    {
+      "name": "INDECI / COEN Peru, Reportes Preliminares y Complementarios de Emergencia",
+      "url": "https://portal.indeci.gob.pe/informe/reportes-preliminares-complementarios-emergencias/",
+      "coverage_verified": "673 reports carrying an August 2026 date, at least 12 on every day 1..29 August, so the window 15..27 August is covered with no missing day",
+      "coverage_method": "set difference over day-of-month parsed from each report's own URL slug, not a count of pages crawled"
+    }
+  ],
+  "instrument_note": "COEN reports damage and its attributed cause. It does not report discharge. So these records can corroborate that heavy rain fell and that water did damage; they cannot corroborate that a river reached a 48-year high, which is what our own measurement claims.",
+  "events": [
+    {"date": "2026-08-19", "local_time": "13:14", "district": "Palcazu", "province": "Oxapampa", "department": "Pasco",
+     "lat": -10.2269, "lon": -75.2824, "hazard": "flood", "reported_as": "inundacion por desborde de canales",
+     "cause_given": "lluvias intensas", "damage": "dwellings, Matriz de Palcazu",
+     "km_to_nearest_flagged_cluster": 92, "nearest_flagged_cluster": 9},
+    {"date": "2026-08-19", "local_time": "03:30", "district": "Puerto Bermudez", "province": "Oxapampa", "department": "Pasco",
+     "lat": -10.4198, "lon": -74.6414, "hazard": "landslide", "reported_as": "deslizamiento",
+     "cause_given": "lluvias intensas", "damage": "potable water network 100 percent out of service",
+     "km_to_nearest_flagged_cluster": 30, "nearest_flagged_cluster": 8},
+    {"date": "2026-08-19", "local_time": "04:30", "district": "Pozuzo", "province": "Oxapampa", "department": "Pasco",
+     "lat": -10.0689, "lon": -75.5507, "hazard": "landslide and debris flow", "reported_as": "deslizamiento y huaico",
+     "cause_given": "lluvias intensas", "damage": "footbridge lost, 1.25 km of road",
+     "km_to_nearest_flagged_cluster": 74, "nearest_flagged_cluster": 11,
+     "context": "Pozuzo was already under a declared state of emergency for imminent danger from intense rainfall, DS 097-2026-PCM, extended 2 July to 30 August 2026"},
+    {"date": "2026-08-19", "local_time": "09:59", "district": "Palcazu", "province": "Oxapampa", "department": "Pasco",
+     "lat": -10.2269, "lon": -75.2824, "hazard": "rockfall", "reported_as": "derrumbe de rocas",
+     "cause_given": "lluvias intensas", "damage": "30 m of road, Santa Rosa de Pichanaz",
+     "km_to_nearest_flagged_cluster": 92, "nearest_flagged_cluster": 9},
+    {"date": "2026-08-19", "district": "Chontabamba", "province": "Oxapampa", "department": "Pasco",
+     "lat": -10.6027, "lon": -75.4387, "hazard": "intense rain", "reported_as": "lluvias intensas",
+     "cause_given": "lluvias intensas", "damage": "not stated in the extract read",
+     "km_to_nearest_flagged_cluster": 46, "nearest_flagged_cluster": 9},
+    {"date": "2026-08-17", "local_time": "08:20", "district": "Comas", "province": "Concepcion", "department": "Junin",
+     "lat": -11.6579, "lon": -74.9818, "hazard": "intense rain", "reported_as": "lluvias intensas",
+     "cause_given": "lluvias intensas", "damage": "dwellings, Tunzo Alto",
+     "km_to_nearest_flagged_cluster": 103, "nearest_flagged_cluster": 9},
+    {"date": "2026-08-18", "local_time": "03:46", "district": "San Pedro de Putina Punco", "province": "Sandia", "department": "Puno",
+     "lat": -14.1119, "lon": -69.0478, "hazard": "intense rain", "reported_as": "lluvias intensas",
+     "cause_given": "lluvias intensas", "damage": "local road",
+     "km_to_nearest_flagged_cluster": 125, "nearest_flagged_cluster": 3},
+    {"date": "2026-08-18", "local_time": "11:14", "district": "Chaccho", "province": "Antonio Raymondi", "department": "Ancash",
+     "lat": -9.0597, "lon": -77.0587, "hazard": "rockfall, landslide, erosion", "reported_as": "derrumbes, deslizamientos y erosion",
+     "cause_given": "lluvias intensas", "damage": "transport infrastructure, Pano Ragra",
+     "km_to_nearest_flagged_cluster": 128, "nearest_flagged_cluster": 5},
+    {"date": "2026-08-18", "local_time": "11:00", "district": "Ollantaytambo", "province": "Urubamba", "department": "Cusco",
+     "lat": -13.2586, "lon": -72.2636, "hazard": "landslide", "reported_as": "deslizamiento",
+     "cause_given": "lluvias intensas", "damage": "100 m of road, Abra Malaga Chico",
+     "km_to_nearest_flagged_cluster": 236, "nearest_flagged_cluster": 3}
+  ],
+  "separate_event_not_corroboration": {
+    "date": "2026-08-23", "local_time": "04:00", "district": "Union Ashaninka", "province": "La Convencion", "department": "Cusco",
+    "lat": -12.3259, "lon": -73.8476,
+    "reported_as": "aumento del caudal y posterior desborde de los rios Teresa, Agua Dulce y Bella Vista, plus deslizamientos and a huayco",
+    "why_excluded": "This is the only Peruvian record in the window that names rivers rising and overflowing, which is the class of event we measured. It is 213 km from the nearest flagged cluster and four days after our peak, so it is a different event and must not be presented as corroborating ours.",
+    "km_to_nearest_flagged_cluster": 213
+  },
+  "verdict": {
+    "rainfall": "corroborated. Peru's civil protection agency attributed four separate emergencies on 19 August 2026, our measured peak day, to intense rain in Oxapampa province, Pasco, between 30 and 92 km of four flagged cells. One of the four is a flood.",
+    "river_record": "NOT corroborated. No Peruvian record found states a river level, a discharge, or a comparison against any prior year. Our claim that these cells ran at their highest in 48 Augusts rests on the model alone.",
+    "event_corroboration_field": "true for rainfall, unknown for the river record",
+    "asymmetry": "The nearest report, 30 km, sits beside cluster 8, which is our weakest at 1.4x and which cleared the separability test by one percentage point. The strong clusters, 3 at 5.4x and 11 at 3.8x, have no report within 70 km. So the corroboration is real but it is not aligned with our strongest signal."
+  },
+  "what_is_still_missing": {
+    "gauge_readings": "SENAMHI operates 244 hydrological stations, 19 of which lie within 120 km of a flagged cluster and two of which are within 10 km: Huertas, code 230717, 2 km from cluster 11, and Cahua / Puente Cahua, codes 202404 and 472182DA, 9 km from cluster 12. Their observed records would settle the river question directly.",
+    "why_not_retrieved": "SENAMHI gates station data behind a Cloudflare Turnstile captcha. The page posts to __dt_est_tp_0s3n@mH1.php with a turnstile token. Completing a captcha is not something this project does automatically, so the data was not retrieved. It is retrievable by a person in a browser.",
+    "retrieval_path": "https://www.senamhi.gob.pe/mapas/mapa-estaciones-2/ then click the station, solve the captcha, set the month filter to 202608",
+    "also_unreachable": "ana.gob.pe has no DNS A record from here and snirh.ana.gob.pe times out on both ports, so Peru's water authority SNIRH could not be probed at all."
+  }
+}
