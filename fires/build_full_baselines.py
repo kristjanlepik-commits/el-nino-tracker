@@ -57,13 +57,14 @@ from datetime import date, timedelta
 import numpy as np
 import pandas as pd
 
-from fires import _http, _quota
+from fires import _http, _quota, subnational
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KEY_PATH = os.path.expanduser("~/.firms_map_key")
 GEO = os.path.join(REPO, "fires", "data", "countries.geo.json")
 SEED = os.path.join(REPO, "fires", "data", "country_history.json")
 OUTDIR = os.path.join(REPO, "fires", "data", "full_history")
+SUBNAT_DIR = os.path.join(REPO, "fires", "data", "subnational")
 
 YEARS = list(range(2012, 2026))   # SNPP science-quality archive
 # 8 workers consumed 4,982 of the 5,000-per-10-minute allowance and
@@ -156,6 +157,22 @@ for f in geo["features"]:
     else:
         BOX[f["id"]] = [[float(lon.min()), s_, float(lon.max()), n_]]
 
+# SUB-NATIONAL REGIONS RIDE THE SAME MACHINERY, keyed ISO3-SUBDIVISION
+# so they can never be mistaken for a country by anything iterating
+# either set. _chunk only needs BOX[key] and RINGS[key], so a region is
+# a country as far as the fetcher is concerned, and the quota
+# accounting, the retry-without-consuming-an-attempt on OverLimit and
+# the year-is-whole-or-absent rule all apply unchanged.
+#
+# Roraima exists because a national total hid it: Brazil is having its
+# quietest season in fifteen years while its northern state sets
+# monthly records, and averaging those into one number says the
+# opposite of what the north is doing. See fires/subnational.py.
+for _k in subnational.REGIONS:
+    _doc = subnational.load(_k)
+    RINGS[_k] = [np.array(r) for r in _doc["rings"]]
+    BOX[_k] = _doc["box"]
+
 
 def _chunk(iso, cur, days):
     """One request, capped at 5 days by the API. Failures return {}."""
@@ -231,14 +248,29 @@ def main():
                     help="report what would be fetched and exit")
     args = ap.parse_args()
 
+    # Sub-national regions are addressable targets but are NOT in the
+    # national roster, so they are only ever built when named with
+    # --only. A sweep over the roster must not silently start pulling
+    # fourteen years of a region nobody asked for.
     targets = list(json.load(open(SEED))["countries"])
+    if args.only:
+        targets += [k for k in subnational.REGIONS if k in set(args.only)]
     if args.only:
         targets = [i for i in targets if i in set(args.only)]
     t0 = time.time()
     done = 0
     plan = {}
     for i, iso in enumerate(targets, 1):
-        path = os.path.join(OUTDIR, f"{iso}.json")
+        # SUB-NATIONAL HISTORY DOES NOT GO IN full_history/.
+        # check_map_bar.py:97, sweep_archive_defects.py:63 and this
+        # file's own completion count all enumerate that directory and
+        # would read BRA-RR as a 98th country. Same trap the coverage
+        # sidecar hit this morning, and the fix is the same: keep it out
+        # of a directory whose membership means something.
+        path = os.path.join(
+            SUBNAT_DIR if iso in subnational.REGIONS else OUTDIR,
+            f"{iso}.json" if iso not in subnational.REGIONS
+            else f"{iso}_history.json")
         doc = {}
         if os.path.exists(path):
             try:
