@@ -59,6 +59,14 @@ OBS_DEPENDENCE_MAX = 0.50  # Spearman(observability, measure) above this means
 # exist, which is the recent-edge version of absence-as-zero.
 LATENCY_DAYS = {"flood_extent": 3, "rainfall": 2}
 
+# EMITTED SO THE PROSE CAN BE CHECKED AGAINST IT. Design's methodology
+# renderer compares a channel's version history to the version its
+# payloads declare, and refuses to build if the payloads have moved ahead
+# of the change log. Crops already does this; without it, a floods page
+# could only be checked for the EXISTENCE of a history, not its currency.
+# Bump this in the same commit that adds the version-history entry.
+METHODOLOGY_VERSION = "1.4"
+
 
 # NULL CONTROL, per D-128. The observability-dependence test was run
 # against data where the effect is known to be absent: 2000 shuffles of
@@ -621,6 +629,7 @@ def main():
         # authors one on every page, so it is tls_built with an evidence
         # basis of measured under D-033. The instrument field already
         # credits NASA, which is the part that genuinely is theirs.
+        "methodology_version": METHODOLOGY_VERSION,
         "authorship": "tls_built",
         "evidence_basis": "measured",
         # NOT DEFAULTED, ON PURPOSE. This was hardcoded to

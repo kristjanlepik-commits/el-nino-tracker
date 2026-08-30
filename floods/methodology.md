@@ -177,3 +177,89 @@ Every figure on a floods page comes from a machine-readable payload
 committed alongside it. Source datasets are named on each page, and where
 we cross between two versions of a product we measure the crossing first
 and publish the result.
+
+---
+
+## Version history
+
+Newest first. A **change** alters what this channel would publish from the
+same data. A **fix** corrects something that was already wrong. The
+distinction matters: a reader comparing two of our pages needs to know
+whether the method moved or whether one of them was mistaken.
+
+### 1.4, 30 August 2026
+
+**Changes**
+
+- **River discharge added as a third instrument.** Copernicus GloFAS,
+  modelled rather than observed, used only to corroborate whether a river
+  actually rose. Its two products are disjoint in time, so the crossing
+  between them was measured before use and agreed to within a thousandth.
+- **Per-cell ranking replaces drawing a box.** Every model cell in a
+  region is ranked against its own record. A box drawn after seeing the
+  data can be aimed at the answer; a per-cell ranking cannot. Affects
+  where we look, not how we measure.
+- **Whether a flood occurred is now a required field.** Three states,
+  including *unknown*, which appears on the page rather than being left
+  off it. Before this, nothing in a payload asserted a flood except the
+  channel's own name.
+
+**Fixes**
+
+- **Two guards were sharing one permission.** A near-zero baseline makes a
+  *multiple* meaningless; a near neighbour makes an *ordinal* meaningless.
+  The first was suppressing the second, so a region with a perfectly
+  separable rank lost it. Rankings withheld under 1.3 may be publishable.
+- **The tie test used the wrong denominator.** It measured separation as a
+  fraction of the baseline median rather than of the value, so on a dry
+  baseline two effectively identical years never registered as tied.
+- **A window was chosen from when data arrived rather than from when the
+  event happened**, and landed on the falling limb of a flood. One piece
+  was withdrawn and rebuilt. No published page was affected.
+
+### 1.3, 21 August 2026
+
+**Changes**
+
+- **Rainfall gained a floor.** Below a small absolute baseline a multiple
+  amplifies noise, so the figure is withheld. Flood extent has had an
+  equivalent since the channel opened.
+- **Event character is emitted with every rainfall finding.** Where a
+  period's rain is concentrated into very few days, the page says the
+  intensity was not measured.
+
+**Fixes**
+
+- **A source gap deleted the current period instead of the missing day.**
+  Days absent from the current period are now excluded from every year, so
+  the comparison stays like for like.
+- **A missing file was being reported as an empty measurement.** Absence
+  of data and absence of a file are different claims and no longer share a
+  return value.
+
+### 1.2, 18 August 2026
+
+**Changes**
+
+- **The rainfall instrument was calibrated against gauges** on an extreme
+  convective event. It over-reads light rain and under-reads heavy rain on
+  the same field on the same day, so no correction factor exists. Pages
+  now say when an ordinary total is not evidence that nothing happened.
+- **Regions are screened before they are baselined.** Of twenty
+  candidates, five can carry a flood-extent ranking. Europe passed none.
+
+### 1.1, 10 August 2026
+
+**Changes**
+
+- **Region qualification became a publish gate.** A region only gets a
+  flood-extent verdict if its own history shows the instrument can see it;
+  failing returns *cannot say* with the reason attached.
+- **Absence became machine-readable.** Distinct states for not assessed,
+  awaiting data, and no baseline, so a missing instrument can no longer be
+  invisible.
+
+### 1.0, 3 August 2026
+
+The channel opens on two instruments that are never merged, each region
+compared only against its own history at the same calendar window.
