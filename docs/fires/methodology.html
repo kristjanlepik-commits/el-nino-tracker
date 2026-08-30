@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fires: how these numbers are made</title>
+<style>@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/plexmono-600.woff2") format("woff2");
+}</style>
+<link rel="canonical" href="https://thelongswell.com/fires/methodology.html">
+<meta name="description" content="Fires: how these numbers are made">
+<meta property="og:title" content="Fires: how these numbers are made">
+<meta property="og:description" content="Fires: how these numbers are made">
+<meta property="og:url" content="https://thelongswell.com/fires/methodology.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="The Long Swell">
+<meta property="og:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fires: how these numbers are made">
+<meta name="twitter:description" content="Fires: how these numbers are made">
+<meta name="twitter:image" content="https://thelongswell.com/card.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script>
+<style>/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    /* ONE INK. D-101 retired channel colour and moved identity to type,
+       on the grounds that colour spent on wayfinding is colour unavailable
+       to data. The tokens went; this nav kept the hues, so four of six
+       items were still coloured months later.
+
+       VD's catch is the one that settles it: Notes rendered in the same
+       blue as El Nino. Notes is not a measured variable and can never hold
+       a hue under the ruling, so either the blue meant El Nino, in which
+       case it was wrong, or it meant "you are here", in which case blue
+       meant two things in one row and a reader could not tell which.
+
+       Identity is now the tracked mono against the Spectral wordmark, and
+       the current page is marked by weight and a rule rather than a hue.
+       The per-channel classes stay in the markup: they are hooks, and
+       deleting them is a change to every generator rather than to this
+       stylesheet. */
+    color: var(--ink-soft);
+    transition: color .12s, border-color .12s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+  }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+  /* The current page, by weight and a rule. */
+  .prodnav a.on { color: var(--ink); font-weight: 600;
+    border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }</style>
+<style>:root {
+    --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--serif); font-size: 17.5px; line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* The masthead here is the shared one, styled by SITE_MASTHEAD_CSS,
+     which render_html adds alongside this block. Nothing masthead
+     related belongs below, except lining its shell up with the reading
+     column, which is narrower here than on the tracker pages. */
+  :root { --shell-max: 820px; --shell-pad: 40px; }
+  main { max-width: 820px; margin: 0 auto; padding: 40px 40px 80px; }
+  h1 { font-size: clamp(32px, 4vw, 44px); font-weight: 500;
+       letter-spacing: -0.018em; line-height: 1.10; margin: 0 0 20px; }
+  h2 { font-size: 20px; font-weight: 500; line-height: 1.30;
+       margin: 2.2em 0 10px; padding-bottom: 10px;
+       border-bottom: 2px solid var(--ink); }
+  h3 { font-size: 17.5px; font-weight: 500; margin: 1.8em 0 6px; }
+  p, li { max-width: 62ch; }
+  a { color: inherit; border-bottom: 1px solid var(--rule); text-decoration: none; }
+  a:hover { color: var(--fire); border-bottom-color: var(--fire); }
+  table { border-collapse: collapse; margin: 1.4em 0; width: 100%; font-size: 14px; }
+  th, td { padding: 12px 12px 12px 0; text-align: left;
+           border-bottom: 1px solid var(--rule); vertical-align: top; }
+  thead th { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em;
+       text-transform: uppercase; color: var(--ink-faint); font-weight: 400;
+       border-bottom: 2px solid var(--ink); }
+  tbody tr:last-child td { border-bottom: 2px solid var(--ink); }
+  blockquote { border-left: 3px solid var(--nino); margin: 1.2em 0;
+               padding: 2px 0 2px 20px; color: var(--ink-soft); }
+  code { font-family: var(--mono); font-size: 0.85em;
+         background: var(--paper-sunk); padding: 2px 5px; }
+  pre { background: var(--paper-sunk); padding: 14px 16px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  img { max-width: 100%; height: auto; display: block; }
+  hr { border: none; border-top: 2px solid var(--ink); margin: 2.4em 0; }
+  @media (max-width: 760px) {
+    :root { --shell-pad: 20px; }
+    main { padding-left: 20px; padding-right: 20px; }
+    body { font-size: 17px; }
+  }</style>
+</head><body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../elnino/">El Niño</a><a class="ch-fire on" href="../fires/">Fires</a><a class="ch-crop" href="../crops/">Crops</a><a class="ch-heat" href="../heat/">Heat</a><a class="ch-notes" href="../notes/">Notes</a><a class="util" href="../about.html">About</a></nav></div></div></header>
+<main>
+<h1>Fires: how these numbers are made</h1>
+<p>The fires channel tracks two things, on two instruments that measure
+different quantities and are never converted into each other:</p>
+<ul>
+<li><strong>Detections.</strong> Satellite thermal anomalies, daily, for 97 countries.</li>
+<li><strong>Burnt area.</strong> Hectares mapped as burned, weekly, from Copernicus.</li>
+</ul>
+<p>Every figure is one country compared against <strong>that same country's own
+history in the same week of the year</strong>. We do not compare countries to
+each other, and a page that appears to is misreading the numbers.</p>
+<p>This page is written for someone deciding whether to cite us. The
+thresholds it quotes are emitted in <code>data/events.json</code> under <code>method</code>,
+so the page reads them rather than restating them and cannot drift from
+the code that applies them.</p>
+<h2>What is measured</h2>
+<p><strong>Detections.</strong> NASA FIRMS, VIIRS aboard Suomi-NPP, 375 m, near-real-time
+for the current week and the science-quality archive for prior years.
+Low-confidence pixels are dropped. Each detection is assigned to a country
+by point-in-polygon, not by bounding box, so a fire near a border counts
+for the country it is in.</p>
+<p><strong>The trailing complete week.</strong> Seven days ending yesterday. A day is only
+counted once the archive has closed it, roughly three hours after
+midnight UTC, so the newest figure is always one day behind today. That
+lag is the instrument, not a delay in our pipeline.</p>
+<p><strong>Burnt area.</strong> Copernicus EFFIS where it has coverage, GWIS elsewhere.
+Cumulative hectares since 1 January, published weekly on a Wednesday and
+available the following morning. Between releases the figure ages up to
+seven days, which is why hectares and detections carry separate dates on
+every page.</p>
+<h2>How a week is judged</h2>
+<p>A country's week is compared against <strong>the same seven calendar days in
+each prior year</strong>, using the same sensor throughout. From that we take:</p>
+<ul>
+<li><strong>rank</strong>, its position among those years, which is robust to one
+  outlier year;</li>
+<li><strong>multiple</strong>, the count against the mean of those years;</li>
+<li><strong>z</strong>, the count against their standard deviation.</li>
+</ul>
+<p><strong>Rank is the sturdier reading and the multiple is the loudest.</strong> Where
+they disagree, the pages lead on rank. A country whose record year was
+exceptional will show a modest multiple against a genuinely extreme rank,
+and the reverse is true for a country with a flat history.</p>
+<p><strong>A noise floor applies before any of it.</strong> Below the floor emitted as
+<code>noise_floor_detections</code> a country cannot qualify however large its
+ratio, because a multiple built on a handful of pixels is arithmetic
+rather than a finding.</p>
+<h2>Standing limits</h2>
+<p>These are the reasons a number on this channel might mislead you. They
+are the part of this page worth reading.</p>
+<p><strong>The instrument does not see what is burning.</strong> It sees a thermal
+anomaly, a time and a radiative power. Everything we say about what is
+alight is an inference from where the heat sits, never a measurement.</p>
+<p><strong>Cropland is a ratio, not a share.</strong> We sample a published 500 m crop
+mask at each detection and compare it against the share of that country
+which <em>is</em> cropland. Cuba's detections sat on farmland 28% of the time in
+the week to 29 August, against 11.5% of Cuba being farmland, which is the
+2.4 times the page reports. The share alone would have told you nothing.</p>
+<p>The ratio is withheld unless enough detections actually fall on cropland,
+and only when the reading says they concentrate there. Peru read five
+times enriched on about twenty pixels, and New Zealand twice on one, which
+is arithmetic rather than a finding. The floor is fifty.</p>
+<p>It applies in one direction only, because the evidence does. A reading
+that says fires sit on farmland MORE often than chance rests entirely on
+the detections that are there, so a handful cannot support it. A reading
+that says LESS often is evidenced by that same small count: Belgium's one
+detection on cropland, out of many, is what "less often" means. Flooring
+it would delete the finding rather than protect it. Those readings are
+held to fifty total detections instead.</p>
+<p><strong>Not assessed is not zero.</strong> Two different withholdings exist and both
+render as "not assessed": the mask has no data for that country at all,
+and the mask was unavailable to the machine that built the payload. In
+neither case have we looked, and neither is evidence about farmland.</p>
+<p><strong>Some countries are not burning, they are flaring.</strong> Gas flares and
+industrial heat appear as thermal anomalies every night of the year. We
+exclude a country whose week is nocturnal, low-powered, recurring in the
+same cells <strong>and flat</strong>. The flatness test matters: Algeria met the first
+three thresholds while a genuine record burned underneath, and a real
+fire is a curve where a flare is a line.</p>
+<p><strong>A country not in the roster is a gap in our coverage, not a quiet
+country.</strong> Absence from these pages says nothing about whether a place is
+burning. It says we have not built a baseline for it.</p>
+<p><strong>Averages can include years nobody measured.</strong> Copernicus counts years
+before its own coverage began as zero. We drop a leading run of empty
+years before computing any "times the average", because Algeria's mean
+was otherwise divided across three years that were never observed.
+Interior zeros are kept: a quiet year after coverage begins is real.</p>
+<p><strong>Records and multiples fail differently.</strong> A record ignores zeros and
+survives all of the above. A multiple depends on a denominator and does
+not. Where a claim can be made either way, the pages make it on the
+record.</p>
+<h2>Sources</h2>
+<table>
+<thead>
+<tr>
+<th>what</th>
+<th>source</th>
+<th>cadence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>detections</td>
+<td>NASA FIRMS, VIIRS SNPP 375 m</td>
+<td>daily</td>
+</tr>
+<tr>
+<td>burnt area</td>
+<td>Copernicus EFFIS / GWIS</td>
+<td>weekly, Wednesday</td>
+</tr>
+<tr>
+<td>cropland</td>
+<td>JRC ASAP crop mask, 500 m</td>
+<td>static, vintage recorded</td>
+</tr>
+<tr>
+<td>country outlines</td>
+<td>Natural Earth</td>
+<td>static</td>
+</tr>
+</tbody>
+</table>
+<h2>Version history</h2>
+<p><strong>1.0, 2026-08-30.</strong> First publication. Written after a fortnight in
+which most of the limits above were found the hard way, several of them
+by other people reading our numbers rather than by us.</p>
+<p><strong>1.1, 2026-08-30.</strong> The cropland floor was tested against every
+detection in a country rather than against the detections on cropland,
+so an enriched reading, whose whole evidence is the latter, was gated on
+a number unrelated to it. Six countries stated a reading they should have
+withheld; one, Tunisia at 1.48 times on forty, was on the public page.
+Corrected the same day, and the correction is the asymmetry described
+above. Found because our design chat asked to see the floor checked
+against the whole payload rather than against the three countries we had
+named as examples, which were the three most likely to pass.</p>
+<h2>The thresholds, as the code applies them</h2>
+<p>Read from the channel's own emitted method block rather than typed here, so this table cannot drift from the pages. The key is printed beside each value so a figure on a page can be traced to the field that set it.</p>
+<table>
+<thead>
+<tr>
+<th>What it sets</th>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline</td>
+<td><code>baseline_years</code></td>
+<td>per country; see n_compared on each row</td>
+</tr>
+<tr>
+<td>Cropland ratio below which they are called depleted</td>
+<td><code>cropland_depleted_below</code></td>
+<td>0.77</td>
+</tr>
+<tr>
+<td>Cropland ratio above which detections are called enriched</td>
+<td><code>cropland_enriched_above</code></td>
+<td>1.3</td>
+</tr>
+<tr>
+<td>Detections ON cropland required before an enriched ratio is stated</td>
+<td><code>cropland_min_detections_on_crop</code></td>
+<td>50</td>
+</tr>
+<tr>
+<td>Detections below which a country cannot qualify at all</td>
+<td><code>noise_floor_detections</code></td>
+<td>150</td>
+</tr>
+<tr>
+<td>Median radiative power, below which</td>
+<td><code>persistence_frp_median_below</code></td>
+<td>6</td>
+</tr>
+<tr>
+<td>Night share, above which likewise</td>
+<td><code>persistence_night_pct_above</code></td>
+<td>60</td>
+</tr>
+<tr>
+<td>Peak-to-median, at or below</td>
+<td><code>persistence_peak_to_median_at_or_below</code></td>
+<td>3</td>
+</tr>
+<tr>
+<td>Recurrence in the same cell, above which heat looks persistent</td>
+<td><code>persistence_recur_pct_above</code></td>
+<td>15</td>
+</tr>
+<tr>
+<td>Rank that counts as a record</td>
+<td><code>record_rank</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td>Multiple described as strong</td>
+<td><code>strong_multiple</code></td>
+<td>2.0</td>
+</tr>
+</tbody>
+</table>
+</main>
+</body></html>
