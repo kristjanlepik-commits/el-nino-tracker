@@ -35,6 +35,7 @@ Writes data/latam_conditions.json. Reads a cached ERA5 monthly-means pull
 
 import calendar
 import glob
+import re
 import json
 import os
 import tempfile
@@ -212,6 +213,52 @@ def validate(payload):
                       "distinguishes a month taken from a citation from a "
                       "month that is a judgement")
 
+    # PROSE. Aftereffects' finding: every number in their payload sat inside
+    # a string, so a schema-level check passed a file carrying six
+    # unqualified ratios. A general numbers-in-prose scan is useless (487
+    # hits on this file, almost all years and version numbers), but the
+    # narrow shape is checkable: a COMPARATIVE (ratio, percentage, ordinal
+    # rank, percentile) stated in a sentence that never says what it is
+    # measured against. `unit` fields are exempt because naming the bare unit
+    # is what they are for.
+    comparative = re.compile(
+        r"(\b\d+(?:\.\d+)?\s*x\b|\b\d+(?:\.\d+)?\s*%"
+        r"|\b\d+(?:st|nd|rd|th)\b|\brank(?:ed)?\s+\d+"
+        r"|\b\d+(?:\.\d+)?\w*\s+percentile)", re.I)
+    # Qualifier words must NAME A COMPARISON BASE. An earlier version
+    # included "year" and "season", which appear in nearly every sentence
+    # this channel writes and so suppressed the flag universally: the check
+    # caught one bare comparative in four and looked like it worked.
+    qualifier = re.compile(
+        r"\b(of|against|vs\.?|compared|baseline|mean|median|average|prior|"
+        r"n\s*=|out of|relative to|its own|same (?:month|dekad|week|date|calendar))\b",
+        re.I)
+
+    def strings(o, path=""):
+        if isinstance(o, dict):
+            for k, v in o.items():
+                yield from strings(v, f"{path}.{k}" if path else k)
+        elif isinstance(o, list):
+            for i, v in enumerate(o):
+                yield from strings(v, f"{path}[{i}]")
+        elif isinstance(o, str):
+            yield path, o
+
+    for path, text in strings(payload):
+        if path.endswith(".unit"):
+            continue
+        # Checked per FIELD, not per sentence. A base very often sits in the
+        # sentence before the number ("explains 18% of the variance. The
+        # other 82% is ignition"), and a field is the unit that travels when
+        # someone quotes this file, so the field is the right scope.
+        found = comparative.findall(text)
+        if found and not qualifier.search(text):
+            faults.append(
+                f"{path}: states {found} with nothing in the field saying "
+                f"what it is measured against. Quoted out of this file the "
+                f"number would travel without its base. Text: "
+                f"\"{text.strip()[:90]}\"")
+
     sc = payload.get("skill_caveat") or {}
     if not sc.get("render_required"):
         faults.append("skill_caveat.render_required is not true: a renderer "
@@ -385,7 +432,7 @@ def main():
                        "observed until March, and a reader shown only "
                        "'Mar-May' will assume nothing is happening there "
                        "until March. Its rainfall is already at the 6th "
-                       "percentile.",
+                       "percentile of 35 prior Julys.",
             "source": "Cai et al. 2020, Nature Reviews Earth and Environment, "
                       "for the precipitation dipole and its seasonality; Chen "
                       "et al. 2017, Nature Climate Change, for the fire lag.",
