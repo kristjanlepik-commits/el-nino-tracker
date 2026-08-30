@@ -551,6 +551,17 @@ def _coverage_notes(crops, fires, names, worst):
 
     from templates.region_map import readings as _map_readings
     mr = _map_readings()
+
+    drawn = sum(1 for n in names
+                if (mr.get(n, {}).get("fires") or {}).get("state") == "value")
+    if drawn != len(fm):
+        raise SystemExit(
+            "REFUSING TO BUILD: the map places %d fires countries and the "
+            "coverage note counts %d. Two components disagreeing about our "
+            "own coverage is how Chile stayed shaded by a multiple the "
+            "table had already declined to print. Both must read "
+            "reading.publishable from fires/data/current_week.json."
+            % (drawn, len(fm)))
     thin = [n for n in names if (mr.get(n, {}).get("crops") or {}).get(
         "state") == "thin"]
     placed = len(cm) - len(thin)

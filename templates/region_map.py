@@ -236,8 +236,11 @@ def readings():
             row["crops"] = {"state": "pend"}
 
         e = fby.get(ISO[n])
-        if e and e.get("mean"):
-            m = e["count"] / e["mean"]
+        _rd = (e or {}).get("reading") or {}
+        if e and e.get("mean") and _rd.get("publishable"):
+            m = _rd.get("multiple")
+            if m is None:
+                m = e["count"] / e["mean"]
             # THE CROPLAND READING IS ALREADY PER COUNTRY and fire is right
             # that a page showing Cuba at 11.08x without it is worse than
             # the index for the same country. Reading it here rather than
@@ -257,6 +260,21 @@ def readings():
                             "step": _step(math.log(m, 2)),
                             "read": "%.2f× its own normal week, %d years%s"
                                     % (m, yrs, lu)}
+        elif _rd and not _rd.get("publishable"):
+            # Not a gap in coverage: a reading fire has measured and
+            # declined to publish as a fire multiple. Two reasons, two
+            # sentences, matching the table.
+            _why = _rd.get("withheld_because")
+            row["fires"] = {
+                "state": "thin",
+                "read": ("measured, but this heat does not behave like "
+                         "fire: %s detections, flagged a persistent source"
+                         % f"{_rd.get('count', 0):,}")
+                if _why == "persistent_source" else
+                ("measured, but too thin to place: %s detections, below "
+                 "the noise floor" % f"{_rd.get('count', 0):,}")
+                if _why == "below_noise_floor" else
+                ("measured, and not published: %s" % (_why or "withheld"))}
         else:
             row["fires"] = {"state": "pend"}
 
