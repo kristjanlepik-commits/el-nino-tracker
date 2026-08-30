@@ -152,7 +152,18 @@ def _paths(names, W, H, pad=10):
             out.append("M" + "L".join("%.1f %.1f" % p for p in k) + "Z")
         return "".join(out)
 
-    return shapes, to_path
+    def to_xy(lon, lat):
+        """A single point on the same fit as the country paths.
+
+        Exposed so the floods panel can mark WHERE a catchment finding
+        sits. Floods publishes by basin, so it has no national value to
+        shade, and an all-grey panel said "nothing here" about a region
+        that has published flood pieces.
+        """
+        x, y = proj(lon, lat)
+        return ox + x * s, oy - y * s
+
+    return shapes, to_path, to_xy
 
 
 ISO = {"Mexico": "MEX", "Belize": "BLZ", "Guatemala": "GTM",
@@ -363,9 +374,59 @@ def _esc(s):
             .replace(">", "&gt;").replace('"', "&quot;"))
 
 
+def _flood_points():
+    """Published flood pieces inside this region, with their coordinates.
+
+    COORDINATES COME FROM THE PAYLOAD OR THE DOT IS NOT DRAWN. Every
+    instinct today says a hand-written coordinate table in a template is a
+    defect waiting for the roster to grow: one was removed from the front
+    page this afternoon after it silently dropped 129 of 165 places, and
+    the crops map catches the same fault only because it refuses to build.
+    So this reads lat/lon from the flood payloads and renders what is
+    there, rather than my guess at where a basin is.
+
+    A piece is drawn only if it also has a published page, because a dot
+    on a map is a claim that a reader can follow.
+    """
+    import glob
+    out = []
+    for f in sorted(glob.glob(str(ROOT / "floods/data/payload_*.json"))):
+        try:
+            d = json.loads(Path(f).read_text())
+        except ValueError:
+            continue
+        cands = d.get("findings") or [d]
+        for c in cands:
+            lat, lon = c.get("lat"), c.get("lon")
+            if lat is None or lon is None:
+                continue
+            if not (-30 <= lat <= 33 and -118 <= lon <= -34):
+                continue          # outside this map's subject
+            pid = d.get("piece_id") or d.get("region_id") or ""
+            page = _published_page(pid)
+            if not page:
+                continue
+            out.append({"name": c.get("name") or d.get("label") or "",
+                        "lat": lat, "lon": lon, "piece": pid, "href": page})
+    return out
+
+
+def _published_page(piece_id):
+    """The published path for a flood piece id, or None if it has none."""
+    if not piece_id:
+        return None
+    stem = piece_id.replace("_", "-")
+    for d in (ROOT / "docs" / "floods").glob("*/"):
+        if not (d / "index.html").exists():
+            continue
+        if d.name.replace("_", "-").startswith(stem.rsplit("-", 3)[0]):
+            return "floods/%s/" % d.name
+    return None
+
+
 def block(root_prefix="../"):
     """The four maps, the ramp, and the legend for the three grounds."""
-    shapes, to_path = _paths(LATAM, W, H)
+    shapes, to_path, to_xy = _paths(LATAM, W, H)
     data = readings()
     ctx = [g for n, g in _load_shapes().items()
            if n not in {x for _, x in LATAM}]
@@ -406,6 +467,27 @@ def block(root_prefix="../"):
                 use = ('<a href="%s" class="rmlink"><g>%s</g></a>'
                        % (_esc(href), use))
             shp.append(use)
+
+        # FLOOD FINDINGS ARE POINTS, NOT COUNTRIES. Kristjan's call: put
+        # the pieces we have on the map. This panel was entirely grey,
+        # which read as "nothing here" about a region that has published
+        # flood pieces, and greyness is the one thing this map set exists
+        # to stop meaning that.
+        #
+        # A basin is not a country, so the dot sits where the finding is
+        # rather than shading a national unit we cannot honestly fill.
+        if key == "floods":
+            for fp in _flood_points():
+                x, y = to_xy(fp["lon"], fp["lat"])
+                shp.append(
+                    '<circle cx="%.1f" cy="%.1f" r="4.2" fill="var(--flood)" '
+                    'fill-opacity="0.9" stroke="var(--paper)" '
+                    'stroke-width="1.2"><title>%s</title></circle>'
+                    % (x, y, _esc("%s: a published flood piece measures "
+                                  "rainfall here. Floods publishes by "
+                                  "catchment, so this is a point rather "
+                                  "than a country." % fp["name"])))
+
         cells.append(
             '<div class="rmcell"><div class="rmttl"><span class="nm">%s</span>'
             '<span class="ct">%d of %d measured</span></div>'
