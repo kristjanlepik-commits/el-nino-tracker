@@ -77,6 +77,41 @@ _MON3 = {"01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May",
          "11": "Nov", "12": "Dec"}
 
 
+_DISAGREEMENT = None
+
+
+def _disagreement_clause():
+    """CRO's measured figure, rendered as the string THEY emit.
+
+    This slot held a hand-typed "roughly a quarter" that was wrong under
+    every reading: 1.8% of all regions, or 19.4% of those already at a
+    vegetation record. My own independent count gave 0.5% and 14.5%,
+    because I had guessed `zfparc` where CRO's definition says `zfpar`.
+    That disagreement was the argument for emitting rather than deriving,
+    and CRO emitted it with its definition the same afternoon.
+
+    THE STATEMENT IS PRINTED, NOT PARAPHRASED. Their payload also carries
+    an `is_not` field warning that this is a share of the regions ALREADY
+    at a vegetation record and not a share of all regions, which is the
+    exact misreading the typed sentence invited. A paraphrase here would
+    be free to lose that again; their sentence says "of the 196 regions at
+    a record low" in its own words.
+    """
+    import json
+
+    global _DISAGREEMENT
+    if _DISAGREEMENT is None:
+        try:
+            raw = (ROOT / "crops/data/stress_current.json").read_text()
+        except OSError:
+            _DISAGREEMENT = ""
+        else:
+            d = (json.loads(raw).get("instrument_disagreement") or {})
+            _DISAGREEMENT = (d.get("statement") or "") if d.get(
+                "available") else ""
+    return (" " + h(_DISAGREEMENT) + ".") if _DISAGREEMENT else ""
+
+
 def _peers_heading(name, regions):
     """"Every region of Estonia" reads badly above one bar.
 
@@ -1289,8 +1324,8 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18; margin:0 0 12px;
   <p class="note">Five instruments, each against its own 26 years for
     this point in the season. They are shown together because they can
     disagree: a region can sit at a record low on vegetation while water
-    or rainfall sits in its best third. This page reports where each one
-    sits and does not say what caused what.</p>
+    or rainfall sits in its best third.{_disagreement_clause()} This page
+    reports where each one sits and does not say what caused what.</p>
 
   <p class="eyebrow" style="margin-top:34px">{_peers_heading(name, regions)}</p>
   <p class="secsub">{_peers_sub(regions)}</p>
