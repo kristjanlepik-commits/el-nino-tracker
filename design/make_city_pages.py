@@ -449,6 +449,59 @@ def _join_years(ys):
     return ys[0] if len(ys) == 1 else ", ".join(ys[:-1]) + " and " + ys[-1]
 
 
+def _count_text(v, n):
+    """The count, as a RANGE where the baseline is short enough to move it.
+
+    Kristjan reversed the complete-or-nothing half of D-151 on 2026-08-30:
+    a city may publish on a baseline short of the full WMO normal provided
+    the page says what is missing and what it costs.
+
+    THE RANGE IS THE FIGURE, NOT A POINT ESTIMATE WITH A FOOTNOTE. Heat's
+    call and it is right: refilling Algiers' missing 1999 from the coldest
+    and the warmest year in the window moves its count between 10 and 13,
+    and Rome's between 35 and 40. A single number with a caveat under it
+    implies the number is firm and the caveat cosmetic, which is the
+    reverse of true.
+
+    Trelew is the control and gets none of this. It is equally short at 29
+    of 30, and its count is 5 days at both extremes with the rank unmoved,
+    so the gap provably cannot change anything a reader sees. heat sets
+    count_is_a_range false there, and a disclosure that fires on every
+    short baseline teaches nothing, which is the same reasoning as the
+    joining caveat.
+    """
+    sf = v.get("pctl_baseline_shortfall") or {}
+    if not sf.get("count_is_a_range"):
+        return str(n)
+    rng = sf.get("count_range") or []
+    if len(rng) != 2:
+        return str(n)
+    return "%s to %s" % (rng[0], rng[1])
+
+
+def _shortfall_caveat(v):
+    """What is missing from this station's baseline, ABOVE the claim.
+
+    Same placement rule as the joining caveat and for the same reason: the
+    reader's question is "how solid is this number", and an answer arriving
+    after the claim has already lost.
+
+    IT MATTERS MOST HERE. Algiers and Rome both enter the set at rank 1, so
+    the page makes a record claim on a baseline it does not fully have,
+    which is the single combination most in need of its qualification
+    first.
+
+    heat's sentence is rendered VERBATIM. It is written to be placed whole,
+    and a renderer silently correcting an author's grammar is how a
+    sentence stops being the one that was reviewed: their Rome copy read
+    "1999, 2000 is missing" and they fixed it rather than my editing it.
+    """
+    sf = v.get("pctl_baseline_shortfall") or {}
+    if not sf.get("count_is_a_range") or not sf.get("must_say"):
+        return ""
+    return '<p class="joincav">%s</p>\n' % _esc(sf["must_say"].strip())
+
+
 def _joined_caveat(v):
     """Selection exposure, BEFORE the claim it qualifies (D-141).
 
@@ -1024,11 +1077,11 @@ for name, v in sorted(C.items()):
         # Editor's wording merged with heat's: heat's carried the
         # denominator, editor's was shorter, and the denominator is the part
         # worth keeping. Same reason the rank never ships without its series.
-        head = (f"{now} hot days so far this year, equalling "
+        head = (f"{_count_text(v, now)} hot days so far this year, equalling "
                 f"{_join_years(ties)} for the most in {name}'s "
                 f"{dr['of_years']} summers.")
     else:
-        head = (f"{now} hot days so far, {ordn(dr['value'])} of "
+        head = (f"{_count_text(v, now)} hot days so far, {ordn(dr['value'])} of "
                 f"{name}'s {dr['of_years']} summers.")
 
     # THE PEAK CARRIES ITS OWN RANK. Seven cities have peak == record, so
@@ -1193,7 +1246,7 @@ for name, v in sorted(C.items()):
             f'<span class="un">{cmp_val:.1f}</span></div>')
     unit_rows += (
         f'<div class="urow"><span class="uk">By this date<br>this summer</span>'
-        f'<span class="ug">{units(now, True)}</span><span class="un">{now}</span></div>')
+        f'<span class="ug">{units(now, True)}</span><span class="un">{_count_text(v, now)}</span></div>')
 
     # Sits with the unit rows, which is what it qualifies, rather than under
     # the chart three sections down. The year count in heat's own note is
@@ -1335,7 +1388,7 @@ for name, v in sorted(C.items()):
 <div class="mast"><span class="prod">Heat</span>
 <span class="when">{name} &middot; {S[name]['station']} &middot; to {cut_txt} 2026</span></div>
 
-{_joined_caveat(v)}<h1>{head}</h1>
+{_joined_caveat(v)}{_shortfall_caveat(v)}<h1>{head}</h1>
 {_provisional_mark(v)}
 {_correction_block(name)}
 {peak_lead}
