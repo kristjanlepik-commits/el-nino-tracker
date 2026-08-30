@@ -1,9 +1,9 @@
 {
   "channel": "crops",
-  "approved_hash": "5e8d7f276eac922a904449789709f2c8f8f55bc8018cbc051d8bdf52e05f3576",
-  "approved_at": "2026-08-20T21:35:50+00:00",
+  "approved_hash": "8c20071ea5aa2af0966568fb4dff54e4c7baf116139a7e9dfa0db55ea5f5a777",
+  "approved_at": "2026-08-30T11:55:48+00:00",
   "approved_by": "CRO",
-  "note": "Reviewed a local preview of methodology 2.0 (area-weighted) with design's e8c4b62b. UK standfirst no longer says unweighted and reads 86% via largest_region; zero country pages still assert equal counting; caveat released by design's guard, 12 instances on the index, 0 disagreements with one_region_carries; featured block descends cleanly Hungary 0.983 to Guatemala 0.765 with zero violations. KNOWN GAP, approved deliberately: the single-region caveat for Suriname, Gabon and Liberia renders on the index but not on their own country pages, so those 3 pages do not tell a reader the country figure IS one region. Approving because the alternative is 123 pages continuing to serve pre-weighting numbers, which are wrong rather than incomplete. Design has it as the next item.",
+  "note": "Dekad 2026-08-11, the refresh CI could not deliver for five days, run by hand. Reviewed a built preview rather than the payload alone. Checked: all six instruments on the same dekad (check_instruments_agree passes, 1008 fetches, 0 failed); rendered date on country pages is 2026-08-11; URL set unchanged so this is a refresh, not a change to which pages exist; Angola headline verified against the payload at 5 of 18 regions at rank 1; the global claim of 68 regions at record verified as exactly 68. Chased the most prominent number on the page, Suriname Brokopondo at -4.00, on suspicion it was a clamp or sentinel: it is not. No clamp in build_data.py, source zfparc is unclipped and reaches -6.266, the tail below -3.9 holds 48 distinct values in 49 readings with no pile-up at -4.0, and all 26 years rest on one observation each so 2026 is comparable to its own baseline. It is a real measurement. Known and deliberate gap unchanged: the single-region caveat still does not render on country pages. Soil moisture remains lagged, worst 6 dekads, emitted absent per datum, tracked as tls-internal#23.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
