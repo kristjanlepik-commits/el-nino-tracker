@@ -716,6 +716,22 @@
    "ours": false
   }
  ],
+ "instrument_disagreement": {
+  "available": true,
+  "_what": "regions where the fast vegetation instrument is at its own record low while a water instrument sits in its own best third, at this dekad",
+  "definition": {
+   "vegetation_at_record": "`zfpar`, current vegetation, at rank 1 of its own 26 years at this dekad",
+   "water_favourable": "`wsi` OR `spi3` at a rank in the best third of its own 26 years, that is rank > 2/3 of the years available",
+   "population": "every published region carrying a current-vegetation reading at this dekad"
+  },
+  "regions_total": 2126,
+  "regions_at_vegetation_record": 196,
+  "both": 38,
+  "share_of_all": 0.0179,
+  "share_of_record": 0.1939,
+  "statement": "38 of the 196 regions at a record low on current vegetation have water or rainfall sitting in its own best third at the same moment, about one in five",
+  "is_not": "a share of all regions. It is a share of those ALREADY at a vegetation record. Of every region we measure, the figure is `share_of_all`, which is much smaller. A sentence that says 'across the regions on this site' and then quotes `share_of_record` overstates it by an order of magnitude, which is the error this field replaced."
+ },
  "places": [
   {
    "place": "Sudan",

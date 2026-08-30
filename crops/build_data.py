@@ -2491,6 +2491,7 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         "places_reported": len(places),
         "places_skipped": len(skipped),
         "skipped": skipped,
+        "instrument_disagreement": instrument_disagreement(places),
         "places": places,
     }
 
@@ -2612,6 +2613,83 @@ def _fill_saturation_rate(places: list) -> None:
             "hand-typed and will go stale. Refusing rather than emitting "
             "a payload where some copies are computed and some are not.")
     print(f"  severity saturation: {phrase.rstrip(',')}")
+
+def instrument_disagreement(places: list) -> dict:
+    """How often vegetation and the water instruments point opposite ways.
+
+    EMITTED BECAUSE TWO CHATS COMPUTED IT AND DISAGREED. The country
+    template carried "roughly a quarter have vegetation at a record low
+    while water or rainfall sits in its best third", hand-typed. Checked
+    against the payload it was wrong under every reading. Design then
+    computed it independently and got different numbers from mine, 0.5%
+    and 14.5% against my 1.8% and 19.4%, because each of us had to guess
+    what "record low" and "best third" meant.
+
+    The disagreement was about the DEFINITION, not the arithmetic, and
+    the definition is the channel's to set. So it ships as a field with
+    the definition attached rather than as a number anybody re-derives.
+
+    Both shares are given because they answer different questions and
+    the sentence that started this conflated them: `share_of_all` is of
+    every region we measure, `share_of_record` is of those already at a
+    vegetation record. The second is the interesting one and the first
+    is the one a reader hears.
+    """
+    tot = at_rec = both = 0
+    for q in places:
+        for r in (q.get("regions") or []):
+            ins = r.get("instruments") or {}
+            veg = ins.get("zfpar") or {}
+            if veg.get("rank") is None:
+                continue
+            tot += 1
+            if veg["rank"] != 1:
+                continue
+            at_rec += 1
+
+            def best_third(i):
+                rk, of = i.get("rank"), i.get("of")
+                return rk is not None and of and rk > (2.0 / 3.0) * of
+
+            if best_third(ins.get("wsi") or {}) or best_third(ins.get("spi3") or {}):
+                both += 1
+    if not tot or not at_rec:
+        return {"available": False,
+                "why": "no region carried a current-vegetation reading"}
+    _W = {2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven",
+          8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
+    _n = round(at_rec / both) if both else None
+    one_in = _W.get(_n, str(_n)) if _n else None
+    return {
+        "available": True,
+        "_what": "regions where the fast vegetation instrument is at its own "
+                 "record low while a water instrument sits in its own best "
+                 "third, at this dekad",
+        "definition": {
+            "vegetation_at_record": "`zfpar`, current vegetation, at rank 1 "
+                                    "of its own 26 years at this dekad",
+            "water_favourable": "`wsi` OR `spi3` at a rank in the best third "
+                                "of its own 26 years, that is rank > 2/3 of "
+                                "the years available",
+            "population": "every published region carrying a current-"
+                          "vegetation reading at this dekad",
+        },
+        "regions_total": tot,
+        "regions_at_vegetation_record": at_rec,
+        "both": both,
+        "share_of_all": round(both / tot, 4),
+        "share_of_record": round(both / at_rec, 4),
+        "statement": (f"{both} of the {at_rec} regions at a record low on "
+                      f"current vegetation have water or rainfall sitting in "
+                      f"its own best third at the same moment"
+                      + (f", about one in {one_in}" if one_in else "")),
+        "is_not": "a share of all regions. It is a share of those ALREADY at "
+                  "a vegetation record. Of every region we measure, the "
+                  "figure is `share_of_all`, which is much smaller. A "
+                  "sentence that says 'across the regions on this site' and "
+                  "then quotes `share_of_record` overstates it by an order "
+                  "of magnitude, which is the error this field replaced.",
+    }
 
 def main() -> int:
     import argparse
