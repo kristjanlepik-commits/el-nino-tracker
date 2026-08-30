@@ -2516,6 +2516,7 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         "skipped": skipped,
         "instrument_disagreement": instrument_disagreement(places),
         "isthmus_comparison": isthmus_comparison(places),
+        "country_record_baseline": country_record_baseline(places),
         "places": places,
     }
 
@@ -2793,6 +2794,86 @@ def isthmus_comparison(places: list) -> dict:
                   "the whole isthmus, so the cut is not independent of the "
                   "data. Read `counts_now` beside `prior_years_at_or_above` "
                   "rather than the headline count alone.",
+    }
+
+def country_record_baseline(places: list) -> dict:
+    """How many COUNTRIES have at least one region at its own record, per year.
+
+    THE FRONT PAGE LEADS WITH THIS COUNT AND HAD NO BASELINE FOR IT.
+    `chance_baseline_aggregate` answers the region-level version, and the
+    front page asks a country-level question, so the two have different
+    denominators and the region figure cannot qualify the country one.
+    Product raised it, and while it was being answered the corrected count
+    went live bare: a bigger number than the one it replaced, reading as an
+    alarm, with nothing beside it saying the reading is ordinary.
+
+    Computed from each region's OWN published series, so it cannot
+    disagree with the ranks this file emits. A region's record year is
+    the year of its minimum, the spine being worse-when-low.
+
+    NOT an expectation. `even_spread` is what independence would give and
+    is emitted only to be argued with: records cluster inside a country,
+    so fewer distinct countries are involved than independence predicts,
+    and the observed count sits BELOW that figure in most years. The
+    empirical series is the comparison; the analytic number is a trap for
+    anyone who reaches for it alone.
+    """
+    per_year, sizes = {}, []
+    for q in places:
+        regs = [r for r in (q.get("regions") or []) if r.get("series")]
+        if not regs:
+            continue
+        n_full, hit = 0, set()
+        for r in regs:
+            s = {int(y): v for y, v in r["series"].items() if v is not None}
+            if len(s) < 26:
+                continue
+            n_full += 1
+            hit.add(min(s, key=lambda y: s[y]))
+        if not n_full:
+            continue
+        sizes.append(n_full)
+        for y in hit:
+            per_year[y] = per_year.get(y, 0) + 1
+    if not per_year:
+        return {"available": False}
+    cur = max(per_year)
+    prior = [v for y, v in per_year.items() if y != cur]
+    prior.sort()
+    n = len(prior)
+    mean = round(sum(prior) / n, 1)
+    med = prior[n // 2] if n % 2 else round((prior[n // 2 - 1] + prior[n // 2]) / 2, 1)
+    rank = 1 + sum(1 for v in prior if v > per_year[cur])
+    even = round(sum(1 - (25.0 / 26.0) ** k for k in sizes), 1)
+    return {
+        "available": True,
+        "_what": "countries with at least one crop region at its own worst "
+                 "on record for this point in the season, per year",
+        "series": {str(y): per_year[y] for y in sorted(per_year)},
+        "this_year": per_year[cur],
+        "prior_mean": mean,
+        "prior_median": med,
+        "prior_min": min(prior),
+        "prior_max": max(prior),
+        "rank_among_years": rank,
+        "of_years": len(per_year),
+        "even_spread": even,
+        # min(per_year) is a YEAR, not a count: the dict is keyed by year.
+        # The first draft of this sentence read "against a 2001-2026
+        # range", which is the shape of a correct sentence carrying the
+        # wrong quantity, and it is the fourth time today.
+        "statement": (f"{per_year[cur]} countries have at least one crop "
+                      f"region at its own worst on record. The prior 25 "
+                      f"years range from {min(prior)} to {max(prior)} with "
+                      f"a mean of {mean}, so this is the {rank}th highest "
+                      f"of {len(per_year)} and an ordinary reading."),
+        "is_not": "an alarm on its own. This count is ordinary in most "
+                  "years and the range is wide. Do not publish the figure "
+                  "without `prior_mean` or `rank_among_years` beside it. "
+                  "`even_spread` is NOT an expectation to test against: "
+                  "records cluster within a country, so the observed count "
+                  "sits below it in most years without that meaning a calm "
+                  "season.",
     }
 
 def main() -> int:
