@@ -36,9 +36,13 @@ period per city rather than a constant, and the station. A card is the
 whole artefact, so anything the page would have said elsewhere has to be on
 the image.
 """
+import hashlib
+import io
+import struct
 import sys
 from pathlib import Path
 
+import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt          # noqa: E402
@@ -55,6 +59,79 @@ OUT = ROOT / "docs" / "heat" / "cards"
 # 1200x630 is the og:image aspect every platform crops to. Anything else is
 # cropped for us, and the crop lands where the platform chooses.
 W_IN, H_IN, DPI = 6.0, 3.15, 200
+
+
+def _text_chunk(path):
+    """The Software tEXt chunk of a PNG, as a string, or None."""
+    try:
+        raw = path.read_bytes()
+    except OSError:
+        return None
+    i, n = 8, len(raw)
+    while i < n:
+        ln = struct.unpack(">I", raw[i:i + 4])[0]
+        if raw[i + 4:i + 8] == b"tEXt":
+            txt = raw[i + 8:i + 8 + ln]
+            if txt.startswith(b"Software\x00"):
+                return txt.decode("ascii", "replace")
+        i += 12 + ln
+    return None
+
+
+# A CARD IS A FUNCTION OF THE PAYLOAD AND THE CODE THAT DRAWS IT, and of
+# nothing else we want to publish. The stamp covers both, so a data change
+# or a generator change regenerates and anything else does not.
+_SRC = b"".join(sorted(
+    (ROOT / "design" / f).read_bytes()
+    for f in ("make_city_cards.py", "make_note_chart.py")))
+RENDER_STAMP = "%s-%s" % (PAYLOAD_STAMP,
+                          hashlib.sha256(_SRC).hexdigest()[:8])
+
+
+def _accept(p):
+    """Is the card already on disk the one this run would produce?
+
+    Cards predating the render stamp carry only payload=<hash>. Those are
+    accepted when the payload matches, rather than rewritten to gain a
+    stamp: a forced re-render would publish 45 changed images for a
+    metadata change, and the pixels that would move are glyph metrics,
+    which is precisely what this function exists to stop shipping.
+    """
+    raw = _text_chunk(p)
+    if raw is None:
+        return False
+    if "render=" in raw:
+        return raw.rsplit("render=", 1)[1] == RENDER_STAMP
+    if "payload=" in raw:
+        return raw.rsplit("payload=", 1)[1] == PAYLOAD_STAMP
+    return False
+
+
+def _save_if_changed(fig, p, force=False):
+    """Write the card only when the payload or the generator moved.
+
+    NOT a byte or pixel comparison, and the reason is worth keeping. The
+    PNG encoder is not byte-deterministic: two back-to-back runs on one
+    payload produce different bytes for identical pixels. And glyph metrics
+    drift with the local freetype build, so the same payload rendered on
+    another machine differs across every text band while the plotted series
+    stays pixel-identical, measured at 20,716 differing pixels on Madrid
+    with rows 224-523, the whole chart, untouched.
+
+    Written unconditionally, every run reported all 45 cards as modified.
+    In a tree nine chats share that is indistinguishable from a real change,
+    and it blocked crops from publishing on 2026-08-30.
+
+    Neither of those is a finding, and neither should ride along with
+    someone else's publish. So the card on disk stands unless the two
+    things it is actually derived from have moved.
+    """
+    if not force and p.exists() and _accept(p):
+        return False
+    fig.savefig(p, facecolor=PAPER,
+                metadata={"Software": "tls-city-card render=%s"
+                          % RENDER_STAMP})
+    return True
 
 
 def _slug(city):
@@ -141,9 +218,7 @@ def draw(city):
 
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / ("%s.png" % _slug(city))
-    fig.savefig(p, facecolor=PAPER,
-                metadata={"Software": "tls-city-card payload=%s"
-                          % PAYLOAD_STAMP})
+    _save_if_changed(fig, p, force="--force" in sys.argv)
     plt.close(fig)
     return p
 
