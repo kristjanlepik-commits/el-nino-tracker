@@ -222,6 +222,100 @@ def _thousands(n):
     return "{:,}".format(int(n))
 
 
+# Which published flood pieces sit inside this region. Matched on the
+# payload's own region_id rather than on the label, because a label is
+# prose and gets reworded.
+_LATAM_FLOOD_IDS = ("lima_coast", "s_peru_altiplano", "n_chile_atacama",
+                    "yungas_bolivia", "andes_amazon_peru")
+
+
+def _flood_note(root_prefix):
+    """The flood pieces covering this region, counted from what is published.
+
+    THIS SAID "One flood finding exists for this region" AND NAMED LIMA.
+    Two more published on 2026-08-30, both inside it, so the sentence was
+    false within hours of the pieces going live and nothing on either page
+    could have told anyone. Same failure as the three coverage notes above
+    and the corridor list: a typed claim about a set that grows.
+    """
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from templates.floods_index import _pieces
+    try:
+        pieces = [p for p in _pieces("2026-08-30")
+                  if any(i in p["path"] for i in _LATAM_FLOOD_IDS)]
+    except Exception:
+        pieces = []
+    if not pieces:
+        return ""
+    links = ", ".join(
+        '<a href="%s%s">%s</a>' % (root_prefix.rstrip("/"), p["path"],
+                                   p["region"])
+        for p in pieces)
+    _W = ("no", "One", "Two", "Three", "Four", "Five", "Six")
+    n = len(pieces)
+    return ('<p class="rgnote">%s flood %s cover%s this region: %s. They '
+            'are not in this table because floods publishes by catchment '
+            'rather than by country, and because each measures RAINFALL '
+            'rather than flooding.</p>'
+            % (_W[n] if n < len(_W) else n,
+               "piece" if n == 1 else "pieces",
+               "s" if n == 1 else "", links))
+
+
+def _coverage_notes(crops, fires, names, worst):
+    """How far each instrument reaches, counted rather than remembered.
+
+    ALL THREE OF THESE WERE TYPED AND ALL THREE WENT STALE THE SAME DAY.
+    They said fires reached 12 of 24 and crops placed 20 of 24; the
+    payloads say 15 and 24. Crops grew from 123 places to 165 when
+    MIN_UNITS dropped to 1, which admitted Belize, the Dominican Republic
+    and Jamaica, so the paragraph explaining why those three could not be
+    ranked was describing a rule that no longer applied to them.
+
+    Worse than the counts: the fires note claimed every country in the
+    corridor was outside the fire instrument, and Colombia is in the
+    corridor and measured. That one was wrong when written, not merely
+    stale, and no number on the page contradicted it.
+    """
+    tot = len(names)
+    fm = [n for n in names if fires[n]["state"] == "measured"]
+    cm = [n for n in names if crops[n]["state"] == "measured"]
+    out = ['<p class="rgnote"><b>Heat is not measured anywhere in Latin '
+           'America.</b> All 45 cities on that channel are European. This '
+           'row is empty because the instrument does not reach here, not '
+           'because the nights are ordinary.</p>']
+
+    blind = [n for n in worst if fires[n]["state"] != "measured"]
+    fire_note = ("<b>Fires reaches %d of these %d countries.</b> "
+                 % (len(fm), tot))
+    if blind:
+        fire_note += (
+            "%d of the %d countries in the run above %s outside it, so "
+            "some of the worst crop stress on this page sits where the "
+            "fire instrument cannot see. That is a limit of our coverage "
+            "and not a finding about those countries."
+            % (len(blind), len(worst), "is" if len(blind) == 1 else "are"))
+    else:
+        fire_note += ("Every country in the run above is inside it, so the "
+                      "two instruments can be read against each other "
+                      "there.")
+    out.append('<p class="rgnote">%s</p>' % fire_note)
+
+    missing = [n for n in names if crops[n]["state"] != "measured"]
+    if missing:
+        out.append('<p class="rgnote"><b>Crops places %d of %d.</b> %s %s no '
+                   'rank here.</p>'
+                   % (len(cm), tot, ", ".join(missing),
+                      "has" if len(missing) == 1 else "have"))
+    else:
+        out.append('<p class="rgnote"><b>Crops places all %d.</b> Every '
+                   'country in this table has a rank against its own 26 '
+                   'years, which was not true before the crop roster grew '
+                   'from 123 places to 165.</p>' % tot)
+    return "\n".join(out)
+
+
 def render(root_prefix="../"):
     import sys
     sys.path.insert(0, str(ROOT))
@@ -234,14 +328,36 @@ def render(root_prefix="../"):
     crops = {r["name"]: r for r in _crops_rows(names)}
     fires = {r["name"]: r for r in _fires_rows(LATAM)}
 
-    # THE LEDE IS DERIVED, NEVER TYPED (D-124). Product said eight
-    # contiguous countries; it is seven, and Belize would have made eight
-    # but is not in the crops roster at all, so it could not have been
-    # counted either way.
-    corridor = ["Guatemala", "El Salvador", "Honduras", "Nicaragua",
-                "Costa Rica", "Panama", "Colombia"]
-    worst = [n for n in corridor
-             if crops[n]["state"] == "measured" and crops[n]["rank"] <= 4]
+    # THE LEDE IS DERIVED, NEVER TYPED (D-124), AND SO IS THE SET IT
+    # COUNTS. The count was already derived; the countries it counted over
+    # were a hand-typed list, so the claim was only as current as that
+    # list. It said seven while product said eight, and product was right:
+    # Belize is measured at rank 3 of 26 as of the 2026-08-30 rebuild,
+    # having been one of the 42 single-unit countries admitted when
+    # MIN_UNITS dropped to 1. It was excluded here because it was absent
+    # from the crops roster when this was written, and nothing re-examined
+    # that when the roster grew by 42.
+    #
+    # ADJACENCY IS GEOGRAPHY AND THE FINDING IS DATA. So the isthmus chain
+    # is stated once, north to south, and the claim is the LONGEST
+    # UNBROKEN RUN within it. That also makes "without a gap" true by
+    # construction rather than asserted by whoever typed the list: the
+    # previous version could not have detected a gap in the middle.
+    ISTHMUS = ["Mexico", "Belize", "Guatemala", "El Salvador", "Honduras",
+               "Nicaragua", "Costa Rica", "Panama", "Colombia"]
+
+    def _deep(n):
+        r = crops.get(n) or {}
+        return r.get("state") == "measured" and r.get("rank", 99) <= 4
+
+    worst, run = [], []
+    for n in ISTHMUS + [None]:
+        if n is not None and _deep(n):
+            run.append(n)
+            continue
+        if len(run) > len(worst):
+            worst = run
+        run = []
     quiet = [n for n in names
              if fires[n]["state"] == "measured" and fires[n]["mult"] < 0.5]
 
@@ -282,25 +398,12 @@ __MAPS__
 </table></div>
 <div class="rgkey"><span>CROPS: rank 1 is the worst year on that country's
 own record</span><span>FIRES: 1.0&times; is its own normal week</span></div>
-<p class="rgnote"><b>Heat is not measured anywhere in Latin America.</b>
-All 45 cities on that channel are European. This row is empty because the
-instrument does not reach here, not because the nights are ordinary.</p>
-<p class="rgnote"><b>Fires reaches 12 of these 24 countries.</b> Every
-country in the Central America corridor above is outside it, so the
-countries with the worst crop stress on this page are exactly the ones the
-fire instrument cannot see. That is a limit of our coverage and not a
-finding about Central America.</p>
-<p class="rgnote"><b>Crops places 20 of 24.</b> Belize, the Dominican Republic and
-Jamaica are in ASAP's roster but report fewer than three crop units each,
-and our sub-national method needs three, so they cannot be ranked here at
-all. Suriname is measured and has a rank, but only four of a possible 28
-regional readings carry cropland, which is too thin to place on this
-scale.</p>
-<p class="rgnote">One flood finding exists for this region, the Lima coast
-over 6 to 19 August, and it reads 0.48&times; its median rainfall: drier
-than usual rather than wetter. It is not in this table because floods
-publishes by catchment rather than by country.</p>
+__COVERAGE_NOTES__
+__FLOOD_NOTE__
 """ % "\n".join(rows)
+    body = body.replace("__COVERAGE_NOTES__", _coverage_notes(crops, fires,
+                                                              names, worst))
+    body = body.replace("__FLOOD_NOTE__", _flood_note(root_prefix))
     body = body.replace("__MAPS__", map_block(root_prefix))
 
     css = (CSS.replace("__D__", T.FONT_DATA)
