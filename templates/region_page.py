@@ -178,6 +178,12 @@ td.n{font-family:"__D__",ui-monospace,monospace;font-size:14px;
 .b3{color:var(--ink-soft)}
 .na{color:var(--ink-faint);font-style:italic;font-family:var(--serif);
   font-size:14px}
+/* The count the multiple is computed from, next to the multiple. Muted
+   and smaller: it qualifies the reading rather than competing with it. */
+.sub{display:block;font-size:10.5px;color:var(--ink-faint);
+  font-weight:400;letter-spacing:.02em;margin-top:1px}
+.thsub{text-transform:none;letter-spacing:0;font-weight:400;
+  font-size:9.5px;color:var(--ink-faint)}
 .rgkey{display:flex;flex-wrap:wrap;gap:6px 18px;margin:12px 0 0;
   font-family:"__D__",ui-monospace,monospace;font-size:10.5px;
   color:var(--ink-faint)}
@@ -195,8 +201,25 @@ def _cell(row, kind):
     if kind == "crops":
         b = _band(row["rank"], row["of"])
         return ('<td class="n b%d">%s of %s</td>' % (b, row["rank"], row["of"]))
+    # COLOUR CODES THE MULTIPLE. Kristjan's call, 2026-08-30, asked
+    # directly because the alternative was defensible: a country's position
+    # against its own record is the more robust statistic when the baseline
+    # is small.
+    #
+    # WHAT THE MULTIPLE RESTS ON TRAVELS WITH IT (D-051), which is the part
+    # that is mine rather than his. Jamaica reads 5.43x on a baseline mean
+    # of 12.9 detections and Cuba reads 10.88x on 68.4, and both draw the
+    # heaviest weight on the page from the same rule. Printing the count
+    # beside the multiple lets a reader see that one of those rests on 70
+    # detections and the other on 744, without softening either or
+    # second-guessing the colour rule.
     b = _fire_band(row["mult"])
-    return '<td class="n b%d">%.2f&times;</td>' % (b, row["mult"])
+    return ('<td class="n b%d">%.2f&times;<span class="sub">%s</span></td>'
+            % (b, row["mult"], _thousands(row["count"])))
+
+
+def _thousands(n):
+    return "{:,}".format(int(n))
 
 
 def render(root_prefix="../"):
@@ -253,7 +276,7 @@ __MAPS__
 <p class="rgsec" style="margin-top:40px">Every country we measure, and every one we do not</p>
 <div class="rgscroll"><table class="rg">
 <tr><th>Country</th><th class="n">Crops, against its own 26 years</th>
-<th class="n">Fires, against its own normal week</th>
+<th class="n">Fires, against its own normal week<br><span class="thsub">and the detections it is computed from</span></th>
 <th class="n">Heat</th></tr>
 %s
 </table></div>
