@@ -49,11 +49,19 @@ observation window first, because **a shorter window can move sooner**.
 That order is emitted as data rather than chosen by a renderer, so it
 cannot differ between pages.
 
-**Vegetation, cumulative is the crop-outcome measure**, the one closest
-to yield. It integrates from the start of the season, so it is
-structurally the last to move and reads calmest exactly when a fast
-deterioration is under way. That property is the reason it is shown and
-the reason it is excluded from the ordering key.
+**Vegetation, cumulative adds the season up**, so one bad dekad barely
+moves it. It is structurally the last of the six to move and reads
+calmest exactly when a fast deterioration is under way, which is both
+the reason it is shown and the reason it is excluded from the ordering
+key.
+
+It is the instrument most often read as a proxy for outcome, and that is
+a **use** rather than a property. **Every one of these instruments
+measures greenness**, or water, or temperature. Any friendlier name for
+one of them, "the harvest measure", "a drought index", "crop damage", is
+a claim about what the measurement means rather than a description of
+what it is. This page tries not to make those, and where our own pages
+have, we have been correcting them.
 
 ## The comparison
 
