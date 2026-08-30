@@ -491,7 +491,8 @@ def render(root_prefix="../"):
     sys.path.insert(0, str(ROOT))
     import tokens as T
     from templates.page_head import head_meta
-    from run_brief import site_masthead, SITE_MASTHEAD_CSS
+    from run_brief import (site_masthead, SITE_MASTHEAD_CSS,
+                           ANALYTICS_SNIPPET)
     from templates.subscribe_band import band as sub_band, css as sub_css
 
     names = [n for _, n in LATAM]
@@ -589,6 +590,7 @@ __FLOOD_NOTE__
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 %s
+%s
 <title>Latin America | The Long Swell</title>
 <style>
 %s
@@ -608,6 +610,7 @@ __FLOOD_NOTE__
 </body>
 </html>
 """.replace("{vars}", T.css_variables()) % (
+        ANALYTICS_SNIPPET,
         head_meta(title="Latin America | The Long Swell",
                   description=lede, path="/latin-america/"),
         T.font_faces_css(root_prefix + "fonts/") + css,
