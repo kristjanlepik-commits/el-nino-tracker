@@ -443,6 +443,30 @@ def emit_archive(live_slugs, window, window_end=None) -> str:
     the window a row's FIGURES come from, which for a dropped country is
     not this week.
     """
+    # Real names from the roster, keyed by the same slugify the pages
+    # were written with, so the join cannot drift from the filenames.
+    names = {}
+    try:
+        for v in json.load(open(os.path.join(
+                REPO, "fires", "data", "current_week.json")))["countries"].values():
+            names[slugify(v["name"])] = v["name"]
+    except (OSError, ValueError, KeyError):
+        pass
+    # A PAGE CAN OUTLIVE ITS ROSTER ENTRY, so the roster alone cannot name
+    # every page. Ethiopia has a published page and appears in no roster
+    # file, which is how it ended up claiming a check that never happened.
+    # The geo file names all 180 countries and is what the pages were
+    # built from, so it is the right fallback rather than title-casing a
+    # slug, which design refused to do and was right to.
+    try:
+        for f in json.load(open(os.path.join(
+                REPO, "fires", "data", "countries.geo.json")))["features"]:
+            n = (f.get("properties") or {}).get("name")
+            if n:
+                names.setdefault(slugify(n), n)
+    except (OSError, ValueError, KeyError):
+        pass
+    roster_slugs = tracked_slug_set()
     prev_seen = {}
     if os.path.exists(ARCHIVE_OUT):
         try:
@@ -476,8 +500,21 @@ def emit_archive(live_slugs, window, window_end=None) -> str:
             # Design is rendering this; mixed formats are how a table
             # ends up with two kinds of row that mean the same thing.
             last = (window_end if current else prev_seen.get(slug))
-            rows.append({"slug": slug, "href": f"fires/{slug}/",
+            # NAME, because a slug is not a name. Design was right to
+            # refuse rather than title-case: 48 of 49 slugs invert
+            # cleanly, WHICH IS EXACTLY WHAT MAKES THAT JOIN LOOK SAFE,
+            # and "republic-of-serbia" and "democratic-republic-of-the
+            # -congo" are not spellings we use anywhere else.
+            rows.append({"slug": slug, "name": names.get(slug),
+                         "href": f"fires/{slug}/",
                          "current": current,
+                         # ROSTER MEMBERSHIP, not "do we have a name".
+                         # I conflated the two by adding a geo fallback to
+                         # `names` for Ethiopia, which flipped its tracked
+                         # flag to true, asserting the opposite of the
+                         # fact that caused this bug. Two dictionaries,
+                         # two questions.
+                         "tracked": slug in roster_slugs,
                          "last_assessed": last,
                          "claims_current": current})
     doc = {"_readme": [
@@ -495,6 +532,21 @@ def emit_archive(live_slugs, window, window_end=None) -> str:
     live = sum(1 for r in rows if r["current"])
     return (f"wrote country_archive.json: {len(rows)} page(s), {live} "
             f"current, {len(rows) - live} archived")
+
+def tracked_slug_set() -> set:
+    """Slugs of countries actually in the roster this run.
+
+    Membership of the ROSTER, not presence of a directory. A page can
+    outlive the country's baseline, and Ethiopia's did.
+    """
+    try:
+        names = [v["name"] for v in json.load(
+            open(os.path.join(REPO, "fires", "data",
+                              "current_week.json")))["countries"].values()]
+    except (OSError, ValueError, KeyError):
+        return set()
+    return {slugify(n) for n in names}
+
 
 def stamp_unregenerated(live_slugs, window_label) -> str:
     """Date the pages that stopped qualifying, rather than leaving them.
@@ -517,6 +569,7 @@ def stamp_unregenerated(live_slugs, window_label) -> str:
     import re
     if not os.path.isdir(OUTDIR):
         return "no docs/fires/ yet"
+    tracked_slugs = tracked_slug_set()
     stamped = []
     for slug in sorted(os.listdir(OUTDIR)):
         d = os.path.join(OUTDIR, slug)
@@ -529,11 +582,33 @@ def stamp_unregenerated(live_slugs, window_label) -> str:
         # which date from the last week it qualified. "Last assessed for
         # the week of X ... the figures below are from that assessment"
         # said both were X and only one is.
-        note = (f'<p id="{STAMP_ID}" class="stalestamp">Checked for the '
-                f'week of {window_label}: this country did not clear the '
-                f'anomaly gate, so no new assessment was published. The '
-                f'figures below are from the last week it did, and are '
-                f'not current.</p>')
+        # A PAGE MUST NOT CLAIM A CHECK THAT DID NOT HAPPEN.
+        #
+        # This function walks the DIRECTORY, so it stamped every page it
+        # found, including countries no longer in the roster at all.
+        # Ethiopia's page said "Checked for the week of 23 to 29 August"
+        # for a week in which Ethiopia was in no roster file: not
+        # tracked_countries, not country_history, not current_week. It
+        # was not checked. Design found it on the live site.
+        #
+        # "Did not clear the gate" and "we no longer measure here" are
+        # different facts and only one of them was being said. The first
+        # is a result; the second is a gap in our coverage, which
+        # fires/roster.py already refuses to let anyone read as a
+        # finding.
+        if slug in tracked_slugs:
+            note = (f'<p id="{STAMP_ID}" class="stalestamp">Checked for '
+                    f'the week of {window_label}: this country did not '
+                    f'clear the anomaly gate, so no new assessment was '
+                    f'published. The figures below are from the last '
+                    f'week it did, and are not current.</p>')
+        else:
+            note = (f'<p id="{STAMP_ID}" class="stalestamp">This country '
+                    f'is no longer in the tracked set, so it was NOT '
+                    f'checked for the week of {window_label}. The figures '
+                    f'below are from the last week it was assessed. Its '
+                    f'absence from our current pages is a limit of our '
+                    f'coverage and not a finding about this country.</p>')
         # Consume the trailing newline with the old stamp. Without it
         # every publish left a blank line behind and added a fresh one,
         # so the file grew by a line a week forever and every run showed

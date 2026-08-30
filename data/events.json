@@ -1,5 +1,23 @@
 {
   "degraded": null,
+  "method": {
+    "noise_floor_detections": 150,
+    "strong_multiple": 2.0,
+    "record_rank": 1,
+    "baseline_years": "per country; see n_compared on each row",
+    "cropland_min_detections_on_crop": 50,
+    "cropland_enriched_above": 1.3,
+    "cropland_depleted_below": 0.77,
+    "persistence_recur_pct_above": 15,
+    "persistence_night_pct_above": 60,
+    "persistence_frp_median_below": 6,
+    "persistence_peak_to_median_at_or_below": 3,
+    "_definitions": {
+      "noise_floor_detections": "a country below this many detections cannot qualify at all, whatever its multiple. Not a significance test: enough pixels that a ratio is not built on a handful.",
+      "cropland_min_detections_on_crop": "the cropland ratio is withheld unless this many detections actually fall on cropland. Peru read 5.04x enriched on about twenty, which is arithmetic rather than a finding.",
+      "persistence_peak_to_median_at_or_below": "a country is only excluded as a persistent industrial source if its week is also FLAT. A gas flare cannot go from 196 detections to 2,204 in five days; Algeria did, and was being suppressed on the other three thresholds while a record burned."
+    }
+  },
   "counts": {
     "tracked": 97,
     "anomalous": 10,
