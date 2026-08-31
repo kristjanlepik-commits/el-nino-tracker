@@ -21,18 +21,19 @@
 
 ## headline
 
-How hot has the European summer been?
+How hot has the summer been?
 
 ## lead
 
-**{records} of these {of_cities} European cities have had more hot days
-this summer than in any year on record.**
+**{records} of these {of_cities} cities have had more hot days in their
+latest summer than in any year on record.**
 
 ## method
 
 A hot day means hot *for that city*: {hot_hi_c} °C in {hot_hi}, {hot_lo_c} °C
 in {hot_lo}. Each is measured against its own thermometer and its own
-history, never against the others.
+history, never against the others. Where a city's summer is already over,
+the latest complete one is the one counted.
 
 ## map_note
 
