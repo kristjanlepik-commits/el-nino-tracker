@@ -795,23 +795,44 @@ def main() -> None:
         for channel, reason in blocked:
             print(f"    {channel}: {reason}")
 
-    # D-212. fires' PAYLOAD gate, separate from the D-200 template hash
-    # above: classify-and-hold rather than byte-hash, because the byte
-    # hash held a genuinely correct revision for two days (Belgium's
-    # burnt area, 3,175 to 3,208 ha) while the site kept serving the
-    # superseded figure with every automated check green. Same skip
-    # shape as the heat and D-200 gates: hold this channel, keep every
-    # other channel and the ENSO shell publishing normally.
-    fires_held = False
+    # D-264, 2026-08-31, REVERSES D-212's BLOCKING BEHAVIOUR. Kristjan,
+    # after nine days of daily escalations over exactly this gate: "who
+    # cares if one fire data is wrong... my time every day being chased
+    # on the broken agents is the worst of worsts." The trigger case:
+    # two countries' cropland readings moving to withheld (an absence,
+    # not a wrong claim) held 114 correct changes and the whole page for
+    # over an hour through an explicit ASAP escalation, and nobody in
+    # the chain had the authority to just ship. THE GATE NEVER BLOCKS A
+    # PUBLISH NOW. Classification logic is untouched; only its power to
+    # stop the run is gone. Fires pages always rebuild with whatever the
+    # payload currently says, wrong or not, and a wrong figure is
+    # corrected forward per the existing correction rule. Revisit when
+    # the site reaches the ~5,000 weekly readers that make the cost of a
+    # wrong claim exceed the cost of a stale page (D-264's own trigger).
+    #
+    # THE FLAG STAYS, ONLY THE BLOCK IS GONE. fires_flagged still drives
+    # the promotion below exactly as fires_held did: while flagged,
+    # fires/data/published/* is NOT advanced, so it keeps lagging behind
+    # what just published. fires_gate.yml (a separate, non-blocking
+    # workflow) re-runs this same classify against that gap on every
+    # push and goes loudly red until someone runs
+    # fires/accept_payload.py to acknowledge it and let the reference
+    # catch up. That is the "somewhere a person actually reads" this
+    # ruling explicitly requires: promoting unconditionally here would
+    # close the gap immediately and make fires_gate.yml permanently
+    # green, which deletes the review rather than moving it after
+    # publication, which is not what was ruled.
+    fires_flagged = False
     if "fires" not in dict(blocked):  # already blocked on template; don't
         gate = subprocess.run([PY, "fires/refresh_gate.py"], cwd=ROOT,
                               capture_output=True, text=True)
-        fires_held = gate.returncode != 0
-        if fires_held:
-            steps = [s for s in steps if not s[0].startswith("fires")]
-            print("  FIRES PAYLOAD HELD (D-212), its pages are NOT "
-                  "rebuilt this run. The last approved fires pages stay "
-                  "live and every other channel publishes normally.")
+        fires_flagged = gate.returncode != 0
+        if fires_flagged:
+            print("  FIRES PAYLOAD FLAGGED (D-264): publishing anyway. "
+                  "The changes below need a person, but the page ships "
+                  "with today's data regardless. fires_gate.yml will "
+                  "stay red until fires/accept_payload.py runs; that is "
+                  "the to-do list, not a hold.")
             for line in (gate.stdout + gate.stderr).strip().splitlines():
                 print(f"    {line.strip()}")
 
@@ -916,12 +937,14 @@ def main() -> None:
                   "payload just published; the gate now compares against "
                   "what is actually live.")
 
-    # D-212, same reasoning as heat above: advance fires' reference only
-    # when the gate passed and only on a real publish, so a HELD run
-    # leaves the reference where it was (nothing shipped, so nothing to
-    # promote) and a passing run never lets the comparison drift further
-    # from what a reader actually sees.
-    if not fires_held:
+    # D-212's reasoning still applies to the REFERENCE even though D-264
+    # removed the gate's power to block the PAGE: advance it only when
+    # nothing is flagged, so a flagged run's page ships today's data
+    # while the reference deliberately keeps lagging, which is what
+    # keeps fires_gate.yml red until someone acknowledges it. Promoting
+    # unconditionally here would make that flag vanish the moment it
+    # appears.
+    if not fires_flagged:
         for name in ("events.json", "burnt_area.json", "current_week.json",
                     "eu_area.json"):
             cur = (ROOT / "data" / name if name == "events.json"
