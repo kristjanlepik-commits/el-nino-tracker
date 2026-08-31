@@ -749,20 +749,41 @@ overnight on one machine, none of them aware of the others.
   starting it unattended. A job that cannot resume turns a sleep into
   lost hours rather than lost minutes.
 
-- **Always commit with a pathspec. Never `git add -A`, never a bare
-  `git commit -a`.** Nine chats share one working tree, so at any moment
-  several of them have uncommitted work in it, and a broad add sweeps up
-  whatever happens to be in flight. This went both ways on 2026-08-10:
-  design's `add -A` published `docs/crops/index.html` before crops had
-  signed off, and hours later another chat's sweep carried platform's
-  uncommitted `scripts/qa_check.py` into a commit about heat methodology.
+- **Always commit with a pathspec ON THE COMMIT ITSELF. Never `git add
+  -A`, never a bare `git commit -a`, and never `git add path && git
+  commit` with no pathspec on the commit.** Nine chats share one working
+  tree, so at any moment several of them have staged or uncommitted work
+  in it, and a broad add sweeps up whatever happens to be in flight.
+  This went both ways on 2026-08-10: design's `add -A` published
+  `docs/crops/index.html` before crops had signed off, and hours later
+  another chat's sweep carried platform's uncommitted `scripts/qa_check.py`
+  into a commit about heat methodology.
 
   The code survives either way. What is lost is the reasoning: the change
   lands under a message about something else, and this project's whole
   discipline is that a decision which is not written down did not happen.
   The second case cost two guards their explanation.
 
-  `git add path/one path/two` costs nothing and cannot do it.
+  **This entry said `git add path/one path/two` was sufficient on its
+  own, and that was wrong: verified in a scratch clone, 2026-08-31.**
+  `git add <pathspec>` only controls what a chat's own call adds to the
+  index; a bare `git commit` afterward still commits the WHOLE index,
+  including anything another chat staged first. On 2026-08-31 a
+  perfectly narrow `git add` was followed by a bare `git commit` and
+  swept 69 files another chat had staged, 41 of them design's card
+  PNGs, into a commit whose message was about an unrelated percentile
+  series. The wrong version had survived two incidents behind it and a
+  place under Working style, so nobody had reason to test it.
+
+  **The pathspec has to be on `commit`, not only on `add`:**
+
+      git commit path/one path/two -m "..."
+
+  This also refuses if the named path itself has conflicting staged
+  content, which is the behaviour actually wanted. `git add
+  path/one path/two` is still fine as a first step; it is committing
+  with no pathspec afterward that is unsafe, exactly as unsafe as `-A`
+  or `-a`.
 
 - **Any destructive git operation on a tracked file can destroy another
   chat's uncommitted work. This is a property, not a list.** `git reset
