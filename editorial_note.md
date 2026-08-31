@@ -1,4 +1,11 @@
-<!-- issue: 2026-07-13 -->
-**Third month in a row: the official forecast climbs to meet the models.** NOAA CPC's July re-issue lifted its "very strong" probability again (37% in May, 63% in June, now 75%), and the North American multi-model ensemble's July run now centers the peak near +3.6°C. Our headline moved accordingly: a 1997/2015-magnitude event (above +2.5°C) now reads 91%, a peak beyond anything in the instrumental record (above +3.0°C) sits just under four in five, and it is roughly a coin flip that the peak lands more than half a degree above the old record.
+<!-- issue: 2026-08-31 -->
 
-The ocean is keeping pace with the forecasts: the weekly Niño 3.4 reading reached +1.8°C, a ninth westerly wind burst fired in early July (the second-strongest of the year), and cumulative wind forcing is accelerating. One reading of the past three months is worth stating plainly. In late April this brief gave 25% to a 1997/2015-magnitude event; that same 25% is now roughly what the models would assign to a threshold a full degree and a half higher. The forecast distribution has not just firmed, it has shifted upward. The caveat that matters most at these levels: no observed El Niño has ever exceeded +2.8°C, so every model up here is forecasting outside its own verified experience.
+Two weeks ago the winds were the one thing arguing against this event. Not any more.
+
+Westerly wind forcing has gone from 75% of 1997's in late July to 81% on 25 August. These are running totals, so a rising share means 2026 gained faster, not just caught up.
+
+This does not make the forecast stronger. It removes a measurement that had been moving the wrong way.
+
+The burst that peaked on 31 July is still crossing the Pacific; a Kelvin wave takes one to two months. So the flat sea surface of the last fortnight is not the winds failing. It is too early to see them.
+
+Four releases land in the next ten days: a new ECMWF run around 1 September, NMME around the 8th, CPC's table around the 10th, and the August heat content figure. The heat content matters most. It decides whether July's +2.96 was a single print or a standing record.
