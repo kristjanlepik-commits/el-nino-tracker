@@ -746,13 +746,23 @@
    "reproduced_by": "heat, 2026-08-31"
   },
   {
-   "value": "Pampas rain and soil percentiles, and r = +0.48 against ENSO",
+   "value": "Pampas rainfall percentile against ENSO, r = +0.48, n = 34",
    "from_desk": "ENSO tracker",
    "used_for": "not yet used in any published heat copy",
-   "reproduced": "partial",
-   "reproduced_against": "data/latam_conditions.json for the three wettest and three driest seasons, which check out. The correlation coefficient itself is NOT reproduced.",
+   "reproduced": true,
+   "reproduced_against": "data/latam_conditions.json against data/oni_full_history.csv, by ENSO tracker's own published method: pair each season's rain_pctl with the NDJ ONI of the year the season OPENS. n = 34, r = +0.48, matching exactly.",
    "reproduced_by": "heat, 2026-08-31",
-   "label_if_published": "r = +0.48 per ENSO tracker, not reproduced here"
+   "label_retired": "This carried label_if_published until the method arrived. Retired rather than left standing, on ENSO tracker's reasoning: a label that could be retired and is not becomes noise, and then it means nothing when it appears on something that genuinely cannot be checked.",
+   "the_judgement_call_in_it": "THE SEASON LABEL IS THE YEAR THE SEASON OPENS. '2025-26' is Sep 2025 to Feb 2026 and pairs with NDJ 2025. ENSO tracker flagged this as the one judgement in the method and it is load-bearing: pairing forward instead gives r = -0.03, n = 33, which is no relationship at all. Verified both ways rather than taking the pairing on trust."
+  },
+  {
+   "value": "Pampas SOIL MOISTURE percentile against ENSO, r = +0.28, n = 34",
+   "from_desk": "heat's own, derived while reproducing the above",
+   "used_for": "not yet used; recorded so it is not rediscovered",
+   "reproduced": true,
+   "reproduced_against": "same two files, same method, soil_pctl in place of rain_pctl",
+   "reproduced_by": "heat, 2026-08-31",
+   "why_it_matters": "The ENSO signal in this region is much stronger in RAINFALL than in soil moisture, +0.48 against +0.28. Copy saying 'El Nino wets the Pampas' should rest on the rain series; the soil series will not carry the same claim as firmly, and the two are easy to conflate because the payload reports both as percentiles side by side."
   }
  ],
  "cross_desk_numbers_note": "D-263. Numbers that came from another desk, with whether this desk reproduced them. An unreproduced number carries its label wherever it is printed; see label_if_published. An empty list is a statement that every number here is heat's own measurement, not a placeholder.",
