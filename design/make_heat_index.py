@@ -667,9 +667,14 @@ svg = (f'<svg viewBox="0 0 {W} {H}" width="100%" style="height:auto" role="img" 
        # map. Both are visual text, so a screen reader user reaching this
        # description was getting the count with neither. Same figures,
        # weaker claim, purely by route (D-112).
-       f'aria-label="These {NCITY.lower()} European weather stations, chosen '
-       f'for where heat was expected rather than as a sample of the '
-       f'continent, in one of three states: '
+       # ROSTER LEFT EUROPE 2026-08-31 and this string went false with it:
+       # "European" and "the continent", for a set spanning three. Editor's
+       # wording, my file. It is the D-112 defect reintroduced by a roster
+       # change rather than by a cut figure, and the screen-reader route
+       # would again have carried the weaker claim.
+       f'aria-label="These {NCITY.lower()} weather stations, chosen '
+       f'for where heat was expected rather than as a sample of any '
+       f'one region, in one of three states: '
        f'{floor(_nrec)} at a record for hot days, '
        f'{len([d for d in rows if state(d) == "near"])} among their own five '
        f'hottest summers without reaching a record, and '
