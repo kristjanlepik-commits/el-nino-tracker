@@ -294,7 +294,7 @@ PROSE_CONTRACT = {
 # five times.
 TOP_LEVEL_CONTRACT = (
     "season", "season_label", "season_status", "reported_season_key",
-    "days_current_season", "counted_to",
+    "days_current_season", "counted_to", "counting_basis",
     "rank", "days", "joined", "pctl_baseline_shortfall",
 )
 # NOT ON THE LIST, DELIBERATELY: thresholds_c and threshold_basis. The guard
@@ -1093,6 +1093,46 @@ def main() -> int:
         for _k in ("season_label", "season_status", "reported_season_key",
                    "days_current_season"):
             entry[_k] = days[_k]
+
+        # WHAT THE CUT ACTUALLY DID, because the page was asserting a method
+        # that did not happen. Every complete-season page carried "Every year
+        # is counted to 29 August, so a part-finished summer is never set
+        # against complete ones." For Salta, whose season runs October to
+        # January, 29 August falls OUTSIDE the counting window: effective_cut
+        # returns None, nothing is clipped, and all 123 window days of every
+        # season are counted. The sentence described a truncation that never
+        # ran, and justified it with a comparison that holds for a different
+        # reason.
+        #
+        # Design asked what was true rather than writing a corrected sentence
+        # themselves, which was right: inventing a method claim and printing
+        # it is exactly the defect they were sending back. But the answer
+        # belongs in the payload rather than in a message from me, because a
+        # method claim sourced from chat is one nobody can re-derive later.
+        import calendar as _cal
+        _mon = v["season"]["months"]
+        _ws = v["season"]["window_start"]
+        _clipped = days["season_status"] != "complete"
+        entry["counting_basis"] = {
+            "window_label": (f"{_cal.month_name[_ws[0]]} to "
+                             f"{_cal.month_name[_mon[-1]]}"),
+            "window_days": v["years"][cur].get("window_days"),
+            "cut_clips_the_window": _clipped,
+            "cut_date": v["counted_to"] if _clipped else None,
+            "basis":
+                ("every year truncated at the same date, so a part-finished "
+                 "season is never set against complete ones") if _clipped else
+                ("every year counted over the whole window; this season is "
+                 "complete, so no year is cut short"),
+            "note":
+                "PRINT FROM cut_clips_the_window. When it is false the cut "
+                "date is not part of the method and naming it asserts a "
+                "truncation that did not run: the cut falls outside a "
+                "wrapping season's window entirely and clips nothing. The "
+                "like-with-like guarantee still holds, but because every "
+                "season compared is complete rather than because each was "
+                "trimmed to a common date.",
+        }
         # THE LEGEND BAND, emitted rather than derived by the renderer.
         #
         # Product ratified a refresh gate whose triggers include "any city
