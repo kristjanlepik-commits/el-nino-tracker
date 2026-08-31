@@ -1409,6 +1409,49 @@ def main() -> int:
     nomult = sorted(c for c, v in cities.items()
                     if not v["days"]["multiple_available"])
 
+    # D-263: EVERY NUMBER FROM ANOTHER DESK, REPRODUCED OR LABELLED.
+    #
+    # Ratified 2026-08-31. A number that crossed a desk boundary into
+    # reader-facing work is either reproduced from the source that desk used,
+    # or carries a label saying it was not. Never used bare. Labelling is
+    # always available, so nobody chooses between an expensive check and
+    # quietly skipping one, and a missing label therefore means something.
+    #
+    # Declared here rather than in prose because the rule's whole content is
+    # that the reader can see which numbers were taken on trust, and a claim
+    # about provenance that lives in a chat message is exactly the thing
+    # D-262 and D-263 were both written about.
+    #
+    # An EMPTY list is a real statement, not a stub: it says this payload's
+    # numbers are heat's own measurements. Do not delete it when it is empty.
+    cross_desk = [
+        {
+            "value": "NDJ 2025 ONI -0.60, and NDJ 2024 -0.43",
+            "from_desk": "ENSO tracker",
+            "used_for": "reading the 2025-26 southern season as La Nina, "
+                        "which is why a Pampas at the 15th percentile for "
+                        "rain is the El Nino correlation working rather than "
+                        "failing",
+            "reproduced": True,
+            "reproduced_against": "data/oni_full_history.csv",
+            "reproduced_by": "heat, 2026-08-31",
+        },
+        {
+            "value": "Pampas rain and soil percentiles, and r = +0.48 "
+                     "against ENSO",
+            "from_desk": "ENSO tracker",
+            "used_for": "not yet used in any published heat copy",
+            "reproduced": "partial",
+            "reproduced_against":
+                "data/latam_conditions.json for the three wettest and three "
+                "driest seasons, which check out. The correlation "
+                "coefficient itself is NOT reproduced.",
+            "reproduced_by": "heat, 2026-08-31",
+            "label_if_published":
+                "r = +0.48 per ENSO tracker, not reproduced here",
+        },
+    ]
+
     # Before anything is assembled, not after: a payload that fails this is
     # not written at all.
     check_top_level_contract(cities)
@@ -1666,6 +1709,13 @@ def main() -> int:
             "multiple is NOT EMITTED rather than flagged, so it cannot be "
             "rendered or reinstated. Their recent rate stands on a complete "
             "window and is emitted.",
+        "cross_desk_numbers": cross_desk,
+        "cross_desk_numbers_note":
+            "D-263. Numbers that came from another desk, with whether this "
+            "desk reproduced them. An unreproduced number carries its label "
+            "wherever it is printed; see label_if_published. An empty list "
+            "is a statement that every number here is heat's own "
+            "measurement, not a placeholder.",
         "cities": cities,
         "sources_note":
             "Every published figure comes from a national met service that "

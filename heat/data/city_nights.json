@@ -736,6 +736,26 @@
   "Tallinn"
  ],
  "cities_without_day_multiple_note": "These stations opened after 1961, so their 1961-1990 baseline is part-length and drawn from the warmer end of the period. The multiple is NOT EMITTED rather than flagged, so it cannot be rendered or reinstated. Their recent rate stands on a complete window and is emitted.",
+ "cross_desk_numbers": [
+  {
+   "value": "NDJ 2025 ONI -0.60, and NDJ 2024 -0.43",
+   "from_desk": "ENSO tracker",
+   "used_for": "reading the 2025-26 southern season as La Nina, which is why a Pampas at the 15th percentile for rain is the El Nino correlation working rather than failing",
+   "reproduced": true,
+   "reproduced_against": "data/oni_full_history.csv",
+   "reproduced_by": "heat, 2026-08-31"
+  },
+  {
+   "value": "Pampas rain and soil percentiles, and r = +0.48 against ENSO",
+   "from_desk": "ENSO tracker",
+   "used_for": "not yet used in any published heat copy",
+   "reproduced": "partial",
+   "reproduced_against": "data/latam_conditions.json for the three wettest and three driest seasons, which check out. The correlation coefficient itself is NOT reproduced.",
+   "reproduced_by": "heat, 2026-08-31",
+   "label_if_published": "r = +0.48 per ENSO tracker, not reproduced here"
+  }
+ ],
+ "cross_desk_numbers_note": "D-263. Numbers that came from another desk, with whether this desk reproduced them. An unreproduced number carries its label wherever it is printed; see label_if_published. An empty list is a statement that every number here is heat's own measurement, not a placeholder.",
  "cities": {
   "Madrid": {
    "country": "ES",
