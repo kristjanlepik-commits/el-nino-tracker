@@ -333,8 +333,13 @@ def _load_area_history(directory: Path) -> dict:
 
 def main() -> int:
     if not EVENTS_PUB.exists() or not AREA_PUB.exists():
-        print("  HOLD: no previously published fires payload to compare "
-              "against.", file=sys.stderr)
+        # Also a flag rather than a hold under D-264, and the wording
+        # matters because this is the branch a first-ever publish hits:
+        # "HOLD" here would tell a new reader the page is blocked when
+        # publish_all has already shipped it.
+        print("  FLAGGED: no previously published fires payload to "
+              "compare against, so nothing could be classified. The "
+              "page publishes anyway (D-264).", file=sys.stderr)
         return 1
     prev = {"events": _load(EVENTS_PUB), "burnt_area": _load(AREA_PUB),
             "current_week": _load(WEEK_PUB), "eu_area": _load(EU_PUB),
@@ -357,8 +362,31 @@ def main() -> int:
               f"weekly rank crossed into or out of 1st, no cropland "
               f"reading changed category.")
         return 0
-    print(f"  HOLD: {len(block)} change(s) that need a person. "
-          f"{len(report)} ordinary change(s) would have passed.",
+    # D-264: THIS FLAGS, IT DOES NOT HOLD. The page ships with today's
+    # data whatever is below.
+    #
+    # Kristjan's ruling, 2026-08-31: "We have so few people on the site,
+    # who cares if one fire data is wrong. My time every day being chased
+    # on the broken agents is the worst of worsts." What today cost him
+    # is the reason: two countries whose readings were going to WITHHELD,
+    # absent rather than wrong, held 114 correct changes through an
+    # explicit escalation, and nobody in the chain had the authority to
+    # simply ship.
+    #
+    # The classification below is unchanged and still worth reading. Only
+    # its power to stop a publish is gone. A non-zero exit is now the
+    # TO-DO LIST that keeps fires_gate.yml red until accept_payload.py
+    # runs, not a barrier: scripts/publish_all.py publishes regardless
+    # and says so.
+    #
+    # THE RULING NAMES ITS OWN EXPIRY and this comment should go with it:
+    # at roughly 5,000 weekly readers the cost of a wrong claim rises
+    # above the cost of a stale page and blocking becomes correct again.
+    # It is right today because there are nine readers a day, not because
+    # review stopped mattering.
+    print(f"  FLAGGED: {len(block)} change(s) that need a person. "
+          f"The page PUBLISHES anyway (D-264); this is a to-do list. "
+          f"{len(report)} ordinary change(s) needed nobody.",
           file=sys.stderr)
     for b in block:
         print(f"    - {b}", file=sys.stderr)
