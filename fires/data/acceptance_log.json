@@ -111,5 +111,24 @@
    "Haiti: weekly rank 1 -> 4, crossing the 1st-place boundary"
   ],
   "files_promoted": 28
+ },
+ {
+  "accepted_at": "2026-08-31T07:45:40+00:00",
+  "accepted_by": "Fire",
+  "note": "Reviewed both held changes; each is the asymmetric cropland floor working and each makes the page more honest than what is live. Jamaica: published 'neutral, about as often as chance' on TWO detections actually on cropland (ratio 1.06, 70 total); now 2.929 on 6 on-crop, correctly insufficient_sample. Vietnam: published enriched on 51 on-crop; now 46, just under the 50 floor, correctly withheld. No record appeared or was withdrawn, qualifying set unchanged, no rank crossed 1st. Remaining changes are magnitudes on the same side of every line. Separately noted and NOT blocking this publish: a NEUTRAL reading is not floored on its on-crop count, which is how Jamaica's 2-detection 'about as often as chance' reached the page in the first place; the current payload withholds it anyway, and I am fixing the gap separately.",
+  "held_on": [
+   "events: region(s) entered the qualifying set: ['Madagascar', 'Montenegro']",
+   "events: region(s) LEFT the qualifying set: ['Mozambique', 'Ukraine']",
+   "Papua New Guinea: 'record' qualification True -> False",
+   "Chile: cropland reading neutral -> depleted",
+   "Democratic Republic of the Congo: cropland reading depleted -> neutral",
+   "Spain: cropland reading depleted -> neutral",
+   "Georgia: weekly rank 1 -> 5, crossing the 1st-place boundary",
+   "Jamaica: cropland reading neutral -> withheld",
+   "Madagascar: weekly rank 2 -> 1, crossing the 1st-place boundary",
+   "Papua New Guinea: weekly rank 1 -> 2, crossing the 1st-place boundary",
+   "Vietnam: cropland reading enriched -> withheld"
+  ],
+  "files_promoted": 25
  }
 ]
