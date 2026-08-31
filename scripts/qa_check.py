@@ -1659,6 +1659,24 @@ def check_allhands(violations):
                 f"entry nobody has objected to in a month has been "
                 f"absorbed or has stopped mattering.")
 
+    # NEWEST-FIRST, CHECKED, NOT JUST ASSUMED. Science's finding,
+    # 2026-08-31: an entry appended at the bottom sat below entries three
+    # weeks older for about an hour, every other check green throughout,
+    # because the cap and the age bound both count and date-check entries
+    # without caring where each one sits. A top-down reader takes the
+    # first entry as the newest; an out-of-order file tells that reader
+    # the board stopped moving days before it actually did. The cap
+    # guards length, the age bound guards staleness, and neither of them
+    # was ever going to catch position, which is a different property
+    # from either.
+    if entries != sorted(entries, reverse=True):
+        violations.append(
+            "research/allhands.md entries are not newest-first. A reader "
+            "reads top to bottom and stops when they judge the rest is "
+            "stale, so an out-of-order entry is read as older than it is, "
+            "or missed outright. Move each new entry to the top, "
+            "immediately after the size-rule section's closing '---'.")
+
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
