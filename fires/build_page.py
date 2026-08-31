@@ -173,8 +173,33 @@ def _land_use(e):
     # correlation between cropland share and ratio is only -0.196, with
     # Georgia at 16.68 on a 5% share contradicting it. So this is not small
     # denominators inflating a ratio, it is a small numerator carrying one.
-    n = lu.get("n_detections_sampled") or e.get("count") or 0
-    on_crop = n * on / 100.0
+    # READ, NEVER RECONSTRUCTED, and this paragraph is why the rule exists
+    # rather than an illustration of it. It used to compute the numerator
+    # as n * pct / 100, taking n from `n_detections_sampled` with a
+    # fallback to e["count"]. The block emitted neither and events.json has
+    # no `count` key, so n was 0, on_crop was 0, and the floor fired on the
+    # lead country: "About 0 of this week's detections fell on cropland,
+    # which is too small a number to compare against chance", above the
+    # fold, four lines above Cuba's row reading "on farmland 2.42x more
+    # often than chance" off 208 detections actually on cropland.
+    #
+    # ONE PAYLOAD, TWO CONSUMERS, OPPOSITE STATEMENTS FOUR LINES APART, and
+    # the difference between them was that _lu_row read the field while
+    # this derived it. Both now read the same one. Fire's sign-off could
+    # not have caught it: every threshold, value, row and string was
+    # correct, and the defect lived in arithmetic a reviewer of the payload
+    # never sees.
+    #
+    # Absent is a refusal rather than a zero. A missing numerator silently
+    # became "too few to say", which is a confident claim about the data
+    # built out of not having any.
+    on_crop = lu.get("detections_on_crop")
+    if on_crop is None:
+        raise SystemExit(
+            "%s: land_use has no detections_on_crop, so the cropland floor "
+            "has no numerator. Fires emits this field; deriving it here is "
+            "what published 'about 0 detections' beside a 2.42x row. The "
+            "page will not be built without it." % e.get("country", "?"))
     if on_crop < CROP_FLOOR:
         return ('<p class="lu lu-na"><b>Where the detections fell: too few '
                 'to say.</b> About %d of this week&rsquo;s detections fell on '
