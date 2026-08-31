@@ -34,12 +34,28 @@ import html as _html
 import json
 import re
 import subprocess
+import pathlib
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PAYLOAD = ROOT / "heat" / "data" / "city_nights.json"
 DOCS = ROOT / "docs" / "heat"
+
+# A DIRECTORY TO CHECK, because the pages worth checking are no longer in
+# docs/. Design previews to a scratch directory now, precisely so that
+# reading pages before sign-off does not dirty the shared tree. This tool
+# hardcoded docs/ and so reported the nine new cities as "no file in docs/",
+# which is true and useless: it could not see the only build that existed.
+#
+# Pass a directory as the first non-flag argument to check that instead.
+def _target():
+    for a in sys.argv[1:]:
+        if not a.startswith("-"):
+            d = pathlib.Path(a)
+            if d.is_dir():
+                return d
+    return DOCS
 LIVE = "https://thelongswell.com/heat"
 
 MONTHS = ["January", "February", "March", "April", "May", "June", "July",
@@ -86,9 +102,9 @@ def fetch(city, live):
         if len(body) < 500:
             return "", f"only {len(body)} bytes returned, not a page"
         return body, None
-    p = DOCS / f"{city}.html"
+    p = _target() / f"{city}.html"
     if not p.exists():
-        return "", "no file in docs/"
+        return "", f"no file in {_target().name}/"
     return p.read_text(errors="replace"), None
 
 
@@ -104,12 +120,44 @@ def check(live=False):
             unread.append(f"{name}: {err}")
             continue
         text = as_text(markup)
-        want = expected_date(v["counted_to"])
+        # A COMPLETE SEASON HAS NO CUT DATE, AND DEMANDING ONE IS THIS
+        # TOOL BEING WRONG. It required every page to carry "to <date>" and
+        # so failed all seven southern pages the moment design correctly
+        # stopped printing one, reporting "page says 'to None'" about the
+        # fixed render. The cut clips nothing for a wrapping season whose
+        # summer has ended, so naming a date there asserts a truncation that
+        # did not run. See counting_basis in emit_city_nights.py.
+        #
+        # Written down because a guard that fails on the corrected page is
+        # worse than one that misses the defect: it argues for the bug.
+        basis = v.get("counting_basis") or {}
+        clips = basis.get("cut_clips_the_window", True)
         m = re.search(r"to (\d+ \w+ \d{4})", text)
         got = m.group(1) if m else None
-        if got != want:
-            bad.append(f"{name}: page says 'to {got}', payload says "
-                       f"'to {want}'. The render is stale.")
+        if clips:
+            want = expected_date(v["counted_to"])
+            if got != want:
+                bad.append(f"{name}: page says 'to {got}', payload says "
+                           f"'to {want}'. The render is stale.")
+        elif got is not None:
+            bad.append(
+                f"{name}: page prints a cut date, 'to {got}', for a season "
+                f"that is complete. The cut falls outside this city's "
+                f"{basis.get('window_label')} window and clips nothing, so "
+                f"naming it claims a truncation that did not run.")
+        # THE METHOD SENTENCE, which the cut-date check above cannot see.
+        # "Every year is counted to 29 August" carries no year, so the
+        # \d{4} regex never matched it and all seven pages asserted a
+        # truncation that never ran while the check reported them clean.
+        # Design found this by reading; a guard that only inspects the
+        # dateline will keep missing it.
+        if not clips and re.search(r"counted to \d+ \w+", text):
+            bad.append(
+                f"{name}: page claims 'counted to <date>' for a complete "
+                f"season. Render counting_basis.basis instead: the cut is "
+                f"outside the {basis.get('window_label')} window and clips "
+                f"nothing.")
+
         j = v.get("joined") or {}
         if j.get("caveat_required") and "Added to the set on" not in text:
             bad.append(
@@ -123,7 +171,7 @@ def check(live=False):
 def main() -> int:
     live = "--live" in sys.argv
     bad, unread, n = check(live)
-    where = "LIVE" if live else "docs/"
+    where = "LIVE" if live else f"{_target()}/"
     if unread:
         print(f"  {where}: {len(unread)} page(s) COULD NOT BE READ. This is "
               f"not a verdict on them.", file=sys.stderr)
