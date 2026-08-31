@@ -205,6 +205,36 @@ def _retired_phrase(headline):
 
 
 
+def _editors_note(brief_date):
+    """The week's editor's note from editorial_note.md, or "" if not this issue.
+
+    Same file and same stamp rule as the brief's bottom-line slot in
+    run_brief.load_editorial_note: a note stamped `<!-- issue: YYYY-MM-DD -->`
+    renders only for the issue it names. Added 2026-08-31 because the note
+    was reaching only the dated archive, which is the page a reader does not
+    land on. The brief and this page are different artefacts and both carry
+    it; the file is the single source so they cannot diverge.
+    """
+    import re as _re
+    f = ROOT / "editorial_note.md"
+    if not f.exists():
+        return ""
+    raw = f.read_text().strip()
+    if not raw:
+        return ""
+    m = _re.match(r"<!--\s*issue:\s*(\d{4}-\d{2}-\d{2})\s*-->\s*", raw)
+    if not m:
+        return ""                       # unstamped: do not guess, do not render
+    if m.group(1) != brief_date.isoformat():
+        return ""                       # a previous issue's note
+    body = raw[m.end():].strip()
+    if not body:
+        return ""
+    import markdown as _md
+    return ('<aside class="ednote"><div class="ednote-label">Editor\'s note</div>'
+            + _md.markdown(body) + '</aside>')
+
+
 def _rung_note(fetched, headline, briefs_root):
     """Editor's +4.0 note, from copy/elnino.md, with its figures assembled.
 
@@ -411,6 +441,10 @@ h1{{font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;
 .yr{{font-size:13px;color:var(--ink-soft)}}
 .v{{font-size:19px;font-weight:500;color:var(--ink);text-align:right}}
 .u{{font-size:11px;color:var(--ink-faint);margin-left:2px}}
+.ednote{{margin:22px 0 26px;padding:16px 18px;background:var(--paper-sunk);border-radius:2px;max-width:62ch}}
+.ednote-label{{font-family:"{T.FONT_DATA}",monospace;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}}
+.ednote p{{margin:0 0 10px;font-style:italic}}
+.ednote p:last-child{{margin:0}}
 .note{{font-family:"{T.FONT_DATA}",monospace;font-size:11px;
  color:var(--ink-faint)}}
 .track{{position:relative;height:21px;background:var(--paper-sunk)}}
@@ -512,6 +546,7 @@ figure img{{width:100%;height:auto;display:block}}
      deliberately do not give. -->
 <h1>How big does this El Ni&ntilde;o get?</h1>
 {_finding_line(headline, phys)}
+{_editors_note(brief_date)}
 
 <div class="sec"><h2>01 &middot; Observed</h2>{observed}</div>
 
