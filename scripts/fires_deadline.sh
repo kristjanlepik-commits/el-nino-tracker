@@ -1,72 +1,74 @@
 #!/bin/bash
-# Fires deadline check: is the published page live by 10:00 Estonia?
+# Fires deadline check, self-contained. D-241: the page must be live by
+# 10:00 Europe/Tallinn.
 #
-# D-241 makes 10:00 Europe/Tallinn a hard daily deadline. This is the
-# only thing that both CHECKS it and can DO something about it.
+# WHY THIS LIVES IN ~/bin AND NOT IN THE REPO. The first version lived in
+# ~/Documents and launchd could not start it at all: macOS TCC returns
+# "Operation not permitted" to a launchd agent reading that folder, so it
+# ran once, exited 126, and never fired again. It looked like it was
+# working because a manual run and its own retry loop left three
+# plausible timestamps in the log. Two chats confirmed a working safety
+# net to each other without opening stderr.
 #
-# WHY IT RUNS HERE AND NOT IN GITHUB ACTIONS. The failure this exists to
-# catch is GitHub's scheduler dropping or stalling a run. A check living
-# inside that same scheduler goes silent on exactly the nights it is
-# needed and reads as a clean day. So it runs from launchd on Kristjan's
-# Mac, which is the only origin available that is independent of GitHub
-# and costs nothing.
+# So this version touches NOTHING under ~/Documents. It uses system
+# python3, curl and gh, needs no Full Disk Access, and needs nothing from
+# Kristjan.
 #
-# WHY NO NEW CREDENTIAL. `gh` is already authenticated on this machine.
-# The objection to a laptop origin was that recovery always needs a new
-# token on a third-party service; that is true of a hosted service and
-# false here.
-#
-# RECOVERED IN THE LOG DOES NOT MEAN THE DAY PASSED. D-241 withdrew the
-# 24-hour grace, so if the page is stale at 10:00 Estonia that day has
-# already failed by the ratified test, however fast the loop below then
-# fixes it. This script detects and recovers; it cannot prevent. Platform
-# made this point on review and it is here so nobody reads a RECOVERED
-# line as a clean day.
-#
-# 10:00 IS NOT A FREE PARAMETER. The last cron slot, 06:00 UTC, has a
-# worst-case completion of 09:27 Estonia. A check at 09:30 would fire
-# three minutes after a legitimate worst case and dispatch a duplicate
-# against a run using its designed margin. 10:00 is where the schedule's
-# margin was built to land, and D-241 names it as the acceptance test.
-#
-# THE LIMIT, STATED SO NOBODY MISTAKES THIS FOR FULL COVERAGE: it only
-# runs when the Mac is awake and online. A day spent travelling with the
-# lid shut has no safety net. It is a real gap, priced at zero.
+# WHY NOT IN GITHUB ACTIONS. The failure it exists to catch is GitHub's
+# own scheduler dropping or stalling a run. A check inside that scheduler
+# is silent on exactly the nights it is needed.
 set -uo pipefail
 
-REPO="/Users/admin/Documents/Claude Projects/El Nino Tracker"
-PY="$REPO/.venv/bin/python"
-LOG="$REPO/.fires_deadline.log"
-cd "$REPO" || exit 1
-
+LOG="$HOME/.fires_deadline.log"
+PAGE="https://thelongswell.com/fires/"
+BUDGET=2
 stamp() { date '+%Y-%m-%d %H:%M:%S %Z'; }
 
-if "$PY" scripts/heartbeat_fires.py >/dev/null 2>&1; then
-  echo "$(stamp)  OK   page current at the deadline" >> "$LOG"
-  exit 0
-fi
-
-# Stale. Say what we saw, then try to fix it rather than only reporting.
-echo "$(stamp)  STALE $("$PY" scripts/heartbeat_fires.py 2>&1 | head -1)" >> "$LOG"
-
-if gh workflow run "Fires data pull and publish" >/dev/null 2>&1; then
-  echo "$(stamp)  DISPATCHED a run" >> "$LOG"
-else
-  echo "$(stamp)  DISPATCH FAILED, gh could not reach GitHub" >> "$LOG"
-  exit 1
-fi
-
-# A dispatch is not a fix. Wait for the page itself to move, and report
-# on the property rather than on the mechanism: the whole failure class
-# this week was reporting that a run went green while the page had not
-# moved.
-for _ in $(seq 1 20); do
-  sleep 60
-  if "$PY" scripts/heartbeat_fires.py >/dev/null 2>&1; then
-    echo "$(stamp)  RECOVERED page is current" >> "$LOG"
-    exit 0
-  fi
+# Fail LOUDLY if the check itself cannot run. The failure mode that hid
+# for a day was silence being indistinguishable from success.
+GH="/opt/homebrew/bin/gh"   # absolute: launchd's PATH is /usr/bin:/bin:/usr/sbin:/sbin only
+for tool in curl python3 "$GH"; do
+  command -v "$tool" >/dev/null 2>&1 || {
+    echo "$(stamp)  BROKEN  $tool not found, check cannot run" >> "$LOG"; exit 2; }
 done
 
+age() {
+  html=$(curl -s --max-time 25 "$PAGE") || return 2
+  printf '%s' "$html" | python3 -c '
+import sys, re, datetime
+m = re.search(r"wk ([A-Z][a-z]{2}) (\d{1,2})-(\d{1,2})", sys.stdin.read())
+if not m: print("NOWINDOW"); raise SystemExit
+mon = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,
+       "Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}[m.group(1)]
+today = datetime.date.today()
+end = datetime.date(today.year, mon, int(m.group(3)))
+if (end - today).days > 60: end = end.replace(year=today.year - 1)
+print((today - end).days)
+'
+}
+
+d=$(age)
+if [ "$d" = "NOWINDOW" ] || [ -z "$d" ]; then
+  echo "$(stamp)  BROKEN  could not read a window from the live page" >> "$LOG"; exit 2
+fi
+
+if [ "$d" -le "$BUDGET" ]; then
+  echo "$(stamp)  OK      page current, window ${d}d old" >> "$LOG"; exit 0
+fi
+
+echo "$(stamp)  STALE   window ${d}d old, budget $BUDGET" >> "$LOG"
+"$GH" workflow run "Fires data pull and publish" \
+   --repo kristjanlepik-commits/el-nino-tracker >/dev/null 2>&1 \
+  && echo "$(stamp)  DISPATCHED" >> "$LOG" \
+  || { echo "$(stamp)  DISPATCH FAILED" >> "$LOG"; exit 1; }
+
+# A dispatch is not a fix. Wait for the PAGE to move.
+for _ in $(seq 1 20); do
+  sleep 60
+  n=$(age)
+  if [ "$n" != "NOWINDOW" ] && [ -n "$n" ] && [ "$n" -le "$BUDGET" ]; then
+    echo "$(stamp)  RECOVERED  window ${n}d old" >> "$LOG"; exit 0
+  fi
+done
 echo "$(stamp)  STILL STALE after 20 min. Needs a person." >> "$LOG"
 exit 1

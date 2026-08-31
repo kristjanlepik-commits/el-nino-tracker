@@ -2,23 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key>
-  <string>com.thelongswell.fires-deadline</string>
+  <key>Label</key><string>com.thelongswell.fires-deadline</string>
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
-    <string>/Users/admin/Documents/Claude Projects/El Nino Tracker/scripts/fires_deadline.sh</string>
+    <string>/Users/admin/bin/fires_deadline.sh</string>
   </array>
   <key>StartCalendarInterval</key>
-  <dict>
-    <key>Hour</key><integer>10</integer>
-    <key>Minute</key><integer>0</integer>
-  </dict>
-  <key>RunAtLoad</key>
-  <false/>
-  <key>StandardOutPath</key>
-  <string>/Users/admin/Documents/Claude Projects/El Nino Tracker/.fires_deadline.out</string>
-  <key>StandardErrorPath</key>
-  <string>/Users/admin/Documents/Claude Projects/El Nino Tracker/.fires_deadline.err</string>
+  <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>0</integer></dict>
+  <key>RunAtLoad</key><false/>
+  <key>StandardOutPath</key><string>/Users/admin/.fires_deadline.out</string>
+  <key>StandardErrorPath</key><string>/Users/admin/.fires_deadline.err</string>
 </dict>
 </plist>
