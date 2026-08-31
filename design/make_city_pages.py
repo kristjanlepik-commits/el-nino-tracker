@@ -742,6 +742,46 @@ def check_no_baseline_comparison(name, day_html):
                 f"window this page may use.")
 
 
+def check_record_scope_language(name, page_html, rs):
+    """D-104: a `may_not_say` list is a refusal to build, not a lint note.
+
+    RATIFIED 6 AUGUST AND NOT WIRED UP HERE. Every one of the 54 cities
+    carries `record_scope.may_not_say`, typically ['hottest ever',
+    'all-time record', 'hottest since records began'], and nothing read
+    it. The pages comply today, measured: zero occurrences across all 54.
+    That is compliance by accident, which is the state a constraint
+    exists to replace, and it holds only while nobody writes the obvious
+    sentence.
+
+    The bound is real: Salta's ranked window starts in 1956 while its
+    record starts in 1955, because the early years fail the completeness
+    bar. "Hottest ever" is therefore a claim about a longer series than
+    the one that was ranked, on a page that cannot support it.
+
+    THE LIST COMES FROM THE PAYLOAD, not from a constant here. The
+    neighbouring nights check matches a hardcoded NIGHT_SUPERLATIVES
+    tuple, so it enforces what design wrote down rather than what heat
+    prohibited, and the two can drift apart silently. Same shape as the
+    window guard that matched one phrasing.
+    """
+    banned = (rs or {}).get("may_not_say") or []
+    if not banned:
+        raise SystemExit(
+            f"{name}: no record_scope.may_not_say in the payload. Absent is "
+            f"a failure rather than a pass: a prohibition that stops "
+            f"arriving is indistinguishable from one never violated, and "
+            f"the build would report the second.")
+    low = text_of(page_html).lower()
+    for phrase in banned:
+        if phrase.lower() in low:
+            raise SystemExit(
+                f"{name}: the page says {phrase!r}, which the payload "
+                f"prohibits. The ranked window starts in "
+                f"{(rs or {}).get('from_year')} and the record itself in "
+                f"{(rs or {}).get('record_starts')}, so a superlative over "
+                f"'ever' claims a series that was never ranked.")
+
+
 def check_constraints(name, page_html, night_html, pc):
     # Absent is a failure rather than a pass. A prohibition that quietly
     # stops arriving is indistinguishable from one that was never violated,
@@ -1595,6 +1635,7 @@ for name, v in sorted(C.items()):
 <a class="more" href="index.html">See them on the map</a></p>
 </main></body></html>"""
     check_constraints(name, html, night_block, v.get("page_constraints", {}))
+    check_record_scope_language(name, html, v.get("record_scope"))
     check_superlatives_dated(name, html)
     check_no_silent_claim_reversal(name, head)
     check_europe_scope(name, html)
