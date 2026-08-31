@@ -105,7 +105,23 @@ BOX = {"ES": (36.0, 43.8, -9.3, 4.3), "FR": (41.3, 51.1, -5.2, 9.6),
        # miss. Worth knowing if this happens again: list the payload's
        # country codes against BOX rather than rebuilding three times.
        "HR": (42.4, 46.6, 13.5, 19.5), "HU": (45.7, 48.6, 16.1, 22.9),
-       "CY": (34.5, 35.8, 32.2, 34.7)}
+       "CY": (34.5, 35.8, 32.2, 34.7),
+       # THE ROSTER LEFT EUROPE, 2026-08-31, and this guard stopped the
+       # build on Rome exactly as designed. Taking the file's own advice
+       # from the Vilnius note above, I listed every payload country
+       # against BOX first and got all three at once rather than
+       # rebuilding three times.
+       #
+       # Argentina is the seven southern-hemisphere stations whose
+       # summers run October to January, so this box is also the reason
+       # the tense work earlier today existed. Mainland extent, excluding
+       # the Antarctic claim: a box drawn around the claim would span
+       # ninety degrees of latitude and stop catching anything.
+       "AR": (-55.1, -21.8, -73.6, -53.6),
+       "DZ": (18.9, 37.1, -8.7, 12.0),
+       # Italy including Sicily, Sardinia and Lampedusa, which sets the
+       # southern edge at 35.5 rather than the mainland's 37.9.
+       "IT": (35.5, 47.1, 6.6, 18.6)}
 # A country arriving in the payload with no box would otherwise skip the
 # check silently, which is the one failure this guard exists to prevent.
 for _n, _v in C.items():
@@ -1481,6 +1497,40 @@ if not N.get("selection", {}).get("is_representative_of_europe", True):
             f"the count to this set (D-112). The payload says "
             f"is_representative_of_europe is false. Write 'of THESE n "
             f"European cities', or drop the count.")
+
+# AND WHETHER THEY ARE EUROPEAN AT ALL, which the guard above cannot ask.
+# It was built when the set genuinely was European and the only way to go
+# wrong was to drop the scoping, so "of these 54 European cities" satisfies
+# it completely. On 2026-08-31 the roster took in seven Argentine stations
+# and Algiers, and that sentence became false while still passing, because
+# scoping a count to a set says nothing about what the set contains.
+#
+# Same shape as the window guard two hundred lines up and as heat's August
+# miss: a guard that is correct about the question it was built to ask, and
+# silent on the question that later matters. The countries come from the
+# payload, so a roster that moves again moves this with it.
+_EUROPE_CC = {"AT", "BE", "BG", "CH", "CY", "CZ", "DE", "DK", "EE", "ES",
+              "FI", "FR", "GR", "HR", "HU", "IE", "IS", "IT", "LT", "LU",
+              "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK",
+              "UK"}
+_outside = sorted({v["country"] for v in C.values()} - _EUROPE_CC)
+if _outside:
+    _WORDS = re.compile(
+        r"European\s+(?:\w+\s+)?"
+        r"(?:cities|capitals|countries|stations|towns|summer)\b", re.I)
+    _bad = _WORDS.search(re.sub(r"\s+", " ", _readable))
+    if _bad:
+        _who = {cc: sorted(n for n, v in C.items() if v["country"] == cc)
+                for cc in _outside}
+        raise SystemExit(
+            "index: the page says %r, and %d of these %d cities are not in "
+            "Europe: %s.\n"
+            "Scoping the count to the set does not make the set European, "
+            "which is why the D-112 guard above passes this. The wording is "
+            "the editor's: ask them, do not reword it here."
+            % (_bad.group(0), sum(len(v) for v in _who.values()), len(C),
+               "; ".join("%s: %s" % (k, ", ".join(v))
+                         for k, v in _who.items())))
 out.write_text(html)
 print(f"wrote {out} | {len(rows)} cities, {len(coast)} coast rings, "
       # Report the quantity that ACTUALLY orders the list. This line still
