@@ -224,7 +224,30 @@ def _editors_note(brief_date):
         return ""
     m = _re.match(r"<!--\s*issue:\s*(\d{4}-\d{2}-\d{2})\s*-->\s*", raw)
     if not m:
-        return ""                       # unstamped: do not guess, do not render
+        # DIVERGES FROM run_brief ON PURPOSE, AND THAT IS NOT SETTLED.
+        # run_brief.load_editorial_note renders an UNSTAMPED note
+        # unconditionally: its `if m:` branch is skipped and the raw body is
+        # returned. This returns "". So an unstamped note appears on the
+        # brief and silently not here, which is the exact defect this
+        # function was added to fix, reappearing in the one case nobody
+        # will test: Kristjan writes every note by hand (D-093), so a
+        # missing stamp is his slip to make, not a generator's.
+        #
+        # Kept strict rather than matched, because the two failures are not
+        # equal. Missing from one surface is a visibility gap; rendering an
+        # uncleared note is publishing stale editorial copy as current, and
+        # that has already happened twice (2026-06-22 and 06-29 carried the
+        # 06-15 note).
+        #
+        # THE REAL FIX IS ONE LOADER CALLED BY BOTH, deciding the unstamped
+        # case once. That spans run_brief, which is not design's, so it is
+        # raised rather than taken. Until then this prints rather than
+        # failing silently: the shell publish is the last place a human is
+        # looking.
+        print("  NOTE: editorial_note.md has no `<!-- issue: YYYY-MM-DD -->` "
+              "stamp, so it renders on the brief and NOT on /elnino/. "
+              "Stamp it, or the two pages disagree.")
+        return ""
     if m.group(1) != brief_date.isoformat():
         return ""                       # a previous issue's note
     body = raw[m.end():].strip()
