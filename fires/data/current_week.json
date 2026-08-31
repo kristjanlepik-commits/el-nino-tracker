@@ -76,7 +76,7 @@
     "country_land_crop_pct": 1.66,
     "ratio": 0.71,
     "reading": "depleted",
-    "detections_on_crop": 744.9,
+    "detections_on_crop": 745.6,
     "n_detections_sampled": 63184,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -84,7 +84,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 1048.9
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -145,7 +146,7 @@
     "detections_on_crop_pct": 3.74,
     "country_land_crop_pct": 7.07,
     "ratio": 0.529,
-    "reading": "depleted",
+    "reading": "insufficient_sample",
     "detections_on_crop": 5.7,
     "n_detections_sampled": 152,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
@@ -154,7 +155,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 10.7
    },
    "persistence": {
     "recur_pct": 4.6,
@@ -216,7 +218,7 @@
     "country_land_crop_pct": 13.73,
     "ratio": 0.459,
     "reading": "depleted",
-    "detections_on_crop": 268.8,
+    "detections_on_crop": 268.6,
     "n_detections_sampled": 4264,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -224,7 +226,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 585.4
    },
    "persistence": {
     "recur_pct": 0.3,
@@ -286,7 +289,7 @@
     "country_land_crop_pct": 5.1,
     "ratio": 0.136,
     "reading": "depleted",
-    "detections_on_crop": 93.6,
+    "detections_on_crop": 93.1,
     "n_detections_sampled": 13494,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -294,7 +297,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 688.2
    },
    "persistence": {
     "recur_pct": 1.4,
@@ -364,7 +368,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 12.8
    },
    "persistence": {
     "recur_pct": 62.4,
@@ -434,7 +439,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 23.8
    },
    "persistence": {
     "recur_pct": 14.5,
@@ -504,7 +510,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 7.2
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -566,7 +573,7 @@
     "country_land_crop_pct": 1.59,
     "ratio": 0.444,
     "reading": "depleted",
-    "detections_on_crop": 32.9,
+    "detections_on_crop": 33.0,
     "n_detections_sampled": 4654,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -574,7 +581,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 74.0
    },
    "persistence": {
     "recur_pct": 4.0,
@@ -636,7 +644,7 @@
     "country_land_crop_pct": 6.9,
     "ratio": 0.197,
     "reading": "depleted",
-    "detections_on_crop": 521.7,
+    "detections_on_crop": 520.9,
     "n_detections_sampled": 38302,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -644,7 +652,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 2642.8
    },
    "persistence": {
     "recur_pct": 1.6,
@@ -714,7 +723,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 20.6
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -776,7 +786,7 @@
     "country_land_crop_pct": 3.1,
     "ratio": 0.125,
     "reading": "depleted",
-    "detections_on_crop": 77.4,
+    "detections_on_crop": 78.1,
     "n_detections_sampled": 20038,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -784,7 +794,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 621.2
    },
    "persistence": {
     "recur_pct": 3.9,
@@ -845,7 +856,7 @@
     "detections_on_crop_pct": 0.0,
     "country_land_crop_pct": 0.92,
     "ratio": 0.0,
-    "reading": "depleted",
+    "reading": "insufficient_sample",
     "detections_on_crop": 0.0,
     "n_detections_sampled": 72,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
@@ -854,7 +865,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.7
    },
    "persistence": {
     "recur_pct": 25.0,
@@ -916,7 +928,7 @@
     "country_land_crop_pct": 12.76,
     "ratio": 0.807,
     "reading": "neutral",
-    "detections_on_crop": 430.0,
+    "detections_on_crop": 429.8,
     "n_detections_sampled": 4173,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -924,7 +936,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 532.5
    },
    "persistence": {
     "recur_pct": 14.3,
@@ -986,7 +999,7 @@
     "country_land_crop_pct": 0.67,
     "ratio": 0.819,
     "reading": "neutral",
-    "detections_on_crop": 521.8,
+    "detections_on_crop": 522.8,
     "n_detections_sampled": 95053,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -994,7 +1007,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 636.9
    },
    "persistence": {
     "recur_pct": 0.7,
@@ -1182,7 +1196,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 76.1
    },
    "persistence": {
     "recur_pct": 1.1,
@@ -1252,7 +1267,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.4
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -1317,7 +1333,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 4.9
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -1374,7 +1391,7 @@
     "country_land_crop_pct": 36.18,
     "ratio": 0.375,
     "reading": "depleted",
-    "detections_on_crop": 72.2,
+    "detections_on_crop": 72.3,
     "n_detections_sampled": 533,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -1382,7 +1399,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 192.8
    },
    "persistence": {
     "recur_pct": 22.3,
@@ -1443,7 +1461,7 @@
     "detections_on_crop_pct": 41.02,
     "country_land_crop_pct": 50.86,
     "ratio": 0.807,
-    "reading": "neutral",
+    "reading": "insufficient_sample",
     "detections_on_crop": 21.3,
     "n_detections_sampled": 52,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
@@ -1452,7 +1470,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 26.4
    },
    "persistence": {
     "recur_pct": 38.5,
@@ -1522,7 +1541,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 15.7
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -1584,7 +1604,7 @@
     "country_land_crop_pct": 2.33,
     "ratio": 1.215,
     "reading": "neutral",
-    "detections_on_crop": 160.5,
+    "detections_on_crop": 160.4,
     "n_detections_sampled": 5669,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -1592,7 +1612,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 132.1
    },
    "persistence": {
     "recur_pct": 20.2,
@@ -1662,7 +1683,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 1.5
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -1723,7 +1745,7 @@
     "detections_on_crop_pct": 19.86,
     "country_land_crop_pct": 24.36,
     "ratio": 0.815,
-    "reading": "neutral",
+    "reading": "insufficient_sample",
     "detections_on_crop": 25.8,
     "n_detections_sampled": 130,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
@@ -1732,7 +1754,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 31.7
    },
    "persistence": {
     "recur_pct": 5.4,
@@ -1793,7 +1816,7 @@
     "detections_on_crop_pct": 4.02,
     "country_land_crop_pct": 4.55,
     "ratio": 0.883,
-    "reading": "neutral",
+    "reading": "insufficient_sample",
     "detections_on_crop": 2.2,
     "n_detections_sampled": 55,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
@@ -1802,7 +1825,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 2.5
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -1872,7 +1896,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 49.6
    },
    "persistence": {
     "recur_pct": 18.3,
@@ -1933,7 +1958,7 @@
     "detections_on_crop_pct": 21.83,
     "country_land_crop_pct": 24.2,
     "ratio": 0.902,
-    "reading": "neutral",
+    "reading": "insufficient_sample",
     "detections_on_crop": 38.9,
     "n_detections_sampled": 178,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
@@ -1942,7 +1967,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 43.1
    },
    "persistence": {
     "recur_pct": 14.6,
@@ -2012,7 +2038,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 3.6
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -2082,7 +2109,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 3.2
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -2147,7 +2175,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 33.1
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -2217,7 +2246,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 6.5
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -2274,7 +2304,7 @@
     "country_land_crop_pct": 3.63,
     "ratio": 0.479,
     "reading": "depleted",
-    "detections_on_crop": 846.8,
+    "detections_on_crop": 847.5,
     "n_detections_sampled": 48709,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -2282,7 +2312,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 1768.1
    },
    "persistence": {
     "recur_pct": 20.4,
@@ -2352,7 +2383,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 181.1
    },
    "persistence": {
     "recur_pct": 1.7,
@@ -2422,7 +2454,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.4
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -2479,7 +2512,7 @@
     "country_land_crop_pct": 8.44,
     "ratio": 0.59,
     "reading": "depleted",
-    "detections_on_crop": 135.5,
+    "detections_on_crop": 135.6,
     "n_detections_sampled": 2722,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -2487,7 +2520,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 229.7
    },
    "persistence": {
     "recur_pct": 55.7,
@@ -2549,7 +2583,7 @@
     "country_land_crop_pct": 10.11,
     "ratio": 1.524,
     "reading": "enriched",
-    "detections_on_crop": 319.0,
+    "detections_on_crop": 318.9,
     "n_detections_sampled": 2071,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -2557,7 +2591,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 209.4
    },
    "persistence": {
     "recur_pct": 61.1,
@@ -2627,7 +2662,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 4.7
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -2692,7 +2728,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 332.2
    },
    "persistence": {
     "recur_pct": 7.1,
@@ -2762,7 +2799,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 23.6
    },
    "persistence": {
     "recur_pct": 17.3,
@@ -2824,7 +2862,7 @@
     "country_land_crop_pct": 9.62,
     "ratio": 0.941,
     "reading": "neutral",
-    "detections_on_crop": 137.8,
+    "detections_on_crop": 137.7,
     "n_detections_sampled": 1522,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -2832,7 +2870,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 146.4
    },
    "persistence": {
     "recur_pct": 22.7,
@@ -2893,7 +2932,7 @@
     "detections_on_crop_pct": 28.39,
     "country_land_crop_pct": 31.1,
     "ratio": 0.913,
-    "reading": "neutral",
+    "reading": "insufficient_sample",
     "detections_on_crop": 19.9,
     "n_detections_sampled": 70,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
@@ -2902,7 +2941,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 21.8
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -2972,7 +3012,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 7.6
    },
    "persistence": {
     "recur_pct": 8.4,
@@ -3042,7 +3083,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.1
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3107,7 +3149,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 3.9
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3231,7 +3274,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 34.7
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -3301,7 +3345,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.3
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3366,7 +3411,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 1.0
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3431,7 +3477,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.8
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3496,7 +3543,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 6.0
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -3558,7 +3606,7 @@
     "country_land_crop_pct": 2.25,
     "ratio": 0.326,
     "reading": "depleted",
-    "detections_on_crop": 114.7,
+    "detections_on_crop": 114.1,
     "n_detections_sampled": 15636,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -3566,7 +3614,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 351.8
    },
    "persistence": {
     "recur_pct": 0.4,
@@ -3628,7 +3677,7 @@
     "country_land_crop_pct": 5.94,
     "ratio": 1.105,
     "reading": "neutral",
-    "detections_on_crop": 122.9,
+    "detections_on_crop": 122.8,
     "n_detections_sampled": 1872,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -3636,7 +3685,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 111.2
    },
    "persistence": {
     "recur_pct": 24.5,
@@ -3706,7 +3756,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 19.9
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -3829,7 +3880,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.7
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -3945,7 +3997,7 @@
     "country_land_crop_pct": 8.48,
     "ratio": 0.992,
     "reading": "neutral",
-    "detections_on_crop": 2670.5,
+    "detections_on_crop": 2669.8,
     "n_detections_sampled": 31745,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -3953,7 +4005,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 2692.0
    },
    "persistence": {
     "recur_pct": 0.1,
@@ -4023,7 +4076,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 326.9
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -4144,7 +4198,7 @@
     "country_land_crop_pct": 0.73,
     "ratio": 0.342,
     "reading": "depleted",
-    "detections_on_crop": 13.3,
+    "detections_on_crop": 13.4,
     "n_detections_sampled": 5346,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -4152,7 +4206,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 39.0
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -4222,7 +4277,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 17.5
    },
    "persistence": {
     "recur_pct": 41.6,
@@ -4292,7 +4348,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.4
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -4410,7 +4467,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.7
    },
    "persistence": {
     "recur_pct": 14.5,
@@ -4480,7 +4538,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 22.6
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -4550,7 +4609,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 27.5
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -4679,7 +4739,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 74.9
    },
    "persistence": {
     "recur_pct": 18.9,
@@ -4749,7 +4810,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 1.8
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -4806,7 +4868,7 @@
     "country_land_crop_pct": 8.13,
     "ratio": 0.386,
     "reading": "depleted",
-    "detections_on_crop": 108.5,
+    "detections_on_crop": 108.6,
     "n_detections_sampled": 3459,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -4814,7 +4876,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 281.2
    },
    "persistence": {
     "recur_pct": 0.3,
@@ -4884,7 +4947,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 75.2
    },
    "persistence": {
     "recur_pct": 6.2,
@@ -4946,7 +5010,7 @@
     "country_land_crop_pct": 3.89,
     "ratio": 0.25,
     "reading": "depleted",
-    "detections_on_crop": 1802.3,
+    "detections_on_crop": 1798.4,
     "n_detections_sampled": 185400,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -4954,7 +5018,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 7212.1
    },
    "persistence": {
     "recur_pct": 10.9,
@@ -5083,7 +5148,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 47.3
    },
    "persistence": {
     "recur_pct": 8.8,
@@ -5153,7 +5219,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 19.2
    },
    "persistence": {
     "recur_pct": 34.9,
@@ -5268,7 +5335,7 @@
     "country_land_crop_pct": 5.5,
     "ratio": 1.321,
     "reading": "insufficient_sample",
-    "detections_on_crop": 3.9,
+    "detections_on_crop": 3.8,
     "n_detections_sampled": 53,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -5276,7 +5343,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 2.9
    },
    "persistence": {
     "recur_pct": 34.0,
@@ -5338,7 +5406,7 @@
     "country_land_crop_pct": 20.13,
     "ratio": 3.555,
     "reading": "enriched",
-    "detections_on_crop": 213.9,
+    "detections_on_crop": 214.0,
     "n_detections_sampled": 299,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -5346,7 +5414,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 60.2
    },
    "persistence": {
     "recur_pct": 6.7,
@@ -5416,7 +5485,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 27.9
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -5486,7 +5556,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 39.4
    },
    "persistence": {
     "recur_pct": 24.4,
@@ -5556,7 +5627,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 27.4
    },
    "persistence": {
     "recur_pct": 6.4,
@@ -5626,7 +5698,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 241.3
    },
    "persistence": {
     "recur_pct": 6.1,
@@ -5688,7 +5761,7 @@
     "country_land_crop_pct": 15.72,
     "ratio": 0.34,
     "reading": "depleted",
-    "detections_on_crop": 974.0,
+    "detections_on_crop": 974.4,
     "n_detections_sampled": 18247,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -5696,7 +5769,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 2868.4
    },
    "persistence": {
     "recur_pct": 0.2,
@@ -5758,7 +5832,7 @@
     "country_land_crop_pct": 19.97,
     "ratio": 0.246,
     "reading": "depleted",
-    "detections_on_crop": 165.2,
+    "detections_on_crop": 165.1,
     "n_detections_sampled": 3363,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -5766,7 +5840,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 671.6
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -5828,7 +5903,7 @@
     "country_land_crop_pct": 50.84,
     "ratio": 1.081,
     "reading": "neutral",
-    "detections_on_crop": 2568.5,
+    "detections_on_crop": 2568.4,
     "n_detections_sampled": 4674,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -5836,7 +5911,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 2376.3
    },
    "persistence": {
     "recur_pct": 1.3,
@@ -5898,7 +5974,7 @@
     "country_land_crop_pct": 14.65,
     "ratio": 0.381,
     "reading": "depleted",
-    "detections_on_crop": 1006.4,
+    "detections_on_crop": 1005.9,
     "n_detections_sampled": 18027,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -5906,7 +5982,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 2641.0
    },
    "persistence": {
     "recur_pct": 15.1,
@@ -6027,7 +6104,7 @@
     "country_land_crop_pct": 13.33,
     "ratio": 1.787,
     "reading": "insufficient_sample",
-    "detections_on_crop": 46.5,
+    "detections_on_crop": 46.4,
     "n_detections_sampled": 195,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -6035,7 +6112,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 26.0
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -6097,7 +6175,7 @@
     "country_land_crop_pct": 6.18,
     "ratio": 0.441,
     "reading": "depleted",
-    "detections_on_crop": 195.2,
+    "detections_on_crop": 195.3,
     "n_detections_sampled": 7155,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -6105,7 +6183,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 442.2
    },
    "persistence": {
     "recur_pct": 4.4,
@@ -6167,7 +6246,7 @@
     "country_land_crop_pct": 5.2,
     "ratio": 0.546,
     "reading": "depleted",
-    "detections_on_crop": 1282.3,
+    "detections_on_crop": 1281.7,
     "n_detections_sampled": 45129,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -6175,7 +6254,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 2346.7
    },
    "persistence": {
     "recur_pct": 0.1,
@@ -6237,7 +6317,7 @@
     "country_land_crop_pct": 10.77,
     "ratio": 0.953,
     "reading": "neutral",
-    "detections_on_crop": 612.7,
+    "detections_on_crop": 612.6,
     "n_detections_sampled": 5971,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -6245,7 +6325,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 643.1
    },
    "persistence": {
     "recur_pct": 1.7,
@@ -6315,7 +6396,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 23.3
    },
    "persistence": {
     "recur_pct": 64.2,
@@ -6385,7 +6467,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 0.3
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -6450,7 +6533,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 1.3
    },
    "persistence": {
     "verdict": "not_assessed",
@@ -6515,7 +6599,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 2.0
    },
    "persistence": {
     "recur_pct": 0.0,
@@ -6576,8 +6661,8 @@
     "detections_on_crop_pct": 6.32,
     "country_land_crop_pct": 12.17,
     "ratio": 0.519,
-    "reading": "depleted",
-    "detections_on_crop": 3.4,
+    "reading": "insufficient_sample",
+    "detections_on_crop": 3.3,
     "n_detections_sampled": 53,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
@@ -6585,7 +6670,8 @@
      "version": "v04",
      "retrieved": "2026-08-18"
     },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
+    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning.",
+    "expected_on_crop": 6.5
    },
    "persistence": {
     "recur_pct": 0.0,

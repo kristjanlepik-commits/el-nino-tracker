@@ -124,6 +124,27 @@ record.
 which most of the limits above were found the hard way, several of them
 by other people reading our numbers rather than by us.
 
+**1.2, 2026-08-31.** The floor from 1.1 gated ENRICHED readings on the
+detections actually on cropland and left the other two gated on nothing
+but the country total. Jamaica published "on farmland about as often as
+chance" on two detections on cropland against 1.9 expected, which is the
+least surprising observation available: the probability of seeing two or
+fewer, if chance alone were operating, is 0.70.
+
+Each reading is now tested against what would make that reading
+surprising. An enriched one still needs fifty detections on cropland and
+must additionally be unlikely under chance. A depleted one is tested only
+for whether it is unlikely, because a small count is its evidence rather
+than its weakness: South Korea's zero against eight expected is a
+probability of 0.0003 and a real result, while Chile's zero against one
+expected is 0.37 and nothing at all. A flat minimum could not tell those
+apart and would have deleted the true one. A neutral reading needs enough
+expected detections that a deviation would have shown, which for this
+channel's own 1.3 times threshold at two standard deviations is 44, kept
+at 50 to match the other two floors rather than add a third number.
+
+Eight readings moved to withheld. None was a headline.
+
 **1.1, 2026-08-30.** The cropland floor was tested against every
 detection in a country rather than against the detections on cropland,
 so an enriched reading, whose whole evidence is the latter, was gated on

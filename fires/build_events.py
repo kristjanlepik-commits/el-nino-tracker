@@ -39,6 +39,7 @@ dwarf Canada at 65,905. So a count floor and a rank clause come with
 it. See `research/reply_fire_to_design.md` section 3.
 """
 import json
+import math
 import os
 import re
 import sys
@@ -83,6 +84,8 @@ GEOJSON = os.path.join(REPO, "fires", "data", "countries.geo.json")
 # roster is a broken fetcher, and D-236's "the site must not fail to
 # update" does not mean "publish whatever survived".
 MAX_COUNTRY_FAILURES = 5
+
+CROP_MIN_ON_CROP = 50
 
 NOISE_FLOOR = 150      # not a significance test: enough pixels that a
                        # handful of false positives cannot read as 20x
@@ -237,6 +240,77 @@ def subset_hist(iso, keep_md, cur_year):
                 return None               # unfetched, not zero
         out[str(year)] = total
     return out or None
+
+
+def _pois_le(k, lam):
+    """P(observe <= k) for a Poisson mean lam. Numerically stable.
+
+    Iterative terms rather than lam**i / i!, which overflows above a few
+    hundred, and a normal approximation with continuity correction past
+    300 where exp(-lam) underflows. Elementary arithmetic, not a model:
+    it answers "would this few on cropland be surprising", which is the
+    question a depleted reading is making a claim about.
+    """
+    k = int(k)
+    if lam <= 0:
+        return 1.0
+    if lam > 300:
+        z = (k + 0.5 - lam) / math.sqrt(lam)
+        return 0.5 * (1 + math.erf(z / math.sqrt(2)))
+    t = math.exp(-lam)
+    total = t
+    for i in range(1, k + 1):
+        t *= lam / i
+        total += t
+    return min(1.0, total)
+
+
+def _pois_ge(k, lam):
+    return 1.0 - (_pois_le(k - 1, lam) if k >= 1 else 0.0)
+
+
+def cropland_supported(reading, observed, expected):
+    """Does the evidence support STATING this cropland reading?
+
+    THE FLOOR WAS ASYMMETRIC AND STILL HAD A HOLE. Enriched readings
+    were floored on the detections actually on cropland, correctly,
+    because that count IS the claim. Depleted and neutral were floored
+    on nothing but the country total, so Jamaica published "on farmland
+    about as often as chance" on TWO detections on cropland against 1.9
+    expected, which is P = 0.70 under chance: the single least
+    surprising observation available.
+
+    Each reading is now tested against what would make it surprising:
+
+    ENRICHED   observed >= 50 AND P(observe >= O | expected) < 0.05.
+               The count carries the claim, so it must be both large
+               enough to be a finding and unlikely under chance.
+
+    DEPLETED   P(observe <= O | expected) < 0.05. A SMALL observed
+               count is the evidence here, so flooring it would delete
+               the finding. What matters is whether it is surprising:
+               South Korea's 0 against 8 expected is P = 0.0003 and a
+               real result; Chile's 0 against 1 expected is P = 0.37
+               and nothing at all. A flat floor could not tell those
+               apart and would have thrown away the true one.
+
+    NEUTRAL    expected >= 50. "About as often as chance" is an
+               absence-of-difference claim, so it needs POWER rather
+               than significance: enough expected events that a
+               deviation would have shown. To see this channel's own
+               1.3x enrichment threshold at two standard deviations
+               needs 0.3*E > 2*sqrt(E), so E > 44. Rounded to the 50
+               already used as this channel's other two floors rather
+               than introducing a third number.
+    """
+    if reading == "enriched":
+        return observed >= CROP_MIN_ON_CROP and _pois_ge(round(observed),
+                                                         expected) < 0.05
+    if reading == "depleted":
+        return _pois_le(round(observed), expected) < 0.05
+    if reading == "neutral":
+        return expected >= CROP_MIN_ON_CROP
+    return False
 
 
 def weekly_reading(row):
@@ -758,6 +832,14 @@ def main():
                             det_pct = float(v.mean())
                             ratio = det_pct / land_pct
                             on_crop = len(v) * det_pct / 100.0
+                            # What chance alone would have put on
+                            # cropland: the denominator every claim here
+                            # is made against, and the number the old
+                            # floor never looked at.
+                            exp_crop = len(v) * land_pct / 100.0
+                            prov = ("enriched" if ratio > 1.3 else
+                                    "depleted" if ratio < 0.77
+                                    else "neutral")
                             cropland = {
                                 "detections_on_crop_pct": round(det_pct, 2),
                                 "country_land_crop_pct": round(land_pct, 2),
@@ -802,12 +884,17 @@ def main():
                                 # had not floored it in the payload, so every
                                 # other consumer read the unfloored claim.
                                 # A guard on one surface is not a guard.
+                                # Each reading is now tested against
+                                # what would make IT surprising, rather
+                                # than against one floor that suited
+                                # only enriched. See cropland_supported.
                                 "reading": (
-                                    "insufficient_sample"
-                                    if len(v) < 50 or
-                                    (ratio > 1.3 and on_crop < 50) else
-                                    "enriched" if ratio > 1.3 else
-                                    "depleted" if ratio < 0.77 else "neutral"),
+                                    prov
+                                    if len(v) >= CROP_MIN_ON_CROP
+                                    and cropland_supported(
+                                        prov, on_crop, exp_crop)
+                                    else "insufficient_sample"),
+                                "expected_on_crop": round(exp_crop, 1),
                                 "detections_on_crop": round(on_crop, 1),
                                 "n_detections_sampled": int(len(v)),
                                 # WHICH MASK THIS NUMBER CAME FROM. The

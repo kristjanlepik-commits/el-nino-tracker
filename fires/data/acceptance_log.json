@@ -130,5 +130,21 @@
    "Vietnam: cropland reading enriched -> withheld"
   ],
   "files_promoted": 25
+ },
+ {
+  "accepted_at": "2026-08-31T07:51:24+00:00",
+  "accepted_by": "Fire",
+  "note": "Methodology 1.2: each cropland reading is now tested against what would make THAT reading surprising, closing the hole 1.1 left. Enriched still needs 50 on cropland and must also be unlikely under chance. Depleted is tested for surprise only, because a small count is its evidence: South Korea 0-of-8 is P=0.0003 and real, Chile 0-of-1 is P=0.37 and nothing; a flat minimum could not tell them apart and would have deleted the true one. Neutral needs expected>=50, derived from needing 0.3E > 2 sqrt(E) to see this channel's own 1.3x threshold at two sigma, which is E>44, rounded to the 50 already used elsewhere rather than inventing a third number. All 8 holds are this rule firing on countries whose readings rested on too little: Albania 6-of-11, Chile 0-of-1, Uruguay 3-of-6, Finland 2-of-3, Cambodia 20-of-22, Denmark 21-of-26, Spain 26-of-32, UK 39-of-43. None is a headline; Cuba is unaffected at 208 on cropland. Verified the rule keeps the results a floor would have deleted: South Korea, Bosnia and Austria all still state depleted.",
+  "held_on": [
+   "Albania: cropland reading depleted -> withheld",
+   "Chile: cropland reading depleted -> withheld",
+   "Denmark: cropland reading neutral -> withheld",
+   "Spain: cropland reading neutral -> withheld",
+   "Finland: cropland reading neutral -> withheld",
+   "United Kingdom: cropland reading neutral -> withheld",
+   "Cambodia: cropland reading neutral -> withheld",
+   "Uruguay: cropland reading depleted -> withheld"
+  ],
+  "files_promoted": 2
  }
 ]
