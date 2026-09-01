@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Niño 2026-27, week of 2026-09-01 · The Long Swell</title>
+<meta property="og:title" content="El Niño 2026-27, week of 2026-09-01 · The Long Swell">
+<meta property="og:description" content="Weekly probability tracker for the developing 2026-27 El Niño event. 99% chance of a 1997/2015-magnitude winter peak.">
+<meta property="og:image" content="https://thelongswell.com/briefs/2026-09-01/card.png">
+<meta property="og:url" content="https://thelongswell.com/briefs/2026-09-01/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="El Niño 2026-27, week of 2026-09-01 · The Long Swell">
+<meta name="twitter:description" content="Weekly probability tracker for the developing 2026-27 El Niño event. 99% chance of a 1997/2015-magnitude winter peak.">
+<meta name="twitter:image" content="https://thelongswell.com/briefs/2026-09-01/card.png">
+<style>@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../../fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../fonts/plexmono-600.woff2") format("woff2");
+}</style>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<style>:root {
+    --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17.5px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  main a:not(.attr):not(.card-link),
+  .foot-cite a, .src-list a, .buckets-note a, .section-sub a {
+    border-bottom: 1px solid var(--rule);
+    transition: color .12s, border-color .12s;
+  }
+  main a:hover, .foot-cite a:hover, .src-list a:hover,
+  .buckets-note a:hover, .section-sub a:hover {
+    color: var(--fire);
+    border-bottom-color: var(--fire);
+  }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--nino);
+    outline-offset: 3px;
+  }
+  p, li, td, th { text-wrap: pretty; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 500; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ---------- the six type steps, no more ---------- */
+  .eyebrow, .issue-stamp, .rail-block .eyebrow, .foot-fresh-label,
+  .break-head .eyebrow, .chan .meta, .ws-label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 400;
+    line-height: 2.0;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .num, td.num, .rung .pct, .ev-stat, .ws-num, .wow-delta,
+  .src-list .src-issued, .footer-meta, .rail-block .val {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- shell ---------- */
+  .field-shell, .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .shell { padding-bottom: 8px; }
+
+/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    /* ONE INK. D-101 retired channel colour and moved identity to type,
+       on the grounds that colour spent on wayfinding is colour unavailable
+       to data. The tokens went; this nav kept the hues, so four of six
+       items were still coloured months later.
+
+       VD's catch is the one that settles it: Notes rendered in the same
+       blue as El Nino. Notes is not a measured variable and can never hold
+       a hue under the ruling, so either the blue meant El Nino, in which
+       case it was wrong, or it meant "you are here", in which case blue
+       meant two things in one row and a reader could not tell which.
+
+       Identity is now the tracked mono against the Spectral wordmark, and
+       the current page is marked by weight and a rule rather than a hue.
+       The per-channel classes stay in the markup: they are hooks, and
+       deleting them is a change to every generator rather than to this
+       stylesheet. */
+    color: var(--ink-soft);
+    transition: color .12s, border-color .12s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+  }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+  /* The current page, by weight and a rule. */
+  .prodnav a.on { color: var(--ink); font-weight: 600;
+    border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }
+  /* ---------- lead block ---------- */
+  .field, .wave-strip { background: var(--paper); color: var(--ink); }
+  .field::after { display: none; }
+  .hero, .issue-head { padding: 40px 0 0; }
+  .hero-stamp, .issue-stamp {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-bottom: 20px;
+    color: var(--ink-faint);
+  }
+  .hero-stamp span:not(:last-child)::after,
+  .issue-stamp span:not(:last-child)::after {
+    content: " ·";
+    color: var(--rule);
+  }
+  .issue-stamp a, .hero-stamp a { color: var(--ink-soft); }
+  .hero h1, .issue-head h1 {
+    font-size: clamp(34px, 4.2vw, 50px);
+    line-height: 1.10;
+    letter-spacing: -0.018em;
+    margin: 0 0 18px;
+    max-width: 24ch;
+  }
+  .hero .lede, .issue-head .lede {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    line-height: 1.62;
+    max-width: 48ch;
+    margin: 0 0 28px;
+  }
+  .lede.bottom-line { color: var(--ink); margin-bottom: 36px; max-width: 56ch; }
+
+  /* Readout: the figure is the subject of the block. Physical anomaly
+     magnitude reads from the diverging scale, never a channel hue. */
+  .readout {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 22px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .readout-main .v, .readout-side div .v {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+  }
+  .readout-main .v { font-size: 40px; color: var(--nino); }
+  .readout-main .v small { font-size: 20px; }
+  .readout-side div .v { font-size: 24px; color: var(--ink); }
+  .readout-side div .v small { font-size: 13px; }
+  .readout-main .k, .readout-side div .k {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--ink-faint);
+    margin-top: 8px;
+    max-width: 28ch;
+  }
+  .readout-side { display: flex; gap: 32px; }
+
+  /* ---------- the break: event list ---------- */
+  .break-head { padding: 34px 0 0; display: flex; align-items: baseline; gap: 14px; }
+  .break-lede {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    max-width: 56ch;
+    margin: 8px 0 4px;
+  }
+  .events { display: flex; flex-direction: column; padding: 20px 0 46px; }
+  /* The fixed magnitude column is the point: a reader scanning it sees
+     only sizes, which answers the house question before any prose. */
+  .event {
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr) auto;
+    gap: 6px 24px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 2.4px solid var(--rule-45);
+  }
+  .event:first-child { border-top: 3px solid var(--ink); }
+  .event:last-child { border-bottom: 3px solid var(--ink); }
+  .event .ev-stat {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--fire);
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .event .ev-body { grid-column: 2; grid-row: 1; }
+  .event h3 { font-size: 20px; font-weight: 500; line-height: 1.30; }
+  .event h3 .ev-region { font-weight: 500; }
+  .event h3 .ev-claim { color: var(--ink-soft); font-weight: 400; }
+  .event .ev-src {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.75;
+    color: var(--ink-faint);
+    margin-top: 4px;
+  }
+  .event .attr { grid-column: 3; grid-row: 1; justify-self: end; }
+
+  /* Vocabulary defined once, above the list it governs. Without it the
+     page shows three bare chips in expert language to a reader who has
+     never met the term "ENSO-loaded window". */
+  .attr-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    padding: 14px 0 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .attr-lead {
+    flex: 1 1 100%;
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .attr-key { display: inline-flex; align-items: baseline; gap: 9px; }
+  .attr-gloss {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* ---------- attribution tags ---------- */
+  /* Three states, worded verbatim, never removed or softened.
+     Prominence descends with claim strength. */
+  .attr {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 8px;
+    white-space: nowrap;
+  }
+  .attr.attr-enso    { background: var(--tag-loaded-bg);  color: var(--tag-loaded-fg); }
+  .attr.attr-none    { background: var(--tag-notlink-bg); color: var(--tag-notlink-fg); }
+  .attr.attr-pending { background: var(--tag-pending-bg); color: var(--tag-pending-fg); }
+
+  /* ---------- tracker strip: the credential, visible and secondary ---------- */
+  .wave-strip { padding: 0 0 46px; }
+  .wave-strip .field-shell {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 10px 22px;
+    background: var(--paper-sunk);
+    border-left: 3px solid var(--nino);
+    padding: 18px 22px;
+    max-width: 1100px;
+  }
+  .wave-strip .ws-label { color: var(--nino); }
+  .wave-strip .ws-read { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .wave-strip .ws-num { font-size: 24px; font-weight: 500; color: var(--nino); }
+  .wave-strip .ws-num small { font-size: 13px; }
+  .wave-strip .ws-desc { font-size: 17px; color: var(--ink); }
+  .wave-strip a.ws-go {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  .wave-strip a.ws-go:hover { color: var(--ink); }
+
+  /* ---------- rail + body ---------- */
+  .shell { display: block; }
+  .rail { grid-column: 2; padding-top: 44px; order: 2; }
+  .rail-inner {
+    position: sticky;
+    top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-left: 1px solid var(--rule);
+    padding-left: 22px;
+  }
+  .rail-block { display: flex; flex-direction: column; gap: 3px; }
+  .rail-block .eyebrow { color: var(--ink-faint); }
+  .rail-block .val { font-size: 13px; line-height: 1.75; color: var(--ink-soft); }
+  .rail-block .val b { font-weight: 500; color: var(--ink); }
+  .body { padding: 0 0 8px; min-width: 0; }
+
+  main.body section { margin: 0; padding-bottom: 48px; }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid var(--ink);
+  }
+  .sec-head .eyebrow { color: var(--ink-faint); flex: none; }
+  .sec-head h2 { font-size: 20px; font-weight: 500; line-height: 1.30; }
+  .section-sub {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    margin: -8px 0 22px;
+    max-width: 62ch;
+  }
+
+  /* ---------- editor's note ---------- */
+  .editor-note {
+    margin: 0 0 36px;
+    padding: 0 0 0 22px;
+    border-left: 3px solid var(--nino);
+    max-width: 62ch;
+  }
+  .editor-note .editor-note-label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--nino);
+    margin-bottom: 8px;
+  }
+  .editor-note p { margin: 0; font-size: 17.5px; font-style: italic; }
+  .editor-note p + p { margin-top: 12px; }
+  .editor-note strong { font-style: normal; font-weight: 500; }
+
+  /* ---------- probability ladder ---------- */
+  /* Confidence is rendered, not stated: the bar loses substance as
+     certainty falls and the text steps down the ink ramp with it. */
+  .ladder { display: flex; flex-direction: column; margin: 0 0 18px; }
+  .rung {
+    display: grid;
+    grid-template-columns: 130px 92px minmax(0, 1fr) 300px;
+    align-items: center;
+    gap: 6px 20px;
+    padding: 16px 0;
+    border-bottom: 2.4px solid var(--rule-45);
+  }
+  .rung:first-child { border-top: 3px solid var(--ink); }
+  .rung:last-child { border-bottom: 3px solid var(--ink); }
+  .rung .threshold {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    grid-column: 1;
+  }
+  .rung .threshold .gt { color: var(--ink-faint); font-weight: 400; }
+  .rung .pct {
+    position: relative;   /* containing block for the sr-only .word */
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink);
+    grid-column: 2;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .rung .pct .pct-sym { font-size: 13px; color: var(--ink-faint); }
+  /* Visually hidden, not removed. display:none took this out of the
+     accessibility tree as well, so a screen reader heard "98" with no
+     unit. The word is redundant beside the printed bar for a sighted
+     reader and load-bearing for everyone else. */
+  .rung .pct .word {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  .rung .label {
+    grid-column: 4;
+    font-size: 15px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  /* The bar: solid for the calibrated rungs, losing substance above. */
+  .rung.record .pct, .rung.record .label { color: var(--ink-soft); }
+  .rung.far .pct, .rung.far .label { color: var(--ink-faint); }
+  .rung.record .threshold { color: var(--ink-soft); }
+  .rung.far .threshold { color: var(--ink-faint); }
+  .rung .label .tag {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 4px 7px;
+    background: var(--paper-sunk);
+  }
+  .rung .pct .wow-delta {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 400;
+    color: var(--ink-faint);
+    margin-top: 5px;
+  }
+  .rung .pct .wow-delta.wow-up { color: var(--fire); }
+  .rung .pct .wow-delta.wow-down { color: var(--flood); }
+  .rung .label .sep, .rung .label .range { color: var(--ink-faint); }
+  .buckets-note {
+    font-size: 13px;
+    font-family: var(--mono);
+    line-height: 1.75;
+    color: var(--ink-faint);
+    margin: 0;
+    max-width: 78ch;
+  }
+
+  /* ---------- analyst read ---------- */
+  section.analyst-read {
+    padding: 0 0 48px 22px;
+    border-left: 3px solid var(--nino);
+    margin-bottom: 0;
+  }
+  section.analyst-read h2 { font-size: 20px; margin: 0 0 4px; }
+  section.analyst-read .section-sub { margin: 0 0 12px; }
+  section.analyst-read ul { list-style: none; padding: 0; margin: 0; }
+  section.analyst-read li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 17.5px;
+  }
+  section.analyst-read li:last-child { border-bottom: none; padding-bottom: 0; }
+  section.analyst-read li strong { font-weight: 500; }
+
+  /* ---------- chart ---------- */
+  .chart-card { border-top: 3px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 18px 0; }
+  .chart-caption {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    line-height: 1.62;
+    max-width: 68ch;
+  }
+  .chart-caption strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- tables ---------- */
+  table.phys { width: 100%; border-collapse: collapse; font-size: 15px; }
+  table.phys th, table.phys td {
+    padding: 14px 12px 14px 0;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  table.phys thead th {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 400;
+    border-bottom: 3px solid var(--ink);
+    vertical-align: bottom;
+  }
+  table.phys td.num { white-space: nowrap; font-size: 14px; }
+  table.phys tbody tr:last-child td { border-bottom: 3px solid var(--ink); }
+  .note {
+    font-size: 15px;
+    color: var(--ink-soft);
+    border-left: 1px solid var(--rule);
+    padding: 4px 0 4px 18px;
+    margin: 18px 0 0;
+    max-width: 68ch;
+  }
+  .note strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- sources ---------- */
+  .src-list { padding: 0; list-style: none; margin: 0; }
+  .src-list li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 20px;
+    align-items: baseline;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px;
+  }
+  .src-list li:first-child { border-top: 3px solid var(--ink); }
+  .src-list li:last-child { border-bottom: 3px solid var(--ink); }
+  .src-list .src-name { font-weight: 500; }
+  .src-list .src-issued {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .src-list .src-detail {
+    grid-column: 1 / -1;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-top: 2px;
+  }
+
+  ol.caveats { padding-left: 20px; margin: 0; }
+  ol.caveats li { margin-bottom: 16px; font-size: 15px; line-height: 1.62; }
+  ol.caveats li::marker { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
+
+  /* ---------- channels ---------- */
+  .chans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    gap: 0;
+    border-top: 3px solid var(--ink);
+    padding-top: 22px;
+  }
+  .chan {
+    padding: 0 22px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-left: 1px solid var(--rule);
+    padding-left: 20px;
+  }
+  .chan:first-child { border-left: none; padding-left: 0; }
+  .chan-top { display: flex; align-items: center; gap: 9px; }
+  .dot { width: 8px; height: 8px; flex: none; }
+  .chan h3 { font-size: 20px; font-weight: 500; }
+  .chan p { margin: 0; font-size: 15px; color: var(--ink-soft); line-height: 1.55; }
+  .chan.next h3, .chan.next p { color: var(--ink-faint); }
+
+  /* Trajectory objects. Figures take the data face with tabular numerals,
+     the same rule as everywhere else: a tick that changes width as its
+     digits change is the one thing a chart must not do. */
+  .chx { font-family: var(--mono); font-size: 10px; fill: var(--ink-faint);
+    font-variant-numeric: tabular-nums; }
+  .chnow { font-family: var(--mono); font-size: 12px; font-weight: 600;
+    fill: var(--ink); font-variant-numeric: tabular-nums; }
+  /* The finding, before any instrument is named. Product's ruling. */
+  .finding {
+    font-size: 21px; line-height: 1.5; color: var(--ink);
+    max-width: 60ch; margin: 26px 0 34px;
+    border-left: 2.4px solid var(--ink); padding-left: 18px;
+    text-wrap: pretty;
+  }
+  .finding strong { font-weight: 500; }
+  /* ---------- email capture ---------- */
+  .email-cap {
+    border-top: 3px solid var(--ink);
+    border-bottom: 2.4px solid var(--rule-45);
+    padding: 26px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px 40px;
+    flex-wrap: wrap;
+  }
+  .email-cap .ec-pitch { max-width: 46ch; }
+  /* The form gets its own rule rather than whatever the flex row has
+     left over. QA measured the consequence of not having one: the
+     iframe rendered at 300px on a 375px front page against 327px on
+     /subscribe/, so the HIGHER-TRAFFIC placement was the more
+     constrained of the two, which is backwards.
+
+     Beehiiv lays the field and the button side by side at a fixed
+     button width, so every pixel lost falls on the input. At 300px the
+     placeholder rendered as "E". The real fix is theirs, since the form
+     is cross-origin and our CSS cannot reach inside it. The container
+     is ours, and it should never be the reason the field is narrow. */
+  .email-cap .ec-form { flex: 1 1 340px; min-width: 0; }
+    /* The form is ours now, so the note above is history: there is no
+     iframe and no fixed button width, and the input can be told to give
+     up its space last rather than first. The failure it describes is
+     structurally unavailable here. */
+  .ec-form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ec-lab {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .ec-in {
+    flex: 1 1 200px; min-width: 0;
+    font-family: var(--sans); font-size: 16px;   /* 16px: iOS zooms below it */
+    color: var(--ink); background: var(--paper);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 11px 12px; -webkit-appearance: none;
+  }
+  .ec-in::placeholder { color: var(--ink-faint); }
+  .ec-in:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .ec-sub {
+    flex: 0 0 auto;
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--paper); background: var(--ink);
+    border: 1.4px solid var(--ink); border-radius: 0;
+    padding: 12px 20px; cursor: pointer;
+  }
+  .ec-sub:hover { background: var(--ink-soft); border-color: var(--ink-soft); }
+  .ec-sub:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (max-width: 420px) {
+    /* Full width both, rather than a button squeezing the field. The
+       field is the control that has to be legible while typing. */
+    .ec-in, .ec-sub { flex: 1 1 100%; }
+  }
+  /* The reader's answer. Empty until the submit resolves, and it takes a
+     whole row so it never squeezes the field. Kristjan found the form on
+     2026-08-17 doing exactly what this element exists to prevent:
+     subscribing him successfully and telling him nothing. */
+  .ec-msg { flex: 1 1 100%; margin: 8px 0 0; font-family: var(--sans);
+            font-size: 14px; line-height: 1.45; }
+  .ec-msg:empty { display: none; }
+  .ec-msg-ok { color: var(--ink); }
+  .ec-msg-err { color: var(--ink); }
+
+  @media (max-width: 700px) {
+    /* Stack rather than share the row, and drop the 40px column gap,
+       which is pure loss once the children are full width. */
+    .email-cap { gap: 16px 0; }
+    .email-cap .ec-pitch,
+    .email-cap .ec-form { flex: 1 1 100%; max-width: 100%; }
+  }
+  .email-cap .ec-pitch .eyebrow { display: block; color: var(--ink-faint); margin-bottom: 6px; }
+  .email-cap .ec-pitch p { margin: 0; font-size: 17.5px; }
+  .email-cap a.ec-btn {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 14px 24px;
+    white-space: nowrap;
+  }
+  .email-cap a.ec-btn:hover { background: var(--nino); }
+
+  /* ---------- footer ---------- */
+  footer.field { border-top: 3px solid var(--ink); margin-top: 8px; }
+  .foot { padding: 32px 0 44px; display: flex; flex-direction: column; gap: 26px; }
+  .foot-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px 40px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .foot-links { display: flex; gap: 22px; flex-wrap: wrap; }
+  .foot-links a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .foot-links a:hover { color: var(--ink); }
+  .foot-cite {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--ink-faint);
+    max-width: 68ch;
+    margin: 0;
+  }
+  .foot-cite b { color: var(--ink-soft); font-weight: 500; }
+  .foot-fresh-label { display: block; color: var(--ink-faint); margin-bottom: 10px; }
+  .freshness-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 32px;
+    margin: 0;
+  }
+  .freshness-grid .src { color: var(--ink-soft); font-size: 13px; }
+  .freshness-grid .meta { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+  .footer-meta { font-size: 12px; line-height: 1.85; color: var(--ink-faint); margin: 0; max-width: 78ch; }
+  .footer-meta strong { color: var(--ink-soft); font-weight: 500; }
+
+  /* ---------- impact outlook ---------- */
+  section.impacts > p:first-of-type { color: var(--ink-soft); font-size: 17.5px; margin: -8px 0 18px; }
+  .impacts-map {
+    position: relative;
+    margin: 18px 0 14px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .impacts-map .world-map-bg { width: 100%; }
+  .impacts-map .map-hotspot {
+    position: absolute; transform: translate(-50%, -50%);
+    /* 32px target with a 10px dot inside it. 22px was under the WCAG 2.2
+       AA minimum of 24px (SC 2.5.8). 44px is the AAA figure (2.5.5) and
+       is too big here: measured at a 350px-wide map the closest two
+       regions sit 35px apart, so 44px targets would steal each other's
+       taps, which is worse than a small one. 32px clears AA with margin
+       and fits the spacing. The region tab strip is the redundant
+       control for anyone who finds the discs fiddly. */
+    width: 32px; height: 32px;
+    background: transparent; border: 0; padding: 0; cursor: pointer;
+  }
+  /* A plain disc. This was a ring around a dot, with the active state
+     expanding the ring outward, which is the epicenter figure: radiating
+     causation, on the one map that is specifically about El Nino's
+     regional impacts, where the text refuses to make that claim. D-017
+     forbids the attenuation ratio on any mark that carries data, and the
+     same objection applies to any concentric figure. Selection is carried
+     by opacity and a hairline, not by radiating rings. */
+  .impacts-map .map-hotspot-dot {
+    position: absolute; inset: 11px;
+    border-radius: 50%;
+    background: var(--fire);
+    opacity: 0.75;
+    transition: opacity .15s ease;
+  }
+  .impacts-map .map-hotspot:hover .map-hotspot-dot { opacity: 1; }
+  /* Selection rings use outline with outline-offset. SHADOW is None in
+     the token file, deliberately, so a contributor has to delete a line
+     rather than add one; a spread-only shadow used as a ring renders
+     fine but leaves a hit for anyone auditing that rule. */
+  .impacts-map .map-hotspot.active .map-hotspot-dot {
+    opacity: 1;
+    outline: 1.5px solid var(--ink);
+    outline-offset: 1px;
+  }
+  .impacts-map .map-hotspot:focus-visible .map-hotspot-dot {
+    outline: 2px solid var(--nino);
+    outline-offset: 2px;
+  }
+  .region-tabs { display: flex; flex-wrap: wrap; gap: 0; margin: 16px 0 18px; border-bottom: 1px solid var(--rule); }
+  .region-tab {
+    background: none;
+    border: 0;
+    border-bottom: 2.4px solid transparent;
+    padding: 13px 14px 13px 0;
+    margin-right: 18px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    cursor: pointer;
+  }
+  .region-tab:hover { color: var(--ink); }
+  .region-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .region-panel { display: none; }
+  .region-panel.active { display: block; }
+  .region-panel h3 { font-size: 20px; font-weight: 500; margin: 0 0 10px; }
+  .region-panel p { font-size: 17.5px; line-height: 1.62; margin: 0 0 12px; max-width: 62ch; }
+
+  /* ---------- issue page: answer left, ocean heat right ---------- */
+  /* Secondary column is COLUMN_SECOND (300px), not a number picked to
+     suit this page. An earlier 380px panel forced these grids to stack
+     at 1000px, which let one layout choice rewrite a system rule; the
+     visual-language chat called it correctly as drift. On the token the
+     single 760 breakpoint holds: at 761px the prose column still gets
+     325px and it only widens from there. */
+  .top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 56px;
+    padding: 40px 0 0;
+    align-items: start;
+  }
+  .heat { border-left: 1px solid var(--rule); padding-left: 24px; }
+  .heat .cap { color: var(--ink-faint); margin-bottom: 14px; display: block; }
+  .hrow {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 62px;
+    gap: 10px;
+    align-items: center;
+    padding: 7px 0;
+  }
+  .hrow .yr { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+  .htrack { display: block; position: relative; height: 14px; }
+  .hzero {
+    position: absolute; top: -2px; bottom: -2px; width: 1px;
+    background: var(--ink-faint);
+  }
+  .hbar { position: absolute; top: 0; height: 14px; }
+  .hrow .val {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 13px; text-align: right;
+  }
+  .hrow.now .yr, .hrow.now .val { color: var(--ink); font-weight: 500; }
+  .hnote {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.7;
+    color: var(--ink-faint); margin: 12px 0 0;
+    border-top: 1px solid var(--rule); padding-top: 10px;
+  }
+
+  /* ladder bar: length is probability, substance is confidence */
+  .rung .track { display: block; height: 9px; background: var(--paper-sunk); }
+  .rung .fill { display: block; height: 9px; background: var(--nino); }
+  .rung.record .fill {
+    background: repeating-linear-gradient(90deg,
+      var(--nino) 0 4px, transparent 4px 8px);
+  }
+  .rung.far .fill {
+    background: repeating-linear-gradient(90deg,
+      #7B88AF 0 2px, transparent 2px 8px);
+  }
+
+  /* chart left, reading note right */
+  .two {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 56px;
+    align-items: start;
+  }
+  .two .note-side { border-left: 3px solid var(--nino); padding-left: 20px; }
+  .two .note-side h3 { font-size: 15px; margin-bottom: 8px; }
+  .two .note-side p { font-size: 15px; color: var(--ink-soft); margin: 0; }
+  .two .note-side p + p { margin-top: 12px; }
+
+  /* issue metadata, which used to be the rail */
+  .issue-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px 32px;
+    border-top: 3px solid var(--ink);
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+  .issue-meta .k {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--ink-faint); display: block;
+  }
+  .issue-meta .v {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 13px; line-height: 1.75; color: var(--ink-soft);
+  }
+  .issue-meta .v b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- front page: lead, then the map ---------- */
+  .lead-block { padding: 40px 0 30px; }
+  .lead-block .eyebrow { color: var(--ink-faint); display: block; margin-bottom: 14px; }
+  h1.lead-answer {
+    font-size: clamp(34px, 4.2vw, 50px);
+    line-height: 1.10;
+    letter-spacing: -0.018em;
+    max-width: 660px;
+    margin: 0 0 18px;
+  }
+  .lead-stand { color: var(--ink-soft); max-width: 58ch; margin: 0; }
+
+  .mapwrap {
+    border-top: 3px solid var(--ink);
+    border-bottom: 2.4px solid var(--rule-45);
+    padding: 14px 0 12px;
+    margin-bottom: 4px;
+  }
+  .mapcap {
+    display: flex; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; margin-bottom: 8px;
+  }
+  .mapcap .eyebrow { color: var(--ink-faint); }
+  svg.map { display: block; width: 100%; height: auto; }
+  /* The coastline rule was already wired to LAND_LINE but at 0.4 in
+     viewBox units, which on an 800-unit map rendered 1440px wide is
+     0.72px: present in the markup and invisible on screen. So the map
+     had two kinds of edge that looked identical, the coast being
+     geography and the field's top and bottom being a crop, and the
+     honest edge inherited the clipped-image feeling from the arbitrary
+     ones. non-scaling-stroke because the rule weights are defined in px
+     and must not scale with the viewport. It also separates the Chile
+     coastline from the field's southern crop boundary, which had merged
+     into one ambiguous line. */
+  svg.map .land {
+    fill: var(--land); stroke: var(--land-line);
+    stroke-width: 1.8; vector-effect: non-scaling-stroke;
+  }
+  .mk { cursor: pointer; }
+  .mk .mk-hit { fill: transparent; }
+  /* No stroke. A 1px stroke on a radius that encodes magnitude added
+     36% apparent area at r=3 against 11% at r=9, so small multiples read
+     systematically larger than they are; hover at 2.5px doubled the
+     smallest. Opacity carries the state instead, because it does not
+     touch the geometry that carries the number. */
+  /* A paper ring OUTSIDE the disc, never a stroke on it. FIRE #B32E10
+     against the field's hot end #8E240A measures 1.377:1, so a marker
+     landing on the eastern Pacific, or where the tongue meets the
+     Ecuador coast, would be indistinguishable from the ocean under it.
+     No marker sits there this week, which is why this was latent rather
+     than visible. A stroke would have eaten into the radius, and radius
+     is the number here, so the separation goes outside it. Same device
+     as D-023, applied to a mark instead of a label. */
+  .mk-ring { fill: none; stroke: var(--paper); stroke-width: 2.4; }
+  /* Context, not an event: an open ring of the same radius, so the
+     size still carries the number and the fill no longer claims
+     something the data denies. */
+  .mk.ctx .mk-dot { fill: none; stroke: var(--fire);
+    stroke-width: 1.6; fill-opacity: 1; }
+  .mk.ctx:hover .mk-dot, .mk.ctx:focus .mk-dot { fill: var(--fire);
+    fill-opacity: 0.18; }
+  .mk .mk-dot {
+    fill: var(--fire); fill-opacity: 0.78;
+    stroke: none;
+    transition: fill-opacity .12s;
+  }
+  .mk:hover .mk-dot, .mk:focus .mk-dot { fill-opacity: 1; }
+  /* A dedicated focus ring, because opacity 0.78 to 1 is not a visible
+     indicator, and the global a:focus-visible outline is unreliable on
+     SVG <a>. It sits outside the disc so the geometry that carries the
+     number is untouched. */
+  .mk .mk-focus {
+    fill: none; stroke: var(--nino); stroke-width: 2;
+    opacity: 0; transition: opacity .1s;
+  }
+  .mk:focus-visible .mk-focus, .mk:focus .mk-focus { opacity: 1; }
+  .nino-g, .sst-g { cursor: pointer; }
+  /* An SVG anchor gets no pointer cursor and no focus ring for free, and
+     the field is a large silent target, so both are stated. The focus
+     outline sits on the group rather than on the image so it traces the
+     clickable area a keyboard user has actually reached. */
+  .sst-g:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  /* Over the SST field these sat dark on dark and the box outline
+     disappeared entirely: the anomaly scale reaches near-black at its
+     ends, so ink furniture on top of it is unreadable exactly where the
+     event is strongest. Everything here carries a paper-coloured stroke
+     behind its fill, so the contrast is against paper rather than
+     against whatever the field happens to be doing underneath. This is
+     the same collision D-016 amendment 4 names, met on the label
+     instead of on a mark: the hue still says which channel this is, the
+     halo is what keeps it legible. */
+  /* Two rects, because one stroke cannot be legible against both a
+     near-paper ocean and a near-black anomaly. The paper one widens the
+     ink one just enough to separate it from whatever is underneath. */
+  .nino-halo { fill: none; stroke: var(--paper); stroke-width: 2.8; }
+  .nino-brk-halo { fill: none; stroke: var(--paper); stroke-width: 3.2; }
+  .nino-brk { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .nino-box {
+    stroke: var(--ink); stroke-width: 0.9; fill-opacity: 1;
+  }
+  .nino-g:hover .nino-box, .nino-g:focus .nino-box {
+    stroke: var(--ink); stroke-width: 1.2;
+  }
+  .nino-lb, .nino-v {
+    paint-order: stroke; stroke: var(--paper); stroke-linejoin: round;
+  }
+  .nino-lb {
+    font-family: var(--mono); font-size: 7px;
+    letter-spacing: 0.16em; fill: var(--ink-soft); stroke-width: 2.6;
+  }
+  /* INK, not the channel hue. This was set in NINO blue, and on this
+     palette blue is the whole cold half of the anomaly ramp, visible in
+     the same frame as the cold tongue's western end. So the page's
+     headline ocean value was printed in the colour that means the
+     opposite of what the number says, and it spent a channel hue on a
+     figure whose own scale already carries the encoding. The field is
+     what says the value is remarkable. */
+  .nino-v {
+    font-family: var(--mono); font-size: 13px;
+    font-weight: 500; fill: var(--ink); stroke-width: 3.4;
+  }
+  .legends { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .lg-dot { fill: var(--fire); fill-opacity: 0.8; }
+  .lg-tx { font-family: var(--mono); font-size: 9px; fill: var(--ink-faint); }
+  .lg-tick { fill: var(--ink); }
+  .lg-cap { fill: var(--ink-faint); }
+  .lg-now {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: 9.5px; font-weight: 500; fill: var(--ink);
+  }
+  .mapnote {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.7;
+    color: var(--ink-faint); margin: 8px 0 0;
+  }
+  .break-more { margin: 18px 0 0; }
+  .break-more a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+
+  /* ---------- about: numbered section grid ---------- */
+  /* Label column floors at 0, deliberately. Per the Grid spec a minmax()
+     whose min exceeds its max resolves to the min, so an intrinsic floor
+     on a column carrying 20px headings ignores the 220px cap entirely:
+     "Where the numbers come from" measures 277px unwrapped and stole
+     57px from the prose. An intrinsic floor suits short tracked-mono
+     labels and not headings, which can wrap. The prose track keeps
+     minmax(0, 1fr) so it is the one that gives. */
+  .about-sec {
+    display: grid;
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+    gap: 10px 56px;
+    padding: 26px 0 34px;
+    border-top: 2.4px solid var(--rule-45);
+  }
+  /* Explicit classes, not :first-of-type. That pseudo matches the first
+     element of its TYPE among siblings, so one <section> added above the
+     nine would leave every .about-sec without an opening rule and the
+     page would quietly open at 2.4px. :first-child does not work either,
+     since .issue-head precedes them. The builder marks the ends. */
+  .about-sec.about-open { border-top: 3px solid var(--ink); }
+  .about-sec.about-close { border-bottom: 3px solid var(--ink); }
+  .about-num {
+    font-family: var(--mono); font-size: 9.5px; line-height: 2;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .about-sec h2 { font-size: 20px; font-weight: 500; margin-bottom: 10px; }
+  .about-body p { margin: 0; max-width: 62ch; }
+  .about-body p + p { margin-top: 14px; }
+  /* No bullet lists anywhere in this system. ol.caveats styles its own
+     markers and every other list is rule-separated rows, so discs would
+     be the one exception. The refusals in particular carry more weight as
+     rows than as a bulleted aside. */
+  .refusals {
+    margin: 0;
+    /* Opens and closes at 3px like .src-list, .event, .rung and
+       .swell-row. This is the block the page's credibility argument
+       leans on, so it reads as a closed list rather than trailing off.
+       Interior dividers stay at the 1px hairline. */
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+  }
+  .refusal {
+    display: grid;
+    grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+    gap: 4px 24px;
+    padding: 13px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .refusal:first-child { border-top: 0; }
+  .refusal dt { font-weight: 500; }
+  .refusal dd { margin: 0; color: var(--ink-soft); }
+  .about-aside {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.75;
+    color: var(--ink-soft); margin-top: 14px;
+    border-left: 1px solid var(--rule); padding-left: 16px;
+  }
+
+  /* The three-row hierarchy: the only place the ratio's 1.8px width is
+     used as a rule, because here the hierarchy is the content. The
+     default top rule is the hairline step, so a fourth row added later
+     degrades to 1.8px rather than to no rule at all. */
+  .swell-rows { margin: 0; }
+  .swell-row {
+    border-top: 1.8px solid var(--rule-20);
+    display: grid;
+    grid-template-columns: minmax(0, 118px) minmax(0, 1fr);
+    gap: 6px 22px;
+    padding: 14px 0;
+  }
+  .swell-row:nth-child(1) { border-top: 3px solid var(--ink); }
+  .swell-row:nth-child(2) { border-top: 2.4px solid var(--rule-45); }
+  .swell-row:nth-child(3) {
+    border-top: 1.8px solid var(--rule-20);
+    border-bottom: 3px solid var(--ink);
+  }
+  .swell-row dt {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .swell-row dd { margin: 0; color: var(--ink-soft); max-width: 56ch; }
+
+  /* ---------- archive ---------- */
+  .ar-chart { display: block; width: 100%; height: auto; margin: 4px 0 10px; }
+  .ar-grid { stroke: var(--rule); stroke-width: 1; }
+  .ar-ax {
+    font-family: var(--mono); font-size: 9.5px; fill: var(--ink-faint);
+  }
+  .ar-line { fill: none; stroke-width: 2; stroke-linejoin: round; }
+  /* A version bump is a caveat, not decoration: deltas either side of
+     one are not comparable, so it gets a rule and a label. */
+  .ar-bump { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 3; }
+  .ar-bump-lb {
+    font-family: var(--mono); font-size: 9px; fill: var(--ink-faint);
+  }
+  .ar-legend {
+    display: flex; flex-wrap: wrap; gap: 8px 22px;
+    padding: 10px 0 4px; border-top: 1px solid var(--rule);
+  }
+  .ar-key {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft);
+  }
+  .ar-swatch { width: 16px; height: 3px; flex: none; }
+
+  .ar-head, .ar-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 320px) 62px;
+    gap: 6px 20px;
+    align-items: baseline;
+  }
+  .ar-head {
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--ink);
+    font-family: var(--mono); font-size: 9.5px; line-height: 2;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .ar-vals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .ar-head .ar-vals > span { text-align: right; }
+  .ar-row {
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+    color: inherit;
+  }
+  .ar-row:last-child { border-bottom: 3px solid var(--ink); }
+  .ar-row:hover { background: var(--paper-sunk); }
+  .ar-row:hover .ar-date { color: var(--fire); }
+  .ar-date { font-size: 15px; font-weight: 500; }
+  .ar-val { font-size: 14px; color: var(--ink-soft); text-align: right; }
+  .ar-ver {
+    font-family: var(--mono); font-size: 11px; color: var(--ink-faint);
+    text-align: right;
+  }
+  /* The issue where the arithmetic changed is the one worth finding. */
+  .ar-ver.bumped { color: var(--ink); font-weight: 500; }
+  .ar-ver.bumped::before { content: "2 "; color: var(--nino); }
+
+  /* ---------- one breakpoint ---------- */
+  @media (max-width: 760px) {
+    .field-shell, .shell { padding-left: 20px; padding-right: 20px; }
+    .about-sec, .swell-row, .refusal {
+      grid-template-columns: minmax(0, 1fr); gap: 8px;
+    }
+    .ar-head, .ar-row { grid-template-columns: minmax(0, 1fr) auto; }
+    .ar-head > span:nth-child(2), .ar-vals { grid-column: 1 / -1; }
+    .ar-vals { gap: 8px; padding-top: 4px; }
+    .top, .two { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+    .heat, .two .note-side {
+      border-left: 0; border-top: 1px solid var(--rule); padding: 20px 0 0;
+    }
+    .heat { max-width: 520px; }
+    .rung { grid-template-columns: 130px 92px minmax(0, 1fr); gap: 6px 20px; }
+    .rung .label { grid-column: 1 / -1; padding-top: 2px; }
+    .shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .rail { grid-column: 1; order: 2; padding-top: 8px; }
+    .rail-inner {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 18px 30px;
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+      padding: 22px 0 0;
+    }
+    .body { grid-column: 1; order: 1; padding-top: 32px; }
+    body { font-size: 17px; }
+    .hero h1, .issue-head h1 { font-size: 34px; }
+    .event { grid-template-columns: minmax(0, 1fr) auto; }
+    .event .ev-stat { grid-column: 1; grid-row: 1; font-size: 32px; }
+    .event .ev-body { grid-column: 1 / -1; grid-row: 2; }
+    .event .attr { grid-column: 2; grid-row: 1; align-self: center; }
+    .wave-strip .field-shell { grid-template-columns: minmax(0, 1fr); }
+    .freshness-grid { grid-template-columns: minmax(0, 1fr); }
+    .readout { gap: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script>
+</head>
+<body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.75"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.55"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino on" href="../../elnino/">El Niño</a><a class="ch-fire" href="../../fires/">Fires</a><a class="ch-crop" href="../../crops/">Crops</a><a class="ch-heat" href="../../heat/">Heat</a><a class="ch-notes" href="../../notes/">Notes</a><a class="util" href="../../about.html">About</a></nav></div></div></header>
+<div class="shell"><main class="body" id="issue"><div class="top"><div><div class="issue-stamp"><span>Week of 2026-09-01</span><span><a href="../../methodology.html">methodology v1.11</a></span><span>immutable</span><span><a class="card-link" href="card.png">one-page card &darr;</a></span></div><h1>How likely is a super El Niño this winter?</h1><p class="lede">Updated each Monday from the major ENSO outlooks (NOAA CPC, IRI, BoM) and a multi-model forecast consensus (ECMWF SEAS5 with the NMME suite), plus weekly Niño 3.4 observations. Peak season target: <strong>DJF 2026-27</strong>. Forecast disagreements are surfaced rather than averaged.</p></div><div class="heat"><span class="cap eyebrow">Ocean heat, 0 to 300 m &middot; same month, 2026-08</span><div class="hrow now"><span class="yr">2026</span><span class="htrack"><span class="hzero" style="left:50.00%"></span><span class="hbar" style="background:#8E240A;left:50.00%;width:50.00%"></span></span><span class="val">+3.20</span></div><div class="hrow"><span class="yr">2015</span><span class="htrack"><span class="hzero" style="left:50.00%"></span><span class="hbar" style="background:#C05B3D;left:50.00%;width:32.83%"></span></span><span class="val">+1.97</span></div><div class="hrow"><span class="yr">1997</span><span class="htrack"><span class="hzero" style="left:50.00%"></span><span class="hbar" style="background:#DC957E;left:50.00%;width:29.83%"></span></span><span class="val">+1.79</span></div><p class="hnote">Degrees Celsius anomaly, diverging from zero. Bar colour is the position on the anomaly scale, not a channel hue.</p></div></div><p class="lede bottom-line"><strong>Bottom line:</strong> 99% chance of a very strong / super El Niño this winter, 99% chance of a 1997 / 2015-magnitude event.</p><p class="finding"><strong>The Pacific has not been this warm beneath the surface in the 47 years we have measured it. August's reading is already above what 1997 reached at its October peak, two months later in its own season.</strong></p><section><div class="sec-head"><div class="eyebrow">01</div><h2>Physical state</h2></div><p class="section-sub">Current observations against the same super-event develop years. The rows do not all compare on the same basis, so each one states its own.</p><table class="phys"><thead><tr><th>Indicator</th><th>Current<br><span style="font-weight:400">week of 2026-09-01</span></th><th>1997</th><th>2015</th></tr></thead><tbody><tr><td>Niño 3.4 weekly (traditional)<br><span style="color:var(--text-faint); font-size:12px">vs week of Apr 22</span></td><td class="num">+2.6°C</td><td class="num">−0.1°C</td><td class="num">+0.6°C</td></tr><tr><td>Niño 3.4 weekly (RONI)</td><td class="num">+1.8°C</td><td class="num">n/a (pre-RONI)</td><td class="num">n/a (pre-RONI)</td></tr><tr><td>0–300 m heat content anomaly<br><span style="color:var(--text-faint); font-size:12px">vs same month, 2026-08</span></td><td class="num">+3.20°C</td><td class="num">+1.79°C</td><td class="num">+1.97°C</td></tr><tr><td>Cumulative westerly wind anomaly since Mar 1<br><span style="color:var(--text-faint); font-size:12px">CWWA, ERA5 5°N–5°S, 130°E–150°W, m/s·days</span></td><td class="num">653</td><td class="num">805</td><td class="num">719</td></tr></tbody></table><p class="section-sub" style="margin-top:22px">Cumulative westerly wind anomaly since 1 March, against the same construction in the analog years. 2025 is the non-event reference.</p><svg viewBox="0 0 760 300" width="100%" style="height:auto" role="img" aria-label="Cumulative westerly wind anomaly since 1 March. 2026 reaches 653 by early August, between the 2025 non-event reference near zero and 1997 at 829, and is still climbing."><line x1="46" y1="270.0" x2="664" y2="270.0" stroke="var(--rule)" stroke-width=".7"/><text x="38" y="273.5" text-anchor="end" class="chx">0</text><line x1="46" y1="236.0" x2="664" y2="236.0" stroke="var(--rule)" stroke-width=".7"/><text x="38" y="239.5" text-anchor="end" class="chx">200</text><line x1="46" y1="202.0" x2="664" y2="202.0" stroke="var(--rule)" stroke-width=".7"/><text x="38" y="205.5" text-anchor="end" class="chx">400</text><line x1="46" y1="168.0" x2="664" y2="168.0" stroke="var(--rule)" stroke-width=".7"/><text x="38" y="171.5" text-anchor="end" class="chx">600</text><line x1="46" y1="134.0" x2="664" y2="134.0" stroke="var(--rule)" stroke-width=".7"/><text x="38" y="137.5" text-anchor="end" class="chx">800</text><path d="M46.0,269.3 L49.4,268.6 L52.7,267.7 L56.1,266.6 L59.4,265.5 L62.8,264.4 L66.2,263.3 L69.5,262.1 L72.9,260.9 L76.2,259.4 L79.6,257.6 L82.9,255.8 L86.3,254.0 L89.7,252.6 L93.0,251.6 L96.4,250.7 L99.7,249.6 L103.1,248.5 L106.5,247.8 L109.8,247.3 L113.2,246.6 L116.5,245.7 L119.9,244.9 L123.2,244.1 L126.6,243.2 L130.0,242.3 L133.3,241.3 L136.7,240.4 L140.0,239.7 L143.4,239.0 L146.8,238.3 L150.1,237.7 L153.5,237.3 L156.8,236.9 L160.2,236.6 L163.6,236.2 L166.9,235.6 L170.3,235.0 L173.6,234.3 L177.0,233.8 L180.3,232.9 L183.7,231.8 L187.1,230.6 L190.4,229.7 L193.8,228.6 L197.1,227.5 L200.5,226.5 L203.9,225.5 L207.2,224.6 L210.6,223.7 L213.9,222.8 L217.3,222.2 L220.7,221.7 L224.0,221.2 L227.4,220.8 L230.7,220.5 L234.1,220.2 L237.4,219.7 L240.8,219.2 L244.2,218.8 L247.5,218.4 L250.9,218.0 L254.2,217.4 L257.6,216.7 L261.0,215.9 L264.3,215.2 L267.7,214.6 L271.0,214.0 L274.4,213.4 L277.8,212.9 L281.1,212.9 L284.5,212.9 L287.8,212.9 L291.2,212.9 L294.5,212.9 L297.9,212.9 L301.3,212.9 L304.6,212.9 L308.0,212.5 L311.3,211.9 L314.7,211.2 L318.1,210.2 L321.4,209.1 L324.8,208.0 L328.1,206.9 L331.5,205.8 L334.8,204.6 L338.2,203.5 L341.6,202.4 L344.9,201.3 L348.3,199.8 L351.6,198.3 L355.0,196.7 L358.4,195.3 L361.7,193.8 L365.1,192.3 L368.4,190.7 L371.8,189.3 L375.2,188.0 L378.5,186.5 L381.9,184.9 L385.2,183.5 L388.6,182.0 L391.9,180.7 L395.3,179.7 L398.7,178.8 L402.0,177.7 L405.4,176.8 L408.7,176.2 L412.1,175.5 L415.5,174.9 L418.8,174.1 L422.2,173.2 L425.5,172.2 L428.9,171.3 L432.2,170.7 L435.6,170.4 L439.0,170.2 L442.3,170.0 L445.7,169.8 L449.0,169.8 L452.4,169.8 L455.8,169.8 L459.1,169.8 L462.5,169.8 L465.8,169.8 L469.2,169.7 L472.6,169.6 L475.9,169.5 L479.3,169.1 L482.6,169.0 L486.0,168.8 L489.3,168.7 L492.7,168.6 L496.1,168.4 L499.4,168.1 L502.8,167.5 L506.1,166.9 L509.5,166.3 L512.9,165.7 L516.2,165.2 L519.6,164.6 L522.9,164.3 L526.3,163.8 L529.7,163.3 L533.0,162.9 L536.4,162.5 L539.7,162.0 L543.1,161.4 L546.4,160.9 L549.8,160.3 L553.2,159.8 L556.5,159.4 L559.9,159.0 L563.2,158.6 L566.6,158.1 L570.0,157.4 L573.3,156.5 L576.7,155.5 L580.0,154.5 L583.4,153.4 L586.8,152.4 L590.1,151.4 L593.5,150.2 L596.8,149.1 L600.2,148.1 L603.5,146.9 L606.9,145.7 L610.3,144.5 L613.6,143.1 L617.0,141.9 L620.3,140.9 L623.7,139.9 L627.1,139.1 L630.4,138.3 L633.8,137.4 L637.1,136.5 L640.5,135.5 L643.8,134.3 L647.2,133.1 L650.6,132.1 L653.9,131.2 L657.3,130.2 L660.6,129.1 L664.0,128.1 L667.4,127.1 L670.7,126.0 L674.1,124.7 L677.4,123.3 L680.8,121.9 L684.2,120.6 L687.5,119.3 L690.9,118.0 L694.2,116.6 L697.6,115.3 L700.9,114.1 L704.3,113.1 L707.7,112.2 L711.0,111.5 L714.4,110.7 L717.7,109.9 L721.1,109.2 L724.5,108.7 L727.8,108.1 L731.2,107.5 L734.5,107.0 L737.9,106.5 L741.2,106.3 L744.6,105.8 L748.0,105.2 L751.3,104.6 L754.7,103.9 L758.0,102.9 L761.4,101.9 L764.8,100.8 L768.1,99.8 L771.5,98.7 L774.8,97.4 L778.2,96.0 L781.6,94.5 L784.9,93.1 L788.3,91.6 L791.6,90.2 L795.0,89.0 L798.3,87.9 L801.7,86.8 L805.1,85.6 L808.4,84.7 L811.8,83.9 L815.1,83.1 L818.5,82.4 L821.9,81.9 L825.2,81.2 L828.6,80.5 L831.9,79.6 L835.3,78.5 L838.7,77.2 L842.0,76.0 L845.4,74.5 L848.7,72.8 L852.1,71.0 L855.4,69.2 L858.8,67.4 L862.2,65.8 L865.5,64.4 L868.9,63.1 L872.2,61.8 L875.6,60.6 L879.0,59.5 L882.3,58.4 L885.7,57.3 L889.0,56.1 L892.4,55.3 L895.8,54.8 L899.1,54.5 L902.5,54.3 L905.8,54.3 L909.2,54.3 L912.5,54.3 L915.9,54.3 L919.3,54.2 L922.6,54.2 L926.0,54.1 L929.3,53.9 L932.7,53.6 L936.1,53.1 L939.4,52.5 L942.8,52.1 L946.1,51.7 L949.5,51.2 L952.8,50.6 L956.2,49.8 L959.6,49.0 L962.9,48.0 L966.3,47.0 L969.6,45.8 L973.0,44.5 L976.4,43.2 L979.7,42.1 L983.1,40.9 L986.4,39.7 L989.8,38.7 L993.2,38.0 L996.5,37.4 L999.9,36.9 L1003.2,36.5 L1006.6,36.2 L1009.9,35.9 L1013.3,35.7 L1016.7,35.6 L1020.0,35.6 L1023.4,35.6 L1026.7,35.6 L1030.1,35.6 L1033.5,35.5 L1036.8,35.2 L1040.2,34.7 L1043.5,34.2 L1046.9,33.7 L1050.2,33.3 L1053.6,32.9 L1057.0,32.4 L1060.3,32.0 L1063.7,31.5 L1067.0,31.0 L1070.4,30.4" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" stroke-dasharray="4 3" opacity=".9"/><path d="M46.0,269.5 L49.4,269.0 L52.7,268.6 L56.1,268.2 L59.4,267.7 L62.8,267.2 L66.2,266.4 L69.5,265.3 L72.9,264.1 L76.2,262.7 L79.6,261.2 L82.9,259.8 L86.3,258.5 L89.7,257.5 L93.0,256.6 L96.4,255.4 L99.7,254.1 L103.1,253.1 L106.5,252.2 L109.8,251.2 L113.2,250.4 L116.5,249.6 L119.9,248.9 L123.2,248.2 L126.6,247.5 L130.0,246.9 L133.3,246.2 L136.7,245.6 L140.0,245.2 L143.4,245.0 L146.8,244.9 L150.1,244.7 L153.5,244.5 L156.8,244.3 L160.2,244.0 L163.6,243.7 L166.9,243.4 L170.3,243.0 L173.6,242.5 L177.0,241.9 L180.3,241.3 L183.7,240.8 L187.1,240.4 L190.4,239.9 L193.8,239.5 L197.1,239.2 L200.5,238.8 L203.9,238.4 L207.2,237.8 L210.6,237.3 L213.9,236.7 L217.3,236.0 L220.7,235.3 L224.0,234.6 L227.4,233.7 L230.7,232.8 L234.1,232.0 L237.4,231.2 L240.8,230.4 L244.2,229.6 L247.5,228.7 L250.9,227.9 L254.2,227.1 L257.6,226.1 L261.0,225.1 L264.3,224.2 L267.7,223.4 L271.0,222.6 L274.4,221.7 L277.8,220.7 L281.1,219.7 L284.5,218.5 L287.8,217.4 L291.2,216.5 L294.5,215.9 L297.9,215.3 L301.3,214.8 L304.6,214.3 L308.0,213.8 L311.3,213.4 L314.7,212.8 L318.1,212.2 L321.4,211.4 L324.8,210.9 L328.1,210.5 L331.5,210.1 L334.8,209.7 L338.2,209.1 L341.6,208.5 L344.9,207.9 L348.3,207.1 L351.6,206.3 L355.0,205.7 L358.4,205.1 L361.7,204.7 L365.1,204.2 L368.4,203.9 L371.8,203.8 L375.2,203.5 L378.5,203.3 L381.9,203.2 L385.2,203.2 L388.6,203.1 L391.9,203.1 L395.3,203.1 L398.7,203.1 L402.0,202.9 L405.4,202.6 L408.7,202.4 L412.1,202.3 L415.5,202.1 L418.8,201.7 L422.2,201.4 L425.5,200.9 L428.9,200.3 L432.2,199.5 L435.6,198.7 L439.0,197.9 L442.3,196.9 L445.7,196.1 L449.0,195.2 L452.4,194.0 L455.8,192.5 L459.1,191.0 L462.5,189.4 L465.8,187.8 L469.2,186.2 L472.6,184.7 L475.9,183.5 L479.3,182.5 L482.6,181.6 L486.0,180.8 L489.3,180.0 L492.7,179.1 L496.1,178.2 L499.4,177.2 L502.8,176.4 L506.1,175.7 L509.5,175.2 L512.9,174.8 L516.2,174.3 L519.6,174.0 L522.9,173.6 L526.3,173.0 L529.7,172.3 L533.0,171.4 L536.4,170.5 L539.7,169.6 L543.1,168.7 L546.4,167.9 L549.8,166.9 L553.2,166.0 L556.5,165.2 L559.9,164.4 L563.2,163.4 L566.6,162.4 L570.0,161.4 L573.3,160.7 L576.7,160.0 L580.0,159.2 L583.4,158.3 L586.8,157.4 L590.1,156.6 L593.5,155.9 L596.8,155.2 L600.2,154.6 L603.5,154.1 L606.9,153.5 L610.3,152.8 L613.6,152.1 L617.0,151.6 L620.3,151.2 L623.7,150.7 L627.1,150.3 L630.4,150.0 L633.8,149.7 L637.1,149.4 L640.5,148.9 L643.8,148.3 L647.2,147.7 L650.6,147.0 L653.9,146.2 L657.3,145.4 L660.6,144.6 L664.0,143.8 L667.4,143.2 L670.7,142.5 L674.1,141.9 L677.4,141.1 L680.8,140.5 L684.2,140.0 L687.5,139.7 L690.9,139.2 L694.2,138.4 L697.6,137.8 L700.9,137.0 L704.3,136.3 L707.7,135.6 L711.0,134.7 L714.4,134.1 L717.7,133.6 L721.1,132.9 L724.5,132.1 L727.8,131.3 L731.2,130.7 L734.5,130.0 L737.9,129.4 L741.2,128.5 L744.6,127.7 L748.0,126.8 L751.3,126.1 L754.7,125.4 L758.0,125.0 L761.4,124.5 L764.8,124.1 L768.1,123.3 L771.5,122.1 L774.8,120.6 L778.2,119.4 L781.6,118.5 L784.9,117.5 L788.3,116.4 L791.6,115.0 L795.0,113.5 L798.3,112.2 L801.7,110.8 L805.1,109.6 L808.4,108.6 L811.8,107.9 L815.1,107.5 L818.5,107.1 L821.9,106.7 L825.2,106.1 L828.6,105.6 L831.9,105.1 L835.3,104.6 L838.7,104.2 L842.0,103.6 L845.4,103.1 L848.7,102.7 L852.1,102.3 L855.4,101.9 L858.8,101.3 L862.2,100.9 L865.5,100.5 L868.9,100.2 L872.2,100.0 L875.6,99.9 L879.0,99.6 L882.3,99.4 L885.7,99.1 L889.0,98.7 L892.4,98.3 L895.8,97.9 L899.1,97.5 L902.5,97.3 L905.8,96.8 L909.2,96.3 L912.5,95.6 L915.9,95.0 L919.3,94.6 L922.6,94.3 L926.0,94.0 L929.3,93.6 L932.7,93.1 L936.1,92.5 L939.4,91.9 L942.8,91.2 L946.1,90.7 L949.5,90.0 L952.8,89.4 L956.2,88.9 L959.6,88.2 L962.9,87.5 L966.3,86.9 L969.6,86.2 L973.0,85.6 L976.4,84.9 L979.7,84.1 L983.1,83.5 L986.4,83.0 L989.8,82.6 L993.2,82.3 L996.5,82.0 L999.9,81.7 L1003.2,81.5 L1006.6,81.4 L1009.9,81.4 L1013.3,81.4 L1016.7,81.4 L1020.0,81.0 L1023.4,80.6 L1026.7,80.2 L1030.1,79.7 L1033.5,79.2 L1036.8,78.6 L1040.2,77.8 L1043.5,77.2 L1046.9,76.6 L1050.2,76.0 L1053.6,75.3 L1057.0,74.6 L1060.3,73.7 L1063.7,72.7 L1067.0,71.6 L1070.4,70.5" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="" opacity=".9"/><path d="M46.0,270.0 L49.4,269.9 L52.7,269.9 L56.1,269.5 L59.4,269.1 L62.8,268.7 L66.2,268.3 L69.5,267.8 L72.9,267.4 L76.2,267.1 L79.6,266.9 L82.9,266.8 L86.3,266.8 L89.7,266.8 L93.0,266.8 L96.4,266.8 L99.7,266.8 L103.1,266.8 L106.5,266.8 L109.8,266.8 L113.2,266.8 L116.5,266.8 L119.9,266.8 L123.2,266.8 L126.6,266.8 L130.0,266.8 L133.3,266.8 L136.7,266.8 L140.0,266.8 L143.4,266.8 L146.8,266.8 L150.1,266.8 L153.5,266.7 L156.8,266.7 L160.2,266.7 L163.6,266.7 L166.9,266.7 L170.3,266.7 L173.6,266.7 L177.0,266.6 L180.3,266.3 L183.7,266.0 L187.1,265.6 L190.4,265.4 L193.8,265.0 L197.1,264.7 L200.5,264.4 L203.9,264.1 L207.2,263.6 L210.6,263.2 L213.9,263.0 L217.3,262.9 L220.7,262.9 L224.0,262.9 L227.4,262.9 L230.7,262.9 L234.1,262.9 L237.4,262.9 L240.8,262.9 L244.2,262.9 L247.5,262.9 L250.9,262.9 L254.2,262.9 L257.6,262.9 L261.0,262.9 L264.3,262.9 L267.7,262.9 L271.0,262.9 L274.4,262.9 L277.8,262.9 L281.1,262.9 L284.5,262.9 L287.8,262.7 L291.2,262.6 L294.5,262.6 L297.9,262.4 L301.3,262.0 L304.6,261.6 L308.0,261.3 L311.3,261.0 L314.7,260.7 L318.1,260.4 L321.4,260.0 L324.8,259.5 L328.1,258.9 L331.5,258.2 L334.8,257.6 L338.2,257.2 L341.6,257.0 L344.9,256.7 L348.3,256.5 L351.6,256.2 L355.0,255.9 L358.4,255.6 L361.7,255.4 L365.1,255.1 L368.4,254.9 L371.8,254.9 L375.2,254.9 L378.5,254.9 L381.9,254.9 L385.2,254.9 L388.6,254.9 L391.9,254.9 L395.3,254.9 L398.7,254.9 L402.0,254.9 L405.4,254.9 L408.7,254.8 L412.1,254.4 L415.5,254.0 L418.8,253.6 L422.2,253.3 L425.5,253.1 L428.9,253.1 L432.2,253.1 L435.6,253.1 L439.0,253.1 L442.3,253.1 L445.7,253.1 L449.0,253.1 L452.4,253.1 L455.8,253.1 L459.1,253.1 L462.5,253.1 L465.8,253.1 L469.2,253.1 L472.6,253.1 L475.9,253.1 L479.3,253.1 L482.6,253.1 L486.0,253.1 L489.3,253.1 L492.7,253.1 L496.1,253.1 L499.4,252.9 L502.8,252.7 L506.1,252.3 L509.5,252.2 L512.9,251.8 L516.2,251.5 L519.6,251.4 L522.9,251.1 L526.3,250.6 L529.7,250.1 L533.0,249.9 L536.4,249.8 L539.7,249.8 L543.1,249.8 L546.4,249.8 L549.8,249.8 L553.2,249.7 L556.5,249.4 L559.9,249.0 L563.2,248.7 L566.6,248.3 L570.0,247.6 L573.3,246.8 L576.7,246.2 L580.0,245.6 L583.4,245.1 L586.8,244.6 L590.1,244.3 L593.5,244.1 L596.8,244.1 L600.2,244.1 L603.5,244.1 L606.9,244.1 L610.3,244.0 L613.6,243.8 L617.0,243.7 L620.3,243.7 L623.7,243.6 L627.1,243.6 L630.4,243.5 L633.8,243.3 L637.1,243.2 L640.5,243.0 L643.8,242.8 L647.2,242.5 L650.6,242.1 L653.9,241.8 L657.3,241.6 L660.6,241.3 L664.0,241.0 L667.4,241.0 L670.7,241.0 L674.1,241.0 L677.4,241.0 L680.8,241.0 L684.2,241.0 L687.5,241.0 L690.9,241.0 L694.2,240.7 L697.6,240.4 L700.9,240.3 L704.3,240.3 L707.7,240.2 L711.0,239.9 L714.4,239.6 L717.7,239.4 L721.1,239.3 L724.5,239.2 L727.8,239.0 L731.2,238.5 L734.5,238.2 L737.9,238.0 L741.2,237.9 L744.6,237.6 L748.0,237.4 L751.3,237.4 L754.7,237.3 L758.0,236.9 L761.4,236.4 L764.8,235.9 L768.1,235.5 L771.5,235.0 L774.8,234.5 L778.2,234.0 L781.6,233.4 L784.9,233.0 L788.3,232.6 L791.6,232.3 L795.0,232.2 L798.3,232.1 L801.7,232.0 L805.1,231.8 L808.4,231.4 L811.8,231.0 L815.1,230.5 L818.5,230.1 L821.9,229.8 L825.2,229.4 L828.6,228.7 L831.9,228.0 L835.3,227.2 L838.7,226.6 L842.0,226.2 L845.4,226.0 L848.7,226.0 L852.1,225.9 L855.4,225.9 L858.8,225.9 L862.2,225.9 L865.5,225.9 L868.9,225.6 L872.2,225.1 L875.6,224.6 L879.0,224.0 L882.3,223.4 L885.7,222.7 L889.0,221.9 L892.4,221.1 L895.8,220.3 L899.1,219.5 L902.5,218.6 L905.8,217.5 L909.2,216.5 L912.5,215.2 L915.9,214.1 L919.3,213.1 L922.6,212.4 L926.0,212.0 L929.3,211.8 L932.7,211.8 L936.1,211.6 L939.4,211.4 L942.8,211.3 L946.1,211.3 L949.5,211.3 L952.8,211.3 L956.2,211.3 L959.6,211.3 L962.9,211.3 L966.3,211.3 L969.6,211.3 L973.0,211.3 L976.4,211.3 L979.7,211.3 L983.1,211.3 L986.4,211.3 L989.8,211.3 L993.2,211.1 L996.5,210.7 L999.9,210.3 L1003.2,209.9 L1006.6,209.6 L1009.9,209.2 L1013.3,208.7 L1016.7,208.2 L1020.0,207.8 L1023.4,207.3 L1026.7,206.7 L1030.1,206.2 L1033.5,205.6 L1036.8,205.0 L1040.2,204.4 L1043.5,203.7 L1046.9,203.1 L1050.2,202.6 L1053.6,202.1 L1057.0,201.6 L1060.3,201.3 L1063.7,201.1 L1067.0,201.1 L1070.4,201.1" fill="none" stroke="var(--ink-faint)" stroke-width="1.2" stroke-dasharray="1 3" opacity=".9"/><path d="M46.0,270.0 L49.4,270.0 L52.7,270.0 L56.1,270.0 L59.4,270.0 L62.8,270.0 L66.2,270.0 L69.5,270.0 L72.9,270.0 L76.2,270.0 L79.6,270.0 L82.9,270.0 L86.3,270.0 L89.7,270.0 L93.0,270.0 L96.4,270.0 L99.7,270.0 L103.1,270.0 L106.5,270.0 L109.8,270.0 L113.2,270.0 L116.5,270.0 L119.9,270.0 L123.2,270.0 L126.6,270.0 L130.0,270.0 L133.3,270.0 L136.7,270.0 L140.0,270.0 L143.4,270.0 L146.8,270.0 L150.1,270.0 L153.5,270.0 L156.8,270.0 L160.2,270.0 L163.6,270.0 L166.9,270.0 L170.3,270.0 L173.6,270.0 L177.0,270.0 L180.3,270.0 L183.7,270.0 L187.1,270.0 L190.4,270.0 L193.8,270.0 L197.1,270.0 L200.5,270.0 L203.9,270.0 L207.2,270.0 L210.6,270.0 L213.9,270.0 L217.3,270.0 L220.7,270.0 L224.0,270.0 L227.4,270.0 L230.7,270.0 L234.1,270.0 L237.4,270.0 L240.8,270.0 L244.2,270.0 L247.5,270.0 L250.9,270.0 L254.2,270.0 L257.6,270.0 L261.0,270.0 L264.3,270.0 L267.7,270.0 L271.0,270.0 L274.4,270.0 L277.8,270.0 L281.1,270.0 L284.5,270.0 L287.8,270.0 L291.2,270.0 L294.5,270.0 L297.9,270.0 L301.3,270.0 L304.6,270.0 L308.0,270.0 L311.3,270.0 L314.7,270.0 L318.1,270.0 L321.4,270.0 L324.8,270.0 L328.1,270.0 L331.5,270.0 L334.8,270.0 L338.2,270.0 L341.6,270.0 L344.9,270.0 L348.3,270.0 L351.6,270.0 L355.0,270.0 L358.4,270.0 L361.7,270.0 L365.1,270.0 L368.4,269.8 L371.8,269.5 L375.2,269.1 L378.5,268.7 L381.9,268.4 L385.2,268.3 L388.6,268.3 L391.9,268.3 L395.3,268.3 L398.7,268.3 L402.0,268.3 L405.4,268.3 L408.7,268.3 L412.1,268.2 L415.5,268.2 L418.8,268.2 L422.2,268.2 L425.5,268.2 L428.9,268.2 L432.2,268.2 L435.6,268.2 L439.0,268.2 L442.3,268.2 L445.7,268.2 L449.0,268.2 L452.4,268.2 L455.8,268.2 L459.1,268.2 L462.5,268.2 L465.8,268.2 L469.2,268.2 L472.6,268.2 L475.9,268.2 L479.3,268.2 L482.6,268.2 L486.0,268.2 L489.3,268.2 L492.7,268.2 L496.1,268.2 L499.4,268.2 L502.8,268.2 L506.1,268.2 L509.5,268.2 L512.9,268.2 L516.2,268.2 L519.6,268.2 L522.9,268.2 L526.3,268.2 L529.7,268.2 L533.0,268.2 L536.4,268.2 L539.7,268.2 L543.1,268.2 L546.4,268.2 L549.8,268.2 L553.2,268.2 L556.5,268.2 L559.9,268.2 L563.2,268.2 L566.6,268.2 L570.0,268.2 L573.3,268.2 L576.7,268.2 L580.0,268.2 L583.4,268.2 L586.8,268.2 L590.1,268.2 L593.5,268.2 L596.8,268.2 L600.2,268.2 L603.5,268.2 L606.9,268.2 L610.3,268.2 L613.6,268.2 L617.0,268.2 L620.3,268.2 L623.7,268.2 L627.1,268.2 L630.4,268.2 L633.8,268.2 L637.1,268.2 L640.5,268.2 L643.8,268.2 L647.2,268.2 L650.6,268.2 L653.9,268.2 L657.3,268.2 L660.6,268.2 L664.0,268.2 L667.4,268.2 L670.7,268.2 L674.1,268.2 L677.4,268.2 L680.8,268.2 L684.2,268.2 L687.5,268.2 L690.9,268.2 L694.2,268.2 L697.6,268.2 L700.9,268.2 L704.3,268.2 L707.7,268.2 L711.0,268.2 L714.4,268.2 L717.7,268.2 L721.1,268.2 L724.5,268.2 L727.8,268.2 L731.2,268.2 L734.5,268.2 L737.9,268.2 L741.2,268.2 L744.6,268.2 L748.0,268.2 L751.3,268.2 L754.7,268.2 L758.0,268.2 L761.4,268.2 L764.8,268.2 L768.1,268.2 L771.5,268.2 L774.8,268.2 L778.2,268.2 L781.6,268.2 L784.9,268.2 L788.3,268.2 L791.6,268.2 L795.0,268.2 L798.3,268.2 L801.7,268.2 L805.1,268.2 L808.4,268.2 L811.8,268.2 L815.1,268.2 L818.5,268.2 L821.9,268.2 L825.2,268.2 L828.6,268.2 L831.9,268.2 L835.3,268.2 L838.7,268.2 L842.0,268.2 L845.4,268.2 L848.7,268.2 L852.1,268.2 L855.4,268.2 L858.8,268.2 L862.2,268.2 L865.5,268.2 L868.9,268.1 L872.2,268.0 L875.6,268.0 L879.0,268.0 L882.3,268.0 L885.7,268.0 L889.0,268.0 L892.4,268.0 L895.8,268.0 L899.1,268.0 L902.5,268.0 L905.8,268.0 L909.2,268.0 L912.5,267.9 L915.9,267.9 L919.3,267.8 L922.6,267.7 L926.0,267.7 L929.3,267.7 L932.7,267.7 L936.1,267.7 L939.4,267.7 L942.8,267.7 L946.1,267.7 L949.5,267.7 L952.8,267.7 L956.2,267.7 L959.6,267.7 L962.9,267.7 L966.3,267.7 L969.6,267.7 L973.0,267.7 L976.4,267.5 L979.7,267.3 L983.1,267.0 L986.4,266.7 L989.8,266.4 L993.2,266.4 L996.5,266.4 L999.9,266.4 L1003.2,266.4 L1006.6,266.4 L1009.9,266.4 L1013.3,266.4 L1016.7,266.4 L1020.0,266.4 L1023.4,266.4 L1026.7,266.4 L1030.1,266.4 L1033.5,266.4 L1036.8,266.4 L1040.2,266.4 L1043.5,266.4 L1046.9,266.4 L1050.2,266.4 L1053.6,266.4 L1057.0,266.4 L1060.3,266.4 L1063.7,266.4 L1067.0,266.4 L1070.4,266.4" fill="none" stroke="var(--ink-faint)" stroke-width="1.1" stroke-dasharray="6 3" opacity=".9"/><path d="M46.0,270.0 L49.4,270.0 L52.7,270.0 L56.1,270.0 L59.4,270.0 L62.8,270.0 L66.2,270.0 L69.5,270.0 L72.9,270.0 L76.2,270.0 L79.6,269.9 L82.9,269.9 L86.3,269.9 L89.7,269.9 L93.0,269.6 L96.4,269.2 L99.7,268.7 L103.1,268.1 L106.5,267.6 L109.8,267.3 L113.2,266.8 L116.5,266.3 L119.9,265.8 L123.2,265.2 L126.6,264.8 L130.0,264.0 L133.3,263.1 L136.7,262.0 L140.0,260.9 L143.4,259.9 L146.8,259.1 L150.1,258.5 L153.5,257.8 L156.8,257.2 L160.2,256.7 L163.6,256.3 L166.9,256.1 L170.3,255.7 L173.6,255.0 L177.0,254.2 L180.3,253.1 L183.7,251.9 L187.1,250.8 L190.4,249.9 L193.8,249.2 L197.1,248.8 L200.5,248.5 L203.9,248.2 L207.2,248.1 L210.6,248.0 L213.9,247.9 L217.3,247.8 L220.7,247.8 L224.0,247.8 L227.4,247.8 L230.7,247.8 L234.1,247.8 L237.4,247.6 L240.8,247.4 L244.2,247.2 L247.5,247.0 L250.9,246.7 L254.2,246.3 L257.6,245.7 L261.0,245.2 L264.3,244.9 L267.7,244.6 L271.0,244.4 L274.4,244.4 L277.8,244.4 L281.1,244.4 L284.5,244.4 L287.8,244.4 L291.2,244.3 L294.5,244.3 L297.9,244.2 L301.3,244.1 L304.6,244.1 L308.0,244.1 L311.3,244.1 L314.7,244.1 L318.1,244.1 L321.4,243.9 L324.8,243.5 L328.1,242.8 L331.5,242.0 L334.8,241.5 L338.2,241.1 L341.6,240.2 L344.9,239.3 L348.3,238.5 L351.6,237.8 L355.0,237.0 L358.4,236.1 L361.7,235.3 L365.1,234.4 L368.4,233.8 L371.8,233.2 L375.2,232.5 L378.5,231.7 L381.9,230.9 L385.2,230.2 L388.6,229.4 L391.9,228.5 L395.3,227.6 L398.7,226.7 L402.0,225.9 L405.4,225.1 L408.7,224.2 L412.1,223.6 L415.5,223.1 L418.8,222.7 L422.2,222.3 L425.5,221.7 L428.9,221.2 L432.2,220.7 L435.6,220.1 L439.0,219.3 L442.3,218.6 L445.7,217.8 L449.0,217.2 L452.4,216.5 L455.8,215.8 L459.1,214.8 L462.5,213.5 L465.8,212.1 L469.2,210.8 L472.6,209.8 L475.9,208.8 L479.3,208.0 L482.6,207.5 L486.0,206.7 L489.3,206.0 L492.7,205.2 L496.1,204.4 L499.4,203.5 L502.8,202.6 L506.1,201.7 L509.5,200.6 L512.9,199.5 L516.2,198.3 L519.6,197.0 L522.9,195.6 L526.3,194.2 L529.7,192.9 L533.0,191.6 L536.4,190.3 L539.7,189.2 L543.1,188.1 L546.4,187.0 L549.8,186.0 L553.2,185.0 L556.5,184.0 L559.9,183.3 L563.2,182.8 L566.6,182.3 L570.0,181.7 L573.3,181.1 L576.7,180.5 L580.0,180.0 L583.4,179.4 L586.8,178.7 L590.1,177.9 L593.5,177.2 L596.8,176.5 L600.2,175.6 L603.5,174.4 L606.9,173.2 L610.3,172.0 L613.6,170.7 L617.0,169.3 L620.3,167.9 L623.7,166.6 L627.1,165.4 L630.4,164.3 L633.8,163.2 L637.1,162.3 L640.5,161.3 L643.8,160.2 L647.2,159.0" fill="none" stroke="var(--ink)" stroke-width="2.6"/><circle cx="647.2" cy="159.0" r="4" fill="var(--ink)"/><text x="655.2" y="163.0" class="chnow">2026 &middot; 653</text><text x="1076.4" y="33.9" class="chx">1997</text><text x="1076.4" y="74.0" class="chx">2015</text><text x="1076.4" y="204.6" class="chx">2023</text><text x="1076.4" y="269.9" class="chx">2025</text><text x="46.0" y="290" text-anchor="middle" class="chx">1 Mar</text><text x="250.9" y="290" text-anchor="middle" class="chx">1 May</text><text x="455.8" y="290" text-anchor="middle" class="chx">1 Jul</text><text x="660.6" y="290" text-anchor="middle" class="chx">31 Aug</text></svg><div class="note"><strong>CWWA:</strong> Live ERA5 daily 850 hPa zonal wind through 2026-08-27, area-meaned over 5°N–5°S, 130°E–150°W and integrated for positive (westerly) anomalies vs the 1991-2020 same-calendar-day climatology. Higher = more cumulative westerly forcing on the equatorial Pacific, the mechanism that excites downwelling Kelvin waves and drives moderate-to-super event escalation. At the same calendar date, 2026 CWWA (653) tracks closest to 2015 (719); other reference years: 1997 (805), 2023 (162), 2025 (11).</div></section><section class="analyst-read"><h2>What's interesting this week</h2><p class="section-sub">Observations from this week's data, beyond what the headline numbers say.</p><ul><li><strong>Subsurface heat ahead of both Godzilla analogs.</strong> 0–300 m heat content anomaly is now +3.20°C, vs +1.79°C in 1997 and +1.97°C in 2015 at the same calendar month (August), running ahead of either super-event analog at this stage of development.</li><li><strong>Strongest WWB already in super-event territory.</strong> 2026's strongest westerly wind burst peaks at 23.9 m/s on 2026-04-12, vs full-season peaks of 27.7 (1997) and 29.5 (2015). Peak amplitude is super-event-aligned even though cumulative wind energy is lagging.</li></ul></section><section><div class="sec-head"><div class="eyebrow">02</div><h2>Probability ladder</h2></div><p class="section-sub">Peak three-month ONI, DJF 2026-27. Each rung is computed independently; adding one does not recalculate the others.</p><div class="ladder"><div class="rung far"><div class="threshold"><span class="gt">&gt;</span>+4.0°C peak</div><div class="pct">39<span class="pct-sym">%</span><span class="word">probability</span></div><div class="track"><span class="fill" style="width:39%"></span></div><div class="label">Nothing to compare it to<span class="tag">model spread only</span></div></div><div class="rung far"><div class="threshold"><span class="gt">&gt;</span>+3.5°C peak</div><div class="pct">65<span class="pct-sym">%</span><span class="word">probability</span></div><div class="track"><span class="fill" style="width:65%"></span></div><div class="label">Far beyond it<span class="tag">most uncertain</span></div></div><div class="rung record"><div class="threshold"><span class="gt">&gt;</span>+3.0°C peak</div><div class="pct">93<span class="pct-sym">%</span><span class="word">probability</span></div><div class="track"><span class="fill" style="width:93%"></span></div><div class="label">Beyond the observed record<span class="tag">highly uncertain</span></div></div><div class="rung magn"><div class="threshold"><span class="gt">&gt;</span>+2.5°C peak</div><div class="pct">99<span class="pct-sym">%</span><span class="word">probability</span></div><div class="track"><span class="fill" style="width:99%"></span></div><div class="label">1997 / 2015 magnitude</div></div></div><p class="section-sub" style="margin-top:26px">Every published probability, every issue. A line begins at the issue its rung was first published: before that there is no consensus figure, only an anchor that sits far below, and drawing it would put a different quantity on the same line.</p><svg viewBox="0 0 760 300" width="100%" style="height:auto" role="img" aria-label="Published probability for each peak magnitude, every issue from 2026-04-25 to 2026-09-01. Each line begins at the issue its rung was first published."><line x1="46" y1="270.0" x2="664" y2="270.0" stroke="var(--rule)" stroke-width=".7"/><text x="38" y="273.5" text-anchor="end" class="chx">0</text><line x1="46" y1="143.0" x2="664" y2="143.0" stroke="var(--rule)" stroke-width=".7"/><text x="38" y="146.5" text-anchor="end" class="chx">50</text><line x1="46" y1="16.0" x2="664" y2="16.0" stroke="var(--rule)" stroke-width=".7"/><text x="38" y="19.5" text-anchor="end" class="chx">100</text><path d="M46.0,206.5 L78.5,181.1 L111.1,181.1 L143.6,155.7 L176.1,155.7 L208.6,102.4 L241.2,102.4 L273.7,66.8 L306.2,66.8 L338.7,66.8 L371.3,66.8 L403.8,38.9 L436.3,38.9 L468.8,36.3 L501.4,36.3 L533.9,21.1 L566.4,18.5 L598.9,18.5 L631.5,18.5 L664.0,18.5" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-dasharray="" opacity=".9"/><circle cx="664.0" cy="18.5" r="3.4" fill="var(--ink)"/><path d="M208.6,173.5 L241.2,165.9 L273.7,102.4 L306.2,102.4 L338.7,102.4 L371.3,102.4 L403.8,69.3 L436.3,69.3 L468.8,66.8 L501.4,66.8 L533.9,31.2 L566.4,31.2 L598.9,33.8 L631.5,33.8 L664.0,33.8" fill="none" stroke="var(--ink)" stroke-width="2.0" stroke-dasharray="5 3" opacity=".9"/><circle cx="664.0" cy="33.8" r="3.4" fill="var(--ink)"/><path d="M371.3,163.3 L403.8,132.8 L436.3,132.8 L468.8,130.3 L501.4,130.3 L533.9,92.2 L566.4,102.4 L598.9,104.9 L631.5,104.9 L664.0,104.9" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-dasharray="2 3" opacity=".9"/><circle cx="664.0" cy="104.9" r="3.4" fill="var(--ink)"/><line x1="667.0" y1="18.5" x2="671.0" y2="20.0" stroke="var(--ink-faint)" stroke-width=".7"/><text x="672.0" y="24.0" class="chx" style="fill:var(--ink)">+2.5 &deg;C &middot; 99%</text><text x="672.0" y="37.8" class="chx" style="fill:var(--ink)">+3.0 &deg;C &middot; 93%</text><text x="672.0" y="108.9" class="chx" style="fill:var(--ink)">+3.5 &deg;C &middot; 65%</text><text x="46.0" y="290" text-anchor="middle" class="chx">04-25</text><text x="241.2" y="290" text-anchor="middle" class="chx">06-08</text><text x="468.8" y="290" text-anchor="middle" class="chx">07-27</text><text x="664.0" y="290" text-anchor="middle" class="chx">09-01</text></svg><p class="buckets-note">The "at least moderate" (+1.0°C) and "strong" (+1.5°C) thresholds reached 100% in June and have been retired from the ladder; the event has outgrown the bottom of the scale. Their full history stays in the <a href="../">archive</a>. Probabilities use the consensus estimator: a CPC-derived anchor (live offset +0.80°C, week of 2026-08-26, skew-normal fit on the strength table) deflected toward an equal-weight multi-model consensus (ECMWF SEAS5 plus the NMME suite), consensus-led at weight 0.85. The rungs above +2.5°C are different in kind: no event in the instrumental record has reached them, so they carry little to no agency anchor and are driven mostly by direct model member counts. The +3.5°C rung is the furthest out: no official agency forecasts a threshold that extreme, so read it as where the hottest dynamical runs are clustering, not a calibrated probability. Adding a rung does not recalculate the others, so their week-over-week deltas stay comparable. Deltas compare to the issue four weeks prior, aligned with CPC's monthly cadence; in the brief's first month the comparison falls back to the launch issue, and weeks crossing a methodology-version change show no delta. Full estimator math on the <a href="../../methodology.html">methodology page</a>.</p></section><section><div class="sec-head"><div class="eyebrow">03</div><h2>Analog tracker</h2></div><p class="section-sub">2026-27 trajectory vs reference El Niño events, plus a combined SEAS5 and NMME multi-model forecast carried through the winter peak.</p><div class="two"><div class="chart-card"><img src="analog.png" alt="Analog tracker chart"></div><div class="note-side"><h3>Reading this</h3><p>Only the current year carries colour. The reference years separate by line weight and dash instead, so the chart holds when it is screenshotted, reposted, or printed in grey.</p><p>2025 is in deliberately as a non-event, a La Niña year, to show what the absence of a signal looks like on the same axes.</p></div></div><div class="chart-caption"><strong>Read this week:</strong> the shaded red field marks El Niño territory, deepening through moderate, strong and super up to the +2.5°C line that 1997 and 2015 peaked near. 2026's observed ONI (the solid red line) runs to the MJJ season at +1.4°C; 1997 and 2023 were similarly cool this early and still became super events, so position this far out is a weak discriminator. Forward, the forecast is one combined ensemble: the dashed line and grey bands are ECMWF SEAS5 (median with 25-75 and 5-95 percentile spreads) to its February 2027 horizon, and the dotted line carries the NMME multi-model pool from there through the DJF peak to April 2027, above the 1997/2015 record. The dotted stretches are the softer parts: a short bridge over the gap to the first forecast month, then the pooled extension, its member band widening with lead. Read the dotted tail as direction, not precision.</div></section><section class="impacts"><div class="sec-head"><div class="eyebrow">04</div><h2>Impact outlook</h2></div><p>Aggregation of institutional impact ranges for the developing event. Probabilities below are from named external sources, conditional on the headline strong-to-super case in section 1 materializing.</p><div class="impacts-map"><img class="world-map-bg" src="../../world-map.svg" alt="World map of regional impact zones" loading="lazy"/><button type="button" class="map-hotspot active" data-region="mediterranean" style="left: 52.7%; top: 26.7%;" aria-label="Mediterranean"><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="amazon-basin" style="left: 33.4%; top: 52.7%;" aria-label="Amazon basin"><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="australia-and-the-great-barrier-reef" style="left: 90.5%; top: 62.2%;" aria-label="Australia and the Great Barrier Reef"><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="southern-africa" style="left: 57.0%; top: 64.0%;" aria-label="Southern Africa"><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="india-and-south-asia" style="left: 71.6%; top: 37.7%;" aria-label="India and South Asia"><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="united-states" style="left: 22.2%; top: 27.7%;" aria-label="United States"><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="southeast-asia" style="left: 82.0%; top: 51.7%;" aria-label="Southeast Asia"><span class="map-hotspot-dot"></span></button><button type="button" class="map-hotspot" data-region="global-coral" style="left: 8.4%; top: 50.0%;" aria-label="Global coral"><span class="map-hotspot-dot"></span></button></div><div class="region-tabs" role="tablist" aria-label="Regional impacts"><button type="button" class="region-tab" data-region="mediterranean" role="tab" aria-selected="true">Mediterranean</button><button type="button" class="region-tab" data-region="amazon-basin" role="tab" aria-selected="false">Amazon basin</button><button type="button" class="region-tab" data-region="australia-and-the-great-barrier-reef" role="tab" aria-selected="false">Australia and the Great Barrier Reef</button><button type="button" class="region-tab" data-region="southern-africa" role="tab" aria-selected="false">Southern Africa</button><button type="button" class="region-tab" data-region="india-and-south-asia" role="tab" aria-selected="false">India and South Asia</button><button type="button" class="region-tab" data-region="united-states" role="tab" aria-selected="false">United States</button><button type="button" class="region-tab" data-region="southeast-asia" role="tab" aria-selected="false">Southeast Asia</button><button type="button" class="region-tab" data-region="global-coral" role="tab" aria-selected="false">Global coral</button></div><div class="region-content"><div class="region-panel active" data-region="mediterranean" role="tabpanel" aria-label="Mediterranean"><h3>Mediterranean</h3><p>Spain, Portugal, Italy, Greece, southern France. Probability of severe summer 2026 heat and drought: high, &gt;70% Iberia, ~65% Italy/Greece/southern France. The 2024 July Mediterranean heatwave was characterized by World Weather Attribution as "virtually impossible without human-caused climate change". A 2003-magnitude European heat event (~70,000 excess deaths) is rated medium probability (~25-30%) on a strong El Niño compounded with the multi-year Mediterranean drought baseline.</p></div><div class="region-panel" data-region="amazon-basin" role="tabpanel" aria-label="Amazon basin"><h3>Amazon basin</h3><p>Probability of major drought 2026: high (&gt;70%); probability of fire season exceeding 2024 hotspot levels: medium-high (~50%). NASA SERVIR characterized the 2023-24 drought magnitude as "roughly double" the 2015-16 event. The 2024 fire season produced a 76% increase in hotspots vs 2023.</p></div><div class="region-panel" data-region="australia-and-the-great-barrier-reef" role="tabpanel" aria-label="Australia and the Great Barrier Reef"><h3>Australia and the Great Barrier Reef</h3><p>Probability of severe bushfire season austral summer 2026-27: high (&gt;65%); GBR mass bleaching: very high (&gt;85%); agricultural drought: high (&gt;70%). The reef has bleached six times since 2016; another super event makes a sixth-in-eight-years bleaching baseline. Australian winter wheat is the cleanest El Niño short on record, with declines of 16% to 46% under prior strong events (1965, 1977, 1982, 1994, 1997, 2023).</p></div><div class="region-panel" data-region="southern-africa" role="tabpanel" aria-label="Southern Africa"><h3>Southern Africa</h3><p>Probability of major drought repeat: ~70% if rains arrive late, per OCHA framing of the 2023-24 baseline ("worst impacts in 40 years"). Probability of a humanitarian appeal exceeding $5 billion: medium-high (~50%). Six SADC countries declared emergency in 2024; back-to-back is the asymmetric humanitarian risk.</p></div><div class="region-panel" data-region="india-and-south-asia" role="tabpanel" aria-label="India and South Asia"><h3>India and South Asia</h3><p>IMD's April 2026 monsoon outlook is 92% of the long-period average, the first below-normal April call since 2015. Of 16 historical El Niño years since 1950, 7 produced below-normal Indian monsoons (IMD MMCFS). Pre-monsoon heat already reached 43.8°C at Akola in mid-April 2026.</p></div><div class="region-panel" data-region="united-states" role="tabpanel" aria-label="United States"><h3>United States</h3><p>California atmospheric river season: above-normal Pacific storm count winter 2026-27 high (~70%), with ~50% probability of a major atmospheric river damage event January-March 2027. Pacific Northwest: warmer-drier winter (~70%) with significant 2026 fire season (~50%). Atlantic hurricane season: high probability (~70%) of below-normal activity from El Niño wind shear, partially offset by warm Atlantic SSTs (2023 produced 20 named storms despite an El Niño base state). Southern Plains drought relief: low-medium (~25-30%); the 2023-24 super event underdelivered there.</p></div><div class="region-panel" data-region="southeast-asia" role="tabpanel" aria-label="Southeast Asia"><h3>Southeast Asia</h3><p>Significant drought in Indonesia: high (&gt;70%); palm oil production decline: medium-high (~55%). The 2015-16 super event delivered a 13.2% Malaysian palm oil production decline at a 12-month lag. Vietnamese coffee output fell 20% in 2023-24.</p></div><div class="region-panel" data-region="global-coral" role="tabpanel" aria-label="Global coral"><h3>Global coral</h3><p>The 2023-25 fourth global bleaching event already affects ~84% of world reefs (International Coral Reef Initiative, April 2025). Continued mass bleaching across all tropical basins is essentially certain into 2026-27.</p></div></div><script>
+(function () {
+  var section = document.querySelector('.impacts');
+  if (!section) return;
+  var tabs = section.querySelectorAll('.region-tab');
+  var panels = section.querySelectorAll('.region-panel');
+  var hotspots = section.querySelectorAll('.impacts-map .map-hotspot');
+  function activate(slug) {
+    if (!slug) return;
+    var ok = false;
+    panels.forEach(function (p) {
+      var match = p.getAttribute('data-region') === slug;
+      p.classList.toggle('active', match);
+      if (match) ok = true;
+    });
+    if (!ok) return;
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected',
+        t.getAttribute('data-region') === slug ? 'true' : 'false');
+    });
+    hotspots.forEach(function (h) {
+      h.classList.toggle('active', h.getAttribute('data-region') === slug);
+    });
+    if (history.replaceState) {
+      history.replaceState(null, '', '#region=' + slug);
+    }
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      activate(t.getAttribute('data-region'));
+    });
+  });
+  hotspots.forEach(function (h) {
+    h.addEventListener('click', function () {
+      activate(h.getAttribute('data-region'));
+    });
+  });
+  var m = (location.hash || '').match(/region=([\w-]+)/);
+  if (m) activate(m[1]);
+})();
+</script></section><section><div class="sec-head"><div class="eyebrow">05</div><h2>Source-by-source check</h2></div><p class="section-sub">What each agency last said, with the age of each statement. Agencies publish on their own schedules, so these are rarely all from the same week.</p><ul class="src-list"><li><span class="src-name">NOAA CPC strength table, NDJ 2026-27 (RONI)</span><span class="src-issued">issued 2026-08-13 &middot; 19 days old</span><div class="src-detail">super 90%, strong 9%, moderate 1%, weak El Niño 0%, neutral 0%, La Niña 0%.</div></li><li><span class="src-name">IRI plume, DJF 2026-27</span><span class="src-issued">issued 2026-08-19 &middot; 13 days old</span><div class="src-detail">El Niño 100%, neutral 0%, La Niña 0%. Strength not broken out in the public Quick Look.</div></li><li><span class="src-name">BoM ENSO Outlook</span><span class="src-issued">issued 2026-09-01 &middot; today</span><div class="src-detail">El Niño continues to strengthen while IOD values ease back into the neutral range. Categorical only.</div></li><li><span class="src-name">ECMWF SEAS5</span><span class="src-issued">run 2026-08-01</span><div class="src-detail">51-member SEAS5 ensemble for 2027-02: median Niño 3.4 anomaly +4.06 deg C; 51/51 members above +1.5 (~100% above +2.0, ~100% above +2.5).</div></li></ul></section><section><div class="sec-head"><div class="eyebrow">06</div><h2>Caveats this issue</h2></div><ol class="caveats"><li>The CPC anchor for the +2.5°C bucket carries a 93–98% range. It comes from a bootstrap that perturbs CPC's published bin probabilities by Gaussian noise (sigma 1 percentage point, matching CPC's whole-percent reporting precision) and refits the skew-normal each time. The range reflects reporting-quantization uncertainty in CPC's table, not underlying forecast uncertainty. The smoothed headline (99%) sits above this anchor range because the bounded SEAS5 deflection (+2.5pp this issue) lifts it.</li><li>ECMWF SEAS5 vs CPC anchor on the upper tail above +2.5°C trad ONI: SEAS5 has 51/51 members (100%) at 2027-02 (max available lead); the CPC anchor lands at 93–98%. The v1.5 smoothing absorbs 20% of this gap (capped at ±10pp/week), moving the smoothed headline to 99%. We subtract SEAS5's own model climatology, which removes its known ENSO warm bias; an observational-climatology subtraction would put SEAS5 higher still. For broader context, multi-model pools (e.g., the <a href="https://dashboard.theclimatebrink.com/#enso">Climate Brink dashboard</a>'s 13-model 637-member view) currently report a meaningfully higher probability for the same threshold; the gap reflects CPC's analyst-correction vs raw multi-model breadth, documented as methodology limitation #7.</li><li>Forecast skill note: mid-year forecasts for the DJF peak are past the boreal-spring predictability barrier and carry materially narrower error bars than the April&ndash;May issuances did. The remaining uncertainty is concentrated in peak magnitude at the top of the distribution (the +3.0 and +3.5 rungs), not in whether a strong-to-super event occurs.</li></ol></section><div class="issue-meta"><div><span class="k">Issue</span><span class="v"><b>2026-09-01</b></span></div><div><span class="k">Methodology</span><span class="v"><b>v1.11</b></span></div><div><span class="k">RONI offset</span><span class="v">live offset +0.80°C, week of 2026-08-26</span></div><div><span class="k">Sources</span><span class="v"><b>10</b> of 10 live</span></div><div><span class="k">Next issue</span><span class="v">2026-09-08</span></div><div><span class="k">Archive</span><span class="v"><a href="../">every issue, immutable</a></span></div></div></main></div>
+<footer class="field"><div class="field-shell"><div class="foot"><div class="foot-top"><a class="brand" href="../../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.75"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.55"/></svg><span class="brand-name">The Long Swell</span></a><div class="foot-links"><a href="#issue">El Niño 2026-27</a><a href="../../fires/">Fires</a><a href="../../methodology.html">Methodology</a><a href="../">Archive</a><a href="https://github.com/kristjanlepik-commits/el-nino-tracker">GitHub</a></div></div><div><span class="foot-fresh-label">Source freshness this issue</span><div class="freshness-grid"><div><span class="src">NOAA CPC strength table</span><span class="meta"> · live, issued 2026-08-13</span></div><div><span class="src">NOAA OISST weekly Niño 3.4</span><span class="meta"> · live, issued 2026-08-26</span></div><div><span class="src">CPC 0-300m heat content</span><span class="meta"> · live, issued 2026-08-31</span></div><div><span class="src">IRI plume</span><span class="meta"> · live, issued 2026-08-19</span></div><div><span class="src">BoM ENSO Outlook</span><span class="meta"> · live, issued 2026-09-01</span></div><div><span class="src">ECMWF SEAS5</span><span class="meta"> · live, issued 2026-08-01</span></div><div><span class="src">ERA5 cumulative westerly wind anomaly (CWWA)</span><span class="meta"> · live, issued 2026-08-27</span></div><div><span class="src">ERA5 westerly wind burst events</span><span class="meta"> · live, issued 2026-08-27</span></div><div><span class="src">NOAA ONI historical record</span><span class="meta"> · live, issued 2026-07-31</span></div><div><span class="src">NMME multi-model suite (incl. CFSv2)</span><span class="meta"> · live, issued 2026-08-08</span></div></div></div><p class="footer-meta">Methodology version 1.11. RONI to traditional ONI offset +0.80°C (live, week of 2026-08-26). See <a href="../../methodology.html">methodology</a> for the full audit trail.</p><p class="foot-cite"><b>By <a href="https://www.linkedin.com/in/kristjanlepik/">Kristjan Lepik</a>.</b> Licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.<br>Cite as: Lepik, K. (2026). <b>The Long Swell: El Niño 2026-27.</b> <a href="https://thelongswell.com/">thelongswell.com</a>.<br>Free to share and quote with attribution; commercial reuse requires permission. Every issue archived, immutable. Disagreements are surfaced, not averaged.</p></div></div></footer>
+</body>
+</html>

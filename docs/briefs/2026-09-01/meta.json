@@ -1,0 +1,379 @@
+{
+  "date": "2026-09-01",
+  "methodology_version": "1.11",
+  "headline_buckets": {
+    "moderate_>1.0": {
+      "mid": 99,
+      "retired": true,
+      "retired_on": "2026-07-13",
+      "mid_unclamped": 100,
+      "mid_exact": 100.0,
+      "anchor": 100,
+      "seas5": 100,
+      "consensus": 100,
+      "n_models": 6,
+      "per_model": {
+        "CFSv2": {
+          "pct": 100.0,
+          "n_members": 32,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "CanESM5": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "GEM5.2_NEMO": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CCSM4": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CESM1": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "ECMWF_SEAS5": {
+          "pct": 100.0,
+          "n_members": 51,
+          "basis": "single lead 6"
+        }
+      },
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 0.0,
+      "liveness": {
+        "state": "settled",
+        "settled_on": null,
+        "weeks_unchanged": 3,
+        "mean_abs_move_recent": 0.25,
+        "saturated": true,
+        "retirement_due": false
+      }
+    },
+    "strong_>1.5": {
+      "mid": 99,
+      "retired": true,
+      "retired_on": "2026-07-13",
+      "mid_unclamped": 100,
+      "mid_exact": 100.0,
+      "anchor": 100,
+      "seas5": 100,
+      "consensus": 100,
+      "n_models": 6,
+      "per_model": {
+        "CFSv2": {
+          "pct": 100.0,
+          "n_members": 32,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "CanESM5": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "GEM5.2_NEMO": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CCSM4": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CESM1": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "ECMWF_SEAS5": {
+          "pct": 100.0,
+          "n_members": 51,
+          "basis": "single lead 6"
+        }
+      },
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 0.0,
+      "liveness": {
+        "state": "settled",
+        "settled_on": null,
+        "weeks_unchanged": 3,
+        "mean_abs_move_recent": 0.25,
+        "saturated": true,
+        "retirement_due": false
+      }
+    },
+    "super_>2.0": {
+      "mid": 99,
+      "retired": true,
+      "retired_on": "2026-08-10",
+      "mid_unclamped": 100,
+      "mid_exact": 100.0,
+      "anchor": 100,
+      "seas5": 100,
+      "consensus": 100,
+      "n_models": 6,
+      "per_model": {
+        "CFSv2": {
+          "pct": 100.0,
+          "n_members": 32,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "CanESM5": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "GEM5.2_NEMO": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CCSM4": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CESM1": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "ECMWF_SEAS5": {
+          "pct": 100.0,
+          "n_members": 51,
+          "basis": "single lead 6"
+        }
+      },
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 0.0,
+      "liveness": {
+        "state": "settled",
+        "settled_on": null,
+        "weeks_unchanged": 3,
+        "mean_abs_move_recent": 0.25,
+        "saturated": true,
+        "retirement_due": false
+      }
+    },
+    "9715_>2.5": {
+      "mid": 99,
+      "retired": false,
+      "retired_on": null,
+      "mid_unclamped": 100,
+      "mid_exact": 99.55,
+      "anchor": 97,
+      "seas5": 100,
+      "consensus": 100,
+      "n_models": 6,
+      "per_model": {
+        "CFSv2": {
+          "pct": 100.0,
+          "n_members": 32,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "CanESM5": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "GEM5.2_NEMO": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CCSM4": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CESM1": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "ECMWF_SEAS5": {
+          "pct": 100.0,
+          "n_members": 51,
+          "basis": "single lead 6"
+        }
+      },
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 2.5,
+      "liveness": {
+        "state": "settled",
+        "settled_on": null,
+        "weeks_unchanged": 3,
+        "mean_abs_move_recent": 0.25,
+        "saturated": true,
+        "retirement_due": true
+      }
+    },
+    "record_>3.0": {
+      "mid": 93,
+      "retired": false,
+      "retired_on": null,
+      "mid_unclamped": 93,
+      "mid_exact": 92.9,
+      "anchor": 81,
+      "seas5": 100,
+      "consensus": 95,
+      "n_models": 6,
+      "per_model": {
+        "CFSv2": {
+          "pct": 100.0,
+          "n_members": 32,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "CanESM5": {
+          "pct": 90.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "GEM5.2_NEMO": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CCSM4": {
+          "pct": 80.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CESM1": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "ECMWF_SEAS5": {
+          "pct": 100.0,
+          "n_members": 51,
+          "basis": "single lead 6"
+        }
+      },
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 11.9,
+      "liveness": {
+        "state": "quiet",
+        "settled_on": null,
+        "weeks_unchanged": 2,
+        "mean_abs_move_recent": 0.25,
+        "saturated": false,
+        "retirement_due": false
+      }
+    },
+    "record_>3.5": {
+      "mid": 65,
+      "retired": false,
+      "retired_on": null,
+      "mid_unclamped": 65,
+      "mid_exact": 64.56,
+      "anchor": 45,
+      "seas5": 98,
+      "consensus": 68,
+      "n_models": 6,
+      "per_model": {
+        "CFSv2": {
+          "pct": 100.0,
+          "n_members": 32,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "CanESM5": {
+          "pct": 10.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "GEM5.2_NEMO": {
+          "pct": 100.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CCSM4": {
+          "pct": 0.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CESM1": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "ECMWF_SEAS5": {
+          "pct": 98.0,
+          "n_members": 51,
+          "basis": "single lead 6"
+        }
+      },
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 19.6,
+      "liveness": {
+        "state": "quiet",
+        "settled_on": null,
+        "weeks_unchanged": 2,
+        "mean_abs_move_recent": 1.25,
+        "saturated": false,
+        "retirement_due": false
+      }
+    },
+    "record_>4.0": {
+      "mid": 39,
+      "retired": false,
+      "retired_on": null,
+      "mid_unclamped": 39,
+      "mid_exact": 38.56,
+      "anchor": 14,
+      "seas5": null,
+      "consensus": 43,
+      "n_models": 5,
+      "per_model": {
+        "CFSv2": {
+          "pct": 59.4,
+          "n_members": 32,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "CanESM5": {
+          "pct": 0.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "GEM5.2_NEMO": {
+          "pct": 55.0,
+          "n_members": 20,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CCSM4": {
+          "pct": 0.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        },
+        "NCAR_CESM1": {
+          "pct": 100.0,
+          "n_members": 10,
+          "basis": "peak ONI (3-month mean), Nov 2026 - Feb 2027"
+        }
+      },
+      "weight": 0.85,
+      "mode": "consensus",
+      "deflection": 24.6,
+      "liveness": {
+        "state": "quiet",
+        "settled_on": null,
+        "weeks_unchanged": 3,
+        "mean_abs_move_recent": 0.0,
+        "saturated": false,
+        "retirement_due": false
+      }
+    }
+  }
+}

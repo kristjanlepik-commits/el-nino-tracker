@@ -3394,6 +3394,18 @@ def chart_heat(phys):
     if len(ser) < 100:
         return ""
 
+    # THE MONTH WAS A HARDCODED "July" BESIDE A COMPUTED VALUE, in the aria
+    # label and on the marker. It was correct the week it was written and
+    # wrong the moment the August figure landed: the page said "+3.20, July"
+    # with a number that is August's. A qualifier hardcoded next to a value
+    # it describes will drift the first time the value updates, and nothing
+    # checks it because the number is right.
+    _CUR_MON = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November",
+                "December"]
+    _latest = max(k for k in ser if k.startswith("2026-"))
+    _cur_month = _CUR_MON[int(_latest[5:7]) - 1]
+
     def dev(y0):
         out = []
         for i in range(14):
@@ -3437,7 +3449,8 @@ def chart_heat(phys):
     return (
         f'<svg viewBox="0 0 {_CH_W} {_CH_H}" width="100%" style="height:auto" '
         f'role="img" aria-label="Ocean heat content 0 to 300 m through each '
-        f'development year. 2026 reaches +{cur[-1][1]:.2f} in July, above 1997 '
+        f'development year. 2026 reaches +{cur[-1][1]:.2f} in {_cur_month}, above '
+        f'1997 '
         f'peaking at +2.56 in October and 2015 at +1.97 in August. 2026 has '
         f'{len(cur)} months of observation against fourteen for the analogs, and '
         f'the months it has not reached are shaded.">'
@@ -3447,7 +3460,7 @@ def chart_heat(phys):
         f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="4.5" fill="var(--paper)" '
         f'stroke="var(--nino)" stroke-width="2.2"/>'
         f'<text x="{lx+9:.1f}" y="{ly+4:.1f}" class="chnow">2026 &middot; '
-        f'{cur[-1][1]:+.2f}, July</text>{ticks}</svg>')
+        f'{cur[-1][1]:+.2f}, {_cur_month}</text>{ticks}</svg>')
 
 
 def chart_prob_history(briefs_dir):
