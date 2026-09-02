@@ -119,3 +119,11 @@ Mediterranean record stands on its own.
 that state does to rainfall when a system arrives. Whether one arrives,
 and where, is weather, and nobody can tell you that in September for
 October.
+
+**And not something our own flood instrument can confirm.** GloFAS, the
+river model our floods channel runs on, resolves large slow river floods
+well and small flash ones barely. Storm Daniel ran at 185 times the local
+median flow. The Valencia flood, which killed more than two hundred
+people, reads 3.7. The mechanism described here produces the second kind,
+so we are describing it from the physics rather than from our own gauge.
+[FLOODS: confirm this characterisation and the two figures]
