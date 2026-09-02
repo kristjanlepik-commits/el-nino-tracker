@@ -74,12 +74,19 @@ def _series(p):
     else:
         ds = xr.open_dataset(p)
     s = ds["sst"].mean(dim=["latitude", "longitude"], skipna=True) - 273.15
+    # KEYED BY CALENDAR DATE, NOT DAY OF YEAR. The first version used
+    # dayofyear and a 213-243 window, which is 1-31 August in a common year
+    # and 31 JULY to 30 AUGUST in a leap year. 2024 is a leap year and is
+    # the runner-up the whole margin claim rests on, so the comparison was
+    # 2026's August against 2024's late July. Editor found the sibling of
+    # this fault; this one was underneath it.
     out = {}
-    for y, doy, v in zip(s.valid_time.dt.year.values,
-                         s.valid_time.dt.dayofyear.values,
-                         np.asarray(s.values)):
+    for y, mo, d, v in zip(s.valid_time.dt.year.values,
+                           s.valid_time.dt.month.values,
+                           s.valid_time.dt.day.values,
+                           np.asarray(s.values)):
         if not np.isnan(v):
-            out.setdefault(int(y), {})[int(doy)] = round(float(v), 3)
+            out.setdefault(int(y), {})[f"{int(mo):02d}-{int(d):02d}"] = round(float(v), 3)
     return out
 
 
@@ -87,29 +94,37 @@ def main():
     track = _series(_fetch("sst_track", range(1991, 2027),
                            [f"{m:02d}" for m in range(1, 13)]))
 
-    # August means. Extend to 1940 when the pull is available, so the record
-    # claim carries its true window rather than the one that was convenient.
-    aug = {y: float(np.mean([v for d, v in dd.items() if 213 <= d <= 243]))
+    # CUT EVERY YEAR TO THE SAME CALENDAR DATE. 2026's series ends when the
+    # data does, so an August mean over the whole month for prior years and
+    # a part-month for 2026 is two windows in one comparison. Late August
+    # cools, so the short window is biased WARM and the bias lands entirely
+    # on the current year. Editor caught it: the sampling matched and the
+    # window length did not, which falsified the piece's own like-for-like
+    # sentence. Heat solved this already and calls it series_to_same_date.
+    cut = max(d for d in track[2026] if d.startswith("08-"))
+    aug_days = [d for d in sorted(track[2026]) if d.startswith("08-") and d <= cut]
+    aug = {y: float(np.mean([dd[d] for d in aug_days if d in dd]))
            for y, dd in track.items()
-           if len([d for d in dd if 213 <= d <= 243]) >= 25}
+           if sum(1 for d in aug_days if d in dd) >= len(aug_days) - 1}
     early = CACHE / "sst_aug_1940_1990.nc"
     window_first = 1991
     if early.exists():
         for y, dd in _series(early).items():
-            vals = [v for d, v in dd.items() if 213 <= d <= 243]
-            if len(vals) >= 25:
+            # same calendar cut as every other year, not a whole month
+            vals = [dd[d] for d in aug_days if d in dd]
+            if len(vals) >= len(aug_days) - 1:
                 aug[y] = float(np.mean(vals))
         window_first = min(aug)
 
     order = sorted(aug.items(), key=lambda kv: -kv[1])
     clim = float(np.mean([aug[y] for y in range(*CLIM) if y in aug]))
     cur = aug[2026]
-    latest_doy = max(track[2026])
-    latest = track[2026][latest_doy]
+    latest_key = max(track[2026])
+    latest = track[2026][latest_key]
 
     # Rank of 2026 on given calendar days, against every other year.
     marks = {}
-    for d in (32, 91, 152, 182, latest_doy):
+    for d in ("02-01", "04-01", "06-01", "07-01", latest_key):
         if d not in track[2026]:
             continue
         others = [track[y][d] for y in track if y != 2026 and d in track[y]]
@@ -151,10 +166,19 @@ def main():
                         "SST product could reorder the top two. The anomaly "
                         "is the robust figure; the ranking is not."),
         },
-        "latest": {"day_of_year": latest_doy, "value": latest},
+        "cut_to_same_date": {
+            "through": f"08-{cut[3:]}",
+            "n_days": len(aug_days),
+            "means": ("every August mean in this file counts the SAME calendar "
+                      "days, 1 August to the last day 2026 has. NOT comparable "
+                      "to a figure cut at a different day. Late August cools, "
+                      "so a longer window for other years understates them "
+                      "against a short window for 2026."),
+        },
+        "latest": {"date": latest_key, "value": latest},
         "track_marks": marks,
         "largest_anomaly_day": {
-            "day_of_year": peak_doy,
+            "date": peak_doy,
             "anomaly": round(marks[peak_doy]["value"] - marks[peak_doy]["clim"], 3),
             "means": ("the day in 2026 when the sea was furthest above its "
                       "own normal, which is not the day it was warmest"),
@@ -169,12 +193,13 @@ def main():
     print(f"  August 2026       {cur:.2f} C   anomaly {cur-clim:+.2f}")
     print(f"  rank              {payload['august']['rank']} of {len(order)}"
           f"   margin over {order[1][0]}: {cur-order[1][1]:+.2f}")
-    print(f"  latest            doy {latest_doy}, {latest:.2f} C")
+    print(f"  latest            {latest_key}, {latest:.2f} C")
+    print(f"  cut               1 Aug to {cut}, {len(aug_days)} days, every year")
     print()
     print("  2026 rank through the year:")
     for d in sorted(marks):
         m = marks[d]
-        print(f"    doy {d:>3}   {m['value']:6.2f}   rank {m['rank']:>2} of {m['of']}"
+        print(f"    {d}   {m['value']:6.2f}   rank {m['rank']:>2} of {m['of']}"
               f"   anomaly {m['value']-m['clim']:+.2f}")
 
 
