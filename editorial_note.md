@@ -1,4 +1,4 @@
-<!-- issue: 2026-08-31 -->
+<!-- issue: 2026-09-01 -->
 
 Two weeks ago the winds were the one thing arguing against this event. Not any more.
 
@@ -8,4 +8,7 @@ This does not make the forecast stronger. It removes a measurement that had been
 
 The burst that peaked on 31 July is still crossing the Pacific; a Kelvin wave takes one to two months. So the flat sea surface of the last fortnight is not the winds failing. It is too early to see them.
 
-Four releases land in the next ten days: a new ECMWF run around 1 September, NMME around the 8th, CPC's table around the 10th, and the August heat content figure. The heat content matters most. It decides whether July's +2.96 was a single print or a standing record.
+The August heat content figure has landed, and it is a standing record: +3.20 C,
+the first time it has crossed 3 degrees in 47 years of measurement. 1997's
+highest month was +2.56. The subsurface is now warmer than the surface, so that
+heat has not surfaced yet.
