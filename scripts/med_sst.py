@@ -194,10 +194,35 @@ def main():
         "august_means": {str(y): round(v, 3) for y, v in sorted(aug.items())},
         "series_1991_2026": {str(y): dd for y, dd in sorted(track.items())},
     }
+    # THE TWO HALVES OF THIS FILE MUST AGREE. august_means carries 87 years
+    # and the daily series carries 36, and they overlap. Editor checked all
+    # 36 by hand after finding two faults in here in one afternoon, and
+    # found none. That check is cheap, mechanical and exactly the kind that
+    # should not depend on a person choosing to run it.
+    #
+    # It cannot tell whether a value is CORRECT. It can tell whether the
+    # file contradicts itself, which is the failure that would follow from
+    # changing one code path and not the other.
+    bad = []
+    for y, dd in track.items():
+        if str(y) not in payload["august_means"]:
+            continue
+        vals = [dd[d] for d in aug_days if d in dd]
+        if len(vals) < len(aug_days) - 1:
+            continue
+        a, b = float(np.mean(vals)), payload["august_means"][str(y)]
+        if abs(a - b) > 0.0015:
+            bad.append(f"{y}: daily series gives {a:.4f}, august_means says {b}")
+    if bad:
+        raise SystemExit("REFUSING TO WRITE: the two halves of this payload "
+                         "disagree.\n  " + "\n  ".join(bad))
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=1) + "\n")
 
     print(f"wrote {OUT.relative_to(REPO)}")
+    print(f"  self-check        {sum(1 for y in track if str(y) in payload['august_means'])}"
+          f" overlap years agree between the daily series and august_means")
     print(f"  record window     {window_first}-2026  ({len(aug)} Augusts)")
     print(f"  August 2026       {cur:.2f} C   anomaly {cur-clim:+.2f}")
     print(f"  rank              {payload['august']['rank']} of {len(order)}"
