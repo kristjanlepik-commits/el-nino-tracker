@@ -80,11 +80,19 @@ def claimed_end_date(html: str, today: date) -> date | None:
     one real ambiguity (a check run in early January against a window
     that closed in December).
     """
-    m = re.search(r"wk\s+([A-Za-z]+)\s+\d+-(\d+)", html)
+    # End month is OPTIONAL in the pattern, not absent from the format:
+    # "wk Aug 20-26" (same month) and "wk Aug 26-Sep 1" (crossing one)
+    # are both real, live shapes. The first version of this regex only
+    # ever captured one month name and silently failed on the second
+    # shape, exactly the case its own docstring above said the start day
+    # existed to disambiguate. Caught 2026-09-02 when the window
+    # genuinely crossed Aug/Sep and this script reported CANNOT VERIFY
+    # against a page that was actually current.
+    m = re.search(r"wk\s+([A-Za-z]+)\s+\d+-(?:([A-Za-z]+)\s+)?(\d+)", html)
     if not m:
         return None
-    month_name, end_day = m.group(1), int(m.group(2))
-    month = MONTHS.get(month_name)
+    end_month_name, end_day = m.group(2) or m.group(1), int(m.group(3))
+    month = MONTHS.get(end_month_name)
     if month is None:
         return None
     try:
