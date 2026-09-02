@@ -1,32 +1,33 @@
 <!--
   EDITOR'S PROSE PASS on the science desk's Mediterranean SST piece.
-  Draft 2026-09-02. NOT for publish. ONE blocker left, and it is new.
+  Draft 2026-09-02, revised against the corrected build `82ff53f5`.
+  Figures from `data/med_sst.json`. NOT for publish.
 
-  RESOLVED. The figures now come from `data/med_sst.json` (Science,
-  291dad28), so every number here is checkable. The record scope is
-  correctly 1991-2026 and the payload's own `record_window.means` says
-  so; the piece must never say "the ERA5 record" while computing 36 of
-  its 86 years. The rank track is confirmed from the build.
+  BOTH earlier blockers closed. The window is 1940-2026, 87 Augusts.
+  Every year is cut to the same 28 days (`cut_to_same_date`), which
+  fixed the fault below AND a leap-year one underneath it: the window
+  had been expressed in day-of-year, so 2024, the runner-up the whole
+  margin rests on, was being measured over 31 July to 30 August.
 
-  OPEN, and it is a like-for-like fault the piece explicitly claims not
-  to have. **2026's August mean is computed over 28 days; every other
-  year uses 31.** The series ends at day 240, 28 August. Late August
-  cools, so a mean that stops on the 28th is biased warm against a
-  full-month mean, and the record margin is 0.08 on that mixed basis.
+  TWO WINDOWS, AND BOTH ARE NAMED IN THE BODY. This is deliberate:
 
-  Cut every year to 28 August and the record HOLDS, so nothing here
-  collapses:
+      August record   87 years, 1940-2026   monthly, from ERA5
+      rank track      36 years, 1991-2026   daily series
 
-      1-28 Aug   2026 27.675   2024 27.614   margin 0.060
-      1-31 Aug   2026 27.675 (28d)  2024 27.599   margin 0.076
+  Science flagged it. The piece cannot say "eighth warmest" and
+  "warmest of 87" in adjacent paragraphs without saying which set each
+  counts. So the prose names the daily series once and the long record
+  once, and treats them as two measurements rather than one.
 
-  Two consequences, both in the body below. The margin is six
-  hundredths, not eight. And the sentence claiming every year is
-  measured the same way was false as computed: the sampling matched,
-  the window length did not. Heat solved this with
-  `series_to_same_date`; the same fix applies.
+  NUMBERS NOT PRINTED TOGETHER, on purpose. 27.675 and 27.614 both
+  round to two places as 27.68 and 27.61, which a reader subtracts to
+  seven hundredths against a stated six. So 2026 carries an absolute
+  value and 2024 is expressed only as the gap.
 
-  Marked [SCIENCE] where a recut payload changes the wording.
+  ONE OPEN ITEM, raised with Science, not blocking the prose. The
+  payload asserts rank 1 of 87 but carries only the 1991-2026 daily
+  series, so the 1940-1990 half of the headline claim cannot be checked
+  from the file. 87 floats would close it.
 -->
 
 ## headline
@@ -35,31 +36,33 @@ A warm sea does not make more storms. It loads the ones that come.
 
 ## standfirst
 
-The Mediterranean has just had its hottest August since at least 1991.
-The gap between a warm sea and cooling air is widest in October.
+The Mediterranean has just had its warmest August since records begin in
+1940. The gap between a warm sea and cooling air is widest in October.
 
 ## body
 
-On 1 April the Mediterranean was the eighth warmest it had been on that
-date since 1991. By 1 June it was the warmest, and it has stayed there
-ever since. Measured to 28 August it is averaging 27.68 °C, about 1.8 °C
-above its 1991-2020 August normal.
+We hold daily readings of the whole basin back to 1991. On 1 April this
+year the sea sat eighth in those 36 years for the date. By 1 June it was
+first, and it has not dropped out of first place since. It was furthest
+above its own normal on 1 July, at +2.46 °C.
 
-The sea was furthest above its own normal on 1 July, at +2.50 °C. **A
-record August is the aftermath of something that happened in early
+**A record August is the aftermath of something that happened in early
 summer.**
 
-**The record is thin.** Measured to the same date, 2024 sits six
-hundredths of a degree behind, and a different sea surface product could
-order the two the other way round. [SCIENCE: 0.060 on a 28 August cut] The anomaly is not thin. 2026 and 2024 both sit
-more than half a degree clear of every other year in the series, and the
-five warmest Augusts are 2026, 2024, 2022, 2003 and 2018.
+Against the longer record, 87 Augusts back to 1940, this one is the
+warmest. Through 28 August the basin averaged 27.68 °C, about 1.8 °C
+above the 1991-2020 August normal.
+
+**The record is thin.** 2024 sits six hundredths of a degree behind, and
+a different sea surface product could order the two the other way round.
+The anomaly is not thin. 2026 and 2024 both sit more than half a degree
+clear of every other year in the record, and the five warmest Augusts are
+2026, 2024, 2022, 2003 and 2018.
 
 Every year here is sampled the same way, daily at 12:00 UTC over the same
-box, and every year is cut to the same calendar day, so this is a
-like-for-like comparison rather than a warm year measured one way against
-a cool year measured another. [SCIENCE: true once the payload cuts every
-year to 28 August; as built, 2026 uses 28 days and the rest use 31]
+box, and every year is cut to the same 28 days, so this is a like-for-like
+comparison rather than a warm year measured one way against a cool year
+measured another.
 
 ### Why autumn and not August
 
