@@ -183,6 +183,15 @@ def main():
             "means": ("the day in 2026 when the sea was furthest above its "
                       "own normal, which is not the day it was warmest"),
         },
+        # EVERY AUGUST MEAN, ALL 87 YEARS. Editor's catch: the file asserted
+        # "rank 1 of 87" while carrying only the 1991-2026 daily series, so
+        # the 1940-1990 half of the headline claim could not be checked from
+        # it, and that half is what makes "warmest since 1940" strong rather
+        # than "warmest since 1991". Two faults were found inside this
+        # function in one afternoon, both by looking, so the figure that
+        # survived them is exactly the one another desk should be able to
+        # recompute without a CDS key.
+        "august_means": {str(y): round(v, 3) for y, v in sorted(aug.items())},
         "series_1991_2026": {str(y): dd for y, dd in sorted(track.items())},
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
