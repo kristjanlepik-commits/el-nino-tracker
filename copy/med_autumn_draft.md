@@ -1,27 +1,32 @@
 <!--
   EDITOR'S PROSE PASS on the science desk's Mediterranean SST piece.
-  Draft 2026-09-02. NOT for publish. Two blockers below, both for
-  Science, both marked in the body where they bite.
+  Draft 2026-09-02. NOT for publish. ONE blocker left, and it is new.
 
-  BLOCKER 1, scope. The draft said "warmest August in the ERA5 record".
-  ERA5 begins in 1940; the chart plots 1991 to 2025. If the computation
-  covers 1991 onward, "the ERA5 record" claims 86 years on 36 years of
-  evidence, which is the record_scope discipline the heat channel runs
-  under (never "hottest ever", cite the window). Every record sentence
-  below is written to the 1991 window, which is true either way. If
-  Science computed full ERA5, the sentences get STRONGER and I will
-  rewrite them; they are not wrong as they stand.
+  RESOLVED. The figures now come from `data/med_sst.json` (Science,
+  291dad28), so every number here is checkable. The record scope is
+  correctly 1991-2026 and the payload's own `record_window.means` says
+  so; the piece must never say "the ERA5 record" while computing 36 of
+  its 86 years. The rank track is confirmed from the build.
 
-  BLOCKER 2, unverified figures. The rank track (8th on 1 April, 1st by
-  1 June, peak anomaly +2.48 C on 1 July) is the best material in the
-  piece and appears NOWHERE on the drafted page. It reached me in a
-  chat message. Marked [CONFIRM] below: it is quoted from a message,
-  not read from a build, which is exactly what D-269 forbids. Science
-  confirms from their own build or the paragraph is cut.
+  OPEN, and it is a like-for-like fault the piece explicitly claims not
+  to have. **2026's August mean is computed over 28 days; every other
+  year uses 31.** The series ends at day 240, 28 August. Late August
+  cools, so a mean that stops on the 28th is biased warm against a
+  full-month mean, and the record margin is 0.08 on that mixed basis.
 
-  ALSO: no payload. These figures exist in no file in this repo, so no
-  other chat can check them. Raised with Science separately; it is a
-  publish prerequisite, not a prose note.
+  Cut every year to 28 August and the record HOLDS, so nothing here
+  collapses:
+
+      1-28 Aug   2026 27.675   2024 27.614   margin 0.060
+      1-31 Aug   2026 27.675 (28d)  2024 27.599   margin 0.076
+
+  Two consequences, both in the body below. The margin is six
+  hundredths, not eight. And the sentence claiming every year is
+  measured the same way was false as computed: the sampling matched,
+  the window length did not. Heat solved this with
+  `series_to_same_date`; the same fix applies.
+
+  Marked [SCIENCE] where a recut payload changes the wording.
 -->
 
 ## headline
@@ -37,18 +42,24 @@ The gap between a warm sea and cooling air is widest in October.
 
 On 1 April the Mediterranean was the eighth warmest it had been on that
 date since 1991. By 1 June it was the warmest, and it has stayed there
-through the hottest August in the series: 27.67 °C basin-mean, against a
-1991-2020 August mean of 25.92 °C. [CONFIRM the April and June ranks]
+ever since. Measured to 28 August it is averaging 27.68 °C, about 1.8 °C
+above its 1991-2020 August normal.
 
-**The August record is thin.** 2024 came in at 27.60 °C, eight
-hundredths behind, and a different sea surface product could order the
-two the other way round. The anomaly is not thin. 2026 and 2024 both sit
+The sea was furthest above its own normal on 1 July, at +2.50 °C. **A
+record August is the aftermath of something that happened in early
+summer.**
+
+**The record is thin.** Measured to the same date, 2024 sits six
+hundredths of a degree behind, and a different sea surface product could
+order the two the other way round. [SCIENCE: 0.060 on a 28 August cut] The anomaly is not thin. 2026 and 2024 both sit
 more than half a degree clear of every other year in the series, and the
 five warmest Augusts are 2026, 2024, 2022, 2003 and 2018.
 
 Every year here is sampled the same way, daily at 12:00 UTC over the same
-box, so this is a like-for-like comparison rather than a warm year
-measured one way against a cool year measured another.
+box, and every year is cut to the same calendar day, so this is a
+like-for-like comparison rather than a warm year measured one way against
+a cool year measured another. [SCIENCE: true once the payload cuts every
+year to 28 August; as built, 2026 uses 28 days and the rest use 31]
 
 ### Why autumn and not August
 
