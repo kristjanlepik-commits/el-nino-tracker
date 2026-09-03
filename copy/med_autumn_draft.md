@@ -121,9 +121,12 @@ and where, is weather, and nobody can tell you that in September for
 October.
 
 **And not something our own flood instrument can confirm.** GloFAS, the
-river model our floods channel runs on, resolves large slow river floods
-well and small flash ones barely. Storm Daniel ran at 185 times the local
-median flow. The Valencia flood, which killed more than two hundred
-people, reads 3.7. The mechanism described here produces the second kind,
-so we are describing it from the physics rather than from our own gauge.
-[FLOODS: confirm this characterisation and the two figures]
+river model our floods channel runs on, is not blind to these events so
+much as selectively blind: it resolves large slow river floods well and
+small flash ones barely. Over Thessaly, Storm Daniel drove the typical
+modelled reach to 185 times its normal early-September high. The Valencia
+flood, which killed more than two hundred people, reads 3.7 against its
+own late-October normal, a figure this channel has also recorded on
+rivers that were doing nothing at all. The mechanism described here
+produces the second kind, so we are describing it from the physics rather
+than from our own model.
