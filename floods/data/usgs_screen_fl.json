@@ -1,0 +1,1692 @@
+{
+ "state": "fl",
+ "screened": 174,
+ "kept": 104,
+ "dropped": 70,
+ "rules": {
+  "min_years": 50,
+  "min_peaks": 30,
+  "regulation_codes": [
+   "5",
+   "6"
+  ],
+  "max_regulated_fraction": 0.1,
+  "name_exclusions": [
+   "CANAL",
+   " C-",
+   "C-1",
+   "S-",
+   " L-",
+   "LOCK",
+   "DAM",
+   "SPILLWAY",
+   "STRUCTURE",
+   "WEIR",
+   "DIVERSION",
+   "RESERVOIR",
+   "NR DAM",
+   "CONTROL",
+   "PUMP",
+   "OUTLET",
+   "INTAKE",
+   "AT S",
+   "BELOW DAM"
+  ]
+ },
+ "caveat": "Peak-flow qualification codes are applied by USGS staff and are not exhaustive. A gauge passing this screen is not certified natural, only not flagged.",
+ "gauges": [
+  {
+   "site": "02315500",
+   "name": "SUWANNEE RIVER AT WHITE SPRINGS, FLA.",
+   "begin": "1906-06-01",
+   "end": "2026-09-02",
+   "years": 120,
+   "n_peaks": 100,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02359000",
+   "name": "CHIPOLA RIVER NR ALTHA, FLA.",
+   "begin": "1912-12-01",
+   "end": "2026-09-02",
+   "years": 114,
+   "n_peaks": 90,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02228500",
+   "name": "NORTH PRONG ST. MARYS RIVER AT MONIAC, GA",
+   "begin": "1921-01-26",
+   "end": "2026-09-02",
+   "years": 105,
+   "n_peaks": 77,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02231000",
+   "name": "ST. MARYS RIVER NEAR MACCLENNY, FL",
+   "begin": "1926-10-01",
+   "end": "2026-09-02",
+   "years": 100,
+   "n_peaks": 99,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02319500",
+   "name": "SUWANNEE RIVER AT ELLAVILLE, FLA",
+   "begin": "1927-02-01",
+   "end": "2026-09-02",
+   "years": 99,
+   "n_peaks": 98,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02320000",
+   "name": "SUWANNEE RIVER AT LURAVILLE, FLA.",
+   "begin": "1927-02-01",
+   "end": "2026-09-02",
+   "years": 99,
+   "n_peaks": 44,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02322500",
+   "name": "SANTA FE RIVER NEAR FORT WHITE, FLA.",
+   "begin": "1927-10-01",
+   "end": "2026-09-02",
+   "years": 99,
+   "n_peaks": 94,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02365500",
+   "name": "CHOCTAWHATCHEE RIVER AT CARYVILLE, FLA.",
+   "begin": "1929-10-01",
+   "end": "2026-09-02",
+   "years": 97,
+   "n_peaks": 94,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02239000",
+   "name": "OCKLAWAHA RIVER NR OCALA,FLA.",
+   "begin": "1930-03-01",
+   "end": "2026-09-02",
+   "years": 96,
+   "n_peaks": 53,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02240000",
+   "name": "OCKLAWAHA RIVER NEAR CONNER, FL",
+   "begin": "1930-02-13",
+   "end": "2026-09-02",
+   "years": 96,
+   "n_peaks": 63,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02240500",
+   "name": "OCKLAWAHA RIVER AT EUREKA, FL",
+   "begin": "1930-03-01",
+   "end": "2026-09-02",
+   "years": 96,
+   "n_peaks": 56,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02311000",
+   "name": "WITHLACOOCHEE-HILLSBOROUGH OVFLO NEAR RICHLAND, FL",
+   "begin": "1930-02-11",
+   "end": "2026-09-02",
+   "years": 96,
+   "n_peaks": 67,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02323500",
+   "name": "SUWANNEE RIVER NEAR WILCOX, FLA.",
+   "begin": "1930-10-01",
+   "end": "2026-09-02",
+   "years": 96,
+   "n_peaks": 84,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02366500",
+   "name": "CHOCTAWHATCHEE RIVER NR BRUCE, FLA.",
+   "begin": "1930-10-01",
+   "end": "2026-09-02",
+   "years": 96,
+   "n_peaks": 94,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02236125",
+   "name": "ST. JOHNS RIVER AT ASTOR, FL",
+   "begin": "1931-09-01",
+   "end": "2026-09-02",
+   "years": 95,
+   "n_peaks": 31,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02246000",
+   "name": "NORTH FORK BLACK CREEK NEAR MIDDLEBURG, FL",
+   "begin": "1931-10-01",
+   "end": "2026-09-02",
+   "years": 95,
+   "n_peaks": 95,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02256500",
+   "name": "FISHEATING CREEK AT PALMDALE, FL",
+   "begin": "1931-04-22",
+   "end": "2026-09-02",
+   "years": 95,
+   "n_peaks": 94,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02319000",
+   "name": "WITHLACOOCHEE RIVER NEAR PINETTA, FLA.",
+   "begin": "1931-10-01",
+   "end": "2026-09-02",
+   "years": 95,
+   "n_peaks": 95,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02320500",
+   "name": "SUWANNEE RIVER AT BRANFORD, FLA.",
+   "begin": "1931-07-01",
+   "end": "2026-09-02",
+   "years": 95,
+   "n_peaks": 95,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02321500",
+   "name": "SANTA FE RIVER AT WORTHINGTON SPRINGS, FLA.",
+   "begin": "1931-10-01",
+   "end": "2026-09-02",
+   "years": 95,
+   "n_peaks": 94,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02239501",
+   "name": "SILVER RIVER NEAR OCALA, FL",
+   "begin": "1932-10-01",
+   "end": "2026-09-02",
+   "years": 94,
+   "n_peaks": 60,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02301500",
+   "name": "ALAFIA RIVER AT LITHIA PINECREST RD AT LITHIA, FL",
+   "begin": "1932-10-01",
+   "end": "2026-09-02",
+   "years": 94,
+   "n_peaks": 93,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02323000",
+   "name": "SUWANNEE RIVER NEAR BELL, FLORIDA",
+   "begin": "1932-06-01",
+   "end": "2026-09-01",
+   "years": 94,
+   "n_peaks": 51,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02236000",
+   "name": "ST. JOHNS RIVER NEAR DE LAND, FL",
+   "begin": "1933-10-01",
+   "end": "2026-08-30",
+   "years": 93,
+   "n_peaks": 92,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02295637",
+   "name": "PEACE RIVER AT US 17 AT ZOLFO SPRINGS, FL",
+   "begin": "1933-09-01",
+   "end": "2026-09-02",
+   "years": 93,
+   "n_peaks": 93,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02375500",
+   "name": "ESCAMBIA RIVER NEAR CENTURY, FL",
+   "begin": "1934-10-01",
+   "end": "2026-09-02",
+   "years": 92,
+   "n_peaks": 92,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02235000",
+   "name": "WEKIVA RIVER NEAR SANFORD, FL",
+   "begin": "1935-10-01",
+   "end": "2026-09-02",
+   "years": 91,
+   "n_peaks": 90,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02359500",
+   "name": "ECONFINA CREEK NEAR BENNETT, FLA.",
+   "begin": "1935-10-01",
+   "end": "2026-09-02",
+   "years": 91,
+   "n_peaks": 86,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02298830",
+   "name": "MYAKKA RIVER NEAR SR 72 NEAR SARASOTA, FL",
+   "begin": "1936-09-01",
+   "end": "2026-09-02",
+   "years": 90,
+   "n_peaks": 89,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02368000",
+   "name": "YELLOW RIVER AT MILLIGAN, FLA.",
+   "begin": "1938-08-01",
+   "end": "2026-09-02",
+   "years": 88,
+   "n_peaks": 86,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02369000",
+   "name": "SHOAL RIVER NR CRESTVIEW, FLA.",
+   "begin": "1938-08-01",
+   "end": "2026-09-02",
+   "years": 88,
+   "n_peaks": 87,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02370500",
+   "name": "BIG COLDWATER CREEK NR MILTON, FLA.",
+   "begin": "1938-12-01",
+   "end": "2026-09-02",
+   "years": 88,
+   "n_peaks": 78,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02232000",
+   "name": "ST. JOHNS RIVER NEAR MELBOURNE, FL",
+   "begin": "1939-10-01",
+   "end": "2026-09-02",
+   "years": 87,
+   "n_peaks": 86,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02245500",
+   "name": "SOUTH FORK BLACK CREEK NEAR PENNEY FARMS, FL",
+   "begin": "1939-10-01",
+   "end": "2026-09-02",
+   "years": 87,
+   "n_peaks": 86,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02312500",
+   "name": "WITHLACOOCHEE RIVER AT CROOM, FL",
+   "begin": "1939-10-01",
+   "end": "2026-09-02",
+   "years": 87,
+   "n_peaks": 86,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02291500",
+   "name": "IMPERIAL RIVER NEAR BONITA SPRINGS, FL",
+   "begin": "1940-06-01",
+   "end": "2026-09-02",
+   "years": 86,
+   "n_peaks": 44,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02234000",
+   "name": "ST. JOHNS RIVER ABOVE LAKE HARNEY NEAR GENEVA, FL",
+   "begin": "1941-07-29",
+   "end": "2026-09-02",
+   "years": 85,
+   "n_peaks": 44,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02376500",
+   "name": "PERDIDO RIVER AT BARRINEAU PARK, FL",
+   "begin": "1941-06-09",
+   "end": "2026-09-02",
+   "years": 85,
+   "n_peaks": 85,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02243000",
+   "name": "ORANGE CREEK AT ORANGE SPRINGS, FL",
+   "begin": "1942-08-01",
+   "end": "2026-09-02",
+   "years": 84,
+   "n_peaks": 77,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02264000",
+   "name": "CYPRESS CREEK AT VINELAND, FL",
+   "begin": "1945-08-01",
+   "end": "2026-09-02",
+   "years": 81,
+   "n_peaks": 79,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02271500",
+   "name": "JOSEPHINE CREEK NEAR DE SOTO CITY FL",
+   "begin": "1946-10-01",
+   "end": "2026-09-02",
+   "years": 80,
+   "n_peaks": 76,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02310000",
+   "name": "ANCLOTE RIVER AT LITTLE RD NEAR ELFERS, FL",
+   "begin": "1946-06-01",
+   "end": "2026-09-02",
+   "years": 80,
+   "n_peaks": 80,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02296500",
+   "name": "CHARLIE CREEK NEAR GARDNER FL",
+   "begin": "1950-05-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 76,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02297100",
+   "name": "JOSHUA CREEK AT NOCATEE FL",
+   "begin": "1950-05-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 76,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02301000",
+   "name": "NORTH PRONG ALAFIA RIVER AT KEYSVILLE FL",
+   "begin": "1950-05-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 73,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02307359",
+   "name": "BROOKER CREEK NEAR TARPON SPRINGS FL",
+   "begin": "1950-09-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 76,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02321000",
+   "name": "NEW RIVER NR LAKE BUTLER FLA",
+   "begin": "1950-01-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 56,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02326000",
+   "name": "ECONFINA RIVER NEAR PERRY, FLA.",
+   "begin": "1950-02-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 75,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02326500",
+   "name": "AUCILLA RIVER AT LAMONT, FLA.",
+   "begin": "1950-03-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 57,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02329500",
+   "name": "LITTLE RIVER NR QUINCY, FLA.",
+   "begin": "1950-04-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 54,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02366000",
+   "name": "HOLMES CREEK AT VERNON, FLA.",
+   "begin": "1950-04-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 54,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02370000",
+   "name": "BLACKWATER RIVER NR BAKER, FLA.",
+   "begin": "1950-04-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "n_peaks": 71,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02248000",
+   "name": "SPRUCE CREEK NEAR SAMSULA, FL",
+   "begin": "1951-05-01",
+   "end": "2026-09-02",
+   "years": 75,
+   "n_peaks": 74,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02249500",
+   "name": "CRANE CREEK AT MELBOURNE, FL",
+   "begin": "1951-04-01",
+   "end": "2026-09-02",
+   "years": 75,
+   "n_peaks": 39,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02302500",
+   "name": "BLACKWATER CREEK NEAR KNIGHTS FL",
+   "begin": "1951-01-01",
+   "end": "2026-09-02",
+   "years": 75,
+   "n_peaks": 75,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02324000",
+   "name": "STEINHATCHEE RIVER NEAR CROSS CITY, FLA.",
+   "begin": "1950-03-01",
+   "end": "2025-12-01",
+   "years": 75,
+   "n_peaks": 75,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02330100",
+   "name": "TELOGIA CREEK NR BRISTOL, FLA.",
+   "begin": "1950-04-01",
+   "end": "2025-12-02",
+   "years": 75,
+   "n_peaks": 72,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02368500",
+   "name": "SHOAL RIVER NR MOSSY HEAD, FLA.",
+   "begin": "1951-03-01",
+   "end": "2026-09-02",
+   "years": 75,
+   "n_peaks": 53,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02232400",
+   "name": "ST. JOHNS RIVER NEAR COCOA, FL",
+   "begin": "1953-10-01",
+   "end": "2026-09-02",
+   "years": 73,
+   "n_peaks": 70,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02307000",
+   "name": "ROCKY CREEK NEAR SULPHUR SPRINGS FL",
+   "begin": "1953-01-01",
+   "end": "2026-09-01",
+   "years": 73,
+   "n_peaks": 72,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02324400",
+   "name": "FENHOLLOWAY RIVER NEAR FOLEY, FLA.",
+   "begin": "1955-10-01",
+   "end": "2026-09-02",
+   "years": 71,
+   "n_peaks": 70,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02232200",
+   "name": "WOLF CREEK NEAR DEER PARK, FL",
+   "begin": "1956-01-01",
+   "end": "2026-09-02",
+   "years": 70,
+   "n_peaks": 69,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02300700",
+   "name": "BULLFROG CREEK NEAR WIMAUMA FL",
+   "begin": "1956-10-01",
+   "end": "2026-09-02",
+   "years": 70,
+   "n_peaks": 66,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02326900",
+   "name": "ST. MARKS RIVER NEAR NEWPORT, FLA.",
+   "begin": "1956-10-01",
+   "end": "2026-09-02",
+   "years": 70,
+   "n_peaks": 67,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02236500",
+   "name": "BIG CREEK NEAR CLERMONT, FL",
+   "begin": "1958-07-17",
+   "end": "2026-09-02",
+   "years": 68,
+   "n_peaks": 66,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02263800",
+   "name": "SHINGLE CREEK AT AIRPORT NEAR KISSIMMEE, FL",
+   "begin": "1958-10-01",
+   "end": "2026-09-02",
+   "years": 68,
+   "n_peaks": 67,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02312200",
+   "name": "LITTLE WITHLACOOCHEE RIVER AT RERDELL, FL",
+   "begin": "1958-08-01",
+   "end": "2026-09-02",
+   "years": 68,
+   "n_peaks": 67,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02320700",
+   "name": "SANTA FE RIVER NEAR GRAHAM, FLA.",
+   "begin": "1957-09-01",
+   "end": "2025-11-30",
+   "years": 68,
+   "n_peaks": 57,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02262900",
+   "name": "BOGGY CREEK NEAR TAFT, FL",
+   "begin": "1959-09-01",
+   "end": "2026-09-02",
+   "years": 67,
+   "n_peaks": 66,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02295420",
+   "name": "PAYNE CREEK NEAR BOWLING GREEN FL",
+   "begin": "1963-10-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 51,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02298123",
+   "name": "PRAIRIE CREEK NEAR FORT OGDEN FL",
+   "begin": "1963-10-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 53,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02298608",
+   "name": "MYAKKA RIVER AT MYAKKA CITY FL",
+   "begin": "1963-02-05",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 52,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02300100",
+   "name": "LITTLE MANATEE RIVER NEAR FT. LONESOME FL",
+   "begin": "1963-09-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 63,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02301300",
+   "name": "SOUTH PRONG ALAFIA RIVER NEAR LITHIA FL",
+   "begin": "1963-01-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 63,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02301900",
+   "name": "FOX BRANCH NEAR SOCRUM, FL",
+   "begin": "1963-12-12",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 61,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02301990",
+   "name": "HILLSBOROUGH R AB CRYSTAL SPR NEAR ZEPHYRHILLS FL",
+   "begin": "1963-10-08",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 42,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02303400",
+   "name": "CYPRESS CREEK NEAR SAN ANTONIO FL",
+   "begin": "1963-01-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 62,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02310300",
+   "name": "PITHLACHASCOTEE RIVER NEAR NEW PORT RICHEY FL",
+   "begin": "1963-04-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 63,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02313700",
+   "name": "WACCASASSA RIVER NR GULF HAMMOCK, FLA.",
+   "begin": "1963-04-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "n_peaks": 44,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02247510",
+   "name": "TOMOKA RIVER NEAR HOLLY HILL, FL",
+   "begin": "1964-10-01",
+   "end": "2026-09-02",
+   "years": 62,
+   "n_peaks": 61,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02294898",
+   "name": "PEACE RIVER AT FORT MEADE FL",
+   "begin": "1964-04-22",
+   "end": "2026-09-02",
+   "years": 62,
+   "n_peaks": 53,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02295013",
+   "name": "BOWLEGS CREEK NEAR FORT MEADE FL",
+   "begin": "1964-03-01",
+   "end": "2026-09-02",
+   "years": 62,
+   "n_peaks": 39,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02303800",
+   "name": "CYPRESS CREEK NEAR SULPHUR SPRINGS FL",
+   "begin": "1964-03-01",
+   "end": "2026-09-02",
+   "years": 62,
+   "n_peaks": 61,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02327100",
+   "name": "SOPCHOPPY RIVER NR SOPCHOPPY, FLA.",
+   "begin": "1964-06-01",
+   "end": "2026-09-02",
+   "years": 62,
+   "n_peaks": 65,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02313100",
+   "name": "RAINBOW RIVER AT DUNNELLON, FL",
+   "begin": "1965-01-01",
+   "end": "2026-09-02",
+   "years": 61,
+   "n_peaks": 46,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02264100",
+   "name": "BONNET CREEK NEAR VINELAND, FL",
+   "begin": "1966-05-03",
+   "end": "2026-09-02",
+   "years": 60,
+   "n_peaks": 59,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02266200",
+   "name": "WHITTENHORSE CREEK NEAR VINELAND, FL",
+   "begin": "1966-05-04",
+   "end": "2026-09-02",
+   "years": 60,
+   "n_peaks": 58,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02266300",
+   "name": "REEDY CREEK NEAR VINELAND, FL",
+   "begin": "1966-05-03",
+   "end": "2026-09-02",
+   "years": 60,
+   "n_peaks": 65,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02312180",
+   "name": "LITTLE WITHLACOOCHEE RIVER NEAR TARRYTOWN, FL",
+   "begin": "1966-10-01",
+   "end": "2026-09-02",
+   "years": 60,
+   "n_peaks": 59,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02235200",
+   "name": "BLACKWATER CREEK NEAR CASSIA, FL",
+   "begin": "1967-08-07",
+   "end": "2026-09-02",
+   "years": 59,
+   "n_peaks": 63,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02310947",
+   "name": "WITHLACOOCHEE RIVER NEAR CUMPRESSCO, FL",
+   "begin": "1967-01-01",
+   "end": "2026-09-01",
+   "years": 59,
+   "n_peaks": 58,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02264495",
+   "name": "SHINGLE CREEK AT CAMPBELL, FL",
+   "begin": "1968-10-01",
+   "end": "2026-09-01",
+   "years": 58,
+   "n_peaks": 57,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02266480",
+   "name": "DAVENPORT CREEK NEAR LOUGHMAN, FL",
+   "begin": "1969-02-01",
+   "end": "2026-09-02",
+   "years": 57,
+   "n_peaks": 56,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02307323",
+   "name": "BROOKER CREEK NEAR LAKE FERN FL",
+   "begin": "1970-08-19",
+   "end": "2026-09-02",
+   "years": 56,
+   "n_peaks": 42,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02309848",
+   "name": "SOUTH BRANCH ANCLOTE RIVER NEAR ODESSA FL",
+   "begin": "1970-02-01",
+   "end": "2026-09-02",
+   "years": 56,
+   "n_peaks": 56,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02246500",
+   "name": "ST. JOHNS RIVER AT JACKSONVILLE, FL",
+   "begin": "1971-10-01",
+   "end": "2026-09-02",
+   "years": 55,
+   "n_peaks": 34,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02234324",
+   "name": "HOWELL CREEK NEAR SLAVIA, FL",
+   "begin": "1972-02-01",
+   "end": "2026-09-02",
+   "years": 54,
+   "n_peaks": 51,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02234384",
+   "name": "SOLDIER CREEK NEAR LONGWOOD, FL",
+   "begin": "1972-02-01",
+   "end": "2026-09-02",
+   "years": 54,
+   "n_peaks": 44,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02234400",
+   "name": "GEE CREEK NEAR LONGWOOD, FL",
+   "begin": "1972-01-24",
+   "end": "2026-09-02",
+   "years": 54,
+   "n_peaks": 49,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02234990",
+   "name": "LITTLE WEKIVA RIVER NEAR ALTAMONTE SPRINGS, FL",
+   "begin": "1972-02-01",
+   "end": "2026-09-02",
+   "years": 54,
+   "n_peaks": 51,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02310280",
+   "name": "PITHLACHASCOTEE RIVER NEAR FIVAY JUNCTION FL",
+   "begin": "1972-10-01",
+   "end": "2026-09-02",
+   "years": 54,
+   "n_peaks": 41,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02303350",
+   "name": "TROUT CREEK NEAR SULPHUR SPRINGS FL",
+   "begin": "1974-06-01",
+   "end": "2026-09-02",
+   "years": 52,
+   "n_peaks": 52,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02317620",
+   "name": "ALAPAHA RIVER NEAR JENNINGS FLA",
+   "begin": "1976-07-28",
+   "end": "2026-09-02",
+   "years": 50,
+   "n_peaks": 32,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  },
+  {
+   "site": "02365200",
+   "name": "CHOCTAWHATCHEE RIVER NR PITTMAN, FLA.",
+   "begin": "1976-07-01",
+   "end": "2026-09-02",
+   "years": 50,
+   "n_peaks": 32,
+   "regulated_peaks": 0,
+   "regulated_frac": 0.0
+  }
+ ],
+ "excluded": [
+  {
+   "site": "02358700",
+   "name": "APALACHICOLA RIVER NR BLOUNTSTOWN,FLORIDA",
+   "begin": "1920-01-01",
+   "end": "2026-09-02",
+   "years": 106,
+   "n_peaks": 68,
+   "regulated_peaks": 62,
+   "regulated_frac": 0.912,
+   "excluded": "regulation codes on 62 of 68 peaks (91%)"
+  },
+  {
+   "site": "02358000",
+   "name": "APALACHICOLA RIVER AT CHATTAHOOCHEE FLA",
+   "begin": "1922-07-01",
+   "end": "2026-09-02",
+   "years": 104,
+   "n_peaks": 106,
+   "regulated_peaks": 96,
+   "regulated_frac": 0.906,
+   "excluded": "regulation codes on 96 of 106 peaks (91%)"
+  },
+  {
+   "site": "02329000",
+   "name": "OCHLOCKONEE RIVER NR HAVANA, FLA.",
+   "begin": "1926-10-01",
+   "end": "2026-09-02",
+   "years": 100,
+   "excluded": "station name contains 'LOCK'"
+  },
+  {
+   "site": "02330000",
+   "name": "OCHLOCKONEE RIVER NR BLOXHAM, FLA.",
+   "begin": "1926-07-01",
+   "end": "2026-09-02",
+   "years": 100,
+   "excluded": "station name contains 'LOCK'"
+  },
+  {
+   "site": "02312000",
+   "name": "WITHLACOOCHEE RIVER AT US 301 AT TRILBY, FL",
+   "begin": "1928-09-01",
+   "end": "2026-09-02",
+   "years": 98,
+   "n_peaks": 95,
+   "regulated_peaks": 95,
+   "regulated_frac": 1.0,
+   "excluded": "regulation codes on 95 of 95 peaks (100%)"
+  },
+  {
+   "site": "02313000",
+   "name": "WITHLACOOCHEE RIVER AT SR 200 NEAR HOLDER, FL",
+   "begin": "1928-09-01",
+   "end": "2026-09-02",
+   "years": 98,
+   "excluded": "station name contains 'AT S'"
+  },
+  {
+   "site": "02311500",
+   "name": "WITHLACOOCHEE RIVER NEAR DADE CITY, FL",
+   "begin": "1930-03-01",
+   "end": "2026-09-02",
+   "years": 96,
+   "n_peaks": 48,
+   "regulated_peaks": 48,
+   "regulated_frac": 1.0,
+   "excluded": "regulation codes on 48 of 48 peaks (100%)"
+  },
+  {
+   "site": "02276877",
+   "name": "ST. LUCIE CANAL BLW S-308, NR PORT MAYACA (AUX) FL",
+   "begin": "1931-04-01",
+   "end": "2026-09-02",
+   "years": 95,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02296750",
+   "name": "PEACE RIVER AT SR 70 AT ARCADIA, FL",
+   "begin": "1931-04-01",
+   "end": "2026-09-02",
+   "years": 95,
+   "excluded": "station name contains 'AT S'"
+  },
+  {
+   "site": "02232500",
+   "name": "ST. JOHNS RIVER NEAR CHRISTMAS, FL",
+   "begin": "1933-10-01",
+   "end": "2026-09-02",
+   "years": 93,
+   "n_peaks": 91,
+   "regulated_peaks": 41,
+   "regulated_frac": 0.451,
+   "excluded": "regulation codes on 41 of 91 peaks (45%)"
+  },
+  {
+   "site": "02266500",
+   "name": "REEDY CREEK NEAR LOUGHMAN, FL",
+   "begin": "1933-01-17",
+   "end": "2026-09-02",
+   "years": 93,
+   "n_peaks": 73,
+   "regulated_peaks": 73,
+   "regulated_frac": 1.0,
+   "excluded": "regulation codes on 73 of 73 peaks (100%)"
+  },
+  {
+   "site": "02233500",
+   "name": "ECONLOCKHATCHEE RIVER NEAR CHULUOTA, FL",
+   "begin": "1935-10-01",
+   "end": "2026-09-02",
+   "years": 91,
+   "excluded": "station name contains 'LOCK'"
+  },
+  {
+   "site": "02304500",
+   "name": "HILLSBOROUGH RIVER NEAR TAMPA FL",
+   "begin": "1938-10-01",
+   "end": "2026-09-02",
+   "years": 88,
+   "excluded": "only 0 annual peaks on record"
+  },
+  {
+   "site": "02270500",
+   "name": "ARBUCKLE CREEK NEAR DE SOTO CITY, FL",
+   "begin": "1939-06-21",
+   "end": "2026-09-02",
+   "years": 87,
+   "n_peaks": 86,
+   "regulated_peaks": 35,
+   "regulated_frac": 0.407,
+   "excluded": "regulation codes on 35 of 86 peaks (41%)"
+  },
+  {
+   "site": "02294650",
+   "name": "PEACE RIVER AT SR 60 AT BARTOW, FL",
+   "begin": "1939-10-01",
+   "end": "2026-09-02",
+   "years": 87,
+   "excluded": "station name contains 'AT S'"
+  },
+  {
+   "site": "02300500",
+   "name": "LITTLE MANATEE RIVER AT US 301 NEAR WIMAUMA, FL",
+   "begin": "1939-04-01",
+   "end": "2026-09-02",
+   "years": 87,
+   "n_peaks": 87,
+   "regulated_peaks": 52,
+   "regulated_frac": 0.598,
+   "excluded": "regulation codes on 52 of 87 peaks (60%)"
+  },
+  {
+   "site": "02303000",
+   "name": "HILLSBOROUGH RV AT STATE PARK NR ZEPHYRHILLS, FL",
+   "begin": "1939-10-01",
+   "end": "2026-09-02",
+   "years": 87,
+   "excluded": "station name contains 'AT S'"
+  },
+  {
+   "site": "02289500",
+   "name": "TAMIAMI CANAL NEAR CORAL GABLES, FL",
+   "begin": "1940-02-01",
+   "end": "2026-09-02",
+   "years": 86,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02238000",
+   "name": "HAYNES CREEK AT LISBON, FL",
+   "begin": "1942-07-01",
+   "end": "2026-03-02",
+   "years": 84,
+   "n_peaks": 76,
+   "regulated_peaks": 62,
+   "regulated_frac": 0.816,
+   "excluded": "regulation codes on 62 of 76 peaks (82%)"
+  },
+  {
+   "site": "02238500",
+   "name": "OCKLAWAHA RIVER AT MOSS BLUFF, FL",
+   "begin": "1943-10-01",
+   "end": "2026-09-02",
+   "years": 83,
+   "n_peaks": 68,
+   "regulated_peaks": 68,
+   "regulated_frac": 1.0,
+   "excluded": "regulation codes on 68 of 68 peaks (100%)"
+  },
+  {
+   "site": "02237000",
+   "name": "PALATLAKAHA RIVER NEAR MASCOTTE, FL",
+   "begin": "1945-05-30",
+   "end": "2026-09-02",
+   "years": 81,
+   "excluded": "only 12 annual peaks on record"
+  },
+  {
+   "site": "02322800",
+   "name": "SANTA FE RIVER NR HILDRETH FLA",
+   "begin": "1947-04-28",
+   "end": "2026-09-02",
+   "years": 79,
+   "excluded": "only 23 annual peaks on record"
+  },
+  {
+   "site": "02253000",
+   "name": "MAIN CANAL AT VERO BEACH, FL",
+   "begin": "1949-01-01",
+   "end": "2026-09-02",
+   "years": 77,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02252500",
+   "name": "NORTH CANAL NEAR VERO BEACH, FL",
+   "begin": "1950-11-21",
+   "end": "2026-09-02",
+   "years": 76,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02253500",
+   "name": "SOUTH CANAL NEAR VERO BEACH, FL",
+   "begin": "1950-10-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02297310",
+   "name": "HORSE CREEK AT SR 72 NEAR ARCADIA, FL",
+   "begin": "1950-05-01",
+   "end": "2026-09-02",
+   "years": 76,
+   "excluded": "station name contains 'AT S'"
+  },
+  {
+   "site": "02306500",
+   "name": "SWEETWATER CREEK NEAR SULPHUR SPRINGS FL",
+   "begin": "1951-10-01",
+   "end": "2026-09-02",
+   "years": 75,
+   "n_peaks": 74,
+   "regulated_peaks": 74,
+   "regulated_frac": 1.0,
+   "excluded": "regulation codes on 74 of 74 peaks (100%)"
+  },
+  {
+   "site": "02231600",
+   "name": "JANE GREEN CREEK NEAR DEER PARK, FL",
+   "begin": "1953-10-01",
+   "end": "2026-09-02",
+   "years": 73,
+   "n_peaks": 72,
+   "regulated_peaks": 23,
+   "regulated_frac": 0.319,
+   "excluded": "regulation codes on 23 of 72 peaks (32%)"
+  },
+  {
+   "site": "02270000",
+   "name": "CARTER CREEK NEAR SEBRING FL",
+   "begin": "1954-10-01",
+   "end": "2026-09-02",
+   "years": 72,
+   "n_peaks": 46,
+   "regulated_peaks": 46,
+   "regulated_frac": 1.0,
+   "excluded": "regulation codes on 46 of 46 peaks (100%)"
+  },
+  {
+   "site": "02358754",
+   "name": "APALACHICOLA R.AB CHIPOLA CUTOFF NR WEWAHITCHKA,FL",
+   "begin": "1955-10-01",
+   "end": "2026-09-02",
+   "years": 71,
+   "excluded": "only 29 annual peaks on record"
+  },
+  {
+   "site": "02236900",
+   "name": "PALATLAKAHA R AT CHERRY LK OUT NEAR GROVELAND, FL",
+   "begin": "1956-09-19",
+   "end": "2026-09-02",
+   "years": 70,
+   "n_peaks": 69,
+   "regulated_peaks": 69,
+   "regulated_frac": 1.0,
+   "excluded": "regulation codes on 69 of 69 peaks (100%)"
+  },
+  {
+   "site": "02280500",
+   "name": "HILLSBORO CANAL BELOW S351 NR SOUTH BAY FLA",
+   "begin": "1957-03-22",
+   "end": "2026-09-02",
+   "years": 69,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02281200",
+   "name": "HILLSBORO CANAL AT S-6 NEAR SHAWANO",
+   "begin": "1957-10-01",
+   "end": "2026-09-02",
+   "years": 69,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02283500",
+   "name": "N NEW RIVER CANAL BELOW S351 NR SOUTH  BAY FLA",
+   "begin": "1957-02-01",
+   "end": "2026-09-02",
+   "years": 69,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02286400",
+   "name": "MIAMI CANAL AT S-354 AND S-3 AT LAKE HARBOR, FLA",
+   "begin": "1957-10-01",
+   "end": "2026-09-02",
+   "years": 69,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02237700",
+   "name": "APOPKA-BEAUCLAIR CANAL NEAR ASTATULA, FL",
+   "begin": "1958-07-01",
+   "end": "2026-09-02",
+   "years": 68,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02288800",
+   "name": "TAMIAMI CANAL OUTLETS, MONROE TO CARNESTOWN, FLA",
+   "begin": "1960-09-01",
+   "end": "2025-05-12",
+   "years": 65,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02312700",
+   "name": "OUTLET RIVER AT PANACOOCHEE RETREATS, FL",
+   "begin": "1962-10-01",
+   "end": "2026-09-02",
+   "years": 64,
+   "excluded": "station name contains 'OUTLET'"
+  },
+  {
+   "site": "02289019",
+   "name": "TAMIAMI CANAL AT S-12-B  NR MIAMI, FL",
+   "begin": "1963-10-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02289041",
+   "name": "TAMIAMI CANAL BELOW S-12-C, NEARMIAMI, FLA",
+   "begin": "1963-10-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02294491",
+   "name": "SADDLE CREEK AT STRUCTURE P-11 NEAR BARTOW FL",
+   "begin": "1963-12-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "excluded": "station name contains 'STRUCTURE'"
+  },
+  {
+   "site": "02312640",
+   "name": "JUMPER CREEK CANAL NEAR BUSHNELL, FL",
+   "begin": "1963-10-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "254543080405401",
+   "name": "TAMIAMI CANAL AT S-12-D NEAR MIAMI, FL",
+   "begin": "1963-10-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "254543080491101",
+   "name": "TAMIAMI CANAL AT S-12-A, NR MIAMI, FL",
+   "begin": "1963-10-01",
+   "end": "2026-09-02",
+   "years": 63,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02288900",
+   "name": "TAMIAMI CANAL OUTLETS, 40-MILE BEND TO MONROE, FL",
+   "begin": "1963-10-01",
+   "end": "2025-05-15",
+   "years": 62,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02289060",
+   "name": "TAMIAMI CANAL OUTLETS L-30 TO L-67A NR MIAMI, FL",
+   "begin": "1963-10-01",
+   "end": "2025-05-16",
+   "years": 62,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02310750",
+   "name": "CRYSTAL RIVER NEAR CRYSTAL RIVER FL",
+   "begin": "1964-03-01",
+   "end": "2026-08-30",
+   "years": 62,
+   "excluded": "only 13 annual peaks on record"
+  },
+  {
+   "site": "02298202",
+   "name": "SHELL CREEK NEAR PUNTA GORDA FL",
+   "begin": "1965-01-01",
+   "end": "2026-09-02",
+   "years": 61,
+   "n_peaks": 53,
+   "regulated_peaks": 17,
+   "regulated_frac": 0.321,
+   "excluded": "regulation codes on 17 of 53 peaks (32%)"
+  },
+  {
+   "site": "02312720",
+   "name": "WITHLACOOCHEE RIVER AT WYSONG DAM, AT CARLSON, FL",
+   "begin": "1965-08-10",
+   "end": "2026-09-02",
+   "years": 61,
+   "excluded": "station name contains 'DAM'"
+  },
+  {
+   "site": "02292900",
+   "name": "CALOOSAHATCHEE RIVER AT S-79, NR.OLGA, FLA",
+   "begin": "1966-05-01",
+   "end": "2026-09-01",
+   "years": 60,
+   "excluded": "station name contains 'S-'"
+  },
+  {
+   "site": "02299950",
+   "name": "MANATEE RIVER AT SR 64 NEAR MYAKKA HEAD, FL",
+   "begin": "1966-04-20",
+   "end": "2026-09-02",
+   "years": 60,
+   "excluded": "station name contains 'AT S'"
+  },
+  {
+   "site": "02367310",
+   "name": "JUNIPER CREEK AT STATE HWY 85 NR NICEVILLE, FLA.",
+   "begin": "1966-03-17",
+   "end": "2025-12-18",
+   "years": 59,
+   "excluded": "station name contains 'AT S'"
+  },
+  {
+   "site": "02243960",
+   "name": "OCKLAWAHA R AT RODMAN DAM NEAR ORANGE SPRINGS, FL",
+   "begin": "1968-10-01",
+   "end": "2026-09-02",
+   "years": 58,
+   "excluded": "station name contains 'DAM'"
+  },
+  {
+   "site": "02266291",
+   "name": "LATERAL 405 AT S-405A, NEAR DOCTOR PHILLIPS, FL",
+   "begin": "1968-10-01",
+   "end": "2026-09-02",
+   "years": 58,
+   "excluded": "station name contains 'S-'"
+  },
+  {
+   "site": "02290769",
+   "name": "CANAL 111 AT S-18-C NEAR FLORIDA CITY, FL",
+   "begin": "1968-10-01",
+   "end": "2026-09-02",
+   "years": 58,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "02266025",
+   "name": "REEDY CREEK AT S-46 NEAR VINELAND, FL",
+   "begin": "1969-06-14",
+   "end": "2026-09-02",
+   "years": 57,
+   "excluded": "station name contains 'S-'"
+  },
+  {
+   "site": "02303330",
+   "name": "HILLSBOROUGH R AT MORRIS BR NEAR THONOTOSASSA FL",
+   "begin": "1969-10-01",
+   "end": "2026-09-02",
+   "years": 57,
+   "n_peaks": 53,
+   "regulated_peaks": 13,
+   "regulated_frac": 0.245,
+   "excluded": "regulation codes on 13 of 53 peaks (25%)"
+  },
+  {
+   "site": "02304000",
+   "name": "HILLSBOROUGH R AT FOWLER AV NEAR TEMPLE TERRACE FL",
+   "begin": "1969-10-01",
+   "end": "2026-09-02",
+   "years": 57,
+   "excluded": "only 0 annual peaks on record"
+  },
+  {
+   "site": "02313230",
+   "name": "WITHLACOOCHEE R AT INGLIS DAM NEAR DUNNELLON, FL",
+   "begin": "1969-10-01",
+   "end": "2026-09-02",
+   "years": 57,
+   "excluded": "station name contains 'DAM'"
+  },
+  {
+   "site": "02315550",
+   "name": "SUWANNEE RIVER AT SUWANNEE SPRINGS FLA",
+   "begin": "1969-10-01",
+   "end": "2026-09-02",
+   "years": 57,
+   "excluded": "station name contains 'AT S'"
+  },
+  {
+   "site": "02237293",
+   "name": "PALATLAKAHA R AT STRUCTURE M-1, NR OKAHUMPKA, FL",
+   "begin": "1970-01-01",
+   "end": "2026-09-02",
+   "years": 56,
+   "excluded": "station name contains 'STRUCTURE'"
+  },
+  {
+   "site": "02310700",
+   "name": "HOMOSASSA R AT HOMOSASSA FL",
+   "begin": "1970-10-01",
+   "end": "2026-09-02",
+   "years": 56,
+   "excluded": "only 0 annual peaks on record"
+  },
+  {
+   "site": "02313250",
+   "name": "WITHLACOOCHEE R BYPASS CHANNEL NR INGLIS FLA",
+   "begin": "1970-01-01",
+   "end": "2026-09-02",
+   "years": 56,
+   "n_peaks": 46,
+   "regulated_peaks": 46,
+   "regulated_frac": 1.0,
+   "excluded": "regulation codes on 46 of 46 peaks (100%)"
+  },
+  {
+   "site": "02277600",
+   "name": "LOXAHATCHEE RIVER NEAR JUPITER,FL",
+   "begin": "1971-04-01",
+   "end": "2026-09-02",
+   "years": 55,
+   "excluded": "only 27 annual peaks on record"
+  },
+  {
+   "site": "02303420",
+   "name": "CYPRESS CREEK AT SR 54 AT WORTHINGTON GARDENS, FL",
+   "begin": "1971-10-05",
+   "end": "2026-09-02",
+   "years": 55,
+   "excluded": "station name contains 'AT S'"
+  },
+  {
+   "site": "02308889",
+   "name": "SEMINOLE LAKE OUTLET NEAR LARGO FL",
+   "begin": "1971-10-01",
+   "end": "2026-09-02",
+   "years": 55,
+   "excluded": "station name contains 'OUTLET'"
+  },
+  {
+   "site": "02263869",
+   "name": "SOUTH LAKE OUTLET AT S-15, NEAR VINELAND, FL",
+   "begin": "1972-06-16",
+   "end": "2026-09-02",
+   "years": 54,
+   "excluded": "station name contains 'S-'"
+  },
+  {
+   "site": "02307498",
+   "name": "LAKE TARPON CANAL AT S-551, NEAR OLDSMAR FL",
+   "begin": "1974-10-01",
+   "end": "2026-09-02",
+   "years": 52,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "264514080550700",
+   "name": "INDUSTRIAL CANAL AT CLEWISTON",
+   "begin": "1976-08-24",
+   "end": "2026-09-02",
+   "years": 50,
+   "excluded": "station name contains 'CANAL'"
+  },
+  {
+   "site": "265501080364900",
+   "name": "LEVEE 8 CANAL NEAR CANAL POINT, FL",
+   "begin": "1976-08-11",
+   "end": "2026-09-02",
+   "years": 50,
+   "excluded": "station name contains 'CANAL'"
+  }
+ ]
+}
