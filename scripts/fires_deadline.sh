@@ -36,13 +36,28 @@ age() {
   html=$(curl -s --max-time 25 "$PAGE") || return 2
   printf '%s' "$html" | python3 -c '
 import sys, re, datetime
-m = re.search(r"wk ([A-Z][a-z]{2}) (\d{1,2})-(\d{1,2})", sys.stdin.read())
+# TWO WINDOW SHAPES. A week inside one month renders "wk Aug 24-30";
+# a week crossing a month renders "wk Aug 27-Sep 2". The first version
+# matched only the former, so it returned NOWINDOW and exited without
+# dispatching on 2026-09-02, the first cross-month window since it was
+# written. A once-a-month blind spot that fails silently to the page
+# and loudly only to a log nobody reads.
+m = re.search(r"wk ([A-Z][a-z]{2}) (\d{1,2})-(?:([A-Z][a-z]{2}) )?(\d{1,2})",
+              sys.stdin.read())
 if not m: print("NOWINDOW"); raise SystemExit
-mon = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,
-       "Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}[m.group(1)]
+MON = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,
+       "Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
+end_mon = MON[m.group(3) or m.group(1)]
 today = datetime.date.today()
-end = datetime.date(today.year, mon, int(m.group(3)))
+end = datetime.date(today.year, end_mon, int(m.group(4)))
+# YEAR ROLLOVER, BOTH DIRECTIONS. The page never names a year, so the
+# window is dated into the current one and corrected. A window ending
+# in the future belongs to last year; one ending absurdly far in the
+# past belongs to next. Without the second case, "wk Dec 29-Jan 4" read
+# on 30 December resolves to January ELEVEN MONTHS AGO, reports an age
+# of 360 days and dispatches a run against a page that is fine.
 if (end - today).days > 60: end = end.replace(year=today.year - 1)
+elif (today - end).days > 180: end = end.replace(year=today.year + 1)
 print((today - end).days)
 '
 }
