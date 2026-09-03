@@ -162,10 +162,15 @@ def main():
                            "observations at >= 34 kt while status is TS or HU; "
                            "subtropical excluded (NOAA convention). "
                            "Unit: 10^4 kt^2."),
-        "not_derived": ("US landfall. HURDAT2 marks landfall generically; "
-                        "isolating continental-US landfall needs a coastline "
-                        "test, not a bounding box. Use NOAA's separate "
-                        "continental-US landfall record for that claim."),
+        "not_derived": ("US landfall is not derived FROM THIS FILE. HURDAT2 "
+                        "marks landfall generically; isolating continental-US "
+                        "landfall from track positions needs a coastline test, "
+                        "and a bounding box would give a confident wrong "
+                        "number. We now hold AOML's curated continental-US "
+                        "landfall record separately, at "
+                        "data/us_hurricane_landfalls.json, built by "
+                        "scripts/pull_us_landfalls.py. Use that for landfall, "
+                        "and note it is a COUNT, not a loss series."),
         "homogeneity_warning": (f"Continuous satellite coverage from ~{SATELLITE_ERA}. "
                                 "Earlier seasons undercount storms that stayed at "
                                 "sea, biasing ACE and counts DOWN. Do not state a "

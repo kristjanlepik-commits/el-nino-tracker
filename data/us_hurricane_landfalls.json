@@ -1,0 +1,4070 @@
+{
+ "generated": "2026-09-03",
+ "source": "https://www.aoml.noaa.gov/hrd/hurdat/All_U.S._Hurricanes.html",
+ "what_this_counts": "hurricanes at continental-US landfall, curated by AOML/HRD. Tropical storms excluded. Hurricanes that stayed offshore excluded however close.",
+ "not_a_damage_series": "Counts landfalls, not losses. A single Cat 3 into a metro area outweighs several into open coast. Any damage statement needs a named normalised loss series, which this is not.",
+ "small_number_warning": "0-6 events a season against 10-16 storms in the basin, so an ENSO effect has far less room to show here. A null is weak evidence, not absence.",
+ "reliable_from": 1966,
+ "record_start": 1851,
+ "record_end": 2025,
+ "zero_landfall_years": [
+  1862,
+  1863,
+  1864,
+  1868,
+  1872,
+  1884,
+  1890,
+  1892,
+  1902,
+  1905,
+  1907,
+  1914,
+  1922,
+  1925,
+  1927,
+  1930,
+  1931,
+  1937,
+  1951,
+  1962,
+  1963,
+  1973,
+  1978,
+  1981,
+  1982,
+  1990,
+  1994,
+  2000,
+  2001,
+  2006,
+  2009,
+  2010,
+  2013,
+  2015,
+  2025
+ ],
+ "note_2025": "2025 is present in the source and marked None: zero continental-US hurricane landfalls. The last year with any landfall is 2024. Reading the record as ending then would understate coverage and mismatch the HURDAT2 series, which also runs to 2025.",
+ "excluded_tropical_storm_landfalls": [
+  {
+   "year": 2022,
+   "month": "Nov",
+   "states": "FL - TS",
+   "category": "TS",
+   "pressure_mb": 980,
+   "wind_kt": 60,
+   "name": "Nicole"
+  }
+ ],
+ "n_landfalls": 309,
+ "seasons": [
+  {
+   "year": 1851,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1852,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1853,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1854,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1855,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1856,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1857,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1858,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1859,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1860,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1861,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1862,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1863,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1864,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1865,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1866,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1867,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1868,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1869,
+   "landfalls": 4,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1870,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1871,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1872,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1873,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1874,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1875,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1876,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1877,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1878,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1879,
+   "landfalls": 3,
+   "major_landfalls": 2,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1880,
+   "landfalls": 4,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1881,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1882,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1883,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1884,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1885,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1886,
+   "landfalls": 7,
+   "major_landfalls": 2,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1887,
+   "landfalls": 4,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1888,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1889,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1890,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1891,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1892,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1893,
+   "landfalls": 5,
+   "major_landfalls": 3,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1894,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1895,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1896,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1897,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1898,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1899,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1900,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1901,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1902,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1903,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1904,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1905,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1906,
+   "landfalls": 4,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1907,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1908,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1909,
+   "landfalls": 5,
+   "major_landfalls": 3,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1910,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1911,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1912,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1913,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1914,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1915,
+   "landfalls": 4,
+   "major_landfalls": 2,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1916,
+   "landfalls": 4,
+   "major_landfalls": 2,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1917,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1918,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1919,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1920,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1921,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1922,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1923,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1924,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1925,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1926,
+   "landfalls": 4,
+   "major_landfalls": 2,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1927,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1928,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1929,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1930,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1931,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1932,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1933,
+   "landfalls": 5,
+   "major_landfalls": 2,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1934,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1935,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 5,
+   "oni_aso": null
+  },
+  {
+   "year": 1936,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1937,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": null
+  },
+  {
+   "year": 1938,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1939,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1940,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1941,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1942,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1943,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": null
+  },
+  {
+   "year": 1944,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": null
+  },
+  {
+   "year": 1945,
+   "landfalls": 3,
+   "major_landfalls": 2,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1946,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": null
+  },
+  {
+   "year": 1947,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1948,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1949,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": null
+  },
+  {
+   "year": 1950,
+   "landfalls": 3,
+   "major_landfalls": 2,
+   "max_category": 4,
+   "oni_aso": -0.56
+  },
+  {
+   "year": 1951,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": 1.02
+  },
+  {
+   "year": 1952,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": 0.03
+  },
+  {
+   "year": 1953,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": 0.59
+  },
+  {
+   "year": 1954,
+   "landfalls": 3,
+   "major_landfalls": 2,
+   "max_category": 4,
+   "oni_aso": -0.73
+  },
+  {
+   "year": 1955,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": -1.11
+  },
+  {
+   "year": 1956,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": -0.43
+  },
+  {
+   "year": 1957,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": 1.12
+  },
+  {
+   "year": 1958,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": 0.28
+  },
+  {
+   "year": 1959,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": -0.04
+  },
+  {
+   "year": 1960,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": 0.19
+  },
+  {
+   "year": 1961,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": -0.32
+  },
+  {
+   "year": 1962,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": -0.16
+  },
+  {
+   "year": 1963,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": 1.09
+  },
+  {
+   "year": 1964,
+   "landfalls": 4,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": -0.72
+  },
+  {
+   "year": 1965,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": 1.55
+  },
+  {
+   "year": 1966,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": -0.09
+  },
+  {
+   "year": 1967,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": -0.4
+  },
+  {
+   "year": 1968,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": 0.34
+  },
+  {
+   "year": 1969,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 5,
+   "oni_aso": 0.61
+  },
+  {
+   "year": 1970,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": -0.69
+  },
+  {
+   "year": 1971,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": -0.68
+  },
+  {
+   "year": 1972,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": 1.49
+  },
+  {
+   "year": 1973,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": -1.26
+  },
+  {
+   "year": 1974,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": -0.47
+  },
+  {
+   "year": 1975,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": -1.29
+  },
+  {
+   "year": 1976,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": 0.6
+  },
+  {
+   "year": 1977,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": 0.45
+  },
+  {
+   "year": 1978,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": -0.44
+  },
+  {
+   "year": 1979,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": 0.34
+  },
+  {
+   "year": 1980,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": -0.17
+  },
+  {
+   "year": 1981,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": -0.08
+  },
+  {
+   "year": 1982,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": 1.45
+  },
+  {
+   "year": 1983,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": -0.43
+  },
+  {
+   "year": 1984,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": -0.32
+  },
+  {
+   "year": 1985,
+   "landfalls": 6,
+   "major_landfalls": 2,
+   "max_category": 3,
+   "oni_aso": -0.31
+  },
+  {
+   "year": 1986,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": 0.64
+  },
+  {
+   "year": 1987,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": 1.49
+  },
+  {
+   "year": 1988,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": -1.27
+  },
+  {
+   "year": 1989,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": -0.33
+  },
+  {
+   "year": 1990,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": 0.31
+  },
+  {
+   "year": 1991,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": 0.72
+  },
+  {
+   "year": 1992,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 5,
+   "oni_aso": -0.15
+  },
+  {
+   "year": 1993,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": 0.2
+  },
+  {
+   "year": 1994,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": 0.47
+  },
+  {
+   "year": 1995,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": -0.81
+  },
+  {
+   "year": 1996,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": -0.3
+  },
+  {
+   "year": 1997,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": 2.04
+  },
+  {
+   "year": 1998,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": -1.02
+  },
+  {
+   "year": 1999,
+   "landfalls": 3,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": -1.0
+  },
+  {
+   "year": 2000,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": -0.42
+  },
+  {
+   "year": 2001,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": -0.15
+  },
+  {
+   "year": 2002,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": 0.78
+  },
+  {
+   "year": 2003,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": 0.23
+  },
+  {
+   "year": 2004,
+   "landfalls": 6,
+   "major_landfalls": 3,
+   "max_category": 4,
+   "oni_aso": 0.58
+  },
+  {
+   "year": 2005,
+   "landfalls": 6,
+   "major_landfalls": 4,
+   "max_category": 3,
+   "oni_aso": -0.11
+  },
+  {
+   "year": 2006,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": 0.54
+  },
+  {
+   "year": 2007,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": -1.05
+  },
+  {
+   "year": 2008,
+   "landfalls": 3,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": -0.25
+  },
+  {
+   "year": 2009,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": 0.66
+  },
+  {
+   "year": 2010,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": -1.43
+  },
+  {
+   "year": 2011,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": -0.76
+  },
+  {
+   "year": 2012,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 1,
+   "oni_aso": 0.37
+  },
+  {
+   "year": 2013,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": -0.32
+  },
+  {
+   "year": 2014,
+   "landfalls": 1,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": 0.24
+  },
+  {
+   "year": 2015,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": 2.02
+  },
+  {
+   "year": 2016,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": -0.42
+  },
+  {
+   "year": 2017,
+   "landfalls": 3,
+   "major_landfalls": 2,
+   "max_category": 4,
+   "oni_aso": -0.23
+  },
+  {
+   "year": 2018,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 5,
+   "oni_aso": 0.52
+  },
+  {
+   "year": 2019,
+   "landfalls": 2,
+   "major_landfalls": 0,
+   "max_category": 2,
+   "oni_aso": 0.31
+  },
+  {
+   "year": 2020,
+   "landfalls": 6,
+   "major_landfalls": 2,
+   "max_category": 4,
+   "oni_aso": -0.77
+  },
+  {
+   "year": 2021,
+   "landfalls": 2,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": -0.64
+  },
+  {
+   "year": 2022,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": -0.87
+  },
+  {
+   "year": 2023,
+   "landfalls": 1,
+   "major_landfalls": 1,
+   "max_category": 3,
+   "oni_aso": 1.5
+  },
+  {
+   "year": 2024,
+   "landfalls": 5,
+   "major_landfalls": 1,
+   "max_category": 4,
+   "oni_aso": -0.12
+  },
+  {
+   "year": 2025,
+   "landfalls": 0,
+   "major_landfalls": 0,
+   "max_category": 0,
+   "oni_aso": -0.43
+  }
+ ],
+ "events": [
+  {
+   "year": 1851,
+   "month": "Jun",
+   "states": "TX, C1",
+   "category": 1,
+   "pressure_mb": 974,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1851,
+   "month": "Aug",
+   "states": "FL, NW3; I-GA, 1",
+   "category": 3,
+   "pressure_mb": 955,
+   "wind_kt": 100,
+   "name": "Great Middle Florida"
+  },
+  {
+   "year": 1852,
+   "month": "Aug",
+   "states": "AL, 3; MS, 3; LA, 2; FL, SW2, NW1",
+   "category": 3,
+   "pressure_mb": 961,
+   "wind_kt": 100,
+   "name": "Great Mobile"
+  },
+  {
+   "year": 1852,
+   "month": "Sep",
+   "states": "FL, SW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1852,
+   "month": "Oct",
+   "states": "FL, NW2; I-GA, 1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "Middle Florida"
+  },
+  {
+   "year": 1853,
+   "month": "Oct",
+   "states": "GA, 1",
+   "category": 1,
+   "pressure_mb": 965,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1854,
+   "month": "Jun",
+   "states": "TX, S1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1854,
+   "month": "Sep",
+   "states": "GA, 3; SC, 2; FL, NE1",
+   "category": 3,
+   "pressure_mb": 950,
+   "wind_kt": 100,
+   "name": "Great Carolina"
+  },
+  {
+   "year": 1854,
+   "month": "Sep",
+   "states": "TX, C2",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "Matagorda"
+  },
+  {
+   "year": 1855,
+   "month": "Sep",
+   "states": "LA, 3; MS, 3",
+   "category": 3,
+   "pressure_mb": 945,
+   "wind_kt": 110,
+   "name": "Middle Gulf Shore"
+  },
+  {
+   "year": 1856,
+   "month": "Aug",
+   "states": "LA, 4",
+   "category": 4,
+   "pressure_mb": 934,
+   "wind_kt": 130,
+   "name": "Last Island"
+  },
+  {
+   "year": 1856,
+   "month": "Aug",
+   "states": "FL, NW2; I-AL, 1; I-GA, 1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "Southeastern States"
+  },
+  {
+   "year": 1857,
+   "month": "Sep",
+   "states": "NC, 2",
+   "category": 2,
+   "pressure_mb": 961,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1858,
+   "month": "Sep",
+   "states": "NY, 1; CT, 1; RI, 1; MA, 1",
+   "category": 1,
+   "pressure_mb": 976,
+   "wind_kt": 80,
+   "name": "New England"
+  },
+  {
+   "year": 1859,
+   "month": "Sep",
+   "states": "AL, 1; FL, NW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1859,
+   "month": "Oct",
+   "states": "FL, SW1, SE1",
+   "category": 1,
+   "pressure_mb": 974,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1860,
+   "month": "Aug",
+   "states": "LA, 3; MS, 3; AL, 2",
+   "category": 3,
+   "pressure_mb": 945,
+   "wind_kt": 110,
+   "name": "-----"
+  },
+  {
+   "year": 1860,
+   "month": "Sep",
+   "states": "LA, 2; MS, 2; AL, 1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1860,
+   "month": "Oct",
+   "states": "LA, 2",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1861,
+   "month": "Aug",
+   "states": "FL, SW1",
+   "category": 1,
+   "pressure_mb": 978,
+   "wind_kt": 70,
+   "name": "Key West"
+  },
+  {
+   "year": 1861,
+   "month": "Sep",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "Equinoctial"
+  },
+  {
+   "year": 1861,
+   "month": "Nov",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "Expedition"
+  },
+  {
+   "year": 1865,
+   "month": "Sep",
+   "states": "LA, 2; TX, N1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "Sabine River"
+  },
+  {
+   "year": 1865,
+   "month": "Oct",
+   "states": "FL, SW2, SE1",
+   "category": 2,
+   "pressure_mb": 969,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1866,
+   "month": "Jul",
+   "states": "TX, C2",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1867,
+   "month": "Jun",
+   "states": "SC, 1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1867,
+   "month": "Oct",
+   "states": "LA, 2; TX, S1, N1; FL, NW1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "Galveston"
+  },
+  {
+   "year": 1869,
+   "month": "Aug",
+   "states": "TX, C2",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "Lower Texas Coast"
+  },
+  {
+   "year": 1869,
+   "month": "Sep",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1869,
+   "month": "Sep",
+   "states": "RI, 3; MA, 3; NY, 1; CT, 1",
+   "category": 3,
+   "pressure_mb": 963,
+   "wind_kt": 100,
+   "name": "Eastern New England"
+  },
+  {
+   "year": 1869,
+   "month": "Oct",
+   "states": "ME, 2; MA, 1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "Saxby's Gale"
+  },
+  {
+   "year": 1870,
+   "month": "Jul",
+   "states": "AL, 1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "Mobile"
+  },
+  {
+   "year": 1870,
+   "month": "Oct",
+   "states": "FL, SW1, SE1",
+   "category": 1,
+   "pressure_mb": 970,
+   "wind_kt": 70,
+   "name": "Twin Key West (I)"
+  },
+  {
+   "year": 1870,
+   "month": "Oct",
+   "states": "FL, SW1",
+   "category": 1,
+   "pressure_mb": 977,
+   "wind_kt": 80,
+   "name": "Twin Key West (II)"
+  },
+  {
+   "year": 1871,
+   "month": "Aug",
+   "states": "FL, SE3, NE1, NW1",
+   "category": 3,
+   "pressure_mb": 955,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1871,
+   "month": "Aug",
+   "states": "FL, SE2, NE1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1871,
+   "month": "Sep",
+   "states": "FL, NW1, SW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1873,
+   "month": "Sep",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1873,
+   "month": "Oct",
+   "states": "FL, SW3, SE2, NE1",
+   "category": 3,
+   "pressure_mb": 959,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1874,
+   "month": "Sep",
+   "states": "FL, NW1; SC, 1; NC, 1",
+   "category": 1,
+   "pressure_mb": 981,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1875,
+   "month": "Sep",
+   "states": "TX, C3, S2",
+   "category": 3,
+   "pressure_mb": 955,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1876,
+   "month": "Sep",
+   "states": "NC, 1; VA, 1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1876,
+   "month": "Oct",
+   "states": "FL, SW2, SE1",
+   "category": 2,
+   "pressure_mb": 973,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1877,
+   "month": "Sep",
+   "states": "LA, 1; FL, NW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1877,
+   "month": "Oct",
+   "states": "FL, NW3; I-GA, 1",
+   "category": 3,
+   "pressure_mb": 955,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1878,
+   "month": "Sep",
+   "states": "FL, NW2, SW2, NE1; SC, 1; GA, 1",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1878,
+   "month": "Oct",
+   "states": "NC, 2; VA, 1; MD, 1; DE, 1; NJ, 1; I-PA, 1",
+   "category": 2,
+   "pressure_mb": 963,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1879,
+   "month": "Aug",
+   "states": "NC, 3; VA, 2; MA, 1",
+   "category": 3,
+   "pressure_mb": 971,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1879,
+   "month": "Aug",
+   "states": "TX, N2; LA, 2",
+   "category": 2,
+   "pressure_mb": 964,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1879,
+   "month": "Sep",
+   "states": "LA, 3",
+   "category": 3,
+   "pressure_mb": 945,
+   "wind_kt": 110,
+   "name": "-----"
+  },
+  {
+   "year": 1880,
+   "month": "Aug",
+   "states": "TX, S3",
+   "category": 3,
+   "pressure_mb": 931,
+   "wind_kt": 110,
+   "name": "-----"
+  },
+  {
+   "year": 1880,
+   "month": "Aug",
+   "states": "FL, SE2, NE1, NW1",
+   "category": 2,
+   "pressure_mb": 972,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1880,
+   "month": "Sep",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 987,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1880,
+   "month": "Oct",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1881,
+   "month": "Aug",
+   "states": "GA, 2; SC, 1",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1881,
+   "month": "Sep",
+   "states": "NC, 2",
+   "category": 2,
+   "pressure_mb": 975,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1882,
+   "month": "Sep",
+   "states": "FL, NW3; I-AL, 1",
+   "category": 3,
+   "pressure_mb": 949,
+   "wind_kt": 110,
+   "name": "-----"
+  },
+  {
+   "year": 1882,
+   "month": "Oct",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1883,
+   "month": "Sep",
+   "states": "NC, 2; SC, 1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1885,
+   "month": "Aug",
+   "states": "SC, 2; NC, 1; GA, 1; FL, NE1",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1886,
+   "month": "Jun",
+   "states": "TX, N2; LA, 2",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1886,
+   "month": "Jun",
+   "states": "FL, NW2; I-GA, 1",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1886,
+   "month": "Jun",
+   "states": "FL, NW2; I-GA, 1",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1886,
+   "month": "Jul",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1886,
+   "month": "Aug",
+   "states": "TX, C4",
+   "category": 4,
+   "pressure_mb": 925,
+   "wind_kt": 130,
+   "name": "Indianola"
+  },
+  {
+   "year": 1886,
+   "month": "Sep",
+   "states": "TX, S1, C1",
+   "category": 1,
+   "pressure_mb": 973,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1886,
+   "month": "Oct",
+   "states": "LA, 3; TX, N2",
+   "category": 3,
+   "pressure_mb": 950,
+   "wind_kt": 105,
+   "name": "-----"
+  },
+  {
+   "year": 1887,
+   "month": "Jul",
+   "states": "FL, NW1; I-AL, 1",
+   "category": 1,
+   "pressure_mb": 978,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1887,
+   "month": "Aug",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 946,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1887,
+   "month": "Sep",
+   "states": "TX, S1",
+   "category": 1,
+   "pressure_mb": 973,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1887,
+   "month": "Oct",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 978,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1888,
+   "month": "Jun",
+   "states": "TX, C1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1888,
+   "month": "Aug",
+   "states": "FL, SE3, SW1; LA, 2; I-MS, 1",
+   "category": 3,
+   "pressure_mb": 945,
+   "wind_kt": 110,
+   "name": "-----"
+  },
+  {
+   "year": 1888,
+   "month": "Oct",
+   "states": "FL, NW2, NE1",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 95,
+   "name": "-----"
+  },
+  {
+   "year": 1889,
+   "month": "Sep",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1891,
+   "month": "Jul",
+   "states": "TX, C1, N1",
+   "category": 1,
+   "pressure_mb": 974,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1891,
+   "month": "Aug",
+   "states": "FL, SE1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1893,
+   "month": "Aug",
+   "states": "NY, 1; CT, 1",
+   "category": 1,
+   "pressure_mb": 986,
+   "wind_kt": 75,
+   "name": "Midnight Storm"
+  },
+  {
+   "year": 1893,
+   "month": "Aug",
+   "states": "GA, 3; SC, 3; I-NC, 1; FL, NE1",
+   "category": 3,
+   "pressure_mb": 954,
+   "wind_kt": 100,
+   "name": "Sea Islands"
+  },
+  {
+   "year": 1893,
+   "month": "Sep",
+   "states": "LA, 2",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1893,
+   "month": "Oct",
+   "states": "LA, 4; MS, 2; AL, 2",
+   "category": 4,
+   "pressure_mb": 948,
+   "wind_kt": 115,
+   "name": "Chenier Caminanda"
+  },
+  {
+   "year": 1893,
+   "month": "Oct",
+   "states": "SC, 3; NC, 2; I-VA, 1",
+   "category": 3,
+   "pressure_mb": 955,
+   "wind_kt": 105,
+   "name": "-----"
+  },
+  {
+   "year": 1894,
+   "month": "Sep",
+   "states": "FL, SW2, NE1; SC, 1; VA, 1",
+   "category": 2,
+   "pressure_mb": 975,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1894,
+   "month": "Oct",
+   "states": "FL, NW3; I-GA, 1; NY, 1; RI, 1; CT, 1",
+   "category": 3,
+   "pressure_mb": 950,
+   "wind_kt": 105,
+   "name": "-----"
+  },
+  {
+   "year": 1895,
+   "month": "Aug",
+   "states": "TX, S1",
+   "category": 1,
+   "pressure_mb": 963,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1896,
+   "month": "Jul",
+   "states": "FL, NW2",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1896,
+   "month": "Sep",
+   "states": "RI, 1; MA, 1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1896,
+   "month": "Sep",
+   "states": "FL, NW3, NE3; GA, 2; SC, 1; I-NC, 1; I-VA, 1",
+   "category": 3,
+   "pressure_mb": 960,
+   "wind_kt": 110,
+   "name": "-----"
+  },
+  {
+   "year": 1897,
+   "month": "Sep",
+   "states": "LA, 1; TX, N1",
+   "category": 1,
+   "pressure_mb": 978,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1898,
+   "month": "Aug",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1898,
+   "month": "Aug",
+   "states": "GA, 1; SC, 1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1898,
+   "month": "Oct",
+   "states": "GA, 4; FL, NE2",
+   "category": 4,
+   "pressure_mb": 938,
+   "wind_kt": 115,
+   "name": "-----"
+  },
+  {
+   "year": 1899,
+   "month": "Aug",
+   "states": "FL, NW2",
+   "category": 2,
+   "pressure_mb": 979,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1899,
+   "month": "Aug",
+   "states": "NC, 3",
+   "category": 3,
+   "pressure_mb": 945,
+   "wind_kt": 105,
+   "name": "-----"
+  },
+  {
+   "year": 1899,
+   "month": "Oct",
+   "states": "NC, 2; SC, 2",
+   "category": 2,
+   "pressure_mb": 955,
+   "wind_kt": 95,
+   "name": "-----"
+  },
+  {
+   "year": 1900,
+   "month": "Sep",
+   "states": "TX, N4",
+   "category": 4,
+   "pressure_mb": 936,
+   "wind_kt": 120,
+   "name": "Galveston"
+  },
+  {
+   "year": 1901,
+   "month": "Jul",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 983,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1901,
+   "month": "Aug",
+   "states": "LA, 1; MS, 1; AL, 1",
+   "category": 1,
+   "pressure_mb": 973,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1903,
+   "month": "Sep",
+   "states": "FL, SE1, NW1",
+   "category": 1,
+   "pressure_mb": 974,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1903,
+   "month": "Sep",
+   "states": "NJ, 1; DE, 1",
+   "category": 1,
+   "pressure_mb": 990,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1904,
+   "month": "Sep",
+   "states": "SC, 1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1904,
+   "month": "Oct",
+   "states": "FL, SE1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1906,
+   "month": "Jun",
+   "states": "FL, SW1, SE1",
+   "category": 1,
+   "pressure_mb": 979,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1906,
+   "month": "Sep",
+   "states": "SC, 1; NC, 1",
+   "category": 1,
+   "pressure_mb": 977,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1906,
+   "month": "Sep",
+   "states": "MS, 2; AL, 2; FL, NW2; LA, 1",
+   "category": 2,
+   "pressure_mb": 958,
+   "wind_kt": 95,
+   "name": "-----"
+  },
+  {
+   "year": 1906,
+   "month": "Oct",
+   "states": "FL, SW3, SE3",
+   "category": 3,
+   "pressure_mb": 953,
+   "wind_kt": 105,
+   "name": "-----"
+  },
+  {
+   "year": 1908,
+   "month": "Jul",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1909,
+   "month": "Jun",
+   "states": "TX, S2",
+   "category": 2,
+   "pressure_mb": 972,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1909,
+   "month": "Jul",
+   "states": "TX, N3",
+   "category": 3,
+   "pressure_mb": 959,
+   "wind_kt": 100,
+   "name": "Velasco"
+  },
+  {
+   "year": 1909,
+   "month": "Aug",
+   "states": "TX, S1",
+   "category": 1,
+   "pressure_mb": 955,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1909,
+   "month": "Sep",
+   "states": "LA, 3; MS, 2",
+   "category": 3,
+   "pressure_mb": 952,
+   "wind_kt": 105,
+   "name": "Grand Isle"
+  },
+  {
+   "year": 1909,
+   "month": "Oct",
+   "states": "FL, SW3, SE3",
+   "category": 3,
+   "pressure_mb": 957,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1910,
+   "month": "Sep",
+   "states": "TX, S2",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1910,
+   "month": "Oct",
+   "states": "FL, SW2",
+   "category": 2,
+   "pressure_mb": 955,
+   "wind_kt": 95,
+   "name": "-----"
+  },
+  {
+   "year": 1911,
+   "month": "Aug",
+   "states": "FL, NW1; AL,1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1911,
+   "month": "Aug",
+   "states": "SC, 2; GA, 1",
+   "category": 2,
+   "pressure_mb": 972,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1912,
+   "month": "Sep",
+   "states": "AL, 1; FL, NW1",
+   "category": 1,
+   "pressure_mb": 986,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1912,
+   "month": "Oct",
+   "states": "TX, S2",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1913,
+   "month": "Jun",
+   "states": "TX, S1",
+   "category": 1,
+   "pressure_mb": 986,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1913,
+   "month": "Sep",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 976,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1913,
+   "month": "Oct",
+   "states": "SC, 1",
+   "category": 1,
+   "pressure_mb": 989,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1915,
+   "month": "Aug",
+   "states": "FL, NE1",
+   "category": 1,
+   "pressure_mb": 990,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1915,
+   "month": "Aug",
+   "states": "TX, N4, C1; LA, 1",
+   "category": 4,
+   "pressure_mb": 940,
+   "wind_kt": 115,
+   "name": "Galveston"
+  },
+  {
+   "year": 1915,
+   "month": "Sep",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1915,
+   "month": "Sep",
+   "states": "LA, 3; MS, 2",
+   "category": 3,
+   "pressure_mb": 944,
+   "wind_kt": 110,
+   "name": "New Orleans"
+  },
+  {
+   "year": 1916,
+   "month": "Jul",
+   "states": "MS, 3; AL, 2; FL, NW2",
+   "category": 3,
+   "pressure_mb": 950,
+   "wind_kt": 105,
+   "name": "-----"
+  },
+  {
+   "year": 1916,
+   "month": "Jul",
+   "states": "SC, 2",
+   "category": 2,
+   "pressure_mb": 960,
+   "wind_kt": 95,
+   "name": "-----"
+  },
+  {
+   "year": 1916,
+   "month": "Aug",
+   "states": "TX, S4",
+   "category": 4,
+   "pressure_mb": 932,
+   "wind_kt": 115,
+   "name": "-----"
+  },
+  {
+   "year": 1916,
+   "month": "Oct",
+   "states": "AL, 2; FL, NW2",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 95,
+   "name": "-----"
+  },
+  {
+   "year": 1917,
+   "month": "Sep",
+   "states": "FL, NW3; LA, 2; AL, 1",
+   "category": 3,
+   "pressure_mb": 949,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1918,
+   "month": "Aug",
+   "states": "LA, 3; TX, N1",
+   "category": 3,
+   "pressure_mb": 955,
+   "wind_kt": 105,
+   "name": "-----"
+  },
+  {
+   "year": 1918,
+   "month": "Aug",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 988,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1919,
+   "month": "Sep",
+   "states": "FL, SW4, SE2; TX, S3, C3",
+   "category": 4,
+   "pressure_mb": 927,
+   "wind_kt": 130,
+   "name": "-----"
+  },
+  {
+   "year": 1920,
+   "month": "Sep",
+   "states": "LA, 2",
+   "category": 2,
+   "pressure_mb": 975,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1921,
+   "month": "Jun",
+   "states": "TX, C1, N1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1921,
+   "month": "Oct",
+   "states": "FL, SW3, NW2, NE1",
+   "category": 3,
+   "pressure_mb": 958,
+   "wind_kt": 100,
+   "name": "Tampa Bay"
+  },
+  {
+   "year": 1923,
+   "month": "Oct",
+   "states": "LA, 1; MS, 1",
+   "category": 1,
+   "pressure_mb": 983,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1924,
+   "month": "Aug",
+   "states": "NC, 1; MA, 1",
+   "category": 1,
+   "pressure_mb": 963,
+   "wind_kt": 65,
+   "name": null
+  },
+  {
+   "year": 1924,
+   "month": "Sep",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1924,
+   "month": "Oct",
+   "states": "FL, SW1, SE1",
+   "category": 1,
+   "pressure_mb": 975,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1926,
+   "month": "Jul",
+   "states": "FL, NE2; SE1",
+   "category": 2,
+   "pressure_mb": 967,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1926,
+   "month": "Aug",
+   "states": "LA, 3",
+   "category": 3,
+   "pressure_mb": 955,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1926,
+   "month": "Sep",
+   "states": "FL, SE4, SW3, NW3; AL, 3; MS, 1",
+   "category": 4,
+   "pressure_mb": 930,
+   "wind_kt": 125,
+   "name": "Great Miami"
+  },
+  {
+   "year": 1926,
+   "month": "Oct",
+   "states": "FL, SW1, SE1",
+   "category": 1,
+   "pressure_mb": 949,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1928,
+   "month": "Aug",
+   "states": "FL, SE2",
+   "category": 2,
+   "pressure_mb": 977,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1928,
+   "month": "Sep",
+   "states": "FL, SE4, SW3, NE1, NW1; GA, 1; SC, 1",
+   "category": 4,
+   "pressure_mb": 929,
+   "wind_kt": 125,
+   "name": "Lake Okeechobee"
+  },
+  {
+   "year": 1929,
+   "month": "Jun",
+   "states": "TX, C1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1929,
+   "month": "Sp-Oc",
+   "states": "FL, SE3, SW2, NW1",
+   "category": 3,
+   "pressure_mb": 948,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1932,
+   "month": "Aug",
+   "states": "TX, N4, C1",
+   "category": 4,
+   "pressure_mb": 935,
+   "wind_kt": 130,
+   "name": "Freeport"
+  },
+  {
+   "year": 1932,
+   "month": "Sep",
+   "states": "AL, 1; FL, NW1",
+   "category": 1,
+   "pressure_mb": 979,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1933,
+   "month": "Jl-Au",
+   "states": "TX, S1; FL, SE1",
+   "category": 1,
+   "pressure_mb": 975,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1933,
+   "month": "Aug",
+   "states": "NC, 1; VA, 1; MD, 1",
+   "category": 1,
+   "pressure_mb": 963,
+   "wind_kt": 80,
+   "name": "-----"
+  },
+  {
+   "year": 1933,
+   "month": "Sep",
+   "states": "TX, S3",
+   "category": 3,
+   "pressure_mb": 940,
+   "wind_kt": 110,
+   "name": "-----"
+  },
+  {
+   "year": 1933,
+   "month": "Sep",
+   "states": "FL, SE3",
+   "category": 3,
+   "pressure_mb": 948,
+   "wind_kt": 110,
+   "name": "-----"
+  },
+  {
+   "year": 1933,
+   "month": "Sep",
+   "states": "NC, 2; VA, 1",
+   "category": 2,
+   "pressure_mb": 952,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1934,
+   "month": "Jun",
+   "states": "LA, 2",
+   "category": 2,
+   "pressure_mb": 966,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1934,
+   "month": "Jul",
+   "states": "TX, S1",
+   "category": 1,
+   "pressure_mb": 979,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1934,
+   "month": "Sep",
+   "states": "NC, 1; NJ, 1; NY, 1",
+   "category": 1,
+   "pressure_mb": 975,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1935,
+   "month": "Sep",
+   "states": "FL, SE5, SW5, NW2; I-GA, 1",
+   "category": 5,
+   "pressure_mb": 892,
+   "wind_kt": 160,
+   "name": "Labor Day"
+  },
+  {
+   "year": 1935,
+   "month": "Nov",
+   "states": "FL, SE2, NE1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1936,
+   "month": "Jun",
+   "states": "TX, C1",
+   "category": 1,
+   "pressure_mb": 987,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1936,
+   "month": "Jul",
+   "states": "FL; NW2; I-AL,1",
+   "category": 2,
+   "pressure_mb": 964,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1936,
+   "month": "Sep",
+   "states": "NC, 1; VA, 1",
+   "category": 1,
+   "pressure_mb": 964,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1938,
+   "month": "Aug",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 995,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1938,
+   "month": "Sep",
+   "states": "NY, 3; CT, 3; RI, 3; MA, 2",
+   "category": 3,
+   "pressure_mb": 941,
+   "wind_kt": 105,
+   "name": "Great New England"
+  },
+  {
+   "year": 1939,
+   "month": "Aug",
+   "states": "FL, SE1, NW1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1940,
+   "month": "Aug",
+   "states": "TX, N2; LA, 2",
+   "category": 2,
+   "pressure_mb": 972,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1940,
+   "month": "Aug",
+   "states": "SC, 2; GA, 1",
+   "category": 2,
+   "pressure_mb": 972,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1941,
+   "month": "Sep",
+   "states": "TX, N3,C2",
+   "category": 3,
+   "pressure_mb": 942,
+   "wind_kt": 110,
+   "name": "-----"
+  },
+  {
+   "year": 1941,
+   "month": "Oct",
+   "states": "FL, SE2, SW1, NW1, I-GA, 1",
+   "category": 2,
+   "pressure_mb": 980,
+   "wind_kt": 85,
+   "name": "-----"
+  },
+  {
+   "year": 1942,
+   "month": "Aug",
+   "states": "TX, N1",
+   "category": 1,
+   "pressure_mb": 992,
+   "wind_kt": 65,
+   "name": "-----"
+  },
+  {
+   "year": 1942,
+   "month": "Aug",
+   "states": "TX, C3, N2",
+   "category": 3,
+   "pressure_mb": 950,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1943,
+   "month": "Jul",
+   "states": "TX, N2",
+   "category": 2,
+   "pressure_mb": 967,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1944,
+   "month": "Aug",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1944,
+   "month": "Sep",
+   "states": "NC, 2; VA, 2; NY, 2; CT, 1; RI, 2; MA, 1; NJ, 1",
+   "category": 2,
+   "pressure_mb": 954,
+   "wind_kt": 90,
+   "name": "Great Atlantic"
+  },
+  {
+   "year": 1944,
+   "month": "Oct",
+   "states": "FL, SW3, NE2, NW1",
+   "category": 3,
+   "pressure_mb": 949,
+   "wind_kt": 105,
+   "name": "-----"
+  },
+  {
+   "year": 1945,
+   "month": "Jun",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1945,
+   "month": "Aug",
+   "states": "TX, C2, S1, N1",
+   "category": 3,
+   "pressure_mb": 963,
+   "wind_kt": 100,
+   "name": "-----"
+  },
+  {
+   "year": 1945,
+   "month": "Sep",
+   "states": "FL, SE4, SW3, NE1",
+   "category": 4,
+   "pressure_mb": 949,
+   "wind_kt": 115,
+   "name": "-----"
+  },
+  {
+   "year": 1946,
+   "month": "Oct",
+   "states": "FL, SW1, NW1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": 75,
+   "name": "-----"
+  },
+  {
+   "year": 1947,
+   "month": "Aug",
+   "states": "TX, C1",
+   "category": 1,
+   "pressure_mb": 984,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1947,
+   "month": "Sep",
+   "states": "FL, SE4, SW2, LA, 2, MS, 2",
+   "category": 4,
+   "pressure_mb": 943,
+   "wind_kt": 115,
+   "name": "-----"
+  },
+  {
+   "year": 1947,
+   "month": "Oct",
+   "states": "GA, 2, SC, 2, FL, SW1, SE1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1948,
+   "month": "Sep",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 983,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1948,
+   "month": "Sep",
+   "states": "FL, SW4, SE2",
+   "category": 4,
+   "pressure_mb": 940,
+   "wind_kt": 115,
+   "name": "-----"
+  },
+  {
+   "year": 1948,
+   "month": "Oct",
+   "states": "FL, SW2, SE2",
+   "category": 2,
+   "pressure_mb": 963,
+   "wind_kt": 90,
+   "name": "-----"
+  },
+  {
+   "year": 1949,
+   "month": "Aug",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 977,
+   "wind_kt": 70,
+   "name": "-----"
+  },
+  {
+   "year": 1949,
+   "month": "Aug",
+   "states": "FL, SE4, SW1, NW1, NE1, GA, 1",
+   "category": 4,
+   "pressure_mb": 954,
+   "wind_kt": 115,
+   "name": "-----"
+  },
+  {
+   "year": 1949,
+   "month": "Oct",
+   "states": "TX, N2, C1",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 95,
+   "name": "-----"
+  },
+  {
+   "year": 1950,
+   "month": "Aug",
+   "states": "AL, 1, FL, NW1",
+   "category": 1,
+   "pressure_mb": 979,
+   "wind_kt": 75,
+   "name": "Baker"
+  },
+  {
+   "year": 1950,
+   "month": "Sep",
+   "states": "FL, NW3, SW1",
+   "category": 3,
+   "pressure_mb": 960,
+   "wind_kt": 105,
+   "name": "Easy"
+  },
+  {
+   "year": 1950,
+   "month": "Oct",
+   "states": "FL, SE4, NE1",
+   "category": 4,
+   "pressure_mb": 955,
+   "wind_kt": 115,
+   "name": "King"
+  },
+  {
+   "year": 1952,
+   "month": "Aug",
+   "states": "SC, 2",
+   "category": 2,
+   "pressure_mb": 980,
+   "wind_kt": 85,
+   "name": "Able"
+  },
+  {
+   "year": 1953,
+   "month": "Aug",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 975,
+   "wind_kt": 80,
+   "name": "Barbara"
+  },
+  {
+   "year": 1953,
+   "month": "Sep",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 975,
+   "wind_kt": 80,
+   "name": "Florence"
+  },
+  {
+   "year": 1953,
+   "month": "Oct",
+   "states": "FL, SW1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": 75,
+   "name": "Hazel"
+  },
+  {
+   "year": 1954,
+   "month": "Aug",
+   "states": "NY, 3; CT, 3; RI, 3; MA, 2; NC, 1",
+   "category": 3,
+   "pressure_mb": 955,
+   "wind_kt": 100,
+   "name": "Carol"
+  },
+  {
+   "year": 1954,
+   "month": "Sep",
+   "states": "MA, 2; NC, 1; NY, 1; RI, 1",
+   "category": 2,
+   "pressure_mb": 950,
+   "wind_kt": 95,
+   "name": "Edna"
+  },
+  {
+   "year": 1954,
+   "month": "Oct",
+   "states": "SC, 4; NC, 4",
+   "category": 4,
+   "pressure_mb": 938,
+   "wind_kt": 115,
+   "name": "Hazel"
+  },
+  {
+   "year": 1955,
+   "month": "Aug",
+   "states": "NC, 2; VA, 1",
+   "category": 2,
+   "pressure_mb": 962,
+   "wind_kt": 85,
+   "name": "Connie"
+  },
+  {
+   "year": 1955,
+   "month": "Sep",
+   "states": "NC, 2",
+   "category": 2,
+   "pressure_mb": 955,
+   "wind_kt": 90,
+   "name": "Ione"
+  },
+  {
+   "year": 1956,
+   "month": "Sep",
+   "states": "LA, 1; FL, NW1",
+   "category": 1,
+   "pressure_mb": 974,
+   "wind_kt": 80,
+   "name": "Flossy"
+  },
+  {
+   "year": 1957,
+   "month": "Jun",
+   "states": "LA, 3; TX, N2",
+   "category": 3,
+   "pressure_mb": 946,
+   "wind_kt": 110,
+   "name": "Audrey"
+  },
+  {
+   "year": 1958,
+   "month": "Sep",
+   "states": "NC, 3",
+   "category": 3,
+   "pressure_mb": 938,
+   "wind_kt": 110,
+   "name": "Helene"
+  },
+  {
+   "year": 1959,
+   "month": "Jul",
+   "states": "SC, 1",
+   "category": 1,
+   "pressure_mb": 995,
+   "wind_kt": 65,
+   "name": "Cindy"
+  },
+  {
+   "year": 1959,
+   "month": "Jul",
+   "states": "TX, N1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": 75,
+   "name": "Debra"
+  },
+  {
+   "year": 1959,
+   "month": "Sep",
+   "states": "SC, 4",
+   "category": 4,
+   "pressure_mb": 951,
+   "wind_kt": 115,
+   "name": "Gracie"
+  },
+  {
+   "year": 1960,
+   "month": "Sep",
+   "states": "FL, SW4, SE4, NE1; NC, 2; VA, 1; NY, 2; CT, 1; RI, 1; MA, 1",
+   "category": 4,
+   "pressure_mb": 930,
+   "wind_kt": 125,
+   "name": "Donna"
+  },
+  {
+   "year": 1960,
+   "month": "Sep",
+   "states": "LA, 1; MS, 1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": 80,
+   "name": "Ethel"
+  },
+  {
+   "year": 1961,
+   "month": "Sep",
+   "states": "TX, C4. N3, S1",
+   "category": 4,
+   "pressure_mb": 931,
+   "wind_kt": 125,
+   "name": "Carla"
+  },
+  {
+   "year": 1964,
+   "month": "Aug",
+   "states": "FL, SE2",
+   "category": 2,
+   "pressure_mb": 968,
+   "wind_kt": 95,
+   "name": "Cleo"
+  },
+  {
+   "year": 1964,
+   "month": "Sep",
+   "states": "FL, NE2",
+   "category": 2,
+   "pressure_mb": 966,
+   "wind_kt": 95,
+   "name": "Dora"
+  },
+  {
+   "year": 1964,
+   "month": "Oct",
+   "states": "LA, 2",
+   "category": 2,
+   "pressure_mb": 959,
+   "wind_kt": 90,
+   "name": "Hilda"
+  },
+  {
+   "year": 1964,
+   "month": "Oct",
+   "states": "FL, SW2, SE1",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 90,
+   "name": "Isbell"
+  },
+  {
+   "year": 1965,
+   "month": "Sep",
+   "states": "FL, SE3, SW3, LA, 4",
+   "category": 4,
+   "pressure_mb": 946,
+   "wind_kt": 115,
+   "name": "Betsy"
+  },
+  {
+   "year": 1966,
+   "month": "Jun",
+   "states": "FL, SW2,NW1",
+   "category": 3,
+   "pressure_mb": 962,
+   "wind_kt": 100,
+   "name": "Alma"
+  },
+  {
+   "year": 1966,
+   "month": "Oct",
+   "states": "FL, SW2, SE2",
+   "category": 2,
+   "pressure_mb": 984,
+   "wind_kt": 85,
+   "name": "Inez"
+  },
+  {
+   "year": 1967,
+   "month": "Sep",
+   "states": "TX, S3",
+   "category": 3,
+   "pressure_mb": 940,
+   "wind_kt": 100,
+   "name": "Beulah"
+  },
+  {
+   "year": 1968,
+   "month": "Oct",
+   "states": "FL, NW2, NE1; NC, 1",
+   "category": 2,
+   "pressure_mb": 978,
+   "wind_kt": 85,
+   "name": "Gladys"
+  },
+  {
+   "year": 1969,
+   "month": "Aug",
+   "states": "LA, 5; MS, 5; AL, 1",
+   "category": 5,
+   "pressure_mb": 900,
+   "wind_kt": 150,
+   "name": "Camille"
+  },
+  {
+   "year": 1970,
+   "month": "Aug",
+   "states": "TX, S4",
+   "category": 4,
+   "pressure_mb": 944,
+   "wind_kt": 120,
+   "name": "Celia"
+  },
+  {
+   "year": 1971,
+   "month": "Sep",
+   "states": "LA, 2",
+   "category": 2,
+   "pressure_mb": 978,
+   "wind_kt": null,
+   "name": "Edith"
+  },
+  {
+   "year": 1971,
+   "month": "Sep",
+   "states": "TX, C1",
+   "category": 1,
+   "pressure_mb": 979,
+   "wind_kt": null,
+   "name": "Fern"
+  },
+  {
+   "year": 1971,
+   "month": "Sep",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 995,
+   "wind_kt": null,
+   "name": "Ginger"
+  },
+  {
+   "year": 1972,
+   "month": "Jun",
+   "states": "FL, NW1; NY, 1; CT, 1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": null,
+   "name": "Agnes"
+  },
+  {
+   "year": 1974,
+   "month": "Sep",
+   "states": "LA, 3",
+   "category": 3,
+   "pressure_mb": 952,
+   "wind_kt": null,
+   "name": "Carmen"
+  },
+  {
+   "year": 1975,
+   "month": "Sep",
+   "states": "FL, NW3; I-AL, 1",
+   "category": 3,
+   "pressure_mb": 955,
+   "wind_kt": null,
+   "name": "Eloise"
+  },
+  {
+   "year": 1976,
+   "month": "Aug",
+   "states": "NY, 1",
+   "category": 1,
+   "pressure_mb": 980,
+   "wind_kt": null,
+   "name": "Belle"
+  },
+  {
+   "year": 1977,
+   "month": "Sep",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 995,
+   "wind_kt": null,
+   "name": "Babe"
+  },
+  {
+   "year": 1979,
+   "month": "Jul",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 986,
+   "wind_kt": null,
+   "name": "Bob"
+  },
+  {
+   "year": 1979,
+   "month": "Sep",
+   "states": "FL, SE2, NE2; GA, 2; SC, 2",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": null,
+   "name": "David"
+  },
+  {
+   "year": 1979,
+   "month": "Sep",
+   "states": "AL, 3; MS, 3",
+   "category": 3,
+   "pressure_mb": 946,
+   "wind_kt": null,
+   "name": "Frederic"
+  },
+  {
+   "year": 1980,
+   "month": "Aug",
+   "states": "TX, S3",
+   "category": 3,
+   "pressure_mb": 945,
+   "wind_kt": 100,
+   "name": "Allen"
+  },
+  {
+   "year": 1983,
+   "month": "Aug",
+   "states": "TX, N3",
+   "category": 3,
+   "pressure_mb": 962,
+   "wind_kt": 100,
+   "name": "Alicia"
+  },
+  {
+   "year": 1984,
+   "month": "Sep",
+   "states": "NC, 2",
+   "category": 2,
+   "pressure_mb": 949,
+   "wind_kt": 95,
+   "name": "Diana"
+  },
+  {
+   "year": 1985,
+   "month": "Jul",
+   "states": "SC, 1",
+   "category": 1,
+   "pressure_mb": 1003,
+   "wind_kt": 65,
+   "name": "Bob"
+  },
+  {
+   "year": 1985,
+   "month": "Aug",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 987,
+   "wind_kt": 80,
+   "name": "Danny"
+  },
+  {
+   "year": 1985,
+   "month": "Sep",
+   "states": "AL, 3; MS, 3; FL, NW3",
+   "category": 3,
+   "pressure_mb": 959,
+   "wind_kt": 100,
+   "name": "Elena"
+  },
+  {
+   "year": 1985,
+   "month": "Sep",
+   "states": "NC, 3; NY, 3; CT, 2; NH, 2; ME, 1",
+   "category": 3,
+   "pressure_mb": 942,
+   "wind_kt": 90,
+   "name": "Gloria"
+  },
+  {
+   "year": 1985,
+   "month": "Oct",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 971,
+   "wind_kt": 75,
+   "name": "Juan"
+  },
+  {
+   "year": 1985,
+   "month": "Nov",
+   "states": "FL, NW2; I-GA 1",
+   "category": 2,
+   "pressure_mb": 967,
+   "wind_kt": 85,
+   "name": "Kate"
+  },
+  {
+   "year": 1986,
+   "month": "Jun",
+   "states": "TX, N1",
+   "category": 1,
+   "pressure_mb": 990,
+   "wind_kt": 75,
+   "name": "Bonnie"
+  },
+  {
+   "year": 1986,
+   "month": "Aug",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 990,
+   "wind_kt": 65,
+   "name": "Charley"
+  },
+  {
+   "year": 1987,
+   "month": "Oct",
+   "states": "FL, SW1",
+   "category": 1,
+   "pressure_mb": 993,
+   "wind_kt": 65,
+   "name": "Floyd"
+  },
+  {
+   "year": 1988,
+   "month": "Sep",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 984,
+   "wind_kt": 70,
+   "name": "Florence"
+  },
+  {
+   "year": 1989,
+   "month": "Aug",
+   "states": "TX, N1",
+   "category": 1,
+   "pressure_mb": 986,
+   "wind_kt": 70,
+   "name": "Chantal"
+  },
+  {
+   "year": 1989,
+   "month": "Sep",
+   "states": "SC, 4; I-NC 1",
+   "category": 4,
+   "pressure_mb": 934,
+   "wind_kt": 120,
+   "name": "Hugo"
+  },
+  {
+   "year": 1989,
+   "month": "Oct",
+   "states": "TX, N1",
+   "category": 1,
+   "pressure_mb": 983,
+   "wind_kt": 75,
+   "name": "Jerry"
+  },
+  {
+   "year": 1991,
+   "month": "Aug",
+   "states": "RI, 2; MA, 2; NY, 2; CT, 2",
+   "category": 2,
+   "pressure_mb": 962,
+   "wind_kt": 90,
+   "name": "Bob"
+  },
+  {
+   "year": 1992,
+   "month": "Aug",
+   "states": "FL, SE5, SW4; LA, 3",
+   "category": 5,
+   "pressure_mb": 922,
+   "wind_kt": 145,
+   "name": "Andrew"
+  },
+  {
+   "year": 1993,
+   "month": "Aug",
+   "states": "NC, 3",
+   "category": 3,
+   "pressure_mb": 961,
+   "wind_kt": 100,
+   "name": "Emily"
+  },
+  {
+   "year": 1995,
+   "month": "Aug",
+   "states": "FL, NW2, SE1",
+   "category": 2,
+   "pressure_mb": 973,
+   "wind_kt": 85,
+   "name": "Erin"
+  },
+  {
+   "year": 1995,
+   "month": "Oct",
+   "states": "FL, NW3, I-AL 1",
+   "category": 3,
+   "pressure_mb": 942,
+   "wind_kt": 100,
+   "name": "Opal"
+  },
+  {
+   "year": 1996,
+   "month": "Jul",
+   "states": "NC, 2",
+   "category": 2,
+   "pressure_mb": 974,
+   "wind_kt": 90,
+   "name": "Bertha"
+  },
+  {
+   "year": 1996,
+   "month": "Sep",
+   "states": "NC, 3",
+   "category": 3,
+   "pressure_mb": 954,
+   "wind_kt": 100,
+   "name": "Fran"
+  },
+  {
+   "year": 1997,
+   "month": "Jul",
+   "states": "LA, 1; AL, 1",
+   "category": 1,
+   "pressure_mb": 984,
+   "wind_kt": 70,
+   "name": "Danny"
+  },
+  {
+   "year": 1998,
+   "month": "Aug",
+   "states": "NC, 2",
+   "category": 2,
+   "pressure_mb": 964,
+   "wind_kt": 95,
+   "name": "Bonnie"
+  },
+  {
+   "year": 1998,
+   "month": "Sep",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 987,
+   "wind_kt": 70,
+   "name": "Earl"
+  },
+  {
+   "year": 1998,
+   "month": "Sep",
+   "states": "FL, SW2; MS, 2",
+   "category": 2,
+   "pressure_mb": 964,
+   "wind_kt": 90,
+   "name": "Georges"
+  },
+  {
+   "year": 1999,
+   "month": "Aug",
+   "states": "TX, S3",
+   "category": 3,
+   "pressure_mb": 951,
+   "wind_kt": 100,
+   "name": "Bret"
+  },
+  {
+   "year": 1999,
+   "month": "Sep",
+   "states": "NC, 2",
+   "category": 2,
+   "pressure_mb": 956,
+   "wind_kt": 90,
+   "name": "Floyd"
+  },
+  {
+   "year": 1999,
+   "month": "Oct",
+   "states": "FL, SW1; NC, 2",
+   "category": 2,
+   "pressure_mb": 964,
+   "wind_kt": 95,
+   "name": "Irene"
+  },
+  {
+   "year": 2002,
+   "month": "Oct",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 963,
+   "wind_kt": 80,
+   "name": "Lili"
+  },
+  {
+   "year": 2003,
+   "month": "Jul",
+   "states": "TX, C1",
+   "category": 1,
+   "pressure_mb": 979,
+   "wind_kt": 80,
+   "name": "Claudette"
+  },
+  {
+   "year": 2003,
+   "month": "Sep",
+   "states": "NC, 2; VA, 1",
+   "category": 2,
+   "pressure_mb": 957,
+   "wind_kt": 90,
+   "name": "Isabel"
+  },
+  {
+   "year": 2004,
+   "month": "Aug",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 972,
+   "wind_kt": 70,
+   "name": "Alex"
+  },
+  {
+   "year": 2004,
+   "month": "Aug",
+   "states": "FL, SW4, SE1, NE1; SC, 1; NC, 1",
+   "category": 4,
+   "pressure_mb": 941,
+   "wind_kt": 130,
+   "name": "Charley"
+  },
+  {
+   "year": 2004,
+   "month": "Aug",
+   "states": "SC, 1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 65,
+   "name": "Gaston"
+  },
+  {
+   "year": 2004,
+   "month": "Sep",
+   "states": "FL, SE2, SW1",
+   "category": 2,
+   "pressure_mb": 960,
+   "wind_kt": 90,
+   "name": "Frances"
+  },
+  {
+   "year": 2004,
+   "month": "Sep",
+   "states": "AL, 3; FL, NW3",
+   "category": 3,
+   "pressure_mb": 946,
+   "wind_kt": 105,
+   "name": "Ivan"
+  },
+  {
+   "year": 2004,
+   "month": "Sep",
+   "states": "FL, SE3, SW1, NW1",
+   "category": 3,
+   "pressure_mb": 950,
+   "wind_kt": 105,
+   "name": "Jeanne"
+  },
+  {
+   "year": 2005,
+   "month": "Jul",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 991,
+   "wind_kt": 65,
+   "name": "Cindy"
+  },
+  {
+   "year": 2005,
+   "month": "Jul",
+   "states": "FL, NW3; I-AL 1",
+   "category": 3,
+   "pressure_mb": 946,
+   "wind_kt": 105,
+   "name": "Dennis"
+  },
+  {
+   "year": 2005,
+   "month": "Aug",
+   "states": "FL, SE1, SW1; LA, 3; MS, 3; AL, 1",
+   "category": 3,
+   "pressure_mb": 920,
+   "wind_kt": 110,
+   "name": "Katrina"
+  },
+  {
+   "year": 2005,
+   "month": "Sep",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 65,
+   "name": "Ophelia"
+  },
+  {
+   "year": 2005,
+   "month": "Sep",
+   "states": "FL, SW1; LA, 3; TX, N2",
+   "category": 3,
+   "pressure_mb": 937,
+   "wind_kt": 100,
+   "name": "Rita"
+  },
+  {
+   "year": 2005,
+   "month": "Oct",
+   "states": "FL, SW3; FL, SE2",
+   "category": 3,
+   "pressure_mb": 950,
+   "wind_kt": 105,
+   "name": "Wilma"
+  },
+  {
+   "year": 2007,
+   "month": "Sep",
+   "states": "TX, N1; LA, 1",
+   "category": 1,
+   "pressure_mb": 985,
+   "wind_kt": 80,
+   "name": "Humberto"
+  },
+  {
+   "year": 2008,
+   "month": "Jul",
+   "states": "TX, S1",
+   "category": 1,
+   "pressure_mb": 967,
+   "wind_kt": 75,
+   "name": "Dolly"
+  },
+  {
+   "year": 2008,
+   "month": "Sep",
+   "states": "LA, 2",
+   "category": 2,
+   "pressure_mb": 954,
+   "wind_kt": 90,
+   "name": "Gustav"
+  },
+  {
+   "year": 2008,
+   "month": "Sep",
+   "states": "TX, N2; LA, 1",
+   "category": 2,
+   "pressure_mb": 950,
+   "wind_kt": 95,
+   "name": "Ike"
+  },
+  {
+   "year": 2011,
+   "month": "Aug",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 952,
+   "wind_kt": 75,
+   "name": "Irene"
+  },
+  {
+   "year": 2012,
+   "month": "Aug",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 966,
+   "wind_kt": 70,
+   "name": "Isaac"
+  },
+  {
+   "year": 2012,
+   "month": "Oct",
+   "states": "NY, 1",
+   "category": 1,
+   "pressure_mb": 942,
+   "wind_kt": 65,
+   "name": "Sandy"
+  },
+  {
+   "year": 2014,
+   "month": "Jul",
+   "states": "NC, 2",
+   "category": 2,
+   "pressure_mb": 973,
+   "wind_kt": 85,
+   "name": "Arthur"
+  },
+  {
+   "year": 2016,
+   "month": "Sep",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 981,
+   "wind_kt": 70,
+   "name": "Hermine"
+  },
+  {
+   "year": 2016,
+   "month": "Oct",
+   "states": "FL, NE2; GA, 1; SC, 1; NC, 1",
+   "category": 2,
+   "pressure_mb": 963,
+   "wind_kt": 85,
+   "name": "Matthew"
+  },
+  {
+   "year": 2017,
+   "month": "Aug",
+   "states": "TX,C4",
+   "category": 4,
+   "pressure_mb": 937,
+   "wind_kt": 115,
+   "name": "Harvey"
+  },
+  {
+   "year": 2017,
+   "month": "Sep",
+   "states": "FL, SW4,SE 1",
+   "category": 4,
+   "pressure_mb": 931,
+   "wind_kt": 115,
+   "name": "Irma"
+  },
+  {
+   "year": 2017,
+   "month": "Oct",
+   "states": "LA 1, MS 1",
+   "category": 1,
+   "pressure_mb": 983,
+   "wind_kt": 65,
+   "name": "Nate"
+  },
+  {
+   "year": 2018,
+   "month": "Sep",
+   "states": "NC, 1",
+   "category": 1,
+   "pressure_mb": 956,
+   "wind_kt": 80,
+   "name": "Florence"
+  },
+  {
+   "year": 2018,
+   "month": "Oct",
+   "states": "FL, NW5; I-GA, 2",
+   "category": 5,
+   "pressure_mb": 919,
+   "wind_kt": 140,
+   "name": "Michael"
+  },
+  {
+   "year": 2019,
+   "month": "Jul",
+   "states": "LA, 1",
+   "category": 1,
+   "pressure_mb": 993,
+   "wind_kt": 65,
+   "name": "Barry"
+  },
+  {
+   "year": 2019,
+   "month": "Sep",
+   "states": "NC, 2",
+   "category": 2,
+   "pressure_mb": 956,
+   "wind_kt": 85,
+   "name": "Dorian"
+  },
+  {
+   "year": 2020,
+   "month": "Jul",
+   "states": "TX, S1",
+   "category": 1,
+   "pressure_mb": 973,
+   "wind_kt": 80,
+   "name": "Hanna"
+  },
+  {
+   "year": 2020,
+   "month": "Aug",
+   "states": "NC, 1; SC, 1",
+   "category": 1,
+   "pressure_mb": 986,
+   "wind_kt": 80,
+   "name": "Isaias"
+  },
+  {
+   "year": 2020,
+   "month": "Aug",
+   "states": "LA, 4; TX, N1",
+   "category": 4,
+   "pressure_mb": 939,
+   "wind_kt": 130,
+   "name": "Laura"
+  },
+  {
+   "year": 2020,
+   "month": "Sep",
+   "states": "AL, 2; FL, NW2",
+   "category": 2,
+   "pressure_mb": 965,
+   "wind_kt": 95,
+   "name": "Sally"
+  },
+  {
+   "year": 2020,
+   "month": "Oct",
+   "states": "LA,2",
+   "category": 2,
+   "pressure_mb": 970,
+   "wind_kt": 85,
+   "name": "Delta"
+  },
+  {
+   "year": 2020,
+   "month": "Oct",
+   "states": "LA,3; MS, 2; I-AL, 1",
+   "category": 3,
+   "pressure_mb": 970,
+   "wind_kt": 100,
+   "name": "Zeta"
+  },
+  {
+   "year": 2021,
+   "month": "Aug",
+   "states": "LA,4",
+   "category": 4,
+   "pressure_mb": 931,
+   "wind_kt": 130,
+   "name": "Ida"
+  },
+  {
+   "year": 2021,
+   "month": "Sep",
+   "states": "TX,N1",
+   "category": 1,
+   "pressure_mb": 991,
+   "wind_kt": 65,
+   "name": "Nicholas"
+  },
+  {
+   "year": 2022,
+   "month": "Sep",
+   "states": "FL, SW4; I-FL, SE1;FL, NE1; SC, 1",
+   "category": 4,
+   "pressure_mb": 941,
+   "wind_kt": 130,
+   "name": "Ian"
+  },
+  {
+   "year": 2023,
+   "month": "Aug",
+   "states": "FL, NW3; I-GA1",
+   "category": 3,
+   "pressure_mb": 950,
+   "wind_kt": 100,
+   "name": "Idalia"
+  },
+  {
+   "year": 2024,
+   "month": "Jul",
+   "states": "TX, C1; TX, N1",
+   "category": 1,
+   "pressure_mb": 978,
+   "wind_kt": 80,
+   "name": "Beryl"
+  },
+  {
+   "year": 2024,
+   "month": "Aug",
+   "states": "FL, NW1",
+   "category": 1,
+   "pressure_mb": 982,
+   "wind_kt": 70,
+   "name": "Debby"
+  },
+  {
+   "year": 2024,
+   "month": "Sep",
+   "states": "LA, 2",
+   "category": 2,
+   "pressure_mb": 972,
+   "wind_kt": 90,
+   "name": "Francine"
+  },
+  {
+   "year": 2024,
+   "month": "Sep",
+   "states": "FL, NW4; I-GA, 2",
+   "category": 4,
+   "pressure_mb": 939,
+   "wind_kt": 120,
+   "name": "Helene"
+  },
+  {
+   "year": 2024,
+   "month": "Oct",
+   "states": "FL, SW2; FL, SE1",
+   "category": 2,
+   "pressure_mb": 958,
+   "wind_kt": 90,
+   "name": "Milton"
+  }
+ ]
+}
