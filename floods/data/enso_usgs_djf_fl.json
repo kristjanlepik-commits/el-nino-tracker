@@ -6,7 +6,7 @@
  "screen": "floods/data/usgs_screen_fl.json",
  "gauges": 20,
  "river_systems": 20,
- "median_spearman": 0.379,
+ "median_spearman": 0.374,
  "positive": 20,
  "negative": 0,
  "results": [
@@ -257,23 +257,25 @@
   "method": "per gauge, maximum daily mean discharge in each calendar month vs that winter's DJF ONI, water year Oct-Sep; median across the 20 gauges",
   "median_spearman_by_month": {
    "Oct": 0.012,
-   "Nov": 0.153,
-   "Dec": 0.294,
-   "Jan": 0.385,
-   "Feb": 0.412,
-   "Mar": 0.439,
-   "Apr": 0.279,
-   "May": 0.235
+   "Nov": 0.141,
+   "Dec": 0.288,
+   "Jan": 0.383,
+   "Feb": 0.407,
+   "Mar": 0.429,
+   "Apr": 0.274,
+   "May": 0.225
   },
-  "reading": "The discharge signal peaks in MARCH and stays elevated into April and May. Science's precipitation signal peaks December to February. So discharge lags precipitation by roughly a month and persists longer, which is what catchment storage does. The window a reader should watch for high water runs later than the window for heavy rain."
+  "reading": "The discharge signal peaks in MARCH and stays elevated into April and May. Science's precipitation signal peaks December to February. So discharge lags precipitation by roughly a month and persists longer, which is what catchment storage does. The window a reader should watch for high water runs later than the window for heavy rain.",
+  "correction": "These medians were first computed as the upper middle element rather than the mean of the middle pair, the same fault as the headline median. Recomputed; the shape and the peak month are unchanged."
  },
  "attenuation": {
   "precipitation_spearman_florida": 0.624,
-  "discharge_median_spearman": 0.379,
-  "retained": "61%",
-  "reading": "The signal attenuates but does not wash out, unlike the Atlantic hurricane signal at landfall. Every one of the twenty gauges is positive."
+  "discharge_median_spearman": 0.374,
+  "retained": "60%",
+  "reading": "The signal attenuates but does not wash out, unlike the Atlantic hurricane signal at landfall. Every one of the twenty gauges is positive.",
+  "correction": "First reported as +0.379 and 61%. That was the 11th of 20 sorted values, the Withlacoochee-Hillsborough figure, not the median. Science caught it on reproduction."
  },
- "sample_size_caveat": "Twenty gauges on twenty distinct river systems establish that the signal is not an artefact of one basin. They are NOT twenty independent tests of ENSO. They share one regional climate, so the independent dimension is the 76 winters, not the 20 gauges. Quote it as one region measured over 76 winters across twenty hydrologically distinct catchments, and do not multiply the two.",
+ "sample_size_caveat": "Twenty gauges on twenty distinct river systems establish that the signal is not an artefact of one basin. They are NOT twenty independent tests of ENSO: they share one regional climate. Records are NOT uniform: 34 to 76 winters, with 13 of 20 at the full 76. Quote it as one region, twenty hydrologically distinct catchments, records of 34 to 76 winters with thirteen at the full 76. Do not multiply gauges by winters.",
  "what_this_does_not_show": "This measures peak daily mean DISCHARGE, not flooding. A river can rise a long way without leaving its channel, and none of these gauges has been compared against its NWS flood stage here. So the honest claim is that El Nino winters run higher on Florida's unregulated rivers, not that they flood more often. Establishing the second needs flood-stage thresholds per gauge and is a separate piece of work.",
  "failures": [
   {

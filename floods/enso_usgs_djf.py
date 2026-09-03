@@ -6,7 +6,7 @@ observations inflates confidence without adding information. So the
 selection takes the longest-record surviving gauge per river system and
 reports the number of distinct systems alongside the number of gauges.
 """
-import argparse, json, os, re, time, urllib.request
+import argparse, json, os, re, statistics, time, urllib.request
 import datetime as dt
 from collections import defaultdict
 
@@ -120,7 +120,11 @@ def main():
         print(f"  [{i:>2}] {g['site']} {len(yrs):>3} winters  rho {rho:+.3f}  {g['name'][:44]}")
 
     rhos = sorted(r["spearman"] for r in rows)
-    med = rhos[len(rhos)//2] if rhos else None
+    # The median of an even-length list is the mean of the middle pair.
+    # rhos[len//2] takes the upper element instead, which is a different
+    # gauge's value wearing the word "median". It reported +0.379, the
+    # Withlacoochee-Hillsborough figure, when the median is +0.374.
+    med = (statistics.median(rhos) if rhos else None)
     pos = sum(1 for r in rhos if r > 0)
     out = {"question": "does the El Nino winter precipitation signal appear in peak discharge",
            "instrument": "USGS NWIS daily mean discharge, parameter 00060, OBSERVED",
