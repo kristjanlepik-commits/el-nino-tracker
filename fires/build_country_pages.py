@@ -233,6 +233,36 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
     }
 
     if area_cur and area_years:
+        # DROP THE LEADING ALL-ZERO YEARS BEFORE ANYTHING READS THIS.
+        #
+        # EFFIS reports a year it did not cover as zero, so a country
+        # whose record starts late carries flat zero seasons at the
+        # front. min() over them made the caption claim a span the data
+        # does not have: Algeria's page said "every season since 2006"
+        # when its coverage begins in 2009, and drew three phantom
+        # fire-free seasons a reader has no way to identify as absent.
+        #
+        # This is the same absence-as-zero defect socials found in
+        # avg_ha on 2026-08-30, which I fixed inside _clean_avg and did
+        # not carry to the chart. For a MEAN the zeros deflate the
+        # baseline and inflate the multiple. For a RECORD they do not
+        # move the number at all, since a maximum ignores zeros, but
+        # they make the SPAN wrong, and the span is the whole strength
+        # of "the biggest season since 2006". 35 of 97 countries carry
+        # such a run; Slovakia's is fourteen years long, leaving six.
+        #
+        # Interior zeros are kept: a quiet year after coverage began is
+        # a real measurement and belongs on the chart.
+        _ordered = sorted(area_years)
+        _lead = 0
+        for _y in _ordered:
+            if area_years[_y] and max(area_years[_y].values()) == 0:
+                _lead += 1
+            else:
+                break
+        if _lead and _lead < len(_ordered):
+            area_years = {y: v for y, v in area_years.items()
+                          if y >= _ordered[_lead]}
         first_year = min(area_years)
         prev = [y for y in area_years if y != year]
         rec = max(prev, key=lambda y: max(area_years[y].values())) if prev else None
