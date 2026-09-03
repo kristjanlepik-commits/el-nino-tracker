@@ -199,8 +199,20 @@ def anomaly_color(value: float, full_scale: float = OCEAN_SCALE) -> str:
 TRACE_CURRENT = {"color": NINO, "lw": 2.4, "dash": "solid"}
 
 TRACE_PEERS = {
+    # SECOND-YEAR, AND THE LEGEND HAS NEVER SAID SO. methodology.md
+    # limitation 10 (2026-09-03): 2015 enters its development year at DJF
+    # +0.73, already above the El Nino threshold, because the 2014-15 event
+    # never fully decayed. Its first-quarter rise is +0.13 where 1997, 2023
+    # and 2026 rise +0.71, +0.74 and +0.85. So it is a second-year
+    # continuation sitting beside fresh developments, and any claim that
+    # 2026 "overtook 2015" is partly an artefact of where 2015 started.
+    #
+    # Wording taken from limitation 10 rather than invented here, so the
+    # chart and the methodology cannot describe the same distinction in two
+    # vocabularies. Future renders only; frozen archives keep what they
+    # shipped with (invariant 5).
     2015: {"color": INK_SOFT, "lw": 1.3, "dash": "solid",
-           "label": "2015-16 (super, peak 2.8)"},
+           "label": "2015-16 (super, second-year continuation, peak 2.8)"},
     1997: {"color": INK_SOFT, "lw": 1.3, "dash": (0, (6, 3)),
            "label": "1997-98 (super, peak 2.4)"},
     2023: {"color": INK_FAINT, "lw": 1.2, "dash": (0, (2, 3)),

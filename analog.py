@@ -173,7 +173,8 @@ def load_trajectories(live_oni_by_year: dict | None = None,
 # trajectory math above and below is methodology-owned.
 _CWWA_LABEL = {
     1997: "1997 develop year",
-    2015: "2015 develop year",
+    # The label limitation 10 quotes by name. Same distinction, same words.
+    2015: "2015 develop year (second-year continuation)",
     2023: "2023 develop year",
     2025: "2025 develop year (La Niña)",
 }
