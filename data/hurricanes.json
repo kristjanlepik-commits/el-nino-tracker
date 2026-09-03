@@ -1,0 +1,2295 @@
+{
+ "generated": "2026-09-03",
+ "source": "NOAA NHC HURDAT2, https://www.nhc.noaa.gov/data/hurdat/",
+ "ace_definition": "sum of v^2/1e4 over 0000/0600/1200/1800 UTC observations at >= 34 kt while status is TS or HU; subtropical excluded (NOAA convention). Unit: 10^4 kt^2.",
+ "not_derived": "US landfall. HURDAT2 marks landfall generically; isolating continental-US landfall needs a coastline test, not a bounding box. Use NOAA's separate continental-US landfall record for that claim.",
+ "homogeneity_warning": "Continuous satellite coverage from ~1966. Earlier seasons undercount storms that stayed at sea, biasing ACE and counts DOWN. Do not state a trend across the pre-satellite boundary.",
+ "reliable_from": 1966,
+ "oni_season_used": "ASO (Aug-Sep-Oct), the peak of both basins' seasons",
+ "basins": {
+  "atlantic": {
+   "source_file": "hurdat2-1851-2025-02272026.txt",
+   "record_start": 1851,
+   "record_end": 2025,
+   "n_storms": 2004,
+   "seasons": [
+    {
+     "year": 1851,
+     "ace": 36.2,
+     "ace_incl_subtropical": 36.2,
+     "named_storms": 6,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1852,
+     "ace": 73.3,
+     "ace_incl_subtropical": 73.3,
+     "named_storms": 5,
+     "hurricanes": 5,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1853,
+     "ace": 76.5,
+     "ace_incl_subtropical": 76.5,
+     "named_storms": 8,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1854,
+     "ace": 31.0,
+     "ace_incl_subtropical": 31.0,
+     "named_storms": 5,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1855,
+     "ace": 18.1,
+     "ace_incl_subtropical": 18.1,
+     "named_storms": 5,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1856,
+     "ace": 48.9,
+     "ace_incl_subtropical": 48.9,
+     "named_storms": 6,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1857,
+     "ace": 46.8,
+     "ace_incl_subtropical": 46.8,
+     "named_storms": 4,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1858,
+     "ace": 44.8,
+     "ace_incl_subtropical": 44.8,
+     "named_storms": 6,
+     "hurricanes": 6,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1859,
+     "ace": 55.7,
+     "ace_incl_subtropical": 55.7,
+     "named_storms": 8,
+     "hurricanes": 7,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1860,
+     "ace": 62.1,
+     "ace_incl_subtropical": 62.1,
+     "named_storms": 7,
+     "hurricanes": 6,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1861,
+     "ace": 49.7,
+     "ace_incl_subtropical": 49.7,
+     "named_storms": 8,
+     "hurricanes": 6,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1862,
+     "ace": 46.0,
+     "ace_incl_subtropical": 46.0,
+     "named_storms": 6,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1863,
+     "ace": 50.3,
+     "ace_incl_subtropical": 50.3,
+     "named_storms": 9,
+     "hurricanes": 5,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1864,
+     "ace": 26.6,
+     "ace_incl_subtropical": 26.6,
+     "named_storms": 5,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1865,
+     "ace": 49.1,
+     "ace_incl_subtropical": 49.1,
+     "named_storms": 7,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1866,
+     "ace": 83.7,
+     "ace_incl_subtropical": 83.7,
+     "named_storms": 7,
+     "hurricanes": 6,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1867,
+     "ace": 60.0,
+     "ace_incl_subtropical": 60.0,
+     "named_storms": 9,
+     "hurricanes": 7,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1868,
+     "ace": 34.6,
+     "ace_incl_subtropical": 34.6,
+     "named_storms": 4,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1869,
+     "ace": 51.0,
+     "ace_incl_subtropical": 51.0,
+     "named_storms": 10,
+     "hurricanes": 7,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1870,
+     "ace": 87.8,
+     "ace_incl_subtropical": 87.8,
+     "named_storms": 11,
+     "hurricanes": 10,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1871,
+     "ace": 88.4,
+     "ace_incl_subtropical": 88.4,
+     "named_storms": 8,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1872,
+     "ace": 65.4,
+     "ace_incl_subtropical": 65.4,
+     "named_storms": 5,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1873,
+     "ace": 69.5,
+     "ace_incl_subtropical": 69.5,
+     "named_storms": 5,
+     "hurricanes": 3,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1874,
+     "ace": 47.0,
+     "ace_incl_subtropical": 47.0,
+     "named_storms": 7,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1875,
+     "ace": 72.5,
+     "ace_incl_subtropical": 72.5,
+     "named_storms": 6,
+     "hurricanes": 5,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1876,
+     "ace": 57.0,
+     "ace_incl_subtropical": 57.0,
+     "named_storms": 5,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1877,
+     "ace": 73.4,
+     "ace_incl_subtropical": 73.4,
+     "named_storms": 8,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1878,
+     "ace": 180.8,
+     "ace_incl_subtropical": 180.8,
+     "named_storms": 12,
+     "hurricanes": 10,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1879,
+     "ace": 63.6,
+     "ace_incl_subtropical": 63.6,
+     "named_storms": 8,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1880,
+     "ace": 131.1,
+     "ace_incl_subtropical": 131.1,
+     "named_storms": 11,
+     "hurricanes": 9,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1881,
+     "ace": 59.2,
+     "ace_incl_subtropical": 59.2,
+     "named_storms": 7,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1882,
+     "ace": 59.5,
+     "ace_incl_subtropical": 59.5,
+     "named_storms": 6,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1883,
+     "ace": 66.7,
+     "ace_incl_subtropical": 66.7,
+     "named_storms": 4,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1884,
+     "ace": 72.1,
+     "ace_incl_subtropical": 72.1,
+     "named_storms": 4,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1885,
+     "ace": 58.3,
+     "ace_incl_subtropical": 58.3,
+     "named_storms": 8,
+     "hurricanes": 6,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1886,
+     "ace": 166.2,
+     "ace_incl_subtropical": 166.2,
+     "named_storms": 12,
+     "hurricanes": 10,
+     "major_hurricanes": 4,
+     "oni_aso": null
+    },
+    {
+     "year": 1887,
+     "ace": 181.3,
+     "ace_incl_subtropical": 181.3,
+     "named_storms": 19,
+     "hurricanes": 12,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1888,
+     "ace": 84.9,
+     "ace_incl_subtropical": 84.9,
+     "named_storms": 9,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1889,
+     "ace": 104.0,
+     "ace_incl_subtropical": 104.0,
+     "named_storms": 9,
+     "hurricanes": 6,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1890,
+     "ace": 33.3,
+     "ace_incl_subtropical": 33.3,
+     "named_storms": 4,
+     "hurricanes": 2,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1891,
+     "ace": 116.1,
+     "ace_incl_subtropical": 116.1,
+     "named_storms": 10,
+     "hurricanes": 7,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1892,
+     "ace": 115.8,
+     "ace_incl_subtropical": 115.8,
+     "named_storms": 9,
+     "hurricanes": 5,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1893,
+     "ace": 231.1,
+     "ace_incl_subtropical": 231.1,
+     "named_storms": 12,
+     "hurricanes": 10,
+     "major_hurricanes": 5,
+     "oni_aso": null
+    },
+    {
+     "year": 1894,
+     "ace": 135.4,
+     "ace_incl_subtropical": 135.4,
+     "named_storms": 7,
+     "hurricanes": 5,
+     "major_hurricanes": 4,
+     "oni_aso": null
+    },
+    {
+     "year": 1895,
+     "ace": 68.8,
+     "ace_incl_subtropical": 68.8,
+     "named_storms": 6,
+     "hurricanes": 2,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1896,
+     "ace": 136.1,
+     "ace_incl_subtropical": 136.1,
+     "named_storms": 7,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1897,
+     "ace": 54.5,
+     "ace_incl_subtropical": 54.5,
+     "named_storms": 6,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1898,
+     "ace": 113.2,
+     "ace_incl_subtropical": 113.2,
+     "named_storms": 11,
+     "hurricanes": 5,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1899,
+     "ace": 151.0,
+     "ace_incl_subtropical": 151.0,
+     "named_storms": 10,
+     "hurricanes": 5,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1900,
+     "ace": 83.3,
+     "ace_incl_subtropical": 83.3,
+     "named_storms": 7,
+     "hurricanes": 3,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1901,
+     "ace": 99.0,
+     "ace_incl_subtropical": 99.0,
+     "named_storms": 13,
+     "hurricanes": 6,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1902,
+     "ace": 32.6,
+     "ace_incl_subtropical": 32.6,
+     "named_storms": 5,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1903,
+     "ace": 102.1,
+     "ace_incl_subtropical": 102.1,
+     "named_storms": 10,
+     "hurricanes": 7,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1904,
+     "ace": 30.3,
+     "ace_incl_subtropical": 30.3,
+     "named_storms": 6,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1905,
+     "ace": 28.4,
+     "ace_incl_subtropical": 28.4,
+     "named_storms": 5,
+     "hurricanes": 1,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1906,
+     "ace": 162.9,
+     "ace_incl_subtropical": 162.9,
+     "named_storms": 11,
+     "hurricanes": 6,
+     "major_hurricanes": 3,
+     "oni_aso": null
+    },
+    {
+     "year": 1907,
+     "ace": 13.1,
+     "ace_incl_subtropical": 13.1,
+     "named_storms": 5,
+     "hurricanes": 0,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1908,
+     "ace": 95.1,
+     "ace_incl_subtropical": 95.1,
+     "named_storms": 10,
+     "hurricanes": 6,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1909,
+     "ace": 93.3,
+     "ace_incl_subtropical": 93.3,
+     "named_storms": 12,
+     "hurricanes": 6,
+     "major_hurricanes": 4,
+     "oni_aso": null
+    },
+    {
+     "year": 1910,
+     "ace": 63.9,
+     "ace_incl_subtropical": 63.9,
+     "named_storms": 5,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1911,
+     "ace": 34.7,
+     "ace_incl_subtropical": 34.7,
+     "named_storms": 6,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1912,
+     "ace": 57.3,
+     "ace_incl_subtropical": 57.3,
+     "named_storms": 7,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1913,
+     "ace": 35.6,
+     "ace_incl_subtropical": 35.6,
+     "named_storms": 6,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1914,
+     "ace": 2.5,
+     "ace_incl_subtropical": 2.5,
+     "named_storms": 1,
+     "hurricanes": 0,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1915,
+     "ace": 130.1,
+     "ace_incl_subtropical": 130.1,
+     "named_storms": 6,
+     "hurricanes": 5,
+     "major_hurricanes": 3,
+     "oni_aso": null
+    },
+    {
+     "year": 1916,
+     "ace": 144.0,
+     "ace_incl_subtropical": 144.0,
+     "named_storms": 15,
+     "hurricanes": 10,
+     "major_hurricanes": 5,
+     "oni_aso": null
+    },
+    {
+     "year": 1917,
+     "ace": 60.7,
+     "ace_incl_subtropical": 60.7,
+     "named_storms": 4,
+     "hurricanes": 2,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1918,
+     "ace": 39.9,
+     "ace_incl_subtropical": 39.9,
+     "named_storms": 6,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1919,
+     "ace": 55.0,
+     "ace_incl_subtropical": 55.0,
+     "named_storms": 5,
+     "hurricanes": 2,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1920,
+     "ace": 29.8,
+     "ace_incl_subtropical": 29.8,
+     "named_storms": 5,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1921,
+     "ace": 86.5,
+     "ace_incl_subtropical": 86.5,
+     "named_storms": 7,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1922,
+     "ace": 54.5,
+     "ace_incl_subtropical": 54.5,
+     "named_storms": 5,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1923,
+     "ace": 49.3,
+     "ace_incl_subtropical": 49.3,
+     "named_storms": 9,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1924,
+     "ace": 100.2,
+     "ace_incl_subtropical": 100.2,
+     "named_storms": 11,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1925,
+     "ace": 7.3,
+     "ace_incl_subtropical": 7.3,
+     "named_storms": 4,
+     "hurricanes": 2,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1926,
+     "ace": 229.6,
+     "ace_incl_subtropical": 229.6,
+     "named_storms": 11,
+     "hurricanes": 8,
+     "major_hurricanes": 6,
+     "oni_aso": null
+    },
+    {
+     "year": 1927,
+     "ace": 56.5,
+     "ace_incl_subtropical": 56.5,
+     "named_storms": 8,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1928,
+     "ace": 83.5,
+     "ace_incl_subtropical": 83.5,
+     "named_storms": 6,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1929,
+     "ace": 48.1,
+     "ace_incl_subtropical": 48.1,
+     "named_storms": 5,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1930,
+     "ace": 49.8,
+     "ace_incl_subtropical": 49.8,
+     "named_storms": 3,
+     "hurricanes": 2,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1931,
+     "ace": 47.8,
+     "ace_incl_subtropical": 47.8,
+     "named_storms": 13,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1932,
+     "ace": 169.7,
+     "ace_incl_subtropical": 169.7,
+     "named_storms": 15,
+     "hurricanes": 7,
+     "major_hurricanes": 4,
+     "oni_aso": null
+    },
+    {
+     "year": 1933,
+     "ace": 258.6,
+     "ace_incl_subtropical": 258.6,
+     "named_storms": 20,
+     "hurricanes": 12,
+     "major_hurricanes": 6,
+     "oni_aso": null
+    },
+    {
+     "year": 1934,
+     "ace": 79.1,
+     "ace_incl_subtropical": 79.1,
+     "named_storms": 13,
+     "hurricanes": 7,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1935,
+     "ace": 106.2,
+     "ace_incl_subtropical": 106.2,
+     "named_storms": 8,
+     "hurricanes": 5,
+     "major_hurricanes": 3,
+     "oni_aso": null
+    },
+    {
+     "year": 1936,
+     "ace": 99.8,
+     "ace_incl_subtropical": 99.8,
+     "named_storms": 17,
+     "hurricanes": 7,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1937,
+     "ace": 65.8,
+     "ace_incl_subtropical": 65.8,
+     "named_storms": 11,
+     "hurricanes": 5,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1938,
+     "ace": 77.6,
+     "ace_incl_subtropical": 77.6,
+     "named_storms": 9,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1939,
+     "ace": 43.7,
+     "ace_incl_subtropical": 43.7,
+     "named_storms": 6,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1940,
+     "ace": 67.8,
+     "ace_incl_subtropical": 67.8,
+     "named_storms": 9,
+     "hurricanes": 7,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1941,
+     "ace": 51.8,
+     "ace_incl_subtropical": 51.8,
+     "named_storms": 6,
+     "hurricanes": 4,
+     "major_hurricanes": 3,
+     "oni_aso": null
+    },
+    {
+     "year": 1942,
+     "ace": 62.5,
+     "ace_incl_subtropical": 62.5,
+     "named_storms": 11,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": null
+    },
+    {
+     "year": 1943,
+     "ace": 94.0,
+     "ace_incl_subtropical": 94.0,
+     "named_storms": 10,
+     "hurricanes": 5,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1944,
+     "ace": 106.8,
+     "ace_incl_subtropical": 106.8,
+     "named_storms": 14,
+     "hurricanes": 8,
+     "major_hurricanes": 3,
+     "oni_aso": null
+    },
+    {
+     "year": 1945,
+     "ace": 63.4,
+     "ace_incl_subtropical": 63.4,
+     "named_storms": 11,
+     "hurricanes": 5,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1946,
+     "ace": 19.6,
+     "ace_incl_subtropical": 19.6,
+     "named_storms": 7,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1947,
+     "ace": 88.5,
+     "ace_incl_subtropical": 88.5,
+     "named_storms": 10,
+     "hurricanes": 5,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1948,
+     "ace": 95.0,
+     "ace_incl_subtropical": 95.0,
+     "named_storms": 10,
+     "hurricanes": 6,
+     "major_hurricanes": 4,
+     "oni_aso": null
+    },
+    {
+     "year": 1949,
+     "ace": 96.4,
+     "ace_incl_subtropical": 96.4,
+     "named_storms": 16,
+     "hurricanes": 8,
+     "major_hurricanes": 2,
+     "oni_aso": null
+    },
+    {
+     "year": 1950,
+     "ace": 211.3,
+     "ace_incl_subtropical": 211.3,
+     "named_storms": 16,
+     "hurricanes": 11,
+     "major_hurricanes": 6,
+     "oni_aso": -0.56
+    },
+    {
+     "year": 1951,
+     "ace": 126.3,
+     "ace_incl_subtropical": 126.3,
+     "named_storms": 12,
+     "hurricanes": 8,
+     "major_hurricanes": 3,
+     "oni_aso": 1.02
+    },
+    {
+     "year": 1952,
+     "ace": 69.1,
+     "ace_incl_subtropical": 69.1,
+     "named_storms": 11,
+     "hurricanes": 5,
+     "major_hurricanes": 2,
+     "oni_aso": 0.03
+    },
+    {
+     "year": 1953,
+     "ace": 98.5,
+     "ace_incl_subtropical": 98.5,
+     "named_storms": 14,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": 0.59
+    },
+    {
+     "year": 1954,
+     "ace": 110.9,
+     "ace_incl_subtropical": 110.9,
+     "named_storms": 16,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": -0.73
+    },
+    {
+     "year": 1955,
+     "ace": 158.2,
+     "ace_incl_subtropical": 158.2,
+     "named_storms": 13,
+     "hurricanes": 9,
+     "major_hurricanes": 4,
+     "oni_aso": -1.11
+    },
+    {
+     "year": 1956,
+     "ace": 56.7,
+     "ace_incl_subtropical": 56.7,
+     "named_storms": 12,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": -0.43
+    },
+    {
+     "year": 1957,
+     "ace": 78.7,
+     "ace_incl_subtropical": 78.7,
+     "named_storms": 8,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": 1.12
+    },
+    {
+     "year": 1958,
+     "ace": 109.7,
+     "ace_incl_subtropical": 109.7,
+     "named_storms": 12,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": 0.28
+    },
+    {
+     "year": 1959,
+     "ace": 77.1,
+     "ace_incl_subtropical": 77.1,
+     "named_storms": 14,
+     "hurricanes": 7,
+     "major_hurricanes": 2,
+     "oni_aso": -0.04
+    },
+    {
+     "year": 1960,
+     "ace": 72.9,
+     "ace_incl_subtropical": 72.9,
+     "named_storms": 8,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": 0.19
+    },
+    {
+     "year": 1961,
+     "ace": 188.9,
+     "ace_incl_subtropical": 188.9,
+     "named_storms": 12,
+     "hurricanes": 9,
+     "major_hurricanes": 5,
+     "oni_aso": -0.32
+    },
+    {
+     "year": 1962,
+     "ace": 50.5,
+     "ace_incl_subtropical": 50.5,
+     "named_storms": 7,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": -0.16
+    },
+    {
+     "year": 1963,
+     "ace": 112.1,
+     "ace_incl_subtropical": 112.1,
+     "named_storms": 10,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": 1.09
+    },
+    {
+     "year": 1964,
+     "ace": 153.0,
+     "ace_incl_subtropical": 153.0,
+     "named_storms": 13,
+     "hurricanes": 7,
+     "major_hurricanes": 5,
+     "oni_aso": -0.72
+    },
+    {
+     "year": 1965,
+     "ace": 86.7,
+     "ace_incl_subtropical": 86.7,
+     "named_storms": 10,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": 1.55
+    },
+    {
+     "year": 1966,
+     "ace": 134.8,
+     "ace_incl_subtropical": 137.0,
+     "named_storms": 15,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": -0.09
+    },
+    {
+     "year": 1967,
+     "ace": 122.1,
+     "ace_incl_subtropical": 125.4,
+     "named_storms": 13,
+     "hurricanes": 6,
+     "major_hurricanes": 1,
+     "oni_aso": -0.4
+    },
+    {
+     "year": 1968,
+     "ace": 38.0,
+     "ace_incl_subtropical": 46.6,
+     "named_storms": 9,
+     "hurricanes": 5,
+     "major_hurricanes": 0,
+     "oni_aso": 0.34
+    },
+    {
+     "year": 1969,
+     "ace": 139.9,
+     "ace_incl_subtropical": 148.3,
+     "named_storms": 18,
+     "hurricanes": 12,
+     "major_hurricanes": 3,
+     "oni_aso": 0.61
+    },
+    {
+     "year": 1970,
+     "ace": 59.1,
+     "ace_incl_subtropical": 66.6,
+     "named_storms": 14,
+     "hurricanes": 7,
+     "major_hurricanes": 2,
+     "oni_aso": -0.69
+    },
+    {
+     "year": 1971,
+     "ace": 96.8,
+     "ace_incl_subtropical": 96.8,
+     "named_storms": 13,
+     "hurricanes": 6,
+     "major_hurricanes": 1,
+     "oni_aso": -0.68
+    },
+    {
+     "year": 1972,
+     "ace": 27.5,
+     "ace_incl_subtropical": 35.6,
+     "named_storms": 7,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": 1.49
+    },
+    {
+     "year": 1973,
+     "ace": 42.7,
+     "ace_incl_subtropical": 47.9,
+     "named_storms": 8,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": -1.26
+    },
+    {
+     "year": 1974,
+     "ace": 60.9,
+     "ace_incl_subtropical": 68.4,
+     "named_storms": 11,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": -0.47
+    },
+    {
+     "year": 1975,
+     "ace": 73.0,
+     "ace_incl_subtropical": 76.1,
+     "named_storms": 9,
+     "hurricanes": 6,
+     "major_hurricanes": 3,
+     "oni_aso": -1.29
+    },
+    {
+     "year": 1976,
+     "ace": 81.2,
+     "ace_incl_subtropical": 84.2,
+     "named_storms": 10,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": 0.6
+    },
+    {
+     "year": 1977,
+     "ace": 24.7,
+     "ace_incl_subtropical": 25.3,
+     "named_storms": 6,
+     "hurricanes": 5,
+     "major_hurricanes": 1,
+     "oni_aso": 0.45
+    },
+    {
+     "year": 1978,
+     "ace": 60.4,
+     "ace_incl_subtropical": 63.2,
+     "named_storms": 12,
+     "hurricanes": 5,
+     "major_hurricanes": 2,
+     "oni_aso": -0.44
+    },
+    {
+     "year": 1979,
+     "ace": 91.3,
+     "ace_incl_subtropical": 92.9,
+     "named_storms": 9,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": 0.34
+    },
+    {
+     "year": 1980,
+     "ace": 146.7,
+     "ace_incl_subtropical": 148.9,
+     "named_storms": 11,
+     "hurricanes": 9,
+     "major_hurricanes": 2,
+     "oni_aso": -0.17
+    },
+    {
+     "year": 1981,
+     "ace": 93.3,
+     "ace_incl_subtropical": 100.3,
+     "named_storms": 12,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": -0.08
+    },
+    {
+     "year": 1982,
+     "ace": 28.5,
+     "ace_incl_subtropical": 31.5,
+     "named_storms": 6,
+     "hurricanes": 2,
+     "major_hurricanes": 1,
+     "oni_aso": 1.45
+    },
+    {
+     "year": 1983,
+     "ace": 16.8,
+     "ace_incl_subtropical": 17.4,
+     "named_storms": 4,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": -0.43
+    },
+    {
+     "year": 1984,
+     "ace": 70.9,
+     "ace_incl_subtropical": 84.3,
+     "named_storms": 13,
+     "hurricanes": 5,
+     "major_hurricanes": 1,
+     "oni_aso": -0.32
+    },
+    {
+     "year": 1985,
+     "ace": 88.0,
+     "ace_incl_subtropical": 88.0,
+     "named_storms": 11,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": -0.31
+    },
+    {
+     "year": 1986,
+     "ace": 35.8,
+     "ace_incl_subtropical": 35.8,
+     "named_storms": 6,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": 0.64
+    },
+    {
+     "year": 1987,
+     "ace": 34.4,
+     "ace_incl_subtropical": 34.4,
+     "named_storms": 7,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": 1.49
+    },
+    {
+     "year": 1988,
+     "ace": 103.0,
+     "ace_incl_subtropical": 103.0,
+     "named_storms": 12,
+     "hurricanes": 6,
+     "major_hurricanes": 3,
+     "oni_aso": -1.27
+    },
+    {
+     "year": 1989,
+     "ace": 134.8,
+     "ace_incl_subtropical": 134.8,
+     "named_storms": 11,
+     "hurricanes": 7,
+     "major_hurricanes": 2,
+     "oni_aso": -0.33
+    },
+    {
+     "year": 1990,
+     "ace": 91.2,
+     "ace_incl_subtropical": 96.8,
+     "named_storms": 14,
+     "hurricanes": 8,
+     "major_hurricanes": 1,
+     "oni_aso": 0.31
+    },
+    {
+     "year": 1991,
+     "ace": 34.0,
+     "ace_incl_subtropical": 35.5,
+     "named_storms": 8,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": 0.72
+    },
+    {
+     "year": 1992,
+     "ace": 75.1,
+     "ace_incl_subtropical": 76.2,
+     "named_storms": 7,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": -0.15
+    },
+    {
+     "year": 1993,
+     "ace": 38.4,
+     "ace_incl_subtropical": 38.4,
+     "named_storms": 9,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": 0.2
+    },
+    {
+     "year": 1994,
+     "ace": 31.5,
+     "ace_incl_subtropical": 32.0,
+     "named_storms": 7,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": 0.47
+    },
+    {
+     "year": 1995,
+     "ace": 227.4,
+     "ace_incl_subtropical": 227.4,
+     "named_storms": 19,
+     "hurricanes": 11,
+     "major_hurricanes": 5,
+     "oni_aso": -0.81
+    },
+    {
+     "year": 1996,
+     "ace": 166.2,
+     "ace_incl_subtropical": 166.2,
+     "named_storms": 13,
+     "hurricanes": 9,
+     "major_hurricanes": 6,
+     "oni_aso": -0.3
+    },
+    {
+     "year": 1997,
+     "ace": 40.1,
+     "ace_incl_subtropical": 40.9,
+     "named_storms": 8,
+     "hurricanes": 3,
+     "major_hurricanes": 1,
+     "oni_aso": 2.04
+    },
+    {
+     "year": 1998,
+     "ace": 181.2,
+     "ace_incl_subtropical": 181.2,
+     "named_storms": 14,
+     "hurricanes": 10,
+     "major_hurricanes": 3,
+     "oni_aso": -1.02
+    },
+    {
+     "year": 1999,
+     "ace": 176.5,
+     "ace_incl_subtropical": 176.5,
+     "named_storms": 12,
+     "hurricanes": 8,
+     "major_hurricanes": 5,
+     "oni_aso": -1.0
+    },
+    {
+     "year": 2000,
+     "ace": 115.6,
+     "ace_incl_subtropical": 119.1,
+     "named_storms": 15,
+     "hurricanes": 8,
+     "major_hurricanes": 3,
+     "oni_aso": -0.42
+    },
+    {
+     "year": 2001,
+     "ace": 105.6,
+     "ace_incl_subtropical": 110.1,
+     "named_storms": 15,
+     "hurricanes": 9,
+     "major_hurricanes": 4,
+     "oni_aso": -0.15
+    },
+    {
+     "year": 2002,
+     "ace": 65.1,
+     "ace_incl_subtropical": 67.4,
+     "named_storms": 12,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": 0.78
+    },
+    {
+     "year": 2003,
+     "ace": 174.8,
+     "ace_incl_subtropical": 176.3,
+     "named_storms": 16,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": 0.23
+    },
+    {
+     "year": 2004,
+     "ace": 224.7,
+     "ace_incl_subtropical": 226.9,
+     "named_storms": 15,
+     "hurricanes": 9,
+     "major_hurricanes": 6,
+     "oni_aso": 0.58
+    },
+    {
+     "year": 2005,
+     "ace": 248.0,
+     "ace_incl_subtropical": 250.1,
+     "named_storms": 29,
+     "hurricanes": 15,
+     "major_hurricanes": 7,
+     "oni_aso": -0.11
+    },
+    {
+     "year": 2006,
+     "ace": 78.5,
+     "ace_incl_subtropical": 78.5,
+     "named_storms": 10,
+     "hurricanes": 5,
+     "major_hurricanes": 2,
+     "oni_aso": 0.54
+    },
+    {
+     "year": 2007,
+     "ace": 71.7,
+     "ace_incl_subtropical": 73.9,
+     "named_storms": 16,
+     "hurricanes": 7,
+     "major_hurricanes": 2,
+     "oni_aso": -1.05
+    },
+    {
+     "year": 2008,
+     "ace": 144.5,
+     "ace_incl_subtropical": 145.7,
+     "named_storms": 16,
+     "hurricanes": 9,
+     "major_hurricanes": 5,
+     "oni_aso": -0.25
+    },
+    {
+     "year": 2009,
+     "ace": 52.6,
+     "ace_incl_subtropical": 52.6,
+     "named_storms": 9,
+     "hurricanes": 3,
+     "major_hurricanes": 2,
+     "oni_aso": 0.66
+    },
+    {
+     "year": 2010,
+     "ace": 164.5,
+     "ace_incl_subtropical": 165.5,
+     "named_storms": 19,
+     "hurricanes": 12,
+     "major_hurricanes": 5,
+     "oni_aso": -1.43
+    },
+    {
+     "year": 2011,
+     "ace": 124.8,
+     "ace_incl_subtropical": 126.3,
+     "named_storms": 19,
+     "hurricanes": 7,
+     "major_hurricanes": 4,
+     "oni_aso": -0.76
+    },
+    {
+     "year": 2012,
+     "ace": 130.9,
+     "ace_incl_subtropical": 132.6,
+     "named_storms": 19,
+     "hurricanes": 10,
+     "major_hurricanes": 2,
+     "oni_aso": 0.37
+    },
+    {
+     "year": 2013,
+     "ace": 32.3,
+     "ace_incl_subtropical": 36.1,
+     "named_storms": 14,
+     "hurricanes": 2,
+     "major_hurricanes": 0,
+     "oni_aso": -0.32
+    },
+    {
+     "year": 2014,
+     "ace": 66.1,
+     "ace_incl_subtropical": 66.7,
+     "named_storms": 8,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": 0.24
+    },
+    {
+     "year": 2015,
+     "ace": 61.8,
+     "ace_incl_subtropical": 62.7,
+     "named_storms": 11,
+     "hurricanes": 4,
+     "major_hurricanes": 2,
+     "oni_aso": 2.02
+    },
+    {
+     "year": 2016,
+     "ace": 140.5,
+     "ace_incl_subtropical": 142.5,
+     "named_storms": 15,
+     "hurricanes": 7,
+     "major_hurricanes": 4,
+     "oni_aso": -0.42
+    },
+    {
+     "year": 2017,
+     "ace": 224.9,
+     "ace_incl_subtropical": 224.9,
+     "named_storms": 17,
+     "hurricanes": 10,
+     "major_hurricanes": 6,
+     "oni_aso": -0.23
+    },
+    {
+     "year": 2018,
+     "ace": 126.9,
+     "ace_incl_subtropical": 132.6,
+     "named_storms": 15,
+     "hurricanes": 8,
+     "major_hurricanes": 2,
+     "oni_aso": 0.52
+    },
+    {
+     "year": 2019,
+     "ace": 128.8,
+     "ace_incl_subtropical": 132.2,
+     "named_storms": 18,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": 0.31
+    },
+    {
+     "year": 2020,
+     "ace": 178.1,
+     "ace_incl_subtropical": 180.4,
+     "named_storms": 30,
+     "hurricanes": 14,
+     "major_hurricanes": 7,
+     "oni_aso": -0.77
+    },
+    {
+     "year": 2021,
+     "ace": 143.0,
+     "ace_incl_subtropical": 145.6,
+     "named_storms": 21,
+     "hurricanes": 7,
+     "major_hurricanes": 4,
+     "oni_aso": -0.64
+    },
+    {
+     "year": 2022,
+     "ace": 109.4,
+     "ace_incl_subtropical": 110.5,
+     "named_storms": 14,
+     "hurricanes": 9,
+     "major_hurricanes": 3,
+     "oni_aso": -0.87
+    },
+    {
+     "year": 2023,
+     "ace": 145.2,
+     "ace_incl_subtropical": 148.2,
+     "named_storms": 20,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": 1.5
+    },
+    {
+     "year": 2024,
+     "ace": 158.3,
+     "ace_incl_subtropical": 161.6,
+     "named_storms": 18,
+     "hurricanes": 11,
+     "major_hurricanes": 5,
+     "oni_aso": -0.12
+    },
+    {
+     "year": 2025,
+     "ace": 129.8,
+     "ace_incl_subtropical": 130.8,
+     "named_storms": 13,
+     "hurricanes": 6,
+     "major_hurricanes": 4,
+     "oni_aso": -0.43
+    }
+   ]
+  },
+  "east_pacific": {
+   "source_file": "hurdat2-nepac-1949-2025-02272026.txt",
+   "record_start": 1949,
+   "record_end": 2025,
+   "n_storms": 1262,
+   "seasons": [
+    {
+     "year": 1949,
+     "ace": 20.2,
+     "ace_incl_subtropical": 20.2,
+     "named_storms": 6,
+     "hurricanes": 2,
+     "major_hurricanes": 0,
+     "oni_aso": null
+    },
+    {
+     "year": 1950,
+     "ace": 53.5,
+     "ace_incl_subtropical": 53.5,
+     "named_storms": 7,
+     "hurricanes": 6,
+     "major_hurricanes": 0,
+     "oni_aso": -0.56
+    },
+    {
+     "year": 1951,
+     "ace": 35.5,
+     "ace_incl_subtropical": 35.5,
+     "named_storms": 9,
+     "hurricanes": 2,
+     "major_hurricanes": 0,
+     "oni_aso": 1.02
+    },
+    {
+     "year": 1952,
+     "ace": 34.7,
+     "ace_incl_subtropical": 34.7,
+     "named_storms": 7,
+     "hurricanes": 3,
+     "major_hurricanes": 0,
+     "oni_aso": 0.03
+    },
+    {
+     "year": 1953,
+     "ace": 24.2,
+     "ace_incl_subtropical": 24.2,
+     "named_storms": 4,
+     "hurricanes": 2,
+     "major_hurricanes": 0,
+     "oni_aso": 0.59
+    },
+    {
+     "year": 1954,
+     "ace": 84.4,
+     "ace_incl_subtropical": 84.4,
+     "named_storms": 11,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": -0.73
+    },
+    {
+     "year": 1955,
+     "ace": 19.9,
+     "ace_incl_subtropical": 19.9,
+     "named_storms": 6,
+     "hurricanes": 2,
+     "major_hurricanes": 0,
+     "oni_aso": -1.11
+    },
+    {
+     "year": 1956,
+     "ace": 47.9,
+     "ace_incl_subtropical": 47.9,
+     "named_storms": 11,
+     "hurricanes": 7,
+     "major_hurricanes": 0,
+     "oni_aso": -0.43
+    },
+    {
+     "year": 1957,
+     "ace": 127.0,
+     "ace_incl_subtropical": 127.0,
+     "named_storms": 13,
+     "hurricanes": 9,
+     "major_hurricanes": 2,
+     "oni_aso": 1.12
+    },
+    {
+     "year": 1958,
+     "ace": 75.8,
+     "ace_incl_subtropical": 75.8,
+     "named_storms": 13,
+     "hurricanes": 5,
+     "major_hurricanes": 0,
+     "oni_aso": 0.28
+    },
+    {
+     "year": 1959,
+     "ace": 112.8,
+     "ace_incl_subtropical": 112.8,
+     "named_storms": 15,
+     "hurricanes": 5,
+     "major_hurricanes": 3,
+     "oni_aso": -0.04
+    },
+    {
+     "year": 1960,
+     "ace": 64.2,
+     "ace_incl_subtropical": 64.2,
+     "named_storms": 7,
+     "hurricanes": 5,
+     "major_hurricanes": 0,
+     "oni_aso": 0.19
+    },
+    {
+     "year": 1961,
+     "ace": 24.8,
+     "ace_incl_subtropical": 24.8,
+     "named_storms": 9,
+     "hurricanes": 2,
+     "major_hurricanes": 0,
+     "oni_aso": -0.32
+    },
+    {
+     "year": 1962,
+     "ace": 32.9,
+     "ace_incl_subtropical": 32.9,
+     "named_storms": 9,
+     "hurricanes": 2,
+     "major_hurricanes": 0,
+     "oni_aso": -0.16
+    },
+    {
+     "year": 1963,
+     "ace": 36.5,
+     "ace_incl_subtropical": 36.5,
+     "named_storms": 8,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": 1.09
+    },
+    {
+     "year": 1964,
+     "ace": 19.2,
+     "ace_incl_subtropical": 19.2,
+     "named_storms": 5,
+     "hurricanes": 1,
+     "major_hurricanes": 0,
+     "oni_aso": -0.72
+    },
+    {
+     "year": 1965,
+     "ace": 38.8,
+     "ace_incl_subtropical": 38.8,
+     "named_storms": 10,
+     "hurricanes": 1,
+     "major_hurricanes": 0,
+     "oni_aso": 1.55
+    },
+    {
+     "year": 1966,
+     "ace": 62.2,
+     "ace_incl_subtropical": 62.2,
+     "named_storms": 13,
+     "hurricanes": 7,
+     "major_hurricanes": 0,
+     "oni_aso": -0.09
+    },
+    {
+     "year": 1967,
+     "ace": 114.2,
+     "ace_incl_subtropical": 114.2,
+     "named_storms": 17,
+     "hurricanes": 7,
+     "major_hurricanes": 2,
+     "oni_aso": -0.4
+    },
+    {
+     "year": 1968,
+     "ace": 68.5,
+     "ace_incl_subtropical": 68.5,
+     "named_storms": 19,
+     "hurricanes": 6,
+     "major_hurricanes": 0,
+     "oni_aso": 0.34
+    },
+    {
+     "year": 1969,
+     "ace": 32.7,
+     "ace_incl_subtropical": 32.7,
+     "named_storms": 10,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": 0.61
+    },
+    {
+     "year": 1970,
+     "ace": 79.3,
+     "ace_incl_subtropical": 79.3,
+     "named_storms": 19,
+     "hurricanes": 5,
+     "major_hurricanes": 0,
+     "oni_aso": -0.69
+    },
+    {
+     "year": 1971,
+     "ace": 139.5,
+     "ace_incl_subtropical": 139.5,
+     "named_storms": 18,
+     "hurricanes": 12,
+     "major_hurricanes": 6,
+     "oni_aso": -0.68
+    },
+    {
+     "year": 1972,
+     "ace": 150.7,
+     "ace_incl_subtropical": 150.7,
+     "named_storms": 14,
+     "hurricanes": 9,
+     "major_hurricanes": 5,
+     "oni_aso": 1.49
+    },
+    {
+     "year": 1973,
+     "ace": 114.7,
+     "ace_incl_subtropical": 114.7,
+     "named_storms": 12,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": -1.26
+    },
+    {
+     "year": 1974,
+     "ace": 90.8,
+     "ace_incl_subtropical": 90.8,
+     "named_storms": 18,
+     "hurricanes": 11,
+     "major_hurricanes": 3,
+     "oni_aso": -0.47
+    },
+    {
+     "year": 1975,
+     "ace": 112.6,
+     "ace_incl_subtropical": 112.6,
+     "named_storms": 17,
+     "hurricanes": 9,
+     "major_hurricanes": 4,
+     "oni_aso": -1.29
+    },
+    {
+     "year": 1976,
+     "ace": 121.5,
+     "ace_incl_subtropical": 121.5,
+     "named_storms": 15,
+     "hurricanes": 9,
+     "major_hurricanes": 5,
+     "oni_aso": 0.6
+    },
+    {
+     "year": 1977,
+     "ace": 22.3,
+     "ace_incl_subtropical": 22.3,
+     "named_storms": 8,
+     "hurricanes": 4,
+     "major_hurricanes": 0,
+     "oni_aso": 0.45
+    },
+    {
+     "year": 1978,
+     "ace": 207.1,
+     "ace_incl_subtropical": 207.1,
+     "named_storms": 19,
+     "hurricanes": 14,
+     "major_hurricanes": 7,
+     "oni_aso": -0.44
+    },
+    {
+     "year": 1979,
+     "ace": 57.4,
+     "ace_incl_subtropical": 57.4,
+     "named_storms": 10,
+     "hurricanes": 6,
+     "major_hurricanes": 4,
+     "oni_aso": 0.34
+    },
+    {
+     "year": 1980,
+     "ace": 77.7,
+     "ace_incl_subtropical": 77.7,
+     "named_storms": 14,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": -0.17
+    },
+    {
+     "year": 1981,
+     "ace": 72.8,
+     "ace_incl_subtropical": 72.8,
+     "named_storms": 15,
+     "hurricanes": 8,
+     "major_hurricanes": 1,
+     "oni_aso": -0.08
+    },
+    {
+     "year": 1982,
+     "ace": 161.2,
+     "ace_incl_subtropical": 161.2,
+     "named_storms": 23,
+     "hurricanes": 12,
+     "major_hurricanes": 5,
+     "oni_aso": 1.45
+    },
+    {
+     "year": 1983,
+     "ace": 206.2,
+     "ace_incl_subtropical": 206.2,
+     "named_storms": 21,
+     "hurricanes": 12,
+     "major_hurricanes": 8,
+     "oni_aso": -0.43
+    },
+    {
+     "year": 1984,
+     "ace": 193.3,
+     "ace_incl_subtropical": 193.3,
+     "named_storms": 21,
+     "hurricanes": 13,
+     "major_hurricanes": 7,
+     "oni_aso": -0.32
+    },
+    {
+     "year": 1985,
+     "ace": 192.6,
+     "ace_incl_subtropical": 192.6,
+     "named_storms": 23,
+     "hurricanes": 13,
+     "major_hurricanes": 8,
+     "oni_aso": -0.31
+    },
+    {
+     "year": 1986,
+     "ace": 107.8,
+     "ace_incl_subtropical": 107.8,
+     "named_storms": 17,
+     "hurricanes": 9,
+     "major_hurricanes": 3,
+     "oni_aso": 0.64
+    },
+    {
+     "year": 1987,
+     "ace": 132.8,
+     "ace_incl_subtropical": 132.8,
+     "named_storms": 20,
+     "hurricanes": 10,
+     "major_hurricanes": 4,
+     "oni_aso": 1.49
+    },
+    {
+     "year": 1988,
+     "ace": 127.4,
+     "ace_incl_subtropical": 127.4,
+     "named_storms": 15,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": -1.27
+    },
+    {
+     "year": 1989,
+     "ace": 110.8,
+     "ace_incl_subtropical": 110.8,
+     "named_storms": 17,
+     "hurricanes": 9,
+     "major_hurricanes": 4,
+     "oni_aso": -0.33
+    },
+    {
+     "year": 1990,
+     "ace": 250.4,
+     "ace_incl_subtropical": 250.4,
+     "named_storms": 21,
+     "hurricanes": 16,
+     "major_hurricanes": 6,
+     "oni_aso": 0.31
+    },
+    {
+     "year": 1991,
+     "ace": 178.3,
+     "ace_incl_subtropical": 178.3,
+     "named_storms": 14,
+     "hurricanes": 10,
+     "major_hurricanes": 5,
+     "oni_aso": 0.72
+    },
+    {
+     "year": 1992,
+     "ace": 294.7,
+     "ace_incl_subtropical": 294.7,
+     "named_storms": 27,
+     "hurricanes": 16,
+     "major_hurricanes": 10,
+     "oni_aso": -0.15
+    },
+    {
+     "year": 1993,
+     "ace": 220.3,
+     "ace_incl_subtropical": 220.3,
+     "named_storms": 15,
+     "hurricanes": 11,
+     "major_hurricanes": 9,
+     "oni_aso": 0.2
+    },
+    {
+     "year": 1994,
+     "ace": 203.7,
+     "ace_incl_subtropical": 203.7,
+     "named_storms": 20,
+     "hurricanes": 10,
+     "major_hurricanes": 5,
+     "oni_aso": 0.47
+    },
+    {
+     "year": 1995,
+     "ace": 100.2,
+     "ace_incl_subtropical": 100.2,
+     "named_storms": 10,
+     "hurricanes": 7,
+     "major_hurricanes": 3,
+     "oni_aso": -0.81
+    },
+    {
+     "year": 1996,
+     "ace": 53.5,
+     "ace_incl_subtropical": 53.5,
+     "named_storms": 9,
+     "hurricanes": 5,
+     "major_hurricanes": 2,
+     "oni_aso": -0.3
+    },
+    {
+     "year": 1997,
+     "ace": 276.5,
+     "ace_incl_subtropical": 276.5,
+     "named_storms": 19,
+     "hurricanes": 11,
+     "major_hurricanes": 9,
+     "oni_aso": 2.04
+    },
+    {
+     "year": 1998,
+     "ace": 134.0,
+     "ace_incl_subtropical": 134.0,
+     "named_storms": 13,
+     "hurricanes": 9,
+     "major_hurricanes": 6,
+     "oni_aso": -1.02
+    },
+    {
+     "year": 1999,
+     "ace": 91.9,
+     "ace_incl_subtropical": 91.9,
+     "named_storms": 9,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": -1.0
+    },
+    {
+     "year": 2000,
+     "ace": 95.8,
+     "ace_incl_subtropical": 95.8,
+     "named_storms": 19,
+     "hurricanes": 6,
+     "major_hurricanes": 2,
+     "oni_aso": -0.42
+    },
+    {
+     "year": 2001,
+     "ace": 90.6,
+     "ace_incl_subtropical": 90.6,
+     "named_storms": 16,
+     "hurricanes": 8,
+     "major_hurricanes": 2,
+     "oni_aso": -0.15
+    },
+    {
+     "year": 2002,
+     "ace": 124.6,
+     "ace_incl_subtropical": 124.6,
+     "named_storms": 15,
+     "hurricanes": 8,
+     "major_hurricanes": 6,
+     "oni_aso": 0.78
+    },
+    {
+     "year": 2003,
+     "ace": 56.6,
+     "ace_incl_subtropical": 56.6,
+     "named_storms": 16,
+     "hurricanes": 7,
+     "major_hurricanes": 0,
+     "oni_aso": 0.23
+    },
+    {
+     "year": 2004,
+     "ace": 71.1,
+     "ace_incl_subtropical": 71.1,
+     "named_storms": 12,
+     "hurricanes": 6,
+     "major_hurricanes": 3,
+     "oni_aso": 0.58
+    },
+    {
+     "year": 2005,
+     "ace": 96.6,
+     "ace_incl_subtropical": 96.6,
+     "named_storms": 15,
+     "hurricanes": 7,
+     "major_hurricanes": 2,
+     "oni_aso": -0.11
+    },
+    {
+     "year": 2006,
+     "ace": 208.0,
+     "ace_incl_subtropical": 208.0,
+     "named_storms": 19,
+     "hurricanes": 11,
+     "major_hurricanes": 6,
+     "oni_aso": 0.54
+    },
+    {
+     "year": 2007,
+     "ace": 52.6,
+     "ace_incl_subtropical": 52.6,
+     "named_storms": 11,
+     "hurricanes": 4,
+     "major_hurricanes": 1,
+     "oni_aso": -1.05
+    },
+    {
+     "year": 2008,
+     "ace": 83.8,
+     "ace_incl_subtropical": 83.8,
+     "named_storms": 17,
+     "hurricanes": 7,
+     "major_hurricanes": 2,
+     "oni_aso": -0.25
+    },
+    {
+     "year": 2009,
+     "ace": 127.2,
+     "ace_incl_subtropical": 127.2,
+     "named_storms": 20,
+     "hurricanes": 8,
+     "major_hurricanes": 5,
+     "oni_aso": 0.66
+    },
+    {
+     "year": 2010,
+     "ace": 50.7,
+     "ace_incl_subtropical": 52.0,
+     "named_storms": 8,
+     "hurricanes": 3,
+     "major_hurricanes": 2,
+     "oni_aso": -1.43
+    },
+    {
+     "year": 2011,
+     "ace": 120.9,
+     "ace_incl_subtropical": 120.9,
+     "named_storms": 11,
+     "hurricanes": 10,
+     "major_hurricanes": 6,
+     "oni_aso": -0.76
+    },
+    {
+     "year": 2012,
+     "ace": 98.5,
+     "ace_incl_subtropical": 98.5,
+     "named_storms": 17,
+     "hurricanes": 10,
+     "major_hurricanes": 5,
+     "oni_aso": 0.37
+    },
+    {
+     "year": 2013,
+     "ace": 78.3,
+     "ace_incl_subtropical": 78.3,
+     "named_storms": 20,
+     "hurricanes": 10,
+     "major_hurricanes": 1,
+     "oni_aso": -0.32
+    },
+    {
+     "year": 2014,
+     "ace": 223.8,
+     "ace_incl_subtropical": 223.8,
+     "named_storms": 22,
+     "hurricanes": 16,
+     "major_hurricanes": 9,
+     "oni_aso": 0.24
+    },
+    {
+     "year": 2015,
+     "ace": 329.6,
+     "ace_incl_subtropical": 329.6,
+     "named_storms": 26,
+     "hurricanes": 17,
+     "major_hurricanes": 11,
+     "oni_aso": 2.02
+    },
+    {
+     "year": 2016,
+     "ace": 191.9,
+     "ace_incl_subtropical": 191.9,
+     "named_storms": 22,
+     "hurricanes": 14,
+     "major_hurricanes": 7,
+     "oni_aso": -0.42
+    },
+    {
+     "year": 2017,
+     "ace": 100.7,
+     "ace_incl_subtropical": 100.7,
+     "named_storms": 18,
+     "hurricanes": 9,
+     "major_hurricanes": 4,
+     "oni_aso": -0.23
+    },
+    {
+     "year": 2018,
+     "ace": 318.5,
+     "ace_incl_subtropical": 318.8,
+     "named_storms": 23,
+     "hurricanes": 13,
+     "major_hurricanes": 10,
+     "oni_aso": 0.52
+    },
+    {
+     "year": 2019,
+     "ace": 97.6,
+     "ace_incl_subtropical": 97.6,
+     "named_storms": 19,
+     "hurricanes": 7,
+     "major_hurricanes": 4,
+     "oni_aso": 0.31
+    },
+    {
+     "year": 2020,
+     "ace": 77.3,
+     "ace_incl_subtropical": 77.3,
+     "named_storms": 17,
+     "hurricanes": 4,
+     "major_hurricanes": 3,
+     "oni_aso": -0.77
+    },
+    {
+     "year": 2021,
+     "ace": 94.5,
+     "ace_incl_subtropical": 94.5,
+     "named_storms": 19,
+     "hurricanes": 8,
+     "major_hurricanes": 2,
+     "oni_aso": -0.64
+    },
+    {
+     "year": 2022,
+     "ace": 118.4,
+     "ace_incl_subtropical": 118.4,
+     "named_storms": 19,
+     "hurricanes": 11,
+     "major_hurricanes": 4,
+     "oni_aso": -0.87
+    },
+    {
+     "year": 2023,
+     "ace": 168.2,
+     "ace_incl_subtropical": 168.2,
+     "named_storms": 17,
+     "hurricanes": 10,
+     "major_hurricanes": 8,
+     "oni_aso": 1.5
+    },
+    {
+     "year": 2024,
+     "ace": 84.6,
+     "ace_incl_subtropical": 84.6,
+     "named_storms": 14,
+     "hurricanes": 5,
+     "major_hurricanes": 3,
+     "oni_aso": -0.12
+    },
+    {
+     "year": 2025,
+     "ace": 127.3,
+     "ace_incl_subtropical": 127.3,
+     "named_storms": 20,
+     "hurricanes": 11,
+     "major_hurricanes": 5,
+     "oni_aso": -0.43
+    }
+   ]
+  }
+ }
+}
