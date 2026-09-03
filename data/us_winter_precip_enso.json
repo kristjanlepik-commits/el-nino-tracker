@@ -3,6 +3,8 @@
  "source": "https://www.ncei.noaa.gov/monitoring-content/data/us/climdiv/monthly/current/climdiv-pcpnst (NOAA NCEI), statewide monthly precipitation, inches",
  "pairing": "ASO ONI of year Y against Dec Y + Jan Y+1 + Feb Y+1. The teleconnection is a winter one and lags the hurricane season it is often quoted beside.",
  "not_a_flood_series": "Seasonal precipitation totals, not flood events. A wetter DJF raises the base rate; it does not say a flood happens.",
+ "ratio_on_a_small_base": "The Southwest carries the largest monthly ratios in this file (2.0-2.3x) on the smallest base: 1.9 to 3.1 inches across DJF. A large proportional change on a small absolute base is not a large flood risk. Read ratio and difference together, never the ratio alone.",
+ "california_is_not_significant": "California is the most commonly asserted El Nino flood story and it does not hold here: Spearman +0.180 at p = 0.12, 1.15x, 15th of 48 states. Oregon, Washington and Nevada are flat or slightly dry. The signal is the Gulf and Southeast, not the West Coast.",
  "n_winters": 76,
  "states": [
   {
@@ -532,6 +534,609 @@
    "ratio": 0.752,
    "n_el_nino": 20,
    "n_la_nina": 18
+  }
+ ],
+ "regions_monthly": [
+  {
+   "region": "Florida peninsula",
+   "states": [
+    "Florida"
+   ],
+   "djf_el_nino_in": 11.72,
+   "djf_la_nina_in": 6.92,
+   "djf_difference_in": 4.81,
+   "months": [
+    {
+     "month": "Sep",
+     "ratio": 0.945,
+     "spearman": -0.042,
+     "p": 0.71809,
+     "significant": false
+    },
+    {
+     "month": "Oct",
+     "ratio": 0.831,
+     "spearman": -0.023,
+     "p": 0.84033,
+     "significant": false
+    },
+    {
+     "month": "Nov",
+     "ratio": 1.524,
+     "spearman": 0.365,
+     "p": 0.00117,
+     "significant": true
+    },
+    {
+     "month": "Dec",
+     "ratio": 1.841,
+     "spearman": 0.396,
+     "p": 0.0004,
+     "significant": true
+    },
+    {
+     "month": "Jan",
+     "ratio": 1.609,
+     "spearman": 0.381,
+     "p": 0.00069,
+     "significant": true
+    },
+    {
+     "month": "Feb",
+     "ratio": 1.65,
+     "spearman": 0.436,
+     "p": 8e-05,
+     "significant": true
+    },
+    {
+     "month": "Mar",
+     "ratio": 1.462,
+     "spearman": 0.287,
+     "p": 0.01199,
+     "significant": true
+    },
+    {
+     "month": "Apr",
+     "ratio": 1.027,
+     "spearman": 0.081,
+     "p": 0.48522,
+     "significant": false
+    },
+    {
+     "month": "May",
+     "ratio": 1.061,
+     "spearman": 0.044,
+     "p": 0.70284,
+     "significant": false
+    }
+   ]
+  },
+  {
+   "region": "Gulf coast",
+   "states": [
+    "Louisiana",
+    "Mississippi",
+    "Alabama"
+   ],
+   "djf_el_nino_in": 16.89,
+   "djf_la_nina_in": 14.38,
+   "djf_difference_in": 2.51,
+   "months": [
+    {
+     "month": "Sep",
+     "ratio": 0.989,
+     "spearman": 0.014,
+     "p": 0.9033,
+     "significant": false
+    },
+    {
+     "month": "Oct",
+     "ratio": 1.109,
+     "spearman": 0.067,
+     "p": 0.56609,
+     "significant": false
+    },
+    {
+     "month": "Nov",
+     "ratio": 1.411,
+     "spearman": 0.164,
+     "p": 0.15687,
+     "significant": false
+    },
+    {
+     "month": "Dec",
+     "ratio": 1.378,
+     "spearman": 0.21,
+     "p": 0.06841,
+     "significant": false
+    },
+    {
+     "month": "Jan",
+     "ratio": 0.99,
+     "spearman": 0.05,
+     "p": 0.67064,
+     "significant": false
+    },
+    {
+     "month": "Feb",
+     "ratio": 1.174,
+     "spearman": 0.179,
+     "p": 0.12192,
+     "significant": false
+    },
+    {
+     "month": "Mar",
+     "ratio": 0.922,
+     "spearman": -0.081,
+     "p": 0.48828,
+     "significant": false
+    },
+    {
+     "month": "Apr",
+     "ratio": 1.238,
+     "spearman": 0.212,
+     "p": 0.06546,
+     "significant": false
+    },
+    {
+     "month": "May",
+     "ratio": 1.019,
+     "spearman": 0.002,
+     "p": 0.98896,
+     "significant": false
+    }
+   ]
+  },
+  {
+   "region": "Southeast Atlantic",
+   "states": [
+    "Georgia",
+    "South Carolina",
+    "North Carolina"
+   ],
+   "djf_el_nino_in": 13.32,
+   "djf_la_nina_in": 10.72,
+   "djf_difference_in": 2.61,
+   "months": [
+    {
+     "month": "Sep",
+     "ratio": 1.06,
+     "spearman": -0.009,
+     "p": 0.93647,
+     "significant": false
+    },
+    {
+     "month": "Oct",
+     "ratio": 0.841,
+     "spearman": 0.037,
+     "p": 0.75414,
+     "significant": false
+    },
+    {
+     "month": "Nov",
+     "ratio": 1.691,
+     "spearman": 0.365,
+     "p": 0.00117,
+     "significant": true
+    },
+    {
+     "month": "Dec",
+     "ratio": 1.475,
+     "spearman": 0.28,
+     "p": 0.0142,
+     "significant": true
+    },
+    {
+     "month": "Jan",
+     "ratio": 1.149,
+     "spearman": 0.15,
+     "p": 0.1967,
+     "significant": false
+    },
+    {
+     "month": "Feb",
+     "ratio": 1.136,
+     "spearman": 0.182,
+     "p": 0.1148,
+     "significant": false
+    },
+    {
+     "month": "Mar",
+     "ratio": 1.138,
+     "spearman": 0.148,
+     "p": 0.20266,
+     "significant": false
+    },
+    {
+     "month": "Apr",
+     "ratio": 1.132,
+     "spearman": 0.1,
+     "p": 0.391,
+     "significant": false
+    },
+    {
+     "month": "May",
+     "ratio": 1.029,
+     "spearman": 0.018,
+     "p": 0.87768,
+     "significant": false
+    }
+   ]
+  },
+  {
+   "region": "Texas",
+   "states": [
+    "Texas"
+   ],
+   "djf_el_nino_in": 5.92,
+   "djf_la_nina_in": 3.72,
+   "djf_difference_in": 2.2,
+   "months": [
+    {
+     "month": "Sep",
+     "ratio": 0.979,
+     "spearman": -0.067,
+     "p": 0.5627,
+     "significant": false
+    },
+    {
+     "month": "Oct",
+     "ratio": 1.79,
+     "spearman": 0.293,
+     "p": 0.01011,
+     "significant": true
+    },
+    {
+     "month": "Nov",
+     "ratio": 1.742,
+     "spearman": 0.248,
+     "p": 0.03085,
+     "significant": true
+    },
+    {
+     "month": "Dec",
+     "ratio": 1.796,
+     "spearman": 0.322,
+     "p": 0.00458,
+     "significant": true
+    },
+    {
+     "month": "Jan",
+     "ratio": 1.369,
+     "spearman": 0.189,
+     "p": 0.10243,
+     "significant": false
+    },
+    {
+     "month": "Feb",
+     "ratio": 1.618,
+     "spearman": 0.312,
+     "p": 0.00607,
+     "significant": true
+    },
+    {
+     "month": "Mar",
+     "ratio": 1.36,
+     "spearman": 0.144,
+     "p": 0.21568,
+     "significant": false
+    },
+    {
+     "month": "Apr",
+     "ratio": 1.406,
+     "spearman": 0.166,
+     "p": 0.15059,
+     "significant": false
+    },
+    {
+     "month": "May",
+     "ratio": 1.019,
+     "spearman": 0.005,
+     "p": 0.96274,
+     "significant": false
+    }
+   ]
+  },
+  {
+   "region": "Southwest",
+   "states": [
+    "Arizona",
+    "New Mexico"
+   ],
+   "djf_el_nino_in": 3.14,
+   "djf_la_nina_in": 1.92,
+   "djf_difference_in": 1.22,
+   "months": [
+    {
+     "month": "Sep",
+     "ratio": 1.075,
+     "spearman": 0.045,
+     "p": 0.69823,
+     "significant": false
+    },
+    {
+     "month": "Oct",
+     "ratio": 1.857,
+     "spearman": 0.213,
+     "p": 0.06509,
+     "significant": false
+    },
+    {
+     "month": "Nov",
+     "ratio": 2.093,
+     "spearman": 0.303,
+     "p": 0.00774,
+     "significant": true
+    },
+    {
+     "month": "Dec",
+     "ratio": 1.618,
+     "spearman": 0.211,
+     "p": 0.06713,
+     "significant": false
+    },
+    {
+     "month": "Jan",
+     "ratio": 1.372,
+     "spearman": 0.105,
+     "p": 0.36711,
+     "significant": false
+    },
+    {
+     "month": "Feb",
+     "ratio": 1.997,
+     "spearman": 0.347,
+     "p": 0.00213,
+     "significant": true
+    },
+    {
+     "month": "Mar",
+     "ratio": 2.297,
+     "spearman": 0.388,
+     "p": 0.00054,
+     "significant": true
+    },
+    {
+     "month": "Apr",
+     "ratio": 1.637,
+     "spearman": 0.288,
+     "p": 0.01175,
+     "significant": true
+    },
+    {
+     "month": "May",
+     "ratio": 1.296,
+     "spearman": 0.053,
+     "p": 0.65223,
+     "significant": false
+    }
+   ]
+  },
+  {
+   "region": "California",
+   "states": [
+    "California"
+   ],
+   "djf_el_nino_in": 12.49,
+   "djf_la_nina_in": 10.91,
+   "djf_difference_in": 1.59,
+   "months": [
+    {
+     "month": "Sep",
+     "ratio": 1.48,
+     "spearman": 0.054,
+     "p": 0.64047,
+     "significant": false
+    },
+    {
+     "month": "Oct",
+     "ratio": 1.052,
+     "spearman": 0.006,
+     "p": 0.96055,
+     "significant": false
+    },
+    {
+     "month": "Nov",
+     "ratio": 0.93,
+     "spearman": 0.016,
+     "p": 0.88818,
+     "significant": false
+    },
+    {
+     "month": "Dec",
+     "ratio": 0.819,
+     "spearman": 0.004,
+     "p": 0.97578,
+     "significant": false
+    },
+    {
+     "month": "Jan",
+     "ratio": 1.234,
+     "spearman": 0.195,
+     "p": 0.09075,
+     "significant": false
+    },
+    {
+     "month": "Feb",
+     "ratio": 1.565,
+     "spearman": 0.103,
+     "p": 0.3741,
+     "significant": false
+    },
+    {
+     "month": "Mar",
+     "ratio": 1.267,
+     "spearman": 0.163,
+     "p": 0.15834,
+     "significant": false
+    },
+    {
+     "month": "Apr",
+     "ratio": 1.054,
+     "spearman": 0.017,
+     "p": 0.8841,
+     "significant": false
+    },
+    {
+     "month": "May",
+     "ratio": 1.32,
+     "spearman": 0.12,
+     "p": 0.30369,
+     "significant": false
+    }
+   ]
+  },
+  {
+   "region": "Northern Rockies",
+   "states": [
+    "Montana",
+    "Idaho",
+    "Wyoming"
+   ],
+   "djf_el_nino_in": 4.26,
+   "djf_la_nina_in": 5.57,
+   "djf_difference_in": -1.31,
+   "months": [
+    {
+     "month": "Sep",
+     "ratio": 1.14,
+     "spearman": 0.027,
+     "p": 0.81849,
+     "significant": false
+    },
+    {
+     "month": "Oct",
+     "ratio": 0.889,
+     "spearman": -0.111,
+     "p": 0.34078,
+     "significant": false
+    },
+    {
+     "month": "Nov",
+     "ratio": 0.71,
+     "spearman": -0.278,
+     "p": 0.01502,
+     "significant": true
+    },
+    {
+     "month": "Dec",
+     "ratio": 0.707,
+     "spearman": -0.266,
+     "p": 0.02011,
+     "significant": true
+    },
+    {
+     "month": "Jan",
+     "ratio": 0.791,
+     "spearman": -0.174,
+     "p": 0.13169,
+     "significant": false
+    },
+    {
+     "month": "Feb",
+     "ratio": 0.812,
+     "spearman": -0.29,
+     "p": 0.01117,
+     "significant": true
+    },
+    {
+     "month": "Mar",
+     "ratio": 1.045,
+     "spearman": 0.002,
+     "p": 0.98382,
+     "significant": false
+    },
+    {
+     "month": "Apr",
+     "ratio": 0.944,
+     "spearman": -0.092,
+     "p": 0.43146,
+     "significant": false
+    },
+    {
+     "month": "May",
+     "ratio": 0.941,
+     "spearman": 0.044,
+     "p": 0.70672,
+     "significant": false
+    }
+   ]
+  },
+  {
+   "region": "Ohio valley",
+   "states": [
+    "Ohio",
+    "Kentucky",
+    "Indiana"
+   ],
+   "djf_el_nino_in": 8.74,
+   "djf_la_nina_in": 10.16,
+   "djf_difference_in": -1.42,
+   "months": [
+    {
+     "month": "Sep",
+     "ratio": 1.108,
+     "spearman": 0.124,
+     "p": 0.28549,
+     "significant": false
+    },
+    {
+     "month": "Oct",
+     "ratio": 0.91,
+     "spearman": -0.104,
+     "p": 0.36951,
+     "significant": false
+    },
+    {
+     "month": "Nov",
+     "ratio": 0.978,
+     "spearman": 0.012,
+     "p": 0.92054,
+     "significant": false
+    },
+    {
+     "month": "Dec",
+     "ratio": 1.093,
+     "spearman": 0.075,
+     "p": 0.5187,
+     "significant": false
+    },
+    {
+     "month": "Jan",
+     "ratio": 0.853,
+     "spearman": -0.103,
+     "p": 0.37407,
+     "significant": false
+    },
+    {
+     "month": "Feb",
+     "ratio": 0.664,
+     "spearman": -0.402,
+     "p": 0.00032,
+     "significant": true
+    },
+    {
+     "month": "Mar",
+     "ratio": 0.884,
+     "spearman": -0.187,
+     "p": 0.10568,
+     "significant": false
+    },
+    {
+     "month": "Apr",
+     "ratio": 1.089,
+     "spearman": 0.122,
+     "p": 0.29374,
+     "significant": false
+    },
+    {
+     "month": "May",
+     "ratio": 0.918,
+     "spearman": -0.147,
+     "p": 0.20613,
+     "significant": false
+    }
+   ]
   }
  ]
 }

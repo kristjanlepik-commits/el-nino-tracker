@@ -109,6 +109,60 @@ def main():
     if faults:
         sys.exit("REFUSING TO WRITE:\n  - " + "\n  - ".join(faults))
 
+    # --- regional monthly timing -------------------------------------
+    # State DJF totals say WHERE. They do not say WHEN, and "when" is the
+    # question a reader actually has, so resolve month by month across the
+    # whole Sep-May window rather than assuming the DJF box is the season.
+    name2sc = {v: k for k, v in STATES.items()}
+    regions = {
+        "Florida peninsula": ["Florida"],
+        "Gulf coast": ["Louisiana", "Mississippi", "Alabama"],
+        "Southeast Atlantic": ["Georgia", "South Carolina", "North Carolina"],
+        "Texas": ["Texas"],
+        "Southwest": ["Arizona", "New Mexico"],
+        "California": ["California"],
+        "Northern Rockies": ["Montana", "Idaho", "Wyoming"],
+        "Ohio valley": ["Ohio", "Kentucky", "Indiana"],
+    }
+    # (month, year offset from the ASO year, label)
+    seq = [(9,0,"Sep"),(10,0,"Oct"),(11,0,"Nov"),(12,0,"Dec"),
+           (1,1,"Jan"),(2,1,"Feb"),(3,1,"Mar"),(4,1,"Apr"),(5,1,"May")]
+    region_out = []
+    for reg, names in regions.items():
+        scs = [name2sc[n] for n in names]
+        months = []
+        for mo, off, lab in seq:
+            xs, ys = [], []
+            for y in years:
+                try:
+                    v = st.mean(pcp[sc][(y + off, mo)] for sc in scs)
+                except KeyError:
+                    continue
+                xs.append(oni[y]["ASO"]); ys.append(v)
+            rho, p_ = stats.spearmanr(xs, ys)
+            en = [v for x, v in zip(xs, ys) if x >= 0.5]
+            ln = [v for x, v in zip(xs, ys) if x <= -0.5]
+            months.append({"month": lab, "ratio": round(st.mean(en)/st.mean(ln), 3),
+                           "spearman": round(rho, 3), "p": round(p_, 5),
+                           "significant": bool(p_ < 0.05)})
+        xs, ys = [], []
+        for y in years:
+            try:
+                v = st.mean(pcp[sc][(y,12)] + pcp[sc][(y+1,1)] + pcp[sc][(y+1,2)]
+                            for sc in scs)
+            except KeyError:
+                continue
+            xs.append(oni[y]["ASO"]); ys.append(v)
+        en = [v for x, v in zip(xs, ys) if x >= 0.5]
+        ln = [v for x, v in zip(xs, ys) if x <= -0.5]
+        region_out.append({
+            "region": reg, "states": names,
+            "djf_el_nino_in": round(st.mean(en), 2),
+            "djf_la_nina_in": round(st.mean(ln), 2),
+            "djf_difference_in": round(st.mean(en) - st.mean(ln), 2),
+            "months": months,
+        })
+
     payload = {
         "generated": "2026-09-03",
         "source": INDEX + "climdiv-pcpnst (NOAA NCEI), statewide monthly precipitation, inches",
@@ -118,8 +172,20 @@ def main():
         "not_a_flood_series": ("Seasonal precipitation totals, not flood events. A "
                                "wetter DJF raises the base rate; it does not say a "
                                "flood happens."),
+        "ratio_on_a_small_base": (
+            "The Southwest carries the largest monthly ratios in this file "
+            "(2.0-2.3x) on the smallest base: 1.9 to 3.1 inches across DJF. A "
+            "large proportional change on a small absolute base is not a large "
+            "flood risk. Read ratio and difference together, never the ratio "
+            "alone."),
+        "california_is_not_significant": (
+            "California is the most commonly asserted El Nino flood story and "
+            "it does not hold here: Spearman +0.180 at p = 0.12, 1.15x, 15th of "
+            "48 states. Oregon, Washington and Nevada are flat or slightly dry. "
+            "The signal is the Gulf and Southeast, not the West Coast."),
         "n_winters": len(years),
         "states": sorted(out, key=lambda r: -r["spearman"]),
+        "regions_monthly": region_out,
     }
     dest = ROOT / "data" / "us_winter_precip_enso.json"
     dest.write_text(json.dumps(payload, indent=1))
