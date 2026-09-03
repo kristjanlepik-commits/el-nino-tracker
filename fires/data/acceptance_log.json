@@ -146,5 +146,23 @@
    "Uruguay: cropland reading depleted -> withheld"
   ],
   "files_promoted": 2
+ },
+ {
+  "accepted_at": "2026-09-03T06:57:41+00:00",
+  "accepted_by": "Fire",
+  "note": "Thursday EFFIS close 2026-09-02, all 97 countries. Reviewed all 10 flagged changes. Qualifying set: Mozambique and Zambia in, Croatia/Madagascar/Papua New Guinea out, routine week-over-week. Five rank moves across the 1st-place boundary (Finland 1->7, Lebanon 1->12, Madagascar 1->2, Philippines 2->1, Tunisia 3->1), all ordinary movement. Two record qualifications checked against the margin rather than the flag: Tunisia 371 vs its 2014 max of 340 is +9.1%, Philippines 260 vs its 2013 max of 232 is +12.1%, both real rather than knife-edge, and the titles already hedge as 'just past'. Albania withheld->depleted is the one that needed real scrutiny, being a NEW claim appearing: 6 detections on cropland against 17.4 expected by chance, P=0.0016, genuinely supported. It was withheld last week on 152 detections and qualifies this week on 246, which is methodology 1.2 behaving as intended, the claim arriving when the evidence does. Hectares verified live on the country pages: Algeria 347,232 ha, France 96,581, Tunisia 27,539.",
+  "held_on": [
+   "events: region(s) entered the qualifying set: ['Mozambique', 'Zambia']",
+   "events: region(s) LEFT the qualifying set: ['Croatia', 'Madagascar', 'Papua New Guinea']",
+   "Philippines: 'record' qualification False -> True",
+   "Tunisia: 'record' qualification False -> True",
+   "Albania: cropland reading withheld -> depleted",
+   "Finland: weekly rank 1 -> 7, crossing the 1st-place boundary",
+   "Lebanon: weekly rank 1 -> 12, crossing the 1st-place boundary",
+   "Madagascar: weekly rank 1 -> 2, crossing the 1st-place boundary",
+   "Philippines: weekly rank 2 -> 1, crossing the 1st-place boundary",
+   "Tunisia: weekly rank 3 -> 1, crossing the 1st-place boundary"
+  ],
+  "files_promoted": 100
  }
 ]
