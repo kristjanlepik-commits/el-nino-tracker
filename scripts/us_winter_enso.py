@@ -180,9 +180,15 @@ def main():
             "alone."),
         "california_is_not_significant": (
             "California is the most commonly asserted El Nino flood story and "
-            "it does not hold here: Spearman +0.180 at p = 0.12, 1.15x, 15th of "
-            "48 states. Oregon, Washington and Nevada are flat or slightly dry. "
-            "The signal is the Gulf and Southeast, not the West Coast."),
+            "this record does not establish it: Spearman +0.180 at p = 0.12, "
+            "1.15x, 15th of 48 states. Oregon, Washington and Nevada are flat "
+            "or slightly dry. NOTE THE WORDING. This is absent evidence of an "
+            "effect, NOT evidence of an absent effect: the point estimate is "
+            "positive and the sample is 76 winters. Quote the p and the rank "
+            "together; never compress it to 'no signal', which claims more "
+            "than the test supports and in the opposite direction. The "
+            "defensible sentence is that the ESTABLISHED signal is the Gulf "
+            "and Southeast, not that California has none."),
         "n_winters": len(years),
         "states": sorted(out, key=lambda r: -r["spearman"]),
         "regions_monthly": region_out,
