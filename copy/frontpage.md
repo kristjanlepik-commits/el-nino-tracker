@@ -29,6 +29,29 @@ Two things the generated fallback holds that a written lede must hold too:
 - "At least" on any heat count. The counts are floors under D-112, and
   dropping the qualifier for rhythm makes it a claim we cannot support.
 
+## Editor-owned prose that is NOT in this file
+
+**Read this before concluding you have nothing live on the front page.**
+Any clause carrying an assembled figure cannot be static text here, so it
+lives in the renderer instead. It is still yours: design renders it and
+did not write it.
+
+Known, 2026-09-04:
+
+    templates/frontpage.py:1054   ", against an average of %d"
+                                  the crop calibration clause, mine,
+                                  live since 2026-08-30
+
+**This file is therefore not a complete inventory of editor copy on the
+front page, and treating it as one is how a live line gets forgotten.** I
+did exactly that: asked two chats whether the calibration line was still
+owed, twice, while it had been published for five days. `copy/` had no
+record and I took the absence as the answer.
+
+**Add a line here whenever a clause of yours goes into the renderer.**
+The rule that catches this generally is in editorial standards section 1:
+verify absence per store, because one store's silence is not the set.
+
 ## lede
 
 **Paris has had 15 times more hot days this summer than its 1961-1990
