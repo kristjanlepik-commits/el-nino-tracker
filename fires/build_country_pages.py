@@ -403,6 +403,38 @@ def main() -> None:
             fh.write(render(piece))
         written += 1
     print(f"wrote {written} country page(s) to docs/fires/")
+
+    # A PAGE GIT DOES NOT KNOW ABOUT IS A PAGE THAT NEVER SHIPS.
+    #
+    # Kristjan found sri-lanka returning 404 on 2026-09-04. The page had
+    # been built and the index linked to it; it was untracked, so it was
+    # never deployed. This repo requires a pathspec on the commit, and
+    # `git commit docs/fires` commits TRACKED files under that path and
+    # silently skips NEW ones. Every newly qualifying country arrives as
+    # a brand new directory, so the page that most needs committing is
+    # exactly the one a pathspec commit omits.
+    #
+    # qa_check could not catch it either: its dead-link rule resolves
+    # hrefs against the local filesystem, where the file exists. The link
+    # is only dead once deployed, and nothing compares built to shipped.
+    #
+    # So this warns at the moment of creation, which is the only moment
+    # anyone is looking.
+    try:
+        import subprocess
+        untracked = subprocess.run(
+            ["git", "ls-files", "--others", "--exclude-standard",
+             "docs/fires/"], cwd=REPO, capture_output=True, text=True,
+            timeout=20).stdout.split()
+        if untracked:
+            print(f"  WARNING: {len(untracked)} page(s) under docs/fires/ "
+                  f"are UNTRACKED and will not deploy even though the "
+                  f"index links to them. `git add` them before "
+                  f"committing:", file=sys.stderr)
+            for u in sorted(untracked)[:12]:
+                print(f"    {u}", file=sys.stderr)
+    except Exception as exc:
+        print(f"  (untracked-page check skipped: {exc})", file=sys.stderr)
     # REFUSE RATHER THAN NO-OP, and refuse BEFORE stamping.
     #
     # QA's finding: this exited 0 whatever happened, so a build that
