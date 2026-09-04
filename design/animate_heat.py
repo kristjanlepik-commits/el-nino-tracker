@@ -76,6 +76,7 @@ def build(out_path="design/heat_overtaking.gif", fps=4):
     # frame count: 22 frames in, 8 in the file, and the timing is right.
     snap = sorted((ROOT / "snapshots").glob("*.json"))[-1]
     ser = json.loads(snap.read_text())["physical_state"]["heat_content_series"]
+    vintage = snap.stem          # the issue this data belongs to
 
     cur = dev(ser, 2026)
     peers = {1997: dev(ser, 1997), 2015: dev(ser, 2015), 2023: dev(ser, 2023)}
@@ -139,6 +140,23 @@ def build(out_path="design/heat_overtaking.gif", fps=4):
     ax.grid(axis="y", color=T.RULE, lw=.6, alpha=.6, zorder=0)
     ax.set_title("2026 passes 1997's peak three months earlier in its season",
                  fontsize=12.5, color=T.INK, loc="left", pad=12)
+    # THE VINTAGE, BECAUSE THIS ARTIFACT IS BUILT TO TRAVEL. A page carries
+    # a dateline around its numbers; a GIF on X carries nothing, and gets
+    # screenshotted and reposted for weeks.
+    #
+    # CPO's fourth instance today of a class none of our guards see: a
+    # number that is CORRECT, and correct about a different moment than the
+    # reader assumes. Every check we own compares a value to a source; none
+    # compares a value to the moment it is being used in. August already
+    # moved +3.20 to +3.21 on an ordinary CPC revision of a month that had
+    # just closed, so a reader recomputing from source will find a figure
+    # that disagrees and no way to tell that both are right.
+    #
+    # Reads the snapshot's own name rather than today's date: the stamp has
+    # to name the vintage of the DATA, not the day the file was rendered,
+    # or a re-render of old state silently relabels itself as current.
+    ax.text(13.4, -0.55, f"CPC ocean heat, {vintage} issue", fontsize=7.5,
+            color=T.INK_FAINT, ha="right", zorder=7)
     leg = ax.legend(loc="upper left", fontsize=8.5, frameon=False)
     for t in leg.get_texts():
         t.set_color(T.INK_SOFT)
