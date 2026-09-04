@@ -63,6 +63,21 @@ def main():
         for r in csv.DictReader(l for l in f if not l.startswith("#")):
             oni[int(r["year"])][r["season"].upper()] = float(r["oni"])
 
+    # Per-EVENT peaks, restricted to El Nino development years.
+    en_years = [y for y in range(1979, 2027)
+                if oni.get(y, {}).get("ASO", 0) >= 0.5]
+    peak_rank = []
+    for y in en_years:
+        vals = [east[(yy, m)] for (yy, m) in east
+                if yy == y or (yy == y + 1 and m <= 3)]
+        if vals:
+            peak_rank.append({"year": y, "peak_eastern": max(vals)})
+    cur = [east[(2026, m)] for m in range(1, 13) if (2026, m) in east]
+    if cur:
+        peak_rank.append({"year": 2026, "peak_eastern": max(cur),
+                          "note": "ASO 2026 not yet in the ONI record"})
+    peak_rank.sort(key=lambda r: -r["peak_eastern"])
+
     rows = []
     for y, label, kind in EVENTS:
         dev = [(k, v) for k, v in basin.items() if k[0] == y]
@@ -130,6 +145,29 @@ def main():
                         "0.65 on both. That is wider than the gap between 1997 "
                         "and third place, and it is the durable part of the "
                         "claim. The entering state is not."),
+        },
+        "event_peak_ranking": {
+            "basis": ("highest eastern-box month within each El Nino "
+                      "development year (ASO ONI >= 0.5), Jan of year through "
+                      "Mar of the next. EVENTS, not months: a top-months list "
+                      "puts 1997's own September and November in second and "
+                      "third, which is a different question and was misread as "
+                      "this one."),
+            "ranking": peak_rank,
+            "third_place_note": ("Third is 1982 at +2.07, not 2015. A reader "
+                                 "who checks will find 1982, and we taught "
+                                 "them to check."),
+        },
+        "series": {
+            "why_both_columns_are_here": (
+                "The fetcher's cache stores only the eastern box, so no other "
+                "desk could recompute the basin-wide numbers this file's "
+                "argument rests on. A column that kills a claim has to be one "
+                "another desk can check. Both are now emitted."),
+            "basin_wide_130E_80W": {f"{y}-{m:02d}": v
+                                     for (y, m), v in sorted(basin.items())},
+            "eastern_box_180W_100W": {f"{y}-{m:02d}": v
+                                      for (y, m), v in sorted(east.items())},
         },
         "events": rows,
         "current": {
