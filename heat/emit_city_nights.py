@@ -1503,6 +1503,17 @@ def main() -> int:
                 "wrong, which no check of whether the correlations were "
                 "computed correctly would catch. Same shape as the p90 "
                 "identity check in D-262.",
+            "how_this_was_nearly_wrong_SOURCE":
+                "NOT REPRODUCIBLE FROM ANY FILE, and labelled rather than "
+                "dropped. The source is ENSO tracker's message to heat of "
+                "2026-08-31, describing a first pass they caught and "
+                "corrected before sending. It was never committed, so it is "
+                "absent from the tree by construction: they later searched "
+                "for it at heat's prompting and found only correct uses of "
+                "abs(). The claim stands on their own account of their own "
+                "working, which is good evidence and is not a reproduction. "
+                "Do not cite it as a verified instance. The VERIFIED half is "
+                "the table above, reproduced by heat against both files.",
         },
     ]
 
