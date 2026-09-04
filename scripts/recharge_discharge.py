@@ -104,6 +104,33 @@ def main():
         "n_months": len(basin),
         "top_10_months": [{"month": f"{y}-{m:02d}", "value": v}
                           for (y, m), v in ranked],
+        "entering_state": {
+            "why_this_field_exists": (
+                "A desk read 2026's ENTERING value off the eastern box "
+                "(-0.03) and concluded this event had 'no head start'. On the "
+                "eastern box 2026 does group with 1997 and 2023, all negative. "
+                "On the RESERVOIR it does not: 2026 entered fullest of the "
+                "three. A head start is a claim about fuel, so it belongs to "
+                "the basin-wide column. Both are given here so the comparison "
+                "cannot be made on the wrong one again."),
+            "prior_december": [
+                {"event": lab, "basin_wide": basin[(y-1, 12)],
+                 "eastern_box": east[(y-1, 12)]}
+                for y, lab, _ in EVENTS if (y-1, 12) in basin
+            ],
+        },
+        "record_margin": {
+            "basin_wide": ("2026-08 at %.2f against the previous high of %.2f "
+                           "(1997-06), a margin of %.2f"
+                           % (basin[(2026,8)], 1.55, basin[(2026,8)] - 1.55)),
+            "eastern_box": ("2026-08 at %.2f against the previous high of %.2f "
+                            "(1997-10), a margin of %.2f"
+                            % (east[(2026,8)], 2.56, east[(2026,8)] - 2.56)),
+            "reading": ("The record holds on EITHER column, with a margin near "
+                        "0.65 on both. That is wider than the gap between 1997 "
+                        "and third place, and it is the durable part of the "
+                        "claim. The entering state is not."),
+        },
         "events": rows,
         "current": {
             "latest_month": f"{span[-1][0]}-{span[-1][1]:02d}",
