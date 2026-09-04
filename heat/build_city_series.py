@@ -912,6 +912,30 @@ def effective_cut(cut, start, months):
     end = season_end(months)
     if in_window(cut, start, end):
         return cut
+
+    # A SEASON THAT HAS FINISHED IS NOT A SEASON THAT HAS NOT BEGUN, and
+    # returning None for both is what this function did.
+    #
+    # It was written for the southern case, where on 29 August the window has
+    # not opened and there is genuinely nothing to count. The northern case
+    # arrives at the same branch from the opposite side: on 3 September the
+    # May-to-August window has CLOSED, the season is complete, and the data
+    # is all there. Treating that as "not begun" zeroed the current year and
+    # made the emitter fall back to the previous season.
+    #
+    # Measured on 2026-09-04, the day the northern seasons closed: Paris
+    # reported season 2025 with 15 hot days while 2026, the record summer,
+    # held 38 and vanished from the payload. Sixteen cities were already in
+    # that state and every other northern city would have entered it as its
+    # source caught up. The page would not have been visibly wrong: it would
+    # have said "2025" and shown 2025's number, correctly labelled, with the
+    # biggest summer in the record simply absent.
+    #
+    # For a WRAPPING season a cut outside the window really is between
+    # seasons, and None remains right: the emitter's fallback then reports
+    # the last complete season, which is what Salta wants in August.
+    if not wraps(months, start) and cut > end:
+        return end
     return None
 
 
@@ -1050,10 +1074,11 @@ def build(city, meta):
         # set, withdrawing three records that had not changed.
         #
         # When the cut falls inside the window, it is the common point and
-        # every year uses it. When it falls outside, the current season has
-        # not begun: historical seasons are then whole, and the current one
-        # has nothing to count, which _counts returns False for by way of
-        # season_started.
+        # every year uses it. When it falls PAST the window's end, the season
+        # is complete and effective_cut returns the season end, so every year
+        # including this one is counted whole and to the same point.
+        # Only when the window has not opened is there nothing to count,
+        # which _counts returns False for by way of season_started.
         if season_started:
             return in_window(k, win_start, eff)
         if y == CURRENT_YEAR:
