@@ -644,6 +644,51 @@ column.
     Found 2026-09-03 when CPO asked whether the alignment would be
     defended in public. The alignment survives that question. This did
     not, and it had been on a published chart since the chart existed.
+11. **Sorting these events by where they began does not survive a
+    one-month shift, so we do not do it.** Limitation 10 records that 2015
+    entered its development year already warm. The natural next move is to
+    rank all four events by their starting state, and that ranking is not
+    stable.
+
+    Tested on six bases, basin-wide heat content (130E-80W):
+
+        basis          1997    2015    2023    2026   2026 vs 2015
+        Dec before    +0.08   +0.50   +0.19   +0.26   lower
+        Jan of year   +0.54   +0.28   +0.40   +0.64   HIGHER
+        Feb of year   +0.84   +0.54   +0.54   +1.08   HIGHER
+        DJF           +0.49   +0.44   +0.38   +0.66   HIGHER
+        JFM           +0.82   +0.56   +0.67   +1.03   HIGHER
+        Mar of year   +1.09   +0.85   +1.07   +1.38   HIGHER
+
+    **2026 sits below 2015 on one basis of six.** On the eastern box
+    (180W-100W) it survives on two of six. In both cases the December
+    window is the single most favourable basis available and nothing
+    recommends it over the others.
+
+    **A second, independent failure sits underneath it: the column.** A
+    starting state read as "fuel" belongs to the basin-wide reservoir. Our
+    published headline uses the eastern box, which is the surface
+    signature, and on that column 2026 groups with 1997 and 2023 while on
+    the reservoir it enters fullest of the three. Either fault alone is
+    fatal.
+
+    **So no claim of the form "this event began with more or less than
+    that one" goes into anything reader-facing without the window test and
+    the column stated.** The test costs one loop.
+
+    What survives every framing we tried to break it with, and is
+    therefore the claim to make: **2026-08 is the highest subsurface
+    anomaly in the 1979-2026 record, clearing 1997's own peak by 0.64 on
+    the page's vintage.** Independent of column, window and analog set.
+    For scale, the gap from 1997 to third place (1982, +2.07) is 0.49.
+
+    Reproducible from `data/recharge_discharge.json`, which emits both
+    columns in full for exactly this reason.
+
+    Found 2026-09-04. CPO proposed a piece on the starting states; Science
+    found the column fault; the editor independently recovered the window
+    basis by testing and found the window fault. **The piece was stopped
+    before it was drafted, which is the cheapest place to stop one.**
 
 ## Snapshot and diff machinery
 
