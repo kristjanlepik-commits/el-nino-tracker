@@ -8,7 +8,7 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-09-03T10:46:56Z",
+ "fetched": "2026-09-04T07:45:02Z",
  "year": 2026,
  "effis_cycle": {
   "known": true,
@@ -24,8 +24,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 15141688,
+   "lag_days": 2,
+   "area_ha": 15211999,
    "avg_ha": 28165780.0,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -55,15 +55,15 @@
    "max_ha": 33648864,
    "multiple": 0.54,
    "vs_max": 0.45,
-   "fires": 45480
+   "fires": 45601
   },
   "ALB": {
    "name": "Albania",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 11585,
+   "lag_days": 2,
+   "area_ha": 11639,
    "avg_ha": 25109.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -98,15 +98,15 @@
    "max_ha": 127225,
    "multiple": 0.46,
    "vs_max": 0.09,
-   "fires": 47
+   "fires": 48
   },
   "ARG": {
    "name": "Argentina",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 696909,
+   "lag_days": 2,
+   "area_ha": 704130,
    "avg_ha": 2360252.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -136,15 +136,15 @@
    "max_ha": 5765170,
    "multiple": 0.3,
    "vs_max": 0.12,
-   "fires": 2171
+   "fires": 2192
   },
   "AUS": {
    "name": "Australia",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 13949613,
+   "lag_days": 2,
+   "area_ha": 13981428,
    "avg_ha": 17418230.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -174,14 +174,14 @@
    "max_ha": 26408014,
    "multiple": 0.8,
    "vs_max": 0.53,
-   "fires": 23010
+   "fires": 23041
   },
   "AUT": {
    "name": "Austria",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 444,
    "avg_ha": 293.0,
    "avg_basis": {
@@ -212,7 +212,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 3054,
    "avg_ha": 308.8,
    "avg_basis": {
@@ -251,7 +251,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 5157,
    "avg_ha": 11377.6,
    "avg_basis": {
@@ -295,7 +295,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 52105,
    "avg_ha": 31690.9,
    "avg_basis": {
@@ -338,8 +338,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 818009,
+   "lag_days": 2,
+   "area_ha": 836458,
    "avg_ha": 2944554.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -369,15 +369,15 @@
    "max_ha": 11620618,
    "multiple": 0.28,
    "vs_max": 0.07,
-   "fires": 2193
+   "fires": 2220
   },
   "BRA": {
    "name": "Brazil",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 4808243,
+   "lag_days": 2,
+   "area_ha": 4850006,
    "avg_ha": 12666888.3,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -407,15 +407,15 @@
    "max_ha": 21704080,
    "multiple": 0.38,
    "vs_max": 0.22,
-   "fires": 11584
+   "fires": 11656
   },
   "BWA": {
    "name": "Botswana",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 377633,
+   "lag_days": 2,
+   "area_ha": 378364,
    "avg_ha": 679557.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -445,15 +445,15 @@
    "max_ha": 2640430,
    "multiple": 0.56,
    "vs_max": 0.14,
-   "fires": 657
+   "fires": 660
   },
   "CAN": {
    "name": "Canada",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 2599190,
+   "lag_days": 2,
+   "area_ha": 2599169,
    "avg_ha": 3741955.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -490,7 +490,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 309022,
    "avg_ha": 347238.1,
    "avg_basis": {
@@ -528,8 +528,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 2291082,
+   "lag_days": 2,
+   "area_ha": 2291277,
    "avg_ha": 2120651.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -559,15 +559,15 @@
    "max_ha": 3331517,
    "multiple": 1.08,
    "vs_max": 0.69,
-   "fires": 7600
+   "fires": 7601
   },
   "COD": {
    "name": "Democratic Republic of the Congo",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 20786678,
+   "lag_days": 2,
+   "area_ha": 20844137,
    "avg_ha": 38764237.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -597,15 +597,15 @@
    "max_ha": 46330661,
    "multiple": 0.54,
    "vs_max": 0.45,
-   "fires": 61934
+   "fires": 62073
   },
   "COG": {
    "name": "Republic of the Congo",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 865108,
+   "lag_days": 2,
+   "area_ha": 865960,
    "avg_ha": 1473193.0,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -635,14 +635,14 @@
    "max_ha": 1870238,
    "multiple": 0.59,
    "vs_max": 0.46,
-   "fires": 3082
+   "fires": 3085
   },
   "COL": {
    "name": "Colombia",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 961329,
    "avg_ha": 1815058.8,
    "avg_basis": {
@@ -680,7 +680,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 222840,
    "avg_ha": 423691.2,
    "avg_basis": {
@@ -718,7 +718,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 326,
    "avg_ha": 2249.1,
    "avg_basis": {
@@ -762,7 +762,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 41,
    "avg_ha": 175.7,
    "avg_basis": {
@@ -795,7 +795,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 3049,
    "avg_ha": 1279.9,
    "avg_basis": {
@@ -832,7 +832,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 70,
    "avg_ha": 170.2,
    "avg_basis": {
@@ -865,7 +865,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 26900,
    "avg_ha": 52289.3,
    "avg_basis": {
@@ -903,7 +903,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 347232,
    "avg_ha": 62260.9,
    "avg_basis": {
@@ -944,8 +944,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 32610,
+   "lag_days": 2,
+   "area_ha": 32694,
    "avg_ha": 43605.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -982,8 +982,8 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 295720,
+   "lag_days": 2,
+   "area_ha": 295856,
    "avg_ha": 82714.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1019,14 +1019,14 @@
    "max_ha": 380877,
    "multiple": 3.58,
    "vs_max": 0.78,
-   "fires": 432
+   "fires": 434
   },
   "EST": {
    "name": "Estonia",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 299,
    "avg_ha": 69.8,
    "avg_basis": {
@@ -1058,7 +1058,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 66,
    "avg_ha": 440.8,
    "avg_basis": {
@@ -1091,8 +1091,8 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 96581,
+   "lag_days": 2,
+   "area_ha": 96595,
    "avg_ha": 13698.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1135,7 +1135,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 24775,
    "avg_ha": 11751.7,
    "avg_basis": {
@@ -1174,7 +1174,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 13574,
    "avg_ha": 27044.8,
    "avg_basis": {
@@ -1212,7 +1212,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 31990,
    "avg_ha": 47625.4,
    "avg_basis": {
@@ -1256,7 +1256,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 13349,
    "avg_ha": 12884.4,
    "avg_basis": {
@@ -1300,7 +1300,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 6490,
    "avg_ha": 12715.3,
    "avg_basis": {
@@ -1338,7 +1338,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 1579,
    "avg_ha": 710.7,
    "avg_basis": {
@@ -1381,8 +1381,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 2641403,
+   "lag_days": 2,
+   "area_ha": 2715265,
    "avg_ha": 1464717.8,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1410,17 +1410,17 @@
     }
    },
    "max_ha": 4388137,
-   "multiple": 1.8,
-   "vs_max": 0.6,
-   "fires": 11542
+   "multiple": 1.85,
+   "vs_max": 0.62,
+   "fires": 11759
   },
   "IND": {
    "name": "India",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 4035122,
+   "lag_days": 2,
+   "area_ha": 4035183,
    "avg_ha": 5379479.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1457,7 +1457,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 2953,
    "avg_ha": 4255.6,
    "avg_basis": {
@@ -1496,7 +1496,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 0,
    "avg_ha": 21.7,
    "avg_basis": {
@@ -1527,7 +1527,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 0,
    "avg_ha": 172.8,
    "avg_basis": {
@@ -1561,7 +1561,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 1005,
    "avg_ha": 2361.9,
    "avg_basis": {
@@ -1602,7 +1602,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 104134,
    "avg_ha": 51749.6,
    "avg_basis": {
@@ -1646,7 +1646,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 3103,
    "avg_ha": 7211.7,
    "avg_basis": {
@@ -1684,7 +1684,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 15150,
    "avg_ha": 10684.4,
    "avg_basis": {
@@ -1722,7 +1722,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 578281,
    "avg_ha": 1952845.6,
    "avg_basis": {
@@ -1760,7 +1760,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 1526316,
    "avg_ha": 2839375.7,
    "avg_basis": {
@@ -1798,7 +1798,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 2659,
    "avg_ha": 11387.7,
    "avg_basis": {
@@ -1836,8 +1836,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 2641321,
+   "lag_days": 2,
+   "area_ha": 2641537,
    "avg_ha": 3669054.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1867,14 +1867,14 @@
    "max_ha": 6600692,
    "multiple": 0.72,
    "vs_max": 0.4,
-   "fires": 6491
+   "fires": 6492
   },
   "LBN": {
    "name": "Lebanon",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 5734,
    "avg_ha": 805.2,
    "avg_basis": {
@@ -1911,7 +1911,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 0,
    "avg_ha": 801.1,
    "avg_basis": {
@@ -1948,8 +1948,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 14976,
+   "lag_days": 2,
+   "area_ha": 15181,
    "avg_ha": 31346.8,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1979,14 +1979,14 @@
    "max_ha": 74148,
    "multiple": 0.48,
    "vs_max": 0.2,
-   "fires": 83
+   "fires": 84
   },
   "LTU": {
    "name": "Lithuania",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 46,
    "avg_ha": 83.4,
    "avg_basis": {
@@ -2017,7 +2017,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 0,
    "avg_ha": null,
    "avg_basis": {
@@ -2038,7 +2038,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 318,
    "avg_ha": 178.9,
    "avg_basis": {
@@ -2080,7 +2080,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 5260,
    "avg_ha": 4953.8,
    "avg_basis": {
@@ -2121,8 +2121,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 1073430,
+   "lag_days": 2,
+   "area_ha": 1078747,
    "avg_ha": 1793137.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2152,15 +2152,15 @@
    "max_ha": 2504751,
    "multiple": 0.6,
    "vs_max": 0.43,
-   "fires": 4695
+   "fires": 4711
   },
   "MEX": {
    "name": "Mexico",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 1312962,
+   "lag_days": 2,
+   "area_ha": 1310683,
    "avg_ha": 4205037.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2190,14 +2190,14 @@
    "max_ha": 6047421,
    "multiple": 0.31,
    "vs_max": 0.22,
-   "fires": 4265
+   "fires": 4242
   },
   "MKD": {
    "name": "Macedonia",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 20228,
    "avg_ha": 15274.2,
    "avg_basis": {
@@ -2240,7 +2240,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 0,
    "avg_ha": 8.2,
    "avg_basis": {
@@ -2272,7 +2272,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 4325702,
    "avg_ha": 6471208.9,
    "avg_basis": {
@@ -2310,7 +2310,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 23675,
    "avg_ha": 15791.2,
    "avg_basis": {
@@ -2353,8 +2353,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 3890548,
+   "lag_days": 2,
+   "area_ha": 4002764,
    "avg_ha": 6419630.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2382,17 +2382,17 @@
     }
    },
    "max_ha": 9773596,
-   "multiple": 0.61,
-   "vs_max": 0.4,
-   "fires": 13846
+   "multiple": 0.62,
+   "vs_max": 0.41,
+   "fires": 14065
   },
   "MWI": {
    "name": "Malawi",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 107302,
+   "lag_days": 2,
+   "area_ha": 108260,
    "avg_ha": 283298.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2422,15 +2422,15 @@
    "max_ha": 447921,
    "multiple": 0.38,
    "vs_max": 0.24,
-   "fires": 535
+   "fires": 540
   },
   "MYS": {
    "name": "Malaysia",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 55320,
+   "lag_days": 2,
+   "area_ha": 55532,
    "avg_ha": 140520.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2458,7 +2458,7 @@
     }
    },
    "max_ha": 413468,
-   "multiple": 0.39,
+   "multiple": 0.4,
    "vs_max": 0.13,
    "fires": 203
   },
@@ -2467,8 +2467,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 439345,
+   "lag_days": 2,
+   "area_ha": 445904,
    "avg_ha": 714846.5,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2496,16 +2496,16 @@
     }
    },
    "max_ha": 2664505,
-   "multiple": 0.61,
-   "vs_max": 0.16,
-   "fires": 922
+   "multiple": 0.62,
+   "vs_max": 0.17,
+   "fires": 928
   },
   "NLD": {
    "name": "Netherlands",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 635,
    "avg_ha": 134.9,
    "avg_basis": {
@@ -2544,7 +2544,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 1589,
    "avg_ha": 1063.4,
    "avg_basis": {
@@ -2586,7 +2586,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 156215,
    "avg_ha": 575043.9,
    "avg_basis": {
@@ -2624,7 +2624,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 16351,
    "avg_ha": 26235.6,
    "avg_basis": {
@@ -2662,8 +2662,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 134408,
+   "lag_days": 2,
+   "area_ha": 135808,
    "avg_ha": 394372.2,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2693,15 +2693,15 @@
    "max_ha": 606433,
    "multiple": 0.34,
    "vs_max": 0.22,
-   "fires": 604
+   "fires": 609
   },
   "PHL": {
    "name": "Philippines",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 242126,
+   "lag_days": 2,
+   "area_ha": 242803,
    "avg_ha": 230966.0,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2730,16 +2730,16 @@
    },
    "max_ha": 462037,
    "multiple": 1.05,
-   "vs_max": 0.52,
-   "fires": 1561
+   "vs_max": 0.53,
+   "fires": 1563
   },
   "PNG": {
    "name": "Papua New Guinea",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 545986,
+   "lag_days": 2,
+   "area_ha": 547907,
    "avg_ha": 229993.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2767,16 +2767,16 @@
     }
    },
    "max_ha": 682270,
-   "multiple": 2.37,
+   "multiple": 2.38,
    "vs_max": 0.8,
-   "fires": 1809
+   "fires": 1811
   },
   "POL": {
    "name": "Poland",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 1458,
    "avg_ha": 583.9,
    "avg_basis": {
@@ -2812,8 +2812,8 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 65300,
+   "lag_days": 2,
+   "area_ha": 65354,
    "avg_ha": 70960.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2856,8 +2856,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 537238,
+   "lag_days": 2,
+   "area_ha": 541050,
    "avg_ha": 1714389.8,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2885,16 +2885,16 @@
     }
    },
    "max_ha": 3193337,
-   "multiple": 0.31,
+   "multiple": 0.32,
    "vs_max": 0.17,
-   "fires": 1726
+   "fires": 1733
   },
   "ROU": {
    "name": "Romania",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 19155,
    "avg_ha": 34937.8,
    "avg_basis": {
@@ -2933,8 +2933,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 7301991,
+   "lag_days": 2,
+   "area_ha": 7336852,
    "avg_ha": 12922099.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2964,14 +2964,14 @@
    "max_ha": 24083436,
    "multiple": 0.57,
    "vs_max": 0.3,
-   "fires": 11524
+   "fires": 11533
   },
   "SAU": {
    "name": "Saudi Arabia",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 0,
    "avg_ha": 6518.1,
    "avg_basis": {
@@ -3009,7 +3009,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 26535,
    "avg_ha": 7219.5,
    "avg_basis": {
@@ -3052,7 +3052,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 1112,
    "avg_ha": 146.5,
    "avg_basis": {
@@ -3082,7 +3082,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 354,
    "avg_ha": 318.6,
    "avg_basis": {
@@ -3126,7 +3126,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 185,
    "avg_ha": 2360.7,
    "avg_basis": {
@@ -3168,7 +3168,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 804,
    "avg_ha": 27425.9,
    "avg_basis": {
@@ -3206,7 +3206,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 2670586,
    "avg_ha": 2318283.7,
    "avg_basis": {
@@ -3244,7 +3244,7 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 23066,
    "avg_ha": 66472.3,
    "avg_basis": {
@@ -3282,7 +3282,7 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 27539,
    "avg_ha": 7490.8,
    "avg_basis": {
@@ -3323,8 +3323,8 @@
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 42354,
+   "lag_days": 2,
+   "area_ha": 43931,
    "avg_ha": 43275.3,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3358,17 +3358,17 @@
     }
    },
    "max_ha": 189888,
-   "multiple": 0.98,
-   "vs_max": 0.22,
-   "fires": 148
+   "multiple": 1.02,
+   "vs_max": 0.23,
+   "fires": 159
   },
   "TZA": {
    "name": "United Republic of Tanzania",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 2174652,
+   "lag_days": 2,
+   "area_ha": 2189653,
    "avg_ha": 5611712.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3398,15 +3398,15 @@
    "max_ha": 7876572,
    "multiple": 0.39,
    "vs_max": 0.28,
-   "fires": 7245
+   "fires": 7284
   },
   "UGA": {
    "name": "Uganda",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 597156,
+   "lag_days": 2,
+   "area_ha": 599401,
    "avg_ha": 1296822.5,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3436,15 +3436,15 @@
    "max_ha": 2186595,
    "multiple": 0.46,
    "vs_max": 0.27,
-   "fires": 2636
+   "fires": 2648
   },
   "UKR": {
    "name": "Ukraine",
    "source": "EFFIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 371855,
+   "lag_days": 2,
+   "area_ha": 375353,
    "avg_ha": 293797.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3464,16 +3464,16 @@
     }
    },
    "max_ha": 649367,
-   "multiple": 1.27,
-   "vs_max": 0.57,
-   "fires": 2278
+   "multiple": 1.28,
+   "vs_max": 0.58,
+   "fires": 2315
   },
   "URY": {
    "name": "Uruguay",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 10147,
    "avg_ha": 24825.4,
    "avg_basis": {
@@ -3511,8 +3511,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 3172718,
+   "lag_days": 2,
+   "area_ha": 3170888,
    "avg_ha": 4106972.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3542,15 +3542,15 @@
    "max_ha": 5282172,
    "multiple": 0.77,
    "vs_max": 0.6,
-   "fires": 6661
+   "fires": 6645
   },
   "VEN": {
    "name": "Venezuela",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 3031759,
+   "lag_days": 2,
+   "area_ha": 3032073,
    "avg_ha": 4036259.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3580,14 +3580,14 @@
    "max_ha": 7805325,
    "multiple": 0.75,
    "vs_max": 0.39,
-   "fires": 8002
+   "fires": 8003
   },
   "VNM": {
    "name": "Vietnam",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
+   "lag_days": 2,
    "area_ha": 289291,
    "avg_ha": 756328.0,
    "avg_basis": {
@@ -3625,8 +3625,8 @@
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 1227296,
+   "lag_days": 2,
+   "area_ha": 1231264,
    "avg_ha": 2060513.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3656,15 +3656,15 @@
    "max_ha": 2800878,
    "multiple": 0.6,
    "vs_max": 0.44,
-   "fires": 4863
+   "fires": 4881
   },
   "ZMB": {
    "name": "Zambia",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 7564495,
+   "lag_days": 2,
+   "area_ha": 7632581,
    "avg_ha": 13670617.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3692,17 +3692,17 @@
     }
    },
    "max_ha": 17238826,
-   "multiple": 0.55,
+   "multiple": 0.56,
    "vs_max": 0.44,
-   "fires": 23312
+   "fires": 23429
   },
   "ZWE": {
    "name": "Zimbabwe",
    "source": "GWIS",
    "week": 35,
    "as_of": "2026-09-02",
-   "lag_days": 1,
-   "area_ha": 499644,
+   "lag_days": 2,
+   "area_ha": 501354,
    "avg_ha": 900847.3,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3730,9 +3730,9 @@
     }
    },
    "max_ha": 1560877,
-   "multiple": 0.55,
+   "multiple": 0.56,
    "vs_max": 0.32,
-   "fires": 1768
+   "fires": 1772
   }
  }
 }
