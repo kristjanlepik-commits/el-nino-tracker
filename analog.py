@@ -173,8 +173,14 @@ def load_trajectories(live_oni_by_year: dict | None = None,
 # trajectory math above and below is methodology-owned.
 _CWWA_LABEL = {
     1997: "1997 develop year",
-    # The label limitation 10 quotes by name. Same distinction, same words.
-    2015: "2015 develop year (second-year continuation)",
+    # SHORT FORM ON THE WIND PANEL, extending science's own rule rather
+    # than copying their ONI wording across. They gave two forms because
+    # "began above threshold" is meaningful for ONI and meaningless for a
+    # heat-content anomaly, where it would import a claim that does not
+    # apply. This panel is cumulative westerly wind anomaly, where it is
+    # equally meaningless. They did not cover this chart; the reason they
+    # gave covers it.
+    2015: "2015 develop year (second year)",
     2023: "2023 develop year",
     2025: "2025 develop year (La Niña)",
 }

@@ -100,7 +100,9 @@ def build(out_path="design/heat_overtaking.gif", fps=4):
         ax.plot([i for i, _ in pts], [v for _, v in pts], style,
                 color=T.INK_SOFT if y == 1997 else T.INK_FAINT,
                 lw=1.5 if y == 1997 else 1.1, zorder=2,
-                label=f"{y}-{str(y + 1)[2:]}  peak {max(v for _, v in pts):+.2f}")
+                label=f"{y}-{str(y + 1)[2:]}"
+                      f"{' (second year)' if y == 2015 else ''}"
+                      f"  peak {max(v for _, v in pts):+.2f}")
     ax.plot([peak97_i], [peak97], "o", ms=6, color=T.INK_SOFT, zorder=3)
     ax.annotate(f"1997 peaks here, {MON[peak97_i]}", (peak97_i, peak97),
                 textcoords="offset points", xytext=(6, -14),

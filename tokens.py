@@ -212,7 +212,17 @@ TRACE_PEERS = {
     # vocabularies. Future renders only; frozen archives keep what they
     # shipped with (invariant 5).
     2015: {"color": INK_SOFT, "lw": 1.3, "dash": "solid",
-           "label": "2015-16 (super, second-year continuation, peak 2.8)"},
+           # SCIENCE'S WORDING, WITH "super" KEPT. Theirs was "2015-16
+    # (second-year event, began above threshold)". The distinction is
+    # theirs and better than mine: "began above threshold" is the fact,
+    # "continuation" was my paraphrase of it.
+    #
+    # But dropped "super" beside 1997-98 (super) and 2023-24 (recent
+    # super) reads as a category difference, and 2015-16 peaked at 2.6,
+    # the highest of the three. Being a second-year event and being a
+    # super event are both true and neither implies the other. Legend
+    # phrasing is design's, so this is my deviation to make and to own.
+    "label": "2015-16 (super, second-year event, began above threshold, peak 2.8)"},
     1997: {"color": INK_SOFT, "lw": 1.3, "dash": (0, (6, 3)),
            "label": "1997-98 (super, peak 2.4)"},
     2023: {"color": INK_FAINT, "lw": 1.2, "dash": (0, (2, 3)),
