@@ -71,6 +71,37 @@ REGIONS = {
                "why": ("Northern Amazon. Its dry season is Dec-Apr, "
                        "opposite the southern Amazon's, so a national "
                        "total averages the two into silence.")},
+
+    # ISLANDS ARE UNIONS OF PROVINCES, not GAUL1 units of their own, so
+    # `name1` may be a LIST. Sumatra is ten provinces and Kalimantan
+    # four; a reader in Kuala Lumpur or Singapore asks which island the
+    # smoke is from, and Indonesia's national total cannot answer.
+    #
+    # KALIMANTAN UTARA IS ABSENT FROM THIS VINTAGE. It was split out of
+    # Kalimantan Timur in 2012 and GAUL1 v05 predates the split, so the
+    # union is the island as it was drawn then. That is fine for a fire
+    # boundary, which follows the coast, and it must not be captioned
+    # with a five-province list.
+    "IDN-SUM": {"name": "Sumatra", "country": "Indonesia",
+                "asap0_id": None,
+                "name1": ["Nangroe Aceh Darussalam", "Sumatera Utara",
+                          "Sumatera Barat", "Riau", "Jambi", "Bengkulu",
+                          "Sumatera Selatan", "Lampung",
+                          "Bangka Belitung", "Kepulauan-riau"],
+                "known_km2": 482286,
+                "why": ("Peatland haze source for Malaysia and Singapore "
+                        "as well as Indonesia. The transboundary question "
+                        "is which island, and a national total cannot "
+                        "answer it.")},
+
+    "IDN-KAL": {"name": "Kalimantan", "country": "Indonesia",
+                "asap0_id": None,
+                "name1": ["Kalimantan Barat", "Kalimantan Tengah",
+                          "Kalimantan Selatan", "Kalimantan Timur"],
+                "known_km2": 544150,
+                "why": ("Indonesian Borneo. The other half of the haze "
+                        "question, and a different peat regime from "
+                        "Sumatra's.")},
 }
 
 
@@ -109,21 +140,31 @@ def extract(key):
     """Pull one region's full-resolution rings out of GAUL1 and check it."""
     spec = REGIONS[key]
     bs, z, rows, idx = _shapefile()
-    hits = [i for i, r in enumerate(rows)
-            if str(r.get("name1", "")).strip() == spec["name1"]
-            and str(r.get("asap0_id", "")).strip() == str(spec["asap0_id"])]
-    if len(hits) != 1:
-        raise SystemExit(
-            f"{key}: expected exactly one GAUL1 record for "
-            f"{spec['name1']} in asap0_id {spec['asap0_id']}, got "
-            f"{len(hits)}. Refusing to guess which.")
-    i = hits[0]
-    off, ln = idx[i]
+    wanted = (spec["name1"] if isinstance(spec["name1"], list)
+              else [spec["name1"]])
     blob = z.open("gaul1_asap.shp").read()
-    rings = bs._rings(blob[off * 2 + 8: off * 2 + 8 + ln * 2])
+    rings, found = [], []
+    for want in wanted:
+        hits = [i for i, r in enumerate(rows)
+                if str(r.get("name1", "")).strip() == want
+                and (spec["asap0_id"] is None
+                     or str(r.get("asap0_id", "")).strip()
+                     == str(spec["asap0_id"]))]
+        # EVERY named unit must match EXACTLY once. A province that
+        # silently fails to join makes an island smaller without making
+        # anything fail, which is the shape crops lost ten countries to.
+        if len(hits) != 1:
+            raise SystemExit(
+                f"{key}: expected exactly one GAUL1 record named "
+                f"{want!r}, got {len(hits)}. Refusing to guess.")
+        i = hits[0]
+        off, ln = idx[i]
+        rings.extend(bs._rings(blob[off * 2 + 8: off * 2 + 8 + ln * 2]))
+        found.append(i)
+    i = found[0]
 
     area = ring_area_km2(rings)
-    dbf_km2 = float(rows[i]["km2_tot"])
+    dbf_km2 = sum(float(rows[j]["km2_tot"]) for j in found)
     # A polygon that is not the right SIZE is not the right region, and
     # this is the only automatic check available: the alternative is
     # trusting a name join, which is what it is meant to catch.
@@ -140,7 +181,10 @@ def extract(key):
         "name": spec["name"],
         "country": spec["country"],
         "asap0_id": spec["asap0_id"],
-        "asap1_id": int(str(rows[i]["asap1_id"]).strip()),
+        "asap1_id": ([int(str(rows[j]["asap1_id"]).strip())
+                      for j in found] if len(found) > 1
+                     else int(str(rows[i]["asap1_id"]).strip())),
+        "units": wanted,
         "why_tracked": spec["why"],
         "source": ("ASAP GAUL1 reference shapefile v05, full resolution, "
                    "read from crops/.cache/asap_reference/. Same units "
