@@ -1,0 +1,140 @@
+{
+ "generated": "2026-09-04",
+ "source": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/ocean/index/heat_content_index.txt",
+ "column_used": "130E-80W, basin-wide. NOT the 180W-100W eastern box our headline uses: that column rises during an event and would show a reservoir filling while it empties.",
+ "mechanism_is_cited_not_established": "The recharge oscillator (Jin 1997) is textbook. This file shows the STATE of the reservoir and when it turns over. It does not establish the mechanism and must not be cited as doing so.",
+ "record_span": "1979-2026",
+ "n_months": 572,
+ "top_10_months": [
+  {
+   "month": "2026-08",
+   "value": 2.19
+  },
+  {
+   "month": "2026-07",
+   "value": 2.03
+  },
+  {
+   "month": "2026-04",
+   "value": 1.85
+  },
+  {
+   "month": "2026-06",
+   "value": 1.79
+  },
+  {
+   "month": "2026-05",
+   "value": 1.67
+  },
+  {
+   "month": "1997-06",
+   "value": 1.55
+  },
+  {
+   "month": "1997-04",
+   "value": 1.49
+  },
+  {
+   "month": "1997-05",
+   "value": 1.38
+  },
+  {
+   "month": "2026-03",
+   "value": 1.38
+  },
+  {
+   "month": "1997-10",
+   "value": 1.35
+  }
+ ],
+ "events": [
+  {
+   "event": "1982-83",
+   "kind": "super",
+   "ohc_peak": 1.33,
+   "ohc_peak_month": "1982-10",
+   "oni_peak": 2.14,
+   "oni_peak_season": "DJF",
+   "trough": -1.63,
+   "trough_month": "1983-10",
+   "discharge": -2.96,
+   "months_peak_to_trough": 12
+  },
+  {
+   "event": "1997-98",
+   "kind": "super",
+   "ohc_peak": 1.55,
+   "ohc_peak_month": "1997-06",
+   "oni_peak": 2.37,
+   "oni_peak_season": "NDJ",
+   "trough": -1.74,
+   "trough_month": "1998-07",
+   "discharge": -3.29,
+   "months_peak_to_trough": 13
+  },
+  {
+   "event": "2009-10",
+   "kind": "moderate",
+   "ohc_peak": 1.01,
+   "ohc_peak_month": "2009-06",
+   "oni_peak": 1.5,
+   "oni_peak_season": "NDJ",
+   "trough": -0.92,
+   "trough_month": "2010-09",
+   "discharge": -1.93,
+   "months_peak_to_trough": 15
+  },
+  {
+   "event": "2014-15",
+   "kind": "weak",
+   "ohc_peak": 1.0,
+   "ohc_peak_month": "2014-04",
+   "oni_peak": 2.59,
+   "oni_peak_season": "NDJ",
+   "trough": 0.05,
+   "trough_month": "2014-07",
+   "discharge": -0.95,
+   "months_peak_to_trough": 3
+  },
+  {
+   "event": "2015-16",
+   "kind": "super",
+   "ohc_peak": 1.05,
+   "ohc_peak_month": "2015-04",
+   "oni_peak": 2.59,
+   "oni_peak_season": "NDJ",
+   "trough": -1.03,
+   "trough_month": "2016-05",
+   "discharge": -2.08,
+   "months_peak_to_trough": 13
+  },
+  {
+   "event": "2023-24",
+   "kind": "strong",
+   "ohc_peak": 1.3,
+   "ohc_peak_month": "2023-06",
+   "oni_peak": 1.99,
+   "oni_peak_season": "NDJ",
+   "trough": -0.51,
+   "trough_month": "2024-12",
+   "discharge": -1.81,
+   "months_peak_to_trough": 18
+  },
+  {
+   "event": "2026-27",
+   "kind": "current",
+   "ohc_peak": 2.19,
+   "ohc_peak_month": "2026-08",
+   "oni_peak": 1.39,
+   "oni_peak_season": "MJJ",
+   "discharge": null,
+   "note": "has not turned over yet"
+  }
+ ],
+ "current": {
+  "latest_month": "2026-08",
+  "basin_wide": 2.19,
+  "eastern_box": 3.21,
+  "still_rising": true
+ }
+}
