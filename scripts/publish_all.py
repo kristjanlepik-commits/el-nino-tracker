@@ -122,6 +122,35 @@ STEPS = [
     ("sitemap", [PY, "scripts/build_sitemap.py"]),
 ]
 
+# Which channel a STEPS entry belongs to, for per-channel isolation on
+# failure (2026-09-05). "shell" and "sitemap" are not real channels;
+# sitemap's own targets already sit in SHELL_TARGETS, so grouping it
+# under "shell" here needs no separate path-prefix entry below.
+CHANNEL_OF_STEP = {
+    "shell": "shell",
+    "fires index": "fires",
+    "fires country pages": "fires",
+    "crops index": "crops",
+    "crops country pages": "crops",
+    "heat channel": "heat",
+    "heat city pages": "heat",
+    "notes": "notes",
+    "sitemap": "shell",
+}
+
+# Path prefixes owned by each channel, for restoring only a failed
+# channel's own pages rather than the whole tree. Deliberately narrower
+# than "every path a channel might touch": if a channel starts writing
+# somewhere new, the right fix is adding it here, the same discipline
+# snapshot_targets() already needs for the same reason (fires and crops
+# country pages were once missing from restore entirely, D-028).
+CHANNEL_PATH_PREFIXES = {
+    "fires": "docs/fires/",
+    "crops": "docs/crops/",
+    "heat": "docs/heat/",
+    "notes": "docs/notes/",
+}
+
 # The ENSO shell. Invariant 1 in CLAUDE.md: the weekly brief always
 # ships. D-028 makes that explicit here: a channel failure must never
 # take these pages down with it. The weekly brief is the credential
@@ -836,23 +865,51 @@ def main() -> None:
             for line in (gate.stdout + gate.stderr).strip().splitlines():
                 print(f"    {line.strip()}")
 
+    # 2026-09-05: heat's "heat city pages" step crashed on a copy guard
+    # (a superlative with no date on it), and D-028 as originally written
+    # rolled back and aborted EVERY channel for it, including fires,
+    # whose own data that morning was fine. Kristjan's read, matching
+    # D-264's for the fires payload gate: a crash in one channel must not
+    # be able to hold every other channel hostage. So the isolation
+    # invariant 1 already gave the shell now extends to every channel:
+    # a failing channel rolls back ONLY ITSELF and the run continues:
+    SKIP_CHANNELS: set[str] = set()
     for name, cmd in steps:
+        channel = CHANNEL_OF_STEP.get(name, name)
+        if channel in SKIP_CHANNELS:
+            print(f"  skipped {name} (its channel already failed this run)")
+            continue
         # fires/*.py import tokens and run_brief from the repo root.
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True,
                            env={**__import__("os").environ,
                                 "PYTHONPATH": str(ROOT)})
         if r.returncode != 0:
-            # D-028. A failing CHANNEL rolls back every channel, never
-            # the ENSO shell: invariant 1 says the weekly brief always
-            # ships, and a channel three weeks old must not be able to
-            # block the credential. A failing shell rolls back
-            # everything, because a broken shell is not shippable.
-            restore(saved, keep_shell=(name != "shell"))
-            kept = "" if name == "shell" else \
-                " The ENSO shell is kept and still publishes (invariant 1)."
-            print(f"FAILED during {name}. Channels rolled back.{kept}\n"
+            if name == "shell":
+                # The one exception, unchanged from D-028: a broken shell
+                # is not shippable, so it still rolls back everything and
+                # aborts. Invariant 1 protects the credential FROM other
+                # channels; it cannot also mean the credential itself may
+                # ship broken.
+                restore(saved, keep_shell=False)
+                print(f"FAILED during {name}. Channels rolled back.\n"
+                      f"{r.stdout}\n{r.stderr}".strip())
+                raise SystemExit(1)
+            # Roll back only THIS channel's own paths, to whatever they
+            # held before this run, not the whole tree: every other
+            # channel's freshly built pages (already run) or about-to-be
+            # built pages (not yet reached) are untouched. Restoring the
+            # channel's full path set rather than only the failed step's
+            # output keeps a multi-step channel internally consistent:
+            # heat's index and its city pages are either both this run's
+            # or both the prior publish's, never a mix.
+            prefix = CHANNEL_PATH_PREFIXES.get(channel)
+            if prefix:
+                restore({k: v for k, v in saved.items() if k.startswith(prefix)})
+            SKIP_CHANNELS.add(channel)
+            print(f"FAILED during {name}. Only {channel} rolled back; "
+                  f"every other channel still publishes.\n"
                   f"{r.stdout}\n{r.stderr}".strip())
-            raise SystemExit(1)
+            continue
         print(f"  ran {name}")
 
     problems = verify(data_before)
