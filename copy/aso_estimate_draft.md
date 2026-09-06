@@ -1,26 +1,3 @@
-<!--
-  EDITOR'S DRAFT. The first forward estimate this project would author
-  rather than cite. NOT for publish: the posture call is Kristjan's and
-  is open (asked 2026-09-06, not yet answered). Silence is not assent.
-
-  Science's brief is verified against the repo, not taken from the
-  message: JJA 2026 +1.80 top of 76 (`data/oni_full_history.csv` at
-  `ec2c8384`), ASO record 1997 +2.04 and 2015 +2.02 across 76 seasons,
-  1987 peaking ASO +1.49 and falling to NDJ +1.00, CPC's ASO table from
-  `snapshots/2026-09-01.json`.
-
-  GENRE IS CARRIED TWICE (D-191). "We expect" is the first two words of
-  the body and survives the text being extracted. Design's dateline sits
-  in the figure position and survives the layout being seen but not read.
-  Neither covers the other's case. Do not drop either for rhythm.
-
-  THE MUST-NOT-SAY LIST, Science's, with mine at the top:
-    not more reliable than the agencies whose data it rests on
-    not a forecast of the peak
-    not settled by the winds
-    no impact claim attached to an index value
--->
-
 ## headline
 
 We expect a season warmer than any El Niño on record
