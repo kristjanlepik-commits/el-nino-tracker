@@ -65,7 +65,13 @@ def _retrieve_seas5(years: list[str], month: str, leads: list[str], path: str) -
     _cds_client().retrieve(
         DATASET,
         {
-            "format": "netcdf",
+            # data_format, not format. CDS deprecated the latter and now
+            # warns that it "is no longer part of the system testing,
+            # therefore it is not guaranteed to work". Both ERA5 fetchers
+            # were migrated; this one was missed. Verified 2026-09-06 by
+            # retrieving the August run with the new key: 51 members, 6
+            # lead months, identical shape.
+            "data_format": "netcdf",
             "originating_centre": ORIGIN,
             "system": SYSTEM,
             "variable": "sea_surface_temperature",
@@ -131,15 +137,29 @@ def _calendar_for_lead(run_year: int, run_month: int, lead: int) -> str:
 def _latest_run(now_year: int, now_month: int) -> tuple[int, int, str]:
     """Try the current calendar month first; fall back one month on failure."""
     tmp = tempfile.NamedTemporaryFile(suffix=".nc", delete=False).name
+    reasons = []
     for offset in (0, -1):
         abs_m = now_year * 12 + (now_month - 1) + offset
         y, m = abs_m // 12, (abs_m % 12) + 1
         try:
             _retrieve_seas5([str(y)], f"{m:02d}", LEADS, tmp)
+            if offset != 0:
+                # Falling back a month is normal early in the month, before
+                # ECMWF's run reaches CDS. It is NOT normal in the second
+                # half. Say so where a reader of the logs can see it: the
+                # bare `continue` this replaces meant a brief could carry a
+                # month-old forecast with nothing recording that it had,
+                # or why. A CDS auth failure and an unpublished run looked
+                # identical from the outside.
+                print(f"  [seas5] {now_year}-{now_month:02d} run unavailable, "
+                      f"using {y}-{m:02d}. Reason: {reasons[-1][:200]}")
             return y, m, tmp
-        except Exception:
+        except Exception as exc:
+            reasons.append(f"{type(exc).__name__}: {exc}")
             continue
-    raise RuntimeError("could not retrieve SEAS5 forecast for current or previous month")
+    raise RuntimeError(
+        "could not retrieve SEAS5 forecast for current or previous month; "
+        + " | ".join(reasons))
 
 
 def fetch() -> FetchResult:
