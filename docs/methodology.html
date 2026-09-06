@@ -934,6 +934,41 @@ found the column fault; the editor independently recovered the window
 basis by testing and found the window fault. <strong>The piece was stopped
 before it was drafted, which is the cheapest place to stop one.</strong></p>
 </li>
+<li>
+<p><strong>An analog average is only usable if the analogs are exchangeable in
+    the variable that drives the answer, and ours were not.</strong> Recorded
+    because it produced materially wrong probabilities that reached
+    Kristjan before being caught, and he caught them by intuition rather
+    than by any check of ours.</p>
+<p>We estimated the peak as ASO plus the ASO-to-peak gain, taking the
+gain as the mean over past El Nino events (+0.41, sd 0.14, n=4
+strong). That put our peak at +3.12 and gave P(peak &gt; 4.0) of about 1
+percent against the models' 14 to 43 percent. <strong>The disagreement was
+ours, not theirs.</strong></p>
+<p><strong>The gain is not a constant. It scales with the subsurface heat
+available to drive it:</strong></p>
+<pre><code>gain = 0.263 * OHC_at_ASO + 0.277     r = +0.47, n = 12
+</code></pre>
+<p>The same relationship holds, more strongly, for the JJA-to-ASO step
+(r = +0.59, p = 0.045). <strong>2026's heat content at +2.19 is roughly
+double any analog's</strong>, and the model predicts a gain of +0.85 where we
+had used +0.47. Corrected, the peak distribution moves to about +3.55
+and sits between CPC's anchor and the model consensus at every
+threshold instead of below both.</p>
+<p><strong>The failure was not the arithmetic. We had already established that
+2026 holds the highest subsurface heat in the 47-year record, in this
+same document, and then averaged over events with half of it.</strong> The
+data was in hand and the conditioning was not done.</p>
+<p><strong>Two limits on the correction, which must travel with it.</strong> The
+relationship is r = +0.47 at p = 0.125, suggestive and not
+significant. And 2026's OHC sits a full unit beyond the fitted range,
+so applying it is extrapolation of exactly the kind limitation 11
+warns against. The gain could be +0.85 or it could saturate.</p>
+<p><strong>The general rule: before averaging over analogs, ask which variable
+orders the outcome and whether the analogs span the current value of
+it.</strong> If they do not, the average is an extrapolation wearing a base
+rate's clothes.</p>
+</li>
 </ol>
 <h2>Snapshot and diff machinery</h2>
 <p>Each issue freezes the input state to a JSON snapshot. The next issue
