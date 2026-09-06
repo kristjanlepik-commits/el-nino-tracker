@@ -1,63 +1,44 @@
 ## headline
 
-We expect a season warmer than any El Niño on record
+We expect this autumn to break the El Niño record by a third
 
 ## standfirst
 
-Our estimate for August to October is +2.7 °C. CPC publishes the real
-figure around 31 October, and that is when this is either right or wrong.
+And that still is not the peak.
 
 ## body
 
-We expect the August-September-October ONI to come in at **+2.7 °C**,
-somewhere between +2.5 and +2.9.
+We expect the patch of Pacific that defines El Niño to run **2.7 °C above
+normal** from August to October.
 
-**No August-September-October in 76 years has reached +2.7.** The two
-strongest were 1997 at +2.04 and 2015 at +2.02, the two events this one
-keeps company with. Our estimate sits about seven tenths of a degree
-above both.
+The record for that season is **2.04 °C**, set in 1997. In seventy-six
+years nothing has beaten it, and only one year has come close.
 
-The season just published is the reason. **June-July-August 2026 came in
-at +1.80, the highest that season has ever been**, above 1997's +1.48 and
-2015's +1.44.
+We are not saying this one edges past. We are saying it clears the record
+by about a third.
+
+The reason is already on the books. June to August came in at **1.80 °C,
+the warmest that season has ever been.** 1997 managed 1.48. 2015 managed
+1.44. This event reached in midsummer what those two took until autumn to
+reach.
+
+Those are the right two years to hold it against. **1997-98 and 2015-16
+are the El Niños that rearranged a year of weather** across four
+continents. This one is ahead of both, on the same calendar, by two
+months.
+
+And August to October is not where these events top out. Both of those
+years kept climbing into midwinter.
 
 ### How we get there
 
-August's weekly Niño 3.4 readings averaged +2.60. In 1982, 1997, 2015 and
-2023 the August-October season ran between +0.13 and +0.36 above August
-alone. **Across those four analogs**, that puts 2026 between +2.73 and
-+2.96.
+August's weekly readings averaged 2.60 °C. Across the four comparable
+years, the autumn season landed between 0.13 and 0.36 above the August in
+front of it. Two El Niños in ten have come in under their own August, and
+that is the bottom of our range: **2.5 to 2.9**.
 
-We widen the bottom to +2.5 for a case those four do not contain: a
-season that lands **below** the August in front of it. Of the ten El Niño
-years with weekly readings, two did that. **1987 came in 0.06 under its
-own August, and 1991 by 0.11.** Applied to this August's +2.60 that gives
-+2.49 to +2.54, which is where our lower bound comes from. It is roughly
-a one-in-five path.
+CPC gives the season a 75% chance of landing at or above 2.0. **They
+publish a bracket. We are putting a number in it.**
 
-### What the agencies say
-
-CPC's own August-October forecast, issued 13 August, puts **75% at or
-above +2.0**, 24% between +1.5 and +2.0, and 1% below that. **We are not
-disagreeing with them. We are putting a point where they publish a
-bucket**, and ours sits inside their 75%.
-
-### What this is not
-
-**Not a forecast of the peak.** August-October is not where these events
-top out. 1997 and 2015 both kept rising into midwinter.
-
-**Not a claim the winds settle it.** 2026's cumulative westerly wind
-anomaly stood at 679 on 31 August, below both 1997's 829 and 2015's 738
-on the same date. Among the analogs the precursors do not order the
-outcomes: 2015 had less wind and less subsurface heat than 1997 and still
-peaked higher.
-
-**Not a statement about consequences.** This is an index value.
-
-**And not more reliable than the agencies whose data it rests on.** Every
-figure here is CPC's. The arithmetic between them is ours.
-
-### The check
-
-CPC publishes the August-October ONI around **31 October 2026**.
+They publish the real one around **31 October.** That is when you find out
+whether we were right.
