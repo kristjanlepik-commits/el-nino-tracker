@@ -51,12 +51,12 @@ August's weekly Niño 3.4 readings averaged +2.60. In 1982, 1997, 2015 and
 alone. **Across those four analogs**, that puts 2026 between +2.73 and
 +2.96.
 
-We widen the bottom to +2.5 for a case those four do not contain. Of the
-twenty El Niño events in the record, two peaked at August-October or
-earlier, and in that branch the season is the top rather than a waypoint.
-**1987 did exactly that**: it peaked at +1.49 in August-October and was
-back to +1.00 by midwinter. That is roughly a one-in-ten path, and the
-lower bound is there to carry it.
+We widen the bottom to +2.5 for a case those four do not contain: a
+season that lands **below** the August in front of it. Of the ten El Niño
+years with weekly readings, two did that. **1987 came in 0.06 under its
+own August, and 1991 by 0.11.** Applied to this August's +2.60 that gives
++2.49 to +2.54, which is where our lower bound comes from. It is roughly
+a one-in-five path.
 
 ### What the agencies say
 
