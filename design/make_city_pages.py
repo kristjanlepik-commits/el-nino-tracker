@@ -702,7 +702,61 @@ SUPERLATIVES = ("more than in any summer", "hottest this station has recorded",
 QUALIFIERS = ("by this date", "to the same date", "by this point")
 
 
-def check_superlatives_dated(name, page_html):
+def check_superlatives_dated(name, page_html, v):
+    """A superlative carries the qualifier that is TRUE of how it was counted.
+
+    THIS GUARD WAS CORRECT CODE ENFORCING A PREMISE THAT EXPIRED. Its own
+    comment said "every figure on these pages is counted to one date, so
+    any superlative about the record must say so or it reads as a season
+    total". That held when it was written and stopped holding on
+    2026-09-04, when heat fixed finished seasons to count over their whole
+    window rather than to a cut. It then crashed the build on nine cities
+    with seventeen more arriving as each source refreshed past 31 August,
+    every one of them a rank-1 city and so every one carrying a
+    superlative.
+
+    Two guards had come to pull against each other: this one demanded a
+    to-date qualifier, and the counting_basis work forbids claiming a
+    truncation that did not run. Bordeaux is the case: season complete,
+    123 days of May to August counted in full, 46 hot days against a
+    previous best of 23 shared by 2022 and 2025, rank 1 of 77 with an
+    empty tied_with. "The most hot days Bordeaux has recorded, in its 2026
+    summer" is true, and "by this date" would have made it false.
+
+    SO IT READS THE FIELD RATHER THAN ASSUMING, which is heat's fix and
+    their reasoning is the part worth keeping: a fourth accepted string
+    would break again at the next hemisphere or cadence change, and
+    cut_clips_the_window is precisely the question this guard's premise
+    was asking. The payload already answers it so the page never has to
+    guess.
+
+    ABSENT IS A REFUSAL, not a fallback to the old behaviour. A guard that
+    quietly reverts to an expired premise when a field goes missing is
+    worse than one that crashes, because the premise is the thing that
+    went wrong.
+    """
+    cb = (v or {}).get("counting_basis") or {}
+    clips = cb.get("cut_clips_the_window")
+    if clips is None:
+        raise SystemExit(
+            f"{name}: counting_basis.cut_clips_the_window is missing, so "
+            f"there is no way to know which qualifier a superlative on this "
+            f"page needs. It is on heat's TOP_LEVEL_CONTRACT.")
+    if clips:
+        allowed, why = QUALIFIERS, (
+            "Every figure here is counted to one day, so this reads as a "
+            "season total")
+    else:
+        slab = (v.get("season_label")
+                or (v.get("days") or {}).get("season_label") or "")
+        # DERIVED FROM THE PAYLOAD, not a typed list, for the same reason
+        # the branch exists at all.
+        allowed = tuple(q for q in (f"{slab} summer", "complete") if q.strip())
+        why = ("This season is complete and every year is counted over its "
+               "whole %s window, so the superlative needs the season named "
+               "rather than a date it was never cut to" % (
+                   cb.get("window_label") or "seasonal"))
+
     t = text_of(page_html)
     for m in re.finditer("|".join(map(re.escape, SUPERLATIVES)), t):
         # A WINDOW, not a sentence. Splitting on full stops walked back
@@ -710,11 +764,25 @@ def check_superlatives_dated(name, page_html):
         # characters of nav before reaching the phrase. The qualifier sits
         # within a clause of the superlative or it is not attached to it.
         frag = t[max(0, m.start() - 90):m.end() + 90]
-        if not any(q in frag for q in QUALIFIERS):
+        # AND THE FALSE ONE IS ITSELF A FAILURE, not merely unhelpful.
+        # Checking only that the right qualifier is PRESENT leaves
+        # "the most on record in its 2026 summer, by this date" passing:
+        # correct qualifier, false truncation beside it. That is the
+        # defect counting_basis exists to prevent, so on a season that
+        # was never cut, a to-date phrase near a superlative fails.
+        if not clips:
+            wrong = [q for q in QUALIFIERS if q in frag]
+            if wrong:
+                raise SystemExit(
+                    f"{name}: a superlative qualified {wrong[0]!r} on a season "
+                    f"that was never cut to a date. Every year is counted over "
+                    f"its whole {cb.get('window_label') or 'seasonal'} window:\n"
+                    f"    ...{t[max(0, m.start() - 60):m.end() + 60]}...")
+        if not any(q in frag for q in allowed):
             raise SystemExit(
-                f"{name}: a superlative with no date on it. Every figure here "
-                f"is counted to one day, so this reads as a season total:\n"
-                f"    ...{t[max(0, m.start() - 60):m.end() + 60]}...")
+                f"{name}: a superlative with no qualifier on it. {why}:\n"
+                f"    ...{t[max(0, m.start() - 60):m.end() + 60]}...\n"
+                f"    accepted here: {', '.join(map(repr, allowed))}")
 
 
 def check_no_baseline_comparison(name, day_html):
@@ -1096,7 +1164,14 @@ for name, v in sorted(C.items()):
     _BD = "" if done else " by this date"    # trailing period qualifier
     _TS = "" if done else ", to the same date"
 
-    rank_txt = (("the most on record" + _BD) if dr["value"] == 1
+    # DROPPING THE QUALIFIER IS NOT THE SAME AS MAKING IT TRUE. When I
+    # first branched this, _BD went empty on a complete season and left a
+    # bare "the most on record", which is a superlative with nothing
+    # saying what it is the most of. For a finished season the true
+    # qualifier is the season itself.
+    rank_txt = (("the most on record"
+                 + (f" in its {slab} summer" if done else _BD))
+                if dr["value"] == 1
                 else f'{ordn(dr["value"])} of {dr["of_years"]}')
     # NO RANK CAPTION. Editor's rule and it needed no judgement from me: a
     # caption never restates the number, the title or the source stamp,
@@ -1193,9 +1268,23 @@ for name, v in sorted(C.items()):
     # THE PEAK CARRIES ITS OWN RANK. Seven cities have peak == record, so
     # the sentence branches rather than being templated.
     if prank == 1 and dr["value"] == 1:
-        peak_cap = (f"The hottest day of {name}'s year, to the same date. "
-                    f"<strong>{cur_year} is the hottest on this record too, by this "
-                    f"date</strong>, at "
+        # THE ONE OF THESE FOUR I MISSED LAST WEEK. The other three peak
+        # captions took _TS and _BD then; this one spells "to the same
+        # date" as its own sentence and "by this date" across a line
+        # break, so neither pattern matched it and I did not check by
+        # rendering a complete-season city. It went on asserting a
+        # truncation that did not run, on exactly the pages the
+        # counting_basis work was meant to fix, until heat's crash report
+        # sent me back here.
+        #
+        # Names the season rather than dropping the qualifier entirely:
+        # a superlative on a finished season still needs to say WHICH
+        # season, and "in its 2026 summer" is the true form of what "by
+        # this date" was doing.
+        peak_cap = ((f"The hottest day of {name}'s {slab} summer. " if done
+                     else f"The hottest day of {name}'s year, to the same date. ")
+                    + f"<strong>{cur_year} is the hottest on this record too"
+                    f"{_BD}</strong>, at "
                     f"{peak}&nbsp;&deg;C. Both the count and the peak are records "
                     f"here, which is not true everywhere: a count and a peak are "
                     f"separate claims and each carries its own rank. The "
@@ -1636,7 +1725,7 @@ for name, v in sorted(C.items()):
 </main></body></html>"""
     check_constraints(name, html, night_block, v.get("page_constraints", {}))
     check_record_scope_language(name, html, v.get("record_scope"))
-    check_superlatives_dated(name, html)
+    check_superlatives_dated(name, html, v)
     check_no_silent_claim_reversal(name, head)
     check_europe_scope(name, html)
     # The page may not claim a window the station did not cover. Derived, so
