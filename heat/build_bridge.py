@@ -370,8 +370,24 @@ def main() -> int:
     # partial refresh, which is the failure the isolated fetch loop one level
     # up exists to prevent. Named loudly, counted, and a non-zero exit so the
     # step reports it rather than passing.
+    # PUBLISHED CITIES BY DEFAULT, CANDIDATES ON DEMAND. Casablanca and Tunis
+    # are in CITIES as bridge candidates and appear on no page: they are not
+    # in build_city_series.CITIES. Since platform's d0475cbc this loop runs
+    # weekly in CI, where every year of every city is a live fetch with a
+    # 3-second pause, so two unpublished cities were about a quarter of a step
+    # that is currently taking 43 minutes against a 90 minute budget.
+    #
+    # NAMED, NOT SILENTLY DROPPED. Skipping them without saying so is the
+    # failure this channel spent 2026-09-07 fixing in three other places, and
+    # a candidate that quietly stops being fetched is a candidate nobody
+    # revisits. Pass them by name to run them.
+    named = sys.argv[1:]
+    skipped = [] if named else [c for c in CITIES if c not in _B.CITIES]
+    if skipped:
+        print(f"  candidates not published, skipped: {', '.join(skipped)}. "
+              f"Pass by name to include.")
     failed = []
-    for city in (sys.argv[1:] or list(CITIES)):
+    for city in (named or [c for c in CITIES if c in _B.CITIES]):
         try:
             rows, per = build(city)
             yrs = sorted(per)
