@@ -39,3 +39,18 @@ drawn from the cooler end set the bar too low. Palma now uses the complete
 1991 to 2020 normal, and the bar rises from 33.0 °C to 33.6 °C.
 
 **What changed is the bar, not any temperature we had already recorded.**
+
+## nottingham
+
+Until today this page called 2026 the most hot days Nottingham has
+recorded by this date. It was never true. 1995 cleared the same bar on
+more days, and we had set 1995 aside as too incomplete to rank.
+
+That exclusion was the mistake. A year with gaps in it can only count too
+few days, never too many, so its total is a floor rather than an estimate.
+A floor above ours is not a year we cannot compare with. It is a year that
+beat us. **The filter meant to protect the comparison removed the one year
+capable of disproving it.**
+
+No temperature changed and the bar did not move. What was wrong was our
+rule about which years were allowed to argue.
