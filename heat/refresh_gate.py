@@ -199,9 +199,15 @@ def classify(prev, cur):
                                 "and was excluded as incomplete, so it is a "
                                 "floor and provably was not beaten"
                                 for v in vetoed)
-                    + f". The bar is unchanged at {nt} C and the data did not "
-                      "revise. The claim was wrong when published rather than "
-                      "overtaken, so this wants a correction, not a refresh.")
+                    + f". The bar is unchanged at {nt} C."
+                    + (f" The cut also moved {p.get('counted_to')} to "
+                       f"{n.get('counted_to')}, so a rival year gained as "
+                       f"well, but that is not why this needs a correction: "
+                       f"the published claim was already false at the old "
+                       f"cut." if moved_cut else
+                       " The cut did not move and no observation was revised.")
+                    + " A claim that was wrong when published wants a"
+                      " correction, not a refresh.")
             elif needs:
                 block.append(
                     f"{c}: RECORD WITHDRAWN, reason {why}. The threshold "

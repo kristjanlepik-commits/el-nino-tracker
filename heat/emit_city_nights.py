@@ -405,9 +405,14 @@ def provable_superiors(yrs, cur, getter):
     defect is claiming a record over a year we can prove we did not beat.
     """
     now = getter(yrs[cur])
+    # A FLOOR OF ZERO CARRIES NO INFORMATION. Every incomplete year counted at
+    # least zero, so where the current year is also zero the ">=" test admits
+    # years that tell a reader nothing: Parana listed 1955 and 1958 at 0
+    # against its own 0. Excluded rather than left in, because a field whose
+    # rows are mostly vacuous stops being read at all.
     return sorted((int(y), getter(d)) for y, d in yrs.items()
                   if int(y) < int(cur) and not d["usable_to_cut"]
-                  and getter(d) >= now)
+                  and getter(d) >= now and getter(d) > 0)
 
 
 def _is_record(v, key, pct="95"):
@@ -724,10 +729,23 @@ def main() -> int:
         # A YEAR WE CAN PROVE BEAT US COUNTS AGAINST US even though it is
         # too incomplete to be placed in the order. See provable_superiors.
         _r0 = rank_of(n26, todate, ties) if season_open else None
-        n_veto = (provable_superiors(yrs, cur, lambda d: d["nights_to_cut"])
-                  if _r0 == 1 else [])
-        r = (_r0 + len(n_veto)) if season_open else None
-        of_years = ((len(todate) + 1 + len(n_veto)) if season_open
+        # COMPUTED ALWAYS, ADDED TO THE RANK ONLY AT FIRST PLACE. Emitting it
+        # only when the rank would be 1 made the evidence vanish exactly when
+        # a second explanation arrived: Nottingham's season completed, 1976
+        # overtook it on ordinary comparison, the field emptied, and the gate
+        # reclassified a claim that was NEVER TRUE as a cut merely advancing.
+        # The correction the editor had already written would have been
+        # dropped and the page would have stopped claiming a record with
+        # nothing saying why, which is the silent reversal design guards for.
+        #
+        # Two different questions were riding on one field: "why did the rank
+        # move" and "was the published claim ever true". Only the second needs
+        # answering here, and it must keep its answer after the first has
+        # another one. Rank behaviour is unchanged and stays D-293-narrow.
+        n_veto = provable_superiors(yrs, cur, lambda d: d["nights_to_cut"])
+        _nv = len(n_veto) if _r0 == 1 else 0
+        r = (_r0 + _nv) if season_open else None
+        of_years = ((len(todate) + 1 + _nv) if season_open
                     else len(todate))
         present = sorted(int(y) for y in yrs if int(y) < int(cur))
         unusable = sorted(y for y in present if y not in good)
@@ -1061,11 +1079,10 @@ def main() -> int:
         # rank is the one the record claim is written from. Nottingham is
         # the live case: 1995 counted 21 in 94 of 113 days against 2026's 20.
         _dr0 = rank_of(d26, dser, ties) if season_open else None
-        d_veto = (provable_superiors(yrs, cur,
-                                     lambda d: d["days_to_cut"]["95"])
-                  if _dr0 == 1 else [])
-        dr = (_dr0 + len(d_veto)) if season_open else None
-        dof = (len(dser) + 1 + len(d_veto)) if season_open else len(dser)
+        d_veto = provable_superiors(yrs, cur, lambda d: d["days_to_cut"]["95"])
+        _dv = len(d_veto) if _dr0 == 1 else 0
+        dr = (_dr0 + _dv) if season_open else None
+        dof = (len(dser) + 1 + _dv) if season_open else len(dser)
         dbelow = [n for n in dser.values() if n < d26]
 
         days = {
