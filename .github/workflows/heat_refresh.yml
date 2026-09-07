@@ -149,6 +149,61 @@ jobs:
             exit 1
           fi
 
+      # THE EIGHTEEN ASSEMBLED CITIES, and this step exists because making
+      # their outputs tracked (012f60d7) fixed the cold start and quietly
+      # created a worse bug in its place. They BUILD in CI because the
+      # tracked file is read; they never REFRESHED, because their builders
+      # are not fetch_*.py and the loop above never reaches them. So the
+      # weekly job would publish London, Belfast, Rome, the seven Argentine
+      # cities and the rest at whatever date was last committed BY HAND,
+      # indefinitely, with every check green and counted_to simply not
+      # moving. Heat caught it live: London, Nottingham and Belfast had sat
+      # at 2026-08-21 until they ran the builders by hand, and Nottingham's
+      # false record claim would have survived with them, because its
+      # season could never complete.
+      #
+      # No CEDA secret is needed and that is verified, not assumed:
+      # build_uk calls _token() only under `if any(_frozen(c) is None)`,
+      # and all four MIDAS histories are committed under
+      # heat/data/histories/, so the weekly path never reaches it. CEDA is
+      # needed only to ADD or repair a city, which is not this job.
+      #
+      # build_tallinn IS DELIBERATELY ABSENT. It reads the tracked
+      # Keskkonnaagentuur workbook and fetches nothing, so running it here
+      # would burn a step to rewrite an identical file. Tallinn's
+      # 2026-07-31 cut is that source's own extent, not our pipeline
+      # failing, and it moves when Keskkonnaagentuur send a new archive.
+      # Do not "fix" it by adding it here.
+      #
+      # Isolated and tallied like the fetch loop, and for the same reason
+      # one level down: a builder that fails leaves its tracked file
+      # STALE, not missing, so the payload is still complete and the
+      # pre-flight in build_city_series has nothing to catch. That makes a
+      # silent staleness the failure mode, which is exactly what this step
+      # exists to end, so every failure is named loudly here and the run
+      # still produces a payload from the rest.
+      - name: Refresh the assembled cities
+        run: |
+          failed=""
+          total=0
+          for b in build_uk build_london build_bridge build_argentina; do
+            total=$((total + 1))
+            echo "--- heat/$b.py"
+            if ! python "heat/$b.py"; then
+              echo "::warning::heat/$b.py failed; its cities keep their last committed date."
+              failed="$failed $b"
+            fi
+          done
+          n=$(echo $failed | wc -w | tr -d ' ')
+          if [ "$n" -gt 0 ]; then
+            echo "::warning::$n of $total assembled-city builders failed:$failed"
+          fi
+          if [ "$n" -ge "$total" ]; then
+            echo "::error::EVERY assembled-city builder failed. Eighteen cities would" \
+                 "publish at their last hand-committed date with nothing else flagging it."
+            exit 1
+          fi
+
       - name: Rebuild the payload
         run: |
           set -e
@@ -170,11 +225,20 @@ jobs:
           # says exactly this pattern is what swept 69 of another chat's
           # files into an unrelated commit. Heat flagged it reading as an
           # approved instance of the thing we told everyone not to do.
-          git add heat/data/city_series.json heat/data/city_nights.json
+          # heat/data/sources/ is committed alongside the payload, and it
+          # has to be: the builders above write the eighteen assembled
+          # cities and AEMET into tracked files, so leaving them on the
+          # runner would discard the refresh and rebuild the same days
+          # from the same stale base next week. Plain JSON (D-294) is what
+          # makes these diffs reviewable, which is the whole reason that
+          # call went the way it did.
+          git add heat/data/city_series.json heat/data/city_nights.json \
+                  heat/data/sources
           if git diff --cached --quiet; then
             echo "Payload unchanged this week; nothing to commit."
           else
             git commit heat/data/city_series.json heat/data/city_nights.json \
+                       heat/data/sources \
               -m "heat: weekly refresh $(date -u +'%Y-%m-%d')"
             bash scripts/push_retry.sh main
           fi
