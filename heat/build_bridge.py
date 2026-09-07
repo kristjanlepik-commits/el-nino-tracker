@@ -270,21 +270,41 @@ def build(city):
 
 
 def main() -> int:
+    # ONE CITY'S FAILURE MUST NOT COST THE OTHERS. Run weekly in CI as of
+    # platform's d0475cbc, so an exception here would skip every city after it
+    # while the payload still built from their stale tracked files: a silent
+    # partial refresh, which is the failure the isolated fetch loop one level
+    # up exists to prevent. Named loudly, counted, and a non-zero exit so the
+    # step reports it rather than passing.
+    failed = []
     for city in (sys.argv[1:] or list(CITIES)):
-        rows, per = build(city)
-        yrs = sorted(per)
-        ok = [y for y in yrs if per[y] >= MIN_DAYS]
-        b71 = sum(1 for y in range(1971, 2001) if per.get(y, 0) >= MIN_DAYS)
-        b91 = sum(1 for y in range(1991, 2021) if per.get(y, 0) >= MIN_DAYS)
-        recent = [y for y in range(2017, 2027) if per.get(y, 0) >= MIN_DAYS]
-        write_series(_B.source_file(f"{city.lower()}.json"),
-                     [[d, mn, mx] for d, (mn, mx) in sorted(rows.items())],
-                     label=city)
+        try:
+            rows, per = build(city)
+            yrs = sorted(per)
+            ok = [y for y in yrs if per[y] >= MIN_DAYS]
+            b71 = sum(1 for y in range(1971, 2001)
+                      if per.get(y, 0) >= MIN_DAYS)
+            b91 = sum(1 for y in range(1991, 2021)
+                      if per.get(y, 0) >= MIN_DAYS)
+            recent = [y for y in range(2017, 2027)
+                      if per.get(y, 0) >= MIN_DAYS]
+            write_series(_B.source_file(f"{city.lower()}.json"),
+                         [[d, mn, mx] for d, (mn, mx) in sorted(rows.items())],
+                         label=city)
+        except Exception as exc:
+            failed.append(city)
+            print(f"  {city}: FAILED {type(exc).__name__}: {exc}",
+                  file=sys.stderr)
+            continue
         print(f"  {city}: usable {len(ok)} years, {ok[0] if ok else '-'}"
               f" to {ok[-1] if ok else '-'}")
         print(f"    1971-2000 {b71}/30   1991-2020 {b91}/30   "
               f"2017-2026 {len(recent)}/10  {recent}")
         print(f"    2026 days: {per.get(2026, 0)}")
+    if failed:
+        print(f"\n  {len(failed)} city/cities FAILED and kept their previous "
+              f"series: {', '.join(failed)}", file=sys.stderr)
+        return 1
     return 0
 
 

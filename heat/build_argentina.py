@@ -97,15 +97,32 @@ def build(city, ghcn_id, meta):
 def main() -> int:
     gather = {r["station"]: r
               for r in json.loads(GATHER.read_text())["stations"]}
+    # ONE CITY'S FAILURE MUST NOT COST THE OTHERS. This loop is now run
+    # weekly in CI (platform, d0475cbc), and an exception here would skip
+    # every city after it while the payload still built from their stale
+    # tracked files: a silent partial refresh, which is the exact failure the
+    # isolated fetch loop one level up exists to prevent. Named loudly and
+    # counted; a non-zero exit so the step reports it rather than passing.
+    failed = []
     for city, gid in CITIES.items():
         meta = gather.get(gid)
         if not meta or not meta.get("wmo_block"):
             print(f"  {city}: NO PROVEN BLOCK, skipped", file=sys.stderr)
             continue
-        path, n, last, added, per = build(city, gid, meta)
+        try:
+            path, n, last, added, per = build(city, gid, meta)
+        except Exception as exc:
+            failed.append(city)
+            print(f"  {city:22s} FAILED {type(exc).__name__}: {exc}",
+                  file=sys.stderr)
+            continue
         recent = [y for y in range(2017, 2027) if per.get(y, 0) >= 200]
         print(f"  {city:22s} {n:6d} rows, GHCN to {last}, "
               f"{added:5d} bulletin days added, recent {len(recent)}/10")
+    if failed:
+        print(f"\n  {len(failed)} of {len(CITIES)} city/cities FAILED and kept "
+              f"their previous series: {', '.join(failed)}", file=sys.stderr)
+        return 1
     return 0
 
 
