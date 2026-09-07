@@ -1112,7 +1112,24 @@ for name, v in sorted(C.items()):
     cut = S[name]["cut_at"]
     cut_txt = f"{int(cut.split('-')[1])} {MON[int(cut.split('-')[0]) - 1]}"
     dr = v["days"]["rank"]
-    peak_promoted = (prank == 1 and dr["value"] != 1)
+
+    # A RECORD IS A FIELD, NOT AN ARITHMETIC ON THE RANK (D-293, heat,
+    # 2026-09-07). Nottingham published "The most hot days Nottingham has
+    # recorded by this date" while 1995 counted 21 days above the same bar
+    # against 2026's 20. 1995 was excluded from ranking as incomplete, and
+    # an incomplete year can only UNDERCOUNT, so its count is a FLOOR and a
+    # floor above ours is proof we were beaten. The filter dropped the one
+    # year capable of falsifying the claim.
+    #
+    # Heat also demotes the rank when this happens, so `dr["value"] == 1`
+    # is false for Nottingham today and every record claim here would be
+    # right without this change. That is precisely why it is worth making:
+    # right by accident is not right by construction, and the two signals
+    # can come apart the moment an excluded year TIES rather than beats.
+    # Same argument as reading cut_clips_the_window over matching strings.
+    day_record = dr["value"] == 1 and not (
+        dr.get("beaten_by_excluded_years") or [])
+    peak_promoted = (prank == 1 and not day_record)
     # WHAT A TYPICAL SUMMER PEAKS AT. VD: 40.6 C is a number, and a reader
     # has no idea whether that is remarkable for Paris or a normal August
     # afternoon. "The previous best is 41.9" gives the ceiling and no floor.
@@ -1171,7 +1188,7 @@ for name, v in sorted(C.items()):
     # qualifier is the season itself.
     rank_txt = (("the most on record"
                  + (f" in its {slab} summer" if done else _BD))
-                if dr["value"] == 1
+                if day_record
                 else f'{ordn(dr["value"])} of {dr["of_years"]}')
     # NO RANK CAPTION. Editor's rule and it needed no judgement from me: a
     # caption never restates the number, the title or the source stamp,
@@ -1235,7 +1252,8 @@ for name, v in sorted(C.items()):
     # number of tied years, every year keeping 2026 off first place is a tie
     # and nothing exceeds it.
     ties = list(dr.get("tied_with") or [])
-    ties_for_first = dr["value"] == 1 + len(ties) and ties
+    ties_for_first = dr["value"] == 1 + len(ties) and ties and not (
+        dr.get("beaten_by_excluded_years") or [])
     # A FINISHED SEASON IS NOT A PART-FINISHED ONE. Seven southern cities
     # report a summer that ENDED in February, so "so far" and "by this
     # date" are both false on their pages: heat sent them back for saying
@@ -1245,13 +1263,13 @@ for name, v in sorted(C.items()):
     # season_label is printed rather than the key, because a wrapping
     # season spans two calendar years and "2025" alone reads as wrong to
     # anyone who knows the hemisphere.
-    if dr["value"] == 1 and done:
+    if day_record and done:
         head = (f"The most hot days {name} has recorded, "
                 f"in its {slab} summer.")
     elif done:
         head = (f"{_count_text(v, now)} hot days in {name}'s {slab} "
                 f"summer, {ordn(dr['value'])} of {dr['of_years']}.")
-    elif dr["value"] == 1:
+    elif day_record:
         head = f"The most hot days {name} has recorded by this date."
     elif ties_for_first:
         # "the most X has recorded" is a superlative with nothing under it.
@@ -1267,7 +1285,7 @@ for name, v in sorted(C.items()):
 
     # THE PEAK CARRIES ITS OWN RANK. Seven cities have peak == record, so
     # the sentence branches rather than being templated.
-    if prank == 1 and dr["value"] == 1:
+    if prank == 1 and day_record:
         # THE ONE OF THESE FOUR I MISSED LAST WEEK. The other three peak
         # captions took _TS and _BD then; this one spells "to the same
         # date" as its own sentence and "by this date" across a line
