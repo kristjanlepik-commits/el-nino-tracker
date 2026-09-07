@@ -407,9 +407,27 @@ def main() -> int:
     if short:
         print(f"\n  {len(short)} city/cities did not reach the last day they "
               f"could have. Advisory, not blocking:")
+        # SAY WHY, NOT JUST WHO. Platform's point: a city that HOLDS every
+        # week never advances, and `held` is an accounted-for outcome, so
+        # their check stays silent on it, correctly. This advisory is where
+        # that shows up, and a bare name makes it look like a data gap rather
+        # than a builder repeatedly declining to write. The reason is already
+        # recorded by the builders this run, so print it beside the city.
+        try:
+            import sys as _sys
+            _sys.path.insert(0, str(ROOT / "heat"))
+            import builder_status as _BS
+            _why = {}
+            for f in (_BS.DIR.glob("*.json") if _BS.DIR.exists() else []):
+                for c, v in json.loads(f.read_text()).get("cities", {}).items():
+                    _why[c] = f"{v.get('status')}: {(v.get('reason') or '')[:70]}"
+        except Exception:
+            _why = {}
         for city, obs, reach, days in short:
+            note = _why.get(city)
             print(f"    {city:12s} at {obs}, could have reached {reach}, "
-                  f"{days} day(s) short")
+                  f"{days} day(s) short"
+                  + (f"  [{note}]" if note else ""))
         print("  A short city is correctly labelled by counted_to. This says "
               "nobody has looked, not that anything is wrong.")
     for r in report:
