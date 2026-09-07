@@ -482,7 +482,22 @@ def _season_span(v, cur):
     y = int(cur)
     end_y = y + 1 if wraps else y
     cut_y, cut_m = int(v["counted_to"][:4]), int(v["counted_to"][5:7])
-    done = (cut_y, cut_m) > (end_y, end_m)
+    # AND THE DAY MATTERS, NOT JUST THE MONTH. Compared at month granularity,
+    # a season was "in progress" on the very day it ended: a city whose data
+    # reaches exactly 31 August gave (2026, 8) > (2026, 8), which is False.
+    # Five cities were flagged in progress on 2026-09-07 with complete
+    # windows, Zaragoza, Bilbao and Prague on all 123 days and identical
+    # to_cut and full-window counts, so their pages asserted a truncation
+    # that did not run. That is the defect design fixed from the other side
+    # in 10e58767 and the reason counting_basis exists, arriving here through
+    # the one comparison that never looked at the day.
+    #
+    # monthrange, not a table: for a wrapping southern season ending in
+    # February the last day is leap-dependent.
+    import calendar as _c
+    end_d = _c.monthrange(end_y, end_m)[1]
+    cut_d = int(v["counted_to"][8:10])
+    done = (cut_y, cut_m, cut_d) >= (end_y, end_m, end_d)
     label = f"{y}\u2013{str(end_y)[2:]}" if wraps else str(y)
     return label, ("complete" if done else "in progress")
 

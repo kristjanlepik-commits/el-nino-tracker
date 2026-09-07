@@ -1167,7 +1167,7 @@
     },
     "days_2026_deprecated": "Use days_current_season. This name says 2026 and holds the reported season, which for a wrapping season is the one that BEGAN in reported_season_key. Kept only so existing consumers do not break.",
     "season_label": "2026",
-    "season_status": "in progress",
+    "season_status": "complete",
     "season_label_note": "PRINT season_label, never the bare key. A wrapping season spans two calendar years and 2025 alone reads as wrong to anyone who knows the hemisphere. season_status says whether this is a season still running or one that has finished: a southern page today reports a summer that ENDED in January, where a European page reports one still going.",
     "counts_per_year": {
      "90": {
@@ -1193,7 +1193,7 @@
     "multiple_available": true
    },
    "season_label": "2026",
-   "season_status": "in progress",
+   "season_status": "complete",
    "reported_season_key": 2026,
    "days_current_season": {
     "90": 36,
@@ -1203,9 +1203,9 @@
    "counting_basis": {
     "window_label": "May to August",
     "window_days": 121,
-    "cut_clips_the_window": true,
-    "cut_date": "2026-08-31",
-    "basis": "every year truncated at the same date, so a part-finished season is never set against complete ones",
+    "cut_clips_the_window": false,
+    "cut_date": null,
+    "basis": "every year counted over the whole window; this season is complete, so no year is cut short",
     "note": "PRINT FROM cut_clips_the_window. When it is false the cut date is not part of the method and naming it asserts a truncation that did not run: the cut falls outside a wrapping season's window entirely and clips nothing. The like-with-like guarantee still holds, but because every season compared is complete rather than because each was trimmed to a common date."
    },
    "joined": {
@@ -5481,7 +5481,7 @@
     },
     "days_2026_deprecated": "Use days_current_season. This name says 2026 and holds the reported season, which for a wrapping season is the one that BEGAN in reported_season_key. Kept only so existing consumers do not break.",
     "season_label": "2026",
-    "season_status": "in progress",
+    "season_status": "complete",
     "season_label_note": "PRINT season_label, never the bare key. A wrapping season spans two calendar years and 2025 alone reads as wrong to anyone who knows the hemisphere. season_status says whether this is a season still running or one that has finished: a southern page today reports a summer that ENDED in January, where a European page reports one still going.",
     "counts_per_year": {
      "90": {
@@ -5505,7 +5505,7 @@
     "multiple_withheld_note": "NOT COMPARABLE and the multiple is withheld. This station's 1961-1990 baseline holds only 13 of 30 years, drawn from the warmer end of the period, so the multiple would understate itself while looking like the figures beside it."
    },
    "season_label": "2026",
-   "season_status": "in progress",
+   "season_status": "complete",
    "reported_season_key": 2026,
    "days_current_season": {
     "90": 37,
@@ -5515,9 +5515,9 @@
    "counting_basis": {
     "window_label": "May to August",
     "window_days": 122,
-    "cut_clips_the_window": true,
-    "cut_date": "2026-08-31",
-    "basis": "every year truncated at the same date, so a part-finished season is never set against complete ones",
+    "cut_clips_the_window": false,
+    "cut_date": null,
+    "basis": "every year counted over the whole window; this season is complete, so no year is cut short",
     "note": "PRINT FROM cut_clips_the_window. When it is false the cut date is not part of the method and naming it asserts a truncation that did not run: the cut falls outside a wrapping season's window entirely and clips nothing. The like-with-like guarantee still holds, but because every season compared is complete rather than because each was trimmed to a common date."
    },
    "joined": {
@@ -5988,7 +5988,7 @@
     },
     "days_2026_deprecated": "Use days_current_season. This name says 2026 and holds the reported season, which for a wrapping season is the one that BEGAN in reported_season_key. Kept only so existing consumers do not break.",
     "season_label": "2026",
-    "season_status": "in progress",
+    "season_status": "complete",
     "season_label_note": "PRINT season_label, never the bare key. A wrapping season spans two calendar years and 2025 alone reads as wrong to anyone who knows the hemisphere. season_status says whether this is a season still running or one that has finished: a southern page today reports a summer that ENDED in January, where a European page reports one still going.",
     "counts_per_year": {
      "90": {
@@ -6014,7 +6014,7 @@
     "multiple_available": true
    },
    "season_label": "2026",
-   "season_status": "in progress",
+   "season_status": "complete",
    "reported_season_key": 2026,
    "days_current_season": {
     "90": 48,
@@ -6024,9 +6024,9 @@
    "counting_basis": {
     "window_label": "May to August",
     "window_days": 123,
-    "cut_clips_the_window": true,
-    "cut_date": "2026-08-31",
-    "basis": "every year truncated at the same date, so a part-finished season is never set against complete ones",
+    "cut_clips_the_window": false,
+    "cut_date": null,
+    "basis": "every year counted over the whole window; this season is complete, so no year is cut short",
     "note": "PRINT FROM cut_clips_the_window. When it is false the cut date is not part of the method and naming it asserts a truncation that did not run: the cut falls outside a wrapping season's window entirely and clips nothing. The like-with-like guarantee still holds, but because every season compared is complete rather than because each was trimmed to a common date."
    },
    "joined": {
@@ -6559,7 +6559,7 @@
     },
     "days_2026_deprecated": "Use days_current_season. This name says 2026 and holds the reported season, which for a wrapping season is the one that BEGAN in reported_season_key. Kept only so existing consumers do not break.",
     "season_label": "2026",
-    "season_status": "in progress",
+    "season_status": "complete",
     "season_label_note": "PRINT season_label, never the bare key. A wrapping season spans two calendar years and 2025 alone reads as wrong to anyone who knows the hemisphere. season_status says whether this is a season still running or one that has finished: a southern page today reports a summer that ENDED in January, where a European page reports one still going.",
     "counts_per_year": {
      "90": {
@@ -6585,7 +6585,7 @@
     "multiple_available": true
    },
    "season_label": "2026",
-   "season_status": "in progress",
+   "season_status": "complete",
    "reported_season_key": 2026,
    "days_current_season": {
     "90": 34,
@@ -6595,9 +6595,9 @@
    "counting_basis": {
     "window_label": "May to August",
     "window_days": 123,
-    "cut_clips_the_window": true,
-    "cut_date": "2026-08-31",
-    "basis": "every year truncated at the same date, so a part-finished season is never set against complete ones",
+    "cut_clips_the_window": false,
+    "cut_date": null,
+    "basis": "every year counted over the whole window; this season is complete, so no year is cut short",
     "note": "PRINT FROM cut_clips_the_window. When it is false the cut date is not part of the method and naming it asserts a truncation that did not run: the cut falls outside a wrapping season's window entirely and clips nothing. The like-with-like guarantee still holds, but because every season compared is complete rather than because each was trimmed to a common date."
    },
    "joined": {
@@ -26139,7 +26139,7 @@
     },
     "days_2026_deprecated": "Use days_current_season. This name says 2026 and holds the reported season, which for a wrapping season is the one that BEGAN in reported_season_key. Kept only so existing consumers do not break.",
     "season_label": "2026",
-    "season_status": "in progress",
+    "season_status": "complete",
     "season_label_note": "PRINT season_label, never the bare key. A wrapping season spans two calendar years and 2025 alone reads as wrong to anyone who knows the hemisphere. season_status says whether this is a season still running or one that has finished: a southern page today reports a summer that ENDED in January, where a European page reports one still going.",
     "counts_per_year": {
      "90": {
@@ -26163,7 +26163,7 @@
     "multiple_withheld_note": "NOT COMPARABLE and the multiple is withheld. This station's 1961-1990 baseline holds only 20 of 30 years, drawn from the warmer end of the period, so the multiple would understate itself while looking like the figures beside it."
    },
    "season_label": "2026",
-   "season_status": "in progress",
+   "season_status": "complete",
    "reported_season_key": 2026,
    "days_current_season": {
     "90": 24,
@@ -26173,9 +26173,9 @@
    "counting_basis": {
     "window_label": "May to August",
     "window_days": 123,
-    "cut_clips_the_window": true,
-    "cut_date": "2026-08-31",
-    "basis": "every year truncated at the same date, so a part-finished season is never set against complete ones",
+    "cut_clips_the_window": false,
+    "cut_date": null,
+    "basis": "every year counted over the whole window; this season is complete, so no year is cut short",
     "note": "PRINT FROM cut_clips_the_window. When it is false the cut date is not part of the method and naming it asserts a truncation that did not run: the cut falls outside a wrapping season's window entirely and clips nothing. The like-with-like guarantee still holds, but because every season compared is complete rather than because each was trimmed to a common date."
    },
    "joined": {
