@@ -53,20 +53,55 @@ CITIES = {
     # run against real data rather than estimated from the gather summary.
     "Trelew": "AR000087828",
 }
+CURRENT_YEAR = dt.date.today().year
 FIRST_BRIDGE_YEAR = 2003        # where these archives thin, not where they end
 
 
-def build(city, ghcn_id, meta):
+def build(city, ghcn_id, meta, full=False):
+    """Bridge the archive with the station's own bulletins.
+
+    SAME REDUCTION AS build_bridge AND FOR THE SAME REASON. This walked every
+    year from FIRST_BRIDGE_YEAR to now on every run, re-fetching bulletins to
+    fill gaps the archive leaves, while the bridged result was already
+    committed in heat/data/sources/<city>.json. On a cold runner that is 24
+    years times seven cities of pulls reconstructing rows the checkout already
+    held, and on 2026-09-07 it was roughly half of an 83 minute builder step
+    that a 90 minute ceiling then cancelled.
+
+    Order is the correctness, exactly as in build_bridge: the fresh archive
+    wins, the tracked series fills gaps in PAST years only, fresh bulletins
+    fill what is left in the current year. The current year is deliberately
+    not seeded from the tracked copy, which is last run's bulletins, because
+    letting it fill a gap first would freeze a value the fresh pull would
+    have corrected.
+
+    `full` walks every year and is the audit path; a city with no tracked
+    series gets it automatically, which is what a newly added city needs.
+    """
     rows = {}
     for d, e in G.ghcn_days(ghcn_id).items():
         rows[d] = (e.get("TMIN"), e.get("TMAX"))
+
+    tracked = {}
+    if not full:
+        _p = _B.source_file(f"{city.lower().replace(' ', '_')}.json")
+        if _p.exists():
+            tracked = {d: (mn, mx) for d, mn, mx in json.loads(_p.read_text())}
+    for d, (mn, mx) in tracked.items():
+        if int(d[:4]) == CURRENT_YEAR:
+            continue
+        omn, omx = rows.get(d, (None, None))
+        rows[d] = (omn if omn is not None else mn,
+                   omx if omx is not None else mx)
 
     block, shift = meta["wmo_block"], meta["date_shift"]
     # The archive's own maximum bounds what its bulletins may claim.
     ceiling = G.station_ceiling(G.ghcn_days(ghcn_id))
     last_ghcn = max(int(d[:4]) for d in rows)
     added = 0
-    for year in range(FIRST_BRIDGE_YEAR, 2027):
+    years = (range(FIRST_BRIDGE_YEAR, CURRENT_YEAR + 1)
+             if full or not tracked else [CURRENT_YEAR])
+    for year in years:
         raw = G.fetch_year(block, year)
         if raw.count("AAXX") < 20:
             continue
@@ -96,6 +131,9 @@ def build(city, ghcn_id, meta):
 
 
 def main() -> int:
+    full = "--full" in sys.argv[1:]
+    if full:
+        print("  --full: walking every year. Audit path, not the weekly one.")
     gather = {r["station"]: r
               for r in json.loads(GATHER.read_text())["stations"]}
     # ONE CITY'S FAILURE MUST NOT COST THE OTHERS. This loop is now run
@@ -113,7 +151,7 @@ def main() -> int:
             print(f"  {city}: NO PROVEN BLOCK, skipped", file=sys.stderr)
             continue
         try:
-            path, n, last, added, per = build(city, gid, meta)
+            path, n, last, added, per = build(city, gid, meta, full=full)
         except RefusedWrite as exc:
             # A REFUSED WRITE IS THE GUARD WORKING, NOT THE BUILDER FAILING,
             # and conflating them cost a whole step on 2026-09-07. Budapest

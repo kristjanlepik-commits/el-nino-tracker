@@ -341,11 +341,65 @@ def usable(rows, lo, hi):
     return per, sum(1 for y in range(lo, hi + 1) if per.get(y, 0) >= MIN_DAYS)
 
 
-def build(city):
+def build(city, full=False):
+    """Bridge this city's archive with its own bulletins.
+
+    THE FINISHED YEARS ARE ALREADY IN THE REPO AND WE WERE RE-DERIVING THEM.
+    Every run walked every year from `first` to now, re-fetching bulletins to
+    fill gaps the archive leaves. But the bridged result is committed in
+    heat/data/sources/<city>.json, so a cold runner already holds those rows.
+    Measured on Larnaca: 8 days in 2018, 12 in 2021 and 23 in 2024 exist ONLY
+    from bulletins, and they are in the tracked file.
+
+    THE COST OF NOT NOTICING was the whole weekly job. On 2026-09-07 the
+    builder step took 83 minutes on a cold runner and was cancelled by a 90
+    minute ceiling, most of it this loop: about 129 finished-year pulls across
+    the bridge cities, each behind a 3 second politeness sleep, all of them
+    reconstructing rows a fresh checkout had on disk. Platform declined to
+    raise the timeout a third time and was right to: three raises would each
+    have been defensible and collectively an admission that nobody looked at
+    the work.
+
+    So the tracked series seeds the PAST and only the current year is fetched.
+    That is roughly 136 requests down to 6.
+
+    WHAT SEEDS WHAT, because the order is the correctness:
+
+        the fresh archive wins everywhere it has a value
+        the tracked series fills gaps in PAST years only, standing in for
+            the bulletin pulls that produced it
+        fresh bulletins fill what is left, current year only
+
+    The current year is deliberately NOT seeded from the tracked copy: that
+    copy is last run's bulletins, and letting it fill a gap first would freeze
+    a value the fresh pull would have corrected. This is the same defect as
+    the cache that froze Rome, and seeding it here would reintroduce it.
+
+    WHAT THIS GIVES UP, stated because it is not free. A past year whose gap
+    OGIMET backfills, or a fix to our own parsing, no longer reaches history
+    without a full walk. `--full` does that walk and is what platform's
+    scheduled audit runs; it is also what a new city gets automatically,
+    since it has no tracked series to seed from.
+    """
     block, gid, first, hmin, hmax = CITIES[city]
     rows = ghcn(gid)
     ghcn_years = sorted({int(d[:4]) for d in rows})
-    for y in range(first, 2027):
+
+    tracked = {}
+    if not full:
+        p = _B.source_file(f"{city.lower()}.json")
+        if p.exists():
+            tracked = {d: (mn, mx) for d, mn, mx in json.loads(p.read_text())}
+    for d, (mn, mx) in tracked.items():
+        if int(d[:4]) == CURRENT_YEAR:
+            continue
+        omn, omx = rows.get(d, (None, None))
+        rows[d] = (omn if omn is not None else mn,
+                   omx if omx is not None else mx)
+
+    years = (range(first, CURRENT_YEAR + 1) if full or not tracked
+             else [CURRENT_YEAR])
+    for y in years:
         got, fetched = synop_year(block, y, hmin, hmax)
         # Bulletins fill gaps and never overwrite an archived value: the
         # archive is the better record where it exists.
@@ -382,7 +436,12 @@ def main() -> int:
     # failure this channel spent 2026-09-07 fixing in three other places, and
     # a candidate that quietly stops being fetched is a candidate nobody
     # revisits. Pass them by name to run them.
-    named = sys.argv[1:]
+    argv = [a for a in sys.argv[1:] if a != "--full"]
+    full = "--full" in sys.argv[1:]
+    if full:
+        print("  --full: walking every year and refetching finished ones. "
+              "This is the audit path, not the weekly one.")
+    named = argv
     skipped = [] if named else [c for c in CITIES if c not in _B.CITIES]
     if skipped:
         print(f"  candidates not published, skipped: {', '.join(skipped)}. "
@@ -398,7 +457,7 @@ def main() -> int:
             if _p.exists():
                 _prev_rows = json.loads(_p.read_text())
                 _was_last = _prev_rows[-1][0] if _prev_rows else ""
-            rows, per = build(city)
+            rows, per = build(city, full=full)
             yrs = sorted(per)
             ok = [y for y in yrs if per[y] >= MIN_DAYS]
             b71 = sum(1 for y in range(1971, 2001)
