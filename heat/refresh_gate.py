@@ -30,7 +30,8 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timezone
+from calendar import monthrange
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -247,6 +248,56 @@ def compare(prev, cur):
     return b + r
 
 
+def frontier(cur):
+    """Which cities did NOT reach the last day they could have.
+
+    WHY THIS EXISTS, and it is the guard three separate bugs got past on
+    2026-09-07. Each froze a set of cities at a date and each was invisible,
+    because everything that looked at them reported on a MECHANISM rather than
+    on whether the date moved:
+
+        tracked sources never refreshed   the builders were not called at all
+        a per-city loop with no isolation one failure skipped the remainder
+        a cache right for finished years  the current year served from disk
+
+    All three reported success. Rome sat at 2026-08-14 for three and a half
+    weeks. Platform's framing is the one worth keeping: the thing that looked
+    at it reported on a mechanism rather than on whether the date moved. So
+    this asks only the second question and knows nothing about mechanisms.
+
+    THE FRONTIER IS NOT "TODAY", and that distinction is what stops this
+    crying wolf. Two bounds apply and the earlier one wins:
+
+        today minus the source's own publication lag, which the payload
+        already carries per city as source.lag_days
+
+        the season end, because once the window closes no further day can
+        enter the count and a city capped at 31 August is finished, not stale
+
+    ADVISORY, NEVER BLOCKING. A short city is correctly labelled by
+    counted_to and publishing it is honest; what failed was that nobody
+    noticed. And a real gap belongs to the owning desk before it belongs to
+    anyone else: Tallinn's source has genuinely stopped, Aberdeen's bulletins
+    were refused by a guard doing its job, and neither is a fault to fix.
+    """
+    today = datetime.now(timezone.utc).date()
+    out = []
+    for city, v in sorted(cur.get("cities", {}).items()):
+        obs = v.get("counted_to")
+        season = (v.get("season") or {}).get("months") or []
+        lag = ((v.get("source") or {}).get("lag_days") or 1)
+        if not obs or not season:
+            continue
+        m = season[-1]
+        end = date(int(obs[:4]), m, monthrange(int(obs[:4]), m)[1])
+        reachable = min(today - timedelta(days=lag), end)
+        got = date(int(obs[:4]), int(obs[5:7]), int(obs[8:10]))
+        if got < reachable:
+            out.append((city, obs, reachable.isoformat(),
+                        (reachable - got).days))
+    return out
+
+
 def main() -> int:
     if not PREVIOUS.exists():
         # No baseline means nothing to compare against, and treating that as
@@ -277,6 +328,15 @@ def main() -> int:
                         "withdrawals": withdrawn}, indent=1) + "\n")
         print(f"  wrote heat/data/record_withdrawals.json "
               f"({len(withdrawn)} withdrawal(s))")
+    short = frontier(cur)
+    if short:
+        print(f"\n  {len(short)} city/cities did not reach the last day they "
+              f"could have. Advisory, not blocking:")
+        for city, obs, reach, days in short:
+            print(f"    {city:12s} at {obs}, could have reached {reach}, "
+                  f"{days} day(s) short")
+        print("  A short city is correctly labelled by counted_to. This says "
+              "nobody has looked, not that anything is wrong.")
     for r in report:
         print(f"    changed: {r}")
     if not block:
