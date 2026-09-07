@@ -21,6 +21,20 @@ anthropic>=0.40
 # HTML rendering of the brief (for email and standalone viewing)
 markdown>=3.5
 
+# Reads the .xlsx workbooks under heat/data/official/, which are the
+# official 2026 series for the UK cities and Tallinn. Imported by
+# heat/build_uk.py, heat/build_london.py and heat/build_tallinn.py.
+#
+# ADDED 2026-09-07 AFTER IT FAILED IN CI AND ONLY IN CI. It was installed
+# on the laptop and declared nowhere: `pip show openpyxl` gives an empty
+# Required-by, so nothing pulled it in and someone added it by hand at
+# some point. Every local run worked; the first cold runner to call those
+# builders died on ModuleNotFoundError in under a second. Same shape as
+# the several other things found this week that were true on one machine
+# and nowhere else, and the reason it survived is that the builders had
+# never been invoked by CI until today.
+openpyxl>=3.1
+
 # HDF4 reader for the MODIS flood archive, which ships in HDF4 and cannot
 # be read by h5py or netCDF4. Requested by the floods chat once D-120
 # ratified the channel; until then they ran against a private venv rather
