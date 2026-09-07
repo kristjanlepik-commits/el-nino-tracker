@@ -46,6 +46,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "heat"))
 
 import synop  # noqa: E402
+from safe_write import write_series  # noqa: E402
 # WRITES TO heat/data/sources/, NOT the cache. See source_file() in
 # build_city_series: this file is expensive to regenerate and is tracked.
 import build_city_series as _B  # noqa: E402
@@ -258,7 +259,14 @@ def main() -> int:
     merged = dict(hist)
     merged.update({d: v for d, v in cur.items() if d.startswith("2026")})
     rows = [[d, mn, mx] for d, (mn, mx) in sorted(merged.items())]
-    OUT.write_text(json.dumps(rows))
+    # GUARDED, because platform's 2026-09-07 change runs this weekly in CI
+    # against a TRACKED file. safe_write exists for the 2026-08-13 incident in
+    # this very builder's sibling: an expired CEDA token returned an empty
+    # fetch, build_uk wrote before checking, and Nottingham went from 69 years
+    # to 222 rows of 2026. That call site was guarded and this one was not,
+    # which is the "fix one, ship the other" shape again. A partial SYNOP
+    # response here would shrink London and the job would commit it.
+    write_series(OUT, rows, label="London")
 
     days26 = [d for d, mn, mx in rows
               if d.startswith("2026") and mn is not None and mx is not None]

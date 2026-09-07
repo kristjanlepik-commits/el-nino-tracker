@@ -28,6 +28,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "heat"))
 import gather_latam as G  # noqa: E402
+from safe_write import write_series  # noqa: E402
 # WRITES TO heat/data/sources/, NOT the cache. See source_file() in
 # build_city_series: this file is expensive to regenerate and is tracked.
 import build_city_series as _B  # noqa: E402
@@ -81,7 +82,11 @@ def build(city, ghcn_id, meta):
 
     out = [[d, mn, mx] for d, (mn, mx) in sorted(rows.items())]
     path = _B.source_file(f"{city.lower().replace(' ', '_')}.json")
-    path.write_text(json.dumps(out))
+    # GUARDED for the same reason as build_london: this now runs weekly in CI
+    # against a tracked file, and these cities are assembled from GHCN plus
+    # per-year SYNOP fetches, so a partial bulletin response shrinks the
+    # series without failing. Unguarded, that shrink would be committed.
+    write_series(path, out, label=city)
     per = {}
     for d, mn, mx in out:
         if mn is not None and mx is not None:
