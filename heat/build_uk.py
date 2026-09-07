@@ -40,7 +40,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from safe_write import write_series
+from safe_write import RefusedWrite, write_series
 import builder_status as ST  # noqa: E402
 # WRITES TO heat/data/sources/, NOT the cache. See source_file() in
 # build_city_series: this file is expensive to regenerate and is tracked.
@@ -341,6 +341,7 @@ def main() -> int:
     if any(_frozen(c) is None for c in STATIONS):
         tok = _token()
     prov = {}
+    held = []
     ST.open_status("build_uk", list(STATIONS))
     for city, (county, sdir, sheet, fname) in STATIONS.items():
         hist = _frozen(city)
@@ -376,7 +377,21 @@ def main() -> int:
         merged = dict(hist)
         merged.update({d: v for d, v in cur.items() if d.startswith("2026")})
         rows = [[d, mn, mx] for d, (mn, mx) in sorted(merged.items())]
-        write_series(_B.source_file(fname), rows, label=city)
+        # ISOLATED, BECAUSE ONE CITY'S REFUSAL KILLED THIS BUILDER. On
+        # 2026-09-07 Belfast refused a 27-row shrink, safe_write did exactly
+        # its job, and the uncaught exception took build_uk down before
+        # Aberdeen ran at all. Aberdeen then had no status and no data, which
+        # the accounted check caught correctly. build_bridge and
+        # build_argentina already had this and I fixed one and left the other,
+        # for the third time in a day.
+        try:
+            write_series(_B.source_file(fname), rows, label=city)
+        except RefusedWrite as exc:
+            ST.set_status("build_uk", city, "held", str(exc)[:200])
+            print(f"  {city}: HELD by the write guard, previous series kept. "
+                  f"{exc}", file=sys.stderr)
+            held.append(city)
+            continue
         # ACCOUNTED FOR EITHER WAY. Aberdeen's bulletins disagree with the
         # official series, so extend() declines and it stays short every run.
         # That is the builder explaining itself, not a fault, and the

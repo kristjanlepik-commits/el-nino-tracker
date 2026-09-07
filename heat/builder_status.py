@@ -98,12 +98,26 @@ def set_status(builder, city, status, reason=None):
     p.write_text(json.dumps(doc, indent=1) + "\n")
 
 
-def unexplained(payload_cities, status_dir=None):
-    """Cities the builders did not account for this run, for a consumer.
+def unexplained(payload, cities, status_dir=None):
+    """Cities that are SHORT and that no builder accounted for.
 
-    A city with no row anywhere, or a row that never resolved, is unexplained.
-    Cities no builder owns are not this file's business and are excluded by
-    the caller passing only the assembled set.
+    TAKES THE PAYLOAD AND DOES THE SHORTNESS TEST ITSELF. The first version
+    returned every unaccounted city and left the caller to intersect with the
+    short ones, with the constraint stated only in a docstring. Platform
+    passed the whole assembled set, which is the obvious way to call it, and
+    the first real run reported eight cities of which SEVEN WERE FINE: Rome,
+    Vilnius, Zagreb, Budapest, Larnaca, Algiers and Belfast were all at their
+    frontier and merely `unchanged`, which for a finished season is the
+    correct outcome and not a fault.
+
+    Documenting a constraint instead of enforcing it is the same defect as
+    resolving DIR internally, in the same file, found the same day. An
+    interface that can be called wrongly will be, and the caller was right
+    both times.
+
+    A city with no row anywhere, or a row that never resolved, is unexplained
+    ONLY IF it is also short. Short-and-explained is Tuesday; complete-and-
+    unchanged is a finished season; short-and-unexplained is the freeze.
 
     TAKES A DIRECTORY, because resolving DIR internally made this untestable
     from outside. Platform's check passed a scratch --status-dir, which moved
@@ -119,8 +133,14 @@ def unexplained(payload_cities, status_dir=None):
         doc = json.loads(f.read_text())
         for c, v in doc.get("cities", {}).items():
             seen[c] = v.get("status")
-    return sorted(c for c in payload_cities
-                  if seen.get(c) not in ACCOUNTED)
+    # Imported here rather than at module scope: refresh_gate reads a payload
+    # and this file is imported by the builders that produce one.
+    import sys as _sys
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from refresh_gate import frontier  # noqa: E402
+    short = {c for c, _, _, _ in frontier(payload)}
+    return sorted(c for c in cities
+                  if c in short and seen.get(c) not in ACCOUNTED)
 
 
 def builders_seen(status_dir=None):
