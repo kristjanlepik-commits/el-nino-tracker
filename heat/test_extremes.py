@@ -35,7 +35,16 @@ def synth(mode):
                  if y != CUR and d["usable_to_cut"]]
         if not prior:
             continue
-        cur = v["years"][CUR]
+        # A CITY WITH NO CURRENT-SEASON ENTRY IS NOT A FAULT. The seven
+        # Argentine cities added 2026-09-04 have southern seasons, December
+        # to January or January to February, so the 2026 season has not
+        # begun and years holds no 2026 key. This loop assumed every city
+        # had one, which was true of 47 northern cities and stopped being
+        # true when the first southern one landed, so the whole test died
+        # on a KeyError before running a single case.
+        cur = v["years"].get(CUR)
+        if cur is None:
+            continue
         n = sorted(d["nights_to_cut"] for d in prior)
         for pct in ("90", "95", "99"):
             dd = sorted(d["days_to_cut"][pct] for d in prior)

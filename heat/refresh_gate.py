@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -228,8 +229,20 @@ def main() -> int:
         # A FIELD, NOT A PRINT. Design needs the reason to decide whether
         # editor writes a correction, and a reason that lives only in this
         # script's stdout is a reason the build cannot act on.
+        #
+        # STAMP IT. The file carries was/now fields and no date, so a stale
+        # copy reads exactly like a current one. On 2026-09-07 a version
+        # dated 2026-08-30 was read as live and three corrections were
+        # nearly escalated against pages that were right. A withdrawal is a
+        # claim about a moment; without the moment it cannot be checked.
         (ROOT / "heat" / "data" / "record_withdrawals.json").write_text(
-            json.dumps({"withdrawals": withdrawn}, indent=1) + "\n")
+            json.dumps({"generated": datetime.now(timezone.utc)
+                        .strftime("%Y-%m-%dT%H:%M:%SZ"),
+                        "generated_against_cut": {
+                            c: cur["cities"][c]["counted_to"]
+                            for c in sorted({w["city"] for w in withdrawn})
+                            if c in cur.get("cities", {})},
+                        "withdrawals": withdrawn}, indent=1) + "\n")
         print(f"  wrote heat/data/record_withdrawals.json "
               f"({len(withdrawn)} withdrawal(s))")
     for r in report:
