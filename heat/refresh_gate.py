@@ -149,8 +149,29 @@ def classify(prev, cur):
             if rk.get("value") is None:
                 return None
             return rk["value"] - 1 - len(rk.get("tied_with") or [])
+
+        def _is_record(rec):
+            """Rank 1 AND untied. A TIE IS NOT A RECORD, and this guard could
+            not see a record lost to one.
+
+            _above subtracts ties back out, so Budapest going from an outright
+            rank 1 to rank 3 tied with 2012 and 2015 read as "0 years above"
+            both before and after, and no withdrawal was recorded. Its live
+            page said "the most hot days Budapest has recorded" while three
+            years held that count. Caught 2026-09-07 when a stale GHCN archive
+            was refreshed and completed the season.
+
+            The convention is already settled everywhere else in this channel:
+            rank_of counts ties against, emit's _is_record requires strictly
+            greater, and the payload's tie_note says recomputing with a strict
+            greater-than manufactures records. This function was the one place
+            that disagreed with all three.
+            """
+            rk = (rec.get("days") or {}).get("rank") or {}
+            return rk.get("value") == 1 and not (rk.get("tied_with") or [])
+
         pa, na = _above(p), _above(n)
-        if pa == 0 and na not in (0, None):
+        if _is_record(p) and not _is_record(n):
             # WHY IT WAS WITHDRAWN DECIDES WHETHER IT IS A CORRECTION, and
             # the guard could not see the difference. Design raised it and
             # editor's rule is the test: only a MISTAKE is a correction. The

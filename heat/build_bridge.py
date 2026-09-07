@@ -102,12 +102,30 @@ MIN_DAYS = 100          # May-Aug days with both extremes for a usable year
 def ghcn(gid):
     """Whole-record daily extremes, quality-flagged values excluded."""
     path = SRC / f"ghcn_{gid}.dly"
-    if not path.exists():
-        blob = subprocess.run(
-            ["curl", "-sS", "--max-time", "120",
-             f"https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/{gid}.dly"],
-            capture_output=True).stdout
+    # THE SAME BUG AS THE BULLETIN CACHE, IN THE SAME FILE, and I fixed that
+    # one first and left this one. `if not path.exists()` meant the archive
+    # was downloaded once and never again: every .dly here was fetched on 12
+    # or 14 August 2026 and still served in September. Budapest's season
+    # "stopped on 10 August" because our copy of NOAA's file did, and I had
+    # already reported that to two chats as a property of the archive.
+    #
+    # GHCN-Daily appends. So refetch, and keep the old file unless the new one
+    # is at least as long, which is the same rule safe_write applies to the
+    # series and the same reason: a truncated or empty response is
+    # indistinguishable from a real answer until you compare.
+    blob = subprocess.run(
+        ["curl", "-sS", "--max-time", "120",
+         f"https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/{gid}.dly"],
+        capture_output=True).stdout
+    if len(blob) >= (path.stat().st_size if path.exists() else 0) and blob:
         path.write_bytes(blob)
+    elif path.exists():
+        print(f"    {gid}: refetch returned {len(blob)} bytes against "
+              f"{path.stat().st_size} cached; keeping the cached archive",
+              file=sys.stderr)
+    else:
+        raise RuntimeError(f"{gid}: no cached archive and the fetch returned "
+                           f"{len(blob)} bytes")
     out = {}
     for L in path.read_text(errors="replace").splitlines():
         el = L[17:21]

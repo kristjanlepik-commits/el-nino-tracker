@@ -16,8 +16,8 @@
  },
  "headline": {
   "lead": {
-   "claim": "25 of these 54 cities are having their hottest summer on record for days above their own extreme threshold.",
-   "at_day_record": 25,
+   "claim": "24 of these 54 cities are having their hottest summer on record for days above their own extreme threshold.",
+   "at_day_record": 24,
    "in_top_10pct": 41,
    "in_top_5pct": 35,
    "of_cities": 54,
@@ -30,14 +30,13 @@
    "framing_rule": "NEVER phrase this as a universal. No 'none', 'not one', 'every' or 'all'. Two such claims have already gone false here as the set grew, and both read as verified while being wrong. State the count and let the reader see the table.",
    "why_counts": "A count is checkable against the cities listed beside it and survives the set changing. A universal claim is a slogan that has to be re-proved every time a city is added, and nothing in the pipeline re-proves it."
   },
-  "records": 18,
+  "records": 17,
   "of_cities": 54,
   "record_cities": [
    "Algiers",
    "Basel",
    "Bilbao",
    "Bordeaux",
-   "Budapest",
    "Frankfurt",
    "London",
    "Lugano",
@@ -52,12 +51,11 @@
    "Toulouse",
    "Zaragoza"
   ],
-  "records_where_metric_holds": 10,
+  "records_where_metric_holds": 9,
   "of_cities_where_metric_holds": 26,
   "record_cities_where_metric_holds": [
    "Algiers",
    "Bordeaux",
-   "Budapest",
    "Lugano",
    "Lyon",
    "Madrid",
@@ -101,10 +99,10 @@
   "baseline": {
    "recomputed": {
     "median_year": 1,
-    "mean_year": 3.39,
+    "mean_year": 3.42,
     "worst_year_on_record": {
      "year": 2003,
-     "cities": 27
+     "cities": 28
     },
     "window": "1990-2025",
     "of_cities": 54
@@ -118,7 +116,7 @@
    }
   },
   "may_say_worst_on_record": false,
-  "may_say_worst_note": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable.",
+  "may_say_worst_note": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable.",
   "may_not_say": "2026 is NOT the worst year on this measure. 2003 produced 12 on the same to-date basis and is inside living memory for this readership.",
   "may_not_say_note": "Curated text, retained. Where it disagrees with may_say_worst_on_record above, the COMPUTED field wins: that one regenerates and this one does not.",
   "the_better_story": "Three of the four worst years on this measure are the last four years. A pattern rather than an event.",
@@ -127,7 +125,7 @@
   "caveat": "2026 is counted to 2-3 August with the season unfinished. Prior years are counted to the same date, so the comparison is like-for-like today, but 2026 can still add records before September."
  },
  "day_headline": {
-  "records": 25,
+  "records": 24,
   "of_cities": 54,
   "record_cities": [
    "Algiers",
@@ -135,7 +133,6 @@
    "Basel",
    "Bilbao",
    "Bordeaux",
-   "Budapest",
    "Cologne",
    "Frankfurt",
    "Geneva",
@@ -158,8 +155,8 @@
   ],
   "headline_requires_baseline": true,
   "baseline": {
-   "median_year": 2,
-   "mean_year": 2.86,
+   "median_year": 1,
+   "mean_year": 2.81,
    "worst_year_on_record": {
     "year": 2003,
     "cities": 19
@@ -169,7 +166,7 @@
   },
   "measure": "days at or above this city's own 95th percentile of July-August maxima, counted to the same cut",
   "may_say_worst_on_record": false,
-  "may_say_worst_note": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+  "may_say_worst_note": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
  },
  "geography": {
   "claim": "The extreme is concentrated in the middle latitudes, not at the hot end.",
@@ -312,8 +309,8 @@
      "lat": 47.433,
      "lon": 19.183,
      "coord_source": "GHCN",
-     "day_percentile": 100.0,
-     "night_percentile": 100.0,
+     "day_percentile": 95.1,
+     "night_percentile": 97.6,
      "night_metric_holds": true
     },
     {
@@ -964,11 +961,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -983,21 +980,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -1950,11 +1947,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -1969,21 +1966,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -2558,11 +2555,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -2577,21 +2574,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -3166,11 +3163,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -3185,21 +3182,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -3743,11 +3740,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -3762,21 +3759,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -4333,11 +4330,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -4352,21 +4349,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -4899,11 +4896,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -4918,21 +4915,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -5335,11 +5332,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -5354,21 +5351,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -5815,11 +5812,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -5834,21 +5831,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -6383,11 +6380,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -6402,21 +6399,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -6955,11 +6952,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -6974,21 +6971,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -7521,11 +7518,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -7540,21 +7537,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -8186,11 +8183,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -8205,21 +8202,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -8877,11 +8874,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -8896,21 +8893,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -9434,11 +9431,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -9453,21 +9450,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -9890,11 +9887,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -9909,21 +9906,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -10389,11 +10386,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -10408,21 +10405,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -10998,11 +10995,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -11017,21 +11014,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -11760,11 +11757,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -11779,21 +11776,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -12404,19 +12401,24 @@
    "pctl_baseline_is_default": false,
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
-   "nights_2026": 24,
-   "counted_to": "2026-08-10",
-   "last_observation": "2026-08-10",
+   "nights_2026": 27,
+   "counted_to": "2026-09-03",
+   "last_observation": "2026-09-03",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
-    "value": 1,
-    "of_years": 45,
-    "percentile": 100.0,
+    "value": 2,
+    "of_years": 42,
+    "percentile": 97.6,
     "season_open": true,
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
-    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years": [
+     {
+      "year": 2024,
+      "count_is_a_floor": 28
+     }
+    ],
     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
@@ -12426,11 +12428,11 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "08-10",
+    "cut_at": "09-03",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1973": 2,
-     "1974": 4,
+     "1974": 9,
      "1975": 1,
      "1976": 2,
      "1979": 2,
@@ -12438,41 +12440,37 @@
      "1981": 4,
      "1982": 3,
      "1983": 4,
-     "1985": 1,
      "1986": 2,
-     "1988": 4,
-     "1989": 1,
+     "1987": 5,
      "1990": 2,
-     "1991": 7,
-     "1992": 7,
-     "1993": 1,
-     "1994": 13,
+     "1992": 13,
+     "1994": 14,
      "1995": 5,
      "1997": 1,
-     "2000": 4,
-     "2001": 6,
+     "2000": 9,
+     "2001": 9,
      "2002": 12,
-     "2003": 11,
+     "2003": 15,
      "2004": 4,
      "2005": 7,
      "2006": 15,
-     "2007": 9,
-     "2008": 2,
+     "2007": 12,
+     "2008": 4,
      "2009": 9,
-     "2010": 13,
-     "2011": 3,
-     "2012": 17,
+     "2010": 14,
+     "2011": 7,
+     "2012": 19,
      "2013": 17,
      "2014": 8,
-     "2015": 14,
+     "2015": 21,
      "2016": 8,
-     "2017": 12,
-     "2018": 15,
-     "2019": 10,
-     "2020": 7,
-     "2021": 15,
-     "2022": 15,
-     "2023": 4
+     "2017": 13,
+     "2018": 19,
+     "2019": 19,
+     "2020": 10,
+     "2021": 16,
+     "2022": 19,
+     "2023": 13
     },
     "expected_slots": 52,
     "due_slots": 52,
@@ -12481,12 +12479,16 @@
     "last_slot": 2024,
     "unit": "year",
     "slot_basis": "Span of the station record as held by the published source. Taken BEFORE any completeness filter and never from the emitted series.",
-    "values_present": 44,
+    "values_present": 40,
     "unusable_slots": [
      1977,
      1978,
      1984,
-     1987,
+     1985,
+     1988,
+     1989,
+     1991,
+     1993,
      1996,
      1998,
      1999,
@@ -12503,16 +12505,16 @@
     ]
    },
    "nights_metric_gated": false,
-   "nights_baseline_per_year": 8.78,
+   "nights_baseline_per_year": 11.36,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -12527,21 +12529,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -12551,7 +12553,7 @@
     "banned_words": [
      "ordinary"
     ],
-    "banned_words_reason": "This city is at the 100th percentile of its own record, at or above the 85th, so 'ordinary' is false of it. That is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "banned_words_reason": "This city is at the 97.6th percentile of its own record, at or above the 85th, so 'ordinary' is false of it. That is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
     "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
    },
    "station_relocations": [],
@@ -12560,27 +12562,30 @@
    "station_disclosure": "Station history not yet checked.",
    "station_disclosure_note": "Kristjan's ruling 2026-08-07: show the state per city rather than verify quietly or hedge across the set. THREE DIFFERENT FACTS and the reader gets whichever is true. Generated from the fields, never typed. When a city moves from unchecked to checked-and-clean the page improves with no copy change.",
    "station_note": "Documented moves inside the period we publish, from the met service's own station history. WHERE THIS IS NON-EMPTY the record is not a single continuous site, so 'Nth of M years' overstates comparability and any baseline spanning the move is computed across two sites. Empty list means checked and clean; station_history_checked false means NOT CHECKED, which is not the same thing.",
-   "record_margin_nights": 7,
+   "record_margin_nights": null,
    "featured": false,
    "days": {
     "rank": {
-     "value": 1,
-     "of_years": 45,
-     "percentile": 100.0,
+     "value": 3,
+     "of_years": 41,
+     "percentile": 95.1,
      "season_open": true,
      "season_not_started_note": null,
      "measured_on": "95",
      "ties_count_against": true,
-     "tied_with": [],
+     "tied_with": [
+      2012,
+      2015
+     ],
      "beaten_by_excluded_years": [],
      "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
-     "margin_days": 2,
-     "days_so_far": 13
+     "margin_days": null,
+     "days_so_far": 15
     },
     "series_to_same_date": {
-     "cut_at": "08-10",
+     "cut_at": "09-03",
      "measured_on": "95",
      "values": {
       "1973": 0,
@@ -12592,41 +12597,37 @@
       "1981": 0,
       "1982": 0,
       "1983": 1,
-      "1985": 0,
       "1986": 0,
-      "1988": 2,
-      "1989": 0,
+      "1987": 0,
       "1990": 0,
-      "1991": 0,
-      "1992": 3,
-      "1993": 0,
+      "1992": 11,
       "1994": 5,
       "1995": 0,
       "1997": 0,
-      "2000": 4,
+      "2000": 8,
       "2001": 2,
       "2002": 3,
-      "2003": 1,
+      "2003": 5,
       "2004": 0,
       "2005": 3,
       "2006": 1,
       "2007": 9,
-      "2008": 0,
+      "2008": 1,
       "2009": 0,
       "2010": 1,
-      "2011": 3,
-      "2012": 11,
+      "2011": 7,
+      "2012": 15,
       "2013": 11,
       "2014": 0,
-      "2015": 10,
+      "2015": 15,
       "2016": 0,
       "2017": 7,
       "2018": 0,
       "2019": 0,
       "2020": 0,
-      "2021": 7,
-      "2022": 11,
-      "2023": 0
+      "2021": 8,
+      "2022": 13,
+      "2023": 2
      },
      "note": "Days at or above this city's own 95th percentile threshold, counted to the same cut as every other year. The 90 and 99 thresholds are emitted above but only the 95 series is ranked."
     },
@@ -12639,18 +12640,18 @@
     "reported_season_key": 2026,
     "reported_season_key_note": "The key into every per-year series on this city, including series_to_same_date.values and warmest_day_to_cut_c. It is NOT always the current calendar year: a wrapping season is keyed by the year it began, and a city whose season has not opened reports its last complete one.",
     "days_current_season": {
-     "90": 19,
-     "95": 13,
+     "90": 24,
+     "95": 15,
      "99": 11
     },
     "days_2026": {
-     "90": 19,
-     "95": 13,
+     "90": 24,
+     "95": 15,
      "99": 11
     },
     "days_2026_deprecated": "Use days_current_season. This name says 2026 and holds the reported season, which for a wrapping season is the one that BEGAN in reported_season_key. Kept only so existing consumers do not break.",
     "season_label": "2026",
-    "season_status": "in progress",
+    "season_status": "complete",
     "season_label_note": "PRINT season_label, never the bare key. A wrapping season spans two calendar years and 2025 alone reads as wrong to anyone who knows the hemisphere. season_status says whether this is a season still running or one that has finished: a southern page today reports a summer that ENDED in January, where a European page reports one still going.",
     "counts_per_year": {
      "90": {
@@ -12667,26 +12668,26 @@
      "recent": "2011-2025",
      "early": "1961-1990"
     },
-    "mean_1961_1990_to_cut": 0.29,
+    "mean_1961_1990_to_cut": 0.17,
     "mean_1961_1990_full_year": 0.0,
     "mean_note": "to_cut is comparable to days_2026 and to the ranked series. full_year is what a reader hears in 'a summer'. A headline using one with a chart showing the other is the error this pair exists to prevent.",
     "multiple_available": false,
     "multiple_withheld_note": "NOT COMPARABLE and the multiple is withheld. This station's 1961-1990 baseline holds only 1 of 30 years, drawn from the warmer end of the period, so the multiple would understate itself while looking like the figures beside it."
    },
    "season_label": "2026",
-   "season_status": "in progress",
+   "season_status": "complete",
    "reported_season_key": 2026,
    "days_current_season": {
-    "90": 19,
-    "95": 13,
+    "90": 24,
+    "95": 15,
     "99": 11
    },
    "counting_basis": {
     "window_label": "May to August",
-    "window_days": 100,
-    "cut_clips_the_window": true,
-    "cut_date": "2026-08-10",
-    "basis": "every year truncated at the same date, so a part-finished season is never set against complete ones",
+    "window_days": 121,
+    "cut_clips_the_window": false,
+    "cut_date": null,
+    "basis": "every year counted over the whole window; this season is complete, so no year is cut short",
     "note": "PRINT FROM cut_clips_the_window. When it is false the cut date is not part of the method and naming it asserts a truncation that did not run: the cut falls outside a wrapping season's window entirely and clips nothing. The like-with-like guarantee still holds, but because every season compared is complete rather than because each was trimmed to a common date."
    },
    "joined": {
@@ -12704,7 +12705,7 @@
     "1976": 34.0
    },
    "warmest_day_to_cut_c": {
-    "1973": 32.0,
+    "1973": 33.0,
     "1974": 35.0,
     "1975": 30.0,
     "1976": 34.0,
@@ -12713,41 +12714,37 @@
     "1981": 34.0,
     "1982": 33.2,
     "1983": 36.3,
-    "1985": 34.9,
     "1986": 33.3,
-    "1988": 35.4,
-    "1989": 34.2,
+    "1987": 34.7,
     "1990": 34.0,
-    "1991": 34.7,
-    "1992": 36.1,
-    "1993": 34.5,
+    "1992": 36.7,
     "1994": 36.3,
     "1995": 34.0,
     "1997": 34.2,
-    "2000": 36.3,
+    "2000": 37.9,
     "2001": 36.0,
     "2002": 35.4,
-    "2003": 35.8,
+    "2003": 39.4,
     "2004": 34.4,
     "2005": 35.3,
     "2006": 35.9,
     "2007": 40.7,
-    "2008": 34.5,
+    "2008": 36.1,
     "2009": 35.0,
     "2010": 35.2,
-    "2011": 36.9,
+    "2011": 38.0,
     "2012": 37.7,
     "2013": 39.4,
     "2014": 35.0,
-    "2015": 37.1,
+    "2015": 37.6,
     "2016": 34.8,
     "2017": 38.5,
     "2018": 34.6,
-    "2019": 34.9,
-    "2020": 33.1,
+    "2019": 35.0,
+    "2020": 34.5,
     "2021": 37.6,
     "2022": 38.2,
-    "2023": 34.5,
+    "2023": 35.6,
     "2026": 40.2
    },
    "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis.",
@@ -12933,11 +12930,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -12952,21 +12949,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -13480,11 +13477,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -13499,21 +13496,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -14035,11 +14032,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -14054,21 +14051,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -14614,11 +14611,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -14633,21 +14630,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -15153,11 +15150,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -15172,21 +15169,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -15701,11 +15698,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -15720,21 +15717,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -16281,11 +16278,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -16300,21 +16297,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -16860,11 +16857,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -16879,21 +16876,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -17415,11 +17412,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -17434,21 +17431,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -18219,11 +18216,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -18238,21 +18235,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -18786,11 +18783,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -18805,21 +18802,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -19353,11 +19350,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -19372,21 +19369,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -19895,11 +19892,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -19914,21 +19911,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -20481,11 +20478,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -20500,21 +20497,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -21861,11 +21858,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -21880,21 +21877,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -22468,11 +22465,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -22487,21 +22484,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -23098,11 +23095,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -23117,21 +23114,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -23699,11 +23696,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -23718,21 +23715,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -24254,11 +24251,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -24273,21 +24270,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -24809,11 +24806,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -24828,21 +24825,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -25444,11 +25441,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -25463,21 +25460,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -25992,11 +25989,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -26011,21 +26008,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -26518,11 +26515,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -26537,21 +26534,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -27094,11 +27091,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -27113,21 +27110,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -27865,11 +27862,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -27884,21 +27881,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -28432,11 +28429,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -28451,21 +28448,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -28999,11 +28996,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -29018,21 +29015,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -29588,11 +29585,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -29607,21 +29604,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -30202,11 +30199,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -30221,21 +30218,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -30743,11 +30740,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -30762,21 +30759,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -31381,11 +31378,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -31400,21 +31397,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -32150,11 +32147,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -32169,21 +32166,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -32802,11 +32799,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -32821,21 +32818,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -33644,11 +33641,11 @@
    "page_constraints": {
     "nights": {
      "may_say_worst_on_record": false,
-     "reason": "18 cities at a record against 27 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
+     "reason": "17 cities at a record against 28 in 2003, the worst prior year. It does not exceed that, so the claim is unavailable."
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "24 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (19 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -33663,21 +33660,21 @@
      "cross_year_comparison": "NOT COMPUTED. A cross-year record count requires a city set chosen without reference to the years being compared. This set was assembled during 2026 with knowledge of 2026, so no recomputation repairs it, including on a fixed set. Per-city ranks are unaffected: selection cannot bias a comparison a city makes with itself.",
      "nights": {
       "full": [
-       18,
-       27
+       17,
+       28
       ],
       "without_selected": [
-       14,
-       22
+       13,
+       23
       ]
      },
      "days": {
       "full": [
-       25,
+       24,
        19
       ],
       "without_selected": [
-       20,
+       19,
        13
       ]
      }
@@ -34311,7 +34308,7 @@
    "Barcelona": "2026-09-03",
    "Bilbao": "2026-09-03",
    "Bordeaux": "2026-09-05",
-   "Budapest": "2026-08-10",
+   "Budapest": "2026-09-03",
    "Laboulaye": "2026-08-29",
    "Larnaca": "2026-08-31",
    "Lyon": "2026-09-05",
