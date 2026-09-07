@@ -238,6 +238,29 @@ jobs:
       # refresh is still a true observation and losing it because a rank
       # moved would be the wrong trade. The gate governs PUBLISHING, not
       # keeping.
+      # SILENCE IS THE SIGNAL. Asks the builders, not the payload, whether
+      # every assembled city was accounted for. Two earlier versions of
+      # this check asked the DATA whether work had been available and both
+      # failed: "is any city short" is permanently true because Aberdeen
+      # and Tallinn never resolve, and "did a shortfall grow" is silent
+      # out of season because the frontier pins to the season end, which
+      # made it silent on Rome, the actual incident, for the whole freeze.
+      # The payload does not contain whether there was work to do. Only
+      # the builder knows whether it fetched, held, refused, or quietly
+      # read a cache and completed.
+      #
+      # BEFORE the commit, and it must stay there. heat/data/status/ is
+      # gitignored and describes THIS run, so the check has to run in the
+      # same job that ran the builders; and an earlier version of a check
+      # here was first placed after the commit step, where it would have
+      # compared the payload against itself and passed forever.
+      #
+      # Non-blocking is NOT an option here, unlike the frontier advisory:
+      # an unaccounted city is not a labelled short city, it is a city
+      # nobody can say anything about.
+      - name: Every city accounted for
+        run: python scripts/check_heat_accounted.py
+
       - name: Commit the payload
         run: |
           git config user.name  "tls-heat-refresh"
