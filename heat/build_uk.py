@@ -428,8 +428,26 @@ def main() -> int:
         }
         print(f"  {city:11s} {min(hy)}-{max(hy)}  {len(base)}/30 baseline  "
               f"2026: {len(d26)} days  ({nfiles} MIDAS files)")
-    (ROOT / "heat" / "data" / "uk_provenance.json").write_text(
-        json.dumps(prov, indent=1) + "\n")
+    # A HELD CITY KEEPS ITS PREVIOUS PROVENANCE, because its previous DATA is
+    # what is still on disk. The held path skips the prov assignment, so
+    # writing the dict wholesale dropped Belfast's entry entirely and left the
+    # file describing two cities out of three while three series existed. A
+    # provenance file that does not describe the data beside it is worse than
+    # a stale one: the stale entry is at least true of the bytes it names.
+    _pf = ROOT / "heat" / "data" / "uk_provenance.json"
+    if _pf.exists():
+        try:
+            carried = json.loads(_pf.read_text())
+        except json.JSONDecodeError:
+            carried = {}
+        for c in STATIONS:
+            if c not in prov and c in carried:
+                prov[c] = carried[c]
+                prov[c]["carried_forward"] = (
+                    "This build did not write this city's series, so its "
+                    "previous provenance stands. Held or refused; see the "
+                    "builder status for which.")
+    _pf.write_text(json.dumps(prov, indent=1) + "\n")
     return 0
 
 
