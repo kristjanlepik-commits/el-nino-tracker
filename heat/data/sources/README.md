@@ -5,11 +5,18 @@ the difference is deliberate.
 
 ## The rule
 
-**`.cache/` means CHEAP TO REGENERATE, not "impossible to regenerate".**
+**The test is not "is this re-derivable in theory" but "can the machine that
+needs it re-derive it within its own budget."**
 
-That distinction is the whole reason this directory exists, and the obvious
-reading of it is wrong. Everything here CAN be rebuilt. The question is what
-rebuilding costs against what storing costs.
+Platform's wording, and it is better than the one this file first carried
+("cheap to regenerate"), because it is machine-relative. AEMET is re-derivable
+by the laptop over about two hours and not by a 45-minute CI job, so for CI's
+purposes it is a source while remaining a cache locally. That resolves the
+apparent contradiction without making `.cache/` half-trustworthy, which is
+what an "exception" would have done.
+
+Everything here CAN be rebuilt. The question is by whom, and inside what
+budget.
 
     heat/.cache/src/     514 MB   DWD, KNMI, MeteoSwiss, SMHI, CHMI, FMI,
                                   GeoSphere, Meteo-France. Each fetcher pulls
@@ -53,6 +60,26 @@ and unreviewable by a human checking what a weekly refresh actually changed.
 In a repo whose discipline is that a change nobody can inspect did not really
 happen, readability wins. If the total ever gets uncomfortable the answer is
 fewer tracked files, not opaque ones.
+
+## Why not heat/data/histories/
+
+That directory solves a similar-looking problem and is not the same one.
+Measured 2026-09-07:
+
+    histories/aberdeen_midas.json.gz    1957-01-01 .. 2025-12-31
+    histories/london_midas.json.gz      1949-01-01 .. 2025-12-31
+    sources/aemet_Madrid.json           1920-01-01 .. 2026-09-03
+    sources/london.json                 1949-01-01 .. 2026-08-21
+
+**Everything in `histories/` ends in 2025 and never moves again**, which is
+why gzip is right there: MIDAS Open publishes in arrears and will not change.
+**Everything here runs into 2026 and advances weekly.** Same shape on disk,
+opposite lifecycle, and the gzip argument flips with it.
+
+`sources/london.json` is also DERIVED FROM `histories/london_midas.json.gz`
+plus the Met Office workbook. Filing a live series beside its own frozen
+input, under a near-identical name, is how somebody eventually rebuilds one
+from the other and loses the 2026 season.
 
 ## Adding a city here
 
