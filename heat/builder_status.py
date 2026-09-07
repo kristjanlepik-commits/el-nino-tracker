@@ -98,17 +98,42 @@ def set_status(builder, city, status, reason=None):
     p.write_text(json.dumps(doc, indent=1) + "\n")
 
 
-def unexplained(payload_cities):
+def unexplained(payload_cities, status_dir=None):
     """Cities the builders did not account for this run, for a consumer.
 
     A city with no row anywhere, or a row that never resolved, is unexplained.
     Cities no builder owns are not this file's business and are excluded by
     the caller passing only the assembled set.
+
+    TAKES A DIRECTORY, because resolving DIR internally made this untestable
+    from outside. Platform's check passed a scratch --status-dir, which moved
+    only ITS reads while this function went on reading the real one, so a
+    healthy fixture reported twelve healthy cities as unexplained. The test
+    failed for a reason unrelated to the code under test, and the workaround
+    was to reach in and rebind the module global. A function that forces its
+    caller to monkeypatch a global to test it is a sharp edge I left.
     """
+    d = Path(status_dir) if status_dir else DIR
     seen = {}
-    for f in sorted(DIR.glob("*.json")) if DIR.exists() else []:
+    for f in sorted(d.glob("*.json")) if d.exists() else []:
         doc = json.loads(f.read_text())
         for c, v in doc.get("cities", {}).items():
             seen[c] = v.get("status")
     return sorted(c for c in payload_cities
                   if seen.get(c) not in ACCOUNTED)
+
+
+def builders_seen(status_dir=None):
+    """Which builders wrote a status file this run.
+
+    A CONSUMER CANNOT GET THIS FROM unexplained() AND MUST NOT GLOB THIS
+    DIRECTORY ITSELF. A builder that dies before open_status leaves its cities
+    in no file at all, so a check reading only the rows it finds cannot see
+    the city nobody wrote about; that is build_uk and build_london on
+    2026-09-07, both dead on a missing import in under a second. The consumer
+    compares this against the builder list it already runs, which is the only
+    place that list honestly lives. Exposed here so the directory layout stays
+    this module's business rather than becoming a second caller's assumption.
+    """
+    d = Path(status_dir) if status_dir else DIR
+    return sorted(f.stem for f in d.glob("*.json")) if d.exists() else []
