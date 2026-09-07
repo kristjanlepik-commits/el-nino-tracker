@@ -84,20 +84,70 @@ jobs:
           EOF
           chmod 600 ~/.cdsapirc
 
-      # FAIL FAST, and do not commit a partial payload. A missing key or a
-      # dead service must not produce a payload quietly short of a country,
-      # because the gate would then hold on a set change that has nothing
-      # to do with the weather and everything to do with a fetch that
-      # failed.
+      # THIS STEP USED TO BE `set -e` OVER THE LOOP, AND THAT IS WHY THIS
+      # WORKFLOW HAD NEVER SUCCEEDED ONCE, 2026-08-09 to 2026-09-07, six
+      # runs six failures, with nothing alerting because a scheduled job
+      # that fails looks the same as one nobody watches. Heat found it:
+      # fetch_meteofrance.py raised IndexError on a single empty response
+      # (fixed their side, 54c14582), it sorts eighth of ten here, and
+      # `set -e` meant that one crash also took MeteoSwiss, SMHI and the
+      # whole payload rebuild with it, every week.
+      #
+      # The old comment above this step said FAIL FAST so as not to commit
+      # a partial payload. That reasoning is real but it bought the
+      # opposite: a step that dies on the first bad service is one bad
+      # service away from a TOTAL no-op, which is the state this was in
+      # for a month. Nine services fetched and one dead is a better
+      # payload than nothing at all, and the refresh gate downstream is
+      # what decides whether a changed set may publish. Same isolation
+      # ruling as D-289 one level down: a failure gets to cost its own
+      # service and nothing else.
+      #
+      # Each fetcher runs isolated, failures are tallied and named loudly,
+      # and the step fails only when EVERY fetcher failed, which means a
+      # systemic problem (no network, no keys) rather than one dead
+      # service. A partial fetch is reported and allowed through.
+      #
+      # refresh_sources.py IS NOT OPTIONAL AND WAS NEVER CALLED HERE.
+      # Four of the ten fetch_*.py write nothing at all: aemet, geosphere
+      # and meteofrance because their fetch() shapes are not what the
+      # cache holds (see that file's own docstring, which explains why a
+      # main() bolted onto each would emit the wrong shape from the wrong
+      # station list AND LOOK LIKE A FIX), and lsm because it is a static
+      # land-sea mask that correctly needs no write. So even with the
+      # crash above fixed, France, Spain and Vienna, eighteen cities,
+      # could never refresh. It runs after the loop because it reads the
+      # city list from build_city_series rather than a second copy.
       - name: Fetch
         env:
           AEMET_API_KEY: ${{ secrets.AEMET_API_KEY }}
         run: |
-          set -e
+          failed=""
+          total=0
           for f in heat/fetch_*.py; do
+            total=$((total + 1))
             echo "--- $f"
-            python "$f"
+            if ! python "$f"; then
+              echo "::warning::$f failed; continuing with the rest."
+              failed="$failed $f"
+            fi
           done
+          echo "--- heat/refresh_sources.py"
+          if ! python heat/refresh_sources.py; then
+            echo "::warning::heat/refresh_sources.py failed; MeteoFrance, AEMET and GeoSphere did not refresh."
+            failed="$failed heat/refresh_sources.py"
+            total=$((total + 1))
+          fi
+          n=$(echo $failed | wc -w | tr -d ' ')
+          if [ "$n" -gt 0 ]; then
+            echo "::warning::$n of $total fetch steps failed:$failed"
+          fi
+          if [ "$n" -ge "$total" ]; then
+            echo "::error::EVERY fetch step failed, so this is systemic (network," \
+                 "credentials) rather than one dead service. Not rebuilding a payload" \
+                 "from a cache that nothing refreshed."
+            exit 1
+          fi
 
       - name: Rebuild the payload
         run: |
@@ -114,11 +164,18 @@ jobs:
         run: |
           git config user.name  "tls-heat-refresh"
           git config user.email "noreply@thelongswell.com"
+          # Pathspec ON THE COMMIT, not only on the add. Harmless here (a
+          # fresh runner never has another chat's work staged) but this
+          # file is read as an example, and CLAUDE.md's 2026-08-31 entry
+          # says exactly this pattern is what swept 69 of another chat's
+          # files into an unrelated commit. Heat flagged it reading as an
+          # approved instance of the thing we told everyone not to do.
           git add heat/data/city_series.json heat/data/city_nights.json
           if git diff --cached --quiet; then
             echo "Payload unchanged this week; nothing to commit."
           else
-            git commit -m "heat: weekly refresh $(date -u +'%Y-%m-%d')"
+            git commit heat/data/city_series.json heat/data/city_nights.json \
+              -m "heat: weekly refresh $(date -u +'%Y-%m-%d')"
             bash scripts/push_retry.sh main
           fi
 
