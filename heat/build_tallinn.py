@@ -45,8 +45,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "heat" / ".cache" / "src"
+# WRITES TO heat/data/sources/, NOT the cache. See source_file() in
+# build_city_series: this file is expensive to regenerate and is tracked.
+import build_city_series as _B  # noqa: E402
+
 BOOK = ROOT / "heat" / "data" / "official" / "tallinn_keskkonnaagentuur.xlsx"
-OUT = SRC / "tallinn.json"
+OUT = _B.source_file("tallinn.json")
 PROV = ROOT / "heat" / "data" / "tallinn_provenance.json"
 
 # Column indices in the supplied workbook. Harku's minimum and maximum only.

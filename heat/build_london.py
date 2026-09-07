@@ -46,10 +46,14 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "heat"))
 
 import synop  # noqa: E402
+# WRITES TO heat/data/sources/, NOT the cache. See source_file() in
+# build_city_series: this file is expensive to regenerate and is tracked.
+import build_city_series as _B  # noqa: E402
+
 
 SRC = ROOT / "heat" / ".cache" / "src"
 MIDAS = SRC / "midas_London"
-OUT = SRC / "london.json"
+OUT = _B.source_file("london.json")
 PROV = ROOT / "heat" / "data" / "london_provenance.json"
 
 WMO = "03772"

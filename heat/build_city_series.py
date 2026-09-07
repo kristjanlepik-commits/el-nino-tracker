@@ -45,6 +45,48 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "heat" / ".cache" / "src"
+
+# TRACKED SOURCES, AS OPPOSED TO A CACHE. Platform's call 2026-09-07, and the
+# principle is worth stating exactly because the obvious version of it is
+# wrong: `.cache/` does not mean "cannot be regenerated", it means CHEAP TO
+# REGENERATE. Every file below CAN be rebuilt. AEMET serves 3-month windows
+# behind a hard rate limit, so rebuilding the ten Spanish cities is 79 minutes
+# of enforced sleep; the eighteen assembled cities are put together by
+# build_london, build_uk, build_tallinn, build_argentina and build_bridge,
+# which the weekly job's fetch_*.py glob never reaches. Re-deriving either
+# every week to gain a few days costs far more than storing them, and the
+# weekly delta is a few lines at the tail.
+#
+# That, not irreplaceability, is why these are tracked. I raised this first as
+# a data-loss risk and was wrong: the irreplaceable INPUTS behind them, the
+# Keskkonnaagentuur workbook, the two Met Office workbooks, the four MIDAS
+# baselines and latam_gather.json, were already committed under heat/data/.
+#
+# Plain JSON, not gzip, also platform's call and also against the obvious
+# reading: gzip measured ~35% smaller even after git's delta compression. A
+# gzipped blob is "binary files differ" in every diff, invisible to guards
+# that walk tracked files and unreviewable by a human checking what a refresh
+# changed. In a repo whose discipline is that an uninspectable change did not
+# happen, readability wins over 200 KB.
+SOURCES = ROOT / "heat" / "data" / "sources"
+
+# Prefix means provenance here: these are the services whose fetchers pull a
+# WHOLE archive in one go, so their files are genuinely disposable.
+_CACHE_PREFIXES = ("dwd_", "knmi_", "mch_", "smhi_", "chmi_", "fmi_",
+                   "gs_", "mf_")
+
+
+def source_file(fname):
+    """Where this city's dailies live. Classified, never a fallback search.
+
+    A "look in SOURCES, else SRC" resolver would be the obvious shape and it
+    hides the one failure that matters: if a writer is ever missed in a move
+    like this, the file exists in BOTH places, the tracked copy is the stale
+    one, and a preference for it reads perfectly well while silently serving
+    last month's data. Classifying by prefix means a missed writer produces a
+    file nothing reads, which the pre-flight in main() reports by name.
+    """
+    return (SRC if fname.startswith(_CACHE_PREFIXES) else SOURCES) / fname
 OUT = ROOT / "heat" / "data" / "city_series.json"
 
 # THE SEASON IS DERIVED PER STATION, NOT ASSUMED. Four constants used to
@@ -965,7 +1007,8 @@ def window_days(cut, start=None):
 
 def load_aemet(city, fname=None):
     tn, tx = defaultdict(dict), defaultdict(dict)
-    for d, mn, mx in json.loads((SRC / (fname or f"aemet_{city}.json")).read_text()):
+    for d, mn, mx in json.loads(
+            source_file(fname or f"aemet_{city}.json").read_text()):
         y, mo, dd = int(d[:4]), int(d[5:7]), int(d[8:])
         if mn is not None:
             tn[y][(mo, dd)] = mn
@@ -1435,7 +1478,7 @@ def main() -> int:
                 if not f.exists():
                     missing.append((city, f.name))
         else:
-            f = SRC / (meta.get("file") or f"aemet_{city}.json")
+            f = source_file(meta.get("file") or f"aemet_{city}.json")
             if not f.exists():
                 missing.append((city, f.name))
     if missing:

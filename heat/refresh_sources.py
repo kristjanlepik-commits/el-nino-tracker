@@ -115,7 +115,7 @@ def refresh_aemet():
         if meta["country"] != "ES":
             continue
         fname = meta.get("file") or f"aemet_{city}.json"
-        path = SRC / fname
+        path = B.source_file(fname)
         if not path.exists():
             done[city] = "no existing file, skipped"
             continue

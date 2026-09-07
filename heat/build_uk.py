@@ -41,6 +41,10 @@ import subprocess
 import sys
 from pathlib import Path
 from safe_write import write_series
+# WRITES TO heat/data/sources/, NOT the cache. See source_file() in
+# build_city_series: this file is expensive to regenerate and is tracked.
+import build_city_series as _B  # noqa: E402
+
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "heat" / ".cache" / "src"
@@ -370,7 +374,7 @@ def main() -> int:
         merged = dict(hist)
         merged.update({d: v for d, v in cur.items() if d.startswith("2026")})
         rows = [[d, mn, mx] for d, (mn, mx) in sorted(merged.items())]
-        write_series(SRC / fname, rows, label=city)
+        write_series(_B.source_file(fname), rows, label=city)
         d26 = [d for d, mn, mx in rows
                if d.startswith("2026") and mn is not None and mx is not None]
         hy = sorted({int(d[:4]) for d in hist})
