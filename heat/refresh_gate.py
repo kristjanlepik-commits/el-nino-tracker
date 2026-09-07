@@ -319,6 +319,37 @@ def frontier(cur):
     return out
 
 
+def _write_withdrawals(payload):
+    """Write only when the CONTENT changes, timestamp excluded.
+
+    Two competing needs and the resolution matters. The file must never
+    describe withdrawals that no longer exist, which is why it is written on
+    an empty result rather than left standing. But writing it unconditionally
+    re-dates it on every run, and nine chats share this working tree, so a
+    file that dirties itself whenever anyone runs the gate is noise in
+    everybody else's `git status` and one more thing a broad `git add` can
+    sweep up.
+
+    Comparing content and skipping an identical write gives both: the file
+    cannot go stale, because any change to the withdrawals rewrites it, and
+    `generated` honestly dates the CONTENT rather than the last time the gate
+    happened to run. `generated_against_cut` already reads that way.
+    """
+    out = ROOT / "heat" / "data" / "record_withdrawals.json"
+    if out.exists():
+        try:
+            old = json.loads(out.read_text())
+            old.pop("generated", None)
+            new = dict(payload)
+            new.pop("generated", None)
+            if old == new:
+                return False
+        except (json.JSONDecodeError, OSError):
+            pass
+    out.write_text(json.dumps(payload, indent=1) + "\n")
+    return True
+
+
 def main() -> int:
     if not PREVIOUS.exists():
         # No baseline means nothing to compare against, and treating that as
@@ -340,12 +371,12 @@ def main() -> int:
     # An empty list is a statement that the gate ran and found nothing.
     # Absence of the file, or of the entry, must never be the way that is said.
     if not withdrawn:
-        (ROOT / "heat" / "data" / "record_withdrawals.json").write_text(
-            json.dumps({"generated": datetime.now(timezone.utc)
-                        .strftime("%Y-%m-%dT%H:%M:%SZ"),
-                        "generated_against_cut": {},
-                        "withdrawals": []}, indent=1) + "\n")
-        print("  wrote heat/data/record_withdrawals.json (no withdrawals)")
+        if _write_withdrawals({"generated": datetime.now(timezone.utc)
+                               .strftime("%Y-%m-%dT%H:%M:%SZ"),
+                               "generated_against_cut": {},
+                               "withdrawals": []}):
+            print("  wrote heat/data/record_withdrawals.json "
+                  "(no withdrawals)")
     if withdrawn:
         # A FIELD, NOT A PRINT. Design needs the reason to decide whether
         # editor writes a correction, and a reason that lives only in this
@@ -356,16 +387,16 @@ def main() -> int:
         # dated 2026-08-30 was read as live and three corrections were
         # nearly escalated against pages that were right. A withdrawal is a
         # claim about a moment; without the moment it cannot be checked.
-        (ROOT / "heat" / "data" / "record_withdrawals.json").write_text(
-            json.dumps({"generated": datetime.now(timezone.utc)
-                        .strftime("%Y-%m-%dT%H:%M:%SZ"),
-                        "generated_against_cut": {
-                            c: cur["cities"][c]["counted_to"]
-                            for c in sorted({w["city"] for w in withdrawn})
-                            if c in cur.get("cities", {})},
-                        "withdrawals": withdrawn}, indent=1) + "\n")
-        print(f"  wrote heat/data/record_withdrawals.json "
-              f"({len(withdrawn)} withdrawal(s))")
+        if _write_withdrawals({"generated": datetime.now(timezone.utc)
+                               .strftime("%Y-%m-%dT%H:%M:%SZ"),
+                               "generated_against_cut": {
+                                   c: cur["cities"][c]["counted_to"]
+                                   for c in sorted({w["city"]
+                                                    for w in withdrawn})
+                                   if c in cur.get("cities", {})},
+                               "withdrawals": withdrawn}):
+            print(f"  wrote heat/data/record_withdrawals.json "
+                  f"({len(withdrawn)} withdrawal(s))")
     short = frontier(cur)
     if short:
         print(f"\n  {len(short)} city/cities did not reach the last day they "
