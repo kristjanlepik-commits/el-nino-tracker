@@ -40,10 +40,33 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    # Ten fetchers against ten national services, several of them slow.
-    # Generous, but bounded: with cancel-in-progress false a hung run
-    # would hold the group and silently skip the following weeks.
-    timeout-minutes: 45
+    # Ten fetchers against ten national services, several of them slow,
+    # plus the four assembled-city builders added 2026-09-07. Generous,
+    # but bounded: with cancel-in-progress false a hung run would hold
+    # the group and silently skip the following weeks.
+    #
+    # 90, RAISED FROM 45 ON MEASUREMENT RATHER THAN ON A FAILURE. Run
+    # 34106553569, on the cheap path, spent about 7 minutes in Fetch and
+    # was still in the builder step at 21 minutes, 28 into a 45 minute
+    # job. And that run UNDERSTATES the weekly cost: heat's 592b246c
+    # landed after it was dispatched and makes build_bridge refetch the
+    # current year rather than serve it from disk, which is correct (five
+    # cities had frozen at their August fetch dates and reported success
+    # every rebuild) and is one live pull per city per run that this
+    # measurement got for free. Heat measured the six bridge cities at
+    # roughly 20 minutes locally on that expensive path, with Algiers
+    # walking from 1999 at a 3 second sleep per year.
+    #
+    # So the realistic weekly total is 35 to 45 minutes today and grows
+    # by one year of Algiers every January. A JOB timeout kills mid-step
+    # and commits nothing, so hitting it discards the fetch work too,
+    # which makes thin headroom expensive rather than merely annoying.
+    # 90 leaves room for a slow national service on a bad day without
+    # being unbounded. Heat has two cost reductions in mind
+    # (skip the sleep for cache-served years; start the range at the
+    # first year the bridge contributes); if those land this can come
+    # back down, and the number should follow a measurement then too.
+    timeout-minutes: 90
     permissions:
       contents: write
     steps:
