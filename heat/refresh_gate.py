@@ -269,7 +269,7 @@ def compare(prev, cur):
     return b + r
 
 
-def frontier(cur):
+def frontier(cur, as_of=None):
     """Which cities did NOT reach the last day they could have.
 
     WHY THIS EXISTS, and it is the guard three separate bugs got past on
@@ -301,7 +301,13 @@ def frontier(cur):
     anyone else: Tallinn's source has genuinely stopped, Aberdeen's bulletins
     were refused by a guard doing its job, and neither is a fault to fix.
     """
-    today = datetime.now(timezone.utc).date()
+    # AS_OF LETS A CALLER MEASURE AT THE DATE A PAYLOAD WAS WRITTEN rather
+    # than at today, which is what comparing two payloads needs: measured
+    # against the same today, a city that did not advance has the same
+    # shortfall in both and the difference is always zero. Platform's, for
+    # scripts/check_heat_advanced.py, so nothing outside this file has to
+    # reimplement "today minus lag, or season end, whichever is earlier".
+    today = as_of or datetime.now(timezone.utc).date()
     out = []
     for city, v in sorted(cur.get("cities", {}).items()):
         obs = v.get("counted_to")
