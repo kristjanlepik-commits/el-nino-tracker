@@ -373,6 +373,43 @@ def rank_of(value, series, ties_against=True):
     return sum(1 for x in series.values() if x > value) + 1
 
 
+def provable_superiors(yrs, cur, getter):
+    """Prior years EXCLUDED as incomplete whose count already matches or
+    beats the current year.
+
+    WHY THESE CANNOT SIMPLY BE DROPPED. usable_to_cut excludes a year that
+    observed too little of the window, because an incomplete year undercounts
+    and would rank artificially low. The exclusion is symmetric and the error
+    is not: an incomplete year's count is a FLOOR. When that floor is already
+    at or above the current year, the year provably matches or beats us, and
+    dropping it lets us claim a record over a year we can prove we did not
+    beat.
+
+    Found on Nottingham 2026-09-07: 1995 counted 21 days above the 95th
+    percentile having observed 94 of the window's 113 days, against 2026's
+    20. The live page read "the most hot days Nottingham has recorded by this
+    date". One city and one instrument of the 54 by 2 audited, so this is a
+    guard against a real case rather than a hypothetical one.
+
+    WHAT THIS DOES NOT FIX, and the field says so rather than implying it is
+    settled: an excluded year whose floor is BELOW ours could still have
+    exceeded us in the days it missed. That is unknowable, so the rule fires
+    only where the evidence is provable and the residual limit is stated.
+
+    IT VETOES A RECORD, IT DOES NOT REORDER A RANKING. Callers apply this
+    only where the rank would otherwise be 1. Applied to every rank it moved
+    five more cities, all of them low-ranked ones where an excluded year
+    trivially clears a small count: Belfast went 96 of 96 to 97 of 97 and
+    Parana 69 to 71. Those are not corrections, they are a different and
+    noisier definition of of_years, and none of them was the defect. The
+    defect is claiming a record over a year we can prove we did not beat.
+    """
+    now = getter(yrs[cur])
+    return sorted((int(y), getter(d)) for y, d in yrs.items()
+                  if int(y) < int(cur) and not d["usable_to_cut"]
+                  and getter(d) >= now)
+
+
 def _is_record(v, key, pct="95"):
     """Is the current year at a record for this city on this instrument?"""
     yrs = v["years"]
@@ -381,6 +418,11 @@ def _is_record(v, key, pct="95"):
            else yrs[cur]["days_to_cut"][pct])
     prior = [(d["nights_to_cut"] if key == "nights" else d["days_to_cut"][pct])
              for y, d in yrs.items() if d["usable_to_cut"] and y != cur]
+    # An excluded year we can PROVE matched or beat us is not a record for us.
+    get = ((lambda d: d["nights_to_cut"]) if key == "nights"
+           else (lambda d: d["days_to_cut"][pct]))
+    if provable_superiors(yrs, cur, get):
+        return False
     return bool(prior) and now > max(prior)
 
 
@@ -664,8 +706,14 @@ def main() -> int:
                 if d["usable_to_cut"] and int(y) < int(cur)}
         todate = {y: d["nights_to_cut"] for y, d in good.items()}
         n26 = yrs[cur]["nights_to_cut"]
-        r = rank_of(n26, todate, ties) if season_open else None
-        of_years = (len(todate) + 1) if season_open else len(todate)
+        # A YEAR WE CAN PROVE BEAT US COUNTS AGAINST US even though it is
+        # too incomplete to be placed in the order. See provable_superiors.
+        _r0 = rank_of(n26, todate, ties) if season_open else None
+        n_veto = (provable_superiors(yrs, cur, lambda d: d["nights_to_cut"])
+                  if _r0 == 1 else [])
+        r = (_r0 + len(n_veto)) if season_open else None
+        of_years = ((len(todate) + 1 + len(n_veto)) if season_open
+                    else len(todate))
         present = sorted(int(y) for y in yrs if int(y) < int(cur))
         unusable = sorted(y for y in present if y not in good)
         expected = present[-1] - present[0] + 1
@@ -754,6 +802,17 @@ def main() -> int:
                     "is the most recent figure this city has."),
                 "ties_count_against": ties,
                 "tied_with": sorted(y for y, n in todate.items() if n == n26),
+                "beaten_by_excluded_years": [
+                    {"year": y, "count_is_a_floor": n} for y, n in n_veto],
+                "beaten_by_excluded_years_note":
+                    "Years too incomplete to rank whose count ALREADY matches "
+                    "or beats this one. An incomplete year undercounts, so its "
+                    "count is a floor and it provably was not beaten. They are "
+                    "counted into rank and of_years. A residual limit stands "
+                    "and is not fixed by this: an excluded year counting BELOW "
+                    "this one could still have exceeded it in the days it "
+                    "missed, which is unknowable, so this fires only where the "
+                    "evidence is provable.",
                 "tie_note":
                     "A TIE IS NOT A RECORD. rank counts prior years at or "
                     "above 2026, so a tied year keeps 2026 off first place. "
@@ -958,7 +1017,9 @@ def main() -> int:
                 "is computed across two sites. Empty list means checked and "
                 "clean; station_history_checked false means NOT CHECKED, "
                 "which is not the same thing.",
-            "record_margin_nights": (n26 - max(below)) if r == 1 and below else None,
+            "record_margin_nights": (n26 - max(below)
+                                     if r == 1 and below and not n_veto
+                                     else None),
             "featured": c in FEATURED,
         }
 
@@ -981,8 +1042,15 @@ def main() -> int:
         # still printed "70 of 70" on the instrument the Argentine pages
         # actually lead with. Two ranks in two blocks: fix one, ship the
         # other.
-        dr = rank_of(d26, dser, ties) if season_open else None
-        dof = (len(dser) + 1) if season_open else len(dser)
+        # SAME VETO AS THE NIGHT RANK, and applied here because the days
+        # rank is the one the record claim is written from. Nottingham is
+        # the live case: 1995 counted 21 in 94 of 113 days against 2026's 20.
+        _dr0 = rank_of(d26, dser, ties) if season_open else None
+        d_veto = (provable_superiors(yrs, cur,
+                                     lambda d: d["days_to_cut"]["95"])
+                  if _dr0 == 1 else [])
+        dr = (_dr0 + len(d_veto)) if season_open else None
+        dof = (len(dser) + 1 + len(d_veto)) if season_open else len(dser)
         dbelow = [n for n in dser.values() if n < d26]
 
         days = {
@@ -999,12 +1067,23 @@ def main() -> int:
                 "measured_on": "95",
                 "ties_count_against": ties,
                 "tied_with": sorted(y for y, n in dser.items() if n == d26),
+                "beaten_by_excluded_years": [
+                    {"year": y, "count_is_a_floor": n} for y, n in d_veto],
+                "beaten_by_excluded_years_note":
+                    "Years too incomplete to rank whose count ALREADY matches "
+                    "or beats this one, counted into rank and of_years. An "
+                    "incomplete year undercounts, so its count is a floor. "
+                    "Where this list is non-empty the city IS NOT AT A RECORD "
+                    "on this instrument, however the rank reads to a reader "
+                    "who only sees the usable years.",
                 "requires_series": True,
                 "requires_series_note":
                     "Read this rank, never derive it. Same rule as the night "
                     "rank and the same reason: a strict greater-than promotes "
                     "ties and manufactures records.",
-                "margin_days": (d26 - max(dbelow)) if dr == 1 and dbelow else None,
+                "margin_days": (d26 - max(dbelow)
+                                if dr == 1 and dbelow and not d_veto
+                                else None),
                 "days_so_far": d26 if season_open else None,
             },
             "series_to_same_date": {
@@ -1370,7 +1449,14 @@ def main() -> int:
         cur = str(max(int(y) for y in ys))
         prior = [z["days_to_cut"]["95"] for y, z in ys.items()
                  if z["usable_to_cut"] and y != cur]
-        if prior and v["days"]["days_2026"]["95"] > max(prior):
+        # THE THIRD PLACE THIS CLAIM IS COMPUTED, and the veto has to be in
+        # all three. The night list above reads rank.value, which already
+        # carries it; this one rebuilds the comparison from the series and so
+        # would have gone on listing Nottingham at a record while its own
+        # rank field said 2. That is the "fix one, ship the other" failure
+        # this file already carries a comment about, on a third surface.
+        veto = provable_superiors(ys, cur, lambda z: z["days_to_cut"]["95"])
+        if prior and not veto and v["days"]["days_2026"]["95"] > max(prior):
             drecs.append(c)
     drecs = sorted(drecs)
     dbase = record_rate(S, "days")

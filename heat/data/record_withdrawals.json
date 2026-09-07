@@ -1,7 +1,8 @@
 {
- "generated": "2026-09-07T08:25:16Z",
+ "generated": "2026-09-07T08:37:00Z",
  "generated_against_cut": {
-  "Dresden": "2026-09-05"
+  "Dresden": "2026-09-05",
+  "Nottingham": "2026-08-21"
  },
  "withdrawals": [
   {
@@ -19,6 +20,23 @@
    "years_above": {
     "was": 0,
     "now": 2
+   }
+  },
+  {
+   "city": "Nottingham",
+   "reason": "record_never_held",
+   "needs_correction": true,
+   "threshold_95": {
+    "was": 27.9,
+    "now": 27.9
+   },
+   "cut": {
+    "was": "2026-08-21",
+    "now": "2026-08-21"
+   },
+   "years_above": {
+    "was": 0,
+    "now": 1
    }
   }
  ]

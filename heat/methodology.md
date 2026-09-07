@@ -69,6 +69,21 @@ usable evidence.
 it, so a tied year keeps 2026 off first place. Three cities tie 2026;
 resolving it the other way would manufacture a record.
 
+**An unusable year can still veto a record, because its count is a floor.**
+A year excluded by the 90% rule undercounts, since it was not fully
+observed. That makes the exclusion safe in one direction only. Where such a
+year's count already matches or beats the current year, it provably was not
+beaten, and dropping it would let us claim a record over a year we can show
+we did not beat. So it cannot be placed in the order, and it does count
+against a claim of first place. One city is affected: Nottingham 2026 counts
+20 days above its 95th percentile, and 1995 counted 21 while observing 94 of
+the window's 113 days.
+
+The limit this does not remove, stated because the rule invites the
+assumption that it does: an unusable year counting BELOW the current year
+could still have exceeded it in the days it missed. That is unknowable, so
+the veto fires only where the evidence is provable.
+
 **A gap is not an end, and neither is a thin year.** Each series carries
 how many slots the station record should hold, how many are present, how
 many were observed but too thin to rank, and how many are truly empty.
@@ -155,6 +170,29 @@ A rank of 1 of 43 is a weaker statement than 1 of 106 and the denominator
 is always printed with it.
 
 ## Version history
+
+### v1.4, 2026-09-07
+
+**What changed.** An unusable year now vetoes a record claim where its count
+already matches or beats the current year. Nottingham moves from rank 1 of 69
+to 2 of 70 on hot days and is no longer published as a record; its live page
+carried "the most hot days Nottingham has recorded by this date" and that was
+not true. No other city or instrument moves, from an audit of all 54 cities
+against both instruments.
+
+**What went wrong to prompt it.** The 90% usability rule was written to stop
+a thinly observed year ranking artificially low, which is a real effect and
+the rule is right about it. But the exclusion was applied symmetrically to an
+error that only runs one way. An incomplete year can only UNDERCOUNT, so its
+count is a lower bound, and a lower bound that already exceeds ours is proof
+we were beaten. Excluding it removed the one year that could falsify the
+claim, and the claim then read as verified.
+
+**The shape worth carrying**, because it is not specific to heat: a filter
+that removes unreliable evidence is only safe where the unreliability could
+push either way. Where the error has a known direction, the same filter
+removes exactly the cases that could refute you, and what is left agrees with
+you by construction.
 
 ### v1.3, 2026-08-08
 

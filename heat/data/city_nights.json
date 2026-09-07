@@ -16,8 +16,8 @@
  },
  "headline": {
   "lead": {
-   "claim": "26 of these 54 cities are having their hottest summer on record for days above their own extreme threshold.",
-   "at_day_record": 26,
+   "claim": "25 of these 54 cities are having their hottest summer on record for days above their own extreme threshold.",
+   "at_day_record": 25,
    "in_top_10pct": 41,
    "in_top_5pct": 35,
    "of_cities": 54,
@@ -127,7 +127,7 @@
   "caveat": "2026 is counted to 2-3 August with the season unfinished. Prior years are counted to the same date, so the comparison is like-for-like today, but 2026 can still add records before September."
  },
  "day_headline": {
-  "records": 26,
+  "records": 25,
   "of_cities": 54,
   "record_cities": [
    "Algiers",
@@ -147,7 +147,6 @@
    "Munich",
    "Murcia",
    "Nice",
-   "Nottingham",
    "Paris",
    "Rome",
    "Strasbourg",
@@ -170,7 +169,7 @@
   },
   "measure": "days at or above this city's own 95th percentile of July-August maxima, counted to the same cut",
   "may_say_worst_on_record": false,
-  "may_say_worst_note": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+  "may_say_worst_note": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
  },
  "geography": {
   "claim": "The extreme is concentrated in the middle latitudes, not at the hot end.",
@@ -520,7 +519,7 @@
      "lat": 53.0053,
      "lon": -1.2497,
      "coord_source": "MIDAS/OSCAR",
-     "day_percentile": 100.0,
+     "day_percentile": 98.6,
      "night_percentile": 98.6,
      "night_metric_holds": false
     },
@@ -819,6 +818,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -967,7 +968,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -992,11 +993,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -1027,6 +1028,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -1812,6 +1815,8 @@
     "tied_with": [
      2025
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -1949,7 +1954,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -1974,11 +1979,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -2009,6 +2014,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -2422,6 +2429,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -2553,7 +2562,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -2578,11 +2587,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -2615,6 +2624,8 @@
      "tied_with": [
       2025
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -3041,6 +3052,8 @@
      2005,
      2011
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -3157,7 +3170,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -3182,11 +3195,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -3219,6 +3232,8 @@
      "tied_with": [
       1992
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -3604,6 +3619,8 @@
     "tied_with": [
      2022
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -3730,7 +3747,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -3755,11 +3772,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -3793,6 +3810,8 @@
       2008,
       2023
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -4186,6 +4205,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -4316,7 +4337,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -4341,11 +4362,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -4376,6 +4397,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 2,
@@ -4795,6 +4818,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -4878,7 +4903,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -4903,11 +4928,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -4938,6 +4963,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 3,
@@ -5221,6 +5248,8 @@
     "tied_with": [
      2003
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -5310,7 +5339,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -5335,11 +5364,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -5370,6 +5399,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -5670,6 +5701,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -5786,7 +5819,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -5811,11 +5844,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -5846,6 +5879,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 12,
@@ -6229,6 +6264,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -6350,7 +6387,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -6375,11 +6412,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -6410,6 +6447,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 4,
@@ -6800,6 +6839,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -6918,7 +6959,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -6943,11 +6984,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -6978,6 +7019,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 15,
@@ -7369,6 +7412,8 @@
     "tied_with": [
      2022
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -7480,7 +7525,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -7505,11 +7550,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -7519,7 +7564,7 @@
     "banned_words": [
      "ordinary"
     ],
-    "banned_words_reason": "This city is at the 100th percentile of its own record, at or above the 85th, so 'ordinary' is false of it. That is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "banned_words_reason": "This city is at the 98.6th percentile of its own record, at or above the 85th, so 'ordinary' is false of it. That is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
     "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
    },
    "station_relocations": [],
@@ -7532,17 +7577,24 @@
    "featured": false,
    "days": {
     "rank": {
-     "value": 1,
-     "of_years": 69,
-     "percentile": 100.0,
+     "value": 2,
+     "of_years": 70,
+     "percentile": 98.6,
      "season_open": true,
      "season_not_started_note": null,
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [
+      {
+       "year": 1995,
+       "count_is_a_floor": 21
+      }
+     ],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
-     "margin_days": 1,
+     "margin_days": null,
      "days_so_far": 20
     },
     "series_to_same_date": {
@@ -7690,7 +7742,7 @@
     "caveat": "Added to the set on 2026-08-11. A second English city outside London.",
     "why_this_matters": "A count over a set inherits the choice of which cities are in it (D-141). A city entering at or near its own record reads as chosen for that number unless the page says otherwise first, so where caveat_required is true the caveat belongs ON the page, not in the methodology."
    },
-   "legend_band": "record",
+   "legend_band": "near",
    "legend_band_note": "record = nothing in its own record stands above this year, which INCLUDES a tie for the highest; near = 1 to 4 years above; outside = 5 or more above. READ THIS, do not re-derive it: a second definition living in a template is a second thing to drift, and deriving it from the rank number rather than from the claim is exactly how a joint record got banded as near.",
    "warmest_day_c": {
     "1957": 30.6,
@@ -7998,6 +8050,8 @@
      2024,
      2025
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -8136,7 +8190,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -8161,11 +8215,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -8200,6 +8254,8 @@
       1983,
       2018
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -8713,6 +8769,8 @@
      2024,
      2025
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -8823,7 +8881,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -8848,11 +8906,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -8888,6 +8946,8 @@
       2019,
       2025
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -9289,6 +9349,8 @@
      2020,
      2023
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -9376,7 +9438,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -9401,11 +9463,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -9441,6 +9503,8 @@
       2023,
       2025
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -9737,6 +9801,8 @@
      2009,
      2022
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -9828,7 +9894,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -9853,11 +9919,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -9891,6 +9957,8 @@
       2012,
       2017
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -10204,6 +10272,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -10324,7 +10394,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -10349,11 +10419,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -10384,6 +10454,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 9,
@@ -10744,6 +10816,8 @@
     "tied_with": [
      2018
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -10924,7 +10998,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -10949,11 +11023,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -10987,6 +11061,8 @@
       1901,
       2022
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -11498,6 +11574,8 @@
      2001,
      2002
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -11684,7 +11762,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -11709,11 +11787,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -11746,6 +11824,8 @@
      "tied_with": [
       2003
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -12336,6 +12416,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -12430,7 +12512,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -12455,11 +12537,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -12490,6 +12572,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 2,
@@ -12739,6 +12823,8 @@
      2009,
      2013
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -12851,7 +12937,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -12876,11 +12962,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -12916,6 +13002,8 @@
       2010,
       2014
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -13282,6 +13370,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -13394,7 +13484,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -13419,11 +13509,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -13464,6 +13554,8 @@
       2001,
       2006
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -13827,6 +13919,8 @@
     "tied_with": [
      1959
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -13945,7 +14039,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -13970,11 +14064,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -14007,6 +14101,8 @@
       1974,
       2003
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -14403,6 +14499,8 @@
      2023,
      2024
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -14515,7 +14613,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -14540,11 +14638,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -14577,6 +14675,8 @@
       1988,
       2006
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -14938,6 +15038,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -15050,7 +15152,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -15075,11 +15177,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -15110,6 +15212,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -15482,6 +15586,8 @@
      2022,
      2024
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -15594,7 +15700,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -15619,11 +15725,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -15657,6 +15763,8 @@
       1988,
       1996
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -16042,6 +16150,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -16170,7 +16280,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -16195,11 +16305,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -16230,6 +16340,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 3,
@@ -16633,6 +16745,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -16745,7 +16859,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -16770,11 +16884,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -16813,6 +16927,8 @@
       2007,
       2012
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -17174,6 +17290,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -17291,7 +17409,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -17316,11 +17434,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -17351,6 +17469,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 21,
@@ -17974,6 +18094,8 @@
     "tied_with": [
      2025
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -18091,7 +18213,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -18116,11 +18238,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -18151,6 +18273,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 17,
@@ -18537,6 +18661,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -18654,7 +18780,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -18679,11 +18805,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -18714,6 +18840,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 28,
@@ -19100,6 +19228,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -19217,7 +19347,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -19242,11 +19372,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -19277,6 +19407,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 9,
@@ -19663,6 +19795,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -19755,7 +19889,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -19780,11 +19914,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -19815,6 +19949,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 4,
@@ -20125,6 +20261,8 @@
     "tied_with": [
      2015
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -20337,7 +20475,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -20362,11 +20500,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -20397,6 +20535,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 3,
@@ -21594,6 +21734,8 @@
      2014,
      2024
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -21713,7 +21855,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -21738,11 +21880,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -21783,6 +21925,8 @@
       2003,
       2010
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -22185,6 +22329,8 @@
      2018,
      2019
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -22316,7 +22462,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -22341,11 +22487,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -22379,6 +22525,8 @@
       1944,
       2003
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -22807,6 +22955,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -22942,7 +23092,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -22967,11 +23117,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -23009,6 +23159,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 13,
@@ -23425,6 +23577,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -23539,7 +23693,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -23564,11 +23718,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -23606,6 +23760,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 6,
@@ -23979,6 +24135,8 @@
     "tied_with": [
      2015
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -24090,7 +24248,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -24115,11 +24273,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -24163,6 +24321,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 7,
@@ -24525,6 +24685,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -24641,7 +24803,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -24666,11 +24828,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -24703,6 +24865,8 @@
      "tied_with": [
       1976
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -25156,6 +25320,8 @@
      2024,
      2025
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -25272,7 +25438,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -25297,11 +25463,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -25337,6 +25503,8 @@
       2021,
       2025
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -25720,6 +25888,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -25816,7 +25986,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -25841,11 +26011,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -25880,6 +26050,8 @@
       2018,
       2024
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -26242,6 +26414,8 @@
      2023,
      2024
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -26338,7 +26512,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -26363,11 +26537,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -26400,6 +26574,8 @@
       1982,
       2020
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -26723,6 +26899,8 @@
     "tied_with": [
      2015
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -26910,7 +27088,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -26935,11 +27113,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -26970,6 +27148,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 6,
@@ -27560,6 +27740,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -27677,7 +27859,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -27702,11 +27884,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -27737,6 +27919,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 23,
@@ -28123,6 +28307,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -28240,7 +28426,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -28265,11 +28451,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -28300,6 +28486,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 8,
@@ -28686,6 +28874,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -28803,7 +28993,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -28828,11 +29018,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -28863,6 +29053,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 20,
@@ -29252,6 +29444,8 @@
      2018,
      2020
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -29388,7 +29582,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -29413,11 +29607,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -29470,6 +29664,8 @@
       1947,
       1994
      ],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -29889,6 +30085,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -29998,7 +30196,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -30023,11 +30221,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -30058,6 +30256,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 11,
@@ -30422,6 +30622,8 @@
     "tied_with": [
      2005
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -30535,7 +30737,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -30560,11 +30762,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -30595,6 +30797,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 6,
@@ -30975,6 +31179,8 @@
      2001,
      2020
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -31169,7 +31375,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -31194,11 +31400,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -31229,6 +31435,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -31810,6 +32018,8 @@
      1983,
      2010
     ],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -31934,7 +32144,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -31959,11 +32169,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -31994,6 +32204,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
@@ -32383,6 +32595,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -32582,7 +32796,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -32607,11 +32821,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -32642,6 +32856,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 13,
@@ -33216,6 +33432,8 @@
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [],
+    "beaten_by_excluded_years": [],
+    "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
     "tie_note": "A TIE IS NOT A RECORD. rank counts prior years at or above 2026, so a tied year keeps 2026 off first place. Recomputing with a strict greater-than gives a different and more alarming answer; do not recompute.",
     "requires_series": true,
     "requires_series_note": "This rank may not be rendered without the series below it. A bare rank is an alarm; the same rank beside its ordinary years is a calibrated statement.",
@@ -33420,7 +33638,7 @@
     },
     "days": {
      "may_say_worst_on_record": false,
-     "reason": "26 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (21 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
+     "reason": "25 cities at a record against 19 in 2003, the worst prior year. It exceeds that on the full set, BUT NOT WITH THE FORECAST-SELECTED CITIES REMOVED (20 against 13). Those six were chosen because 2026 is forecast hot there, so the claim would be true by construction. Unavailable, and not because the arithmetic fails."
     },
     "selection_robustness": {
      "test": "The claim must hold with the forecast-selected cities REMOVED, because those cities were chosen for 2026's heat and would otherwise prove the claim by construction.",
@@ -33445,11 +33663,11 @@
      },
      "days": {
       "full": [
-       26,
+       25,
        19
       ],
       "without_selected": [
-       21,
+       20,
        13
       ]
      }
@@ -33480,6 +33698,8 @@
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [],
+     "beaten_by_excluded_years": [],
+     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": 7,

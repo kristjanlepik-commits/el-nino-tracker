@@ -168,7 +168,18 @@ def classify(prev, cur):
             pt = ((p.get("days") or {}).get("thresholds_c") or {}).get("95")
             nt = ((n.get("days") or {}).get("thresholds_c") or {}).get("95")
             moved_cut = p.get("counted_to") != n.get("counted_to")
-            if pt != nt:
+            # ASK THE PAYLOAD WHY BEFORE GUESSING. A record vetoed by a year
+            # too incomplete to rank leaves the threshold and the cut both
+            # unchanged, so it fell through to data_revised and printed "the
+            # threshold moved from 27.9 to 27.9", which is a wrong cause under
+            # a right verdict. Design reads this field to decide whether the
+            # editor writes a correction, and the two differ: a vetoed record
+            # was never true, where cut_advanced was true when published.
+            vetoed = ((n.get("days") or {}).get("rank") or {}).get(
+                "beaten_by_excluded_years") or []
+            if vetoed:
+                why, needs = "record_never_held", True
+            elif pt != nt:
                 why, needs = "method_changed", True
             elif moved_cut:
                 why, needs = "cut_advanced", False
@@ -181,11 +192,26 @@ def classify(prev, cur):
                 "years_above": {"was": pa, "now": na},
             }
             withdrawn.append(entry)
-            if needs:
+            if why == "record_never_held":
+                block.append(
+                    f"{c}: RECORD WITHDRAWN, reason record_never_held. "
+                    + "; ".join(f"{v['year']} counted {v['count_is_a_floor']} "
+                                "and was excluded as incomplete, so it is a "
+                                "floor and provably was not beaten"
+                                for v in vetoed)
+                    + f". The bar is unchanged at {nt} C and the data did not "
+                      "revise. The claim was wrong when published rather than "
+                      "overtaken, so this wants a correction, not a refresh.")
+            elif needs:
                 block.append(
                     f"{c}: RECORD WITHDRAWN, reason {why}. The threshold "
                     f"moved from {pt} to {nt}, so the bar changed under a "
-                    f"claim we published. This wants a correction.")
+                    f"claim we published. This wants a correction."
+                    if pt != nt else
+                    f"{c}: RECORD WITHDRAWN, reason {why}. The bar is "
+                    f"unchanged at {nt} C and the cut did not move, so an "
+                    f"observation was revised under a claim we published. "
+                    f"This wants a correction.")
             else:
                 report.append(
                     f"{c}: record withdrawn, reason cut_advanced. The bar is "
