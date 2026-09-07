@@ -757,7 +757,21 @@ def check_superlatives_dated(name, page_html, v):
                "rather than a date it was never cut to" % (
                    cb.get("window_label") or "seasonal"))
 
-    t = text_of(page_html)
+    # THE CORRECTION BLOCK IS EXEMPT, and it has to be. Its entire job is
+    # to quote the claim we withdrew, so it necessarily contains a
+    # superlative carrying the qualifier that turned out to be wrong.
+    # Nottingham's block quotes "the most hot days Nottingham has recorded
+    # by this date"; its season then went complete, and this guard refused
+    # to build a page for saying the thing the page exists to say it no
+    # longer says.
+    #
+    # Scoped by stripping the block rather than by loosening the rule, so
+    # the prohibition stays exactly as strict everywhere a page speaks in
+    # its own voice. Same distinction I had to make by hand when checking
+    # this page's output: a quotation of a false claim is not a false
+    # claim.
+    t = text_of(re.sub(r'<[^>]*class="corr"[^>]*>.*?</(?:div|section|aside)>',
+                       " ", page_html, flags=re.S))
     for m in re.finditer("|".join(map(re.escape, SUPERLATIVES)), t):
         # A WINDOW, not a sentence. Splitting on full stops walked back
         # through the masthead, which has none, and quoted a hundred
