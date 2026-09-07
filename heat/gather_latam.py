@@ -62,6 +62,28 @@ def candidates(ghcn_id):
 def ghcn_days(ghcn_id):
     out = {}
     f = LATAM / f"{ghcn_id}.dly"
+    # FETCH IF ABSENT. This read the file and nothing created it, so the seven
+    # Argentine cities had no cold-start path at all: heat/.cache/src/latam is
+    # gitignored, and on 2026-09-07 build_argentina died on all seven with
+    # FileNotFoundError the first time CI ran it. I had told platform these
+    # cities "fetch through gather_latam", which is true of the BULLETINS and
+    # false of the archive half, and I did not check the difference.
+    #
+    # Same shape and same rule as build_bridge.ghcn: GHCN-Daily appends, a
+    # truncated response is indistinguishable from a real one until compared,
+    # so keep what we hold unless the new file is at least as long. These are
+    # about 800 KB each and bounded by bandwidth, so they stay a cache under
+    # D-294 rather than becoming a tracked source.
+    if not f.exists():
+        f.parent.mkdir(parents=True, exist_ok=True)
+        blob = subprocess.run(
+            ["curl", "-sS", "--max-time", "120",
+             f"https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/{ghcn_id}.dly"],
+            capture_output=True).stdout
+        if not blob:
+            raise RuntimeError(f"{ghcn_id}: no cached archive and the fetch "
+                               f"returned nothing")
+        f.write_bytes(blob)
     for L in f.read_text(errors="replace").splitlines():
         el = L[17:21]
         if el not in ("TMAX", "TMIN"):

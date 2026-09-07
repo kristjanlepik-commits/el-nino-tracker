@@ -28,7 +28,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "heat"))
 import gather_latam as G  # noqa: E402
-from safe_write import write_series  # noqa: E402
+from safe_write import RefusedWrite, write_series  # noqa: E402
 # WRITES TO heat/data/sources/, NOT the cache. See source_file() in
 # build_city_series: this file is expensive to regenerate and is tracked.
 import build_city_series as _B  # noqa: E402
@@ -104,6 +104,7 @@ def main() -> int:
     # isolated fetch loop one level up exists to prevent. Named loudly and
     # counted; a non-zero exit so the step reports it rather than passing.
     failed = []
+    held = []
     for city, gid in CITIES.items():
         meta = gather.get(gid)
         if not meta or not meta.get("wmo_block"):
@@ -111,6 +112,23 @@ def main() -> int:
             continue
         try:
             path, n, last, added, per = build(city, gid, meta)
+        except RefusedWrite as exc:
+            # A REFUSED WRITE IS THE GUARD WORKING, NOT THE BUILDER FAILING,
+            # and conflating them cost a whole step on 2026-09-07. Budapest
+            # refused to shrink by ONE row in 18380, safe_write kept the good
+            # file exactly as designed, and my exit code reported the builder
+            # as failed. Platform's step then counted it among "4 of 4
+            # builders failed" and errored the job, on a run where five of six
+            # bridge cities had refreshed correctly.
+            #
+            # This is platform's own rule about the refresh gate, one level
+            # down: a hold is the guard working, and turning it red trains
+            # everyone to ignore red. Held cities keep their previous series
+            # and are named; only an unexpected exception is a failure.
+            held.append(city)
+            print(f"  {city}: HELD by the write guard, previous series kept. "
+                  f"{exc}", file=sys.stderr)
+            continue
         except Exception as exc:
             failed.append(city)
             print(f"  {city:22s} FAILED {type(exc).__name__}: {exc}",
@@ -119,6 +137,10 @@ def main() -> int:
         recent = [y for y in range(2017, 2027) if per.get(y, 0) >= 200]
         print(f"  {city:22s} {n:6d} rows, GHCN to {last}, "
               f"{added:5d} bulletin days added, recent {len(recent)}/10")
+    if held:
+        print(f"\n  {len(held)} city/cities HELD by the write guard and kept "
+              f"their previous series: {', '.join(held)}. Not a failure.",
+              file=sys.stderr)
     if failed:
         print(f"\n  {len(failed)} of {len(CITIES)} city/cities FAILED and kept "
               f"their previous series: {', '.join(failed)}", file=sys.stderr)
