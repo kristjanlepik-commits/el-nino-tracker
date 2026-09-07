@@ -190,7 +190,14 @@ def main() -> int:
             print(f"  {city:22s} FAILED {type(exc).__name__}: {exc}",
                   file=sys.stderr)
             continue
-        ST.set_status("build_argentina", city, "advanced", f"{n} rows")
+        # ALWAYS `checked` RATHER THAN `unchanged`, because G.fetch_year has
+        # no cache: this builder cannot complete without going to the source
+        # for the current year. If that ever gains a cache, this line has to
+        # learn the difference the way build_bridge did, or it becomes the
+        # silence that hid Rome.
+        ST.set_status("build_argentina", city,
+                      "advanced" if added else "checked",
+                      f"{n} rows, {added} bulletin days added")
         recent = [y for y in range(2017, 2027) if per.get(y, 0) >= 200]
         print(f"  {city:22s} {n:6d} rows, GHCN to {last}, "
               f"{added:5d} bulletin days added, recent {len(recent)}/10")

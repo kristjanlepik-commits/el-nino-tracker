@@ -412,8 +412,11 @@ def build(city, full=False):
 
     years = (range(first, CURRENT_YEAR + 1) if full or not tracked
              else [CURRENT_YEAR])
+    fetched_current = False
     for y in years:
         got, fetched = synop_year(block, y, hmin, hmax)
+        if y == CURRENT_YEAR and fetched:
+            fetched_current = True
         # Bulletins fill gaps and never overwrite an archived value: the
         # archive is the better record where it exists.
         for d, (mn, mx) in got.items():
@@ -428,7 +431,7 @@ def build(city, full=False):
         if fetched:
             time.sleep(3)
     per, _ = usable(rows, min(ghcn_years), 2026)
-    return rows, per
+    return rows, per, fetched_current
 
 
 def main() -> int:
@@ -470,7 +473,7 @@ def main() -> int:
             if _p.exists():
                 _prev_rows = json.loads(_p.read_text())
                 _was_last = _prev_rows[-1][0] if _prev_rows else ""
-            rows, per = build(city, full=full)
+            rows, per, fetched_current = build(city, full=full)
             yrs = sorted(per)
             ok = [y for y in yrs if per[y] >= MIN_DAYS]
             b71 = sum(1 for y in range(1971, 2001)
@@ -511,10 +514,20 @@ def main() -> int:
         # against the last date this city held before the build, because
         # "it ran fine" is precisely what Rome reported while frozen.
         _new_last = max(rows) if rows else None
-        ST.set_status("build_bridge", city,
-                      "advanced" if _new_last and _new_last > _was_last
-                      else "unchanged",
-                      f"last {_new_last}, was {_was_last}")
+        # ADVANCED, CHECKED OR UNCHANGED. Advanced means the data moved.
+        # Checked means we asked the source about the current year and it had
+        # nothing new, which accounts for a short city. Unchanged means we
+        # completed without asking, which is what Rome did for three and a
+        # half weeks and must never read as an explanation.
+        if _new_last and _new_last > _was_last:
+            _st, _why = "advanced", f"last {_new_last}, was {_was_last}"
+        elif fetched_current:
+            _st, _why = "checked", (f"fetched {CURRENT_YEAR}, nothing new "
+                                    f"upstream; still at {_new_last}")
+        else:
+            _st, _why = "unchanged", (f"did NOT fetch {CURRENT_YEAR}; "
+                                      f"still at {_new_last}")
+        ST.set_status("build_bridge", city, _st, _why)
         print(f"  {city}: usable {len(ok)} years, {ok[0] if ok else '-'}"
               f" to {ok[-1] if ok else '-'}")
         print(f"    1971-2000 {b71}/30   1991-2020 {b91}/30   "

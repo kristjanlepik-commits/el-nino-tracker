@@ -64,7 +64,22 @@ DIR = ROOT / "heat" / "data" / "status"
 # how that stayed invisible. A city that is short AND unchanged is the fault.
 # A city that is not short and unchanged is a finished season, and the
 # consumer only asks about short ones.
-ACCOUNTED = ("advanced", "held", "refused", "failed")
+ACCOUNTED = ("advanced", "checked", "held", "refused", "failed")
+
+# `checked` VERSUS `unchanged`, and the difference is the whole point.
+# Platform found these conflated: both meant "the data did not move", but
+#
+#     checked     we fetched the current year and the source had nothing new.
+#                 That is an ANSWER about the world and it accounts for a
+#                 city being short.
+#     unchanged   the builder completed without going to look. That is
+#                 SILENCE wearing the same clothes, and it is Rome: three and
+#                 a half weeks of clean runs reading a cached file.
+#
+# They were indistinguishable under the old code because a finished-year cache
+# could satisfy the current year too. Since the current year is always
+# refetched, synop_year reports whether it actually went to the network, so
+# the builder can now say which of the two it means.
 
 # What a builder may RECORD, which is a wider set than what ACCOUNTS FOR a
 # city. Conflating the two made the validator refuse `unchanged`, the one
