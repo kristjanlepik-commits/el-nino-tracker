@@ -68,7 +68,23 @@ def fetch(city, year="2026"):
 
 
 if __name__ == "__main__":
+    # A CITY WITH NO ROWS IS REPORTED, NOT RAISED. This printed rows[-1][0]
+    # unguarded, so one empty response ended the process with an IndexError.
+    # In heat_refresh.yml the fetch step runs every fetch_*.py under `set -e`
+    # and this module sorts eighth of ten, so that crash took MeteoSwiss,
+    # SMHI and the whole rebuild with it and failed every scheduled run from
+    # 2026-08-09 to 2026-08-31, six for six, with nothing alerting.
+    #
+    # The empty city is the one thing worth seeing here, and it was the one
+    # thing the traceback hid: it named the line, not the city.
+    empty = []
     for c in CITIES:
         rows = fetch(c)
         trop = sum(1 for _, tn, _ in rows if tn is not None and tn >= 20.0)
+        if not rows:
+            empty.append(c)
+            print(f"{c:12s}   0 days, NO ROWS RETURNED")
+            continue
         print(f"{c:12s} {len(rows):3d} days, {trop:2d} tropical, to {rows[-1][0]}")
+    if empty:
+        print(f"\nNO ROWS for {len(empty)} city/cities: {', '.join(empty)}")
