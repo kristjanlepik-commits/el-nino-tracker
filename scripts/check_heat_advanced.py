@@ -1,6 +1,26 @@
 #!/usr/bin/env python3
 """Did this heat refresh move ANY city, when a city could have moved?
 
+NOT WIRED INTO CI, AND MUST NOT BE UNTIL THE PREDICATE WORKS. Written
+2026-09-07, wired, and unwired the same hour after testing the branch it
+exists for showed it CANNOT FIRE. refresh_gate.frontier computes each
+shortfall against datetime.now(), so frontier(prev) and frontier(cur)
+both measure against the same today. A city that did not advance has the
+same counted_to in both, therefore the same shortfall in both, therefore
+zero growth, therefore "work was available" is empty in exactly the case
+this check was built to catch.
+
+That is the failure this repo keeps naming, produced while fixing an
+instance of it: a guard that has never fired and structurally never can,
+reading as coverage. It was caught only by constructing the failing case
+rather than by the two passing tests, which both went green.
+
+THE FIX NEEDS heat/refresh_gate.frontier TO TAKE AN as_of DATE, so the
+base can be measured at the time it was written and the current payload
+at now. That is one parameter in heat's file and it is theirs; without
+it, any version of this that lives here has to reimplement the frontier
+bounds, which is the drift this deliberately avoided.
+
     python scripts/check_heat_advanced.py [--payload PATH] [--base REF]
 
 Exit 0 when at least one city advanced, or when none could have. Exit 1
@@ -134,14 +154,48 @@ def main() -> int:
     now, was = _counted(cur), _counted(prev)
     advanced = sorted(c for c, d in now.items() if d > was.get(c, ""))
 
-    # Work available is measured on the PREVIOUS payload on purpose: the
-    # question is whether this run had something to do when it started,
-    # not whether anything is short now. A run that correctly advanced
-    # every city it could still leaves cities short whose sources have
-    # stopped, and judging on the current payload would call that a
-    # failure forever.
+    # "WORK WAS AVAILABLE" IS A SHORTFALL THAT GREW, NOT A SHORTFALL THAT
+    # EXISTS, and the difference is the whole check. Heat caught the first
+    # version, which asked only whether any city was short:
+    #
+    #     Aberdeen  at 2026-08-10, frontier 2026-08-31, 21d short
+    #     Tallinn   at 2026-07-31, frontier 2026-08-31, 31d short
+    #
+    # Both are PERMANENTLY short and neither can ever advance. Aberdeen's
+    # bulletins disagree with the official series at 0.6 C so build_uk
+    # refuses the extension by design; Tallinn reads a supplied workbook
+    # that ends 2026-07-31 and fetches nothing. And their season end has
+    # passed, so the frontier stops moving and the shortfall is FROZEN
+    # rather than growing. "Is any city short" is therefore permanently
+    # true, which collapses the predicate to "nothing moved" and fires on
+    # every legitimately quiet week from now until May.
+    #
+    # NOT AN EXCLUSION LIST, deliberately. The all-hands entry of
+    # 2026-08-30 says a change gate built as an allowlist cannot report
+    # what nobody thought to list, and a hand-maintained "ignore these"
+    # is that same failure pointed at an alarm instead of a field.
+    #
+    # A shortfall that GREW is the data-derived version. In season the
+    # frontier is today minus the source's lag, so it advances daily and
+    # a genuinely stalled city's shortfall grows with it. Out of season
+    # the frontier is pinned to the season end, so nothing grows and a
+    # quiet week is silent. That separates "the world moved and we did
+    # not follow" from "this city stopped months ago and everyone knows".
+    #
+    # WHAT THIS DOES NOT COVER, stated rather than discovered later: a
+    # city that is permanently refused DURING its season still grows a
+    # shortfall every day and would fire weekly. Aberdeen in July is that
+    # case. The complete answer is heat's, and better than this one:
+    # fault on a city short that its BUILDER did not account for, since a
+    # held city says so by name and an unfetched city says nothing, with
+    # silence as the fault condition. That needs the builders' output in
+    # a form this can read, which is a change on their side, and it wants
+    # doing before next May rather than now.
     from refresh_gate import frontier  # noqa: E402
-    available = frontier(prev)
+    was_short = {c: n for c, _, _, n in frontier(prev)}
+    now_short = {c: n for c, _, _, n in frontier(cur)}
+    available = [(c, n) for c, n in sorted(now_short.items())
+                 if n > was_short.get(c, 0)]
 
     if advanced:
         print(f"  {len(advanced)} city/cities advanced: "
@@ -155,21 +209,15 @@ def main() -> int:
               "quiet week, not a failure.")
         return 0
 
-    # THE FALSE POSITIVE THIS EXISTS TO KILL, found by running the check
-    # rather than by writing it carefully. Some cities are short for
-    # reasons that will never resolve by running again: Tallinn's source
-    # has stopped, Aberdeen's bulletins are refused by a guard doing its
-    # job. Their shortfall is FIXED rather than growing, because once a
-    # season closes the frontier stops advancing, so "work was available"
-    # reads true forever on those two alone. A same-afternoon re-run
-    # therefore trips this while being entirely correct, and a check that
-    # cries wolf on a re-run is a check somebody mutes.
-    #
-    # So the base's own age is the tiebreak. If the payload we are
-    # comparing against was committed in the last few hours, nothing
-    # advancing is the expected result rather than a defect: no source
-    # has published since. Measured from the commit rather than from the
-    # payload, which carries no timestamp of its own.
+    # A SECOND NET FOR ONE EDGE THE GROWTH TEST ABOVE MISSES. Growth is
+    # measured against a frontier built from today's date, so a re-run
+    # that happens to cross midnight ticks every in-season shortfall up
+    # by one and reads as "the world moved" when only the clock did. The
+    # base payload's own commit age separates those: nothing advancing
+    # against a payload written a couple of hours ago is a re-run, not a
+    # stalled refresh, whatever the calendar did in between. Measured
+    # from the commit because the payload carries no timestamp of its
+    # own.
     age_h = _base_age_hours(args.base, args.payload)
     if age_h is not None and age_h < args.min_base_age_hours:
         print(f"  no city advanced, and {len(available)} could have, but the "
@@ -179,7 +227,7 @@ def main() -> int:
               f"than a stalled refresh. Not failing.")
         return 0
 
-    names = ", ".join(f"{c} ({n}d short)" for c, _, _, n in available[:6])
+    names = ", ".join(f"{c} ({n}d short)" for c, n in available[:6])
     print(f"::error::NO city advanced, but {len(available)} could have: "
           f"{names}{' ...' if len(available) > 6 else ''}. The run fetched, "
           f"built and published while every city stayed exactly where it "

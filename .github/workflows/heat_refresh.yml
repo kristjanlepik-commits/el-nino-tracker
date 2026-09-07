@@ -238,21 +238,6 @@ jobs:
       # refresh is still a true observation and losing it because a rank
       # moved would be the wrong trade. The gate governs PUBLISHING, not
       # keeping.
-      # BEFORE the payload is committed, and it must stay before it: this
-      # compares the built payload against the last COMMITTED one, so
-      # running it after the commit would compare the payload with itself
-      # and pass forever. The check that cannot fail is the one this
-      # whole workflow spent a day learning to distrust.
-      #
-      # Asks only "did the run accomplish anything", which nothing else
-      # asks. The step's own guard fails when every builder throws; the
-      # frontier check reports per-city staleness and is advisory on
-      # purpose. Neither sees four builders each HOLDING every city:
-      # no exception, no failure, no movement, eighteen cities frozen
-      # behind a green run.
-      - name: Did anything advance
-        run: python scripts/check_heat_advanced.py
-
       - name: Commit the payload
         run: |
           git config user.name  "tls-heat-refresh"
