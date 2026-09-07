@@ -1415,6 +1415,43 @@ def main() -> int:
         },
         "cities": {},
     }
+    # PRE-FLIGHT: NAME EVERY MISSING SOURCE, NOT THE FIRST ONE. load_aemet
+    # opened its file directly, so one absent file raised FileNotFoundError
+    # from inside the loop and took the whole payload down naming a single
+    # city. On a cold checkout that is 28 of 54 cities missing and the
+    # traceback reports one, so each fix reveals exactly one more and the
+    # real scope stays hidden for as many runs as there are gaps.
+    #
+    # Still a hard failure. A payload quietly short of a country is worse
+    # than none: the refresh gate would then hold on a set change that has
+    # nothing to do with the weather, which is the failure heat_refresh.yml's
+    # own comment warns about. The fix is to report the whole set difference
+    # at once, not to continue past it.
+    missing = []
+    for city, meta in CITIES.items():
+        if meta["country"] == "FR":
+            for part in ("hist", "recent"):
+                f = SRC / f"mf_{city}_{part}.csv.gz"
+                if not f.exists():
+                    missing.append((city, f.name))
+        else:
+            f = SRC / (meta.get("file") or f"aemet_{city}.json")
+            if not f.exists():
+                missing.append((city, f.name))
+    if missing:
+        print(f"\n  {len(missing)} SOURCE FILE(S) MISSING for "
+              f"{len({c for c, _ in missing})} of {len(CITIES)} cities. "
+              f"Nothing written.", file=sys.stderr)
+        for city, fname in missing:
+            print(f"    {city:22s} {fname}", file=sys.stderr)
+        print(f"\n  heat/.cache/ is gitignored, so a fresh checkout has none "
+              f"of these. The fetchers that pull a whole archive recreate "
+              f"theirs; the AEMET path appends to an existing file and skips "
+              f"when absent, and 18 cities are assembled by scripts outside "
+              f"heat/fetch_*.py. See the cold-start audit in the 2026-09-07 "
+              f"heat-to-platform thread.", file=sys.stderr)
+        return 1
+
     skipped = []
     for city, meta in CITIES.items():
         c = build(city, meta)
