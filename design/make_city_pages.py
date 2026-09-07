@@ -1121,12 +1121,25 @@ for name, v in sorted(C.items()):
     # floor above ours is proof we were beaten. The filter dropped the one
     # year capable of falsifying the claim.
     #
-    # Heat also demotes the rank when this happens, so `dr["value"] == 1`
-    # is false for Nottingham today and every record claim here would be
-    # right without this change. That is precisely why it is worth making:
-    # right by accident is not right by construction, and the two signals
-    # can come apart the moment an excluded year TIES rather than beats.
-    # Same argument as reading cut_clips_the_window over matching strings.
+    # WHAT THIS PREDICATE ACTUALLY BUYS, corrected by heat 2026-09-07
+    # after I justified it wrongly. Heat demotes the rank as well as
+    # emitting the field, and the veto is only computed when the rank
+    # would otherwise be 1 (emit_city_nights.py:728). So a non-empty
+    # field always implies a demoted rank, and this is EQUIVALENT to
+    # `dr["value"] == 1` on every payload heat can currently emit.
+    #
+    # I had written that the two come apart on a tie. They do not:
+    # provable_superiors is "matches or beats", so a tying excluded year
+    # is already in the list and already added to the rank. The real
+    # divergence is the opposite and narrower: a city at rank 2 for other
+    # reasons gets an empty field even if an excluded year also beat it,
+    # because the veto is scoped to a record claim rather than being a
+    # general statement about excluded years.
+    #
+    # So this is a consistency assertion, not a behaviour change: if the
+    # two halves of heat's emission ever drift apart, the page declines to
+    # claim a record rather than believing the half that flatters us. That
+    # is worth the line, and it is a smaller claim than the one I made.
     day_record = dr["value"] == 1 and not (
         dr.get("beaten_by_excluded_years") or [])
     peak_promoted = (prank == 1 and not day_record)
