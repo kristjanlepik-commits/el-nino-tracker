@@ -88,6 +88,19 @@ def build(city, ghcn_id, meta, full=False):
         if _p.exists():
             tracked = {d: (mn, mx) for d, mn, mx in json.loads(_p.read_text())}
     for d, (mn, mx) in tracked.items():
+        # DO NOT DELETE THIS SKIP. It looks like an oversight in a loop whose
+        # job is filling gaps, and removing it reintroduces the bug this whole
+        # change exists to avoid. The tracked series holds LAST RUN'S bulletins
+        # for the current year. Let them fill a current-year gap here and they
+        # win over the fresh pull that follows, so a value freezes at whatever
+        # was first fetched and every later run confirms it. That is exactly
+        # how Rome sat at 2026-08-14 for three and a half weeks while every
+        # build reported success, and it would be that bug reintroduced
+        # through the fix for it.
+        #
+        # Past years are safe to seed precisely because they are finished:
+        # their bulletins cannot change, which is the property the whole
+        # reduction rests on.
         if int(d[:4]) == CURRENT_YEAR:
             continue
         omn, omx = rows.get(d, (None, None))
