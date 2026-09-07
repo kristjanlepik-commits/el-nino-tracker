@@ -246,7 +246,7 @@ def synop_year(block, year, hmin, hmax):
     # replaces the cache ONLY IF it parses AND carries at least as many days.
     # A transient short response leaves the good file untouched.
     if cached is not None and year != CURRENT_YEAR:
-        raw = cached
+        return _parse(cached, hmin, hmax), False
     else:
         raw = ""
         for _attempt in (1, 2, 3):
@@ -270,6 +270,10 @@ def synop_year(block, year, hmin, hmax):
             print(f"    {block} {year}: refetch failed, using the cached pull",
                   file=sys.stderr)
             raw = cached
+    return _parse(raw, hmin, hmax), True
+
+
+def _parse(raw, hmin, hmax):
     # DETECT THE CONVENTION FOR THIS YEAR, not for this station. Rome
     # bulletins at 05Z/17Z in 2001 and at 06Z/18Z now, so a station-level
     # probe read 2001, applied it to every year, and wiped out the recent
@@ -300,14 +304,20 @@ def build(city):
     rows = ghcn(gid)
     ghcn_years = sorted({int(d[:4]) for d in rows})
     for y in range(first, 2027):
-        got = synop_year(block, y, hmin, hmax)
+        got, fetched = synop_year(block, y, hmin, hmax)
         # Bulletins fill gaps and never overwrite an archived value: the
         # archive is the better record where it exists.
         for d, (mn, mx) in got.items():
             omn, omx = rows.get(d, (None, None))
             rows[d] = (omn if omn is not None else mn,
                        omx if omx is not None else mx)
-        time.sleep(3)
+        # SLEEP ONLY IF WE ACTUALLY ASKED. The pause is politeness to OGIMET
+        # between requests, and a year served from the on-disk cache makes no
+        # request. Algiers walks from 1999, so it was spending 84 seconds
+        # sleeping between reads of local files. Across the six bridge cities
+        # that is minutes per run, and it is pure waste rather than caution.
+        if fetched:
+            time.sleep(3)
     per, _ = usable(rows, min(ghcn_years), 2026)
     return rows, per
 
