@@ -295,16 +295,26 @@ def extend(city, official):
     extension is dropped and the page stops at the workbook, because a
     disagreement means one of them is wrong and we would not know which.
     """
+    # official_to IS REPORTED ON EVERY PATH, including the ones that decline.
+    # These early returns omitted it, so main() printed "official to None" and
+    # that reads as an empty workbook. On 2026-09-07 Belfast printed exactly
+    # that on CI while the workbook had been read correctly, 222 days to
+    # 10 August, and the real cause was the bulletin fetch failing at the fit
+    # stage. I read the log, concluded the Met Office file did not cover
+    # Belfast, and told two chats so. The diagnostic was wrong, not the data.
+    _to = max(official) if official else None
     if not official or city not in WMO:
-        return {}, {"agree": None, "synop_days": [],
+        return {}, {"agree": None, "synop_days": [], "official_to": _to,
                     "note": "no workbook or no WMO block for this station"}
     last = max(official)
     y = int(last[:4])
     raw = synop_raw(WMO[city], f"{y}05010000", f"{y}12312359")
     fit = fit_hours(raw, official)
     if fit is None:
-        return {}, {"agree": False, "synop_days": [],
-                    "note": "no hour pair overlapped the workbook enough to fit"}
+        return {}, {"agree": False, "synop_days": [], "official_to": _to,
+                    "note": "no hour pair overlapped the workbook enough to "
+                            "fit, which usually means the bulletin fetch "
+                            "returned little or nothing"}
     err, hn, hx, n = fit
     tail = series_at(raw, hn, hx)
     # p90 within 0.5 C on BOTH extremes. Nottingham and Belfast pass at 0.0
@@ -354,6 +364,9 @@ def main() -> int:
         cur = official(sheet)
         tail, season_prov = extend(city, cur)
         cur = {**cur, **tail}
+        if season_prov.get("agree") is not True and season_prov.get("note"):
+            print(f"  {city}: extension declined: {season_prov['note']}",
+                  file=sys.stderr)
         print(f"  {city}: official to {season_prov.get('official_to')}, "
               f"overlap {season_prov.get('overlap_days')} days worst "
               f"{season_prov.get('overlap_worst_c')} C at hours "
