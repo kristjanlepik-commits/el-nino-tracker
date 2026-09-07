@@ -25,6 +25,7 @@ to include a city is made against the table rather than against a summary.
 """
 from __future__ import annotations
 
+import datetime as dt
 import json
 import subprocess
 import sys
@@ -199,6 +200,18 @@ def _is_synop(raw, block):
     return False
 
 
+CURRENT_YEAR = dt.date.today().year
+
+
+def _days(raw):
+    """How many distinct dates a raw OGIMET body carries.
+
+    Compared rather than byte length: the body includes headers and variable
+    whitespace, so a shorter file is not reliably fewer observations.
+    """
+    return len({d for d, _h, _tx, _tn in synop.parse_ogimet(raw)})
+
+
 def synop_year(block, year, hmin, hmax):
     """One May-to-August pull, CACHED TO DISK.
 
@@ -214,19 +227,49 @@ def synop_year(block, year, hmin, hmax):
     cache = SRC / "synop_cache"
     cache.mkdir(parents=True, exist_ok=True)
     f = cache / f"{block}_{year}.txt"
-    if f.exists() and _is_synop(f.read_text(errors="replace"), block):
-        raw = f.read_text(errors="replace")
+    cached = (f.read_text(errors="replace")
+              if f.exists() and _is_synop(f.read_text(errors="replace"), block)
+              else None)
+
+    # A FINISHED YEAR NEVER CHANGES. THE CURRENT ONE CHANGES EVERY DAY, and
+    # reusing its cache is why six cities froze. Measured 2026-09-07: the
+    # 2026 files for all six blocks were fetched on 12 and 14 August and never
+    # again, and the payload's cut dates match those fetch dates exactly.
+    # Rome sat at 2026-08-14 for three and a half weeks while OGIMET had more,
+    # and every run "succeeded". That is an absence produced by our own
+    # pipeline, reported as a property of the source, which is the failure
+    # refresh_sources.py was written for.
+    #
+    # THE ANTI-FLAKE PROTECTION IS KEPT, because it was expensive to learn:
+    # OGIMET returns an empty body intermittently and that once destroyed two
+    # whole years on a rerun. So the current year REFETCHES, and the result
+    # replaces the cache ONLY IF it parses AND carries at least as many days.
+    # A transient short response leaves the good file untouched.
+    if cached is not None and year != CURRENT_YEAR:
+        raw = cached
     else:
         raw = ""
         for _attempt in (1, 2, 3):
-            raw = subprocess.run(
+            fresh = subprocess.run(
                 ["curl", "-sS", "--max-time", "200",
                  f"{OGIMET}?block={block}&begin={year}05010000&end={year}08312359"],
                 capture_output=True).stdout.decode("utf-8", "replace")
-            if _is_synop(raw, block):
-                f.write_text(raw)
+            if _is_synop(fresh, block):
+                if cached is not None and _days(fresh) < _days(cached):
+                    print(f"    {block} {year}: refetch returned "
+                          f"{_days(fresh)} days against {_days(cached)} "
+                          f"cached; keeping the cached pull",
+                          file=sys.stderr)
+                    raw = cached
+                else:
+                    f.write_text(fresh)
+                    raw = fresh
                 break
             time.sleep(8)
+        if not _is_synop(raw, block) and cached is not None:
+            print(f"    {block} {year}: refetch failed, using the cached pull",
+                  file=sys.stderr)
+            raw = cached
     # DETECT THE CONVENTION FOR THIS YEAR, not for this station. Rome
     # bulletins at 05Z/17Z in 2001 and at 06Z/18Z now, so a station-level
     # probe read 2001, applied it to every year, and wiped out the recent
