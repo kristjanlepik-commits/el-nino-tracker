@@ -78,6 +78,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--builders", default=",".join(BUILDERS))
     ap.add_argument("--status-dir", default=str(STATUS_DIR))
+    ap.add_argument("--payload", default=str(ROOT / "heat" / "data" /
+                                             "city_nights.json"),
+                    help="payload to test shortness against; a flag so the\n"
+                         "freeze case can be built as a fixture rather than\n"
+                         "waited for")
     args = ap.parse_args()
 
     expected = [b for b in args.builders.split(",") if b]
@@ -108,7 +113,23 @@ def main() -> int:
         except ValueError:
             missing_files.append(f"{b} (unreadable)")
 
-    stranded = BS.unexplained(sorted(owned), status_dir=sdir) if owned else []
+    # unexplained() now takes the payload and does the SHORTNESS test
+    # itself. It used to return every unaccounted city and leave the
+    # caller to intersect with the short ones, with that constraint in a
+    # docstring; I passed the whole assembled set, which is the obvious
+    # way to call it, and the first real CI run reported eight cities of
+    # which seven were simply complete-and-unchanged for a finished
+    # season. Heat moved the test inside rather than documenting it
+    # harder, which is the same correction as making the directory a
+    # parameter, in the same file, the same day.
+    payload_path = Path(args.payload)
+    if not payload_path.exists():
+        print(f"  no payload at {payload_path.relative_to(ROOT)}; "
+              f"nothing to check against.")
+        return 0
+    payload = json.loads(payload_path.read_text())
+    stranded = (BS.unexplained(payload, sorted(owned), status_dir=sdir)
+                if owned else [])
 
     if not missing_files and not stranded:
         print(f"  all {len(owned)} assembled cities accounted for by "
