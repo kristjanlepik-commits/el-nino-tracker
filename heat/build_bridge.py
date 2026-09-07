@@ -113,6 +113,23 @@ def ghcn(gid):
     # is at least as long, which is the same rule safe_write applies to the
     # series and the same reason: a truncated or empty response is
     # indistinguishable from a real answer until you compare.
+    #
+    # ONE DAY, platform's bound and their reasoning: GHCN-Daily appends on a
+    # lag of days and this job is weekly, so a one-day floor makes the
+    # scheduled run pay the download once and every rerun pay nothing, and it
+    # cannot skip an append that has actually landed.
+    #
+    # AND IT SAVES CI NOTHING, which is the honest way to book it. No .dly is
+    # tracked, so a fresh checkout has none of these eleven archives and
+    # downloads all 11 MB whatever this condition says. It helps this laptop
+    # and any warm rerun. That is the second optimisation today conditioned on
+    # state a cold runner does not have, after the sleep skip in build(), and
+    # platform's tell for the class is worth keeping: the improvement is real
+    # for the environment we develop in and absent from the one that publishes.
+    fresh_enough = (path.exists()
+                    and time.time() - path.stat().st_mtime < 86400)
+    if fresh_enough:
+        return _read_ghcn(path)
     blob = subprocess.run(
         ["curl", "-sS", "--max-time", "120",
          f"https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/{gid}.dly"],
@@ -126,6 +143,12 @@ def ghcn(gid):
     else:
         raise RuntimeError(f"{gid}: no cached archive and the fetch returned "
                            f"{len(blob)} bytes")
+    return _read_ghcn(path)
+
+
+def _read_ghcn(path):
+    """Parse a .dly. Split out so the cached and refetched paths share it
+    rather than diverging, which is how the two would eventually disagree."""
     out = {}
     for L in path.read_text(errors="replace").splitlines():
         el = L[17:21]
