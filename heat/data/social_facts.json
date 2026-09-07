@@ -4804,7 +4804,7 @@
   "station": "Salta Aero",
   "tropical_nights": {
    "baseline_from_year": 1956,
-   "basis": "median of 1956-2025, each year counted to the same date",
+   "basis": "median of 1956-2024, each year counted to the same date",
    "comparable_across_cities": false,
    "counted_to": "08-29",
    "current": 3,
@@ -4812,10 +4812,10 @@
    "metric_reaches_city": false,
    "not_postable_reason": "the typical count is too small for a ratio to mean anything. A big multiple here is a fact about the denominator. Do not post it however striking it looks.",
    "post_form": null,
-   "span_is_not_a_count": "71 calendar years span the record and 70 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
+   "span_is_not_a_count": "71 calendar years span the record and 69 are USABLE. Use years_observed as the denominator. The difference is years with no record at all plus years too incomplete to rank, and neither is a year without a tropical night.",
    "why_gated": "below about three nights in a typical year the ratio divides by almost nothing and the metric says more about the denominator than the summer.",
    "why_not_comparable": "baselines start in different years, so a city with a late record start has a warmer 'typical' and a smaller multiple for the same real change. Never order cities by this, in copy or in a thread.",
-   "years_observed": 70,
+   "years_observed": 69,
    "years_span": [
     1956,
     2026
@@ -6526,7 +6526,7 @@
    "2026-08-21",
    "2026-08-29"
   ],
-  "matches_published": false,
+  "matches_published": true,
   "matches_published_note": "False means the refresh gate has not passed these numbers and the live pages still show the previous ones. Do not publish from this file while False; every value in it is real, which is what makes that mistake invisible."
  }
 }
