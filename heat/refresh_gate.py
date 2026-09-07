@@ -329,6 +329,23 @@ def main() -> int:
     prev = json.loads(PREVIOUS.read_text())
     cur = json.loads(CURRENT.read_text())
     block, report, withdrawn = classify(prev, cur)
+    # WRITE IT EVEN WHEN EMPTY. This wrote the file only when there were
+    # withdrawals, so a run that found none left the previous file standing.
+    # Ten minutes after the reference was promoted and the withdrawals cleared,
+    # record_withdrawals.json still described Budapest and Nottingham, under a
+    # timestamp from the last run that HAD found some, which makes it look
+    # current. That is the same defect the timestamp was added this morning to
+    # prevent, surviving the fix: a stale file keeps its last good timestamp.
+    #
+    # An empty list is a statement that the gate ran and found nothing.
+    # Absence of the file, or of the entry, must never be the way that is said.
+    if not withdrawn:
+        (ROOT / "heat" / "data" / "record_withdrawals.json").write_text(
+            json.dumps({"generated": datetime.now(timezone.utc)
+                        .strftime("%Y-%m-%dT%H:%M:%SZ"),
+                        "generated_against_cut": {},
+                        "withdrawals": []}, indent=1) + "\n")
+        print("  wrote heat/data/record_withdrawals.json (no withdrawals)")
     if withdrawn:
         # A FIELD, NOT A PRINT. Design needs the reason to decide whether
         # editor writes a correction, and a reason that lives only in this
