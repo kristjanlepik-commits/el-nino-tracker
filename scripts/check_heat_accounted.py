@@ -83,7 +83,16 @@ def main() -> int:
     expected = [b for b in args.builders.split(",") if b]
     sdir = Path(args.status_dir)
 
-    missing_files = [b for b in expected if not (sdir / f"{b}.json").exists()]
+    # Both readers take the directory now. Heat changed the interface
+    # rather than let me keep the workaround: the first version of this
+    # rebound their module global to test it, and a function that makes
+    # its caller do that is a defect in the interface rather than in the
+    # caller. builders_seen exists for the same reason, so this does not
+    # glob their directory and make their layout my assumption.
+    import builder_status as BS  # noqa: E402
+
+    seen = set(BS.builders_seen(status_dir=sdir))
+    missing_files = [b for b in expected if b not in seen]
 
     # The assembled set is the union of what the builders that DID write
     # say they own. A builder with no file contributes no cities, which is
@@ -91,25 +100,15 @@ def main() -> int:
     # being silently absorbed into an empty set.
     owned: set[str] = set()
     for b in expected:
-        p = sdir / f"{b}.json"
-        if not p.exists():
+        f = sdir / f"{b}.json"
+        if not f.exists():
             continue
         try:
-            owned |= set(json.loads(p.read_text()).get("cities", {}))
+            owned |= set(json.loads(f.read_text()).get("cities", {}))
         except ValueError:
             missing_files.append(f"{b} (unreadable)")
 
-    # POINT THE MODULE AT THE SAME DIRECTORY WE JUST READ. unexplained()
-    # resolves its own DIR, so an override here that moved only this
-    # file's reads would leave the two halves looking at different
-    # places: the first test written against it passed a scratch dir,
-    # read four healthy status files, and still reported all twelve
-    # cities unexplained, because the other half was reading the real
-    # directory. In production they are the same path and this is a
-    # no-op; it exists so a test cannot silently check two worlds.
-    import builder_status as BS  # noqa: E402
-    BS.DIR = sdir
-    stranded = BS.unexplained(sorted(owned)) if owned else []
+    stranded = BS.unexplained(sorted(owned), status_dir=sdir) if owned else []
 
     if not missing_files and not stranded:
         print(f"  all {len(owned)} assembled cities accounted for by "
