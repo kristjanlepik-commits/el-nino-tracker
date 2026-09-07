@@ -82,6 +82,29 @@ CO = {p["city"]: {"lat": p["lat"], "lon": p["lon"]}
 COAST = json.loads((R / "design/data/europe_coast.json").read_text())
 C, DH = N["cities"], N["day_headline"]
 
+# EUROPE ONLY, FOR NOW. Kristjan's call, 2026-09-07, on seeing the live
+# page: the roster took in seven Argentine stations and Algiers, the map
+# has to span three continents to hold them, and the result is a European
+# map occupying a fifth of the frame with the rest empty ocean and
+# Africa. Eight cities cost the other forty-six their legibility.
+#
+# THE MARKS ARE THE LINKS. Every city page is reachable only from its own
+# map mark, so filtering the map is also filtering the index, and the
+# eight would become live pages reachable by URL alone. That is the
+# defect found on the floods piece and on nine heat cities inside a
+# fortnight, so they get an explicit row below the map instead.
+#
+# `words(len(rows))` and the lede counts all derive from this set, so
+# nothing states a number this filter has made false.
+_EUROPE_CC = {"AT", "BE", "BG", "CH", "CY", "CZ", "DE", "DK", "EE", "ES",
+              "FI", "FR", "GR", "HR", "HU", "IE", "IS", "IT", "LT", "LU",
+              "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK",
+              "UK"}
+BEYOND = {n: v for n, v in C.items() if v["country"] not in _EUROPE_CC}
+C = {n: v for n, v in C.items() if v["country"] in _EUROPE_CC}
+if not C:
+    raise SystemExit("the Europe filter left no cities; check country codes")
+
 BOX = {"ES": (36.0, 43.8, -9.3, 4.3), "FR": (41.3, 51.1, -5.2, 9.6),
        "DE": (47.2, 55.1, 5.8, 15.1), "AT": (46.3, 49.1, 9.5, 17.2),
        "NL": (50.7, 53.6, 3.3, 7.3), "SE": (55.3, 69.1, 11.0, 24.2),
@@ -899,6 +922,23 @@ _recs = [d for d in rows if state(d) == "record"]
 _rest = [d for d in rows if state(d) != "record"]
 all_rows = "".join(city_row(i, d) for i, d in enumerate(rows, 1))
 
+# THE EIGHT THE FILTER REMOVED, KEPT REACHABLE. Not a design flourish and
+# not a section: without it these are live pages linked from nowhere, and
+# a reader who has one bookmarked cannot get back to the rest. Names only,
+# because a rank or a count here would be a second place stating a figure
+# that moves, and this row exists to be a route rather than a finding.
+#
+# Derived from BEYOND, so it empties itself the day the filter lifts and
+# cannot outlive the thing it compensates for.
+BEYOND_ROW = ("" if not BEYOND else
+              '<p class="subl" style="margin-top:18px">Also measured, '
+              'outside the map: '
+              + ", ".join(
+                  '<a href="%s.html">%s</a>'
+                  % (n.lower().replace(chr(32), chr(45)), n)
+                  for n in sorted(BEYOND))
+              + ".</p>")
+
 # THE DAY-NIGHT PAIR IS ASSEMBLED, and the typed one was false.
 #
 # Marseille and Berlin were the two cards under a sentence reading "they
@@ -1109,8 +1149,20 @@ _CONTRAST_SLOTS = ["contrast_label", "two_instruments"]
 COPY = copydeck.render(
     "heat_index",
     {
-        "records": floor(DH["records"]).capitalize(),
-        "of_cities": DH["of_cities"],
+        # DERIVED OVER THE SET THE PAGE SHOWS, not read from
+        # day_headline. That field counts all 54 and this page now shows
+        # 46, so reading it would print "26 of these 46", which is the
+        # figure-versus-figure failure this repo keeps finding. The
+        # per-city ranks are still READ; only the filtering is ours.
+        #
+        # Same veto as the city pages (D-293): a rank of 1 with a
+        # non-empty beaten_by_excluded_years is not a record.
+        "records": floor(sum(
+            1 for _v in C.values()
+            if (_v["days"]["rank"].get("value") == 1
+                and not (_v["days"]["rank"].get("beaten_by_excluded_years")
+                         or [])))).capitalize(),
+        "of_cities": len(C),
         # REMOVED, and not because it was unused. "In a typical year, that
         # number is N" counts records across years, which product ruled
         # unpublishable on 2026-08-11 as rule 5f: our set was assembled
@@ -1405,6 +1457,7 @@ margin-top:50px}}
 <div class="seclab">{COPY['strip_label']}</div>
 <p class="subl">{COPY['strip_intro']}</p>
 {all_rows}
+{BEYOND_ROW}
 
 <!-- AFTER THE THING THEY CAME FOR, BEFORE THE APPARATUS. Product measured
      this form at 96% down the page, which is the defect we set out to fix
