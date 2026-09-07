@@ -2,3 +2,9 @@
 # pull_night_minima.py, and never committed. The committed artifact is the
 # derived series, not the source grids. Same policy as crops/.cache/.
 .cache/
+
+# Per-run builder status, written every run by the assembled-city builders
+# and read by the check that asks whether anything moved. Ephemeral by
+# design: it describes THIS run, and committing it would dirty the tree on
+# every build in a repo nine chats share.
+data/status/

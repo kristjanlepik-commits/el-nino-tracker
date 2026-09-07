@@ -28,7 +28,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "heat"))
 import gather_latam as G  # noqa: E402
-from safe_write import RefusedWrite, write_series  # noqa: E402
+from safe_write import RefusedWrite, write_series
+import builder_status as ST  # noqa: E402  # noqa: E402
 # WRITES TO heat/data/sources/, NOT the cache. See source_file() in
 # build_city_series: this file is expensive to regenerate and is tracked.
 import build_city_series as _B  # noqa: E402
@@ -105,6 +106,7 @@ def main() -> int:
     # counted; a non-zero exit so the step reports it rather than passing.
     failed = []
     held = []
+    ST.open_status("build_argentina", list(CITIES))
     for city, gid in CITIES.items():
         meta = gather.get(gid)
         if not meta or not meta.get("wmo_block"):
@@ -126,14 +128,18 @@ def main() -> int:
             # everyone to ignore red. Held cities keep their previous series
             # and are named; only an unexpected exception is a failure.
             held.append(city)
+            ST.set_status("build_argentina", city, "held", str(exc)[:200])
             print(f"  {city}: HELD by the write guard, previous series kept. "
                   f"{exc}", file=sys.stderr)
             continue
         except Exception as exc:
             failed.append(city)
+            ST.set_status("build_argentina", city, "failed",
+                          f"{type(exc).__name__}: {exc}"[:200])
             print(f"  {city:22s} FAILED {type(exc).__name__}: {exc}",
                   file=sys.stderr)
             continue
+        ST.set_status("build_argentina", city, "advanced", f"{n} rows")
         recent = [y for y in range(2017, 2027) if per.get(y, 0) >= 200]
         print(f"  {city:22s} {n:6d} rows, GHCN to {last}, "
               f"{added:5d} bulletin days added, recent {len(recent)}/10")

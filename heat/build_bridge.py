@@ -37,6 +37,7 @@ sys.path.insert(0, str(ROOT / "heat"))
 
 import synop  # noqa: E402
 from safe_write import RefusedWrite, write_series
+import builder_status as ST  # noqa: E402
 # WRITES TO heat/data/sources/, NOT the cache. See source_file() in
 # build_city_series: this file is expensive to regenerate and is tracked.
 import build_city_series as _B  # noqa: E402
@@ -388,8 +389,15 @@ def main() -> int:
               f"Pass by name to include.")
     failed = []
     held = []
-    for city in (named or [c for c in CITIES if c in _B.CITIES]):
+    todo = named or [c for c in CITIES if c in _B.CITIES]
+    ST.open_status("build_bridge", todo)
+    for city in todo:
         try:
+            _p = _B.source_file(f"{city.lower()}.json")
+            _was_last = ""
+            if _p.exists():
+                _prev_rows = json.loads(_p.read_text())
+                _was_last = _prev_rows[-1][0] if _prev_rows else ""
             rows, per = build(city)
             yrs = sorted(per)
             ok = [y for y in yrs if per[y] >= MIN_DAYS]
@@ -416,14 +424,25 @@ def main() -> int:
             # everyone to ignore red. Held cities keep their previous series
             # and are named; only an unexpected exception is a failure.
             held.append(city)
+            ST.set_status("build_bridge", city, "held", str(exc)[:200])
             print(f"  {city}: HELD by the write guard, previous series kept. "
                   f"{exc}", file=sys.stderr)
             continue
         except Exception as exc:
             failed.append(city)
+            ST.set_status("build_bridge", city, "failed",
+                          f"{type(exc).__name__}: {exc}"[:200])
             print(f"  {city}: FAILED {type(exc).__name__}: {exc}",
                   file=sys.stderr)
             continue
+        # ADVANCED MEANS THE DATA MOVED, not that the code ran. Compared
+        # against the last date this city held before the build, because
+        # "it ran fine" is precisely what Rome reported while frozen.
+        _new_last = max(rows) if rows else None
+        ST.set_status("build_bridge", city,
+                      "advanced" if _new_last and _new_last > _was_last
+                      else "unchanged",
+                      f"last {_new_last}, was {_was_last}")
         print(f"  {city}: usable {len(ok)} years, {ok[0] if ok else '-'}"
               f" to {ok[-1] if ok else '-'}")
         print(f"    1971-2000 {b71}/30   1991-2020 {b91}/30   "

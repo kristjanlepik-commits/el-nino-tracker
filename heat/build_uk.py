@@ -41,6 +41,7 @@ import subprocess
 import sys
 from pathlib import Path
 from safe_write import write_series
+import builder_status as ST  # noqa: E402
 # WRITES TO heat/data/sources/, NOT the cache. See source_file() in
 # build_city_series: this file is expensive to regenerate and is tracked.
 import build_city_series as _B  # noqa: E402
@@ -340,6 +341,7 @@ def main() -> int:
     if any(_frozen(c) is None for c in STATIONS):
         tok = _token()
     prov = {}
+    ST.open_status("build_uk", list(STATIONS))
     for city, (county, sdir, sheet, fname) in STATIONS.items():
         hist = _frozen(city)
         if hist is not None:
@@ -375,6 +377,14 @@ def main() -> int:
         merged.update({d: v for d, v in cur.items() if d.startswith("2026")})
         rows = [[d, mn, mx] for d, (mn, mx) in sorted(merged.items())]
         write_series(_B.source_file(fname), rows, label=city)
+        # ACCOUNTED FOR EITHER WAY. Aberdeen's bulletins disagree with the
+        # official series, so extend() declines and it stays short every run.
+        # That is the builder explaining itself, not a fault, and the
+        # distinction is the whole point of this file.
+        ST.set_status("build_uk", city,
+                      "advanced" if season_prov.get("agree") else "refused",
+                      f"official to {season_prov.get('official_to')}, "
+                      f"extended by {len(tail)}")
         d26 = [d for d, mn, mx in rows
                if d.startswith("2026") and mn is not None and mx is not None]
         hy = sorted({int(d[:4]) for d in hist})
