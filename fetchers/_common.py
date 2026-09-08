@@ -16,6 +16,7 @@ agency's site is down or has changed format.
 
 from __future__ import annotations
 import json
+import tempfile
 import os
 import signal
 import time
@@ -101,9 +102,45 @@ def cache_path(source: str) -> Path:
 
 
 def write_cache(source: str, result: FetchResult) -> None:
-    """Persist a successful fetch as the last-good fallback."""
-    if result.ok:
-        cache_path(source).write_text(json.dumps(result.to_jsonable(), indent=2))
+    """Persist a successful fetch as the last-good fallback, ATOMICALLY.
+
+    write_text truncates the target and then writes it, so there is a
+    window in which the file exists and is empty or partial. Nine chats
+    share this working tree and this machine, and several run fetchers,
+    so a reader landing in that window gets an unparseable file and
+    read_cache raises CacheUnreadable. The fallback then has nothing to
+    fall back TO, which is the worst moment for the cache to be missing:
+    it only gets read when the live fetch has already failed.
+
+    That is not hypothetical. The 2026-08-03 CWWA outage is recorded in
+    qa_check's KNOWN_SNAPSHOT_GAPS as "the era5_wwe fetch failed AND its
+    cache read failed", and the fix then addressed the read side
+    (read_cache raises rather than swallowing) without closing the write
+    side that can produce the unreadable file in the first place.
+
+    os.replace is atomic on POSIX, so a concurrent reader sees either the
+    whole old file or the whole new one, never a partial write. The temp
+    file is created in the same directory because os.replace is only
+    atomic within a filesystem.
+    """
+    if not result.ok:
+        return
+    path = cache_path(source)
+    payload = json.dumps(result.to_jsonable(), indent=2)
+    fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=f".{source}.",
+                               suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w") as fh:
+            fh.write(payload)
+            fh.flush()
+            os.fsync(fh.fileno())
+        os.replace(tmp, path)
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
 
 
 class CacheUnreadable(Exception):
