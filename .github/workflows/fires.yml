@@ -373,14 +373,39 @@ jobs:
       # and holding them hostage to detections is what left the page
       # untouched for a whole morning. A real failure is still surfaced by
       # the step below rather than swallowed.
+      # BOUNDED AND VISIBLE, both added 2026-09-08 after this step ate a
+      # whole run and left no trace of why. Run 34186332286: the pull ran
+      # 81.9 minutes, was still going when the JOB timeout killed it at
+      # 120, and the log for the step is EMPTY. Two separate defects, and
+      # the second is the worse one.
+      #
+      # NO STEP TIMEOUT. Every other expensive step here is bounded (the
+      # baseline refresh 45, the quota wait 20, the retry 25) and this one
+      # was not, so it could consume the entire job budget and take the
+      # publish down with it. Same lesson as the baseline refresh in July:
+      # a job timeout is a backstop against a runaway, not a bound on a
+      # step, and it fires late and kills everything after it.
+      #
+      # 40 minutes: the pull normally takes 2 to 25 including its own
+      # internal retries, so this only cuts off a genuine hang, and it
+      # leaves room under the 120 job budget for the burnt-area pull and
+      # the publish to still run after a bad one.
+      #
+      # AND `out=$(...)` BUFFERED EVERYTHING. The command substitution
+      # captures all output and nothing reaches the log until the process
+      # exits, so a step that hangs prints NOTHING and a step that is
+      # cancelled prints nothing at all. Eighty-two minutes of work and
+      # not one line about what it was doing. `tee /dev/stderr` streams it
+      # live AND keeps it in `out` for the exit-3 test below, which is the
+      # only reason it was captured in the first place.
       - name: Pull fire data
         id: pull
         continue-on-error: true
+        timeout-minutes: 40
         run: |
           set +e
-          out=$(PYTHONPATH="$PWD" python fires/build_events.py 2>&1)
-          code=$?
-          echo "$out"
+          out=$(PYTHONPATH="$PWD" python fires/build_events.py 2>&1 | tee /dev/stderr)
+          code=${PIPESTATUS[0]}
           if [ $code -ne 0 ]; then
             # House convention for data jobs, from the CRO chat 2026-07-28:
             #   0  did work
