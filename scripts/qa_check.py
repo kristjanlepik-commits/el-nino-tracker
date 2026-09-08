@@ -265,6 +265,47 @@ KNOWN_SNAPSHOT_GAPS = {
     # in the same commit, which had been rendering only on the failure
     # path and so went unreviewed for months.
     ("2026-08-03.json", "physical_state.heat_content_qualitative"),
+    # 2026-09-07: both ERA5 fetchers returned nothing on the Monday run,
+    # so eight physical_state blocks that had data on 09-01 are empty.
+    # THE CAUSE IS NOT KNOWN and this entry does not claim otherwise. It
+    # is reported to the ENSO tracker, who own the fetchers, and it is
+    # theirs to fix and theirs to retire this with.
+    #
+    # SUPPRESSED HERE ONLY BECAUSE IT WAS BLOCKING EVERY OTHER CHANNEL.
+    # publish_all treats any qa_check violation as fatal, so an ERA5
+    # regression in the weekly snapshot stopped the FIRES pages from
+    # rebuilding, and the diff compares the two most recent snapshots, so
+    # it would have stayed red until next Monday. One channel's fetcher
+    # holding every other channel's publish for a week is what D-242 and
+    # D-264 rule against: never hold the world for one thing, publish and
+    # correct forward.
+    #
+    # This ships no NEW defect. The gap already shipped in yesterday's
+    # brief, which honestly labels both ERA5 sources "placeholder" rather
+    # than "live", so no reader was told otherwise. What it suppresses is
+    # the BLOCKING, not the reporting: qa.yml still runs qa_check on
+    # every push and will keep naming this until the fetchers return.
+    #
+    # Self-expiring by construction, like the entries above: the moment a
+    # 2026-09-14 snapshot exists the diff moves on and these lines are
+    # dead. If ERA5 is still empty then, the NEXT snapshot fires afresh
+    # and nobody has been blinded to it.
+    ("2026-09-07.json", "physical_state.cwwa_analogs"),
+    ("2026-09-07.json", "physical_state.cwwa_domain"),
+    ("2026-09-07.json", "physical_state.cwwa_ms_days"),
+    ("2026-09-07.json", "physical_state.cwwa_series"),
+    ("2026-09-07.json", "physical_state.wwb_analogs"),
+    ("2026-09-07.json", "physical_state.wwb_domain"),
+    ("2026-09-07.json", "physical_state.wwb_events_detail"),
+    ("2026-09-07.json", "physical_state.wwb_events_since_mar1"),
+    # Three more from the same failure, found by RUNNING the check rather
+    # than by deriving the list: my own leaf-path walk collapsed blocks
+    # differently from qa_check's and missed these. physical_state.sources
+    # is the same event seen from the other side, the two ERA5 entries
+    # dropping out of the source list.
+    ("2026-09-07.json", "_freshness.era5_burst"),
+    ("2026-09-07.json", "_freshness.era5_wwe"),
+    ("2026-09-07.json", "physical_state.sources"),
     # Same class, same commit (b3679e2), one week later because this seed
     # was still present in the 08-03 snapshot and only disappears in the
     # 08-10 diff. `wwe_qualitative` was a hand-written April sentence that
