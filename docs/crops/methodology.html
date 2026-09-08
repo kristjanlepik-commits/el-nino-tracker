@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crops: how these numbers are made</title>
+<style>@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/spectral-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/spectral-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/spectral-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/plexmono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/plexmono-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/plexmono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/plexmono-600.woff2") format("woff2");
+}</style>
+<link rel="canonical" href="https://thelongswell.com/crops/methodology.html">
+<meta name="description" content="Crops: how these numbers are made">
+<meta property="og:title" content="Crops: how these numbers are made">
+<meta property="og:description" content="Crops: how these numbers are made">
+<meta property="og:url" content="https://thelongswell.com/crops/methodology.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="The Long Swell">
+<meta property="og:image" content="https://thelongswell.com/card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Crops: how these numbers are made">
+<meta name="twitter:description" content="Crops: how these numbers are made">
+<meta name="twitter:image" content="https://thelongswell.com/card.png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script>
+<style>/* ---------- masthead ---------- */
+  /* Self-contained: a page that does not include PUBLIC_CSS has no link
+     reset, so the wordmark and nav arrived underlined on the fire page. */
+  header.field a, header.field a:hover { text-decoration: none; }
+  /* Nor does it carry the shell, which left the live fire masthead
+     running edge to edge with no padding while its content sat centred
+     at 760px. The defaults below are PUBLIC_CSS's own values, so on
+     pages that include both this rule is a no-op whichever order they
+     land in; a standalone page sets the two variables to match its own
+     content column instead. */
+  .field-shell {
+    max-width: var(--shell-max, 1180px);
+    margin: 0 auto;
+    padding: 0 var(--shell-pad, 40px);
+  }
+  header.field { background: var(--paper); border-bottom: 3px solid var(--ink); }
+  header.field::after { display: none; }
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 28px;
+    flex-wrap: wrap;
+    padding: 18px 0 16px;
+  }
+  /* Wordmark: the house sets in the prose face at natural fit, product
+     names in tracked mono, so house and channels differ in kind. */
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { display: block; flex: none; color: var(--ink); }
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .prodnav {
+    display: flex;
+    align-items: baseline;
+    gap: 8px 22px;
+    flex-wrap: wrap;
+  }
+  .prodnav a {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    /* ONE INK. D-101 retired channel colour and moved identity to type,
+       on the grounds that colour spent on wayfinding is colour unavailable
+       to data. The tokens went; this nav kept the hues, so four of six
+       items were still coloured months later.
+
+       VD's catch is the one that settles it: Notes rendered in the same
+       blue as El Nino. Notes is not a measured variable and can never hold
+       a hue under the ruling, so either the blue meant El Nino, in which
+       case it was wrong, or it meant "you are here", in which case blue
+       meant two things in one row and a reader could not tell which.
+
+       Identity is now the tracked mono against the Spectral wordmark, and
+       the current page is marked by weight and a rule rather than a hue.
+       The per-channel classes stay in the markup: they are hooks, and
+       deleting them is a change to every generator rather than to this
+       stylesheet. */
+    color: var(--ink-soft);
+    transition: color .12s, border-color .12s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+  }
+  .prodnav a.util { color: var(--ink-faint); letter-spacing: 0.16em; }
+  .prodnav a:hover { color: var(--ink); }
+  /* The current page, by weight and a rule. */
+  .prodnav a.on { color: var(--ink); font-weight: 600;
+    border-bottom-color: var(--ink); }
+  /* A 20px TARGET IS A MISS ON A PHONE. These six links are how a reader
+     moves between channels and they were 10.5px of text with 3px under
+     it, on the surface where nearly all the traffic arrives. The label
+     stays the size it is, which is a deliberate typographic choice; what
+     grows is the area around it, so the row reads identically and can
+     actually be hit. The underline on the current page is pinned to the
+     text rather than the padding, or the rule would float away from the
+     word it marks. */
+  @media (max-width: 640px) {
+    .prodnav { gap: 2px 20px; }
+    .prodnav a { padding: 11px 0 10px; border-bottom: 0;
+      position: relative; }
+    .prodnav a.on::after { content: ""; position: absolute;
+      left: 0; right: 0; bottom: 8px; border-bottom: 1px solid var(--ink); }
+  }</style>
+<style>:root {
+    --paper: #F1F0EC;
+    --paper-sunk: #E7E6DF;
+    --ink: #1A1A18;
+    --ink-soft: #3A3A36;
+    --ink-faint: #6E6E67;
+    --rule: #CFCEC7;
+    --nino: #173F9E;
+    --fire: #B32E10;
+    --flood: #0A5C66;
+    --crop: #2E5C16;
+    --damage: #5C2C96;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --tag-loaded-bg: #173F9E;
+    --tag-loaded-fg: #F1F0EC;
+    --tag-notlink-bg: #E3E2DB;
+    --tag-notlink-fg: #3A3A36;
+    --tag-pending-bg: #EAE9E3;
+    --tag-pending-fg: #42423C;
+    --rule-45: #8E8E88;
+    --rule-20: #C6C5C2;
+    --land: #D9D8D0;
+    --land-line: #C6C5C2;
+    --shell: 1180px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+    --paper: #1A1A18;
+    --paper-sunk: #252521;
+    --ink: #EDECE6;
+    --ink-soft: #B4B3AB;
+    --ink-faint: #86857D;
+    --rule: #3A3A36;
+    --nino: #6E97E8;
+    --fire: #E8714E;
+    --flood: #4CB3BF;
+    --crop: #7CB84E;
+    --damage: #A87BE8;
+    --tag-loaded-bg: #6E97E8;
+    --tag-loaded-fg: #1A1A18;
+    --tag-notlink-bg: #2E2E2A;
+    --tag-notlink-fg: #B4B3AB;
+    --tag-pending-bg: #262622;
+    --tag-pending-fg: #86857D;
+    --serif: "Spectral", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    --shell: 1180px;
+    --rule-45: #6A6A64;
+    --rule-20: #333330;
+    --land: #2E2E2A;
+    --land-line: #333330;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--serif); font-size: 17.5px; line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* The masthead here is the shared one, styled by SITE_MASTHEAD_CSS,
+     which render_html adds alongside this block. Nothing masthead
+     related belongs below, except lining its shell up with the reading
+     column, which is narrower here than on the tracker pages. */
+  :root { --shell-max: 820px; --shell-pad: 40px; }
+  main { max-width: 820px; margin: 0 auto; padding: 40px 40px 80px; }
+  h1 { font-size: clamp(32px, 4vw, 44px); font-weight: 500;
+       letter-spacing: -0.018em; line-height: 1.10; margin: 0 0 20px; }
+  h2 { font-size: 20px; font-weight: 500; line-height: 1.30;
+       margin: 2.2em 0 10px; padding-bottom: 10px;
+       border-bottom: 2px solid var(--ink); }
+  h3 { font-size: 17.5px; font-weight: 500; margin: 1.8em 0 6px; }
+  p, li { max-width: 62ch; }
+  a { color: inherit; border-bottom: 1px solid var(--rule); text-decoration: none; }
+  a:hover { color: var(--fire); border-bottom-color: var(--fire); }
+  table { border-collapse: collapse; margin: 1.4em 0; width: 100%; font-size: 14px; }
+  th, td { padding: 12px 12px 12px 0; text-align: left;
+           border-bottom: 1px solid var(--rule); vertical-align: top; }
+  thead th { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em;
+       text-transform: uppercase; color: var(--ink-faint); font-weight: 400;
+       border-bottom: 2px solid var(--ink); }
+  tbody tr:last-child td { border-bottom: 2px solid var(--ink); }
+  blockquote { border-left: 3px solid var(--nino); margin: 1.2em 0;
+               padding: 2px 0 2px 20px; color: var(--ink-soft); }
+  code { font-family: var(--mono); font-size: 0.85em;
+         background: var(--paper-sunk); padding: 2px 5px; }
+  pre { background: var(--paper-sunk); padding: 14px 16px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  img { max-width: 100%; height: auto; display: block; }
+  hr { border: none; border-top: 2px solid var(--ink); margin: 2.4em 0; }
+  @media (max-width: 760px) {
+    :root { --shell-pad: 20px; }
+    main { padding-left: 20px; padding-right: 20px; }
+    body { font-size: 17px; }
+  }</style>
+</head><body>
+<header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../elnino/">El Niño</a><a class="ch-fire" href="../fires/">Fires</a><a class="ch-crop on" href="../crops/">Crops</a><a class="ch-heat" href="../heat/">Heat</a><a class="ch-notes" href="../notes/">Notes</a><a class="util" href="../about.html">About</a></nav></div></div></header>
+<main>
+<h1>Crops: how these numbers are made</h1>
+<p>The crops channel answers one question, in 165 countries and 2,126
+sub-national crop regions: <strong>how does this growing season compare with
+the same point in that same place's own 26 years?</strong></p>
+<p>It does not rank countries against each other, and it does not say what
+caused anything. Both of those are deliberate, and both are explained
+below.</p>
+<p>This page is written for someone deciding whether to cite us. It states
+what the numbers are, what they are not, and which of them we decline to
+make a claim about even when the arithmetic would allow one.</p>
+<h2>The source</h2>
+<p>Every figure comes from the <strong>Joint Research Centre's ASAP</strong> system
+(Anomaly hot Spots of Agricultural Production), the European
+Commission's operational agricultural monitoring service. We fetch its
+published indicators and re-express them; we do not run a crop model and
+we do not produce our own remote sensing.</p>
+<p>ASAP publishes on a <strong>dekad</strong>: 36 times a year, on the 1st, 11th and
+21st of each month, each covering the following ten days except the 21st
+which runs to month end.</p>
+<p>We restrict every pull to ASAP's <strong>"crop during growing cycle"</strong> class.
+A region that is out of season is not measured rather than measured as
+zero, which is why the number of reporting regions changes through the
+year.</p>
+<h2>What is measured</h2>
+<p>Six instruments, of which <strong>five are reporting as of the current
+dekad</strong>. Each carries its own unit, its own direction, and its own
+observation window.</p>
+<table>
+<thead>
+<tr>
+<th>Instrument</th>
+<th>Unit</th>
+<th>What it summarises</th>
+<th>Worse when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vegetation, current</td>
+<td>z-score</td>
+<td>this dekad</td>
+<td>low</td>
+</tr>
+<tr>
+<td>Soil moisture</td>
+<td>m³/m³</td>
+<td>this dekad</td>
+<td>low</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>anomaly °C</td>
+<td>this dekad</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Rainfall, 3-month</td>
+<td>SPI</td>
+<td>the past 3 months</td>
+<td>low</td>
+</tr>
+<tr>
+<td>Vegetation, cumulative</td>
+<td>z-score</td>
+<td>the season so far, from sowing</td>
+<td>low</td>
+</tr>
+<tr>
+<td>Water satisfaction</td>
+<td>percent</td>
+<td>the season so far, as a water balance</td>
+<td>low</td>
+</tr>
+</tbody>
+</table>
+<p>The order above is the order they appear on every page, shortest
+observation window first, because <strong>a shorter window can move sooner</strong>.
+That order is emitted as data rather than chosen by a renderer, so it
+cannot differ between pages.</p>
+<p><strong>Vegetation, cumulative adds the season up</strong>, so one bad dekad barely
+moves it. It is structurally the last of the six to move and reads
+calmest exactly when a fast deterioration is under way, which is both
+the reason it is shown and the reason it is excluded from the ordering
+key.</p>
+<p>It is the instrument most often read as a proxy for outcome, and that is
+a <strong>use</strong> rather than a property. <strong>Every one of these instruments
+measures greenness</strong>, or water, or temperature. Any friendlier name for
+one of them, "the harvest measure", "a drought index", "crop damage", is
+a claim about what the measurement means rather than a description of
+what it is. This page tries not to make those, and where our own pages
+have, we have been correcting them.</p>
+<h2>The comparison</h2>
+<p>Every claim on this channel has the same shape: <strong>one unit against its
+own history, at the same dekad of the year.</strong></p>
+<ul>
+<li>The baseline is <strong>2001 to 2025</strong>, 25 prior observations, at the same
+  dekad. Never a rolling window.</li>
+<li>The <strong>current year is not in the baseline</strong>, so a z-score has no
+  (n-1)/√n ceiling. A rank of "N of 26" counts the 25 baseline years
+  plus the current one.</li>
+<li>Ranks use competition ranking, so ties are stated rather than broken
+  arbitrarily.</li>
+</ul>
+<p>A region is compared against itself in August against its own Augusts.
+It is never compared against a neighbouring region, and never against
+its own spring.</p>
+<h2>Country figures are weighted by cropland area</h2>
+<p>A country value is the <strong>area-weighted mean of its regions</strong>, weighted
+by ASAP's own <code>km2_crop</code> crop mask. This changed in methodology version
+2.0 and it matters: under the previous unweighted mean, England carried
+a quarter of the United Kingdom figure while holding 85.6% of its
+cropland.</p>
+<p>Two consequences are disclosed per country rather than left implicit:</p>
+<ul>
+<li><strong>A region with no cropland in ASAP's mask gets no vote.</strong> The count of
+  such regions is published per country.</li>
+<li><strong>Weights are applied to every year</strong>, not only the current one, so the
+  rank is a like-for-like comparison.</li>
+</ul>
+<p>Where one region dominates, the page says so by name and share, and the
+sentence is computed from the same weights it describes rather than
+written by hand.</p>
+<h2>The one number that is ours</h2>
+<p>Everything above is a re-expression of a published indicator. <strong>The
+composite severity figure is not.</strong> It is the mean position of a
+country's instruments within their own histories, and <strong>no source
+publishes it</strong>. It is labelled in the payload as our construction rather
+than an observation, and it carries three qualifiers that travel with it
+everywhere:</p>
+<p><strong>1. It is not a cross-place ordering.</strong> The value places a country
+against itself. The rank also saturates: <strong>18 of the 165 published
+countries, about one in nine, sit at rank 1</strong>, so sorting on it produces
+a large tied block. For how much of a country is abnormal, use the
+proportion of its regions at a record, which is comparable between
+places. For how fast, use the rate.</p>
+<p><strong>2. Its spread differs by place.</strong> A higher composite elsewhere can be a
+less unusual year than a lower one here, because the year-to-year spread
+of the composite is itself a property of the place. The rank is the
+comparable figure, not the value.</p>
+<p><strong>3. It is a reading of conditions to date.</strong> It carries no statement
+about the rest of the season.</p>
+<p>That saturation figure is computed at build time from the published set.
+It previously read "roughly one country in seven", which was correct
+when the channel covered 123 countries and wrong within an hour of its
+covering 165.</p>
+<h2>How many records to expect anyway</h2>
+<p><strong>This is the number most easily misread, so it is published rather than
+buried.</strong> With 2,126 units each compared against 26 years, dozens will
+sit at a record in any given dekad by chance alone. An even spread of
+records would put about 82 units at their worst at any moment.</p>
+<p>So the count only means something against its own history:</p>
+<ul>
+<li><strong>This dekad: 69 units at their worst on record.</strong></li>
+<li>Recent twelve years at this dekad: mean 58.8, ranging from 25 to 111.</li>
+<li>The full series runs back to 2001, whose 242 dwarfs anything since.</li>
+</ul>
+<p>A count in the sixties is therefore an ordinary reading, and we say so
+on the page rather than presenting it as an alarm.</p>
+<h2>What we decline to claim</h2>
+<p>Our own rate instrument currently shows <strong>25 countries deteriorating
+fast, against a prior-year mean of 5.6 and a prior maximum of 16, with
+no year in the 25-year record at or above it.</strong></p>
+<p><strong>We do not call that a record</strong>, and the payload states the refusal in
+the same field as the number. The count is not controlled for the level
+each fall started from, nor for drift in the series. A steep fall from a
+high starting level is partly regression toward the mean, and a raw
+count that tops the record is not a record until that is accounted for.</p>
+<p>Where a single country's fall does survive that control, the page says
+so. Where it does not, the page says that too, in the same sentence as
+the rank, so the two cannot be separated by a layout.</p>
+<h2>What this channel never says</h2>
+<p><strong>It never says why.</strong> The driver is unidentified for most places,
+including every region of the United Kingdom. Where a page notes that
+"vegetation here usually tracks water availability", that is a statement
+about a historical relationship in that region, not a claim about this
+year.</p>
+<p>This matters because the instruments frequently disagree. Of the 196
+regions currently at a record low on current vegetation, <strong>38, about one
+in five, have water satisfaction or rainfall sitting in its best third at
+the same moment.</strong> Angola is the clearest case: five regions at a record
+on the harvest measure while the water instruments read ordinary to
+favourable. A page reports where each instrument sits and leaves the
+causal question open.</p>
+<p>Sequence is treated the same way. A window can manufacture the order it
+appears to reveal, so the per-country history covers the whole calendar
+year to the published dekad rather than a chosen number of dekads, and
+each cell carries the fullest coverage that place reached so a reader can
+tell genuinely low extent from thin coverage.</p>
+<h2>Freshness</h2>
+<p>The age of the newest observation <strong>cycles</strong> rather than drifting: it
+falls to about 9 days when a dekad lands and reaches about 19 before the
+next. That is a property of a dekadal source, not staleness.</p>
+<p>Our own bound is <strong>30 days from the dekad label</strong>, being 21 days of
+reader relevance past the window close plus the 9 days from label to
+close. Separately, an automated check compares what ASAP has published
+against what we hold, and fails when the source has moved and we have
+not. That check exists because the collection job failed silently for
+five days in August 2026 and every relevance-based check stayed green
+throughout.</p>
+<p>A page is never built from a fetch. The build refuses outright if the six
+instruments do not all sit on the same dekad, so a page cannot be
+assembled from mixed vintages.</p>
+<h2>Who is not here</h2>
+<p>Three of ASAP's 168 countries are absent: <strong>Greenland, the French
+Southern and Antarctic Territories, and the Falkland Islands (Malvinas)</strong>.
+In each case ASAP reports no cropland inside a growing cycle. That is the
+source's determination, not an exclusion of ours.</p>
+<p><strong>Forty-two countries were excluded until 30 August 2026</strong> because ASAP
+reports them as a single national unit rather than sub-national regions,
+among them Estonia, Ireland, Portugal, the Netherlands and Switzerland.
+That threshold was wrong. Every claim here is one unit against its own 26
+years, and that comparison is exactly as sound for a country reported
+whole as for one split into eighteen. What a single unit cannot support
+is the within-country reading, so those pages carry no map and no count
+of regions at a record, and say so.</p>
+<h2>Known limits</h2>
+<p><strong>A reading is not restricted to standing crop, and for most of the
+channel there is no calendar that could restrict it.</strong> ASAP publishes a
+crop calendar giving planting and harvest dekads per unit per crop, and
+it covers <strong>74 countries. 91 of the 165 published here are not in it,
+including every European country we track</strong>: France, Germany, Spain,
+Italy, Poland, Hungary, Austria, the United Kingdom, Estonia and Romania
+among them. The calendar's coverage follows ASAP's food-security mandate,
+so it is thorough exactly where the channel's European set is absent.</p>
+<p>For those 91, nothing in the data tells us when a season closes. France
+and the United Kingdom report every crop region at all 36 dekads of the
+year; Poland drops out only in deep winter. So a mid-August reading in
+northwest Europe covers whatever ASAP's crop mask holds, which at that
+date includes both harvested cereal ground and standing summer crops.</p>
+<p><strong>What this does and does not invalidate.</strong> The comparison stays
+like-for-like: mid-August 2026 is compared against 25 prior mid-Augusts,
+which contained the same mix. "The lowest of 26 observations for this
+point in the season" therefore stands as written. What it does <strong>not</strong>
+support is reading a late-summer European vegetation record as a
+statement about the cereal harvest, which by then is in. Where the two
+readings diverge, the honest phrasing is about what is standing in the
+fields now, not about a crop already in the barn.</p>
+<p><strong>For the 74 countries that do have a calendar, check where the dekad
+falls in it.</strong> Angola's maize, millet and sorghum harvest ends between
+dekads 15 and 19 and its planting resumes around dekad 24, so a reading
+at dekad 23 sits between cycles, and its cumulative measure describes the
+season that has just finished rather than one under way.</p>
+<p><strong>Soil moisture has not reported since 1 July 2026.</strong> Every country
+therefore reads five instruments of six, and the composite says which
+were used. This is channel-wide and is not a country-specific failure.</p>
+<p><strong>Coverage varies within a season.</strong> A region drops out when its growing
+cycle closes, so a country's denominator changes through the year. A
+fraction computed on a collapsed denominator is a statement about
+coverage wearing the clothes of a statement about extent, so the fullest
+coverage each place reaches is published alongside.</p>
+<p><strong>A missing value is never a zero.</strong> An instrument with no reading is
+marked absent with the reason attached at the datum: no current value,
+undefined at this dekad, too few comparable years, or not published for
+that country.</p>
+<h2>Version history</h2>
+<p><strong>2.0.</strong> Country figures area-weighted by ASAP's <code>km2_crop</code>. Previously
+an unweighted mean over regions. Affects every country value and
+therefore the composite, the magnitude, the rate and the ordering key.
+Ranks are computed on weighted values for every year so the comparison
+stays like for like.</p>
+<p><strong>1.0.</strong> Unweighted mean over a country's regions.</p>
+</main>
+</body></html>
