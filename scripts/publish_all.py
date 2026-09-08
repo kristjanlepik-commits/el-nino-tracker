@@ -914,12 +914,55 @@ def main() -> None:
 
     problems = verify(data_before)
     if problems:
-        # Same rule for verification failures: if nothing is wrong with a
-        # shell page, the shell still ships.
+        # ATTRIBUTE EACH PROBLEM TO A SURFACE, 2026-09-08. This used to
+        # roll back EVERY channel on any violation anywhere, with only a
+        # shell/not-shell split above it. Kristjan's question is the one
+        # that settles it: "why can another channel stop fires? fires is
+        # the only one that is daily, it does not make any sense."
+        #
+        # It did not. On 2026-09-08 both ERA5 fetchers returned nothing on
+        # the WEEKLY Monday run, qa_check correctly reported a snapshot
+        # regression, and that discarded the freshly built FIRES pages,
+        # which have no relationship to ERA5. Worse, the snapshot diff
+        # compares the two most recent snapshots, so a weekly channel's
+        # bad Monday would have held a daily channel for SEVEN DAYS.
+        #
+        # This is D-289 one layer up. That ruling isolated a channel
+        # CRASH to its own surface and left verification failures on the
+        # all-or-nothing path: the same fix landing at one call site and
+        # not its twin, which is the shape this repo keeps rediscovering.
+        #
+        # THREE SCOPES, and the third is the one that was missing:
+        #   shell     a problem naming a SHELL_TARGET. Rolls back
+        #             everything, because a broken shell is not shippable.
+        #   channel   a problem naming docs/<channel>/. Rolls back that
+        #             channel only; every other channel still publishes.
+        #   record    a problem naming NO published page: a snapshot
+        #             regression, a data-record contradiction. Rolls back
+        #             NOTHING, because discarding a correct fires page
+        #             makes no snapshot better. It still fails the run so
+        #             the finding is loud, and "Commit the published
+        #             pages" runs under if: always(), so the good pages
+        #             ship while the run goes red. That is D-264's shape:
+        #             publish and flag, never hold the world for one thing.
         shell_hit = any(t in p for p in problems for t in SHELL_TARGETS)
-        restore(saved, keep_shell=not shell_hit)
-        scope = "everything restored" if shell_hit else \
-            "channels restored; the ENSO shell still publishes (invariant 1)"
+        hit_channels = sorted({
+            ch for ch, prefix in CHANNEL_PATH_PREFIXES.items()
+            for p in problems if prefix in p})
+        if shell_hit:
+            restore(saved, keep_shell=False)
+            scope = "everything restored"
+        elif hit_channels:
+            for ch in hit_channels:
+                restore({k: v for k, v in saved.items()
+                         if k.startswith(CHANNEL_PATH_PREFIXES[ch])})
+            scope = (f"{', '.join(hit_channels)} restored; every other "
+                     f"channel and the ENSO shell still publish")
+        else:
+            scope = ("NOTHING restored: no finding names a published page, "
+                     "so this is a record-level problem and discarding "
+                     "correct pages would not improve it. The pages ship "
+                     "and this run goes red")
         # SAY WHAT SURVIVED, not only what was rejected. Fire spent a
         # morning diagnosing a fetcher that was working perfectly,
         # because "publish rejected, everything restored" reads exactly
