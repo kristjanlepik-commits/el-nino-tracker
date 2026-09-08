@@ -211,7 +211,19 @@ def safe_fetch(source: str, fn: Callable[[], FetchResult],
             cached.used_fallback = True
             cached.error = err
             return cached
-        return None
+        # NO CACHE. Say so in the error, because this is the state that is
+        # hardest to diagnose after the fact and the cheapest to label now.
+        #
+        # On 2026-09-07 both ERA5 fetchers timed out and the snapshot
+        # recorded ok=False, used_fallback=False, error="FetcherTimeout:
+        # ...". Those three facts together mean "the fetch failed AND the
+        # cache was not there", but nothing said the second half, so the
+        # diagnosis had to reconstruct it from the absence of a
+        # used_fallback flag. An hour of another desk's time, and every
+        # channel's publish blocked meanwhile.
+        _cache_note = "no cache at " + str(cache_path(source))
+        return FetchResult(source=source, ok=False, fetched_at=now_iso(),
+                           error=f"{err} | {_cache_note}")
 
     try:
         with _alarm(timeout_seconds):
