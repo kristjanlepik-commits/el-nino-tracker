@@ -32,6 +32,9 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import minimize
 from scipy.stats import skewnorm
+import datetime as _dt
+import numpy as _np
+import sources as _S
 
 import sources as S
 
@@ -99,6 +102,60 @@ def p_above_traditional_oni(season_probs: dict, threshold_oni: float,
 
 
 # ---- Parametric fit (current default) ----------------------------------
+
+# ---- open-bin degeneracy: when CPC's table cannot identify the tail ----
+#
+# CPC's top bin is OPEN-ENDED at >= 2.0. As an event strengthens, mass
+# piles into it and the bounded bins empty out. The skew-normal then has
+# three parameters and effectively two constraints, and least squares
+# resolves that by SHRINKING THE SCALE: a narrow spike just above 2.0
+# satisfies "93% above 2.0" more cheaply than a broad distribution does.
+#
+# Measured on the real tables, 2026-09-10:
+#
+#     CPC 08-13  (90% in the open bin)  scale 0.62   P(>3.0) 24.5%
+#     CPC 09-10  (93% in the open bin)  scale 0.30   P(>3.0)  0.6%
+#
+# CPC got MORE confident and our fitted tail went to nearly zero. The bias
+# is systematic, it runs opposite to the forecaster, and it grows as the
+# event grows. That is the wrong direction to be wrong in.
+#
+# So above the open bin's edge we now REFUSE rather than report a fitted
+# number the table does not support. The consensus carries those rungs
+# alone and the payload says why. Flooring the scale at some historical
+# value was the alternative and it invents a number; refusing does not.
+#
+# ACTIVATION IS DATED. Kristjan's call, 2026-09-10: CPC published today, so
+# the 09-14 issue carries the fresh table without also carrying a method
+# change. This takes effect from the 2026-09-21 issue. Once that issue has
+# shipped the gate is dead weight and should be deleted, not left to
+# accumulate.
+ANCHOR_TAIL_GUARD_FROM = _dt.date(2026, 9, 21)
+OPEN_BIN_EDGE = 2.0
+_OPEN_BIN_DEGENERATE_MASS = 90.0   # percent in the open bin
+_MIN_BOUNDED_BINS = 2              # populated bounded bins needed to shape it
+
+
+def open_bin_degenerate(season_probs: dict) -> str | None:
+    """Reason the table cannot identify the tail above OPEN_BIN_EDGE, or None.
+
+    Returns a human-readable reason so the payload can carry it, rather
+    than a bare boolean that a reader has to interpret.
+    """
+    top = float(season_probs.get(">=2.0") or 0.0)
+    bounded = sum(1 for lo, hi, lab in BINS
+                  if not _np.isposinf(hi) and float(season_probs.get(lab) or 0) > 0)
+    if top >= _OPEN_BIN_DEGENERATE_MASS and bounded < _MIN_BOUNDED_BINS:
+        return (f"{top:.0f}% of CPC's mass sits in the open-ended >=2.0 bin "
+                f"with only {bounded} populated bounded bin(s), so the fitted "
+                f"tail above {OPEN_BIN_EDGE} is not identified by the table")
+    return None
+
+
+def anchor_tail_guard_active(brief_date=None) -> bool:
+    """Whether the guard is in force for the issue being built."""
+    d = brief_date or _S.BRIEF_DATE
+    return d >= ANCHOR_TAIL_GUARD_FROM
 
 def _bin_probs_array(season_probs: dict) -> np.ndarray:
     return np.array([season_probs.get(label, 0) / 100.0
@@ -593,8 +650,16 @@ def smoothed_headline_buckets(
         eff_weight = SMOOTHING_WEIGHT if weight is None else weight
         eff_cap = SMOOTHING_CAP_PPT if cap_ppt is None else cap_ppt
 
+    # Above the open bin's edge the CPC table may not identify a tail at
+    # all. When it does not, the anchor is withdrawn for those rungs and
+    # the consensus carries them alone. Dated activation, see
+    # ANCHOR_TAIL_GUARD_FROM.
+    degenerate = (open_bin_degenerate(strength_table.get(season) or {})
+                  if anchor_tail_guard_active() else None)
+
     out: dict = {}
     for key, threshold in thresholds.items():
+        anchor_withdrawn = bool(degenerate) and threshold > OPEN_BIN_EDGE
         p_anchor = float(anchor[key])
         p_seas5 = (_seas5_p_above(seas5_per_lead, threshold, season)
                    if seas5_per_lead else None)
@@ -631,16 +696,22 @@ def smoothed_headline_buckets(
                             f"its published bins"),
                         "deflection": 0}
             continue
-        raw = eff_weight * (p_model - p_anchor)
-        applied = raw if eff_cap is None else max(-eff_cap, min(eff_cap, raw))
-        smoothed = max(0.0, min(100.0, p_anchor + applied))
+        if anchor_withdrawn:
+            # No anchor to deflect FROM, so the consensus stands as it is.
+            smoothed = p_model
+        else:
+            raw = eff_weight * (p_model - p_anchor)
+            applied = raw if eff_cap is None else max(-eff_cap, min(eff_cap, raw))
+            smoothed = max(0.0, min(100.0, p_anchor + applied))
         out[key] = {
             "mid": _display_pct(smoothed),
             "retired": key in RETIRED_RUNGS,
             "retired_on": RETIRED_RUNGS.get(key),
             "mid_unclamped": int(round(smoothed)),
             "mid_exact": round(smoothed, 2),
-            "anchor": int(round(p_anchor)),
+            "anchor": None if anchor_withdrawn else int(round(p_anchor)),
+            "anchor_fitted": int(round(p_anchor)),
+            "anchor_withdrawn_because": degenerate if anchor_withdrawn else None,
             "seas5": int(round(p_seas5)) if p_seas5 is not None else None,
             "consensus": int(round(p_model)),
             "n_models": n_models,
