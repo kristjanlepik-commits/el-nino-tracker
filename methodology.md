@@ -729,6 +729,51 @@ column.
     orders the outcome and whether the analogs span the current value of
     it.** If they do not, the average is an extrapolation wearing a base
     rate's clothes.
+13. **CPC's top bin is open-ended, and as an event strengthens the fitted
+    tail above it collapses. We now refuse rather than report it.**
+
+    The anchor is a skew-normal fitted to CPC's nine bins. The top bin is
+    `>= 2.0` and unbounded. Three parameters, and as mass concentrates
+    there the bounded bins empty out and the fit loses the constraints
+    that shape it. Least squares resolves the ambiguity by SHRINKING THE
+    SCALE, because a narrow spike just above 2.0 satisfies "93% above
+    2.0" more cheaply than a broad distribution does.
+
+    Measured on two real consecutive CPC tables:
+
+        issued    open-bin mass   fitted scale   fitted P(>3.0)
+        08-13         90%             0.62           24.5%
+        09-10         93%             0.30            0.6%
+
+    **CPC became more confident and our fitted tail went to nearly zero.**
+    The bias is systematic, it runs opposite to the forecaster, and it
+    grows as the event grows. It would have kept worsening: CPC will
+    plausibly reach 95% or more in that bin.
+
+    **So above the open bin's edge, when the table cannot identify a tail,
+    the anchor is WITHDRAWN and the model consensus carries those rungs
+    alone.** The condition is 90% or more in the open bin with fewer than
+    two populated bounded bins. The payload records the fitted value under
+    `anchor_fitted` and the reason under `anchor_withdrawn_because`, so
+    the refusal is auditable rather than a silent gap. The rung AT the
+    edge keeps its anchor: 2.0 is the boundary, not above it.
+
+    The rejected alternative was flooring the scale at some historical
+    value. That invents a number where the table is silent; refusing does
+    not. **A fitted tail beyond the last bounded bin was always an
+    extrapolation. This says so when the extrapolation stops being
+    supported, rather than only when someone notices it looks wrong.**
+
+    **Effect, had it been live on 2026-09-10:** `>3.0` 96 to 98, `>3.5`
+    72 to 82, `>4.0` 31 to 37. The published numbers survived the anchor's
+    collapse only because the consensus weight is 0.85. At a lower weight
+    the headline would have fallen while CPC firmed up, which is the
+    failure this prevents.
+
+    **Activation is dated to the 2026-09-21 issue.** Kristjan's call on
+    2026-09-10: CPC published that morning, so the 09-14 issue carries a
+    fresh table without also carrying a method change. Two changes in one
+    week make it impossible to say which moved the number.
 
 ## Snapshot and diff machinery
 
