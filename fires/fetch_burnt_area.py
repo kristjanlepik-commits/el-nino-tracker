@@ -131,6 +131,56 @@ def _clean_avg(iso, week):
              "years_used": len(used), "years_dropped": lead},
             per_year)
 
+def _week_step(iso, week):
+    """Hectares mapped in THIS week alone, both sides from the same file.
+
+    WHY THIS SHIPS RATHER THAN LEAVING CONSUMERS TO SUBTRACT. area_ha is
+    cumulative, so the obvious way to get a weekly step is to diff it
+    against last week's published value. That diff is wrong, and wrong in
+    a direction that manufactures news: GWIS revises earlier weeks UPWARD
+    as perimeters are mapped, so the difference contains this week's
+    burning PLUS every backfill applied since. Land that burned a month
+    ago and was mapped on Wednesday arrives looking like Wednesday's fire.
+
+    Measured on 2026-09-10, the week I did exactly this and reported it:
+
+        Ukraine     +30,394 reported     +5,705 real    81% backfill
+        Montenegro  +10,115              +1,240         88%
+        Italy        +3,292              +1,429         57%
+        Bosnia      +23,263             +20,653         11%
+
+    Europe's "+87,646 ha this week" was +40,810. Ukraine led that list on
+    a number that was four fifths revision and a 1.4% real move. Socials
+    caught it by reproducing my six figures exactly, which is the only
+    way it surfaces: nothing in the pipeline knows which reference a
+    subtraction used, so every check passes either way.
+
+    Same shape as the Belgium cumulative-vs-increment error in August.
+    Both are a difference taken against a stale reference rather than the
+    same field in the same file.
+
+    THIS UNDERSTATES the true step slightly, because week N is itself
+    revised upward later. That is the correct direction to be wrong in:
+    it errs toward saying less happened rather than more.
+
+    Returns None when either week is missing, never 0, because "we cannot
+    compute the step" and "nothing burned" are different facts.
+    """
+    path = os.path.join(REPO, "fires", "data", "area_history", f"{iso}.json")
+    if not os.path.exists(path):
+        return None
+    try:
+        raw = json.load(open(path))
+        years = raw.get("years") or raw
+    except (OSError, ValueError):
+        return None
+    cur_year = years.get(str(YEAR)) or {}
+    a, b = str(int(week) - 1), str(week)
+    if a not in cur_year or b not in cur_year:
+        return None
+    return cur_year[b] - cur_year[a]
+
+
 def _cycle(countries: dict) -> dict:
     """Next EFFIS weekly close, derived from the newest as_of we hold."""
     seen = sorted({c.get("as_of") for c in countries.values()
@@ -170,6 +220,7 @@ def main():
         if lag > MAX_LAG_DAYS:
             stale.append(f"{iso} ({lag}d)")
         avg, avg_basis, at_week = _clean_avg(iso, row["week"])
+        step = _week_step(iso, row["week"])
         if avg is None:
             avg = row.get("area_ha_avg") or 0
             avg_basis = {"basis": "EFFIS area_ha_avg, unadjusted"}
@@ -205,6 +256,17 @@ def main():
                 "years": at_week},
             "max_ha": row.get("area_ha_max"),
             "multiple": round(row["area_ha"] / avg, 2) if avg else None,
+            # The weekly step, so nobody has to subtract two files.
+            "week_step_ha": step,
+            "week_step_means": (
+                "Hectares mapped in this ISO week alone, taken as week N "
+                "minus week N-1 within THIS file so both sides carry the "
+                "same revisions. Do NOT compute a weekly step by "
+                "differencing area_ha against a previously published "
+                "value: GWIS revises earlier weeks upward, so that "
+                "difference includes backfill and reports land mapped "
+                "this week as land burned this week. null means the step "
+                "could not be computed, not that nothing burned."),
             "vs_max": (round(row["area_ha"] / row["area_ha_max"], 2)
                        if row.get("area_ha_max") else None),
             "fires": row.get("events"),
