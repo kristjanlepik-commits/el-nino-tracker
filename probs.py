@@ -394,14 +394,32 @@ def _per_model_p_above(seas5_per_lead: list | None, nmme: dict | None,
                      "n_members": m.get("n_members"),
                      "basis": names.get(raw_basis, raw_basis or "unknown")}
     if seas5_per_lead:
-        head = seas5_per_lead[-1]
+        # Same lead selection as _seas5_p_above. This built its own entry
+        # from per_lead[-1] rather than calling that function, so when the
+        # lead selection was fixed there this went on reading the longest
+        # lead and the per-model table disagreed with the consensus it was
+        # meant to explain. Two code paths computing one quantity is the
+        # defect; they are now one call.
+        want = _season_centre_calendar(target_season) if target_season else None
+        head = None
+        if want:
+            head = next((r for r in seas5_per_lead
+                         if r.get("calendar") == want), None)
+        matched = head is not None
+        if head is None:
+            head = seas5_per_lead[-1]
         n_above = (head.get("members_above") or {}).get(f"{threshold_oni:.1f}")
         n_total = head.get("member_count")
         if n_above is not None and n_total:
             out["ECMWF_SEAS5"] = {
                 "pct": round(100.0 * float(n_above) / float(n_total), 1),
                 "n_members": n_total,
-                "basis": f"single lead {head.get('lead')}",
+                # Say WHICH month, not just which lead index. A reader
+                # comparing this to NMME's peak-over-window needs to know
+                # the single month it is a single month OF.
+                "basis": (f"single month {head.get('calendar')}"
+                          + ("" if matched else ", longest lead (target season "
+                                               "not reachable)")),
             }
     return out
 

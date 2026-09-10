@@ -42,7 +42,12 @@ from datetime import date, timedelta
 # and at a single lead; its cache holds no per-member values, so correcting
 # it needs a fetcher change and a CDS refetch. It is 1 of 6 models, and the
 # NMME fix captures roughly ten of the eleven points.
-METHODOLOGY_VERSION = "1.11"
+# 1.12 (2026-09-10): SEAS5 is read at the target season's centre
+# month rather than the longest available lead, and SEAS5
+# thresholds extend to 4.5 so it contributes to the >4.0 bucket
+# it was previously absent from. Both move published numbers,
+# which is what invariant 3 requires this bump for.
+METHODOLOGY_VERSION = "1.12"
 
 
 def _most_recent_monday(today: date | None = None) -> date:
