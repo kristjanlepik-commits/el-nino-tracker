@@ -317,7 +317,8 @@ def _nmme_consensus_p_above(nmme: dict | None, threshold_oni: float):
     return float(frac), int(n)
 
 
-def _model_consensus_p_above(seas5_per_lead, nmme, threshold_oni: float):
+def _model_consensus_p_above(seas5_per_lead, nmme, threshold_oni: float,
+                             target_season: str | None = None):
     """Equal-weight model-consensus probability above a threshold, pooling
     SEAS5 (one model) with the NMME suite (n models). Each model gets equal
     weight, so the consensus is (p_seas5 + n_nmme * p_nmme_mean) / (1 +
@@ -326,7 +327,8 @@ def _model_consensus_p_above(seas5_per_lead, nmme, threshold_oni: float):
     Falls back gracefully: SEAS5 alone if NMME is missing, NMME alone if
     SEAS5 is missing.
     """
-    p_seas5 = _seas5_p_above(seas5_per_lead, threshold_oni) if seas5_per_lead else None
+    p_seas5 = (_seas5_p_above(seas5_per_lead, threshold_oni, target_season)
+               if seas5_per_lead else None)
     p_nmme, n_nmme = _nmme_consensus_p_above(nmme, threshold_oni)
     if p_seas5 is None and p_nmme is None:
         return None, 0
@@ -339,7 +341,8 @@ def _model_consensus_p_above(seas5_per_lead, nmme, threshold_oni: float):
 
 
 def _per_model_p_above(seas5_per_lead: list | None, nmme: dict | None,
-                       threshold_oni: float) -> dict:
+                       threshold_oni: float,
+                       target_season: str | None = None) -> dict:
     """Every individual model's percent above `threshold_oni`, with the member
     count each is computed from.
 
@@ -403,7 +406,36 @@ def _per_model_p_above(seas5_per_lead: list | None, nmme: dict | None,
     return out
 
 
-def _seas5_p_above(seas5_per_lead: list, threshold_oni: float) -> float | None:
+_SEASON_CENTRE = {
+    "DJF": 1, "JFM": 2, "FMA": 3, "MAM": 4, "AMJ": 5, "MJJ": 6,
+    "JJA": 7, "JAS": 8, "ASO": 9, "SON": 10, "OND": 11, "NDJ": 12,
+}
+
+
+def _season_centre_calendar(season: str) -> str | None:
+    """'NDJ 2026-27' -> '2026-12'. The centre month of the target season.
+
+    Returns None if the string does not parse, so the caller can fall back
+    rather than guess.
+    """
+    try:
+        code, years = season.split()
+        month = _SEASON_CENTRE[code.upper()]
+    except (ValueError, KeyError, AttributeError):
+        return None
+    first = years.split("-")[0]
+    if not first.isdigit():
+        return None
+    year = int(first)
+    # A season labelled by its first year but centred in January belongs to
+    # the following calendar year: DJF 2026-27 is centred on January 2027.
+    if _SEASON_CENTRE[code.upper()] < 3 and "-" in years:
+        year += 1
+    return f"{year}-{month:02d}"
+
+
+def _seas5_p_above(seas5_per_lead: list, threshold_oni: float,
+                   target_season: str | None = None) -> float | None:
     """Fraction of SEAS5 ensemble members exceeding the threshold at the max
     available lead, in traditional-ONI-equivalent terms.
 
@@ -416,7 +448,22 @@ def _seas5_p_above(seas5_per_lead: list, threshold_oni: float) -> float | None:
     """
     if not seas5_per_lead:
         return None
-    headline = seas5_per_lead[-1]
+    # Read the lead that MATCHES THE TARGET SEASON, not the longest one.
+    #
+    # This used per_lead[-1] unconditionally. That was right while it was
+    # written: from a spring run, the longest reachable lead WAS the
+    # closest month to DJF. From the 2026-09 run it overshoots, and by
+    # more every month. That run reaches March 2027, three months past the
+    # January peak, where the median is +3.71 against +4.11 and only 88%
+    # of members clear 3.5 rather than 100%. The consensus for an NDJ
+    # question was being read off the declining tail of the event.
+    want = _season_centre_calendar(target_season) if target_season else None
+    headline = None
+    if want:
+        headline = next((r for r in seas5_per_lead
+                         if r.get("calendar") == want), None)
+    if headline is None:
+        headline = seas5_per_lead[-1]
     members_above = headline.get("members_above", {})
     member_count = headline.get("member_count")
     if not members_above or not member_count:
@@ -531,8 +578,10 @@ def smoothed_headline_buckets(
     out: dict = {}
     for key, threshold in thresholds.items():
         p_anchor = float(anchor[key])
-        p_seas5 = _seas5_p_above(seas5_per_lead, threshold) if seas5_per_lead else None
-        p_model, n_models = _model_consensus_p_above(seas5_per_lead, nmme, threshold)
+        p_seas5 = (_seas5_p_above(seas5_per_lead, threshold, season)
+                   if seas5_per_lead else None)
+        p_model, n_models = _model_consensus_p_above(seas5_per_lead, nmme,
+                                                     threshold, season)
         if p_model is None:
             # No model consensus. For rungs INSIDE CPC's published bins the
             # anchor stands on its own and is publishable. Above them it is a
@@ -577,7 +626,8 @@ def smoothed_headline_buckets(
             "seas5": int(round(p_seas5)) if p_seas5 is not None else None,
             "consensus": int(round(p_model)),
             "n_models": n_models,
-            "per_model": _per_model_p_above(seas5_per_lead, nmme, threshold),
+            "per_model": _per_model_p_above(seas5_per_lead, nmme, threshold,
+                                            season),
             "weight": eff_weight,
             "mode": "consensus" if consensus_mode else "seas5_fallback",
             "deflection": round(applied, 1),

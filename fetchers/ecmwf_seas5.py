@@ -53,7 +53,13 @@ LEADS = ["1", "2", "3", "4", "5", "6", "7"]
 # a higher "unprecedented" bucket, SEAS5 must report its member fraction at
 # that threshold to keep the multi-model consensus complete (the NMME suite
 # reports the same set).
-THRESHOLDS = (1.0, 1.5, 2.0, 2.5, 3.0, 3.5)
+# 4.0 and 4.5 added 2026-09-10. The list stopped at 3.5, so
+# _seas5_p_above returned None for the 4.0 bucket and the consensus fell
+# through to NMME alone, while every other bucket pooled both models. The
+# published record_>4.0 figure was therefore one model wearing a
+# consensus label, and 4.0 is now the live question: the September run's
+# median peaks at +4.11.
+THRESHOLDS = (1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5)
 
 
 def _cds_client():
