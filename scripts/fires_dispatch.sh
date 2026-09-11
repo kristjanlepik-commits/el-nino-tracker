@@ -57,8 +57,24 @@ print((today - end).days)
 before=$("$GH" run list --workflow=fires.yml --repo "$REPO" --limit 1 \
          --json databaseId --jq '.[0].databaseId' 2>/dev/null)
 
-if ! "$GH" workflow run "$WF" --repo "$REPO" >/dev/null 2>&1; then
-  echo "$(stamp)  DISPATCH FAILED  page age ${age}d" >> "$LOG"; exit 1
+# RETRY, AND KEEP THE REASON. On 2026-09-11 launchd fired this 25 minutes
+# late, on wake rather than at 07:15, and the single dispatch attempt
+# failed with its stderr sent to /dev/null. The log said DISPATCH FAILED
+# and nothing else; the same gh, same auth, dispatched fine by hand three
+# hours later. A laptop that has just woken can be seconds from having a
+# network, so one attempt at wake is the wrong shape, and a failure whose
+# reason was discarded cannot be diagnosed afterwards. Six attempts over
+# about five minutes covers the wake-to-network gap by a wide margin.
+dispatched=0
+for attempt in 1 2 3 4 5 6; do
+  if err=$("$GH" workflow run "$WF" --repo "$REPO" 2>&1 >/dev/null); then
+    dispatched=1; break
+  fi
+  echo "$(stamp)  attempt $attempt failed: ${err:-no stderr}" >> "$LOG"
+  sleep $((attempt * 15))
+done
+if [ "$dispatched" -ne 1 ]; then
+  echo "$(stamp)  DISPATCH FAILED after 6 attempts  page age ${age}d" >> "$LOG"; exit 1
 fi
 
 # READ BACK WHAT YOU WROTE. `gh workflow run` can exit 0 without a run
