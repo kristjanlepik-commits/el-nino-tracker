@@ -43,6 +43,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 BASELINE = ROOT / "fires" / "data" / "country_history.json"
+ROSTER = ROOT / "fires" / "data" / "tracked_countries.json"
 
 
 def expected_window(today: date) -> str:
@@ -77,7 +78,35 @@ def main() -> int:
 
     want = expected_window(today)
     if actual == want:
-        print(f"baseline window is current: {actual}")
+        # THE LABEL IS NOT THE BASELINE. On 2026-09-13 the refresh wrote
+        # this file with the correct window and 92 of 97 countries, then
+        # was killed at its 45-minute timeout retrying the other five.
+        # This check read the label, said "current", and the run's only
+        # red was an unrelated claim flag, while detections had been
+        # refused against the partial baseline and the page sat two days
+        # stale. So: every country on the roster must be present, since a
+        # baseline that is whole for 92 countries is not a baseline for
+        # the page, which renders all 97.
+        try:
+            roster = set(json.loads(ROSTER.read_text())["countries"])
+            have = set(json.loads(BASELINE.read_text()).get("countries", {}))
+        except (OSError, ValueError, KeyError) as exc:
+            print(f"::error::could not compare the baseline against the "
+                  f"roster ({exc}).")
+            return 1
+        missing = sorted(roster - have)
+        if missing:
+            print(f"::error::The fires baseline is labelled current "
+                  f"({actual}) but is PARTIAL: {len(missing)} roster "
+                  f"country/countries absent: {', '.join(missing)}. A "
+                  f"refresh that wrote the new window and then died "
+                  f"retrying the rest leaves exactly this file, and "
+                  f"detections are refused against it, so the page does "
+                  f"not advance while the label says it did. Check the "
+                  f"baseline refresh step for the countries named.")
+            return 1
+        print(f"baseline window is current: {actual}, all "
+              f"{len(roster)} roster countries present")
         return 0
 
     # Say how far behind, because one day late and five days late are
