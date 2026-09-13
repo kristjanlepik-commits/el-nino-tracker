@@ -118,6 +118,20 @@ def _event_for(year: int, season: str) -> int | None:
 
 def load_trajectories(live_oni_by_year: dict | None = None,
                       override_year: int | None = None):
+    # NORMALISE THE YEAR KEYS BEFORE ANYTHING ELSE LOOKS THEM UP.
+    #
+    # The live fetcher returns int years. The same payload after a JSON
+    # round trip, which is what the cache fallback returns, has string
+    # years. Below, the current year's CSV rows are SKIPPED whenever live
+    # data is supplied, so a str-keyed dict looked up by int returned {}
+    # and the current year got nothing from either source: the chart drew
+    # every analog and no 2026, with no error. Production had fetched
+    # live every week, so it had never happened; the first cache fallback
+    # would have published a chart missing its own subject.
+    # Found 2026-09-13 rendering a preview from a JSON snapshot.
+    if live_oni_by_year:
+        live_oni_by_year = {int(k): v for k, v in live_oni_by_year.items()
+                            if str(k).lstrip("-").isdigit()}
     """Return dict: develop_year -> list of (months_since_mar1, oni).
 
     `live_oni_by_year` is dict[int year -> dict[season -> oni]] from CPC's
