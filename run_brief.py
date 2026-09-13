@@ -5241,6 +5241,27 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     # computed sentence below carries the analog comparison.
     md.append(f"**Heat content note:** {_heat_content_compare(phys.get('heat_content_0_300m_estimate'), _hc97, _hc15).strip()}")
     md.append("")
+    _r = phys.get("cwwa_rate_14d") or {}
+    if _r.get("current") is not None:
+        # The slope, not the level. Rule set 2026-09-13: below ~4/day is
+        # worth a mention, below ~2/day is the fade signal. A Kelvin wave
+        # takes about two months to cross, so bursts after November mostly
+        # cannot reach NDJ; the monitoring window closes then.
+        _parts = [f"2026 {_r['current']:+.1f}"]
+        for _y in ("1997", "2015", "2023"):
+            if _r.get(_y) is not None:
+                _parts.append(f"{_y} {_r[_y]:+.1f}")
+        _lvl = _r["current"]
+        _flag = ("" if _lvl >= 4 else
+                 " Below the 4/day watch line." if _lvl >= 2 else
+                 " Below 2/day: this is the fade signal.")
+        md.append(f"**CWWA 14-day rate (m/s·days per day, to {_r.get('as_of')}):** "
+                  + ", ".join(_parts) + f".{_flag} The level above says what "
+                  f"has been delivered; this says whether delivery is "
+                  f"stalling, which is what a fade looks like. Watch line 4, "
+                  f"fade signal 2. Window closes around November: bursts "
+                  f"after that mostly cannot reach the NDJ peak.")
+        md.append("")
     if wwe_ok and cwwa_value is not None:
         ranking = _cwwa_ranking(cwwa_value, cwwa_analogs, wwe_fresh.get("issued"))
         lead_in = ("Live ERA5" if not wwe_cached else

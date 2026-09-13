@@ -92,6 +92,35 @@ def _seed_from_sources() -> dict:
     }
 
 
+def _cwwa_rate_14d(series, analogs) -> dict:
+    """Mean daily CWWA gain over the last 14 days, current year and analogs
+    at the matched calendar date. Values in m/s-days per day, one decimal.
+    None for any series that does not reach the date."""
+    def rate(pairs, cal_md=None):
+        pts = sorted(pairs)
+        if not pts:
+            return None
+        if cal_md is None:
+            end = len(pts) - 1
+        else:
+            end = next((i for i, (d, _) in enumerate(pts) if d[5:] >= cal_md), None)
+            if end is None:
+                return None
+        start = max(0, end - 14)
+        if end == start:
+            return None
+        return round((pts[end][1] - pts[start][1]) / (end - start), 1)
+    out = {}
+    if not series:
+        return out
+    last_md = sorted(series)[-1][0][5:]
+    out["current"] = rate(series)
+    out["as_of"] = sorted(series)[-1][0]
+    for y, pairs in (analogs or {}).items():
+        out[str(y)] = rate(pairs, last_md)
+    return out
+
+
 def fetch_all() -> dict:
     """
     Run all fetchers, merge with seed fallback. Returns a sources-shaped
@@ -267,6 +296,15 @@ def fetch_all() -> dict:
             phys["cwwa_series"] = wp.get("cwwa_series", [])
             phys["cwwa_analogs"] = wp.get("cwwa_analogs", {})
             phys["cwwa_domain"] = wp.get("domain")
+            # 14-day accumulation RATE, for 2026 and each analog at the
+            # same calendar date. Kristjan's monitoring rule, 2026-09-13:
+            # the cumulative level says what has been delivered; the slope
+            # says whether delivery is stalling, which is what a fade looks
+            # like (1987). Computed here so it sits in the snapshot and the
+            # weekly diff can see it move, rather than being re-derived at
+            # render time where nobody would notice it drift.
+            phys["cwwa_rate_14d"] = _cwwa_rate_14d(phys["cwwa_series"],
+                                                   phys["cwwa_analogs"])
         elif wp.get("wwe_count_since_mar1") is not None:
             # Legacy payload from old caches.
             phys["wwe_count_since_mar1_estimate"] = wp["wwe_count_since_mar1"]
