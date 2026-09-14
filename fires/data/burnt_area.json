@@ -8,7 +8,7 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-09-14T09:57:53Z",
+ "fetched": "2026-09-14T10:13:00Z",
  "year": 2026,
  "effis_cycle": {
   "known": true,
@@ -3571,7 +3571,7 @@
    },
    "max_ha": 8297197,
    "multiple": 0.41,
-   "week_step_ha": 228724,
+   "week_step_ha": 229168,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.29,
    "fires": 8047
