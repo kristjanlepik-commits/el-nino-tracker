@@ -8,7 +8,7 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-09-14T11:55:46Z",
+ "fetched": "2026-09-15T04:21:54Z",
  "year": 2026,
  "effis_cycle": {
   "known": true,
@@ -24,8 +24,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 16172444,
+   "lag_days": 6,
+   "area_ha": 16176066,
    "avg_ha": 30137507.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -57,15 +57,15 @@
    "week_step_ha": 907345,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.45,
-   "fires": 48355
+   "fires": 48357
   },
   "ALB": {
    "name": "Albania",
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 19919,
+   "lag_days": 6,
+   "area_ha": 20805,
    "avg_ha": 25874.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -98,18 +98,18 @@
     }
    },
    "max_ha": 127225,
-   "multiple": 0.77,
+   "multiple": 0.8,
    "week_step_ha": 5025,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.16,
-   "fires": 66
+   "fires": 68
   },
   "ARG": {
    "name": "Argentina",
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 779590,
    "avg_ha": 2534406.7,
    "avg_basis": {
@@ -149,8 +149,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 14464649,
+   "lag_days": 6,
+   "area_ha": 14473500,
    "avg_ha": 18316396.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -189,7 +189,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 444,
    "avg_ha": 293.0,
    "avg_basis": {
@@ -222,7 +222,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 3038,
    "avg_ha": 308.8,
    "avg_basis": {
@@ -263,8 +263,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 5270,
+   "lag_days": 6,
+   "area_ha": 5426,
    "avg_ha": 11772.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -298,19 +298,19 @@
     }
    },
    "max_ha": 67598,
-   "multiple": 0.45,
+   "multiple": 0.46,
    "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.08,
-   "fires": 41
+   "fires": 42
   },
   "BIH": {
    "name": "Bosnia and Herzegovina",
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 75794,
+   "lag_days": 6,
+   "area_ha": 78116,
    "avg_ha": 32434.3,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -343,18 +343,18 @@
     }
    },
    "max_ha": 99807,
-   "multiple": 2.34,
+   "multiple": 2.41,
    "week_step_ha": 20961,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 0.76,
-   "fires": 241
+   "vs_max": 0.78,
+   "fires": 243
   },
   "BOL": {
    "name": "Bolivia",
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 915568,
    "avg_ha": 3339265.6,
    "avg_basis": {
@@ -394,8 +394,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 5187739,
+   "lag_days": 6,
+   "area_ha": 5201900,
    "avg_ha": 15393449.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -434,8 +434,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 405180,
+   "lag_days": 6,
+   "area_ha": 405280,
    "avg_ha": 862869.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -474,7 +474,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 2607369,
    "avg_ha": 3819204.1,
    "avg_basis": {
@@ -514,7 +514,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 309967,
    "avg_ha": 349215.0,
    "avg_basis": {
@@ -554,8 +554,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 2297447,
+   "lag_days": 6,
+   "area_ha": 2297453,
    "avg_ha": 2132140.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -594,8 +594,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 21520309,
+   "lag_days": 6,
+   "area_ha": 21520518,
    "avg_ha": 39731440.0,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -634,8 +634,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 946082,
+   "lag_days": 6,
+   "area_ha": 946126,
    "avg_ha": 1517483.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -674,7 +674,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 974080,
    "avg_ha": 1827124.5,
    "avg_basis": {
@@ -714,7 +714,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 223260,
    "avg_ha": 424274.4,
    "avg_basis": {
@@ -754,7 +754,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 326,
    "avg_ha": 2280.0,
    "avg_basis": {
@@ -800,7 +800,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 41,
    "avg_ha": 175.7,
    "avg_basis": {
@@ -835,8 +835,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 3138,
+   "lag_days": 6,
+   "area_ha": 3146,
    "avg_ha": 1305.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -863,7 +863,7 @@
     }
    },
    "max_ha": 5386,
-   "multiple": 2.4,
+   "multiple": 2.41,
    "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.58,
@@ -874,7 +874,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 70,
    "avg_ha": 170.2,
    "avg_basis": {
@@ -909,7 +909,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 27296,
    "avg_ha": 52971.2,
    "avg_basis": {
@@ -949,8 +949,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 349966,
+   "lag_days": 6,
+   "area_ha": 351671,
    "avg_ha": 62898.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -981,19 +981,19 @@
     }
    },
    "max_ha": 192097,
-   "multiple": 5.56,
+   "multiple": 5.59,
    "week_step_ha": 47,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 1.82,
-   "fires": 353
+   "vs_max": 1.83,
+   "fires": 359
   },
   "ECU": {
    "name": "Ecuador",
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 38734,
+   "lag_days": 6,
+   "area_ha": 38792,
    "avg_ha": 50722.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1032,8 +1032,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 296502,
+   "lag_days": 6,
+   "area_ha": 296605,
    "avg_ha": 85549.0,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1070,15 +1070,15 @@
    "multiple": 3.47,
    "week_step_ha": 620,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 0.77,
-   "fires": 442
+   "vs_max": 0.78,
+   "fires": 443
   },
   "EST": {
    "name": "Estonia",
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 299,
    "avg_ha": 69.8,
    "avg_basis": {
@@ -1112,7 +1112,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 66,
    "avg_ha": 440.8,
    "avg_basis": {
@@ -1147,7 +1147,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 96927,
    "avg_ha": 13857.7,
    "avg_basis": {
@@ -1193,7 +1193,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 24775,
    "avg_ha": 11751.7,
    "avg_basis": {
@@ -1234,7 +1234,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 13574,
    "avg_ha": 27427.0,
    "avg_basis": {
@@ -1274,8 +1274,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 33524,
+   "lag_days": 6,
+   "area_ha": 33658,
    "avg_ha": 47968.3,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1320,8 +1320,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 16075,
+   "lag_days": 6,
+   "area_ha": 16725,
    "avg_ha": 12927.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1355,10 +1355,10 @@
     }
    },
    "max_ha": 67666,
-   "multiple": 1.24,
+   "multiple": 1.29,
    "week_step_ha": 2510,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 0.24,
+   "vs_max": 0.25,
    "fires": 58
   },
   "HTI": {
@@ -1366,7 +1366,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 6490,
    "avg_ha": 12715.3,
    "avg_basis": {
@@ -1406,8 +1406,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 1579,
+   "lag_days": 6,
+   "area_ha": 2145,
    "avg_ha": 744.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1440,19 +1440,19 @@
     }
    },
    "max_ha": 7287,
-   "multiple": 2.12,
+   "multiple": 2.88,
    "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 0.22,
-   "fires": 18
+   "vs_max": 0.29,
+   "fires": 23
   },
   "IDN": {
    "name": "Indonesia",
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 3344447,
+   "lag_days": 6,
+   "area_ha": 3376075,
    "avg_ha": 1711427.5,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1480,18 +1480,18 @@
     }
    },
    "max_ha": 5803996,
-   "multiple": 1.95,
+   "multiple": 1.97,
    "week_step_ha": 464517,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.58,
-   "fires": 13817
+   "fires": 13827
   },
   "IND": {
    "name": "India",
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 4037239,
    "avg_ha": 5380531.4,
    "avg_basis": {
@@ -1531,7 +1531,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 2953,
    "avg_ha": 4257.9,
    "avg_basis": {
@@ -1572,7 +1572,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 0,
    "avg_ha": 21.7,
    "avg_basis": {
@@ -1605,7 +1605,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 0,
    "avg_ha": 189.5,
    "avg_basis": {
@@ -1641,7 +1641,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 1680,
    "avg_ha": 2382.4,
    "avg_basis": {
@@ -1684,8 +1684,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 108444,
+   "lag_days": 6,
+   "area_ha": 108556,
    "avg_ha": 52676.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1723,14 +1723,14 @@
    "week_step_ha": 2135,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.71,
-   "fires": 587
+   "fires": 588
   },
   "JAM": {
    "name": "Jamaica",
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 3355,
    "avg_ha": 7266.9,
    "avg_basis": {
@@ -1770,7 +1770,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 15150,
    "avg_ha": 10714.1,
    "avg_basis": {
@@ -1810,7 +1810,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 604075,
    "avg_ha": 2033471.8,
    "avg_basis": {
@@ -1850,7 +1850,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 1526316,
    "avg_ha": 2839449.4,
    "avg_basis": {
@@ -1890,7 +1890,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 2659,
    "avg_ha": 11387.7,
    "avg_basis": {
@@ -1930,7 +1930,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 2641537,
    "avg_ha": 3669054.1,
    "avg_basis": {
@@ -1970,8 +1970,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 5851,
+   "lag_days": 6,
+   "area_ha": 6136,
    "avg_ha": 819.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1998,18 +1998,18 @@
     }
    },
    "max_ha": 6449,
-   "multiple": 7.14,
+   "multiple": 7.49,
    "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 0.91,
-   "fires": 70
+   "vs_max": 0.95,
+   "fires": 76
   },
   "LBY": {
    "name": "Libya",
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 0,
    "avg_ha": 801.1,
    "avg_basis": {
@@ -2048,7 +2048,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 18147,
    "avg_ha": 33039.0,
    "avg_basis": {
@@ -2088,7 +2088,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 46,
    "avg_ha": 83.4,
    "avg_basis": {
@@ -2121,7 +2121,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 0,
    "avg_ha": null,
    "avg_basis": {
@@ -2144,7 +2144,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 318,
    "avg_ha": 178.9,
    "avg_basis": {
@@ -2188,7 +2188,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 5260,
    "avg_ha": 5215.0,
    "avg_basis": {
@@ -2231,8 +2231,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 1154239,
+   "lag_days": 6,
+   "area_ha": 1154509,
    "avg_ha": 1968873.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2264,15 +2264,15 @@
    "week_step_ha": 73272,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.42,
-   "fires": 5034
+   "fires": 5035
   },
   "MEX": {
    "name": "Mexico",
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 1317325,
+   "lag_days": 6,
+   "area_ha": 1317460,
    "avg_ha": 4209994.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2311,8 +2311,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 22038,
+   "lag_days": 6,
+   "area_ha": 23106,
    "avg_ha": 15990.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2345,10 +2345,10 @@
     }
    },
    "max_ha": 95090,
-   "multiple": 1.38,
+   "multiple": 1.44,
    "week_step_ha": 607,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 0.23,
+   "vs_max": 0.24,
    "fires": 60
   },
   "MLT": {
@@ -2356,7 +2356,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 0,
    "avg_ha": 8.2,
    "avg_basis": {
@@ -2390,7 +2390,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 4325702,
    "avg_ha": 6471287.4,
    "avg_basis": {
@@ -2430,8 +2430,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 36844,
+   "lag_days": 6,
+   "area_ha": 36980,
    "avg_ha": 15947.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2464,7 +2464,7 @@
     }
    },
    "max_ha": 51391,
-   "multiple": 2.31,
+   "multiple": 2.32,
    "week_step_ha": 2063,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.72,
@@ -2475,7 +2475,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 4899077,
    "avg_ha": 7837391.8,
    "avg_basis": {
@@ -2515,7 +2515,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 117086,
    "avg_ha": 316538.1,
    "avg_basis": {
@@ -2555,7 +2555,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 57897,
    "avg_ha": 143307.7,
    "avg_basis": {
@@ -2595,8 +2595,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 563481,
+   "lag_days": 6,
+   "area_ha": 564969,
    "avg_ha": 871773.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2635,7 +2635,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 635,
    "avg_ha": 134.9,
    "avg_basis": {
@@ -2676,7 +2676,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 1589,
    "avg_ha": 1063.4,
    "avg_basis": {
@@ -2720,7 +2720,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 156215,
    "avg_ha": 575043.9,
    "avg_basis": {
@@ -2760,7 +2760,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 16590,
    "avg_ha": 27195.0,
    "avg_basis": {
@@ -2800,7 +2800,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 149632,
    "avg_ha": 499453.0,
    "avg_basis": {
@@ -2840,7 +2840,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 245803,
    "avg_ha": 231309.3,
    "avg_basis": {
@@ -2880,8 +2880,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 655795,
+   "lag_days": 6,
+   "area_ha": 656937,
    "avg_ha": 254981.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2909,7 +2909,7 @@
     }
    },
    "max_ha": 782292,
-   "multiple": 2.57,
+   "multiple": 2.58,
    "week_step_ha": 103445,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.84,
@@ -2920,7 +2920,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 1458,
    "avg_ha": 583.9,
    "avg_basis": {
@@ -2958,7 +2958,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 65438,
    "avg_ha": 76028.4,
    "avg_basis": {
@@ -3004,7 +3004,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 572804,
    "avg_ha": 1850943.9,
    "avg_basis": {
@@ -3044,8 +3044,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 20278,
+   "lag_days": 6,
+   "area_ha": 20557,
    "avg_ha": 35338.5,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3074,7 +3074,7 @@
     }
    },
    "max_ha": 148373,
-   "multiple": 0.57,
+   "multiple": 0.58,
    "week_step_ha": 770,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.14,
@@ -3085,8 +3085,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 7440260,
+   "lag_days": 6,
+   "area_ha": 7440856,
    "avg_ha": 13078838.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3125,7 +3125,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 0,
    "avg_ha": 6621.6,
    "avg_basis": {
@@ -3165,8 +3165,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 32000,
+   "lag_days": 6,
+   "area_ha": 32239,
    "avg_ha": 7648.3,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3199,18 +3199,18 @@
     }
    },
    "max_ha": 36332,
-   "multiple": 4.18,
+   "multiple": 4.22,
    "week_step_ha": 4483,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 0.88,
-   "fires": 96
+   "vs_max": 0.89,
+   "fires": 97
   },
   "SVK": {
    "name": "Slovakia",
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 1112,
    "avg_ha": 146.5,
    "avg_basis": {
@@ -3242,7 +3242,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 354,
    "avg_ha": 318.6,
    "avg_basis": {
@@ -3288,7 +3288,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 185,
    "avg_ha": 2362.7,
    "avg_basis": {
@@ -3332,7 +3332,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 804,
    "avg_ha": 27643.3,
    "avg_basis": {
@@ -3372,7 +3372,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 2670586,
    "avg_ha": 2318447.4,
    "avg_basis": {
@@ -3412,7 +3412,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 23066,
    "avg_ha": 68448.9,
    "avg_basis": {
@@ -3452,7 +3452,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 27589,
    "avg_ha": 7558.1,
    "avg_basis": {
@@ -3495,7 +3495,7 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 43877,
    "avg_ha": 45441.9,
    "avg_basis": {
@@ -3541,8 +3541,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 2437891,
+   "lag_days": 6,
+   "area_ha": 2437970,
    "avg_ha": 5965292.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3581,7 +3581,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 631852,
    "avg_ha": 1300003.1,
    "avg_basis": {
@@ -3621,8 +3621,8 @@
    "source": "EFFIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 412535,
+   "lag_days": 6,
+   "area_ha": 414362,
    "avg_ha": 309849.3,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3642,18 +3642,18 @@
     }
    },
    "max_ha": 719370,
-   "multiple": 1.33,
+   "multiple": 1.34,
    "week_step_ha": 11591,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 0.57,
-   "fires": 2556
+   "vs_max": 0.58,
+   "fires": 2569
   },
   "URY": {
    "name": "Uruguay",
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 11388,
    "avg_ha": 25927.6,
    "avg_basis": {
@@ -3693,8 +3693,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 3199521,
+   "lag_days": 6,
+   "area_ha": 3199580,
    "avg_ha": 4282405.8,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3733,8 +3733,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 3048802,
+   "lag_days": 6,
+   "area_ha": 3048821,
    "avg_ha": 4045814.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3773,7 +3773,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 292967,
    "avg_ha": 759026.3,
    "avg_basis": {
@@ -3813,7 +3813,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 1286667,
    "avg_ha": 2227188.7,
    "avg_basis": {
@@ -3853,8 +3853,8 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
-   "area_ha": 8470522,
+   "lag_days": 6,
+   "area_ha": 8472316,
    "avg_ha": 15419451.0,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3893,7 +3893,7 @@
    "source": "GWIS",
    "week": 36,
    "as_of": "2026-09-09",
-   "lag_days": 5,
+   "lag_days": 6,
    "area_ha": 537614,
    "avg_ha": 1058012.6,
    "avg_basis": {
