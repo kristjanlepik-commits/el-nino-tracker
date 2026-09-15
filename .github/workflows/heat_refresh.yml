@@ -278,13 +278,25 @@ jobs:
           # from the same stale base next week. Plain JSON (D-294) is what
           # makes these diffs reviewable, which is the whole reason that
           # call went the way it did.
-          git add heat/data/city_series.json heat/data/city_nights.json \
-                  heat/data/sources
+          #
+          # The two provenance files ride with the payload for the same
+          # reason. build_uk and build_london regenerate them here every
+          # Monday and, until 2026-09-15, this step left them behind, so
+          # design/make_city_pages.py rendered a season count from a file
+          # committed weekly beside a provenance from one discarded
+          # weekly. Heat measured the drift: Nottingham 255 season days
+          # in the series, 249 in the provenance on origin. Two components
+          # on one page describing the same season from files on
+          # different schedules will disagree, and that is the only way
+          # the omission was ever going to be seen.
+          PAYLOAD="heat/data/city_series.json heat/data/city_nights.json \
+                   heat/data/sources \
+                   heat/data/uk_provenance.json heat/data/london_provenance.json"
+          git add $PAYLOAD
           if git diff --cached --quiet; then
             echo "Payload unchanged this week; nothing to commit."
           else
-            git commit heat/data/city_series.json heat/data/city_nights.json \
-                       heat/data/sources \
+            git commit $PAYLOAD \
               -m "heat: weekly refresh $(date -u +'%Y-%m-%d')"
             bash scripts/push_retry.sh main
           fi
