@@ -150,12 +150,28 @@ def fetch_one(iso, start: date, year: int) -> int:
                     # many requests arrived; another one deepens it.
                     _quota.wait_for_quota(iso)
                     continue
-                except Exception:
+                except Exception as exc:
+                    # THE CAUSE IS LOGGED, NOT DISCARDED. On 2026-09-13
+                    # five countries failed every request for 45 minutes
+                    # and the log said "failed 3 tries" and nothing else:
+                    # not the status, not whether it was a timeout, an
+                    # empty body or a parse error. From a laptop three
+                    # hours later the identical requests succeeded in two
+                    # seconds, so nobody could say whether FIRMS, the
+                    # runner's network or something between them was at
+                    # fault. The answer had been in the exception object
+                    # and this line threw it away. Platform's finding.
+                    print(f"  {iso} {cur} try {a}/3: "
+                          f"{type(exc).__name__}: {str(exc)[:160]}",
+                          file=sys.stderr)
                     if a == 3:
                         # Same rule as the full builder: a year is whole
                         # or absent. A silently short baseline year
                         # inflates every multiple computed against it.
-                        raise RuntimeError(f"{iso} {cur} failed 3 tries")
+                        raise RuntimeError(
+                            f"{iso} {cur} failed 3 tries, last: "
+                            f"{type(exc).__name__}: {str(exc)[:120]}"
+                        ) from exc
                     time.sleep(6 * a)
         df = pd.concat(frames, ignore_index=True) if len(frames) > 1 \
             else frames[0]
@@ -326,9 +342,14 @@ def fetch_day(iso, day):
             except _http.OverLimit:
                 _quota.wait_for_quota(iso)
                 continue
-            except Exception:
+            except Exception as exc:
+                print(f"  {iso} {day} try {a}/3: "
+                      f"{type(exc).__name__}: {str(exc)[:160]}",
+                      file=sys.stderr)
                 if a == 3:
-                    raise RuntimeError(f"{iso} {day} failed 3 tries")
+                    raise RuntimeError(
+                        f"{iso} {day} failed 3 tries, last: "
+                        f"{type(exc).__name__}: {str(exc)[:120]}") from exc
                 time.sleep(6 * a)
     df = pd.concat(frames, ignore_index=True) if len(frames) > 1 \
         else frames[0]
@@ -372,9 +393,14 @@ def fetch_block(iso, first, days):
             except _http.OverLimit:
                 _quota.wait_for_quota(iso)
                 continue
-            except Exception:
+            except Exception as exc:
+                print(f"  {iso} {first}+{span}d try {a}/3: "
+                      f"{type(exc).__name__}: {str(exc)[:160]}",
+                      file=sys.stderr)
                 if a == 3:
-                    raise RuntimeError(f"{iso} {first}+{span}d failed 3 tries")
+                    raise RuntimeError(
+                        f"{iso} {first}+{span}d failed 3 tries, last: "
+                        f"{type(exc).__name__}: {str(exc)[:120]}") from exc
                 time.sleep(6 * a)
     df = pd.concat(frames, ignore_index=True) if len(frames) > 1 else frames[0]
     if len(df) and "confidence" in df.columns:
@@ -496,7 +522,33 @@ def main() -> None:
 
     out, failed = dict(out_seed), []
     fetched = 0
+    # A WALL-CLOCK BUDGET BELOW THE STEP'S OWN TIMEOUT. The CI step is
+    # fenced at 45 minutes, and on 2026-09-13 that fence is what ended
+    # this script: five countries failed every request, the retry shape
+    # (3 tries x 2 sub-windows x 5 countries, then a whole second pass
+    # over the same five) ran until the runner killed the process
+    # mid-retry. The partial country_history.json it had already written
+    # was committed, build_events correctly refused it, and the page sat
+    # a day stale until Kristjan reported it.
+    #
+    # A step timeout is a fence, not a plan. Platform's phrase, and it
+    # is the whole design note: this script now stops itself before the
+    # fence, names every country it did not reach, and writes a file
+    # that says so, rather than being interrupted at a point of its
+    # captor's choosing.
+    #
+    # 30 minutes leaves 15 for the commit and the steps after it.
+    BUDGET_S = 30 * 60
+    t_start = time.time()
+    unreached = []
     for i, iso in enumerate(isos, 1):
+        if time.time() - t_start > BUDGET_S:
+            unreached = isos[i - 1:]
+            print(f"  OUT OF TIME after {(time.time()-t_start)/60:.0f} min: "
+                  f"{len(unreached)} countr(y/ies) not attempted: "
+                  f"{', '.join(unreached)}", flush=True)
+            failed.extend(unreached)
+            break
         try:
             hist, missing = window_from_cache(iso, start, end)
             if missing:
@@ -561,10 +613,18 @@ def main() -> None:
     # whole window, and most failures are transient: a Malawi request
     # that failed three times in the full builder returned data on the
     # next attempt minutes later.
-    if failed:
+    if failed and time.time() - t_start > BUDGET_S:
+        print(f"  skipping the retry pass: over the {BUDGET_S//60}-minute "
+              f"budget. {len(failed)} left as failed: {', '.join(failed)}",
+              flush=True)
+    elif failed:
         print(f"  retrying {len(failed)}: {', '.join(failed)}", flush=True)
         still = []
         for iso in failed:
+            if time.time() - t_start > BUDGET_S:
+                still.append(iso)
+                print(f"  {iso}: not retried, out of time", flush=True)
+                continue
             try:
                 with cf.ThreadPoolExecutor(max_workers=WORKERS) as ex:
                     futs = {y: ex.submit(fetch_one, iso, start, y)
