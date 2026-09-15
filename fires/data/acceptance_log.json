@@ -164,5 +164,63 @@
    "Tunisia: weekly rank 3 -> 1, crossing the 1st-place boundary"
   ],
   "files_promoted": 100
+ },
+ {
+  "accepted_at": "2026-09-13T09:07:22+00:00",
+  "accepted_by": "Fire",
+  "note": "Two weeks of accumulated change since the 09-02 accept, reviewed against ORIGIN's payload (09-06..09-12) after finding my local copy three days stale. Five records withdrawn, all correct: Indonesia 37,648 vs its 2015 max 68,237 (-45%, consistent with hectares at rank 3 of 15), Russia -62%, Algeria -30%, Cuba -44%, Tunisia -54%. Eleven records appearing; checked each against the margin, the 150 floor and the persistence verdict rather than the flag. Croatia (136) and Haiti (35) are below the floor and correctly absent from the page. Libya (1,400) is persistent_source and correctly absent, the gas-flare exclusion holding. India (+4%) and Mexico (+4%) are narrow and carry the 'just past' hedge. Bosnia +548%, Montenegro +182%, PNG +78%, Republic of the Congo +33%, Serbia +22%, Macedonia +15% are real. Qualifying set: nine in, seven out, routine at this point in the season shift east. Platform's point stands and is the reason for this accept: a run that is red every day cannot go red for anything else, and today's real failure sat behind the flags.",
+  "held_on": [
+   "events: region(s) entered the qualifying set: ['Albania', 'Bosnia and Herzegovina', 'India', 'Macedonia', 'Mexico', 'Papua New Guinea', 'Republic of Serbia', 'Republic of the Congo', 'Syria']",
+   "events: region(s) LEFT the qualifying set: ['Algeria', 'Angola', 'Cuba', 'Mozambique', 'Russia', 'Tunisia', 'Zambia']",
+   "Indonesia: 'record' qualification True -> False",
+   "Montenegro: 'record' qualification False -> True",
+   "Bosnia and Herzegovina: weekly rank 3 -> 1, crossing the 1st-place boundary",
+   "Republic of the Congo: weekly rank 3 -> 1, crossing the 1st-place boundary",
+   "Cuba: weekly rank 1 -> 5, crossing the 1st-place boundary",
+   "Spain: cropland reading withheld -> neutral",
+   "Croatia: weekly rank 3 -> 1, crossing the 1st-place boundary",
+   "Haiti: weekly rank 4 -> 1, crossing the 1st-place boundary",
+   "Indonesia: weekly rank 1 -> 3, crossing the 1st-place boundary",
+   "India: weekly rank 10 -> 1, crossing the 1st-place boundary",
+   "Italy: cropland reading neutral -> enriched",
+   "Kazakhstan: cropland reading neutral -> depleted",
+   "South Korea: cropland reading withheld -> depleted",
+   "Mexico: weekly rank 2 -> 1, crossing the 1st-place boundary",
+   "Macedonia: weekly rank 5 -> 1, crossing the 1st-place boundary",
+   "Montenegro: weekly rank 3 -> 1, crossing the 1st-place boundary",
+   "Netherlands: cropland reading withheld -> depleted",
+   "Papua New Guinea: weekly rank 8 -> 1, crossing the 1st-place boundary",
+   "Russia: weekly rank 1 -> 4, crossing the 1st-place boundary",
+   "Russia: cropland reading depleted -> enriched",
+   "Republic of Serbia: weekly rank 8 -> 1, crossing the 1st-place boundary",
+   "Republic of Serbia: cropland reading withheld -> depleted",
+   "Thailand: cropland reading withheld -> enriched",
+   "Tunisia: weekly rank 1 -> 5, crossing the 1st-place boundary",
+   "Uruguay: cropland reading withheld -> depleted",
+   "Vietnam: cropland reading withheld -> enriched"
+  ],
+  "files_promoted": 100
+ },
+ {
+  "accepted_at": "2026-09-15T10:56:16+00:00",
+  "accepted_by": "Fire",
+  "note": "Re-accept after platform's 09-15 sync reset the 09-13 accept; two further days included. Three on-page records withdrawn (Republic of the Congo -24%, Macedonia -18%, Serbia -6%), all correct. Morocco 'record' appears at +1% on 78 detections and is correctly held off the page by the 150 floor; Croatia, Haiti and Libya withdrawals never reached the page. Four cropland category changes each pass methodology 1.2: Vietnam enriched->depleted is a real swing (14 on crop vs 27 expected, P=0.0055), Canada withheld->enriched clears both the 50-on-crop floor (55) and surprise (P=0.0006), Japan withheld->depleted P=0.030, Spain neutral->depleted P=0.012. Syria left the qualifying set and five ranks crossed 1st, routine. Reviewed against the current payload (09-08..09-14), verified equal to origin before reviewing.",
+  "held_on": [
+   "events: region(s) LEFT the qualifying set: ['Syria']",
+   "Macedonia: 'record' qualification True -> False",
+   "Republic of Serbia: 'record' qualification True -> False",
+   "Republic of the Congo: 'record' qualification True -> False",
+   "Canada: cropland reading withheld -> enriched",
+   "Republic of the Congo: weekly rank 1 -> 2, crossing the 1st-place boundary",
+   "Spain: cropland reading neutral -> depleted",
+   "Croatia: weekly rank 1 -> 2, crossing the 1st-place boundary",
+   "Haiti: weekly rank 1 -> 5, crossing the 1st-place boundary",
+   "Japan: cropland reading withheld -> depleted",
+   "Morocco: weekly rank 4 -> 1, crossing the 1st-place boundary",
+   "Macedonia: weekly rank 1 -> 2, crossing the 1st-place boundary",
+   "Republic of Serbia: weekly rank 1 -> 3, crossing the 1st-place boundary",
+   "Vietnam: cropland reading enriched -> depleted"
+  ],
+  "files_promoted": 39
  }
 ]
