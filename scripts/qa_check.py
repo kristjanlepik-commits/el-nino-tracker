@@ -630,6 +630,51 @@ def _leaf_paths(obj, prefix=()):
         yield prefix
 
 
+_SEASONS = ("JFM", "FMA", "MAM", "AMJ", "MJJ", "JJA",
+            "JAS", "ASO", "SON", "OND", "NDJ", "DJF")
+
+
+def _season_key(label):
+    """'JAS 2026' -> (2026, 6); 'DJF 2026-27' -> (2026, 11). None if not
+    a season label, so an unexpected key is never mistaken for one."""
+    m = re.match(r"([A-Z]{3}) (\d{4})", label or "")
+    if not m or m.group(1) not in _SEASONS:
+        return None
+    return (int(m.group(2)), _SEASONS.index(m.group(1)))
+
+
+def _rolled_off_cpc_table(path, prev, curr):
+    """Is this vanished leaf the OLDEST season leaving the front of
+    cpc_strength.table, with the table no shorter than before?
+
+    CPC's probability table is a rolling window: every month the season
+    now being observed leaves the front and a new one joins the back.
+    Fire found on 2026-09-15 that the leaf diff fired on exactly that,
+    JAS 2026 gone from the 09-14 snapshot with AMJ 2027 added and nine
+    rows either side. A season ages out twelve times a year, so as
+    written this check would go red on a healthy pipeline each month,
+    and a guard that is red on schedule cannot go red for anything else.
+    The same failure platform named on Fire's refresh gate two days
+    earlier, arriving on platform's own check.
+
+    Only the chronologically earliest season is forgiven, and only when
+    the table has not shrunk. A middle row vanishing, or the table
+    losing rows, still fires.
+    """
+    if tuple(path[:2]) != ("cpc_strength", "table") or len(path) < 3:
+        return False
+    ptab = (prev.get("cpc_strength") or {}).get("table") or {}
+    ctab = (curr.get("cpc_strength") or {}).get("table") or {}
+    if not isinstance(ptab, dict) or not isinstance(ctab, dict):
+        return False
+    keyed = {k: _season_key(k) for k in ptab}
+    if any(v is None for v in keyed.values()):
+        return False
+    oldest = min(ptab, key=keyed.get)
+    return (path[2] == oldest and path[2] not in ctab
+            and len(ctab) >= len(ptab))
+
+
 def check_snapshot_regression(violations):
     """Did a field that existed last week vanish this week?
 
@@ -665,6 +710,7 @@ def check_snapshot_regression(violations):
     gone = sorted(set(_leaf_paths(prev)) - set(_leaf_paths(curr)))
     gone = [p for p in gone
             if (curr_path.name, ".".join(p[:2])) not in KNOWN_SNAPSHOT_GAPS]
+    gone = [p for p in gone if not _rolled_off_cpc_table(p, prev, curr)]
     if not gone:
         return
 
