@@ -25,6 +25,7 @@ passed Larnaca at 100%, so it works in both directions.
 """
 from __future__ import annotations
 
+import datetime
 import json
 import statistics
 import subprocess
@@ -74,16 +75,30 @@ def ghcn_days(ghcn_id):
     # so keep what we hold unless the new file is at least as long. These are
     # about 800 KB each and bounded by bandwidth, so they stay a cache under
     # D-294 rather than becoming a tracked source.
-    if not f.exists():
+    # ONE-DAY AGE BOUND, mirroring build_bridge.ghcn(). This fetched only when
+    # the file was absent, so locally it read a 7 September archive for a
+    # week while CI, with no cache, fetched fresh every Monday. That is why
+    # the local rebuild came out shorter than the committed series and the
+    # guard held all seven Argentine cities twice: the archive on disk here
+    # ended ten days before the one CI had committed from. Refetch when older
+    # than a day; keep the old file unless the new one is at least as long.
+    stale = (not f.exists()
+             or time.time() - f.stat().st_mtime > 86400)
+    if stale:
         f.parent.mkdir(parents=True, exist_ok=True)
         blob = subprocess.run(
             ["curl", "-sS", "--max-time", "120",
              f"https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/{ghcn_id}.dly"],
             capture_output=True).stdout
-        if not blob:
+        if blob and (not f.exists() or len(blob) >= f.stat().st_size):
+            f.write_bytes(blob)
+        elif f.exists():
+            print(f"    {ghcn_id}: refetch returned {len(blob)} bytes against "
+                  f"{f.stat().st_size} cached; keeping the cached archive",
+                  file=sys.stderr)
+        else:
             raise RuntimeError(f"{ghcn_id}: no cached archive and the fetch "
                                f"returned nothing")
-        f.write_bytes(blob)
     for L in f.read_text(errors="replace").splitlines():
         el = L[17:21]
         if el not in ("TMAX", "TMIN"):
@@ -98,29 +113,71 @@ def ghcn_days(ghcn_id):
     return out
 
 
-def fetch_year(block, year):
-    """One whole year of bulletins, cached, content-checked.
+CURRENT_YEAR = datetime.date.today().year
 
-    Size is not shape: an error page over a kilobyte would otherwise be
-    cached as though it were data and freeze the failure permanently.
-    """
-    CACHE.mkdir(parents=True, exist_ok=True)
-    f = CACHE / f"{block}_{year}.txt"
-    if f.exists():
-        raw = f.read_text(errors="replace")
-        if raw.count("AAXX") >= 20:
-            return raw
-    raw = ""
+# OGIMET CAPS ONE RESPONSE AT ROUGHLY 5,800 BULLETINS AND SAYS NOTHING.
+# Measured 2026-09-17 on Salta: a whole-year request returned 5,798 bulletins
+# and stopped at 30 August, while a September-only request for the same
+# station returned all sixteen days. About 242 days of hourly reports fit
+# under the cap, so a full-year pull was complete until late August and has
+# been silently short every run since. The shrink guard refused the result
+# seven cities at a time, which is the only reason anyone noticed: the fetch
+# itself exited 0 with data that was merely wrong.
+#
+# So a year is fetched in quarters. Each is under a hundred days and cannot
+# reach the cap, and the join is by concatenation because the parser reads
+# bulletin lines independently.
+_QUARTERS = (("0101", "0331"), ("0401", "0630"), ("0701", "0930"),
+             ("1001", "1231"))
+
+
+def _fetch_span(block, year, a, b):
     for _try in (1, 2, 3):
         raw = subprocess.run(
             ["curl", "-sS", "--max-time", "240",
-             f"{OGIMET}?block={block}&begin={year}01010000&end={year}12312359"],
+             f"{OGIMET}?block={block}&begin={year}{a}0000&end={year}{b}2359"],
             capture_output=True).stdout.decode("utf-8", "replace")
-        if raw.count("AAXX") >= 20:
-            f.write_text(raw)
+        if raw.count("AAXX") >= 20 or _try == 3:
             return raw
         time.sleep(8)
-    return raw
+    return ""
+
+
+def fetch_year(block, year):
+    """One year of bulletins, fetched in quarters, cached, content-checked.
+
+    Size is not shape: an error page over a kilobyte would otherwise be
+    cached as though it were data and freeze the failure permanently.
+
+    THE CURRENT YEAR IS ALWAYS REFETCHED. This reused the cache whenever it
+    parsed, which is right for a finished year and is exactly how Rome froze
+    for three and a half weeks in build_bridge (fixed there 2026-09-07 and
+    left here, the same bug in the other module). A fresh pull replaces the
+    cache only if it carries at least as many bulletins; a short or failed
+    response leaves the good file untouched.
+    """
+    CACHE.mkdir(parents=True, exist_ok=True)
+    f = CACHE / f"{block}_{year}.txt"
+    cached = None
+    if f.exists():
+        c = f.read_text(errors="replace")
+        if c.count("AAXX") >= 20:
+            cached = c
+    if cached is not None and year != CURRENT_YEAR:
+        return cached
+    parts = [_fetch_span(block, year, a, b) for a, b in _QUARTERS
+             if year < CURRENT_YEAR
+             or int(a[:2]) <= datetime.date.today().month]
+    raw = "".join(parts)
+    if raw.count("AAXX") >= 20:
+        if cached is not None and raw.count("AAXX") < cached.count("AAXX"):
+            print(f"    {block} {year}: refetch carried {raw.count('AAXX')} "
+                  f"bulletins against {cached.count('AAXX')} cached; keeping "
+                  f"the cached pull", file=sys.stderr)
+            return cached
+        f.write_text(raw)
+        return raw
+    return cached if cached is not None else raw
 
 
 # PHYSICALLY POSSIBLE LIMITS. The highest reliably recorded surface air
