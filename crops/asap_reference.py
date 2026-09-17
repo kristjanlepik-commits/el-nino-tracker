@@ -47,8 +47,10 @@ import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, ".cache", "asap_reference")
-ZIP = os.path.join(CACHE, "gaul1_asap_v05.zip")
-MEMBER = "gaul1_asap.dbf"
+ZIP = os.path.join(CACHE, "gaul1_asap_v06.zip")
+# v05 shipped the table as gaul1_asap.dbf; v06 carries its version in the
+# member name. Same trap as the zip: the name IS the vintage.
+MEMBER = "gaul1_asap_v06.dbf"
 
 # WHERE THESE CAME FROM. Recorded because they were not, and fires built
 # a published cropland gate on the raster below without being able to
@@ -63,6 +65,10 @@ MEMBER = "gaul1_asap.dbf"
 BASE = "https://agricultural-production-hotspots.ec.europa.eu/files"
 SOURCES = {
     # what we weight with: cropland area per GAUL1 unit, already zonal
+    # v06 replaced v05 on 2026-08-25 (D-301). Every region id, and most
+    # region names, changed; 40 countries went from one unit to many.
+    "gaul1_asap_v06.zip": f"{BASE}/gaul1_asap_v06.zip",
+    # v05 kept fetchable for audit of numbers published before 2026-09-17
     "gaul1_asap_v05.zip": f"{BASE}/gaul1_asap_v05.zip",
     # the raster itself, which fires uses per detection
     "asap_mask_crop_v04.tif": f"{BASE}/asap_mask_crop_v04.tif",
@@ -78,8 +84,8 @@ SOURCES = {
 # a refreshed one. Pin by filename, and if the name changes, treat every
 # number computed from it as needing recomputation rather than carrying
 # forward.
-VINTAGE = {"crop_mask": "v04", "boundaries": "v05"}
-RETRIEVED = "2026-08-18"
+VINTAGE = {"crop_mask": "v04", "boundaries": "v06"}
+RETRIEVED = "2026-09-17"
 
 
 def ensure(name: str, quiet: bool = False) -> str:
