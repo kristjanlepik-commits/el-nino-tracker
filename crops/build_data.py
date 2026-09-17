@@ -2318,8 +2318,27 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                                       "reader relevance past the window "
                                       "close, plus the 9 days from label "
                                       "to close.",
-        "methodology_version": "2.0",
+        "methodology_version": "3.0",
+        "boundaries": "gaul1_asap_v06",
         "methodology_changed": {
+            "3.0": "ASAP replaced its boundary layer, v05 to v06, on "
+                   "2026-08-25 and switched its export to it (D-301). Every "
+                   "country id changed and 87 of 165 countries carry "
+                   "different regions: renamed, re-keyed, in many cases "
+                   "subdivided. Estonia is now 15 counties rather than one "
+                   "unit, Switzerland 25 cantons, France 13 regions rather "
+                   "than 22 on the post-2016 administrative map. Every "
+                   "region-level baseline for those countries is re-keyed, "
+                   "each new region against its own 26-year series from "
+                   "ASAP, so ranks remain like for like within a region but "
+                   "'N of M regions' changes denominator for half the "
+                   "channel. regions_at_record_history restarts on v06. "
+                   "Nothing published before 2026-09-17 is comparable to "
+                   "what follows at the region level. Area weights come "
+                   "from gaul1_asap_v06; the crop calendar was not "
+                   "republished and stays keyed on v05 region ids, so "
+                   "region-level calendar joins do not resolve until ASAP "
+                   "reissues it.",
             "2.0": "Country figures are area-weighted by ASAP's km2_crop "
                    "(tls-internal#16). Previously an unweighted mean over "
                    "regions, so England carried a quarter of the UK "

@@ -82,6 +82,16 @@ def main() -> None:
                          "Anchored on the published dekad rather than on the "
                          "clock so the two cannot drift apart.",
         "_authorship": "tls_built",
+        # RESTARTED ON v06, 2026-09-17 (D-301). ASAP replaced its boundary
+        # layer; 87 of 165 countries carry different regions from what
+        # this file held before. A v05 copy of this file and a v06 copy
+        # are not comparable at region level, and the year-to-date
+        # columns here were recomputed on v06 regions from ASAP's own
+        # series rather than carried forward.
+        "_boundaries": "gaul1_asap_v06",
+        "_restarted": "2026-09-17, on boundary layer v06 (D-301). Not "
+                      "comparable at region level with any copy built on "
+                      "v05; recomputed, not carried forward.",
         "_evidence_basis": "measured",
         # A WINDOW CAN MANUFACTURE THE SEQUENCE IT APPEARS TO REVEAL.
         #
