@@ -291,6 +291,45 @@ def fetch_one(slug: str, spec: dict, country_id: int, name: str,
               f"{header[:60]!r}", flush=True)
         return "fail"
 
+    # IDENTITY REFUSED. The export carries ASAP's own country_name in
+    # every row, and until 2026-09-17 nothing read it.
+    #
+    # ASAP renumbered its country ids between 30 August and 16 September
+    # 2026. Our catalogue, read from their download page on 28 July,
+    # kept the old mapping, so the CI pull fetched by the old ids,
+    # received other countries' data, and the build labelled each file
+    # with the old name. Dekad 2026-09-01 shipped with 148 of 148
+    # countries mislabelled: Belarus carrying Angola, Egypt carrying
+    # Guatemala, Greenland carrying Brazil. The D-200 gate is the only
+    # reason it did not render.
+    #
+    # The check is against the name ASAP gave LAST time, read from the
+    # file this download would replace, not against our catalogue. Our
+    # names and theirs differ in format ("Trinidad-Tobago" against
+    # "Trinidad and Tobago"), so a catalogue comparison would either
+    # false-positive on every such pair or need a normaliser that itself
+    # goes stale. "Is this the same country the file already holds" is
+    # exact, needs no table, and is the question that actually matters.
+    # On a first fetch there is nothing to compare and the name is simply
+    # recorded by being written.
+    with tmp.open(encoding="utf-8", errors="replace") as fh:
+        fh.readline()
+        first = fh.readline()
+    got = first.split(",")[1].strip() if first.count(",") >= 1 else ""
+    if out.exists() and got:
+        with out.open(encoding="utf-8", errors="replace") as fh:
+            fh.readline()
+            prev = fh.readline()
+        had = prev.split(",")[1].strip() if prev.count(",") >= 1 else ""
+        if had and got != had:
+            tmp.unlink(missing_ok=True)
+            print(f"  FAIL {name} (id {country_id}): ASAP now calls this id "
+                  f"{got!r}; the file we hold says {had!r}. The source has "
+                  f"renumbered. Refusing to overwrite one country's data "
+                  f"with another's. Rebuild crops/asap_countries.json from "
+                  f"ASAP's current ids before pulling again.", flush=True)
+            return "fail"
+
     # SHRINKAGE REFUSED, adopted from heat's safe_write.py 2026-08-13.
     # The header check above catches an HTML error page and an empty
     # body. It does NOT catch a well-formed CSV with rows missing, and
