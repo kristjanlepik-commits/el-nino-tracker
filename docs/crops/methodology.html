@@ -262,7 +262,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
 <header class="field"><div class="field-shell"><div class="masthead"><a class="brand" href="../" aria-label="The Long Swell, home"><svg width="27" height="26" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span class="brand-name">The Long Swell</span></a><nav class="prodnav" aria-label="Sections"><a class="ch-elnino" href="../elnino/">El Niño</a><a class="ch-fire" href="../fires/">Fires</a><a class="ch-crop on" href="../crops/">Crops</a><a class="ch-heat" href="../heat/">Heat</a><a class="ch-notes" href="../notes/">Notes</a><a class="util" href="../about.html">About</a></nav></div></div></header>
 <main>
 <h1>Crops: how these numbers are made</h1>
-<p>The crops channel answers one question, in 165 countries and 2,126
+<p>The crops channel answers one question, in 165 countries and 3,273
 sub-national crop regions: <strong>how does this growing season compare with
 the same point in that same place's own 26 years?</strong></p>
 <p>It does not rank countries against each other, and it does not say what
@@ -369,7 +369,7 @@ It is never compared against a neighbouring region, and never against
 its own spring.</p>
 <h2>Country figures are weighted by cropland area</h2>
 <p>A country value is the <strong>area-weighted mean of its regions</strong>, weighted
-by ASAP's own <code>km2_crop</code> crop mask. This changed in methodology version
+by ASAP's own <code>km2_crop</code> crop mask from boundary layer <code>gaul1_asap_v06</code>. This changed in methodology version
 2.0 and it matters: under the previous unweighted mean, England carried
 a quarter of the United Kingdom figure while holding 85.6% of its
 cropland.</p>
@@ -391,8 +391,8 @@ publishes it</strong>. It is labelled in the payload as our construction rather
 than an observation, and it carries three qualifiers that travel with it
 everywhere:</p>
 <p><strong>1. It is not a cross-place ordering.</strong> The value places a country
-against itself. The rank also saturates: <strong>18 of the 165 published
-countries, about one in nine, sit at rank 1</strong>, so sorting on it produces
+against itself. The rank also saturates: <strong>37 of the 165 published
+countries, about one in four, sit at rank 1</strong>, so sorting on it produces
 a large tied block. For how much of a country is abnormal, use the
 proportion of its regions at a record, which is comparable between
 places. For how fast, use the rate.</p>
@@ -403,25 +403,25 @@ comparable figure, not the value.</p>
 <p><strong>3. It is a reading of conditions to date.</strong> It carries no statement
 about the rest of the season.</p>
 <p>That saturation figure is computed at build time from the published set.
-It previously read "roughly one country in seven", which was correct
-when the channel covered 123 countries and wrong within an hour of its
-covering 165.</p>
+It read "roughly one country in seven" at 123 countries, "one in nine"
+at 165 on the old boundary layer, and "one in four" on the new one, and
+none of those was typed.</p>
 <h2>How many records to expect anyway</h2>
 <p><strong>This is the number most easily misread, so it is published rather than
-buried.</strong> With 2,126 units each compared against 26 years, dozens will
-sit at a record in any given dekad by chance alone. An even spread of
-records would put about 82 units at their worst at any moment.</p>
+buried.</strong> With 3,273 units each compared against 26 years, over a hundred
+will sit at a record in any given dekad by chance alone. An even spread
+of records would put about 126 units at their worst at any moment.</p>
 <p>So the count only means something against its own history:</p>
 <ul>
-<li><strong>This dekad: 69 units at their worst on record.</strong></li>
-<li>Recent twelve years at this dekad: mean 58.8, ranging from 25 to 111.</li>
-<li>The full series runs back to 2001, whose 242 dwarfs anything since.</li>
+<li><strong>This dekad: 128 units at their worst on record.</strong></li>
+<li>Recent twelve years at this dekad: mean 86.3, ranging from 45 to 160.</li>
+<li>The full series runs back to 2001, whose 320 dwarfs anything since.</li>
 </ul>
-<p>A count in the sixties is therefore an ordinary reading, and we say so
+<p>A count near the even-spread figure is therefore an ordinary reading, and we say so
 on the page rather than presenting it as an alarm.</p>
 <h2>What we decline to claim</h2>
-<p>Our own rate instrument currently shows <strong>25 countries deteriorating
-fast, against a prior-year mean of 5.6 and a prior maximum of 16, with
+<p>Our own rate instrument currently shows <strong>39 countries deteriorating
+fast, against a prior-year mean of 5.0 and a prior maximum of 18, with
 no year in the 25-year record at or above it.</strong></p>
 <p><strong>We do not call that a record</strong>, and the payload states the refusal in
 the same field as the number. The count is not controlled for the level
@@ -437,9 +437,9 @@ including every region of the United Kingdom. Where a page notes that
 "vegetation here usually tracks water availability", that is a statement
 about a historical relationship in that region, not a claim about this
 year.</p>
-<p>This matters because the instruments frequently disagree. Of the 196
-regions currently at a record low on current vegetation, <strong>38, about one
-in five, have water satisfaction or rainfall sitting in its best third at
+<p>This matters because the instruments frequently disagree. Of the 440
+regions currently at a record low on current vegetation, <strong>66, about one
+in seven, have water satisfaction or rainfall sitting in its best third at
 the same moment.</strong> Angola is the clearest case: five regions at a record
 on the harvest measure while the water instruments read ordinary to
 favourable. A page reports where each instrument sits and leaves the
@@ -463,19 +463,46 @@ throughout.</p>
 <p>A page is never built from a fetch. The build refuses outright if the six
 instruments do not all sit on the same dekad, so a page cannot be
 assembled from mixed vintages.</p>
+<h2>The boundary layer changed on 25 August 2026</h2>
+<p><strong>Every figure on this channel published before 17 September 2026 was
+computed on ASAP's boundary layer v05. Everything since is on v06, and
+the two are not comparable at region level.</strong></p>
+<p>ASAP published <code>gaul1_asap_v06</code> on 25 August and switched its export to
+it in early September. Under v06, every country id changed, and 87 of
+our 165 countries carry different regions: renamed, re-keyed, and in
+many cases subdivided to the current administrative map. France is now
+13 regions rather than 22. Estonia, which was a single unit, is 15
+counties; Switzerland is 25 cantons. The channel went from 2,126
+sub-national units to 3,273 without a single country being added.</p>
+<p><strong>What stays comparable.</strong> Each region is still compared only against its
+own 26-year series, which ASAP supplies in full for every v06 region. A
+rank of "lowest of 26" on a v06 region is exactly as sound as it was on a
+v05 region. Country-level figures that are weighted means of regions
+shift with the region set but remain each country against itself.</p>
+<p><strong>What does not.</strong> "N of M regions at a record" changed denominator for
+half the channel. The dekad history restarts on v06. A card or a Note
+built on v05 region counts cannot be continued on v06 counts, and this
+page will not pretend otherwise.</p>
+<p><strong>How it was caught.</strong> The first pull on the new ids fetched other
+countries' data under the old names, 148 of 148 mislabelled, and the
+sign-off gate held it from rendering. The pull now refuses when ASAP's
+own country name for an id differs from the file it would replace. The
+episode is recorded as D-301.</p>
 <h2>Who is not here</h2>
-<p>Three of ASAP's 168 countries are absent: <strong>Greenland, the French
-Southern and Antarctic Territories, and the Falkland Islands (Malvinas)</strong>.
-In each case ASAP reports no cropland inside a growing cycle. That is the
-source's determination, not an exclusion of ours.</p>
+<p>Three countries that were in ASAP's v05 list are not in v06: <strong>Greenland,
+the French Southern and Antarctic Territories, and the Falkland Islands
+(Malvinas)</strong>. Under v05 ASAP reported no cropland inside a growing cycle
+for any of them; under v06 they are simply not listed. That is the
+source's determination, not an exclusion of ours. Every other country in
+ASAP's crop export is published here.</p>
 <p><strong>Forty-two countries were excluded until 30 August 2026</strong> because ASAP
-reports them as a single national unit rather than sub-national regions,
-among them Estonia, Ireland, Portugal, the Netherlands and Switzerland.
-That threshold was wrong. Every claim here is one unit against its own 26
-years, and that comparison is exactly as sound for a country reported
-whole as for one split into eighteen. What a single unit cannot support
-is the within-country reading, so those pages carry no map and no count
-of regions at a record, and say so.</p>
+reported them as a single national unit. That threshold was wrong, and
+under v06 it is also largely moot: only 6 countries remain single-unit,
+because the new layer subdivides most of the 42. Every claim here is one
+unit against its own 26 years, and that comparison is exactly as sound
+for a country reported whole as for one split into eighteen. The six
+that remain carry no map and no count of regions at a record, and say
+so.</p>
 <h2>Known limits</h2>
 <p><strong>A reading is not restricted to standing crop, and for most of the
 channel there is no calendar that could restrict it.</strong> ASAP publishes a
@@ -498,14 +525,21 @@ support is reading a late-summer European vegetation record as a
 statement about the cereal harvest, which by then is in. Where the two
 readings diverge, the honest phrasing is about what is standing in the
 fields now, not about a crop already in the barn.</p>
+<p><strong>The calendar was not republished for v06.</strong> It is keyed on v05 region
+ids, so it no longer joins to the regions on this channel. Which
+countries have a calendar still resolves; where inside a country a
+season sits does not, until ASAP reissues it.</p>
 <p><strong>For the 74 countries that do have a calendar, check where the dekad
 falls in it.</strong> Angola's maize, millet and sorghum harvest ends between
 dekads 15 and 19 and its planting resumes around dekad 24, so a reading
 at dekad 23 sits between cycles, and its cumulative measure describes the
 season that has just finished rather than one under way.</p>
-<p><strong>Soil moisture has not reported since 1 July 2026.</strong> Every country
-therefore reads five instruments of six, and the composite says which
-were used. This is channel-wide and is not a country-specific failure.</p>
+<p><strong>Soil moisture reads one dekad behind the others.</strong> It stalled at source
+from 1 July to the v05-to-v06 change and is publishing again under v06,
+one dekad behind by design. The build uses only same-dekad readings, so
+every country currently reads five instruments of six and the composite
+says which were used. This is channel-wide and is not a country-specific
+failure.</p>
 <p><strong>Coverage varies within a season.</strong> A region drops out when its growing
 cycle closes, so a country's denominator changes through the year. A
 fraction computed on a collapsed denominator is a statement about
@@ -516,6 +550,12 @@ marked absent with the reason attached at the datum: no current value,
 undefined at this dekad, too few comparable years, or not published for
 that country.</p>
 <h2>Version history</h2>
+<p><strong>3.0.</strong> ASAP boundary layer v06, from 17 September 2026. Every country
+id and most region ids and names changed at source; 40 single-unit
+countries became multi-unit; 2,126 units became 3,273. Region-level
+baselines re-keyed to v06 regions, each against its own 26-year series.
+The dekad history restarts. Area weights from <code>gaul1_asap_v06</code>. Not
+comparable with 2.0 at region level.</p>
 <p><strong>2.0.</strong> Country figures area-weighted by ASAP's <code>km2_crop</code>. Previously
 an unweighted mean over regions. Affects every country value and
 therefore the composite, the magnitude, the rate and the ordering key.
