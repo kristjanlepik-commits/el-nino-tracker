@@ -166,19 +166,28 @@ def marks(d):
                         y=xy(c["lat"], c["lon"])[1], sev=sev, claim=claim,
                         href="fires/%s/" % slug(name)))
 
+    unplaced = []
     for p in d["crops"]["places"]:
-        # FAIL LOUDLY, LIKE crops_map. A place we publish and cannot
-        # place on the map must stop the build, because the alternative is
-        # a smaller number on the front page and nothing anywhere saying
-        # so.
+        # WARN LOUDLY AND DROP THE DOT. This used to raise, on the stated
+        # reasoning that a place without coordinates "is dropped from the
+        # map AND from the record-low count beneath it". That second half
+        # was false: the count at frontpage.py:1015 reads the payload and
+        # never touches CROPS_XY. So the hard fail protected one dot, and
+        # its cost was every channel's page, because a shell failure rolls
+        # back the lot. On 2026-09-17 a new name in crops' payload stalled
+        # FIRES for a morning, and platform had to add rows to design's
+        # file under duress to get anything out.
+        #
+        # The defect the raise was written against was SILENCE, not the
+        # dropped dot: eleven countries once vanished from this map through
+        # a bare `continue` and nothing said so. A named absence in the
+        # build output is not silence, and it is the D-264 shape: flag,
+        # never hold, review after. The count stays right by construction
+        # because it never depended on this lookup.
         g = CROPS_XY.get(p["place"])
         if not g:
-            raise SystemExit(
-                "design/country_centroids.json has no entry for %r, which "
-                "is published in crops/data/stress_current.json. Add it "
-                "rather than letting the front page undercount: a place "
-                "without coordinates is dropped from the map AND from the "
-                "record-low count beneath it." % p["place"])
+            unplaced.append(p["place"])
+            continue
         n1 = [r for r in (p.get("regions") or []) if r.get("rank") == 1]
         if not n1:
             continue
@@ -188,6 +197,19 @@ def marks(d):
             claim="%d of %d regions at a record low &middot; each lowest of "
                   "26" % (len(n1), len(p.get("regions") or [])),
             href="crops/%s/" % slug(p["place"])))
+    if unplaced:
+        # ONE LINE PER PLACE, TO STDERR, WITH THE FIX IN IT. The durable
+        # answer is for crops to emit coordinates with its payload, the way
+        # heat ships geography.map.points, so that adding a place cannot
+        # be a build break on someone else's surface. Until then this is
+        # the seam and it says so every time it is crossed.
+        import sys as _sys
+        for name in unplaced:
+            print("  UNPLACED: crops publishes %r and design/"
+                  "country_centroids.json has no coordinates for it. The "
+                  "front-page count includes it; the map does not. Add a "
+                  "row, or ask crops to emit lat/lon with the payload."
+                  % name, file=_sys.stderr)
 
     lats = [c["lat"] for c in d["coords"].values() if c.get("lat")]
     lons = [c["lon"] for c in d["coords"].values() if c.get("lon")]
