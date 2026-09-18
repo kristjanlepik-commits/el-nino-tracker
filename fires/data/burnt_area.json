@@ -8,7 +8,7 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-09-18T08:19:40Z",
+ "fetched": "2026-09-18T09:17:45Z",
  "year": 2026,
  "effis_cycle": {
   "known": true,
@@ -624,7 +624,7 @@
    },
    "max_ha": 47889996,
    "multiple": 0.54,
-   "week_step_ha": 401480,
+   "week_step_ha": 413524,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.46,
    "fires": 65851
@@ -664,7 +664,7 @@
    },
    "max_ha": 1901589,
    "multiple": 0.65,
-   "week_step_ha": 69342,
+   "week_step_ha": 69141,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.53,
    "fires": 3613
@@ -704,7 +704,7 @@
    },
    "max_ha": 3243440,
    "multiple": 0.53,
-   "week_step_ha": 8364,
+   "week_step_ha": 9258,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.3,
    "fires": 2861
