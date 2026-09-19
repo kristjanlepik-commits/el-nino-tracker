@@ -143,6 +143,78 @@ def write_cache(source: str, result: FetchResult) -> None:
         raise
 
 
+# ---- committed results: the runner has no cache, so it reads a file ----
+#
+# D-300, 2026-09-15. The weekly brief runs on GitHub Actions, where
+# .fetch_cache/ does not exist because it is gitignored. The ERA5 fetchers
+# need ~50 MB of cached climatology to run in minutes; without it they
+# rebuild thirty years from CDS and time out, and the 09-07 and 09-14
+# briefs published a blank CWWA panel. Rather than give the runner a cache
+# it can evict, ERA5 comes OFF the runner: a local schedule pulls and
+# commits the compact result, and the runner reads the committed file.
+#
+# This helper is the reading half. A fetcher calls it FIRST and returns
+# what it gets when the file is present and fresh. The staleness bound is
+# ABSOLUTE, not a consecutive-no-op counter (see the crops note in
+# CLAUDE.md): ERA5 lags six days by design, so a file issued eight days ago
+# is Tuesday and one issued fifteen days ago is an error.
+COMMITTED_DIR = Path(__file__).parent.parent / "data" / "era5"
+
+
+def committed_path(source: str) -> Path:
+    return COMMITTED_DIR / f"{source}_last_good.json"
+
+
+def committed_result(source: str, max_age_days: int,
+                     today=None) -> Optional[FetchResult]:
+    """The committed result for `source` if present and within
+    `max_age_days` of today, else None. Never raises: an unreadable or
+    stale file is reported in the returned None's caller, not here."""
+    import datetime as _d
+    p = committed_path(source)
+    if not p.exists():
+        return None
+    try:
+        d = json.loads(p.read_text())
+        r = FetchResult(**d)
+    except Exception:
+        return None
+    if not r.ok or not r.issued:
+        return None
+    today = today or _d.date.today()
+    try:
+        age = (today - _d.date.fromisoformat(r.issued)).days
+    except ValueError:
+        return None
+    if age > max_age_days:
+        return None
+    r.used_fallback = False
+    r.error = None
+    r.fallback_note = (f"read from committed {p.relative_to(COMMITTED_DIR.parent.parent)}, "
+                       f"issued {r.issued}, {age} day(s) old")
+    return r
+
+
+def write_committed(source: str, result: FetchResult) -> Path:
+    """Persist a successful live result as the committed file. Same atomic
+    write as the cache, for the same reason."""
+    if not result.ok:
+        raise ValueError(f"refusing to commit a failed {source} result")
+    COMMITTED_DIR.mkdir(parents=True, exist_ok=True)
+    path = committed_path(source)
+    payload = json.dumps(result.to_jsonable(), indent=2)
+    fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=f".{source}.", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w") as fh:
+            fh.write(payload); fh.flush(); os.fsync(fh.fileno())
+        os.replace(tmp, path)
+    except BaseException:
+        try: os.unlink(tmp)
+        except OSError: pass
+        raise
+    return path
+
+
 class CacheUnreadable(Exception):
     """The cache file exists but could not be loaded."""
 

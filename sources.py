@@ -47,7 +47,15 @@ from datetime import date, timedelta
 # thresholds extend to 4.5 so it contributes to the >4.0 bucket
 # it was previously absent from. Both move published numbers,
 # which is what invariant 3 requires this bump for.
-METHODOLOGY_VERSION = "1.12"
+# 1.13 (effective 2026-09-21): the CPC anchor is withdrawn above the
+# open-ended >=2.0 bin when the table cannot identify a tail there, and
+# the model consensus carries those rungs alone. Committed under 1.12 on
+# 2026-09-10 behind a date gate at Kristjan's instruction so the 09-14
+# issue carried a fresh CPC table without also carrying a method change;
+# the gate opens on the 09-21 issue and this is the bump that goes with
+# it. Effect on 09-10 inputs: >3.0 96 to 98, >3.5 72 to 82, >4.0 31 to
+# 37. Methodology limitation 13.
+METHODOLOGY_VERSION = "1.13"
 
 
 def _most_recent_monday(today: date | None = None) -> date:
