@@ -1,10 +1,10 @@
 {
   "channel": "crops",
-  "approved_hash": "2c2b5914f54337f6e0ad9fc23abb013212360210f12de4e3ddad63b180b458ee",
-  "approved_commit": "42a4b4ca959410facd46d5578dc2115801780dc0",
-  "approved_at": "2026-09-20T06:58:17+00:00",
+  "approved_hash": "d1d7122e9e3ed1ca31a179c5a530cd934128e627fa7e13e20081211a02221298",
+  "approved_commit": "8e6fbfec732ef58b8312d312031f3c7c4e274227",
+  "approved_at": "2026-09-20T07:04:01+00:00",
   "approved_by": "CRO",
-  "note": "Payload-only: boundary_notice, one reader-facing sentence for design to print beside region counts on the index and corridor page, because neither currently discloses that the boundary layer changed and only the methodology page does. Methodology page now labels 3,273 as units reporting this dekad, of 3,430 defined, after product read the same file and got the other number. No rendered page changes until design reads the field.",
+  "note": "Payload-only: isthmus_comparison.is_not is now derived from the gradient rather than typed, after product found it still said 2015 was deeper on v06 where the counts say the opposite; both branches tested in-process, and today's output verified consistent with prior_years_at_or_above. Adds at_record_tied and ties_count_as_at_record, because a tie shares rank 1 and counts as at-record, so worst_1 is not a floor; none of the six tie today. statement unchanged.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
