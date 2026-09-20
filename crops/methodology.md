@@ -1,7 +1,8 @@
 # Crops: how these numbers are made
 
 The crops channel answers one question, in 165 countries and 3,273
-sub-national crop regions: **how does this growing season compare with
+sub-national crop regions reporting this dekad, of 3,430 that ASAP
+defines: **how does this growing season compare with
 the same point in that same place's own 26 years?**
 
 It does not rank countries against each other, and it does not say what
@@ -212,7 +213,8 @@ our 165 countries carry different regions: renamed, re-keyed, and in
 many cases subdivided to the current administrative map. France is now
 13 regions rather than 22. Estonia, which was a single unit, is 15
 counties; Switzerland is 25 cantons. The channel went from 2,126
-sub-national units to 3,273 without a single country being added.
+sub-national units reporting to 3,273, of 3,430 defined, without a
+single country being added.
 
 **What stays comparable.** Each region is still compared only against its
 own 26-year series, which ASAP supplies in full for every v06 region. A

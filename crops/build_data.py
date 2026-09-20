@@ -2320,6 +2320,27 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                                       "to close.",
         "methodology_version": "3.0",
         "boundaries": "gaul1_asap_v06",
+        # ONE SENTENCE FOR THE PAGES THAT CARRY THE NUMBERS, so design
+        # prints it rather than typing it and editor revises a string
+        # rather than three templates. methodology_changed["3.0"] is the
+        # full account and is too long to sit beside a headline count.
+        # Product's point, 2026-09-20: a reader who screenshotted the
+        # corridor at "eight countries" on 30 August and sees "six at
+        # their own record" today reads acceleration, and the
+        # calibration for that has to sit where the number is, not on a
+        # page they may never open.
+        "boundary_notice": {
+            "text": "ASAP redrew its crop regions on 25 August 2026. "
+                    "Region counts on this page are not comparable with "
+                    "those published before 17 September.",
+            "since": "2026-09-17",
+            "applies_until": "region-level history on the new boundaries "
+                             "is long enough that the old one is no "
+                             "longer what a returning reader remembers; "
+                             "a season, not a week",
+            "where": "beside any count of regions, on the index and on "
+                     "every page that compares against an earlier dekad",
+        },
         "methodology_changed": {
             "3.0": "ASAP replaced its boundary layer, v05 to v06, on "
                    "2026-08-25 and switched its export to it (D-301). Every "
