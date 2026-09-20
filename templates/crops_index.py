@@ -1089,6 +1089,30 @@ def _isthmus_block(doc) -> str:
             '<strong>%s %s</strong></p>' % (h(lead), h(second)))
 
 
+# THE MAP UNDER EVERY COUNT ON THIS PAGE WAS REDRAWN ON 17 SEPTEMBER 2026
+# (ASAP v05 to v06, D-301): 2,126 units became 3,273 with no country
+# added, and a reader who saw 69 regions at a record low a fortnight ago
+# now sees 129 with no more stress behind it. Editor's two sentences,
+# rendered verbatim; the wording is fixed and the date is the whole note.
+#
+# ABOVE THE H1, not below the count, because the h1 carries a count too
+# ("Ten of Guatemala's 22 crop regions") and the sentence exists for one
+# reader: the one who remembers the old number and meets the new one.
+#
+# 17 SEPTEMBER, NOT 25 AUGUST. ASAP switched layers on 25 August; OUR
+# published counts switched on 17 September. Dating it to ASAP would tell
+# the reader who saw 69 on 5 September that they were already on the new
+# map, which is the opposite of what happened to them.
+#
+# It should come out when the old number has stopped being something a
+# returning reader remembers. That is the editor's call, not a date this
+# file can compute, so it is a constant to blank rather than a timer.
+REDRAWN_NOTE = (
+    '<p class="redrawn">The crop-region map behind these counts was '
+    'redrawn on 17 September. No count published before then compares '
+    'with one here.</p>')
+
+
 def _global_block(g, n_places=None) -> str:
     """The global pair, in the footer, with BOTH treatments.
 
@@ -1809,6 +1833,7 @@ main {{ max-width:800px; margin:0 auto; padding:24px 24px 80px; }}
 h1 {{ font-size:31px; font-weight:500; line-height:1.18;
   letter-spacing:-0.015em; margin:0 0 12px; max-width:22ch;
   text-wrap:balance; }}
+.redrawn {{ font-size:15px; line-height:1.5; color:var(--ink-soft); border-left:2px solid var(--ink); padding-left:12px; margin:0 0 14px; max-width:52ch; }}
 .stand {{ color:var(--ink-soft); max-width:58ch; margin:0; }}
 .seclab {{ font-size:11px; letter-spacing:{T.TRACK_LABEL}em;
   text-transform:uppercase; color:var(--ink); margin:44px 0 4px;
@@ -1944,6 +1969,7 @@ h1 {{ font-size:31px; font-weight:500; line-height:1.18;
 {site_masthead(root_prefix, active="crop")}
 <main>
   <p class="eyebrow">Crops</p>
+  {REDRAWN_NOTE}
   <h1>{headline}</h1>
   <p class="stand">{lede}</p>
   {_freshness(doc)}
