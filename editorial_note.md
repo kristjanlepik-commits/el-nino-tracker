@@ -1,14 +1,7 @@
-<!-- issue: 2026-09-01 -->
+<!-- issue: 2026-09-21 -->
 
-Two weeks ago the winds were the one thing arguing against this event. Not any more.
+**The wind arrived.**
 
-Westerly wind forcing has gone from 75% of 1997's in late July to 81% on 25 August. These are running totals, so a rising share means 2026 gained faster, not just caught up.
+Through spring the westerlies were the one doubt. The ocean was loaded; the atmosphere was not pushing. That changed in June and it has held. The chart below is new: it shows how fast the wind forcing is accumulating, week by week, against the same dates in 1997 and 2015. 2026 left the fade band in mid-June, has stayed above our watch line for ninety days, and this week reads above 1997 for the first time.
 
-This does not make the forecast stronger. It removes a measurement that had been moving the wrong way.
-
-The burst that peaked on 31 July is still crossing the Pacific; a Kelvin wave takes one to two months. So the flat sea surface of the last fortnight is not the winds failing. It is too early to see them.
-
-The August heat content figure has landed, and it is a standing record: +3.20 C,
-the first time it has crossed 3 degrees in 47 years of measurement. 1997's
-highest month was +2.56. The subsurface is now warmer than the surface, so that
-heat has not surfaced yet.
+![Rolling 14-day westerly wind rate, 2026 against the analogs](/cwwa_rate.png)
