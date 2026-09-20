@@ -271,7 +271,7 @@ SIGNOFF_INPUTS = {
 SIGNOFF_DIR = ROOT / "signoff"
 
 
-def _symbol_source(path: Path, name: str) -> str:
+def _symbol_source(path: Path, name: str, source: str | None = None) -> str:
     """Source text of the top-level assignment to `name` in `path`, via
     ast rather than a regex, so a multi-line value (ANALYTICS_SNIPPET is
     a parenthesised multi-line string) is captured whole.
@@ -287,11 +287,12 @@ def _symbol_source(path: Path, name: str) -> str:
     source, and a plain path still hashes the whole file, unchanged.
     """
     import ast
-    tree = ast.parse(path.read_text(), filename=str(path))
+    text = path.read_text() if source is None else source
+    tree = ast.parse(text, filename=str(path))
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign) and any(
                 isinstance(t, ast.Name) and t.id == name for t in node.targets):
-            seg = ast.get_source_segment(path.read_text(), node)
+            seg = ast.get_source_segment(text, node)
             if seg is not None:
                 return seg
     raise SystemExit(
@@ -300,7 +301,13 @@ def _symbol_source(path: Path, name: str) -> str:
         f"symbol is not narrower than a whole-file hash, it is silent.")
 
 
-def channel_signoff_hash(channel: str) -> str:
+def _git_bytes(commit: str, rel: str) -> bytes | None:
+    r = subprocess.run(["git", "show", f"{commit}:{rel}"], cwd=ROOT,
+                       capture_output=True)
+    return r.stdout if r.returncode == 0 else None
+
+
+def channel_signoff_hash(channel: str, at_commit: str | None = None) -> str:
     """sha256 over every SIGNOFF_INPUTS file for `channel`, path and bytes
     both, so a rename is a change and not just content drift.
 
@@ -317,6 +324,14 @@ def channel_signoff_hash(channel: str) -> str:
     for rel in sorted(SIGNOFF_INPUTS[channel]):
         path_part, _, symbol = rel.partition("::")
         p = ROOT / path_part
+        if at_commit is not None:
+            raw = _git_bytes(at_commit, path_part)
+            if raw is None:
+                return ""   # an input did not exist there; cannot be the approved state
+            h.update(rel.encode())
+            h.update(_symbol_source(p, symbol, raw.decode()).encode()
+                     if symbol else raw)
+            continue
         if not p.exists():
             raise SystemExit(
                 f"REFUSING: signoff input {path_part} for channel "
@@ -328,6 +343,55 @@ def channel_signoff_hash(channel: str) -> str:
         else:
             h.update(p.read_bytes())
     return h.hexdigest()
+
+
+def approved_payload_commit(channel: str) -> str | None:
+    """The commit whose inputs the sign-off marker approved, or None.
+
+    THE SHELL READS A CHANNEL'S PAYLOAD UNGATED, AND ON 2026-09-17 THAT
+    WALKED A HELD PAYLOAD PAST THE GATE. ASAP renumbered every country
+    id; crops' 09-16 dekad was 148 of 148 mislabelled (Belarus carrying
+    Angola); the D-200 gate held crops' pages exactly as designed. Then
+    publish_shell.py read crops/data/stress_current.json straight off
+    disk to draw the front-page map, and the front page carried the
+    mislabelled map from 08:15Z to 16:21Z, published by platform, twice.
+    Crops' sign-off note says the payload "never rendered; this gate held
+    it", which was true of every page the gate covered and false of the
+    one it did not.
+
+    So while a channel is blocked, the shell builds from the payload the
+    marker actually approved. approve_channel.py now records that commit;
+    for a marker written before it did, walk the commits that touched the
+    inputs, newest first, until one hashes to the approved value. The
+    payload files change rarely, so the walk is short, and a marker whose
+    hash matches nothing in history returns None and the caller says so
+    rather than guessing.
+    """
+    marker = SIGNOFF_DIR / f"{channel}.json"
+    try:
+        doc = json.loads(marker.read_text())
+    except (OSError, ValueError):
+        return None
+    approved = doc.get("approved_hash")
+    if not approved:
+        return None
+    c = doc.get("approved_commit")
+    if c and channel_signoff_hash(channel, at_commit=c) == approved:
+        return c
+    paths = [rel.partition("::")[0] for rel in SIGNOFF_INPUTS[channel]]
+    r = subprocess.run(["git", "log", "--format=%H", "-n", "400", "--",
+                        *paths], cwd=ROOT, capture_output=True, text=True)
+    for c in r.stdout.split():
+        if channel_signoff_hash(channel, at_commit=c) == approved:
+            return c
+    return None
+
+
+def shell_payloads_of(channel: str) -> list[str]:
+    """The data files among a channel's sign-off inputs: what the shell
+    reads. Templates and builders are not read by the shell and stay."""
+    return [rel for rel in SIGNOFF_INPUTS[channel]
+            if "::" not in rel and ("/data/" in rel or rel.startswith("data/"))]
 
 
 def check_channel_signoff(channel: str) -> tuple[bool, str]:
@@ -818,11 +882,43 @@ def main() -> None:
         if not ok:
             blocked.append((channel, reason))
             steps = [s for s in steps if not s[0].startswith(channel)]
+    # While blocked, the shell must not see the unapproved payload either:
+    # swap in the approved commit's bytes for the run and put the working
+    # file back afterwards, whatever happens (see approved_payload_commit).
+    swapped: dict[str, bytes | None] = {}
     if blocked:
         print(f"  {len(blocked)} CHANNEL(S) BLOCKED ON SIGN-OFF (D-200), "
               f"pages NOT rebuilt, last approved pages stay live:")
         for channel, reason in blocked:
             print(f"    {channel}: {reason}")
+            payloads = shell_payloads_of(channel)
+            if not payloads:
+                continue
+            c = approved_payload_commit(channel)
+            if c is None:
+                print(f"    {channel}: the shell reads {', '.join(payloads)} "
+                      f"and NO commit matches the approved hash, so the shell "
+                      f"cannot be built from an approved payload. Refusing "
+                      f"rather than drawing the front page from a held one.")
+                raise SystemExit(1)
+            for rel in payloads:
+                raw = _git_bytes(c, rel)
+                if raw is None:
+                    continue
+                swapped[rel] = data_before.get(rel) if rel in data_before \
+                    else ((ROOT / rel).read_bytes() if (ROOT / rel).exists() else None)
+                (ROOT / rel).write_bytes(raw)
+            print(f"    {channel}: shell builds from the approved payload at "
+                  f"{c[:8]}, not the working file")
+    def _unswap() -> None:
+        for rel, raw in swapped.items():
+            if raw is None:
+                (ROOT / rel).unlink(missing_ok=True)
+            else:
+                (ROOT / rel).write_bytes(raw)
+    if swapped:
+        import atexit
+        atexit.register(_unswap)   # safety net if a step raises
 
     # D-264, 2026-08-31, REVERSES D-212's BLOCKING BEHAVIOUR. Kristjan,
     # after nine days of daily escalations over exactly this gate: "who
@@ -912,6 +1008,9 @@ def main() -> None:
             continue
         print(f"  ran {name}")
 
+    # The working payload goes back BEFORE verify, which asserts that no
+    # data input moved during the run; the swap is not a move.
+    _unswap()
     problems = verify(data_before)
     if problems:
         # ATTRIBUTE EACH PROBLEM TO A SURFACE, 2026-09-08. This used to

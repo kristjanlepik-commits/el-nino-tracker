@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -58,6 +59,13 @@ def main() -> int:
     marker.write_text(json.dumps({
         "channel": args.channel,
         "approved_hash": current,
+        # The commit this approval was taken at, so publish_all can build
+        # the shell from the approved payload while a later change to it
+        # is held (2026-09-17: a held crops payload reached the front page
+        # through the shell, which read the working file ungated).
+        "approved_commit": subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True,
+            text=True).stdout.strip(),
         "approved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "approved_by": args.by,
         "note": args.note,
