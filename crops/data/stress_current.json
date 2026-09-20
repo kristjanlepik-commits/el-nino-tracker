@@ -766,7 +766,9 @@
    ]
   },
   "statement": "8 of the 8 countries of the isthmus are in their own worst four of 26 years. 1 of the 8 were worse in 2015 than they are now.",
-  "is_not": "evidence that this is the corridor's worst year. It is not: 2015 is worse at the two deepest thresholds, and worst-four is the smallest cut at which the run reaches the whole isthmus, so the cut is not independent of the data. Read `counts_now` beside `prior_years_at_or_above` rather than the headline count alone. AND DO NOT RENDER an empty `prior_years_at_or_above` as a first-ever or a record: it is empty at worst-four and worst-five and carries 2015 at every other cut, so the emptiness is a property of the threshold rather than of the year. Kristjan ruled against that framing (D-249); publish `statement`, which no longer contains it."
+  "at_record_tied": [],
+  "ties_count_as_at_record": true,
+  "is_not": "evidence about any earlier dekad or any earlier boundary layer. Every count here is 2026 against its own 26 years on the current boundaries. On depth: no prior year matches or beats this one at ANY threshold from worst-one to worst-six, so the count does not depend on where the cut is drawn. Read counts_now beside prior_years_at_or_above rather than the headline count alone. A tie with a prior year counts AS at record (see ties_count_as_at_record and at_record_tied). Publish `statement`."
  },
  "country_record_baseline": {
   "available": true,

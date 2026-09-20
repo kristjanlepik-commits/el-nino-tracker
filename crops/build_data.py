@@ -2770,6 +2770,34 @@ ISTHMUS_ORDER = ["Belize", "Guatemala", "Honduras", "El Salvador",
                  "Nicaragua", "Costa Rica", "Panama", "Colombia"]
 
 
+def _isthmus_is_not(grad, cur, years, members):
+    """The caveat sentence, computed from the same gradient it describes."""
+    beaten = []   # (k, years at or above 2026)
+    for k in range(1, 7):
+        ge = sorted(y for y in years if y != cur and grad[k][y] >= grad[k][cur])
+        if ge:
+            beaten.append((k, ge))
+    clean = [k for k in range(1, 7) if not any(k == b[0] for b in beaten)]
+    if not beaten:
+        depth = ("no prior year matches or beats this one at ANY threshold "
+                 "from worst-one to worst-six, so the count does not depend "
+                 "on where the cut is drawn")
+    else:
+        parts = [f"worst-{k}: {', '.join(str(y) for y in ys)}" for k, ys in beaten]
+        depth = (f"a prior year matches or beats this one at {len(beaten)} of "
+                 f"6 thresholds ({'; '.join(parts)})"
+                 + (f", and at none of worst-{', worst-'.join(map(str, clean))}"
+                    if clean else "")
+                 + ", so the count DOES depend on where the cut is drawn")
+    return ("evidence about any earlier dekad or any earlier boundary layer. "
+            f"Every count here is {cur} against its own 26 years on the "
+            "current boundaries. On depth: " + depth + ". "
+            "Read counts_now beside prior_years_at_or_above rather than the "
+            "headline count alone. A tie with a prior year counts AS at "
+            "record (see ties_count_as_at_record and at_record_tied). "
+            "Publish `statement`.")
+
+
 def isthmus_comparison(places: list) -> dict:
     """The Central American corridor, 2026 against its own 26 years.
 
@@ -2846,18 +2874,23 @@ def isthmus_comparison(places: list) -> dict:
             f"{grad[4][cur]} of the {len(members)} countries of the isthmus "
             f"are in their own worst four of 26 years. {len(worse_then)} of "
             f"the {len(members)} were worse in 2015 than they are now."),
-        "is_not": "evidence that this is the corridor's worst year. It is "
-                  "not: 2015 is worse at the two deepest thresholds, and "
-                  "worst-four is the smallest cut at which the run reaches "
-                  "the whole isthmus, so the cut is not independent of the "
-                  "data. Read `counts_now` beside `prior_years_at_or_above` "
-                  "rather than the headline count alone. AND DO NOT RENDER "
-                  "an empty `prior_years_at_or_above` as a first-ever or a "
-                  "record: it is empty at worst-four and worst-five and "
-                  "carries 2015 at every other cut, so the emptiness is a "
-                  "property of the threshold rather than of the year. "
-                  "Kristjan ruled against that framing (D-249); publish "
-                  "`statement`, which no longer contains it.",
+        # TIES. rank is 1 + the count of years strictly worse, so a year
+        # that EQUALS the prior worst shares rank 1 and counts as at
+        # record. Product asked whether worst_1 was a floor; it is not.
+        # Emitted so a renderer can see whether the count leans on a tie
+        # today, rather than assuming either way.
+        "at_record_tied": [n for n in members
+                           if rs[n][cur] == 1
+                           and (by[n]["severity"].get("tied_with") or [])],
+        "ties_count_as_at_record": True,
+        # DERIVED, NOT TYPED. This field previously carried "2015 is worse
+        # at the two deepest thresholds" as literal text, and it stayed
+        # that way when counts_now and versus_2015 moved under it on v06,
+        # where it was the opposite of what the counts showed. Product
+        # found it: the same defect as the rank-saturation figure, inside
+        # the field built to prevent it. A sentence that describes counts
+        # is computed from the counts, every time.
+        "is_not": _isthmus_is_not(grad, cur, years, members),
     }
 
 def country_record_baseline(places: list) -> dict:
