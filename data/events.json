@@ -658,7 +658,7 @@
         "reading": "neutral",
         "detections_on_crop_pct": 14.65,
         "country_land_crop_pct": 14.65,
-        "n_detections_sampled": 6647,
+        "n_detections_sampled": 6646,
         "detections_on_crop": 973.6,
         "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
@@ -666,7 +666,7 @@
         "recur_pct": 18.5,
         "night_pct": 55.3,
         "frp_median": 2.94,
-        "n_detections": 6647,
+        "n_detections": 6646,
         "peak_to_median_day": 1.1,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
@@ -735,10 +735,10 @@
         "detections_on_crop": 31.8
       },
       "persistence": {
-        "recur_pct": 13.5,
-        "night_pct": 70.3,
-        "frp_median": 1.81,
-        "n_detections": 565,
+        "recur_pct": 14.0,
+        "night_pct": 73.4,
+        "frp_median": 1.67,
+        "n_detections": 541,
         "peak_to_median_day": 1.57,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
