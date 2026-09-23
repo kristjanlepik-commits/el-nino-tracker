@@ -6214,7 +6214,7 @@
   "USA": {
    "iso": "USA",
    "name": "United States of America",
-   "count": 6342,
+   "count": 6341,
    "mean": 12658.9,
    "hist": {
     "2012": 26309,
@@ -6239,7 +6239,7 @@
     "2026-09-19": 765,
     "2026-09-20": 650,
     "2026-09-21": 821,
-    "2026-09-22": 942
+    "2026-09-22": 941
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -6252,11 +6252,11 @@
    "cropland": {
     "detections_on_crop_pct": 17.85,
     "country_land_crop_pct": 14.65,
-    "ratio": 1.218,
+    "ratio": 1.219,
     "reading": "neutral",
-    "expected_on_crop": 929.1,
+    "expected_on_crop": 929.0,
     "detections_on_crop": 1132.0,
-    "n_detections_sampled": 6342,
+    "n_detections_sampled": 6341,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -6269,14 +6269,14 @@
     "recur_pct": 21.6,
     "night_pct": 54.9,
     "frp_median": 3.22,
-    "n_detections": 6342,
+    "n_detections": 6341,
     "peak_to_median_day": 1.2,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
     "multiple": 0.5,
-    "count": 6342,
+    "count": 6341,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
