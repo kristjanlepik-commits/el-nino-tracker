@@ -38,10 +38,21 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             BASE="origin/${{ github.base_ref }}"
           fi
+          # --daily ONLY on the cron run. Time-based staleness checks (a
+          # Monday with no brief, a standing all-hands entry that stopped
+          # being rewritten) are violations here and advisories everywhere
+          # else, because the push hook runs the same script and refuses to
+          # push on a failure: as plain violations they would block every
+          # chat's push over something no push caused and no push can fix.
+          # This is where such an alarm belongs, on a clock, once a day.
+          DAILY=""
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            DAILY="--daily"
+          fi
           if [ -n "$BASE" ] && git cat-file -e "$BASE" 2>/dev/null; then
-            python3 scripts/qa_check.py --base "$BASE"
+            python3 scripts/qa_check.py --base "$BASE" $DAILY
           else
-            python3 scripts/qa_check.py --no-frozen-check
+            python3 scripts/qa_check.py --no-frozen-check $DAILY
           fi
 
   # Separate job on purpose: the gate above is stdlib-only and fast, and
