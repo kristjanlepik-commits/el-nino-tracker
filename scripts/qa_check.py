@@ -1649,6 +1649,27 @@ def check_large_files(violations):
 # KNOWN_SNAPSHOT_GAPS: a skip we have agreed to.
 SKIPPED_ISSUES: dict[str, str] = {}
 
+# Issues that were MISSED, as "YYYY-MM-DD: reason". Separate from
+# SKIPPED_ISSUES on purpose, and the distinction is not pedantry.
+#
+# SKIPPED_ISSUES means "we decided not to publish". 2026-09-21 was a crash
+# that nobody noticed for five days. Filing it as a deliberate skip would
+# make the record state the opposite of what happened, and would leave the
+# next reader of that dict with a tidy list of choices and no idea a week
+# was lost. A record that reads better than the event is worse than none.
+#
+# Both dicts unblock the check identically. Only the wording differs, and
+# the wording is the entire point.
+MISSED_ISSUES: dict[str, str] = {
+    "2026-09-21": (
+        "NOT a decision. weekly_brief.yml crashed on a methodology change "
+        "dated to take effect that morning. The site served the 2026-09-14 "
+        "issue for twelve days and nothing on the page said it was stale. "
+        "Found on 2026-09-26 because Kristjan asked, not because anything "
+        "reported it. Science's crash, and the silence is the system's."
+    ),
+}
+
 
 def check_monday_issue_published(out):
     """By Tuesday, the most recent Monday must have a snapshot AND a brief.
@@ -1691,7 +1712,7 @@ def check_monday_issue_published(out):
     if today == monday:                      # Monday's issue is not due yet
         monday -= _dt.timedelta(days=7)
     key = monday.isoformat()
-    if key in SKIPPED_ISSUES:
+    if key in SKIPPED_ISSUES or key in MISSED_ISSUES:
         return
     missing = []
     if not (ROOT / "snapshots" / f"{key}.json").exists():
