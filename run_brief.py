@@ -5050,8 +5050,31 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
                               f"{deflection:+.1f} ppt)")
             else:
                 md.append(f"- **{label}**: {smoothed_pct}%")
-        else:
+        elif smoothed_pct is not None:
+            # No anchor, but a usable number: the CPC anchor was WITHDRAWN
+            # for this rung because its table could not identify a tail
+            # above the open-ended >=2.0 bin (methodology limitation 13),
+            # so the model consensus carries it alone.
+            #
+            # This branch did not exist, so the else below ran instead and
+            # looked up `headline[key]`, which only ever holds the four
+            # CPC-only buckets. The 2026-09-21 brief died on
+            # KeyError: 'record_>3.0' the morning the guard first opened,
+            # and took the whole issue with it.
+            _why = s.get("anchor_withdrawn_because")
+            _n = s.get("n_models")
+            if _why:
+                md.append(f"- **{label}**: {smoothed_pct}% "
+                          f"({_n}-model consensus; CPC anchor withdrawn, "
+                          f"{_why})")
+            else:
+                md.append(f"- **{label}**: {smoothed_pct}%")
+        elif key in headline:
             md.append(f"- {fmt_bucket(label, headline[key])}")
+        else:
+            # Neither a smoothed value nor a CPC bucket. Say so rather than
+            # raise: a brief that always ships is invariant 1.
+            md.append(f"- **{label}**: not computed this issue")
     md.append("")
     # Estimator description: reflect whichever mode actually ran this issue.
     _mode = next((v.get("mode") for v in smoothed.values()
