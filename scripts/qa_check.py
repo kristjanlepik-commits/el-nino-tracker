@@ -1650,7 +1650,7 @@ def check_large_files(violations):
 SKIPPED_ISSUES: dict[str, str] = {}
 
 
-def check_monday_issue_published(violations):
+def check_monday_issue_published(out):
     """By Tuesday, the most recent Monday must have a snapshot AND a brief.
 
     THE FAILURE THIS EXISTS FOR. weekly_brief.yml run 35637839641 exited 1
@@ -1673,6 +1673,17 @@ def check_monday_issue_published(violations):
     06:30 cron legitimately predates it. qa.yml runs daily for exactly
     this class of check, where staleness is a function of time and not of
     pushes.
+
+    A VIOLATION ONLY UNDER --daily, AN ADVISORY OTHERWISE, and that split
+    is the whole point rather than a softening. scripts/githooks/post-commit
+    runs this script and refuses to push when it fails, so as a plain
+    violation a missing brief would have blocked NINE CHATS from pushing
+    anything until the brief was published: one channel's problem holding
+    the whole site, which is what D-242, D-264 and D-289 all rule against,
+    reintroduced by the detector meant to help. Under --daily (qa.yml's
+    scheduled run, and nothing else) it is red and loud, which is where
+    the alarm belongs; locally it says the same thing without taking
+    everyone else's work hostage.
     """
     import datetime as _dt
     today = _dt.date.today()
@@ -1689,7 +1700,7 @@ def check_monday_issue_published(violations):
         missing.append(f"docs/briefs/{key}/index.html")
     if not missing:
         return
-    violations.append(
+    out.append(
         f"the {key} issue is missing {' and '.join(missing)}, "
         f"{(today - monday).days} day(s) after its Monday. The brief job "
         f"runs 18:00 UTC Monday, so by Tuesday the artifacts exist or "
@@ -1783,6 +1794,19 @@ def check_allhands(violations):
     # Entries are dated H2 headings; the prose sections above them are
     # not entries and must not count against the cap.
     entries = re.findall(r"^##\s+(\d{4}-\d{2}-\d{2})\b", text, re.M)
+    # A STANDING ENTRY IS EXEMPT FROM THE AGE CAP, AND ONLY FROM THAT.
+    # The cap means "an entry nobody objected to in a month has been
+    # absorbed", which cannot be true of an entry whose own heading says it
+    # is rewritten in place every Monday: it is never absorbed, it is
+    # updated or abandoned. Those two are what check_allhands_cadence
+    # already tells apart, so the cap was a second detector giving the
+    # wrong instruction, "delete it", for a slot that is meant to persist.
+    # It fired on the two-week look-ahead on 2026-09-26 and, as a
+    # violation, blocked every chat's push over another desk's stale
+    # roadmapping entry. The cadence check still names it, and under
+    # --daily says so loudly.
+    standing = set(re.findall(
+        r"^##\s+(\d{4}-\d{2}-\d{2}) · .*REWRITTEN WEEKLY", text, re.M))
     if len(entries) > ALLHANDS_MAX_ENTRIES:
         violations.append(
             f"research/allhands.md has {len(entries)} entries, cap is "
@@ -1798,7 +1822,7 @@ def check_allhands(violations):
             violations.append(f"research/allhands.md: unparseable entry "
                               f"date '{d}'")
             continue
-        if age > ALLHANDS_MAX_AGE_DAYS:
+        if age > ALLHANDS_MAX_AGE_DAYS and d not in standing:
             violations.append(
                 f"research/allhands.md entry dated {d} is {age} days old, "
                 f"cap is {ALLHANDS_MAX_AGE_DAYS} (D-059). Delete it. An "
@@ -1829,6 +1853,11 @@ def main():
     ap.add_argument("--base", default="origin/main",
                     help="ref to compare frozen surfaces against")
     ap.add_argument("--no-frozen-check", action="store_true")
+    ap.add_argument("--daily", action="store_true",
+                    help="scheduled run: time-based staleness checks are "
+                         "violations rather than advisories. Set by qa.yml's "
+                         "cron, never by the push hook, so a missing brief "
+                         "cannot block every chat's push.")
     ap.add_argument("--allow-frozen-edits", action="store_true",
                     help="skip immutability check for emergency --force fixes")
     # Severity split, deliberate. The checks above answer "is it safe to
@@ -1862,7 +1891,7 @@ def main():
     check_page_lags_data(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
     check_allhands(violations)
-    check_allhands_cadence(advisories)
+    check_allhands_cadence(violations if args.daily else advisories)
     # Advisory during a publish, blocking in CI, same split and same reason
     # as check_emitted_fields: a nav that lags is a completeness defect and
     # a stale page is worse than an under-linked one, so this must never
@@ -1881,7 +1910,7 @@ def main():
     check_orphan_pages(violations, advisories)
     check_large_files(violations)
     check_reserved_not_rendered(violations)
-    check_monday_issue_published(violations)
+    check_monday_issue_published(violations if args.daily else advisories)
 
     if advisories:
         print(f"QA ADVISORY: {len(advisories)} rendering-completeness "
