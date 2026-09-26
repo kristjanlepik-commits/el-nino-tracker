@@ -1647,20 +1647,7 @@ def check_large_files(violations):
 # check below can stay strict without anyone having to edit the check. Adding
 # a date is a decision with a reason attached, the same shape as
 # KNOWN_SNAPSHOT_GAPS: a skip we have agreed to.
-SKIPPED_ISSUES: dict[str, str] = {
-    "2026-09-21": (
-        "weekly_brief.yml run 35637839641 exited 1 with KeyError "
-        "'record_>3.0' in build_markdown: the CPC anchor guard opened on "
-        "that morning's issue, set a rung's anchor to None, and the render "
-        "loop fell through to a dict holding only the four CPC-only "
-        "buckets. Fixed by Science in 69a47ab0 and verified with a full "
-        "--preview for 09-28. NOT back-published, and that is Science's "
-        "call and the right one: the only data available now is today's, so "
-        "a brief dated the 21st would carry the 26th's numbers, which is "
-        "the archive lying about its own date (invariant 5). The gap is "
-        "real and this is the honest record of it. The site served the "
-        "09-14 issue from 09-21 to 09-28."),
-}
+SKIPPED_ISSUES: dict[str, str] = {}
 
 # Issues that were MISSED, as "YYYY-MM-DD: reason". Separate from
 # SKIPPED_ISSUES on purpose, and the distinction is not pedantry.
