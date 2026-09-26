@@ -69,7 +69,8 @@ import numpy as np
 import xarray as xr
 from scipy.ndimage import uniform_filter
 
-from ._common import CACHE_DIR, FetchResult, now_iso, committed_result
+from ._common import (CACHE_DIR, FetchResult, now_iso, committed_result,
+                      _force_live)
 
 DATASET = "reanalysis-era5-pressure-levels"
 REGION = [10, 130, -10, 210]   # N, W, S, E in 0-360 longitude; wider than CWWA's 5N-5S
@@ -396,9 +397,10 @@ def fetch() -> FetchResult:
     # was committed rather than from whatever CDS returns today. The live
     # pull below is reached only when the file is absent or older than
     # 10 days, and scripts/refresh_era5_committed.py is what refreshes it.
-    _c = committed_result("era5_burst", max_age_days=10)
-    if _c is not None:
-        return _c
+    if not _force_live():
+        _c = committed_result("era5_burst", max_age_days=10)
+        if _c is not None:
+            return _c
     try:
         today = date.today()
         end = today - timedelta(days=5)

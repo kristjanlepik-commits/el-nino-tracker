@@ -215,6 +215,27 @@ def write_committed(source: str, result: FetchResult) -> Path:
     return path
 
 
+def _force_live() -> bool:
+    """True when the caller demands a live pull regardless of the committed
+    file. Set TLS_ERA5_FORCE_LIVE=1.
+
+    An ENVIRONMENT VARIABLE rather than a monkeypatch, because the patch did
+    not work and failed silently. refresh_era5_committed.py replaced
+    fetchers._common.committed_result with a stub, but era5_wwe and
+    era5_burst both do `from ._common import committed_result`, which binds
+    the original into each module at import time. Patching the source module
+    never reached them.
+
+    Platform found this on 2026-09-20 and the effect is the worst shape a
+    bug can take: the refresher short-circuited to the committed file in
+    0.0s, wrote the same bytes back, and printed "wrote". It only ever did
+    real work when the committed file was ALREADY STALE, which is exactly
+    when refreshing is too late. A scheduled weekly refresh, running while
+    the file was still fresh, would have no-opped forever and looked fine.
+    """
+    return os.environ.get("TLS_ERA5_FORCE_LIVE", "").strip() not in ("", "0")
+
+
 class CacheUnreadable(Exception):
     """The cache file exists but could not be loaded."""
 
