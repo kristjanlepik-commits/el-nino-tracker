@@ -1642,6 +1642,65 @@ def check_large_files(violations):
                 f"LARGE_FILE_ALLOWED in scripts/qa_check.py with a reason.")
 
 
+# Issues deliberately not published, as "YYYY-MM-DD: reason". An entry here
+# is the documented way to say "this Monday has no brief on purpose", so the
+# check below can stay strict without anyone having to edit the check. Adding
+# a date is a decision with a reason attached, the same shape as
+# KNOWN_SNAPSHOT_GAPS: a skip we have agreed to.
+SKIPPED_ISSUES: dict[str, str] = {}
+
+
+def check_monday_issue_published(violations):
+    """By Tuesday, the most recent Monday must have a snapshot AND a brief.
+
+    THE FAILURE THIS EXISTS FOR. weekly_brief.yml run 35637839641 exited 1
+    at 18:26 on 2026-09-21 with a KeyError in build_markdown. There was no
+    09-21 snapshot and no 09-21 brief directory, the site served the 09-14
+    issue for twelve days, and NOTHING SAID SO: the failure existed only in
+    the Actions tab. Kristjan found it, not us. Fires and heat both have
+    dispatchers that retry and log a reason (D-297); the ENSO brief had no
+    detector of any kind, so five days was the cost of the silence rather
+    than of the bug, and any other cause would have been just as quiet.
+
+    IT ASKS WHETHER THE ARTIFACT EXISTS, not whether the last run
+    succeeded, which is Science's point and the load-bearing one. A green
+    workflow that published nothing, a run that wrote the snapshot and
+    died before committing, and a run that never started at all are three
+    different causes with one symptom, and only "is the issue there" sees
+    all three. Asking the scheduler would miss the case that bit us.
+
+    Tuesday, not Monday: the job runs 18:00 UTC Monday, so Monday's own
+    06:30 cron legitimately predates it. qa.yml runs daily for exactly
+    this class of check, where staleness is a function of time and not of
+    pushes.
+    """
+    import datetime as _dt
+    today = _dt.date.today()
+    monday = today - _dt.timedelta(days=today.weekday())
+    if today == monday:                      # Monday's issue is not due yet
+        monday -= _dt.timedelta(days=7)
+    key = monday.isoformat()
+    if key in SKIPPED_ISSUES:
+        return
+    missing = []
+    if not (ROOT / "snapshots" / f"{key}.json").exists():
+        missing.append(f"snapshots/{key}.json")
+    if not (ROOT / "docs" / "briefs" / key / "index.html").exists():
+        missing.append(f"docs/briefs/{key}/index.html")
+    if not missing:
+        return
+    violations.append(
+        f"the {key} issue is missing {' and '.join(missing)}, "
+        f"{(today - monday).days} day(s) after its Monday. The brief job "
+        f"runs 18:00 UTC Monday, so by Tuesday the artifacts exist or "
+        f"something went wrong and nobody has been told: on 2026-09-21 "
+        f"the job crashed, the site served the previous issue for twelve "
+        f"days, and the only record was the Actions tab. Check "
+        f"weekly_brief.yml's last run. If this issue is deliberately not "
+        f"published, add \"{key}\" to SKIPPED_ISSUES in "
+        f"scripts/qa_check.py with the reason.")
+
+
 ALLHANDS_MAX_ENTRIES = 10
 ALLHANDS_MAX_AGE_DAYS = 30
 
@@ -1822,6 +1881,7 @@ def main():
     check_orphan_pages(violations, advisories)
     check_large_files(violations)
     check_reserved_not_rendered(violations)
+    check_monday_issue_published(violations)
 
     if advisories:
         print(f"QA ADVISORY: {len(advisories)} rendering-completeness "
