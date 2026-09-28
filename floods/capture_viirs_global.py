@@ -128,11 +128,34 @@ def reduce_tile(path):
     )
 
 
+# A day below this share of its listed tiles is loud. Historically the
+# worst complete day was 283 of 287, 0.986, and 7 of the first 199 days
+# were short by one to four tiles, so a threshold at or near 1.0 would
+# fire on routine days. 0.95 has never been crossed by a healthy day.
+PARTIAL_FLOOR = 0.95
+
+
 def capture_day(year, doy, out_dir, tok, workers):
+    """Return (status, record).
+
+    The status exists because one None used to mean three things: nothing
+    to do, nothing captured, and a record written with nothing wrong. On
+    2026-09-28 every tile of every day came back as a 401 and was
+    discarded as not HDF5, and the job exited green, because "captured
+    nothing" and "had nothing to do" were the same value.
+
+      skipped      already captured; nothing to do
+      captured     written, at or above PARTIAL_FLOOR
+      partial_low  written, but below PARTIAL_FLOOR. Frozen, since this
+                   repo does not edit written records, so it is loud
+      empty        LANCE listed tiles and not one downloaded as HDF5.
+                   Parts are left in place and the day retries next run
+      no_tiles     LANCE listed the day with no tiles at all
+    """
     stamp = f"{year}{doy}"
     final = os.path.join(out_dir, f"vcdwd_0p1deg_{stamp}.npz")
     if os.path.exists(final):
-        return None
+        return "skipped", None
 
     parts_dir = os.path.join(out_dir, f".parts_{stamp}")
     os.makedirs(parts_dir, exist_ok=True)
@@ -217,8 +240,13 @@ def capture_day(year, doy, out_dir, tok, workers):
         if os.path.exists(p):
             bundle[tile] = np.load(p)
     if not bundle:
-        log(f"{stamp}: nothing captured, leaving parts in place")
-        return None
+        if not tiles:
+            log(f"{stamp}: NO TILES listed by LANCE for this day")
+            return "no_tiles", {"doy": stamp, "tiles_expected": 0}
+        log(f"{stamp}: NOTHING CAPTURED from {len(tiles)} listed tiles, "
+            f"leaving parts in place so the next run retries")
+        return "empty", {"doy": stamp, "tiles_expected": len(tiles),
+                         "tiles_captured": 0}
 
     np.savez_compressed(final, **bundle)
     shutil.rmtree(parts_dir, ignore_errors=True)
@@ -227,7 +255,13 @@ def capture_day(year, doy, out_dir, tok, workers):
         f"{stamp}: wrote {len(bundle)}/{len(tiles)} tiles -> {size/1e6:.1f} MB "
         f"(from {got[1]/1e9:.2f} GB downloaded, {got[1]/max(size,1):.0f}x reduction)"
     )
-    return {
+    status = ("partial_low" if len(bundle) < PARTIAL_FLOOR * len(tiles)
+              else "captured")
+    if status == "partial_low":
+        log(f"{stamp}: PARTIAL, {len(bundle)}/{len(tiles)} tiles, below "
+            f"{PARTIAL_FLOOR:.0%}. Written and frozen; to recapture while LANCE "
+            f"still holds it, delete {os.path.basename(final)} and rerun")
+    return status, {
         "date": (dt.date(int(year), 1, 1) + dt.timedelta(days=int(doy) - 1)).isoformat(),
         "doy": stamp,
         "tiles_expected": len(tiles),
@@ -256,6 +290,21 @@ def main():
         "does not edit written records. Two days of lag against a seven day "
         "window still leaves five days of slack if a run is missed.",
     )
+    ap.add_argument(
+        "--fail-on-loss",
+        action="store_true",
+        help="exit non-zero when any day was not captured whole. OFF by "
+        "default, and the reason is the workflow, not this script: every "
+        "step after Capture runs only on success, so a red Capture skips "
+        "the upload of the days it DID capture, and the runner's temp "
+        "directory dies with them. Turning this on is safe only in the "
+        "same change that makes the upload run regardless.",
+    )
+    ap.add_argument(
+        "--status-out",
+        default=None,
+        help="write a JSON summary of every day's outcome here",
+    )
     args = ap.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)
@@ -265,6 +314,8 @@ def main():
 
     tok = token()
     years = [c["name"] for c in http_json(f"{NRT}.json") if c["name"].isdigit()]
+
+    outcomes = []
 
     # Oldest first on purpose. The rolling window deletes from the old
     # end, so the oldest day on the server is the one most likely to be
@@ -283,15 +334,72 @@ def main():
                     log(f"{year}{doy}: {age}d old, still filling, skipped")
                     continue
                 try:
-                    rec = capture_day(year, doy, args.out_dir, tok, args.workers)
+                    status, rec = capture_day(year, doy, args.out_dir, tok, args.workers)
                 except Exception as exc:
                     log(f"{year}{doy}: FAILED {repr(exc)[:110]}")
+                    outcomes.append({"doy": f"{year}{doy}", "status": "failed",
+                                     "error": repr(exc)[:200]})
                     continue
-                if rec:
+                outcomes.append({"doy": f"{year}{doy}", "status": status,
+                                 **({} if rec is None else
+                                    {k: rec[k] for k in ("tiles_expected", "tiles_captured")
+                                     if k in rec})})
+                if status in ("captured", "partial_low"):
                     mf.write(json.dumps(rec) + "\n")
                     mf.flush()
 
-    log("capture pass complete")
+    return report(outcomes, args)
+
+
+LOSS = ("empty", "no_tiles", "failed", "partial_low")
+
+
+def report(outcomes, args):
+    """Say what happened, and whether it was loss.
+
+    The diagnosis matters as much as the exit code. The pre-flight token
+    probe cannot tell an authenticated request from an unauthenticated
+    one, because LANCE serves its directory listing to both; that is why
+    the workflow keeps it diagnostic-only. This function can tell, from
+    the evidence in hand: if LANCE listed tiles for every day attempted
+    and not one downloaded as HDF5, the listing worked and the downloads
+    did not, which is the signature of a dead token rather than a network
+    fault.
+    """
+    from collections import Counter
+    n = Counter(o["status"] for o in outcomes)
+    attempted = [o for o in outcomes if o["status"] != "skipped"]
+    lost = [o for o in outcomes if o["status"] in LOSS]
+
+    log("capture pass complete: " + (", ".join(f"{k} {v}" for k, v in sorted(n.items()))
+                                      or "no days in window"))
+    for o in lost:
+        log(f"  LOSS {o['doy']}: {o['status']}"
+            + (f" ({o.get('tiles_captured', 0)}/{o.get('tiles_expected', 0)} tiles)"
+               if "tiles_expected" in o else "")
+            + (f" {o['error']}" if "error" in o else ""))
+
+    auth_dead = bool(attempted) and all(o["status"] == "empty" for o in attempted)
+    if auth_dead:
+        log("DIAGNOSIS: every attempted day listed tiles and downloaded none. "
+            "The unauthenticated listing works and the authenticated downloads "
+            "do not: the Earthdata token is almost certainly dead. Renew it; "
+            "each day left uncaptured is deleted by LANCE about seven days "
+            "after it appears.")
+
+    if args.status_out:
+        with open(args.status_out, "w") as fh:
+            json.dump({"counts": dict(n), "lost": lost,
+                       "likely_auth_failure": auth_dead,
+                       "outcomes": outcomes}, fh, indent=1)
+
+    if lost and args.fail_on_loss:
+        log(f"EXIT 1: {len(lost)} day(s) not captured whole")
+        return 1
+    if lost:
+        log(f"{len(lost)} day(s) not captured whole. Exiting 0 only because "
+            f"--fail-on-loss is off; see its help for why.")
+    return 0
 
 
 if __name__ == "__main__":
