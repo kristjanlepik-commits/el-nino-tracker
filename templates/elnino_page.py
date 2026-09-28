@@ -254,8 +254,23 @@ def _editors_note(brief_date):
     if not body:
         return ""
     import markdown as _md
+    html = _md.markdown(body)
+    # A NOTE'S CHART IS A FIGURE, NOT PART OF THE NOTE'S TEXT. The box is
+    # capped at 62ch because that is a reading measure for prose, and no
+    # note carried an image until 2026-09-28. That one rendered at its
+    # natural 2108px, running off the box; capped to the box it was 491px
+    # against 768px for every other chart on the page. Kristjan's call: a
+    # chart is the size of the other charts. So a paragraph holding only an
+    # image is lifted out and rendered after the box as a <figure>, under
+    # the same figure rules as the rest of the page, phone scroll included.
+    figs = []
+    def _lift(mm):
+        figs.append(mm.group(1))
+        return ""
+    html = _re.sub(r"<p>\s*(<img\b[^>]*>)\s*</p>", _lift, html)
     return ('<aside class="ednote"><div class="ednote-label">Editor\'s note</div>'
-            + _md.markdown(body) + '</aside>')
+            + html + '</aside>'
+            + "".join(f'<figure class="ednote-fig">{i}</figure>' for i in figs))
 
 
 def _rung_note(fetched, headline, briefs_root):
@@ -468,6 +483,9 @@ h1{{font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;
 .ednote-label{{font-family:"{T.FONT_DATA}",monospace;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}}
 .ednote p{{margin:0 0 10px;font-style:italic}}
 .ednote p:last-child{{margin:0}}
+/* the note's chart, lifted out of the box: pulled up so it reads as the
+   note's, not as the first thing in section 01 */
+.ednote-fig{{margin:-12px 0 0}}
 .note{{font-family:"{T.FONT_DATA}",monospace;font-size:11px;
  color:var(--ink-faint)}}
 .track{{position:relative;height:21px;background:var(--paper-sunk)}}
