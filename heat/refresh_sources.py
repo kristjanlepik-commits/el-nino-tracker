@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import time
 import sys
 from pathlib import Path
 
@@ -83,16 +84,42 @@ def refresh_meteofrance():
             #
             # gzip -t is the shape check. A .gz that does not test clean is
             # not a smaller archive, it is not an archive.
+            # RETRY, BECAUSE ONE FLAKY TRANSFER KILLED A WHOLE WEEK. The
+            # verify-then-rename above is right and was not enough: it
+            # discards a truncated file, and with no retry the file is then
+            # simply ABSENT. On this laptop that leaves last week's copy, so
+            # the run continues. On a cold runner there is no previous copy,
+            # so build_city_series' pre-flight refuses the payload and the
+            # whole refresh fails. That is what happened on 2026-09-21: three
+            # files of sixteen did not transfer (Paris recent, Montpellier
+            # recent, Lyon hist) and the scheduled run died, leaving the data
+            # a week stale until someone looked.
+            #
+            # The pre-flight was right to refuse a payload short of three
+            # cities. The fetch was wrong to hand it one over a transient.
             dst = SRC / f"mf_{city}_{part}.csv.gz"
             tmp = dst.with_suffix(".gz.partial")
-            _curl(url, tmp)
-            ok = tmp.exists() and subprocess.run(
-                ["gzip", "-t", str(tmp)], capture_output=True).returncode == 0
+            ok = False
+            for _try in (1, 2, 3):
+                _curl(url, tmp)
+                ok = tmp.exists() and subprocess.run(
+                    ["gzip", "-t", str(tmp)], capture_output=True).returncode == 0
+                if ok:
+                    break
+                tmp.unlink(missing_ok=True)
+                if _try < 3:
+                    time.sleep(5)
             if ok:
                 tmp.replace(dst)
             else:
-                tmp.unlink(missing_ok=True)
-                out[f"{city}_{part}"] = "TRUNCATED, kept previous"
+                # SAY WHICH IT IS. "kept previous" was printed even when
+                # there was no previous file to keep, which is a claim about
+                # a fallback that does not exist on a fresh checkout.
+                had = dst.exists()
+                out[f"{city}_{part}"] = ("TRUNCATED after 3 tries, kept the "
+                                         "previous file" if had else
+                                         "TRUNCATED after 3 tries, NO previous "
+                                         "file; the payload will be short")
                 continue
         out[city] = out.get(f"{city}_hist", "ok") if any(
             k.startswith(city) and "TRUNC" in str(v)
