@@ -252,5 +252,5 @@ jobs:
         run: |
           bash scripts/open_alert_issue.sh \
             "VIIRS flood capture failing" \
-            "floods_capture.yml failed. LANCE deletes after about 7 days, so each failing day is lost for good. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            "floods_capture.yml failed. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. Check which step: if it was the capture itself, LANCE deletes after about 7 days and days are being lost; a later step (manifest, token warning) can fail with the data safe, as from 2026-09-21 to 09-25."
 
