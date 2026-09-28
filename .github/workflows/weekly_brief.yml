@@ -19,6 +19,7 @@ on:
 
 permissions:
   contents: write           # to commit snapshot + brief back to the repo
+  issues: write             # open_alert_issue.sh when the run fails
 
 # Serialise every workflow that publishes. With per-channel schedules
 # two of these will eventually run at once, and a race between two
@@ -163,3 +164,16 @@ jobs:
           BRIEF_RECIPIENT: ${{ secrets.BRIEF_RECIPIENT }}
         run: |
           python scripts/send_email.py
+
+      # The crash case, the same evening rather than the next morning.
+      # 2026-09-21 died on a KeyError at 18:26 UTC and nothing reached a
+      # person for five days.
+      - name: Tell Kristjan the brief run failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bash scripts/open_alert_issue.sh \
+            "Weekly brief run failed: $(date -u +%F)" \
+            "weekly_brief.yml failed (${{ github.event_name }}). Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. The site is still serving the previous issue."
+

@@ -65,6 +65,9 @@ jobs:
   docs-match-source:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
+      issues: write   # open_alert_issue.sh, for a missing weekly brief
     steps:
       - uses: actions/checkout@v4
         with:
@@ -89,4 +92,22 @@ jobs:
       # was stale, because the generator was faithfully rendering old
       # data. This asks whether the data itself is still moving.
       - name: Assert every published data layer is fresh
-        run: python scripts/check_freshness.py
+        run: |
+          set -o pipefail
+          python scripts/check_freshness.py 2>&1 | tee /tmp/freshness.log
+
+      # The daily run is the one that can see a Monday that never
+      # published (the job crashed, or never started). A red run alone
+      # told nobody for five days in September; this puts it in
+      # Kristjan's inbox. Scheduled runs only, so a push never files one.
+      - name: Tell Kristjan when the weekly brief is missing
+        if: always() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          line=$(grep -m1 "no issue published for the week of" /tmp/freshness.log || true)
+          [ -z "$line" ] && { echo "weekly issue present"; exit 0; }
+          week=$(echo "$line" | grep -oE "[0-9]{4}-[0-9]{2}-[0-9]{2}" | head -1)
+          bash scripts/open_alert_issue.sh \
+            "Weekly brief missing: week of $week" \
+            "check_freshness.py reports: ${line} Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
