@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.thelongswell.brief-dispatch</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/admin/bin/brief_dispatch.sh</string>
+  </array>
+  <!-- Monday 10:05 local: 07:05 UTC in summer, 08:05 UTC in winter,
+       both after CPC's observed 07:00 UTC post. The script then waits
+       for CPC or the 10:00 UTC deadline. A laptop asleep at 10:05 runs
+       it on wake, and a wake past the deadline dispatches at once. -->
+  <key>StartCalendarInterval</key>
+  <dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>10</integer><key>Minute</key><integer>5</integer></dict>
+  <key>RunAtLoad</key><false/>
+  <key>StandardOutPath</key><string>/Users/admin/.brief_dispatch.out</string>
+  <key>StandardErrorPath</key><string>/Users/admin/.brief_dispatch.err</string>
+</dict>
+</plist>

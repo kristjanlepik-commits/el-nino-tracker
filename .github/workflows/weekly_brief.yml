@@ -2,9 +2,19 @@ name: Weekly El Nino brief
 
 on:
   schedule:
-    # Mondays at 13:00 UTC = ~16:00 EET (Tallinn). NOAA wksst9120 typically
-    # updates by 12:00 UTC Mondays; this gives it a buffer.
-    - cron: "0 13 * * 1"
+    # BACKSTOP ONLY since 2026-09-28. The primary trigger is the laptop
+    # dispatcher (scripts/brief_dispatch.sh, launchd Monday 10:05
+    # Tallinn), which waits for CPC's weekly SST and dispatches, so the
+    # issue is live Monday morning. Two facts retired the old reasoning
+    # here: CPC posted wksst9120 at 07:00 UTC on 09-28, not the ~12:00
+    # this comment assumed without measuring, and GitHub created this
+    # scheduled run 5.0 to 6.3 hours late on every Monday from 08-31 to
+    # 09-21 (queued 0 min, so its scheduler, not our concurrency group).
+    # If the dispatcher has already published, this run hits the freeze
+    # guard and exits 0. If the laptop was asleep, this still publishes,
+    # late but not missing. Off :00 on purpose: on-the-hour cron is what
+    # GitHub delays hardest under load.
+    - cron: "17 13 * * 1"
   workflow_dispatch:        # allow manual runs from the Actions tab
 
 permissions:
