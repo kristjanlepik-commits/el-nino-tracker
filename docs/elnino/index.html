@@ -382,7 +382,13 @@ figure img{width:100%;height:auto;display:block}
      the panel scrolls: a swipe to read the axis beats a figure that
      cannot be read at all. */
   figure{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  figure img{width:auto;min-width:700px;max-width:none}
+  /* WIDTH 700, NOT AUTO. `width:auto` with `max-width:none` renders each
+     image at its intrinsic pixel width, and these are 2x rasters: the
+     analog chart came out 1780px wide on a 375px phone and the note chart
+     2108px, three times the readable width this rule exists for. Science
+     measured it on 2026-09-28 while widening the note chart (D-309). The
+     comment above states the intent; this makes the rule say it. */
+  figure img{width:700px;max-width:none}
   /* The provenance register held a 200px key column against 112px of
      value, so every source note wrapped to five lines beside a mostly
      empty label. One column: the key reads as a heading over what it
