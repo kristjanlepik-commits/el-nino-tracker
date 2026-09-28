@@ -530,8 +530,9 @@ def check_weekly_issue(problems: list, rows: list, today: date) -> None:
     only thing a subscriber would notice: is there an issue for the
     current week.
 
-    Tuesday, not Monday. GitHub's scheduler has drifted over three hours
-    on this repo, the cron sits at 13:00 UTC, and a Monday-evening check
+    Tuesday, not Monday. The issue normally lands Monday morning from the
+    laptop dispatcher (scripts/brief_dispatch.sh), but its backstop is a
+    GitHub cron that has run five hours late, so a Monday-evening check
     would fire on ordinary lateness. By Tuesday a missing issue is a
     missed week rather than a slow one.
     """
