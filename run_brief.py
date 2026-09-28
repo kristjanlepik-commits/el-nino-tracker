@@ -5965,6 +5965,36 @@ def build_archive_index() -> str:
     return "\n".join(md)
 
 
+def _localize_root_images(html: str, archive_dir: Path, docs_root: Path) -> str:
+    """Copy every site-root image the archive references into the archive,
+    and point at the copy.
+
+    An archive is frozen (invariant 5), but an <img src="/x.png"> inside it
+    is not: it resolves to whatever sits at the site root THAT DAY. The
+    2026-09-28 issue's Note embedded /cwwa_rate.png, the current chart,
+    which the next Note overwrites, so the frozen issue would have shown
+    next week's chart from the following Monday with nothing looking.
+    Fixed by hand for 09-28 (7cccbc0a); this makes it the freeze step's
+    job so it cannot recur.
+
+    Only src="/..." whose target exists as a file under docs/ is touched,
+    copied to the same relative path inside the archive so two images
+    with one basename cannot collide. A protocol-relative "//" URL, an
+    external URL and an already-relative path are left alone.
+    """
+    import re as _re
+    def _swap(m):
+        rel = m.group(2)
+        src = docs_root / rel
+        if rel.startswith("/") or not src.is_file():
+            return m.group(0)
+        dst = archive_dir / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(src, dst)
+        return f'{m.group(1)}{rel}"'
+    return _re.sub(r'(<img\b[^>]*?\bsrc=")/([^"]+)"', _swap, html)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Generate the weekly El Niño brief.")
@@ -6243,6 +6273,9 @@ def main():
     print(f"wrote: {DOCS_DIR / 'index.html'}")
     # Write as index.html so GitHub Pages serves the brief on the bare
     # directory URL (briefs/YYYY-MM-DD/) without a 404.
+    docs_brief_dir.mkdir(parents=True, exist_ok=True)
+    public_html_archive = _localize_root_images(
+        public_html_archive, docs_brief_dir, DOCS_DIR)
     (docs_brief_dir / "index.html").write_text(public_html_archive)
     print(f"wrote: {docs_brief_dir / 'index.html'}")
     shutil.copyfile(brief_dir / "analog.png", DOCS_DIR / "analog.png")
