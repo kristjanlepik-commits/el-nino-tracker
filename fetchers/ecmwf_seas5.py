@@ -120,21 +120,46 @@ def _build_or_load_climatology(start_month: int) -> xr.DataArray:
 
 
 def _summarize_lead(per_lead: list[dict]) -> str:
-    # headline at max lead
-    headline = per_lead[-1]
-    pct_above_2 = round(100 * headline["members_above"]["2.0"] / headline["member_count"])
-    pct_above_25 = round(100 * headline["members_above"]["2.5"] / headline["member_count"])
+    # The PEAK month leads, not the last one. This summary used to open on
+    # the longest lead, and by September that is the declining tail: the
+    # 09-01 run's "+3.71" was February, while its December median was
+    # +4.11. The last-lead figure was being quoted as SEAS5's forecast for
+    # the event, 0.4 C under the model's own peak.
+    peak = max(per_lead, key=lambda r: r["median"])
+    last = per_lead[-1]
+    pct_above_2 = round(100 * peak["members_above"]["2.0"] / peak["member_count"])
+    pct_above_25 = round(100 * peak["members_above"]["2.5"] / peak["member_count"])
+    tail = ("" if last is peak else
+            f" Last lead {last['calendar']}: median {last['median']:+.2f} deg C.")
     return (
-        f"{headline['member_count']}-member SEAS5 ensemble for "
-        f"{headline['calendar']}: median Niño 3.4 anomaly "
-        f"{headline['median']:+.2f} deg C; {headline['members_above']['1.5']}/"
-        f"{headline['member_count']} members above +1.5 (~{pct_above_2}% above +2.0, "
-        f"~{pct_above_25}% above +2.5)."
+        f"{peak['member_count']}-member SEAS5 ensemble, peak month "
+        f"{peak['calendar']}: median Niño 3.4 anomaly "
+        f"{peak['median']:+.2f} deg C (single month); "
+        f"{peak['members_above']['1.5']}/{peak['member_count']} members above "
+        f"+1.5 (~{pct_above_2}% above +2.0, ~{pct_above_25}% above +2.5).{tail}"
     )
 
 
 def _calendar_for_lead(run_year: int, run_month: int, lead: int) -> str:
-    abs_month = run_year * 12 + (run_month - 1) + lead
+    """The calendar month a CDS leadtime_month refers to.
+
+    leadtime_month 1 IS THE START MONTH: the 1 September run's lead 1 is
+    September, lead 6 February. This added `lead` rather than `lead - 1`
+    from April to 2026-09-28, so every SEAS5 month we printed or matched
+    was one month late. The anomalies were right throughout, because the
+    forecast and its hindcast climatology are indexed by the same lead;
+    only the labels were wrong. It mattered once probs.py began picking
+    the lead by its label (2026-09-10): the NDJ read, meant to be
+    December, took November, and 09-28's >+4.0 rung published 37% where
+    December gives 41%.
+
+    Checked against the data rather than the documentation: SEAS5's own
+    hindcast climatology for each start month (April to September) was
+    correlated with CPC's observed Nino 3.4 seasonal cycle for the same
+    years, 1993-2016, under both readings. Lead 1 = start month fits for
+    every start month (September run: r = 0.88, against 0.02 shifted).
+    """
+    abs_month = run_year * 12 + (run_month - 1) + (lead - 1)
     y = abs_month // 12
     m = (abs_month % 12) + 1
     return f"{y}-{m:02d}"
@@ -195,6 +220,11 @@ def fetch() -> FetchResult:
                 "p75": float(_pctl(arr, 75)),
                 "p95": float(_pctl(arr, 95)),
                 "members_above": members_above,
+                # Per-member values, so probs.py can put SEAS5 on the same
+                # ONI basis as NMME (3-month mean, peak over the window)
+                # instead of one month. 1.11 named this as the correction
+                # still owed; it needed exactly these. 51 x 6 floats.
+                "members": [round(float(x), 3) for x in arr.tolist()],
             })
 
         try:

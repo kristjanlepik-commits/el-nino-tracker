@@ -417,14 +417,12 @@ def _per_model_p_above(seas5_per_lead: list | None, nmme: dict | None,
     one of them a tenth of the scale. A bare 30 alongside a 32-member 100
     invites a precision neither has.
 
-    Two constructions are mixed here, deliberately and visibly. NMME entries
-    are the fraction of members whose PEAK over the Nov-Feb window clears the
-    threshold; the SEAS5 entry is the fraction above it at a SINGLE lead (the
-    last available). Both are member fractions, so they are comparable, but a
-    peak-over-window fraction is structurally the more generous of the two.
-    `basis` records which is which rather than leaving them to look identical.
-    Reconciling them would move published numbers, so it is a methodology
-    change for a version bump, not a quiet fix.
+    Until 1.14 two constructions were mixed here: NMME entries were the
+    fraction of members whose peak 3-month mean over the Nov-Feb window
+    clears the threshold, and SEAS5 was one month. 1.14 reconciled them (see
+    _seas5_read). `basis` still travels with every entry, because a SEAS5
+    payload without per-member values falls back to the single month, and
+    the table has to say so when it does.
     """
     out: dict = {}
     for name, m in ((nmme or {}).get("models") or {}).items():
@@ -450,34 +448,14 @@ def _per_model_p_above(seas5_per_lead: list | None, nmme: dict | None,
         out[name] = {"pct": round(float(pct), 1),
                      "n_members": m.get("n_members"),
                      "basis": names.get(raw_basis, raw_basis or "unknown")}
-    if seas5_per_lead:
-        # Same lead selection as _seas5_p_above. This built its own entry
-        # from per_lead[-1] rather than calling that function, so when the
-        # lead selection was fixed there this went on reading the longest
-        # lead and the per-model table disagreed with the consensus it was
-        # meant to explain. Two code paths computing one quantity is the
-        # defect; they are now one call.
-        want = _season_centre_calendar(target_season) if target_season else None
-        head = None
-        if want:
-            head = next((r for r in seas5_per_lead
-                         if r.get("calendar") == want), None)
-        matched = head is not None
-        if head is None:
-            head = seas5_per_lead[-1]
-        n_above = (head.get("members_above") or {}).get(f"{threshold_oni:.1f}")
-        n_total = head.get("member_count")
-        if n_above is not None and n_total:
-            out["ECMWF_SEAS5"] = {
-                "pct": round(100.0 * float(n_above) / float(n_total), 1),
-                "n_members": n_total,
-                # Say WHICH month, not just which lead index. A reader
-                # comparing this to NMME's peak-over-window needs to know
-                # the single month it is a single month OF.
-                "basis": (f"single month {head.get('calendar')}"
-                          + ("" if matched else ", longest lead (target season "
-                                               "not reachable)")),
-            }
+    # Same read as _seas5_p_above, through the same function: two code
+    # paths computing one quantity was the defect that let this table
+    # disagree with the consensus it explains.
+    read = _seas5_read(seas5_per_lead, threshold_oni, target_season)
+    if read is not None:
+        pct, n_total, basis = read
+        out["ECMWF_SEAS5"] = {"pct": round(pct, 1), "n_members": n_total,
+                              "basis": basis}
     return out
 
 
@@ -511,8 +489,8 @@ def _season_centre_calendar(season: str) -> str | None:
 
 def _seas5_p_above(seas5_per_lead: list, threshold_oni: float,
                    target_season: str | None = None) -> float | None:
-    """Fraction of SEAS5 ensemble members exceeding the threshold at the max
-    available lead, in traditional-ONI-equivalent terms.
+    """Percent of SEAS5 ensemble members exceeding the threshold, in
+    traditional-ONI-equivalent terms, on the basis _seas5_read describes.
 
     SEAS5 ensemble anomalies are computed against SEAS5 model climatology,
     which removes the model's mean ENSO warm bias. The resulting anomalies
@@ -521,17 +499,66 @@ def _seas5_p_above(seas5_per_lead: list, threshold_oni: float,
     offset adjustment is applied. Returns None when per-lead data is
     unavailable.
     """
+    read = _seas5_read(seas5_per_lead, threshold_oni, target_season)
+    return None if read is None else read[0]
+
+
+_MONTH_LETTERS = "JFMAMJJASOND"
+
+
+def _seas5_read(seas5_per_lead: list | None, threshold_oni: float,
+                target_season: str | None = None):
+    """(percent above, member count, basis) for SEAS5 at one threshold.
+
+    1.14: ON NMME'S BASIS. Each member's Nino 3.4 is turned into 3-month
+    running means, the peak is taken over the seasons centred November to
+    February, and the fraction of members whose peak clears the threshold
+    is the answer: the same construction, through the same function
+    (fetchers.nmme._oni_peaks_from_members), as the five NMME models it is
+    averaged with. Until 1.14 SEAS5 was one month, which 1.11 recorded as
+    the correction still owed and which could not be made without the
+    per-member values the fetcher now stores. A run from September ends in
+    February, so SEAS5 reaches OND, NDJ and DJF but not JFM; the basis
+    string says which.
+
+    Payloads without per-member values (a last-good cache or snapshot from
+    before 1.14) fall back to the 1.12 single-month read, and the basis
+    says so, so a fallback can never pass for the new construction.
+    """
     if not seas5_per_lead:
         return None
+    by_month = {r["calendar"]: r["members"] for r in seas5_per_lead
+                if r.get("calendar") and r.get("members")}
+    if by_month:
+        from fetchers.nmme import (_oni_peaks_from_members,
+                                   PEAK_WINDOW_FIRST, PEAK_WINDOW_LAST)
+        peaks = _oni_peaks_from_members(by_month)
+        if peaks:
+            lo = PEAK_WINDOW_FIRST[0] * 12 + PEAK_WINDOW_FIRST[1] - 1
+            hi = PEAK_WINDOW_LAST[0] * 12 + PEAK_WINDOW_LAST[1] - 1
+            seasons = []
+            for c in range(lo, hi + 1):
+                keys = [f"{(c + o) // 12:04d}-{(c + o) % 12 + 1:02d}"
+                        for o in (-1, 0, 1)]
+                if all(k in by_month for k in keys):
+                    seasons.append("".join(_MONTH_LETTERS[(c + o) % 12]
+                                           for o in (-1, 0, 1)))
+            n = len(peaks)
+            pct = 100.0 * sum(1 for x in peaks if x > threshold_oni) / n
+            return pct, n, ("peak ONI (3-month mean), "
+                            + ", ".join(seasons))
     # Read the lead that MATCHES THE TARGET SEASON, not the longest one.
     #
     # This used per_lead[-1] unconditionally. That was right while it was
     # written: from a spring run, the longest reachable lead WAS the
     # closest month to DJF. From the 2026-09 run it overshoots, and by
-    # more every month. That run reaches March 2027, three months past the
-    # January peak, where the median is +3.71 against +4.11 and only 88%
+    # more every month. That run reaches February 2027, two months past its
+    # December peak, where the median is +3.71 against +4.11 and only 88%
     # of members clear 3.5 rather than 100%. The consensus for an NDJ
     # question was being read off the declining tail of the event.
+    # (This comment first said "March 2027" and "January": the fetcher's
+    # month labels were one month late until 2026-09-28. See
+    # fetchers/ecmwf_seas5.py _calendar_for_lead.)
     want = _season_centre_calendar(target_season) if target_season else None
     headline = None
     if want:
@@ -546,7 +573,10 @@ def _seas5_p_above(seas5_per_lead: list, threshold_oni: float,
     n_above = members_above.get(f"{threshold_oni:.1f}")
     if n_above is None:
         return None
-    return 100.0 * float(n_above) / float(member_count)
+    matched = want is not None and headline.get("calendar") == want
+    return (100.0 * float(n_above) / float(member_count), int(member_count),
+            f"single month {headline.get('calendar')}"
+            + ("" if matched else ", longest lead (target season not reachable)"))
 
 
 # A forecast probability is never displayed as 0 or 100. The 2026-08-10

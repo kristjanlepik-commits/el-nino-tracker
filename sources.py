@@ -55,7 +55,14 @@ from datetime import date, timedelta
 # the gate opens on the 09-21 issue and this is the bump that goes with
 # it. Effect on 09-10 inputs: >3.0 96 to 98, >3.5 72 to 82, >4.0 31 to
 # 37. Methodology limitation 13.
-METHODOLOGY_VERSION = "1.13"
+# 1.14 (2026-09-28): two SEAS5 corrections together. Its month labels
+# were one month late (CDS lead 1 is the start month), so from 1.12 the
+# NDJ read took November, not December; and SEAS5 moves onto the NMME
+# ONI basis (per-member 3-month means, peak over the Nov-Feb seasons),
+# the correction 1.11 left owed. They nearly cancel: on 09-28 inputs
+# SEAS5 >4.0 goes 59 (published) / 80 (labels only) / 63 (1.14), and the
+# +4.0 rung 37 to 38. Nothing else moves. methodology.md change log.
+METHODOLOGY_VERSION = "1.14"
 
 
 def _most_recent_monday(today: date | None = None) -> date:

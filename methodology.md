@@ -208,19 +208,26 @@ without access to private state.
 
 ### ECMWF SEAS5 cross-check
 
-ECMWF's SEAS5 produces 51 ensemble members per monthly forecast. For
-each member at the longest available lead month (typically 6 months
-out), we compute the Niño 3.4 area-mean SST and subtract the SEAS5
-**model climatology**, computed as the mean across 24 years of
-hindcasts (1993-2016, 25 members per year, same start month and lead).
-The result is one anomaly per member, in traditional ONI units.
+ECMWF's SEAS5 produces 51 ensemble members per monthly forecast, each
+running six months from the first of the month: the 1 September run
+covers September to February. For every member and every month we
+compute the Niño 3.4 area-mean SST and subtract the SEAS5 **model
+climatology**, the mean across 24 years of hindcasts (1993-2016, 25
+members per year, same start month and lead). The result is one
+anomaly per member per month, in traditional ONI units.
 
-We then count members above {+1.0, +1.5, +2.0, +2.5} °C and report
-both the counts and the median.
+Since 1.14 those monthly anomalies are put on the same basis as the
+NMME models and CPC's table: each member's 3-month running means, the
+peak over the seasons centred November to February, and the fraction
+of members whose peak clears each threshold. A September run reaches
+OND, NDJ and DJF; the per-model table names the seasons it reached.
+Before 1.14 SEAS5 was read at a single month, which a 3-month mean
+cannot exceed.
 
-These ECMWF numbers are presented as a **cross-check to CPC**, not
-averaged in. The two centers can disagree materially: the choice to
-surface that disagreement rather than smooth it away is deliberate.
+SEAS5 is one of six models in the equal-weight consensus that drives
+the headline (since 1.8), not a separate cross-check. Where it
+disagrees with CPC or with the NMME models, the brief's per-model
+table shows the split rather than averaging it away.
 
 ### Why model climatology, not observational
 
@@ -775,6 +782,34 @@ column.
     fresh table without also carrying a method change. Two changes in one
     week make it impossible to say which moved the number.
 
+14. **SEAS5 has overshot every strong El Niño it has forecast from a
+    September start.** Tested 2026-09-28 at the lead the ladder reads,
+    on the ladder's basis (peak 3-month mean over the seasons centred
+    November to February), against CPC's ERSSTv5 Niño 3.4 with the same
+    1993-2016 base: every September run SEAS5 system 51 has made, 24
+    hindcasts and three real-time forecasts
+    (`scripts/seas5_amplitude_check.py`, `data/seas5_amplitude_check.json`).
+
+    | Event | SEAS5 median | Observed | Error | Members above observed |
+    |---|---|---|---|---|
+    | 1997-98 (hindcast) | +3.16 | +2.41 | +0.75 | 100% |
+    | 2015-16 (hindcast) | +2.91 | +2.69 | +0.22 | 72% |
+    | 2023-24 (real-time) | +2.24 | +1.99 | +0.25 | 86% |
+
+    Across all 27 years the fit is tight (r = 0.96, mean error near
+    zero) but the amplitude ratio, observed on forecast, is 0.88 ± 0.05
+    (0.91 without 1997): large forecast anomalies arrive about a tenth
+    smaller. Moderate events go the other way (1994 under by 0.68).
+
+    **What this does not do: it is not applied.** Three strong events
+    cannot calibrate a correction, and correcting an agency's forecast
+    is the modelling this project does not do. It is a reason to read
+    the upper rungs, which lean hardest on the hottest models, as an
+    upper side. For scale only: the 2026-09-01 run's member-peak median
+    is +4.06; the three past errors put the observed equivalent nearer
+    +3.6 to +3.8. The NMME models have had no equivalent check here; the
+    aftereffects desk's CFSv2 test found 2015 within 0.07.
+
 ## Snapshot and diff machinery
 
 Each issue freezes the input state to a JSON snapshot. The next issue
@@ -1013,9 +1048,67 @@ median).
      resolves, versus CPC-alone and raw-consensus baselines, announced
      before the outcome is known.
 
+*Entries 1.10 to 1.13 were added to this log on 2026-09-28. Each bump
+shipped on the date shown and was recorded in `sources.py` at the time,
+but not here, so this page described version 1.9 for eleven weeks while
+the brief ran later versions.*
+
+- **1.10** (2026-08-12): the analog chart's historical trajectories come
+  from CPC's own ONI series instead of a hand-assembled file that had
+  drifted from CPC in 39 of 59 rows, worst at El Niño peaks. Plotted
+  peaks move: 2015-16 from 2.8 to 2.59, 2023-24 from 2.1 to 1.99,
+  1997-98 unchanged at 2.4. The old file overstated the analogs, so
+  2026 looked milder against them than it is.
+- **1.11** (2026-08-15): NMME threshold fractions are computed on an ONI
+  basis (3-month running mean, peak over the target window) instead of
+  each member's peak monthly value, so the model side and CPC's
+  ONI-based table measure the same quantity. Published numbers moved
+  down: +3.5 from 73 to 65, +3.0 from 97 to 93. SEAS5 stayed on one
+  month because its fetcher stored no per-member values; corrected in
+  1.14.
+- **1.12** (2026-09-10): SEAS5 is read at the target season's centre
+  month rather than its longest lead, which from a September run is
+  past the peak; and its thresholds extend to +4.5 so it contributes to
+  the +4.0 rung.
+- **1.13** (effective 2026-09-21): the CPC anchor is withdrawn above the
+  open-ended >=2.0 bin when the table cannot identify a tail there, and
+  the model consensus carries those rungs alone (Known limitations,
+  item 13). Effect on 2026-09-10 inputs: +3.0 96 to 98, +3.5 72 to 82,
+  +4.0 31 to 37.
+- **1.14** (2026-09-28): two SEAS5 corrections, shipped together so the
+  published number moves once.
+
+  1. **Month labels were one month late.** The Copernicus data store
+     counts lead month 1 as the start month itself; our fetcher counted
+     it as the month after. Every SEAS5 month we printed or plotted from
+     April onward was labelled a month late, and from 1.12 the ladder
+     picked SEAS5's month by that label, so the NDJ read meant to be
+     December took November. The anomalies themselves were right,
+     because the forecast and its climatology are indexed by the same
+     lead. Found by correlating SEAS5's own hindcast climatology for each
+     start month with the observed Niño 3.4 seasonal cycle, 1993-2016,
+     under both readings: lead 1 as the start month fits for every start
+     month from April to September (September run: r = 0.88, against
+     0.02 for the reading we used). The SEAS5 fan on the trajectory
+     chart moves one month earlier from this issue.
+  2. **SEAS5 on the NMME basis.** Per-member 3-month means, peak over the
+     seasons centred November to February, as in 1.11 for NMME (see
+     "ECMWF SEAS5" above). The two changes pull opposite ways and nearly
+     cancel. Recomputed on the 2026-09-28 issue's inputs: SEAS5's share
+     above +4.0 was published as 59% (November, single month); correct
+     labels alone give 80% (December, single month); the 1.14 basis
+     gives 63%. The +4.0 rung moves from 37 to 38; no other rung moves.
+
+  A consequence worth stating because it had spread: the "+3.71"
+  SEAS5 median quoted from the 1 September run was its last month,
+  February 2027, on the declining side. Its peak month is December at
+  +4.11 (single month), and the median of its members' peak 3-month
+  means, the like-for-like figure against an ONI of 2.37 for 1997, is
+  +4.06.
+
 ---
 
-*Methodology version 1.9. RONI offset fetched live each week from CPC.
+*Methodology version 1.14. RONI offset fetched live each week from CPC.
 ECMWF anomaly subtracts SEAS5 model climatology (1993-2016 hindcasts).
 WWE forcing tracked via CWWA (5N-5S, 130E-150W cumulative) AND
 spatial-peak WWB detection (10N-10S, 130E-150W, McPhaden-inspired
@@ -1023,4 +1116,6 @@ dual threshold, peak-detection with 10-day recovery interval).
 Impact section renders as institutional aggregation only (no
 editorial synthesis). Headline buckets are CPC-anchored and deflected
 toward an equal-weight multi-model consensus (SEAS5 + NMME) at weight
-0.85; consensus-led with CPC as a minor anchor.*
+0.85; consensus-led with CPC as a minor anchor, withdrawn above the
+open-ended >=2.0 bin when the table cannot identify a tail there (1.13).
+All six models are read on the ONI basis, peak 3-month mean (1.14).*
