@@ -38,11 +38,14 @@ from run_brief import (email_capture_form, site_masthead,  # noqa: E402
                        ANALYTICS_SNIPPET, PAGES_BASE_URL, SITE_NAME,
                        SITE_MASTHEAD_CSS)
 
-# CRO's baseline, 2026-08-30: countries with a region at a record low,
-# 2001-2025, mean 33.0 rounded, median 32, range 17-72. Used to calibrate
-# the front-page count (see mb_state in build_public_html below) so a
-# true but ordinary number does not read as alarming on its own.
-CROPS_RECORD_LOW_MEAN = 33
+# CROPS_RECORD_LOW_MEAN = 33 USED TO LIVE HERE AND MUST NOT COME BACK. It
+# was CRO's v05 mean, typed in on 2026-08-30. The same day CRO emitted it in
+# the payload as `country_record_baseline`, in a commit titled "emit the
+# country-level baseline the front page is missing", and this file went on
+# reading the typed copy. When ASAP redrew the crop-region map on 17
+# September (D-301) the count moved onto the new map and the baseline did
+# not, so the front page compared a v06 count against a v05 mean for
+# eleven days. See _crops_record_clause below.
 
 
 def load(issue):
@@ -659,6 +662,45 @@ def _word(n):
 STANDING_QUESTION = "Where is the climate abnormal this week, and how bad?"
 
 
+def _crops_record_clause(d, n_marks):
+    """The crops fragment of the map strip, count and baseline from ONE object.
+
+    Both numbers come from CRO's `country_record_baseline`, so the count and
+    what it is compared against are always computed on the same crop-region
+    map and cannot drift apart the way the typed constant did.
+
+    THE COUNT IS CRO'S, NOT THE MAP'S. The strip used to count crop MARKS,
+    and a mark exists only where design/country_centroids.json has
+    coordinates, so a place missing from that file silently shrank the
+    number. On 2026-09-17 I downgraded a missing centroid from a build
+    failure to a warning, justifying it with "the count never depended on
+    this lookup". I had checked a different count. This one did depend on
+    it, and the original failure was protecting it. Reading `this_year`
+    makes that claim true instead of merely asserted: the map can drop a
+    dot and the number does not move.
+
+    CRO's field says never to publish the count without its mean. So if the
+    baseline is missing the whole clause goes rather than a bare number.
+    """
+    import sys as _sys
+    crb = (d.get("crops") or {}).get("country_record_baseline") or {}
+    n, mean = crb.get("this_year"), crb.get("prior_mean")
+    if not crb.get("available") or n is None or mean is None:
+        print("  CROPS BASELINE MISSING: country_record_baseline is absent or "
+              "unavailable, so the crops count is left off the map strip "
+              "rather than printed bare.", file=_sys.stderr)
+        return ""
+    if n_marks != n:
+        # Not a failure: the number printed is CRO's either way. It means
+        # the map is drawing a different set from the one being counted,
+        # usually a missing centroid, and someone should look.
+        print("  CROPS MARKS DISAGREE: CRO counts %d countries with a record-"
+              "low region and the map draws %d. The strip prints CRO's."
+              % (n, n_marks), file=_sys.stderr)
+    return (" &middot; %d crop countries with a region at a record low, "
+            "against an average of %d" % (n, round(mean)))
+
+
 def page(d, canonical, og_image_url, root_prefix, desc, brief_date_iso):
     _mb = map_block(d, root_prefix)
     rs = readings(d)
@@ -1049,11 +1091,9 @@ averaged</span></div>
         # historical baseline, not read from live data, so it does not
         # move with n_crops_rec; update it only if CRO recomputes the
         # baseline itself.
-        mb_state="%d drawn &middot; %d fire countries past their own record "
-                 "week &middot; %d crop countries with a region at a record "
-                 "low, against an average of %d" % (
-                     _mb["n_shown"], _mb["n_fires_rec"], _mb["n_crops_rec"],
-                     CROPS_RECORD_LOW_MEAN),
+        mb_state=("%d drawn &middot; %d fire countries past their own record "
+                  "week" % (_mb["n_shown"], _mb["n_fires_rec"]))
+                 + _crops_record_clause(d, _mb["n_crops_rec"]),
         mb_sst=(" &middot; ocean field observed 7 days to %s"
                 % _mb["sst_date"]) if _mb.get("sst_date") else "",
         script=_mb["script"],
