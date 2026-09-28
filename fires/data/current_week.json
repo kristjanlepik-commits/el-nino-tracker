@@ -822,7 +822,7 @@
   "CAN": {
    "iso": "CAN",
    "name": "Canada",
-   "count": 1075,
+   "count": 1076,
    "mean": 11412.4,
    "hist": {
     "2012": 5805,
@@ -846,7 +846,7 @@
     "2026-09-24": 99,
     "2026-09-25": 56,
     "2026-09-26": 48,
-    "2026-09-27": 107
+    "2026-09-27": 108
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -856,16 +856,16 @@
     "2024"
    ],
    "lat": 51.73,
-   "lon": -107.23,
+   "lon": -107.25,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 6.89,
+    "detections_on_crop_pct": 6.88,
     "country_land_crop_pct": 3.1,
-    "ratio": 2.222,
+    "ratio": 2.22,
     "reading": "enriched",
-    "expected_on_crop": 33.3,
+    "expected_on_crop": 33.4,
     "detections_on_crop": 74.0,
-    "n_detections_sampled": 1075,
+    "n_detections_sampled": 1076,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -876,16 +876,16 @@
    },
    "persistence": {
     "recur_pct": 15.8,
-    "night_pct": 69.5,
+    "night_pct": 69.4,
     "frp_median": 2.16,
-    "n_detections": 1075,
-    "peak_to_median_day": 3.45,
+    "n_detections": 1076,
+    "peak_to_median_day": 3.42,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
     "multiple": 0.09,
-    "count": 1075,
+    "count": 1076,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -2669,7 +2669,7 @@
   "IRN": {
    "iso": "IRN",
    "name": "Iran",
-   "count": 3269,
+   "count": 3617,
    "mean": 2577.7,
    "hist": {
     "2012": 1868,
@@ -2693,7 +2693,7 @@
     "2026-09-24": 636,
     "2026-09-25": 484,
     "2026-09-26": 422,
-    "2026-09-27": 120
+    "2026-09-27": 468
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -2703,16 +2703,16 @@
     "2024"
    ],
    "lat": 31.36,
-   "lon": 50.78,
+   "lon": 50.84,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 5.22,
+    "detections_on_crop_pct": 5.0,
     "country_land_crop_pct": 8.44,
-    "ratio": 0.619,
+    "ratio": 0.593,
     "reading": "depleted",
-    "expected_on_crop": 275.9,
-    "detections_on_crop": 170.8,
-    "n_detections_sampled": 3269,
+    "expected_on_crop": 305.3,
+    "detections_on_crop": 181.0,
+    "n_detections_sampled": 3617,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -2722,17 +2722,17 @@
     "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
-    "recur_pct": 55.2,
-    "night_pct": 81.3,
-    "frp_median": 2.84,
-    "n_detections": 3269,
+    "recur_pct": 60.0,
+    "night_pct": 83.1,
+    "frp_median": 2.77,
+    "n_detections": 3617,
     "peak_to_median_day": 1.31,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 1.27,
-    "count": 3269,
+    "multiple": 1.4,
+    "count": 3617,
     "publishable": false,
     "withheld_because": "persistent_source",
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -2741,7 +2741,7 @@
   "IRQ": {
    "iso": "IRQ",
    "name": "Iraq",
-   "count": 3034,
+   "count": 3295,
    "mean": 2402.2,
    "hist": {
     "2012": 1738,
@@ -2765,7 +2765,7 @@
     "2026-09-24": 462,
     "2026-09-25": 281,
     "2026-09-26": 275,
-    "2026-09-27": 399
+    "2026-09-27": 660
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -2774,17 +2774,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": 33.16,
+   "lat": 33.17,
    "lon": 45.61,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 14.94,
+    "detections_on_crop_pct": 15.03,
     "country_land_crop_pct": 10.11,
-    "ratio": 1.478,
+    "ratio": 1.486,
     "reading": "enriched",
-    "expected_on_crop": 306.7,
-    "detections_on_crop": 453.4,
-    "n_detections_sampled": 3034,
+    "expected_on_crop": 333.1,
+    "detections_on_crop": 495.1,
+    "n_detections_sampled": 3295,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -2794,17 +2794,17 @@
     "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
-    "recur_pct": 68.8,
-    "night_pct": 75.4,
-    "frp_median": 4.81,
-    "n_detections": 3034,
-    "peak_to_median_day": 1.78,
+    "recur_pct": 69.7,
+    "night_pct": 77.4,
+    "frp_median": 4.74,
+    "n_detections": 3295,
+    "peak_to_median_day": 1.54,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 1.26,
-    "count": 3034,
+    "multiple": 1.37,
+    "count": 3295,
     "publishable": false,
     "withheld_because": "persistent_source",
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -3096,7 +3096,7 @@
   "KAZ": {
    "iso": "KAZ",
    "name": "Kazakhstan",
-   "count": 1652,
+   "count": 1714,
    "mean": 2134.7,
    "hist": {
     "2012": 2268,
@@ -3120,7 +3120,7 @@
     "2026-09-24": 215,
     "2026-09-25": 107,
     "2026-09-26": 235,
-    "2026-09-27": 285
+    "2026-09-27": 347
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -3129,17 +3129,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": 49.63,
-   "lon": 66.39,
+   "lat": 49.59,
+   "lon": 66.41,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 20.23,
+    "detections_on_crop_pct": 19.55,
     "country_land_crop_pct": 9.62,
-    "ratio": 2.103,
+    "ratio": 2.033,
     "reading": "enriched",
-    "expected_on_crop": 158.9,
-    "detections_on_crop": 334.2,
-    "n_detections_sampled": 1652,
+    "expected_on_crop": 164.9,
+    "detections_on_crop": 335.2,
+    "n_detections_sampled": 1714,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -3149,17 +3149,17 @@
     "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
-    "recur_pct": 25.5,
-    "night_pct": 42.6,
-    "frp_median": 4.21,
-    "n_detections": 1652,
-    "peak_to_median_day": 1.1,
+    "recur_pct": 26.5,
+    "night_pct": 44.7,
+    "frp_median": 4.14,
+    "n_detections": 1714,
+    "peak_to_median_day": 1.34,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 0.77,
-    "count": 1652,
+    "multiple": 0.8,
+    "count": 1714,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -3846,7 +3846,7 @@
   "MDG": {
    "iso": "MDG",
    "name": "Madagascar",
-   "count": 9551,
+   "count": 9890,
    "mean": 7915.1,
    "hist": {
     "2012": 8748,
@@ -3870,7 +3870,7 @@
     "2026-09-24": 1297,
     "2026-09-25": 1561,
     "2026-09-26": 1418,
-    "2026-09-27": 1653
+    "2026-09-27": 1992
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -3879,17 +3879,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": -18.04,
-   "lon": 46.86,
+   "lat": -18.0,
+   "lon": 46.88,
    "basis": "weighted",
    "cropland": {
     "detections_on_crop_pct": 0.92,
     "country_land_crop_pct": 2.25,
-    "ratio": 0.41,
+    "ratio": 0.409,
     "reading": "depleted",
-    "expected_on_crop": 214.9,
-    "detections_on_crop": 88.2,
-    "n_detections_sampled": 9551,
+    "expected_on_crop": 222.5,
+    "detections_on_crop": 90.9,
+    "n_detections_sampled": 9890,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -3900,16 +3900,16 @@
    },
    "persistence": {
     "recur_pct": 0.0,
-    "night_pct": 12.5,
-    "frp_median": 5.69,
-    "n_detections": 9551,
-    "peak_to_median_day": 1.17,
+    "night_pct": 15.5,
+    "frp_median": 5.51,
+    "n_detections": 9890,
+    "peak_to_median_day": 1.4,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 1.21,
-    "count": 9551,
+    "multiple": 1.25,
+    "count": 9890,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -4243,7 +4243,7 @@
   "MOZ": {
    "iso": "MOZ",
    "name": "Mozambique",
-   "count": 33741,
+   "count": 34223,
    "mean": 37640.9,
    "hist": {
     "2012": 42464,
@@ -4267,7 +4267,7 @@
     "2026-09-24": 5431,
     "2026-09-25": 4984,
     "2026-09-26": 5533,
-    "2026-09-27": 7380
+    "2026-09-27": 7862
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -4276,17 +4276,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": -16.57,
+   "lat": -16.56,
    "lon": 35.68,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 8.1,
+    "detections_on_crop_pct": 8.08,
     "country_land_crop_pct": 8.48,
-    "ratio": 0.955,
+    "ratio": 0.953,
     "reading": "neutral",
-    "expected_on_crop": 2861.2,
-    "detections_on_crop": 2733.0,
-    "n_detections_sampled": 33741,
+    "expected_on_crop": 2902.1,
+    "detections_on_crop": 2765.8,
+    "n_detections_sampled": 34223,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -4296,17 +4296,17 @@
     "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
-    "recur_pct": 0.1,
-    "night_pct": 5.1,
-    "frp_median": 5.8,
-    "n_detections": 33741,
-    "peak_to_median_day": 1.48,
+    "recur_pct": 0.2,
+    "night_pct": 6.4,
+    "frp_median": 5.73,
+    "n_detections": 34223,
+    "peak_to_median_day": 1.58,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 0.9,
-    "count": 33741,
+    "multiple": 0.91,
+    "count": 34223,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -4315,7 +4315,7 @@
   "MWI": {
    "iso": "MWI",
    "name": "Malawi",
-   "count": 1467,
+   "count": 1493,
    "mean": 1920.4,
    "hist": {
     "2012": 2861,
@@ -4339,7 +4339,7 @@
     "2026-09-24": 207,
     "2026-09-25": 163,
     "2026-09-26": 358,
-    "2026-09-27": 243
+    "2026-09-27": 269
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -4348,17 +4348,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": -13.21,
-   "lon": 34.19,
+   "lat": -13.23,
+   "lon": 34.2,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 9.63,
+    "detections_on_crop_pct": 9.62,
     "country_land_crop_pct": 27.4,
     "ratio": 0.351,
     "reading": "depleted",
-    "expected_on_crop": 402.0,
-    "detections_on_crop": 141.2,
-    "n_detections_sampled": 1467,
+    "expected_on_crop": 409.1,
+    "detections_on_crop": 143.6,
+    "n_detections_sampled": 1493,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -4369,16 +4369,16 @@
    },
    "persistence": {
     "recur_pct": 0.0,
-    "night_pct": 7.2,
-    "frp_median": 4.7,
-    "n_detections": 1467,
+    "night_pct": 8.8,
+    "frp_median": 4.63,
+    "n_detections": 1493,
     "peak_to_median_day": 1.73,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 0.76,
-    "count": 1467,
+    "multiple": 0.78,
+    "count": 1493,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -5271,7 +5271,7 @@
   "RUS": {
    "iso": "RUS",
    "name": "Russia",
-   "count": 10926,
+   "count": 11123,
    "mean": 14141.8,
    "hist": {
     "2012": 15579,
@@ -5295,7 +5295,7 @@
     "2026-09-24": 1292,
     "2026-09-25": 976,
     "2026-09-26": 824,
-    "2026-09-27": 806
+    "2026-09-27": 1003
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -5304,17 +5304,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": 59.43,
-   "lon": 83.43,
+   "lat": 59.39,
+   "lon": 83.08,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 9.0,
+    "detections_on_crop_pct": 9.03,
     "country_land_crop_pct": 3.89,
-    "ratio": 2.313,
+    "ratio": 2.322,
     "reading": "enriched",
-    "expected_on_crop": 425.0,
-    "detections_on_crop": 983.2,
-    "n_detections_sampled": 10926,
+    "expected_on_crop": 432.7,
+    "detections_on_crop": 1004.7,
+    "n_detections_sampled": 11123,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -5324,17 +5324,17 @@
     "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
-    "recur_pct": 24.2,
-    "night_pct": 61.0,
-    "frp_median": 3.21,
-    "n_detections": 10926,
+    "recur_pct": 25.4,
+    "night_pct": 61.7,
+    "frp_median": 3.16,
+    "n_detections": 11123,
     "peak_to_median_day": 2.04,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 0.77,
-    "count": 10926,
+    "multiple": 0.79,
+    "count": 11123,
     "publishable": false,
     "withheld_because": "persistent_source",
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -5343,7 +5343,7 @@
   "SAU": {
    "iso": "SAU",
    "name": "Saudi Arabia",
-   "count": 706,
+   "count": 783,
    "mean": 465.5,
    "hist": {
     "2012": 498,
@@ -5367,7 +5367,7 @@
     "2026-09-24": 140,
     "2026-09-25": 107,
     "2026-09-26": 103,
-    "2026-09-27": 26
+    "2026-09-27": 103
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -5377,24 +5377,24 @@
     "2024"
    ],
    "lat": 25.15,
-   "lon": 47.26,
+   "lon": 47.38,
    "basis": "weighted",
    "cropland": {
     "withheld": "no_mask_coverage",
     "_note": "The mask has no data for this country. That is NOT a finding of no cropland, and must not be rendered as one."
    },
    "persistence": {
-    "recur_pct": 49.6,
-    "night_pct": 93.3,
-    "frp_median": 2.24,
-    "n_detections": 706,
+    "recur_pct": 58.6,
+    "night_pct": 94.0,
+    "frp_median": 2.22,
+    "n_detections": 783,
     "peak_to_median_day": 1.53,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 1.52,
-    "count": 706,
+    "multiple": 1.68,
+    "count": 783,
     "publishable": false,
     "withheld_because": "persistent_source",
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -5676,7 +5676,7 @@
   "SYR": {
    "iso": "SYR",
    "name": "Syria",
-   "count": 488,
+   "count": 502,
    "mean": 233.5,
    "hist": {
     "2012": 198,
@@ -5700,7 +5700,7 @@
     "2026-09-24": 58,
     "2026-09-25": 71,
     "2026-09-26": 65,
-    "2026-09-27": 85
+    "2026-09-27": 99
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -5709,17 +5709,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": 36.41,
-   "lon": 40.2,
+   "lat": 36.42,
+   "lon": 40.24,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 74.34,
+    "detections_on_crop_pct": 74.8,
     "country_land_crop_pct": 20.13,
-    "ratio": 3.693,
+    "ratio": 3.716,
     "reading": "enriched",
-    "expected_on_crop": 98.2,
-    "detections_on_crop": 362.8,
-    "n_detections_sampled": 488,
+    "expected_on_crop": 101.1,
+    "detections_on_crop": 375.5,
+    "n_detections_sampled": 502,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -5729,17 +5729,17 @@
     "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
-    "recur_pct": 7.8,
-    "night_pct": 35.2,
-    "frp_median": 3.5,
-    "n_detections": 488,
-    "peak_to_median_day": 1.3,
+    "recur_pct": 7.6,
+    "night_pct": 37.1,
+    "frp_median": 3.35,
+    "n_detections": 502,
+    "peak_to_median_day": 1.39,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 2.09,
-    "count": 488,
+    "multiple": 2.15,
+    "count": 502,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -5815,7 +5815,7 @@
   "TKM": {
    "iso": "TKM",
    "name": "Turkmenistan",
-   "count": 985,
+   "count": 1187,
    "mean": 565.9,
    "hist": {
     "2012": 418,
@@ -5839,7 +5839,7 @@
     "2026-09-24": 191,
     "2026-09-25": 144,
     "2026-09-26": 130,
-    "2026-09-27": 17
+    "2026-09-27": 219
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -5848,17 +5848,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": 38.54,
-   "lon": 61.08,
+   "lat": 38.61,
+   "lon": 61.04,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 33.65,
+    "detections_on_crop_pct": 34.33,
     "country_land_crop_pct": 4.86,
-    "ratio": 6.923,
+    "ratio": 7.065,
     "reading": "enriched",
-    "expected_on_crop": 47.9,
-    "detections_on_crop": 331.4,
-    "n_detections_sampled": 985,
+    "expected_on_crop": 57.7,
+    "detections_on_crop": 407.5,
+    "n_detections_sampled": 1187,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -5868,17 +5868,17 @@
     "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
-    "recur_pct": 35.0,
-    "night_pct": 90.8,
-    "frp_median": 0.92,
-    "n_detections": 985,
-    "peak_to_median_day": 1.51,
+    "recur_pct": 43.6,
+    "night_pct": 92.3,
+    "frp_median": 0.89,
+    "n_detections": 1187,
+    "peak_to_median_day": 1.15,
     "verdict": "persistent_source",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 1.74,
-    "count": 985,
+    "multiple": 2.1,
+    "count": 1187,
     "publishable": false,
     "withheld_because": "persistent_source",
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -6031,7 +6031,7 @@
   "TZA": {
    "iso": "TZA",
    "name": "United Republic of Tanzania",
-   "count": 12475,
+   "count": 12602,
    "mean": 11596.5,
    "hist": {
     "2012": 17458,
@@ -6055,7 +6055,7 @@
     "2026-09-24": 1322,
     "2026-09-25": 1047,
     "2026-09-26": 1986,
-    "2026-09-27": 2039
+    "2026-09-27": 2166
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -6064,17 +6064,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": -7.64,
-   "lon": 34.83,
+   "lat": -7.63,
+   "lon": 34.84,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 7.82,
+    "detections_on_crop_pct": 7.77,
     "country_land_crop_pct": 15.72,
-    "ratio": 0.497,
+    "ratio": 0.494,
     "reading": "depleted",
-    "expected_on_crop": 1961.1,
-    "detections_on_crop": 975.3,
-    "n_detections_sampled": 12475,
+    "expected_on_crop": 1981.0,
+    "detections_on_crop": 978.7,
+    "n_detections_sampled": 12602,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -6085,16 +6085,16 @@
    },
    "persistence": {
     "recur_pct": 0.1,
-    "night_pct": 10.0,
-    "frp_median": 5.66,
-    "n_detections": 12475,
+    "night_pct": 10.9,
+    "frp_median": 5.61,
+    "n_detections": 12602,
     "peak_to_median_day": 1.48,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 1.08,
-    "count": 12475,
+    "multiple": 1.09,
+    "count": 12602,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -6319,7 +6319,7 @@
   "USA": {
    "iso": "USA",
    "name": "United States of America",
-   "count": 6221,
+   "count": 6222,
    "mean": 7873.3,
    "hist": {
     "2012": 13499,
@@ -6343,7 +6343,7 @@
     "2026-09-24": 709,
     "2026-09-25": 1078,
     "2026-09-26": 956,
-    "2026-09-27": 827
+    "2026-09-27": 828
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -6360,9 +6360,9 @@
     "country_land_crop_pct": 14.65,
     "ratio": 1.219,
     "reading": "neutral",
-    "expected_on_crop": 911.4,
-    "detections_on_crop": 1110.7,
-    "n_detections_sampled": 6221,
+    "expected_on_crop": 911.5,
+    "detections_on_crop": 1110.8,
+    "n_detections_sampled": 6222,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -6375,14 +6375,14 @@
     "recur_pct": 14.9,
     "night_pct": 51.4,
     "frp_median": 3.09,
-    "n_detections": 6221,
+    "n_detections": 6222,
     "peak_to_median_day": 1.21,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
     "multiple": 0.79,
-    "count": 6221,
+    "count": 6222,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -6523,7 +6523,7 @@
   "ZAF": {
    "iso": "ZAF",
    "name": "South Africa",
-   "count": 2082,
+   "count": 2167,
    "mean": 3859.5,
    "hist": {
     "2012": 5233,
@@ -6547,7 +6547,7 @@
     "2026-09-24": 343,
     "2026-09-25": 403,
     "2026-09-26": 197,
-    "2026-09-27": 123
+    "2026-09-27": 208
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -6556,17 +6556,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": -27.14,
-   "lon": 29.16,
+   "lat": -27.07,
+   "lon": 29.15,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 4.6,
+    "detections_on_crop_pct": 4.55,
     "country_land_crop_pct": 6.18,
-    "ratio": 0.744,
+    "ratio": 0.736,
     "reading": "depleted",
-    "expected_on_crop": 128.7,
-    "detections_on_crop": 95.8,
-    "n_detections_sampled": 2082,
+    "expected_on_crop": 133.9,
+    "detections_on_crop": 98.6,
+    "n_detections_sampled": 2167,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -6576,17 +6576,17 @@
     "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
-    "recur_pct": 6.8,
-    "night_pct": 27.6,
-    "frp_median": 5.19,
-    "n_detections": 2082,
+    "recur_pct": 8.3,
+    "night_pct": 30.5,
+    "frp_median": 4.97,
+    "n_detections": 2167,
     "peak_to_median_day": 1.21,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 0.54,
-    "count": 2082,
+    "multiple": 0.56,
+    "count": 2167,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -6595,7 +6595,7 @@
   "ZMB": {
    "iso": "ZMB",
    "name": "Zambia",
-   "count": 20480,
+   "count": 20484,
    "mean": 25235.6,
    "hist": {
     "2012": 15196,
@@ -6619,7 +6619,7 @@
     "2026-09-24": 4242,
     "2026-09-25": 5047,
     "2026-09-26": 4695,
-    "2026-09-27": 2246
+    "2026-09-27": 2250
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -6636,9 +6636,9 @@
     "country_land_crop_pct": 5.2,
     "ratio": 0.626,
     "reading": "depleted",
-    "expected_on_crop": 1065.0,
+    "expected_on_crop": 1065.2,
     "detections_on_crop": 667.0,
-    "n_detections_sampled": 20480,
+    "n_detections_sampled": 20484,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -6651,14 +6651,14 @@
     "recur_pct": 0.1,
     "night_pct": 9.8,
     "frp_median": 6.55,
-    "n_detections": 20480,
+    "n_detections": 20484,
     "peak_to_median_day": 2.11,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
     "multiple": 0.81,
-    "count": 20480,
+    "count": 20484,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
@@ -6667,7 +6667,7 @@
   "ZWE": {
    "iso": "ZWE",
    "name": "Zimbabwe",
-   "count": 5724,
+   "count": 5851,
    "mean": 4777.4,
    "hist": {
     "2012": 5176,
@@ -6691,7 +6691,7 @@
     "2026-09-24": 1248,
     "2026-09-25": 1071,
     "2026-09-26": 1017,
-    "2026-09-27": 967
+    "2026-09-27": 1094
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -6700,17 +6700,17 @@
    "hist_excluded_for_comparability": [
     "2024"
    ],
-   "lat": -18.01,
-   "lon": 29.98,
+   "lat": -18.03,
+   "lon": 30.0,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 7.58,
+    "detections_on_crop_pct": 7.74,
     "country_land_crop_pct": 10.77,
-    "ratio": 0.704,
+    "ratio": 0.719,
     "reading": "depleted",
-    "expected_on_crop": 616.5,
-    "detections_on_crop": 434.2,
-    "n_detections_sampled": 5724,
+    "expected_on_crop": 630.2,
+    "detections_on_crop": 453.1,
+    "n_detections_sampled": 5851,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -6720,17 +6720,17 @@
     "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
    },
    "persistence": {
-    "recur_pct": 0.7,
-    "night_pct": 31.9,
-    "frp_median": 5.49,
-    "n_detections": 5724,
-    "peak_to_median_day": 1.29,
+    "recur_pct": 0.8,
+    "night_pct": 33.3,
+    "frp_median": 5.36,
+    "n_detections": 5851,
+    "peak_to_median_day": 1.23,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
-    "multiple": 1.2,
-    "count": 5724,
+    "multiple": 1.22,
+    "count": 5851,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
