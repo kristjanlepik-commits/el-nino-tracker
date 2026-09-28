@@ -643,6 +643,44 @@ def _season_key(label):
     return (int(m.group(2)), _SEASONS.index(m.group(1)))
 
 
+# Season-keyed forecast tables that roll forward a month at a time. IRI's
+# three_cat joined on 2026-09-28 when ASO 2026 left its front and MJJ 2027
+# joined its back, the same shape Fire found in CPC's table a fortnight
+# earlier. Same rule for both: only the oldest season leaving, and only
+# when the table has not shrunk.
+_ROLLING_TABLES = {("cpc_strength", "table"), ("iri", "three_cat")}
+
+
+def _recovered_or_explained(path, curr):
+    """A vanished leaf that is recovery or a self-explained withdrawal,
+    not data that stopped arriving.
+
+    Found on the 2026-09-28 snapshot, which the check flagged with ten
+    regressions while the data had got BETTER: on 09-14 both ERA5 fetchers
+    timed out, so their `error` fields and physical_state's
+    `fallback_note` held text; on 09-28 both succeeded, so the error text
+    was gone, and a leaf diff reads a disappearing error message as a
+    field that stopped arriving. It also blocked every chat's push.
+
+    Two cases, each named rather than a general softening:
+
+    - the leaf's own key is `error` or `fallback_note`. Those describe a
+      failure; their absence is the failure ending.
+    - a headline bucket's `anchor`, when the same bucket in the new
+      snapshot carries `anchor_withdrawn_because`. Science's anchor guard
+      withdraws the anchor above CPC's open-ended bin deliberately and
+      says why in that field (METHODOLOGY 1.13); a withdrawal that states
+      its reason is not a silent loss. Without the reason it still fires.
+    """
+    if path and path[-1] in ("error", "fallback_note"):
+        return True
+    if (len(path) == 3 and path[0] == "headline_buckets"
+            and path[2] == "anchor"):
+        bucket = (curr.get("headline_buckets") or {}).get(path[1]) or {}
+        return bool(bucket.get("anchor_withdrawn_because"))
+    return False
+
+
 def _rolled_off_cpc_table(path, prev, curr):
     """Is this vanished leaf the OLDEST season leaving the front of
     cpc_strength.table, with the table no shorter than before?
@@ -661,10 +699,11 @@ def _rolled_off_cpc_table(path, prev, curr):
     the table has not shrunk. A middle row vanishing, or the table
     losing rows, still fires.
     """
-    if tuple(path[:2]) != ("cpc_strength", "table") or len(path) < 3:
+    if tuple(path[:2]) not in _ROLLING_TABLES or len(path) < 3:
         return False
-    ptab = (prev.get("cpc_strength") or {}).get("table") or {}
-    ctab = (curr.get("cpc_strength") or {}).get("table") or {}
+    top, sub = path[0], path[1]
+    ptab = (prev.get(top) or {}).get(sub) or {}
+    ctab = (curr.get(top) or {}).get(sub) or {}
     if not isinstance(ptab, dict) or not isinstance(ctab, dict):
         return False
     keyed = {k: _season_key(k) for k in ptab}
@@ -710,7 +749,8 @@ def check_snapshot_regression(violations):
     gone = sorted(set(_leaf_paths(prev)) - set(_leaf_paths(curr)))
     gone = [p for p in gone
             if (curr_path.name, ".".join(p[:2])) not in KNOWN_SNAPSHOT_GAPS]
-    gone = [p for p in gone if not _rolled_off_cpc_table(p, prev, curr)]
+    gone = [p for p in gone if not _rolled_off_cpc_table(p, prev, curr)
+            and not _recovered_or_explained(p, curr)]
     if not gone:
         return
 
