@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.thelongswell.freshness</string>
+  <key>ProgramArguments</key>
+  <array><string>/bin/bash</string><string>/Users/admin/bin/tls_freshness.sh</string></array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>10</integer></dict>
+  <key>RunAtLoad</key><false/>
+  <key>StandardOutPath</key><string>/Users/admin/.tls_freshness.out</string>
+  <key>StandardErrorPath</key><string>/Users/admin/.tls_freshness.err</string>
+</dict>
+</plist>
