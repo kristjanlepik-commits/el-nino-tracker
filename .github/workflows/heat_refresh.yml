@@ -1,7 +1,12 @@
 name: heat-refresh
 
 # The weekly heat refresh. Kristjan set the cadence 2026-08-08: Mondays,
-# May to September, frozen October to April.
+# May to September, frozen October to April. YEAR-ROUND since 2026-09-28
+# (D-308): that cadence predates the seven Argentine cities, whose season
+# opens in October or November, so the freeze would have stopped them
+# exactly as their season started. Heat's call on what the data needs;
+# ~20 runner-minutes a week. Northern cities simply do not advance out of
+# season, which is correct and is what the page's own label says.
 #
 # WHAT THIS JOB DOES NOT DO: publish. It fetches, rebuilds the payload,
 # commits it, and reports the refresh gate's verdict. Rendering stays with
@@ -24,13 +29,13 @@ name: heat-refresh
 
 on:
   schedule:
-    # 06:23 UTC Monday, May to September. After the fires run at 03:10 and
+    # 06:23 UTC Monday, all year (D-308). After the fires run at 03:10 and
     # 05:30 so they are not competing for a runner, and well before the
     # 13:00 brief, which is the thing that will render whatever this
     # leaves behind. Offset off the hour: :00 is the most contended minute
     # on GitHub's scheduler and two collector runs were already dropped
     # inside the 00-02 UTC window on 2026-08-09.
-    - cron: "23 6 * 5-9 1"
+    - cron: "23 6 * * 1"
   workflow_dispatch:
 
 concurrency:
