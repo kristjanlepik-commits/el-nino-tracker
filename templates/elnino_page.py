@@ -263,11 +263,8 @@ def _editors_note(brief_date):
     # chart is the size of the other charts. So a paragraph holding only an
     # image is lifted out and rendered after the box as a <figure>, under
     # the same figure rules as the rest of the page, phone scroll included.
-    figs = []
-    def _lift(mm):
-        figs.append(mm.group(1))
-        return ""
-    html = _re.sub(r"<p>\s*(<img\b[^>]*>)\s*</p>", _lift, html)
+    from templates.note_figures import lift_image_paragraphs
+    html, figs = lift_image_paragraphs(html)
     return ('<aside class="ednote"><div class="ednote-label">Editor\'s note</div>'
             + html + '</aside>'
             + "".join(f'<figure class="ednote-fig">{i}</figure>' for i in figs))
@@ -560,7 +557,13 @@ figure img{{width:100%;height:auto;display:block}}
      the panel scrolls: a swipe to read the axis beats a figure that
      cannot be read at all. */
   figure{{overflow-x:auto;-webkit-overflow-scrolling:touch}}
-  figure img{{width:auto;min-width:700px;max-width:none}}
+  /* WIDTH 700, NOT AUTO. `width:auto` with `max-width:none` renders each
+     image at its intrinsic pixel width, and these are 2x rasters: the
+     analog chart came out 1780px wide on a 375px phone and the note chart
+     2108px, three times the readable width this rule exists for. Science
+     measured it on 2026-09-28 while widening the note chart (D-309). The
+     comment above states the intent; this makes the rule say it. */
+  figure img{{width:700px;max-width:none}}
   /* The provenance register held a 200px key column against 112px of
      value, so every source note wrapped to five lines beside a mostly
      empty label. One column: the key reads as a heading over what it

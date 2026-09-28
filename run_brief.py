@@ -3806,12 +3806,25 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # to the data-driven default ("X% chance of ... Y% chance of ...").
     editorial_note = load_editorial_note()
     if editorial_note:
+        # A NOTE'S CHART IS THE SIZE OF THE OTHER CHARTS (D-309), and on
+        # this page the other charts are the first column of a two-column
+        # grid, 744px in an 1100px body. Lifted to full width it would be
+        # 1100px, wrong in the opposite direction; left in the box it was
+        # 517px. So it goes into the same .two / .chart-card shape as the
+        # analog chart and takes their width by construction, including
+        # the single-column collapse on phones, rather than a copied pixel
+        # figure that drifts the day the grid changes.
+        from templates.note_figures import lift_image_paragraphs
+        _note_html, _note_figs = lift_image_paragraphs(
+            md_lib.markdown(editorial_note,
+                            extensions=["tables", "fenced_code"]))
         bottom_line_html = (
             '<aside class="editor-note">'
             '<div class="editor-note-label">Editor\'s note</div>'
-            + md_lib.markdown(editorial_note,
-                              extensions=["tables", "fenced_code"])
+            + _note_html
             + '</aside>'
+            + "".join('<div class="two note-fig"><div class="chart-card">'
+                      '%s</div><div></div></div>' % _i for _i in _note_figs)
         )
     else:
         bottom_line_html = (
