@@ -155,6 +155,35 @@ jobs:
             echo "No changes to commit."
           fi
 
+      # THE LANDING PAGE IS NOT THE ARCHIVE. run_brief writes the issue;
+      # /elnino/, where readers land, is rebuilt only by publish_all. When
+      # the brief moved to Actions on 2026-09-07 this workflow ran only
+      # run_brief, the hand-run publish_all that followed it vanished, and
+      # /elnino/ was refreshed from then on only when fires happened to
+      # publish afterwards. On 09-28 the issue committed at 14:17 and the
+      # landing page stayed on 09-14 until fires was dispatched by hand.
+      # Science's finding. publish_all never fetches, so the rule this
+      # workflow keeps (no live fetch outside run_brief) still holds.
+      # Runs on the backstop cron too, where the issue already exists:
+      # then it rebuilds from committed state and commits nothing.
+      - name: Publish the site pages from the new issue
+        id: publish
+        run: python scripts/publish_all.py
+
+      # always(): publish_all rolls back only the surface a failure names
+      # (D-289), so whatever it did build ships, and the failure alert
+      # below still fires for the rest.
+      - name: Commit the published pages
+        if: always() && steps.publish.outcome != 'skipped'
+        run: |
+          git add docs/
+          if ! git diff --cached --quiet; then
+            git commit -m "site: publish after weekly brief $(date -u +'%Y-%m-%d')"
+            bash scripts/push_retry.sh main
+          else
+            echo "No page changes."
+          fi
+
       - name: Email the brief
         if: ${{ env.SMTP_HOST != '' }}
         env:
