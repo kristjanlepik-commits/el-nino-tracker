@@ -45,6 +45,7 @@ on:
 
 permissions:
   contents: write          # commit the manifest, and upload release assets
+  issues: write            # open_alert_issue.sh when the capture fails
 
 # No concurrency group on purpose. This job renders nothing and
 # publishes nothing, and the quota pools are independent, so it has no
@@ -238,3 +239,18 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 floods/check_capture_gaps.py
+
+      # A failure here is PERMANENT data loss, not a delay: LANCE keeps
+      # about seven days. Its token expired on 2026-09-26 and this job was
+      # red for eight consecutive days before anyone looked, the expiry
+      # step being the only honest one (Capture exited green having
+      # discarded every tile). So a failure goes to Kristjan's inbox.
+      - name: Tell Kristjan the VIIRS capture failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bash scripts/open_alert_issue.sh \
+            "VIIRS flood capture failing" \
+            "floods_capture.yml failed. LANCE deletes after about 7 days, so each failing day is lost for good. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
