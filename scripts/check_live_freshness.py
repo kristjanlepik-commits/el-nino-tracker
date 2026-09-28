@@ -86,7 +86,7 @@ CHANNELS = [
     ("El Nino issue", "", lambda t: _iso(t, r"issue (20\d\d-\d\d-\d\d)"), 7, "science"),
     ("Ocean field", "", lambda t: _iso(t, r"observed \d+ days to (20\d\d-\d\d-\d\d)"), 8, "science"),
     ("Fires", "fires/", _fires, 2, "fire"),
-    ("Heat", "heat/", lambda t: _iso(t, r"measured to (20\d\d-\d\d-\d\d)"), 10, "heat"),
+    ("Heat", "heat/", lambda t: _iso(t, r"measured to (20\d\d-\d\d-\d\d)"), 11, "heat"),  # heat set 11: weekly worst case ~9, scheduler ~8h late
     ("Floods", "floods/", _floods, 21, "floods"),
     ("Crops", "crops/", _crops, 25, "crops"),
 ]
