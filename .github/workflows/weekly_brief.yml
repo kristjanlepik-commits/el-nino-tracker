@@ -197,6 +197,10 @@ jobs:
       # The crash case, the same evening rather than the next morning.
       # 2026-09-21 died on a KeyError at 18:26 UTC and nothing reached a
       # person for five days.
+      # STATE ONLY WHAT IS KNOWN. The first version of this body said "the
+      # site is still serving the previous issue" on 2026-09-28, when the
+      # issue had been live since 14:12 and the failing run was a later
+      # test. An exit code is not a page (Business's catch).
       - name: Tell Kristjan the brief run failed
         if: failure()
         env:
@@ -204,5 +208,5 @@ jobs:
         run: |
           bash scripts/open_alert_issue.sh \
             "Weekly brief run failed: $(date -u +%F)" \
-            "weekly_brief.yml failed (${{ github.event_name }}). Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. The site is still serving the previous issue."
+            "weekly_brief.yml failed (${{ github.event_name }}). Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}. This says only that the run failed, not what a reader sees: the issue may already be live from an earlier run. The live page is the answer."
 
