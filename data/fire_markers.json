@@ -4,16 +4,16 @@
     "area proportional to multiple; see reply_fire_to_design.md",
     "sections 2 and 3 for the centroid basis and the gate."
   ],
-  "window": "09-22..09-28",
+  "window": "09-23..09-29",
   "degraded": null,
   "complete": true,
   "markers": [
     {
       "region": "Papua New Guinea",
-      "lat": -6.76,
-      "lon": 145.16,
-      "multiple": 9.0,
-      "count": 9082,
+      "lat": -6.92,
+      "lon": 144.85,
+      "multiple": 11.0,
+      "count": 9937,
       "rank": "1 of 14",
       "attribution": null,
       "anomalous": true,
@@ -29,23 +29,23 @@
           "multiple",
           "record"
         ],
-        "z": 6.78,
-        "multiple": 9.0,
+        "z": 9.86,
+        "multiple": 11.0,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 6.78,
+      "z": 9.86,
       "centroid_basis": "weighted",
       "href": "fires/papua-new-guinea/"
     },
     {
-      "region": "Republic of the Congo",
-      "lat": -3.89,
-      "lon": 14.12,
-      "multiple": 2.8,
-      "count": 2978,
+      "region": "Poland",
+      "lat": 51.56,
+      "lon": 17.96,
+      "multiple": 3.0,
+      "count": 297,
       "rank": "1 of 14",
       "attribution": null,
       "anomalous": true,
@@ -61,51 +61,53 @@
           "multiple",
           "record"
         ],
-        "z": 4.31,
-        "multiple": 2.8,
+        "z": 5.94,
+        "multiple": 3.0,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
-      "multiple_unstable": false,
-      "z": 4.31,
+      "multiple_unstable": true,
+      "z": 5.94,
       "centroid_basis": "weighted",
-      "href": "fires/republic-of-the-congo/"
+      "href": "fires/poland/"
     },
     {
       "region": "Indonesia",
-      "lat": -3.6,
-      "lon": 120.03,
-      "multiple": 2.7,
-      "count": 37057,
+      "lat": -2.37,
+      "lon": 112.9,
+      "multiple": 2.9,
+      "count": 36167,
       "rank": "2 of 14",
       "attribution": "enso",
       "anomalous": true,
       "qualifies_on": [
+        "z",
         "multiple"
       ],
       "strength": {
-        "verdict": "multiple_only",
+        "verdict": "corroborated",
         "signals": [
+          "z",
           "multiple"
         ],
-        "z": 1.71,
-        "multiple": 2.7,
+        "z": 2.18,
+        "multiple": 2.9,
         "rank_in_record": 2
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 1.71,
-      "centroid_basis": "weighted",
+      "z": 2.18,
+      "centroid_basis": "largest_cluster",
       "href": "fires/indonesia/"
     },
     {
       "region": "Uganda",
-      "lat": 2.65,
-      "lon": 33.59,
-      "multiple": 2.6,
-      "count": 630,
+      "lat": 2.59,
+      "lon": 33.49,
+      "multiple": 2.9,
+      "count": 703,
       "rank": "3 of 14",
       "attribution": null,
       "anomalous": true,
@@ -117,23 +119,55 @@
         "signals": [
           "multiple"
         ],
-        "z": 1.23,
-        "multiple": 2.6,
+        "z": 1.44,
+        "multiple": 2.9,
         "rank_in_record": 3
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 1.23,
+      "z": 1.44,
       "centroid_basis": "weighted",
       "href": "fires/uganda/"
     },
     {
+      "region": "Peru",
+      "lat": -9.98,
+      "lon": -74.3,
+      "multiple": 2.2,
+      "count": 4633,
+      "rank": "1 of 14",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "multiple",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "multiple",
+          "record"
+        ],
+        "z": 2.32,
+        "multiple": 2.2,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 2.32,
+      "centroid_basis": "weighted",
+      "href": "fires/peru/"
+    },
+    {
       "region": "Syria",
-      "lat": 36.42,
-      "lon": 40.29,
-      "multiple": 2.3,
-      "count": 522,
+      "lat": 36.43,
+      "lon": 40.33,
+      "multiple": 2.0,
+      "count": 509,
       "rank": "2 of 14",
       "attribution": null,
       "anomalous": true,
@@ -145,117 +179,51 @@
         "signals": [
           "multiple"
         ],
-        "z": 1.09,
-        "multiple": 2.3,
+        "z": 0.88,
+        "multiple": 2.0,
         "rank_in_record": 2
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": 1.09,
+      "z": 0.88,
       "centroid_basis": "weighted",
       "href": "fires/syria/"
     },
     {
-      "region": "Peru",
-      "lat": -9.97,
-      "lon": -74.24,
-      "multiple": 2.2,
-      "count": 4981,
-      "rank": "1 of 14",
+      "region": "Vietnam",
+      "lat": 16.02,
+      "lon": 107.56,
+      "multiple": 2.0,
+      "count": 481,
+      "rank": "2 of 14",
       "attribution": null,
       "anomalous": true,
       "qualifies_on": [
-        "z",
-        "multiple",
-        "record"
+        "multiple"
       ],
       "strength": {
-        "verdict": "corroborated",
+        "verdict": "multiple_only",
         "signals": [
-          "z",
-          "multiple",
-          "record"
+          "multiple"
         ],
-        "z": 2.16,
-        "multiple": 2.2,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 2.16,
-      "centroid_basis": "weighted",
-      "href": "fires/peru/"
-    },
-    {
-      "region": "Poland",
-      "lat": 51.65,
-      "lon": 17.18,
-      "multiple": 2.2,
-      "count": 222,
-      "rank": "1 of 14",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "z",
-        "multiple",
-        "record"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "multiple",
-          "record"
-        ],
-        "z": 2.65,
-        "multiple": 2.2,
-        "rank_in_record": 1
+        "z": 1.65,
+        "multiple": 2.0,
+        "rank_in_record": 2
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": 2.65,
+      "z": 1.65,
       "centroid_basis": "weighted",
-      "href": "fires/poland/"
-    },
-    {
-      "region": "France",
-      "lat": 45.92,
-      "lon": 2.54,
-      "multiple": 1.9,
-      "count": 353,
-      "rank": "1 of 14",
-      "attribution": "non_enso",
-      "anomalous": true,
-      "qualifies_on": [
-        "z",
-        "record"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "record"
-        ],
-        "z": 2.24,
-        "multiple": 1.9,
-        "rank_in_record": 1
-      },
-      "pinned": true,
-      "volume_context": false,
-      "multiple_unstable": true,
-      "z": 2.24,
-      "centroid_basis": "weighted",
-      "href": "fires/france/"
+      "href": "fires/vietnam/"
     },
     {
       "region": "India",
-      "lat": 22.14,
-      "lon": 82.21,
-      "multiple": 1.6,
-      "count": 1329,
+      "lat": 22.18,
+      "lon": 82.64,
+      "multiple": 1.9,
+      "count": 1678,
       "rank": "1 of 14",
       "attribution": null,
       "anomalous": true,
@@ -269,49 +237,103 @@
           "z",
           "record"
         ],
-        "z": 2.47,
-        "multiple": 1.6,
+        "z": 3.51,
+        "multiple": 1.9,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 2.47,
+      "z": 3.51,
       "centroid_basis": "weighted",
       "href": "fires/india/"
     },
     {
-      "region": "Spain",
-      "lat": 40.46,
-      "lon": -4.82,
-      "multiple": 1.6,
-      "count": 401,
-      "rank": "3 of 14",
+      "region": "France",
+      "lat": 45.73,
+      "lon": 2.63,
+      "multiple": 1.8,
+      "count": 346,
+      "rank": "2 of 14",
       "attribution": "non_enso",
       "anomalous": false,
       "qualifies_on": [],
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": 0.85,
-        "multiple": 1.6,
-        "rank_in_record": 3
+        "z": 1.72,
+        "multiple": 1.8,
+        "rank_in_record": 2
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": 0.85,
+      "z": 1.72,
+      "centroid_basis": "weighted",
+      "href": "fires/france/"
+    },
+    {
+      "region": "Zimbabwe",
+      "lat": -17.94,
+      "lon": 29.91,
+      "multiple": 1.7,
+      "count": 7529,
+      "rank": "1 of 14",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "record"
+        ],
+        "z": 2.53,
+        "multiple": 1.7,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 2.53,
+      "centroid_basis": "weighted",
+      "href": "fires/zimbabwe/"
+    },
+    {
+      "region": "Spain",
+      "lat": 40.41,
+      "lon": -4.91,
+      "multiple": 1.6,
+      "count": 372,
+      "rank": "2 of 14",
+      "attribution": "non_enso",
+      "anomalous": false,
+      "qualifies_on": [],
+      "strength": {
+        "verdict": "none",
+        "signals": [],
+        "z": 0.97,
+        "multiple": 1.6,
+        "rank_in_record": 2
+      },
+      "pinned": true,
+      "volume_context": false,
+      "multiple_unstable": true,
+      "z": 0.97,
       "centroid_basis": "weighted",
       "href": "fires/spain/"
     },
     {
-      "region": "Zimbabwe",
-      "lat": -17.98,
-      "lon": 29.9,
+      "region": "Angola",
+      "lat": -12.66,
+      "lon": 17.5,
       "multiple": 1.5,
-      "count": 6547,
+      "count": 31542,
       "rank": "1 of 14",
-      "attribution": null,
+      "attribution": "non_enso",
       "anomalous": true,
       "qualifies_on": [
         "record"
@@ -321,143 +343,125 @@
         "signals": [
           "record"
         ],
-        "z": 1.76,
+        "z": 1.57,
         "multiple": 1.5,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 1.76,
-      "centroid_basis": "weighted",
-      "href": "fires/zimbabwe/"
-    },
-    {
-      "region": "Angola",
-      "lat": -12.15,
-      "lon": 17.18,
-      "multiple": 1.4,
-      "count": 30596,
-      "rank": "3 of 14",
-      "attribution": "non_enso",
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": 1.21,
-        "multiple": 1.4,
-        "rank_in_record": 3
-      },
-      "pinned": false,
-      "volume_context": true,
-      "multiple_unstable": false,
-      "z": 1.21,
+      "z": 1.57,
       "centroid_basis": "weighted",
       "href": "fires/angola/"
     },
     {
-      "region": "Australia",
-      "lat": -18.67,
-      "lon": 135.24,
-      "multiple": 1.0,
-      "count": 22017,
-      "rank": "7 of 14",
+      "region": "Democratic Republic of the Congo",
+      "lat": -6.37,
+      "lon": 23.27,
+      "multiple": 1.4,
+      "count": 16538,
+      "rank": "1 of 14",
+      "attribution": "non_enso",
+      "anomalous": true,
+      "qualifies_on": [
+        "z",
+        "record"
+      ],
+      "strength": {
+        "verdict": "corroborated",
+        "signals": [
+          "z",
+          "record"
+        ],
+        "z": 2.05,
+        "multiple": 1.4,
+        "rank_in_record": 1
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 2.05,
+      "centroid_basis": "weighted",
+      "href": "fires/democratic-republic-of-the-congo/"
+    },
+    {
+      "region": "Zambia",
+      "lat": -13.21,
+      "lon": 28.15,
+      "multiple": 1.1,
+      "count": 24697,
+      "rank": "5 of 14",
       "attribution": "non_enso",
       "anomalous": false,
       "qualifies_on": [],
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -0.07,
-        "multiple": 1.0,
-        "rank_in_record": 7
+        "z": 0.65,
+        "multiple": 1.1,
+        "rank_in_record": 5
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": -0.07,
+      "z": 0.65,
       "centroid_basis": "weighted",
-      "href": "fires/australia/"
+      "href": "fires/zambia/"
     },
     {
-      "region": "Brazil",
-      "lat": -8.41,
-      "lon": -52.57,
-      "multiple": 0.9,
-      "count": 39642,
-      "rank": "10 of 14",
-      "attribution": "enso",
+      "region": "United States of America",
+      "lat": 36.27,
+      "lon": -95.78,
+      "multiple": 1.0,
+      "count": 7335,
+      "rank": "6 of 14",
+      "attribution": "non_enso",
       "anomalous": false,
       "qualifies_on": [],
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -0.43,
+        "z": -0.09,
+        "multiple": 1.0,
+        "rank_in_record": 6
+      },
+      "pinned": true,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": -0.09,
+      "centroid_basis": "weighted",
+      "href": "fires/united-states-of-america/"
+    },
+    {
+      "region": "Mozambique",
+      "lat": -16.37,
+      "lon": 35.83,
+      "multiple": 0.9,
+      "count": 36440,
+      "rank": "10 of 14",
+      "attribution": null,
+      "anomalous": false,
+      "qualifies_on": [],
+      "strength": {
+        "verdict": "none",
+        "signals": [],
+        "z": -0.37,
         "multiple": 0.9,
         "rank_in_record": 10
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": -0.43,
+      "z": -0.37,
       "centroid_basis": "weighted",
-      "href": "fires/brazil/"
-    },
-    {
-      "region": "Zambia",
-      "lat": -13.4,
-      "lon": 27.8,
-      "multiple": 0.9,
-      "count": 20490,
-      "rank": "11 of 14",
-      "attribution": "non_enso",
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": -0.7,
-        "multiple": 0.9,
-        "rank_in_record": 11
-      },
-      "pinned": false,
-      "volume_context": true,
-      "multiple_unstable": false,
-      "z": -0.7,
-      "centroid_basis": "weighted",
-      "href": "fires/zambia/"
-    },
-    {
-      "region": "United States of America",
-      "lat": 36.57,
-      "lon": -96.8,
-      "multiple": 0.9,
-      "count": 6851,
-      "rank": "7 of 14",
-      "attribution": "non_enso",
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": -0.31,
-        "multiple": 0.9,
-        "rank_in_record": 7
-      },
-      "pinned": true,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": -0.31,
-      "centroid_basis": "weighted",
-      "href": "fires/united-states-of-america/"
+      "href": "fires/mozambique/"
     },
     {
       "region": "United Kingdom",
-      "lat": 53.21,
-      "lon": -1.15,
+      "lat": 53.27,
+      "lon": -1.14,
       "multiple": 0.8,
-      "count": 83,
+      "count": 79,
       "rank": "9 of 14",
       "attribution": "non_enso",
       "anomalous": false,
@@ -465,39 +469,39 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -0.69,
+        "z": -0.52,
         "multiple": 0.8,
         "rank_in_record": 9
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": -0.69,
+      "z": -0.52,
       "centroid_basis": "weighted",
       "href": "fires/united-kingdom/"
     },
     {
       "region": "Canada",
-      "lat": 51.22,
-      "lon": -104.63,
+      "lat": 42.98,
+      "lon": -80.82,
       "multiple": 0.1,
-      "count": 845,
-      "rank": "8 of 14",
+      "count": 562,
+      "rank": "12 of 14",
       "attribution": "non_enso",
       "anomalous": false,
       "qualifies_on": [],
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -0.32,
+        "z": -0.33,
         "multiple": 0.1,
-        "rank_in_record": 8
+        "rank_in_record": 12
       },
       "pinned": true,
       "volume_context": false,
-      "multiple_unstable": false,
-      "z": -0.32,
-      "centroid_basis": "weighted",
+      "multiple_unstable": true,
+      "z": -0.33,
+      "centroid_basis": "largest_cluster",
       "href": "fires/canada/"
     }
   ]
