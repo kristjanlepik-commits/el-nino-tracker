@@ -1,0 +1,1462 @@
+{
+ "event": "Spain DANA 2026, first wave",
+ "day": "2026-09-29",
+ "box": {
+  "lon": [
+   -2.6,
+   3.4
+  ],
+  "lat": [
+   37.5,
+   42.9
+  ]
+ },
+ "products": {
+  "GPM_3IMERGDL": {
+   "n_pairs": 283,
+   "imerg_max_cell": 80.4,
+   "gauge_max": 79.8,
+   "ratio_at_wettest_gauge": 0.77,
+   "bins": [
+    {
+     "band": "under 10mm",
+     "n": 253,
+     "gauge_mean": 0.5,
+     "imerg_mean": 2.1,
+     "ratio": 4.01
+    },
+    {
+     "band": "10-50mm",
+     "n": 26,
+     "gauge_mean": 22.4,
+     "imerg_mean": 20.3,
+     "ratio": 0.91
+    },
+    {
+     "band": "50-150mm",
+     "n": 4,
+     "gauge_mean": 66.8,
+     "imerg_mean": 37.9,
+     "ratio": 0.57
+    }
+   ],
+   "pairs": [
+    {
+     "station": "X\u00c0TIVA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ABANILLA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "BICORP",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ATZENETA DEL MAESTRAT",
+     "gauge_mm": 0.0,
+     "imerg_mm": 4.4
+    },
+    {
+     "station": "CARTAGENA, TENTEGORRA",
+     "gauge_mm": 0.4,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "PORTOCOLOM  ",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CALATAYUD",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "TUDELA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "A\u00cdNSA-SOBRARBE, LA SERRETA",
+     "gauge_mm": 9.4,
+     "imerg_mm": 2.7
+    },
+    {
+     "station": "CASPE, PLANA DEL PIL\u00d3N",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "CASTELL\u00d3 - ALMASSORA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 16.7
+    },
+    {
+     "station": "ALCA\u00d1IZ",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "REUS AEROPUERTO",
+     "gauge_mm": 2.5,
+     "imerg_mm": 2.7
+    },
+    {
+     "station": "EL SOLER\u00c0S",
+     "gauge_mm": 0.0,
+     "imerg_mm": 2.5
+    },
+    {
+     "station": "LARRAGA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "MOR\u00d3N DE ALMAZ\u00c1N",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CARCAIXENT",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ESPOLLA",
+     "gauge_mm": 39.2,
+     "imerg_mm": 16.1
+    },
+    {
+     "station": "CARTAGENA/SALINAS CABO PALOS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "QUINTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "TOTANA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "MORELLA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.6
+    },
+    {
+     "station": "JABALOYAS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "PORRERES",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ISABA/IZABA",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "CALASPARRA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "BALSARENY",
+     "gauge_mm": 6.2,
+     "imerg_mm": 18.0
+    },
+    {
+     "station": "LA POBLA DE C\u00c9RVOLES",
+     "gauge_mm": 0.0,
+     "imerg_mm": 14.6
+    },
+    {
+     "station": "ALBARRAC\u00cdN",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ZARAGOZA, AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.5
+    },
+    {
+     "station": "CALDES DE MONTBUI",
+     "gauge_mm": 15.6,
+     "imerg_mm": 54.0
+    },
+    {
+     "station": "ALHAMA DE MURCIA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "LA POBLA DE MASSALUCA",
+     "gauge_mm": 45.2,
+     "imerg_mm": 3.9
+    },
+    {
+     "station": "CASTELLFORT",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.1
+    },
+    {
+     "station": "GIRONA AEROPUERTO",
+     "gauge_mm": 53.3,
+     "imerg_mm": 17.2
+    },
+    {
+     "station": "ALMUD\u00c9VAR",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.4
+    },
+    {
+     "station": "LANAJA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.5
+    },
+    {
+     "station": "VILLARROBLEDO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "MAZARR\u00d3N",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ESTACI\u00d3N DE TORTOSA (ROQUETES)",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "J\u00c1VEA/ X\u00c0BIA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "VALLS",
+     "gauge_mm": 0.4,
+     "imerg_mm": 4.0
+    },
+    {
+     "station": "NERPIO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.5
+    },
+    {
+     "station": "MIRA",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "BALLOBAR",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "LLEIDA",
+     "gauge_mm": 2.0,
+     "imerg_mm": 2.2
+    },
+    {
+     "station": "VILLAFRANCA DEL CID/VILAFRANCA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "SINEU",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "MURCIA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "LLUCMAJOR, RADAR",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "TUR\u00cdS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 5.1
+    },
+    {
+     "station": "BOSS\u00d2ST",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.9
+    },
+    {
+     "station": "CARAVACA DE LA CRUZ, LOS ROYOS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "ADEMUZ",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "VALLE DE HECHO, HECHO",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "ARENYS DE MAR",
+     "gauge_mm": 9.3,
+     "imerg_mm": 16.5
+    },
+    {
+     "station": "SON SERVERA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "YESTE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "PAMPLONA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "HELL\u00cdN",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ESTERRI D'\u00c0NEU",
+     "gauge_mm": 0.4,
+     "imerg_mm": 1.7
+    },
+    {
+     "station": "MANRESA",
+     "gauge_mm": 4.8,
+     "imerg_mm": 36.1
+    },
+    {
+     "station": "CALANDA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "BIELSA",
+     "gauge_mm": 3.6,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "FRAGA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.7
+    },
+    {
+     "station": "VILLENA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "OROZ-BETELU/OROTZ-BETELU",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "LA P\u00d3VEDA DE SORIA, BARRIOMART\u00cdN",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "ALCOI/ALCOY",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "VALMADRID",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.5
+    },
+    {
+     "station": "SAGUNT/SAGUNTO",
+     "gauge_mm": 0.2,
+     "imerg_mm": 10.9
+    },
+    {
+     "station": "LA ALMUNIA DE DO\u00d1A GODINA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "JALANCE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "CHELVA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.3
+    },
+    {
+     "station": "MOI\u00c0",
+     "gauge_mm": 11.2,
+     "imerg_mm": 21.0
+    },
+    {
+     "station": "ORIHUELA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ANDRATX - SANT ELM",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "JACA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.4
+    },
+    {
+     "station": "LOS ARCOS",
+     "gauge_mm": 1.6,
+     "imerg_mm": 0.4
+    },
+    {
+     "station": "TORRE-PACHECO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "OLIVA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "PORT DE POLLEN\u00c7A",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CARAVACA DE LA CRUZ",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ONTINYENT",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "POLLEN\u00c7A",
+     "gauge_mm": 0.4,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "VILASSAR DE DALT",
+     "gauge_mm": 19.6,
+     "imerg_mm": 24.5
+    },
+    {
+     "station": "PALMA, UNIVERSITAT",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "MARTINET",
+     "gauge_mm": 2.6,
+     "imerg_mm": 3.0
+    },
+    {
+     "station": "PEGO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CABAC\u00c9S",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.8
+    },
+    {
+     "station": "SANT PAU DE SEG\u00daRIES",
+     "gauge_mm": 16.6,
+     "imerg_mm": 4.3
+    },
+    {
+     "station": "ZAOREJAS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "BLANES",
+     "gauge_mm": 9.2,
+     "imerg_mm": 8.8
+    },
+    {
+     "station": "POLINY\u00c0 DE X\u00daQUER",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "RIPOLL",
+     "gauge_mm": 20.8,
+     "imerg_mm": 13.0
+    },
+    {
+     "station": "LUBIA",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "BELLO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 2.2
+    },
+    {
+     "station": "COLL DE NARG\u00d3",
+     "gauge_mm": 6.8,
+     "imerg_mm": 9.5
+    },
+    {
+     "station": "HUESCA, AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.7
+    },
+    {
+     "station": "PAMPLONA, AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "BARX",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "BERGA",
+     "gauge_mm": 24.4,
+     "imerg_mm": 16.3
+    },
+    {
+     "station": "SEIRA",
+     "gauge_mm": 4.2,
+     "imerg_mm": 2.3
+    },
+    {
+     "station": "LORCA, ZARCILLA DE RAMOS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "TORLA - ORDESA",
+     "gauge_mm": 4.2,
+     "imerg_mm": 1.9
+    },
+    {
+     "station": "TORRE DE CABDELLA",
+     "gauge_mm": 11.6,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "CAMPOS, CAN SION",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "TENTENGORRA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "SARI\u00d1ENA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "LOGRO\u00d1O, AEROPUERTO",
+     "gauge_mm": 1.5,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "MIRAMAR",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "LLIMIANA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.5
+    },
+    {
+     "station": "PONTONS",
+     "gauge_mm": 1.0,
+     "imerg_mm": 33.9
+    },
+    {
+     "station": "ARAG\u00dc\u00c9S DEL PUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "AST\u00daN, LA RACA",
+     "gauge_mm": 1.0,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "FIGUERES",
+     "gauge_mm": 15.0,
+     "imerg_mm": 11.8
+    },
+    {
+     "station": "MOLINA DE SEGURA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "LL\u00cdRIA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 3.0
+    },
+    {
+     "station": "VALENCIA AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 12.9
+    },
+    {
+     "station": "CIEZA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "YECLA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "MONTALB\u00c1N",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "SANTA EULALIA DEL CAMPO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "SAN JAVIER AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "LLORAC",
+     "gauge_mm": 0.0,
+     "imerg_mm": 39.6
+    },
+    {
+     "station": "HUESCA",
+     "gauge_mm": 0.2,
+     "imerg_mm": 1.1
+    },
+    {
+     "station": "TALARN",
+     "gauge_mm": 0.2,
+     "imerg_mm": 1.3
+    },
+    {
+     "station": "CABRERA, PARQUE NACIONAL DE CABRERA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "FUENTE \u00c1LAMO DE MURCIA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "MANACOR",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "BANYALBUFAR",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "FORMIGAL, SARRIOS",
+     "gauge_mm": 2.4,
+     "imerg_mm": 0.9
+    },
+    {
+     "station": "SA POBLA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "SANT JAUME D'ENVEJA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "CORBERA, PUIG D'AGULLES",
+     "gauge_mm": 29.0,
+     "imerg_mm": 43.3
+    },
+    {
+     "station": "VALL DE BO\u00cd",
+     "gauge_mm": 3.2,
+     "imerg_mm": 0.9
+    },
+    {
+     "station": "TORLA-ORDESA, EL CEBOLLAR",
+     "gauge_mm": 5.4,
+     "imerg_mm": 1.9
+    },
+    {
+     "station": "LLUCMAJOR",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "BARBASTRO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.0
+    },
+    {
+     "station": "ZARAGOZA, VALDESPARTERA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "EIVISSA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.5
+    },
+    {
+     "station": "BENASQUE",
+     "gauge_mm": 8.8,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "NOVELDA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "LECI\u00d1ENA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.4
+    },
+    {
+     "station": "SANT JOAN DE LABRITJA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "FORMENTERA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "ALBACETE BASE A\u00c9REA",
+     "gauge_mm": 1.0,
+     "imerg_mm": 1.2
+    },
+    {
+     "station": "TOR\u00c0",
+     "gauge_mm": 0.2,
+     "imerg_mm": 10.1
+    },
+    {
+     "station": "ANDORRA, HORCALLANA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.0
+    },
+    {
+     "station": "CEDRILLAS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.4
+    },
+    {
+     "station": "GIRONA",
+     "gauge_mm": 45.6,
+     "imerg_mm": 18.5
+    },
+    {
+     "station": "ALFORJA",
+     "gauge_mm": 0.4,
+     "imerg_mm": 7.5
+    },
+    {
+     "station": "VILLARES DEL SAZ",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ELS TORMS",
+     "gauge_mm": 18.3,
+     "imerg_mm": 2.5
+    },
+    {
+     "station": "ESCORCA, LLUC",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "LES PLANES D'HOSTOLES",
+     "gauge_mm": 15.4,
+     "imerg_mm": 11.0
+    },
+    {
+     "station": "ZARRA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "FOGARS DE MONTCL\u00daS",
+     "gauge_mm": 8.4,
+     "imerg_mm": 15.7
+    },
+    {
+     "station": "CERLER, COGULLA",
+     "gauge_mm": 11.7,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "BENIDORM",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.4
+    },
+    {
+     "station": "VANDELL\u00d2S",
+     "gauge_mm": 0.1,
+     "imerg_mm": 2.7
+    },
+    {
+     "station": "ARANGUREN, ILUNDAIN",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "BARCELONA, DRASSANES",
+     "gauge_mm": 40.0,
+     "imerg_mm": 61.2
+    },
+    {
+     "station": "TARAZONA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CAP DE REC",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.9
+    },
+    {
+     "station": "OS DE BALAGUER",
+     "gauge_mm": 0.2,
+     "imerg_mm": 2.2
+    },
+    {
+     "station": "MOLINA DE ARAG\u00d3N",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "MONISTROL DE MONTSERRAT",
+     "gauge_mm": 24.4,
+     "imerg_mm": 41.4
+    },
+    {
+     "station": "FONFR\u00cdA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "SALVACA\u00d1ETE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CAPELLA, LAGUARRES",
+     "gauge_mm": 0.8,
+     "imerg_mm": 1.9
+    },
+    {
+     "station": "SANT ANTONI DE PORTMANY",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "PALMA, PUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CASTELL\u00d3 D'EMP\u00daRIES",
+     "gauge_mm": 0.0,
+     "imerg_mm": 16.5
+    },
+    {
+     "station": "V\u00c9LEZ BLANCO - TOPARES",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "MURO, S'ALBUFERA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ALFARO, LA PLANA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CASTEJON DE VALDEJASA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "MONREAL/ELO",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "OLITE/ERRIBERRI",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "ENCISO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "SANT JULI\u00c0  DE VILATORTA",
+     "gauge_mm": 10.8,
+     "imerg_mm": 11.7
+    },
+    {
+     "station": "PORQUERES",
+     "gauge_mm": 15.2,
+     "imerg_mm": 22.0
+    },
+    {
+     "station": "MA\u00c7ANET DE CABRENYS",
+     "gauge_mm": 5.4,
+     "imerg_mm": 6.1
+    },
+    {
+     "station": "PORT AIN\u00c9",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.3
+    },
+    {
+     "station": "CANFRANC - ESTACION",
+     "gauge_mm": 1.2,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "SOS DEL REY CAT\u00d3LICO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "ARCHENA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "AGURAIN/SALVATIERRA, OPAKUA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "SANT HILARI",
+     "gauge_mm": 13.4,
+     "imerg_mm": 18.3
+    },
+    {
+     "station": "SAN PEDRO MANRIQUE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "ROJALES",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "CASTELL D'ARO",
+     "gauge_mm": 5.8,
+     "imerg_mm": 4.2
+    },
+    {
+     "station": "SON BONET, AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "EL PIN\u00d3S/PINOSO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "TUIXENT",
+     "gauge_mm": 20.6,
+     "imerg_mm": 5.8
+    },
+    {
+     "station": "SANTANY\u00cd",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "LA VALL DE BIANYA",
+     "gauge_mm": 12.8,
+     "imerg_mm": 5.1
+    },
+    {
+     "station": "VALDERROBRES",
+     "gauge_mm": 0.0,
+     "imerg_mm": 2.6
+    },
+    {
+     "station": "\u00d3LVEGA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.4
+    },
+    {
+     "station": "ALHAMA DE ARAGON",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "L'ESTARTIT",
+     "gauge_mm": 66.8,
+     "imerg_mm": 47.9
+    },
+    {
+     "station": "ALCANTARILLA, BASE A\u00c9REA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "TARRAGONA",
+     "gauge_mm": 0.2,
+     "imerg_mm": 4.8
+    },
+    {
+     "station": "PARADOR DE ORDESA, PARQUE NACIONAL ORDESA Y MONTEPERDIDO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.9
+    },
+    {
+     "station": "CALVI\u00c0, ES CAPDELL\u00c0",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "VILAFRANCA DEL PENED\u00c8S",
+     "gauge_mm": 1.6,
+     "imerg_mm": 64.7
+    },
+    {
+     "station": "FONTANARS DELS ALFORINS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "PANTICOSA, PETROSOS",
+     "gauge_mm": 7.3,
+     "imerg_mm": 0.7
+    },
+    {
+     "station": "ALMAZUL",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CAP DE VAQU\u00c8IRA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.4
+    },
+    {
+     "station": "BARCELONA AEROPUERTO",
+     "gauge_mm": 67.4,
+     "imerg_mm": 25.3
+    },
+    {
+     "station": "PETRA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "HIJAR",
+     "gauge_mm": 0.0,
+     "imerg_mm": 2.1
+    },
+    {
+     "station": "SABI\u00d1\u00c1NIGO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 2.4
+    },
+    {
+     "station": "TERUEL",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "MOLLERUSSA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 3.2
+    },
+    {
+     "station": "PUERTO LUMBRERAS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "MORATALLA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "PRATS DE LLU\u00c7AN\u00c8S",
+     "gauge_mm": 16.2,
+     "imerg_mm": 11.7
+    },
+    {
+     "station": "BENABARRE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.6
+    },
+    {
+     "station": "BAILO, PUYALTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.2
+    },
+    {
+     "station": "CAMPOS, SALINES LLEVANT",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ART\u00c0",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "TORREBLANCA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 22.5
+    },
+    {
+     "station": "NAUT ARAN, ARTIES",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "MURCIA AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "LORCA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "ESCORCA, SON TORRELLA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "JUMILLA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CASTELLOTE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "BIESCAS, EMBALSE DE B\u00daBAL",
+     "gauge_mm": 2.0,
+     "imerg_mm": 1.4
+    },
+    {
+     "station": "SOPEIRA",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.8
+    },
+    {
+     "station": "BARCELONA, FABRA",
+     "gauge_mm": 79.8,
+     "imerg_mm": 61.2
+    },
+    {
+     "station": "SAN CLEMENTE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "YESTE, EMBALSE FUENSANTA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ABIA DE OBISPALIA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "TOBARRA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CAMPEZO/KANPEZU",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "BULLAS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "MOSQUERUELA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.7
+    },
+    {
+     "station": "ALBACETE",
+     "gauge_mm": 0.1,
+     "imerg_mm": 0.5
+    },
+    {
+     "station": "MONTEAGUDO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "HORTA DE SANT JOAN",
+     "gauge_mm": 0.0,
+     "imerg_mm": 7.1
+    },
+    {
+     "station": "ART\u00c0-COL\u00d2NIA DE SANT PERE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "UTIEL",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "CALAMOCHA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.3
+    },
+    {
+     "station": "LA POBLA DE BENIFASS\u00c0-FREDES",
+     "gauge_mm": 0.0,
+     "imerg_mm": 4.5
+    },
+    {
+     "station": "BARCELONA, PORT OL\u00cdMPIC",
+     "gauge_mm": 31.0,
+     "imerg_mm": 61.2
+    },
+    {
+     "station": "RASQUERA",
+     "gauge_mm": 3.2,
+     "imerg_mm": 0.7
+    },
+    {
+     "station": "ARTESA DE SEGRE",
+     "gauge_mm": 0.2,
+     "imerg_mm": 4.7
+    },
+    {
+     "station": "BETETA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "CHINCHILLA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 1.1
+    },
+    {
+     "station": "C\u00c1SEDA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "SORIA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ELX/ELCHE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "TORDERA - GRANYANELLA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 12.8
+    },
+    {
+     "station": "MONTANEJOS",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "ARCOS DE JAL\u00d3N",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "S\u00d3LLER, PUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ALACANT/ALICANTE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "IBIZA, AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "ALMANSA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "NAVASCU\u00c9S/NABASKOZE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.6
+    },
+    {
+     "station": "LA MOLINA",
+     "gauge_mm": 17.6,
+     "imerg_mm": 9.6
+    },
+    {
+     "station": "SEGORBE",
+     "gauge_mm": 0.0,
+     "imerg_mm": 4.6
+    },
+    {
+     "station": "BARDENAS REALES, BASE A\u00c9REA",
+     "gauge_mm": 0.2,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "SANTA MAR\u00cdA DEL CAM\u00cd",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "BINISSALEM",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "SAN JAVIER AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "VAL\u00c8NCIA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 7.1
+    },
+    {
+     "station": "CUENCA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "SITGES",
+     "gauge_mm": 40.4,
+     "imerg_mm": 37.6
+    },
+    {
+     "station": "MUNIESA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "MOTILLA DEL PALANCAR",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "MUNERA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "TAMARITE DE LITERA, LA MELUSA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.2
+    },
+    {
+     "station": "ALBERCA DE ZANCARA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    },
+    {
+     "station": "ALICANTE-ELCHE AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.3
+    },
+    {
+     "station": "EL PEDREGAL",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "DAROCA",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.1
+    },
+    {
+     "station": "REUS (CENTRE LECTURA)",
+     "gauge_mm": 1.2,
+     "imerg_mm": 4.2
+    },
+    {
+     "station": "PALMA DE MALLORCA, AEROPUERTO",
+     "gauge_mm": 0.0,
+     "imerg_mm": 0.0
+    }
+   ]
+  }
+ }
+}

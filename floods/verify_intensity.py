@@ -74,6 +74,20 @@ def dms(s):
 
 
 def main():
+    # Defaults reproduce D-195 exactly. --day and --box exist so the same
+    # station-paired method can be pointed at a new event without a copy
+    # of this file drifting away from the original.
+    import argparse
+    global DAY, BOX
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--day", default=DAY)
+    ap.add_argument("--box", default=None, help="lat0,lat1,lon0,lon1")
+    ap.add_argument("--event", default="Valencia DANA")
+    a_ = ap.parse_args()
+    DAY = a_.day
+    if a_.box:
+        la0, la1, lo0, lo1 = (float(v) for v in a_.box.split(","))
+        BOX = {"lon": (lo0, lo1), "lat": (la0, la1)}
     obs = _aemet(f"valores/climatologicos/diarios/datos/fechaini/{DAY}T00:00:00UTC"
                  f"/fechafin/{DAY}T23:59:59UTC/todasestaciones")
     inv = {r["indicativo"]: r for r in
@@ -94,7 +108,7 @@ def main():
 
     lon0, lon1 = BOX["lon"]; lat0, lat1 = BOX["lat"]
     tok = F.token()
-    out = {"event": "Valencia DANA", "day": DAY, "box": BOX, "products": {}}
+    out = {"event": a_.event, "day": DAY, "box": BOX, "products": {}}
     for prod in ("GPM_3IMERGDL", "GPM_3IMERGDF"):
         r = F.fetch_day(DAY, BOX, tok, short=prod)
         if r is None:
