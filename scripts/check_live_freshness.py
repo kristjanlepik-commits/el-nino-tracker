@@ -111,6 +111,20 @@ def main() -> int:
             bad.append(name)
         rows.append((name, state, claimed.isoformat(), budget, owner, "%d days old" % age))
 
+    # UNREACHABLE IS NOT STALE. From 30 September the Mac slept through the
+    # mornings and every run reported every page "stale" because it could
+    # not fetch any of them. An alarm that says everything is wrong every
+    # day is the same as no alarm. If nothing could be fetched, say that,
+    # and exit 3 so the caller does not raise a stale-page notification.
+    unreachable = [r for r in rows if r[1] == "UNREACHABLE"]
+    if len(unreachable) == len(rows):
+        if "--line" in sys.argv:
+            print("%s  CANNOT CHECK: site unreachable from this machine "
+                  "(no network, or the Mac asleep)" % dt.datetime.now().strftime("%Y-%m-%d %H:%M"))
+        else:
+            print("  CANNOT CHECK: no page could be fetched. This is the "
+                  "network, not the site.")
+        return 3
     if "--line" in sys.argv:
         print("%s  %s" % (dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
               "ALL CURRENT" if not bad else "STALE: " + ", ".join(

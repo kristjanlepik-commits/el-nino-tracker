@@ -5,8 +5,7 @@
   <key>Label</key><string>com.thelongswell.freshness</string>
   <key>ProgramArguments</key>
   <array><string>/bin/bash</string><string>/Users/admin/bin/tls_freshness.sh</string></array>
-  <key>StartCalendarInterval</key>
-  <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>10</integer></dict>
+  <key>StartInterval</key><integer>3600</integer>
   <key>RunAtLoad</key><false/>
   <key>StandardOutPath</key><string>/Users/admin/.tls_freshness.out</string>
   <key>StandardErrorPath</key><string>/Users/admin/.tls_freshness.err</string>
