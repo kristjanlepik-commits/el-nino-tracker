@@ -66,19 +66,31 @@ def main() -> int:
     ap.add_argument("--token-file", default=str(DEFAULT_TOKEN))
     ap.add_argument("--warn-days", type=int, default=DEFAULT_WARN_DAYS)
     ap.add_argument("--label", default="EARTHDATA_TOKEN")
+    ap.add_argument("--strict", action="store_true",
+                    help="a missing token or an unreadable expiry FAILS. For "
+                         "the standalone alarm (earthdata_token.yml), which is "
+                         "the only thing watching the token: on 2026-09-28 "
+                         "118 characters of web-page text were stored as the "
+                         "secret, and the lenient path below would have said "
+                         "nothing about it.")
     args = ap.parse_args()
+    level, code = ("error", 1) if args.strict else ("warning", 0)
 
     path = Path(args.token_file)
     if not path.exists():
-        print(f"::warning::{args.label}: no token at {path}, nothing to check.")
-        return 0
+        print(f"::{level}::{args.label}: no token at {path}, nothing to check.")
+        return code
 
     expiry = jwt_expiry(path.read_text())
     if expiry is None:
-        print(f"::warning::{args.label}: could not read an expiry from the "
-              f"token. It may not be a JWT. Not treating that as a failure, "
-              f"since an unreadable expiry is not evidence of a dead token.")
-        return 0
+        print(f"::{level}::{args.label}: could not read an expiry from the "
+              f"token. It may not be a JWT."
+              + (" Under --strict that is a failure: a stored token that is "
+                 "not a token is the 2026-09-28 mistake, and it fails every "
+                 "fetch that uses it." if args.strict else
+                 " Not treating that as a failure, since an unreadable expiry "
+                 "is not evidence of a dead token."))
+        return code
 
     left = (expiry - date.today()).days
     if left > args.warn_days:

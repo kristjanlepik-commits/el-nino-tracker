@@ -1,0 +1,55 @@
+name: Earthdata token alarm
+
+# THE ONLY THING WATCHING THE EARTHDATA TOKEN, once VIIRS capture is cut
+# (D-320). The check used to live inside floods_capture.yml, which is
+# VIIRS-only, but IMERG reads the same token (fetch_imerg_baseline.py,
+# global_week_anomaly.py and three more floods scripts), so disabling the
+# capture workflow whole would have let the token expire with no warning
+# and every IMERG fetch fail silently. CPO's catch; the order is ruled:
+# this alarm first, proven to fire on its schedule, THEN the capture off.
+#
+# --strict: a missing token or one whose expiry cannot be read FAILS
+# here. On 2026-09-28 a paste of web-page text was stored as the secret;
+# the lenient check would have stayed green on it.
+#
+# Fails from 21 days before expiry (check_token_expiry.py's default) and
+# opens one issue assigned to Kristjan; each daily re-fire comments on it
+# rather than filing again. Renewal is his (D-320): urs.earthdata.nasa.gov.
+on:
+  schedule:
+    - cron: "23 12 * * *"   # daily; off the hour, which GitHub delays least
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load the token
+        env:
+          EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
+        run: |
+          if [ -z "$EARTHDATA_TOKEN" ]; then
+            echo "::error::EARTHDATA_TOKEN is not set as a repository secret."
+            exit 1
+          fi
+          printf '%s' "$EARTHDATA_TOKEN" > ~/.earthdata_token
+          chmod 600 ~/.earthdata_token
+
+      - name: Check the token's own expiry
+        run: python3 scripts/check_token_expiry.py --strict
+
+      - name: Tell Kristjan the Earthdata token needs renewing
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bash scripts/open_alert_issue.sh \
+            "Earthdata token needs renewing" \
+            "The Earthdata token is expiring, expired, missing or not a token. IMERG flood rainfall stops when it lapses. Renew at urs.earthdata.nasa.gov (see research/awaiting_kristjan.md for the exact steps). Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
