@@ -626,6 +626,10 @@ RETIRED_RUNGS = {
     "super_>2.0":    "2026-08-10",   # D-115. Settled 07-13, retired 08-10:
                                      # 28 days pinned at the bound, which is
                                      # the gap `retirement_due` now catches.
+    "9715_>2.5":     "2026-10-05",   # Kristjan, 2026-10-04 (D-319). At 99
+                                     # for six issues, retirement_due since
+                                     # 09-28. +3.0 "beyond the record" now
+                                     # carries the 1997/2015 comparison.
 }
 
 
