@@ -1,7 +1,7 @@
-<!-- issue: 2026-09-28 -->
+<!-- issue: 2026-10-05 -->
 
-**The wind arrived.**
+**A record, two months early.**
 
-Through spring the westerlies were the one doubt. The ocean was loaded; the atmosphere was not pushing. That changed in June and it has held. The chart below is new: it shows how fast the wind forcing is accumulating, week by week, against the same dates in 1997 and 2015. 2026 crossed our watch line in early June and has been above it on a hundred days since. For the first time in these reports, it is running faster than 1997 did at the same point.
+The central equatorial Pacific was 3.1°C above normal in the week of 23 September, further than in any week since NOAA's weekly record began in 1981. The old high, 3.0°C, was set in November 2015, at that event's peak. The forecasts we track put this year's peak at about 3.9°C above normal, as a three-month average, around November and December.
 
-![Rolling 14-day westerly wind rate, 2026 against the analogs](../cwwa_rate.png)
+![Weekly Niño 3.4 anomaly, every year since 1982, with 2026 highlighted](https://thelongswell.com/nino34-weekly-2026-10-05.png)
