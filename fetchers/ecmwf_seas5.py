@@ -41,7 +41,18 @@ from datetime import date
 
 import xarray as xr
 
-from ._common import CACHE_DIR, FetchResult, now_iso
+from pathlib import Path
+
+from ._common import (CACHE_DIR, FetchResult, now_iso, committed_result,
+                      write_committed, _force_live)
+
+# A published SEAS5 run never changes, so a committed copy of the newest run
+# is as good as a live pull of it, and needs no CDS. Same pattern as ERA5
+# (D-300), for a different reason: on 2026-10-04 CDS's seasonal queue stalled
+# for over 40 minutes (ERA5 requests the same morning ran in a minute), and
+# the GitHub runner has no cache, so a stall on a Monday would drop SEAS5 to
+# seeds after the 40-minute alarm. TLS_ERA5_FORCE_LIVE=1 forces a live pull.
+SEAS5_COMMITTED_DIR = Path(__file__).resolve().parent.parent / "data" / "seas5"
 
 DATASET = "seasonal-monthly-single-levels"
 SYSTEM = "51"
@@ -165,16 +176,34 @@ def _calendar_for_lead(run_year: int, run_month: int, lead: int) -> str:
     return f"{y}-{m:02d}"
 
 
-def _latest_run(now_year: int, now_month: int) -> tuple[int, int, str]:
-    """Try the current calendar month first; fall back one month on failure."""
+# ECMWF's run reaches CDS around the 5th: in every issue this year the
+# current month's run was there from the 6th (07-06, 09-07) and absent before
+# it (06-01, 08-03). Before that day the request is not refused, it QUEUES:
+# on 2026-10-04 two requests for the unpublished October run sat "accepted"
+# at CDS for 25 minutes without starting. The fetch has a 40-minute alarm
+# covering both attempts, and the runner has no cache, so on a Monday early
+# in the month the September fallback would never get its turn and SEAS5
+# would drop to seeds. So before this day, do not ask for a run that cannot
+# exist yet.
+FIRST_DAY_CURRENT_RUN = 6
+
+
+def _latest_run(now_year: int, now_month: int,
+                now_day: int = 31) -> tuple[int, int, str]:
+    """The newest SEAS5 run CDS can serve: this month's from the 6th, last
+    month's before it, falling back one month on failure either way."""
     tmp = tempfile.NamedTemporaryFile(suffix=".nc", delete=False).name
     reasons = []
-    for offset in (0, -1):
+    offsets = (0, -1) if now_day >= FIRST_DAY_CURRENT_RUN else (-1, -2)
+    if now_day < FIRST_DAY_CURRENT_RUN:
+        print(f"  [seas5] day {now_day} < {FIRST_DAY_CURRENT_RUN}: this month's "
+              f"run is not on CDS yet; asking for last month's directly.")
+    for offset in offsets:
         abs_m = now_year * 12 + (now_month - 1) + offset
         y, m = abs_m // 12, (abs_m % 12) + 1
         try:
             _retrieve_seas5([str(y)], f"{m:02d}", LEADS, tmp)
-            if offset != 0:
+            if reasons:
                 # Falling back a month is normal early in the month, before
                 # ECMWF's run reaches CDS. It is NOT normal in the second
                 # half. Say so where a reader of the logs can see it: the
@@ -193,10 +222,26 @@ def _latest_run(now_year: int, now_month: int) -> tuple[int, int, str]:
         + " | ".join(reasons))
 
 
+def _newest_servable_run(today: date) -> tuple[int, int]:
+    """The run CDS can serve today under the FIRST_DAY_CURRENT_RUN rule."""
+    off = 0 if today.day >= FIRST_DAY_CURRENT_RUN else -1
+    abs_m = today.year * 12 + (today.month - 1) + off
+    return abs_m // 12, abs_m % 12 + 1
+
+
 def fetch() -> FetchResult:
+    today = date.today()
+    if not _force_live():
+        y, m = _newest_servable_run(today)
+        c = committed_result("ecmwf_seas5", max_age_days=70, today=today,
+                             directory=SEAS5_COMMITTED_DIR)
+        # Only when the committed run IS the newest one CDS could give us.
+        # From the 6th the committed copy is last month's and this falls
+        # through to a live pull, exactly as before.
+        if c is not None and c.issued == date(y, m, 1).isoformat():
+            return c
     try:
-        today = date.today()
-        run_year, run_month, fc_path = _latest_run(today.year, today.month)
+        run_year, run_month, fc_path = _latest_run(today.year, today.month, today.day)
 
         ds = xr.open_dataset(fc_path)
         fc_box = _area_mean(ds["sst"])  # (number, fcrt, forecastMonth)
@@ -246,13 +291,20 @@ def fetch() -> FetchResult:
             "summary": _summarize_lead(per_lead),
         }
         issued = date(run_year, run_month, 1).isoformat()
-        return FetchResult(
+        result = FetchResult(
             source="ecmwf_seas5",
             ok=True,
             issued=issued,
             fetched_at=now_iso(),
             payload=payload,
         )
+        try:
+            # Written wherever this runs; persists only where someone
+            # commits it (locally). On the runner it is discarded.
+            write_committed("ecmwf_seas5", result, directory=SEAS5_COMMITTED_DIR)
+        except Exception:
+            pass
+        return result
     except Exception as e:
         return FetchResult(source="ecmwf_seas5", ok=False, fetched_at=now_iso(),
                            error=f"{type(e).__name__}: {e}")

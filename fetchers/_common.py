@@ -161,17 +161,19 @@ def write_cache(source: str, result: FetchResult) -> None:
 COMMITTED_DIR = Path(__file__).parent.parent / "data" / "era5"
 
 
-def committed_path(source: str) -> Path:
-    return COMMITTED_DIR / f"{source}_last_good.json"
+def committed_path(source: str, directory: Optional[Path] = None) -> Path:
+    """`directory` defaults to data/era5, where this began (D-300). SEAS5
+    passes data/seas5 (2026-10-04)."""
+    return (directory or COMMITTED_DIR) / f"{source}_last_good.json"
 
 
 def committed_result(source: str, max_age_days: int,
-                     today=None) -> Optional[FetchResult]:
+                     today=None, directory: Optional[Path] = None) -> Optional[FetchResult]:
     """The committed result for `source` if present and within
     `max_age_days` of today, else None. Never raises: an unreadable or
     stale file is reported in the returned None's caller, not here."""
     import datetime as _d
-    p = committed_path(source)
+    p = committed_path(source, directory)
     if not p.exists():
         return None
     try:
@@ -190,18 +192,19 @@ def committed_result(source: str, max_age_days: int,
         return None
     r.used_fallback = False
     r.error = None
-    r.fallback_note = (f"read from committed {p.relative_to(COMMITTED_DIR.parent.parent)}, "
+    r.fallback_note = (f"read from committed {p.relative_to(Path(__file__).parent.parent)}, "
                        f"issued {r.issued}, {age} day(s) old")
     return r
 
 
-def write_committed(source: str, result: FetchResult) -> Path:
+def write_committed(source: str, result: FetchResult,
+                    directory: Optional[Path] = None) -> Path:
     """Persist a successful live result as the committed file. Same atomic
     write as the cache, for the same reason."""
     if not result.ok:
         raise ValueError(f"refusing to commit a failed {source} result")
-    COMMITTED_DIR.mkdir(parents=True, exist_ok=True)
-    path = committed_path(source)
+    path = committed_path(source, directory)
+    path.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(result.to_jsonable(), indent=2)
     fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=f".{source}.", suffix=".tmp")
     try:
