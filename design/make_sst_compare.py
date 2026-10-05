@@ -68,6 +68,13 @@ CACHE = Path("/private/tmp/claude-505/"
              "-Users-admin-Documents-Claude-Projects-El-Nino-Tracker/"
              "963b8065-d8cb-408a-9195-33d00aeda096/scratchpad/sst_cache_v2")
 MONTHS = range(3, 11)                     # March to October
+# RENDERS GO OUTSIDE THE REPO. qa_check scans untracked files as well as
+# tracked ones, so the first eight-year render left a 7.6 MB GIF in design/
+# that failed the 5 MB limit and blocked EVERY chat's push, not just this
+# one's; twelve outputs there came to about 30 MB. Same hazard as the heat
+# builder writing previews into docs/ on 2026-08-30. A GIF is a deliverable
+# handed to a person, not a source file, and it regenerates from this one.
+OUT = CACHE.parent / "sst_out"
 
 
 def _doy(d):
@@ -411,14 +418,15 @@ def render(variant="site", years=YEARS, tag="", fps=4):
 
     n = len(wk)
     frames = [0] * 5 + list(range(n)) + [n - 1] * 10
-    out = ROOT / f"design/sst_compare_{tag}{variant}.gif"
+    OUT.mkdir(parents=True, exist_ok=True)
+    out = OUT / f"sst_compare_{tag}{variant}.gif"
     FuncAnimation(fig, draw, frames=frames, interval=1000 / fps,
                   blit=False).save(out, writer=PillowWriter(fps=fps))
     draw(n - 1)
-    fig.savefig(ROOT / f"design/sst_compare_{tag}{variant}_final.png",
+    fig.savefig(OUT / f"sst_compare_{tag}{variant}_final.png",
                 facecolor=T.PAPER)
     plt.close(fig)
-    print(f"wrote {out.relative_to(ROOT)} ({out.stat().st_size / 1e6:.1f} MB),"
+    print(f"wrote {out} ({out.stat().st_size / 1e6:.1f} MB),"
           f" {n} weeks centred {wk[0]} to {wk[-1]}")
 
 
