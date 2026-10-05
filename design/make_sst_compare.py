@@ -1,40 +1,51 @@
 #!/usr/bin/env python3
-"""Four El Ninos on the same calendar date, March to October: a motion test.
+"""Four El Ninos on the same calendar week, March to now: a motion test.
 
-Kristjan, 2026-10-04, on Ben Noll's four-panel Oct 1 map (2026, 2015,
-1997, 1982): "is there a way for us to generate gif that compares them -
-march til now?"
+Kristjan, 2026-10-04, on Ben Noll's four-panel 1 October SST map (2026,
+2015, 1997, 1982): "is there a way for us to generate gif that compares
+them - march til now?"
 
 THIS IS THE USE CASE THE MOVING LINE WAS NOT. On 2026-09-01 the animated
 analog line was parked as "too simple": a line growing left to right is a
-still with a delay, the reader ends at the same picture. Here the motion
-carries what no single frame can: four oceans on the same date, warming
-at different speeds and in different shapes, so WHEN each tongue forms and
-HOW FAST it widens is watched rather than inferred from four stills.
+still with a delay. Here the motion carries what no single frame can:
+four oceans on the same week, the warm tongue forming at different speeds
+and in different shapes.
 
-TWO STEPS, deliberately separate:
-  pull    OISST v2.1 daily over OPeNDAP, cached per slice in the scratch
-          dir, resumable. ~155 slices at 3-5 s each. Re-running skips
-          everything already cached, so a dropped connection costs one
-          slice, not the job.
-  render  matplotlib + PillowWriter, no new dependencies (Kristjan's
-          ruling: stay in matplotlib, no ffmpeg).
+THE METHOD IS SCIENCE'S, AND THE FIRST BUILD HAD IT WRONG TWICE.
+(Science, 2026-10-04; their name goes on the method once built this way.)
 
-    .venv/bin/python design/make_sst_compare.py pull
-    .venv/bin/python design/make_sst_compare.py render
+  1. Raw anomaly against 1991-2020 mixes forty years of ocean warming into
+     an El Nino comparison: 1982 reads cold and 2026 hot almost everywhere.
+     But subtracting the tropical mean over the WHOLE GLOBE is false in the
+     other direction: 2026's tropical mean is high partly BECAUSE of the
+     tongue, so subtracting it paints the extratropics blue, and the South
+     Pacific read deep cold on that frame and near normal on the raw one.
+     That correction belongs to a tropical index (D-288). So: relative to
+     the 20S-20N mean, and the map CROPPED to 30S-30N, where the El
+     Nino-driven shift in tropical rainfall responds to that contrast
+     rather than to absolute temperature, and where the story is.
+  2. Single days flicker and carry frontal noise. Each frame is a 7-day
+     mean on CPC's weekly convention, centred on Wednesday, so a frame
+     matches the weekly series the brief and the notes quote.
 
-THE ANOMALY BASELINE IS A METHOD CHOICE, AND IT IS SCIENCE'S. A raw
-anomaly against 1991-2020 makes 1982 look cold and 2026 hot almost
-everywhere, partly because the whole ocean has warmed since 1982 and not
-because of El Nino. That is the same inflation RONI exists to remove on
-this site. So `render` produces both: RAW (what Ben's figure shows) and
-RELATIVE (each frame minus that day's 20S-20N mean anomaly, the RONI
-idea applied to the map). Which one publishes is not design's call.
+  And BLOCK-AVERAGED, NOT POINT-SAMPLED: the full 0.25 deg field is averaged
+  4x4 to 1 deg. The first build took every fourth point, which adds noise of
+  its own.
+
+SAME CALENDAR WEEK, NOT THE SAME STAGE OF THE EVENT. 2015 had begun the
+previous year; 1982 and 1997 peaked in November to January. The windows are
+2026's Wednesday weeks, applied to the same month-days in every year, so all
+four panels always show the same seven days of the calendar. Every year here
+is non-leap, so one day-of-year index serves all four and the climatology.
+
+  .venv/bin/python design/make_sst_compare.py pull     # resumable, cached
+  .venv/bin/python design/make_sst_compare.py render
 """
 from __future__ import annotations
 
 import sys
 import time
+import warnings
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -45,207 +56,361 @@ sys.path.insert(0, str(ROOT))
 
 BASE = "https://psl.noaa.gov/thredds/dodsC/Datasets/noaa.oisst.v2.highres"
 CLIM = f"{BASE}/sst.day.mean.ltm.1991-2020.nc"
-YEARS = (2026, 2015, 1997, 1982)        # Ben's order: current first
-END = date(2026, 10, 1)                  # Ben's frame, so the last one matches
-STEP = 7                                 # weekly
-STRIDE = 4                               # 0.25 deg -> 1 deg: legible, 16x less
+YEARS = (2026, 2015, 1997, 1982)          # Ben's order: current first
+FIRST_WED = date(2026, 3, 4)
+LAT = (-30.0, 30.0)                       # science: crop to 30S-30N
+TROP = (-20.0, 20.0)                      # the band CPC's relative index uses
+BLOCK = 4                                 # 0.25 deg -> 1 deg, averaged
 CACHE = Path("/private/tmp/claude-505/"
              "-Users-admin-Documents-Claude-Projects-El-Nino-Tracker/"
-             "963b8065-d8cb-408a-9195-33d00aeda096/scratchpad/sst_cache")
+             "963b8065-d8cb-408a-9195-33d00aeda096/scratchpad/sst_cache_v2")
+MONTHS = range(3, 11)                     # March to October
 
 
-def frame_days():
-    """Month-days ending on END, back to March, weekly."""
-    out, d = [], END
-    while d >= date(END.year, 3, 1):
-        out.append((d.month, d.day))
-        d -= timedelta(days=STEP)
-    return out[::-1]
+def _doy(d):
+    return (date(2026, d.month, d.day) - date(2026, 1, 1)).days
 
 
-def _doy(month, day):
-    # All four years are non-leap, so one day-of-year index serves all of
-    # them and the climatology's 365-day axis lines up without adjustment.
-    return (date(2026, month, day) - date(2026, 1, 1)).days
+def _block(a):
+    """(t, 240, 1440) -> (t, 60, 360), mean over each 4x4 block of ocean.
+
+    Averaging obs and climatology SEPARATELY and subtracting afterwards is
+    exact here, not an approximation: both are linear, and OISST's land mask
+    is identical in the observations and the climatology, with no sea ice
+    anywhere in 30S-30N to make the mask vary by day. A block that is all
+    land stays NaN; a coastal block averages its ocean cells only.
+    """
+    t, ny, nx = a.shape
+    b = a.reshape(t, ny // BLOCK, BLOCK, nx // BLOCK, BLOCK)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        return np.nanmean(b, axis=(2, 4)).astype("float32")
 
 
-def pull():
+def _path(src, month):
+    return CACHE / f"{src}_{month:02d}.npy"
+
+
+PIECE = 5          # days per request; see _fetch
+
+
+def _valid(v):
+    """True if a raw OISST block is real data rather than a zero-filled hole.
+
+    WHY THIS EXISTS. PSL's OPeNDAP server truncates a large response, the
+    client logs "DAP DATADDS packet is apparently too short", and xarray
+    hands back an array of ZEROS with no exception. The first full-res pull
+    asked for a month at a time (43 MB) and cached 39 of 40 chunks as pure
+    zeros: no NaN over land, value 0.00 everywhere. It rendered three empty
+    panels and a fourth that was raw temperature minus nothing.
+
+    Measured on 2026-10-05: 1, 3 and 7 days (up to 9.7 MB) come back real;
+    14 days (19.4 MB) comes back zeros. Shape, size and exit status are
+    identical either way, so the only check that can tell them apart looks
+    at the VALUES: OISST is NaN over land, so a real 30S-30N block is about
+    a quarter missing, and ocean temperature is never exactly 0.00 over a
+    whole field.
+    """
+    if not v.size:
+        return False
+    land = np.isnan(v).mean()
+    zero = (v == 0).mean()
+    return (0.15 < land < 0.6 and zero < 0.01
+            and np.nanmax(v) < 40 and np.nanmin(v) > -3)
+
+
+def _open(url, **kw):
+    """open_dataset with retries. The fetch loop retried requests but not
+    the OPEN before them, and on 2026-10-05 a transient NetCDF I/O failure
+    on opening the 2015 file killed that process after four of eight months,
+    silently, with no INCOMPLETE line. Opening is a network call too."""
+    import xarray as xr
+    for attempt in range(6):
+        try:
+            return xr.open_dataset(url, **kw)
+        except OSError as e:
+            print(f"    open {url.rsplit('/', 1)[-1]}: {e.__class__.__name__}, "
+                  f"retry", flush=True)
+            time.sleep(5 * (attempt + 1))
+    raise SystemExit(f"INCOMPLETE: could not open {url}. Re-run to resume.")
+
+
+def _fetch(get, start, end):
+    """Days start..end inclusive, in PIECE-day requests, each validated.
+
+    `get(a, b)` returns the raw array for days a..b. A piece that fails
+    validation is retried, then split in half: a corrupt piece is never
+    cached, because a zero array cached once is served forever.
+    """
+    out, a = [], start
+    while a <= end:
+        b = min(a + timedelta(days=PIECE - 1), end)
+        n = (b - a).days + 1
+        for attempt in range(6):
+            try:
+                v = get(a, b)
+            except Exception as e:
+                print(f"    {a}..{b}: {type(e).__name__}, retry", flush=True)
+                time.sleep(3 * (attempt + 1))
+                continue
+            if _valid(v) and v.shape[0] == n:
+                break
+            print(f"    {a}..{b}: came back corrupt, retry", flush=True)
+            if attempt >= 2 and n > 1:      # stop asking for this much
+                b = a + timedelta(days=max(0, n // 2 - 1))
+                n = (b - a).days + 1
+            time.sleep(3 * (attempt + 1))
+        else:
+            raise SystemExit(f"INCOMPLETE: {a}..{b} never came back real. "
+                             f"Re-run to resume.")
+        out.append(v)
+        a = b + timedelta(days=1)
+    return np.concatenate(out)
+
+
+def pull(only=None):
+    """Fetch every month chunk not already cached.
+
+    `only` restricts to some sources, so the four years can be pulled by
+    four processes at once: each writes different files, and the cache makes
+    any of them safe to kill and re-run. One stream on the first run took
+    several minutes a chunk, and a single long job is what the end of a
+    session cut off on 2026-10-04.
+    """
     import xarray as xr
     CACHE.mkdir(parents=True, exist_ok=True)
-    days = frame_days()
-    todo = ([("clim", m, d) for m, d in days]
-            + [(y, m, d) for y in YEARS for m, d in days])
-    have = sum(1 for k in todo if _path(*k).exists())
-    print(f"{len(days)} frames x {len(YEARS)} years + climatology: "
-          f"{len(todo)} slices, {have} cached", flush=True)
-    sources = {}
-    for k in todo:
-        p = _path(*k)
+    srcs = ("clim",) + YEARS
+    if only:
+        srcs = tuple(x for x in srcs if str(x) in only)
+    todo = [(s, m) for s in srcs for m in MONTHS]
+    print(f"{len(todo)} month chunks, "
+          f"{sum(_path(*k).exists() for k in todo)} cached", flush=True)
+    for src, m in todo:
+        p = _path(src, m)
         if p.exists():
             continue
-        y, m, d = k
-        for attempt in range(4):
-            try:
-                if y == "clim":
-                    ds = sources.setdefault("clim", xr.open_dataset(
-                        CLIM, decode_times=False))
-                    v = ds.sst.isel(time=_doy(m, d),
-                                    lat=slice(None, None, STRIDE),
-                                    lon=slice(None, None, STRIDE)).values
-                else:
-                    ds = sources.setdefault(y, xr.open_dataset(
-                        f"{BASE}/sst.day.mean.{y}.nc"))
-                    v = ds.sst.sel(time=f"{y}-{m:02d}-{d:02d}").isel(
-                        lat=slice(None, None, STRIDE),
-                        lon=slice(None, None, STRIDE)).values
-                np.save(p, v.astype("float32"))
-                break
-            except Exception as e:                       # network: retry
-                print(f"  retry {k}: {type(e).__name__}", flush=True)
-                sources.pop(y, None)
-                time.sleep(5 * (attempt + 1))
+        start = date(2026, m, 1)
+        end = (date(2026, m + 1, 1) if m < 12 else date(2027, 1, 1)) \
+            - timedelta(days=1)
+        if src == "clim":
+            ds = _open(CLIM, decode_times=False)
+            sub = ds.sst.sel(lat=slice(*LAT))
+            get = (lambda a, b, sub=sub:
+                   sub.isel(time=slice(_doy(a), _doy(b) + 1)).values)
         else:
-            raise SystemExit(f"INCOMPLETE: gave up on {k}. Re-run to resume.")
-        have += 1
-        if have % 10 == 0:
-            print(f"  {have}/{len(todo)}", flush=True)
-    if not (CACHE / "grid.npz").exists():
-        import xarray as xr
-        ds = xr.open_dataset(f"{BASE}/sst.day.mean.2026.nc")
-        np.savez(CACHE / "grid.npz",
-                 lat=ds.lat.values[::STRIDE], lon=ds.lon.values[::STRIDE])
-    missing = [k for k in todo if not _path(*k).exists()]
-    print("COMPLETE" if not missing else f"INCOMPLETE: {len(missing)} missing")
+            ds = _open(f"{BASE}/sst.day.mean.{src}.nc")
+            sub = ds.sst.sel(lat=slice(*LAT))
+            last = date(2026, *map(int, str(ds.time.values[-1])[5:10].split("-")))
+            end = min(end, last) if src == 2026 else end
+            get = (lambda a, b, sub=sub, y=src: sub.sel(time=slice(
+                f"{y}-{a.month:02d}-{a.day:02d}",
+                f"{y}-{b.month:02d}-{b.day:02d}")).values)
+        if end < start:
+            continue
+        v = _fetch(get, start, end)
+        np.save(p, _block(v))
+        print(f"  {src} {m:02d}: {v.shape[0]} days, validated", flush=True)
+    if only:
+        print(f"done: {', '.join(map(str, srcs))}")
+        return
+    import xarray as xr
+    g = xr.open_dataset(f"{BASE}/sst.day.mean.2026.nc").sst.sel(lat=slice(*LAT))
+    lat = g.lat.values.reshape(-1, BLOCK).mean(1)
+    lon = g.lon.values.reshape(-1, BLOCK).mean(1)
+    np.savez(CACHE / "grid.npz", lat=lat, lon=lon)
+    print("COMPLETE")
 
 
-def _path(y, m, d):
-    return CACHE / f"{y}_{m:02d}{d:02d}.npy"
+def _daily(src):
+    """{date-in-2026-calendar: 1-deg field} for every cached day of src.
+
+    Refuses a corrupt cache at the point of use as well as at the point of
+    fetch, because the one place a zero-filled field must never reach is a
+    rendered frame, and a cache can outlive the code that wrote it.
+    """
+    out = {}
+    for m in MONTHS:
+        p = _path(src, m)
+        if not p.exists():
+            continue
+        a = np.load(p)
+        if not _valid(a):
+            raise SystemExit(f"CORRUPT CACHE: {p.name} is not real data "
+                             f"(zero-filled OPeNDAP response). Delete it and "
+                             f"re-run pull.")
+        for i, f in enumerate(a):
+            out[date(2026, m, 1) + timedelta(days=i)] = f
+    return out
+
+
+def weeks():
+    """Wednesdays whose whole Sun-Sat window has 2026 data, oldest first.
+
+    Self-extending: the last frame is the last COMPLETE CPC week, and a
+    re-pull after NOAA adds days moves it forward without code changes.
+    """
+    have = set(_daily(2026))
+    out, w = [], FIRST_WED
+    while all(w + timedelta(days=k) in have for k in range(-3, 4)):
+        out.append(w)
+        w += timedelta(days=7)
+    return out
+
+
+def fields():
+    """{year: [relative weekly anomaly per frame]}, plus lat, lon, weeks."""
+    g = np.load(CACHE / "grid.npz")
+    lat, lon = g["lat"], g["lon"]
+    clim = _daily("clim")
+    wk = weeks()
+    wts = np.cos(np.deg2rad(lat))[:, None]
+    band = (lat >= TROP[0]) & (lat <= TROP[1])
+    out = {}
+    for y in YEARS:
+        obs = _daily(y)
+        frames = []
+        for w in wk:
+            days = [w + timedelta(days=k) for k in range(-3, 4)]
+            anom = np.mean([obs[d] - clim[d] for d in days], axis=0)
+            b = anom[band]
+            ww = np.broadcast_to(wts[band], b.shape)
+            ok = np.isfinite(b)
+            frames.append(anom - (b[ok] * ww[ok]).sum() / ww[ok].sum())
+        out[y] = frames
+    return out, lat, lon, wk
 
 
 _MON = ("January", "February", "March", "April", "May", "June", "July",
         "August", "September", "October", "November", "December")
 
 
-def _fields(relative):
-    """{year: [anomaly array per frame]}, cropped, in the frame order."""
-    g = np.load(CACHE / "grid.npz")
-    lat, lon = g["lat"], g["lon"]
-    keep = (lat >= -60) & (lat <= 65)
-    w = np.cos(np.deg2rad(lat))[:, None]
-    trop = (lat >= -20) & (lat <= 20)
-    out = {y: [] for y in YEARS}
-    for m, d in frame_days():
-        clim = np.load(_path("clim", m, d))
-        for y in YEARS:
-            a = np.load(_path(y, m, d)) - clim
-            if relative:
-                # THE RONI IDEA ON A MAP. Subtract that day's area-weighted
-                # 20S-20N mean anomaly, so a frame shows where the ocean is
-                # warm RELATIVE TO THE TROPICS THAT DAY rather than relative
-                # to a 1991-2020 world. Without it, 1982 reads cold and 2026
-                # hot almost everywhere, and most of that is warming, not El
-                # Nino. Science's call which version publishes.
-                band = a[trop]
-                ww = np.broadcast_to(w[trop], band.shape)
-                ok = np.isfinite(band)
-                a = a - (band[ok] * ww[ok]).sum() / ww[ok].sum()
-            out[y].append(a[keep])
-    return out, lat[keep], lon
+def ramp(variant):
+    """(cmap, norm, colorbar ticks) for the site ramp or the bold proposal.
+
+    BOLD IS ALL THREE LEVERS, Kristjan 2026-10-04 ("make all 1-2-3"), after
+    Ben Noll's map read more dramatic than ours on identical data. Measured,
+    the gap came from three drawing choices, not the ocean:
+
+      1. a near-black extreme, where ours tops out at deep red
+      2. a continuous ramp, where ours rounds into nine legend steps
+      3. small anomalies visibly coloured, where ours keeps +0.33 to +1 C
+         pale on purpose (31% of 2026's ocean sits in that band)
+
+    Design argued for the first lever alone, since 3 makes modest warmth look
+    alarming and 2 gives up decoding a colour off the legend. Kristjan chose
+    all three; this is that, built from the site's own teal-to-red hues so it
+    still reads as ours.
+
+    A PROPOSAL FOR VD. tokens.ANOMALY is not edited: it drives every SST
+    surface on the site, and changing it for one graphic would move all of
+    them. Whether this becomes the house ramp is VD's call.
+    """
+    import tokens as T
+    from matplotlib.colors import (BoundaryNorm, LinearSegmentedColormap,
+                                   ListedColormap, Normalize)
+    s = T.OCEAN_SCALE
+    if variant == "bold":
+        # Anchors in degrees C. Zero is the only near-neutral point (lever 3:
+        # colour starts immediately), and the ends run past the site's
+        # darkest steps to near-black teal and near-black maroon (lever 1).
+        anchors = [(-3.0, "#03222A"), (-2.0, "#0A4A57"), (-1.0, "#417785"),
+                   (-0.25, "#A9C3C9"), (0.0, "#F1F0EC"), (0.25, "#F2BFAD"),
+                   (1.0, "#D9785A"), (2.0, "#A8341A"), (2.6, "#6A1606"),
+                   (3.0, "#2A0802")]
+        cmap = LinearSegmentedColormap.from_list(
+            "bold", [((v + s) / (2 * s), c) for v, c in anchors])  # lever 2
+        cmap.set_over("#1A0501")
+        cmap.set_under("#021519")
+        norm = Normalize(-s, s)
+    else:
+        cmap = ListedColormap(T.ANOMALY)
+        cmap.set_over(T.ANOMALY[-1])
+        cmap.set_under(T.ANOMALY[0])
+        norm = BoundaryNorm(np.linspace(-s, s, len(T.ANOMALY) + 1), cmap.N)
+    cmap.set_bad("#B3B2AB")
+    return cmap, norm
 
 
-def render(relative=False, fps=4):
+def render(variant="site", fps=4):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib.animation import FuncAnimation, PillowWriter
-    from matplotlib.colors import BoundaryNorm, ListedColormap
     import tokens as T
 
-    fields, lat, lon = _fields(relative)
-    days = frame_days()
-    # The site's nine-step anomaly ramp over +/-OCEAN_SCALE, the same steps
-    # the front-page field and its legend use, so a colour here decodes the
-    # same way as a colour there.
-    edges = np.linspace(-T.OCEAN_SCALE, T.OCEAN_SCALE, len(T.ANOMALY) + 1)
-    cmap = ListedColormap(T.ANOMALY)
-    # LAND IS A HUELESS MID-GREY THAT NO STEP USES. The first render had
-    # land at #D9D8D2 against the neutral step at #E8E7E2, and in the
-    # March frames, where most of the ocean is near zero, whole basins of
-    # quiet Pacific read as continent. Darker, and with no hue, so it
-    # cannot be mistaken for the pale blue or pale red flanking zero.
-    cmap.set_bad("#B3B2AB")
-    cmap.set_over(T.ANOMALY[-1])
-    cmap.set_under(T.ANOMALY[0])
-    norm = BoundaryNorm(edges, cmap.N)
+    f, lat, lon, wk = fields()
+    cmap, norm = ramp(variant)
 
-    fig = plt.figure(figsize=(8.4, 12.6), dpi=100)
+    fig = plt.figure(figsize=(12, 8.2), dpi=100)
     fig.patch.set_facecolor(T.PAPER)
-    top, left, right = 0.905, 0.10, 0.87
-    h = (top - 0.06) / len(YEARS)
+    left, right, top, bottom = 0.085, 0.90, 0.855, 0.17
+    h = (top - bottom) / len(YEARS)
     ims = []
     for i, y in enumerate(YEARS):
-        ax = fig.add_axes([left, top - (i + 1) * h + 0.008, right - left,
-                           h - 0.016])
-        im = ax.imshow(np.ma.masked_invalid(fields[y][0]), origin="lower",
+        ax = fig.add_axes([left, top - (i + 1) * h + 0.006, right - left,
+                           h - 0.012])
+        im = ax.imshow(np.ma.masked_invalid(f[y][0]), origin="lower",
                        extent=[lon[0], lon[-1], lat[0], lat[-1]],
                        cmap=cmap, norm=norm, aspect="auto",
                        interpolation="nearest")
-        ax.set_xticks([]); ax.set_yticks([])
-        for s in ax.spines.values():
-            s.set_visible(False)
-        fig.text(left - 0.012, top - i * h - h / 2, str(y), ha="right",
+        ax.axis("off")
+        fig.text(left - 0.01, top - i * h - h / 2, str(y), ha="right",
                  va="center", fontsize=15, color=T.INK,
-                 fontweight="bold" if y == 2026 else "normal")
+                 fontweight="bold" if y == YEARS[0] else "normal")
         ims.append(im)
 
-    title = fig.text(left, 0.945, "", fontsize=19, color=T.INK)
-    fig.text(left, 0.922,
-             ("Each map relative to that day's tropical average"
-              if relative else
-              "Sea temperature anomaly against 1991-2020"),
-             fontsize=11, color=T.INK_SOFT)
-    cax = fig.add_axes([0.895, 0.30, 0.018, 0.40])
+    title = fig.text(left, 0.925, "", fontsize=20, color=T.INK)
+    fig.text(left, 0.892,
+             "Sea surface temperature relative to the tropical average, "
+             "30°S to 30°N", fontsize=11.5, color=T.INK_SOFT)
+    cax = fig.add_axes([0.915, bottom + 0.05, 0.013, top - bottom - 0.10])
     cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cax,
                       ticks=[-3, 0, 3], extend="both")
     cb.ax.set_yticklabels(["-3 °C", "0", "+3 °C"], fontsize=10,
                           color=T.INK_SOFT)
     cb.outline.set_visible(False)
-    # THE VINTAGE, because this is built to travel: a GIF on X carries no
-    # dateline, and is reposted long after the ocean has moved.
-    fig.text(left, 0.022,
-             "NOAA OISST v2.1, daily, 1 degree. The Long Swell. "
-             "Last frame 1 October 2026.", fontsize=9, color=T.INK_FAINT)
+
+    # SCIENCE'S FOUR CAPTION ITEMS. Wording here is a working draft for the
+    # test; the reader-facing sentence is the editor's before it publishes.
+    cap = ("Colour: NOAA OISST v2.1, 7-day means centred on Wednesday, 1991-2020 "
+           "baseline, minus that week's 20°S-20°N average, so forty "
+           "years of warming does not paint\nrecent years warm everywhere. "
+           "That also removes the tropics-wide warming El Niño itself "
+           "causes: these maps show the shape and strength of the warm tongue,"
+           "\nnot total ocean warmth. Values read lower than the fixed-baseline "
+           "weekly figures we quote. Same calendar week in every year, not the "
+           "same stage of each event.")
+    fig.text(left, 0.035, cap, fontsize=8.6, color=T.INK_FAINT,
+             linespacing=1.45, va="bottom")
 
     def draw(k):
         for y, im in zip(YEARS, ims):
-            im.set_data(np.ma.masked_invalid(fields[y][k]))
-        m, d = days[k]
-        title.set_text(f"{d} {_MON[m - 1]}")
+            im.set_data(np.ma.masked_invalid(f[y][k]))
+        w = wk[k]
+        a, b = w - timedelta(days=3), w + timedelta(days=3)
+        title.set_text(f"Week of {a.day} {_MON[a.month - 1]}"
+                       f" to {b.day} {_MON[b.month - 1]}")
         return ims + [title]
 
-    n = len(days)
-    # A beat on the first date, then the run, then a long hold on 1 October
-    # so a screenshot taken any time after the motion is Ben's frame.
+    n = len(wk)
     frames = [0] * 5 + list(range(n)) + [n - 1] * 10
-    tag = "relative" if relative else "raw"
-    out = ROOT / f"design/sst_compare_{tag}.gif"
+    out = ROOT / f"design/sst_compare_{variant}.gif"
     FuncAnimation(fig, draw, frames=frames, interval=1000 / fps,
                   blit=False).save(out, writer=PillowWriter(fps=fps))
     draw(n - 1)
-    fig.savefig(ROOT / f"design/sst_compare_{tag}_final.png",
+    fig.savefig(ROOT / f"design/sst_compare_{variant}_final.png",
                 facecolor=T.PAPER)
     plt.close(fig)
     print(f"wrote {out.relative_to(ROOT)} ({out.stat().st_size / 1e6:.1f} MB),"
-          f" {n} dates, {days[0][1]} {_MON[days[0][0] - 1]} to "
-          f"{days[-1][1]} {_MON[days[-1][0] - 1]}")
+          f" {n} weeks centred {wk[0]} to {wk[-1]}")
 
 
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else ""
     if cmd == "pull":
-        pull()
+        pull(sys.argv[2:] or None)
     elif cmd == "render":
-        render(relative=False)
-        render(relative=True)
+        render("site")
+        render("bold")
     else:
         print(__doc__)
