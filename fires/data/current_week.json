@@ -6334,7 +6334,7 @@
   "USA": {
    "iso": "USA",
    "name": "United States of America",
-   "count": 7264,
+   "count": 7262,
    "mean": 9169.8,
    "hist": {
     "2012": 9467,
@@ -6358,7 +6358,7 @@
     "2026-10-01": 1121,
     "2026-10-02": 671,
     "2026-10-03": 748,
-    "2026-10-04": 603
+    "2026-10-04": 601
    },
    "daily_expected": 7,
    "daily_due": 7,
@@ -6367,17 +6367,17 @@
    "hist_excluded_for_comparability": [
     "2014"
    ],
-   "lat": 37.07,
-   "lon": -97.99,
+   "lat": 37.08,
+   "lon": -97.98,
    "basis": "weighted",
    "cropland": {
     "detections_on_crop_pct": 17.83,
     "country_land_crop_pct": 14.65,
     "ratio": 1.217,
     "reading": "neutral",
-    "expected_on_crop": 1064.2,
+    "expected_on_crop": 1063.9,
     "detections_on_crop": 1294.9,
-    "n_detections_sampled": 7264,
+    "n_detections_sampled": 7262,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -6390,14 +6390,14 @@
     "recur_pct": 15.8,
     "night_pct": 49.1,
     "frp_median": 3.27,
-    "n_detections": 7264,
+    "n_detections": 7262,
     "peak_to_median_day": 1.4,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
     "multiple": 0.79,
-    "count": 7264,
+    "count": 7262,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
