@@ -133,6 +133,22 @@ def main() -> None:
 
     week = last.sel(**sel).mean("time")
     base = clim.sst.isel(time=[d - 1 for d in doys]).sel(**sel).mean("time")
+    # REFUSE A ZERO-FILLED RESPONSE rather than draw it. PSL's OPeNDAP
+    # server truncates a large reply and xarray returns an array of ZEROS
+    # with no exception (measured 2026-10-05: ~10 MB real, ~19 MB zeros;
+    # this request is about 2.8 MB, so it is inside the margin, but the
+    # limit is the server's, not ours). A real field here always has land
+    # (Central America, the Peruvian coast) as NaN and never sits at
+    # exactly 0.00 C. Refusing matters more than it looks: the workflow
+    # step is continue-on-error, so a refusal leaves last week's field up
+    # and the 8-day freshness check turns red; drawing zeros would publish
+    # a neutral ocean under a fresh date and leave every check green.
+    for _name, _v in (("observations", week.values), ("climatology", base.values)):
+        if not np.isnan(_v).any() or (_v == 0).mean() > 0.01:
+            raise SystemExit(
+                f"REFUSING: the {_name} came back zero-filled (truncated "
+                f"OPeNDAP response). Nothing written; the previous field "
+                f"stays up. Re-run.")
     anom = (week.values - base.values).astype("float64")
     lats = week.lat.values
     if lats[0] < lats[-1]:                 # north must be row 0 for the PNG
