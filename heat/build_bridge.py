@@ -171,6 +171,34 @@ def _read_ghcn(path):
     return out
 
 
+def read_ghcn_prcp(path):
+    """Daily PRCP from a .dly: {date: (mm, trace, source_flag)} (D-321).
+
+    A sibling of _read_ghcn, not an extension, so the heat path cannot move
+    because rain was added. Same exclusion rule: a value carrying any quality
+    flag is dropped, not kept with a warning.
+
+    A MISSING DAY IS ABSENT FROM THE DICT, never 0.0. A trace (M-flag T) is
+    0.0 with trace=True. The source flag is kept because it decides whether
+    a comparison against bulletins means anything: S is NOAA's Global
+    Summary of the Day, itself built from SYNOP, so a GHCN-vs-bulletin
+    agreement on an S-sourced day is the bulletins agreeing with themselves.
+    """
+    out = {}
+    for L in path.read_text(errors="replace").splitlines():
+        if L[17:21] != "PRCP":
+            continue
+        y, m = int(L[11:15]), int(L[15:17])
+        for d in range(31):
+            o = 21 + d * 8
+            v, mf, q, s = (L[o:o + 5].strip(), L[o + 5:o + 6],
+                           L[o + 6:o + 7], L[o + 7:o + 8])
+            if v in ("-9999", "") or q.strip():
+                continue
+            out[f"{y}-{m:02d}-{d + 1:02d}"] = (int(v) / 10.0, mf == "T", s)
+    return out
+
+
 def detect_hours(raw, fallback=("06", "18")):
     """Which hours does THIS station bulletin its extremes at? Measured.
 
