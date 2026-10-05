@@ -61,16 +61,31 @@ from build_bridge import OGIMET, SRC, _is_synop, read_ghcn_prcp  # noqa: E402
 CACHE = SRC / "synop_rain"
 OUT = ROOT / "heat" / ".cache" / "rain"
 
-# Station identity: (WMO block for bulletins, GHCN id, rain-day end hour UTC).
+# Station identity: (WMO block, GHCN id, rain-day end hour UTC, labelling).
 # Zagreb is GRIC (14236), NOT the 14240 Maksimir block heat's temperature
 # bridge uses: GHCN's HR000142360 is Gric, and rain is too local for a
 # different gauge 4 km away to stand in for it. The 06 UTC end hour is the
 # European climatological rain day; the GHCN comparison tests it.
+#
+# LABELLING IS A PROPERTY OF THE STATION, MEASURED ONCE ON INDEPENDENT DATA,
+# then fixed. It was first chosen per run, and on Zagreb 2024-2026 that
+# chose the opposite convention from 2021-2023, because GHCN's only 2024
+# rain there is source S: NOAA's GSOD, compiled from these same bulletins
+# on its own day definition, and wrong on its own terms (50.0 mm on
+# 2024-01-21, a day every bulletin reports dry). A series whose dates shift
+# by one at a year boundary puts a record on the wrong day.
+#
+#   zagreb  "start": 2021-2023 against ECA&D (GHCN source E), 99.6% of 277
+#           wet days agree labelled by start date, 5.0% by end date.
+#   None    not yet measured; the run measures it from independent overlap
+#           and refuses to write a series if it cannot.
 STATIONS = {
-    "zagreb":   ("14236", "HR000142360", 6),
-    "budapest": ("12843", "HUM00012843", 6),
-    "vilnius":  ("26730", "LH000026730", 6),
+    "zagreb":   ("14236", "HR000142360", 6, "start"),
+    "budapest": ("12843", "HUM00012843", 6, None),
+    "vilnius":  ("26730", "LH000026730", 6, None),
 }
+# GHCN source flags that are NOT independent of SYNOP. S is GSOD.
+DERIVED_SOURCES = {"S"}
 
 PIECE_TOL = {"r24": 0.1}          # rounding of one piece, mm; default 0.5
 GHCN_TOL_MM, GHCN_TOL_FRAC = 1.0, 0.10
@@ -281,13 +296,17 @@ def _agree(s, g):
     return abs(s - g) <= max(GHCN_TOL_MM, GHCN_TOL_FRAC * max(s, g))
 
 
-def compare(syn, ghcn, shift):
+def compare(syn, ghcn, shift, independent):
     """Agreement with GHCN when the bulletin day is labelled `shift` days
-    from its end date (0: by end date, -1: by start date)."""
+    from its end date (0: by end date, -1: by start date), over either the
+    independent GHCN days only or the SYNOP-derived ones only.
+
+    A GHCN trace (none of these stations carry one) or zero against a
+    bulletin trace compares as 0.0 against 0.0: agreement, not a fault."""
     pairs = []
     for d, (mm, _tr, _n) in syn.items():
         k = str(dt.date.fromisoformat(d) + dt.timedelta(days=shift))
-        if k in ghcn:
+        if k in ghcn and (ghcn[k][2] not in DERIVED_SOURCES) == independent:
             pairs.append((k, mm, ghcn[k][0], ghcn[k][2]))
     wet = [p for p in pairs if p[2] >= WET_MM or p[1] >= WET_MM]
     return {
@@ -307,7 +326,7 @@ def main(argv=None) -> int:
     ap.add_argument("station", choices=sorted(STATIONS))
     ap.add_argument("--years", required=True, help="e.g. 2010-2023")
     a = ap.parse_args(argv)
-    block, gid, end_hour = STATIONS[a.station]
+    block, gid, end_hour, label = STATIONS[a.station]
     y0, y1 = (int(x) for x in a.years.split("-"))
 
     lines, short, paged = [], [], []
@@ -333,7 +352,7 @@ def main(argv=None) -> int:
     syn, diag = daily(lines, end_hour)
     ghcn = read_ghcn_prcp(SRC / f"ghcn_{gid}.dly")
     span = [d for d in syn if y0 <= int(d[:4]) <= y1]
-    possible = (dt.date(min(y1, today.year), 12, 31)
+    possible = (min(dt.date(y1, 12, 31), today - dt.timedelta(days=1))
                 - dt.date(y0, 1, 1)).days + 1
 
     print(f"\n{a.station}: block {block}, GHCN {gid}, rain day ends "
@@ -351,42 +370,54 @@ def main(argv=None) -> int:
         for s in short:
             print(f"    {s}")
 
-    res = {s: compare(syn, ghcn, s) for s in (0, -1)}
-    for s, r in res.items():
-        lab = "end date" if s == 0 else "start date"
-        print(f"  vs GHCN labelled by {lab}: {r['days']} days, agree "
-              f"{r['agree_all']:.1%} all, {r['agree_wet']:.1%} of "
-              f"{r['wet_days']} wet; GHCN sources {r['sources']}")
-    best = max(res, key=lambda s: res[s]["agree_wet"])
-    gap = abs(res[0]["agree_wet"] - res[-1]["agree_wet"])
-    if gap < 0.05:
-        print("  LABELLING UNRESOLVED: the two conventions agree within "
-              "five points; not chosen")
-    else:
-        print(f"  labelling: by {'end' if best == 0 else 'start'} date "
-              f"(wet-day agreement {gap:.0%} better)")
-    r = res[best]
+    def show(tag, res):
+        for sh, r in res.items():
+            lab = "end date" if sh == 0 else "start date"
+            print(f"  vs GHCN {tag}, labelled by {lab}: {r['days']} days, "
+                  f"agree {r['agree_all']:.1%} all, {r['agree_wet']:.1%} of "
+                  f"{r['wet_days']} wet")
+
+    ind = {sh: compare(syn, ghcn, sh, True) for sh in (0, -1)}
+    der = {sh: compare(syn, ghcn, sh, False) for sh in (0, -1)}
+    if ind[0]["days"]:
+        show("independent sources", ind)
+    if der[0]["days"]:
+        show("source S (GSOD, built from SYNOP, NOT independent)", der)
+
+    measured, gap = None, abs(ind[0]["agree_wet"] - ind[-1]["agree_wet"])
+    if ind[0]["wet_days"] >= 30 and gap >= 0.05:
+        measured = "end" if ind[0]["agree_wet"] > ind[-1]["agree_wet"] else "start"
+    if label and measured and measured != label:
+        print(f"  LABELLING CONTRADICTED: fixed '{label}', independent overlap "
+              f"here says '{measured}'. Nothing written.")
+        return 3
+    if not label and not measured:
+        print("  LABELLING UNRESOLVED: no independent overlap decides it. "
+              "Nothing written.")
+        return 3
+    use = label or measured
+    print(f"  labelling: by {use} date "
+          f"({'fixed in STATIONS' if label else 'measured here; record it in STATIONS'}"
+          f"{', confirmed by this overlap' if label and measured else ''})")
+    shift = 0 if use == "end" else -1
+    r = ind[shift] if ind[shift]["days"] else der[shift]
     top = sorted(r["pairs"], key=lambda p: -p[2])[:15]
     print("  wettest GHCN days in the overlap, bulletin beside:")
-    for d, s, g, src in top:
-        mark = "" if _agree(s, g) else "   <-- disagree"
-        print(f"    {d}  GHCN {g:6.1f}  bulletins {s:6.1f}  [{src}]{mark}")
-    if r["sources"].get("S"):
-        print(f"  NOTE: {r['sources']['S']} overlap days are GHCN source S "
-              f"(GSOD, built from SYNOP): agreement there is not independent")
+    for d, s_, g, src in top:
+        mark = "" if _agree(s_, g) else "   <-- disagree"
+        print(f"    {d}  GHCN {g:6.1f}  bulletins {s_:6.1f}  [{src}]{mark}")
 
     OUT.mkdir(parents=True, exist_ok=True)
-    shift = best
     out = {str(dt.date.fromisoformat(d) + dt.timedelta(days=shift)):
            {"mm": mm, "trace": tr, "pieces": n}
            for d, (mm, tr, n) in sorted(syn.items())}
-    (OUT / f"{a.station}_bulletin_daily.json").write_text(json.dumps({
+    (OUT / f"{a.station}_{y0}-{y1}_bulletin_daily.json").write_text(json.dumps({
         "station": a.station, "block": block, "ghcn": gid,
         "rain_day_end_utc": end_hour,
-        "labelled_by": "end" if shift == 0 else "start",
-        "labelling_unresolved": gap < 0.05,
+        "labelled_by": use,
         "incomplete_months": short, "paged_months": paged,
-        "conflict_days": diag["conflict_days"],
+        "conflict_days": [str(dt.date.fromisoformat(d) + dt.timedelta(days=shift))
+                          for d in diag["conflict_days"]],
         "days": out}, indent=1))
     return 0
 
