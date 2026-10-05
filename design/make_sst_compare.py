@@ -35,8 +35,10 @@ THE METHOD IS SCIENCE'S, AND THE FIRST BUILD HAD IT WRONG TWICE.
 SAME CALENDAR WEEK, NOT THE SAME STAGE OF THE EVENT. 2015 had begun the
 previous year; 1982 and 1997 peaked in November to January. The windows are
 2026's Wednesday weeks, applied to the same month-days in every year, so all
-four panels always show the same seven days of the calendar. Every year here
-is non-leap, so one day-of-year index serves all four and the climatology.
+panels always show the same seven days of the calendar. Matching is by
+calendar date throughout, so leap years (2020, 2024 in the eight-year set)
+need nothing special: every window starts in March, after 29 February, and
+the 365-day climatology is indexed by the 2026 calendar's day of year.
 
   .venv/bin/python design/make_sst_compare.py pull     # resumable, cached
   .venv/bin/python design/make_sst_compare.py render
@@ -57,6 +59,7 @@ sys.path.insert(0, str(ROOT))
 BASE = "https://psl.noaa.gov/thredds/dodsC/Datasets/noaa.oisst.v2.highres"
 CLIM = f"{BASE}/sst.day.mean.ltm.1991-2020.nc"
 YEARS = (2026, 2015, 1997, 1982)          # Ben's order: current first
+EIGHT = tuple(range(2026, 2018, -1))      # 2026 down to 2019
 FIRST_WED = date(2026, 3, 4)
 LAT = (-30.0, 30.0)                       # science: crop to 30S-30N
 TROP = (-20.0, 20.0)                      # the band CPC's relative index uses
@@ -181,7 +184,9 @@ def pull(only=None):
     CACHE.mkdir(parents=True, exist_ok=True)
     srcs = ("clim",) + YEARS
     if only:
-        srcs = tuple(x for x in srcs if str(x) in only)
+        # Any year OISST covers, not only the four in YEARS, so the 8-year
+        # set (2019-2026) pulls through the same validated path.
+        srcs = tuple("clim" if x == "clim" else int(x) for x in only)
     todo = [(s, m) for s in srcs for m in MONTHS]
     print(f"{len(todo)} month chunks, "
           f"{sum(_path(*k).exists() for k in todo)} cached", flush=True)
@@ -257,7 +262,7 @@ def weeks():
     return out
 
 
-def fields():
+def fields(years=YEARS):
     """{year: [relative weekly anomaly per frame]}, plus lat, lon, weeks."""
     g = np.load(CACHE / "grid.npz")
     lat, lon = g["lat"], g["lon"]
@@ -266,7 +271,7 @@ def fields():
     wts = np.cos(np.deg2rad(lat))[:, None]
     band = (lat >= TROP[0]) & (lat <= TROP[1])
     out = {}
-    for y in YEARS:
+    for y in years:
         obs = _daily(y)
         frames = []
         for w in wk:
@@ -331,39 +336,50 @@ def ramp(variant):
     return cmap, norm
 
 
-def render(variant="site", fps=4):
+def render(variant="site", years=YEARS, tag="", fps=4):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib.animation import FuncAnimation, PillowWriter
     import tokens as T
 
-    f, lat, lon, wk = fields()
+    f, lat, lon, wk = fields(years)
     cmap, norm = ramp(variant)
 
-    fig = plt.figure(figsize=(12, 8.2), dpi=100)
+    # LAID OUT IN INCHES, NOT FRACTIONS, so the figure grows with the number
+    # of strips. The four-year version squeezed each 6:1 strip slightly;
+    # eight strips in the same box would have halved them and flattened every
+    # tongue. Each strip keeps the same height whatever the count.
+    W, HEAD, STRIP, FOOT = 12.0, 1.15, (1.4 if len(years) <= 4 else 1.2), 1.0
+    H = HEAD + STRIP * len(years) + FOOT
+    fig = plt.figure(figsize=(W, H), dpi=100)
     fig.patch.set_facecolor(T.PAPER)
-    left, right, top, bottom = 0.085, 0.90, 0.855, 0.17
-    h = (top - bottom) / len(YEARS)
+    left, right = 0.085, 0.90
+    bottom, top = FOOT / H, (FOOT + STRIP * len(years)) / H
+    h = STRIP / H
+    pad = 0.06 / H
+    current = max(years)
     ims = []
-    for i, y in enumerate(YEARS):
-        ax = fig.add_axes([left, top - (i + 1) * h + 0.006, right - left,
-                           h - 0.012])
+    for i, y in enumerate(years):
+        ax = fig.add_axes([left, top - (i + 1) * h + pad, right - left,
+                           h - 2 * pad])
         im = ax.imshow(np.ma.masked_invalid(f[y][0]), origin="lower",
                        extent=[lon[0], lon[-1], lat[0], lat[-1]],
                        cmap=cmap, norm=norm, aspect="auto",
                        interpolation="nearest")
         ax.axis("off")
         fig.text(left - 0.01, top - i * h - h / 2, str(y), ha="right",
-                 va="center", fontsize=15, color=T.INK,
-                 fontweight="bold" if y == YEARS[0] else "normal")
+                 va="center", fontsize=15 if len(years) <= 4 else 13,
+                 color=T.INK,
+                 fontweight="bold" if y == current else "normal")
         ims.append(im)
 
-    title = fig.text(left, 0.925, "", fontsize=20, color=T.INK)
-    fig.text(left, 0.892,
+    title = fig.text(left, 1 - 0.45 / H, "", fontsize=20, color=T.INK)
+    fig.text(left, 1 - 0.78 / H,
              "Sea surface temperature relative to the tropical average, "
-             "30°S to 30°N", fontsize=11.5, color=T.INK_SOFT)
-    cax = fig.add_axes([0.915, bottom + 0.05, 0.013, top - bottom - 0.10])
+             "30\u00b0S to 30\u00b0N", fontsize=11.5, color=T.INK_SOFT)
+    cax = fig.add_axes([0.915, bottom + 0.05 * (top - bottom), 0.013,
+                        0.9 * (top - bottom)])
     cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cax,
                       ticks=[-3, 0, 3], extend="both")
     cb.ax.set_yticklabels(["-3 °C", "0", "+3 °C"], fontsize=10,
@@ -376,15 +392,16 @@ def render(variant="site", fps=4):
            "baseline, minus that week's 20°S-20°N average, so forty "
            "years of warming does not paint\nrecent years warm everywhere. "
            "That also removes the tropics-wide warming El Niño itself "
-           "causes: these maps show the shape and strength of the warm tongue,"
-           "\nnot total ocean warmth. Values read lower than the fixed-baseline "
+           "causes: these maps show the shape and strength of the tongue, warm"
+           "\nor cold, not total ocean warmth. Values read lower than the "
+           "fixed-baseline "
            "weekly figures we quote. Same calendar week in every year, not the "
            "same stage of each event.")
-    fig.text(left, 0.035, cap, fontsize=8.6, color=T.INK_FAINT,
+    fig.text(left, 0.3 / H, cap, fontsize=8.6, color=T.INK_FAINT,
              linespacing=1.45, va="bottom")
 
     def draw(k):
-        for y, im in zip(YEARS, ims):
+        for y, im in zip(years, ims):
             im.set_data(np.ma.masked_invalid(f[y][k]))
         w = wk[k]
         a, b = w - timedelta(days=3), w + timedelta(days=3)
@@ -394,11 +411,11 @@ def render(variant="site", fps=4):
 
     n = len(wk)
     frames = [0] * 5 + list(range(n)) + [n - 1] * 10
-    out = ROOT / f"design/sst_compare_{variant}.gif"
+    out = ROOT / f"design/sst_compare_{tag}{variant}.gif"
     FuncAnimation(fig, draw, frames=frames, interval=1000 / fps,
                   blit=False).save(out, writer=PillowWriter(fps=fps))
     draw(n - 1)
-    fig.savefig(ROOT / f"design/sst_compare_{variant}_final.png",
+    fig.savefig(ROOT / f"design/sst_compare_{tag}{variant}_final.png",
                 facecolor=T.PAPER)
     plt.close(fig)
     print(f"wrote {out.relative_to(ROOT)} ({out.stat().st_size / 1e6:.1f} MB),"
@@ -412,5 +429,10 @@ if __name__ == "__main__":
     elif cmd == "render":
         render("site")
         render("bold")
+    elif cmd == "render8":
+        # Kristjan, 2026-10-05: "the similar one for the last 8 years? 8
+        # blocks". Current year on top, as in the four-year version.
+        for v in ("site", "bold"):
+            render(v, years=EIGHT, tag="8y_")
     else:
         print(__doc__)
