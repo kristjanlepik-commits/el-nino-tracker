@@ -1733,7 +1733,7 @@ def check_allhands_cadence(advisories):
                 f"which is the point of checking it here.")
 
 
-def check_allhands(violations):
+def check_allhands(violations, aged=None):
     """Is the all-hands board still inside its cap?
 
     D-059 caps `research/allhands.md` at ten entries or thirty days,
@@ -1792,8 +1792,15 @@ def check_allhands(violations):
             violations.append(f"research/allhands.md: unparseable entry "
                               f"date '{d}'")
             continue
+        # The AGE cap goes to `aged`: violations under --daily, advisories
+        # on a push. Time made the entry old, not the commit being pushed,
+        # and as a plain violation it blocked every chat's push through the
+        # post-commit hook five times between 09-13 and 10-12 (FLO had four
+        # commits stuck behind one of Heat's entries). Same rule as the
+        # other time-based checks here. The COUNT cap stays a violation:
+        # an eleventh entry is caused by the commit that adds it.
         if age > ALLHANDS_MAX_AGE_DAYS and d not in standing:
-            violations.append(
+            (violations if aged is None else aged).append(
                 f"research/allhands.md entry dated {d} is {age} days old, "
                 f"cap is {ALLHANDS_MAX_AGE_DAYS} (D-059). Delete it. An "
                 f"entry nobody has objected to in a month has been "
@@ -1860,7 +1867,7 @@ def main():
     check_schedule_claims(violations)
     check_page_lags_data(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
-    check_allhands(violations)
+    check_allhands(violations, violations if args.daily else advisories)
     check_allhands_cadence(violations if args.daily else advisories)
     # Advisory during a publish, blocking in CI, same split and same reason
     # as check_emitted_fields: a nav that lags is a completeness defect and
