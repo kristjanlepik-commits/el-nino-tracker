@@ -1,5 +1,15 @@
 name: Floods VIIRS daily capture
 
+# DISABLED 2026-10-12 (D-320), not deleted, so it can come back:
+#   gh workflow enable floods_capture.yml
+# Product cut VIIRS capture: it never produced a reader result, cloud
+# made flood extent unreadable, and the floods reframe (D-318) is rain
+# against its own history. The Earthdata token alarm that lived here
+# moved first to .github/workflows/earthdata_token.yml, and this was
+# switched off only after that alarm had fired on its own schedule six
+# days running, because IMERG reads the same token. The captured store
+# (74 days, 21 Jul to 2 Oct) stays in the release assets.
+
 # Implements D-038: capture the global VIIRS flood product daily, keep
 # 0.1 degree aggregates, discard the raw tiles, before MODIS shuts down.
 #
