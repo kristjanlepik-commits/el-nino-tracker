@@ -68,8 +68,19 @@ LONG = {"Jan": "January", "Feb": "February", "Mar": "March", "Apr": "April",
 # condition is that we compute nothing. So each region is drawn in the
 # seasons science names, and only where IRI confirms the signal there.
 REGIONS = [
-    ("Indonesia, Philippines, northern Australia", "Indonesia to N Australia",
-     "dry", [(95, 141, -11, 20), (113, 150, -26, -11)],
+    # TRIMMED TO WHAT THE LIST NAMES AND IRI CONFIRMS (CPO's read,
+    # 2026-10-12). The first outline ran 95-141E up to 20N to catch the
+    # Philippines, and swept in Thailand, Cambodia, Vietnam, Laos and
+    # southern Myanmar: not on science's list, and IRI shades only 1-21% of
+    # that land dry. The Philippines is on the list but IRI never shades
+    # more than 13% of it in ANY season at 85%, so it is not drawn either,
+    # the same rule as Ecuador in Jan-Mar, and flagged for science. The
+    # boxes now step around peninsular Malaysia and stop at Indonesian
+    # Borneo. Northern Australia is supported: north-central 57-93%,
+    # northeast 68-87%, northwest weaker at 23-55%.
+    ("Indonesia and northern Australia", "Indonesia to N Australia",
+     "dry", [(95, 99.6, -6, 6), (99.6, 106, -8, 1.2), (106, 141, -11, 4.5),
+             (113, 150, -26, -11)],
      # Science: dry in BOTH CPC seasons (Jun-Aug and Dec-Feb), strongest
      # Aug-Nov: one continuous stretch, June to February. The first list
      # named only the anchor seasons, which drew the region on in Jun-Aug,
@@ -95,6 +106,15 @@ REGIONS = [
 ]
 ON_SHARE = 0.20      # IRI confirms a named season when >= 20% of land shades
 
+# A CAVEAT TRAVELS WITH ITS REGION. Science's list carries one for India:
+# the monsoon link "has weakened since about 1980 (Kumar et al. 1999)". The
+# first version dropped it, so India sat at full weight beside the Horn of
+# Africa, our highest-conviction signal: a caveat lost between the source
+# and the page, the fault chased all autumn. It now rides in the label on
+# every frame and the region is drawn lighter.
+CAVEAT = {"India": "link weaker since 1980"}
+WEIGHT = {"India": 0.5}
+
 # Where each label sits relative to its region, so the summary frame, which
 # shows all nine at once, does not stack labels on each other or on the
 # region they name. (lon, lat, ha) of the label anchor.
@@ -103,10 +123,10 @@ LABEL_AT = {
     # Two earlier spots failed: east of the Philippines ran off the frame,
     # and the Indian Ocean put it beside Madagascar, where in Dec-Feb it
     # read as a second Southeast Africa label.
-    "Indonesia, Philippines, northern Australia": (176, -38, "right"),
+    "Indonesia and northern Australia": (176, -38, "right"),
     "Southeastern Africa": (21, -22, "right"),
     "Northern Brazil": (-49, 9, "center"),
-    "India": (78, 33, "center"),
+    "India": (78, 39, "center"),      # three lines with its caveat
     "Coastal Ecuador and northern Peru": (-86, -4, "right"),
     "Southern Brazil to central Argentina": (-44, -33, "left"),
     "US Gulf Coast and southeast": (-87, 38, "center"),
@@ -328,7 +348,7 @@ def render(fps=5):
         name, short, sig, boxes, named = reg
         rgba = np.zeros(GL.shape + (4,))
         rgba[..., :3] = to_rgb(WET if sig == "wet" else DRY)
-        rgba[..., 3] = 0.92 * soft(boxes)
+        rgba[..., 3] = 0.92 * WEIGHT.get(name, 1.0) * soft(boxes)
         im = ax.imshow(rgba, origin="lower", extent=[glon[0], glon[-1],
                        glat[0], glat[-1]], interpolation="bilinear", zorder=2)
         im.set_clip_path(land)
@@ -388,13 +408,14 @@ def render(fps=5):
             lab = labels[name]
             short, sig, named = lab._tls
             word = "wetter" if sig == "wet" else "drier"
+            cav = (f"\n{CAVEAT[name]}" if name in CAVEAT else "")
             if season is None:
                 # The summary must stand alone as a still, so each label
-                # carries its own season.
+                # carries its own season, and any caveat.
                 lab.set_text(f"{short}\n{word}, "
-                             f"{', '.join(_spans(drawn_seasons[name]))}")
+                             f"{', '.join(_spans(drawn_seasons[name]))}{cav}")
             else:
-                lab.set_text(f"{short}\n{word}")
+                lab.set_text(f"{short}\n{word}{cav}")
             lab.set_visible(vis)
         # A season with nothing drawn says why, rather than showing an empty
         # map that reads as "El Nino does nothing to rain now". IRI shades
