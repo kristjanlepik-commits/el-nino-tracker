@@ -74,3 +74,27 @@ No other declared station's event-period value has been read.
 The volume ratio does not ship (D-318). If the 2024 DANA is used at all,
 it is gauge data over one area and duration fixed here: the area receiving
 more than 100 mm in 3 days, 2026 against 2024.
+
+## 2026-10-12 addendum, written before the remaining event data is read
+
+The sections above left three things undefined. They are fixed here, before
+any event-period value other than the disclosed Fabra day has been read.
+Nothing above is changed.
+
+1. **The storm window.** A 1-day or 3-day total belongs to the storm if at
+   least one of its days falls between 27 September and 5 October 2026.
+   That is the reported storm (28 September to 4 October) plus a day each
+   side. It bounds where to look, not the durations, which stay 1 and 3
+   days.
+2. **An unbroken year.** A calendar year counts if at least 90% of its
+   days are reported (a trace, AEMET "Ip", counts as reported). "Since
+   [year]" is the first year of the run of qualifying years that ends in
+   2025. History before a break is named separately ("records from 1920,
+   with gaps"), never folded in.
+3. **Ranking.** Against every total of the same duration in the station's
+   record, any time of year. A 3-day total needs all three days reported.
+   Overlapping 3-day windows are declustered: a window counts only if no
+   overlapping window is higher, so one storm is one entry. For each
+   station and duration the output gives: the storm's total; its rank in
+   the unbroken record and in the full record; and "the most since
+   [year]", the last year with a higher total, or "a record" if none.
