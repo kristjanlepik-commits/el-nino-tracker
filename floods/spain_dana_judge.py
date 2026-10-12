@@ -89,6 +89,44 @@ def judge(rain, n, since):
             "record_unbroken": bool(since) and not higher_unbroken}
 
 
+NEIGHBOUR_KM = 40
+
+
+def neighbours(sid, day):
+    """Every AEMET gauge within 40 km of a declared station on its peak day.
+
+    UNDECLARED: these confirm or qualify a declared reading and are never
+    claimed (prereg: "nearby gauges are used to check, never to claim").
+    Fetched once and cached; a failure raises rather than caching nothing."""
+    import math
+    import verify_intensity as V
+    f = os.path.join(CACHE, f"neighbours_{sid}_{day}.json")
+    if not os.path.exists(f):
+        inv = {s["indicativo"]: s for s in
+               V._aemet("valores/climatologicos/inventarioestaciones/todasestaciones")}
+        rows = V._aemet(f"valores/climatologicos/diarios/datos/fechaini/{day}T00:00:00UTC"
+                        f"/fechafin/{day}T23:59:59UTC/todasestaciones")
+        if not rows:
+            raise SystemExit(f"AEMET returned no stations for {day}; not caching")
+        ll = lambda s: (V.dms(s["latitud"]), V.dms(s["longitud"]))
+        c = ll(inv[sid])
+        out = []
+        for x in rows:
+            s = inv.get(x["indicativo"])
+            if not s or x.get("prec") in (None, "") or x["indicativo"] == sid:
+                continue
+            p = ll(s)
+            km = 6371 * math.acos(min(1, math.sin(math.radians(c[0])) * math.sin(math.radians(p[0]))
+                                      + math.cos(math.radians(c[0])) * math.cos(math.radians(p[0]))
+                                      * math.cos(math.radians(p[1] - c[1]))))
+            if km <= NEIGHBOUR_KM:
+                v = x["prec"]
+                out.append({"id": x["indicativo"], "name": x["nombre"], "km": round(km, 1),
+                            "mm": 0.0 if v == "Ip" else float(str(v).replace(",", "."))})
+        json.dump(sorted(out, key=lambda r: r["km"]), open(f, "w"), indent=1)
+    return json.load(open(f))
+
+
 def main():
     out = {"prereg": "floods/prereg/spain_dana_2026-10.md", "window": [WIN0.isoformat(), WIN1.isoformat()],
            "stations": []}
@@ -113,6 +151,11 @@ def main():
                                  for k, n in (("1day", 1), ("3day", 3))}
         COMPLETE = keep
         row["completeness_sensitivity"] = sens
+        if row["1day"].get("rank_unbroken") and row["1day"]["rank_unbroken"] <= 10:
+            day = row["1day"]["start"]
+            row["neighbours_peak_day"] = {
+                "status": "UNDECLARED gauges: confirm or qualify, never claimed (prereg)",
+                "day": day, "within_km": NEIGHBOUR_KM, "gauges": neighbours(sid, day)}
         out["stations"].append(row)
         print(f"\n{sid} {name} [{role}]  unbroken since {since}; first data {min(rain).year}"
               + (f"; UNREPORTED storm days {missing + absent}" if missing or absent else ""))
