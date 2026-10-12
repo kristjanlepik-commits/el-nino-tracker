@@ -209,7 +209,14 @@ def iri_shaded(season, anomaly):
     x0, x1 = int(LON_PX[0]), int(LON_PX[1])
     y0, y1 = int(LAT_PX[0]), int(LAT_PX[1])
     sub = a[y0:y1 + 1, x0:x1 + 1]
-    shaded = (sub.max(2) - sub.min(2)) > 60          # saturated = coloured
+    # SATURATED, AND NOT BLUE. IRI draws lakes in steel blue (100,150,180),
+    # and "any saturated colour is signal" counted Lake Malawi inside the
+    # southeast Africa region and Lake Turkana inside the Horn as
+    # significant rain, in every season. Found by listing IRI's colours
+    # rather than trusting the saturation test. The probability scale runs
+    # green-yellow to red; nothing on it has more blue than red.
+    sat = (sub.max(2) - sub.min(2)) > 60
+    shaded = sat & ~(sub[..., 2] > sub[..., 0])
     ys_, xs_ = np.mgrid[y0:y1 + 1, x0:x1 + 1]
     lon = (xs_ - LON_PX[0]) / (LON_PX[1] - LON_PX[0]) * 360 - 180
     lat = 90 - (ys_ - LAT_PX[0]) / (LAT_PX[1] - LAT_PX[0]) * 180
