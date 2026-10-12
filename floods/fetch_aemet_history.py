@@ -15,6 +15,7 @@ import verify_intensity as V
 
 CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".aemet_cache")
 FIRST, LAST = 1900, 2025
+NO_DATA = "No hay datos que satisfagan esos criterios"   # AEMET's own "no data" reply
 
 
 def val(p):
@@ -39,8 +40,16 @@ def main():
                                  f"{y}-{a}T00:00:00UTC/fechafin/{y}-{b}T23:59:59UTC/estacion/{sid}")
                     json.dump([[x["fecha"], val(x.get("prec"))] for x in r], open(out, "w"))
                     held += 1
-                except SystemExit:
-                    json.dump([], open(out, "w")); empty += 1
+                except SystemExit as e:
+                    # Only AEMET's explicit "no data" is a statement about the
+                    # archive. _aemet also raises SystemExit when the data file
+                    # never arrives, and caching that as empty turned a
+                    # transient failure into a permanent gap (Tortosa 1957 H1,
+                    # found 2026-10-12 because AEMET later served 181 rows).
+                    if NO_DATA in str(e):
+                        json.dump([], open(out, "w")); empty += 1
+                    else:
+                        err += 1; print(sid, y, tag, "ERROR", str(e)[:80], flush=True); time.sleep(5)
                 except Exception as e:
                     err += 1; print(sid, y, tag, "ERROR", type(e).__name__, flush=True); time.sleep(5)
         print(f"{sid}: held {held}, archive-empty {empty}, errors {err}"

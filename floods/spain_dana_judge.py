@@ -101,6 +101,18 @@ def main():
         row = {"id": sid, "name": name, "role": role, "unbroken_since": since,
                "storm_days_unreported": missing + absent,
                "1day": judge(rain, 1, since), "3day": judge(rain, 3, since)}
+        # Does the 90% completeness rule drive the result? Emitted, not argued
+        # (CPO, 2026-10-12): the verdict at every threshold from 70% to 100%.
+        global COMPLETE
+        keep, sens = COMPLETE, {}
+        for th in (0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 0.98, 1.00):
+            COMPLETE = th
+            s_ = unbroken_from(rain)
+            sens[f"{th:.2f}"] = {k: {"since": s_, "rank": judge(rain, n, s_).get("rank_unbroken"),
+                                     "record": judge(rain, n, s_).get("record_unbroken")}
+                                 for k, n in (("1day", 1), ("3day", 3))}
+        COMPLETE = keep
+        row["completeness_sensitivity"] = sens
         out["stations"].append(row)
         print(f"\n{sid} {name} [{role}]  unbroken since {since}; first data {min(rain).year}"
               + (f"; UNREPORTED storm days {missing + absent}" if missing or absent else ""))
