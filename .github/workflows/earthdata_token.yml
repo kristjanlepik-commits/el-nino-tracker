@@ -15,6 +15,13 @@ name: Earthdata token alarm
 # Fails from 21 days before expiry (check_token_expiry.py's default) and
 # opens one issue assigned to Kristjan; each daily re-fire comments on it
 # rather than filing again. Renewal is his (D-320): urs.earthdata.nasa.gov.
+#
+# A RED RUN WITH NO ISSUE IS A KNOWN STATE, not a broken alarm. On
+# 2026-10-05 GitHub could not get a runner for the job ("not acquired by
+# Runner ... after multiple attempts") and recorded it as a failure;
+# no step ran, so nothing alerted. CPO's point: read that red X as
+# "GitHub didn't run it", check the annotation, and expect the next day's
+# run to be the real answer. 21 days of warning absorbs a missed day.
 on:
   schedule:
     - cron: "23 12 * * *"   # daily; off the hour, which GitHub delays least
