@@ -134,15 +134,31 @@ def report():
     swv, _, _, _ = _load(F_MON, "swvl1")
     land = ~sea
     sept = {w.year: k for k, w in enumerate(when) if w.month == 9}
-    print("SEA SURFACE TEMPERATURE, September (ERA5 monthly), since 1991")
+    old = None
+    if os.path.exists(F_MON_OLD):          # Septembers 1940-1990, same 0.5 degree grid
+        o_sst, o_when, o_lat, o_lon = _load(F_MON_OLD, "sst")
+        old = (o_sst, o_when, o_lat, o_lon, ~np.ma.getmaskarray(o_sst).any(axis=0))
+    first = 1940 if old else 1991
+    print(f"SEA SURFACE TEMPERATURE, September (ERA5 monthly), every September since {first}")
     for name, box in SEA_BOXES.items():
         ser = {y: _box_mean(sst[k].filled(0), lat, lon, box, sea)[0] - 273.15 for y, k in sept.items()}
+        if old:
+            o_sst, o_when, o_lat, o_lon, o_sea = old
+            ser.update({w.year: _box_mean(o_sst[k].filled(0), o_lat, o_lon, box, o_sea)[0] - 273.15
+                        for k, w in enumerate(o_when)})
         clim = np.mean([ser[y] for y in range(1991, 2021)])
         r, n = _rank(ser)
+        r79, n79 = _rank({y: v for y, v in ser.items() if y >= 1979})
         top = sorted(ser, key=lambda y: -ser[y])[:4]
-        print(f"  {name:<56} {ser[2026]:.2f} C, {ser[2026]-clim:+.2f} vs 1991-2020, rank {r} of {n}; warmest: {top}")
-        out.setdefault("sst_sept", {})[name] = {"c": ser[2026], "anom": ser[2026] - clim, "rank": [r, n],
-                                                 "warmest": top}
+        prev = max((v, y) for y, v in ser.items() if y != 2026)   # warmest year other than 2026
+        print(f"  {name:<56} {ser[2026]:.2f} C, {ser[2026]-clim:+.2f} vs 1991-2020, rank {r} of {n} "
+              f"(since {min(ser)}), {r79} of {n79} since 1979; warmest other year {prev[1]} at {prev[0]:.2f} C; "
+              f"warmest: {top}")
+        out.setdefault("sst_sept", {})[name] = {
+            "product": "ERA5 monthly means, sea_surface_temperature, 0.5 deg, basin box mean",
+            "c": ser[2026], "anom": ser[2026] - clim, "rank": [r, n], "since": min(ser),
+            "rank_since_1979": [r79, n79], "warmest_other_year": {"year": prev[1], "c": prev[0]},
+            "margin_over_warmest_other_c": ser[2026] - prev[0], "warmest": top}
 
     o, ow, olat, olon = _load(F_OCT, "sst")
     days26 = sorted({w.day for w in ow if w.year == 2026})
