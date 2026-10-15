@@ -127,7 +127,11 @@ def build():
                               "pct_vs_normal": round(100 * (basin[2026] / clim - 1), 1),
                               "rank_since_1991": [rank, len(basin)],
                               "by_year": {str(y): round(v, 3) for y, v in sorted(basin.items())},
-                              "lat": [float(x) for x in la], "lon": [float(x) for x in lo], "pct_map": _grid(pct, 1)}
+                              "lat": [float(x) for x in la], "lon": [float(x) for x in lo], "pct_map": _grid(pct, 1),
+                              "not_claimed": "that the warm sea gave up extra water during the storm: western Med "
+                                             "evaporation 27 Sep-3 Oct 2026 was 22% BELOW normal (21.9 vs 28.2 mm, "
+                                             "22nd of 31 years, ERA5 hourly, checked 15 Oct); the onshore air was "
+                                             "already humid. Use only the September +6.3% and the sea temperature."}
     # 3. cold pool over warm sea, 3 Oct 2026 12 UTC
     if os.path.exists(F_T500) and os.path.exists(F_SST3):
         t5, yrs, la, lo = _nc(F_T500, "t")
