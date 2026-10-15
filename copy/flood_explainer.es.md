@@ -99,10 +99,11 @@ siguiente lluvia.
 
 ## weekend
 
-El mapa de este fin de semana muestra dónde han golpeado antes las
-inundaciones en esta costa, lo húmedo que está ahora el suelo y los avisos
-de AEMET a medida que se emiten. Los avisos son de AEMET. Nosotros no
-hacemos previsiones.
+En la previsión del Centro Europeo (ECMWF) para este fin de semana vuelven
+a coincidir los mismos ingredientes: primero el aire frío y el viento, tal
+como los ve su modelo. Es su previsión, no la nuestra. Después, el mapa:
+dónde han golpeado antes las inundaciones en esta costa, lo húmedo que
+está ahora el suelo y los avisos de AEMET a medida que se emiten.
 
 ## not
 

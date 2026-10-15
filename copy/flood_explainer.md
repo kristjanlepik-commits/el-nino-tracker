@@ -95,9 +95,11 @@ wet takes in less of the next rain.
 
 ## weekend
 
-This weekend's map shows where floods have hit this coast before, how wet
-the ground is now, and AEMET's warnings as they are issued. The warnings
-are AEMET's. We do not forecast.
+The same ingredients are lining up again in ECMWF's forecast for this
+weekend: first the cold air and the wind, as the European centre's model
+sees them. It is their forecast, not ours. Then the map: where floods have
+hit this coast before, how wet the ground is now, and AEMET's warnings as
+they are issued.
 
 ## not
 
