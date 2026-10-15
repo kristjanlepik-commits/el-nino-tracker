@@ -352,6 +352,75 @@ def heat_caption(flat):
     return flat["heat"]["what"] + "."
 
 
+def cycle_svg():
+    """The close: everything is connected (Kristjan, 16 Oct).
+
+    Replaces "Heat + Sea + Air + Pump + Ground = Flood": an equation adds
+    things up and, CPO noted, claims a cause and a flood the page never
+    measured. A loop says what the page explains. The water's own path:
+    sea to air, lifted by the pump, onto the ground, back to the sea by the
+    rivers; heat at the centre warming both sea and air. One verb per link,
+    textbook relations, nothing about this storm's cause.
+    """
+    import math
+    cx, cy, R = 450, 300, 215
+    nodes = {"Sea": 215, "Air": 145, "Pump": 35, "Ground": 325}   # degrees, 0 = right
+    pos = {k: (cx + R * math.cos(math.radians(a)), cy - R * math.sin(math.radians(a)))
+           for k, a in nodes.items()}
+    pos["Heat"] = (cx, cy)
+    links = [("Sea", "Air", "feeds", 1), ("Air", "Pump", "lifted", 1), ("Pump", "Ground", "falls on", 1),
+             ("Ground", "Sea", "drains back", 1), ("Heat", "Sea", "", 0), ("Heat", "Air", "", 0)]
+    # Each word has its own clearance, so a line stops short of it rather
+    # than running into the letters ("Ground" is twice as wide as "Air").
+    trim = {"Sea": 56, "Air": 50, "Pump": 74, "Ground": 96, "Heat": 70}
+    paths, flows, verbs = [], [], []
+    for i, (a, b, verb, ring) in enumerate(links):
+        (x1, y1), (x2, y2) = pos[a], pos[b]
+        dx, dy = x2 - x1, y2 - y1
+        L = math.hypot(dx, dy)
+        ta, tb = trim[a] * (0.75 if ring and abs(dy) > abs(dx) else 1), trim[b] * (0.75 if ring and abs(dy) > abs(dx) else 1)
+        x1t, y1t = x1 + dx / L * ta, y1 + dy / L * ta - (6 if ring else 0)
+        x2t, y2t = x2 - dx / L * tb, y2 - dy / L * tb - (6 if ring else 0)
+        if ring:   # arc along the circle, bulging outward
+            mx, my = (x1t + x2t) / 2, (y1t + y2t) / 2
+            ox, oy = mx - cx, my - cy
+            ol = math.hypot(ox, oy) or 1
+            bend = 58
+            qx, qy = mx + ox / ol * bend, my + oy / ol * bend
+            d = "M%.1f %.1f Q%.1f %.1f %.1f %.1f" % (x1t, y1t, qx, qy, x2t, y2t)
+            vx, vy = mx + ox / ol * (bend * 0.5 + 40), my + oy / ol * (bend * 0.5 + 40) + 4
+            anchor = "end" if ox < -40 else "start" if ox > 40 else "middle"
+        else:
+            d = "M%.1f %.1f L%.1f %.1f" % (x1t, y1t, x2t, y2t)
+        pid = "cy-p%d" % i
+        cls = "cy-ring" if ring else "cy-heat"
+        paths.append('<path id="%s" d="%s" class="cy-link %s" style="--i:%d" pathLength="1" marker-end="url(#cy-arr-%s)"/>'
+                     % (pid, d, cls, i, "r" if ring else "h"))
+        if verb:
+            verbs.append('<text x="%.1f" y="%.1f" class="cy-verb" style="--i:%d" text-anchor="%s">%s</text>'
+                         % (vx, vy, i, anchor, h(verb)))
+        n = 3 if ring else 2
+        for k in range(n):
+            flows.append('<circle r="%s" class="cy-dot %s"><animateMotion dur="%.1fs" begin="%.2fs" '
+                         'repeatCount="indefinite"><mpath href="#%s"/></animateMotion></circle>'
+                         % ("4.5" if ring else "3.5", cls, 3.2 if ring else 2.6, k * (3.2 if ring else 2.6) / n, pid))
+    verbs.append('<text x="%d" y="%d" class="cy-verb" style="--i:5" text-anchor="middle">warms the sea and the air</text>'
+                 % (cx, cy + 48))
+    defs = ('<defs>'
+            '<marker id="cy-arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">'
+            '<path d="M0 0 L10 5 L0 10 z" class="cy-arrow-r"/></marker>'
+            '<marker id="cy-arr-h" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">'
+            '<path d="M0 0 L10 5 L0 10 z" class="cy-arrow-h"/></marker></defs>')
+    words = "".join('<text x="%.1f" y="%.1f" class="cy-w%s" style="--i:%d" text-anchor="middle">%s</text>'
+                    % (x, y + 16, " cy-centre" if k == "Heat" else "", i, k)
+                    for i, (k, (x, y)) in enumerate(pos.items()))
+    return ('<figure class="cycle" id="cycle"><svg viewBox="0 0 900 600" role="img" '
+            'aria-label="A loop: the sea feeds the air, the air is lifted by the pump, the rain falls on the ground, '
+            'the ground drains back to the sea; heat at the centre warms the sea and the air.">'
+            '%s<g class="cy-links">%s</g><g class="cy-flows">%s</g>%s%s</svg></figure>'
+            % (defs, "".join(paths), "".join(flows), "".join(verbs), words))
+
+
 def chapter(key):
     n, word, sub = CHAPTERS[key]
     return ('<div class="chap"><span class="chap-n">%s</span><h2 class="chap-w">%s</h2>'
@@ -463,14 +532,27 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .hm-canvas {{ display: block; width: 100%; }}
 .hm-lines {{ position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }}
 .hm-ticks span.on {{ color: var(--ink); border-top-color: var(--ink); }}
-.eqsec {{ padding: 16vh 0 12vh; }}
-.eq {{ display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: .1em .28em;
-  font-family: var(--serif); font-weight: 500; font-size: clamp(34px, 6.4vw, 84px); letter-spacing: -.03em;
-  line-height: 1.05; text-align: center; }}
-.eqo {{ color: var(--ink-faint); font-weight: 400; }}
-.eqf {{ color: var(--flood); }}
-.eq > span {{ transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }}
-.eq.pre > span {{ opacity: 0; transform: translateY(18px); }}
+.eqsec {{ padding: 12vh 0 10vh; }}
+.cycle {{ margin: 0 auto; max-width: 960px; }}
+.cycle svg {{ display: block; width: 100%; height: auto; overflow: visible; }}
+.cy-w {{ font-family: var(--serif); font-weight: 500; font-size: 52px; letter-spacing: -.03em; fill: var(--ink); }}
+.cy-w.cy-centre {{ fill: #C05B3D; font-size: 46px; }}
+.cy-link {{ fill: none; stroke-width: 2; stroke-dasharray: 1 1; stroke-dashoffset: 0; }}
+.cy-ring {{ stroke: var(--flood); }}
+.cy-heat {{ stroke: #C05B3D; stroke-width: 1.5; }}
+.cy-dot.cy-ring {{ fill: var(--flood); }}
+.cy-arrow-r {{ fill: var(--flood); }} .cy-arrow-h {{ fill: #C05B3D; }}
+.cy-dot.cy-heat {{ fill: #C05B3D; }}
+.cy-verb {{ font-family: var(--mono); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; fill: var(--ink-faint); }}
+.cycle .cy-w, .cycle .cy-verb {{ transition: opacity .7s ease calc(var(--i) * .25s); }}
+.cycle .cy-link {{ transition: stroke-dashoffset 1.1s ease calc(var(--i) * .3s + .3s); }}
+.cycle .cy-flows {{ transition: opacity .8s ease 2.4s; }}
+.cycle.pre .cy-w, .cycle.pre .cy-verb {{ opacity: 0; }}
+.cycle.pre .cy-link {{ stroke-dashoffset: 1; }}
+.cycle .cy-links {{ transition: opacity .4s ease .3s; }}
+.cycle.pre .cy-links {{ opacity: 0; }}   /* arrowheads would otherwise show before their lines */
+.cycle.pre .cy-flows {{ opacity: 0; }}
+@media (prefers-reduced-motion: reduce) {{ .cy-flows {{ display: none; }} }}
 .hud .place {{ font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .14em;
   text-transform: uppercase; color: var(--flood); margin-bottom: 10px; }}
 .where {{ position: absolute; right: 4vw; bottom: 6vh; width: min(220px, 30vw); z-index: 2; pointer-events: none; }}
@@ -685,11 +767,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 </section>
 
 <section class="flat eqsec">
-  <div class="wide">
-    <div class="eq" id="eq" aria-label="Heat, sea, air, pump and ground, together: a flood.">
-      <span class="eqw">Heat</span><span class="eqo">+</span><span class="eqw">Sea</span><span class="eqo">+</span><span class="eqw">Air</span><span class="eqo">+</span><span class="eqw">Pump</span><span class="eqo">+</span><span class="eqw">Ground</span><span class="eqo eqeq">=</span><span class="eqw eqf">Flood</span>
-    </div>
-  </div>
+  <div class="wide">{cycle_svg()}</div>
 </section>
 
 <section class="flat">
@@ -797,17 +875,16 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     }}, {{ threshold: 0.3 }}).observe(box);
   }});
 }})();
-// The closing equation assembles word by word, landing on Flood.
+// The closing loop draws itself link by link, then the water keeps
+// flowing round it. Without JS or with reduced motion it is simply drawn.
 (function () {{
-  var eq = document.getElementById("eq");
-  if (!eq || !("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var parts = eq.querySelectorAll("span");
-  parts.forEach(function (p, k) {{ p.style.transitionDelay = (k * 0.22 + (p.classList.contains("eqf") ? 0.5 : 0)) + "s"; }});
-  eq.classList.add("pre");
+  var c = document.getElementById("cycle");
+  if (!c || !("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  c.classList.add("pre");
   var io = new IntersectionObserver(function (es) {{
-    if (es[0].isIntersecting) {{ eq.classList.remove("pre"); io.disconnect(); }}
-  }}, {{ threshold: 0.6 }});
-  io.observe(eq);
+    if (es[0].isIntersecting) {{ c.classList.remove("pre"); io.disconnect(); }}
+  }}, {{ threshold: 0.45 }});
+  io.observe(c);
 }})();
 </script>
 <script>
