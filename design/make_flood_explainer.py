@@ -114,6 +114,90 @@ def ground_table(g):
             '<tbody>%s</tbody></table>' % (h(g["what"]), "".join(out)))
 
 
+MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+       "Nov", "Dec"]
+
+
+def weekend_map(ground, aemet=None):
+    """Scene 8: where the ingredients overlap. Each layer names its source.
+
+    Past floods are numbered markers with MONTH AND YEAR ONLY, and the map
+    prints no death toll at all. That one rule covers all three of
+    aftereffects' cautions (Valencia 2024's toll moved between vintages,
+    Sant Llorenc's day is unsettled, Malaga November 2024 has no verified
+    death and must never read as zero). The label points place markers;
+    they are not flood extents, and the key says so.
+
+    AEMET's warning areas are added when their Friday update is out; until
+    then the slot says so rather than drawing nothing.
+    """
+    fl = json.loads((ROOT / "research/data/spain_med_floods_map.json").read_text())
+    ev = sorted(fl["events"], key=lambda e: e["start"])
+    lo0, lo1, la0, la1 = -5.6, 4.6, 35.9, 42.9
+    py = 74.0
+    import math
+    px = py * math.cos(math.radians((la0 + la1) / 2))
+    W, H = (lo1 - lo0) * px, (la1 - la0) * py
+    X = lambda lo: (lo - lo0) * px
+    Y = lambda la: (la1 - la) * py
+    coast = json.loads((ROOT / "design/data/europe_coast.json").read_text())["rings"]
+    land = []
+    for r in coast:
+        if len(r) < 3:
+            continue
+        if max(x for x, _ in r) < lo0 or min(x for x, _ in r) > lo1 or \
+           max(y for _, y in r) < la0 or min(y for _, y in r) > la1:
+            continue
+        land.append('<polygon points="%s" class="w8-land"/>'
+                    % " ".join("%.1f,%.1f" % (X(x), Y(y)) for x, y in r))
+    boxes = []
+    for name, a in ground["areas"].items():
+        s_, n_, w_, e_ = a["box_s_n_w_e"]
+        pct = a["pct_vs_normal"]
+        op = max(0.0, min(1.0, pct / 60.0))
+        # Drier than normal is an empty dashed box, never a pale fill under
+        # a key that says "wetter" (Ibiza, -12%).
+        boxes.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" class="%s" '
+                     'style="fill-opacity:%.2f"><title>%s: topsoil %+.0f%% vs normal, %s wettest of %d</title></rect>'
+                     % (X(w_), Y(n_), X(e_) - X(w_), Y(s_) - Y(n_),
+                        "w8-wet" if pct > 0 else "w8-dry", 0.12 + 0.6 * op if pct > 0 else 0,
+                        h(name), pct, _nth(a["wettest_rank"][0]), a["wettest_rank"][1]))
+    groups = {}
+    for i, e in enumerate(ev, 1):
+        lp = e["label_point"]
+        groups.setdefault((lp["lat"], lp["lon"]), []).append(i)
+    dots = []
+    for (la, lo), ids in groups.items():
+        x, y = X(lo), Y(la)
+        dots.append('<circle cx="%.1f" cy="%.1f" r="4" class="w8-dot"/>'
+                    '<text x="%.1f" y="%.1f" class="w8-n">%s</text>'
+                    % (x, y, x + 6, y - 5, ",".join(map(str, ids))))
+    items = "".join('<li><b>%d</b> %s %s &middot; %s</li>'
+                    % (i, MON[int(e["start"][5:7]) - 1], e["start"][:4], h(e["name"]))
+                    for i, e in enumerate(ev, 1))
+    aemet_txt = ("AEMET warning areas: added after AEMET's Friday update."
+                 if aemet is None else "")
+    return f"""<figure class="w8">
+<svg viewBox="0 0 {W:.0f} {H:.0f}" width="100%" role="img" aria-label="Map of Spain's Mediterranean coast and the Balearics: where topsoil is wetter than normal after the first storm, and where damaging floods have struck since 1982.">
+<rect width="{W:.0f}" height="{H:.0f}" class="w8-sea"/>
+{"".join(land)}
+{"".join(boxes)}
+{"".join(dots)}
+</svg>
+<div class="w8-key">
+  <p><span class="sw wet"></span> Topsoil wetter than normal after the first storm, darker is wetter. ERA5, top 7 cm, 8 to 10 October, against 1991 to 2020.</p>
+  <p><span class="sw dry"></span> Drier than normal (Ibiza).</p>
+  <p><span class="sw dot"></span> Damaging floods since 1982, numbered by date. Markers place each event at a named town; they are not flood extents. HANZE v2.1 to 2020 (Paprotny et al. 2024, CC BY 4.0); 2024 from named news sources. A selection, not a ranking.</p>
+  <p class="w8-pend">{h(aemet_txt)}</p>
+  <ol class="w8-list">{items}</ol>
+</div>
+</figure>"""
+
+
+def _nth(n):
+    return "%d%s" % (n, {1: "st", 2: "nd", 3: "rd"}.get(n if n < 20 else n % 10, "th"))
+
+
 def page(w, preview):
     flat, pump, bath = data()
     imports = VENDOR
@@ -187,6 +271,25 @@ figcaption, .src {{ font-family: var(--mono); font-size: 10.5px; letter-spacing:
 .gt td:last-child {{ width: 32%; }}
 figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 {FIG_CSS}
+.w8 svg {{ display: block; width: 100%; height: auto; border: 1px solid var(--rule); }}
+.w8-sea {{ fill: var(--paper); }}
+.w8-land {{ fill: var(--land); stroke: var(--ink-faint); stroke-width: .6; }}
+.w8-wet {{ fill: var(--flood); stroke: var(--flood); stroke-width: .8; }}
+.w8-dry {{ fill: none; stroke: var(--ink-faint); stroke-width: .8; stroke-dasharray: 3 2; }}
+.w8-dot {{ fill: var(--ink); stroke: var(--paper); stroke-width: 1.5; }}
+.w8-n {{ font-family: var(--mono); font-size: 11px; font-weight: 500; fill: var(--ink);
+  paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }}
+.w8-key {{ font-size: 14px; color: var(--ink-soft); margin-top: 12px; }}
+.w8-key p {{ margin: 0 0 8px; }}
+.w8-key .sw {{ display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 6px; }}
+.w8-key .sw.wet {{ background: var(--flood); opacity: .55; }}
+.w8-key .sw.dry {{ border: 1px dashed var(--ink-faint); }}
+.w8-key .sw.dot {{ width: 9px; height: 9px; border-radius: 50%; background: var(--ink); }}
+.w8-pend {{ font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }}
+.w8-list {{ columns: 2; column-gap: 28px; padding-left: 0; list-style: none; font-size: 13.5px; margin: 10px 0 0; }}
+.w8-list li {{ break-inside: avoid; margin-bottom: 4px; }}
+.w8-list b {{ font-family: var(--mono); font-weight: 500; margin-right: 4px; }}
+@media (max-width: 600px) {{ .w8-list {{ columns: 1; }} }}
 
 /* the two 3D scenes: a sticky stage, captions scrolling past it */
 .scrolly {{ position: relative; }}
@@ -309,7 +412,8 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 
 <section class="flat">
   <div class="col"><p class="kick">This weekend</p><p>{prose(w["weekend"])}</p>
-    <p class="src">Map added when AEMET's Friday update is out: AEMET's warning areas, ground wetness by area, past floods. Each layer labelled with its source. Not a forecast of ours, and no combined score.</p>
+    {weekend_map(flat["ground"])}
+    <p class="src">Not a forecast of ours, and no combined score: each layer is shown as its source published it.</p>
   </div>
 </section>
 
