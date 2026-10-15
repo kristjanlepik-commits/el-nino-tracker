@@ -134,7 +134,49 @@ MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
        "Nov", "Dec"]
 
 
-def weekend_map(ground, aemet=None):
+def aemet_layer(X, Y, box):
+    """AEMET's own warnings, drawn as AEMET issued them, never re-scored.
+
+    Read from origin (FLO's fetch; a scheduled refresh commits at 06:30).
+    Only warnings not yet expired at build time are drawn, one shape per
+    warned area however many warnings it carries, coloured by AEMET's own
+    level. Returns (svg, stamp sentence, n areas).
+    """
+    from datetime import datetime, timezone
+    raw = json.loads(subprocess.run(
+        ["git", "show", "origin/main:floods/data/aemet_warnings_latest.json"], cwd=ROOT,
+        capture_output=True, text=True, check=True).stdout)
+    now = datetime.now(timezone.utc)
+    lo0, lo1, la0, la1 = box
+    rank = {"amarillo": 1, "naranja": 2, "rojo": 3}
+    areas = {}
+    for wn in raw["warnings"]:
+        if datetime.fromisoformat(wn["expires"]) < now:
+            continue
+        for poly in wn["polygons_lonlat"]:
+            if not any(lo0 <= x <= lo1 and la0 <= y <= la1 for x, y in poly):
+                continue
+            a = areas.setdefault(wn["area"], {"level": wn["level"], "polys": [], "lines": set()})
+            if rank.get(wn["level"], 0) > rank.get(a["level"], 0):
+                a["level"] = wn["level"]
+            a["polys"].append(poly)
+            a["lines"].add("%s, %s to %s" % (wn["threshold"].split(";", 1)[-1].replace(";", " "),
+                                             wn["onset"][5:16].replace("T", " "),
+                                             wn["expires"][5:16].replace("T", " ")))
+    out = []
+    for name, a in sorted(areas.items()):
+        for poly in a["polys"]:
+            out.append('<polygon points="%s" class="w8-aemet w8-%s"><title>%s: %s</title></polygon>'
+                       % (" ".join("%.1f,%.1f" % (X(x), Y(y)) for x, y in poly), a["level"],
+                          h(name), h("; ".join(sorted(a["lines"])))))
+    sent = max(wn["sent"] for wn in raw["warnings"])[:16].replace("T", " ")
+    stamp = ("AEMET warnings in force or still to come at build time: %d areas, "
+             "levels as AEMET set them. Issued up to %s UTC. Source: AEMET OpenData (Meteoalerta)."
+             % (len(areas), sent))
+    return "".join(out), stamp, len(areas)
+
+
+def weekend_map(ground, aemet=True):
     """Scene 8: where the ingredients overlap. Each layer names its source.
 
     Past floods are numbered markers with MONTH AND YEAR ONLY, and the map
@@ -191,12 +233,12 @@ def weekend_map(ground, aemet=None):
     items = "".join('<li><b>%d</b> %s %s &middot; %s</li>'
                     % (i, MON[int(e["start"][5:7]) - 1], e["start"][:4], h(e["name"]))
                     for i, e in enumerate(ev, 1))
-    aemet_txt = ("AEMET warning areas: added after AEMET's Friday update."
-                 if aemet is None else "")
+    aem_svg, aemet_txt, _ = aemet_layer(X, Y, (lo0, lo1, la0, la1)) if aemet else ("", "", 0)
     return f"""<figure class="w8">
 <svg viewBox="0 0 {W:.0f} {H:.0f}" width="100%" role="img" aria-label="Map of Spain's Mediterranean coast and the Balearics: where topsoil is wetter than normal after the first storm, and where damaging floods have struck since 1982.">
 <rect width="{W:.0f}" height="{H:.0f}" class="w8-sea"/>
 {"".join(land)}
+{aem_svg}
 {"".join(boxes)}
 {"".join(dots)}
 </svg>
@@ -204,7 +246,7 @@ def weekend_map(ground, aemet=None):
   <p><span class="sw wet"></span> Topsoil wetter than normal after the first storm, darker is wetter. ERA5, top 7 cm, 8 to 10 October, against 1991 to 2020.</p>
   <p><span class="sw dry"></span> Drier than normal (Ibiza).</p>
   <p><span class="sw dot"></span> Damaging floods since 1982, numbered by date. Markers place each event at a named town; they are not flood extents. HANZE v2.1 to 2020 (Paprotny et al. 2024, CC BY 4.0); 2024 from named news sources. A selection, not a ranking.</p>
-  <p class="w8-pend">{h(aemet_txt)}</p>
+  <p><span class="sw aem"></span> {h(aemet_txt)}</p>
   <ol class="w8-list">{items}</ol>
 </div>
 </figure>"""
@@ -292,6 +334,11 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .w8-sea {{ fill: var(--paper); }}
 .w8-land {{ fill: var(--land); stroke: var(--ink-faint); stroke-width: .6; }}
 .w8-wet {{ fill: var(--flood); stroke: var(--flood); stroke-width: .8; }}
+.w8-aemet {{ stroke-width: .6; fill-opacity: .55; }}
+.w8-amarillo {{ fill: #F2C94C; stroke: #B8901A; }}
+.w8-naranja {{ fill: #E8893A; stroke: #A85A16; }}
+.w8-rojo {{ fill: #C8322B; stroke: #7E1A15; }}
+.w8-key .sw.aem {{ background: #F2C94C; opacity: .8; }}
 .w8-dry {{ fill: none; stroke: var(--ink-faint); stroke-width: .8; stroke-dasharray: 3 2; }}
 .w8-dot {{ fill: var(--ink); stroke: var(--paper); stroke-width: 1.5; }}
 .w8-n {{ font-family: var(--mono); font-size: 11px; font-weight: 500; fill: var(--ink);
