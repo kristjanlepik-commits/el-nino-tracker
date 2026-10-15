@@ -269,6 +269,7 @@ def weekend_map(ground, aemet=True):
 {"".join(land)}
 <g class="L L-aemet">{aem_svg}</g>
 <g class="L L-wet" clip-path="url(#w8-landclip)">{"".join(boxes)}</g>
+{places(X, Y)}
 <g class="L L-floods">{"".join(dots)}</g>
 </svg>"""
     layers = [
@@ -278,7 +279,7 @@ def weekend_map(ground, aemet=True):
     ]
     steps = "".join('<div class="step"><p class="wk-cap"><b>%s</b>%s</p></div>' % (h(t), h(d)) for t, d in layers)
     return f"""<section class="scrolly" id="wk">
-  <div class="stage wk-stage"><div class="wk-map">{svg}</div></div>
+  <div class="stage wk-stage"><div class="wk-where">{locator((lo0, lo1, la0, la1))}</div><div class="wk-map">{svg}</div></div>
   <div class="steps">{steps}</div>
 </section>"""
 
@@ -297,7 +298,28 @@ CHAPTERS = {"bath": ("01", "Rain", "How much is 159 millimetres?"),
             "weekend": ("07", "Weekend", "What does this weekend look like?")}
 
 
-def locator():
+def places(X, Y):
+    """Where this is, said on the map itself (Kristjan: make it clear it
+    is Spain). Country and sea in large spaced type, four cities small.
+    Drawn beneath the data layers so no label hides a marker."""
+    big = [("SPAIN", -3.4, 39.6, "w8-country"), ("MEDITERRANEAN SEA", 1.7, 37.9, "w8-sea-l"),
+           ("BALEARIC ISLANDS", 2.9, 40.25, "w8-isl"), ("ALGERIA", 2.4, 36.25, "w8-isl")]
+    cities = [("Barcelona", 2.17, 41.39), ("Valencia", -0.38, 39.47), ("Alicante", -0.49, 38.35),
+              ("Málaga", -4.42, 36.72)]
+    out = ['<text x="%.1f" y="%.1f" class="%s" text-anchor="middle">%s</text>' % (X(lo), Y(la), c, h(t))
+           for t, lo, la, c in big]
+    # City names go on the opposite side to the flood labels, which sit
+    # left of points west of 0.3W and right of the rest.
+    for name, lo, la in cities:
+        right = lo < -0.3
+        out.append('<circle cx="%.1f" cy="%.1f" r="2.4" class="w8-city"/>'
+                   '<text x="%.1f" y="%.1f" class="w8-city-t" text-anchor="%s">%s</text>'
+                   % (X(lo), Y(la), X(lo) + (7 if right else -7), Y(la) + (14 if right else 4),
+                      "start" if right else "end", h(name)))
+    return '<g class="w8-places">%s</g>' % "".join(out)
+
+
+def locator(box=None):
     """A small map of Iberia with Barcelona marked, for the bathtub stage.
 
     Kristjan, 16 Oct: hard to tell the cube is Barcelona. Coastline from
@@ -317,6 +339,12 @@ def locator():
             continue
         polys.append('<polygon points="%s"/>' % " ".join("%.1f,%.1f" % (X(x), Y(y)) for x, y in r))
     bx, by = X(2.17), Y(41.39)
+    if box:
+        b0, b1, b2, b3 = box
+        return ('<svg class="loc" viewBox="0 0 %.0f %.0f" aria-hidden="true"><g class="loc-land">%s</g>'
+                '<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" class="loc-box"/>'
+                '<text x="%.1f" y="%.1f" class="loc-t" text-anchor="middle">SPAIN</text></svg>'
+                % (W, H, "".join(polys), X(b0), Y(b3), X(b1) - X(b0), Y(b2) - Y(b3), X(-7.6), Y(41.9)))
     return ('<svg class="loc" viewBox="0 0 %.0f %.0f" aria-hidden="true"><g class="loc-land">%s</g>'
             '<circle cx="%.1f" cy="%.1f" r="4.5" class="loc-dot"/>'
             '<text x="%.1f" y="%.1f" class="loc-t" text-anchor="end">BARCELONA</text></svg>'
@@ -622,6 +650,15 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .w8-naranja {{ fill: #E8893A; stroke: #A85A16; }}
 .w8-rojo {{ fill: #C8322B; stroke: #7E1A15; }}
 .w8-key .sw.aem {{ background: #F2C94C; opacity: .8; }}
+.w8-country {{ font-family: var(--mono); font-size: 30px; font-weight: 500; letter-spacing: .5em; fill: var(--ink-soft); }}
+.w8-sea-l {{ font-family: var(--serif); font-style: italic; font-size: 17px; letter-spacing: .12em; fill: var(--ink-soft); }}
+.w8-isl {{ font-family: var(--mono); font-size: 11px; letter-spacing: .2em; fill: var(--ink-soft); }}
+.w8-city {{ fill: var(--ink-soft); }}
+.w8-city-t {{ font-family: var(--serif); font-size: 15px; fill: var(--ink); paint-order: stroke;
+  stroke: var(--paper); stroke-width: 3px; }}
+.wk-where {{ position: absolute; left: 6vw; bottom: 6vh; width: 170px; z-index: 2; }}
+.loc-box {{ fill: none; stroke: var(--ink); stroke-width: 2; }}
+@media (max-width: 899px) {{ .wk-where {{ left: auto; right: 16px; top: 4vh; bottom: auto; width: 96px; }} }}
 .w8-mid {{ fill: none; stroke: var(--ink-faint); stroke-width: .8; }}
 .w8-dry {{ fill: var(--paper); fill-opacity: .85 !important; stroke: var(--ink-faint); stroke-width: .8; stroke-dasharray: 3 2; }}
 .w8-dot {{ fill: var(--ink); stroke: var(--paper); stroke-width: 1.5; }}
