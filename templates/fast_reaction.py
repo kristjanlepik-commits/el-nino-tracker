@@ -292,6 +292,18 @@ def _prose(text):
     return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", h(text))
 
 
+def _plain(text):
+    """Text for a meta tag: the editor's markup removed, not converted.
+
+    CPO caught it on the Barcelona preview: the standfirst feeds
+    description, og:description and twitter:description, and those read
+    "**159.1 mm**" with the asterisks, which is what every link preview
+    would have shown. Anything that reaches a head tag goes through here,
+    so the next piece cannot repeat it.
+    """
+    return re.sub(r"\*\*(.+?)\*\*", r"\1", text or "")
+
+
 def fr_body(piece):
     """Further paragraphs of editor copy, under the standfirst.
 
@@ -385,8 +397,8 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{head_meta(title=f'{piece.get("region", "")} | {SITE_NAME}',
-           description=piece.get("standfirst", "") or piece.get("claim", ""),
+{head_meta(title=_plain(f'{piece.get("region", "")} | {SITE_NAME}'),
+           description=_plain(piece.get("standfirst", "") or piece.get("claim", "")),
            path=piece.get("path", "/"),
            og_image=piece.get("og_image"))}
 <style>

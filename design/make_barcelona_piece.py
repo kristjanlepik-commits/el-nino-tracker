@@ -33,7 +33,9 @@ from templates.fast_reaction import render             # noqa: E402
 
 SID = "0200E"
 DAY = "2026-10-03"
-WINDOW = {"start": "2026-10-03", "end": "2026-10-05"}
+# The storm the page cites, not only Fabra's three days: the body quotes
+# Tortosa on 1 October, so the closed-event line has to cover it (CPO).
+WINDOW = {"start": "2026-10-01", "end": "2026-10-05"}
 PATH = "/floods/barcelona-2026-10-03/"
 PREVIEW = Path("/private/tmp/claude-505/-Users-admin-Documents-Claude-"
                "Projects-El-Nino-Tracker/963b8065-d8cb-408a-9195-"
@@ -126,8 +128,11 @@ def piece(today):
     one, three = st["1day"], st["3day"]
     return {
         "channel": "flood",
+        # SAYS RAIN ON THE PAGE. The URL and the section say floods while
+        # flood extent is not assessed; the eyebrow is the cheap place to
+        # say what this record is of (CPO, from the persona read).
         "region": "Barcelona",
-        "window": "3 October 2026",
+        "window": "rain record, 3 October 2026",
         "measured": "published " + _pretty(today),
         "staleness": _staleness(WINDOW, today),
         "path": PATH,
@@ -197,13 +202,19 @@ def piece(today):
         "source": [
             {"name": "AEMET (Agencia Estatal de Meteorología)",
              "detail": "daily climatological values, station 0200E",
-             "as_of": _pretty(WINDOW["end"])},
+             "as_of": _pretty(st_end())},
             {"name": "Copernicus ERA5",
              "detail": "monthly sea surface temperature, Septembers 1940 "
                        "to 2026 (2026 preliminary)",
              "as_of": "12 October 2026"},
         ],
     }
+
+
+def st_end():
+    """How far the gauge reading reaches: the end of floods' judged window."""
+    st = json.loads(_origin("floods/data/spain_dana_2026-10_stations.json"))
+    return st["window"][1]
 
 
 def _nth(n):
