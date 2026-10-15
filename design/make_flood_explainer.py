@@ -319,6 +319,22 @@ def places(X, Y):
     return '<g class="w8-places">%s</g>' % "".join(out)
 
 
+# For scale only, as the editor's bath-2 caption says: a full bath holds
+# around 150 litres. Illustrative, and labelled so next to the icon.
+BATH_L = 150
+
+
+def tub_svg():
+    """A bathtub that fills in step with the counter (Kristjan: it was not
+    clear that 159 mm is a bathtub of water). Full at BATH_L litres."""
+    return ('<svg class="tub" viewBox="0 0 120 64" aria-hidden="true">'
+            '<defs><clipPath id="tub-in"><path d="M12 22 H108 V34 Q108 52 88 52 H32 Q12 52 12 34 Z"/></clipPath></defs>'
+            '<rect id="tub-water" x="0" y="20" width="120" height="44" clip-path="url(#tub-in)" class="tub-water"/>'
+            '<path d="M6 22 H114 M12 22 V34 Q12 52 32 52 H88 Q108 52 108 34 V22" class="tub-line"/>'
+            '<path d="M30 52 L26 60 M90 52 L94 60" class="tub-line"/>'
+            '<path d="M100 22 V8 Q100 4 104 4 H110" class="tub-line"/></svg>')
+
+
 def locator(box=None):
     """A small map of Iberia with Barcelona marked, for the bathtub stage.
 
@@ -589,6 +605,14 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .cycle.pre .cy-links {{ opacity: 0; }}   /* arrowheads would otherwise show before their lines */
 .cycle.pre .cy-flows {{ opacity: 0; }}
 @media (prefers-reduced-motion: reduce) {{ .cy-flows {{ display: none; }} }}
+.tubrow {{ display: flex; align-items: center; gap: 14px; margin-top: 16px; }}
+.tub {{ width: 132px; height: auto; flex: none; }}
+.tub-line {{ fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; }}
+.tub-water {{ fill: var(--flood); }}
+.tubrow b {{ display: block; font-family: var(--serif); font-weight: 500; font-size: 24px; color: var(--ink); line-height: 1.1; }}
+.tubrow span {{ display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--ink-soft);
+  margin-top: 4px; max-width: 30ch; }}
+@media (max-width: 899px) {{ .tub {{ width: 64px; }} .tubrow b {{ font-size: 18px; }} .tubrow span {{ font-size: 10px; }} }}
 .hud .place {{ font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .14em;
   text-transform: uppercase; color: var(--ink); margin-bottom: 10px; }}
 .where {{ position: absolute; right: 4vw; bottom: 6vh; width: min(220px, 30vw); z-index: 2; pointer-events: none; }}
@@ -736,7 +760,8 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     <div class="tag3">Drawn to scale &middot; 1 m square, 20 cm walls</div>
     <div class="where">{locator()}</div>
     <div class="hud"><div class="place">Barcelona<span class="pl-long"> &middot; Fabra observatory</span> &middot; 3 October 2026</div><div class="num" id="bath-num">{bath["mm"]:.1f} mm</div>
-      <div class="unit" id="bath-unit">{bath["mm"]:.0f} litres on one square metre</div></div>
+      <div class="unit" id="bath-unit">{bath["mm"]:.0f} litres on one square metre</div>
+      <div class="tubrow" data-bath-l="{BATH_L}">{tub_svg()}<div><b id="bath-tubs">&asymp; one full bathtub</b><span>on every square metre &middot; a bath holds about {BATH_L} litres, for scale</span></div></div></div>
   </div>
   <div class="steps">{bath_steps}</div>
 </section>

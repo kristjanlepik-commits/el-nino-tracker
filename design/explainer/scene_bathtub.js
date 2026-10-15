@@ -117,10 +117,20 @@ if (!reduce) {
     rate = q > 0 && q < 1 ? Math.sin(Math.PI * q) : 0;
   }, { target: root });
 }
+// The bathtub beside the counter fills in step with it: full at the
+// page's BATH_L (data-bath-l), brimming past it.
+const tubRow = document.querySelector(".tubrow"), tubWater = document.getElementById("tub-water"),
+      tubs = document.getElementById("bath-tubs"), BATH_L = tubRow ? parseFloat(tubRow.dataset.bathL) : 150;
 function hud() {
   const mm = level * 1000;
   num.textContent = mm.toFixed(1) + " mm";
   unit.textContent = Math.round(mm) + " litres on one square metre";
+  if (tubWater) {
+    const f = Math.min(1.08, mm / BATH_L), top = 52 - 30 * f;   // interior runs y 22..52
+    tubWater.setAttribute("y", top.toFixed(1)); tubWater.setAttribute("height", (64 - top).toFixed(1));
+    tubs.textContent = f < 0.25 ? "\u2248 a quarter of a bathtub" : f < 0.6 ? "\u2248 half a bathtub"
+                     : f < 0.92 ? "\u2248 most of a bathtub" : "\u2248 one full bathtub";
+  }
 }
 
 function size() {
