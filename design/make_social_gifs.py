@@ -32,6 +32,15 @@ import tokens as T                                     # noqa: E402
 ASSETS = Path("/tmp/el_nino_preview/explainer3d/assets")
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(".")
 WHICH = sys.argv[2] if len(sys.argv) > 2 else "all"
+# "weekend-es": the Spanish edition of the weekend GIF (the explainer's
+# Spanish page is for Spain, and so is this weekend's storm).
+ES = {"kicker": "ESTE FIN DE SEMANA · PREVISIÓN DEL ECMWF",
+      "sub": "aire frío a 5 km (azul) · viento a 1,5 km · mar, 8-12 oct. frente a lo normal",
+      "foot": "ECMWF IFS, pasada %s UTC · no es previsión nuestra · AEMET: «elevada incertidumbre»",
+      "arrow": "hacia la costa · del %s · %s m/s",
+      "days": ["lun", "mar", "mié", "jue", "vie", "sáb", "dom"],
+      "mon": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
+      "compass": ["N", "NE", "E", "SE", "S", "SO", "O", "NO"]}
 S = 960
 F = ROOT / "assets/fonts"
 def font(name, size):
@@ -175,7 +184,10 @@ def header(d, kicker, title, sub=None):
 def footer(d, text, size=None):
     z = size or S
     d.rectangle([0, z - 84, z, z], fill=PAPER)
-    d.text((40, z - 74), text, font=font(MONO, 16 if z == S else 18), fill=SOFT)
+    size = 16 if z == S else 18
+    while size > 11 and d.textlength(text, font=font(MONO, size)) > z - 80:   # fit, never clip
+        size -= 1
+    d.text((40, z - 74), text, font=font(MONO, size), fill=SOFT)
     d.text((40, z - 44), "thelongswell.com", font=font(MONO_M, 20 if z == S else 22), fill=INK)
 
 
@@ -191,7 +203,7 @@ def cities(d):
 
 
 # --- GIF 1: the coming weekend ---------------------------------------------
-def weekend():
+def weekend(lang="en"):
     wk = P["weekend"]
     sea = crop(Image.open(ASSETS / wk["sea"]["img"]).convert("RGB"))
     colds = [crop(Image.open(ASSETS / f["img"]).convert("RGBA"), 0.5) for f in wk["cold"]["frames"]]
@@ -222,13 +234,21 @@ def weekend():
             if o:
                 sp, frm = o
                 w = wind(lo, la)
-                arrow(d, lo - 0.25, la + 0.1, w[0], w[1], "onshore · from the %s · %.0f m/s" % (COMPASS[round(frm / 45) % 8], sp))
+                lab = ("onshore · from the %s · %.0f m/s" % (COMPASS[round(frm / 45) % 8], sp) if lang == "en"
+                       else ES["arrow"] % (ES["compass"][round(frm / 45) % 8], "%.0f" % sp))
+                arrow(d, lo - 0.25, la + 0.1, w[0], w[1], lab)
         dt = datetime.fromtimestamp(round((tm - times[0]) / 43200) * 43200 + times[0], timezone.utc)
-        header(d, "THIS WEEKEND · ECMWF FORECAST", "%s %d %s, %02d:00 UTC" % (dt.strftime("%a"), dt.day, MON[dt.month - 1], dt.hour),
-               "cold air 5 km up (blue) · wind 1.5 km up · sea, 8-12 Oct vs normal")
-        footer(d, "ECMWF IFS run %s UTC, not a forecast of ours · AEMET: “elevada incertidumbre”" % run)
+        if lang == "en":
+            header(d, "THIS WEEKEND · ECMWF FORECAST", "%s %d %s, %02d:00 UTC" % (dt.strftime("%a"), dt.day, MON[dt.month - 1], dt.hour),
+                   "cold air 5 km up (blue) · wind 1.5 km up · sea, 8-12 Oct vs normal")
+            footer(d, "ECMWF IFS run %s UTC, not a forecast of ours · AEMET: “elevada incertidumbre”" % run)
+        else:
+            header(d, ES["kicker"], "%s %d %s, %02d:00 UTC" % (ES["days"][dt.weekday()], dt.day, ES["mon"][dt.month - 1], dt.hour),
+                   ES["sub"])
+            rd = datetime.fromisoformat(wk["run"])
+            footer(d, ES["foot"] % ("%d %s %02d:%02d" % (rd.day, ES["mon"][rd.month - 1], rd.hour, rd.minute)))
         out.append(frame)
-    return save_gif(out, OUT / "weekend_forecast.gif", 100, hold_last=2500)
+    return save_gif(out, OUT / ("weekend_forecast.gif" if lang == "en" else "prevision_fin_de_semana.gif"), 100, hold_last=2500)
 
 
 # --- GIF 2: the ingredients over time --------------------------------------
@@ -425,5 +445,7 @@ if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     if WHICH in ("weekend", "all"):
         print("weekend_forecast.gif %.1f MB" % weekend())
+    if WHICH in ("weekend-es", "all"):
+        print("prevision_fin_de_semana.gif %.1f MB" % weekend("es"))
     if WHICH in ("ingredients", "all"):
         print("ingredients.gif %.1f MB" % ingredients())
