@@ -55,7 +55,7 @@ class Block {
     }
     const keep = [];
     for (const s of this.surf) {
-      const c0 = Math.floor(s.x / LAND * N); s.x += 0.13 * dt;
+      const c0 = Math.floor(s.x / LAND * N); s.x += 0.34 * dt;   // fast: runoff reaches the river within the storm (Kristjan)
       const c1 = Math.floor(s.x / LAND * N);
       if (s.x >= LAND) { this.river++; continue; }
       if (c1 !== c0 && this.soak(c1, s.x)) continue;
