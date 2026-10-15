@@ -311,7 +311,20 @@ def weekend(d, w, h, LA, LO):
     img = np.empty((h, w, 3)); img[:] = _rgb([T.ANOMALY_NEUTRAL])[0]
     ok = ~np.isnan(sst); img[ok] = ramp(sst[ok])
     img[land] = _rgb(["#D9D8D0"])[0]; img[lines] = _rgb([T.INK_SOFT])[0]
-    Image.fromarray(img.astype(np.uint8)).save(OUT / "pump_wk_sea.png", optimize=True)
+    # FORECAST IN THE MAP ITSELF (CPO): a cropped screenshot of the forecast
+    # stage must not pass for the measured one, so the label is part of the
+    # texture, tiled faintly across the sea and land, not only in the HUD.
+    from PIL import ImageFont
+    sea_im = Image.fromarray(img.astype(np.uint8))
+    tile = Image.new("RGBA", sea_im.size, (0, 0, 0, 0))
+    dt = ImageDraw.Draw(tile)
+    f = ImageFont.truetype(str(ROOT / "assets/fonts/ibm-plex-mono/IBMPlexMono-Medium.ttf"), 46)
+    label = "ECMWF FORECAST \u00b7 RUN %s UTC" % pw["run"][:16].replace("T", " ")
+    for yy in range(40, sea_im.size[1], 170):
+        for xx in range(-300 + (yy // 170 % 2) * 520, sea_im.size[0], 1040):
+            dt.text((xx, yy), label, font=f, fill=(26, 26, 24, 105))
+    sea_im = Image.alpha_composite(sea_im.convert("RGBA"), tile).convert("RGB")
+    sea_im.save(OUT / "pump_wk_sea.png", optimize=True)
     keep_i = [i for i, la in enumerate(g["lat"]) if LAT0 - 1 <= la <= LAT1 + 1]
     keep_j = [j for j, lo in enumerate(g["lon"]) if LON0 - 1 <= lo <= LON1 + 1]
     cut = lambda q: [[round(q[i][j], 2) for j in keep_j] for i in keep_i]

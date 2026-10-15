@@ -164,7 +164,10 @@ function knots() {
     stepEls.filter(el => (el.dataset.act || "obs") === name).forEach(el => {
       // data-at "a/b": the clock runs a to b while this caption is read
       const [ta, tb] = el.dataset.at.split("/").map(Date.parse);
-      const c = at(el), hw = 0.3 * el.offsetHeight / span;
+      // 0.42 of a step either side of its centre: the caption's date holds
+      // for nearly all the time the caption can be read (CPO saw the clock
+      // lag its caption with the 0.3 band).
+      const c = at(el), hw = 0.42 * el.offsetHeight / span;
       // reach b by the middle of the caption and hold it, so the last
       // moment it names is on screen while the reader is still reading
       if (isNaN(tb)) k.push([c - hw, ta], [c + hw, ta]);

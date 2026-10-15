@@ -317,7 +317,7 @@ CHAPTERS = {"bath": ("01", "Rain", "How much is 159 millimetres?"),
             "sea": ("03", "Sea", "Where did the water come from?"),
             "air": ("04", "Air", "How much water can air hold?"),
             "pump": ("05", "Pump", "What lifted it and set it off?"),
-            "ground": ("06", "Ground", "Why didn't the ground take it?"),
+            "ground": ("06", "Ground", "Why does wet ground matter?"),
             "weekend": ("07", "Weekend", "What does this weekend look like?")}
 
 

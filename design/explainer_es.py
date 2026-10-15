@@ -53,7 +53,7 @@ PHRASES = {
     "Where did the water come from?": "¿De dónde salió el agua?",
     "How much water can air hold?": "¿Cuánta agua cabe en el aire?",
     "What lifted it and set it off?": "¿Qué la elevó y la hizo caer?",
-    "Why didn't the ground take it?": "¿Por qué el suelo no la absorbió?",
+    "Why does wet ground matter?": "¿Por qué importa que el suelo ya esté mojado?",
     "What does this weekend look like?": "¿Cómo se presenta este fin de semana?",
     # header and footer
     "Floods &middot; explainer &middot; 16 October 2026": "Inundaciones &middot; explicativo &middot; 16 de octubre de 2026",
@@ -177,7 +177,7 @@ EDITOR_KEYS = {
     "chapter-pump": ">Pump<", "chapter-ground": ">Ground<", "chapter-weekend": ">Weekend<",
     "q-rain": "How much is 159 millimetres?", "q-heat": "How hot did the summer get?",
     "q-sea": "Where did the water come from?", "q-air": "How much water can air hold?",
-    "q-pump": "What lifted it and set it off?", "q-ground": "Why didn't the ground take it?",
+    "q-pump": "What lifted it and set it off?", "q-ground": "Why does wet ground matter?",
     "q-weekend": "What does this weekend look like?",
     "loop-feeds": ">feeds<", "loop-lifted": ">lifted<", "loop-falls-on": ">falls on<",
     "loop-drains-back": ">drains back<", "loop-warms": ">warms the sea and the air<",

@@ -134,7 +134,9 @@ function hud() {
   if (tubWater) {
     const f = Math.min(1.08, mm / BATH_L), top = 52 - 30 * f;   // interior runs y 22..52
     tubWater.setAttribute("y", top.toFixed(1)); tubWater.setAttribute("height", (64 - top).toFixed(1));
-    tubs.textContent = "\u2248 " + (f < 0.25 ? L("tub1", "a quarter of a bathtub") : f < 0.6 ? L("tub2", "half a bathtub")
+    // Nothing until there is water to compare (FLO: "0.0 mm" beside "a
+    // quarter of a bathtub" was false at rest).
+    tubs.textContent = f < 0.05 ? "" : "\u2248 " + (f < 0.25 ? L("tub1", "a quarter of a bathtub") : f < 0.6 ? L("tub2", "half a bathtub")
                      : f < 0.92 ? L("tub3", "most of a bathtub") : L("tub4", "one full bathtub"));
   }
 }
