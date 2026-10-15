@@ -23,7 +23,26 @@ def val(p):
         return None           # not reported: never a zero
     if p == "Ip":
         return 0.0            # AEMET "inapreciable", a trace
+    if p == "Acum":
+        return None           # rolled into a later day's report; see rows()
     return float(str(p).replace(",", "."))
+
+
+def rows(r):
+    """Daily rows. AEMET writes "Acum" on days whose rain is reported in a later day's figure, so the first
+    numeric day after an "Acum" run holds several days' rain. Counting it as one day could manufacture a
+    record, so it is stored as unreported too (found 2026-10-15 at 8416 Valencia, where "Acum" crashed the
+    fetch). Conservative: a few real days are lost; no multi-day total is ever read as a single day."""
+    out, after_acum = [], False
+    for x in sorted(r, key=lambda x: x["fecha"]):
+        p = x.get("prec")
+        if p == "Acum":
+            out.append([x["fecha"], None]); after_acum = True
+        elif after_acum and p not in ("", None):
+            out.append([x["fecha"], None]); after_acum = False
+        else:
+            out.append([x["fecha"], val(p)])
+    return out
 
 
 def fetch_half(sid, y, a, b, out):
@@ -48,7 +67,7 @@ def fetch_half(sid, y, a, b, out):
     if not r:
         print(sid, y, out[-7:-5], "ERROR reply parsed to no rows; not cached", flush=True)
         return "error"
-    _write(out, [[x["fecha"], val(x.get("prec"))] for x in r])
+    _write(out, rows(r))
     return "held"
 
 
@@ -87,7 +106,10 @@ def selftest():
              ("other refusal", SystemExit("AEMET refused: Limite de peticiones"), "error", None),
              ("transport error", ConnectionError("reset"), "error", None),
              ("empty array reply", [], "error", None),
-             ("real data", [{"fecha": "1957-01-01", "prec": "1,5"}], "held", [["1957-01-01", 1.5]])]
+             ("real data", [{"fecha": "1957-01-01", "prec": "1,5"}], "held", [["1957-01-01", 1.5]]),
+             ("Acum run", [{"fecha": "1957-01-01", "prec": "Acum"}, {"fecha": "1957-01-02", "prec": "Acum"},
+                           {"fecha": "1957-01-03", "prec": "42,0"}, {"fecha": "1957-01-04", "prec": "3,0"}],
+              "held", [["1957-01-01", None], ["1957-01-02", None], ["1957-01-03", None], ["1957-01-04", 3.0]])]
     ok = True
     with tempfile.TemporaryDirectory() as td:
         for k, (name, reply, want, rows) in enumerate(cases):
