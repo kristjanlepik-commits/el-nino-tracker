@@ -16,7 +16,7 @@ const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).
 const rng = s => () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
 
 const T = 16, HOLD = 3, N = 64;
-const LAND = 0.86, TOP0 = 0.62, DROP = 0.16, DEPTH = 0.55, CH = 0.06;
+const LAND = 0.72, TOP0 = 0.62, DROP = 0.18, DEPTH = 0.55, CH = 0.04;
 const sy = x => TOP0 - (x / LAND) * DROP;             // surface height along the slope
 
 const EV = (() => {                                   // one storm, both blocks
@@ -46,7 +46,10 @@ class Block {
     const fresh = [];
     while (this.k < EV.length && EV[this.k][0] <= t) {
       const [, fx, fz] = EV[this.k++]; const x = fx;
-      if (x >= LAND) this.river++;
+      // Rain straight onto the channel counts lightly: at full weight it
+      // filled the dry block's river almost as high as the wet one's and
+      // hid the difference the scene exists to show (Kristjan, 16 Oct).
+      if (x >= LAND) this.river += 0.15;
       else if (!this.soak(Math.floor(x / LAND * N), x)) this.surf.push({ x, z: fz });
       fresh.push([x, fz]);
     }
@@ -62,7 +65,7 @@ class Block {
     this.sink = this.sink.filter(p => (p.y -= 0.3 * dt) > p.to);
     return fresh;
   }
-  riverH() { return Math.min(0.3, this.river * 0.0011); }
+  riverH() { return Math.min(0.34, this.river * 0.0005); }
 }
 
 // The cross-section texture: the block's front face, redrawn each frame.
@@ -135,10 +138,11 @@ function makeBlock(b) {
     new THREE.MeshStandardMaterial({ color: 0xC9C8BE, roughness: 0.9 }));
   trough.position.set(LAND + tw / 2, CH / 2, 0); trough.receiveShadow = true; g.add(trough);
   const water = new THREE.Mesh(new THREE.BoxGeometry(tw * 0.96, 1, DEPTH * 0.96),
-    new THREE.MeshPhysicalMaterial({ color: flood, roughness: 0.12, clearcoat: 1, transparent: true, opacity: 0.88 }));
+    new THREE.MeshPhysicalMaterial({ color: flood.clone().offsetHSL(0, 0.1, 0.06), roughness: 0.08, clearcoat: 1,
+      emissive: flood, emissiveIntensity: 0.25, transparent: true, opacity: 0.95 }));
   water.position.set(LAND + tw / 2, CH, 0); g.add(water);
   const edge = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(tw, 0.36, DEPTH)),
-    new THREE.LineBasicMaterial({ color: 0x6E6E67, transparent: true, opacity: 0.4 }));
+    new THREE.LineBasicMaterial({ color: 0x3A3A36, transparent: true, opacity: 0.55 }));
   edge.position.set(LAND + tw / 2, CH + 0.18, 0); g.add(edge);
   // running water on the surface
   const NS = 600, sp = new Float32Array(NS * 3);
@@ -146,10 +150,10 @@ function makeBlock(b) {
   const sm = new THREE.Points(sgeo, new THREE.PointsMaterial({ color: flood, size: 0.018, transparent: true, opacity: 0.95 }));
   sm.frustumCulled = false; g.add(sm);
   scene.add(g);
-  return { g, cv, ctx: cv.getContext("2d"), tex, water, sgeo, sp, NS };
+  return { g, cv, ctx: cv.getContext("2d"), tex, water, sgeo, sp, NS, tw };
 }
 
-const blocks = [new Block(false, -1.12), new Block(true, 0.12)];
+const blocks = [new Block(false, -1.3), new Block(true, 0.22)];
 const views = blocks.map(makeBlock);
 
 // rain: streaks over both blocks, from the same events
@@ -161,6 +165,9 @@ let drops = [];
 const M = new THREE.Matrix4();
 
 const clockEl = document.getElementById("ground-clock");
+const riverEls = [...root.querySelectorAll(".g3-river")];
+function toScreen(v3) { const p = v3.clone().project(cam);
+  return [(p.x + 1) / 2 * canvas.clientWidth, (1 - p.y) / 2 * canvas.clientHeight]; }
 function size() {
   const w = canvas.clientWidth, h = canvas.clientHeight;
   R.setSize(w, h, false); cam.aspect = w / h; cam.fov = w < 700 ? 46 : 30; cam.updateProjectionMatrix();
@@ -206,10 +213,14 @@ function frame(ts) {
   }
   drops = keep; rain.count = r; rain.instanceMatrix.needsUpdate = true;
 
-  const a = -0.5 + 0.04 * Math.sin(ts / 5000);
-  const rad = canvas.clientWidth < 700 ? 3.6 : 2.7;
-  cam.position.set(-0.5 + Math.sin(a) * rad, 1.25, Math.cos(a) * rad);
-  cam.lookAt(-0.5, 0.3, 0);
+  const a = -0.28 + 0.04 * Math.sin(ts / 5000);
+  const rad = canvas.clientWidth < 700 ? 4.0 : 3.0;
+  cam.position.set(-0.55 + Math.sin(a) * rad, 1.3, Math.cos(a) * rad);
+  cam.lookAt(-0.55, 0.25, 0);
+  cam.updateMatrixWorld();
+  views.forEach((v, i) => { const el = riverEls[i]; if (!el) return;
+    const [x, y] = toScreen(new THREE.Vector3(v.g.position.x + LAND + v.tw / 2, CH + 0.4, DEPTH / 2));
+    el.style.left = x + "px"; el.style.top = y + "px"; });
   if (clockEl) clockEl.textContent = "Hour " + Math.round(24 * tt / T) + " of 24";
   R.render(scene, cam);
   if (!reduce) requestAnimationFrame(frame);

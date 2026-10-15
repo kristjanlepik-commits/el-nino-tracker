@@ -364,6 +364,8 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .g3-lab span {{ display: block; font-family: var(--serif); font-size: 17px; letter-spacing: 0;
   text-transform: none; color: var(--ink); margin-top: 3px; }}
 .g3-dry {{ left: 12%; }} .g3-wet {{ left: 56%; }}
+.g3-river {{ position: absolute; margin: 0; transform: translate(-50%, -100%); font-family: var(--mono);
+  font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--flood); }}
 .g3-foot {{ position: absolute; left: 24px; right: 24px; bottom: 2%; display: flex; justify-content: space-between;
   gap: 12px; flex-wrap: wrap; margin: 0; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
   text-transform: uppercase; color: var(--ink-faint); }}
@@ -508,6 +510,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     <canvas id="ground-gl"></canvas>
     <p class="g3-lab g3-dry">Dry ground<span>soaks the rain in</span></p>
     <p class="g3-lab g3-wet">Already wet<span>fills, and the rest runs off</span></p>
+    <p class="g3-river">River</p><p class="g3-river">River</p>
     <p class="g3-foot"><span id="ground-clock">Hour 0 of 24</span><span>Same rain on both &middot; illustrative &middot; not to scale</span></p>
   </div>
   <div class="col">
