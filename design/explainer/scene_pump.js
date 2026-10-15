@@ -182,7 +182,9 @@ let frame = function () {
   wgeo.attributes.position.needsUpdate = true; wgeo.attributes.color.needsUpdate = true;
 
   // labels
-  const d = new Date(tm);
+  // SNAPPED to the nearest 12-hourly field (FLO): the fields exist at 00
+  // and 12 UTC only, and a clock reading 16:00 implies one that does not.
+  const d = new Date(Math.round((tm - T0) / stepC) * stepC + T0);
   whenEl.textContent = d.getUTCDate() + " " + MON[d.getUTCMonth()] + ", " + String(d.getUTCHours()).padStart(2, "0") + ":00 UTC";
   let [x, y] = screen(new THREE.Vector3(bx, Y_COLD + 0.08, bz)); lbcn.style.left = x + "px"; lbcn.style.top = y + "px";
   const c = f.coldest;
@@ -191,7 +193,7 @@ let frame = function () {
   // and pump.not_claimed rules out cold air over Barcelona on 3 October.
   if (c.anom_c <= -8 && c.lon >= LON0 && c.lon <= LON1) {
     [x, y] = screen(new THREE.Vector3(X(c.lon), Y_COLD, Z(c.lat)));
-    lbcold.style.opacity = 1; lbcold.style.left = Math.max(110, x) + "px"; lbcold.style.top = y + "px";
+    lbcold.style.opacity = 1; lbcold.style.left = Math.min(canvas.clientWidth - 140, Math.max(150, x)) + "px"; lbcold.style.top = y + "px";
     lbcold.textContent = "Cold pool " + c.anom_c.toFixed(1) + " \u00b0C vs normal";
   } else lbcold.style.opacity = 0;
 

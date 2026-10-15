@@ -155,28 +155,40 @@ def aemet_layer(X, Y, box):
     rank = {"amarillo": 1, "naranja": 2, "rojo": 3}
     areas = {}
     for wn in raw["warnings"]:
+        # FLO's flag (6c4653b5): only warnings inside the second storm's
+        # window. Without it, Thursday's inland warnings (Burgos, Soria)
+        # read as this weekend's risk.
+        if not wn.get("in_dana2_window"):
+            continue
         if datetime.fromisoformat(wn["expires"]) < now:
             continue
         for poly in wn["polygons_lonlat"]:
             if not any(lo0 <= x <= lo1 and la0 <= y <= la1 for x, y in poly):
                 continue
-            a = areas.setdefault(wn["area"], {"level": wn["level"], "polys": [], "lines": set()})
+            a = areas.setdefault(wn["area"], {"level": wn["level"], "polys": {}, "lines": set()})
             if rank.get(wn["level"], 0) > rank.get(a["level"], 0):
                 a["level"] = wn["level"]
-            a["polys"].append(poly)
+            # ONE SHAPE PER ZONE. Each warning for a zone carries the zone's
+            # polygon, so a zone with four warnings arrived four times, and
+            # four semi-transparent yellows stacked read as orange (CPO,
+            # 16 Oct). AEMET's level is the one thing drawn exactly as issued.
+            a["polys"][tuple(map(tuple, poly))] = poly
             a["lines"].add("%s, %s to %s" % (wn["threshold"].split(";", 1)[-1].replace(";", " "),
                                              wn["onset"][5:16].replace("T", " "),
                                              wn["expires"][5:16].replace("T", " ")))
     out = []
     for name, a in sorted(areas.items()):
-        for poly in a["polys"]:
+        for poly in a["polys"].values():
             out.append('<polygon points="%s" class="w8-aemet w8-%s"><title>%s: %s</title></polygon>'
                        % (" ".join("%.1f,%.1f" % (X(x), Y(y)) for x, y in poly), a["level"],
                           h(name), h("; ".join(sorted(a["lines"])))))
     sent = max(wn["sent"] for wn in raw["warnings"])[:16].replace("T", " ")
-    stamp = ("AEMET warnings in force or still to come at build time: %d areas, "
-             "levels as AEMET set them. Issued up to %s UTC. Source: AEMET OpenData (Meteoalerta)."
-             % (len(areas), sent))
+    # FLO's dana2_window is a note to us ("warnings overlapping Sat 17 Oct
+    # 00:00 to Wed 21 Oct 00:00 Madrid time..."), not reader text.
+    win_txt = " for 17 to 20 October"
+    stamp = ("AEMET's rain and thunderstorm warnings%s: %d zones drawn, at the level AEMET set. "
+             "Issued up to %s UTC. Source: AEMET OpenData (Meteoalerta)."
+             % (win_txt, len(areas), sent))
     return "".join(out), stamp, len(areas)
 
 
@@ -241,13 +253,14 @@ def weekend_map(ground, aemet=True):
     return f"""<figure class="w8">
 <svg viewBox="0 0 {W:.0f} {H:.0f}" width="100%" role="img" aria-label="Map of Spain's Mediterranean coast and the Balearics: where topsoil is wetter than normal after the first storm, and where damaging floods have struck since 1982.">
 <rect width="{W:.0f}" height="{H:.0f}" class="w8-sea"/>
+<defs><clipPath id="w8-landclip">{"".join(land).replace(' class="w8-land"', '')}</clipPath></defs>
 {"".join(land)}
 {aem_svg}
-{"".join(boxes)}
+<g clip-path="url(#w8-landclip)">{"".join(boxes)}</g>
 {"".join(dots)}
 </svg>
 <div class="w8-key">
-  <p><span class="sw wet"></span> Topsoil wetter than normal after the first storm, darker is wetter. ERA5, top 7 cm, 8 to 10 October, against 1991 to 2020.</p>
+  <p><span class="sw wet"></span> Topsoil wetter than normal after the first storm, darker is wetter, by analysis area, land only. ERA5, top 7 cm, 8 to 10 October, against 1991 to 2020.</p>
   <p><span class="sw dry"></span> Drier than normal (Ibiza).</p>
   <p><span class="sw dot"></span> Damaging floods since 1982, numbered by date. Markers place each event at a named town; they are not flood extents. HANZE v2.1 to 2020 (Paprotny et al. 2024, CC BY 4.0); 2024 from named news sources. A selection, not a ranking.</p>
   <p><span class="sw aem"></span> {h(aemet_txt)}</p>
@@ -363,7 +376,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .w8-naranja {{ fill: #E8893A; stroke: #A85A16; }}
 .w8-rojo {{ fill: #C8322B; stroke: #7E1A15; }}
 .w8-key .sw.aem {{ background: #F2C94C; opacity: .8; }}
-.w8-dry {{ fill: none; stroke: var(--ink-faint); stroke-width: .8; stroke-dasharray: 3 2; }}
+.w8-dry {{ fill: var(--paper); fill-opacity: .85 !important; stroke: var(--ink-faint); stroke-width: .8; stroke-dasharray: 3 2; }}
 .w8-dot {{ fill: var(--ink); stroke: var(--paper); stroke-width: 1.5; }}
 .w8-n {{ font-family: var(--mono); font-size: 11px; font-weight: 500; fill: var(--ink);
   paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }}
@@ -371,7 +384,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .w8-key p {{ margin: 0 0 8px; }}
 .w8-key .sw {{ display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 6px; }}
 .w8-key .sw.wet {{ background: var(--flood); opacity: .55; }}
-.w8-key .sw.dry {{ border: 1px dashed var(--ink-faint); }}
+.w8-key .sw.dry {{ border: 1px dashed var(--ink-faint); background: var(--paper); }}
 .w8-key .sw.dot {{ width: 9px; height: 9px; border-radius: 50%; background: var(--ink); }}
 .w8-pend {{ font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }}
 .w8-list {{ columns: 2; column-gap: 28px; padding-left: 0; list-style: none; font-size: 13.5px; margin: 10px 0 0; }}
@@ -388,9 +401,11 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .steps {{ position: absolute; top: 0; left: 0; right: 0; pointer-events: none; }}
 .step {{ height: 105vh; display: flex; align-items: center; }}
 #pump .step {{ height: 110vh; }}
+#pump .step p, #bath .step p {{ margin-top: 22vh; }}
+.when, .legend, .foot3 {{ z-index: 2; }}
 .step p {{ max-width: 340px; margin: 0 0 0 6vw; background: color-mix(in srgb, var(--paper) 90%, transparent);
   padding: 14px 18px; border-left: 3px solid var(--ink); font-size: 18px; }}
-.hud {{ position: absolute; left: 6vw; top: 10vh; pointer-events: none; }}
+.hud {{ position: absolute; left: 6vw; top: 10vh; pointer-events: none; z-index: 2; }}
 .hud .num {{ font-family: var(--mono); font-weight: 500; font-size: clamp(44px, 8vw, 84px); letter-spacing: -.03em;
   font-variant-numeric: tabular-nums; line-height: 1; }}
 .hud .unit {{ font-family: var(--mono); font-size: 12px; letter-spacing: .16em; color: var(--ink-faint);
@@ -458,7 +473,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     <canvas id="sea-cv" aria-label="Two sea surfaces side by side. A normal September at {wm["c"] - wm["anom"]:.1f} degrees, and September 2026 at {wm["c"]:.1f} degrees, with water vapour rising from both at the measured evaporation rate."></canvas>
   </div>
   <div class="col">
-    <p class="src">Sea: western Mediterranean (Alboran, Balearic, Gulf of Lion), September mean, ERA5. 2026 is the warmest September in a record going back to {wm["since"]} ({wm["rank"][0]} of {wm["rank"][1]}). Vapour rises at the measured September evaporation rate for the whole Mediterranean, {ev["pct"]:+.1f}% on 1991 to 2020, {ev["rank"][0]} of {ev["rank"][1]} since 1991: the heat was the record, the evaporation was not.</p>
+    <p class="src">Temperatures measured: western Mediterranean (Alboran, Balearic, Gulf of Lion), September mean, ERA5; 2026 is the warmest September in a record going back to {wm["since"]} ({wm["rank"][0]} of {wm["rank"][1]}). The motion is illustrative: the warmer sea is drawn more agitated, not to a measured rate.</p>
   </div>
 </section>
 
