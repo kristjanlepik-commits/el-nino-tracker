@@ -45,6 +45,7 @@ is not a contract until a third case has shown which parts are stable.
 from __future__ import annotations
 
 import math
+import re
 import sys
 from pathlib import Path
 
@@ -71,6 +72,7 @@ region        str, what the piece is about ("France", "Nino 3.4")
 window        str, the period in words
 claim         str, the headline at display size
 standfirst    str, one paragraph under the claim
+body          optional [str], further paragraphs of editor copy; **x** is bold
 value         {display, caption}
 chart         {label, series[{x,y}], current_x, baseline{value,label},
                unit, diverging, annotations[{x,text}]}
@@ -279,6 +281,32 @@ def fr_instruments(piece):
             'was not</caption>%s</table>\n' % "".join(out))
 
 
+def _prose(text):
+    """Escaped text with the editor's **bold** kept, and nothing else.
+
+    Copy arrives as markdown from copy/, and bold is the one mark the
+    editor uses to carry a measured figure. Escaping first means the only
+    markup that can reach the page is the <b> this adds.
+    """
+    return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", h(text))
+
+
+def fr_body(piece):
+    """Further paragraphs of editor copy, under the standfirst.
+
+    ADDED FOR THE FIRST STATION PIECE (Barcelona, October 2026). Every
+    earlier piece was one finding in one sentence; a station record has a
+    claim, the older record that qualifies it, and the neighbours that
+    bound it, and squeezing three into a standfirst would hide the
+    qualifier, which is the part a reader most needs.
+    """
+    paras = piece.get("body") or []
+    if not paras:
+        return ""
+    return ('  <div class="fr-body">%s</div>\n'
+            % "".join("<p>%s</p>" % _prose(t) for t in paras))
+
+
 def fr_corroboration(piece):
     """Whether the event happened, when we have not established it.
 
@@ -410,6 +438,8 @@ h1 {{
   letter-spacing: -0.018em; margin: 0 0 16px; text-wrap: balance;
 }}
 .fr-stand {{ color: var(--ink-soft); max-width: 60ch; margin: 0 0 34px; }}
+.fr-body {{ max-width: 60ch; margin: -18px 0 34px; }}
+.fr-body p {{ margin: 0 0 14px; }}
 .fr-cell {{ border-top: 3px solid var(--ink); padding-top: 14px; }}
 .fr-hero {{
   font-family: "{T.FONT_DATA}", ui-monospace, monospace;
@@ -474,8 +504,8 @@ h1 {{
   <p class="fr-eyebrow">{h(piece.get("region", ""))} &middot;
      {h(piece.get("window", ""))}{" &middot; " + h(piece["measured"]) if piece.get("measured") else ""}</p>
   <h1>{h(piece.get("claim", ""))}</h1>
-{fr_stale(piece)}{fr_corroboration(piece)}  <p class="fr-stand">{h(piece.get("standfirst", ""))}</p>
-
+{fr_stale(piece)}{fr_corroboration(piece)}  <p class="fr-stand">{_prose(piece.get("standfirst", ""))}</p>
+{fr_body(piece)}
 {fr_instruments(piece)}
   <div class="fr-cell">
     <div class="fr-hero">{h((piece.get("value") or {}).get("display", ""))}</div>
