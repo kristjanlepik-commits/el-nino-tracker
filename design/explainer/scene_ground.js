@@ -23,7 +23,8 @@ const sy = x => TOP0 - (x / LAND) * DROP;             // surface height along th
 const EV = (() => {                                   // one storm, both blocks
   const r = rng(20261003), ev = []; let t = 0;
   while (t < T) {
-    const q = t / T, rate = 30 + 260 * Math.exp(-Math.pow((q - 0.42) / 0.14, 2));
+    // Front-loaded (Kristjan: the two blocks looked the same for too long).
+    const q = t / T, rate = 60 + 260 * Math.exp(-Math.pow((q - 0.3) / 0.14, 2));
     t += -Math.log(1 - r()) / rate; ev.push([t, r(), r()]);
   }
   return ev;
@@ -33,7 +34,7 @@ class Block {
   constructor(wet, x0) { this.wet = wet; this.x0 = x0; this.reset(); }
   reset() {
     const r = rng(this.wet ? 7 : 3);
-    this.S = Array.from({ length: N }, () => this.wet ? 0.66 + 0.1 * r() : 0.08 + 0.08 * r());
+    this.S = Array.from({ length: N }, () => this.wet ? 0.84 + 0.08 * r() : 0.08 + 0.08 * r());
     this.allow = new Array(N).fill(0); this.surf = []; this.sink = []; this.river = 0; this.k = 0;
   }
   soak(c, x) {
