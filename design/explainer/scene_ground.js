@@ -8,7 +8,8 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 // trough. The ONLY difference between the blocks is how much water the
 // soil holds before the rain starts. ILLUSTRATIVE physics, labelled on the
 // page: no rate, depth or share here is a measurement. The measured fact
-// (FLO's topsoil ranks) sits in the table beside it.
+// (FLO's topsoil ranks) is in the editor's paragraph above and on the
+// weekend map; the table that once sat beside it was cut (16 Oct).
 
 const root = document.getElementById("ground");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

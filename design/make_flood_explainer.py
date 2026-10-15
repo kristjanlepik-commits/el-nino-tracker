@@ -188,9 +188,9 @@ def aemet_layer(X, Y, box):
     # FLO's dana2_window is a note to us ("warnings overlapping Sat 17 Oct
     # 00:00 to Wed 21 Oct 00:00 Madrid time..."), not reader text.
     win_txt = " for 17 to 20 October"
-    stamp = ("AEMET's rain and thunderstorm warnings%s: %d zones drawn, at the level AEMET set. "
+    stamp = ("AEMET's rain and thunderstorm warnings%s, drawn at the level AEMET set. "
              "Issued up to %s UTC. Source: AEMET OpenData (Meteoalerta)."
-             % (win_txt, len(areas), sent))
+             % (win_txt, sent))
     return "".join(out), stamp, len(areas)
 
 
@@ -227,17 +227,19 @@ def weekend_map(ground, aemet=True):
         land.append('<polygon points="%s" class="w8-land"/>'
                     % " ".join("%.1f,%.1f" % (X(x), Y(y)) for x, y in r))
     boxes = []
+    # SHADED BY RANK, not percent (VD): the percent says how much, the rank
+    # says how unusual for the date, which is the claim. Top third of the
+    # record is filled, darker the higher it ranks; anything mid-record
+    # (Malaga 15th, Ibiza 16th of 36) is drawn plain, as within range.
     for name, a in ground["areas"].items():
         s_, n_, w_, e_ = a["box_s_n_w_e"]
-        pct = a["pct_vs_normal"]
-        op = max(0.0, min(1.0, pct / 60.0))
-        # Drier than normal is an empty dashed box, never a pale fill under
-        # a key that says "wetter" (Ibiza, -12%).
+        pct, (r, n) = a["pct_vs_normal"], a["wettest_rank"]
+        top = r <= n / 3
+        op = 0.85 - 0.6 * (r - 1) / (n / 3 - 1) if top else 0
         boxes.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" class="%s" '
                      'style="fill-opacity:%.2f"><title>%s: topsoil %+.0f%% vs normal, %s wettest of %d</title></rect>'
-                     % (X(w_), Y(n_), X(e_) - X(w_), Y(s_) - Y(n_),
-                        "w8-wet" if pct > 0 else "w8-dry", 0.12 + 0.6 * op if pct > 0 else 0,
-                        h(name), pct, _nth(a["wettest_rank"][0]), a["wettest_rank"][1]))
+                     % (X(w_), Y(n_), X(e_) - X(w_), Y(s_) - Y(n_), "w8-wet" if top else "w8-mid",
+                        max(op, 0.2) if top else 0, h(name), pct, _nth(r), n))
     # Past floods by YEAR on the map itself (no numbered list): points within
     # about 30 km share one label, so Valencia 2000 and Paiporta 2024 read
     # as one place hit twice rather than two labels on top of each other.
@@ -271,7 +273,7 @@ def weekend_map(ground, aemet=True):
 </svg>"""
     layers = [
         ("Floods since 1982", "Damaging floods on this coast, by year. A selection, not a ranking; markers place each at a named town, not its extent. HANZE v2.1 to 2020 (Paprotny et al. 2024); 2024 from named news sources."),
-        ("Wet ground, now", "Topsoil wetter than normal after the first storm, darker is wetter; Ibiza, dashed, is drier. ERA5, top 7 cm, 8 to 10 October, against 1991 to 2020."),
+        ("Wet ground, now", "Topsoil after the first storm, filled where it is among the wettest third of 36 years for the date, darker the higher it ranks; outlined areas are within the usual range. ERA5, top 7 cm, 8 to 10 October."),
         ("AEMET's warnings", aemet_txt),
     ]
     steps = "".join('<div class="step"><p class="wk-cap"><b>%s</b>%s</p></div>' % (h(t), h(d)) for t, d in layers)
@@ -314,9 +316,9 @@ def locator():
         polys.append('<polygon points="%s"/>' % " ".join("%.1f,%.1f" % (X(x), Y(y)) for x, y in r))
     bx, by = X(2.17), Y(41.39)
     return ('<svg class="loc" viewBox="0 0 %.0f %.0f" aria-hidden="true"><g class="loc-land">%s</g>'
-            '<circle cx="%.1f" cy="%.1f" r="9" class="loc-ring"/><circle cx="%.1f" cy="%.1f" r="3.6" class="loc-dot"/>'
+            '<circle cx="%.1f" cy="%.1f" r="4.5" class="loc-dot"/>'
             '<text x="%.1f" y="%.1f" class="loc-t" text-anchor="end">BARCELONA</text></svg>'
-            % (W, H, "".join(polys), bx, by, bx, by, bx - 12, by - 10))
+            % (W, H, "".join(polys), bx, by, bx - 10, by - 8))
 
 
 def heat_figure(flat):
@@ -334,9 +336,11 @@ def heat_figure(flat):
     if not hm:
         return ('<img src="assets/%s" alt="%s" width="%d" height="%d">'
                 % (flat["heat"]["img"], alt % "September", *flat["heat"]["size"]))
-    imgs = "".join('<img src="assets/%s" alt="%s" data-month="%s" class="hm%s" width="%d" height="%d">'
-                   % (f["img"], h(alt % f["month"]), f["month"], " on" if i == len(hm) - 1 else "",
-                      f["size"][0], f["size"][1]) for i, f in enumerate(hm))
+    # September's still only: the morph draws every month from the grids,
+    # and five eager 300 KB PNGs were most of the page weight (VD).
+    f = hm[-1]
+    imgs = ('<img src="assets/%s" alt="%s" data-month="%s" class="hm on" width="%d" height="%d">'
+            % (f["img"], h(alt % f["month"]), f["month"], f["size"][0], f["size"][1]))
     ticks = "".join('<span%s>%s</span>' % (' class="on"' if i == len(hm) - 1 else "", f["month"][:3])
                     for i, f in enumerate(hm))
     return ('<div class="heatmove" id="heatmove"><div class="hm-stack">%s'
@@ -461,6 +465,8 @@ def page(w, preview):
 {T.css_variables()}
 --cold: {T.COLD};
 }}
+@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{ --cold: #7FB4C2; }} }}
+:root[data-theme="dark"] {{ --cold: #7FB4C2; }}
 @media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{
 {T.css_variables(dark=True)}
 }} }}
@@ -484,7 +490,7 @@ section.flat {{ padding: 12vh 0 6vh; }}
 .ph {{ background: #fff3c4; color: #5a4a00; font-family: var(--mono); font-size: 13px; padding: 2px 6px; }}
 figure {{ margin: 26px 0 0; }}
 figure img {{ display: block; width: 100%; height: auto; }}
-figcaption, .src {{ font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; color: var(--ink-faint);
+figcaption, .src {{ font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; color: var(--ink-soft);
   margin-top: 8px; line-height: 1.5; }}
 .key {{ display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 10.5px;
   letter-spacing: .1em; color: var(--ink-soft); text-transform: uppercase; margin-top: 10px; flex-wrap: wrap; }}
@@ -504,9 +510,9 @@ figcaption, .src {{ font-family: var(--mono); font-size: 10.5px; letter-spacing:
 .rs-key {{ font-family: var(--mono); font-size:10px; letter-spacing:1.6px; fill:var(--ink-soft); }}
 .gt {{ width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 22px; }}
 .gt caption {{ text-align: left; font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
-  color: var(--ink-faint); padding-bottom: 8px; }}
+  color: var(--ink-soft); padding-bottom: 8px; }}
 .gt th, .gt td {{ padding: 7px 10px 7px 0; border-top: 1px solid var(--rule); text-align: left; font-weight: 400; }}
-.gt thead th {{ font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--ink-faint);
+.gt thead th {{ font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--ink-soft);
   text-transform: uppercase; border-top: 0; }}
 .gt .num {{ font-family: var(--mono); text-align: right; white-space: nowrap; }}
 .gt .bar {{ display: block; height: 8px; width: var(--w); background: var(--c); min-width: 2px; }}
@@ -521,9 +527,9 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .hm-stack img.hm.on {{ position: relative; opacity: 1; }}
 .hm-stack.anim img.hm {{ opacity: 0; }}
 .hm-stack.anim img.hm.fade {{ opacity: 1; }}
-.hm-month {{ position: absolute; left: 14px; top: 10px; font-family: var(--serif); font-weight: 500;
-  font-size: clamp(30px, 6vw, 56px); letter-spacing: -.02em; color: var(--ink);
-  text-shadow: 0 0 14px rgba(241,240,236,.9), 0 0 3px rgba(241,240,236,.9); }}
+.hm-month {{ position: absolute; left: 0; top: 0; font-family: var(--mono); font-weight: 500;
+  font-size: clamp(20px, 3.4vw, 32px); letter-spacing: -.01em; color: var(--ink); background: var(--paper);
+  padding: 6px 12px 6px 0; }}
 .hm-ticks {{ display: flex; gap: 6px; margin-top: 10px; }}
 .hm-ticks span {{ flex: 1; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
   color: var(--ink-faint); padding-top: 9px; background: linear-gradient(var(--ink), var(--ink)) 0 0 / 100% 3px no-repeat,
@@ -554,11 +560,11 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .cycle.pre .cy-flows {{ opacity: 0; }}
 @media (prefers-reduced-motion: reduce) {{ .cy-flows {{ display: none; }} }}
 .hud .place {{ font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--flood); margin-bottom: 10px; }}
+  text-transform: uppercase; color: var(--ink); margin-bottom: 10px; }}
 .where {{ position: absolute; right: 4vw; bottom: 6vh; width: min(220px, 30vw); z-index: 2; pointer-events: none; }}
 .loc {{ display: block; width: 100%; height: auto; }}
 .loc-land polygon {{ fill: var(--land); stroke: var(--ink-faint); stroke-width: .8; }}
-.loc-dot {{ fill: var(--flood); }}
+.loc-dot {{ fill: var(--ink); }}
 .loc-ring {{ fill: none; stroke: var(--flood); stroke-width: 1.5; }}
 .loc-t {{ font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .12em; fill: var(--ink); }}
 @media (max-width: 899px) {{
@@ -566,12 +572,12 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   #bath .hud {{ left: 16px; right: 120px; top: 5vh; text-align: left; }}
   #bath .hud .num {{ font-size: 46px; }}
   .hud .place {{ font-size: 10px; }} .pl-long {{ display: none; }}
-  .tag3 {{ display: none; }}
+  .tag3 {{ top: auto; bottom: 2vh; right: 16px; }}
   #pump .step p, #bath .step p {{ margin-top: 0; }}
 }}
 .chap-wrap {{ padding-top: 14vh; padding-bottom: 2vh; }}
 .chap-n {{ display: block; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .2em;
-  color: var(--flood); margin-bottom: 4px; }}
+  color: var(--ink); margin-bottom: 4px; }}
 .chap-w {{ font-family: var(--serif); font-weight: 500; font-size: clamp(64px, 13vw, 156px); line-height: .9;
   letter-spacing: -.035em; margin: 0; color: var(--ink); }}
 .chap-s {{ font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
@@ -579,7 +585,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .chap.pre {{ opacity: 0; transform: translateY(28px); }}
 .chap {{ transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }}
 .seawrap {{ max-width: 1100px; margin: 22px auto 0; padding: 0 24px; }}
-.seawrap canvas {{ display: block; width: 100%; height: clamp(300px, 42vw, 460px); border-radius: 3px; }}
+.seawrap canvas {{ display: block; width: 100%; height: clamp(300px, 42vw, 460px); }}
 .ground3 {{ position: relative; height: min(78vh, 720px); max-width: 1200px; margin: 18px auto 0; }}
 .ground3 canvas {{ position: absolute; inset: 0; width: 100%; height: 100%; display: block; }}
 .g3-lab {{ position: absolute; top: 4%; margin: 0; font-family: var(--mono); font-size: 11px;
@@ -588,10 +594,10 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   text-transform: none; color: var(--ink); margin-top: 3px; }}
 .g3-dry, .g3-wet {{ transform: translate(0, -100%); top: auto; }}
 .g3-river {{ position: absolute; margin: 0; transform: translate(-50%, -100%); font-family: var(--mono);
-  font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--flood); }}
+  font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }}
 .g3-foot {{ position: absolute; left: 24px; right: 24px; bottom: 2%; display: flex; justify-content: space-between;
   gap: 12px; flex-wrap: wrap; margin: 0; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--ink-faint); }}
+  text-transform: uppercase; color: var(--ink-soft); }}
 #wk {{ height: 360vh; }}
 .wk-stage {{ display: flex; align-items: center; justify-content: flex-end; }}
 .wk-map {{ height: 92vh; width: min(62vw, 92vh * 0.92); margin-right: 3vw; }}
@@ -614,6 +620,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .w8-naranja {{ fill: #E8893A; stroke: #A85A16; }}
 .w8-rojo {{ fill: #C8322B; stroke: #7E1A15; }}
 .w8-key .sw.aem {{ background: #F2C94C; opacity: .8; }}
+.w8-mid {{ fill: none; stroke: var(--ink-faint); stroke-width: .8; }}
 .w8-dry {{ fill: var(--paper); fill-opacity: .85 !important; stroke: var(--ink-faint); stroke-width: .8; stroke-dasharray: 3 2; }}
 .w8-dot {{ fill: var(--ink); stroke: var(--paper); stroke-width: 1.5; }}
 .w8-n {{ font-family: var(--mono); font-size: 13px; font-weight: 500; fill: var(--ink);
@@ -641,15 +648,14 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 #pump .step {{ height: 100vh; }}
 #pump .step p, #bath .step p {{ margin-top: 22vh; }}
 .when, .legend, .foot3 {{ z-index: 2; }}
-.step p {{ max-width: 340px; margin: 0 0 0 6vw; background: color-mix(in srgb, var(--paper) 90%, transparent);
-  padding: 14px 18px; border-left: 3px solid var(--ink); font-size: 18px; }}
+.step p {{ max-width: 340px; margin: 0 0 0 6vw; padding: 4px 0 4px 16px; border-left: 3px solid var(--ink); font-size: 18px; }}
 .hud {{ position: absolute; left: 6vw; top: 10vh; pointer-events: none; z-index: 2; }}
 .hud .num {{ font-family: var(--mono); font-weight: 500; font-size: clamp(44px, 8vw, 84px); letter-spacing: -.03em;
   font-variant-numeric: tabular-nums; line-height: 1; }}
-.hud .unit {{ font-family: var(--mono); font-size: 12px; letter-spacing: .16em; color: var(--ink-faint);
+.hud .unit {{ font-family: var(--mono); font-size: 12px; letter-spacing: .16em; color: var(--ink-soft);
   margin-top: 10px; text-transform: uppercase; }}
 .tag3 {{ position: absolute; top: 18px; right: 18px; font-family: var(--mono); font-size: 10px;
-  letter-spacing: .14em; color: var(--ink-faint); text-transform: uppercase; }}
+  letter-spacing: .14em; color: var(--ink-soft); text-transform: uppercase; }}
 .when {{ position: absolute; left: 6vw; top: 8vh; font-family: var(--mono); }}
 .when b {{ display: block; font-weight: 500; font-size: clamp(26px, 4vw, 40px); letter-spacing: -.02em; }}
 .when span {{ font-size: 11px; letter-spacing: .14em; color: var(--ink-faint); text-transform: uppercase; }}
@@ -664,7 +670,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .lab.cold {{ color: var(--cold); font-weight: 500; }}
 .lab.wind {{ font-weight: 500; font-size: 15px; background: var(--ink); color: var(--paper); padding: 5px 9px; }}
 .foot3 {{ position: absolute; right: 4vw; top: 21vh; text-align: right; max-width: 30vw; font-family: var(--mono); font-size: 10px;
-  letter-spacing: .12em; color: var(--ink-faint); text-transform: uppercase; }}
+  letter-spacing: .12em; color: var(--ink-soft); text-transform: uppercase; }}
 @media (max-width: 899px) {{
   .hud {{ left: 0; right: 0; top: 6vh; text-align: center; }}
   .step {{ align-items: flex-end; padding-bottom: 8vh; }}
@@ -687,7 +693,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 <div class="col chap-wrap">{chapter("bath")}</div>
 <section class="scrolly" id="bath" data-mm="{bath["mm"]}">
   <div class="stage">
-    <canvas id="bath-gl"></canvas>
+    <canvas id="bath-gl" role="img" aria-label="A one-metre-square tray with 20 centimetre walls filling, to scale, to 159.1 millimetres of rain."></canvas>
     <div class="tag3">Drawn to scale &middot; 1 m square, 20 cm walls</div>
     <div class="where">{locator()}</div>
     <div class="hud"><div class="place">Barcelona<span class="pl-long"> &middot; Fabra observatory</span> &middot; 3 October 2026</div><div class="num" id="bath-num">{bath["mm"]:.1f} mm</div>
@@ -727,7 +733,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 <div class="col chap-wrap">{chapter("pump")}</div>
 <section class="scrolly" id="pump">
   <div class="stage">
-    <canvas id="pump-gl"></canvas>
+    <canvas id="pump-gl" role="img" aria-label="Map of the western Mediterranean, 27 September to 3 October 2026: a cold air pool over the Atlantic five kilometres up weakens, and the wind off Barcelona turns south-easterly, onshore from a record-warm sea."></canvas>
     <div class="when"><b id="pump-when">27 Sep, 00:00 UTC</b><span>ERA5 &middot; 2026 preliminary</span></div>
     <div class="legend">
       <div>Sea, September vs normal <i class="ramp"></i></div>
@@ -746,7 +752,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   <div class="col">{chapter("ground")}<p>{prose(w["ground"])}</p>
   </div>
   <div class="ground3" id="ground">
-    <canvas id="ground-gl"></canvas>
+    <canvas id="ground-gl" role="img" aria-label="Illustration: two hillsides under the same rain. Dry ground soaks it in; already wet ground fills and the rest runs off, so its river rises far higher."></canvas>
     <p class="g3-lab g3-dry">Dry ground<span>soaks the rain in</span></p>
     <p class="g3-lab g3-wet">Already wet<span>fills, and the rest runs off</span></p>
     <p class="g3-river">River</p><p class="g3-river">River</p>
@@ -835,6 +841,8 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     var ramp = M.ramp.map(function (h) {{ return [1, 3, 5].map(function (i) {{ return parseInt(h.substr(i, 2), 16); }}); }});
     function col(v) {{ var x = (Math.max(-1, Math.min(1, v / M.full_c)) + 1) * 4, i = Math.min(7, Math.floor(x)), f = x - i;
       return [0, 1, 2].map(function (c) {{ return ramp[i][c] * (1 - f) + ramp[i + 1][c] * f; }}); }}
+    var lh = getComputedStyle(document.documentElement).getPropertyValue("--land").trim() || "#D9D8D0";
+    var LAND = [1, 3, 5].map(function (i) {{ return parseInt(lh.substr(i, 2), 16); }});
     var src = document.createElement("canvas"); src.width = cols; src.height = rows;
     var sx = src.getContext("2d"), img = sx.createImageData(cols, rows);
     var cv = document.createElement("canvas"); cv.className = "hm-canvas";
@@ -848,7 +856,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     function draw(f) {{
       var k = Math.min(n - 2, Math.floor(f)), t = f - k, A = flat[k], B = flat[k + 1], d = img.data;
       for (var j = 0; j < A.length; j++) {{
-        var v = A[j] + (B[j] - A[j]) * t, c = isNaN(v) ? [217, 216, 208] : col(v);
+        var v = A[j] + (B[j] - A[j]) * t, c = isNaN(v) ? LAND : col(v);
         d[j * 4] = c[0]; d[j * 4 + 1] = c[1]; d[j * 4 + 2] = c[2]; d[j * 4 + 3] = 255;
       }}
       sx.putImageData(img, 0, 0);

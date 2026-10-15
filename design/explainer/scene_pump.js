@@ -23,7 +23,9 @@ R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.0;
 R.outputColorSpace = THREE.SRGBColorSpace;
 R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
-const paper = new THREE.Color("#F1F0EC");
+// Theme-aware (VD): read the page's own paper, so dark mode is dark here too.
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const paper = new THREE.Color(cssv("--paper") || "#F1F0EC");
 scene.background = paper;
 scene.environment = new THREE.PMREMGenerator(R).fromScene(new RoomEnvironment(), 0.04).texture;
 const cam = new THREE.PerspectiveCamera(32, 1, 0.05, 50);
@@ -102,7 +104,7 @@ const wgeo = new THREE.BufferGeometry();
 wgeo.setAttribute("position", new THREE.BufferAttribute(wpos, 3)); wgeo.setAttribute("color", new THREE.BufferAttribute(wcol, 3));
 const wmat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0 });
 const wlines = new THREE.LineSegments(wgeo, wmat); wlines.frustumCulled = false; scene.add(wlines);
-const INK = new THREE.Color("#1A1A18"), BG = new THREE.Color("#F1F0EC");
+const INK = new THREE.Color(cssv("--ink") || "#1A1A18"), BG = paper.clone();
 
 // time is the scroll
 const frames = D.cold.frames, T0 = Date.parse(frames[0].time);
