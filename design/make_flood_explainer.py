@@ -321,6 +321,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .lab {{ position: absolute; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
   text-transform: uppercase; white-space: nowrap; pointer-events: none; transform: translate(-50%, -140%); }}
 .lab.cold {{ color: var(--cold); font-weight: 500; }}
+.lab.wind {{ font-weight: 500; font-size: 12px; background: var(--paper); padding: 3px 6px; }}
 .foot3 {{ position: absolute; left: 6vw; bottom: 3vh; font-family: var(--mono); font-size: 10px;
   letter-spacing: .12em; color: var(--ink-faint); text-transform: uppercase; }}
 @media (max-width: 899px) {{
@@ -355,7 +356,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 <section class="flat">
   <div class="col"><p class="kick">The heat</p><p>{prose(w["heat"])}</p></div>
   <div class="wide"><figure>
-    <img src="assets/{flat["heat"]["img"]}" alt="Map of Europe, September 2026 temperature against 1991 to 2020: much warmer than normal over France, Iberia, the western and central Mediterranean and North Africa." width="{flat["heat"]["size"][0]}" height="{flat["heat"]["size"][1]}" loading="lazy">
+    <img src="assets/{flat["heat"]["img"]}" alt="Map of Europe, September 2026 temperature against 1991 to 2020: much warmer than normal over France, Iberia, the western and central Mediterranean and North Africa." width="{flat["heat"]["size"][0]}" height="{flat["heat"]["size"][1]}">
     <div class="key"><span>Colder</span><span class="rampbar"></span><span>Warmer</span><span>&middot; scale &plusmn;{flat["heat"]["full_c"]:g} &deg;C, saturates beyond</span></div>
     <figcaption>{h(flat["heat"]["what"])}.</figcaption>
   </figure></div>
@@ -366,10 +367,9 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     <div class="pair"><div><b>{ev["normal"]:.2f}</b><span>mm a day, a normal September</span></div>
       <div class="y26"><b>{ev["y2026"]:.2f}</b><span>mm a day, September 2026 &middot; {ev["pct"]:+.1f}%</span></div></div>
     <p class="src">Evaporation, Mediterranean sea cells, ERA5. Normal = 1991 to 2020. 2026 ranks {ev["rank"][0]} of {ev["rank"][1]} Septembers since 1991.</p>
-    {strip(ev_series, " mm", "Evaporation each September, Mediterranean, mm a day", "September", 2)}
   </div>
   <div class="wide"><figure>
-    <img src="assets/{ev["img"]}" alt="Map of the Mediterranean: evaporation in September 2026 against normal. Higher across most of the central and eastern basin; lower than normal off eastern Spain." width="{ev["size"][0]}" height="{ev["size"][1]}" loading="lazy">
+    <img src="assets/{ev["img"]}" alt="Map of the Mediterranean: evaporation in September 2026 against normal. Higher across most of the central and eastern basin; lower than normal off eastern Spain." width="{ev["size"][0]}" height="{ev["size"][1]}">
     <div class="key"><span>Less</span><span class="rampbar"></span><span>More</span><span>&middot; scale &plusmn;{ev["full_pct"]}%</span></div>
     <figcaption>Evaporation, September 2026 against 1991 to 2020, ERA5.</figcaption>
   </figure></div>
@@ -377,14 +377,9 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 
 <section class="flat">
   <div class="col"><p class="kick">Warm air holds more water</p><p>{prose(w["vapour"])}</p>
-    {strip(vp["by_year_pct"], "%", "Water vapour in the air, every September since 1940, % vs 1991-2020", "September")}
+    <div id="vap-strip" class="hero-strip">{strip(vp["by_year_pct"], "%", "Water vapour in the air, every September since 1940, % vs 1991-2020", "September")}</div>
     <p class="src">Global total column water vapour, area-weighted, ERA5. {h(vp["physics"][0].upper() + vp["physics"][1:])}.</p>
   </div>
-  <div class="wide"><figure>
-    <img src="assets/{vp["img"]}" alt="World map of water vapour in September 2026 against normal: patchy, with large areas above normal." width="{vp["size"][0]}" height="{vp["size"][1]}" loading="lazy">
-    <div class="key"><span>Drier</span><span class="rampbar"></span><span>Moister</span><span>&middot; scale &plusmn;{vp["full_pct"]}%</span></div>
-    <figcaption>Total column water vapour, September 2026 against 1991 to 2020, ERA5.</figcaption>
-  </figure></div>
 </section>
 
 <section class="scrolly" id="pump">
@@ -398,6 +393,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     </div>
     <div class="lab" id="pump-lbcn">Barcelona</div>
     <div class="lab cold" id="pump-lbcold"></div>
+    <div class="lab wind" id="pump-lbwind" style="opacity:0"></div>
     <div class="foot3">Heights exaggerated &middot; every layer is a measured field</div>
   </div>
   <div class="steps">{pump_steps}</div>
@@ -425,6 +421,32 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 </main>
 {GROUND_JS}
 <script src="{MOTION}"></script>
+<script>
+// THE VAPOUR STRIP BUILDS ITSELF, one September at a time, 1940 first, so
+// the climb is something the reader watches happen rather than a shape
+// they take in at a glance. The rule for 2026 arrives last. Reduced motion
+// and no JavaScript get the finished strip, which is what the markup holds.
+(function () {{
+  // CSS transitions, not Motion: Motion's animate did not commit opacity on
+  // SVG circles (measured 15 Oct), and a strip left invisible is worse than
+  // one that does not animate.
+  var el = document.getElementById("vap-strip");
+  if (!el || !("IntersectionObserver" in window) ||
+      matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var dots = el.querySelectorAll("circle"), late = el.querySelectorAll("line, rect, text");
+  dots.forEach(function (d, i) {{ d.style.opacity = 0;
+    d.style.transition = "opacity .35s ease " + (i * 0.035) + "s"; }});
+  late.forEach(function (d) {{ d.style.opacity = 0;
+    d.style.transition = "opacity .6s ease " + (dots.length * 0.035 + 0.2) + "s"; }});
+  var io = new IntersectionObserver(function (es) {{
+    if (!es[0].isIntersecting) return;
+    dots.forEach(function (d) {{ d.style.opacity = 1; }});
+    late.forEach(function (d) {{ d.style.opacity = 1; }});
+    io.disconnect();
+  }}, {{ threshold: 0.6 }});
+  io.observe(el);
+}})();
+</script>
 <script type="module" src="scene_bathtub.js"></script>
 <script type="module" src="scene_pump.js"></script>
 {ANALYTICS_SNIPPET}

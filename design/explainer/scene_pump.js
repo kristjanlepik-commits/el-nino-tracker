@@ -80,6 +80,19 @@ function wind(lo, la, tm) {
   const a = WF[k], b = WF[Math.min(k + 1, WF.length - 1)];
   return [s(a.u)*(1-dk) + s(b.u)*dk, s(a.v)*(1-dk) + s(b.v)*dk];
 }
+// THE PAYOFF: the wind off Barcelona, as one bold arrow. Sampled from the
+// same 850 hPa field as the streaks, at a sea point just off the coast,
+// and shown only while it blows onshore (from the south-east quadrant),
+// so the moment the story turns on is drawn rather than asserted.
+const OFF = { lat: 41.0, lon: 2.6 };
+const arrow = new THREE.Group();
+const arrowMat = new THREE.MeshStandardMaterial({ color: 0x1A1A18, transparent: true, opacity: 0, roughness: 0.5 });
+const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 1, 12), arrowMat);
+const tip = new THREE.Mesh(new THREE.ConeGeometry(0.045, 0.1, 20), arrowMat);
+arrow.add(shaft, tip); scene.add(arrow);
+const lbwind = document.getElementById("pump-lbwind");
+const COMPASS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+
 const NP = reduce ? 0 : 3200;
 const pts = Array.from({ length: NP }, () => spawn({}));
 function spawn(p) { p.lo = LON0 + Math.random() * (LON1 - LON0); p.la = LAT0 + Math.random() * (LAT1 - LAT0);
@@ -168,6 +181,31 @@ let frame = function () {
     lbcold.style.opacity = 1; lbcold.style.left = Math.max(110, x) + "px"; lbcold.style.top = y + "px";
     lbcold.textContent = "Cold pool " + c.anom_c.toFixed(1) + " \u00b0C vs normal";
   } else lbcold.style.opacity = 0;
+
+  // onshore arrow
+  const wb = wind(OFF.lon, OFF.lat, tSim);
+  let show = 0;
+  if (wb) {
+    const sp = Math.hypot(wb[0], wb[1]);
+    const from = (Math.atan2(-wb[0], -wb[1]) * 180 / Math.PI + 360) % 360;
+    const onshore = from >= 80 && from <= 200 && sp >= 5;
+    show = onshore ? Math.min(1, (sp - 5) / 3) : 0;
+    const len = 0.1 + sp * 0.03;
+    // direction of travel in scene space (x east, -z north)
+    const dx = wb[0] * KX, dz = -wb[1] * KZ, m = Math.hypot(dx, dz) || 1;
+    const ux = dx / m, uz = dz / m;
+    const sx = X(OFF.lon) - ux * len, sz = Z(OFF.lat) - uz * len;   // tail out at sea, head at the coast
+    arrow.position.set(sx, Y_WIND + 0.02, sz);
+    arrow.rotation.set(0, Math.atan2(ux, uz), 0);
+    shaft.scale.y = len; shaft.rotation.x = Math.PI / 2; shaft.position.set(0, 0, len / 2);
+    tip.rotation.x = Math.PI / 2; tip.position.set(0, 0, len + 0.045);
+    if (show > 0) {
+      [x, y] = screen(new THREE.Vector3(sx, Y_WIND + 0.02, sz));
+      lbwind.style.left = x + "px"; lbwind.style.top = (y + 34) + "px";
+      lbwind.textContent = "Onshore: from the " + COMPASS[Math.round(from / 45) % 8] + ", " + sp.toFixed(0) + " m/s";
+    }
+  }
+  arrowMat.opacity = show; lbwind.style.opacity = show;
 
   R.render(scene, cam);
   requestAnimationFrame(frame);
