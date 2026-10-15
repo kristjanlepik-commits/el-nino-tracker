@@ -131,7 +131,9 @@ PUMP_AT = [("2026-09-27T12:00Z", "27 September"), ("2026-09-29T12:00Z", "29 Sept
 
 
 # The forecast act (ECMWF, FLO 3903bf41): same rule, its own captions.
-PUMP_WK_AT = [("2026-10-18T12:00Z", "18 October"), ("2026-10-19T12:00Z", "19 October")]
+# The 19 October caption names Valencia (easterly, 00Z) and Barcelona
+# (south-easterly, 12Z), so its plateau RUNS from 00Z to 12Z: "a/b".
+PUMP_WK_AT = [("2026-10-18T12:00Z", "18 October"), ("2026-10-19T00:00Z/2026-10-19T12:00Z", "19 October")]
 
 
 def check_pump_dates(w):
@@ -722,7 +724,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 #pump.forecast .wk-only {{ display: block; }}
 #pump.forecast .obs-only {{ display: none; }}
 #pump.forecast .stage {{ box-shadow: inset 0 0 0 3px var(--ink); }}
-.wk-unc {{ margin-top: 6px; max-width: 34ch; text-transform: none !important; letter-spacing: .02em !important;
+.wk-unc {{ margin-top: 8px; margin-left: auto; max-width: 34ch; text-transform: none !important; letter-spacing: .02em !important;
   font-size: 12px !important; color: var(--ink-soft) !important; }}
 #pump .step p.wk-cut {{ border-left: 0; padding: 0; max-width: 520px; font-family: var(--serif); font-weight: 500;
   font-size: clamp(44px, 7vw, 88px); line-height: 1; letter-spacing: -.03em; background: var(--paper); }}
@@ -823,7 +825,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   <div class="stage">
     <canvas id="pump-gl" role="img" aria-label="Map of the western Mediterranean, 27 September to 3 October 2026: a cold air pool over the Atlantic five kilometres up weakens, and the wind off Barcelona turns south-easterly, onshore from a record-warm sea."></canvas>
     <div class="when"><b id="pump-when">27 Sep, 00:00 UTC</b><span class="obs-only">ERA5 &middot; measured &middot; 2026 preliminary</span><span class="wk-only">ECMWF forecast &middot; run {h(pump["weekend"]["run"][:16].replace("T", " ")) if pump.get("weekend") else ""} UTC</span>
-      <span class="wk-only wk-unc">AEMET on where the low will sit: &ldquo;elevada incertidumbre&rdquo;, high uncertainty.</span></div>
+</div>
     <div class="legend">
       <div><span class="obs-only">Sea, September vs normal</span><span class="wk-only">Sea, 8 to 12 October vs normal</span> <i class="ramp"></i></div>
       <div>Cold air, 5 km up <i class="coldsw"></i></div>
@@ -833,7 +835,8 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     <div class="lab cold" id="pump-lbcold"></div>
     <div class="lab wind" id="pump-lbwind" style="opacity:0"></div>
     <div class="lab wind" id="pump-lbwind2" style="opacity:0"></div>
-    <div class="foot3"><span class="obs-only">Heights exaggerated &middot; every layer is a measured field</span><span class="wk-only">Heights exaggerated &middot; cold air and wind are ECMWF's model forecast, not measurements</span></div>
+    <div class="foot3"><span class="obs-only">Heights exaggerated &middot; every layer is a measured field</span><span class="wk-only">Heights exaggerated &middot; cold air and wind are ECMWF's model forecast, not measurements</span>
+      <span class="wk-only wk-unc">AEMET on where the low will sit: &ldquo;elevada incertidumbre&rdquo;, high uncertainty.</span></div>
   </div>
   <div class="steps">{pump_steps}</div>
 </section>

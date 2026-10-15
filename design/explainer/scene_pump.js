@@ -97,10 +97,11 @@ function wind(lo, la, tm) {
 // and shown only while it blows onshore (from the south-east quadrant),
 // so the moment the story turns on is drawn rather than asserted.
 // Onshore for each coast is its own sector: Barcelona's coast faces SE,
-// Valencia's faces E. Valencia's arrow belongs to the forecast act only,
+// Valencia's faces E. Sampled at FLO's own grid points (41N 3E, 39N 0E) so the
+// label matches the captions. Valencia's arrow belongs to the forecast act only,
 // where FLO found an easterly off Valencia; the measured act is Barcelona.
-const OFFS = [{ lat: 41.0, lon: 2.6, lo: 100, hi: 165, acts: ["obs", "wk"], el: "pump-lbwind" },
-              { lat: 39.4, lon: 0.5, lo: 60, hi: 140, acts: ["wk"], el: "pump-lbwind2" }];
+const OFFS = [{ lat: 41.0, lon: 3.0, lo: 100, hi: 165, acts: ["obs", "wk"], el: "pump-lbwind" },
+              { lat: 39.0, lon: 0.0, lo: 68, hi: 140, acts: ["wk"], el: "pump-lbwind2" }];
 for (const o of OFFS) {
   o.arrow = new THREE.Group();
   o.mat = new THREE.MeshStandardMaterial({ color: 0x1A1A18, transparent: true, opacity: 0, roughness: 0.5 });
@@ -145,8 +146,13 @@ function knots() {
   for (const name of Object.keys(ACTS)) {
     const A = ACTS[name], k = [];
     stepEls.filter(el => (el.dataset.act || "obs") === name).forEach(el => {
-      const c = at(el), hw = 0.3 * el.offsetHeight / span, t = Date.parse(el.dataset.at);
-      k.push([c - hw, t], [c + hw, t]);
+      // data-at "a/b": the clock runs a to b while this caption is read
+      const [ta, tb] = el.dataset.at.split("/").map(Date.parse);
+      const c = at(el), hw = 0.3 * el.offsetHeight / span;
+      // reach b by the middle of the caption and hold it, so the last
+      // moment it names is on screen while the reader is still reading
+      if (isNaN(tb)) k.push([c - hw, ta], [c + hw, ta]);
+      else k.push([c - hw, ta], [c - hw * 0.1, tb], [c + hw, tb]);
     });
     const p0 = name === "wk" ? cut : 0, p1 = name === "wk" ? 1 : Math.min(1, cut);
     out[name] = [[p0, name === "wk" && k.length ? k[0][1] - 2 * A.stepC : A.T0], ...k,

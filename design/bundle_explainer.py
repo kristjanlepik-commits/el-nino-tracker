@@ -66,8 +66,14 @@ for f in (PAGE / "assets").iterdir():
     name = "assets/" + f.name
     if name in html:
         assets[name] = data_url(f)
-for f in (PAGE / "assets").glob("pump_cold_*.png"):     # named by pump.json
-    assets["assets/" + f.name] = data_url(f)
+# Every image the scene data names. A fixed list missed the forecast act's
+# textures (pump_wk_*), which then rendered black in the bundle (Kristjan).
+for js in ("pump.json", "heat_morph.json"):
+    jp = PAGE / "assets" / js
+    if jp.exists():
+        for name in set(re.findall(r'"([\w.-]+\.png)"', jp.read_text())):
+            if (PAGE / "assets" / name).exists():
+                assets["assets/" + name] = data_url(PAGE / "assets" / name)
 for name in ("pump_sea.png", "heat_lines.png", "pump.json", "heat_morph.json"):
     if (PAGE / "assets" / name).exists():
         assets["assets/" + name] = data_url(PAGE / "assets" / name)
