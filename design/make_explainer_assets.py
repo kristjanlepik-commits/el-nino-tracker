@@ -188,7 +188,7 @@ def _rings(features):
 COUNTRIES = None
 
 
-def outline_map(field, lat, lon, ext, px, full, name, grow=0, land_fill=False):
+def outline_map(field, lat, lon, ext, px, full, name, grow=0, land_fill=False, lines_only=False):
     """A flat anomaly map in the site's ramp, with hairline outlines.
 
     ext = (lon0, lon1, lat0, lat1). Longitude pixels are scaled by the
@@ -209,6 +209,8 @@ def outline_map(field, lat, lon, ext, px, full, name, grow=0, land_fill=False):
     ok = ~np.isnan(v)
     img[ok] = ramp(v[ok], full)
     im = Image.fromarray(img.astype(np.uint8))
+    if lines_only:          # a transparent overlay of the outlines alone
+        im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     dr = ImageDraw.Draw(im)
     xy = lambda r: [((x - lo0) * kx, (la1 - y) * px) for x, y in r]
     for ring in _rings(COUNTRIES):
@@ -263,7 +265,17 @@ def heat_months(nc_path):
         field = [[None if np.isnan(v) else float(v) for v in row] for row in g]
         name = "heat_m%02d.png" % m
         size = outline_map(field, lat, lon, (-25, 45, 28, 72), 14, None, name)
-        frames.append({"month": names[m], "img": name, "size": size})
+        frames.append({"month": names[m], "img": name, "size": size,
+                       "grid": [[None if np.isnan(v) else round(float(v), 1) for v in row] for row in g]})
+    # The morph: grids the page interpolates between, plus the outlines as a
+    # transparent overlay at the same projection, so the heat can flow
+    # under fixed coastlines instead of cutting between stills (Kristjan).
+    size = outline_map(frames[-1]["grid"], lat, lon, (-25, 45, 28, 72), 14, None,
+                       "heat_lines.png", lines_only=True)
+    morph = {"lat": lat, "lon": lon, "box": [-25, 45, 28, 72], "size": size,
+             "full_c": T.OCEAN_SCALE, "ramp": T.ANOMALY, "lines": "heat_lines.png",
+             "months": [{"month": f["month"], "grid": f.pop("grid")} for f in frames]}
+    (OUT / "heat_morph.json").write_text(json.dumps(morph, separators=(",", ":")))
     return frames
 
 

@@ -447,7 +447,11 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   text-shadow: 0 0 14px rgba(241,240,236,.9), 0 0 3px rgba(241,240,236,.9); }}
 .hm-ticks {{ display: flex; gap: 6px; margin-top: 10px; }}
 .hm-ticks span {{ flex: 1; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--ink-faint); border-top: 3px solid var(--rule); padding-top: 6px; transition: all .4s; }}
+  color: var(--ink-faint); padding-top: 9px; background: linear-gradient(var(--ink), var(--ink)) 0 0 / 100% 3px no-repeat,
+  linear-gradient(var(--rule), var(--rule)) 0 0 / 100% 3px no-repeat; }}
+.hm-stack.morph img.hm {{ display: none; }}
+.hm-canvas {{ display: block; width: 100%; }}
+.hm-lines {{ position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }}
 .hm-ticks span.on {{ color: var(--ink); border-top-color: var(--ink); }}
 .eqsec {{ padding: 16vh 0 12vh; }}
 .eq {{ display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: .1em .28em;
@@ -703,26 +707,63 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 }})();
 </script>
 <script>
-// The heat, May to September: crossfade month by month, hold September.
+// The heat, May to September, as a continuous morph (Kristjan: "more
+// fluid"). The page interpolates the monthly ERA5 anomaly grids pixel by
+// pixel and recolours them on the site's ramp, under a fixed coastline
+// overlay, so the heat flows rather than cutting between stills. The month
+// label names the nearest month; the bar fills continuously. The <img>
+// stack stays as the no-JS and reduced-motion figure (September).
 (function () {{
   var box = document.getElementById("heatmove");
   if (!box || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var imgs = box.querySelectorAll("img.hm"), ticks = box.querySelectorAll(".hm-ticks span"),
-      label = document.getElementById("hm-month"), i = imgs.length - 1, timer = null;
-  function show(k) {{
-    imgs.forEach(function (im, j) {{ im.classList.toggle("fade", j === k); }});
-    ticks.forEach(function (t, j) {{ t.classList.toggle("on", j <= k); }});
-    label.textContent = imgs[k].dataset.month + " 2026";
-  }}
-  function tick() {{
-    i = (i + 1) % imgs.length; show(i);
-    timer = setTimeout(tick, i === imgs.length - 1 ? 3600 : 1500);
-  }}
-  box.querySelector(".hm-stack").classList.add("anim");
-  new IntersectionObserver(function (es) {{
-    if (es[0].isIntersecting && !timer) {{ i = -1; tick(); }}
-    else if (!es[0].isIntersecting && timer) {{ clearTimeout(timer); timer = null; }}
-  }}, {{ threshold: 0.4 }}).observe(box);
+  fetch("assets/heat_morph.json").then(function (r) {{ return r.json(); }}).then(function (M) {{
+    var stack = box.querySelector(".hm-stack"), label = document.getElementById("hm-month");
+    var ticks = box.querySelectorAll(".hm-ticks span");
+    var rows = M.months[0].grid.length, cols = M.months[0].grid[0].length, n = M.months.length;
+    var flat = M.months.map(function (m) {{ var a = new Float32Array(rows * cols), k = 0;
+      m.grid.forEach(function (r) {{ r.forEach(function (v) {{ a[k++] = v === null ? NaN : v; }}); }}); return a; }});
+    var ramp = M.ramp.map(function (h) {{ return [1, 3, 5].map(function (i) {{ return parseInt(h.substr(i, 2), 16); }}); }});
+    function col(v) {{ var x = (Math.max(-1, Math.min(1, v / M.full_c)) + 1) * 4, i = Math.min(7, Math.floor(x)), f = x - i;
+      return [0, 1, 2].map(function (c) {{ return ramp[i][c] * (1 - f) + ramp[i + 1][c] * f; }}); }}
+    var src = document.createElement("canvas"); src.width = cols; src.height = rows;
+    var sx = src.getContext("2d"), img = sx.createImageData(cols, rows);
+    var cv = document.createElement("canvas"); cv.className = "hm-canvas";
+    var lines = new Image(); lines.src = "assets/" + M.lines; lines.className = "hm-lines";
+    stack.classList.add("morph");
+    stack.insertBefore(cv, stack.firstChild); stack.insertBefore(lines, label);
+    var ctx = cv.getContext("2d");
+    function size() {{ var w = stack.clientWidth, h = w * M.size[1] / M.size[0], d = Math.min(devicePixelRatio || 1, 2);
+      cv.width = Math.round(w * d); cv.height = Math.round(h * d); cv.style.height = h + "px"; }}
+    addEventListener("resize", size); size();
+    function draw(f) {{
+      var k = Math.min(n - 2, Math.floor(f)), t = f - k, A = flat[k], B = flat[k + 1], d = img.data;
+      for (var j = 0; j < A.length; j++) {{
+        var v = A[j] + (B[j] - A[j]) * t, c = isNaN(v) ? [217, 216, 208] : col(v);
+        d[j * 4] = c[0]; d[j * 4 + 1] = c[1]; d[j * 4 + 2] = c[2]; d[j * 4 + 3] = 255;
+      }}
+      sx.putImageData(img, 0, 0);
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(src, 0, 0, cv.width, cv.height);
+      label.textContent = M.months[Math.round(f)].month + " 2026";
+      ticks.forEach(function (tk, i) {{ var fill = Math.max(0, Math.min(1, f - i + 1));
+        tk.style.backgroundSize = (fill * 100) + "% 3px, 100% 3px"; tk.classList.toggle("on", fill >= 1); }});
+    }}
+    var RUN = 9000, HOLD = 3500, t0 = null, on = false;
+    function loop(ts) {{
+      if (!on) return;
+      if (t0 === null) t0 = ts;
+      var e = (ts - t0) % (RUN + HOLD), f = Math.min(1, e / RUN) * (n - 1);
+      draw(f); requestAnimationFrame(loop);
+    }}
+    // ?heat=F draws one moment (0 = May, 4 = September), for screenshots.
+    var still = parseFloat(new URLSearchParams(location.search).get("heat"));
+    draw(still >= 0 ? Math.min(n - 1, still) : n - 1);
+    if (still >= 0) return;
+    new IntersectionObserver(function (es) {{
+      var was = on; on = es[0].isIntersecting;
+      if (on && !was) {{ t0 = null; requestAnimationFrame(loop); }}
+    }}, {{ threshold: 0.3 }}).observe(box);
+  }});
 }})();
 // The closing equation assembles word by word, landing on Flood.
 (function () {{
