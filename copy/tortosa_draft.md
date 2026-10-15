@@ -1,6 +1,6 @@
 ## headline
 
-Barcelona's wettest day since 1978
+Barcelona's wettest day in its complete record
 
 ## body
 
