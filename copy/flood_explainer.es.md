@@ -122,7 +122,7 @@ chapter-pump: Motor
 chapter-ground: Suelo
 chapter-weekend: Fin de semana
 q-rain: ¿Cuánto son 159 milímetros?
-q-heat: ¿Cuánto se calentó septiembre?
+q-heat: ¿Cuánto calor hizo este verano?
 q-sea: ¿De dónde salió el agua?
 q-air: ¿Cuánta agua cabe en el aire?
 q-pump: ¿Qué la elevó y qué la desató?
