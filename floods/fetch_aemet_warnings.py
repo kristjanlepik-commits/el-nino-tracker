@@ -88,7 +88,16 @@ def main():
     warnings, n_files = parse(raw)
     if n_files > 50 and not warnings:
         print("NOTE: no rain or storm warnings in force; check by eye that the filter still matches AEMET's fields")
+    # The explainer's map is about the second DANA. A warning belongs to it if its validity overlaps
+    # Sat 17 Oct 00:00 to Wed 21 Oct 00:00, Madrid time. Thursday and Friday interior warnings are a
+    # different weather and would paint inland Spain as this weekend's risk (design preview, 15 Oct).
+    w0, w1 = dt.datetime(2026, 10, 16, 22, 0, tzinfo=dt.timezone.utc), dt.datetime(2026, 10, 20, 22, 0, tzinfo=dt.timezone.utc)
+    for w in warnings:
+        on = dt.datetime.fromisoformat(w["onset"]); ex = dt.datetime.fromisoformat(w["expires"])
+        w["in_dana2_window"] = on < w1 and ex > w0
     res = {"source": "AEMET OpenData, avisos_cap/ultimoelaborado/area/esp (Meteoalerta CAP)",
+           "dana2_window": "warnings overlapping Sat 17 Oct 00:00 to Wed 21 Oct 00:00 Madrid time are flagged "
+                           "in_dana2_window; draw only those on the weekend map",
            "fetched_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="minutes"),
            "cap_files_in_archive": n_files, "kept": "Spanish <info>, phenomenon rain (PR) or thunderstorms (TO), "
                                                     "level yellow or above", "warnings": warnings}
@@ -99,7 +108,8 @@ def main():
     for w in warnings:
         by.setdefault((w["level"], w["phenomenon"]), 0)
         by[(w["level"], w["phenomenon"])] += 1
-    print(f"{n_files} CAP files; kept {len(warnings)} area-warnings: {by}")
+    print(f"{n_files} CAP files; kept {len(warnings)} area-warnings: {by}; in the DANA window: "
+          f"{sum(w['in_dana2_window'] for w in warnings)}")
     for w in sorted(warnings, key=lambda w: w["onset"] or "")[:12]:
         print(f"  {w['level']:9} {w['phenomenon']} {w['onset']} -> {w['expires']}  {w['area']}  [{w['threshold'][:50]}]")
 
