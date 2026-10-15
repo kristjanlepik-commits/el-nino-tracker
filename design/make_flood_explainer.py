@@ -238,37 +238,47 @@ def weekend_map(ground, aemet=True):
                      % (X(w_), Y(n_), X(e_) - X(w_), Y(s_) - Y(n_),
                         "w8-wet" if pct > 0 else "w8-dry", 0.12 + 0.6 * op if pct > 0 else 0,
                         h(name), pct, _nth(a["wettest_rank"][0]), a["wettest_rank"][1]))
-    groups = {}
-    for i, e in enumerate(ev, 1):
+    # Past floods by YEAR on the map itself (no numbered list): points within
+    # about 30 km share one label, so Valencia 2000 and Paiporta 2024 read
+    # as one place hit twice rather than two labels on top of each other.
+    groups = []
+    for e in ev:
         lp = e["label_point"]
-        groups.setdefault((lp["lat"], lp["lon"]), []).append(i)
+        g = next((g for g in groups
+                  if math.hypot(g["lat"] - lp["lat"], (g["lon"] - lp["lon"]) * 0.78) < 0.3), None)
+        if g is None:
+            g = {"lat": lp["lat"], "lon": lp["lon"], "ev": []}
+            groups.append(g)
+        g["ev"].append(e)
     dots = []
-    for (la, lo), ids in groups.items():
-        x, y = X(lo), Y(la)
-        dots.append('<circle cx="%.1f" cy="%.1f" r="4" class="w8-dot"/>'
-                    '<text x="%.1f" y="%.1f" class="w8-n">%s</text>'
-                    % (x, y, x + 6, y - 5, ",".join(map(str, ids))))
-    items = "".join('<li><b>%d</b> %s %s &middot; %s</li>'
-                    % (i, MON[int(e["start"][5:7]) - 1], e["start"][:4], h(e["name"]))
-                    for i, e in enumerate(ev, 1))
-    aem_svg, aemet_txt, _ = aemet_layer(X, Y, (lo0, lo1, la0, la1)) if aemet else ("", "", 0)
-    return f"""<figure class="w8">
-<svg viewBox="0 0 {W:.0f} {H:.0f}" width="100%" role="img" aria-label="Map of Spain's Mediterranean coast and the Balearics: where topsoil is wetter than normal after the first storm, and where damaging floods have struck since 1982.">
+    for k, g in enumerate(groups):
+        x, y = X(g["lon"]), Y(g["lat"])
+        years = " \u00b7 ".join(sorted({e["start"][:4] for e in g["ev"]}))
+        tip = "; ".join("%s %s, %s" % (MON[int(e["start"][5:7]) - 1], e["start"][:4], e["name"]) for e in g["ev"])
+        left = g["lon"] < -0.3          # inland of the coast: label to the left
+        dots.append('<g class="w8-pt" style="--k:%d"><title>%s</title>'
+                    '<circle cx="%.1f" cy="%.1f" r="5" class="w8-dot"/>'
+                    '<text x="%.1f" y="%.1f" class="w8-n" text-anchor="%s">%s</text></g>'
+                    % (k, h(tip), x, y, x + (-9 if left else 9), y + 4, "end" if left else "start", years))
+    aem_svg, aemet_txt, n_zones = aemet_layer(X, Y, (lo0, lo1, la0, la1)) if aemet else ("", "", 0)
+    svg = f"""<svg viewBox="0 0 {W:.0f} {H:.0f}" role="img" aria-label="Map of Spain's Mediterranean coast and the Balearics: damaging floods since 1982, topsoil wetter than normal after the first storm, and AEMET's warnings for 17 to 20 October.">
 <rect width="{W:.0f}" height="{H:.0f}" class="w8-sea"/>
 <defs><clipPath id="w8-landclip">{"".join(land).replace(' class="w8-land"', '')}</clipPath></defs>
 {"".join(land)}
-{aem_svg}
-<g clip-path="url(#w8-landclip)">{"".join(boxes)}</g>
-{"".join(dots)}
-</svg>
-<div class="w8-key">
-  <p><span class="sw wet"></span> Topsoil wetter than normal after the first storm, darker is wetter, by analysis area, land only. ERA5, top 7 cm, 8 to 10 October, against 1991 to 2020.</p>
-  <p><span class="sw dry"></span> Drier than normal (Ibiza).</p>
-  <p><span class="sw dot"></span> Damaging floods since 1982, numbered by date. Markers place each event at a named town; they are not flood extents. HANZE v2.1 to 2020 (Paprotny et al. 2024, CC BY 4.0); 2024 from named news sources. A selection, not a ranking.</p>
-  <p><span class="sw aem"></span> {h(aemet_txt)}</p>
-  <ol class="w8-list">{items}</ol>
-</div>
-</figure>"""
+<g class="L L-aemet">{aem_svg}</g>
+<g class="L L-wet" clip-path="url(#w8-landclip)">{"".join(boxes)}</g>
+<g class="L L-floods">{"".join(dots)}</g>
+</svg>"""
+    layers = [
+        ("Floods since 1982", "Damaging floods on this coast, by year. A selection, not a ranking; markers place each at a named town, not its extent. HANZE v2.1 to 2020 (Paprotny et al. 2024); 2024 from named news sources."),
+        ("Wet ground, now", "Topsoil wetter than normal after the first storm, darker is wetter; Ibiza, dashed, is drier. ERA5, top 7 cm, 8 to 10 October, against 1991 to 2020."),
+        ("AEMET's warnings", aemet_txt),
+    ]
+    steps = "".join('<div class="step"><p class="wk-cap"><b>%s</b>%s</p></div>' % (h(t), h(d)) for t, d in layers)
+    return f"""<section class="scrolly" id="wk">
+  <div class="stage wk-stage"><div class="wk-map">{svg}</div></div>
+  <div class="steps">{steps}</div>
+</section>"""
 
 
 # THE STRUCTURE IS THE ARGUMENT, so it is set big (Kristjan, 16 Oct: "bring
@@ -493,7 +503,20 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .g3-foot {{ position: absolute; left: 24px; right: 24px; bottom: 2%; display: flex; justify-content: space-between;
   gap: 12px; flex-wrap: wrap; margin: 0; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
   text-transform: uppercase; color: var(--ink-faint); }}
-.w8 svg {{ display: block; width: 100%; height: auto; border: 1px solid var(--rule); }}
+#wk {{ height: 360vh; }}
+.wk-stage {{ display: flex; align-items: center; justify-content: flex-end; }}
+.wk-map {{ height: 92vh; width: min(62vw, 92vh * 0.92); margin-right: 3vw; }}
+.wk-map svg {{ display: block; width: 100%; height: 100%; }}
+#wk .step p.wk-cap {{ font-size: 15px; color: var(--ink-soft); line-height: 1.5; max-width: 330px; }}
+#wk .step p.wk-cap b {{ display: block; font-family: var(--serif); font-weight: 500; font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.05; letter-spacing: -.02em; color: var(--ink); margin-bottom: 10px; }}
+#wk .L {{ transition: opacity .8s ease; }}
+#wk[data-step="0"] .L-wet, #wk[data-step="0"] .L-aemet, #wk[data-step="1"] .L-aemet {{ opacity: 0; }}
+#wk[data-step="-1"] .L {{ opacity: 0; }}
+.w8-pt {{ transition: opacity .5s ease calc(var(--k) * .09s), transform .5s cubic-bezier(.2,.9,.3,1.4) calc(var(--k) * .09s);
+  transform-box: fill-box; transform-origin: center; }}
+#wk[data-step="-1"] .w8-pt {{ opacity: 0; transform: translateY(-14px); }}
+@media (max-width: 899px) {{ .wk-stage {{ justify-content: center; }} .wk-map {{ width: 94vw; height: 70vh; margin: 0; }} }}
 .w8-sea {{ fill: var(--paper); }}
 .w8-land {{ fill: var(--land); stroke: var(--ink-faint); stroke-width: .6; }}
 .w8-wet {{ fill: var(--flood); stroke: var(--flood); stroke-width: .8; }}
@@ -504,7 +527,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .w8-key .sw.aem {{ background: #F2C94C; opacity: .8; }}
 .w8-dry {{ fill: var(--paper); fill-opacity: .85 !important; stroke: var(--ink-faint); stroke-width: .8; stroke-dasharray: 3 2; }}
 .w8-dot {{ fill: var(--ink); stroke: var(--paper); stroke-width: 1.5; }}
-.w8-n {{ font-family: var(--mono); font-size: 11px; font-weight: 500; fill: var(--ink);
+.w8-n {{ font-family: var(--mono); font-size: 13px; font-weight: 500; fill: var(--ink);
   paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }}
 .w8-key {{ font-size: 14px; color: var(--ink-soft); margin-top: 12px; }}
 .w8-key p {{ margin: 0 0 8px; }}
@@ -647,9 +670,11 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 
 <section class="flat">
   <div class="col">{chapter("weekend")}<p>{prose(w["weekend"])}</p>
-    {weekend_map(flat["ground"])}
-    <p class="src">Not a forecast of ours, and no combined score: each layer is shown as its source published it.</p>
   </div>
+</section>
+{weekend_map(flat["ground"])}
+<section class="flat" style="padding-top:2vh">
+  <div class="col"><p class="src">Not a forecast of ours, and no combined score: each layer is shown as its source published it.</p></div>
 </section>
 
 <section class="flat eqsec">
@@ -776,6 +801,20 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     if (es[0].isIntersecting) {{ eq.classList.remove("pre"); io.disconnect(); }}
   }}, {{ threshold: 0.6 }});
   io.observe(eq);
+}})();
+</script>
+<script>
+// Weekend: the map's layers arrive with the captions, floods, then wet
+// ground, then AEMET's warnings. Without JS every layer simply shows.
+(function () {{
+  var wk = document.getElementById("wk");
+  if (!wk || !("IntersectionObserver" in window)) return;
+  var steps = wk.querySelectorAll(".step");
+  wk.dataset.step = "-1";
+  var io = new IntersectionObserver(function (es) {{
+    es.forEach(function (e) {{ if (e.isIntersecting) wk.dataset.step = String([].indexOf.call(steps, e.target)); }});
+  }}, {{ rootMargin: "-45% 0px -45% 0px" }});
+  steps.forEach(function (st) {{ io.observe(st); }});
 }})();
 </script>
 <script type="module" src="scene_bathtub.js?v={_v("scene_bathtub.js")}"></script>
