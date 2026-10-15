@@ -85,6 +85,28 @@ for (const [sx, sz] of [[-1,-1],[1,-1],[1,1],[-1,1]]) posts.push(sx*W/2, 0, sz*H
 scene.add(new THREE.LineSegments(new THREE.BufferGeometry().setAttribute("position", new THREE.Float32BufferAttribute(posts, 3)),
   new THREE.LineDashedMaterial({ color: 0x6E6E67, dashSize: 0.02, gapSize: 0.02, transparent: true, opacity: 0.5 })).computeLineDistances());
 
+// EACH LAYER SAYS WHAT IT IS, in the map itself, so a crop cannot pass one
+// kind of data for the other (CPO). In the forecast act the cold air and
+// wind are ECMWF's model and the sea is ERA5, measured, 8-12 October; the
+// labels are tiled faintly across each layer at its own height. The
+// measured act needs none: every layer there is measured, as its footer says.
+function layerLabel(text, y, alpha) {
+  const cw = 2048, ch = Math.round(cw * H / W), cv = document.createElement("canvas");
+  cv.width = cw; cv.height = ch;
+  const c = cv.getContext("2d");
+  c.font = "500 34px 'IBM Plex Mono', ui-monospace, monospace";
+  c.fillStyle = "rgba(26,26,24," + alpha + ")";
+  for (let yy = 90, r = 0; yy < ch; yy += 300, r++)
+    for (let xx = -200 + (r % 2) * 620; xx < cw; xx += 1240) c.fillText(text, xx, yy);
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(W, H),
+    new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false, opacity: 0 }));
+  m.rotation.x = -Math.PI / 2; m.position.y = y; m.renderOrder = 4; scene.add(m);
+  return m;
+}
+const lblCold = layerLabel(L("lblfc", "ECMWF FORECAST \u00b7 COLD AIR AND WIND"), Y_COLD + 0.002, 0.42);
+const lblSea = layerLabel(L("lblsea", "ERA5 \u00b7 MEASURED SEA \u00b7 8-12 OCT"), 0.003, 0.30);
+
 // Barcelona: a pin from the map through the layers
 const bx = X(D.barcelona.lon), bz = Z(D.barcelona.lat);
 const pin = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, Y_COLD + 0.08, 6), new THREE.MeshBasicMaterial({ color: 0x1A1A18 }));
@@ -145,6 +167,7 @@ if (want.includes("obs")) ACTS.obs = mkAct({ cold: D.cold, wind: D.wind, sea: D.
 if (want.includes("wk") && D.weekend) ACTS.wk = mkAct(D.weekend, "2026-10-19T12:00Z");
 let actName = Object.keys(ACTS)[0], act = ACTS[actName];
 root.classList.toggle("forecast", actName === "wk");
+lblCold.material.opacity = lblSea.material.opacity = actName === "wk" ? 1 : 0;
 seaMat.map = act.seaTex;
 let tm = reduce ? act.TEND : act.T0;
 // The clock is pinned to the captions: each .step carries the moment its
@@ -183,6 +206,7 @@ let KN = knots(); addEventListener("resize", () => { KN = knots(); });
 function setAct(name) {
   if (name === actName || !ACTS[name]) return;
   actName = name; act = ACTS[name]; seaMat.map = act.seaTex; seaMat.needsUpdate = true;
+  lblCold.material.opacity = lblSea.material.opacity = name === "wk" ? 1 : 0;
   for (const p of pts) spawn(p);
   root.classList.toggle("forecast", name === "wk");
 }

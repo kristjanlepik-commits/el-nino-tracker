@@ -42,6 +42,8 @@ I18N = {
     "onshore": "Hacia tierra: del {d}, {s} m/s",
     "months": "Mayo Junio Julio Agosto Septiembre",
     "dec": ",",
+    "lblfc": "PREVISIÓN DEL ECMWF \u00b7 AIRE FRÍO Y VIENTO",
+    "lblsea": "ERA5 \u00b7 MAR MEDIDO \u00b7 8-12 OCT.",
 }
 
 PHRASES = {
