@@ -54,9 +54,10 @@ def _rgb(hexs):
 RAMP = _rgb(T.ANOMALY)
 
 
-def ramp(v):
-    """Continuous blend along the nine site steps; clamps at OCEAN_SCALE."""
-    x = (np.clip(v / T.OCEAN_SCALE, -1, 1) + 1) * 4          # 0..8
+def ramp(v, full=None):
+    """Continuous blend along the nine site steps; clamps at `full`
+    (OCEAN_SCALE for temperature)."""
+    x = (np.clip(v / (full or T.OCEAN_SCALE), -1, 1) + 1) * 4          # 0..8
     i = np.clip(np.floor(x).astype(int), 0, 7)
     f = (x - i)[..., None]
     return RAMP[i] * (1 - f) + RAMP[i + 1] * f
@@ -168,6 +169,58 @@ def cold_layers(d, w, h, LA, LO):
     return frames
 
 
+def _rings(features):
+    for f in features:
+        g = f["geometry"]
+        polys = [g["coordinates"]] if g["type"] == "Polygon" else g["coordinates"]
+        for poly in polys:
+            for ring in poly:
+                yield ring
+
+
+COUNTRIES = None
+
+
+def outline_map(field, lat, lon, ext, px, full, name, grow=0, land_fill=False):
+    """A flat anomaly map in the site's ramp, with hairline outlines.
+
+    ext = (lon0, lon1, lat0, lat1). Longitude pixels are scaled by the
+    cosine of the mid-latitude so the shapes are not stretched.
+    Returns the image size.
+    """
+    global COUNTRIES
+    if COUNTRIES is None:
+        COUNTRIES = json.loads((ROOT / "fires/data/countries.geo.json").read_text())["features"]
+    lo0, lo1, la0, la1 = ext
+    kx = px * np.cos(np.radians((la0 + la1) / 2)) if (la1 - la0) < 120 else px
+    w, h = int((lo1 - lo0) * kx), int((la1 - la0) * px)
+    LO = lo0 + (np.arange(w) + 0.5) / kx
+    LA = la1 - (np.arange(h) + 0.5) / px
+    LA, LO = np.meshgrid(LA, LO, indexing="ij")
+    v = sample(field, lat, lon, LA, LO, grow=grow)
+    img = np.empty((h, w, 3)); img[:] = _rgb(["#D9D8D0"])[0]
+    ok = ~np.isnan(v)
+    img[ok] = ramp(v[ok], full)
+    im = Image.fromarray(img.astype(np.uint8))
+    dr = ImageDraw.Draw(im)
+    xy = lambda r: [((x - lo0) * kx, (la1 - y) * px) for x, y in r]
+    for ring in _rings(COUNTRIES):
+        if land_fill:
+            dr.polygon(xy(ring), fill="#D9D8D0")
+        dr.line(xy(ring), fill=T.INK_FAINT, width=1)
+    im.save(OUT / name, optimize=True)
+    return list(im.size)
+
+
+def merge_heat(d):
+    """Sea where the sea grid has a value, land air temperature elsewhere."""
+    h = d["heat"]
+    sea = [[np.nan if v is None else v for v in r] for r in h["sst_anom_c"]]
+    land = [[np.nan if v is None else v for v in r] for r in h["land_t2m_anom_c"]]
+    g = np.where(np.isnan(sea), land, sea)
+    return [[None if np.isnan(x) else float(x) for x in r] for r in g]
+
+
 def winds(d):
     w = d["pump"]["winds_850"]
     keep_i = [i for i, la in enumerate(w["lat"]) if LAT0 - 1 <= la <= LAT1 + 1]
@@ -200,6 +253,32 @@ def main():
         "barcelona": {"lat": 41.39, "lon": 2.17},
     }
     (OUT / "pump.json").write_text(json.dumps(meta, separators=(",", ":")))
+
+    # Scenes 2, 3, 4 and 7: flat maps and the series they sit beside.
+    h, e, sg = d["heat"], d["evaporation"], d["sponge_global"]
+    flat = {
+        "heat": {"img": "heat_europe.png", "full_c": T.OCEAN_SCALE,
+                 "size": outline_map(merge_heat(d), h["lat"], h["lon"],
+                                     (-25, 45, 28, 72), 14, None, "heat_europe.png"),
+                 "headline": h["headline"],
+                 "what": "September 2026 vs 1991-2020: sea surface temperature "
+                         "over the sea, air temperature at 2 m over land, ERA5"},
+        "evap": {"img": "evap_med.png", "full_pct": 40,
+                 "size": outline_map(e["pct_map"], e["lat"], e["lon"],
+                                     (-6, 37, 30, 46), 30, 40, "evap_med.png",
+                                     land_fill=True),
+                 "unit": e["unit"], "normal": e["basin_mean_normal"],
+                 "y2026": e["basin_mean_2026"], "pct": e["pct_vs_normal"],
+                 "rank": e["rank_since_1991"],
+                 "by_year": e["by_year"]},
+        "vapour": {"img": "vapour_world.png", "full_pct": 30,
+                   "size": outline_map(sg["map_pct_2026"], sg["map_lat"], sg["map_lon"],
+                                       (-180, 180, -60, 75), 5, 30, "vapour_world.png"),
+                   "unit": sg["unit"], "by_year_pct": sg["by_year_pct"],
+                   "rank": sg["rank_2026"], "physics": sg["physics"]},
+        "ground": d["ground"],
+    }
+    (OUT / "flat.json").write_text(json.dumps(flat, separators=(",", ":")))
     for f in meta["cold"]["frames"]:
         c = f["coldest"]
         print(f["time"], c["anom_c"], c["lat"], c["lon"], "EDGE" if c["on_edge"] else "")
