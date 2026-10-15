@@ -1,0 +1,95 @@
+{
+ "definition": "A qualifying storm: a day with at least T mm at any of five stations (Fabra, Reus, Tortosa, Castello, Valencia Aeropuerto); qualifying days within 3 days of each other are one storm, dated by its first day. \"Twice\" means a storm whose first day is 21 days or less after the previous storm's first day. Counted 1978-2025 at a gradient of thresholds (CPO, 15 Oct), so that the 100 mm choice is not what decides whether \"twice\" is unusual.",
+ "span": [
+  1978,
+  2025
+ ],
+ "unreported_days_in_span": {
+  "0200E": 0,
+  "0016A": 59,
+  "9981A": 0,
+  "8500A": 0,
+  "8414A": 0
+ },
+ "thresholds": {
+  "80": {
+   "storms": 66,
+   "storms_per_year": 1.38,
+   "second_storms_within_21_days": 5,
+   "years_with_one": [
+    1986,
+    1987,
+    1994,
+    2007,
+    2018
+   ],
+   "pairs": [
+    [
+     "1986-10-05",
+     "1986-10-12"
+    ],
+    [
+     "1987-10-01",
+     "1987-10-09"
+    ],
+    [
+     "1994-09-29",
+     "1994-10-09"
+    ],
+    [
+     "2007-10-11",
+     "2007-10-24"
+    ],
+    [
+     "2018-10-09",
+     "2018-10-18"
+    ]
+   ]
+  },
+  "100": {
+   "storms": 36,
+   "storms_per_year": 0.75,
+   "second_storms_within_21_days": 3,
+   "years_with_one": [
+    1986,
+    1994,
+    2018
+   ],
+   "pairs": [
+    [
+     "1986-10-05",
+     "1986-10-12"
+    ],
+    [
+     "1994-09-29",
+     "1994-10-09"
+    ],
+    [
+     "2018-10-09",
+     "2018-10-18"
+    ]
+   ]
+  },
+  "120": {
+   "storms": 17,
+   "storms_per_year": 0.35,
+   "second_storms_within_21_days": 1,
+   "years_with_one": [
+    2018
+   ],
+   "pairs": [
+    [
+     "2018-10-09",
+     "2018-10-18"
+    ]
+   ]
+  },
+  "150": {
+   "storms": 5,
+   "storms_per_year": 0.1,
+   "second_storms_within_21_days": 0,
+   "years_with_one": [],
+   "pairs": []
+  }
+ }
+}
