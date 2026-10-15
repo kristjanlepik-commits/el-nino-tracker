@@ -9,9 +9,10 @@ Inputs, each read from where its owner put it:
   copy        copy/tortosa_draft.md on origin/main (editor)
   judgement   floods/data/spain_dana_2026-10_stations.json on origin/main
               (floods): the rank, the unbroken-run start, the record flags
-  series      Fabra's wettest day of each year. PROVISIONAL: computed here
-              from floods' AEMET cache (gitignored, so this machine only)
-              with floods' own loader, until floods emits the series.
+  series      Fabra's wettest day of each year, annual_max_1day in the
+              same payload (floods, 5cdcabc6). 2026 is a partial year and
+              not in it, so its mark is the judged day itself.
+  sea figure  floods/data/europe_ingredients_2026-10.json, sst_sept (floods)
 
 The series is checked against the judgement before anything renders. If
 the strip and the headline could disagree, the build refuses.
@@ -26,9 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "floods"))
 
-import spain_dana_judge as judge                       # noqa: E402
 from floods.build_piece import _pretty, _staleness     # noqa: E402
 from templates.fast_reaction import render             # noqa: E402
 
@@ -65,15 +64,36 @@ def station():
     return next(s for s in st["stations"] if s["id"] == SID)
 
 
-def series(since):
-    """Wettest reported day of each year from `since`, from floods' cache."""
-    rain = judge.load(SID)
-    best = {}
-    for d, v in rain.items():
-        if v is not None and d.year >= since and v > best.get(d.year, -1):
-            best[d.year] = v
-    through = max(d for d, v in rain.items() if v is not None)
-    return best, through.isoformat()
+def series(st):
+    """Wettest day of each year from the unbroken start, as floods emit it.
+
+    Years below the completeness floor floods judged with are refused
+    rather than dropped: a hole in the strip would read as a dry year.
+    """
+    since, ann = st["unbroken_since"], st["annual_max_1day"]
+    best, thin = {}, []
+    for y in range(since, 2026):
+        row = ann.get(str(y))
+        if row is None or row["days_reported_frac"] < 0.90:
+            thin.append(y)
+        else:
+            best[y] = row["mm"]
+    if thin:
+        raise SystemExit("REFUSING TO RENDER: years below 90%% reported "
+                         "inside the unbroken run: %s" % thin)
+    best[2026] = st["1day"]["mm"]
+    return best
+
+
+def sea():
+    """The one sea figure the copy quotes, checked before it is sourced."""
+    d = json.loads(_origin("floods/data/europe_ingredients_2026-10.json"))
+    for basin in ("Western Mediterranean", "Central Mediterranean"):
+        row = next(v for k, v in d["sst_sept"].items() if k.startswith(basin))
+        if row["rank"][0] != 1 or row["since"] != 1940:
+            raise SystemExit("REFUSING TO RENDER: %s September SST is rank "
+                             "%s since %s, not 1st since 1940"
+                             % (basin, row["rank"], row["since"]))
 
 
 def check(st, best):
@@ -85,9 +105,6 @@ def check(st, best):
                         "unbroken run")
     if one["start"] != DAY:
         problems.append("floods' wettest day is %s, not %s" % (one["start"], DAY))
-    if abs(best.get(2026, 0) - one["mm"]) > 0.05:
-        problems.append("cache max for 2026 is %s mm, floods say %s"
-                        % (best.get(2026), one["mm"]))
     others = {y: v for y, v in best.items() if y != 2026}
     if others and max(others.values()) >= one["mm"]:
         problems.append("a year in the strip reaches %.1f mm" % one["mm"])
@@ -103,8 +120,9 @@ def piece(today):
     head, paras = copy()
     st = station()
     since = st["unbroken_since"]
-    best, through = series(since)
+    best = series(st)
     check(st, best)
+    sea()
     one, three = st["1day"], st["3day"]
     return {
         "channel": "flood",
@@ -155,7 +173,10 @@ def piece(today):
              "rank": "",
              "state": "not_assessed"},
         ],
-        "attribution": "pending",
+        # Floods' ruling, 15 October: no established ENSO pathway for
+        # European autumn rain (Science, 12 October), and the HANZE count
+        # against ONI is r = -0.02.
+        "attribution": "non_enso",
         "notes": {
             "what_this_is": (
                 "Daily rainfall at one gauge, AEMET's Barcelona Fabra "
@@ -163,21 +184,25 @@ def piece(today):
                 "wettest day of each year since %d, the first year of the "
                 "station's unbroken record, meaning every year since has at "
                 "least 90%% of its days reported. The result does not "
-                "change at any threshold from 70%% to 100%%. The 2026 slot "
-                "covers data to %s." % (since, _pretty(through))),
+                "change at any threshold from 70%% to 100%%. The 2026 mark "
+                "is %s itself." % (since, _pretty(DAY))),
             "what_this_is_not": (
                 "Not a measurement of flooding, and not an area total: one "
                 "gauge can catch a downpour its neighbours miss. Flood "
                 "extent is not assessed for European regions: the satellite "
                 "screen passed none of the six tested, because week-to-week "
-                "visibility varies enough that a ranking would rank the "
-                "weather over the sensor."),
+                "visibility varies enough that a ranking would reflect "
+                "cloud cover, not flooding."),
         },
-        "source": {
-            "name": "AEMET (Agencia Estatal de Meteorología)",
-            "detail": "daily climatological values, station 0200E",
-            "as_of": _pretty(through),
-        },
+        "source": [
+            {"name": "AEMET (Agencia Estatal de Meteorología)",
+             "detail": "daily climatological values, station 0200E",
+             "as_of": _pretty(WINDOW["end"])},
+            {"name": "Copernicus ERA5",
+             "detail": "monthly sea surface temperature, Septembers 1940 "
+                       "to 2026 (2026 preliminary)",
+             "as_of": "12 October 2026"},
+        ],
     }
 
 

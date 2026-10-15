@@ -76,7 +76,8 @@ body          optional [str], further paragraphs of editor copy; **x** is bold
 value         {display, caption}
 chart         {label, series[{x,y}], current_x, baseline{value,label},
                unit, diverging, annotations[{x,text}]}
-source        {name, detail, as_of}
+source        {name, detail, as_of}, or a list of them when a piece cites
+              more than one instrument
 attribution   one of enso | non_enso | pending
 notes         {what_this_is, what_this_is_not}
 """
@@ -307,6 +308,21 @@ def fr_body(piece):
             % "".join("<p>%s</p>" % _prose(t) for t in paras))
 
 
+def fr_sources(src):
+    """One source line per instrument the page quotes a figure from.
+
+    A LIST SINCE THE BARCELONA PIECE, whose sea-temperature sentence is an
+    ERA5 figure on a page otherwise sourced to one AEMET gauge. A figure
+    with no source line beside it is uncitable, and folding two
+    instruments into one line would date one of them wrongly.
+    """
+    items = src if isinstance(src, list) else [src]
+    label = "Source." if len(items) == 1 else "Sources."
+    lines = ["%s, %s. As of %s." % (h(x.get("name", "")), h(x.get("detail", "")),
+                                    h(x.get("as_of", ""))) for x in items]
+    return "    <p><b>%s</b> %s</p>" % (label, "<br>".join(lines))
+
+
 def fr_corroboration(piece):
     """Whether the event happened, when we have not established it.
 
@@ -525,8 +541,7 @@ h1 {{
   </div>
 
   <div class="fr-src">
-    <p><b>Source.</b> {h(src.get("name", ""))}, {h(src.get("detail", ""))}.
-    As of {h(src.get("as_of", ""))}.</p>
+{fr_sources(src)}
   </div>
 </main>
 </body>
