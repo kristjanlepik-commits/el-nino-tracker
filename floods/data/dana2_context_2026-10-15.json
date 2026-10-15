@@ -1,0 +1,380 @@
+{
+ "_about": "Context readings for the second DANA (17-20 Oct 2026), committed so other desks cite a file, not a message (TLS News, 15 Oct). Neither is a claim under floods/prereg/spain_dana2_2026-10.md; both are context.",
+ "ecmwf_ensemble": {
+  "source": "ECMWF IFS ensemble 0.25 deg (ecmwf_ifs025, 51 members) via Open-Meteo ensemble API",
+  "run": "latest run Open-Meteo served at fetch time; the API does not return the run's start time",
+  "fetched_utc": "2026-10-15T19:25+00:00",
+  "days": "2026-10-16 to 2026-10-21, local days (Europe/Madrid)",
+  "caveat": "Each value is a ~25 km grid cell; it understates point cloudbursts, and stations sharing a cell read identically. AEMET's 150-250 mm 'en pocas horas' is the figure to quote.",
+  "stations": {
+   "0367": {
+    "name": "GIRONA AEROPUERTO",
+    "lat": 42.0,
+    "lon": 2.75,
+    "members": 51,
+    "total_16_21_median_mm": 64.7,
+    "total_16_21_p90_mm": 132.9,
+    "total_16_21_max_mm": 180.2,
+    "wettest_day_median_mm": 31.6,
+    "wettest_day_p90_mm": 75.9
+   },
+   "0370B": {
+    "name": "GIRONA, ANTIC INSTITUT",
+    "lat": 42.0,
+    "lon": 2.75,
+    "members": 51,
+    "total_16_21_median_mm": 64.7,
+    "total_16_21_p90_mm": 132.9,
+    "total_16_21_max_mm": 180.2,
+    "wettest_day_median_mm": 31.6,
+    "wettest_day_p90_mm": 75.9
+   },
+   "0200E": {
+    "name": "BARCELONA, FABRA",
+    "lat": 41.5,
+    "lon": 2.0,
+    "members": 51,
+    "total_16_21_median_mm": 69.3,
+    "total_16_21_p90_mm": 95.0,
+    "total_16_21_max_mm": 151.2,
+    "wettest_day_median_mm": 32.5,
+    "wettest_day_p90_mm": 54.2
+   },
+   "0076": {
+    "name": "BARCELONA AEROPUERTO",
+    "lat": 41.5,
+    "lon": 2.0,
+    "members": 51,
+    "total_16_21_median_mm": 69.3,
+    "total_16_21_p90_mm": 95.0,
+    "total_16_21_max_mm": 151.2,
+    "wettest_day_median_mm": 32.5,
+    "wettest_day_p90_mm": 54.2
+   },
+   "0016A": {
+    "name": "REUS AEROPUERTO",
+    "lat": 41.25,
+    "lon": 1.25,
+    "members": 51,
+    "total_16_21_median_mm": 35.0,
+    "total_16_21_p90_mm": 88.8,
+    "total_16_21_max_mm": 194.1,
+    "wettest_day_median_mm": 23.1,
+    "wettest_day_p90_mm": 51.1
+   },
+   "9981A": {
+    "name": "ESTACIÓN DE TORTOSA (ROQUETES)",
+    "lat": 40.75,
+    "lon": 0.5,
+    "members": 51,
+    "total_16_21_median_mm": 47.4,
+    "total_16_21_p90_mm": 104.3,
+    "total_16_21_max_mm": 279.4,
+    "wettest_day_median_mm": 27.0,
+    "wettest_day_p90_mm": 74.5
+   },
+   "8500A": {
+    "name": "CASTELLÓ - ALMASSORA",
+    "lat": 40.0,
+    "lon": 0.0,
+    "members": 51,
+    "total_16_21_median_mm": 32.6,
+    "total_16_21_p90_mm": 72.4,
+    "total_16_21_max_mm": 201.6,
+    "wettest_day_median_mm": 22.4,
+    "wettest_day_p90_mm": 49.6
+   },
+   "8414A": {
+    "name": "VALENCIA AEROPUERTO",
+    "lat": 39.5,
+    "lon": -0.5,
+    "members": 51,
+    "total_16_21_median_mm": 38.4,
+    "total_16_21_p90_mm": 91.4,
+    "total_16_21_max_mm": 148.4,
+    "wettest_day_median_mm": 27.6,
+    "wettest_day_p90_mm": 52.2
+   },
+   "8416": {
+    "name": "VALÈNCIA",
+    "lat": 39.5,
+    "lon": -0.5,
+    "members": 51,
+    "total_16_21_median_mm": 38.4,
+    "total_16_21_p90_mm": 91.4,
+    "total_16_21_max_mm": 148.4,
+    "wettest_day_median_mm": 27.6,
+    "wettest_day_p90_mm": 52.2
+   },
+   "8019": {
+    "name": "ALICANTE-ELCHE AEROPUERTO",
+    "lat": 38.25,
+    "lon": -0.75,
+    "members": 51,
+    "total_16_21_median_mm": 37.1,
+    "total_16_21_p90_mm": 59.3,
+    "total_16_21_max_mm": 101.0,
+    "wettest_day_median_mm": 18.6,
+    "wettest_day_p90_mm": 39.1
+   },
+   "8025": {
+    "name": "ALACANT/ALICANTE",
+    "lat": 38.5,
+    "lon": -0.5,
+    "members": 51,
+    "total_16_21_median_mm": 29.4,
+    "total_16_21_p90_mm": 54.3,
+    "total_16_21_max_mm": 97.9,
+    "wettest_day_median_mm": 15.4,
+    "wettest_day_p90_mm": 35.3
+   },
+   "7031": {
+    "name": "SAN JAVIER AEROPUERTO",
+    "lat": 37.75,
+    "lon": -1.0,
+    "members": 51,
+    "total_16_21_median_mm": 42.4,
+    "total_16_21_p90_mm": 83.9,
+    "total_16_21_max_mm": 103.0,
+    "wettest_day_median_mm": 24.0,
+    "wettest_day_p90_mm": 43.0
+   },
+   "7228": {
+    "name": "ALCANTARILLA, BASE AÉREA",
+    "lat": 38.0,
+    "lon": -1.25,
+    "members": 51,
+    "total_16_21_median_mm": 35.4,
+    "total_16_21_p90_mm": 63.4,
+    "total_16_21_max_mm": 136.3,
+    "wettest_day_median_mm": 21.3,
+    "wettest_day_p90_mm": 37.8
+   },
+   "7178I": {
+    "name": "MURCIA",
+    "lat": 38.0,
+    "lon": -1.25,
+    "members": 51,
+    "total_16_21_median_mm": 35.4,
+    "total_16_21_p90_mm": 63.4,
+    "total_16_21_max_mm": 136.3,
+    "wettest_day_median_mm": 21.3,
+    "wettest_day_p90_mm": 37.8
+   },
+   "6155A": {
+    "name": "MÁLAGA AEROPUERTO",
+    "lat": 36.75,
+    "lon": -4.5,
+    "members": 51,
+    "total_16_21_median_mm": 32.2,
+    "total_16_21_p90_mm": 67.2,
+    "total_16_21_max_mm": 120.2,
+    "wettest_day_median_mm": 16.7,
+    "wettest_day_p90_mm": 43.8
+   },
+   "6156X": {
+    "name": "MÁLAGA, CENTRO METEOROLÓGICO",
+    "lat": 36.75,
+    "lon": -4.5,
+    "members": 51,
+    "total_16_21_median_mm": 32.2,
+    "total_16_21_p90_mm": 67.2,
+    "total_16_21_max_mm": 120.2,
+    "wettest_day_median_mm": 16.7,
+    "wettest_day_p90_mm": 43.8
+   },
+   "B954": {
+    "name": "IBIZA, AEROPUERTO",
+    "lat": 39.0,
+    "lon": 1.5,
+    "members": 51,
+    "total_16_21_median_mm": 73.9,
+    "total_16_21_p90_mm": 120.8,
+    "total_16_21_max_mm": 190.0,
+    "wettest_day_median_mm": 40.8,
+    "wettest_day_p90_mm": 75.5
+   },
+   "B957": {
+    "name": "EIVISSA",
+    "lat": 39.0,
+    "lon": 1.5,
+    "members": 51,
+    "total_16_21_median_mm": 73.9,
+    "total_16_21_p90_mm": 120.8,
+    "total_16_21_max_mm": 190.0,
+    "wettest_day_median_mm": 40.8,
+    "wettest_day_p90_mm": 75.5
+   },
+   "B278": {
+    "name": "PALMA DE MALLORCA, AEROPUERTO",
+    "lat": 39.5,
+    "lon": 2.75,
+    "members": 51,
+    "total_16_21_median_mm": 38.5,
+    "total_16_21_p90_mm": 69.6,
+    "total_16_21_max_mm": 97.7,
+    "wettest_day_median_mm": 22.7,
+    "wettest_day_p90_mm": 45.1
+   },
+   "B228": {
+    "name": "PALMA, PUERTO",
+    "lat": 39.5,
+    "lon": 2.75,
+    "members": 51,
+    "total_16_21_median_mm": 38.5,
+    "total_16_21_p90_mm": 69.6,
+    "total_16_21_max_mm": 97.7,
+    "wettest_day_median_mm": 22.7,
+    "wettest_day_p90_mm": 45.1
+   },
+   "B893": {
+    "name": "MENORCA, AEROPUERTO",
+    "lat": 40.0,
+    "lon": 4.0,
+    "members": 51,
+    "total_16_21_median_mm": 34.9,
+    "total_16_21_p90_mm": 57.5,
+    "total_16_21_max_mm": 105.9,
+    "wettest_day_median_mm": 18.8,
+    "wettest_day_p90_mm": 40.6
+   }
+  }
+ },
+ "topsoil": {
+  "source": "ERA5 volumetric soil water layer 1 (0-7 cm), Copernicus CDS, 2026 preliminary",
+  "method": "mean of 00 UTC on 8, 9 and 10 Oct over land cells in each box; same days every year 1991-2026; normal = 1991-2020 mean; rank 1 = wettest of 36 years",
+  "built_by": "floods/explainer_data.py (ground)",
+  "areas": {
+   "Barcelona, Maresme, Girona coast": {
+    "box_s_n_w_e": [
+     41.2,
+     42.4,
+     1.9,
+     3.3
+    ],
+    "pct_vs_normal": 23.0,
+    "wettest_rank": [
+     5,
+     36
+    ]
+   },
+   "Southern Catalonia, Ebro delta": {
+    "box_s_n_w_e": [
+     40.5,
+     41.2,
+     0.3,
+     1.2
+    ],
+    "pct_vs_normal": 55.1,
+    "wettest_rank": [
+     2,
+     36
+    ]
+   },
+   "Castellon coast": {
+    "box_s_n_w_e": [
+     39.7,
+     40.5,
+     -0.4,
+     0.4
+    ],
+    "pct_vs_normal": 31.5,
+    "wettest_rank": [
+     8,
+     36
+    ]
+   },
+   "Valencia, central coast": {
+    "box_s_n_w_e": [
+     38.9,
+     39.7,
+     -0.6,
+     0.0
+    ],
+    "pct_vs_normal": 29.1,
+    "wettest_rank": [
+     7,
+     36
+    ]
+   },
+   "La Safor, Marina Alta": {
+    "box_s_n_w_e": [
+     38.6,
+     39.1,
+     -0.3,
+     0.2
+    ],
+    "pct_vs_normal": 17.7,
+    "wettest_rank": [
+     12,
+     36
+    ]
+   },
+   "Alicante, Vega Baja": {
+    "box_s_n_w_e": [
+     37.9,
+     38.6,
+     -1.0,
+     -0.3
+    ],
+    "pct_vs_normal": 28.0,
+    "wettest_rank": [
+     8,
+     36
+    ]
+   },
+   "Murcia coast": {
+    "box_s_n_w_e": [
+     37.4,
+     38.0,
+     -1.6,
+     -0.6
+    ],
+    "pct_vs_normal": 52.6,
+    "wettest_rank": [
+     5,
+     36
+    ]
+   },
+   "Malaga, Costa del Sol": {
+    "box_s_n_w_e": [
+     36.4,
+     36.9,
+     -5.0,
+     -4.0
+    ],
+    "pct_vs_normal": 10.8,
+    "wettest_rank": [
+     15,
+     36
+    ]
+   },
+   "Ibiza": {
+    "box_s_n_w_e": [
+     38.8,
+     39.2,
+     1.1,
+     1.6
+    ],
+    "pct_vs_normal": -11.8,
+    "wettest_rank": [
+     16,
+     36
+    ]
+   },
+   "Mallorca": {
+    "box_s_n_w_e": [
+     39.3,
+     40.0,
+     2.3,
+     3.5
+    ],
+    "pct_vs_normal": 30.0,
+    "wettest_rank": [
+     9,
+     36
+    ]
+   }
+  }
+ }
+}
