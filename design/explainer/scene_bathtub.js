@@ -1,7 +1,9 @@
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
-import { scroll, animate } from "motion";
+// Motion is the UMD build, loaded by a classic script before this module
+// (platform, 15 Oct: there is no single-file ES build at 11.11.13).
+const { scroll, animate } = window.Motion;
 
 // Scene 1 of "How a flood is made" (D-327). The section carries its own
 // measured value in data-mm, so this module holds no number of its own.

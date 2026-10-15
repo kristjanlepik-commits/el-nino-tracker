@@ -41,12 +41,13 @@ PATH = "/" + SLUG + "/"
 PREVIEW = Path("/tmp/el_nino_preview") / SLUG
 ASSETS = Path("/tmp/el_nino_preview/explainer3d/assets")
 
-CDN = {"three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-       "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
-       "motion": "https://cdn.jsdelivr.net/npm/motion@11.11.13/+esm"}
+# Self-hosted, never a CDN on a published page (D-327; platform, 15 Oct).
+# Relative paths only: qa_check rejects root-absolute src. The addons
+# import a bare "three", which only the import map can resolve. The
+# preview serves the same files, so what is checked is what ships.
 VENDOR = {"three": "../../vendor/three-0.160.0/three.module.min.js",
-          "three/addons/": "../../vendor/three-0.160.0/addons/",
-          "motion": "../../vendor/motion-11.11.13/motion.mjs"}
+          "three/addons/": "../../vendor/three-0.160.0/addons/"}
+MOTION = "../../vendor/motion-11.11.13/motion.js"
 
 # Prose slots, in page order. A slot is filled from copy/flood_explainer.md
 # ("## slot-name" sections) or renders as a placeholder.
@@ -115,7 +116,7 @@ def ground_table(g):
 
 def page(w, preview):
     flat, pump, bath = data()
-    imports = CDN if preview else VENDOR
+    imports = VENDOR
     ev, vp = flat["evap"], flat["vapour"]
     bath_steps = "".join('<div class="step"><p>%s</p></div>' % prose(w["bath-%d" % i]) for i in range(1, 5))
     pump_steps = "".join('<div class="step"><p>%s</p></div>' % prose(w["pump-%d" % i]) for i in range(1, 6))
@@ -319,6 +320,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 </section>
 </main>
 {GROUND_JS}
+<script src="{MOTION}"></script>
 <script type="module" src="scene_bathtub.js"></script>
 <script type="module" src="scene_pump.js"></script>
 {ANALYTICS_SNIPPET}
@@ -342,6 +344,8 @@ def main():
         shutil.copy(js, out / js.name)
     for f in ASSETS.iterdir():
         shutil.copy(f, out / "assets" / f.name)
+    if preview:
+        shutil.copytree(ROOT / "docs/vendor", out.parent.parent / "vendor", dirs_exist_ok=True)
     print("wrote", out, "| empty prose slots:", len(holes))
 
 

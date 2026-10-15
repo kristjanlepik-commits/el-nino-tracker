@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { scroll, animate } from "motion";
+// Motion is the UMD build, loaded by a classic script before this module
+// (platform, 15 Oct: there is no single-file ES build at 11.11.13).
+const { scroll, animate } = window.Motion;
 
 // Scene 5 of "How a flood is made" (D-327): the pump, the fuel and the
 // trigger. Every layer is drawn from pump.json, which
@@ -91,7 +93,10 @@ const INK = new THREE.Color("#1A1A18"), BG = new THREE.Color("#F1F0EC");
 
 // time is the scroll
 const frames = D.cold.frames, T0 = Date.parse(frames[0].time);
-const TEND = Date.parse(WF[WF.length - 1].time), stepC = Date.parse(frames[1].time) - T0;
+// The scene ends on the rain day, 3 October 12 UTC, not on the last frame
+// FLO emitted: what comes after is not part of this story.
+const endF = WF.find(f => f.time.startsWith("2026-10-03T12")) || WF[WF.length - 1];
+const TEND = Date.parse(endF.time), stepC = Date.parse(frames[1].time) - T0;
 let tm = reduce ? TEND : T0;
 if (!reduce) scroll(p => {
   const q = Math.min(1, Math.max(0, (p - 0.06) / 0.86));
@@ -116,7 +121,7 @@ let frame = function () {
   const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
   const q = (tm - T0) / (TEND - T0);
   const a = -0.30 + 0.16 * q + (reduce ? 0 : 0.03 * Math.sin(t * 0.2));
-  const r = canvas.clientWidth < 700 ? 5.6 : 4.3;
+  const r = canvas.clientWidth < 700 ? 6.6 : 5.0;
   cam.position.set(Math.sin(a) * r, 2.9 - 0.35 * q, Math.cos(a) * r);
   cam.lookAt(0, 0.22, 0.05);
 
@@ -155,10 +160,13 @@ let frame = function () {
   whenEl.textContent = d.getUTCDate() + " " + MON[d.getUTCMonth()] + ", " + String(d.getUTCHours()).padStart(2, "0") + ":00 UTC";
   let [x, y] = screen(new THREE.Vector3(bx, Y_COLD + 0.08, bz)); lbcn.style.left = x + "px"; lbcn.style.top = y + "px";
   const c = f.coldest;
-  if (c.anom_c <= -5 && c.lon >= LON0 && c.lon <= LON1) {
+  // Labelled only while it is a pool: at 8 C or more below normal. Past
+  // 2 October the grid's coldest cell is an unrelated patch off Libya,
+  // and pump.not_claimed rules out cold air over Barcelona on 3 October.
+  if (c.anom_c <= -8 && c.lon >= LON0 && c.lon <= LON1) {
     [x, y] = screen(new THREE.Vector3(X(c.lon), Y_COLD, Z(c.lat)));
-    lbcold.style.opacity = 1; lbcold.style.left = Math.max(70, x) + "px"; lbcold.style.top = y + "px";
-    lbcold.textContent = c.anom_c.toFixed(1) + " C vs normal" + (c.on_edge ? " (edge of data)" : "");
+    lbcold.style.opacity = 1; lbcold.style.left = Math.max(110, x) + "px"; lbcold.style.top = y + "px";
+    lbcold.textContent = "Cold pool " + c.anom_c.toFixed(1) + " \u00b0C vs normal";
   } else lbcold.style.opacity = 0;
 
   R.render(scene, cam);

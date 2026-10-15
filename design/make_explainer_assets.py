@@ -34,7 +34,7 @@ import tokens as T                                     # noqa: E402
 
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(
     "/tmp/el_nino_preview/explainer3d/assets")
-LON0, LON1, LAT0, LAT1 = -20.0, 18.0, 33.0, 52.0
+LON0, LON1, LAT0, LAT1 = -32.0, 18.0, 33.0, 58.0
 PX = 42                      # texture pixels per degree of longitude
 COLD_FROM = 2.0              # degrees colder than normal before it shows
 COLD_FULL = 10.0             # fully opaque at this anomaly
@@ -129,12 +129,18 @@ def coast_mask(w, h):
 
 def sea_texture(d, w, h, LA, LO):
     heat = d["heat"]
+    h_lon0 = heat["lon"][0]
     sst = sample(heat["sst_anom_c"], heat["lat"], heat["lon"], LA, LO, grow=4)
     land, lines = coast_mask(w, h)
     img = np.empty((h, w, 3))
     img[:] = _rgb([T.ANOMALY_NEUTRAL])[0]
     ok = ~np.isnan(sst)
     img[ok] = ramp(sst[ok])
+    # The September SST pull stops at 25W; the pump map runs to 32W for the
+    # cold pool. Fade to neutral over the last 4 degrees rather than end in
+    # a hard seam a reader would take for a front.
+    fade = np.clip((LO - h_lon0) / 4.0, 0, 1)[..., None]
+    img = img * fade + _rgb([T.ANOMALY_NEUTRAL])[0] * (1 - fade)
     # A sea cell the SST grid calls land but the coastline calls sea (the
     # 0.5 degree grid is coarser than the 50m coast) takes the nearest
     # neutral rather than a guess.
@@ -144,11 +150,12 @@ def sea_texture(d, w, h, LA, LO):
 
 
 def cold_layers(d, w, h, LA, LO):
-    t = d["pump"]["t500_frames"]
+    p = d["pump"]
+    g = p["grid"]
     cold = _rgb([T.COLD])[0]
     frames = []
-    for k, f in enumerate(t["frames"]):
-        a = sample(f["t500_anom_c"], t["lat"], t["lon"], LA, LO)
+    for k, f in enumerate(p["frames"]):
+        a = sample(f["t500_anom_c"], g["lat"], g["lon"], LA, LO)
         alpha = np.clip((-a - COLD_FROM) / (COLD_FULL - COLD_FROM), 0, 1)
         alpha = np.nan_to_num(alpha) ** 0.8
         rgba = np.zeros((h, w, 4), dtype=np.uint8)
@@ -157,15 +164,14 @@ def cold_layers(d, w, h, LA, LO):
         name = "pump_cold_%02d.png" % k
         Image.fromarray(rgba).resize((w // 2, h // 2), Image.BILINEAR) \
             .save(OUT / name, optimize=True)
-        g = np.array([[np.nan if v is None else v for v in r] for r in f["t500_anom_c"]])
-        i, j = np.unravel_index(np.nanargmin(g), g.shape)
+        c = f["cold_core"]
         frames.append({
             "time": f["time"], "img": name,
-            "coldest": {"anom_c": round(float(g[i, j]), 1), "lat": t["lat"][i],
-                        "lon": t["lon"][j],
-                        # A minimum on the grid's edge is not a located core.
-                        "on_edge": bool(i in (0, g.shape[0] - 1) or
-                                        j in (0, g.shape[1] - 1))}})
+            # FLO's interior core (b071bb8c), not a grid minimum: a minimum
+            # on the grid edge is not a located core, which is how the
+            # first version of this scene nearly mislabelled 30 September.
+            "coldest": {"anom_c": c["anom_c"], "t_c": c["t_c"], "lat": c["lat"],
+                        "lon": c["lon"], "on_edge": False}})
     return frames
 
 
@@ -222,15 +228,16 @@ def merge_heat(d):
 
 
 def winds(d):
-    w = d["pump"]["winds_850"]
-    keep_i = [i for i, la in enumerate(w["lat"]) if LAT0 - 1 <= la <= LAT1 + 1]
-    keep_j = [j for j, lo in enumerate(w["lon"]) if LON0 - 1 <= lo <= LON1 + 1]
-    cut = lambda g: [[round(g[i][j], 2) for j in keep_j] for i in keep_i]
-    return {"lat": [w["lat"][i] for i in keep_i],
-            "lon": [w["lon"][j] for j in keep_j],
+    p = d["pump"]
+    g = p["grid"]
+    lat, lon = g["wind_lat"], g["wind_lon"]
+    keep_i = [i for i, la in enumerate(lat) if LAT0 - 1 <= la <= LAT1 + 1]
+    keep_j = [j for j, lo in enumerate(lon) if LON0 - 1 <= lo <= LON1 + 1]
+    cut = lambda q: [[round(q[i][j], 2) for j in keep_j] for i in keep_i]
+    return {"lat": [lat[i] for i in keep_i], "lon": [lon[j] for j in keep_j],
             "frames": [{"time": f["time"], "u": cut(f["u850_ms"]),
                         "v": cut(f["v850_ms"]), "q": cut(f["q850_gkg"])}
-                       for f in w["frames"]]}
+                       for f in p["frames"]]}
 
 
 def main():
@@ -251,6 +258,8 @@ def main():
                  "frames": cold_layers(d, w, h, LA, LO)},
         "wind": winds(d),
         "barcelona": {"lat": 41.39, "lon": 2.17},
+        "story": d["pump"]["story"],
+        "not_claimed": d["pump"]["not_claimed"],
     }
     (OUT / "pump.json").write_text(json.dumps(meta, separators=(",", ":")))
 
