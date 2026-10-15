@@ -24,12 +24,18 @@ const cv = document.getElementById("sea-cv");
 const ctx = cv.getContext("2d");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const D = root.dataset;
+// Words on the canvas come from the page (window.I18N, set by the builder
+// for the Spanish edition); English is the fallback.
+const L = (k, d, v) => { let s = (window.I18N && window.I18N[k]) || d;
+  if (v) for (const n in v) s = s.split("{" + n + "}").join(v[n]); return s; };
+const NUM = s => (window.I18N && window.I18N.dec) ? String(s).replace(".", window.I18N.dec) : String(s);
+
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const panes = [
-  { key: "normal", t: +D.tNormal, energy: 1.0, vapour: 1.0, title: "WESTERN MEDITERRANEAN \u00b7 NORMAL SEPTEMBER",
-    top: "#417785", deep: "#0A4A57", sub: "1991 to 2020 average" },
-  { key: "y2026", t: +D.t2026, energy: 1.0, vapour: 1.45, hot: true, title: "WESTERN MEDITERRANEAN \u00b7 SEPTEMBER 2026",
-    top: "#C05B3D", deep: "#5E1806", sub: "warmest in a record going back to 1940" },
+  { key: "normal", t: +D.tNormal, energy: 1.0, vapour: 1.0, title: L("seaN", "WESTERN MEDITERRANEAN \u00b7 NORMAL SEPTEMBER"),
+    top: "#417785", deep: "#0A4A57", sub: L("seaNs", "1991 to 2020 average") },
+  { key: "y2026", t: +D.t2026, energy: 1.0, vapour: 1.45, hot: true, title: L("seaH", "WESTERN MEDITERRANEAN \u00b7 SEPTEMBER 2026"),
+    top: "#C05B3D", deep: "#5E1806", sub: L("seaHs", "warmest in a record going back to 1940") },
 ];
 for (const p of panes) p.parts = [];
 
@@ -104,12 +110,12 @@ function frame(now, dt) {
     ctx.font = "500 11px " + css("--mono"); ctx.fillText(p.title, x0 + 14, 24);
     ctx.fillStyle = css("--ink");
     ctx.font = "500 " + Math.round(Math.min(44, pw / 6.5)) + "px " + css("--mono");
-    ctx.fillText(p.t.toFixed(1) + " °C", x0 + 14, 24 + Math.min(52, pw / 5.5));
+    ctx.fillText(NUM(p.t.toFixed(1)) + " °C", x0 + 14, 24 + Math.min(52, pw / 5.5));
     ctx.fillStyle = "rgba(255,255,255,.92)";
     ctx.font = "400 12px " + css("--mono"); ctx.fillText(p.sub, x0 + 14, H - 16);
     if (i === 1) {   // on the figure itself, not only in the source line
       ctx.font = "500 10px " + css("--mono"); ctx.textAlign = "right";
-      ctx.fillStyle = css("--ink-soft"); ctx.fillText("MOTION ILLUSTRATIVE", x0 + pw - 14, 24);
+      ctx.fillStyle = css("--ink-soft"); ctx.fillText(L("motion", "MOTION ILLUSTRATIVE"), x0 + pw - 14, 24);
       ctx.textAlign = "left";
     }
     ctx.restore();

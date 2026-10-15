@@ -12,6 +12,11 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 // weekend map; the table that once sat beside it was cut (16 Oct).
 
 const root = document.getElementById("ground");
+// Words on the canvas come from the page (window.I18N, set by the builder
+// for the Spanish edition); English is the fallback.
+const L = (k, d, v) => { let s = (window.I18N && window.I18N[k]) || d;
+  if (v) for (const n in v) s = s.split("{" + n + "}").join(v[n]); return s; };
+
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const rng = s => () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
@@ -231,7 +236,7 @@ function frame(ts) {
   views.forEach((v, i) => { const el = riverEls[i]; if (!el) return;
     const [x, y] = toScreen(new THREE.Vector3(v.g.position.x + LAND + v.tw / 2, CH + 0.4, DEPTH / 2));
     el.style.left = x + "px"; el.style.top = y + "px"; });
-  if (clockEl) clockEl.textContent = "Hour " + Math.round(24 * tt / T) + " of 24";
+  if (clockEl) clockEl.textContent = L("hour", "Hour {h} of 24", { h: Math.round(24 * tt / T) });
   R.render(scene, cam);
   if (!reduce) requestAnimationFrame(frame);
 }

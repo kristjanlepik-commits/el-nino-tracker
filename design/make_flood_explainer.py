@@ -36,7 +36,13 @@ from templates.fast_reaction import _record_strip                 # noqa: E402
 from templates.flood_explainer import (fig_ground, FIG_CSS,       # noqa: E402
                                        GROUND_JS)
 
-SLUG = "floods/how-a-flood-is-made"
+# --lang es builds the Spanish edition (Kristjan, 16 Oct), same page with
+# the editor's Spanish copy and design/explainer_es.py's labels.
+LANG = "es" if "--lang" in sys.argv and sys.argv[sys.argv.index("--lang") + 1] == "es" else "en"
+SLUG_EN = "floods/how-a-flood-is-made"
+if LANG == "es":
+    import explainer_es as ES                                     # noqa: E402
+SLUG = SLUG_EN if LANG == "en" else "floods/" + ES.SLUG
 PATH = "/" + SLUG + "/"
 PREVIEW = Path("/tmp/el_nino_preview") / SLUG
 ASSETS = Path("/tmp/el_nino_preview/explainer3d/assets")
@@ -60,8 +66,11 @@ SLOTS = ["headline", "standfirst",
 # pointless". The editor's copy file may still carry the section; unused.
 
 
+LABELS = {}       # Spanish design labels from the editor ("English: Spanish")
+
+
 def words():
-    f = ROOT / "copy/flood_explainer.md"
+    f = ROOT / ("copy/flood_explainer.md" if LANG == "en" else "copy/flood_explainer.es.md")
     got = {}
     if f.exists():
         sec = None
@@ -71,6 +80,10 @@ def words():
                 got[sec] = []
             elif sec:
                 got[sec].append(line)
+    for line in got.get("labels", []):
+        if ": " in line:
+            en, es = line.split(": ", 1)
+            LABELS[en.strip().lstrip("-* ")] = es.strip()
     out = {}
     for s in SLOTS:
         text = " ".join(" ".join(got.get(s, [])).split())
@@ -137,9 +150,11 @@ PUMP_WK_AT = [("2026-10-18T12:00Z", "18 October"), ("2026-10-19T00:00Z/2026-10-1
 
 
 def check_pump_dates(w):
-    bad = [("pump-%d" % i, d) for i, (_, d) in enumerate(PUMP_AT, 1)
+    dates = [d for _, d in PUMP_AT] if LANG == "en" else ES.PUMP_DATES
+    wk_dates = [d for _, d in PUMP_WK_AT] if LANG == "en" else ES.PUMP_WK_DATES
+    bad = [("pump-%d" % i, d) for i, d in enumerate(dates, 1)
            if not w["pump-%d" % i].startswith(d)]
-    bad += [("pump-wk-%d" % i, d) for i, (_, d) in enumerate(PUMP_WK_AT, 1)
+    bad += [("pump-wk-%d" % i, d) for i, d in enumerate(wk_dates, 1)
             if not w["pump-wk-%d" % i].startswith(("[WORDS", d))]
     return ["%s does not start with %r" % (k, d) for k, d in bad]
 
@@ -955,7 +970,8 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
       sx.putImageData(img, 0, 0);
       ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
       ctx.drawImage(src, 0, 0, cv.width, cv.height);
-      label.textContent = M.months[Math.round(f)].month + " 2026";
+      var MN = window.I18N && window.I18N.months ? window.I18N.months.split(" ") : null;
+      label.textContent = (MN ? MN[Math.round(f)] : M.months[Math.round(f)].month) + " 2026";
       ticks.forEach(function (tk, i) {{ var fill = Math.max(0, Math.min(1, f - i + 1));
         tk.style.backgroundSize = (fill * 100) + "% 3px, 100% 3px"; tk.classList.toggle("on", fill >= 1); }});
     }}
@@ -1012,6 +1028,29 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 """
 
 
+def bilingual(html):
+    """Both editions point at each other; the Spanish one is translated."""
+    import explainer_es as _es
+    en_path, es_path = "/" + SLUG_EN + "/", "/floods/%s/" % _es.SLUG
+    base = "https://thelongswell.com"
+    alts = ('<link rel="alternate" hreflang="en" href="%s%s">\n<link rel="alternate" hreflang="es" href="%s%s">'
+            % (base, en_path, base, es_path))
+    if LANG == "es":
+        import json as _j
+        html = ES.translate(html, ES.editor_labels(LABELS))
+        html = html.replace('<html lang="en">', '<html lang="es">', 1)
+        alts += "\n<script>window.I18N = %s;</script>" % _j.dumps(ES.I18N, ensure_ascii=False)
+        switch = '<p class="langsw"><a href="../how-a-flood-is-made/" hreflang="en" lang="en">Read in English</a></p>'
+    else:
+        switch = '<p class="langsw"><a href="../%s/" hreflang="es" lang="es">Leer en español</a></p>' % _es.SLUG
+    html = html.replace("</head>", alts + "\n</head>", 1)
+    html = html.replace('<header class="top col">', '<header class="top col">\n  ' + switch, 1)
+    html = html.replace("</style>", ".langsw {{ margin: 0 0 18px; font-family: var(--mono); font-size: 12px; "
+                        "letter-spacing: .1em; text-transform: uppercase; }}\n"
+                        ".langsw a {{ color: var(--ink); }}\n</style>".replace("{{", "{").replace("}}", "}"), 1)
+    return html
+
+
 def main():
     preview = "--preview" in sys.argv
     w = words()
@@ -1027,6 +1066,7 @@ def main():
     out = PREVIEW if preview else ROOT / "docs" / SLUG
     (out / "assets").mkdir(parents=True, exist_ok=True)
     html = page(w, preview)
+    html = bilingual(html)
     (out / "index.html").write_text(html)
     for js in (ROOT / "design/explainer").glob("scene_*.js"):
         shutil.copy(js, out / js.name)

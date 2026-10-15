@@ -4,6 +4,12 @@ import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.j
 // Motion is the UMD build, loaded by a classic script before this module
 // (platform, 15 Oct: there is no single-file ES build at 11.11.13).
 const { scroll, animate } = window.Motion;
+// Words on the canvas come from the page (window.I18N, set by the builder
+// for the Spanish edition); English is the fallback.
+const L = (k, d, v) => { let s = (window.I18N && window.I18N[k]) || d;
+  if (v) for (const n in v) s = s.split("{" + n + "}").join(v[n]); return s; };
+const NUM = s => (window.I18N && window.I18N.dec) ? String(s).replace(".", window.I18N.dec) : String(s);
+
 
 // Scene 1 of "How a flood is made" (D-327). The section carries its own
 // measured value in data-mm, so this module holds no number of its own.
@@ -123,13 +129,13 @@ const tubRow = document.querySelector(".tubrow"), tubWater = document.getElement
       tubs = document.getElementById("bath-tubs"), BATH_L = tubRow ? parseFloat(tubRow.dataset.bathL) : 150;
 function hud() {
   const mm = level * 1000;
-  num.textContent = mm.toFixed(1) + " mm";
-  unit.textContent = Math.round(mm) + " litres on one square metre";
+  num.textContent = NUM(mm.toFixed(1)) + " mm";
+  unit.textContent = L("litres", "{n} litres on one square metre", { n: Math.round(mm) });
   if (tubWater) {
     const f = Math.min(1.08, mm / BATH_L), top = 52 - 30 * f;   // interior runs y 22..52
     tubWater.setAttribute("y", top.toFixed(1)); tubWater.setAttribute("height", (64 - top).toFixed(1));
-    tubs.textContent = f < 0.25 ? "\u2248 a quarter of a bathtub" : f < 0.6 ? "\u2248 half a bathtub"
-                     : f < 0.92 ? "\u2248 most of a bathtub" : "\u2248 one full bathtub";
+    tubs.textContent = "\u2248 " + (f < 0.25 ? L("tub1", "a quarter of a bathtub") : f < 0.6 ? L("tub2", "half a bathtub")
+                     : f < 0.92 ? L("tub3", "most of a bathtub") : L("tub4", "one full bathtub"));
   }
 }
 

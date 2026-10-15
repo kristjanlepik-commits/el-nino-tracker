@@ -9,6 +9,12 @@ const { scroll, animate } = window.Motion;
 // design/make_explainer_assets.py builds from FLO's payload.
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const root = document.getElementById("pump");
+// Words on the canvas come from the page (window.I18N, set by the builder
+// for the Spanish edition); English is the fallback.
+const L = (k, d, v) => { let s = (window.I18N && window.I18N[k]) || d;
+  if (v) for (const n in v) s = s.split("{" + n + "}").join(v[n]); return s; };
+const NUM = s => (window.I18N && window.I18N.dec) ? String(s).replace(".", window.I18N.dec) : String(s);
+
 const D = await (await fetch("assets/pump.json")).json();
 const [LON0, LON1] = D.extent.lon, [LAT0, LAT1] = D.extent.lat;
 const KX = Math.cos((LAT0 + LAT1) / 2 * Math.PI / 180) / 10, KZ = 1 / 10;   // units per degree
@@ -110,7 +116,7 @@ for (const o of OFFS) {
   o.arrow.add(o.shaft, o.tip); scene.add(o.arrow);
   o.lb = document.getElementById(o.el);
 }
-const COMPASS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+const COMPASS = L("compass", "N NE E SE S SW W NW").split(" ");
 
 const NP = reduce ? 0 : 3200;
 const pts = Array.from({ length: NP }, () => spawn({}));
@@ -179,7 +185,7 @@ if (!reduce) root.querySelectorAll(".step p").forEach(el => scroll(
   animate(el, { opacity: [0, 1, 1, 0], transform: ["translateY(24px)", "none", "none", "translateY(-24px)"] }, { ease: "linear" }),
   { target: el, offset: ["start end", "center 0.6", "center 0.45", "end 0.38"] }));
 
-const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MON = L("mon", "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec").split(" ");
 const whenEl = document.getElementById("pump-when"), lgw = document.getElementById("pump-lgwind");
 const lbcn = document.getElementById("pump-lbcn"), lbcold = document.getElementById("pump-lbcold");
 function screen(v) { const p = v.clone().project(cam);
@@ -234,7 +240,7 @@ let frame = function () {
   // and 12 UTC only, and a clock reading 16:00 implies one that does not.
   const d = new Date(Math.round((tm - T0) / stepC) * stepC + T0);
   whenEl.textContent = d.getUTCDate() + " " + MON[d.getUTCMonth()] + ", " + String(d.getUTCHours()).padStart(2, "0") + ":00 UTC"
-                     + (actName === "wk" ? " \u00b7 forecast" : "");
+                     + (actName === "wk" ? " \u00b7 " + L("fc", "forecast") : "");
   let [x, y] = screen(new THREE.Vector3(bx, Y_COLD + 0.08, bz)); lbcn.style.left = x + "px"; lbcn.style.top = y + "px";
   const c = f.coldest;
   // Labelled only while it is a pool: at 8 C or more below normal. Past
@@ -245,7 +251,7 @@ let frame = function () {
     lbcold.style.opacity = 1; // clear of the caption column on wide screens
     const minX = canvas.clientWidth >= 900 ? 470 : 150;
     lbcold.style.left = Math.min(canvas.clientWidth - 140, Math.max(minX, x)) + "px"; lbcold.style.top = y + "px";
-    lbcold.textContent = "Cold pool " + c.anom_c.toFixed(1) + " \u00b0C vs normal";
+    lbcold.textContent = L("pool", "Cold pool {v} \u00b0C vs normal", { v: NUM(c.anom_c.toFixed(1)) });
   } else lbcold.style.opacity = 0;
 
   // onshore arrows
@@ -270,8 +276,11 @@ let frame = function () {
       o.tip.rotation.x = Math.PI / 2; o.tip.position.set(0, 0, len + 0.075);
       if (show > 0 && o.lb) {
         [x, y] = screen(new THREE.Vector3(sx, Y_WIND + 0.02, sz));
-        o.lb.style.left = x + "px"; o.lb.style.top = (y + 34) + "px";
-        o.lb.textContent = "Onshore: from the " + COMPASS[Math.round(from / 45) % 8] + ", " + sp.toFixed(0) + " m/s";
+        o.lb.style.top = (y + 34) + "px";
+        // kept inside the stage (the label is centred on x by its transform)
+        const half = (o.lb.offsetWidth || 220) / 2;
+        o.lb.style.left = Math.min(canvas.clientWidth - half - 12, Math.max(half + 12, x)) + "px";
+        o.lb.textContent = L("onshore", "Onshore: from the {d}, {s} m/s", { d: COMPASS[Math.round(from / 45) % 8], s: sp.toFixed(0) });
       }
     }
     o.mat.opacity = show; if (o.lb) o.lb.style.opacity = show;
