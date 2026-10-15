@@ -114,6 +114,22 @@ def ground_table(g):
             '<tbody>%s</tbody></table>' % (h(g["what"]), "".join(out)))
 
 
+# THE CLOCK FOLLOWS THE WORDS. Each pump caption names a date, and the 3D
+# scene's clock is pinned to it: while caption k is centred, the scene shows
+# PUMP_AT[k]. Run evenly with scroll instead, a caption saying "29
+# September" sat over a scene showing the 28th. check_pump_dates() refuses
+# a publish whose captions no longer start with these dates.
+PUMP_AT = [("2026-09-27T12:00Z", "27 September"), ("2026-09-29T12:00Z", "29 September"),
+           ("2026-09-30T12:00Z", "30 September"), ("2026-10-01T12:00Z", "1 October"),
+           ("2026-10-03T12:00Z", "3 October")]
+
+
+def check_pump_dates(w):
+    bad = [(i, d) for i, (_, d) in enumerate(PUMP_AT, 1)
+           if not w["pump-%d" % i].startswith(d)]
+    return ["pump-%d does not start with %r" % (i, d) for i, d in bad]
+
+
 MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
        "Nov", "Dec"]
 
@@ -203,7 +219,8 @@ def page(w, preview):
     imports = VENDOR
     ev, vp = flat["evap"], flat["vapour"]
     bath_steps = "".join('<div class="step"><p>%s</p></div>' % prose(w["bath-%d" % i]) for i in range(1, 5))
-    pump_steps = "".join('<div class="step"><p>%s</p></div>' % prose(w["pump-%d" % i]) for i in range(1, 6))
+    pump_steps = "".join('<div class="step" data-at="%s"><p>%s</p></div>'
+                         % (at, prose(w["pump-%d" % i])) for i, (at, _) in enumerate(PUMP_AT, 1))
     ev_series = {y: v for y, v in ev["by_year"].items()}
     title = w["headline"] if not w["headline"].startswith("[WORDS") else "How a flood is made"
     return f"""<!doctype html>
@@ -459,6 +476,11 @@ def main():
     preview = "--preview" in sys.argv
     w = words()
     holes = [k for k, v in w.items() if v.startswith("[WORDS")]
+    drift = [] if holes else check_pump_dates(w)
+    if drift:
+        print("WARNING: captions and scene clock disagree:\n  " + "\n  ".join(drift))
+        if not preview:
+            raise SystemExit("REFUSING TO PUBLISH: update PUMP_AT to match the captions.")
     if holes and not preview:
         raise SystemExit("REFUSING TO PUBLISH: %d prose slots still empty: %s"
                          % (len(holes), ", ".join(holes)))

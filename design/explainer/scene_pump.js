@@ -111,9 +111,22 @@ const frames = D.cold.frames, T0 = Date.parse(frames[0].time);
 const endF = WF.find(f => f.time.startsWith("2026-10-03T12")) || WF[WF.length - 1];
 const TEND = Date.parse(endF.time), stepC = Date.parse(frames[1].time) - T0;
 let tm = reduce ? TEND : T0;
+// The clock is pinned to the captions: each .step carries the moment its
+// words describe (data-at), and the scene time is interpolated between the
+// step centres, so the date on screen is the date in the caption.
+const stepEls = [...root.querySelectorAll(".step[data-at]")];
+function knots() {
+  const span = root.offsetHeight - innerHeight;
+  const k = stepEls.map(el => [(el.offsetTop + el.offsetHeight / 2 - innerHeight / 2) / span,
+                               Date.parse(el.dataset.at)]);
+  return [[0, T0], ...k, [1, k.length ? k[k.length - 1][1] : TEND]];
+}
+let KN = knots(); addEventListener("resize", () => { KN = knots(); });
 if (!reduce) scroll(p => {
-  const q = Math.min(1, Math.max(0, (p - 0.06) / 0.86));
-  tm = T0 + q * (TEND - T0);
+  let i = 1; while (i < KN.length - 1 && p > KN[i][0]) i++;
+  const [p0, t0] = KN[i - 1], [p1, t1] = KN[i];
+  const f = p1 > p0 ? Math.min(1, Math.max(0, (p - p0) / (p1 - p0))) : 1;
+  tm = Math.min(TEND, t0 + f * (t1 - t0));
 }, { target: root });
 if (!reduce) root.querySelectorAll(".step p").forEach(el => scroll(
   animate(el, { opacity: [0, 1, 1, 0], transform: ["translateY(24px)", "none", "none", "translateY(-24px)"] }, { ease: "linear" }),
