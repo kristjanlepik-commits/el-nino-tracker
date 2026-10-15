@@ -54,7 +54,7 @@ MOTION = "../../vendor/motion-11.11.13/motion.js"
 SLOTS = ["headline", "standfirst",
          "bath-1", "bath-2", "bath-3", "bath-4",
          "heat", "sea", "vapour",
-         "pump-1", "pump-2", "pump-3", "pump-4", "pump-5",
+         "pump-1", "pump-2", "pump-3", "pump-4", "pump-5", "pump-wk-1", "pump-wk-2",
          "ground", "weekend"]
 # "not" (what this is not) was cut by Kristjan on 16 October: "this is
 # pointless". The editor's copy file may still carry the section; unused.
@@ -130,10 +130,16 @@ PUMP_AT = [("2026-09-27T12:00Z", "27 September"), ("2026-09-29T12:00Z", "29 Sept
            ("2026-10-03T12:00Z", "3 October")]
 
 
+# The forecast act (ECMWF, FLO 3903bf41): same rule, its own captions.
+PUMP_WK_AT = [("2026-10-18T12:00Z", "18 October"), ("2026-10-19T12:00Z", "19 October")]
+
+
 def check_pump_dates(w):
-    bad = [(i, d) for i, (_, d) in enumerate(PUMP_AT, 1)
+    bad = [("pump-%d" % i, d) for i, (_, d) in enumerate(PUMP_AT, 1)
            if not w["pump-%d" % i].startswith(d)]
-    return ["pump-%d does not start with %r" % (i, d) for i, d in bad]
+    bad += [("pump-wk-%d" % i, d) for i, (_, d) in enumerate(PUMP_WK_AT, 1)
+            if not w["pump-wk-%d" % i].startswith(("[WORDS", d))]
+    return ["%s does not start with %r" % (k, d) for k, d in bad]
 
 
 MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
@@ -494,8 +500,16 @@ def page(w, preview):
     imports = VENDOR
     ev, vp, wm = flat["evap"], flat["vapour"], flat["wm"]
     bath_steps = "".join('<div class="step"><p>%s</p></div>' % prose(w["bath-%d" % i]) for i in range(1, 5))
-    pump_steps = "".join('<div class="step" data-at="%s"><p>%s</p></div>'
+    pump_steps = "".join('<div class="step" data-at="%s" data-act="obs"><p>%s</p></div>'
                          % (at, prose(w["pump-%d" % i])) for i, (at, _) in enumerate(PUMP_AT, 1))
+    wk = pump.get("weekend")
+    if wk:
+        run = wk["run"][:16].replace("T", " ")
+        pump_steps += ('<div class="step wk-intro" data-act="wk"><p class="wk-cut">This weekend'
+                       '<span>The same layers, in ECMWF\'s forecast. Run %s UTC. Not a forecast of ours.</span></p></div>'
+                       % h(run))
+        pump_steps += "".join('<div class="step" data-at="%s" data-act="wk"><p>%s</p></div>'
+                              % (at, prose(w["pump-wk-%d" % i])) for i, (at, _) in enumerate(PUMP_WK_AT, 1))
     ev_series = {y: v for y, v in ev["by_year"].items()}
     title = w["headline"] if not w["headline"].startswith("[WORDS") else "How a flood is made"
     return f"""<!doctype html>
@@ -703,7 +717,17 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 /* the two 3D scenes: a sticky stage, captions scrolling past it */
 .scrolly {{ position: relative; }}
 #bath {{ height: 420vh; }}
-#pump {{ height: 560vh; }}
+#pump {{ height: 860vh; }}
+#pump .wk-only {{ display: none; }}
+#pump.forecast .wk-only {{ display: block; }}
+#pump.forecast .obs-only {{ display: none; }}
+#pump.forecast .stage {{ box-shadow: inset 0 0 0 3px var(--ink); }}
+.wk-unc {{ margin-top: 6px; max-width: 34ch; text-transform: none !important; letter-spacing: .02em !important;
+  font-size: 12px !important; color: var(--ink-soft) !important; }}
+#pump .step p.wk-cut {{ border-left: 0; padding: 0; max-width: 520px; font-family: var(--serif); font-weight: 500;
+  font-size: clamp(44px, 7vw, 88px); line-height: 1; letter-spacing: -.03em; background: var(--paper); }}
+#pump .step p.wk-cut span {{ display: block; font-family: var(--mono); font-weight: 400; font-size: 13px; letter-spacing: .08em;
+  margin-top: 14px; color: var(--ink-soft); }}
 .stage {{ position: sticky; top: 0; height: 100vh; overflow: hidden; }}
 .stage canvas {{ position: absolute; inset: 0; width: 100%; height: 100%; display: block; }}
 .steps {{ position: absolute; top: 0; left: 0; right: 0; pointer-events: none; }}
@@ -798,16 +822,18 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 <section class="scrolly" id="pump">
   <div class="stage">
     <canvas id="pump-gl" role="img" aria-label="Map of the western Mediterranean, 27 September to 3 October 2026: a cold air pool over the Atlantic five kilometres up weakens, and the wind off Barcelona turns south-easterly, onshore from a record-warm sea."></canvas>
-    <div class="when"><b id="pump-when">27 Sep, 00:00 UTC</b><span>ERA5 &middot; 2026 preliminary</span></div>
+    <div class="when"><b id="pump-when">27 Sep, 00:00 UTC</b><span class="obs-only">ERA5 &middot; measured &middot; 2026 preliminary</span><span class="wk-only">ECMWF forecast &middot; run {h(pump["weekend"]["run"][:16].replace("T", " ")) if pump.get("weekend") else ""} UTC</span>
+      <span class="wk-only wk-unc">AEMET on where the low will sit: &ldquo;elevada incertidumbre&rdquo;, high uncertainty.</span></div>
     <div class="legend">
-      <div>Sea, September vs normal <i class="ramp"></i></div>
+      <div><span class="obs-only">Sea, September vs normal</span><span class="wk-only">Sea, 8 to 12 October vs normal</span> <i class="ramp"></i></div>
       <div>Cold air, 5 km up <i class="coldsw"></i></div>
       <div id="pump-lgwind" style="opacity:0">Wind, 1.5 km up <i class="windsw"></i></div>
     </div>
     <div class="lab" id="pump-lbcn">Barcelona</div>
     <div class="lab cold" id="pump-lbcold"></div>
     <div class="lab wind" id="pump-lbwind" style="opacity:0"></div>
-    <div class="foot3">Heights exaggerated &middot; every layer is a measured field</div>
+    <div class="lab wind" id="pump-lbwind2" style="opacity:0"></div>
+    <div class="foot3"><span class="obs-only">Heights exaggerated &middot; every layer is a measured field</span><span class="wk-only">Heights exaggerated &middot; cold air and wind are ECMWF's model forecast, not measurements</span></div>
   </div>
   <div class="steps">{pump_steps}</div>
 </section>

@@ -279,6 +279,50 @@ def heat_months(nc_path):
     return frames
 
 
+def weekend(d, w, h, LA, LO):
+    """ECMWF's forecast act for the pump scene (Kristjan; FLO 3903bf41).
+
+    Same layers as the measured act, from pump_weekend: the cold anomaly 5
+    km up per frame, the 850 hPa wind, and the sea as ERA5's 8-12 October
+    anomaly. Run time and source travel with it so the page can say whose
+    forecast it is. Returns None if the payload has no weekend.
+    """
+    pw = d.get("pump_weekend")
+    if not pw:
+        return None
+    g = pw["grid"]
+    cold = _rgb([T.COLD])[0]
+    frames = []
+    for k, f in enumerate(pw["frames"]):
+        a = sample(f["t500_anom_c"], g["lat"], g["lon"], LA, LO)
+        alpha = np.nan_to_num(np.clip((-a - COLD_FROM) / (COLD_FULL - COLD_FROM), 0, 1)) ** 0.8
+        rgba = np.zeros((h, w, 4), dtype=np.uint8)
+        rgba[..., :3] = cold
+        rgba[..., 3] = (alpha * 248).astype(np.uint8)
+        name = "pump_wk_cold_%02d.png" % k
+        Image.fromarray(rgba).resize((w // 2, h // 2), Image.BILINEAR).save(OUT / name, optimize=True)
+        c = f["cold_core"]
+        frames.append({"time": f["time"], "img": name,
+                       "coldest": {"anom_c": c["anom_c"], "lat": c["lat"], "lon": c["lon"], "on_edge": False}})
+    # the sea, as of 8-12 October
+    pg = d["pump"]["grid"]
+    sst = sample(pw["sea_layer"]["anom_c"], pg["lat"], pg["lon"], LA, LO, grow=4)
+    land, lines = coast_mask(w, h)
+    img = np.empty((h, w, 3)); img[:] = _rgb([T.ANOMALY_NEUTRAL])[0]
+    ok = ~np.isnan(sst); img[ok] = ramp(sst[ok])
+    img[land] = _rgb(["#D9D8D0"])[0]; img[lines] = _rgb([T.INK_SOFT])[0]
+    Image.fromarray(img.astype(np.uint8)).save(OUT / "pump_wk_sea.png", optimize=True)
+    keep_i = [i for i, la in enumerate(g["lat"]) if LAT0 - 1 <= la <= LAT1 + 1]
+    keep_j = [j for j, lo in enumerate(g["lon"]) if LON0 - 1 <= lo <= LON1 + 1]
+    cut = lambda q: [[round(q[i][j], 2) for j in keep_j] for i in keep_i]
+    return {"run": pw["run"], "source": pw["source"],
+            "sea": {"img": "pump_wk_sea.png", "what": pw["sea_layer"]["what"]},
+            "cold": {"frames": frames},
+            "wind": {"lat": [g["lat"][i] for i in keep_i], "lon": [g["lon"][j] for j in keep_j],
+                     "frames": [{"time": f["time"], "u": cut(f["u850_ms"]), "v": cut(f["v850_ms"])}
+                                for f in pw["frames"]]}}
+
+
 def winds(d):
     p = d["pump"]
     g = p["grid"]
@@ -310,6 +354,7 @@ def main():
                  "frames": cold_layers(d, w, h, LA, LO)},
         "wind": winds(d),
         "barcelona": {"lat": 41.39, "lon": 2.17},
+        "weekend": weekend(d, w, h, LA, LO),
         "story": d["pump"]["story"],
         "not_claimed": d["pump"]["not_claimed"],
     }

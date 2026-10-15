@@ -39,15 +39,26 @@ const tex = u => { const t = TL.load("assets/" + u); t.colorSpace = THREE.SRGBCo
 
 // the map as a slab: a diorama of the western Mediterranean
 const slabMats = [0,1,2,3].map(() => new THREE.MeshStandardMaterial({ color: 0xE7E6DF, roughness: 0.9 }));
-slabMats.splice(2, 0, new THREE.MeshStandardMaterial({ map: tex(D.sea.img), roughness: 0.75 }));
+const seaMat = new THREE.MeshStandardMaterial({ roughness: 0.75 });
+slabMats.splice(2, 0, seaMat);
 slabMats.splice(3, 0, new THREE.MeshStandardMaterial({ color: 0xE7E6DF }));
 const slab = new THREE.Mesh(new THREE.BoxGeometry(W, SLAB, H), slabMats);
 slab.position.y = -SLAB / 2; slab.receiveShadow = true; slab.castShadow = true; scene.add(slab);
 const sh = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.ShadowMaterial({ opacity: 0.08 }));
 sh.rotation.x = -Math.PI / 2; sh.position.y = -SLAB - 0.001; sh.receiveShadow = true; scene.add(sh);
 
-// the cold layer, two planes crossfading between ERA5 frames
-const coldTex = D.cold.frames.map(f => tex(f.img));
+// TWO ACTS on one stage. "obs": what was measured, 27 Sep to 3 Oct (ERA5).
+// "wk": ECMWF's forecast for this weekend (Kristjan; FLO 3903bf41), shown
+// with its run time and AEMET's own "elevada incertidumbre" beside it.
+// Each act carries its own frames, wind, sea and clock; the stage, camera
+// and labels are shared, so the reader sees the same machine assembling.
+function mkAct(src, end) {
+  const frames = src.cold.frames, WF = src.wind.frames, T0 = Date.parse(frames[0].time);
+  return { frames, WD: src.wind, WF, T0, TEND: Date.parse(end || frames[frames.length - 1].time),
+           stepC: Date.parse(frames[1].time) - T0, t0w: Date.parse(WF[0].time),
+           stepW: Date.parse(WF[1].time) - Date.parse(WF[0].time),
+           coldTex: frames.map(f => tex(f.img)), seaTex: tex(src.sea.img) };
+}
 const coldMat = () => new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, side: THREE.DoubleSide, opacity: 0 });
 const cA = new THREE.Mesh(new THREE.PlaneGeometry(W, H), coldMat()), cB = new THREE.Mesh(new THREE.PlaneGeometry(W, H), coldMat());
 for (const c of [cA, cB]) { c.rotation.x = -Math.PI / 2; c.position.y = Y_COLD; c.renderOrder = 3; scene.add(c); }
@@ -68,10 +79,9 @@ pin.position.set(bx, (Y_COLD + 0.08) / 2, bz); scene.add(pin);
 const head = new THREE.Mesh(new THREE.SphereGeometry(0.014, 16, 12), new THREE.MeshStandardMaterial({ color: 0x1A1A18 }));
 head.position.set(bx, 0.004, bz); scene.add(head);
 
-// winds at 850 hPa: particles advected through the ERA5 field
-const WD = D.wind, WF = WD.frames;
-const t0w = Date.parse(WF[0].time), stepW = Date.parse(WF[1].time) - t0w;
+// winds at 850 hPa: particles advected through the act's field
 function wind(lo, la, tm) {
+  const { WD, WF, t0w, stepW } = act;
   const fi = (WD.lat[0] - la) / (WD.lat[0] - WD.lat[1]), fj = (lo - WD.lon[0]) / (WD.lon[1] - WD.lon[0]);
   const i = Math.floor(fi), j = Math.floor(fj);
   if (i < 0 || j < 0 || i >= WD.lat.length - 1 || j >= WD.lon.length - 1) return null;
@@ -86,13 +96,19 @@ function wind(lo, la, tm) {
 // same 850 hPa field as the streaks, at a sea point just off the coast,
 // and shown only while it blows onshore (from the south-east quadrant),
 // so the moment the story turns on is drawn rather than asserted.
-const OFF = { lat: 41.0, lon: 2.6 };
-const arrow = new THREE.Group();
-const arrowMat = new THREE.MeshStandardMaterial({ color: 0x1A1A18, transparent: true, opacity: 0, roughness: 0.5 });
-const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 1, 12), arrowMat);
-const tip = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.16, 20), arrowMat);
-arrow.add(shaft, tip); scene.add(arrow);
-const lbwind = document.getElementById("pump-lbwind");
+// Onshore for each coast is its own sector: Barcelona's coast faces SE,
+// Valencia's faces E. Valencia's arrow belongs to the forecast act only,
+// where FLO found an easterly off Valencia; the measured act is Barcelona.
+const OFFS = [{ lat: 41.0, lon: 2.6, lo: 100, hi: 165, acts: ["obs", "wk"], el: "pump-lbwind" },
+              { lat: 39.4, lon: 0.5, lo: 60, hi: 140, acts: ["wk"], el: "pump-lbwind2" }];
+for (const o of OFFS) {
+  o.arrow = new THREE.Group();
+  o.mat = new THREE.MeshStandardMaterial({ color: 0x1A1A18, transparent: true, opacity: 0, roughness: 0.5 });
+  o.shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 1, 12), o.mat);
+  o.tip = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.16, 20), o.mat);
+  o.arrow.add(o.shaft, o.tip); scene.add(o.arrow);
+  o.lb = document.getElementById(o.el);
+}
 const COMPASS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 
 const NP = reduce ? 0 : 3200;
@@ -107,34 +123,51 @@ const wlines = new THREE.LineSegments(wgeo, wmat); wlines.frustumCulled = false;
 const INK = new THREE.Color(cssv("--ink") || "#1A1A18"), BG = paper.clone();
 
 // time is the scroll
-const frames = D.cold.frames, T0 = Date.parse(frames[0].time);
-// The scene ends on the rain day, 3 October 12 UTC, not on the last frame
-// FLO emitted: what comes after is not part of this story.
-const endF = WF.find(f => f.time.startsWith("2026-10-03T12")) || WF[WF.length - 1];
-const TEND = Date.parse(endF.time), stepC = Date.parse(frames[1].time) - T0;
-let tm = reduce ? TEND : T0;
+// The measured act ends on the rain day, 3 October 12 UTC, not on the last
+// frame FLO emitted: what comes after is not part of this story.
+const ACTS = { obs: mkAct({ cold: D.cold, wind: D.wind, sea: D.sea }, "2026-10-03T12:00Z") };
+if (D.weekend) ACTS.wk = mkAct(D.weekend, "2026-10-19T12:00Z");
+let act = ACTS.obs, actName = "obs";
+seaMat.map = act.seaTex;
+let tm = reduce ? act.TEND : act.T0;
 // The clock is pinned to the captions: each .step carries the moment its
-// words describe (data-at), and the scene time is interpolated between the
-// step centres, so the date on screen is the date in the caption.
+// words describe (data-at) and its act (data-act); within an act the time
+// is interpolated between caption plateaus, so the date on screen is the
+// date in the caption (CPO).
 const stepEls = [...root.querySelectorAll(".step[data-at]")];
 function knots() {
   const span = root.offsetHeight - innerHeight;
-  // Each caption HOLDS its moment while it is on screen (CPO saw "30 Sep"
-  // beside the 29 September caption): two knots per step, a plateau.
-  const k = [];
-  stepEls.forEach(el => {
-    const c = (el.offsetTop + el.offsetHeight / 2 - innerHeight / 2) / span;
-    const hw = 0.3 * el.offsetHeight / span, t = Date.parse(el.dataset.at);
-    k.push([c - hw, t], [c + hw, t]);
-  });
-  return [[0, T0], ...k, [1, k.length ? k[k.length - 1][1] : TEND]];
+  const at = el => (el.offsetTop + el.offsetHeight / 2 - innerHeight / 2) / span;
+  // The cut is the "This weekend" title card, the first wk step of any kind.
+  const first = root.querySelector('.step[data-act="wk"]');
+  const cut = first && ACTS.wk ? (first.offsetTop + first.offsetHeight * 0.25 - innerHeight * 0.5) / span : 2;
+  const out = { cut };
+  for (const name of Object.keys(ACTS)) {
+    const A = ACTS[name], k = [];
+    stepEls.filter(el => (el.dataset.act || "obs") === name).forEach(el => {
+      const c = at(el), hw = 0.3 * el.offsetHeight / span, t = Date.parse(el.dataset.at);
+      k.push([c - hw, t], [c + hw, t]);
+    });
+    const p0 = name === "wk" ? cut : 0, p1 = name === "wk" ? 1 : Math.min(1, cut);
+    out[name] = [[p0, name === "wk" && k.length ? k[0][1] - 2 * A.stepC : A.T0], ...k,
+                 [p1, k.length ? k[k.length - 1][1] : A.TEND]];
+  }
+  return out;
 }
 let KN = knots(); addEventListener("resize", () => { KN = knots(); });
+function setAct(name) {
+  if (name === actName || !ACTS[name]) return;
+  actName = name; act = ACTS[name]; seaMat.map = act.seaTex; seaMat.needsUpdate = true;
+  for (const p of pts) spawn(p);
+  root.classList.toggle("forecast", name === "wk");
+}
 if (!reduce) scroll(p => {
-  let i = 1; while (i < KN.length - 1 && p > KN[i][0]) i++;
-  const [p0, t0] = KN[i - 1], [p1, t1] = KN[i];
+  setAct(p >= KN.cut ? "wk" : "obs");
+  const K = KN[actName];
+  let i = 1; while (i < K.length - 1 && p > K[i][0]) i++;
+  const [p0, t0] = K[i - 1], [p1, t1] = K[i];
   const f = p1 > p0 ? Math.min(1, Math.max(0, (p - p0) / (p1 - p0))) : 1;
-  tm = Math.min(TEND, t0 + f * (t1 - t0));
+  tm = Math.min(act.TEND, Math.max(act.T0, t0 + f * (t1 - t0)));
 }, { target: root });
 if (!reduce) root.querySelectorAll(".step p").forEach(el => scroll(
   animate(el, { opacity: [0, 1, 1, 0], transform: ["translateY(24px)", "none", "none", "translateY(-24px)"] }, { ease: "linear" }),
@@ -153,6 +186,7 @@ addEventListener("resize", size); size();
 const clock = new THREE.Clock();
 let frame = function () {
   const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+  const { frames, coldTex, T0, TEND, stepC, t0w, stepW } = act;
   const q = (tm - T0) / (TEND - T0);
   const a = -0.30 + 0.16 * q + (reduce ? 0 : 0.03 * Math.sin(t * 0.2));
   const r = canvas.clientWidth < 700 ? 6.6 : 5.0;
@@ -193,7 +227,8 @@ let frame = function () {
   // SNAPPED to the nearest 12-hourly field (FLO): the fields exist at 00
   // and 12 UTC only, and a clock reading 16:00 implies one that does not.
   const d = new Date(Math.round((tm - T0) / stepC) * stepC + T0);
-  whenEl.textContent = d.getUTCDate() + " " + MON[d.getUTCMonth()] + ", " + String(d.getUTCHours()).padStart(2, "0") + ":00 UTC";
+  whenEl.textContent = d.getUTCDate() + " " + MON[d.getUTCMonth()] + ", " + String(d.getUTCHours()).padStart(2, "0") + ":00 UTC"
+                     + (actName === "wk" ? " \u00b7 forecast" : "");
   let [x, y] = screen(new THREE.Vector3(bx, Y_COLD + 0.08, bz)); lbcn.style.left = x + "px"; lbcn.style.top = y + "px";
   const c = f.coldest;
   // Labelled only while it is a pool: at 8 C or more below normal. Past
@@ -207,33 +242,34 @@ let frame = function () {
     lbcold.textContent = "Cold pool " + c.anom_c.toFixed(1) + " \u00b0C vs normal";
   } else lbcold.style.opacity = 0;
 
-  // onshore arrow
-  const wb = wind(OFF.lon, OFF.lat, tSim);
-  let show = 0;
-  if (wb) {
-    const sp = Math.hypot(wb[0], wb[1]);
-    const from = (Math.atan2(-wb[0], -wb[1]) * 180 / Math.PI + 360) % 360;
-    // The story's onshore flow is a south-easterly (FLO: 123 deg). A
-    // southerly on 29 Sep is true but is not it, and showing the arrow
-    // then spent the climax early (CPO): south-east quadrant, 8 m/s up.
-    const onshore = from >= 100 && from <= 165 && sp >= 8;
-    show = onshore ? Math.min(1, (sp - 8) / 2) : 0;
-    const len = 0.16 + sp * 0.045;
-    // direction of travel in scene space (x east, -z north)
-    const dx = wb[0] * KX, dz = -wb[1] * KZ, m = Math.hypot(dx, dz) || 1;
-    const ux = dx / m, uz = dz / m;
-    const sx = X(OFF.lon) - ux * len, sz = Z(OFF.lat) - uz * len;   // tail out at sea, head at the coast
-    arrow.position.set(sx, Y_WIND + 0.02, sz);
-    arrow.rotation.set(0, Math.atan2(ux, uz), 0);
-    shaft.scale.y = len; shaft.rotation.x = Math.PI / 2; shaft.position.set(0, 0, len / 2);
-    tip.rotation.x = Math.PI / 2; tip.position.set(0, 0, len + 0.075);
-    if (show > 0) {
-      [x, y] = screen(new THREE.Vector3(sx, Y_WIND + 0.02, sz));
-      lbwind.style.left = x + "px"; lbwind.style.top = (y + 34) + "px";
-      lbwind.textContent = "Onshore: from the " + COMPASS[Math.round(from / 45) % 8] + ", " + sp.toFixed(0) + " m/s";
+  // onshore arrows
+  for (const o of OFFS) {
+    const wb = o.acts.includes(actName) ? wind(o.lon, o.lat, tSim) : null;
+    let show = 0;
+    if (wb) {
+      const sp = Math.hypot(wb[0], wb[1]);
+      const from = (Math.atan2(-wb[0], -wb[1]) * 180 / Math.PI + 360) % 360;
+      // The story's onshore flow, per coast: Barcelona a south-easterly
+      // (FLO: 123 deg), Valencia an easterly. A southerly on 29 Sep is true
+      // but is not it, and showing it spent the climax early (CPO).
+      const onshore = from >= o.lo && from <= o.hi && sp >= 8;
+      show = onshore ? 1 : 0;
+      const len = 0.16 + sp * 0.045;
+      const dx = wb[0] * KX, dz = -wb[1] * KZ, m = Math.hypot(dx, dz) || 1;
+      const ux = dx / m, uz = dz / m;
+      const sx = X(o.lon) - ux * len, sz = Z(o.lat) - uz * len;   // tail out at sea, head at the coast
+      o.arrow.position.set(sx, Y_WIND + 0.02, sz);
+      o.arrow.rotation.set(0, Math.atan2(ux, uz), 0);
+      o.shaft.scale.y = len; o.shaft.rotation.x = Math.PI / 2; o.shaft.position.set(0, 0, len / 2);
+      o.tip.rotation.x = Math.PI / 2; o.tip.position.set(0, 0, len + 0.075);
+      if (show > 0 && o.lb) {
+        [x, y] = screen(new THREE.Vector3(sx, Y_WIND + 0.02, sz));
+        o.lb.style.left = x + "px"; o.lb.style.top = (y + 34) + "px";
+        o.lb.textContent = "Onshore: from the " + COMPASS[Math.round(from / 45) % 8] + ", " + sp.toFixed(0) + " m/s";
+      }
     }
+    o.mat.opacity = show; if (o.lb) o.lb.style.opacity = show;
   }
-  arrowMat.opacity = show; lbwind.style.opacity = show;
 
   R.render(scene, cam);
   requestAnimationFrame(frame);
