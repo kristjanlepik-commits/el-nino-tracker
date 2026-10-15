@@ -152,6 +152,20 @@ def main():
         COMPLETE = keep
         row["completeness_sensitivity"] = sens
         if row["1day"].get("rank_unbroken") and row["1day"]["rank_unbroken"] <= 10:
+            # The wettest day of every year, with the share of that year's days
+            # reported, so design's strip reads the payload, not this machine's
+            # gitignored cache (design, 2026-10-15). Full record, not only the
+            # unbroken run: the page decides what to show, the fraction says
+            # which years are complete.
+            amax = {}
+            for y in range(min(rain).year, 2026):
+                n = (dt.date(y, 12, 31) - dt.date(y, 1, 1)).days + 1
+                vals = [(v, d) for d, v in rain.items() if d.year == y and v is not None]
+                if vals:
+                    v, d = max(vals)
+                    amax[str(y)] = {"mm": round(v, 1), "date": d.isoformat(),
+                                    "days_reported_frac": round(len(vals) / n, 3)}
+            row["annual_max_1day"] = amax
             day = row["1day"]["start"]
             row["neighbours_peak_day"] = {
                 "status": "UNDECLARED gauges: confirm or qualify, never claimed (prereg)",
