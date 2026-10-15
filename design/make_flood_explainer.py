@@ -55,7 +55,9 @@ SLOTS = ["headline", "standfirst",
          "bath-1", "bath-2", "bath-3", "bath-4",
          "heat", "sea", "vapour",
          "pump-1", "pump-2", "pump-3", "pump-4", "pump-5",
-         "ground", "weekend", "not"]
+         "ground", "weekend"]
+# "not" (what this is not) was cut by Kristjan on 16 October: "this is
+# pointless". The editor's copy file may still carry the section; unused.
 
 
 def words():
@@ -269,6 +271,50 @@ def weekend_map(ground, aemet=True):
 </figure>"""
 
 
+# THE STRUCTURE IS THE ARGUMENT, so it is set big (Kristjan, 16 Oct: "bring
+# out the key words"). One word per chapter, numbered, the old phrase kept
+# as a subtitle. Structural labels, design's; the prose stays the editor's.
+CHAPTERS = {"bath": ("01", "Rain", "Barcelona, 3 October 2026"),
+            "heat": ("02", "Heat", "A record summer's end"),
+            "sea": ("03", "Sea", "It starts from the sea"),
+            "air": ("04", "Air", "Warm air holds more water"),
+            "pump": ("05", "Pump", "Cold air, warm sea, a wind onshore"),
+            "ground": ("06", "Ground", "It can't drink that fast"),
+            "weekend": ("07", "Weekend", "Where it could happen again")}
+
+
+def locator():
+    """A small map of Iberia with Barcelona marked, for the bathtub stage.
+
+    Kristjan, 16 Oct: hard to tell the cube is Barcelona. Coastline from
+    the 50m file the heat map uses; no data, just where."""
+    import math
+    lo0, lo1, la0, la1 = -10.0, 4.5, 35.8, 44.0
+    k = 12.0
+    kx = k * math.cos(math.radians(40))
+    W, H = (lo1 - lo0) * kx, (la1 - la0) * k
+    X = lambda lo: (lo - lo0) * kx
+    Y = lambda la: (la1 - la) * k
+    rings = json.loads((ROOT / "design/data/europe_coast.json").read_text())["rings"]
+    polys = []
+    for r in rings:
+        if len(r) < 3 or max(x for x, _ in r) < lo0 or min(x for x, _ in r) > lo1 \
+           or max(y for _, y in r) < la0 or min(y for _, y in r) > la1:
+            continue
+        polys.append('<polygon points="%s"/>' % " ".join("%.1f,%.1f" % (X(x), Y(y)) for x, y in r))
+    bx, by = X(2.17), Y(41.39)
+    return ('<svg class="loc" viewBox="0 0 %.0f %.0f" aria-hidden="true"><g class="loc-land">%s</g>'
+            '<circle cx="%.1f" cy="%.1f" r="9" class="loc-ring"/><circle cx="%.1f" cy="%.1f" r="3.6" class="loc-dot"/>'
+            '<text x="%.1f" y="%.1f" class="loc-t" text-anchor="end">BARCELONA</text></svg>'
+            % (W, H, "".join(polys), bx, by, bx, by, bx - 12, by - 10))
+
+
+def chapter(key):
+    n, word, sub = CHAPTERS[key]
+    return ('<div class="chap"><span class="chap-n">%s</span><h2 class="chap-w">%s</h2>'
+            '<p class="chap-s">%s</p></div>' % (n, h(word), h(sub)))
+
+
 def _nth(n):
     return "%d%s" % (n, {1: "st", 2: "nd", 3: "rd"}.get(n if n < 20 else n % 10, "th"))
 
@@ -355,6 +401,25 @@ figcaption, .src {{ font-family: var(--mono); font-size: 10.5px; letter-spacing:
 .gt td:last-child {{ width: 32%; }}
 figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 {FIG_CSS}
+.chap {{ margin: 0 0 22px; }}
+.hud .place {{ font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--flood); margin-bottom: 10px; }}
+.where {{ position: absolute; right: 4vw; bottom: 6vh; width: min(220px, 30vw); z-index: 2; pointer-events: none; }}
+.loc {{ display: block; width: 100%; height: auto; }}
+.loc-land polygon {{ fill: var(--land); stroke: var(--ink-faint); stroke-width: .8; }}
+.loc-dot {{ fill: var(--flood); }}
+.loc-ring {{ fill: none; stroke: var(--flood); stroke-width: 1.5; }}
+.loc-t {{ font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .12em; fill: var(--ink); }}
+@media (max-width: 899px) {{ .where {{ bottom: auto; top: 20vh; right: 16px; width: 120px; }} }}
+.chap-wrap {{ padding-top: 14vh; padding-bottom: 2vh; }}
+.chap-n {{ display: block; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .2em;
+  color: var(--flood); margin-bottom: 4px; }}
+.chap-w {{ font-family: var(--serif); font-weight: 500; font-size: clamp(64px, 13vw, 156px); line-height: .9;
+  letter-spacing: -.035em; margin: 0; color: var(--ink); }}
+.chap-s {{ font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 12px 0 0; }}
+.chap.pre {{ opacity: 0; transform: translateY(28px); }}
+.chap {{ transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }}
 .seawrap {{ max-width: 1100px; margin: 22px auto 0; padding: 0 24px; }}
 .seawrap canvas {{ display: block; width: 100%; height: clamp(300px, 42vw, 460px); border-radius: 3px; }}
 .ground3 {{ position: relative; height: min(78vh, 720px); max-width: 1200px; margin: 18px auto 0; }}
@@ -448,18 +513,20 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   <p class="stand">{prose(w["standfirst"])}</p>
 </header>
 
+<div class="col chap-wrap">{chapter("bath")}</div>
 <section class="scrolly" id="bath" data-mm="{bath["mm"]}">
   <div class="stage">
     <canvas id="bath-gl"></canvas>
     <div class="tag3">Drawn to scale &middot; 1 m cube</div>
-    <div class="hud"><div class="num" id="bath-num">{bath["mm"]:.1f} mm</div>
+    <div class="where">{locator()}</div>
+    <div class="hud"><div class="place">Barcelona &middot; Fabra observatory &middot; 3 October 2026</div><div class="num" id="bath-num">{bath["mm"]:.1f} mm</div>
       <div class="unit" id="bath-unit">{bath["mm"]:.0f} litres on one square metre</div></div>
   </div>
   <div class="steps">{bath_steps}</div>
 </section>
 
 <section class="flat">
-  <div class="col"><p class="kick">The heat</p><p>{prose(w["heat"])}</p></div>
+  <div class="col">{chapter("heat")}<p>{prose(w["heat"])}</p></div>
   <div class="wide"><figure>
     <img src="assets/{flat["heat"]["img"]}" alt="Map of Europe, September 2026 temperature against 1991 to 2020: much warmer than normal over France, Iberia, the western and central Mediterranean and North Africa." width="{flat["heat"]["size"][0]}" height="{flat["heat"]["size"][1]}">
     <div class="key"><span>Colder</span><span class="rampbar"></span><span>Warmer</span><span>&middot; scale &plusmn;{flat["heat"]["full_c"]:g} &deg;C, saturates beyond</span></div>
@@ -468,7 +535,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 </section>
 
 <section class="flat">
-  <div class="col"><p class="kick">It starts from the sea</p><p>{prose(w["sea"])}</p>
+  <div class="col">{chapter("sea")}<p>{prose(w["sea"])}</p>
   </div>
   <div class="seawrap" id="sea" data-t-normal="{wm["c"] - wm["anom"]:.1f}" data-t2026="{wm["c"]:.1f}"
        data-e-normal="{ev["normal"]:.2f}" data-e2026="{ev["y2026"]:.2f}" data-e-pct="{ev["pct"]:+.0f}">
@@ -480,12 +547,13 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 </section>
 
 <section class="flat">
-  <div class="col"><p class="kick">Warm air holds more water</p><p>{prose(w["vapour"])}</p>
+  <div class="col">{chapter("air")}<p>{prose(w["vapour"])}</p>
     <div id="vap-strip" class="hero-strip">{strip(vp["by_year_pct"], "%", "Water vapour in the air, every September since 1940, % vs 1991-2020", "September")}</div>
     <p class="src">Global total column water vapour, area-weighted, ERA5. {h(vp["physics"][0].upper() + vp["physics"][1:])}.</p>
   </div>
 </section>
 
+<div class="col chap-wrap">{chapter("pump")}</div>
 <section class="scrolly" id="pump">
   <div class="stage">
     <canvas id="pump-gl"></canvas>
@@ -504,7 +572,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 </section>
 
 <section class="flat">
-  <div class="col"><p class="kick">The ground can't drink that fast</p><p>{prose(w["ground"])}</p>
+  <div class="col">{chapter("ground")}<p>{prose(w["ground"])}</p>
   </div>
   <div class="ground3" id="ground">
     <canvas id="ground-gl"></canvas>
@@ -519,14 +587,14 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 </section>
 
 <section class="flat">
-  <div class="col"><p class="kick">This weekend</p><p>{prose(w["weekend"])}</p>
+  <div class="col">{chapter("weekend")}<p>{prose(w["weekend"])}</p>
     {weekend_map(flat["ground"])}
     <p class="src">Not a forecast of ours, and no combined score: each layer is shown as its source published it.</p>
   </div>
 </section>
 
 <section class="flat">
-  <div class="col"><p class="kick">What this is not</p><p>{prose(w["not"])}</p>
+  <div class="col">
     <p class="src">Data: ERA5 (Copernicus Climate Change Service), 2026 preliminary; AEMET (Barcelona Fabra, station 0200E). Compiled by the floods desk.</p>
   </div>
 </section>
@@ -556,6 +624,19 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     io.disconnect();
   }}, {{ threshold: 0.6 }});
   io.observe(el);
+}})();
+</script>
+<script>
+// Chapter words rise into place once, as they arrive. Without JS or with
+// reduced motion they are simply there.
+(function () {{
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var cs = document.querySelectorAll(".chap");
+  cs.forEach(function (c) {{ c.classList.add("pre"); }});
+  var io = new IntersectionObserver(function (es) {{
+    es.forEach(function (e) {{ if (e.isIntersecting) {{ e.target.classList.remove("pre"); io.unobserve(e.target); }} }});
+  }}, {{ threshold: 0.4 }});
+  cs.forEach(function (c) {{ io.observe(c); }});
 }})();
 </script>
 <script type="module" src="scene_bathtub.js?v={_v("scene_bathtub.js")}"></script>
