@@ -21,6 +21,7 @@ the one place the grids are touched, so it re-runs when FLO re-emits.
 Run:  .venv/bin/python design/make_explainer_assets.py [OUT]
 """
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -227,6 +228,45 @@ def merge_heat(d):
     return [[None if np.isnan(x) else float(x) for x in r] for r in g]
 
 
+def heat_months(nc_path):
+    """May to September 2026, each against its own month's 1991-2020 mean.
+
+    Kristjan, 16 Oct: the heat map should move, May to September. Built
+    from design/fetch_heat_months.py's ERA5 pull (FLO's payload carries
+    September only). Same box, same merge (sea where ERA5 has SST, 2 m air
+    over land) and same scale as the September map, so the last frame and
+    the static map agree. Returns the frame list, or None without the file.
+    """
+    import os
+    if not nc_path or not os.path.exists(nc_path):
+        return None
+    import xarray as xr
+    ds = xr.open_dataset(nc_path)
+    tdim = "valid_time" if "valid_time" in ds.dims else "time"
+    t = ds[tdim].dt
+    lat = [float(v) for v in ds["latitude"].values]
+    lon = [float(v) for v in ds["longitude"].values]
+    names = {5: "May", 6: "June", 7: "July", 8: "August", 9: "September"}
+    frames = []
+    for m in range(5, 10):
+        def anom(var):
+            x = ds[var]
+            clim = x.where((t.month == m) & (t.year >= 1991) & (t.year <= 2020), drop=True).mean(tdim)
+            now = x.where((t.month == m) & (t.year == 2026), drop=True).isel({tdim: 0})
+            return (now - clim).values
+        sst, t2m = anom("sst"), anom("t2m")
+        g = np.where(np.isnan(sst), t2m, sst)
+        # A real field has values everywhere over land and sea in this box.
+        if np.isnan(g).mean() > 0.02 or np.nanmax(np.abs(g)) > 25:
+            raise SystemExit("REFUSING: %s 2026 field looks wrong (NaN %.2f, max %.1f)"
+                             % (names[m], np.isnan(g).mean(), np.nanmax(np.abs(g))))
+        field = [[None if np.isnan(v) else float(v) for v in row] for row in g]
+        name = "heat_m%02d.png" % m
+        size = outline_map(field, lat, lon, (-25, 45, 28, 72), 14, None, name)
+        frames.append({"month": names[m], "img": name, "size": size})
+    return frames
+
+
 def winds(d):
     p = d["pump"]
     g = p["grid"]
@@ -286,6 +326,7 @@ def main():
                    "unit": sg["unit"], "by_year_pct": sg["by_year_pct"],
                    "rank": sg["rank_2026"], "physics": sg["physics"]},
         "ground": d["ground"],
+        "heat_months": heat_months(os.environ.get("HEAT_MONTHS_NC")),
     }
     (OUT / "flat.json").write_text(json.dumps(flat, separators=(",", ":")))
     for f in meta["cold"]["frames"]:

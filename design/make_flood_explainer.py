@@ -514,7 +514,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     <p class="g3-foot"><span id="ground-clock">Hour 0 of 24</span><span>Same rain on both &middot; illustrative &middot; not to scale</span></p>
   </div>
   <div class="col">
-    {ground_table(flat["ground"])}
+
   </div>
 </section>
 
