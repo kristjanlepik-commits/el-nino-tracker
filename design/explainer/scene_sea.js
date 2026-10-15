@@ -12,6 +12,12 @@
 // So the 2026 sea is DRAWN more agitated (ENERGY), and the figure says
 // on its face that the motion is illustrative and the temperatures are
 // measured. No evaporation number is printed on the canvas any more.
+//
+// KRISTJAN, LATER THE SAME NIGHT, after VD flagged it: too aggressive.
+// The waves are now the SAME on both seas; 2026 keeps its colour and heat
+// shimmer, and its vapour is only moderately denser (VAPOUR), because
+// more vapour is what reads as "more evaporation", the one thing the
+// measurements do not support.
 
 const root = document.getElementById("sea");
 const cv = document.getElementById("sea-cv");
@@ -20,9 +26,9 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const D = root.dataset;
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const panes = [
-  { key: "normal", t: +D.tNormal, energy: 1.0, title: "WESTERN MEDITERRANEAN \u00b7 NORMAL SEPTEMBER",
+  { key: "normal", t: +D.tNormal, energy: 1.0, vapour: 1.0, title: "WESTERN MEDITERRANEAN \u00b7 NORMAL SEPTEMBER",
     top: "#417785", deep: "#0A4A57", sub: "1991 to 2020 average" },
-  { key: "y2026", t: +D.t2026, energy: 2.6, title: "WESTERN MEDITERRANEAN \u00b7 SEPTEMBER 2026",
+  { key: "y2026", t: +D.t2026, energy: 1.0, vapour: 1.45, hot: true, title: "WESTERN MEDITERRANEAN \u00b7 SEPTEMBER 2026",
     top: "#C05B3D", deep: "#5E1806", sub: "warmest in a record going back to 1940" },
 ];
 for (const p of panes) p.parts = [];
@@ -55,7 +61,7 @@ function frame(now, dt) {
     const E = p.energy;
     for (let x = 0; x <= pw; x += 5) {
       const y = surf + 3 * E * Math.sin(x / 38 + now * 1.3 * E + i) + 2 * E * Math.sin(x / 13 - now * 2.1 * E)
-              + (E > 1 ? 1.5 * Math.sin(x / 6 + now * 7) : 0);
+              ;
       ctx.lineTo(x0 + x, y);
     }
     ctx.lineTo(x0 + pw, H); ctx.closePath(); ctx.fill();
@@ -69,7 +75,7 @@ function frame(now, dt) {
       ctx.stroke();
     }
     // heat shimmer over the hot sea: rising, wavering columns of light
-    if (E > 1) {
+    if (p.hot) {
       ctx.strokeStyle = "rgba(255,236,226,.16)"; ctx.lineWidth = 2;
       for (let k = 0; k < 9; k++) {
         const bx = ((k * 97 + now * 18) % pw);
@@ -83,8 +89,8 @@ function frame(now, dt) {
     }
     // vapour: illustrative, scaled by the pane's energy
     if (!reduce) {
-      let n = E * E * RATE * dt;
-      while (n > 0) { if (Math.random() < n) p.parts.push({ x: Math.random() * pw, y: surf, v: (18 + Math.random() * 26) * (0.7 + 0.45 * E), r: 1.6 + Math.random() * 2.2 * (E > 1 ? 1.3 : 1), ph: Math.random() * 6 }); n -= 1; }
+      let n = p.vapour * RATE * dt;
+      while (n > 0) { if (Math.random() < n) p.parts.push({ x: Math.random() * pw, y: surf, v: (18 + Math.random() * 26) * (p.hot ? 1.15 : 1), r: 1.6 + Math.random() * 2.2, ph: Math.random() * 6 }); n -= 1; }
     }
     p.parts = p.parts.filter(q => q.y > 10);
     for (const q of p.parts) {
@@ -112,7 +118,7 @@ function frame(now, dt) {
 
 // Reduced motion: one still frame with the air already full of vapour.
 if (reduce) {
-  for (const p of panes) for (let k = 0; k < Math.round(p.energy * p.energy * 160); k++)
+  for (const p of panes) for (let k = 0; k < Math.round(p.vapour * 160); k++)
     p.parts.push({ x: Math.random() * 400, y: 20 + Math.random() * cv.clientHeight * 0.5, v: 0, r: 1.6 + Math.random() * 2, ph: 0 });
   frame(0, 0);
 } else {

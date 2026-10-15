@@ -286,13 +286,15 @@ def weekend_map(ground, aemet=True):
 # THE STRUCTURE IS THE ARGUMENT, so it is set big (Kristjan, 16 Oct: "bring
 # out the key words"). One word per chapter, numbered, the old phrase kept
 # as a subtitle. Structural labels, design's; the prose stays the editor's.
-CHAPTERS = {"bath": ("01", "Rain", "Barcelona, 3 October 2026"),
-            "heat": ("02", "Heat", "A record summer's end"),
-            "sea": ("03", "Sea", "It starts from the sea"),
-            "air": ("04", "Air", "Warm air holds more water"),
-            "pump": ("05", "Pump", "Cold air, warm sea, a wind onshore"),
-            "ground": ("06", "Ground", "It can't drink that fast"),
-            "weekend": ("07", "Weekend", "Where it could happen again")}
+# Subtitles are QUESTIONS (VD's proposal, Kristjan's yes): each chapter
+# word names a part, the question says what that part answers.
+CHAPTERS = {"bath": ("01", "Rain", "How much is 159 millimetres?"),
+            "heat": ("02", "Heat", "How hot did the summer get?"),
+            "sea": ("03", "Sea", "Where did the water come from?"),
+            "air": ("04", "Air", "How much water can air hold?"),
+            "pump": ("05", "Pump", "What lifted it and set it off?"),
+            "ground": ("06", "Ground", "Why didn't the ground take it?"),
+            "weekend": ("07", "Weekend", "What does this weekend look like?")}
 
 
 def locator():
@@ -578,10 +580,10 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .chap-wrap {{ padding-top: 14vh; padding-bottom: 2vh; }}
 .chap-n {{ display: block; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .2em;
   color: var(--ink); margin-bottom: 4px; }}
-.chap-w {{ font-family: var(--serif); font-weight: 500; font-size: clamp(64px, 13vw, 156px); line-height: .9;
+.chap-w {{ font-family: var(--serif); font-weight: 500; font-size: clamp(54px, 10.5vw, 124px); line-height: .9;
   letter-spacing: -.035em; margin: 0; color: var(--ink); }}
-.chap-s {{ font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--ink-faint); margin: 12px 0 0; }}
+.chap-s {{ font-family: var(--serif); font-size: clamp(20px, 2.4vw, 26px); font-style: italic; letter-spacing: 0;
+  color: var(--ink-soft); margin: 10px 0 0; }}
 .chap.pre {{ opacity: 0; transform: translateY(28px); }}
 .chap {{ transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }}
 .seawrap {{ max-width: 1100px; margin: 22px auto 0; padding: 0 24px; }}
@@ -719,7 +721,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     <canvas id="sea-cv" aria-label="Two sea surfaces side by side. A normal September at {wm["c"] - wm["anom"]:.1f} degrees, and September 2026 at {wm["c"]:.1f} degrees, with water vapour rising from both at the measured evaporation rate."></canvas>
   </div>
   <div class="col">
-    <p class="src">Temperatures measured: western Mediterranean (Alboran, Balearic, Gulf of Lion), September mean, ERA5; 2026 is the warmest September in a record going back to {wm["since"]} ({wm["rank"][0]} of {wm["rank"][1]}). The motion is illustrative: the warmer sea is drawn more agitated, not to a measured rate.</p>
+    <p class="src">Temperatures measured: western Mediterranean (Alboran, Balearic, Gulf of Lion), September mean, ERA5; 2026 is the warmest September in a record going back to {wm["since"]} ({wm["rank"][0]} of {wm["rank"][1]}). The motion is illustrative: the warmer sea is drawn with a heat shimmer and slightly denser vapour, not to a measured rate.</p>
   </div>
 </section>
 
