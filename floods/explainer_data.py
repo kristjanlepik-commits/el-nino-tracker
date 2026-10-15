@@ -217,6 +217,54 @@ def build():
                        "not_claimed": ["unusually cold air directly over Barcelona on 3 Oct (+1.4 C at 500 hPa)",
                                        "a closed low off Spain on 3 Oct (heights rise only 15-20 m within 300-500 km)"],
                        "frames": frames}
+    # 5b. pump_weekend: ECMWF's forecast for 16-20 Oct on the same stage (design, 15 Oct). ECMWF's, not
+    #     ours: run time and source carried in the payload. Anomalies vs ERA5 same hour and day 1991-2020.
+    fw = os.path.join(CACHE, "pump_weekend_forecast.json")
+    fc = os.path.join(CACHE, "t500_1016_1020_1991_2020.nc")
+    fsst = os.path.join(CACHE, "sst_oct08_12_1991_2026_pumpgrid.nc")
+    if os.path.exists(fw) and os.path.exists(fc):
+        fcst = json.load(open(fw))
+        dc = netCDF4.Dataset(fc); tc = dc.variables["t"][:]; ttc = dc.variables["valid_time"][:]
+        cla = np.array(dc.variables["latitude"][:]); clo = np.array(dc.variables["longitude"][:]); dc.close()
+        tc = tc.reshape(len(ttc), len(cla), len(clo))
+        WC = [dt.datetime(1970, 1, 1) + dt.timedelta(seconds=int(x)) for x in ttc]
+        fla, flo = np.array(fcst["lat"], float), np.array(fcst["lon"], float)
+        ii = [int(np.argmin(abs(cla - x))) for x in fla]; jj = [int(np.argmin(abs(clo - x))) for x in flo]
+        assert max(abs(cla[ii] - fla)) < 0.01 and max(abs(clo[jj] - flo)) < 0.01, "forecast points off the ERA5 grid"
+        wf = []
+        for f in fcst["frames"]:
+            when = dt.datetime.fromisoformat(f["time"].replace("Z", ""))
+            kb = [k for k, w in enumerate(WC) if (w.month, w.day, w.hour) == (when.month, when.day, when.hour)]
+            if len(kb) < 25:
+                raise SystemExit(f"no baseline for {f['time']}; not writing")
+            base = np.mean([tc[k] for k in kb], axis=0)[np.ix_(ii, jj)] - 273.15
+            t500 = np.array(f["temperature_500hPa"], float)
+            an = t500 - base
+            ws = np.array(f["wind_speed_850hPa"], float); wd = np.radians(np.array(f["wind_direction_850hPa"], float))
+            u, v = -ws * np.sin(wd), -ws * np.cos(wd)
+            inner = np.zeros(an.shape, bool); inner[2:-2, 2:-2] = True
+            ci, cj = np.unravel_index(np.argmin(np.where(inner, an, 99)), an.shape)
+            wf.append({"time": f["time"], "t500_anom_c": _grid(np.ma.masked_invalid(an), 1),
+                       "z500_m": _grid(np.ma.masked_invalid(np.array(f["geopotential_height_500hPa"], float)), 0),
+                       "u850_ms": _grid(np.ma.masked_invalid(u), 1), "v850_ms": _grid(np.ma.masked_invalid(v), 1),
+                       "q850_gkg": _grid(np.ma.masked_invalid(np.array(f["q850_gkg"], float)), 1),
+                       "cold_core": {"anom_c": round(float(an[ci, cj]), 1), "t_c": round(float(t500[ci, cj]), 1),
+                                     "lat": float(fla[ci]), "lon": float(flo[cj])}})
+        sea = None
+        if os.path.exists(fsst):
+            ds_ = netCDF4.Dataset(fsst); ss = ds_.variables["sst"][:]; tts = ds_.variables["valid_time"][:]; ds_.close()
+            WS_ = [dt.datetime(1970, 1, 1) + dt.timedelta(seconds=int(x)) for x in tts]
+            now = np.ma.mean(np.ma.stack([ss[k] for k, w in enumerate(WS_) if w.year == 2026]), axis=0)
+            bas = np.ma.mean(np.ma.stack([ss[k] for k, w in enumerate(WS_) if 1991 <= w.year <= 2020]), axis=0)
+            sea = {"what": "ERA5 sea surface temperature, mean of 00 UTC 8-12 Oct 2026, minus the same days "
+                           "1991-2020 (2026 preliminary); latest ERA5 days available on 15 Oct",
+                   "grid": "same as pump.grid (0.5 deg)", "anom_c": _grid(now - bas, 2)}
+        out["pump_weekend"] = {"source": fcst["source"] + ". This is ECMWF's forecast, not TLS's.",
+                               "run": fcst["run_utc"], "fetched_utc": fcst["fetched_utc"],
+                               "grid": {"lat": fcst["lat"], "lon": fcst["lon"], "resolution_deg": 1.0},
+                               "baseline": "t500 anomaly vs ERA5 same hour and day, 1991-2020",
+                               "q850_note": "computed from forecast 850 hPa temperature and relative humidity",
+                               "sea_layer": sea, "frames": wf}
     # 7. ground: topsoil 8-10 Oct by named area, rank of 36 years (1 = wettest)
     fs = os.path.join(CACHE, "spain_swvl1_oct_1991_2026.nc")
     if os.path.exists(fs):
