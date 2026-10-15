@@ -4,9 +4,9 @@ How a flood is made
 
 ## standfirst
 
-Barcelona's wettest day in its complete record took the warmest sea in 87
-Septembers, a pool of cold Atlantic air and a wind off the water. The
-ground it left behind was still wet a week later.
+Barcelona's wettest day since its complete record began in 1978 came when
+three things lined up: a sea after its warmest September in 87 years, a
+pool of cold Atlantic air, and a wind driving moist air onshore.
 
 ## bath-1
 
@@ -36,9 +36,9 @@ back to 1940**: 2.4 °C and 2.8 °C above the 1991 to 2020 normal.
 
 ## sea
 
-A warmer sea gives up more water. Across the Mediterranean, September
-evaporation ran 6.3% above normal. High, but **8th of the last 36 years,
-not a record.** The heat was the record; the evaporation was not.
+The western Mediterranean averaged **26.0 °C** in September. Normal is
+23.6. That is the record. Rain on this coast starts as sea water, lifted
+into the air.
 
 ## vapour
 
@@ -70,8 +70,8 @@ Spain.
 ## pump-5
 
 3 October. A kilometre and a half up, the wind off Barcelona blows in from
-the south-east at 10 metres a second, **straight off the warmest sea in 87
-Septembers.**
+the south-east at 10 metres a second, **off a sea that had just had its
+warmest September in 87 years.**
 
 ## ground
 
